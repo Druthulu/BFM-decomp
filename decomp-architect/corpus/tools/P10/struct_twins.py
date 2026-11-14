@@ -1993,7 +1993,8 @@ def links_build(S):
     return dict(T=T, U=U, US=US, P=P, wm=wm, size_f=size_f, dp=dp, dp_apart=dp_apart, ACC=ACC, PF=PF, J=J, own=own, noev=noev,
                 eff=eff, poly=poly, BV=BV,
                 # 3.45 T14 (--sources): the census's resolvers, reused per cast source
-                span_at=span_at, bind_of=bind_of, callee_defs=callee_defs, ptype=ptype, eside=eside, effl=effl, vis=vis)
+                span_at=span_at, bind_of=bind_of, callee_defs=callee_defs, ptype=ptype, eside=eside, effl=effl, vis=vis,
+                own_offs=own_offs)   # T14.c2: a slot's own accesses (the families' hub guard)
 
 
 def untyped_param(p, T):
@@ -2616,6 +2617,34 @@ def sources_build(S, R):
         if rel not in ext_memo:
             ext_memo[rel] = set().union(*[ext.get(f, set()) for f in vis.get(rel, [rel])], ext.get(rel, set()))
         return ext_memo[rel]
+    pfile = {}                                               # T14.c2: file -> its prototypes [(name, params, block fline | None, line)]
+
+    def pfile_of(f):
+        if f not in pfile:
+            out = []
+            if f in walk:
+                for e in walk[f].get("extern_fns", ()):
+                    sp = span_at(f, e["line"]) if e.get("scope") == "block" else None
+                    out.append((e["name"], e["params"], sp[0] if sp else None, e["line"]))
+            elif f.endswith(".h"):                           # a visible header outside the walk (include/psyq/*.h)
+                try:
+                    t = _blank(S["read"](f))
+                except (OSError, KeyError):
+                    t = ""
+                for m in tc.EXTERN_FN.finditer(t):
+                    out.append((m.group(2), re.sub(r"\s+", " ", m.group(3)).strip(), None, t.count("\n", 0, m.start()) + 1))
+            pfile[f] = out
+        return pfile[f]
+
+    def protos_of(rel, fl, name):
+        """T14.c2: [(params, cite)] of name's distinct prototypes in scope at (rel, fl): the TU's own (file scope, or block
+        scope in this function) and its visible files'"""
+        got = {}
+        for f in sorted(set(vis.get(rel, [rel])) | {rel}):
+            for nm, ps, bfl, ln in pfile_of(f):
+                if nm == name and (bfl is None or (f == rel and bfl == fl)):
+                    got.setdefault(ps, f"{f}:{ln}")
+        return sorted(got.items())
     # ---- sites -> sources
     sites, src = [], {}
     K, unpl = collections.Counter(), collections.Counter()
@@ -2701,8 +2730,8 @@ def sources_build(S, R):
             return (es[0][0][0], "eff") if not es[1] else ("-", "poly")
         return ("-", "untyped")
 
-    def flow(e, kind, peer, typ, how, cite):
-        e["flows"].append(dict(kind=kind, peer=_clean(peer)[:60], type=typ, how=how, cite=cite))
+    def flow(e, kind, peer, typ, how, cite, slot=None):
+        e["flows"].append(dict(kind=kind, peer=_clean(peer)[:60], type=typ, how=how, cite=cite, slot=slot))
 
     def noncast(e, what, cite):
         e["nc"].setdefault(what, cite)
@@ -2769,9 +2798,21 @@ def sources_build(S, R):
             cite = f"{rel}:{f['line']}"
             if f["kind"] == "arg":
                 defs = callee_defs(rel, f["callee"])[0]
-                if not defs:
-                    flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "unplaced", cite)
-                    noncast(e, "untyped-arg", f"{cite} {f['callee']} (unplaced)")
+                if not defs:                                 # T14.c2: no placed body: the prototype(s) in scope type the slot
+                    pr, typed_, seen_r = protos_of(rel, fl, f["callee"]), False, set()
+                    for ps, _pc in pr:
+                        p = ptype(dict(params=ps), f["i"])
+                        if p is None or untyped_param(p, T):
+                            continue
+                        s = T.spell(p) if "(" not in p else None
+                        r_ = (s[0], "proto") if s and s[1] == 1 else ("-", f"proto depth {s[1]}") if s else ("-", "proto other")
+                        typed_ = True
+                        if r_ not in seen_r:
+                            seen_r.add(r_)
+                            flow(e, "arg-out", f"{f['callee']}#{f['i']}", r_[0], r_[1], cite, slot=("proto", f["callee"], f["i"]))
+                    if not typed_:
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "proto untyped" if pr else "unplaced", cite)
+                        noncast(e, "untyped-arg", f"{cite} {f['callee']}#{f['i']} ({'untyped prototype' if pr else 'unplaced, no prototype'})")
                 seen = set()
                 for owner, va, dd in defs:
                     if (dd[1], dd[2]) in seen:
@@ -2779,14 +2820,16 @@ def sources_build(S, R):
                     seen.add((dd[1], dd[2]))
                     p = ptype(dd[4], f["i"])
                     s = T.spell(p) if p and "(" not in p else None
-                    if s:
-                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", s[0] if s[1] == 1 else "-", "decl" if s[1] == 1 else f"depth {s[1]}", cite)
-                        continue
                     csp = span_at(dd[1], dd[2])
+                    slot = ("def", dd[1], csp[0] if csp else dd[2], f["i"])
+                    if s:
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", s[0] if s[1] == 1 else "-", "decl" if s[1] == 1 else f"depth {s[1]}", cite,
+                             slot=slot)
+                        continue
                     pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
                     es = eside(dd[1], csp[0], pn, "") if p and untyped_param(p, T) and pn else None
                     if es and not es[1]:
-                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", es[0][0][0], "eff", cite)
+                        flow(e, "arg-out", f"{f['callee']}#{f['i']}", es[0][0][0], "eff", cite, slot=slot)
                     else:
                         flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "poly" if es else "untyped", cite)
                         noncast(e, "untyped-arg", f"{cite} {f['callee']}#{f['i']}{' (poly slot)' if es else ''}")
@@ -2915,16 +2958,87 @@ def sources_build(S, R):
             nfit = len(best)
             out += [(A, k, "fit", score(A), 0) for _, _, _, A, k in sorted(best.values())[:FIT_CAP]]
         cand[P] = dict(srcs=sorted(srcs_of[P]), cocast=cocast, cands=out, nfit=nfit, acc=len(al))
-    # ---- families: types co-cast on one source or joined by its flows
-    par = {}
+    # ---- families: types co-cast on one source or joined by its flows; T14.c2: T2's hub guard on the joins
+    Q, own_offs = R["P"]["effective"], R["own_offs"]
+    htypes = {h["type"]: h["why"] for h in Q["htypes"]}
+    by_h, hub_par = collections.defaultdict(list), {}        # links_build's hub parameter slots -> (def file, fline, i): why
+    for k_, v in sorted(S["sig"].items()):
+        if v and v[1]:
+            by_h["h" + v[0][:16]].append(k_)
+    for h in Q["hubs"]:
+        sl = h["slot"]
+        if not sl or sl[0] != "param":
+            continue
+        for ov in ([(sl[1], sl[2])] if len(sl) == 4 else by_h.get(sl[1], [])):
+            for d_ in R["J"]["def_at"].get(ov, ()):
+                sp = span_at(d_[1], d_[2])
+                if sp:
+                    hub_par.setdefault((d_[1], sp[0], sl[-1]), "links hub slot: " + h["why"])
+
+    def pslot(e):
+        sp = span_at(e["rel"], e["fl"]) if e["kind"] == "param" and e["fl"] is not None else None
+        return (e["rel"], e["fl"], sp[3]["pnames"].index(e["ident"])) if sp and e["ident"] in sp[3]["pnames"] else None
+
+    def site_cite(e):
+        return min(f"{x['rel']}:{x['line']}" for x in e["sites"])
+    hubs = []                                                # (kind, name, [types], why, cite)
+    hub_src = set()
     for sid in sorted(src):
-        ts = src[sid]["ct"] + src[sid]["ft"]
-        for t in ts[1:]:
-            ra, rb = _uf(par, ts[0]), _uf(par, t)
+        e = src[sid]
+        ts = sorted(set(e["ct"]) | set(e["ft"]))
+        oo = {x["off"] for x in e["sites"]} | (own_offs.get(("param", e["rel"], e["fl"], e["ident"]), set()) if e["ident"] else set())
+        why = (f"{len(ts)} types, own accesses at {len(oo)} offsets" if len(ts) >= HUB_K and len(oo) <= HUB_OFFS
+               else hub_par.get(pslot(e)) if pslot(e) else None)
+        if why:
+            hub_src.add(sid)
+            hubs.append(("source", sid, ts, why, site_cite(e)))
+            e["reasons"].append("hub")
+            e["verdict"] = "judgment"
+    slot_ts, slot_cite = collections.defaultdict(set), {}
+    for sid in sorted(src):
+        e = src[sid]
+        base = set(e["ct"]) | {f["type"] for f in e["flows"] if f["kind"] == "decl" and f["type"] != "-"}
+        for f in e["flows"]:
+            if f["slot"] and f["type"] != "-":
+                slot_ts[f["slot"]] |= base | {f["type"]}
+                slot_cite[f["slot"]] = min(slot_cite.get(f["slot"], f["cite"]), f["cite"])
+    hub_slot = set()
+    for sl in sorted(slot_ts, key=str):
+        ts, oo, why = sorted(slot_ts[sl]), set(), None
+        if sl[0] == "def":
+            sp = span_at(sl[1], sl[2])
+            pn = sp[3]["pnames"][sl[3]] if sp and sl[3] < len(sp[3]["pnames"]) else None
+            oo = own_offs.get(("param", sl[1], sl[2], pn), set()) | {x["off"] for x in src.get(want.get((sl[1], sl[2], pn)), {}).get("sites", ())}
+            why = hub_par.get((sl[1], sl[2], sl[3]))
+        if not why and len(ts) >= HUB_K and len(oo) <= HUB_OFFS:
+            why = f"{len(ts)} types, own accesses at {len(oo)} offsets"
+        if why:
+            hub_slot.add(sl)
+            name = (f"{sl[1]}:{span_at(sl[1], sl[2])[2] if span_at(sl[1], sl[2]) else sl[2]}#{sl[3]}" if sl[0] == "def"
+                    else f"{sl[1]}#{sl[2]} (prototype)")
+            hubs.append(("slot", name, ts, why, slot_cite[sl]))
+    for k_ in sorted(htypes):
+        hubs.append(("type", k_, [k_], "links hub type: " + htypes[k_], "-"))
+    par, edges = {}, {}                                      # edges: sid -> (anchor, [(type, kind)])
+    for sid in sorted(src):
+        e = src[sid]
+        for t in e["ct"] + e["ft"]:
+            _uf(par, t)
+        if sid in hub_src:
+            continue
+        fk = {}
+        for f in e["flows"]:
+            if f["type"] != "-" and f["slot"] not in hub_slot:
+                fk[f["type"]] = min(fk.get(f["type"], f["kind"]), f["kind"])
+        js = sorted((set(e["ct"]) | set(fk)) - set(htypes))
+        if len(js) < 2:
+            continue
+        a = min(set(e["ct"]) & set(js)) if set(e["ct"]) & set(js) else js[0]
+        edges[sid] = (a, [(t, "co-cast" if t in e["ct"] else fk[t]) for t in js if t != a])
+        for t, _k in edges[sid][1]:
+            ra, rb = _uf(par, a), _uf(par, t)
             if ra != rb:
                 par[max(ra, rb)] = min(ra, rb)
-        if ts:
-            _uf(par, ts[0])
     groups = collections.defaultdict(set)
     for t in sorted(par):
         groups[_uf(par, t)].add(t)
@@ -2933,16 +3047,27 @@ def sources_build(S, R):
         fid = f"F{i + 1:05d}"
         for t in g:
             fam_of[t] = fid
-        fam.append(dict(id=fid, types=sorted(g), srcs=[], reg=collections.Counter()))
+        fam.append(dict(id=fid, types=sorted(g), srcs=[], reg=collections.Counter(), ver=collections.Counter(), ek=collections.Counter(),
+                        tcast=collections.Counter(), join=[]))
     fam_ix = {f["id"]: f for f in fam}
     for sid in sorted(src):
         ts = src[sid]["ct"] + src[sid]["ft"]
         if ts:
-            f = fam_ix[fam_of[ts[0]]]
+            f = fam_ix[fam_of[edges[sid][0] if sid in edges else ts[0]]]
             f["srcs"].append(sid)
+            f["ver"][src[sid]["verdict"]] += 1
             for x in src[sid]["sites"]:
                 f["reg"][x["region"]] += 1
-    return dict(sites=sites, src=src, K=K, unpl=unpl, cand=cand, fam=fam, fam_of=fam_of)
+        for x in src[sid]["sites"]:
+            if x["type"] != "-":
+                fam_ix[fam_of[x["type"]]]["tcast"][x["type"]] += 1
+        if sid in edges:
+            f = fam_ix[fam_of[edges[sid][0]]]
+            f["ek"].update(k for _t, k in edges[sid][1])
+            f["join"].append((-len(edges[sid][1]) - 1, sid, site_cite(src[sid])))
+    for f in fam:
+        f["join"] = sorted(f["join"])[:5]
+    return dict(sites=sites, src=src, K=K, unpl=unpl, cand=cand, fam=fam, fam_of=fam_of, hubs=sorted(hubs))
 
 
 def sources_projection(T, ledger_rows):
@@ -2990,7 +3115,7 @@ def sources_render(SR, walk_sites, latest, proj):
     srk = collections.Counter(e["kind"] for e in src.values())
     cov, unc = rs.residue_match(latest, walk_sites, forms=("P", "X", "I", "M"))
     ver = collections.Counter(e["verdict"] for e in src.values())
-    why = collections.Counter("2+ cast types" if r.split(" ")[0].isdigit() else "conflicting flows" if r.startswith("conflicting")
+    why = collections.Counter("2+ cast types" if r.split(" ")[0].isdigit() else "hub" if r == "hub" else "conflicting flows" if r.startswith("conflicting")
                               else "raw only" if r.startswith("raw") else " ".join(r.split(" ")[:2])
                               for e in src.values() for r in e["reasons"])
     blab = [f"{a}" if a == b else f"{a}-{b}" if b < 10 ** 9 else f"{a}+" for a, b in FAM_BUCKETS]
@@ -3009,6 +3134,13 @@ def sources_render(SR, walk_sites, latest, proj):
           f"  sources: mechanical {ver['mechanical']} · judgment {ver['judgment']} (reasons: {fmt(why) or '-'})",
           f"  families: {len(SR['fam'])} ({' · '.join(f'size {k} {fb[k]}' for k in blab)})"
           + (f"; largest {SR['fam'][0]['id']} {len(SR['fam'][0]['types'])} types, {sum(SR['fam'][0]['reg'].values())} casts" if SR["fam"] else ""),
+          f"  family hubs (do not join): {fmt(collections.Counter(h[0] for h in SR['hubs']), ['source', 'slot', 'type'])}",
+          "  largest families (id size casts mech/judg anchor = highest-cast type):"]
+    for f in SR["fam"][:20]:
+        anc = min(f["tcast"], key=lambda t: (-f["tcast"][t], t)) if f["tcast"] else f["types"][0]
+        L.append(f"    {f['id']} {len(f['types'])} types · {sum(f['reg'].values())} casts · {f['ver']['mechanical']}/{f['ver']['judgment']}"
+                 f" · {anc} ({f['tcast'][anc]})")
+    L += [
           f"  candidates: {len(SR['cand'])} cast placeholders · with a flow parent {sum(1 for c in SR['cand'].values() if any(x[2] == 'flow' for x in c['cands']))}"
           f" · fit only {sum(1 for c in SR['cand'].values() if c['cands'] and c['cands'][0][2] == 'fit')}"
           f" · none {sum(1 for c in SR['cand'].values() if not c['cands'])}",
@@ -3039,9 +3171,13 @@ def sources_render(SR, walk_sites, latest, proj):
             ";".join(c["cocast"][:10]) + (f" (+{len(c['cocast']) - 10})" if len(c["cocast"]) > 10 else "") or "-", c["acc"],
             "; ".join(f"{A} 0x{k:X} {b} {s}" + (f" x{n}" if b == "flow" else "") for A, k, b, s, n in c["cands"]) or "-", c["nfit"])
            for P, c in sorted(SR["cand"].items())])
-    table("families.tsv", ("family", "size", "types", "n_sources", "casts_by_region"),
+    table("families.tsv", ("family", "size", "types", "n_sources", "mechanical", "judgment", "casts_by_region", "join_edges", "top_joining"),
           [(f["id"], len(f["types"]), ";".join(f["types"][:40]) + (f" (+{len(f['types']) - 40})" if len(f["types"]) > 40 else ""),
-            len(f["srcs"]), " ".join(f"{r}:{f['reg'][r]}" for r in sorted(f["reg"])) or "-") for f in SR["fam"]])
+            len(f["srcs"]), f["ver"]["mechanical"], f["ver"]["judgment"], " ".join(f"{r}:{f['reg'][r]}" for r in sorted(f["reg"])) or "-",
+            " ".join(f"{k}:{f['ek'][k]}" for k in sorted(f["ek"])) or "-",
+            "; ".join(f"{sid} ({-n} types) {c}" for n, sid, c in f["join"]) or "-") for f in SR["fam"]])
+    table("family_hubs.tsv", ("kind", "source", "n_types", "types", "why", "cite"),
+          [(k, nm, len(ts), ";".join(ts[:20]) + (f" (+{len(ts) - 20})" if len(ts) > 20 else ""), why, c) for k, nm, ts, why, c in SR["hubs"]])
     return L, tsv
 
 
@@ -3113,6 +3249,12 @@ typedef struct MP { s32 a; s32 b; s32 c; } MP;
 typedef struct SV { u8 pad[8]; s16 y; } SV;
 typedef struct SA { s32 a; s32 b; s16 c; s16 d; } SA;
 typedef struct SB { s32 x; s32 z; s16 y; } SB;
+typedef struct FH1 { s32 a; } FH1;
+typedef struct FH2 { s32 a; } FH2;
+typedef struct FH3 { s32 a; } FH3;
+typedef struct FH4 { s32 a; } FH4;
+typedef struct SDKV { s32 a; s32 b; } SDKV;
+typedef struct BQ { s32 a; } BQ;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -3146,6 +3288,9 @@ void func_80011900(void) { ((BWA *)getp())->x = 1; }
 void mtake(void *p) { ((MV *)p)->b = 1; }
 void mcall(MP *q) { mtake(q); }
 s32 svr(SA *a) { return ((SV *)a)->y; }
+void fhub(void *p, s32 k) { if (k) { ((FH1 *)p)->a = 1; ((FH2 *)p)->a = 2; } else { ((FH3 *)p)->a = 3; ((FH4 *)p)->a = 4; } }
+extern void sdkTake(SDKV *v);
+void bcall(void *p) { ((BQ *)p)->a = 1; sdkTake(p); }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -3188,7 +3333,7 @@ def links_selftest_S():
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
     fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer",
                     "func_80010D00", "func_80010E00", "efTake", "efCall", "ht1", "ht2", "ht3", "ht4", "k1", "k2", "k3", "k4",
-                    "func_80011900", "mtake", "mcall", "svr"],
+                    "func_80011900", "mtake", "mcall", "svr", "fhub", "bcall"],
            "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500", "cpy", "ca1", "ca2", "func_80100900"],
            "ov_B": ["takeP", "callP", "readOB", "cpy", "cb1", "cb2"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
@@ -3285,6 +3430,13 @@ def links_selftest():
         ("sources: a sparse view ranks the parent its flow names above a layout look-alike that fits",
          (SR["cand"].get("SV") or {}).get("cands", [("",) * 3])[0][:3] == ("SA", 0, "flow")
          and any(c[0] == "SB" and c[2] == "fit" for c in SR["cand"]["SV"]["cands"][1:])),
+        ("sources: a helper parameter cast to 4+ types at one offset is a hub: their families stay apart, it is judgment `hub`",
+         len({SR["fam_of"].get(t) for t in ("FH1", "FH2", "FH3", "FH4")}) == 4
+         and any(h[:2] == ("source", "src/main.c:fhub:p") for h in SR["hubs"])
+         and "hub" in SR["src"].get("src/main.c:fhub:p", {}).get("reasons", ())),
+        ("sources: an argument to a bodiless callee's extern-prototyped typed parameter is not untyped",
+         any(f["kind"] == "arg-out" and f["type"] == "SDKV" and f["how"] == "proto" for f in SR["src"].get("src/main.c:bcall:p", {}).get("flows", ()))
+         and not any(r.startswith("non-cast untyped-arg") for r in SR["src"].get("src/main.c:bcall:p", {}).get("reasons", ["x"]))),
         ("two runs print identical output", outs[0] == outs[1]),
     ]
     for name, ok in cases:
