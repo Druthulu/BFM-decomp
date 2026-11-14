@@ -3499,8 +3499,8 @@ void func_8017D80C(s32 a0)
 extern s32 func_80171990(u8 *a0);
 /* $v0 at exit: result of func_80171990 or addiu $v0, $v0, -0x1 at ov_SC01_074:0x8017D8B8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC01_074 objdump */
     s32 func_8017D8A8(s32 arg0) {
-        ((Unkstruct_8017D8A8 *)arg0)->unk200 = ((Unkstruct_8017D8A8 *)arg0)->unk200 - 1;
-        if (((Unkstruct_8017D8A8 *)arg0)->unk200 == -1) {
+        ((Unkstruct_8017D1E0 *)arg0)->unk200 = ((Unkstruct_8017D1E0 *)arg0)->unk200 - 1;
+        if (((Unkstruct_8017D1E0 *)arg0)->unk200 == -1) {
             ((void (*)(void))func_80171990)();
         }
     }
