@@ -2005,7 +2005,7 @@ Unkstruct_7636d824	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8018475
 Unkstruct_764549c3	define	Unkstruct_80012558	owner:func_80012558	no E1/E2 evidence; flat layout of the struct map record; 9 TNC sites in 1 bodies
 Unkstruct_7695a74d	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80184FB4 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_7b81fce1	residual	TYPE-CANON-TWIN	layout-twin:Ramp388C	the flat def would form a tier-1 dup class with canonical Ramp388C; no fold (G62: layout identity is no entity evidence)
-Unkstruct_7c80b60c	define	Unkstruct_8017E2F4	owner:func_8017E2F4	no E1/E2 evidence; flat layout of the struct map record; 9 TNC sites in 1 bodies
+Unkstruct_7c80b60c	define	Unkstruct_8017DDDC	owner:func_8017E2F4	no E1/E2 evidence; flat layout of the struct map record; 9 TNC sites in 1 bodies
 Unkstruct_7d44794b	define	Unkstruct_800CAF94	owner:func_800CAF94	no E1/E2 evidence; flat layout of the struct map record; 9 TNC sites in 1 bodies
 Unkstruct_7e033c25	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80149290_2 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_7e38e61e	residual	TYPE-UNION	layout:overlap@0xa	layout class TYPE-UNION (struct_map record)
