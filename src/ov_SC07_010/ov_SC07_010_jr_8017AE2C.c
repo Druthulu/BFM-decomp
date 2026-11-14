@@ -5505,18 +5505,18 @@ void func_8017FC54(u8 *arg0) {
         kind = *(s16 *)p;
         switch (kind) {
         case 0:
-            t = ((Unkstruct_8017FC54 *)p)->unk2;
+            t = ((Unkstruct_8017FED8 *)p)->unk2;
             t = t - 1;
-            ((Unkstruct_8017FC54 *)p)->unk2 = t;
+            ((Unkstruct_8017FED8 *)p)->unk2 = t;
             if (t == -1) {
-                ((Unkstruct_8017FC54 *)p)->unk2 = 0x14;
-                ((Unkstruct_8017FC54 *)p)->unk0 = ((Unkstruct_8017FC54 *)p)->unk0 + 1;
+                ((Unkstruct_8017FED8 *)p)->unk2 = 0x14;
+                ((Unkstruct_8017FED8 *)p)->unk0 = ((Unkstruct_8017FED8 *)p)->unk0 + 1;
             }
             break;
         case 1:
-            t = ((Unkstruct_8017FC54 *)p)->unk2;
+            t = ((Unkstruct_8017FED8 *)p)->unk2;
             t = t - 1;
-            ((Unkstruct_8017FC54 *)p)->unk2 = t;
+            ((Unkstruct_8017FED8 *)p)->unk2 = t;
             if (t == -1) {
                 func_8017FD54(p);
             } else {
