@@ -1558,7 +1558,7 @@ Unkstruct_53881d63	residual	TYPE-INTERIOR	layout:neg-off=-0xc	layout class TYPE-
 Unkstruct_5c683fed	define	Unkstruct_8017EB78	owner:func_8017EB78	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
 Unkstruct_613e79a6	define	Unkstruct_80031988	owner:func_80031988	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
 Unkstruct_6163e9cd	define	Unkstruct_8017F8C0	owner:func_8017F8C0	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
-Unkstruct_6b51180d	define	Unkstruct_8001E668	owner:func_8001E668	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
+Unkstruct_6b51180d	define	RecDA34	owner:func_8001E668	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
 Unkstruct_6be86b17	define	Unkstruct_8017EAD8_2	owner:func_8017EAD8	no E1/E2 evidence; flat layout of the struct map record; 12 TNC sites in 1 bodies
 Unkstruct_6c4ef16a	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80187D68 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_71ed2ca2	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)

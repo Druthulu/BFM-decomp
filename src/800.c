@@ -9537,14 +9537,14 @@ s32 func_8001E668(s32 a0, s32 a1, GTEOutV *a2, s32 *a3)
     s32 flag2;
     s32 otz;
 
-    v[0].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((Unkstruct_8001E668 *)a1)->unk8;
-    v[0].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((Unkstruct_8001E668 *)a1)->unkA;
-    v[1].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((Unkstruct_8001E668 *)a1)->unk8 + ((Unkstruct_8001E668 *)a1)->unk2;
-    v[1].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((Unkstruct_8001E668 *)a1)->unkA;
-    v[2].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((Unkstruct_8001E668 *)a1)->unk8;
-    v[2].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((Unkstruct_8001E668 *)a1)->unkA + ((Unkstruct_8001E668 *)a1)->unk3;
-    v[3].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((Unkstruct_8001E668 *)a1)->unk8 + ((Unkstruct_8001E668 *)a1)->unk2;
-    v[3].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((Unkstruct_8001E668 *)a1)->unkA + ((Unkstruct_8001E668 *)a1)->unk3;
+    v[0].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((RecDA34 *)a1)->px;
+    v[0].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((RecDA34 *)a1)->py;
+    v[1].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
+    v[1].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((RecDA34 *)a1)->py;
+    v[2].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((RecDA34 *)a1)->px;
+    v[2].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
+    v[3].vx = ((Unkstruct_8001DA34 *)a0)->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
+    v[3].vy = ((Unkstruct_8001DA34 *)a0)->unk30 + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
     v[0].vz = v[1].vz = v[2].vz = v[3].vz = ((Unkstruct_8001DA34 *)a0)->unk32;
 
     gte_ldv3(&v[0], &v[1], &v[2]);
