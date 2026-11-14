@@ -4118,8 +4118,8 @@ void func_801884E8(void *a0)
     p = guess_g_ObjectTable;
     cnt = 0;
     for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_801884E8 *)p)->unk0 == 0x1EA) {
-            st = ((Unkstruct_801884E8 *)p)->unk70;
+        if (((Unkstruct_80181058 *)p)->unk0 == 0x1EA) {
+            st = ((Unkstruct_80181058 *)p)->unk70;
             if (st == 0 || st == 7 || st == 0xF) {
                 cnt++;
             }
@@ -4131,17 +4131,17 @@ void func_801884E8(void *a0)
         p = (u8 *)guess_SpawnActor(0x1EA, 0, (s32)a0);
         if (p != 0) {
             t = rand() & 0xFFF;
-            q = ((Unkstruct_801884E8 *)p)->unk20;
+            q = ((Unkstruct_80181058 *)p)->unk20;
             *(u16 *)(q + 0x12) = t;
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801884E8 *)p)->unk6 - 0x40;
-                ((Unkstruct_801884E8 *)p)->unk6 = xx + rr;
+                s32 xx = ((Unkstruct_80181058 *)p)->unk6 - 0x40;
+                ((Unkstruct_80181058 *)p)->unk6 = xx + rr;
             }
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801884E8 *)p)->unkE - 0x40;
-                ((Unkstruct_801884E8 *)p)->unkE = xx + rr;
+                s32 xx = ((Unkstruct_80181058 *)p)->unkE - 0x40;
+                ((Unkstruct_80181058 *)p)->unkE = xx + rr;
             }
         }
     }
