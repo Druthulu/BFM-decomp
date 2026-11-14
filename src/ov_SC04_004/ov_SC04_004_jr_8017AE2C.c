@@ -7687,9 +7687,9 @@ void func_80183360(void *a0) {
     u16 in[3];
     s16 out[2];
 
-    in[0] = ((Unkstruct_80183360 *)a0)->unk6;
-    in[1] = ((Unkstruct_80183360 *)a0)->unkA;
-    in[2] = ((Unkstruct_80183360 *)a0)->unkE;
+    in[0] = ((Unkstruct_80180000 *)a0)->unk6;
+    in[1] = ((Unkstruct_80180000 *)a0)->unkA;
+    in[2] = ((Unkstruct_80180000 *)a0)->unkE;
 
     ((void (*)(u16 *, s16 *))guess_WorldToScreenFlag)(in, out);
 
