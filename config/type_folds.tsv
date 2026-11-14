@@ -4635,7 +4635,7 @@ Unkstruct_cdc4c158	residual	TYPE-UNION	layout:widths@0x0:1u,2u	layout class TYPE
 Unkstruct_cde8cf30	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017D678_2 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_cec3fbb8	residual	TYPE-CANON-TWIN	layout-twin:DRM	the flat def would form a tier-1 dup class with canonical DRM; no fold (G62: layout identity is no entity evidence)
 Unkstruct_cecedefb	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80184084 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_cf099a8b	define	Unkstruct_801822BC	owner:func_801822BC	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
+Unkstruct_cf099a8b	define	Unkstruct_8017F118	owner:func_801822BC	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
 Unkstruct_cf15cd5d	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80176218_20 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_cf503457	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
 Unkstruct_cf806eba	residual	TYPE-CANON-TWIN	layout-twin:DRM	the flat def would form a tier-1 dup class with canonical DRM; no fold (G62: layout identity is no entity evidence)

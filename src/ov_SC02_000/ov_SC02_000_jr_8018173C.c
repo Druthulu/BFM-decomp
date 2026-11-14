@@ -3052,15 +3052,15 @@ extern void func_800167B8(s32 a0);
 
 s32 func_801822BC(void *a0) {
     s32 v0;
-    v0 = ((Unkstruct_801822BC *)a0)->unk28 - 1;
-    ((Unkstruct_801822BC *)a0)->unk28 = v0;
+    v0 = ((Unkstruct_8017F118 *)a0)->unk28 - 1;
+    ((Unkstruct_8017F118 *)a0)->unk28 = v0;
     if (v0 == -1) {
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         guess_RequestSound(0x1D, 0);
         func_800D0C48(2);
         func_800167B8(4);
-        ((Unkstruct_801822BC *)a0)->unk15 = ((Unkstruct_801822BC *)a0)->unk15 + 1;
+        ((Unkstruct_8017F118 *)a0)->unk15 = ((Unkstruct_8017F118 *)a0)->unk15 + 1;
     }
     return 0;
 }
