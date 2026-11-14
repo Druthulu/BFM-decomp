@@ -6768,9 +6768,9 @@ void func_80180F94(void *a0, s32 a1)
     Vec4s_80180F94 loc_18;
     Vec4s_80180F94 loc_20;
 
-    loc_10.f0 = ((Unkstruct_80180F94 *)a0)->unk6;
-    loc_10.f1 = ((Unkstruct_80180F94 *)a0)->unkA;
-    loc_10.f2 = ((Unkstruct_80180F94 *)a0)->unkE;
+    loc_10.f0 = ((Unkstruct_80181404 *)a0)->unk6;
+    loc_10.f1 = ((Unkstruct_80181404 *)a0)->unkA;
+    loc_10.f2 = ((Unkstruct_80181404 *)a0)->unkE;
 
     loc_18.f0 = 0;
     loc_18.f1 = 0;
