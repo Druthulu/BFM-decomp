@@ -5769,7 +5769,7 @@ void func_8018070C(void *arg0) {
 
 s32 func_80180750(s32 a0)
 {
-    extern MTX8L_80180750 aD800AE620 __asm__("D_800AE620");
+    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
     extern void RotMatrixY(s32 a0, void *a1);
     extern void func_80020F34(s32 a0, s32 a1);
     extern void SetRotMatrix(void *a0);
@@ -5780,7 +5780,7 @@ s32 func_80180750(s32 a0)
     s16 *s1;
     s16 rv[4];
     s16 vec[4];
-    MTX8L_80180750 m;
+    Blk20_8016DF5C m;
     s16 out[4];
 
     s1 = (s16 *)guess_SpawnActorNoArg(0x239, a0);
@@ -6700,12 +6700,12 @@ extern void func_8012B21C(void *a0);
 
 void func_80181BD4(s32 a0)
 {
-    extern MTX8L_80181BD4 aD800AE620 __asm__("D_800AE620");
+    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
     extern void RotMatrixY(s32 a0, void *a1);
     extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
-    MTX8L_80181BD4 m;
+    Blk20_8016DF5C m;
     s32 vel[3];
 
     m = aD800AE620;

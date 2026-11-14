@@ -6445,7 +6445,7 @@ void func_80182180(void *arg0) {
  * (above us); the typedef below exists only so match_one's -Iinclude compile is
  * self-contained and is stripped at substitution time. Byte-identical layout. */
 
-extern Mtx8_8017C910_8017E924 aD800AE620 __asm__("D_800AE620");
+extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
 
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_80020F34(s32 a0, s32 a1);
@@ -6459,7 +6459,7 @@ void *func_801821C4(void *a0)
     s16 *s1;
     s16 rv[4];
     s16 vec[4];
-    Mtx8_8017C910_8017E924 m;
+    Blk20_8016DF5C m;
     s16 out[4];
 
     s1 = (s16 *)guess_SpawnActorNoArg(0x239, (s32)a0);

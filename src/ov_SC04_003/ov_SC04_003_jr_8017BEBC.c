@@ -5168,7 +5168,7 @@ extern void func_8012AD44(s32*, s16);
 #undef SHARED_FN
 
 
-extern Blk20_80180B78 aAE620_80180B78[1] __asm__("D_800AE620");
+extern Blk20_8016DF5C aAE620_80180B78[1] __asm__("D_800AE620");
 extern void RotMatrixY(s32 a0, void *a1);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -5176,7 +5176,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80180B78(s32 arg0)
 {
-    Blk20_80180B78 m;
+    Blk20_8016DF5C m;
     s32 vel[3];
 
     m = aAE620_80180B78[0];
@@ -5282,7 +5282,7 @@ s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
 
 
 
-extern Blk32_80180E8C aAE620_80180E8C[1] __asm__("D_800AE620");
+extern Blk20_8016DF5C aAE620_80180E8C[1] __asm__("D_800AE620");
 extern s32 func_8012B8A4(void *a0);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -5293,7 +5293,7 @@ void func_80180E8C(u8 *a0)
 {
     Vec_80180E8C out;
     Vec_80180E8C sv;
-    Blk32_80180E8C m;
+    Blk20_8016DF5C m;
     s16 r;
     s32 ang;
     s32 t;

@@ -2,10 +2,10 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8017E924(void *a0)
 {
-    extern Mtx8_8017C910_8017E924 aD800AE620 __asm__("D_800AE620");
+    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
     extern void aFunc80016A5C(void *arg0, void *arg1) __asm__("func_80016A5C");
     Prim_8017C910_8017E924 prim;
-    Mtx8_8017C910_8017E924 mtx;
+    Blk20_8016DF5C mtx;
     s32 p;
 
     p = (s32)a0;
