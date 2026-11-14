@@ -7943,7 +7943,7 @@ void func_80184BAC(void *a0, void *a1)
     s16 off;
     u16 flag;
 
-    do { idx = ((Unkstruct_80184BAC *)a0)->unk10B; } while (0);
+    do { idx = ((Unkstruct_80185648 *)a0)->unk10B; } while (0);
     flag = D_801EFD40;
     off = idx * 6 + 0xE4;
     wp = (s16 *)((s32)a0 + off);
@@ -7956,11 +7956,11 @@ void func_80184BAC(void *a0, void *a1)
         mask = 3;
     }
 
-    func_80185960(wp[0], (u16 *)((s32)(((Unkstruct_80184BAC *)a0)->unk20) + 0x10), step);
-    func_80185960(wp[1], (u16 *)((s32)(((Unkstruct_80184BAC *)a0)->unk20) + 0x12), step);
-    func_80185960(wp[2], (u16 *)((s32)(((Unkstruct_80184BAC *)a0)->unk20) + 0x14), step);
+    func_80185960(wp[0], (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x10), step);
+    func_80185960(wp[1], (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x12), step);
+    func_80185960(wp[2], (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x14), step);
 
-    ((Unkstruct_80184BAC *)a0)->unk10B = mask & (idx + 1);
+    ((Unkstruct_80185648 *)a0)->unk10B = mask & (idx + 1);
 
     off = idx * 6 + 0xE4;
     wp = (s16 *)((s32)a0 + off);
@@ -8344,7 +8344,7 @@ void func_80185648(u32 a0)
             gte_stlvnl(r);
             gte_stflg(&flag);
 
-            RotMatrixZYX(((Unkstruct_80185648 *)s0)->unk20 + 0x10, (s32)&m);
+            RotMatrixZYX(((Unkstruct_80185648 *)s0)->unk20.v0.unk20 + 0x10, (s32)&m);
 
             w0 = r[0];
             ((Unkstruct_80185648 *)s0)->unk6 = w0;
@@ -8357,11 +8357,11 @@ void func_80185648(u32 a0)
             m.h = (s16)w2;
 
             {
-                s32 d = ((Unkstruct_80185648 *)s0)->unk20;
+                s32 d = ((Unkstruct_80185648 *)s0)->unk20.v0.unk20;
                 *(MTX8_80185648 *)(d + 0x34) = *(MTX8_80185648 *)&m;
             }
             {
-                s32 d = ((Unkstruct_80185648 *)s0)->unk20;
+                s32 d = ((Unkstruct_80185648 *)s0)->unk20.v0.unk20;
                 *(MTX8_80185648 *)(d + 0x54) = *(MTX8_80185648 *)&m;
             }
 
@@ -8403,12 +8403,12 @@ void func_801858DC(void *a0)
         step = 0x40;
     }
 
-    func_80185960(((Unkstruct_801858DC *)a0)->unkE4,
-                  (u16 *)((s32)(((Unkstruct_801858DC *)a0)->unk20) + 0x10), step);
-    func_80185960(((Unkstruct_801858DC *)a0)->unkE6,
-                  (u16 *)((s32)(((Unkstruct_801858DC *)a0)->unk20) + 0x12), step);
-    func_80185960(((Unkstruct_801858DC *)a0)->unkE8,
-                  (u16 *)((s32)(((Unkstruct_801858DC *)a0)->unk20) + 0x14), step);
+    func_80185960(((Unkstruct_80185648 *)a0)->unkE4,
+                  (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x10), step);
+    func_80185960(((Unkstruct_80185648 *)a0)->unkE6,
+                  (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x12), step);
+    func_80185960(((Unkstruct_80185648 *)a0)->unkE8,
+                  (u16 *)((s32)(((Unkstruct_80185648 *)a0)->unk20.v1.unk0) + 0x14), step);
 }
 
 
