@@ -5359,19 +5359,19 @@ extern void func_8017FA50(s32 a0, void *s0);
 
 void func_8017F860(s32 arg0) {
     extern u8 D_801A7F8C[];
-    Blk1C *rec;
+    Unkstruct_8017FA24 *rec;
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
-        rec = &((Blk1C *)D_801A7F8C)[i];
+        rec = &((Unkstruct_8017FA24 *)D_801A7F8C)[i];
         rec->unk6 = (rec->unk6 - 0x2D) & 0xFFF;
-        switch (rec->state) {
+        switch (rec->unk0) {
         case 0:
-            if (rec->timer != 0) {
-                rec->timer--;
-                if (rec->timer == 0) {
+            if (rec->unk2 != 0) {
+                rec->unk2--;
+                if (rec->unk2 == 0) {
                     rec->unk4 = -0x155;
-                    rec->state++;
+                    rec->unk0++;
                 }
             }
             break;
@@ -5383,24 +5383,24 @@ void func_8017F860(s32 arg0) {
             rec->unkE = rec->unk10 = rec->unkC;
             func_8017FA50(arg0, rec);
             if (rec->unkC == 0x1000) {
-                rec->timer = 0x1E;
-                rec->state++;
+                rec->unk2 = 0x1E;
+                rec->unk0++;
             }
             break;
         case 2:
             func_8017FA24(rec);
             func_8017FA50(arg0, rec);
-            rec->timer--;
-            if (rec->timer == -1) {
-                rec->state++;
+            rec->unk2--;
+            if (rec->unk2 == -1) {
+                rec->unk0++;
             }
             break;
         case 3:
             func_8017FA24(rec);
             func_8017FA50(arg0, rec);
             if (rec->unkC == 0) {
-                rec->timer = 0;
-                rec->state = 0;
+                rec->unk2 = 0;
+                rec->unk0 = 0;
             }
             break;
         }

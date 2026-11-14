@@ -31392,7 +31392,15 @@ typedef struct {
 
 typedef struct {
     /* Unkstruct_ba8dbe56: P3.40 T3 band rank 5559; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x14];
+    /* 0x0000 */ s16 unk0;
+    /* 0x0002 */ s16 unk2;
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+    /* 0x0008 */ u8 pad8[0x4];
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ s16 unkE;
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ u8 pad12[0x2];
     /* 0x0014 */ s32 unk14;
     /* 0x0018 */ u16 unk18;
     /* 0x001a */ u8 pad1A[0x2];
