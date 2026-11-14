@@ -780,6 +780,11 @@ def _walk_worker(args):
     return walk_file(raw, rel, is_header, global_names)
 
 
+def _walk_worker_json(args):
+    """the walk as JSON text: a fresh result is round-tripped like a cached one (tuples -> lists, int keys -> str), C0582"""
+    return json.dumps(_walk_worker(args))
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 # the fleet
 # ----------------------------------------------------------------------------------------------------------------------
@@ -861,16 +866,18 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         keys[rel] = f"{rel}|{int(st.st_mtime)}|{st.st_size}|{TOOL_STAMP}|{gstamp}"     # a tool change invalidates every cached walk (R35)
         if keys[rel] not in cache:
             work.append((rel, is_h, gnames))
-    results = {}
+    fresh = {}
     if work:
         with ProcessPoolExecutor(max_workers=jobs) as ex:
-            for r in ex.map(_walk_worker, work, chunksize=4):
-                results[r["rel"]] = r
-    new_cache = {}
+            for js in ex.map(_walk_worker_json, work, chunksize=4):
+                r = json.loads(js)
+                fresh[r["rel"]] = r
+    # results in `files` order whatever hit the cache (C0582): the gather below is order-sensitive
+    results, new_cache = {}, {}
     for rel, is_h in files:
-        r = results.get(rel) or cache.get(keys[rel])
+        r = fresh.get(rel) or cache.get(keys[rel])
         if r is None:
-            r = walk_file((REPO / rel).read_text(errors="surrogateescape"), rel, is_h)
+            r = json.loads(json.dumps(walk_file((REPO / rel).read_text(errors="surrogateescape"), rel, is_h, gnames)))
         results[rel] = r
         new_cache[keys[rel]] = r
     if use_cache:
@@ -976,7 +983,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False, 
         union_AD=dict(bodies=len(union_bodies), distinct_bodies=len(union_distinct),
                       multi_copy_classes=sum(1 for v in union_distinct.values() if v > 1),
                       copies_in_multi=sum(v for v in union_distinct.values() if v > 1),
-                      by_kind=dict(by_kind_of_binary)),
+                      by_kind=dict(sorted(by_kind_of_binary.items()))),   # sorted: union_bodies is a set (hash order)
         levers_AB=dict(sites=sum(1 for s in sites if s["cls"] in "AB" and s["kind"] not in NON_LEVER_KINDS),
                        pins=len(pins), asm=sum(1 for s in sites if s["cls"] == "B" and s["kind"] not in NON_LEVER_KINDS),
                        bodies=len(lever_bodies_ab), distinct_bodies=len(ab_distinct),
