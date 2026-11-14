@@ -7,9 +7,9 @@ s32 SHARED_FN(void *a0)
     short out[4];
     s32 pa, pb;
 
-    in[0] = ((Unkstruct_80188C18 *)a0)->unk6;
-    in[1] = ((Unkstruct_80188C18 *)a0)->unkA;
-    in[2] = ((Unkstruct_80188C18 *)a0)->unkE;
+    in[0] = ((Unkstruct_80185DFC *)a0)->unk6;
+    in[1] = ((Unkstruct_80185DFC *)a0)->unkA;
+    in[2] = ((Unkstruct_80185DFC *)a0)->unkE;
     pa = (s32)in;
     pb = (s32)out;
     __builtin_memcpy((void *)pb, (void *)pa, 8);
