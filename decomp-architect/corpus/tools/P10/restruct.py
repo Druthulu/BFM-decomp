@@ -4276,6 +4276,9 @@ def fold_plan(keys):
     P["placed"] = None
     if pm is None:
         if P["merged"] is not None:
+            why_t = _fold_types_before([x for m in M for x in m["F"] if x["name"] in m["used"]], resub, tsp, place[0], cache)
+            if why_t:                                             # T7.c11 (C13): a member field's type defined after the target
+                return refuse(f"target {tsp} ({tf_}:{tdef['line']}): {why_t}")
             a, b = full_span(tf_, tspan)
             edits[tf_].append((a, b, P["merged"]))
             skip[tf_].append((a, b))
@@ -4704,6 +4707,12 @@ def fold_selftest(ok):
         P = fold_plan(["Fx_M"])
         ok("fold placement: refused when a target field type is defined after the earliest definition",
            len(P["refusals"]) == 1 and "needs `Fx_E`" in P["refusals"][0] and "after that point" in P["refusals"][0], str(P["refusals"]))
+        _fold_fixture("place3", "typedef struct { s32 f0; s32 f4; } Fx_T;\ntypedef struct { s32 q; } Fx_E;\ntypedef struct { s32 a; Fx_E e; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fm(Fx_M *m) { return m->e.q; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C12 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold merge: refused when a member field's type is defined after the target (T7.c11, C13)",
+           len(P["refusals"]) == 1 and "needs `Fx_E`" in P["refusals"][0], str(P["refusals"]))
         # T7.c11: --fold-batch: components in sequence on one tree, a refused one skipped and listed, the restruct ledger once
         root = _fold_fixture("batch", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n"
                              "typedef struct { s32 x; s16 y; s16 z; } Fx_N;\n",
