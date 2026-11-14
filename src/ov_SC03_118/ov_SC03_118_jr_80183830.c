@@ -3263,14 +3263,14 @@ void func_801842DC(s32 arg0) {
     s32 t;
 
     a = (s16 *) D_801D4358;
-    ((Unkstruct_801842DC *)arg0)->unk48 = a[0];
-    ((Unkstruct_801842DC *)arg0)->unk4C = a[1];
+    ((Unkstruct_80126948 *)arg0)->unk48 = a[0];
+    ((Unkstruct_80126948 *)arg0)->unk4C = a[1];
     t = a[2];
     b = (s16 *) D_801D435C;
-    ((Unkstruct_801842DC *)arg0)->unk50 = t;
-    ((Unkstruct_801842DC *)arg0)->unk3C = b[0];
-    ((Unkstruct_801842DC *)arg0)->unk40 = b[1];
-    ((Unkstruct_801842DC *)arg0)->unk44 = b[2];
+    ((Unkstruct_80126948 *)arg0)->unk50 = t;
+    ((Unkstruct_80126948 *)arg0)->unk3C = b[0];
+    ((Unkstruct_80126948 *)arg0)->unk40 = b[1];
+    ((Unkstruct_80126948 *)arg0)->unk44 = b[2];
 }
 
 

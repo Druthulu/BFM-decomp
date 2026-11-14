@@ -3,5 +3,5 @@
 s32 SHARED_FN(void *a0) {
 
     extern void (*D_801854CC[])(void);
-    D_801854CC[((Unkstruct_8017496C *)a0)->unk4]();
+    D_801854CC[((Unkstruct_80126948 *)a0)->unk4]();
 }

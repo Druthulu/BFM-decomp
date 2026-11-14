@@ -3841,7 +3841,7 @@ void func_801748E4(void) {
 s32 func_8017496C(void *a0) {
 
     extern void (*D_80187280[])(void);
-    D_80187280[((Unkstruct_8017496C *)a0)->unk4]();
+    D_80187280[((Unkstruct_80126948 *)a0)->unk4]();
 }
 
 

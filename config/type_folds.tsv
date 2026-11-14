@@ -174,7 +174,7 @@ Unkstruct_30ffce68	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80143D2
 Unkstruct_3816caab	define	Unkstruct_80142EC0_2	owner:func_80142EC0	no E1/E2 evidence; flat layout of the struct map record; 260 TNC sites in 130 bodies
 Unkstruct_ac2c8f05	define	Unkstruct_80150B28	owner:func_80150B28	no E1/E2 evidence; flat layout of the struct map record; 260 TNC sites in 130 bodies
 Unkstruct_985493b9	define	Unkstruct_80156044	owner:func_80156044	no E1/E2 evidence; flat layout of the struct map record; 256 TNC sites in 128 bodies
-Unkstruct_c21b1a66	define	Unkstruct_8017496C	owner:func_8017496C	no E1/E2 evidence; flat layout of the struct map record; 255 TNC sites in 255 bodies
+Unkstruct_c21b1a66	define	Unkstruct_80126948	owner:func_8017496C	no E1/E2 evidence; flat layout of the struct map record; 255 TNC sites in 255 bodies
 Unkstruct_746c35d0	define	Unkstruct_80158FA4_2	owner:func_80158FA4	no E1/E2 evidence; flat layout of the struct map record; 252 TNC sites in 126 bodies
 Unkstruct_faf094bf	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_5d117345	define	Unkstruct_8017EC08	owner:func_8017EC08	no E1/E2 evidence; flat layout of the struct map record; 252 TNC sites in 21 bodies
@@ -3039,7 +3039,7 @@ Unkstruct_82a12878	residual	TYPE-UNION	layout:overlap@0x206	layout class TYPE-UN
 Unkstruct_833b788f	residual	TYPE-UNION	layout:overlap@0x1	layout class TYPE-UNION (struct_map record)
 Unkstruct_85f8081c	define	Unkstruct_8017FB08	owner:func_8017FB08	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_873f0870	define	Unkstruct_8018450C	owner:func_8018450C	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
-Unkstruct_87823002	define	Unkstruct_801842DC	owner:func_801842DC	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
+Unkstruct_87823002	define	Unkstruct_80126948	owner:func_801842DC	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_88afa2ba	define	Unkstruct_8017E960	owner:func_8017E960	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_8974966e	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80185480 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_89d45e92	residual	TYPE-UNION	layout:overlap@0x61	layout class TYPE-UNION (struct_map record)
@@ -6039,7 +6039,6 @@ Unkstruct_80173B4C	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80173B4
 Unkstruct_801742A4	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801742A4 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80174474	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80174474 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_801747CC	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801747CC pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_8017496C	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017496C_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80174F28	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80174F28 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8017553C	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017553C_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80175690	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80175690 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
@@ -7000,7 +6999,6 @@ Unkstruct_801835B8	residual	TYPE-BELOW-BAND	band:6923/2	below the 95 % TNC band 
 Unkstruct_80183908	residual	TYPE-BELOW-BAND	band:6924/2	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80183F88	residual	TYPE-BELOW-BAND	band:6925/2	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80184164	residual	TYPE-BELOW-BAND	band:6926/2	below the 95 % TNC band (config/tnc_band.tsv)
-Unkstruct_801842DC	residual	TYPE-BELOW-BAND	band:6927/2	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80184460	residual	TYPE-BELOW-BAND	band:6928/2	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80184478	residual	TYPE-BELOW-BAND	band:6929/2	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_801845B0	residual	TYPE-BELOW-BAND	band:6930/2	below the 95 % TNC band (config/tnc_band.tsv)
