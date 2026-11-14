@@ -5138,8 +5138,8 @@ void func_801A7C58(s32 a0) {
 
 
 void func_801A7CC8(void *a0) {
-        ((Unkstruct_801A7CC8 *)a0)->unk1C = 0x4;
-        ((Unkstruct_801A7CC8 *)a0)->unk2 = 0x4;
+        ((Unkstruct_801AB5D4 *)a0)->unk1C = 0x4;
+        ((Unkstruct_801AB5D4 *)a0)->unk2 = 0x4;
     }
 
 
