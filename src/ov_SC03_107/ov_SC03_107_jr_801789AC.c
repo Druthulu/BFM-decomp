@@ -6897,11 +6897,11 @@ extern s32 guess_TickWaitTimer(s32 arg);
 
 void func_8017E1B4(void *a0)
 {
-    if (((Unkstruct_8017E1B4 *)a0)->unk76 <= 0) {
-        ((Unkstruct_8017E1B4 *)a0)->unkDC |= 0x2;
+    if (((Unkstruct_8017E2C4 *)a0)->unk76 <= 0) {
+        ((Unkstruct_8017E2C4 *)a0)->unkDC |= 0x2;
     }
-    ((Unkstruct_8017E1B4 *)a0)->unkE4 = 0;
-    ((Unkstruct_8017E1B4 *)a0)->unk52 = -0x30;
+    ((Unkstruct_8017E2C4 *)a0)->unkE4 = 0;
+    ((Unkstruct_8017E2C4 *)a0)->unk52 = -0x30;
 }
 
 
