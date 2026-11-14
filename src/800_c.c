@@ -2442,9 +2442,9 @@ s32 func_80038210(s32 a0, s16 a1, s32 a2)
     for (i = 0; i < 2; i++, entry += 0x1FC) {
         if (entry[0x1FB] == 0) {
             D_800A6428 = entry + 0x1BA;
-            ((Unkstruct_80038210 *)entry)->unk0 = a0;
-            ((Unkstruct_80038210 *)entry)->unk1EC = a1;
-            ((Unkstruct_80038210 *)entry)->unk1E8 = a2;
+            ((Unkstruct_80038698 *)entry)->unk0.v1.unk0 = a0;
+            ((Unkstruct_80038698 *)entry)->unk1EC = a1;
+            ((Unkstruct_80038698 *)entry)->unk1E8 = a2;
             *(u8 **)(entry + 0x1D8) = D_800C1320;
             *(u8 **)(entry + 0x1DC) = D_800C1320 + 0x20;
             *(u8 **)(entry + 0x1E0) = D_800C1320 + 0x820;
@@ -2455,9 +2455,9 @@ s32 func_80038210(s32 a0, s16 a1, s32 a2)
                 return -1;
             }
             func_80038838(entry);
-            v1 = ((Unkstruct_80038210 *)entry)->unk0;
+            v1 = ((Unkstruct_80038698 *)entry)->unk0.v1.unk0;
             entry[0x1FB] = 1;
-            ((Unkstruct_80038210 *)entry)->unk4 = v1;
+            ((Unkstruct_80038698 *)entry)->unk4 = v1;
             entry[0x1FA] = 0;
             for (k = 0xF, q = entry + 0xF; k >= 0; k--, q--) {
                 q[0x1BA] = 0;
