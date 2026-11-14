@@ -3839,8 +3839,8 @@ void func_8017C8B8(void *a0) {
 extern void func_80178B18(s32, s32);
 
 void func_8017CB68(s32 a0) {
-    s32 ptr1 = ((Unkstruct_8017CB68 *)a0)->unkD0;
-    s32 ptr2 = ((Unkstruct_8017CB68 *)a0)->unkDC;
+    s32 ptr1 = ((Unkstruct_8017CE2C_2 *)a0)->unkD0;
+    s32 ptr2 = ((Unkstruct_8017CE2C_2 *)a0)->unkDC;
     s16 val = ((Unkstruct_8017CB68_2 *)ptr1)->unk1A - 0xC0;
 
     ((Unkstruct_8017CB68_2 *)ptr1)->unk1A = val;
@@ -3849,7 +3849,7 @@ void func_8017CB68(s32 a0) {
     if (val < 0) {
         ((Unkstruct_8017CB68_2 *)ptr1)->unk0 = 0;
         ((s32 (*)(s32, s32))func_80178B18)(a0, *(s32 *)(ptr2 + 0xC));
-        ((Unkstruct_8017CB68 *)a0)->unk2 = ((Unkstruct_8017CB68 *)a0)->unk2 + 1;
+        ((Unkstruct_8017CE2C_2 *)a0)->unk2 = ((Unkstruct_8017CE2C_2 *)a0)->unk2 + 1;
     }
 }
 
