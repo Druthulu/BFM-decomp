@@ -64,7 +64,11 @@ parameter typed or effective B). Same guards (multisource, conduit, hub, poly). 
      store-global, view) number >= HUB_K and include two that conflict at an accessed offset or by size is a
      header/conduit type (c3: Unkstruct_800B5CB8 drew a 112-type star through per-overlay helper copies; it is the
      map's known `suspect` merge, docs/struct-map-decisions.md:15). All its pointer-class links are refused and
-     listed; its global and body links stand.
+     listed; its global and body links stand, except a link between two hub types (any class), which is refused
+     and left to review.
+   - body links at a hub slot (T2, expert): a body or body-view link at parameter i of one h_exact class joins
+     that routine's slot (h_exact, i) in the hub test and is refused with it; a slot carrying only body links is a
+     hub on a width conflict only (its own accesses are not counted, so the type-count test does not apply).
    - view: `((B *)a)->f` with a bound to A at a dereference. Not a link under the default policy (a cast spelling
      may be a codegen lever, C0507); policy `views` admits it as sub-kind `view` under every guard, the hub test
      taking the view type as the slot (a type viewed from >= HUB_K types through <= HUB_OFFS offsets is a header hub).
