@@ -3627,10 +3627,10 @@ void func_8017D3F8(s32 param_1)
             if (L.flag < 0) {
                 return;
             }
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, (void *)line);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, (void *)line);
             p += 2;
             i++;
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, (void *)prim);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, (void *)prim);
         } while (i < 8);
     }
 }

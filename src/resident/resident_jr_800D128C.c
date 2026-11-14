@@ -1406,7 +1406,7 @@ void func_800D2624(void) {
          /* 0x14 stride */
 
 
-#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
+#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
 #define getaddr_800D2650(t)     (((PTag_800D2650 *)(t))->addr)
 #define setaddr_800D2650(t, v)  (((PTag_800D2650 *)(t))->addr = (u32)(v))
 #define addPrim_800D2650(ot, p) (setaddr_800D2650(p, getaddr_800D2650(ot)), \
@@ -1554,7 +1554,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
          /* 0x14 stride */
 
-#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
+#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
 #define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->addr)
 #define setaddr_800D27DC(t, v)  (((PTag_800D27DC *)(t))->addr = (u32)(v))
 #define addPrim_800D27DC(ot, p) (setaddr_800D27DC(p, getaddr_800D27DC(ot)), \
@@ -1680,7 +1680,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
          /* 0x14 stride */
 
-#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
+#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
 #define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->addr)
 #define setaddr_800D29F8(t, v)  (((PTag_800D29F8 *)(t))->addr = (u32)(v))
 #define addPrim_800D29F8(ot, p) (setaddr_800D29F8(p, getaddr_800D29F8(ot)), \

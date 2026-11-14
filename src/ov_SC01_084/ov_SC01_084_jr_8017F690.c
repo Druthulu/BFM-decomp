@@ -3710,8 +3710,8 @@ void func_801809C4(Obj_801809C4 *obj) {
     *(s32 *)(p[1] + 0x20) = sxy[4];
 
     pb = (u16 *)&guess_g_DoubleBufferIndex;
-    AddPrim(D_800A651C[*pb].a + otz * 4, p[0]);
-    AddPrim(D_800A651C[*pb].a + otz * 4, p[1]);
+    AddPrim(D_800A651C[*pb].unk0.v0.a + otz * 4, p[0]);
+    AddPrim(D_800A651C[*pb].unk0.v0.a + otz * 4, p[1]);
     func_8012E28C(otz, 1);
 }
 

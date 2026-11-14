@@ -621,9 +621,9 @@ void func_801E88D0(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = ot;
@@ -1320,18 +1320,18 @@ s32 *func_801E9BE0(s32 *out) {
     ((Unkstruct_801E9BE0 *)out)->unk10 = 0x10;
 
     ((PTag_801E9BE0 *)out)->addr =
-        ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
-    ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr = (u32)out;
+        ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr;
+    ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
     ((PTag_801E9BE0 *)out)->addr =
-        ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].ot + 2))->addr;
+        ((PTag_801E9BE0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
-        op = guess_g_FrontOrderingTablesOrg[*pb].ot;
+        op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);
         op[2] = v;

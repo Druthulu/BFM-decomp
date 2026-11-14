@@ -245,8 +245,6 @@ struct S8016380C {
     struct M8_tag m;
 };
 
-typedef struct { s32 w[4]; } Blk16_8018A8B8;
-
 struct U8 {
     char b[8];
 } __attribute__((aligned(1)));
@@ -1481,12 +1479,12 @@ typedef struct Ent_80184264 {
     s16 unkE2;
     s16 unkE4;
 } Ent_80184264;
-typedef Env_80140958 Env_8017EFA8;
-typedef Env_80140958 Env_8017EFA8_8017E7DC;
-typedef Env_80140958 Env_8017EFA8_8017E804;
-typedef Env_80140958 Env_8017EFA8_8017E93C;
-typedef Env_80140958 Env_8018893C;
-typedef Env_80140958 Env_8018BCD4;
+typedef OtBlk_80180894 Env_8017EFA8;
+typedef OtBlk_80180894 Env_8017EFA8_8017E7DC;
+typedef OtBlk_80180894 Env_8017EFA8_8017E804;
+typedef OtBlk_80180894 Env_8017EFA8_8017E93C;
+typedef OtBlk_80180894 Env_8018893C;
+typedef OtBlk_80180894 Env_8018BCD4;
 typedef PolyFT3 Ft3_35C;
 typedef PolyFT4 Ft4_35C;
 typedef Blk80078E78 Gs_80078E78;
@@ -1956,10 +1954,9 @@ typedef struct { s16 vx; u16 vy; s16 vz, pad; } SVec_8017FB38;
 typedef SVec_8017FB38 SVec_80180A64;
 typedef SVECTOR SVec_80181CDC;
 typedef SVECTOR SVec_80181CDC_80181DE4;
-typedef struct { u32 *f0; s32 pad[4]; } S_AE7BC;
-typedef S_AE7BC S_AE7BC_80175820_80175820;
-typedef S_AE7BC S_AE7BC_801758FC;
-typedef S_AE7BC S_AE7BC_801759D8;
+typedef OtBlk_80180894 S_AE7BC_80175820_80175820;
+typedef OtBlk_80180894 S_AE7BC_801758FC;
+typedef OtBlk_80180894 S_AE7BC_801759D8;
 typedef struct { s32 g0; s32 pad[2]; } S_AF634;
 typedef S_AF634 S_AF634_80175820_80175820;
 typedef S_AF634 S_AF634_801758FC;
@@ -2207,9 +2204,9 @@ typedef struct { u8 b[8]; } XV8;
  * (a) it does not carry TYPEDEFS at all, and (b) it is not TRANSITIVE — it brought addPrim_1412A8
  * and stopped, though that macro calls setaddr/getaddr, and getaddr casts to PTag_1412A8.
  * Types and macros emit no code, so this is byte-neutral; R22-gated like every fleet-shared edit. */
-typedef Env_80140958 Env_1412A8;
+typedef OtBlk_80180894 Env_1412A8;
 typedef PrimTag PTag_1412A8;
-#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
+#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 
@@ -2585,7 +2582,7 @@ typedef Col4_8017F8BC Col4_8017F2FC;
 typedef Col4_8017F8BC Col4_80181574;
 typedef struct { s32 w[8]; } Copy32;
 typedef struct { u8 b[8]; } Copy8;
-typedef S_AE7BC Ctl801800B8;
+typedef OtBlk_80180894 Ctl801800B8;
 typedef Col4_8017F8BC Cv_8017F074;
 typedef Col4_8017F8BC Cv_8017FA2C;
 typedef struct { u16 w[4]; } __attribute__((aligned(2))) DBlock_8019F04C;
@@ -2707,12 +2704,12 @@ typedef struct {
     s16 f4;
     s16 val;
 } Entry_80186A04;
-typedef Env_80140958 Env_8017CA18;
-typedef Env_80140958 Env_8017FD50;
-typedef Env_80140958 Env_S40_8018B238;
-typedef Env_80140958 Env_S40_8018B238_80187EA0;
-typedef Env_80140958 Env_S40_8018B238_80188478;
-typedef Env_80140958 Env_S40_8018B238_80188778;
+typedef OtBlk_80180894 Env_8017CA18;
+typedef OtBlk_80180894 Env_8017FD50;
+typedef OtBlk_80180894 Env_S40_8018B238;
+typedef OtBlk_80180894 Env_S40_8018B238_80187EA0;
+typedef OtBlk_80180894 Env_S40_8018B238_80188478;
+typedef OtBlk_80180894 Env_S40_8018B238_80188778;
 typedef struct {
     u8 pad[0x5C];
     u16 f5C;
@@ -3061,7 +3058,6 @@ typedef OtBlk_80180894 OtBlk_80184138;
 typedef OtBlk_80180894 OtBlk_80185B4C;
 typedef OtBlk_80180894 OtBlk_8018A974;
 typedef OtBlk_80180894 OtBlk_8018A974_8018BB48;
-typedef struct { s32 a; s32 b[4]; } OtBlk_8018FE0C;
 typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910;
 typedef struct { u16 xy[2]; s32 sp1c; s32 flag; } Out_8017EC34;
 typedef struct { s16 a, b, c, d; } P16;
@@ -4305,7 +4301,7 @@ typedef struct {
 } TblEntry_80189854;
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
 typedef Blk16_8018A8B8 B16;
-typedef Prim_1412A8 B16_SC01_005_8017ED5C;
+typedef Blk16_8018A8B8 B16_SC01_005_8017ED5C;
 typedef struct { char c[4]; } Blk4_SC03_097_8017D898;
 typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
 typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_SC07_000_8017F8B8;
@@ -4750,12 +4746,12 @@ typedef struct
   u16 f5E;
   u8 p60[0x10C - 0x60];
 } Ent_SC03_102_8014D820;
-typedef Env_80140958 Env_8017DD28;
-typedef Env_80140958 Env_8017E804_80188F14;
-typedef Env_80140958 Env_8018C960;
-typedef Env_80140958 Env_8018C960_801895C8;
-typedef Env_80140958 Env_8018C960_80189BA0;
-typedef Env_80140958 Env_8018C960_80189EA0;
+typedef OtBlk_80180894 Env_8017DD28;
+typedef OtBlk_80180894 Env_8017E804_80188F14;
+typedef OtBlk_80180894 Env_8018C960;
+typedef OtBlk_80180894 Env_8018C960_801895C8;
+typedef OtBlk_80180894 Env_8018C960_80189BA0;
+typedef OtBlk_80180894 Env_8018C960_80189EA0;
 typedef struct {
     u32 tag;
     u32 rgbc;
@@ -4829,7 +4825,6 @@ typedef struct {
     u16 unk34;      /* 0x34 */
 } Obj8018098C;
 typedef Unkstruct_80181E08 Obj80180D84;
-typedef struct { s32 a; s32 b[4]; } OtBlk_80182890_8018FB5C;
 struct P4 { u16 unk0; u16 pad; };
 struct P8 { s16 unk0; u8 pad[6]; };
 typedef struct {

@@ -4712,7 +4712,7 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(DVec_80180894 *)(p + 0x20) = xy[3];
         p[7] = 0x3A;
         *(u32 *)p = 0x8000000;
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (z << 2), p);
+        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (z << 2), p);
         func_8012E28C(z, 1);
 
         p = (u8 *)func_80010A08(0x24);
@@ -4730,7 +4730,7 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(DVec_80180894 *)(p + 0x20) = xy[5];
         p[7] = 0x3A;
         *(u32 *)p = 0x8000000;
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (z << 2), p);
+        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (z << 2), p);
         func_8012E28C(z, 1);
     }
 }

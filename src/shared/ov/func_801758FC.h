@@ -10,7 +10,7 @@ void func_801758FC(void)
     u32 *p2;
     S2_800B9A02 *sq;
     sq = (S2_800B9A02 *)&guess_g_DoubleBufferIndex;
-    ptr = guess_g_FrontOrderingTablesOrg[sq->h].f0;
+    ptr = guess_g_FrontOrderingTablesOrg[sq->h].unk0.v1.unk0;
     old = ptr[3];
     ptr[3] = (old & 0xff000000) | (*(u32 *)(p + sq->h * 4 + 0x30) & 0xffffff);
     p2 = *(u32 **)(p + sq->h * 4 + 0x28);

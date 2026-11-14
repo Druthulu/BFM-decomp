@@ -1032,7 +1032,7 @@ s16 n;
     extern s16 D_8018C7D4[];
     extern u16 D_8018C2E4;
     extern u16 D_8018C2E6;
-  extern Env_80140958 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+  extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -1129,11 +1129,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -1278,7 +1278,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Prim_1412A8 * guess_DrawGaugeBar(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
+extern Blk16_8018A8B8 * guess_DrawGaugeBar(Blk16_8018A8B8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 int func_80141100(int param_1)
 {

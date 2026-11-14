@@ -2265,7 +2265,7 @@ s16 n;
     extern s16 D_80187EAC[];
     extern u16 D_801879BC;
     extern u16 D_801879BE;
-  extern Env_80140958 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+  extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -2362,11 +2362,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & m24);
             {
 u32 *op;
 u32 w;
-              op = guess_g_FrontOrderingTablesOrg[*pb].ot;
+              op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -2590,7 +2590,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Prim_1412A8 * guess_DrawGaugeBar(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
+extern Blk16_8018A8B8 * guess_DrawGaugeBar(Blk16_8018A8B8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 
 int func_80141100(int param_1)
 {
@@ -2617,7 +2617,7 @@ int func_80141100(int param_1)
  * sibling failed `parse error before '*'`, a 0/137 sweep that reads as a codegen wall. They are
  * removed here because gcc-2.7.2 rejects a REPEATED typedef even when identical (the lesson
  * already recorded at the foot of engine_types.h); leaving both copies broke this very TU. */
-#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].ot)
+#define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
 #define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
 #define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))

@@ -3649,7 +3649,7 @@ void func_80188478(void) {
         ot = (s32 *)func_800D27DC(2, ot, D_801B8A5C, 1, 0);
     }
 
-    ot = (s32 *)func_8013AB54((s32)ot, (s32)(guess_g_FrontOrderingTablesOrg[aD800B9A02].ot + 2),
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(guess_g_FrontOrderingTablesOrg[aD800B9A02].unk0.v1.unk0 + 2),
                               (s32)D_801B93C4, 0);
 
     if (D_80115126 == 3) {
@@ -3682,8 +3682,8 @@ void func_80188478(void) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
     ((W_S40_8018B238_80188478 *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238_80188478 *)ot)->addr =
-        ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr;
-    ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr = (u32)ot;
+        ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr;
+    ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr = (u32)ot;
     ot += 10;
     guess_g_MenuPacketPtr.v = (s32)ot;
 }

@@ -3817,7 +3817,7 @@ void func_8017E4E0(void *a0)
     s32 tp;
     register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
 
-    ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a;
+    ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a;
 
     p = (u8 *)func_80010A08(0x30);
     if (p != 0) {

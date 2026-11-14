@@ -6431,8 +6431,8 @@ void func_80181A60(SVec_80181A60 *v)
             tag0 = *(u32 *)p;
             tag0 = tag0 & mFF;
             sh = otz * 4;
-            *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].a) & m24);
-            sh = sh + D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a;
+            *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].unk0.v0.a) & m24);
+            sh = sh + D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a;
             *(u32 *)sh = (*(u32 *)sh & mFF) | ((u32)p & m24);
         }
     }

@@ -815,7 +815,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Prim_1412A8 *guess_DrawGaugeBar(int, int, int, int, int, int);
+extern Blk16_8018A8B8 *guess_DrawGaugeBar(int, int, int, int, int, int);
 extern int func_80141100(int param_1);
 extern void func_800291A0(s32, s32);
 extern s32 func_800291DC(s32);
@@ -3924,7 +3924,7 @@ extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 
    /* size 0x14 */
     /* size 0x0C */
-extern S_AE7BC guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
 extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
 
 #include "../shared/ov/func_801759D8.h"

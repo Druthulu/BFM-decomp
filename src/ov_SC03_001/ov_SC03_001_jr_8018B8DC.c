@@ -3390,8 +3390,8 @@ s32 *func_8018BCD4(out, src, idx, w, col)
      * expmed.c's store_fixed_bit_field, not of user-mask C. `volatile` on the index read is
      * what keeps the SECOND *pbh load alive (a plain read cse-folds and the fn loses 5 ins). */
     ((PTag_8018BCD4 *)out)->addr =
-        ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr;
-    ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].ot + 2))->addr = (u32)out;
+        ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr;
+    ((PTag_8018BCD4 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr = (u32)out;
 
     out += 5;
     if (c < 10) {
@@ -3449,10 +3449,10 @@ s32 *func_8018BCD4(out, src, idx, w, col)
                 *(s16 *)((u8 *)out + 0x8) = vsum;
                 *(s16 *)((u8 *)out + 0x10) = eight;
                 *(s16 *)((u8 *)out + 0x12) = eight;
-                *(u32 *)out = ((*(u32 *)out) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].ot[2] & m24);
+                *(u32 *)out = ((*(u32 *)out) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
-                    op = guess_g_FrontOrderingTablesOrg[*pb].ot;
+                    op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
                     op[2] = (op[2] & mhi) | (((u32)out) & m24);
                 }
                 out += 5;
@@ -3943,8 +3943,8 @@ void func_8018C960(void) {
     p = *pp;
     ((PTag_8018C960 *)p)->len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
-    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960 *)p)->tag  = 0x08000000;
@@ -3972,15 +3972,15 @@ void func_8018C960(void) {
     ((PG4_8018C960 *)p)->y3 = 120;
     ((PG4_8018C960 *)p)->y2 = 120;
 
-    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
-    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)p;
+    ((PTag_8018C960 *)p)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
     ((PTag_8018C960 *)r)->len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960 *)r)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr;
-    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].ot)->addr = (u32)r;
+    ((PTag_8018C960 *)r)->addr = ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
+    ((PTag_8018C960 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)r;
 
     p += 2;
     *pp = p;

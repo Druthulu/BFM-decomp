@@ -3726,7 +3726,7 @@ void func_8017F074(void *arg0)
         *(s16 *)(prim + 0x16) = 120;            /* y3 */
         *(s16 *)(prim + 0x14) = 160;            /* x3 */
         *(u8 *)(prim + 7) = 0x2A;               /* POLY_F4, semi-transparent */
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (e->f2 * 4), prim);
+        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (e->f2 * 4), prim);
         func_8012E28C(e->f2, e->f0);
     }
 }
@@ -4232,7 +4232,7 @@ void func_801800B8(void *a0) {
 
     func_801802E0((s32 *)a0);
 
-    u = ((Ctl801800B8 *)a0)->pad[2];
+    u = ((Ctl801800B8 *)a0)->b[2];
     t = D_801861F0[(((Unkstruct_8017E330 *)D_801F8118)->unk2) * 5];
     D_801F80A4 = 0;
     D_801F8084 = 0;
@@ -4244,14 +4244,14 @@ void func_801800B8(void *a0) {
 
     func_8017F5D0();
 
-    D_801F8090 = ((Ctl801800B8 *)a0)->pad[3];
-    func_80180E68(((Ctl801800B8 *)a0)->pad[0], ((Ctl801800B8 *)a0)->pad[3]);
+    D_801F8090 = ((Ctl801800B8 *)a0)->b[3];
+    func_80180E68(((Ctl801800B8 *)a0)->b[0], ((Ctl801800B8 *)a0)->b[3]);
 
-    D_801F8AEC = ((Ctl801800B8 *)a0)->pad[1];
+    D_801F8AEC = ((Ctl801800B8 *)a0)->b[1];
 
     guess_UpdateCamera();
 
-    p = ((Ctl801800B8 *)a0)->f0;
+    p = ((Ctl801800B8 *)a0)->unk0.v1.unk0;
     while (p->kind != -1) {
         obj = D_801F80AC[p->kind];
         switch (p->cmd) {

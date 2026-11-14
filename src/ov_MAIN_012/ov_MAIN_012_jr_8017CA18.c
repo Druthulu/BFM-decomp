@@ -868,7 +868,7 @@ extern s32 func_8002A9A8(void);
 extern s32 func_8002A670(void);
 extern s32 func_8002A748(void);
 extern s32 func_8002A738(void);
-extern Prim_1412A8 * guess_DrawGaugeBar(Prim_1412A8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
+extern Blk16_8018A8B8 * guess_DrawGaugeBar(Blk16_8018A8B8 *out, int a1, int a2, int a3, s32 a4, s32 a5);
 extern int func_80141100(int param_1);
 extern s32 guess_GetGameVarByte(s32 arg);
 extern void func_800291A0(s32, s32);
@@ -3665,9 +3665,9 @@ void func_8017CA18(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].ot[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFFFFFF) | 0x02000000;
+    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] =
+        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = ot;

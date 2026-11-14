@@ -3082,7 +3082,7 @@ void func_8017F424(s16 *param_1)
     ((Unkstruct_8017F424 *)p)->unk20 = ((Unkstruct_8017F424_2 *)s)->unk14;
 
     otz = func_801823D4(((Unkstruct_8017F424_2 *)s)->unk1C, -0x1A);
-    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, p);
+    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, p);
 }
 
 
@@ -3188,7 +3188,7 @@ void func_8017F788(void* param_1, void* param_2, s32 param_3)
     if (otz > 0 && flag >= 0) {
         if (RotTransPers(param_2, (s32)&obj->xy1, &p, &flag) > 0 && flag >= 0) {
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, obj);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, obj);
             func_8012E28C(otz, 1);
         }
     }
@@ -3384,7 +3384,7 @@ void func_8017FB50(s32 arg0, s32 arg1)
 
     idx = func_801823D4(tmp, -0x1A);
 
-    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + idx * 4, obj);
+    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + idx * 4, obj);
 }
 
 
@@ -4759,7 +4759,7 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
             RotTransPers((s32)&sv[2], (s32)&q->xy2, &p, &flag);
             RotTransPers((s32)&sv[3], (s32)&q->xy3, &p, &flag);
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4, q);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, q);
             func_8012E28C(otz, 1);
         }
     }
@@ -4964,7 +4964,7 @@ void func_80181E08(s32 arg0) {
         } while (0);  // !FAKE: do-while
         __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries) wall:combine-copy-merge
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a + otz * 4, q);
+        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, q);
         func_8012E28C(otz, zpush);
         i++;
         pa++;
@@ -4985,7 +4985,7 @@ void func_80181E08(s32 arg0) {
         RotTransPers((s32)&pa[(i + 1) % 12], (s32)&t->xy1, &p, &flag);
         RotTransPers(arg0 + 0xF4, (s32)&t->xy2, &p, &flag);
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].a + otz * 4, t);
+        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, t);
         func_8012E28C(otz, zpush);
     }
 }

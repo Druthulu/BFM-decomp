@@ -1168,7 +1168,7 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4;
+        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)((DVec_80183DA4 *)&sxy0)->vy < 120) {
             if ((s16)((DVec_80183DA4 *)&sxy1)->vy < -119) {
@@ -1322,7 +1322,7 @@ void func_80184138(SVec_80184138 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].a + otz * 4;
+        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)((DVec_80184138 *)&sxy0)->vy < 120) {
             if ((s16)((DVec_80184138 *)&sxy1)->vy < -119) {

@@ -1982,7 +1982,7 @@ void func_80015498(void)
     register u32 maskLo __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
 
     base = guess_g_RenderWork;
-    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].a;
+    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
 
     if (D_800B9A11 != 1) {
         entry = base + 0x9DA8;
@@ -2538,9 +2538,9 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
     depth4 = arg7 * 4;
     *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
-        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) & 0xFFFFFF);
-    *(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) =
-        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].a) & 0xFF000000) |
+        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & 0xFFFFFF);
+    *(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) =
+        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & 0xFF000000) |
         ((u32)temp_v0 & 0xFFFFFF);
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], arg7, arg8);
@@ -2793,8 +2793,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
-                    (*(u32 *)(i4 + D_800A651C[((Unkstruct_80010178 *)base)->unkA3D2].a) & m24);
-        ob = D_800A651C[((Unkstruct_80010178 *)base)->unkA3D2].a;
+                    (*(u32 *)(i4 + D_800A651C[((Unkstruct_80010178 *)base)->unkA3D2].unk0.v0.a) & m24);
+        ob = D_800A651C[((Unkstruct_80010178 *)base)->unkA3D2].unk0.v0.a;
         otp = (u32 *)(i4 + ob);
         *otp = (*otp & mFF) | ((u32)p & m24);
         p++;
@@ -2847,8 +2847,8 @@ void func_80016110(void)
     *(s16 *)((u8 *)p + 0x12) = *(s16 *)((u8 *)p + 0x16) = 120;
 
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[guess_g_DoubleBufferIndex].a & m24);
-    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].a;
+    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a & m24);
+    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
     *ot = (*ot & 0xFF000000) | ((u32)p & m24);
     func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], 0, 0);
 }
@@ -3040,9 +3040,9 @@ void func_80016450(s32 a0, s32 a1)
         u32 pv;
         pv = *(u32 *)p;
         pv &= mFF;
-        pv |= *(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].a) & m24;
+        pv |= *(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & m24;
         *(u32 *)p = pv;
-        i4 += D_800A651C[guess_g_DoubleBufferIndex].a;
+        i4 += D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
         func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], idx, 1);
     } else {
@@ -3050,9 +3050,9 @@ void func_80016450(s32 a0, s32 a1)
         u32 pv;
         pv = *(u32 *)p;
         pv &= 0xFF000000;
-        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a & m24;
+        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].unk0.v0.a & m24;
         *(u32 *)p = pv;
-        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].a;
+        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].unk0.v0.a;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
         func_80016638(&guess_g_FrontOrderingTables[guess_g_DoubleBufferIndex * 20], 0, 1);
     }
@@ -4256,8 +4256,8 @@ void func_80017B98(void *arg0)
     d4 = d4 * 4;
     pv = *(u32 *)prim;
     *(u32 *)prim = (pv & mFF) |
-        (*(u32 *)(d4 + D_800A651C[((Unkstruct_80010178 *)pbase)->unkA3D2].a) & m24);
-    d4 += D_800A651C[((Unkstruct_80010178 *)pbase)->unkA3D2].a;
+        (*(u32 *)(d4 + D_800A651C[((Unkstruct_80010178 *)pbase)->unkA3D2].unk0.v0.a) & m24);
+    d4 += D_800A651C[((Unkstruct_80010178 *)pbase)->unkA3D2].unk0.v0.a;
     *(u32 *)d4 = (*(u32 *)d4 & mFF) | ((u32)prim & m24);
 }
 
@@ -4386,14 +4386,14 @@ void func_80018094(void *a0, s32 a1, u32 a2_p) {
         sz = 0xFFF;
     }
 
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a0);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, a0);
 
     if (a2 & 0x40000000) {
         *(u8 *)((u8 *)a0 + 7) = *(u8 *)((u8 *)a0 + 7) | 2;
         p2 = func_80010A08(0xC);
         tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
         func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-        AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
+        AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
     }
 }
 
@@ -4443,14 +4443,14 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
 
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, a0);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, a0);
 
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 1, (u16)tp, 0);
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].a + sz * 4, p2);
+    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
 }
 
 extern u32 D_800AE610;

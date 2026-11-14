@@ -15551,8 +15551,8 @@ void func_8018EBCC(s32 a0) {
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C_8018EBCC *)q)->addr =
-            ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].a + 0x40))->addr;
-        ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].a + 0x40))->addr = (u32)q;
+            ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr;
+        ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

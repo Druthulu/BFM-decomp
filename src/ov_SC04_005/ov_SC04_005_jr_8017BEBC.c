@@ -6184,7 +6184,7 @@ void func_801819E0(s32 param_1, s32 param_2)
             RotTransPers((s32)&quad[2], (s32)(prim + 0x18), &p, &flag);
             RotTransPers((s32)&quad[3], (s32)(prim + 0x20), &p, &flag);
 
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].a + (otz * 4), prim);
+            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (otz * 4), prim);
             func_8012E28C(otz, 1);
             fp++;
             ang = ang2;

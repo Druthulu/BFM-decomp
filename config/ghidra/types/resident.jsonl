@@ -6,10 +6,9 @@
 {"k":"type","kind":"struct","path":"/bfm/CdFileLoc","size":8,"packed":false,"fields":[{"off":0,"len":4,"name":"word0","type":"/bfm/s32","comment":null},{"off":4,"len":4,"name":"word4","type":"/bfm/s32","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Dst","size":28,"packed":false,"fields":[{"off":0,"len":8,"name":"pad0","type":"/bfm/u8[8]","comment":null},{"off":8,"len":4,"name":"w8","type":"/bfm/s32","comment":null},{"off":12,"len":10,"name":"padC","type":"/bfm/u8[10]","comment":null},{"off":22,"len":1,"name":"b16","type":"/bfm/u8","comment":null},{"off":23,"len":2,"name":"pad17","type":"/bfm/u8[2]","comment":null},{"off":25,"len":1,"name":"b19","type":"/bfm/u8","comment":null},{"off":26,"len":2,"name":"pad1A","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/E4","size":4,"packed":false,"fields":[{"off":0,"len":4,"name":"f0","type":"/bfm/s32","comment":null}]}
-{"k":"type","kind":"typedef","path":"/bfm/Env_800D2650","base":"/bfm/Env_80140958"}
-{"k":"type","kind":"typedef","path":"/bfm/Env_800D27DC","base":"/bfm/Env_80140958"}
-{"k":"type","kind":"typedef","path":"/bfm/Env_800D29F8","base":"/bfm/Env_80140958"}
-{"k":"type","kind":"struct","path":"/bfm/Env_80140958","size":20,"packed":false,"fields":[{"off":0,"len":4,"name":"ot","type":"/bfm/u32 *","comment":null},{"off":4,"len":16,"name":"pad","type":"/bfm/u32[4]","comment":null}]}
+{"k":"type","kind":"typedef","path":"/bfm/Env_800D2650","base":"/bfm/OtBlk_80180894"}
+{"k":"type","kind":"typedef","path":"/bfm/Env_800D27DC","base":"/bfm/OtBlk_80180894"}
+{"k":"type","kind":"typedef","path":"/bfm/Env_800D29F8","base":"/bfm/OtBlk_80180894"}
 {"k":"type","kind":"struct","path":"/bfm/FnTbl","size":12,"packed":false,"fields":[{"off":0,"len":12,"name":"f","type":"/void *[3]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/FnTbl3","size":12,"packed":false,"fields":[{"off":0,"len":12,"name":"fn","type":"/void *[3]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK","base":"/bfm/s32"}
@@ -18,6 +17,10 @@
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK64","base":"/bfm/s64"}
 {"k":"type","kind":"typedef","path":"/bfm/M2C_UNK8","base":"/bfm/s8"}
 {"k":"type","kind":"struct","path":"/bfm/Obj800D302C","size":44,"packed":false,"fields":[{"off":0,"len":21,"name":"pad00","type":"/bfm/u8[21]","comment":null},{"off":21,"len":1,"name":"field_0x15","type":"/bfm/u8","comment":"0x15"},{"off":22,"len":18,"name":"pad16","type":"/bfm/u8[18]","comment":null},{"off":40,"len":4,"name":"field_0x28","type":"/bfm/s32","comment":"0x28"}]}
+{"k":"type","kind":"struct","path":"/bfm/OtBlk_80180894","size":20,"packed":false,"fields":[{"off":0,"len":4,"name":"unk0","type":"/bfm/OtBlk_80180894__unk0","comment":null},{"off":4,"len":16,"name":"b","type":"/bfm/s32[4]","comment":null}]}
+{"k":"type","kind":"union","path":"/bfm/OtBlk_80180894__unk0","size":4,"packed":false,"fields":[{"len":4,"name":"v0","type":"/bfm/OtBlk_80180894__unk0__v0","comment":null},{"len":4,"name":"v1","type":"/bfm/OtBlk_80180894__unk0__v1","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/OtBlk_80180894__unk0__v0","size":4,"packed":false,"fields":[{"off":0,"len":4,"name":"a","type":"/bfm/s32","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/OtBlk_80180894__unk0__v1","size":4,"packed":false,"fields":[{"off":0,"len":4,"name":"unk0","type":"/bfm/u32 *","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/PTag_800D2650","base":"/bfm/PrimTag"}
 {"k":"type","kind":"typedef","path":"/bfm/PTag_800D27DC","base":"/bfm/PrimTag"}
 {"k":"type","kind":"typedef","path":"/bfm/PTag_800D29F8","base":"/bfm/PrimTag"}

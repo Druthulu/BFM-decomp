@@ -2985,8 +2985,8 @@ void func_80184328(s32 a0) {
     Blk16_80184328 *s1 = &D_800A5E88;
 
     *s1 = D_801BBE34;
-    D_800A5E90 = rsin(((Unkstruct_80184328 *)a0)->unkFE) * 20 / 4096 - 10;
-    ((Unkstruct_80184328 *)a0)->unkFE = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
+    D_800A5E90 = rsin(((Unkstruct_8018A8B8 *)a0)->unkFE) * 20 / 4096 - 10;
+    ((Unkstruct_8018A8B8 *)a0)->unkFE = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(0, s1);
 }
 
