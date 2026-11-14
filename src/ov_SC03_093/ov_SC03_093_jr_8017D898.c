@@ -4398,10 +4398,10 @@ void func_801816C8(void *a0) {
     s32 r;
     s32 q;
 
-    ((Unkstruct_801816C8 *)a0)->unk2 = 4;
+    ((Unkstruct_8017F810 *)a0)->unk2 = 4;
     r = rand();
     q = r % 64;
-    ((Unkstruct_801816C8 *)a0)->unkE8 = q + 64;
+    ((Unkstruct_8017F810 *)a0)->unkE8 = q + 64;
 }
 
 

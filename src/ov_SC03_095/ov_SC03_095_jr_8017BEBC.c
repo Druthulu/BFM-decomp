@@ -4322,8 +4322,8 @@ void func_8017FC14(s32 a0) {
 extern s32 rand(void);
 
 void func_8017FC90(s32 a0) {
-    ((Unkstruct_8017FC90 *)a0)->unk2 = 4;
-    ((Unkstruct_8017FC90 *)a0)->unkE8 = rand() % 64 + 0x40;
+    ((Unkstruct_8017F810 *)a0)->unk2 = 4;
+    ((Unkstruct_8017F810 *)a0)->unkE8 = rand() % 64 + 0x40;
 }
 
 
