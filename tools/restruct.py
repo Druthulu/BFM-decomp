@@ -2976,6 +2976,7 @@ HF_INCLUDERS_OVERRIDE = None     # the selftest sets {header: [tu]}; None = dele
 _HF_STATS = {}                   # plan_L's head-fold counts for describe_plan
 HF_DECLARATOR = re.compile(r"^\s*(\**)\s*(?:const\s+|volatile\s+)*([A-Za-z_]\w*)\s*((?:\[[^\]]*\]\s*)*)$")
 HF_ACCESS = re.compile(r"(->|\.)\s*([A-Za-z_]\w*)")
+HF_ASM_LABEL = re.compile(r"\s*__asm__\s*\(.*$", re.S)    # a declarator's asm label, stripped before HF_DECLARATOR (P3.45 T6.c2)
 HF_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)(\([^)\n]*\))?((?:[^\n]*\\\n)*[^\n]*)", re.M)
 
 
@@ -3126,7 +3127,7 @@ def _typed_vars(masked, spans, trx, params):
                 k += 1
             parts.append(masked[cur:k])
             for p in (parts[:1] if as_param else parts):
-                dm = HF_DECLARATOR.match(p.split("=", 1)[0])
+                dm = HF_DECLARATOR.match(HF_ASM_LABEL.sub("", p.split("=", 1)[0]))      # T6.c2: `extern T x[] __asm__("D_…");`
                 if dm:
                     V[dm.group(2)] = len(dm.group(1)) + dm.group(3).count("[")
     return V
@@ -3856,7 +3857,7 @@ def _fold_lb(d, aliases, cache):
                 k += 1
             parts.append(msk[cur:k])
             for p in (parts[:1] if as_param else parts):
-                dm = HF_DECLARATOR.match(p.split("=", 1)[0])
+                dm = HF_DECLARATOR.match(HF_ASM_LABEL.sub("", p.split("=", 1)[0]))
                 if not dm or dm.group(1):
                     continue
                 if dm.group(3).count("["):
@@ -4458,13 +4459,15 @@ def fold_selftest(ok):
            and "\tlhash:0123456789ab fields:3\tapplied:abc1234\n" in (root / FOLD_DISPO).read_text())
         # field merge into pad
         _fold_fixture("pad", "typedef struct { s32 f0; u8 pad[0xC]; } Fx_T;\ntypedef struct { s32 f0; s16 f4; u8 pad6[2]; s32 f8; u8 padC[4]; } Fx_M;\n",
-                      {"src/a.c": '#include "struct_types.h"\ns32 fb(Fx_M *m) { return m->f4 + m->f8; }\n'},
+                      {"src/a.c": '#include "struct_types.h"\ns32 fb(Fx_M *m) { return m->f4 + m->f8; }\n'
+                       's32 fb2(void) { extern Fx_M D_q[] __asm__("D_80000000"); return D_q[1].f4; }\n'},
                       [("Fx_M", "fold", "Fx_T", "link", "C2 pointer: src/a.c:2", "-")])
         P = fold_plan(["Fx_M"])
         mg = P["merged"] or ""
         ok("fold merge into pad: the member's accessed fields land in the target's pad (unk/pad names, comments, trailer)",
            not P["refusals"] and "/* 0x0004 */ s16 unk4;" in mg and "/* 0x0006 */ u8 pad6[0x2];" in mg and "/* 0x0008 */ s32 unk8;" in mg
-           and "} Fx_T; /* size = 0x10 */" in mg and "s32 fb(Fx_T *m) { return m->unk4 + m->unk8; }" in P["texts"].get("src/a.c", ""),
+           and "} Fx_T; /* size = 0x10 */" in mg and "s32 fb(Fx_T *m) { return m->unk4 + m->unk8; }" in P["texts"].get("src/a.c", "")
+           and 'extern Fx_T D_q[] __asm__("D_80000000"); return D_q[1].unk4;' in P["texts"].get("src/a.c", ""),
            f"{P['refusals']} {mg}")
         # width conflict -> union (compiles)
         root = _fold_fixture("union", "typedef struct { s32 f0; s32 f4; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n",
