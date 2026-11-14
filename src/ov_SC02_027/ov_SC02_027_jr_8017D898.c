@@ -4158,13 +4158,13 @@ void func_80180B3C(s32 a0)
     p = guess_g_RenderWork;
     base = *(u8 **)(a0 + 0x10);
     frame = base + CAST_SIGN(s16, a0, 4) * 12;
-    w = ((Unkstruct_80180B3C *)a0)->unk0;
+    w = ((Unkstruct_801809A8 *)a0)->unk0;
     obj = *(u8 **)(a0 + 0x14);
     if (*frame == 0xFF) {
         frame = base;
-        ((Unkstruct_80180B3C *)a0)->unk4 = 0;
+        ((Unkstruct_801809A8 *)a0)->unk4 = 0;
     }
-    ((Unkstruct_80180B3C *)a0)->unk4 += 1;
+    ((Unkstruct_801809A8 *)a0)->unk4 += 1;
 
     gte_SetRotMatrix(p + 0x18);
     gte_SetTransMatrix(p + 0x18);
@@ -4178,7 +4178,7 @@ void func_80180B3C(s32 a0)
     gte_stsxy(&sxy0);
     gte_stsz(&sz);
 
-    *(u16 *)&D_801DA730 = ((Unkstruct_80180B3C *)a0)->unk8;
+    *(u16 *)&D_801DA730 = ((Unkstruct_801809A8 *)a0)->unk8;
     D_801DA738 = CAST_ALIAS(u16, a0, 0xA);
     gte_SetRotMatrix(&D_801DA730);
     gte_SetTransMatrix(&D_801DA730);
