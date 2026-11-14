@@ -4049,7 +4049,7 @@ Unkstruct_23d82944	define	Unkstruct_801810D0	owner:func_801810D0	no E1/E2 eviden
 Unkstruct_240520f3	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
 Unkstruct_2430212a	define	Unkstruct_80186144_2	owner:func_80186144	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
 Unkstruct_247df581	define	Unkstruct_8017DC70_2	owner:func_8017DC70	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
-Unkstruct_248e63d9	define	Unkstruct_80181B7C	owner:func_80181B7C	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
+Unkstruct_248e63d9	define	Unkstruct_801838A4	owner:func_80181B7C	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
 Unkstruct_24906bde	define	Unkstruct_8017FB84	owner:func_8017FB84	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
 Unkstruct_24de9689	define	Unkstruct_801E5748	owner:func_801E5748	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
 Unkstruct_2531eb43	define	Unkstruct_801A7200_3	owner:func_801A7200	no E1/E2 evidence; flat layout of the struct map record; 4 TNC sites in 1 bodies
