@@ -445,10 +445,35 @@ def ledger_problems(have, keys_ok):
     return sorted(out.items())
 
 
+def ledger_rekey(ph, have):
+    """(pure) T7.c11: {old key: new key} of the disposed `Name@file:line` rows whose definition shifted: per `Name@file`, exactly one
+    placeholder key without a row and exactly one disposed, unapplied row whose key is no longer a placeholder, same kind and size"""
+    new, old = collections.defaultdict(list), collections.defaultdict(list)
+    for k, r in ph.items():
+        if k not in have and "@" in k:
+            new[k.rsplit(":", 1)[0]].append(k)
+    for k, e in have.items():
+        if k not in ph and "@" in k and e.get("disposition") != "undisposed" and not APPLIED_RX.search(e.get("reason") or ""):
+            old[k.rsplit(":", 1)[0]].append(k)
+    out = {}
+    for p, ks in new.items():
+        os_ = old.get(p, [])
+        if len(ks) == 1 and len(os_) == 1 and str(ph[ks[0]]["kind"]) == str(have[os_[0]].get("kind")) \
+                and str(ph[ks[0]]["size"]) == str(have[os_[0]].get("size")):
+            out[os_[0]] = ks[0]
+    return out
+
+
 def ledger_write(ledger, ph, have, props=None):
     """write the ledger: one row per placeholder (ph {key: inventory row}) plus the disposed stale rows; props {key: (disposition,
     target, class, evidence, reason)} replaces a row's judgement unless it is protected (its reason carries the applied marker, or
     it is a fold twin|value, an absorb, a survivor or a wall: judgements --propose never makes; P3.45 T6) -> (new, kept, protected)"""
+    rk = ledger_rekey(ph, have)
+    if rk:                                                        # T7.c11: a shifted `Name@file:line` row moves to its new key
+        have = {rk.get(k, k): (dict(e, key=rk[k]) if k in rk else e) for k, e in have.items()}
+        have = {k: (dict(e, target=rk[e["target"]]) if e.get("target") in rk else e) for k, e in have.items()}
+        if props:
+            props = {rk.get(k, k): v for k, v in props.items()}
     kept = {k: e for k, e in have.items() if k not in ph and e.get("disposition") != "undisposed"}
     lines, applied = [LEDGER_HEAD.rstrip("\n"), "\t".join(LEDGER_COLS)], 0
     for k in sorted(set(ph) | set(kept)):
@@ -3521,6 +3546,12 @@ def links_selftest():
     have_p["AP"] = dict(row("fold", "P", "link", "C9 body: src/a.c:1", "x applied:abc1234"), key="AP", kind="struct", file_line="a.h:1", size="4")
     _, _, nprot = ledger_write(pl, {}, have_p, {k: ("apart", "-", "own", "src/a.c:1", "re-proposed") for k in have_p})
     after, _, _ = ledger_read(pl)
+    # T7.c11: a disposed row whose `Name@file:line` shifted is rekeyed (a row targeting it follows), never duplicated
+    have_r = {"S@a.h:5": dict(row("apart", "-", "own", "src/a.c:1"), key="S@a.h:5", kind="struct", file_line="a.h:5", size="4"),
+              "T": dict(row("fold", "S@a.h:5", "link", "C9 body: src/a.c:1"), key="T", kind="struct", file_line="a.h:9", size="4")}
+    ledger_write(pl, {"S@a.h:6": dict(key="S@a.h:6", kind="struct", file_line="a.h:6", size=4),
+                      "T": dict(key="T", kind="struct", file_line="a.h:10", size=4)}, have_r)
+    after_r, _, _ = ledger_read(pl)
     shutil.rmtree(pl.parent)
     # P3.45 T6.c3: SHARED_FN bodies in two cross headers are two objects; the same body text in two headers is one (body hash)
     shk, shc, inc0 = {}, {}, dict(SHARED_INC)
@@ -3568,6 +3599,8 @@ def links_selftest():
         ("--propose never rewrites applied:, fold twin|value, absorb, survivor, wall; it rewrites a fold link",
          nprot == 5 and after["FL"]["disposition"] == "apart" and all(after[k]["disposition"] == cl.get(k, have_p[k])["disposition"]
                                                                        for k in ("FT", "AO", "SV", "WA", "AP"))),
+        ("ledger_write rekeys a shifted Name@file:line row (T7.c11): one row at the new key, its fold target follows",
+         sorted(after_r) == ["S@a.h:6", "T"] and after_r["S@a.h:6"]["disposition"] == "apart" and after_r["T"]["target"] == "S@a.h:6"),
         ("blocks_of: a provenance line opens its block, which ends before the next column-0 comment",
          blocks_of(prov) == [(2, 7, "restruct-band"), (8, 9, "head_types")]),
         ("link_sub reads the sub-class back from the evidence prefix", link_sub(cl["FL"]) == "global"
