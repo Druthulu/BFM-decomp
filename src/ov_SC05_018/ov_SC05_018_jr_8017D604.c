@@ -5827,7 +5827,7 @@ s32 func_80182774_body(void *a0)
     u16 st;
 
     ptr = *(s32 *)((s32)a0 + 0x64);
-    st = ((Unkstruct_80182774 *)ptr)->unk2;
+    st = ((Unkstruct_8017F56C *)ptr)->unk2;
     if (st != 1) {
         return 0;
     }
@@ -5840,9 +5840,9 @@ s32 func_80182774_body(void *a0)
         s32 p;
         u16 st2;
         p = *(s32 *)((s32)a0 + 0x64);
-        st2 = ((Unkstruct_80182774 *)p)->unk2;
+        st2 = ((Unkstruct_8017F56C *)p)->unk2;
         st2++;
-        ((Unkstruct_80182774 *)p)->unk2 = st2;
+        ((Unkstruct_8017F56C *)p)->unk2 = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;

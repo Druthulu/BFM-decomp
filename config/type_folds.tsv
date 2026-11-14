@@ -5185,7 +5185,7 @@ Unkstruct_4e456dd5	define	Unkstruct_80180C68_4	owner:func_80180C68	no E1/E2 evid
 Unkstruct_4e4eb44f	define	Unkstruct_8018BA44	owner:func_8018BA44	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_4e5f57f4	define	Unkstruct_80185A2C	owner:func_80185A2C	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_4e7a13eb	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80180B24_2 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_4e7f4356	define	Unkstruct_80182774	owner:func_80182774	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
+Unkstruct_4e7f4356	define	Unkstruct_8017F56C	owner:func_80182774	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_4eac52fd	define	Unkstruct_80185150_3	owner:func_80185150	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_4f47f95f	define	Unkstruct_8017EA88_4	owner:func_8017EA88	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_4fb5bec4	define	Unkstruct_80181840	owner:func_80181840	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
@@ -9808,7 +9808,7 @@ Unkstruct_80181C00	residual	TYPE-BELOW-BAND	band:9731/1	below the 95 % TNC band 
 Unkstruct_8018265C	residual	TYPE-BELOW-BAND	band:9732/1	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_801826B8	residual	TYPE-BELOW-BAND	band:9733/1	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80182720	residual	TYPE-BELOW-BAND	band:9734/1	below the 95 % TNC band (config/tnc_band.tsv)
-Unkstruct_80182774	residual	TYPE-BELOW-BAND	band:9735/1	below the 95 % TNC band (config/tnc_band.tsv)
+Unkstruct_8017F56C	residual	TYPE-BELOW-BAND	band:9735/1	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_80182778	residual	TYPE-BELOW-BAND	band:9736/1	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_801827AC	residual	TYPE-BELOW-BAND	band:9737/1	below the 95 % TNC band (config/tnc_band.tsv)
 Unkstruct_801827B0	residual	TYPE-BELOW-BAND	band:9738/1	below the 95 % TNC band (config/tnc_band.tsv)
