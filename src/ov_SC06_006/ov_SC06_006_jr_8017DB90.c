@@ -3745,8 +3745,8 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
  */
 void func_8017F258(u8 *q)
 {
-    if (((Unkstruct_8017F258 *)q)->unk8 != NULL) {
-        guess_ZeroMemory(((Unkstruct_8017F258 *)q)->unk8, 0x38);
+    if (((Unkstruct_8017EEA4 *)q)->unk8 != NULL) {
+        guess_ZeroMemory(((Unkstruct_8017EEA4 *)q)->unk8, 0x38);
     }
     guess_ZeroMemory(q, 0x54);
 }

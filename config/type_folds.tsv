@@ -6600,7 +6600,7 @@ Unkstruct_4eeb2f1a	residual	TYPE-CANON-TWIN	layout-twin:DRM	the flat def would f
 Unkstruct_4fa57ada	define	Unkstruct_8001FC08	owner:func_8001FC08	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_4fdd75c7	define	Unkstruct_8018BF4C	owner:func_8018BF4C	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_504855cc	define	Unkstruct_8018232C	owner:func_8018232C	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
-Unkstruct_5055d35f	define	Unkstruct_8017F258	owner:func_8017F258	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
+Unkstruct_5055d35f	define	Unkstruct_8017EEA4	owner:func_8017F258	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_508ef0ad	define	Unkstruct_80027C10_2	owner:func_80027C10	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_50a5490e	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8018490C pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_50bf3e97	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801813FC pruned; 0 uses fleet-wide after the t5 rung-S sweeps
