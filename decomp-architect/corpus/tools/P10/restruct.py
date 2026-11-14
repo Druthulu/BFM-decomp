@@ -3203,6 +3203,12 @@ def _lvl(t, V, crx, lself):
     t = t.strip()
     if not t:
         return None
+    am = re.match(r"^(\**)\s*(\([^()]*\))\s*&\s*[A-Za-z_]\w*$", t)   # T7.c11: `*(T **)&x`, a cast of an address (not a binary `&`)
+    if am:
+        cm = crx.match(am.group(2))
+        if cm and cm.end() == len(am.group(2)):
+            k = len(cm.group(1)) - len(am.group(1))
+            return k if k >= 0 else None
     parts = _split_binary(t)
     if parts is None:
         return None
@@ -3266,7 +3272,10 @@ def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, b
     acc = []
     for lo, hi in lo_hi_fns:
         V = dict(G)
-        V.update(_typed_vars(masked, [(lo, hi)], trx, params=not block))
+        own = _typed_vars(masked, [(lo, hi)], trx, params=not block)
+        for n in _extern_names(masked, [(lo, hi)]) & set(G) - set(own):
+            V.pop(n, None)                                # T7.c11: a block-scope extern of another type shadows the global
+        V.update(own)
         for m in HF_ACCESS.finditer(masked, lo, hi):
             if m.group(2) not in lfields:
                 continue
@@ -3305,6 +3314,22 @@ def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, b
             for m in re.compile(r"\bstruct\s+" + re.escape(tag) + r"\b(\s*;)?").finditer(masked, lo, hi):
                 tag_edits.append((m.start(), m.end(), "" if m.group(1) else lnames[0] if lnames else f"struct {tag}"))   # T7.c11: a tag-only definition
     return acc, tag_edits, refusals
+
+
+HF_EXTERN = re.compile(r"\bextern\b(?:[^;{}]|\{[^{}]*\})*;")
+
+
+def _extern_names(masked, spans):
+    """(T7.c11) the object names the `extern` statements in the spans declare (any type; one level of braces for an inline struct)."""
+    out = set()
+    for lo, hi in spans:
+        for m in HF_EXTERN.finditer(masked, lo, hi):
+            s = re.sub(r"\{[^{}]*\}", " ", m.group(0)[6:-1])
+            for p in sl._split_top(s, ","):
+                dm = re.search(r"([A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*$", HF_ASM_LABEL.sub("", p.split("=", 1)[0]))
+                if dm:
+                    out.add(dm.group(1))
+    return out
 
 
 def _complement(spans, n):
@@ -3823,7 +3848,10 @@ def _fold_accesses(d, F, aliases, cache, why):
     for rel in files:
         _, msk, _, fns, glob, top = _fold_view(rel, cache)
         g_ = dict(G)
-        g_.update(_typed_vars(msk, top, trx, params=False))
+        own = _typed_vars(msk, top, trx, params=False)
+        for n in _extern_names(msk, top) & set(G) - set(own):
+            g_.pop(n, None)                                       # T7.c11: the file's own extern of another type shadows a header's
+        g_.update(own)
         acc, _, ref = _hf_file_edits(msk, fns, glob, lnames, d["tag"], {x["name"] for x in F if x["name"]}, lself, False, g_override=g_)
         why += [f"{rel}: {r}" for r in ref]
         if acc:
@@ -4671,6 +4699,21 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("fold sign conflict: the sign union compiles under cc1", rc == 0, err)
+        # T7.c11: the walker types `(*(T **)&x)` (a cast of an address), and a block-scope extern of another type shadows a global
+        root = _fold_fixture("shadow", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 f0; u16 f4; u16 f6; } Fx_M;\n",
+                             {"src/a.c": '#include "struct_types.h"\nextern s32 D_p;\n'
+                                         's32 fd(Fx_M *m) { return m->f4 + (*(Fx_T **)&D_p)->f4; }\n'
+                                         's32 fo(void) { extern struct { s32 x; s16 f4; } D_g[]; return D_g[0].f4; }\n',
+                              "src/b.c": '#include "struct_types.h"\nextern Fx_T D_g[];\ns32 fq(void) { return D_g[1].f4; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "link", "C5 body: src/a.c:3", "-")])
+        P = fold_plan(["Fx_M"])
+        a_ = P["texts"].get("src/a.c", "")
+        ok("fold walker: `(*(Fx_T **)&D_p)->f4` respelled; a block-scope extern of another type keeps its access; b.c's global respelled",
+           not P["refusals"] and "return m->f4.u + (*(Fx_T **)&D_p)->f4.s; }" in a_ and "return D_g[0].f4; }" in a_
+           and "return D_g[1].f4.s; }" in P["texts"].get("src/b.c", ""), f"{P['refusals']} {a_}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold walker: the shadowing TU compiles", rc == 0, err)
         # T7.c11: a tag-only member (no typedef names; IndexError in _hf_file_edits before)
         _fold_fixture("tagonly", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\nstruct Fx_M { s32 a; s16 b; s16 c; };\n",
                       {"src/a.c": '#include "struct_types.h"\ns32 fi(struct Fx_M *m) { return m->b; }\n'},
