@@ -1057,3 +1057,4 @@ C0604 | Place a global by ELF address: bss symbols lie past the image's file byt
 C0605 | Cross-type struct evidence in drafted matched C lives in casts and untyped slots, not typed flows | structs,merge,evidence,census,views,fold | 2026-11-13 | 3.45/T2 | 3.45 T2.c1
 C0606 | A lexical binder must let a function's own parameters shadow file-scope bindings | lexer,binding,scope,census,structs,trap | 2026-11-13 | 3.45/T2 | 3.45 T2.c2
 C0607 | Hub guards for struct-merge evidence: key slots by routine copies, test types, route body links | structs,merge,hub,evidence,h_exact,census | 2026-11-13 | 3.45/T2 | 3.45 T2.c3-c4
+C0608 | Width evidence for cast-only struct types comes from their cast-view accesses | structs,widths,views,merge,evidence,census | 2026-11-13 | 3.45/T2 | 3.45 T2.c5
