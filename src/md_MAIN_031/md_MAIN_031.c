@@ -29,13 +29,13 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
     base = ((Unkstruct_800CAE74 *)arg1)->unkC;
-    ((Unkstruct_800CAE74 *)arg1)->unk2 = ((Unkstruct_800CAE74_2 *)arg0)->unk2;
-    ((Unkstruct_800CAE74 *)arg1)->unk4 = ((Unkstruct_800CAE74_2 *)arg0)->unk4;
-    ((Unkstruct_800CAE74 *)arg1)->unk6 = ((Unkstruct_800CAE74_2 *)arg0)->unk6;
-    ((Unkstruct_800CAE74 *)arg1)->unk8 = ((Unkstruct_800CAE74_2 *)arg0)->unk8;
-    ((Unkstruct_800CAE74 *)arg1)->unkA = ((Unkstruct_800CAE74_2 *)arg0)->unkA;
+    ((Unkstruct_800CAE74 *)arg1)->unk2 = ((Unkstruct_800CAE74 *)arg0)->unk2;
+    ((Unkstruct_800CAE74 *)arg1)->unk4 = ((Unkstruct_800CAE74 *)arg0)->unk4;
+    ((Unkstruct_800CAE74 *)arg1)->unk6 = ((Unkstruct_800CAE74 *)arg0)->unk6;
+    ((Unkstruct_800CAE74 *)arg1)->unk8 = ((Unkstruct_800CAE74 *)arg0)->unk8;
+    ((Unkstruct_800CAE74 *)arg1)->unkA = ((Unkstruct_800CAE74 *)arg0)->unkA;
     p = base;
-    s = ((Unkstruct_800CAE74_2 *)arg0)->unkC;
+    s = ((Unkstruct_800CAE74 *)arg0)->unkC;
     do {
         ((Unkstruct_800CAE74_3 *)p)->unk0 = *(u8 *)s;
         p += 1;
