@@ -1499,8 +1499,11 @@ typedef struct {
     u8 field_0x37;
 } Blk80078E78;
 typedef struct {
-    s32 w[9];
-} Blob36;
+    /* 0x0000 */ union {
+        struct { s32 w[9]; } v0;
+        struct { u8 pad0[0x3]; u8 unk3; u8 pad4[0x4]; s32 unk8; s32 unkC; u16 unk10; u16 unk12; u16 unk14; u16 unk16; void (*unk18)(void); u8 pad1C[0x4]; void (*unk20)(void); } v1;
+    } unk0;
+} Blob36; /* size = 0x24 */
 typedef V COL_8001EFE0;
 typedef Col4_8017F8BC CVecDA34;
 typedef struct { s32 stat; u32 val; } CardSlot;
@@ -2726,11 +2729,6 @@ typedef struct {
     /* 0x0A */ u8  unk0A;
     /* 0x0B */ u8  unk0B;
 } B12;
-typedef struct {                 /* table entry (ent), D_80078E50-shaped */
-    u8   _0[3]; u8 f3; u8 _4[4]; s32 f8; s32 fC;
-    u16  f10, f12, f14, f16;
-    void (*f18)(void); u8 _1C[4]; void (*f20)(void);
-} ENT;
 typedef struct {              /* base 0x80064D49, stride 0x0C */
     u8  unk00;
     u8  pad[11];

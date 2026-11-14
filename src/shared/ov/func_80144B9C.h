@@ -66,7 +66,7 @@ extern u8 guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_Playe
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_800AE6A8[];
 extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
-extern ENT D_80078E50;
+extern Blob36 D_80078E50;
 extern u8 guess_g_PlaceholderText[]; // Names ledger: config/names.tsv guess_g_PlaceholderText
 extern u8 D_80126DB0[];
 extern u8 D_801151F0[];
@@ -106,7 +106,7 @@ extern void func_800D02C0(s32 a0);
 extern void func_80011E84(s32 a0);
 extern void func_8013D3D4(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_8005C324(void *a0, ENT *a1, s32 a2);
+extern void func_8005C324(void *a0, Blob36 *a1, s32 a2);
 extern s32 func_800CF854(s32 arg0);
 extern void func_8001C14C(void);
 extern void func_8012A110(void);
@@ -118,7 +118,7 @@ void func_80144B9C(void) {
     P18 *p18 = (P18 *)D_800AE6A8;
     P1C *p1C = (P1C *)guess_g_MainCamera;
     HDR *hdr;
-    ENT *ent;
+    Blob36 *ent;
     s32 tbl;
     s16 i;
     void (*calltmp)(void);
@@ -143,13 +143,13 @@ void func_80144B9C(void) {
     if (p18->f16 == 0xFF) {
         ent = &D_80078E50;
     } else {
-        ent = (ENT *)*(s32 *)(p18->f16 * 4 + tbl);
+        ent = (Blob36 *)*(s32 *)(p18->f16 * 4 + tbl);
     }
-    p18->fC = ent->f8;
+    p18->fC = ent->unk0.v1.unk8;
     p18->f14 = 0;
     p10->f4D = 0;
-    if (ent->fC != (s32)guess_g_PlaceholderText) {
-        p10->f198 = ent->fC;
+    if (ent->unk0.v1.unkC != (s32)guess_g_PlaceholderText) {
+        p10->f198 = ent->unk0.v1.unkC;
     }
     if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x1000) {
         p10->f6 = p10->f88 = p10->f90 = p18->f20;
@@ -158,10 +158,10 @@ void func_80144B9C(void) {
         p10->f20->unk12 = p18->f26;
         p18->f18 = 0;
     } else {
-        p10->f6 = p10->f88 = p10->f90 = ent->f10;
-        p10->fA = p10->f8A = p10->f92 = ent->f12;
-        p10->fE = p10->f8C = p10->f94 = ent->f14;
-        p10->f20->unk12 = ent->f16;
+        p10->f6 = p10->f88 = p10->f90 = ent->unk0.v1.unk10;
+        p10->fA = p10->f8A = p10->f92 = ent->unk0.v1.unk12;
+        p10->fE = p10->f8C = p10->f94 = ent->unk0.v1.unk14;
+        p10->f20->unk12 = ent->unk0.v1.unk16;
     }
     p10->f154 = p10->f15C = p10->f6;
     p10->f156 = p10->f15E = p10->fA;
@@ -170,18 +170,18 @@ void func_80144B9C(void) {
     D_80126DB6 = p10->f20->unk12;
     if (*(s16 *)(p + 0xA3DA) == 0x1000 &&
         (*(s16 *)(p + 0xA3DC) == 0x1000 || *(s16 *)(p + 0xA3DC) == 0x2000) && flag == 0) {
-        ent->f18();
+        ent->unk0.v1.unk18();
         func_8012A1BC();
     } else {
         if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x3000) {
-            p1C->fA0 = ent->f3;
+            p1C->fA0 = ent->unk0.v1.unk3;
         } else {
             p1C->fA0 = 0;
         }
-        ent->f18();
+        ent->unk0.v1.unk18();
     }
     if (*(s16 *)(p + 0xA3D8) == 0x3069) {
-        p1C->fA0 = ent->f3;
+        p1C->fA0 = ent->unk0.v1.unk3;
     }
     guess_g_ActiveCamera = (s32)p1C;
     func_8002850C(hdr->f0, hdr->f2, hdr->f4);
@@ -254,7 +254,7 @@ void func_80144B9C(void) {
     D_80127520 = hdr->fC4;
     D_801151D8 = 0;
     D_8011DB28 = 0;
-    calltmp = ent->f20;
+    calltmp = ent->unk0.v1.unk20;
     calltmp();
     func_8013D3D4(hdr->fA0, hdr->fA4);
     guess_RequestSound(0x1E, 0);
