@@ -352,8 +352,8 @@
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_80135A4C_e0129286","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_8017CF48","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_8017DAFC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/bfm/u8[8]","comment":null}]}
-{"k":"type","kind":"typedef","path":"/bfm/Blk8_8017DC54","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blk8_8017DCF4","base":"/bfm/Blob8_8018A47C_8017DEA4"}
+{"k":"type","kind":"typedef","path":"/bfm/Blk8_8017DC54","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blk8_8017DCF4","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_8017E6A4","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/bfm/u8[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_8017EBCC","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_8017FF80","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/char[8]","comment":null}]}
@@ -382,7 +382,10 @@
 {"k":"type","kind":"struct","path":"/bfm/Blk8_801859DC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_80185E28","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_80186594","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"unk0","type":"/bfm/Blk8_801867AC__unk0","comment":null}]}
+{"k":"type","kind":"union","path":"/bfm/Blk8_801867AC__unk0","size":8,"packed":false,"fields":[{"len":8,"name":"v0","type":"/bfm/Blk8_801867AC__unk0__v0","comment":null},{"len":6,"name":"v1","type":"/bfm/Blk8_801867AC__unk0__v1","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC__unk0__v0","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
+{"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC__unk0__v1","size":6,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_80186F78","base":"/bfm/Blk8_80186594"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_801870AC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_80187190","base":"/bfm/Blk8_801867AC"}
@@ -606,7 +609,7 @@
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC05_017_80135A4C","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC05_018_80133CD4","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC05_018_80135A4C","base":"/bfm/Blk8_80133CD4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blk8_SC05_018_8017FC74","base":"/bfm/Blob8_8018A47C_8017DEA4"}
+{"k":"type","kind":"typedef","path":"/bfm/Blk8_SC05_018_8017FC74","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC06_000_80133CD4","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC06_000_80135A4C","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC06_006_80133CD4","base":"/bfm/Blk8_80133CD4"}
@@ -653,7 +656,6 @@
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC07_006_80135A4C","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC07_007_80133CD4","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC07_007_80135A4C","base":"/bfm/Blk8_80133CD4"}
-{"k":"type","kind":"struct","path":"/bfm/Blk8_SC07_007_8017D288","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/s8[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_SC07_007_8017D684","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/s8[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC07_008_80133CD4","base":"/bfm/Blk8_80133CD4"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_SC07_008_80135A4C","base":"/bfm/Blk8_80133CD4"}
@@ -679,13 +681,12 @@
 {"k":"type","kind":"struct","path":"/bfm/Blob8_801876B0","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blob8_80189B30","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blob8_8018A47C","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D2B0","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D2F8","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D96C","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"struct","path":"/bfm/Blob8_8018A47C_8017DEA4","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017EC44","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017EF60","base":"/bfm/Blob8_8018A47C_8017DEA4"}
-{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_80180E60","base":"/bfm/Blob8_8018A47C_8017DEA4"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D2B0","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D2F8","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017D96C","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017EC44","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_8017EF60","base":"/bfm/Blk8_801867AC"}
+{"k":"type","kind":"typedef","path":"/bfm/Blob8_8018A47C_80180E60","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"struct","path":"/bfm/Blob8_8018A4C4","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blob8_8018B058","base":"/bfm/Blob8_80189B30"}
 {"k":"type","kind":"struct","path":"/bfm/Block32","size":32,"packed":false,"fields":[{"off":0,"len":32,"name":"w","type":"/bfm/s32[8]","comment":null}]}
@@ -3752,7 +3753,6 @@
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EDEC","size":196,"packed":false,"fields":[{"off":0,"len":194,"name":"pad0","type":"/bfm/u8[194]","comment":null},{"off":194,"len":1,"name":"unkC2","type":"/bfm/u8","comment":null},{"off":195,"len":1,"name":"padC3","type":"/bfm/u8[1]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EDF4","size":96,"packed":false,"fields":[{"off":0,"len":28,"name":"pad0","type":"/bfm/u8[28]","comment":null},{"off":28,"len":4,"name":"unk1C","type":"/bfm/s32","comment":null},{"off":32,"len":4,"name":"unk20","type":"/bfm/s32","comment":null},{"off":36,"len":16,"name":"pad24","type":"/bfm/u8[16]","comment":null},{"off":52,"len":2,"name":"unk34","type":"/bfm/u16","comment":null},{"off":54,"len":38,"name":"pad36","type":"/bfm/u8[38]","comment":null},{"off":92,"len":2,"name":"unk5C","type":"/bfm/u16","comment":null},{"off":94,"len":2,"name":"pad5E","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EDF4_2","size":96,"packed":false,"fields":[{"off":0,"len":94,"name":"pad0","type":"/bfm/u8[94]","comment":null},{"off":94,"len":2,"name":"unk5E","type":"/bfm/u16","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EDF8","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"pad6","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EE0C","size":152,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":28,"name":"pad4","type":"/bfm/u8[28]","comment":null},{"off":32,"len":4,"name":"unk20","type":"/bfm/s32","comment":null},{"off":36,"len":76,"name":"pad24","type":"/bfm/u8[76]","comment":null},{"off":112,"len":2,"name":"unk70","type":"/bfm/u16","comment":null},{"off":114,"len":34,"name":"pad72","type":"/bfm/u8[34]","comment":null},{"off":148,"len":4,"name":"unk94","type":"/bfm/s32","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EE0C_2","size":48,"packed":false,"fields":[{"off":0,"len":4,"name":"pad0","type":"/bfm/u8[4]","comment":null},{"off":4,"len":4,"name":"unk4","type":"/bfm/u32","comment":null},{"off":8,"len":16,"name":"pad8","type":"/bfm/u8[16]","comment":null},{"off":24,"len":2,"name":"unk18","type":"/bfm/s16","comment":null},{"off":26,"len":2,"name":"unk1A","type":"/bfm/s16","comment":null},{"off":28,"len":16,"name":"pad1C","type":"/bfm/u8[16]","comment":null},{"off":44,"len":2,"name":"unk2C","type":"/bfm/u16","comment":null},{"off":46,"len":2,"name":"pad2E","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8017EE10","size":56,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/u16","comment":null},{"off":4,"len":24,"name":"pad4","type":"/bfm/u8[24]","comment":null},{"off":28,"len":4,"name":"unk1C","type":"/bfm/s32","comment":null},{"off":32,"len":20,"name":"pad20","type":"/bfm/u8[20]","comment":null},{"off":52,"len":2,"name":"unk34","type":"/bfm/u16","comment":null},{"off":54,"len":2,"name":"pad36","type":"/bfm/u8[2]","comment":null}]}
@@ -5004,7 +5004,6 @@
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184268","size":56,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":48,"name":"pad4","type":"/bfm/u8[48]","comment":null},{"off":52,"len":2,"name":"unk34","type":"/bfm/s16","comment":null},{"off":54,"len":2,"name":"pad36","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184298","size":56,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":48,"name":"pad4","type":"/bfm/u8[48]","comment":null},{"off":52,"len":2,"name":"unk34","type":"/bfm/s16","comment":null},{"off":54,"len":2,"name":"pad36","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_801842C8","size":56,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":48,"name":"pad4","type":"/bfm/u8[48]","comment":null},{"off":52,"len":2,"name":"unk34","type":"/bfm/s16","comment":null},{"off":54,"len":2,"name":"pad36","type":"/bfm/u8[2]","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/Unkstruct_801842DC","size":84,"packed":false,"fields":[{"off":0,"len":60,"name":"pad0","type":"/bfm/u8[60]","comment":null},{"off":60,"len":4,"name":"unk3C","type":"/bfm/s32","comment":null},{"off":64,"len":4,"name":"unk40","type":"/bfm/s32","comment":null},{"off":68,"len":4,"name":"unk44","type":"/bfm/s32","comment":null},{"off":72,"len":4,"name":"unk48","type":"/bfm/s32","comment":null},{"off":76,"len":4,"name":"unk4C","type":"/bfm/s32","comment":null},{"off":80,"len":4,"name":"unk50","type":"/bfm/s32","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184328","size":256,"packed":false,"fields":[{"off":0,"len":254,"name":"pad0","type":"/bfm/u8[254]","comment":null},{"off":254,"len":2,"name":"unkFE","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184334","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"pad6","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184334_2","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/s16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/s16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"pad6","type":"/bfm/u8[2]","comment":null}]}
