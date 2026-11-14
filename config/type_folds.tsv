@@ -2225,7 +2225,7 @@ Unkstruct_1a96ebe1	define	Unkstruct_800226C0_2	owner:func_800226C0	no E1/E2 evid
 Unkstruct_1b093dbd	define	Unkstruct_801E2CD0	owner:func_801E2CD0	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
 Unkstruct_1b66d837	define	Unkstruct_80189FDC	owner:func_80189FDC	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
 Unkstruct_1b737137	define	Unkstruct_80181168	owner:func_80181168	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
-Unkstruct_1bc86579	define	Unkstruct_80186668_2	owner:func_80186668	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
+Unkstruct_1bc86579	define	Unkstruct_8017E654_2	owner:func_80186668	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
 Unkstruct_1d15ae50	residual	TYPE-CANON-TWIN	layout-twin:POLY_G3	the flat def would form a tier-1 dup class with canonical POLY_G3; no fold (G62: layout identity is no entity evidence)
 Unkstruct_1e08eab3	define	Unkstruct_801EA8C0	owner:func_801EA8C0	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
 Unkstruct_1f601ef7	define	Unkstruct_8017EA1C	owner:func_8017EA1C	no E1/E2 evidence; flat layout of the struct map record; 8 TNC sites in 1 bodies
