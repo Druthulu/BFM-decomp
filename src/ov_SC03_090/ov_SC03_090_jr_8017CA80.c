@@ -5491,10 +5491,10 @@ void func_8018440C(s32 a0) {
 
 
 void func_8018455C(void *a0) {
-    s32 v1 = ((Unkstruct_8018455C *)a0)->unkCC;
-    ((Unkstruct_8018455C *)a0)->unk2 = 9;
-    ((Unkstruct_8018455C *)a0)->unk1C = 0x20;
-    ((Unkstruct_8018455C *)a0)->unk34 = 0;
+    s32 v1 = ((Unkstruct_801823F0 *)a0)->unkCC;
+    ((Unkstruct_801823F0 *)a0)->unk2 = 9;
+    ((Unkstruct_801823F0 *)a0)->unk1C = 0x20;
+    ((Unkstruct_801823F0 *)a0)->unk34 = 0;
     if (v1 != 0) {
         *(s16 *)((char *)v1 + 0xFC) = 1;
     }

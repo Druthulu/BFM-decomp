@@ -5512,10 +5512,10 @@ void func_80184730(s32 a0) {
 void func_80184880(s32 arg0) {
     s32 v1;
 
-    v1 = ((Unkstruct_80184880 *)arg0)->unkCC;
-    ((Unkstruct_80184880 *)arg0)->unk2 = 9;
-    ((Unkstruct_80184880 *)arg0)->unk1C = 0x20;
-    ((Unkstruct_80184880 *)arg0)->unk34 = 0;
+    v1 = ((Unkstruct_801823F0 *)arg0)->unkCC;
+    ((Unkstruct_801823F0 *)arg0)->unk2 = 9;
+    ((Unkstruct_801823F0 *)arg0)->unk1C = 0x20;
+    ((Unkstruct_801823F0 *)arg0)->unk34 = 0;
     if (v1 != 0) {
         *(s16 *)(v1 + 0xFC) = 1;
     }
