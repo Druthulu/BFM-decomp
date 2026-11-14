@@ -28,6 +28,7 @@ TSV = REPO / "docs" / "readability-progress.tsv"
 DOC = REPO / "docs" / "readability.md"
 SVG = REPO / "docs" / "readability-names.svg"
 SIG_SVG = REPO / "docs" / "readability-signatures.svg"
+CONS_SVG = REPO / "docs" / "readability-consolidation.svg"
 CAST = re.compile(r"\*\s*\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\*+\s*\)\s*\(")
 MEMBER = re.compile(r"->[A-Za-z_]\w*|\.[A-Za-z_]\w*\s*=")
 
@@ -106,6 +107,8 @@ def counts():
     out["return_lie_sites"] = rl["sites"] if rl else ""
     out.update(names_counts("HEAD"))
     out.update(sig_counts())
+    out.update(cons_counts())
+    out.update(cast_counts())
     return out
 
 
@@ -226,6 +229,60 @@ def sig_counts():
     return out
 
 
+# P3.45 T5: consolidation — the placeholder types of config/struct_dispositions.tsv by outcome (struct_twins --dispositions --check's
+# `consolidation:` line; the 7 parts sum to the placeholders), and the cast views (struct_twins --sources --check's first line, plus its
+# optional `ledgered remainder:` line, absent -> 0). Kept-cast K is reported apart, not in cast_total; pending = total - reinterp - wall.
+CONS_PARTS = ["cons_fold_link", "cons_fold_twin", "cons_fold_value", "cons_absorbed", "cons_survivor", "cons_wall", "cons_pending"]
+CONS_COLS = ["cons_placeholders"] + CONS_PARTS
+CAST_COLS = ["cast_total", "cast_C", "cast_P", "cast_I", "cast_X", "cast_M", "cast_kept", "cast_reinterp", "cast_wall", "cast_pending"]
+_T1_CONS = (4112, 0, 0, 0, 0, 0, 0, 4112)
+# --backfill-cons: the P3.45 tasks before these columns existed, from their task summaries; values by column name, others blank
+CONS_BACKFILL = [
+    # tasks/T1.md: 4,112 placeholders, all undisposed; type_census --check-casts raw P/I/X/M
+    ("P3.45 T1: struct inventory (from summary)", "5d8fc366ba",
+     dict(zip(CONS_COLS, _T1_CONS), cast_P=112219, cast_I=46489, cast_X=10309, cast_M=3917)),
+    # tasks/T2.md: 202 folds are proposals, unapplied -> still pending; no cast census
+    ("P3.45 T2: merge proposals (from summary)", "596f3f8881", dict(zip(CONS_COLS, _T1_CONS))),
+    # tasks/T14.md: struct_twins --sources --check line 1; no ledgered remainder yet
+    ("P3.45 T14: source census (from summary)", "d6d3190602",
+     dict(zip(CONS_COLS, _T1_CONS), cast_total=482681, cast_C=309741, cast_P=112224, cast_I=46489, cast_X=10309, cast_M=3918,
+          cast_kept=33608, cast_reinterp=0, cast_wall=0, cast_pending=482681)),
+]
+
+
+def _struct_twins(*args):
+    print(f"readability_progress: running struct_twins.py {' '.join(args)}", file=sys.stderr)
+    p = subprocess.run([sys.executable, str(REPO / "tools" / "struct_twins.py"), *args], cwd=REPO, capture_output=True, text=True)
+    return p.stdout
+
+
+def cons_counts():
+    """P3.45 T5: the consolidation columns from struct_twins --dispositions --check (rc 1 accepted; the line is printed either way)."""
+    m = re.search(r"^  consolidation: placeholders (\d+) · folded link (\d+) · twin (\d+) · value (\d+) · absorbed (\d+) · "
+                  r"survivors (\d+) · walls (\d+) · pending (\d+)$", _struct_twins("--dispositions", "--check"), re.M)
+    if not m:
+        sys.exit("readability_progress: struct_twins --dispositions --check printed no `consolidation:` line")
+    out = dict(zip(CONS_COLS, map(int, m.groups())))
+    if sum(out[k] for k in CONS_PARTS) != out["cons_placeholders"]:
+        sys.exit(f"readability_progress: consolidation parts sum {sum(out[k] for k in CONS_PARTS)} != placeholders {out['cons_placeholders']}")
+    return out
+
+
+def cast_counts():
+    """P3.45 T5: the cast-view columns from struct_twins --sources --check (~270 s): line 1's total, C/P/I/X/M and K; the optional
+    `ledgered remainder: reinterpretation <n> · wall <n>` line (T8), absent -> 0."""
+    txt = _struct_twins("--sources", "--check")
+    m = re.search(r"^struct_twins --sources: (\d+) cast sites \(C (\d+) · P (\d+) · I (\d+) · X (\d+) · M (\d+)\) · \d+ sources · "
+                  r"K \(kept-cast macro\) (\d+) apart", txt, re.M)
+    if not m:
+        sys.exit("readability_progress: struct_twins --sources --check printed no `struct_twins --sources:` line")
+    out = dict(zip(CAST_COLS[:7], map(int, m.groups())))
+    lr = re.search(r"^\s*ledgered remainder: reinterpretation (\d+) · wall (\d+)", txt, re.M)
+    out["cast_reinterp"], out["cast_wall"] = (int(lr.group(1)), int(lr.group(2))) if lr else (0, 0)
+    out["cast_pending"] = out["cast_total"] - out["cast_reinterp"] - out["cast_wall"]
+    return out
+
+
 COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr_empty", "narrow", "pinned_rows", "pinned_bodies",
         "raw_casts", "struct_members",
         # P37 columns (appended 2026-09-12; older rows carry blanks — the renderer reads by name, never by position)
@@ -240,7 +297,9 @@ COLS = ["date", "label", "commit", "definitions", "narrow_decls", "callees", "kr
         # P3.44 T13 (2026-11-13): names — units of docs/leverage.tsv by tier, functions then data (blank where leverage.tsv is absent or stale)
         *NAMES_COLS,
         # P3.44 T14 (2026-11-13): signatures — sig_evidence --check unledgered (total, per rule) and the three ledgers' rows
-        *SIG_COLS]
+        *SIG_COLS,
+        # P3.45 T5 (2026-11-14): consolidation — placeholder types by ledger outcome, then the cast views by source census
+        *CONS_COLS, *CAST_COLS]
 HEAD ="\t".join(COLS) + "\n"
 
 
@@ -331,6 +390,38 @@ def render_sig_svg(rows):
     _svg_lines(SIG_SVG, "BFM-decomp — call signatures vs the original bytes (from docs/readability-progress.tsv)", panels)
 
 
+def render_cons_svg(rows):
+    """P3.45 T5: the consolidation graph — placeholder types by outcome, then the cast views (rows with a cast_total only)."""
+    trows = [r for r in rows if r.get("cons_placeholders")]
+    if not trows:
+        return
+    xl = lambda rs: [f'{r["date"]} {r["label"].split(":")[0]}' for r in rs]
+    n = lambda rs, *cs: [sum(int(r[c]) for c in cs) for r in rs]
+    last = trows[-1]
+    panels = [{"title": "Placeholder struct types by outcome",
+               "subtitle": f'{int(last["cons_pending"]):,} of {int(last["cons_placeholders"]):,} placeholder types pending at '
+                           f'{last["commit"][:9]} (config/struct_dispositions.tsv; folded = applied link + twin + value)',
+               "xlabels": xl(trows),
+               "series": [("pending", "#d62728", n(trows, "cons_pending")),
+                          ("folded", "#2ca02c", n(trows, "cons_fold_link", "cons_fold_twin", "cons_fold_value")),
+                          ("absorbed", "#1f77b4", n(trows, "cons_absorbed")),
+                          ("survivors", "#9467bd", n(trows, "cons_survivor")),
+                          ("walls", "#8c564b", n(trows, "cons_wall"))]}]
+    crows = [r for r in rows if r.get("cast_total")]
+    if crows:
+        cl = crows[-1]
+        panels.append({"title": "Cast views by source census",
+                       "subtitle": f'{int(cl["cast_pending"]):,} of {int(cl["cast_total"]):,} cast sites pending at {cl["commit"][:9]} '
+                                   f'(struct_twins --sources; kept-cast K apart, not in the total)',
+                       "xlabels": xl(crows),
+                       "series": [("pending", "#d62728", n(crows, "cast_pending")),
+                                  ("C (typed casts)", "#1f77b4", n(crows, "cast_C")),
+                                  ("raw P+I+X+M", "#ff7f0e", n(crows, "cast_P", "cast_I", "cast_X", "cast_M")),
+                                  ("kept-cast K", "#7f7f7f", n(crows, "cast_kept")),
+                                  ("reinterpretation + wall", "#2ca02c", n(crows, "cast_reinterp", "cast_wall"))]})
+    _svg_lines(CONS_SVG, "BFM-decomp — struct consolidation and cast views (from docs/readability-progress.tsv)", panels)
+
+
 def render():
     rows = _rows()
     g = lambda r, k: r.get(k, "") or "—"
@@ -404,10 +495,49 @@ def render():
             "counts come from those tasks' summaries, not from a census run; their ledger counts are read at their commits.",
             "To snapshot after a clean R22 (`make clean` empties `build/`), regenerate the signature census first:",
             "`tools/sig_evidence.py -j 16` (about 1 min), then `--snapshot` (P3.44-1).",
+            "",
+            "## Consolidation",
+            "",
+            "![Struct consolidation and cast views over time](readability-consolidation.svg)",
+            "",
+            "| date | label | commit | placeholders | folded link | folded twin | folded value | absorbed | survivors | walls | pending "
+            "| cast sites | C | P | I | X | M | kept-cast K | reinterpretation | wall | cast pending |",
+            "|---|---|---|" + "---:|" * (len(CONS_COLS) + len(CAST_COLS))]
+    for r in rows:
+        if r.get("cons_placeholders"):
+            out.append(f"| {g(r,'date')} | {g(r,'label')} | `{r.get('commit', '')[:9]}` | "
+                       + " | ".join(g(r, c) for c in CONS_COLS + CAST_COLS) + " |")
+    out += ["",
+            "**How to read the consolidation columns.** The first eight count the *placeholder* struct and union types (types",
+            "the decompiler invented, not PsyQ's and not already ledgered: `tools/struct_twins.py --inventory`) through their",
+            "rows in `config/struct_dispositions.tsv`, as `struct_twins.py --dispositions --check` prints them. *Placeholders* is",
+            "the denominator (4,112 at P3.45 T1); the seven parts after it always sum to it. *Folded link* counts types folded",
+            "into another by an applied fold of class global, pointer, body or link (a shared object, pointer flow or body view",
+            "proved them one type, P3.45 T2's evidence); *folded twin* counts applied folds of exact layout twins (3+ fields) and",
+            "*folded value* applied folds of a shared value shape onto a PsyQ type. A fold is applied once its ledger reason ends",
+            "` applied:<commit>`; a proposed fold is still pending. *Absorbed* counts types applied into their real parent (variant",
+            "data as an overlay or union inside it); *survivors* the real root types kept, each with its root object cited;",
+            "*walls* the refusals where the bytes change after a second attempt up the lever ladder, each with its evidence.",
+            "*Pending* is everything else: undisposed, apart, no-evidence, and unapplied folds and absorbs.",
+            "",
+            "The cast columns come from the source census, `struct_twins.py --sources --check`. *Cast sites* is its",
+            "denominator: every cast site in the matched C, by form: *C* the struct-view casts `((T *)e)->f`, and the raw",
+            "dereferences *P* `*(T *)(base + k)`, *I* `*(T *)ident`, *X* `((T *)e)[i]` and *M* `M2C_FIELD(base, T *, k)`",
+            "(the type census's four forms, `tools/type_census.py`).",
+            "*Kept-cast K* counts sites inside the kept-cast macros; they are casts kept on purpose and are reported apart, not",
+            "in *cast sites*. *Reinterpretation* and *wall* are the sites the ledger explains (a real reinterpretation of the",
+            "same memory, or a wall with evidence), read from the census's `ledgered remainder:` line; until that line exists",
+            "they are 0. *Cast pending* = cast sites - reinterpretation - wall. A raw site covered by a `RESIDUAL(<cause>)` is",
+            "pending here, not ledgered.",
+            "",
+            "The rows labeled *(from summary)* come from the P3.45 task summaries, not a census run at that commit: T1 and T2",
+            "carry 4,112 placeholders all pending (T2's 202 folds were proposals, not yet applied), T1's raw P/I/X/M are",
+            "`type_census.py --check-casts`, T14's cast columns are its source census; a blank cell was not measured.",
             ""]
     DOC.write_text("\n".join(out) + "\n")
     render_names_svg(rows)
     render_sig_svg(rows)
+    render_cons_svg(rows)
 
 
 def main():
@@ -419,6 +549,8 @@ def main():
     ap.add_argument("--backfill-sig", action="store_true",
                     help="insert the P3.44 T4-T8 signature rows (from task summaries) before the P3.44 T10 row and fill its "
                          "signature columns; ledger columns counted at each commit; idempotent; renders")
+    ap.add_argument("--backfill-cons", action="store_true",
+                    help="append the P3.45 T1, T2, T14 consolidation rows (from task summaries) after the last row; idempotent; renders")
     a = ap.parse_args()
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip()
     if a.backfill_sig:
@@ -449,6 +581,23 @@ def main():
         TSV.write_text(HEAD + "".join(l + "\n" for l in lines))
         render()
         print(f"readability_progress --backfill-sig: {len(ins)} row(s) inserted, {SIG_T10!r} filled")
+        return 0
+    if a.backfill_cons:
+        lines = [l for l in TSV.read_text().splitlines()[1:] if l.strip()]
+        labels = {l.split("\t")[1] for l in lines}
+        ins = 0
+        for label, short, vals in CONS_BACKFILL:
+            if label in labels:
+                continue
+            full = _git("rev-parse", short).stdout.strip()
+            date = _git("log", "-1", "--format=%cd", "--date=short", full).stdout.strip()
+            r = dict(vals, date=date, label=label, commit=full)
+            lines.append("\t".join(str(r.get(k, "")) for k in COLS))
+            ins += 1
+            print(f"readability_progress: inserted {label!r} at {full[:9]}", file=sys.stderr)
+        TSV.write_text(HEAD + "".join(l + "\n" for l in lines))
+        render()
+        print(f"readability_progress --backfill-cons: {ins} row(s) inserted")
         return 0
     if a.backfill_names:
         lines = TSV.read_text().splitlines()

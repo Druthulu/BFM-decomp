@@ -50,6 +50,12 @@ The signatures graph ([`docs/readability-signatures.svg`](docs/readability-signa
 call-signature disagreements with the original bytes that no ledger row accounts for, by rule, and the rows of the three
 signature ledgers; how to read it is in [`docs/readability.md`](docs/readability.md).
 
+![Struct consolidation and cast views over time](docs/readability-consolidation.svg)
+
+The consolidation graph ([`docs/readability-consolidation.svg`](docs/readability-consolidation.svg)) comes from the same rows:
+the 4,112 placeholder struct types by outcome (pending, folded, absorbed, survivors, walls) and the cast sites of the source
+census by form, with the kept-cast sites apart; how to read it is in [`docs/readability.md`](docs/readability.md).
+
 Two things in those binaries are deliberately **not** our C, and are stated as such:
 
 - **1,256 functions of the main executable are Sony's PsyQ library code** (libcd, libgs, libgte, libgpu, libspu/libsnd,

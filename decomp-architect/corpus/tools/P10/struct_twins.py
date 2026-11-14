@@ -427,6 +427,18 @@ def dispositions(ledger, check):
         print(f"struct_twins --dispositions --check: placeholders {len(ph)} · undisposed {cnt['undisposed']} · rows {len(have) + len(dup)}"
               f" · " + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]))
         print("  by class: " + (" · ".join(f"{d}/{c} {n}" for (d, c), n in sorted(cc.items())) or "-"))
+        # consolidation (P3.45 T5): an applied fold by class (global|pointer|body|link -> link, twin, value), an applied absorb,
+        # survivor, wall; everything else (undisposed, apart, no-evidence, unapplied fold/absorb) pending. Over placeholder rows.
+        cons = collections.Counter()
+        for k in ph:
+            e = have.get(k) or {}
+            d, app = e.get("disposition"), bool(APPLIED_RX.search(e.get("reason") or ""))
+            c = e.get("class")
+            cons["link" if d == "fold" and app and c in ("global", "pointer", "body", "link") else c if d == "fold" and app
+                 and c in ("twin", "value") else "absorbed" if d == "absorb" and app else "survivors" if d == "survivor"
+                 else "walls" if d == "wall" else "pending"] += 1
+        print(f"  consolidation: placeholders {len(ph)} · folded link {cons['link']} · twin {cons['twin']} · value {cons['value']}"
+              f" · absorbed {cons['absorbed']} · survivors {cons['survivors']} · walls {cons['walls']} · pending {cons['pending']}")
         for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)) + tuple(prob):
             if ks:
                 print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
