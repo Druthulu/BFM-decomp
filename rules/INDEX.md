@@ -169,3 +169,5 @@ T3 | a generated block in a hand-edited header carries a marker pair and a prove
 T4 | a lever removed by a readability edit drops its config/lever_residue.tsv row in the same commit. | - | active | phase 3.44 plan
 
 T5 | every phase plan ends with a docs task: the public record, every moved series and README graph, and the phase's lessons in the day-1 guide and wiki. | - | active | developer 2026-11-12
+
+G62 | Names and types are evidence-based, never guessed | - | active | decomp-architect; amended phase 3.45 T6

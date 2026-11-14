@@ -75,6 +75,22 @@ failure modes are different:
 4. **Types come from the code, names from observation.** Structure is recovered from access patterns the compiler locked into
    the bytes (many functions reading a `u16` at one offset from one base); meaning comes from observation. The 1,232 struct
    definitions are unified before any field is named; a duplicate type is a defect, a wrong name is a worse one.
+   **Amended 2026-11-13 (developer, the Phase 3.45 replan, R182/R184): the bar is the SOTN decomp — organized structs.** His
+   words: "i want our code base up to the standards of sotn, human readable and modder useful, organized structs, no
+   unnecessary casts if we dont need it." So: **one real struct per real object** the game owns (a global or static, an
+   array element, an allocation every use of which is that type, a member of another real type, a value handed to the SDK);
+   **variant data lives inside its parent** as an overlay or union (SOTN's `Entity.ext.<variant>`), never as a separate
+   fragment struct viewed through a cast; fields may stay `unkNN` inside a real struct, fragment structs may not. Every
+   placeholder type ends in exactly one disposition (`config/struct_dispositions.tsv`, gated by
+   `tools/struct_twins.py --dispositions --check`): **fold** into a target (class `link`: a shared global, pointer or routine
+   copy, the 3.45 T2 evidence; `twin`: an exact layout twin of 3+ fields, G62 as amended; `value`: a small dense value shape,
+   onto its PsyQ type where one fits), **absorb** into its real parent (at its offset, or in the parent's variant overlay or
+   union; per pointer source when a type's sources point to different parents), **survivor** (a real root type, its object
+   cited; a type seen only through views of another type's objects is never a survivor) or **wall** (a fold, absorption or
+   retype the byte gate refused after its second attempt up the lever ladder, with object, offset, residual class and both
+   attempts). `apart`, `no-evidence` and `undisposed` are pending, not finishes. Why: 3.40 gave each union-find cluster of
+   raw-cast bases its own definition, so one real type split into many wherever no edge joined its uses (4,112
+   placeholders at 3.45 T1, against SOTN's ~1,280 types for a larger game); a reader and a modder need the one object.
 5. **Every raw cast goes, or names its cause.** (Phase 39 T2, 2026-10-01.) A `*(T *)(p + k)` is a member access the drafter
    could not spell; finished code spells it as the member. Where the byte gate refuses the member (cookbook §458: `/s` moves
    the scheduler), the cast is kept through ONE of the kept-cast macros in `include/common.h`, each expanding to the identical
@@ -87,6 +103,17 @@ failure modes are different:
    passes when a ledger entry `RESIDUAL(<cause>)` covers it. `M2C_FIELD` is a raw form, never a kept spelling. Each macro's byte proof (one
    kept site respelled, `make check` BYTE-IDENTICAL) is recorded in the Phase 39 T2 summary. Levers follow the same reading:
    `tools/lever_census.py --strict --residue config/lever_residue.tsv` is the gate, the residue file the ledger of what stays.
+   **Amended 2026-11-13 (developer, the Phase 3.45 replan, R182/R184): no cast the shipped game does not need.** Pointers
+   are typed at their source (the parameter, global, local or return), so a struct-view cast `((T *)p)->f` becomes `p->f`
+   and a raw pointer-arithmetic cast becomes a field access. A cast stays only as one of: a kept-cast macro with its restruct
+   `KEPT` row (the bytes refuse the member), a reinterpretation row (the shipped game reads one pointer as two types and no
+   overlay or union inside the parent reproduces the bytes; both views cited), or a wall (refused after the second attempt up
+   the ladder, G57). The `RESIDUAL` causes the census stamps (FILE-SCOPE, NO-TYPE-IN-MAP, TYPE-NOT-CANONICAL,
+   TYPE-NOT-VISIBLE, ABS-ADDR, GADDR, GLOBAL) are tooling states, not reasons the game needs a cast: under this bar each such
+   site is pending. And the habit the developer named ("doing some work, then giving up and accepting not finishing the
+   work… a bad habit and I want to fix it"): **a ledger row is a finish only for a byte-proven wall.** SOTN, for scale:
+   about 7,783 struct-pointer casts and 5 raw pointer-arithmetic casts across 3,362 files; its entity code takes
+   `Entity *self` and reads `self->ext.<variant>.field`.
 6. **Every prototype agrees with the bytes.** **Adopted 2026-11-10 (developer, at the 3.44 plan; R115).** Every function
    declaration and definition agrees with its contract as measured from the original machine code by the asm census
    (`tools/sig_evidence.py`: whether callers read the return, how many arguments the body reads and callers set, width and

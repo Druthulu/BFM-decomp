@@ -1,6 +1,6 @@
 # Struct twins
 
-`tools/type_census.py --check-structs` reads this file (`TWINS_DOC`). G62: layout twins without evidence stay apart.
+`tools/type_census.py --check-structs` reads this file (`TWINS_DOC`). G62 (amended 2026-11-13, the developer): exact layout twins of 3+ fields, and small dense value shapes recurring as exact twins, are one type and fold on shape alone; other layout twins without evidence stay apart until folded.
 
 - `## Twins`: one `### <lhash>` section per tier-2 duplicate row (plain or `<lhash>:opaque`) kept as separate types, with a
   `names:` line (the row's names, as a set) and a `cause:` line naming at least one address (8 hex digits or `0x…`). A listed
