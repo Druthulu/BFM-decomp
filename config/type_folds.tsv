@@ -5863,7 +5863,7 @@ Unkstruct_fc1fd692	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017FC5
 Unkstruct_fc6bc0ff	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801A8E34 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_fc72510f	define	Unkstruct_80188034_2	owner:func_80188034	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_fc864581	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80180D8C pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_fdb6c893	define	Unkstruct_801854B0_2	owner:func_801854B0	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
+Unkstruct_fdb6c893	define	Unkstruct_80185638_2	owner:func_801854B0	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_fe0b3269	define	Unkstruct_8017E008_2	owner:func_8017E008	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_fe1dd5a3	define	Unkstruct_80184A58_2	owner:func_80184A58	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies
 Unkstruct_fe26df8b	define	Unkstruct_80184750	owner:func_80184750	no E1/E2 evidence; flat layout of the struct map record; 3 TNC sites in 1 bodies

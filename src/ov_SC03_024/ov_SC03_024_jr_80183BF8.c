@@ -3927,7 +3927,7 @@ void func_8018546C(void *a0) {
 
 
 void func_801854B0(s32 a0) {
-    s32 ptr = ((Unkstruct_801854B0_2 *)a0)->unkD0;
+    s32 ptr = ((Unkstruct_80185638_2 *)a0)->unkD0;
     s16 val = ((Unkstruct_801854B0 *)ptr)->unk1A - 0xC0;
 
     ((Unkstruct_801854B0 *)ptr)->unk1A = val;
@@ -3935,7 +3935,7 @@ void func_801854B0(s32 a0) {
 
     if (val < 0) {
         ((Unkstruct_801854B0 *)ptr)->unk0 = 0;
-        ((Unkstruct_801854B0_2 *)a0)->unk2 = ((Unkstruct_801854B0_2 *)a0)->unk2 + 1;
+        ((Unkstruct_80185638_2 *)a0)->unk2 = ((Unkstruct_80185638_2 *)a0)->unk2 + 1;
     }
 }
 
