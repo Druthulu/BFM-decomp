@@ -93,10 +93,10 @@ void func_800CCD50(void *a0) {
 
 
 void func_800CCDB0(s32 *a0) {
-    ((Unkstruct_800CCDB0 *)a0)->unk23C = 0;
-    ((Unkstruct_800CCDB0 *)a0)->unk238 = 0;
-    ((Unkstruct_800CCDB0 *)a0)->unk234 = 0;
-    ((Unkstruct_800CCDB0 *)a0)->unk2 = 1;
+    ((Unkstruct_800CCD50 *)a0)->unk23C = 0;
+    ((Unkstruct_800CCD50 *)a0)->unk238 = 0;
+    ((Unkstruct_800CCD50 *)a0)->unk234 = 0;
+    ((Unkstruct_800CCD50 *)a0)->unk2 = 1;
 }
 
 
