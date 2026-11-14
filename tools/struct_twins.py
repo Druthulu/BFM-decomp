@@ -39,13 +39,16 @@ Usage:
                                                     include/psyq/ (default .run/3.45/t1/struct_inventory.tsv); prints the denominators
   tools/struct_twins.py --dispositions [--check] [--ledger PATH]
                                                     write/refresh config/struct_dispositions.tsv (one row per placeholder; new rows
-                                                    `undisposed`, existing dispositions kept); --check: counts, FAIL (exit 1) on a
-                                                    missing, duplicate or unknown row
-  tools/struct_twins.py --links [--out-dir DIR] [-j N]
+                                                    `undisposed`, existing dispositions kept); --check: counts per disposition and class,
+                                                    FAIL (exit 1) on a missing, duplicate or unknown row or a column rule (LEDGER_HEAD)
+  tools/struct_twins.py --links [--out-dir DIR] [-j N] [--propose [--policy typed|effective|views]]
                                                     the merge-evidence census (3.45 T2; method docs/ops/p345-t2-struct-merge-evidence.md):
-                                                    links (global / body / pointer), refusals, widths, size facts, hubs, components,
-                                                    DECL-PARAM -> DIR (default .run/3.45/t2) {links,refused,widths,sizes,hubs,components,
-                                                    decl_param}.tsv; sorted summary on stdout. Needs a built tree (build/**/*.d, the ELFs)
+                                                    links (global / body / pointer incl. arg-eff, view), refusals, widths, size facts,
+                                                    hubs, components, proposals per policy (typed, effective, views: one run computes all
+                                                    three) -> DIR (default .run/3.45/t2) {links,refused,hubs,components,proposals}.<policy>.tsv
+                                                    and {widths,sizes,eff,poly,decl_param,twins,unplaced}.tsv; sorted summary on stdout.
+                                                    --propose writes the policy's (default effective) proposals into the ledger (rows whose
+                                                    reason ends in `applied:<commit>` kept). Needs a built tree (build/**/*.d, the ELFs)
                                                     and fresh build/sig_evidence/census.jsonl + .run/sig.<alias>.jsonl: exit 2 otherwise
   tools/struct_twins.py --selftest                  the --links fixtures on a synthetic tree (own symtab, .d map, sig rows); exit 0 iff all pass
   (--links / --selftest import sig_evidence, which needs rabbitizer: the tool re-execs itself under .venv/bin/python when missing)
@@ -167,13 +170,24 @@ def psyq_layouts():
 INVENTORY_DEFAULT = ".run/3.45/t1/struct_inventory.tsv"
 LEDGER = REPO / "config" / "struct_dispositions.tsv"
 DISPOSITIONS = ("undisposed", "fold", "apart", "no-evidence")
-LEDGER_COLS = ("key", "kind", "file_line", "size", "disposition", "target", "evidence", "reason")
-LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1). One row per placeholder struct/union
+LEDGER_COLS = ("key", "kind", "file_line", "size", "disposition", "target", "class", "evidence", "reason")   # class: T2.c2
+CLASSES = {"undisposed": ("-",), "fold": ("global", "pointer", "body"), "apart": ("own", "conflict", "size", "hub"), "no-evidence": ("-",)}
+APPLIED_RX = re.compile(r"(?:^|\s)applied:\S+$")    # a disposition applied by a later task (T7): never rewritten by --propose
+CITE_RX = re.compile(r"0x[0-9A-Fa-f]{8}|[\w./-]+\.[ch]:\d+")   # an address or a file:line (apart evidence)
+LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1; `class` T2.c2). One row per placeholder struct/union
 # definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), keyed by its inventory key.
 # disposition (closed list): undisposed (not judged yet) | fold (fold into `target`; `evidence` cites the shared object) |
 #   apart (kept apart; `evidence` cites what separates it) | no-evidence (no binding or use to judge by; `reason` says why).
+# class (closed list per disposition): fold global|pointer|body (the evidence class of the link that admitted it) |
+#   apart own|conflict|size|hub (its own objects, or the refusal that keeps it apart) | no-evidence and undisposed `-`.
+# Proposals: tools/struct_twins.py --links --propose [--policy typed|effective|views] (default effective; method
+#   docs/ops/p345-t2-struct-merge-evidence.md) rewrites disposition..reason of every row on each run; fold and component-target
+#   evidence starts `C<n>: ` (the run's component). A row whose reason ends in ` applied:<commit>` (the commit that applied it,
+#   T7) is never rewritten.
 # Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
-# checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row). Tab-separated, by key.
+# checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row, a class outside its
+#   closed list, a fold whose target is not a ledger key or a PsyQ/ledgered type, an apart without an address or file:line in
+#   its evidence, a no-evidence without a reason). Tab-separated, by key.
 """
 INV_COLS = ("key", "names", "tag", "kind", "size", "fields_total", "unk", "pad", "named", "file:line", "block", "class", "tus",
             "binaries", "h_exact", "access_sites", "globals", "params", "returns", "locals")
@@ -341,36 +355,79 @@ def inventory(out):
           f" · repeated keys disambiguated {sum(1 for r in rows if '@' in r['key'] and not r['key'].startswith('<anon>'))}")
 
 
-def dispositions(ledger, check):
-    """write/refresh the ledger, or (check) count it and FAIL on a missing, duplicate or unknown row"""
-    ph = {r["key"]: r for r in inventory_defs() if r["klass"] == "placeholder"}
+def ledger_read(ledger):
+    """the ledger's rows {key: {col: value}}, duplicate keys, malformed keys; a pre-T2.c2 row (no `class`) reads class `-`"""
     have, dup, bad = {}, [], []
     for ln in (ledger.read_text().splitlines() if ledger.exists() else ()):
         if ln.startswith("#") or not ln.strip() or ln.startswith("key\t"):
             continue
         p = ln.split("\t")
+        if len(p) == len(LEDGER_COLS) - 1:
+            p = p[:6] + ["-"] + p[6:]
         if len(p) != len(LEDGER_COLS) or p[4] not in DISPOSITIONS:
             bad.append(ln.split("\t")[0])
         (dup if p[0] in have else []).append(p[0])
         have.setdefault(p[0], dict(zip(LEDGER_COLS, p)))
+    return have, dup, bad
+
+
+def ledger_problems(have, keys_ok):
+    """(pure) [(what, [keys])] of the rows breaking the column rules (LEDGER_HEAD)"""
+    out = collections.defaultdict(list)
+    for k, e in sorted(have.items()):
+        d = e.get("disposition")
+        if d not in CLASSES:
+            continue
+        if e.get("class") not in CLASSES[d]:
+            out[f"class outside the closed list of {d}"].append(k)
+        if d == "fold" and (e.get("target") in (None, "", "-", k) or e["target"] not in keys_ok):
+            out["fold without a ledger / PsyQ / ledgered target"].append(k)
+        if d == "apart" and not CITE_RX.search(e.get("evidence") or ""):
+            out["apart without an address or file:line in evidence"].append(k)
+        if d == "no-evidence" and (e.get("reason") or "-") == "-":
+            out["no-evidence without a reason"].append(k)
+    return sorted(out.items())
+
+
+def ledger_write(ledger, ph, have, props=None):
+    """write the ledger: one row per placeholder (ph {key: inventory row}) plus the disposed stale rows; props {key: (disposition,
+    target, class, evidence, reason)} replaces a row's judgement unless its reason carries the applied marker -> (new, kept, applied)"""
+    kept = {k: e for k, e in have.items() if k not in ph and e.get("disposition") != "undisposed"}
+    lines, applied = [LEDGER_HEAD.rstrip("\n"), "\t".join(LEDGER_COLS)], 0
+    for k in sorted(set(ph) | set(kept)):
+        r, e = ph.get(k), have.get(k) or {}
+        vals = [e.get("disposition", "undisposed")] + [e.get(c) or "-" for c in ("target", "class", "evidence", "reason")]
+        if props and k in props:
+            if APPLIED_RX.search(e.get("reason") or ""):
+                applied += 1
+            else:
+                vals = list(props[k])
+        lines.append("\t".join([k, r["kind"] if r else e["kind"], r["file_line"] if r else e["file_line"],
+                                str(r["size"]) if r else e["size"]] + vals))
+    ledger.write_text("\n".join(lines) + "\n")
+    return len(set(ph) - set(have)), len(kept), applied
+
+
+def dispositions(ledger, check):
+    """write/refresh the ledger, or (check) count it and FAIL on a missing, duplicate or unknown row or a broken column rule"""
+    rows = inventory_defs()
+    ph = {r["key"]: r for r in rows if r["klass"] == "placeholder"}
+    have, dup, bad = ledger_read(ledger)
     if check:
         miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph))
         cnt = collections.Counter(e.get("disposition") for e in have.values())
+        cc = collections.Counter((e.get("disposition"), e.get("class")) for e in have.values() if e.get("disposition") != "undisposed")
+        prob = ledger_problems(have, set(have) | {r["key"] for r in rows if r["klass"] in ("PsyQ", "ledgered")})
         print(f"struct_twins --dispositions --check: placeholders {len(ph)} · undisposed {cnt['undisposed']} · rows {len(have) + len(dup)}"
               f" · " + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]))
-        for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)):
+        print("  by class: " + (" · ".join(f"{d}/{c} {n}" for (d, c), n in sorted(cc.items())) or "-"))
+        for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)) + tuple(prob):
             if ks:
                 print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
-        sys.exit(1 if miss or dup or unk or bad else 0)
-    kept = {k: e for k, e in have.items() if k not in ph and e.get("disposition") != "undisposed"}
-    lines = [LEDGER_HEAD.rstrip("\n"), "\t".join(LEDGER_COLS)]
-    for k in sorted(set(ph) | set(kept)):
-        r, e = ph.get(k), have.get(k) or {}
-        lines.append("\t".join([k, r["kind"] if r else e["kind"], r["file_line"] if r else e["file_line"], str(r["size"]) if r else e["size"],
-                                e.get("disposition", "undisposed")] + [e.get(c) or "-" for c in ("target", "evidence", "reason")]))
-    ledger.write_text("\n".join(lines) + "\n")
+        sys.exit(1 if miss or dup or unk or bad or prob else 0)
+    new, kept, _ = ledger_write(ledger, ph, have)
     print(f"struct_twins --dispositions: {len(ph)} placeholders -> {ledger.relative_to(REPO) if ledger.is_relative_to(REPO) else ledger}"
-          f" · new {len(set(ph) - set(have))} · kept stale (disposed, no longer a placeholder) {len(kept)}")
+          f" · new {new} · kept stale (disposed, no longer a placeholder) {kept}")
 
 
 def binary_of(rel):
@@ -746,7 +803,10 @@ LINKS_DIR = ".run/3.45/t2"
 HUB_K = 4             # a slot linking >= HUB_K types ...
 HUB_OFFS = 2          # ... while its own accesses touch <= HUB_OFFS offsets is a hub (a pool, list or header helper)
 MIN_BODY_INS = 10     # body class: h_exact classes below this many instructions are coincident look-alikes (tiny-body)
-POINTER_SUBS = ("decl", "arg", "ret", "ret-of", "assign", "field", "store-global")
+POINTER_SUBS = ("decl", "arg", "arg-eff", "ret", "ret-of", "assign", "field", "store-global", "view")   # T2.c2: arg-eff, view
+POLICIES = ("typed", "effective", "views")   # T2.c2: typed slots; + arg-eff (the --propose default); + local views
+SCALAR_WORDS = {"s8", "u8", "s16", "u16", "s32", "u32", "int", "char", "short", "long", "unsigned", "signed"}
+BYTE_WORDS = {"char", "u8", "s8", "unsigned", "signed"}   # with one star: a byte pointer (untyped slot)
 LINK_ORDER = [("global", "global"), ("global", "global-view"), ("body", "body")] + [("pointer", s) for s in POINTER_SUBS]
 ID = r"[A-Za-z_]\w*"
 TQUAL = {"const", "volatile", "struct", "union", "register", "static", "extern"}
@@ -761,7 +821,7 @@ SIZEOF_RX = re.compile(r"\bsizeof\s*\(\s*(?:(struct|union)\s+)?(\*\s*)?(" + ID +
 PINC_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*(\+\+|--|[-+]=)|(\+\+|--)\s*(" + ID + r")(?!\s*(?:->|\.|\[))")
 PADD_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*([-+])(?![-+=>])\s*(?=[\w(])")
 PIDX_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*\[\s*([^\[\]]*?)\s*\]")
-VIEW_RX = re.compile(r"\(\s*\(\s*(?:struct\s+|union\s+)?(" + ID + r")\s*\*\s*\)\s*(" + ID + r")\s*\)\s*(?:->|\[)")
+VIEW_RX = re.compile(r"\(\s*\(\s*(?:struct\s+|union\s+)?(" + ID + r")\s*\*\s*\)\s*(" + ID + r")\s*\)\s*(?:->\s*(" + ID + r")|\[)")
 COPY_RX = re.compile(r"\*\s*(" + ID + r")\s*=(?!=)\s*\*\s*(" + ID + r")\s*;")
 DEREF_RX = re.compile(r"\*\s*(" + ID + r")\b(?!\s*\()")
 LIT_RX = re.compile(r"^(0x[0-9A-Fa-f]+|\d+)[uUlL]*$")
@@ -827,7 +887,7 @@ def lex_events(text):
         if m.group(2) != "0" and m.group(2):
             ev.append(("I", line(m.start()), m.group(1), "[" + m.group(2) + "]"))
     for m in VIEW_RX.finditer(t):
-        ev.append(("V", line(m.start()), m.group(1), m.group(2)))
+        ev.append(("V", line(m.start()), m.group(1), m.group(2), m.group(3)))
     for m in COPY_RX.finditer(t):
         ev.append(("C", line(m.start()), m.group(1), m.group(2)))
     for m in DEREF_RX.finditer(t):
@@ -840,12 +900,15 @@ def lex_events(text):
 
 
 def _links_scan(job):
-    """worker: (rel, binds, events) — scan_file's declaration/cast bindings of the inventory names, and lex_events"""
+    """worker: (rel, binds, events, uses) — scan_file's declaration/cast bindings of the inventory names, lex_events, and uses =
+    (inventory names in code, names only in directive lines) (T2.c2: the no-evidence reasons)"""
     rel, text = job
     if text is None:
         text = (REPO / rel).read_text(errors="replace")
     if not set(re.findall(r"[A-Za-z_]\w*", text)) & _LWANTED:
-        return rel, [], lex_events(text)
+        return rel, [], lex_events(text), ((), ())
+    code = set(re.findall(ID, _blank(text))) & _LWANTED
+    uses = (tuple(sorted(code)), tuple(sorted(set(re.findall(ID, COMMENT.sub(" ", text))) & _LWANTED - code)))
     sink, det = [], {}
     scan_file(rel, text, _LWANTED, sink, det)
     binds = []
@@ -854,7 +917,7 @@ def _links_scan(job):
         whole = dd.get("tail", (")",))[:1] in ((")",), (";",), (",",), ("=",)) or dd.get("tail", ())[:3] == ("[", "0", "]")
         binds.append((nm, key[0], key[2] if key[0] == "P" else None, key[3] if key[0] == "P" else None, dd["form"], dd["ident"],
                       dd["stars"], dd["arr"], dd["ext"], dd["amp"] and whole, dd["line"], dd["fn"]))
-    return rel, binds, lex_events(text)
+    return rel, binds, lex_events(text), uses
 
 
 class LTypes:
@@ -963,7 +1026,8 @@ def links_build(S):
     """the census of S (see links()) -> dict of tables and summary lines; pure over S"""
     T = S["types"]
     rows = T.row
-    U = collections.Counter()                                # unplaced (what, why)
+    U = collections.Counter()                                # unplaced (what, why): binary instances
+    US = collections.defaultdict(set)                        # the same: unique sites (T2.c2)
     refused, cand = [], []                                   # dict(cls, sub, a, b, cite_a, cite_b, reason, slot)
     # ---- the fleet join: file -> binaries / visible files; functions; globals
     tus, J, images, stacks = S["tus"], S["join"], S["images"], S["stacks"]
@@ -1000,7 +1064,7 @@ def links_build(S):
     callee_memo = {}
 
     def callee_defs(rel, name):
-        """[(owner, va, def_at entry)] per binary of rel, or [] with U counted by reason"""
+        """([(owner, va, def_at entry)] per binary of rel, [(why, binaries)] of the binaries it is unplaced in)"""
         if (rel, name) not in callee_memo:
             out, whys = {}, []
             for b in sorted(file_bins.get(rel, ())):
@@ -1020,7 +1084,7 @@ def links_build(S):
             if not file_bins.get(rel):
                 whys.append("file in no TU")
             callee_memo[(rel, name)] = (sorted(out.values(), key=lambda x: (x[0], x[1], x[2][1], x[2][2])),
-                                        sorted(set(whys)))
+                                        sorted(collections.Counter(whys).items()))
         return callee_memo[(rel, name)]
     # ---- function spans (census fndefs) and the bindings (scan_file's declarations and casts)
     spans = {}
@@ -1080,11 +1144,14 @@ def links_build(S):
                 elif depth == 0 and not ext:
                     size_fact(key, "defined global by value", cite)
     file_memo = {}
+    pnames_at = {(rel, sp[0]): set(sp[3]["pnames"]) for rel, v in spans.items() for sp in v}
 
     def bind_of(rel, fline, ident):
         """(key, depth, cite, kind, param index) of an identifier in a function (or at file scope), or None"""
         if fline is not None and ident in fb.get((rel, fline), {}):
             return fb[(rel, fline)][ident]
+        if fline is not None and ident in pnames_at.get((rel, fline), ()):
+            return None                                      # T2.c2: an untyped parameter shadows file scope (a prototype's param name)
         if (rel, ident) not in file_memo:
             c = sorted({(k, d, ci) for f in vis.get(rel, [rel]) for k, d, ci in filebind.get(f, {}).get(ident, ())},
                        key=lambda x: x[2])
@@ -1173,7 +1240,10 @@ def links_build(S):
                     deref.add((rel, fl, ev[3]))
                 if vb and b and b[1] == 1 and b[0] != vb:
                     views.append(dict(cls="pointer", sub="view", a=b[0], b=vb, cite_a=f"{b[2]} ({ev[3]})",
-                                      cite_b=f"{cite} (({ev[2]} *){ev[3]})", reason="view", slot=None))
+                                      cite_b=f"{cite} (({ev[2]} *){ev[3]})", reason="view", slot=("view", vb)))
+                    m0 = T.members(rows[vb]["def"]).get(ev[4]) if ev[4] else None
+                    if m0:                                   # policy views: the view type is the hub slot, its offsets its own
+                        own_offs[("view", vb)].add(m0[0])
     for rel, r in S["walk"].items():                         # raw cast sites on a parameter dereference it too
         for s in r["sites"]:
             if s.get("bclass") == "param" and s.get("fn") and s.get("base"):
@@ -1193,6 +1263,7 @@ def links_build(S):
     for rel, ln, name, key, stars, form in sorted(gdecl):
         if not file_bins.get(rel):
             U[("global", "file in no TU")] += 1
+            US[("global", "file in no TU")].add((rel, ln, name))
             refused.append(dict(cls="global", sub="global", a=key, b="-", cite_a=f"{rel}:{ln} ({name})", cite_b="-",
                                 reason="unplaced:file in no TU", slot=None))
             continue
@@ -1204,7 +1275,8 @@ def links_build(S):
                 continue
             objs[o].setdefault((key, stars, form), f"{rel}:{ln}")
         for why, n in sorted(whys.items()):
-            U[("global", why)] += 1
+            U[("global", why)] += n
+            US[("global", why)].add((rel, ln, name))
             refused.append(dict(cls="global", sub="global", a=key, b="-", cite_a=f"{rel}:{ln} ({name})", cite_b=f"{n} binaries",
                                 reason="unplaced:" + why, slot=None))
     for o in sorted(objs):
@@ -1223,6 +1295,7 @@ def links_build(S):
         sr = S["sig"].get((b, va))
         if not sr or not sr[1]:
             U[("body", "no sig row (or nins 0) at the definition's address")] += 1
+            US[("body", "no sig row (or nins 0) at the definition's address")].add((f, ln))
             continue
         groups[sr[0]].setdefault((f, ln), (b, va, d, sr[1]))
     for hx_ in sorted(groups):
@@ -1274,14 +1347,46 @@ def links_build(S):
 
     def multi(rel, fl, dst, b):
         return b[3] != "global" and len(src_of.get((rel, fl, dst), ())) > 1
+    # ---- effective type of an untyped parameter slot (T2.c2; spec "Effective type of an untyped slot"): the struct types of its
+    #      typed uses at offset 0 (census cast sites `((M *)p)->f`, `*(M *)p`, `((M *)p)[i]`; `m = p` into a single-source local M *)
+    eff = {}                                                 # (rel, fline, pname) -> dict(types {key: (line, cite)}, acc, at)
+    for rel in sorted(S["walk"]):
+        r = S["walk"][rel]
+        for f in r["fndefs"]:
+            sp = span_at(rel, f["line"])
+            if not sp or sp[0] != f["line"] or sp[2] != f["fn"]:
+                continue
+            ps = [p for p in se.split_top(f["params"]) if p.strip() and p.strip() != "..."] if f["params"] not in ("", "void") else []
+            for i, pn in enumerate(f["pnames"]):
+                if i < len(ps) and untyped_param(ps[i], T):
+                    eff[(rel, sp[0], pn)] = dict(types={}, acc=(rel, sp[0], pn) in deref, at=f"{rel}:{f['line']} arg{i} ({' '.join(ps[i].split())})")
+        for s_ in r["sites"]:
+            if (s_.get("form") not in ("C", "I", "X", "P") or s_.get("bclass") != "param" or not s_.get("fn") or s_.get("inner_cast")
+                    or s_.get("off") or (s_.get("index") is not None and s_["form"] != "X")):
+                continue
+            sp = span_at(rel, s_["line"])
+            e = eff.get((rel, sp[0], s_["base"])) if sp and sp[2] == s_["fn"] else None
+            sk = T.spell(s_.get("ctype")) if e is not None else None
+            if sk and sk[1] == 1:
+                u = (s_["line"], f"{rel}:{s_['line']} (({s_['ctype']}){s_['base']})")
+                e["types"][sk[0]] = min(e["types"].get(sk[0], u), u)
+        for f in r["flows"]:
+            sp = span_at(rel, f["line"]) if f["kind"] == "assign" else None
+            e = eff.get((rel, sp[0], f["src"])) if sp and sp[2] == f["fn"] else None
+            bd = bind_of(rel, sp[0], f["dst"]) if e is not None else None
+            if bd and bd[3] == "local" and bd[1] == 1 and not multi(rel, sp[0], f["dst"], bd):
+                u = (f["line"], f"{rel}:{f['line']} ({f['dst']} = {f['src']}: {bd[2]})")
+                e["types"][bd[0]] = min(e["types"].get(bd[0], u), u)
+                e["acc"] = e["acc"] or (rel, sp[0], f["dst"]) in deref
 
     def ptr(sub, a, b, cite_a, cite_b, slot, why=None):
         L = dict(cls="pointer", sub=sub, a=a, b=b, cite_a=cite_a, cite_b=cite_b, slot=slot)
         (refused.append(dict(L, reason=why)) if why else cand.append(L))
 
-    def unplaced(sub, a, cite_a, name, whys):
-        for w in whys:
-            U[("callee", w)] += 1
+    def unplaced(sub, a, cite_a, name, whys, site):
+        for w, n in whys:
+            U[("callee", w)] += n
+            US[("callee", w)].add(site)
             refused.append(dict(cls="pointer", sub=sub, a=a, b="-", cite_a=cite_a, cite_b=name, reason="unplaced:" + w, slot=None))
     for rel in sorted(S["walk"]):
         for f in S["walk"][rel]["flows"]:
@@ -1298,16 +1403,27 @@ def links_build(S):
                 ca = f"{cite} ({'&' if k == 'arg&' else ''}{f['src']}: {b[2]})"
                 defs, whys = callee_defs(rel, f["callee"])
                 if not defs:
-                    unplaced("arg", b[0], ca, f["callee"], whys)
+                    unplaced("arg", b[0], ca, f["callee"], whys, (rel, f["line"], f["callee"]))
                 for owner, va, dd in defs:
                     p = ptype(dd[4], f["i"])
                     s = T.spell(p) if p and "(" not in p else None
+                    csp = span_at(dd[1], dd[2])
+                    pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
+                    e = eff.get((dd[1], csp[0], pn)) if not s and csp and pn else None
+                    if e is not None:                        # an untyped slot: its effective type (arg-eff) or a poly slot
+                        o = ("no typed use" if not e["types"] else "never dereferenced" if not e["acc"] else "depth differs" if da != 1
+                             else "poly" if len(e["types"]) > 1 else "same type" if b[0] in e["types"] else "two types")
+                        PF[("arg-eff", o)] += 1
+                        slot = ("param", owner, va, f["i"])
+                        for M, (_, uc) in sorted(e["types"].items()) if o in ("poly", "two types") else ():
+                            if M != b[0]:
+                                ptr("arg-eff", b[0], M, ca, f"{_cite_va(owner, va)} {e['at']} {'poly' if o == 'poly' else 'eff'} {M}: {uc}",
+                                    slot, "poly" if o == "poly" else None)
+                        continue
                     PF[("arg", "parameter not an inventory type" if not s else "depth differs" if s[1] != da
                         else "same type" if s[0] == b[0] else "two types")] += 1
                     if not s or s[1] != da or s[0] == b[0]:
                         continue
-                    csp = span_at(dd[1], dd[2])
-                    pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
                     conduit = not (csp and pn and (dd[1], csp[0], pn) in deref)
                     ptr("arg", b[0], s[0], ca, f"{_cite_va(owner, va)} {dd[1]}:{dd[2]} arg{f['i']}",
                         ("param", owner, va, f["i"]), "conduit" if conduit else None)
@@ -1336,7 +1452,7 @@ def links_build(S):
                 cd = f"{cite} ({f['dst']}: {bd[2]})"
                 defs, whys = callee_defs(rel, f["callee"])
                 if not defs:
-                    unplaced("ret-of", bd[0], cd, f["callee"], whys)
+                    unplaced("ret-of", bd[0], cd, f["callee"], whys, (rel, f["line"], f["callee"]))
                 for owner, va, dd in defs:
                     s = T.spell(dd[4]["ret"])
                     PF[("ret-of", "return not an inventory type" if not s else "depth differs" if s[1] != bd[1]
@@ -1396,83 +1512,167 @@ def links_build(S):
         sd, sf = T.spell(dc["ret"]), T.spell(d["ret"])
         if sd and sf and sd[1] == sf[1] and sd[0] != sf[0]:
             ptr("decl", sd[0], sf[0], f"{cdecl} ret", f"{cdef} ret", ("ret", owners[0], va))
-    # ---- dedup, then the hub guard over the surviving pointer links
+    # ---- dedup; then per policy (T2.c2): the hub guard, the union-find with its vetoes, the components
     def lkey(L):
         return (LINK_ORDER.index((L["cls"], L["sub"])) if (L["cls"], L["sub"]) in LINK_ORDER else 99, L["cite_a"], L["cite_b"], L["a"], L["b"])
-    cand = sorted({lkey(L): L for L in cand}.values(), key=lkey)
-    refused = sorted({lkey(L) + (L["reason"],): L for L in refused + views}.values(), key=lambda L: lkey(L) + (L["reason"],))
-    by_slot = collections.defaultdict(list)
-    for L in cand:
-        if L["cls"] == "pointer" and L["slot"]:
-            by_slot[L["slot"]].append(L)
-    hubs, hub_slots = [], set()
-    for slot in sorted(by_slot, key=str):
-        ts = sorted({L["a"] for L in by_slot[slot]} | {L["b"] for L in by_slot[slot]})
-        conf = None
-        for i, x in enumerate(ts):
-            for y in ts[i + 1:]:
-                c = width_conflict(type_map(wm, x), type_map(wm, y))
-                if c:
-                    conf = (x, y, c)
-                    break
-            if conf:
-                break
-        oo = (own_offs_param(own_offs, slot, J, span_at) if slot[0] == "param" else
-              own_offs.get(("global", slot[-1]), set()) if slot[0] == "global" else set())
-        if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS):
-            hub_slots.add(slot)
-            hubs.append(dict(slot=slot, types=ts, why=(f"width conflict {conf[0]}/{conf[1]} at 0x{conf[2][0]:X}" if conf else
-                                                       f"{len(ts)} types, own accesses at {len(oo)} offsets"),
-                             cites=sorted({L["cite_b"] if L["sub"] not in ("ret-of",) else L["cite_a"] for L in by_slot[slot]})[:3]))
-    acc_links = []
-    for L in cand:
-        if L["cls"] == "pointer" and L["slot"] in hub_slots:
-            refused.append(dict(L, reason="hub"))
-        else:
-            acc_links.append(L)
-    # ---- components: union-find in LINK_ORDER, width maps and size facts merged per union
-    comp = {k: dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
-                    lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {})) for k in sorted(rows)}
-    parent = {k: k for k in rows}
 
-    def find(x):
-        while parent[x] != x:
-            parent[x] = parent[parent[x]]
-            x = parent[x]
-        return x
-    accepted = []
-    for L in acc_links:
-        ra, rb = find(L["a"]), find(L["b"])
-        if ra == rb:
-            accepted.append(L)
+    def rkey(L):
+        return lkey(L) + (L["reason"],)
+    cand = sorted({lkey(L): L for L in cand}.values(), key=lkey)
+    refused = sorted({rkey(L): L for L in refused}.values(), key=rkey)
+    views = sorted({lkey(L): L for L in views}.values(), key=lkey)
+
+    def settle(pc, pr):
+        """one policy's hub guard, union-find (LINK_ORDER, then cites) with the width / size vetoes, and components"""
+        refused = list(pr)
+        by_slot = collections.defaultdict(list)
+        for L in pc:
+            if L["cls"] == "pointer" and L["slot"]:
+                by_slot[L["slot"]].append(L)
+        hubs, hub_slots = [], set()
+        for slot in sorted(by_slot, key=str):
+            ts = sorted({L["a"] for L in by_slot[slot]} | {L["b"] for L in by_slot[slot]})
+            conf = None
+            for i, x in enumerate(ts):
+                for y in ts[i + 1:]:
+                    c = width_conflict(type_map(wm, x), type_map(wm, y))
+                    if c:
+                        conf = (x, y, c)
+                        break
+                if conf:
+                    break
+            oo = (own_offs_param(own_offs, slot, J, span_at) if slot[0] == "param" else
+                  own_offs.get(("global", slot[-1]), set()) if slot[0] == "global" else own_offs.get(slot, set()) if slot[0] == "view" else set())
+            if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS):
+                hub_slots.add(slot)
+                hubs.append(dict(slot=slot, types=ts, why=(f"width conflict {conf[0]}/{conf[1]} at 0x{conf[2][0]:X}" if conf else
+                                                           f"{len(ts)} types, own accesses at {len(oo)} offsets"),
+                                 cites=sorted({L["cite_b"] if L["sub"] not in ("ret-of",) else L["cite_a"] for L in by_slot[slot]})[:3]))
+        acc_links = []
+        for L in pc:
+            if L["cls"] == "pointer" and L["slot"] in hub_slots:
+                refused.append(dict(L, reason="hub"))
+            else:
+                acc_links.append(L)
+        comp = {k: dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
+                        lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {})) for k in sorted(rows)}
+        parent = {k: k for k in rows}
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        accepted = []
+        for L in acc_links:
+            ra, rb = find(L["a"]), find(L["b"])
+            if ra == rb:
+                accepted.append(L)
+                continue
+            A, B = comp[ra], comp[rb]
+            c = width_conflict(A["wm"], B["wm"])
+            if c:
+                refused.append(dict(L, reason="conflict", detail=f"0x{c[0]:X}: {c[1]} vs {c[2]}"))
+                continue
+            v = size_veto(A, B)
+            if v:
+                refused.append(dict(L, reason="size", detail=v))
+                continue
+            if ra > rb:
+                ra, rb, A, B = rb, ra, B, A
+            parent[rb] = ra
+            A["members"] = sorted(A["members"] + B["members"])
+            for off, ws in B["wm"].items():
+                for w, e in ws.items():
+                    cur = A["wm"].setdefault(off, {}).setdefault(w, [e[0], e[1], {}, e[3]])
+                    for sg, ci in e[2].items():
+                        cur[2].setdefault(sg, ci)
+            for sz, e in B["lb"].items():
+                A["lb"].setdefault(sz, e)
+            if B["ext"] and (not A["ext"] or B["ext"][0] > A["ext"][0]):
+                A["ext"] = B["ext"]
+            del comp[rb]
+            accepted.append(dict(L, union=True))
+        refused.sort(key=rkey)
+        return dict(accepted=accepted, refused=refused, hubs=hubs, comp=comp, find=find)
+    P = {}
+    for pol in POLICIES:
+        pc = [L for L in cand if pol != "typed" or L["sub"] != "arg-eff"]
+        pr = [L for L in refused if pol != "typed" or L["sub"] != "arg-eff"]
+        if pol == "views":
+            pc = sorted(pc + [{k: v for k, v in L.items() if k != "reason"} for L in views], key=lkey)
+        else:
+            pr = pr + views
+        P[pol] = settle(pc, sorted(pr, key=rkey))
+    # ---- what a disposition cites (T2.c2): own placed objects / accesses (apart own), or what exists (no-evidence)
+    own = {}
+    for o in sorted(objs):
+        for (k, st, fm), ci in sorted(objs[o].items(), key=lambda kv: (kv[1], kv[0])):
+            own.setdefault(k, f"{_cite_va(*o)} {ci}")
+    bound = {}
+    for (rel, fl), m in sorted(fb.items()):
+        sp = span_at(rel, fl)
+        pl = sorted(def_pl.get((rel, sp[2]), ())) if sp else []
+        for ident, v in sorted(m.items()):
+            if v and v[3] in ("param", "local"):
+                if pl:
+                    own.setdefault(v[0], f"{_cite_va(*pl[0])} {v[2]} ({ident})")
+                else:
+                    bound.setdefault(v[0], f"{v[2]} ({ident})")
+    for k in sorted(wm):
+        off = min(wm[k])
+        own.setdefault(k, f"{wm[k][off][min(wm[k][off])][1]} (access {k}+0x{off:X})")
+    canon = set(tc.CANON_HEADERS)
+    named, macro = collections.defaultdict(list), collections.defaultdict(list)
+    for rel, (code, mac) in sorted(S["uses"]):
+        if rel in canon:
             continue
-        A, B = comp[ra], comp[rb]
-        c = width_conflict(A["wm"], B["wm"])
-        if c:
-            refused.append(dict(L, reason="conflict", detail=f"0x{c[0]:X}: {c[1]} vs {c[2]}"))
-            continue
-        v = size_veto(A, B)
-        if v:
-            refused.append(dict(L, reason="size", detail=v))
-            continue
-        if ra > rb:
-            ra, rb, A, B = rb, ra, B, A
-        parent[rb] = ra
-        A["members"] = sorted(A["members"] + B["members"])
-        for off, ws in B["wm"].items():
-            for w, e in ws.items():
-                cur = A["wm"].setdefault(off, {}).setdefault(w, [e[0], e[1], {}, e[3]])
-                for sg, ci in e[2].items():
-                    cur[2].setdefault(sg, ci)
-        for sz, e in B["lb"].items():
-            A["lb"].setdefault(sz, e)
-        if B["ext"] and (not A["ext"] or B["ext"][0] > A["ext"][0]):
-            A["ext"] = B["ext"]
-        del comp[rb]
-        accepted.append(L)
-    refused.sort(key=lambda L: lkey(L) + (L["reason"],))
-    return dict(T=T, U=U, accepted=accepted, refused=refused, hubs=hubs, comp=comp, find=find, wm=wm, size_f=size_f, dp=dp,
-                dp_apart=dp_apart, ACC=ACC, PF=PF, J=J)
+        for nm in code:
+            if nm in T.key_of:
+                named[T.key_of[nm]].append(rel)
+        for nm in mac:
+            if nm in T.key_of:
+                macro[T.key_of[nm]].append(rel)
+    member_of = collections.defaultdict(set)
+    for k in sorted(rows):
+        for f in rows[k]["def"]["fields"]:
+            ks = T.key_of.get(next((x for x in re.findall(ID, f["type"]) if x not in TQUAL), ""))
+            if ks and ks != k:
+                member_of[ks].add(k)
+    unpl = {}
+    for L in refused:
+        if L["reason"].startswith("unplaced:") and L["a"] in rows:
+            unpl.setdefault(L["a"], f"unplaced: {L['reason'][9:]} ({L['cite_a']})")
+    casts = {}                                               # key -> [cast sites, first cite]: raw cast views of untyped values
+    for rel in sorted(S["walk"]):
+        for s_ in S["walk"][rel]["sites"]:
+            sk = T.spell(s_.get("ctype")) if s_.get("form") in ("C", "I", "X", "P") else None
+            if sk:
+                c = casts.setdefault(sk[0], [0, (rel, s_["line"])])
+                c[0] += 1
+                c[1] = min(c[1], (rel, s_["line"]))
+    noev = {}
+    for k in sorted(rows):
+        nf = sorted(set(named.get(k, ())))
+        noev[k] = (unpl[k] if k in unpl else f"bound only outside placed functions: {bound[k]}" if k in bound
+                   else f"cast views of untyped values only ({casts[k][0]} sites, first {casts[k][1][0]}:{casts[k][1][1]}), no placed object"
+                   if k in casts
+                   else f"named in {len(nf)} files outside the type files (first {nf[0]}), no placed object or access" if nf
+                   else f"macro only ({sorted(macro[k])[0]})" if macro.get(k)
+                   else f"member of {','.join(sorted(member_of[k])[:3])}{' …' if len(member_of[k]) > 3 else ''} only" if member_of.get(k)
+                   else "no users")
+    poly = sorted(((k, e) for k, e in eff.items() if len(e["types"]) > 1 and e["acc"]), key=lambda kv: kv[1]["at"])
+    return dict(T=T, U=U, US=US, P=P, wm=wm, size_f=size_f, dp=dp, dp_apart=dp_apart, ACC=ACC, PF=PF, J=J, own=own, noev=noev,
+                eff=eff, poly=poly)
+
+
+def untyped_param(p, T):
+    """(pure) a parameter spelling with no inventory type that may carry a pointer: void *, a byte pointer, or a scalar"""
+    if "(" in p or "[" in p or T.spell(p):
+        return False
+    ids = [x for x in re.findall(ID, p) if x not in TQUAL]
+    words, stars = set(ids[:-1] if len(ids) > 1 else ids), p.count("*")
+    return bool(words) and (words <= SCALAR_WORDS if stars == 0 else stars == 1 and (words == {"void"} or words <= BYTE_WORDS))
 
 
 def own_offs_param(own_offs, slot, J, span_at):
@@ -1546,80 +1746,154 @@ def _fl_key(fl):
     return (f, int(ln) if ln.isdigit() else 0)
 
 
-def links_render(R, reach):
-    """(summary lines, {tsv name: text}) of one links_build result; deterministic"""
-    T, rows, comp, find = R["T"], R["T"].row, R["comp"], R["find"]
-    tsv = {}
+def _clean(x):
+    return " ".join(str(x).split())
+
+
+def links_render(R, reach, twins=None):
+    """(summary lines, {tsv name: text}, {policy: {placeholder key: ledger proposal}}) of one links_build result; deterministic.
+    Per policy (T2.c2): links / refused / hubs / components / proposals.<policy>.tsv; shared: widths, sizes, eff, poly, decl_param,
+    twins, unplaced"""
+    T, rows = R["T"], R["T"].row
+    tsv, props = {}, {}
+    ph = sorted(k for k, r in rows.items() if r["klass"] == "placeholder")
 
     def table(name, head, recs):
         tsv[name] = "\t".join(head) + "\n" + "".join("\t".join(str(x).replace("\t", " ") for x in r) + "\n" for r in recs)
-    table("links.tsv", ("class", "sub", "A", "B", "cite_A", "cite_B"),
-          [(L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"]) for L in R["accepted"]])
-    table("refused.tsv", ("reason", "class", "sub", "A", "B", "cite_A", "cite_B", "detail"),
-          [(L["reason"], L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"], L.get("detail", "-")) for L in R["refused"]])
     table("widths.tsv", ("type", "offset", "width", "sign", "field", "cite"),
           [(k, f"0x{off:X}", w, "".join(sorted(e[2])) or "-", e[0], e[1]) for k in sorted(R["wm"]) for off in sorted(R["wm"][k])
            for w, e in sorted(R["wm"][k][off].items())])
     table("sizes.tsv", ("type", "kind", "cite"), [(k, kind, ci) for k in sorted(R["size_f"]) for kind, ci in sorted(R["size_f"][k].items())])
-    table("hubs.tsv", ("slot", "types", "why", "cites"),
-          [("/".join(str(x) if not isinstance(x, int) or x < 0x1000 else f"0x{x:08X}" for x in h["slot"]), ",".join(h["types"]), h["why"],
-            " | ".join(h["cites"])) for h in R["hubs"]])
-    # components: numbered by size (desc), then first member
-    touch = collections.defaultdict(collections.Counter)
-    for L in R["refused"]:
-        for k in {L["a"], L["b"]} & set(rows):
-            touch[find(k)][L["reason"].split(":")[0]] += 1
-    cs = sorted(comp.items(), key=lambda kv: (-len(kv[1]["members"]), kv[0]))
-    crow, cid = [], {}
-    for n, (root, c) in enumerate(cs, 1):
-        cid[root] = f"C{n}"
-        ms = c["members"]
-        tgt = min(ms, key=lambda k: (rows[k]["klass"] != "PsyQ", rows[k]["klass"] != "ledgered", -reach.get(k, 0), _fl_key(rows[k]["file_line"])))
-        sz = next(iter(c["lb"])) if c["lb"] else max((rows[k]["size"] for k in ms if isinstance(rows[k]["size"], int)), default="?")
-        lay = " ".join(f"0x{off:X}:{w}{''.join(sorted(e[2])) or '-'}:{e[3]}.{e[0]}@{e[1]}" for off in sorted(c["wm"]) for w, e in sorted(c["wm"][off].items()))
-        crow.append((f"C{n}", ",".join(ms), tgt, sz, lay or "-", ",".join(f"{r}:{x}" for r, x in sorted(touch[root].items())) or "-"))
-    table("components.tsv", ("component", "members", "target", "merged_size", "merged_layout", "refused_touching"), crow)
-    resolved = {}
-    for d in R["dp"]:
-        if find(d["a"]) == find(d["b"]):
-            resolved[id(d)] = "yes"
-        else:
-            r = next((L["reason"] for L in R["refused"] if L["sub"] == "decl" and {L["a"], L["b"]} == {d["a"], d["b"]}
-                      and L["cite_a"].endswith(f"{d['decl']} arg{d['i']}")), None)
-            resolved[id(d)] = (f"no: link refused ({r})" if r else "no: pointer depths differ" if d["depth"][0] != d["depth"][1]
-                               else "no: different components")
-    table("decl_param.tsv", ("name", "object", "i", "decl", "decl_type", "def", "def_type", "resolved"),
-          [(d["name"], d["obj"], d["i"], d["decl"], d["decl_t"], d["defn"], d["def_t"], resolved[id(d)])
+    table("eff.tsv", ("slot", "status", "types"),
+          [(e["at"], "never dereferenced" if not e["acc"] else "no typed use" if not e["types"] else "poly" if len(e["types"]) > 1
+            else "effective", " | ".join(f"{k}: {c}" for k, (_, c) in sorted(e["types"].items())) or "-")
+           for e in sorted(R["eff"].values(), key=lambda e: e["at"])])
+    table("poly.tsv", ("slot", "types", "cites"),
+          [(e["at"], ",".join(sorted(e["types"])), " | ".join(c for _, (_, c) in sorted(e["types"].items()))) for _, e in R["poly"]])
+    table("unplaced.tsv", ("what", "why", "binary_instances", "unique_sites"),
+          [(w, r, n, len(R["US"].get((w, r), ()))) for (w, r), n in sorted(R["U"].items())]
+          + [(w[0] + " (join)", w[1], n, len(R["J"].get("US", {}).get(w, ()))) for w, n in sorted(R["J"]["U"].items())])
+    S_ = [f"struct_twins --links: {len(rows)} inventory types (placeholder {len(ph)}) · HUB_K {HUB_K} · HUB_OFFS {HUB_OFFS}"
+          f" · MIN_BODY_INS {MIN_BODY_INS} · policies {', '.join(POLICIES)}"]
+    es = collections.Counter("never dereferenced" if not e["acc"] else "no typed use" if not e["types"] else "poly" if len(e["types"]) > 1
+                             else "effective" for e in R["eff"].values())
+    S_.append(f"untyped parameter slots {len(R['eff'])}: " + " · ".join(f"{k} {n}" for k, n in sorted(es.items()))
+              + f" (poly slots listed: {len(R['poly'])})")
+    dres, trows = {}, {}
+    for pol in POLICIES:
+        Q = R["P"][pol]
+        comp, find = Q["comp"], Q["find"]
+        table(f"links.{pol}.tsv", ("class", "sub", "A", "B", "cite_A", "cite_B"),
+              [(L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"]) for L in Q["accepted"]])
+        table(f"refused.{pol}.tsv", ("reason", "class", "sub", "A", "B", "cite_A", "cite_B", "detail"),
+              [(L["reason"], L["cls"], L["sub"], L["a"], L["b"], L["cite_a"], L["cite_b"], L.get("detail", "-")) for L in Q["refused"]])
+        table(f"hubs.{pol}.tsv", ("slot", "types", "why", "cites"),
+              [("/".join(str(x) if not isinstance(x, int) or x < 0x1000 else f"0x{x:08X}" for x in h["slot"]), ",".join(h["types"]), h["why"],
+                " | ".join(h["cites"])) for h in Q["hubs"]])
+        # components: numbered by size (desc), then first member
+        touch = collections.defaultdict(collections.Counter)
+        for L in Q["refused"]:
+            for k in {L["a"], L["b"]} & set(rows):
+                touch[find(k)][L["reason"].split(":")[0]] += 1
+        cs = sorted(comp.items(), key=lambda kv: (-len(kv[1]["members"]), kv[0]))
+        crow, cid, tgt = [], {}, {}
+        for n, (root, c) in enumerate(cs, 1):
+            cid[root] = f"C{n}"
+            ms = c["members"]
+            tgt[root] = min(ms, key=lambda k: (rows[k]["klass"] != "PsyQ", rows[k]["klass"] != "ledgered", -reach.get(k, 0),
+                                               _fl_key(rows[k]["file_line"])))
+            sz = next(iter(c["lb"])) if c["lb"] else max((rows[k]["size"] for k in ms if isinstance(rows[k]["size"], int)), default="?")
+            lay = " ".join(f"0x{off:X}:{w}{''.join(sorted(e[2])) or '-'}:{e[3]}.{e[0]}@{e[1]}" for off in sorted(c["wm"]) for w, e in sorted(c["wm"][off].items()))
+            crow.append((f"C{n}", ",".join(ms), tgt[root], sz, lay or "-", ",".join(f"{r}:{x}" for r, x in sorted(touch[root].items())) or "-",
+                         sum(reach.get(k, 0) for k in ms)))
+        table(f"components.{pol}.tsv", ("component", "members", "target", "merged_size", "merged_layout", "refused_touching",
+                                        "projected_reach"), crow)
+        # proposals (spec "Dispositions proposed"): one per placeholder
+        admit = {}
+        for L in Q["accepted"]:
+            if L.get("union"):
+                admit.setdefault(L["a"], L)
+                admit.setdefault(L["b"], L)
+        veto = {}
+        for L in Q["refused"]:
+            if L["reason"] in ("conflict", "size", "hub"):
+                for k, o in ((L["a"], L["b"]), (L["b"], L["a"])):
+                    veto.setdefault(k, (L, o))
+        pp = {}
+        for k in ph:
+            root = find(k)
+            ms = comp[root]["members"]
+            if len(ms) > 1 and k != tgt[root]:
+                L = admit[k]
+                pp[k] = ("fold", tgt[root], L["cls"], f"{cid[root]}: {L['cite_a']} | {L['cite_b']}", f"{L['sub']} link {L['a']}~{L['b']}")
+            elif len(ms) > 1:
+                ev = R["own"].get(k) or f"{admit[k]['cite_a']} | {admit[k]['cite_b']}"
+                pp[k] = ("apart", "-", "own", f"{cid[root]}: {ev}", f"target of {cid[root]} ({len(ms)} types)")
+            elif k in veto:
+                L, o = veto[k]
+                pp[k] = ("apart", "-", L["reason"], f"{L['cite_a']} | {L['cite_b']}" + (f" | {L['detail']}" if L.get("detail") else ""),
+                         f"{L['reason']}: {L['sub']} link to {o} refused")
+            elif k in R["own"]:
+                pp[k] = ("apart", "-", "own", R["own"][k], "own objects, no accepted link")
+            else:
+                pp[k] = ("no-evidence", "-", "-", "-", R["noev"][k])
+            pp[k] = tuple(_clean(x) for x in pp[k])
+        props[pol] = pp
+        table(f"proposals.{pol}.tsv", ("key", "disposition", "target", "class", "evidence", "reason"), [(k,) + pp[k] for k in ph])
+        # DECL-PARAM resolution under this policy
+        for d in R["dp"]:
+            if find(d["a"]) == find(d["b"]):
+                dres[(id(d), pol)] = "yes"
+            else:
+                r = next((L["reason"] for L in Q["refused"] if L["sub"] == "decl" and {L["a"], L["b"]} == {d["a"], d["b"]}
+                          and L["cite_a"].endswith(f"{d['decl']} arg{d['i']}")), None)
+                dres[(id(d), pol)] = (f"no: link refused ({r})" if r else "no: pointer depths differ" if d["depth"][0] != d["depth"][1]
+                                      else "no: different components")
+        # twins re-judged (spec "Twins re-judged")
+        for lh, tw in sorted((twins or {}).items()):
+            ks = sorted({T.key_of[nm] for nm in tw.get("names") or () if nm in T.key_of})
+            g = collections.Counter(find(k) for k in ks)
+            multi = sorted(cid[r] for r, n in g.items() if n >= 2)
+            trows.setdefault(lh, [lh, len(tw.get("names") or ()), len(ks)]).append(
+                ("linked" if len(multi) == 1 else "split" if multi else "apart holds") + (f" ({','.join(multi)})" if multi else ""))
+        # summary
+        S_.append(f"policy {pol}: links accepted {len(Q['accepted'])} (class/sub-kind: links, distinct types)")
+        for cl, sub in LINK_ORDER:
+            xs = [L for L in Q["accepted"] if (L["cls"], L["sub"]) == (cl, sub)]
+            S_.append(f"  {cl}/{sub}: {len(xs)} links, {len({k for L in xs for k in (L['a'], L['b'])})} types")
+        rc = collections.Counter(L["reason"].split(":")[0] for L in Q["refused"])
+        S_.append("  refused by reason: " + " · ".join(f"{r} {n}" for r, n in sorted(rc.items())))
+        bands = collections.Counter(next(b for b, lo in (("21+", 21), ("6-20", 6), ("3-5", 3), ("2", 2), ("1", 1)) if len(c["members"]) >= lo)
+                                    for c in comp.values())
+        S_.append("  components by size band: " + " · ".join(f"{b} {bands[b]}" for b in ("1", "2", "3-5", "6-20", "21+"))
+                  + f" · hubs {len(Q['hubs'])}")
+        S_.append("  largest 5:")
+        for r in crow[:5]:
+            ms = r[1].split(",")
+            S_.append(f"    {r[0]}: {len(ms)} types · target {r[2]} · size {r[3]} · {','.join(ms[:6])}{' …' if len(ms) > 6 else ''}")
+        dc = collections.Counter(v[0] for v in pp.values())
+        cc = collections.Counter((v[0], v[2]) for v in pp.values())
+        S_.append(f"  projected over {len(ph)} placeholders: folded {dc['fold']} · apart {dc['apart']} · no-evidence {dc['no-evidence']}"
+                  " (" + " · ".join(f"{d}/{c} {n}" for (d, c), n in sorted(cc.items())) + ")")
+        tv = collections.Counter(t[-1].split(" ")[0] if not t[-1].startswith("apart") else "apart holds" for t in trows.values())
+        S_.append(f"  twins re-judged ({len(trows)} classes): linked {tv['linked']} · split {tv['split']} · apart holds {tv['apart holds']}")
+        S_.append(f"  DECL-PARAM rows resolved by the folds: {sum(1 for d in R['dp'] if dres[(id(d), pol)] == 'yes')} of {len(R['dp'])}")
+    table("decl_param.tsv", ("name", "object", "i", "decl", "decl_type", "def", "def_type") + tuple(f"resolved_{p}" for p in POLICIES),
+          [(d["name"], d["obj"], d["i"], d["decl"], d["decl_t"], d["defn"], d["def_t"]) + tuple(dres[(id(d), p)] for p in POLICIES)
            for d in sorted(R["dp"], key=lambda d: (d["name"], d["obj"], d["i"], d["decl"]))])
-    # summary
-    S_ = [f"struct_twins --links: {len(rows)} inventory types (placeholder {sum(1 for r in rows.values() if r['klass'] == 'placeholder')})"
-          f" · HUB_K {HUB_K} · HUB_OFFS {HUB_OFFS} · MIN_BODY_INS {MIN_BODY_INS}"]
-    S_.append(f"links accepted {len(R['accepted'])} (class/sub-kind: links, distinct types)")
-    for cl, sub in LINK_ORDER:
-        xs = [L for L in R["accepted"] if (L["cls"], L["sub"]) == (cl, sub)]
-        S_.append(f"  {cl}/{sub}: {len(xs)} links, {len({k for L in xs for k in (L['a'], L['b'])})} types")
-    rc = collections.Counter(L["reason"].split(":")[0] for L in R["refused"])
-    S_.append("refused by reason: " + " · ".join(f"{r} {n}" for r, n in sorted(rc.items())))
-    S_.append("unplaced by reason:")
+    table("twins.tsv", ("lhash", "names", "inventory_keys") + tuple(f"verdict_{p}" for p in POLICIES), [trows[k] for k in sorted(trows)])
+    S_.append("unplaced by reason (binary instances / unique sites):")
     for (w, r), n in sorted(R["U"].items()):
-        S_.append(f"  {w}: {r}: {n}")
-    for w, r in sorted(R["J"]["U"].items()):
-        S_.append(f"  {w[0]} (join): {w[1]}: {r}")
-    bands = collections.Counter(next(b for b, lo in (("21+", 21), ("6-20", 6), ("3-5", 3), ("2", 2), ("1", 1)) if len(c["members"]) >= lo)
-                                for c in comp.values())
-    S_.append("components by size band: " + " · ".join(f"{b} {bands[b]}" for b in ("1", "2", "3-5", "6-20", "21+")))
-    S_.append("largest 10:")
-    for r in crow[:10]:
-        ms = r[1].split(",")
-        S_.append(f"  {r[0]}: {len(ms)} types · target {r[2]} · size {r[3]} · {','.join(ms[:6])}{' …' if len(ms) > 6 else ''}")
+        S_.append(f"  {w}: {r}: {n} / {len(R['US'].get((w, r), ()))}")
+    for w, n in sorted(R["J"]["U"].items()):
+        S_.append(f"  {w[0]} (join): {w[1]}: {n} / {len(R['J'].get('US', {}).get(w, ()))}")
     dp = R["dp"]
     S_.append(f"DECL-PARAM: rows {len(dp)} · names {len({d['name'] for d in dp})} · declaration lines {len({d['decl'] for d in dp})}"
-              f" · resolved by components {sum(1 for d in dp if resolved[id(d)] == 'yes')} · struct vs void/scalar (apart) "
-              f"{R['dp_apart']['struct vs void/scalar']}")
+              f" · struct vs void/scalar (apart) {R['dp_apart']['struct vs void/scalar']}")
     S_.append("member accesses: " + " · ".join(f"{k} {n}" for k, n in sorted(R["ACC"].items())))
     S_.append("pointer flows with a struct-bound side (placed): " + " · ".join(f"{k}/{o} {n}" for (k, o), n in sorted(R["PF"].items())))
-    S_.append(f"hubs {len(R['hubs'])} · width-map types {len(R['wm'])} · types with a load-bearing size {len(R['size_f'])}")
-    return S_, tsv
+    S_.append(f"width-map types {len(R['wm'])} · types with a load-bearing size {len(R['size_f'])}")
+    return S_, tsv, props
 
 
 def links_inputs(jobs):
@@ -1666,7 +1940,8 @@ def links_inputs(jobs):
     with mp.get_context("fork").Pool(jobs) as pool:
         scanned = list(pool.imap(_links_scan, [(f, None) for f in files], chunksize=16))
     return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig,
-                walk={k: v for k, v in walk.items() if v}, binds=[(r, b) for r, b, _ in scanned], events=[(r, e) for r, _, e in scanned])
+                walk={k: v for k, v in walk.items() if v}, binds=[(r, b) for r, b, _, _ in scanned], events=[(r, e) for r, _, e, _ in scanned],
+                uses=[(r, x) for r, _, _, x in scanned])
 
 
 def load_reach(T):
@@ -1680,18 +1955,26 @@ def load_reach(T):
     return out
 
 
-def links(out_dir, jobs):
+def links(out_dir, jobs, propose=None):
     import time
     t0 = time.time()
     S = links_inputs(jobs)
     R = links_build(S)
-    summ, tsv = links_render(R, load_reach(S["types"]))
+    twins, _ = tc.load_twins(TWINS_DOC.read_text() if TWINS_DOC.exists() else "")
+    summ, tsv, props = links_render(R, load_reach(S["types"]), twins)
     out = REPO / out_dir
     out.mkdir(parents=True, exist_ok=True)
     for name, text in sorted(tsv.items()):
         (out / name).write_text(text)
     print("\n".join(summ))
     print(f"(tables -> {out.relative_to(REPO) if out.is_relative_to(REPO) else out}: {', '.join(sorted(tsv))})")
+    if propose:
+        ph = {k: r for k, r in S["types"].row.items() if r["klass"] == "placeholder"}
+        have, dup, bad = ledger_read(LEDGER)
+        new, kept, applied = ledger_write(LEDGER, ph, have, props[propose])
+        cnt = collections.Counter(v[0] for v in props[propose].values())
+        print(f"--propose (policy {propose}): {len(ph)} placeholders -> {LEDGER.relative_to(REPO)} · "
+              + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]) + f" · applied kept {applied} · new {new} · stale kept {kept}")
     print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
 
 
@@ -1711,6 +1994,13 @@ typedef struct H1 { s32 a; } H1;
 typedef struct H2 { s32 a; } H2;
 typedef struct H3 { s32 a; } H3;
 typedef struct H4 { s32 a; } H4;
+typedef struct EA { s32 a; s32 b; } EA;
+typedef struct EM { s32 a; } EM;
+typedef struct PX { s32 a; } PX;
+typedef struct PM1 { s32 a; } PM1;
+typedef struct PM2 { s32 a; } PM2;
+typedef struct VA { s32 a; } VA;
+typedef struct VB { s32 a; s32 b; } VB;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -1722,6 +2012,11 @@ void c1(H1 *x) { hubfn(x); }
 void c2(H2 *x) { hubfn(x); }
 void c3(H3 *x) { hubfn(x); }
 void c4(H4 *x) { hubfn(x); }
+void effTake(void *p) { ((EM *)p)->a = 1; }
+void effCall(EA *q) { effTake(q); }
+void polyTake(void *p, s32 k) { if (k) { ((PM1 *)p)->a = 1; } else { ((PM2 *)p)->a = 2; } }
+void polyCall(PX *q) { polyTake(q, 0); }
+s32 viewer(VA *a) { return ((VB *)a)->b; }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -1752,7 +2047,7 @@ def links_selftest_S():
            "ov_B": [("build/src/ov_B/b.o", "src/ov_B/b.c", ["src/ov_B/b.c", hdr])]}
     images = {"main": (0x80010000, 0x80020000), "ov_A": (0x80100000, 0x80110000), "ov_B": (0x80100000, 0x80110000)}
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
-    fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4"], "ov_A": ["useLookB", "readWB", "readOA"],
+    fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer"], "ov_A": ["useLookB", "readWB", "readOA"],
            "ov_B": ["takeP", "callP", "readOB"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
     for a, names in fns.items():
@@ -1778,7 +2073,7 @@ def links_selftest_S():
     scanned = [_links_scan((f, files[f])) for f in sorted(files)]
     walk = {f: tc.walk_file(files[f], f) for f in sorted(files)}
     return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig, walk=walk,
-                binds=[(r, b) for r, b, _ in scanned], events=[(r, e) for r, _, e in scanned])
+                binds=[(r, b) for r, b, _, _ in scanned], events=[(r, e) for r, _, e, _ in scanned], uses=[(r, x) for r, _, _, x in scanned])
 
 
 def links_selftest():
@@ -1786,10 +2081,16 @@ def links_selftest():
     for _ in range(2):
         R = links_build(links_selftest_S())
         outs.append(links_render(R, {}))
-    acc = {(L["cls"], frozenset((L["a"], L["b"]))) for L in R["accepted"]}
-    ref = {(L["reason"], frozenset((L["a"], L["b"]))) for L in R["refused"]}
-    f = R["find"]
+    Q = R["P"]["effective"]
+    acc = {(L["cls"], frozenset((L["a"], L["b"]))) for L in Q["accepted"]}
+    ref = {(L["reason"], frozenset((L["a"], L["b"]))) for L in Q["refused"]}
+    f = Q["find"]
     hub_types = {frozenset(("HubT", h)) for h in ("H1", "H2", "H3", "H4")}
+    sub = {pol: {(L["sub"], frozenset((L["a"], L["b"]))) for L in R["P"][pol]["accepted"]} for pol in POLICIES}
+    fv, ft = R["P"]["views"]["find"], R["P"]["typed"]["find"]
+    planted = {"X1": dict(key="X1", disposition="fold", target="-", **{"class": "pointer"}, evidence="C1: src/a.c:1 | src/a.c:2", reason="arg link"),
+               "X2": dict(key="X2", disposition="fold", target="X1", **{"class": "pointer"}, evidence="C1: src/a.c:1 | src/a.c:2", reason="arg link")}
+    prob = dict(ledger_problems(planted, set(planted)))
     cases = [
         ("look-alike pair (equal layouts and widths, no link) stays unlinked",
          f("LookA") != f("LookB") and not any(frozenset(("LookA", "LookB")) == p for _, p in acc)),
@@ -1800,7 +2101,16 @@ def links_selftest():
         ("width conflict (u16 vs u32 at one offset) refuses the fold; both stay apart",
          ("conflict", frozenset(("WA", "WB"))) in ref and f("WA") != f("WB")),
         ("hub slot refuses its links", all(("hub", p) in ref for p in hub_types) and not any(p in hub_types for _, p in acc)
-         and any(h["slot"][0] == "param" for h in R["hubs"])),
+         and any(h["slot"][0] == "param" for h in Q["hubs"])),
+        ("an untyped param cast to one type links arg-eff (effective, not typed)",
+         ("arg-eff", frozenset(("EA", "EM"))) in sub["effective"] and f("EA") == f("EM") and ft("EA") != ft("EM")),
+        ("a param cast to two types is a poly slot, its links refused",
+         ("poly", frozenset(("PX", "PM1"))) in ref and ("poly", frozenset(("PX", "PM2"))) in ref and f("PX") != f("PM1")
+         and f("PX") != f("PM2") and any(set(e["types"]) == {"PM1", "PM2"} for _, e in R["poly"])),
+        ("the views policy links a local view the effective policy does not",
+         ("view", frozenset(("VA", "VB"))) in sub["views"] and fv("VA") == fv("VB") and f("VA") != f("VB")),
+        ("a planted ledger check fails on a fold without target (and passes the same fold with one)",
+         prob.get("fold without a ledger / PsyQ / ledgered target") == ["X1"] and len(prob) == 1),
         ("two runs print identical output", outs[0] == outs[1]),
     ]
     for name, ok in cases:
@@ -1823,6 +2133,8 @@ def main():
     ap.add_argument("--links", action="store_true", help="the merge-evidence census (docs/ops/p345-t2-struct-merge-evidence.md)")
     ap.add_argument("--out-dir", default=LINKS_DIR, help="with --links: the tables' directory (default %(default)s)")
     ap.add_argument("-j", type=int, default=16, help="with --links: worker processes (default %(default)s)")
+    ap.add_argument("--propose", action="store_true", help="with --links: write the chosen policy's proposals into the ledger")
+    ap.add_argument("--policy", choices=POLICIES, default="effective", help="with --propose: the policy (default %(default)s)")
     ap.add_argument("--selftest", action="store_true", help="the --links fixtures on a synthetic tree; exit 0 only if all pass")
     a = ap.parse_args()
     if a.selftest or a.links:
@@ -1830,7 +2142,7 @@ def main():
     if a.selftest:
         return links_selftest()
     if a.links:
-        return links(a.out_dir, a.j)
+        return links(a.out_dir, a.j, a.policy if a.propose else None)
     if a.inventory:
         return inventory(a.out)
     if a.dispositions:

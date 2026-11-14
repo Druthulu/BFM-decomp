@@ -1113,10 +1113,11 @@ def load_tus(aliases):
 
 
 def join_fns(parsed, tus, symtab, images, stacks, cls_of):
-    """The placement join of compare_core (3.45 T2: shared with struct_twins.py --links). dict(U, cov, resolve, place, dinst,
+    """The placement join of compare_core (3.45 T2: shared with struct_twins.py --links). dict(U, US, cov, resolve, place, dinst,
     cinst, defrec, def_at, defs [(b, va, h, f, ln, name, d, I)], decls [(b, f, ln, dc, objs, va, h, owners, dd)]); defs in sorted
     dinst order, decls in sorted cinst order; dd = the callee's placed definition (def_at entry) or None."""
     U = collections.Counter()                                   # unplaced, by (what, reason)
+    US = collections.defaultdict(set)                           # 3.45 T2.c2: the same, as unique sites (file, line)
     cov = collections.Counter()
     at_va = collections.defaultdict(set)
     at_own = collections.defaultdict(list)
@@ -1160,6 +1161,7 @@ def join_fns(parsed, tus, symtab, images, stacks, cls_of):
                 P = parsed.get(f)
                 if P is None:
                     U[("file", "file missing")] += 1
+                    US[("file", "file missing")].add((f, 0))
                     continue
                 for d in P["defs"]:
                     if d["name"] != "SHARED_FN":
@@ -1173,6 +1175,7 @@ def join_fns(parsed, tus, symtab, images, stacks, cls_of):
                         hdr = next((x for x in deps if x.endswith("/" + inc.lstrip("./"))), None)
                     if hdr is None or parsed.get(hdr) is None:
                         U[("definition", "SHARED_FN header not in the TU")] += 1
+                        US[("definition", "SHARED_FN header not in the TU")].add((f, inc))
                         continue
                     for d in parsed[hdr]["defs"]:
                         if d["name"] == "SHARED_FN":
@@ -1193,6 +1196,7 @@ def join_fns(parsed, tus, symtab, images, stacks, cls_of):
             why = "address in no class"
         if why:
             U[("definition", why)] += 1
+            US[("definition", why)].add((f, ln))
             continue
         cov["definitions placed"] += 1
         h = cls_of[(b, va)]
@@ -1215,6 +1219,7 @@ def join_fns(parsed, tus, symtab, images, stacks, cls_of):
                 why = owners
         if why:
             U[("declaration", why)] += 1
+            US[("declaration", why)].add((f, ln))
             continue
         cov["declarations placed"] += 1
         ds = [x for o in owners for x in def_at.get((o, va), [])]
@@ -1226,7 +1231,7 @@ def join_fns(parsed, tus, symtab, images, stacks, cls_of):
         else:
             dd = min(ds, key=lambda x: x[:4])
         decls.append((b, f, ln, dc, objs, va, h, owners, dd))
-    return dict(U=U, cov=cov, resolve=resolve, place=place, dinst=dinst, cinst=cinst, defrec=defrec, def_at=def_at, defs=defs, decls=decls)
+    return dict(U=U, US=US, cov=cov, resolve=resolve, place=place, dinst=dinst, cinst=cinst, defrec=defrec, def_at=def_at, defs=defs, decls=decls)
 
 
 def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, orphans):
