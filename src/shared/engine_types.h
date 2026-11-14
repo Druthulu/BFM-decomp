@@ -3037,7 +3037,6 @@ typedef struct {
     s16 unk04;
     s16 unk06;
 } Node_80189244;
-typedef struct { u8 p[0xE0]; s32 xE0; } ObjE0_80180ABC;
 typedef struct {
     s8 pad00[0x02];
     u16 f002;
