@@ -3730,8 +3730,8 @@ void func_80181800(s32 a0) {
     for (i = 0; i < 3; i++) {
         func_8013B7AC(i);
     }
-    ((Unkstruct_80181800_3 *)a0)->unk2 += 1;
-    ((Unkstruct_80181800_3 *)a0)->unkCC = 0;
+    ((Unkstruct_80183C90 *)a0)->unk2 += 1;
+    ((Unkstruct_80183C90 *)a0)->unkCC = 0;
 }
 
 
