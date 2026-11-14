@@ -2111,9 +2111,9 @@ extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 
 void func_800D32D4(void *arg0) {
-    if (func_801399F0(((Unkstruct_800D32D4 *)arg0)->unk198) != 0) {
-        func_80139914(((Unkstruct_800D32D4 *)arg0)->unk198);
-        ((Unkstruct_800D32D4 *)arg0)->unk214 += 1;
+    if (func_801399F0(((Unkstruct_8017E668 *)arg0)->unk198) != 0) {
+        func_80139914(((Unkstruct_8017E668 *)arg0)->unk198);
+        ((Unkstruct_8017E668 *)arg0)->unk214 += 1;
     }
 }
 
