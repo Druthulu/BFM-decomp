@@ -54,7 +54,7 @@ B8_801AEB04	struct	include/struct_types.h:550	8	no-evidence	-	-	-	cast views of 
 B8_CB578	struct	include/struct_types.h:553	8	no-evidence	-	-	-	cast views of untyped values only (5 sites, first src/md_MAIN_019/md_MAIN_019.c:319), no placed object
 BIG_8018562C	struct	src/shared/engine_types.h:3245	40	apart	-	own	ov_SC06_000/0x8018562C src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:9258 (b)	own objects, no accepted link
 BIG_80185B04	struct	src/shared/engine_types.h:3219	28	apart	-	own	ov_SC06_000/0x80185B04 src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:9447 (b)	own objects, no accepted link
-BYTES_800CFAD0	struct	include/struct_types.h:1471	4	fold	PrimTag	link	C30 global: resident/0x80114E7C src/resident/resident.c:747 | resident/0x80114E7C src/resident/resident.c:761	global-view link BYTES_800CFAD0~PrimTag
+BYTES_800CFAD0	struct	include/struct_types.h:1471	4	fold	PrimTag	link	C30 global: resident/0x80114E7C src/resident/resident.c:747 | resident/0x80114E7C src/resident/resident.c:761	global-view link BYTES_800CFAD0~PrimTag applied:b04243ab31
 Bar	struct	include/struct_types.h:410	12	apart	-	own	ov_SC02_037/0x8013C0F8 src/ov_SC02_037/ov_SC02_037_o0c.c:1026 (local_10)	own objects, no accepted link
 Base	struct	include/struct_types.h:2224	41896	apart	-	own	main/0x800183E0 src/800.c:4478 (b)	own objects, no accepted link
 Base_CBA44_t	struct	include/struct_types.h:35233	20	apart	-	own	md_MAIN_027/0x800CBA44 src/md_MAIN_027/md_MAIN_027.c:522 (b)	own objects, no accepted link
@@ -143,11 +143,11 @@ Blk8017FD54	struct	src/shared/engine_types.h:4409	8	no-evidence	-	-	-	cast views
 Blk80182030	struct	src/shared/engine_types.h:2458	20	apart	-	own	ov_SC01_009/0x8018057C src/ov_SC01_009/ov_SC01_009_jr_8018057C.c:2809 (blk)	own objects, no accepted link
 Blk8L	struct	src/shared/engine_types.h:4414	8	apart	-	own	ov_SC02_011/0x801E9DA0 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:7409	own objects, no accepted link
 Blk8S16	struct	src/shared/engine_types.h:4416	8	apart	-	own	ov_SC02_011/0x801E9DA8 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:7814	own objects, no accepted link
-Blk8_80126940	struct	src/shared/engine_types.h:531	8	fold	SVECTOR	link	C12 global: resident/0x80126940 src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:2834 | resident/0x80126940 src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3254	global link Blk8_80126940~SVECTOR
+Blk8_80126940	struct	src/shared/engine_types.h:531	8	fold	SVECTOR	link	C12 global: resident/0x80126940 src/ov_SC02_035/ov_SC02_035_jr_8017BEBC.c:2834 | resident/0x80126940 src/ov_SC03_010/ov_SC03_010_jr_8017C730.c:3254	global link Blk8_80126940~SVECTOR applied:b04243ab31
 Blk8_80133CD4	struct	src/shared/engine_types.h:4421	8	apart	-	own	resident/0x801152B0 src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:1697	own objects, no accepted link
 Blk8_801463A0	struct	src/shared/engine_types.h:1204	8	apart	-	own	resident/0x80126BE0 src/shared/ov/func_801463A0.h:51	own objects, no accepted link
 Blk8_8017B238_8017B238	struct	src/shared/engine_types.h:630	8	no-evidence	-	-	-	cast views of untyped values only (536 sites, first src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5039), no placed object
-Blk8_8017B614	struct	src/shared/engine_types.h:636	8	fold	SVECTOR	link	C12 global: ov_MAIN_012/0x801853BC src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5102 | ov_MAIN_012/0x801853BC src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5208	global-view link Blk8_80126940~Blk8_8017B614
+Blk8_8017B614	struct	src/shared/engine_types.h:636	8	fold	SVECTOR	link	C12 global: ov_MAIN_012/0x801853BC src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5102 | ov_MAIN_012/0x801853BC src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c:5208	global-view link Blk8_80126940~Blk8_8017B614 applied:b04243ab31
 Blk8_8017DAFC	struct	src/shared/engine_types.h:2499	8	apart	-	own	ov_SC03_030/0x801E06BC src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c:3973	own objects, no accepted link
 Blk8_8017E224	struct	src/shared/engine_types.h:2501	8	apart	-	own	ov_SC01_077/0x801D90F0 src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:4393	own objects, no accepted link
 Blk8_8017E6A4	struct	src/shared/engine_types.h:2502	8	no-evidence	-	-	-	cast views of untyped values only (1 sites, first src/ov_SC05_008/ov_SC05_008_jr_8017AE2C.c:4312), no placed object
@@ -189,7 +189,7 @@ Blk8_md_SC07_003_801A3638	struct	include/struct_types.h:597	8	no-evidence	-	-	-	
 Blk8_md_SC07_004_801AA9D4	struct	include/struct_types.h:598	8	no-evidence	-	-	-	cast views of untyped values only (1 sites, first src/md_SC07_004/md_SC07_004.c:7040), no placed object
 Blk8x	struct	src/shared/engine_types.h:2533	8	apart	-	own	ov_SC02_005/0x801E2DD0 src/ov_SC02_005/ov_SC02_005_jr_8017CF90.c:4205	own objects, no accepted link
 Blk_800CBAD0	struct	include/struct_types.h:599	16	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/md_MAIN_028/md_MAIN_028.c:418), no placed object
-Blk_8016CBC0	struct	src/shared/engine_types.h:980	196	fold	Blk_8016CF04_8016CF04	link	C13 global: ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3585 | ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3641	global link Slot_998~Blk_8016CBC0
+Blk_8016CBC0	struct	src/shared/engine_types.h:980	196	fold	Blk_8016CF04_8016CF04	link	C13 global: ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3585 | ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3641	global link Slot_998~Blk_8016CBC0 applied:b04243ab31
 Blk_8016CF04_8016CF04	struct	src/shared/engine_types.h:636	196	apart	-	own	C13: ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3789	target of C13 (3 types)
 Blk_80178D40	struct	src/shared/engine_types.h:647	8	no-evidence	-	-	-	named in 134 files outside the type files (first src/ov_MAIN_012/ov_MAIN_012_jr_801789AC.c), no placed object or access
 Blob36	struct	include/struct_types.h:1509	36	apart	-	own	C35: main/0x80078E50 src/resident/resident_jr_800D128C.c:565	target of C35 (2 types)
@@ -498,7 +498,7 @@ OtBlk_80182890_8018FB5C	struct	src/shared/engine_types.h:4832	20	apart	-	own	src
 OtBlk_8018FE0C	struct	src/shared/engine_types.h:3064	20	apart	-	own	src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:8235 (access OtBlk_8018FE0C+0x0)	own objects, no accepted link
 Out_8017E910	struct	src/shared/engine_types.h:3065	12	apart	-	own	ov_SC02_039/0x8017E910 src/ov_SC02_039/ov_SC02_039_jr_8017BEBC.c:3789 (out)	own objects, no accepted link
 Out_8017EC34	struct	src/shared/engine_types.h:3066	12	apart	-	own	ov_SC02_039/0x8017EC34 src/ov_SC02_039/ov_SC02_039_jr_8017BEBC.c:4017 (out)	own objects, no accepted link
-Owner4EE8	struct	include/struct_types.h:2819	24	fold	Unkstruct_8002F4E4	link	C47 pointer: src/800_b_2.c:2393 (a0: eff Unkstruct_8002F4E4: src/800_b_2.c:2392 ((Unkstruct_8002F4E4 *)a0)) | src/800_b_2.c:2393 (D_800A4EE8: src/800_b_2.c:2385)	eff-flow link Unkstruct_8002F4E4~Owner4EE8
+Owner4EE8	struct	include/struct_types.h:2819	24	fold	Unkstruct_8002F4E4	link	C47 pointer: src/800_b_2.c:2393 (a0: eff Unkstruct_8002F4E4: src/800_b_2.c:2392 ((Unkstruct_8002F4E4 *)a0)) | src/800_b_2.c:2393 (D_800A4EE8: src/800_b_2.c:2385)	eff-flow link Unkstruct_8002F4E4~Owner4EE8 applied:b04243ab31
 Owner_8012ACE0_8012ACE0	struct	src/shared/engine_types.h:775	148	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/shared/ov/func_8012ACE0__226dc4ac.h:246), no placed object
 P	struct	src/shared/engine_types.h:1610	16	apart	-	own	src/ov_SC02_011/ov_SC02_011_jr_80188E3C.c:1773 (access P+0x0)	own objects, no accepted link
 P10	struct	include/struct_types.h:2786	500	apart	-	own	ov_MAIN_012/0x80144B9C src/shared/ov/func_80144B9C.h:115 (p10)	own objects, no accepted link
@@ -539,7 +539,7 @@ PolyF3	struct	src/shared/engine_types.h:780	20	no-evidence	-	-	-	cast views of u
 PolyF4	struct	src/shared/engine_types.h:781	24	no-evidence	-	-	-	cast views of untyped values only (1769 sites, first src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:2937), no placed object
 PolyFT3	struct	src/shared/engine_types.h:782	32	no-evidence	-	-	-	cast views of untyped values only (1919 sites, first src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:2888), no placed object
 PolyFT4	struct	src/shared/engine_types.h:783	40	no-evidence	-	-	-	cast views of untyped values only (1342 sites, first src/ov_SC01_004/ov_SC01_004_jr_8017BE9C.c:3009), no placed object
-PolyG4_80021284	struct	include/struct_types.h:2091	36	fold	DrMode_80021284	link	C37 pointer: src/800.c:11607 (p: src/800.c:11521) | src/800.c:11607 (dm: src/800.c:11607)	assign link PolyG4_80021284~DrMode_80021284
+PolyG4_80021284	struct	include/struct_types.h:2091	36	fold	DrMode_80021284	link	C37 pointer: src/800.c:11607 (p: src/800.c:11521) | src/800.c:11607 (dm: src/800.c:11607)	assign link PolyG4_80021284~DrMode_80021284 applied:b04243ab31
 PolyG4_800D29F8	struct	include/struct_types.h:2104	32	apart	-	own	resident/0x800D29F8 src/resident/resident_jr_800D128C.c:1695 (p)	own objects, no accepted link
 PolyGT3	struct	src/shared/engine_types.h:1662	40	no-evidence	-	-	-	cast views of untyped values only (72 sites, first src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c:5750), no placed object
 PolyGT4	struct	src/shared/engine_types.h:1668	52	no-evidence	-	-	-	cast views of untyped values only (96 sites, first src/ov_SC02_031/ov_SC02_031_jr_8017AE2C.c:5844), no placed object
@@ -729,7 +729,7 @@ S80153CCC	struct	src/shared/engine_types.h:483	4	apart	-	own	ov_MAIN_012/0x80153
 S801563EC	struct	src/shared/engine_types.h:398	12	apart	-	own	ov_MAIN_012/0x801803E4 src/ov_MAIN_012/ov_MAIN_012_jr_801555F4.c:2069	own objects, no accepted link
 S801593E4	struct	src/shared/engine_types.h:400	20	apart	-	own	ov_SC07_010/0x80181204 src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:6373 (v1)	own objects, no accepted link
 S8016380C	struct	src/shared/engine_types.h:243	76	apart	-	size	src/md_MAIN_025/md_MAIN_025.c:311 (s1: eff Unkstruct_800CB300_2: src/md_MAIN_025/md_MAIN_025.c:257 ((Unkstruct_800CB300_2 *)s1)) | ov_MAIN_012/0x8016380C src/shared/ov/func_8016380C.h:6 arg0 | access to 0x54 (src/md_MAIN_025/md_MAIN_025.c:270) past load-bearing S8016380C 76B (pointer arithmetic src/shared/ov/func_8016380C.h:10)	size: eff-flow link to Unkstruct_800CB300_2 refused
-S80172C50	struct	src/shared/engine_types.h:585	8	fold	S8_80172780	link	C51 global: resident/0x80126B30 src/ov_SC01_077/ov_SC01_077_jr_80171B4C.c:2519 | resident/0x80126B30 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:6163	global-view link S80172C50~S8_80172780
+S80172C50	struct	src/shared/engine_types.h:585	8	fold	S8_80172780	link	C51 global: resident/0x80126B30 src/ov_SC01_077/ov_SC01_077_jr_80171B4C.c:2519 | resident/0x80126B30 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:6163	global-view link S80172C50~S8_80172780 applied:b04243ab31
 S801730FC	struct	src/shared/engine_types.h:258	186	apart	-	own	ov_MAIN_012/0x801730FC src/shared/ov/func_801730FC.h:8 (a0)	own objects, no accepted link
 S8017FF9C_sp	struct	src/shared/engine_types.h:4971	20	apart	-	own	ov_SC04_003/0x8017FF9C src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:4672 (sp)	own objects, no accepted link
 S80190C84	struct	src/shared/engine_types.h:3436	20	no-evidence	-	-	-	no users
@@ -742,7 +742,7 @@ S845EC_out	struct	src/shared/engine_types.h:2339	6	apart	-	own	ov_SC01_084/0x801
 S8Blob	struct	src/shared/engine_types.h:2384	8	apart	-	own	ov_SC01_080/0x80182B90 src/ov_SC01_080/ov_SC01_080_jr_8017AE2C.c:7522 (la)	own objects, no accepted link
 S8_80172780	struct	src/shared/engine_types.h:254	8	apart	-	own	C51: resident/0x80126B30 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:6163	target of C51 (2 types)
 S8_80184F08	struct	src/shared/engine_types.h:813	8	apart	-	own	ov_SC01_077/0x80184F08 src/ov_SC01_077/ov_SC01_077_jr_80183CF4.c:3871 (s50)	own objects, no accepted link
-S9	struct	src/shared/engine_types.h:813	9	fold	Rec9	link	C49 global: ov_MAIN_012/0x80185BC8 src/ov_MAIN_012/ov_MAIN_012_jr_8013C98C.c:1296 | ov_MAIN_012/0x80185BC8 src/ov_MAIN_012/ov_MAIN_012_jr_8013C98C.c:926	global-view link S9~Rec9
+S9	struct	src/shared/engine_types.h:813	9	fold	Rec9	link	C49 global: ov_MAIN_012/0x80185BC8 src/ov_MAIN_012/ov_MAIN_012_jr_8013C98C.c:1296 | ov_MAIN_012/0x80185BC8 src/ov_MAIN_012/ov_MAIN_012_jr_8013C98C.c:926	global-view link S9~Rec9 applied:b04243ab31
 S9E	struct	src/shared/engine_types.h:2341	4	apart	-	own	ov_SC07_010/0x80185D9E src/ov_SC07_010/ov_SC07_010_jr_8017AE2C.c:4604	own objects, no accepted link
 SC05_F3E4_Tbl8	struct	src/shared/engine_types.h:3449	8	apart	-	own	ov_SC05_001/0x8017F3E4 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4507 (e)	own objects, no accepted link
 SC05_FBB0_Rec	struct	src/shared/engine_types.h:3455	12	apart	-	own	ov_SC05_001/0x8017FBB0 src/ov_SC05_001/ov_SC05_001_jr_8017BEBC.c:4848 (e)	own objects, no accepted link
@@ -815,7 +815,7 @@ Slot54	struct	include/struct_types.h:2867	12	apart	-	own	main/0x80032048 src/800
 Slot54View	struct	include/struct_types.h:2343	84	apart	-	own	main/0x80032774 src/800_b_2.c:4814 (e)	own objects, no accepted link
 Slot_800_shared	struct	include/struct_types.h:2875	72	apart	-	own	main/0x800A4C28 src/800_b_2.c:658	own objects, no accepted link
 Slot_80165140	struct	src/shared/engine_types.h:827	16	apart	-	own	ov_MAIN_012/0x80184398 src/ov_MAIN_012/ov_MAIN_012_jr_8015A3C8.c:6726	own objects, no accepted link
-Slot_998	struct	src/shared/engine_types.h:823	196	fold	Blk_8016CF04_8016CF04	link	C13 global: ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3585 | ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3641	global link Slot_998~Blk_8016CBC0
+Slot_998	struct	src/shared/engine_types.h:823	196	fold	Blk_8016CF04_8016CF04	link	C13 global: ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3585 | ov_MAIN_012/0x801848D0 src/ov_MAIN_012/ov_MAIN_012_jr_8016AE5C.c:3641	global link Slot_998~Blk_8016CBC0 applied:b04243ab31
 Snd54	struct	include/struct_types.h:2360	84	apart	-	own	main/0x80034314 src/800_b_2.c:6418 (e)	own objects, no accepted link
 Snd54Sub	struct	include/struct_types.h:2353	8	apart	-	own	src/800_b_2.c:6507 (access Snd54Sub+0x0)	own objects, no accepted link
 Sp_80175DA8	struct	src/shared/engine_types.h:1967	20	apart	-	own	ov_MAIN_012/0x80175DA8 src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c:4141 (p)	own objects, no accepted link
@@ -852,7 +852,7 @@ St	struct	include/struct_types.h:1358	56	apart	-	own	md_MAIN_003/0x800D298C src/
 St78	struct	include/struct_types.h:1368	152	apart	-	own	md_MAIN_011/0x800D1B00 src/md_MAIN_011/md_MAIN_011.c:915 (p)	own objects, no accepted link
 St_8017D118	struct	src/shared/engine_types.h:3722	20	apart	-	own	ov_SC04_016/0x8017D118 src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c:2863 (st)	own objects, no accepted link
 St_8017DAEC	struct	src/shared/engine_types.h:3733	84	apart	-	own	ov_SC01_077/0x8017DAEC src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:4135 (s)	own objects, no accepted link
-St_8017E95C_r	struct	src/shared/engine_types.h:3766	260	fold	Unkstruct_80181E08	link	C54 pointer: src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:4020 (rec: src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:4006) | ov_SC06_025/0x80181E08 src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c:4905 arg0 (s32 arg0) eff Unkstruct_80181E08: src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c:4940 ((Unkstruct_80181E08 *)arg0)	arg-eff link St_8017E95C_r~Unkstruct_80181E08
+St_8017E95C_r	struct	src/shared/engine_types.h:3766	260	fold	Unkstruct_80181E08	link	C54 pointer: src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:4020 (rec: src/ov_SC06_025/ov_SC06_025_jr_8017BEBC.c:4006) | ov_SC06_025/0x80181E08 src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c:4905 arg0 (s32 arg0) eff Unkstruct_80181E08: src/ov_SC06_025/ov_SC06_025_jr_8017EEC4.c:4940 ((Unkstruct_80181E08 *)arg0)	arg-eff link St_8017E95C_r~Unkstruct_80181E08 applied:b04243ab31
 St_8017ED90	struct	src/shared/engine_types.h:3765	52	apart	-	hub	src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:5808 (arg0: src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:5789) | ov_SC02_037/0x8017EEC4 src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:5822 arg0 (s32 arg0) eff Unkstruct_8017D120: src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:5829 ((Unkstruct_8017D120 *)arg0)	hub: arg-eff link to Unkstruct_8017D120 refused
 St_8017EDC4	struct	src/shared/engine_types.h:3786	20	apart	-	own	ov_SC04_016/0x8017EDC4 src/ov_SC04_016/ov_SC04_016_jr_8017BEBC.c:3904 (st)	own objects, no accepted link
 St_80182784	struct	src/shared/engine_types.h:3797	20	apart	-	own	ov_SC02_041/0x80182784 src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:6749 (s)	own objects, no accepted link
