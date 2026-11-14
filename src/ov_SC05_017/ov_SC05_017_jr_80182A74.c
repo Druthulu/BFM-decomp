@@ -3216,7 +3216,7 @@ s32 func_801831C8(void *a0)
     u16 st;
 
     p = ((Unkstruct_801831C8_3 *)a0)->unk64;
-    st = ((Unkstruct_801831C8_2 *)p)->unk2;
+    st = ((Unkstruct_80182AC0 *)p)->unk2;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
@@ -3228,12 +3228,12 @@ s32 func_801831C8(void *a0)
         }
         goto hit;
     case 5:
-        if (((Unkstruct_801831C8_2 *)p)->unk34 != 1) {
+        if (((Unkstruct_80182AC0 *)p)->unk34 != 1) {
             goto ret0;
         }
         goto check;
     case 0xB:
-        if (((Unkstruct_801831C8_2 *)p)->unk34 != 0) {
+        if (((Unkstruct_80182AC0 *)p)->unk34 != 0) {
             goto ret0;
         }
         goto check;
@@ -3251,9 +3251,9 @@ s32 func_801831C8(void *a0)
 hit:
     {
         void *p2 = ((Unkstruct_801831C8_3 *)a0)->unk64;
-        u16 v = ((Unkstruct_801831C8_2 *)p2)->unk2;
+        u16 v = ((Unkstruct_80182AC0 *)p2)->unk2;
         v = v + 1;
-        ((Unkstruct_801831C8_2 *)p2)->unk2 = v;
+        ((Unkstruct_80182AC0 *)p2)->unk2 = v;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -3949,7 +3949,7 @@ s32 func_801840DC(void *a0)
     u16 st;
 
     p = ((Unkstruct_801840DC *)a0)->unk64;
-    st = ((Unkstruct_801840DC_2 *)p)->unk2;
+    st = ((Unkstruct_80182AC0 *)p)->unk2;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
@@ -3959,19 +3959,19 @@ s32 func_801840DC(void *a0)
         if (func_80185F5C(p) != 0) {
             return 0;
         }
-        ((Unkstruct_801840DC_2 *)*(s32 *)((char *)a0 + 0x64))->unk2 = 3;
+        ((Unkstruct_80182AC0 *)*(s32 *)((char *)a0 + 0x64))->unk2 = 3;
         break;
     case 5:
         if (D_801ED7FC != 0) {
             return 0;
         }
-        if (((Unkstruct_801840DC_2 *)p)->unk34 != 2) {
+        if (((Unkstruct_80182AC0 *)p)->unk34 != 2) {
             return 0;
         }
         if (func_8012BD14((s32)p) >= 0x4001) {
             return 0;
         }
-        ((Unkstruct_801840DC_2 *)*(s32 *)((char *)a0 + 0x64))->unk2 = 6;
+        ((Unkstruct_80182AC0 *)*(s32 *)((char *)a0 + 0x64))->unk2 = 6;
         break;
     default:
         return 0;
