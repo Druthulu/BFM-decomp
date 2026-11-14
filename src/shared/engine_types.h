@@ -1496,11 +1496,6 @@ typedef struct Ent_80184264 {
     s16 unkE2;
     s16 unkE4;
 } Ent_80184264;
-typedef struct {
-    u8  unk00[0x1C];
-    s32 unk1C;
-    u8  unk20[4];
-} Ent_801F7618;
 typedef Env_80140958 Env_8017EFA8;
 typedef Env_80140958 Env_8017EFA8_8017E7DC;
 typedef Env_80140958 Env_8017EFA8_8017E804;

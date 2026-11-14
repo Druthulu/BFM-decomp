@@ -6633,14 +6633,14 @@ void func_80181C50(int param_1)
 void func_80181C9C(void *arg0)
 {
     extern u8 D_80078EB1;
-    extern Ent_801F7618 D_801F7618[];
+    extern Ent_8017D6EC D_801F7618[];
     extern void func_80181FC4(void *arg0);
     s32 i;
 
     if (D_80078EB1 == 7) {
         ((Unkstruct_800B5CB8 *)arg0)->unk72 |= 0x1000;
         for (i = 0; i < 4; i++) {
-            Ent_801F7618 *p = &D_801F7618[i];
+            Ent_8017D6EC *p = &D_801F7618[i];
 
             *(s16 *)((s32)p + 0x16) = i;
             func_80181FC4(p);
@@ -6674,11 +6674,11 @@ void func_80181D38(s32 *arg0)
     /* [T51] scoped in from file scope: a file-scope decl of these symbols constrains every
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
-    extern Ent_801F7618 D_801F7618[];
+    extern Ent_8017D6EC D_801F7618[];
     u8 *m = guess_g_RenderWork;
     u8 *q = guess_g_PlayerRecord;
-    Ent_801F7618 *p;
-    Ent_801F7618 *r;
+    Ent_8017D6EC *p;
+    Ent_8017D6EC *r;
     s32 i;
     s32 j;
     s32 n;
@@ -6702,7 +6702,7 @@ void func_80181D38(s32 *arg0)
 
     i = 0;
     do {
-        p = (Ent_801F7618 *)((s32)D_801F7618 + i * 0x24);
+        p = (Ent_8017D6EC *)((s32)D_801F7618 + i * 0x24);
         if (p->unk1C == 0) {
             if (((Unkstruct_80181D38 *)p)->unkC > 0x400) {
                 if (((Unkstruct_80181D38 *)p)->unk18 != 0) {
