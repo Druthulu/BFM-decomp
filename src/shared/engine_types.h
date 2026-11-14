@@ -3389,7 +3389,7 @@ typedef struct {
     u8              pad0C[0x02];
     s16             f0E;        /* 0x0E */
     u8              pad10[0x10];
-    Coord_8017E878 *f20;        /* 0x20 */
+    Coord_8017E550 *f20;        /* 0x20 */
     u8              pad24[0x40];
     s32             f64;        /* 0x64 — driver record pointer */
     u8              pad68[0x08];
