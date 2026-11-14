@@ -178,7 +178,8 @@ LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger
 # definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), keyed by its inventory key.
 # disposition (closed list): undisposed (not judged yet) | fold (fold into `target`; `evidence` cites the shared object) |
 #   apart (kept apart; `evidence` cites what separates it) | no-evidence (no binding or use to judge by; `reason` says why).
-# class (closed list per disposition): fold global|pointer|body (the evidence class of the link that admitted it) |
+# class (closed list per disposition): fold global|pointer|body (the evidence class of the link that admitted it; T2.c3: a
+#   body-view link is class body, an eff-flow link class pointer) |
 #   apart own|conflict|size|hub (its own objects, or the refusal that keeps it apart) | no-evidence and undisposed `-`.
 # Proposals: tools/struct_twins.py --links --propose [--policy typed|effective|views] (default effective; method
 #   docs/ops/p345-t2-struct-merge-evidence.md) rewrites disposition..reason of every row on each run; fold and component-target
@@ -803,11 +804,16 @@ LINKS_DIR = ".run/3.45/t2"
 HUB_K = 4             # a slot linking >= HUB_K types ...
 HUB_OFFS = 2          # ... while its own accesses touch <= HUB_OFFS offsets is a hub (a pool, list or header helper)
 MIN_BODY_INS = 10     # body class: h_exact classes below this many instructions are coincident look-alikes (tiny-body)
-POINTER_SUBS = ("decl", "arg", "arg-eff", "ret", "ret-of", "assign", "field", "store-global", "view")   # T2.c2: arg-eff, view
+POINTER_SUBS = ("decl", "arg", "arg-eff", "ret", "ret-of", "assign", "field", "store-global", "eff-flow", "view")   # T2.c2: arg-eff, view; T2.c3: eff-flow
 POLICIES = ("typed", "effective", "views")   # T2.c2: typed slots; + arg-eff (the --propose default); + local views
+EFF_SUBS = ("arg-eff", "eff-flow", "body-view")   # sub-kinds resting on effective types / masked copies: not in policy typed (T2.c3)
+ADDR_NAME = re.compile(r"^(?:func|D)_[0-9A-Fa-f]{6,8}")   # body-view: address names are relocations (h_exact equal), masked too
+TOK_RX = re.compile(r"[A-Za-z_]\w*|0[xX][0-9A-Fa-f]+[uUlL]*|\d+[uUlL]*|->|<<=|>>=|\+\+|--|&&|\|\||[-+*/%&|^<>=!]=|<<|>>|\S")
+DECL_RX = re.compile(r"(?:^|(?<=[;{}]))[ \t]*(?:(?:register|static|volatile|const)\s+)*((?:(?:unsigned|signed)\s+)?(?:void|char|s8|u8|s16|u16|s32"
+                     r"|u32|int|short|long)\b(?:\s+(?:int|long|char|short)\b)?|unsigned\b|signed\b)([^;{}]*);", re.M)
 SCALAR_WORDS = {"s8", "u8", "s16", "u16", "s32", "u32", "int", "char", "short", "long", "unsigned", "signed"}
 BYTE_WORDS = {"char", "u8", "s8", "unsigned", "signed"}   # with one star: a byte pointer (untyped slot)
-LINK_ORDER = [("global", "global"), ("global", "global-view"), ("body", "body")] + [("pointer", s) for s in POINTER_SUBS]
+LINK_ORDER = [("global", "global"), ("global", "global-view"), ("body", "body"), ("body", "body-view")] + [("pointer", s) for s in POINTER_SUBS]
 ID = r"[A-Za-z_]\w*"
 TQUAL = {"const", "volatile", "struct", "union", "register", "static", "extern"}
 IDX = r"(?:\s*\[[^\[\]]*\])"
@@ -896,6 +902,15 @@ def lex_events(text):
             k -= 1
         if k < 0 or not (t[k].isalnum() or t[k] in "_)]"):
             ev.append(("D", line(m.start()), m.group(1)))
+    for m in DECL_RX.finditer(t):                            # T2.c3: U scalar / void / byte declarations (untyped locals: eff-flow)
+        base, pos, depth = " ".join(m.group(1).split()), m.start(2), 0
+        for i, ch in enumerate(m.group(2) + ","):
+            if ch == "," and depth == 0:
+                it = re.match(r"\s*(\**)\s*(" + ID + r")\s*(\[[^\]]*\])?\s*(?:=|$)", m.group(2)[pos - m.start(2):i])
+                if it:
+                    ev.append(("U", line(pos + it.start(2)), it.group(2), f"{base} {it.group(1)}{'[]' if it.group(3) else ''}".strip()))
+                pos = m.start(2) + i + 1
+            depth += (ch in "([") - (ch in ")]")
     return ev
 
 
@@ -1291,6 +1306,7 @@ def links_build(S):
                                  cite_a=f"{_cite_va(*o)} {ca}", cite_b=f"{_cite_va(*o)} {cb}", slot=("global",) + o))
     # ---- class body: one h_exact class typing one slot with two types
     groups = collections.defaultdict(dict)
+    body_pairs = collections.defaultdict(set)                # h_exact -> {(a, b)} the body sub-kind linked (T2.c3: body-view skips them)
     for b, va, h, f, ln, name, d, I in J["defs"]:
         sr = S["sig"].get((b, va))
         if not sr or not sr[1]:
@@ -1327,6 +1343,7 @@ def links_build(S):
                 for kb, db in ks[i + 1:]:
                     if da != db or ka == kb:
                         continue
+                    body_pairs[hx_].add((ka, kb))
                     L = dict(cls="body", sub="body", a=ka, b=kb, cite_a=f"{first[(ka, da)]} {sl_}", cite_b=f"{first[(kb, db)]} {sl_}",
                              slot=("body", hx_, sl_))
                     if nins < MIN_BODY_INS:
@@ -1370,18 +1387,161 @@ def links_build(S):
             if sk and sk[1] == 1:
                 u = (s_["line"], f"{rel}:{s_['line']} (({s_['ctype']}){s_['base']})")
                 e["types"][sk[0]] = min(e["types"].get(sk[0], u), u)
+    # T2.c3 eff-flow: untyped locals (a scalar / void / byte declaration in the function, no inventory binding) and their effective
+    # type, as for a parameter: census cast sites on the local at offset 0, `m = x` into a single-source local M *
+    effl = {}                                                # (rel, fline, ident) -> dict(types, acc, at)
+    for rel, events in S["events"]:
+        for ev in events:
+            if ev[0] != "U":
+                continue
+            sp = span_at(rel, ev[1])
+            if not sp or ev[2] in sp[3]["pnames"] or fb.get((rel, sp[0]), {}).get(ev[2]):
+                continue
+            k_ = (rel, sp[0], ev[2])
+            if not untyped_param(ev[3], T) or (k_ in effl and (effl[k_] is None or effl[k_]["sp"] != ev[3])):
+                effl[k_] = None                              # not untyped, or declared twice with two spellings
+            elif k_ not in effl:
+                effl[k_] = dict(types={}, acc=k_ in deref, at=f"{rel}:{ev[1]} local {ev[2]} ({ev[3]})", sp=ev[3])
+    effl = {k_: e for k_, e in effl.items() if e is not None}
+    for rel in sorted(S["walk"]):
+        r = S["walk"][rel]
+        for s_ in r["sites"]:
+            if (s_.get("form") not in ("C", "I", "X", "P") or s_.get("bclass") != "local" or not s_.get("fn") or s_.get("inner_cast")
+                    or s_.get("off") or (s_.get("index") is not None and s_["form"] != "X")):
+                continue
+            sp = span_at(rel, s_["line"])
+            e = effl.get((rel, sp[0], s_["base"])) if sp and sp[2] == s_["fn"] else None
+            sk = T.spell(s_.get("ctype")) if e is not None else None
+            if sk and sk[1] == 1:
+                u = (s_["line"], f"{rel}:{s_['line']} (({s_['ctype']}){s_['base']})")
+                e["types"][sk[0]] = min(e["types"].get(sk[0], u), u)
+                e["acc"] = True                              # a cast-site view dereferences the local
+    for rel in sorted(S["walk"]):
+        r = S["walk"][rel]
         for f in r["flows"]:
             sp = span_at(rel, f["line"]) if f["kind"] == "assign" else None
-            e = eff.get((rel, sp[0], f["src"])) if sp and sp[2] == f["fn"] else None
+            e = (eff.get((rel, sp[0], f["src"])) or effl.get((rel, sp[0], f["src"]))) if sp and sp[2] == f["fn"] else None
             bd = bind_of(rel, sp[0], f["dst"]) if e is not None else None
             if bd and bd[3] == "local" and bd[1] == 1 and not multi(rel, sp[0], f["dst"], bd):
                 u = (f["line"], f"{rel}:{f['line']} ({f['dst']} = {f['src']}: {bd[2]})")
                 e["types"][bd[0]] = min(e["types"].get(bd[0], u), u)
                 e["acc"] = e["acc"] or (rel, sp[0], f["dst"]) in deref
 
+    def eside(rel, fl, ident, cite):
+        """an untyped identifier's effective side ([(type, cite)], poly) in its function, or None (T2.c3 eff-flow)"""
+        e = eff.get((rel, fl, ident)) or effl.get((rel, fl, ident))
+        if not e or not e["acc"] or not e["types"]:
+            return None
+        return [(M, f"{cite} ({ident}: {'poly' if len(e['types']) > 1 else 'eff'} {M}: {uc})") for M, (_, uc) in sorted(e["types"].items())], \
+            len(e["types"]) > 1
+    # ---- class body, sub-kind body-view (T2.c3; spec "3. body"): copies whose texts are token-identical with every inventory type
+    #      spelling masked link the k-th masked position's types; other copies compare slots with declared or effective types
+    mask_nm = set(T.key_of) | set(T.ambiguous)
+    blanked = {}
+    effl_by = collections.defaultdict(set)                   # (rel, fline) -> untyped local names
+    for r_, fl_, i_ in effl:
+        effl_by[(r_, fl_)].add(i_)
+
+    def masked(f, sp):
+        """(types-only masked tokens, types + address names masked, [(type name, line)] per masked type position) of one span"""
+        if f not in blanked:
+            blanked[f] = _blank(S["read"](f)).split("\n")
+        strict, addr, pos = [], [], []
+        for ln in range(sp[0], sp[1] + 1):
+            for tk in TOK_RX.findall(blanked[f][ln - 1] if ln - 1 < len(blanked[f]) else ""):
+                if tk in mask_nm:
+                    if strict and strict[-1] in ("struct", "union"):
+                        strict.pop()
+                        addr.pop()
+                    strict.append("@T")
+                    addr.append("@T")
+                    pos.append((tk, ln))
+                else:
+                    strict.append(tk)
+                    addr.append("@A" if ADDR_NAME.match(tk) else tk)
+        return strict, addr, pos
+    BV = collections.Counter()                               # body-view measurement (summary)
+    bv_ph, tiny_bv = set(), set()
+    for hx_ in sorted(groups):
+        cps = groups[hx_]
+        if len(cps) < 2:
+            continue
+        nins = min(v[3] for v in cps.values())
+        BV["classes >= 2 placed copies"] += 1
+        big = nins >= MIN_BODY_INS
+        BV["of them nins >= MIN_BODY_INS"] += big
+        cs = []
+        for (f, ln), (b, va, d, _) in sorted(cps.items()):
+            sp = span_at(f, ln)
+            if sp:
+                cs.append((f, ln, b, va, sp) + masked(f, sp))
+        if big:
+            bv_ph |= {T.key_of[n] for c in cs for n, _ in c[7] if n in T.key_of and rows[T.key_of[n]]["klass"] == "placeholder"}
+        BV["types-only masked texts identical (>= 2 copies)" + ("" if big else ", tiny")] += \
+            any(n >= 2 for n in collections.Counter(tuple(c[5]) for c in cs).values())
+        same = collections.defaultdict(list)
+        for c in cs:
+            same[tuple(c[6])].append(c)
+        ident = [g for g in same.values() if len(g) >= 2]
+        BV["+ address names masked identical (>= 2 copies)" + ("" if big else ", tiny")] += bool(ident)
+        BV["+ address names masked, all copies identical" + ("" if big else ", tiny")] += len(same) == 1 and len(cs) >= 2
+        got = set(body_pairs[hx_]) | {(b_, a_) for a_, b_ in body_pairs[hx_]}
+        links_ = []
+        for g in ident:                                      # positional: the k-th masked type of every copy against the first copy's
+            c0 = g[0]
+            for c in g[1:]:
+                for k, ((n0, l0), (n1, l1)) in enumerate(zip(c0[7], c[7])):
+                    ka, kb = T.key_of.get(n0), T.key_of.get(n1)
+                    if ka and kb and ka != kb and (ka, kb) not in got:
+                        got |= {(ka, kb), (kb, ka)}
+                        links_.append(dict(cls="body", sub="body-view", a=ka, b=kb,
+                                           cite_a=f"{hx_[:12]} {_cite_va(c0[2], c0[3])} {c0[0]}:{l0} ({n0}) pos{k}",
+                                           cite_b=f"{hx_[:12]} {_cite_va(c[2], c[3])} {c[0]}:{l1} ({n1}) pos{k}", slot=("body", hx_, f"pos{k}")))
+        slots = collections.defaultdict(list)                # fallback: slot -> [(key, depth, cite, effective?)]
+        for f, ln, b, va, sp, *_ in cs:
+            base = f"{hx_[:12]} {_cite_va(b, va)} {f}:{ln}"
+            ps = [p for p in se.split_top(sp[3]["params"]) if p.strip() and p.strip() != "..."] if sp[3]["params"] not in ("", "void") else []
+            for i, pn in enumerate(sp[3]["pnames"]):
+                s = T.spell(ps[i]) if i < len(ps) and "(" not in ps[i] else None
+                es = eside(f, sp[0], pn, base) if not s else None
+                if s:
+                    slots[f"arg{i}"].append((s[0], s[1], base, False))
+                elif es and not es[1]:
+                    slots[f"arg{i}"].append((es[0][0][0], 1, es[0][0][1], True))
+            for ident_, v in sorted((fb.get((f, sp[0]), {}) or {}).items()):
+                if v and v[3] == "local":
+                    slots[f"local {ident_}"].append((v[0], v[1], f"{base} ({v[2]})", False))
+            for ident_ in sorted(effl_by.get((f, sp[0]), ())):
+                es = eside(f, sp[0], ident_, base)
+                if es and not es[1]:
+                    slots[f"local {ident_}"].append((es[0][0][0], 1, es[0][0][1], True))
+        for sl_ in sorted(slots):
+            first = {}
+            for k, dep, ci, ef in slots[sl_]:
+                first.setdefault((k, dep), (ci, ef))
+            ks = sorted(first)
+            for i, (ka, da) in enumerate(ks):
+                for kb, db in ks[i + 1:]:
+                    if da != db or ka == kb or (ka, kb) in got or not (first[(ka, da)][1] or first[(kb, db)][1]):
+                        continue
+                    got |= {(ka, kb), (kb, ka)}
+                    links_.append(dict(cls="body", sub="body-view", a=ka, b=kb, cite_a=f"{first[(ka, da)][0]} {sl_}",
+                                       cite_b=f"{first[(kb, db)][0]} {sl_}", slot=("body", hx_, sl_)))
+        BV["classes giving body-view links" + ("" if big else " (tiny-body, refused)")] += bool(links_)
+        BV["body-view link candidates" + ("" if big else " (tiny-body, refused)")] += len(links_)
+        for L in links_:
+            (cand.append(L) if big else refused.append(dict(L, reason="tiny-body")))
+
     def ptr(sub, a, b, cite_a, cite_b, slot, why=None):
         L = dict(cls="pointer", sub=sub, a=a, b=b, cite_a=cite_a, cite_b=cite_b, slot=slot)
         (refused.append(dict(L, reason=why)) if why else cand.append(L))
+
+    def eflow(sa, sb, slot, why=None):
+        """T2.c3 eff-flow links between a source side and a destination side ([(type, cite)], poly); a poly side refuses them"""
+        for A, ca in sa[0]:
+            for B, cb in sb[0]:
+                if A != B:
+                    ptr("eff-flow", A, B, ca, cb, slot, "poly" if sa[1] or sb[1] else why)
 
     def unplaced(sub, a, cite_a, name, whys, site):
         for w, n in whys:
@@ -1397,6 +1557,24 @@ def links_build(S):
             k = f["kind"]
             if k in ("arg", "arg&"):
                 b = bind_of(rel, fl, f["src"])
+                ea = eside(rel, fl, f["src"], cite) if not b and k == "arg" else None
+                if ea:                                       # T2.c3 eff-flow: an untyped caller value with an effective type
+                    defs, whys = callee_defs(rel, f["callee"])
+                    if not defs:
+                        PF[("eff-flow", "arg: callee unplaced")] += 1
+                    for owner, va, dd in defs:
+                        p = ptype(dd[4], f["i"])
+                        s = T.spell(p) if p and "(" not in p else None
+                        csp = span_at(dd[1], dd[2])
+                        pn = csp[3]["pnames"][f["i"]] if csp and f["i"] < len(csp[3]["pnames"]) else None
+                        at = f"{_cite_va(owner, va)} {dd[1]}:{dd[2]} arg{f['i']}"
+                        eb = eside(dd[1], csp[0], pn, at) if not s and csp and pn else None
+                        sb = ([(s[0], at)], False) if s and s[1] == 1 else eb
+                        PF[("eff-flow", "arg: " + ("parameter typed" if s and s[1] == 1 else "parameter effective" if eb else "no slot type"))] += 1
+                        if sb:
+                            eflow(ea, sb, ("param", owner, va, f["i"]),
+                                  "conduit" if s and not (csp and pn and (dd[1], csp[0], pn) in deref) else None)
+                    continue
                 if not b:
                     continue
                 da = b[1] + (k == "arg&")
@@ -1429,6 +1607,16 @@ def links_build(S):
                         ("param", owner, va, f["i"]), "conduit" if conduit else None)
             elif k in ("assign", "assign&"):
                 bd, bs = bind_of(rel, fl, f["dst"]), bind_of(rel, fl, f["src"])
+                if k == "assign" and (not bd or not bs):     # T2.c3 eff-flow: one or both sides untyped with an effective type
+                    sd = ([(bd[0], f"{cite} ({f['dst']}: {bd[2]})")], False) if bd and bd[1] == 1 else None if bd else eside(rel, fl, f["dst"], cite)
+                    ss = ([(bs[0], f"{cite} ({f['src']}: {bs[2]})")], False) if bs and bs[1] == 1 else None if bs else eside(rel, fl, f["src"], cite)
+                    if sd and ss:
+                        PF[("eff-flow", "assign")] += 1
+                        if bd and bd[3] == "global":
+                            o = next((x for x in (global_obj(b_, f["dst"])[0] for b_ in sorted(file_bins.get(rel, ()))) if x), None)
+                            eflow(ss, sd, ("global",) + (o or ()) + (f["dst"],))
+                        else:
+                            eflow(ss, sd, None, "multisource" if multi(rel, fl, f["dst"], bd or (None, 1, None, "local")) else None)
                 if not bd or not bs:
                     continue
                 ds = bs[1] + (k == "assign&")
@@ -1447,6 +1635,15 @@ def links_build(S):
                         "multisource" if multi(rel, fl, f["dst"], bd) else None)
             elif k == "ret-of":
                 bd = bind_of(rel, fl, f["dst"])
+                ed = eside(rel, fl, f["dst"], cite) if not bd else None
+                if ed:                                       # T2.c3 eff-flow: `x = f()` into an untyped local with an effective type
+                    for owner, va, dd in callee_defs(rel, f["callee"])[0]:
+                        s = T.spell(dd[4]["ret"])
+                        PF[("eff-flow", "ret-of: " + ("return typed" if s and s[1] == 1 else "no return type"))] += 1
+                        if s and s[1] == 1:
+                            eflow(([(s[0], f"{_cite_va(owner, va)} {dd[1]}:{dd[2]} ret")], False), ed, ("ret", owner, va),
+                                  "multisource" if multi(rel, fl, f["dst"], (None, 1, None, "local")) else None)
+                    continue
                 if not bd:
                     continue
                 cd = f"{cite} ({f['dst']}: {bd[2]})"
@@ -1464,6 +1661,12 @@ def links_build(S):
             elif k == "return":
                 bs = bind_of(rel, fl, f["src"])
                 s = T.spell(sp[3]["ret"])
+                es = eside(rel, fl, f["src"], cite) if not bs and s and s[1] == 1 else None
+                if es:                                       # T2.c3 eff-flow: `return x;` an untyped value with an effective type
+                    PF[("eff-flow", "return")] += 1
+                    pl = sorted(def_pl.get((rel, sp[2]), ()))
+                    eflow(es, ([(s[0], f"{_cite_va(*pl[0]) + ' ' if pl else ''}{rel}:{sp[0]} ret")], False),
+                          ("ret",) + pl[0] if pl else ("ret", rel, sp[2]))
                 if not bs or not s or s[1] != bs[1] or s[0] == bs[0]:
                     continue
                 pl = sorted(def_pl.get((rel, sp[2]), ()))
@@ -1472,6 +1675,14 @@ def links_build(S):
                     f"{_cite_va(*pl[0]) + ' ' if pl else ''}{rel}:{sp[0]} ret", slot)
     for rel, fl, ln, ctx, mk, ms, hk, hp, base, path in fflows:
         b = bind_of(rel, fl, ctx[1])
+        ex = eside(rel, fl, ctx[1], f"{rel}:{ln}") if not b and ms == 1 else None
+        if ex:                                               # T2.c3 eff-flow: a member B * loaded into / stored from an untyped value
+            PF[("eff-flow", "field")] += 1
+            cm = f"{rel}:{ln} ({base} {path}: {mk} *, member {hk}.{hp} {T.row[hk]['file_line']})"
+            if ctx[0] == "L":
+                eflow(([(mk, cm)], False), ex, ("member", hk, hp), "multisource" if multi(rel, fl, ctx[1], (None, 1, None, "local")) else None)
+            else:
+                eflow(ex, ([(mk, cm)], False), ("member", hk, hp))
         if b:
             PF[("field", "depth differs" if b[1] != ms else "same type" if b[0] == mk else "two types")] += 1
         if not b or b[1] != ms or b[0] == mk:
@@ -1597,8 +1808,8 @@ def links_build(S):
         return dict(accepted=accepted, refused=refused, hubs=hubs, comp=comp, find=find)
     P = {}
     for pol in POLICIES:
-        pc = [L for L in cand if pol != "typed" or L["sub"] != "arg-eff"]
-        pr = [L for L in refused if pol != "typed" or L["sub"] != "arg-eff"]
+        pc = [L for L in cand if pol != "typed" or L["sub"] not in EFF_SUBS]
+        pr = [L for L in refused if pol != "typed" or L["sub"] not in EFF_SUBS]
         if pol == "views":
             pc = sorted(pc + [{k: v for k, v in L.items() if k != "reason"} for L in views], key=lkey)
         else:
@@ -1662,8 +1873,12 @@ def links_build(S):
                    else f"member of {','.join(sorted(member_of[k])[:3])}{' …' if len(member_of[k]) > 3 else ''} only" if member_of.get(k)
                    else "no users")
     poly = sorted(((k, e) for k, e in eff.items() if len(e["types"]) > 1 and e["acc"]), key=lambda kv: kv[1]["at"])
+    BV["placeholders in copies (nins >= MIN_BODY_INS)"] = len(bv_ph)
+    BV["of them cast views only (no-evidence reason)"] = sum(1 for k in bv_ph if noev[k].startswith("cast views"))
+    BV["untyped locals with an effective type"] = sum(1 for e in effl.values() if e["acc"] and len(e["types"]) == 1)
+    BV["untyped locals declared (eff-flow candidates)"] = len(effl)
     return dict(T=T, U=U, US=US, P=P, wm=wm, size_f=size_f, dp=dp, dp_apart=dp_apart, ACC=ACC, PF=PF, J=J, own=own, noev=noev,
-                eff=eff, poly=poly)
+                eff=eff, poly=poly, BV=BV)
 
 
 def untyped_param(p, T):
@@ -1779,6 +1994,7 @@ def links_render(R, reach, twins=None):
                              else "effective" for e in R["eff"].values())
     S_.append(f"untyped parameter slots {len(R['eff'])}: " + " · ".join(f"{k} {n}" for k, n in sorted(es.items()))
               + f" (poly slots listed: {len(R['poly'])})")
+    S_.append("body-view / eff-flow measure (T2.c3): " + " · ".join(f"{k} {n}" for k, n in sorted(R["BV"].items())))
     dres, trows = {}, {}
     for pol in POLICIES:
         Q = R["P"][pol]
@@ -1871,6 +2087,13 @@ def links_render(R, reach, twins=None):
         for r in crow[:5]:
             ms = r[1].split(",")
             S_.append(f"    {r[0]}: {len(ms)} types · target {r[2]} · size {r[3]} · {','.join(ms[:6])}{' …' if len(ms) > 6 else ''}")
+        for r in crow:                                       # T2.c3: a 21+ component lists every member's admitting link
+            if len(r[1].split(",")) < 21:
+                break
+            S_.append(f"    {r[0]} members (admitting link):")
+            for k in r[1].split(","):
+                L = admit.get(k)
+                S_.append(f"      {k}: " + (f"{L['cls']}/{L['sub']} {L['a']}~{L['b']} {L['cite_a']} | {L['cite_b']}" if L else "-"))
         dc = collections.Counter(v[0] for v in pp.values())
         cc = collections.Counter((v[0], v[2]) for v in pp.values())
         S_.append(f"  projected over {len(ph)} placeholders: folded {dc['fold']} · apart {dc['apart']} · no-evidence {dc['no-evidence']}"
@@ -1940,7 +2163,7 @@ def links_inputs(jobs):
     with mp.get_context("fork").Pool(jobs) as pool:
         scanned = list(pool.imap(_links_scan, [(f, None) for f in files], chunksize=16))
     return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig,
-                walk={k: v for k, v in walk.items() if v}, binds=[(r, b) for r, b, _, _ in scanned], events=[(r, e) for r, _, e, _ in scanned],
+                read=lambda rel: (REPO / rel).read_text(errors="replace"), walk={k: v for k, v in walk.items() if v}, binds=[(r, b) for r, b, _, _ in scanned], events=[(r, e) for r, _, e, _ in scanned],
                 uses=[(r, x) for r, _, _, x in scanned])
 
 
@@ -2001,6 +2224,12 @@ typedef struct PM1 { s32 a; } PM1;
 typedef struct PM2 { s32 a; } PM2;
 typedef struct VA { s32 a; } VA;
 typedef struct VB { s32 a; s32 b; } VB;
+typedef struct BVA { s32 a; } BVA;
+typedef struct BVB { s32 a; s32 b; } BVB;
+typedef struct BNA { s32 a; } BNA;
+typedef struct BNB { s32 a; s32 b; } BNB;
+typedef struct EFA { s32 a; } EFA;
+typedef struct EFB { s32 a; s32 b; } EFB;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -2017,6 +2246,10 @@ void effCall(EA *q) { effTake(q); }
 void polyTake(void *p, s32 k) { if (k) { ((PM1 *)p)->a = 1; } else { ((PM2 *)p)->a = 2; } }
 void polyCall(PX *q) { polyTake(q, 0); }
 s32 viewer(VA *a) { return ((VB *)a)->b; }
+void func_80010D00(void) { ((BVA *)getp())->a = 1; }
+void func_80010E00(void) { ((BNA *)getp())->a = 1; }
+void efTake(void *p) { ((EFB *)p)->a = 1; }
+void efCall(void) { s32 q; q = getp(); ((EFA *)q)->a = 2; efTake(q); }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -2025,6 +2258,8 @@ extern OA D_80108000;
 s32 useLookB(LookB *p) { return p->a + p->b; }
 s32 readWB(void) { s32 v; v = D_80018100.x; return v; }
 s32 readOA(void) { return D_80108000.a; }
+void func_80100400(void) { ((BVB *)getp())->a = 1; }
+void func_80100500(void) { ((BNB *)getq())->a = 1; }
 """
 ST_OVB = """#include "struct_types.h"
 extern OB D_80108000;
@@ -2047,7 +2282,8 @@ def links_selftest_S():
            "ov_B": [("build/src/ov_B/b.o", "src/ov_B/b.c", ["src/ov_B/b.c", hdr])]}
     images = {"main": (0x80010000, 0x80020000), "ov_A": (0x80100000, 0x80110000), "ov_B": (0x80100000, 0x80110000)}
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
-    fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer"], "ov_A": ["useLookB", "readWB", "readOA"],
+    fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer",
+                    "func_80010D00", "func_80010E00", "efTake", "efCall"], "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500"],
            "ov_B": ["takeP", "callP", "readOB"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
     for a, names in fns.items():
@@ -2060,6 +2296,8 @@ def links_selftest_S():
             sig[(a, va)] = (cls_of[(a, va)], 12)
             own_sym[a].add((nm, va))
         syms[a] = t
+    for m_, o_ in (("func_80010D00", "func_80100400"), ("func_80010E00", "func_80100500")):   # body-view: one h_exact class each
+        sig[("ov_A", min(syms["ov_A"][o_]))] = sig[("main", min(syms["main"][m_]))]
     for a in ("main", "ov_A"):                                # D_80018000/D_80018100: main's data, absolute in ov_A's ELF
         for nm in ("D_80018000", "D_80018100"):
             syms[a][nm].add(int(nm[2:], 16))
@@ -2072,7 +2310,7 @@ def links_selftest_S():
     _LWANTED = set(types.key_of) | set(types.ambiguous)
     scanned = [_links_scan((f, files[f])) for f in sorted(files)]
     walk = {f: tc.walk_file(files[f], f) for f in sorted(files)}
-    return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig, walk=walk,
+    return dict(types=types, tus=tus, join=J, images=images, stacks=stacks, own_sym=own_sym, sig=sig, walk=walk, read=files.__getitem__,
                 binds=[(r, b) for r, b, _, _ in scanned], events=[(r, e) for r, _, e, _ in scanned], uses=[(r, x) for r, _, _, x in scanned])
 
 
@@ -2109,6 +2347,12 @@ def links_selftest():
          and f("PX") != f("PM2") and any(set(e["types"]) == {"PM1", "PM2"} for _, e in R["poly"])),
         ("the views policy links a local view the effective policy does not",
          ("view", frozenset(("VA", "VB"))) in sub["views"] and fv("VA") == fv("VB") and f("VA") != f("VB")),
+        ("body-view: two copies, same masked text, A vs B at one cast position link (effective, not typed)",
+         ("body-view", frozenset(("BVA", "BVB"))) in sub["effective"] and f("BVA") == f("BVB") and ft("BVA") != ft("BVB")),
+        ("body-view negative: masked texts differ at that position, no body-view link",
+         not any(("body-view", frozenset(("BNA", "BNB"))) in sub[p] for p in POLICIES) and f("BNA") != f("BNB")),
+        ("eff-flow: an untyped caller local viewed as A passed to a parameter viewed as B links (effective, not typed)",
+         ("eff-flow", frozenset(("EFA", "EFB"))) in sub["effective"] and f("EFA") == f("EFB") and ft("EFA") != ft("EFB")),
         ("a planted ledger check fails on a fold without target (and passes the same fold with one)",
          prob.get("fold without a ledger / PsyQ / ledgered target") == ["X1"] and len(prob) == 1),
         ("two runs print identical output", outs[0] == outs[1]),
