@@ -4068,7 +4068,7 @@ void func_8017EED8(s32 a0in) {
     if (s1 != 0) {
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         if (func_8017EF5C(param_1, s1) != 0) {
-            D_80126B96 = ((Unkstruct_8017EED8 *)s1)->unk4;
+            D_80126B96 = ((Unkstruct_8017EA44 *)s1)->unk4;
             D_80126B98 = CAST_ALIAS(s16, s1, 6);
         }
     }
