@@ -4692,7 +4692,7 @@ extern void func_8018124C(void);
 extern void func_801810B0(s32 arg0);
 
 void func_80180DBC(void *a0) {
-    Ent_801E650C *p;
+    Unkstruct_80180D40 *p;
     s32 i;
     s32 t;
 
@@ -4714,37 +4714,37 @@ void func_80180DBC(void *a0) {
             return;
         }
     }
-    p = (Ent_801E650C *)&D_801E650C;
+    p = (Unkstruct_80180D40 *)&D_801E650C;
     for (i = 0; i < 0x10; i++, p++) {
-        if (p->state == 1) goto st1;
-        if (p->state < 2) goto done;
-        if (p->state == 2) goto st2;
-        if (p->state == 3) goto st3;
+        if (p->unk0 == 1) goto st1;
+        if (p->unk0 < 2) goto done;
+        if (p->unk0 == 2) goto st2;
+        if (p->unk0 == 3) goto st3;
         goto done;
     st1:
-        p->cnt++;
-        if (p->cnt >= p->lim * 2) {
-            p->cnt = 0;
-            p->state++;
-            p->x = rand() % 280 - 140;
-            p->y = rand() % 200 - 100;
-            p->spd = (rand() & 0x3F) + 0x30;
+        p->unk2++;
+        if (p->unk2 >= p->unk8 * 2) {
+            p->unk2 = 0;
+            p->unk0++;
+            p->unk4 = rand() % 280 - 140;
+            p->unk6 = rand() % 200 - 100;
+            p->unkC = (rand() & 0x3F) + 0x30;
         }
         goto done;
     st2:
-        p->flag = 1;
-        p->cnt++;
-        p->velo = p->spd * p->cnt / 6;
-        if (p->cnt >= 6) {
-            p->cnt = 0;
-            p->state++;
+        p->unkE = 1;
+        p->unk2++;
+        p->unkA = p->unkC * p->unk2 / 6;
+        if (p->unk2 >= 6) {
+            p->unk2 = 0;
+            p->unk0++;
         }
         goto done;
     st3:
-        p->flag = 1;
-        p->cnt++;
+        p->unkE = 1;
+        p->unk2++;
     done:
-        if (p->flag != 0) {
+        if (p->unkE != 0) {
             func_801810B0(p);
         }
     }

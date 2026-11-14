@@ -2730,16 +2730,6 @@ typedef struct {
     u8  p78[0x10C - 0x78];      /* stride 0x10C, 0x60 entries                */
 } Ent_8018D654;
 typedef Ent_8018D654 Ent_8018D3A4;
-typedef struct {
-    s16 state; /* 0x0 */
-    s16 cnt;   /* 0x2 */
-    s16 x;     /* 0x4 */
-    s16 y;     /* 0x6 */
-    s16 lim;   /* 0x8 */
-    s16 velo;  /* 0xA */
-    s16 spd;   /* 0xC */
-    s16 flag;  /* 0xE */
-} Ent_801E650C;
 typedef struct Vec Entry8018F07C;
 typedef struct {
     s16 f0;
