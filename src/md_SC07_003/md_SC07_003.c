@@ -3550,7 +3550,7 @@ void func_801A5098(s32 a0) {
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_801A50D4(void * arg0) {
-        ((Unkstruct_8018C3C4 *)arg0)->unkFC = 0x8;
+        ((Unkstruct_8018620C *)arg0)->unkFC = 0x8;
         ((void (*)(s32, s32))func_8012AD44)((int)arg0, 0x2);
     }
 
@@ -4073,14 +4073,14 @@ void func_801A5D4C(s32 param_1)
     u16 v0;
     u16 v1;
 
-    a1 = ((Unkstruct_8018C3C4 *)param_1)->unkCC;
+    a1 = ((Unkstruct_8018620C *)param_1)->unkCC;
     v1 = ((Unkstruct_8018D04C *)*(s32 *)(param_1 + 0x20))->unk18;
     if (v1 < 0x5000) {
         s32 p20;
 
         ((Unkstruct_8018D04C *)*(s32 *)(param_1 + 0x20))->unk18 = v1 + 0x100;
 
-        p20 = ((Unkstruct_8018C3C4 *)param_1)->unk20;
+        p20 = ((Unkstruct_8018620C *)param_1)->unk20;
         v1 = ((Unkstruct_8018D04C *)p20)->unk18;
         ((Unkstruct_8018D04C *)p20)->unk1C = v1;
         ((Unkstruct_8018D04C *)p20)->unk1A = v1;
@@ -4090,9 +4090,9 @@ void func_801A5D4C(s32 param_1)
 
         ((Unkstruct_8018D04C_2 *)a1)->unk12 = ((Unkstruct_8018D04C_2 *)a1)->unk12 - 0x100;
 
-        ((Unkstruct_8018D04C_2 *)a1)->unk8 = ((Unkstruct_8018C3C4 *)param_1)->unk6 + ((Unkstruct_8018C3C4 *)param_1)->unk50;
-        ((Unkstruct_8018D04C_2 *)a1)->unkA = ((Unkstruct_8018C3C4 *)param_1)->unkA + ((Unkstruct_8018C3C4 *)param_1)->unk52;
-        ((Unkstruct_8018D04C_2 *)a1)->unkC = ((Unkstruct_8018C3C4 *)param_1)->unkE + ((Unkstruct_8018C3C4 *)param_1)->unk54;
+        ((Unkstruct_8018D04C_2 *)a1)->unk8 = ((Unkstruct_8018620C *)param_1)->unk6 + ((Unkstruct_8018620C *)param_1)->unk50;
+        ((Unkstruct_8018D04C_2 *)a1)->unkA = ((Unkstruct_8018620C *)param_1)->unkA + ((Unkstruct_8018620C *)param_1)->unk52;
+        ((Unkstruct_8018D04C_2 *)a1)->unkC = ((Unkstruct_8018620C *)param_1)->unkE + ((Unkstruct_8018620C *)param_1)->unk54;
 
         ((Unkstruct_8018D04C_2 *)a1)->unk18 = ((Unkstruct_8018D04C *)*(s32 *)(param_1 + 0x20))->unk18;
         ((Unkstruct_8018D04C_2 *)a1)->unk1A = ((Unkstruct_8018D04C *)*(s32 *)(param_1 + 0x20))->unk1A;
