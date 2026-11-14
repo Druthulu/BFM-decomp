@@ -469,7 +469,9 @@ def dispositions(ledger, check):
     ph = {r["key"]: r for r in rows if r["klass"] == "placeholder"}
     have, dup, bad = ledger_read(ledger)
     if check:
-        miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph))
+        # P3.45 T6.c2: a fold/absorb row whose definition restruct --fold-row deleted is a folded-away placeholder, not an unknown key
+        gone = {k for k, e in have.items() if k not in ph and e.get("disposition") in ("fold", "absorb")}
+        miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph) - gone)
         cnt = collections.Counter(e.get("disposition") for e in have.values())
         cc = collections.Counter((e.get("disposition"), e.get("class")) for e in have.values() if e.get("disposition") != "undisposed")
         prob = ledger_problems(have, set(have) | {r["key"] for r in rows if r["klass"] in ("PsyQ", "ledgered")})
@@ -479,16 +481,17 @@ def dispositions(ledger, check):
         # consolidation (P3.45 T5): an applied fold by class (global|pointer|body|link -> link, twin, value), an applied absorb,
         # survivor, wall; everything else (undisposed, apart, no-evidence, unapplied fold/absorb) pending. Over placeholder rows.
         cons = collections.Counter()
-        for k in ph:
+        for k in set(ph) | gone:
             e = have.get(k) or {}
             d, app = e.get("disposition"), bool(APPLIED_RX.search(e.get("reason") or ""))
             c = e.get("class")
             cons["link" if d == "fold" and app and c in ("global", "pointer", "body", "link") else c if d == "fold" and app
                  and c in ("twin", "value") else "absorbed" if d == "absorb" and app else "survivors" if d == "survivor"
                  else "walls" if d == "wall" else "pending"] += 1
-        print(f"  consolidation: placeholders {len(ph)} · folded link {cons['link']} · twin {cons['twin']} · value {cons['value']}"
+        print(f"  consolidation: placeholders {len(ph) + len(gone)} · folded link {cons['link']} · twin {cons['twin']} · value {cons['value']}"
               f" · absorbed {cons['absorbed']} · survivors {cons['survivors']} · walls {cons['walls']} · pending {cons['pending']}")
-        print(f"  finished {len(ph) - cons['pending']} (applied fold/absorb, survivor, wall) · pending {cons['pending']}"
+        print(f"  folded away (definition deleted by restruct --fold-row) {len(gone)}")
+        print(f"  finished {len(ph) + len(gone) - cons['pending']} (applied fold/absorb, survivor, wall) · pending {cons['pending']}"
               f" (apart, no-evidence, undisposed, unapplied fold/absorb)")
         for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)) + tuple(prob):
             if ks:

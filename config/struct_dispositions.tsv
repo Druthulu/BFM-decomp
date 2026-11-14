@@ -782,8 +782,8 @@ SV4_801AAB28	struct	include/struct_types.h:1170	8	apart	-	own	md_SC07_004/0x801A
 SV4_FC6C	struct	src/shared/engine_types.h:3605	8	apart	-	own	ov_SC03_007/0x8017FC6C src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:5577 (sv0)	own objects, no accepted link
 SV4_L_8017BEBC	struct	src/shared/engine_types.h:1860	8	apart	-	own	ov_SC02_011/0x8017C558 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:3555 (vec)	own objects, no accepted link
 SV4x_80180ACC	struct	src/shared/engine_types.h:3606	8	no-evidence	-	-	-	cast views of untyped values only (12 sites, first src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:5451), no placed object
-SV4x_80184754	struct	src/shared/engine_types.h:3609	8	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/ov_SC02_017/ov_SC02_017_jr_8017DF34.c:6835), no placed object
-SV4x_80184B30	struct	src/shared/engine_types.h:3610	8	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/ov_SC03_090/ov_SC03_090_jr_8017CA80.c:5805), no placed object
+SV4x_80184754	struct	src/shared/engine_types.h:3609	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3)
+SV4x_80184B30	struct	src/shared/engine_types.h:3610	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3)
 SV4x_80184B30_801829C4	struct	src/shared/engine_types.h:3611	8	no-evidence	-	-	-	cast views of untyped values only (12 sites, first src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:5827), no placed object
 SV892CC	struct	src/shared/engine_types.h:3615	8	apart	-	own	ov_SC02_005/0x801892CC src/ov_SC02_005/ov_SC02_005_jr_80185E80.c:2502 (o0)	own objects, no accepted link
 SVECTOR_8017E6D8	struct	include/struct_types.h:1209	8	fold	M8_801312D0	link	C44 global: ov_MAIN_012/0x8017E838 src/ov_MAIN_012/ov_MAIN_012.c:2020 | ov_MAIN_012/0x8017E838 src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:621	global link M8_801312D0~SVECTOR_8017E6D8
@@ -1061,7 +1061,7 @@ Unkstruct_80041354	struct	include/struct_types.h:34972	92	no-evidence	-	-	-	cast
 Unkstruct_80078E78	struct	include/struct_types.h:330	152	no-evidence	-	-	-	cast views of untyped values only (8498 sites, first src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c:4551), no placed object
 Unkstruct_800B5CB8	struct	include/struct_types.h:6	268	apart	-	own	C1: ov_MAIN_012/0x801840D0 src/ov_MAIN_012/ov_MAIN_012.c:1225	target of C1 (53 types)
 Unkstruct_800CAE74	struct	include/struct_types.h:21007	16	no-evidence	-	-	-	cast views of untyped values only (6 sites, first src/md_MAIN_031/md_MAIN_031.c:31), no placed object
-Unkstruct_800CAE74_2	struct	include/struct_types.h:21018	16	no-evidence	-	-	-	cast views of untyped values only (6 sites, first src/md_MAIN_031/md_MAIN_031.c:32), no placed object
+Unkstruct_800CAE74_2	struct	include/struct_types.h:21018	16	fold	Unkstruct_800CAE74	twin	lhash:85b2dea5a3bd fields:6	exact layout twin of Unkstruct_800CAE74 (P3.45 T6.c2 pilot P2)
 Unkstruct_800CAE74_3	struct	include/struct_types.h:29061	4	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/md_MAIN_031/md_MAIN_031.c:40), no placed object
 Unkstruct_800CAE8C	struct	include/struct_types.h:34614	408	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/md_MAIN_016/md_MAIN_016.c:37), no placed object
 Unkstruct_800CAEC0	struct	include/struct_types.h:30088	432	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/md_MAIN_030/md_MAIN_030.c:44), no placed object
@@ -1190,7 +1190,7 @@ Unkstruct_800CCD2C	struct	include/struct_types.h:17615	28	no-evidence	-	-	-	cast
 Unkstruct_800CCD2C_2	struct	include/struct_types.h:21998	100	apart	-	hub	src/md_MAIN_044/md_MAIN_044.c:131 (param_1: eff Unkstruct_800CCD2C_2: src/md_MAIN_044/md_MAIN_044.c:111 ((Unkstruct_800CCD2C_2 *)param_1)) | md_MAIN_044/0x800CCE88 src/md_MAIN_044/md_MAIN_044.c:145 arg0 (param_1: eff Unkstruct_800CCCA0: src/md_MAIN_044/md_MAIN_044.c:146 ((Unkstruct_800CCCA0 *)param_1))	hub: eff-flow link to Unkstruct_800CCCA0 refused
 Unkstruct_800CCD50	struct	include/struct_types.h:27241	584	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/md_MAIN_046/md_MAIN_046.c:84), no placed object
 Unkstruct_800CCD50_2	struct	include/struct_types.h:36071	20	no-evidence	-	-	-	cast views of untyped values only (1 sites, first src/md_MAIN_046/md_MAIN_046.c:85), no placed object
-Unkstruct_800CCDB0	struct	include/struct_types.h:27356	576	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/md_MAIN_046/md_MAIN_046.c:96), no placed object
+Unkstruct_800CCDB0	struct	include/struct_types.h:27356	576	absorb	Unkstruct_800CCD50	offset	+0x0 src/md_MAIN_046/md_MAIN_046.c:89	func_800CCD50 passes its own object to func_800CCDB0 (P3.45 T6.c2 pilot P4)
 Unkstruct_800CCDB0_2	struct	include/struct_types.h:31912	460	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/md_MAIN_044/md_MAIN_044.c:127), no placed object
 Unkstruct_800CCDD8	struct	include/struct_types.h:12625	48	no-evidence	-	-	-	cast views of untyped values only (11 sites, first src/md_MAIN_045/md_MAIN_045.c:105), no placed object
 Unkstruct_800CCDD8_2	struct	include/struct_types.h:17622	100	apart	-	hub	8966ceb4ce9e md_MAIN_044/0x800CCE88 src/md_MAIN_044/md_MAIN_044.c:145 (param_1: eff Unkstruct_800CCCA0: src/md_MAIN_044/md_MAIN_044.c:146 ((Unkstruct_800CCCA0 *)param_1)) arg0 | 8966ceb4ce9e md_MAIN_045/0x800CCE80 src/md_MAIN_045/md_MAIN_045.c:136 (arg0: eff Unkstruct_800CCDD8_2: src/md_MAIN_045/md_MAIN_045.c:142 ((Unkstruct_800CCDD8_2 *)arg0)) arg0	hub: body-view link to Unkstruct_800CCCA0 refused

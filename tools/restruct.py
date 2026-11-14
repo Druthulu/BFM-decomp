@@ -72,6 +72,7 @@ TUs and are judged on every includer, a fan-out COMPILE-ERROR retried once (T2 (
 outer gate (the clean fleet run, R22) which tools/restruct_cycle.sh runs before the commit.
 """
 import argparse
+import bisect
 import collections
 import contextlib
 import difflib
@@ -3252,14 +3253,15 @@ def _lvl(t, V, crx, lself):
             return None
 
 
-def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, block):
+def _hf_file_edits(masked, lo_hi_fns, glob_spans, lnames, tag, lfields, lself, block, g_override=None):
     """(accesses[(start, end, local field)], tag_edits[(start, end, repl)], refusals[cause]) over one file's view of the local type.
     lo_hi_fns: the function spans judged (a block unit: the one span after its definition); glob_spans: file-level text (the
-    globals of the type; empty for a block unit)."""
+    globals of the type; empty for a block unit). g_override (P3.45 T6 fold engine): the typed globals {name: level} to use
+    instead of the file's own (the fold passes every file's top-level declarations: a header's extern types a .c's accesses)."""
     alts = [re.escape(n) for n in lnames] + ([r"struct\s+" + re.escape(tag)] if tag else [])
     trx = re.compile(r"(?<![\w])(?:" + "|".join(alts) + r")(?![\w])")
     crx = re.compile(r"^\(\s*(?:(?:const|volatile)\s+)*(?:" + "|".join(alts) + r")\s*(\**)\s*\)")
-    G = {} if block else _typed_vars(masked, glob_spans, trx, params=False)
+    G = {} if block else dict(g_override) if g_override is not None else _typed_vars(masked, glob_spans, trx, params=False)
     acc = []
     for lo, hi in lo_hi_fns:
         V = dict(G)
@@ -3572,6 +3574,972 @@ def fold_report(heads):
         for c, us in sorted(causes.items(), key=lambda x: -len(x[1])):
             print(f"      {len(us):5d}  {c}  e.g. {', '.join(us[:2])}")
     return 0
+
+# ----------------------------------------------------------------------------------------------------------------------
+# THE FOLD ENGINE (P3.45 T6.c2): `--fold-row KEY[,KEY…] [--write]` folds rows of config/struct_dispositions.tsv into their
+# target — disposition fold (class link|twin|value; target = the row's target) or absorb (class offset|variant; target = the
+# parent, evidence `+0x<off>`, a variant's `member:<union>.<variant>`). The target definition gains every member's ACCESSED
+# fields at their offsets (unk<HEX>/pad<HEX> names, `/* 0xNN */` comments, the size trailer; audit_definition must pass); a
+# same-width sign conflict is refused with both cites; any other overlap becomes a NAMED union inside the target (cc1 2.7.2
+# has no anonymous unions, probed T6.c2: `union { struct {…} v0; struct {…} v1; } unk<HEX>;`); a type whose size is
+# load-bearing (sizeof, a value object or array element, a by-value parameter, pointer arithmetic) and differs from the merged
+# size is refused. Every token of a member's names in src/ and include/ becomes the target's spelling (its typedef aliases
+# re-point with it), accesses on member-typed bases are respelled by the offset map (rung HF's type-aware walker: _typed_vars,
+# _lvl, _hf_file_edits over every file holding the names, macro bodies included; typed globals from every file's top level),
+# the member definitions are deleted, struct-ledger keys and file_lines that shift are rekeyed, and the spelling-keyed stores
+# (C0572) follow the fold map: config/type_folds.tsv, config/tnc_band.tsv, config/dedup_exceptions.tsv and the restruct
+# ledger (rewritten in place as rename_sym.restruct_ledger does; gitignored, never committed). An absorb at +0x<off> != 0 is
+# planned (the merged definition shows) and refused: the view's pointer sources address parent+off, so retyping them to the
+# parent needs the sources rebased, not a token rewrite. `--fold-stamp KEY[,…] COMMIT` appends ` applied:<commit>` to reasons.
+# ----------------------------------------------------------------------------------------------------------------------
+FOLD_ROOT = None                    # the selftest's synthetic tree (laid out like the repo); None = REPO
+FOLD_FLOWS = ".run/3.45/t14/types.tsv"       # T14's fragment table: candidates `<parent> 0x<off> flow …` (absorb's multi-parent guard)
+FOLD_STORES = ("config/type_folds.tsv", "config/tnc_band.tsv", "config/dedup_exceptions.tsv")
+FOLD_LEDGER = ".run/P37/restruct/ledger.jsonl"
+FOLD_DISPO = "config/struct_dispositions.tsv"
+FOLD_N = "\x00N\x00"                # a field template's name slot
+FOLD_PAD = re.compile(r"^pad")      # a pad-named field: dropped from a target unless accessed
+FOLD_ARRAY_ZERO = re.compile(r"\[\s*0\s*\]")
+
+
+def _froot():
+    return FOLD_ROOT or REPO
+
+
+def _fread(rel):
+    return (_froot() / rel).read_text(errors="surrogateescape")
+
+
+def _fold_files(names):
+    """The src/ and include/ .c/.h files (rel, sorted) holding any of the identifier tokens `names`."""
+    root, names = _froot(), sorted(n for n in names if n)
+    dirs = [d for d in ("src", "include") if (root / d).is_dir()]
+    if not names or not dirs:
+        return []
+    p = subprocess.run(["grep", "-rlwE", "--include=*.c", "--include=*.h", "|".join(names)] + dirs, cwd=root, capture_output=True, text=True)
+    return sorted(set(p.stdout.split()))
+
+
+def _fold_stmts(masked, lo, hi):
+    """[(start, end)] of the top-level `;` statements of a struct body masked[lo:hi] (depth over braces and parens)."""
+    out, depth, cur = [], 0, lo
+    for k in range(lo, hi):
+        c = masked[k]
+        if c in "{(":
+            depth += 1
+        elif c in "})":
+            depth -= 1
+        elif c == ";" and depth == 0:
+            out.append((cur, k)); cur = k + 1
+    if masked[cur:hi].strip():
+        out.append((cur, hi))
+    return out
+
+
+def _fold_tmpls(stmt):
+    """(pure) the field templates of one masked struct-body statement, in declarator order: [declaration text with the name replaced
+    by FOLD_N] — or a str cause when the engine cannot re-render it."""
+    s = re.sub(r"\s+", " ", stmt).strip()
+    if "__attribute__" in s:
+        return "a field with __attribute__"
+    if "{" in s:
+        c = s.rfind("}")
+        head, out = s[:c + 1], []
+        for part in sl._split_top(s[c + 1:], ","):
+            m = re.match(r"^\s*(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", part)
+            if not m:
+                return "an anonymous nested member"
+            out.append(f"{head} {m.group(1)}{FOLD_N}{m.group(3)}")
+        return out or "an anonymous nested member"
+    parts = sl._split_top(s, ",")
+    if any(re.search(r":\s*\d+\s*$", p) for p in parts):
+        return "a bit-field"
+    fp = re.match(r"^(.*?\(\s*\*\s*)([A-Za-z_]\w*)(\s*\)\s*\(.*\)\s*(?:\[[^\]]*\]\s*)*)$", parts[0])
+    if fp:
+        return [fp.group(1) + FOLD_N + fp.group(3)] if len(parts) == 1 else "a function-pointer statement with several declarators"
+    m = re.match(r"^(.*?)\s*(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", parts[0])
+    if not m or not m.group(1).strip():
+        return "an unparsed field"
+    base = m.group(1).strip()
+    out = [f"{base} {m.group(2)}{FOLD_N}{m.group(4)}"]
+    for p in parts[1:]:
+        m2 = re.match(r"^\s*(\**)\s*([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", p)
+        if not m2:
+            return "an unparsed declarator"
+        out.append(f"{base} {m2.group(1)}{FOLD_N}{m2.group(3)}")
+    return out
+
+
+def _fold_fields(res, d, masked):
+    """(fields, span, cause) of one definition record: fields [dict(name, off, size, al, leaves, tmpl, cite)] in order; span (start,
+    open, close, end) of `[typedef] struct … { … } names;` in its file; cause (str) when the engine cannot re-render the definition."""
+    ls = dl.line_starts(masked)
+    m = sl.DEF_START.search(masked, ls[d["line"] - 1])
+    close = sl._match_brace(masked, m.end() - 1) if m else -1
+    semi = masked.find(";", close) if close != -1 else -1
+    if semi == -1:
+        return None, None, f"{d['file']}:{d['line']}: the definition was not found at its line"
+    span = (m.start(), m.end() - 1, close, semi + 1)
+    if d["kind"] != "struct":
+        return None, span, f"{d['file']}:{d['line']}: a {d['kind']} definition (the engine folds structs)"
+    if re.search(r"packed|aligned", d.get("attrs") or ""):
+        return None, span, f"{d['file']}:{d['line']}: an attributed definition"
+    if d.get("ptr_names") or (not d["typedef"] and masked[close + 1:semi].strip()):
+        return None, span, f"{d['file']}:{d['line']}: the definition also declares pointer/array names or objects"
+    tm = []
+    for a, b in _fold_stmts(masked, m.end(), close):
+        a += len(masked[a:b]) - len(masked[a:b].lstrip())
+        t = _fold_tmpls(masked[a:b])
+        if isinstance(t, str):
+            return None, span, f"{d['file']}:{bisect.bisect_right(ls, a)}: {t}"
+        tm += [(x, bisect.bisect_right(ls, a)) for x in t]
+    if len(tm) != len(d["fields"]):
+        return None, span, f"{d['file']}:{d['line']}: {len(tm)} field templates for {len(d['fields'])} parsed fields"
+    out, off = [], 0
+    for f, (tmpl, line) in zip(d["fields"], tm):
+        if f.get("nested"):
+            nd = f["nested"]
+            r = res.layout_of_fields(nd["fields"], nd["kind"]) if nd["kind"] != "enum" else (4, 4, [(0, 4, "s")])
+            if r and f.get("dims"):
+                sz, al, lv = r
+                for dd in reversed(f["dims"]):
+                    lv = [(k * sz + o, w, s_) for k in range(dd or 0) for (o, w, s_) in lv]
+                    sz *= (dd or 0)
+                r = (sz, al, lv)
+        else:
+            r = res.layout(f["type"], f["stars"], f["dims"])
+        if r is None:
+            return None, span, f"{d['file']}:{line}: field `{f['name']}` has an unknown layout"
+        sz, al, lv = r
+        o = (off + al - 1) // al * al
+        out.append(dict(name=f["name"], off=o, size=sz, al=al, leaves=tuple(sorted(set(lv))), tmpl=tmpl, cite=f"{d['file']}:{line}"))
+        off = o + sz
+    return out, span, None
+
+
+def _fold_resolve(g, name):
+    """The struct/union definition record a name means (plain typedef aliases followed), else None."""
+    rec = g.get(name)
+    for _ in range(8):
+        if not rec or rec.get("kind") != "alias":
+            break
+        if rec.get("alias_stars") or rec.get("alias_dims"):
+            return None
+        rec = g.get(re.sub(r"^(?:struct|union)\s+", "", rec["alias_of"]))
+    return rec if rec and rec.get("kind") in ("struct", "union") else None
+
+
+def _fold_spell(d):
+    return d["names"][0] if d["names"] else f"{d['kind']} {d['tag']}"
+
+
+def _fold_names(d):
+    return d["names"] + ([d["tag"]] if d["tag"] else [])
+
+
+def _fold_view(rel, cache):
+    """(raw, masked, line starts, function spans, file-level spans, top-level spans) of one file, cached in `cache`."""
+    if rel not in cache:
+        raw = _fread(rel)
+        msk = dl.same_len_mask(raw)
+        fns = [(lo, hi) for (_, lo, hi) in _fn_spans(raw, rel, msk)]
+        glob = _complement(fns, len(msk))
+        top = []                                  # file-level text outside braces: the declarations that are objects, not fields
+        for lo, hi in glob:
+            depth, cur = 0, lo
+            for m in re.finditer(r"[{}]", msk[lo:hi]):
+                p = lo + m.start()
+                if m.group(0) == "{":
+                    if depth == 0 and p > cur:
+                        top.append((cur, p))
+                    depth += 1
+                else:
+                    depth = max(depth - 1, 0)
+                    if depth == 0:
+                        cur = p + 1
+            if depth == 0 and hi > cur:
+                top.append((cur, hi))
+        cache[rel] = (raw, msk, dl.line_starts(msk), fns, glob, top)
+    return cache[rel]
+
+
+def _fold_trx(names, tag, kind="struct"):
+    alts = [re.escape(n) for n in names] + ([r"(?:struct|union)\s+" + re.escape(tag)] if tag else [])
+    return re.compile(r"(?<![\w])(?:" + "|".join(alts) + r")(?![\w])"), "|".join(alts)
+
+
+def _fold_aliases(names, cache):
+    """The plain typedef aliases (no stars/dims; transitive) of `names` in src/ and include/: [alias]."""
+    out, seen = [], set(names)
+    todo = list(names)
+    while todo:
+        rx = re.compile(r"(?<![\w.])typedef\s+(?:(?:struct|union)\s+)?(?:" + "|".join(map(re.escape, todo)) + r")\s+([A-Za-z_]\w*)\s*;")
+        nxt = []
+        for rel in _fold_files(todo):
+            for m in rx.finditer(_fold_view(rel, cache)[1]):
+                if m.group(1) not in seen:
+                    seen.add(m.group(1)); out.append(m.group(1)); nxt.append(m.group(1))
+        todo = nxt
+    return out
+
+
+def _fold_globals(trx, files, cache):
+    """{name: level} of the top-level objects declared with the type in `files` (a header's extern types its includers' accesses)."""
+    G = {}
+    for rel in files:
+        _, msk, _, _, _, top = _fold_view(rel, cache)
+        for n, lv in _typed_vars(msk, top, trx, params=False).items():
+            G.setdefault(n, lv)
+    return G
+
+
+def _fold_accesses(d, F, aliases, cache, why):
+    """{rel: [(start, end, field)]} of every access on a base of d's type (names + aliases + tag) in src/ and include/."""
+    lnames = d["names"] + aliases
+    if not lnames and not d["tag"]:
+        return {}
+    trx, _ = _fold_trx(lnames, d["tag"])
+    self_types = {re.sub(r"\s+", " ", n) for n in lnames} | ({f"{d['kind']} {d['tag']}"} if d["tag"] else set())
+    lself = {f["name"]: f["stars"] + len(f["dims"] or []) for f in d["fields"]
+             if f["name"] and not f.get("nested") and re.sub(r"\s+", " ", f["type"] or "").strip() in self_types}
+    files = _fold_files(lnames + ([d["tag"]] if d["tag"] else []))
+    G = _fold_globals(trx, files, cache)
+    out = {}
+    for rel in files:
+        _, msk, _, fns, glob, top = _fold_view(rel, cache)
+        g_ = dict(G)
+        g_.update(_typed_vars(msk, top, trx, params=False))
+        acc, _, ref = _hf_file_edits(msk, fns, glob, lnames, d["tag"], {x["name"] for x in F if x["name"]}, lself, False, g_override=g_)
+        why += [f"{rel}: {r}" for r in ref]
+        if acc:
+            out[rel] = acc
+    return out
+
+
+def _fold_lb(d, aliases, cache):
+    """[cite] of the uses that make d's size load-bearing: sizeof, a value object or array element (extern scalars excepted), a
+    by-value parameter, pointer arithmetic on a pointer of the type (typed variables, `((T *)e)[i]` / `((T *)e) + k`)."""
+    lnames = d["names"] + aliases
+    if not lnames and not d["tag"]:
+        return []
+    trx, alts = _fold_trx(lnames, d["tag"])
+    files = _fold_files(lnames + ([d["tag"]] if d["tag"] else []))
+    G = _fold_globals(trx, files, cache)
+    out = []
+    for rel in files:
+        _, msk, ls, fns, glob, top = _fold_view(rel, cache)
+
+        def cite(p, what):
+            out.append(f"{rel}:{bisect.bisect_right(ls, p)} {what}")
+        for m in re.finditer(r"\bsizeof\s*\(\s*(?:" + alts + r")\s*\)", msk):
+            cite(m.start(), "sizeof")
+        for m in trx.finditer(msk):
+            head = msk[max(msk.rfind(c, 0, m.start()) for c in ";{}") + 1:m.start()]
+            if re.search(r"\btypedef\b", head):
+                continue
+            as_param = msk[:m.start()].rstrip()[-1:] in ("(", ",")
+            depth, k, cur, parts = 0, m.end(), m.end(), []
+            while k < len(msk):
+                c = msk[k]
+                if c in "([":
+                    depth += 1
+                elif c in ")]":
+                    if depth == 0:
+                        break
+                    depth -= 1
+                elif c in ";{" and depth == 0:
+                    break
+                elif c == "," and depth == 0:
+                    parts.append(msk[cur:k]); cur = k + 1
+                    if as_param:
+                        break
+                k += 1
+            parts.append(msk[cur:k])
+            for p in (parts[:1] if as_param else parts):
+                dm = HF_DECLARATOR.match(p.split("=", 1)[0])
+                if not dm or dm.group(1):
+                    continue
+                if dm.group(3).count("["):
+                    cite(m.start(), f"array element `{dm.group(2)}[]`")
+                elif as_param:
+                    cite(m.start(), f"by-value parameter `{dm.group(2)}`")
+                elif not re.search(r"\bextern\b", head):
+                    cite(m.start(), f"value object `{dm.group(2)}`")
+        for lo, hi in fns:
+            V = dict(G)
+            V.update(_typed_vars(msk, top, trx, params=False))
+            V.update(_typed_vars(msk, [(lo, hi)], trx, params=True))
+            for n in sorted(x for x, lv in V.items() if lv >= 1):
+                rx = re.compile(r"(?<![\w.>])" + re.escape(n) + r"\b\s*(?:\[(?!\s*0\s*\])|\+\+|--|[+-](?!>))|(?:\+\+|--)\s*\b" + re.escape(n) + r"\b")
+                mm = rx.search(msk, lo, hi)
+                if mm:
+                    cite(mm.start(), f"pointer arithmetic on `{n}`")
+        for mm in re.finditer(r"\(\s*(?:" + alts + r")\s*\*\s*\)", msk):
+            k = mm.start() - 1
+            while k >= 0 and msk[k] in " \t\r\n":
+                k -= 1
+            if k < 0 or msk[k] != "(":
+                continue
+            c = _match_close(msk, k)
+            rest = msk[c + 1:c + 16].lstrip() if c > 0 else ""
+            if (rest.startswith("[") and not FOLD_ARRAY_ZERO.match(rest)) or re.match(r"[+-](?![>=+-])", rest):
+                cite(mm.start(), "pointer arithmetic on a cast")
+    return out
+
+
+def _fold_flow_parents(names):
+    """{name: {parent}} of T14's flow candidates for the names (absorb's multi-parent guard); None when the table is absent."""
+    p = _froot() / FOLD_FLOWS
+    if not p.exists():
+        return None
+    lines = p.read_text().splitlines()
+    head = lines[0].split("\t") if lines else []
+    ci = head.index("candidates") if "candidates" in head else None
+    out = {}
+    for ln in lines[1:]:
+        c = ln.split("\t")
+        if ci is not None and c[0] in names and len(c) > ci:
+            out[c[0]] = {m.group(1) for m in re.finditer(r"([A-Za-z_]\w*) 0x[0-9A-Fa-f]+ flow", c[ci])}
+    return out
+
+
+def _fold_line_map(raw, edits):
+    """old 1-based line -> new line under the edits (None: the line starts inside a replaced or deleted region)."""
+    ls = dl.line_starts(raw)
+    ev = sorted((a, b, r) for (a, b, r, *_) in edits)
+
+    def f(L):
+        if L < 1 or L > len(ls):
+            return L
+        p, delta = ls[L - 1], 0
+        for a, b, r in ev:
+            if b <= p:
+                delta += r.count("\n") - raw[a:b].count("\n")
+            elif a < p < b:
+                return None
+        return L + delta
+    return f
+
+
+def _fold_render(tdef, items, size, indent="    ", comments=()):
+    """The merged definition text: items [(off, 'plain', decl, size, al) | (off, 'union', uname, [(vname, [(rel, decl, size)], 0)],
+    usize, al)]; `comments`: the original body's standalone comment lines, kept after the opening brace."""
+    tag = f" {tdef['tag']}" if tdef["tag"] else ""
+    lines, cur = [f"{'typedef ' if tdef['typedef'] else ''}{tdef['kind']}{tag} {{"] + [f"{indent}/* {c} */" for c in comments], 0
+    for it in sorted(items, key=lambda x: x[0]):
+        off = it[0]
+        if off > cur:
+            lines.append(f"{indent}/* {cur:#06x} */ u8 pad{cur:X}[{off - cur:#x}];")
+        if it[1] == "plain":
+            lines.append(f"{indent}/* {off:#06x} */ {it[2]};")
+            cur = off + it[3]
+        else:
+            lines.append(f"{indent}/* {off:#06x} */ union {{")
+            for vname, vfields, vsize in it[3]:
+                body, vc = [], 0
+                for rel, decl, fsz in vfields:
+                    if rel > vc:
+                        body.append(f"u8 pad{vc:X}[{rel - vc:#x}];")
+                    body.append(decl + ";")
+                    vc = rel + fsz
+                lines.append(f"{indent}{indent}struct {{ {' '.join(body)} }} {vname};")
+            lines.append(f"{indent}}} {it[2]};")
+            cur = off + it[4]
+    if size > cur:
+        lines.append(f"{indent}/* {cur:#06x} */ u8 pad{cur:X}[{size - cur:#x}];")
+    names = ", ".join(tdef["names"])
+    lines.append(f"}} {names}; /* size = {size:#x} */" if tdef["typedef"] else f"}}; /* size = {size:#x} */")
+    return "\n".join(lines)
+
+
+def fold_plan(keys):
+    """The fold of ledger rows `keys` into their one target, NOTHING written: dict(keys, disp, target_key, target, classes, merged
+    (text or None = the target unchanged), size_old, size_new, map{type key: {field: path}}, texts{rel: new text}, counts{rel: n},
+    stores{rel: (new text, n)}, dispo (new text, rekeys, retargets), ledger_rows, refusals[cause], notes[])."""
+    import struct_twins as st
+    root = _froot()
+    P = dict(keys=list(keys), disp=None, target_key=None, target=None, classes=[], merged=None, size_old=None, size_new=None, map={},
+             texts={}, counts={}, stores={}, dispo=None, ledger_rows=0, refusals=[], notes=[], lb={})
+
+    def refuse(c):
+        P["refusals"].append(c)
+        return P
+    have, _dup, _bad = st.ledger_read(root / FOLD_DISPO)
+    rows = []
+    for k in keys:
+        e = have.get(k)
+        if not e:
+            return refuse(f"{k}: no row in {FOLD_DISPO}")
+        if e["disposition"] not in ("fold", "absorb"):
+            return refuse(f"{k}: disposition {e['disposition']} (the engine applies fold and absorb rows)")
+        if st.APPLIED_RX.search(e.get("reason") or ""):
+            return refuse(f"{k}: already applied ({e['reason']})")
+        rows.append(e)
+    if len({e["target"] for e in rows}) != 1 or len({e["disposition"] for e in rows}) != 1:
+        return refuse("the rows of one call share one target and one disposition")
+    disp, tkey = rows[0]["disposition"], rows[0]["target"]
+    P.update(disp=disp, target_key=tkey, classes=sorted({e["class"] for e in rows}))
+    if FOLD_ROOT is None:
+        u = st.type_universe()
+    else:
+        files = [h for h in CANON_HEADERS if (root / h).exists()] + sorted(str(p.relative_to(root)) for p in (root / "include").rglob("*.h"))
+        u = st.type_universe({rel: _fread(rel) for rel in dict.fromkeys(files)})
+    inv = {r["key"]: r for r in st.inventory_defs(u)}
+    res = sl.Resolver(u["g"])
+    tdef = inv[tkey]["def"] if tkey in inv else _fold_resolve(u["g"], tkey.split("@")[0])
+    if tdef is None:
+        return refuse(f"target {tkey}: no struct definition")
+    mdefs = []
+    for k in keys:
+        if k not in inv:
+            return refuse(f"{k}: not a definition of the canonical files (struct_twins inventory)")
+        if inv[k]["def"] is tdef:
+            return refuse(f"{k}: is its own target")
+        mdefs.append(inv[k]["def"])
+    tsp = _fold_spell(tdef)
+    P["target"] = tsp
+    cache = {}
+    tF, tspan, why = _fold_fields(res, tdef, _fold_view(tdef["file"], cache)[1])
+    if why:
+        return refuse(f"target {tsp}: {why}")
+    M = []
+    for k, d in zip(keys, mdefs):
+        F, span, why = _fold_fields(res, d, _fold_view(d["file"], cache)[1])
+        if why:
+            return refuse(f"{k}: {why}")
+        M.append(dict(key=k, d=d, F=F, span=span, size=res.layout_of_fields(d["fields"], d["kind"])[0]))
+    tsize = res.layout_of_fields(tdef["fields"], tdef["kind"])[0]
+    # names: a member's names must mean its canonical definition everywhere (no other definition of them in the tree)
+    mnames = [n for m in M for n in _fold_names(m["d"])]
+    for rel in _fold_files(mnames):
+        for d2 in tc.walk_file(_fold_view(rel, cache)[0], rel)["definitions"]:
+            if set(_fold_names(d2)) & set(mnames) and not any(d2["file"] == m["d"]["file"] and d2["line"] == m["d"]["line"] for m in M):
+                refuse(f"{rel}:{d2['line']}: another definition of {sorted(set(_fold_names(d2)) & set(mnames))}")
+    if P["refusals"]:
+        return P
+    # absorb: the offset / the variant path, one parent per type
+    for m, e in zip(M, rows):
+        m["off"], m["path"] = 0, None
+        if disp == "absorb":
+            mo = st.OFFSET_RX.search(e.get("evidence") or "")
+            m["off"] = int(mo.group(0)[3:], 16) if mo else 0
+            mp = st.MEMBER_RX.search(e.get("evidence") or "")
+            m["path"] = mp.group(0).strip()[len("member:"):].split(".") if mp else None
+    if disp == "absorb":
+        fl = _fold_flow_parents(set(mnames))
+        if fl is None:
+            P["notes"].append(f"{FOLD_FLOWS} absent: the multi-parent guard was not run")
+        for m in M:
+            ps = set().union(*[fl.get(n, set()) for n in _fold_names(m["d"])]) if fl else set()
+            if len(ps) > 1:
+                refuse(f"{m['key']}: its pointer sources name different parents {sorted(ps)} (split per source first)")
+            elif ps and ps != {tdef['names'][0] if tdef['names'] else tdef['tag']}:
+                P["notes"].append(f"{m['key']}: T14's flow parent {sorted(ps)} is not the row's target {tkey}")
+        if P["refusals"]:
+            return P
+    # accesses (before any edit: the types still differ)
+    why = []
+    talias = _fold_aliases(_fold_names(tdef), cache)
+    tacc = None                                                  # computed when a target field is respelled (a union)
+    for m in M:
+        m["aliases"] = _fold_aliases(_fold_names(m["d"]), cache)
+        m["acc"] = _fold_accesses(m["d"], m["F"], m["aliases"], cache, why)
+        m["used"] = {f for es in m["acc"].values() for (_, _, f) in es}
+    if why:
+        return refuse(why[0])
+    tacc = _fold_accesses(tdef, tF, talias, cache, why)
+    tused = {f for es in tacc.values() for (_, _, f) in es}
+    member_rx = re.compile(r"(?:struct|union)\s+(?:" + "|".join(re.escape(m["d"]["tag"]) for m in M if m["d"]["tag"]) + r")\b"
+                           if any(m["d"]["tag"] for m in M) else r"(?!x)x")
+    name_rx = re.compile(r"\b(?:" + "|".join(re.escape(n) for m in M for n in m["d"]["names"]) + r")\b" if any(m["d"]["names"] for m in M) else r"(?!x)x")
+
+    def resub(t):
+        return name_rx.sub(tsp, member_rx.sub(tsp, t))
+    # the merge: sources (target first), entries (source, field, absolute offset), clusters of overlapping entries
+    psyq = (inv[tkey]["klass"] == "PsyQ") if tkey in inv else tdef["file"].startswith("include/psyq/")   # a PsyQ target keeps every field
+    srcs = [("target", [x for x in tF if psyq or not (FOLD_PAD.match(x["name"]) and x["name"] not in tused)], 0)]
+    srcs += [(m["key"], [x for x in m["F"] if x["name"] in m["used"]], m["off"]) for m in M]
+    ents = sorted(((si, x, x["off"] + off) for si, (_, F, off) in enumerate(srcs) for x in F), key=lambda e: (e[2], e[0]))
+    clusters, cur_end = [], -1
+    for e in ents:
+        if clusters and e[2] < cur_end:
+            clusters[-1].append(e)
+            cur_end = max(cur_end, e[2] + e[1]["size"])
+        else:
+            clusters.append([e])
+            cur_end = e[2] + e[1]["size"]
+    items, paths, names_top = [], collections.defaultdict(dict), {}
+
+    def scalar_tmpl(x):
+        b = x["tmpl"].split(FOLD_N)[0].strip()
+        return not x["tmpl"].split(FOLD_N)[1].strip() and sl.scalar_of(b) is not None and not b.endswith("*")
+
+    def agree(a, b):
+        return a["size"] == b["size"] and a["leaves"] == b["leaves"] and (resub(a["tmpl"]) == resub(b["tmpl"]) or (scalar_tmpl(a) and scalar_tmpl(b)))
+    for C in clusters:
+        lo, hi = min(e[2] for e in C), max(e[2] + e[1]["size"] for e in C)
+        first = C[0]
+        if all(e[2] == first[2] and agree(e[1], first[1]) for e in C):
+            tgt = next((e for e in C if e[0] == 0), None)
+            nm = tgt[1]["name"] if tgt else f"unk{lo:X}"
+            items.append((lo, "plain", resub((tgt or first)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
+            names_top.setdefault(nm, []).append(lo)
+            for e in C:
+                paths[srcs[e[0]][0]][e[1]["name"]] = nm
+            continue
+        sign = [(a, b) for a in C for b in C if a[0] < b[0] and a[2] == b[2] and a[1]["size"] == b[1]["size"]
+                and [(o, w) for (o, w, _) in a[1]["leaves"]] == [(o, w) for (o, w, _) in b[1]["leaves"]]
+                and any({s1, s2} == {"s", "u"} for (_, _, s1), (_, _, s2) in zip(a[1]["leaves"], b[1]["leaves"]))]
+        if sign:
+            a, b = sign[0]
+            return refuse(f"sign conflict at {a[2]:#x}: `{resub(a[1]['tmpl']).replace(FOLD_N, a[1]['name'])}` ({a[1]['cite']}) vs "
+                          f"`{resub(b[1]['tmpl']).replace(FOLD_N, b[1]['name'])}` ({b[1]['cite']})")
+        if disp == "absorb" and any(m["path"] is None for m in M):
+            a, b = C[0], next(e for e in C if e[0] != C[0][0] or e is not C[0])
+            return refuse(f"conflict at {lo:#x}..{hi:#x} inside {tsp}: `{a[1]['name']}` ({a[1]['cite']}) vs `{b[1]['name']}` ({b[1]['cite']}): "
+                          f"needs class variant (member:<union>.<variant>)")
+        ual = max(e[1]["al"] for e in C)
+        if lo % ual:
+            return refuse(f"a union at {lo:#x} would be {ual}-aligned and move the layout ({C[0][1]['cite']})")
+        mp = next((m["path"] for m in M if m.get("path")), None)
+        uname = mp[0] if mp else f"unk{lo:X}"
+        variants = []                                             # [(vname, [(rel, decl, size)], sig, [source idx])]
+        for si in sorted({e[0] for e in C}):
+            fs = [e for e in C if e[0] == si]
+            vf = [(e[2] - lo, resub(e[1]["tmpl"]).replace(FOLD_N, e[1]["name"] if si == 0 else f"unk{e[2] - lo:X}"), e[1]["size"]) for e in fs]
+            sig = tuple((r, resub(e[1]["tmpl"])) for (r, _, _), e in zip(vf, fs))
+            hit = next((v for v in variants if v[2] == sig and si != 0), None)
+            if hit:
+                hit[3].append(si)
+                vname, inner = hit[0], hit[1]
+            else:
+                vname = (mp[1] if mp and len(mp) > 1 and si != 0 else f"v{len(variants)}")
+                variants.append((vname, vf, sig, [si]))
+                inner = vf
+            for e, (_, decl, _) in zip(fs, inner):
+                paths[srcs[si][0]][e[1]["name"]] = f"{uname}.{vname}.{_decl_name(decl)}"
+        usize = max(r + s for (_, vf, _, _) in variants for (r, _, s) in vf)
+        usize = (usize + ual - 1) // ual * ual
+        items.append((lo, "union", uname, [(v[0], v[1], 0) for v in variants], usize, ual))
+        names_top.setdefault(uname, []).append(lo)
+    dupn = {n: o for n, o in names_top.items() if len(o) > 1}
+    if dupn:
+        return refuse(f"two merged fields would share a name: {dupn}")
+    maxal = max([it[-1] for it in items] + [1])
+    end = max([it[0] + (it[3] if it[1] == "plain" else it[4]) for it in items] + [0])
+    nsize = max(tsize, (end + maxal - 1) // maxal * maxal)
+    P.update(size_old=tsize, size_new=nsize, map={k: {f: p for f, p in v.items() if f != p} for k, v in paths.items()})
+    for m in M:
+        if m["off"]:
+            refuse(f"{m['key']}: absorb at +{m['off']:#x}: its pointer sources address {tsp}+{m['off']:#x}; retyping them to the parent "
+                   f"needs the sources rebased (a lever, not a token rewrite)")
+    # the rendered target (unchanged when every member field agrees with a target field and the size holds)
+    changed = nsize != tsize or any(it[1] == "union" for it in items) or any(
+        it[1] == "plain" and not any(e[0] == 0 for C in clusters for e in C if e[2] == it[0]) for it in items) or len(srcs[0][1]) != len(tF)
+    fsig = lambda d_: [(f["name"], f["type"], f["stars"], f["dims"]) for f in d_["fields"]]
+    if changed:
+        raw_t, msk_t = _fold_view(tdef["file"], cache)[:2]
+        notes = [ln.strip()[2:-2].strip() for ln, ml in zip(raw_t[tspan[1] + 1:tspan[2]].split("\n"), msk_t[tspan[1] + 1:tspan[2]].split("\n"))
+                 if ln.strip().startswith("/*") and ln.strip().endswith("*/") and not ml.strip()]   # the body's standalone comment lines
+        P["merged"] = _fold_render(tdef, items, nsize, comments=notes)
+        rd = next((x for x in tc.walk_file(P["merged"] + "\n", tdef["file"])["definitions"]), None)
+        if rd and fsig(rd) == fsig(tdef) and nsize == tsize:
+            P["merged"], changed = None, False                    # the re-render would only rewrite the same fields
+    if changed:
+        if psyq or tdef["file"] not in CANON_HEADERS:
+            return refuse(f"target {tsp} ({tdef['file']}:{tdef['line']}) is a PsyQ type or outside the canonical type files: the merge would change it")
+        g2 = dict(u["g"])
+        for n in _fold_names(tdef):
+            g2[n] = rd
+        res2 = sl.Resolver(g2)
+        lay2 = res2.layout_of_fields(rd["fields"], rd["kind"]) if rd else None
+        if not lay2 or lay2[0] != nsize:
+            return refuse(f"render check: the merged {tsp} lays out at size {lay2[0] if lay2 else '?'}, planned {nsize:#x}")
+        aud = sl.audit_definition(rd, res2, P["merged"])
+        if aud:
+            return refuse(f"render check: audit_definition: {aud[0]}")
+        leaves = set(lay2[2])
+        for C in clusters:
+            for (_, x, ab) in C:
+                if not all((ab + o, w, s_) in leaves for (o, w, s_) in x["leaves"]):
+                    return refuse(f"render check: `{x['name']}` ({x['cite']}) is not a leaf of the merged {tsp} at {ab:#x}")
+    # load-bearing sizes
+    if nsize != tsize:
+        lb = _fold_lb(tdef, talias, cache)
+        P["lb"][tsp] = lb
+        if lb:
+            return refuse(f"target {tsp} grows {tsize:#x} -> {nsize:#x} and its size is load-bearing: {'; '.join(lb[:3])}")
+    for m in M:
+        if m["size"] != nsize:
+            lb = _fold_lb(m["d"], m["aliases"], cache)
+            P["lb"][m["key"]] = lb
+            if lb:
+                return refuse(f"{m['key']}: size {m['size']:#x} != merged {nsize:#x} and load-bearing: {'; '.join(lb[:3])}")
+    # the edits
+    edits = collections.defaultdict(list)
+    skip = collections.defaultdict(list)
+    tf_ = tdef["file"]
+    if P["merged"] is not None:
+        raw_t = _fold_view(tf_, cache)[0]
+        e_ = tspan[3]
+        mt = re.match(r"[ \t]*/\*\s*size\s*=\s*0x[0-9A-Fa-f]+\s*\*/", raw_t[e_:])
+        e_ = e_ + mt.end() if mt else e_
+        edits[tf_].append((tspan[0], e_, P["merged"]))
+        skip[tf_].append((tspan[0], e_))
+    for m in M:
+        raw_m, msk_m = _fold_view(m["d"]["file"], cache)[:2]
+        a, b = m["span"][0], m["span"][3]
+        la = raw_m.rfind("\n", 0, a) + 1
+        lb_ = msk_m.find("\n", b)
+        lb_ = len(raw_m) if lb_ == -1 else lb_ + 1
+        if not msk_m[la:a].strip() and not msk_m[b:lb_].strip():
+            a, b = la, lb_
+            if raw_m[b:b + 1] == "\n" and raw_m[max(a - 2, 0):a] in ("\n\n", "\n"):
+                b += 1                                            # blank before and after: one blank line stays
+        edits[m["d"]["file"]].append((a, b, ""))
+        skip[m["d"]["file"]].append((a, b))
+    ret_rx = re.compile(r"((?:struct|union)\s+(?:" + "|".join(re.escape(m["d"]["tag"]) for m in M if m["d"]["tag"]) + r")\b(\s*;)?)"
+                        if any(m["d"]["tag"] for m in M) else r"((?!x)x)()")
+    for rel in _fold_files(mnames):
+        _, msk, ls, *_ = _fold_view(rel, cache)
+        sk = list(skip.get(rel, []))                              # deleted/re-rendered spans, then each `struct Tag` already taken
+        for rx in (ret_rx, name_rx):
+            for mm in rx.finditer(msk):
+                if any(a <= mm.start() < b for a, b in sk):
+                    continue
+                if rel == tf_ and mm.start() < tspan[0]:
+                    return refuse(f"{rel}:{bisect.bisect_right(ls, mm.start())}: a member token before the target's definition ({tf_}:{tdef['line']})")
+                edits[rel].append((mm.start(), mm.end(), "" if rx is ret_rx and mm.group(2) else tsp))
+                if rx is ret_rx:
+                    sk.append((mm.start(), mm.end()))
+    acc_sets = [(m["key"], m["acc"]) for m in M] + [("target", tacc)]
+    for k, acc in acc_sets:
+        mp_ = paths.get(k, {})
+        for rel, es in acc.items():
+            for (s_, e_, f) in es:
+                if any(a <= s_ < b for a, b in skip.get(rel, [])):
+                    continue
+                if f not in mp_:
+                    return refuse(f"{rel}: an access to `{f}` of {k} has no merged field")
+                if mp_[f] != f:
+                    edits[rel].append((s_, e_, mp_[f]))
+    for rel, es in edits.items():
+        es = sorted(set(es))
+        try:
+            P["texts"][rel] = compose_text(_fold_view(rel, cache)[0], es)
+        except Refuse as ex:
+            return refuse(f"{rel}: {ex}")
+        P["counts"][rel] = len(es)
+        edits[rel] = es
+    # the spelling-keyed stores, the struct ledger, the restruct ledger
+    olds = [n for m in M for n in m["d"]["names"]] or [m["d"]["tag"] for m in M if m["d"]["tag"]]
+    tname = tdef["names"][0] if tdef["names"] else tdef["tag"]
+    srx = re.compile(r"\b(?:" + "|".join(map(re.escape, olds)) + r")\b")
+    for rel in FOLD_STORES:
+        p = root / rel
+        if not p.exists():
+            continue
+        out, n, seen = [], 0, set()
+        for ln in p.read_text().splitlines(keepends=True):
+            c0 = ln.split("\t")
+            if ln.startswith("#") or not srx.search(ln):
+                if rel.endswith("type_folds.tsv") and not ln.startswith("#"):
+                    seen.add(c0[0])
+                out.append(ln)
+                continue
+            new = srx.sub(tname, ln)
+            c = new.split("\t")
+            n += 1
+            if rel.endswith("type_folds.tsv") and (c[0] in seen or (len(c) > 2 and c[0] == c[2])):
+                continue                                          # the row now names the target itself, or repeats one
+            seen.add(c[0])
+            out.append(new)
+        if n:
+            P["stores"][rel] = ("".join(out), n)
+    lmaps = {rel: _fold_line_map(_fold_view(rel, cache)[0], es) for rel, es in edits.items() if rel in CANON_HEADERS or rel.startswith("include/")}
+    dl_ = (root / FOLD_DISPO).read_text().splitlines()
+    head, data, rekeys, retarget = [], [], {}, 0
+
+    def remap(fl):
+        mm = re.match(r"^(.*):(\d+)$", fl)
+        if mm and mm.group(1) in lmaps:
+            nl = lmaps[mm.group(1)](int(mm.group(2)))
+            return f"{mm.group(1)}:{nl}" if nl else fl
+        return fl
+    for ln in dl_:
+        if ln.startswith("#") or ln.startswith("key\t") or not ln.strip():
+            head.append(ln)
+            continue
+        c = ln.split("\t")
+        if c[0] not in keys:
+            mk = re.match(r"^(.*)@(.*)$", c[0])
+            if mk:
+                nk = f"{mk.group(1)}@{remap(mk.group(2))}"
+                if nk != c[0]:
+                    rekeys[c[0]] = nk
+                    c[0] = nk
+            if len(c) > 2:
+                c[2] = remap(c[2])
+        data.append(c)
+    for c in data:
+        if len(c) > 5 and c[5] in keys:
+            c[5] = rekeys.get(tkey, tkey); retarget += 1
+        elif len(c) > 5 and c[5] in rekeys:
+            c[5] = rekeys[c[5]]
+    data.sort(key=lambda c: c[0])
+    P["dispo"] = ("\n".join(head + ["\t".join(c) for c in data]) + "\n", rekeys, retarget)
+    lp = root / FOLD_LEDGER
+    if lp.exists():
+        r = subprocess.run(["grep", "-cwE", "|".join(olds), str(lp)], capture_output=True, text=True)
+        P["ledger_rows"] = int((r.stdout or "0").strip() or 0)
+    P["olds"], P["tname"] = olds, tname
+    return P
+
+
+def _decl_name(decl):
+    """The declared name of a rendered field declaration (`s16 unk0`, `u8 pad4[0x2]`, `void (*fn)(int)`)."""
+    m = re.search(r"\(\s*\*\s*([A-Za-z_]\w*)\s*\)\s*\(", decl) or re.search(r"([A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*$", decl)
+    return m.group(1)
+
+
+def fold_print(P):
+    print(f"restruct --fold-row {','.join(P['keys'])}: target {P['target']} ({P['target_key']}) · {P['disp']}/{'/'.join(P['classes'])}"
+          + (f" · size {P['size_old']:#x} -> {P['size_new']:#x}" if P["size_new"] is not None else ""))
+    if P["merged"]:
+        print("  merged definition:")
+        for ln in P["merged"].splitlines():
+            print("    " + ln)
+    elif P["size_new"] is not None and not P["refusals"]:
+        print("  merged definition: the target is unchanged (every member field agrees with a target field)")
+    for k, mp in sorted(P["map"].items()):
+        if mp:
+            print(f"  respell {k}: " + ", ".join(f"{a}->{b}" for a, b in sorted(mp.items())))
+    for k, lb in sorted(P["lb"].items()):
+        print(f"  load-bearing {k}: {len(lb)}" + (f" (e.g. {'; '.join(lb[:2])})" if lb else ""))
+    print(f"  files {len(P['counts'])} · edits {sum(P['counts'].values())}")
+    for rel, n in sorted(P["counts"].items()):
+        print(f"    {rel}: {n}")
+    if P["dispo"]:
+        print(f"  stores: " + " · ".join(f"{rel} {n}" for rel, (_, n) in sorted(P["stores"].items())) + (" · " if P["stores"] else "")
+              + f"{FOLD_DISPO} rekeys {len(P['dispo'][1])} retargets {P['dispo'][2]} · {FOLD_LEDGER} rows {P['ledger_rows']}")
+    for n_ in P["notes"]:
+        print(f"  note: {n_}")
+    print(f"  refusals: {len(P['refusals'])}")
+    for r in P["refusals"]:
+        print(f"    REFUSED {r}")
+
+
+def fold_write(P):
+    """Write a refusal-free plan: the files, the stores, the struct ledger, the restruct ledger (in place, streamed). The tree's
+    touched files must be clean in git first (restore = git restore of those paths; the caller commits on green)."""
+    root = _froot()
+    if P["refusals"]:
+        return 1
+    paths = sorted(P["texts"]) + sorted(P["stores"]) + [FOLD_DISPO]
+    if FOLD_ROOT is None:
+        r = subprocess.run(["git", "status", "--porcelain", "--"] + paths, cwd=REPO, capture_output=True, text=True)
+        if r.stdout.strip():
+            print(f"restruct --fold-row --write: refused, uncommitted changes in {r.stdout.split()[1:3]} (commit or restore first)")
+            return 2
+    for rel, t in P["texts"].items():
+        (root / rel).write_text(t, errors="surrogateescape")
+    for rel, (t, _) in P["stores"].items():
+        (root / rel).write_text(t)
+    (root / FOLD_DISPO).write_text(P["dispo"][0])
+    lp, n = root / FOLD_LEDGER, 0
+    if lp.exists() and P["ledger_rows"]:
+        rx = re.compile(r"\b(?:" + "|".join(map(re.escape, P["olds"])) + r")\b")
+        tmp = lp.with_name(lp.name + ".fold.tmp")
+        with open(lp) as f, open(tmp, "w") as g:
+            for ln in f:
+                if rx.search(ln):
+                    ln, n = rx.sub(P["tname"], ln), n + 1
+                g.write(ln)
+        os.replace(tmp, lp)
+    print(f"restruct --fold-row --write: {len(P['texts'])} files · {len(P['stores'])} stores · {FOLD_DISPO} · {FOLD_LEDGER} rows {n}")
+    return 0
+
+
+def fold_stamp(keys, commit):
+    """--fold-stamp KEY[,…] COMMIT: each row's reason gains ` applied:<commit>` (fold/absorb rows not applied yet)."""
+    import struct_twins as st
+    root = _froot()
+    if FOLD_ROOT is None:
+        r = subprocess.run(["git", "rev-parse", "--short=10", "--verify", f"{commit}^{{commit}}"], cwd=REPO, capture_output=True, text=True)
+        if r.returncode:
+            print(f"restruct --fold-stamp: {commit} is not a commit")
+            return 2
+        commit = r.stdout.strip()
+    lines, done = (root / FOLD_DISPO).read_text().splitlines(), set()
+    for i, ln in enumerate(lines):
+        c = ln.split("\t")
+        if c[0] in keys and len(c) == len(st.LEDGER_COLS):
+            if c[4] not in ("fold", "absorb") or st.APPLIED_RX.search(c[8]):
+                print(f"restruct --fold-stamp: {c[0]} is {c[4]} / {c[8]} (an unapplied fold or absorb only)")
+                return 2
+            c[8] = (c[8] + " " if c[8] not in ("", "-") else "") + f"applied:{commit}"
+            lines[i] = "\t".join(c)
+            done.add(c[0])
+    if set(keys) - done:
+        print(f"restruct --fold-stamp: no row {sorted(set(keys) - done)}")
+        return 2
+    (root / FOLD_DISPO).write_text("\n".join(lines) + "\n")
+    print(f"restruct --fold-stamp: {len(done)} rows applied:{commit}")
+    return 0
+
+
+FOLD_FX_TYPES = "typedef int s32;\ntypedef short s16;\ntypedef unsigned short u16;\ntypedef unsigned char u8;\n"
+
+
+def _fold_fixture(name, header, files, rows, extra=None):
+    """A synthetic tree under .run/P37/restruct/selftest_fold/<name>: include/struct_types.h, the given files, a struct ledger of `rows`
+    (key disposition target class evidence reason). FOLD_ROOT points at it."""
+    import shutil
+    import struct_twins as st
+    global FOLD_ROOT
+    root = RUN / "selftest_fold" / name
+    if root.exists():
+        shutil.rmtree(root)
+    for rel, t in dict({"include/struct_types.h": FOLD_FX_TYPES + header}, **files, **(extra or {})).items():
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text(t)
+    (root / "config").mkdir(parents=True, exist_ok=True)
+    (root / FOLD_DISPO).write_text(st.LEDGER_HEAD + "\t".join(st.LEDGER_COLS) + "\n" + "".join(
+        f"{k}\tstruct\t-\t0\t{d}\t{t}\t{c}\t{ev}\t{rs}\n" for (k, d, t, c, ev, rs) in sorted(rows)))
+    FOLD_ROOT = root
+    return root
+
+
+def _fold_cc1(root, rel):
+    """cc1 on a fixture TU (include/ on the path): (rc, stderr tail)."""
+    import cdecl
+    cpp = subprocess.run(cdecl.CPP + ["-Iinclude", rel], capture_output=True, text=True, cwd=root)   # cwd root: its include/ first
+    r = subprocess.run([cdecl.CC1] + cdecl.CC1FLAGS + ["-o", "/dev/null"], input=cpp.stdout, capture_output=True, text=True, cwd=REPO)
+    return r.returncode or cpp.returncode, (cpp.stderr + r.stderr)[-300:]
+
+
+def fold_selftest(ok):
+    """The fold engine on synthetic trees: twin fold (+ alias re-pointed, store rewrite, rekey, stamp), field merge into pad, width
+    conflict -> union (compiles), sign conflict refused, load-bearing size refused, absorb at offset (+0 applied, +8 planned and
+    refused), absorb variant (compiles), multi-parent refused."""
+    global FOLD_ROOT
+    led = "include/struct_types.h"
+    try:
+        # twin fold, alias re-pointed, stores, rekey, stamp
+        root = _fold_fixture("twin", "typedef struct {\n    /* 0x0000 */ s32 unk0;\n    /* 0x0004 */ s16 unk4;\n    /* 0x0006 */ s16 unk6;\n"
+                             "} Fx_T; /* size = 0x8 */\ntypedef struct {\n    s32 a;\n    s16 b;\n    s16 c;\n} Fx_M;\ntypedef Fx_M Fx_MA;\n"
+                             "struct Fx_D { s32 q; };\n",
+                             {"src/a.c": '#include "struct_types.h"\nvoid fa(Fx_M *p, Fx_MA *q) { p->a = 1; q->b = 2; p->c = q->a; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "twin", "lhash:0123456789ab fields:3", "-"),
+                              ("Fx_D@include/struct_types.h:16", "apart", "-", "own", "src/a.c:2", "-"),
+                              ("Fx_Y", "fold", "Fx_M", "link", "C1 global: src/a.c:2", "-")],
+                             {"config/type_folds.tsv": "# h\nmap_type\taction\ttarget\tevidence\tnote\nUnkstruct_X\tfold\tFx_M\te\tn\nFx_M\tfold\tFx_T\te\tn\n",
+                              "config/tnc_band.tsv": "# h\nrank\tmap_type\tsites\tbodies\tcum_pct\n1\tFx_M\t3\t1\t1.0\n2\tFx_MA\t1\t1\t1.0\n",
+                              "config/dedup_exceptions.tsv": "# h\nabc\tO0-LOCAL\tFx_M view\n",
+                              FOLD_LEDGER: '{"tu": "src/a.c", "sites": [{"type": "Fx_M *"}]}\n{"tu": "src/a.c", "sites": [{"type": "Fx_MA *"}]}\n'})
+        P = fold_plan(["Fx_M"])
+        ok("fold twin: plans with no refusal, the target unchanged", not P["refusals"] and P["merged"] is None, str(P["refusals"]))
+        rc = fold_write(P)
+        a_ = (root / "src/a.c").read_text()
+        h_ = (root / led).read_text()
+        ok("fold twin: accesses respelled by offset, member tokens retyped",
+           "void fa(Fx_T *p, Fx_MA *q) { p->unk0 = 1; q->unk4 = 2; p->unk6 = q->unk0; }" in a_ and rc == 0, a_)
+        ok("fold twin: alias re-pointed, the member definition deleted", "typedef Fx_T Fx_MA;" in h_ and "Fx_M;" not in h_ and " s16 b;" not in h_, h_)
+        d_ = (root / FOLD_DISPO).read_text()
+        ok("fold rekey: a key below the deleted definition moves up 5 lines; a row folding into the member retargets",
+           "Fx_D@include/struct_types.h:11\t" in d_ and "\tfold\tFx_T\tlink\t" in d_ and "Fx_D@include/struct_types.h:16" not in d_, d_[-400:])
+        tf_ = (root / "config/type_folds.tsv").read_text()
+        ok("fold stores: type_folds target rewritten, the self row dropped; tnc_band, dedup_exceptions, the restruct ledger follow",
+           "Unkstruct_X\tfold\tFx_T\t" in tf_ and "Fx_M" not in tf_ and "Fx_T\tfold" not in tf_
+           and "1\tFx_T\t3" in (root / "config/tnc_band.tsv").read_text() and "2\tFx_MA\t" in (root / "config/tnc_band.tsv").read_text()
+           and "Fx_T view" in (root / "config/dedup_exceptions.tsv").read_text()
+           and (root / FOLD_LEDGER).read_text().count("Fx_T *") == 1 and "Fx_MA *" in (root / FOLD_LEDGER).read_text(), tf_)
+        ok("fold stamp: the reason gains applied:<commit>", fold_stamp(["Fx_M"], "abc1234") == 0
+           and "\tlhash:0123456789ab fields:3\tapplied:abc1234\n" in (root / FOLD_DISPO).read_text())
+        # field merge into pad
+        _fold_fixture("pad", "typedef struct { s32 f0; u8 pad[0xC]; } Fx_T;\ntypedef struct { s32 f0; s16 f4; u8 pad6[2]; s32 f8; u8 padC[4]; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fb(Fx_M *m) { return m->f4 + m->f8; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C2 pointer: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("fold merge into pad: the member's accessed fields land in the target's pad (unk/pad names, comments, trailer)",
+           not P["refusals"] and "/* 0x0004 */ s16 unk4;" in mg and "/* 0x0006 */ u8 pad6[0x2];" in mg and "/* 0x0008 */ s32 unk8;" in mg
+           and "} Fx_T; /* size = 0x10 */" in mg and "s32 fb(Fx_T *m) { return m->unk4 + m->unk8; }" in P["texts"].get("src/a.c", ""),
+           f"{P['refusals']} {mg}")
+        # width conflict -> union (compiles)
+        root = _fold_fixture("union", "typedef struct { s32 f0; s32 f4; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fc(Fx_T *t, Fx_M *m) { return t->f4 + m->b + m->c; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "link", "C3 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("fold width conflict: a named union inside the target, both spellings respelled",
+           not P["refusals"] and "union {" in mg and "struct { s32 f4; } v0;" in mg and "struct { s16 unk0; s16 unk2; } v1;" in mg and "} unk4;" in mg
+           and "return t->unk4.v0.f4 + m->unk4.v1.unk0 + m->unk4.v1.unk2;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold width conflict: the union compiles under cc1", rc == 0, err)
+        # sign conflict refused
+        _fold_fixture("sign", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 f0; u16 f4; u16 f6; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fd(Fx_M *m) { return m->f4; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C4 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold sign conflict: refused with both cites", len(P["refusals"]) == 1 and "sign conflict at 0x4" in P["refusals"][0]
+           and P["refusals"][0].count(f"{led}:") == 2 and not P["texts"], str(P["refusals"]))
+        # load-bearing size refused
+        _fold_fixture("lb", "typedef struct { s32 f0; s32 f4; } Fx_T;\ntypedef struct { s32 f0; s32 f4; s32 f8; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\nextern Fx_M D_arr[4];\ns32 fe(void) { return D_arr[1].f4; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C5 global: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold load-bearing size: a member of another size used as an array element is refused",
+           len(P["refusals"]) == 1 and "load-bearing" in P["refusals"][0] and "array element" in P["refusals"][0] and not P["texts"], str(P["refusals"]))
+        # absorb at offset: +0x0 applied; +0x8 planned, refused
+        _fold_fixture("absorb0", "typedef struct { u8 pad0[4]; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 ff(Fx_M *m, Fx_P *p) { return m->a + m->b + p->f4; }\n'},
+                      [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("absorb at +0x0: the member's fields land in the parent, accesses respelled",
+           not P["refusals"] and "/* 0x0000 */ s16 unk0;" in mg and "/* 0x0002 */ s16 unk2;" in mg and "/* 0x0004 */ s32 f4;" in mg
+           and "return m->unk0 + m->unk2 + p->f4;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        _fold_fixture("absorb8", "typedef struct { s32 f0; u8 pad4[0xC]; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 ff(Fx_M *m) { return m->a + m->b; }\n'},
+                      [("Fx_M", "absorb", "Fx_P", "offset", "+0x8 src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("absorb at +0x8: the fields are placed at +off in the merged parent, the write refused (sources need rebasing)",
+           "/* 0x0008 */ s16 unk8;" in mg and "/* 0x000a */ s16 unkA;" in mg and len(P["refusals"]) == 1 and "rebased" in P["refusals"][0]
+           and fold_write(P) == 1, f"{P['refusals']} {mg}")
+        # absorb variant (compiles)
+        root = _fold_fixture("variant", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_M *m, Fx_P *p) { return m->a + p->f0 + p->f4; }\n'},
+                             [("Fx_M", "absorb", "Fx_P", "variant", "member:unk0.alt src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("absorb variant: a union inside the parent named by member:<union>.<variant>, parent and member accesses respelled",
+           not P["refusals"] and "struct { s32 f0; } v0;" in mg and "struct { s16 unk0; } alt;" in mg and "} unk0;" in mg
+           and "return m->unk0.alt.unk0 + p->unk0.v0.f0 + p->f4;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("absorb variant: compiles under cc1", rc == 0, err)
+        _fold_fixture("offconf", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_M *m, Fx_P *p) { return m->a + p->f0; }\n'},
+                      [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("absorb offset with a conflict: refused (needs class variant) with both cites",
+           len(P["refusals"]) == 1 and "needs class variant" in P["refusals"][0] and P["refusals"][0].count(f"{led}:") == 2, str(P["refusals"]))
+        # multi-parent refused
+        _fold_fixture("multi", "typedef struct { u8 pad0[4]; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fh(Fx_M *m) { return m->a; }\n'},
+                      [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")],
+                      {FOLD_FLOWS: "placeholder\tn_sources\tsources\tcocast\taccessed_leaves\tcandidates\tfits_total\n"
+                                   "Fx_M\t2\t-\t-\t1\tFx_P 0x0 flow fit 0.5; Fx_Q 0x0 flow fit 0.4\t2\n"})
+        P = fold_plan(["Fx_M"])
+        ok("absorb multi-parent: a type whose sources name two parents is refused (split per source first)",
+           len(P["refusals"]) == 1 and "split per source first" in P["refusals"][0] and "Fx_Q" in P["refusals"][0], str(P["refusals"]))
+    finally:
+        import shutil
+        FOLD_ROOT = None
+        shutil.rmtree(RUN / "selftest_fold", ignore_errors=True)
 
 # ----------------------------------------------------------------------------------------------------------------------
 # planning and --apply (the batch: files in leverage order, workers own whole TUs, headers serial and last)
@@ -6275,6 +7243,7 @@ def selftest(real=False):
     ok("--forms I,M: the stub never writes the tree", fxi.read_text() == FIXTURE_TU_IM)
     ok("the selftest never touches the live inflight.json", True)
     ok("struct_layout selftest", sl.selftest() == 0)
+    fold_selftest(ok)
     JUDGE_STUB = None
     DEFS_OVERRIDE = None
     VISIBLE_OVERRIDE = None
@@ -6337,7 +7306,11 @@ def main():
                     "type_folds row (dry run: counts + .run/P40/t3/decide_<ranks>.tsv; --write: retired P3.45 T6, rc 2)")
     ap.add_argument("--ranks", help="--decide-band: A-B (band ranks), tail (residual TYPE-BELOW-BAND rows) or drift (P3.40 T17: TNC types "
                     "in no tnc_band.tsv row and no type_folds row; --write refused above 500 single-site defines)")
-    ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run); retired P3.45 T6: refused, rc 2")
+    ap.add_argument("--write", action="store_true", help="--decide-band: append the decisions (default: dry run); retired P3.45 T6: refused, rc 2; "
+                    "--fold-row: write the fold (default: dry run)")
+    ap.add_argument("--fold-row", metavar="KEY[,KEY…]", help="P3.45 T6: fold struct_dispositions.tsv rows (fold link|twin|value, absorb offset|variant) "
+                    "into their one target: dry run prints the merged definition, per-file edits, store edits, refusals; --write writes")
+    ap.add_argument("--fold-stamp", nargs=2, metavar=("KEY[,KEY…]", "COMMIT"), help="P3.45 T6: append ` applied:<commit>` to the rows' reasons")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
     ap.add_argument("--forms", default=None, help="--residue/--restamp/--check-residue: raw census forms, comma list of P,I,X,M (default P,X); "
@@ -6365,6 +7338,12 @@ def main():
     BBT_PIN = a.bbt or BBT_PIN
     if a.selftest:
         sys.exit(selftest(real=a.real))
+    if a.fold_row:
+        P = fold_plan([k for k in a.fold_row.split(",") if k])
+        fold_print(P)
+        sys.exit(fold_write(P) if a.write else (1 if P["refusals"] else 0))
+    if a.fold_stamp:
+        sys.exit(fold_stamp([k for k in a.fold_stamp[0].split(",") if k], a.fold_stamp[1]))
     if a.restore:
         sys.exit(restore())
     if a.status:
