@@ -4803,7 +4803,7 @@ void *a0;
         s32 *p;
         s32 v0;
         field = ((Unkstruct_8017EF30_2 *)a0)->unk64;
-        if (((Unkstruct_8017EF30 *)field)->unk2 != 2) {
+        if (((Unkstruct_8018C0F0 *)field)->unk2 != 2) {
             return 0;
         }
         if (func_8012BD14(field) >= 0x6401) {
@@ -4816,8 +4816,8 @@ void *a0;
             return 0;
         }
         p = CAST_SIGN(s32 *, (s32)a0, 0x64);
-        v0 = ((Unkstruct_8017EF30 *)p)->unk2 + 1;
-        ((Unkstruct_8017EF30 *)p)->unk2 = v0;
+        v0 = ((Unkstruct_8018C0F0 *)p)->unk2 + 1;
+        ((Unkstruct_8018C0F0 *)p)->unk2 = v0;
         func_80178BF8();
         return (s32)func_80172710;
     }
