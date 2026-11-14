@@ -51,6 +51,8 @@ Usage:
                                                     reason ends in `applied:<commit>` kept). T2.c4: outside policy typed the hub test keys
                                                     slots by h_exact copies and refuses hub types' pointer links (hubtypes.<policy>.tsv);
                                                     --report [PATH] writes the generated report (default docs/ops/p345-struct-merge-report.md).
+                                                    T2.c5: cast-view accesses (`((T *)x)->f`, any x) feed the width maps (all policies) and,
+                                                    through a parameter (or its single-source local), the parameter slot's own offsets.
                                                     Needs a built tree (build/**/*.d, the ELFs)
                                                     and fresh build/sig_evidence/census.jsonl + .run/sig.<alias>.jsonl: exit 2 otherwise
   tools/struct_twins.py --selftest                  the --links fixtures on a synthetic tree (own symtab, .d map, sig rows); exit 0 iff all pass
@@ -832,6 +834,8 @@ PINC_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*(\+\+|--|[-+]=)|(\+\+|--)\s*("
 PADD_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*([-+])(?![-+=>])\s*(?=[\w(])")
 PIDX_RX = re.compile(r"(?<![\w.>])(" + ID + r")\s*\[\s*([^\[\]]*?)\s*\]")
 VIEW_RX = re.compile(r"\(\s*\(\s*(?:struct\s+|union\s+)?(" + ID + r")\s*\*\s*\)\s*(" + ID + r")\s*\)\s*(?:->\s*(" + ID + r")|\[)")
+VACC_RX = re.compile(r"(?<![\w\])])(&\s*)?\(\s*(\*\s*)?\(\s*(?:(?:const|volatile)\s+)*(?:struct\s+|union\s+)?(" + ID + r")\s*\*\s*\)")   # T2.c5
+VSTEP_RX = re.compile(r"(" + IDX + r"?)((?:\s*(?:->|\.(?![.\d]))\s*" + ID + IDX + r"*)+)")
 COPY_RX = re.compile(r"\*\s*(" + ID + r")\s*=(?!=)\s*\*\s*(" + ID + r")\s*;")
 DEREF_RX = re.compile(r"\*\s*(" + ID + r")\b(?!\s*\()")
 LIT_RX = re.compile(r"^(0x[0-9A-Fa-f]+|\d+)[uUlL]*$")
@@ -898,6 +902,22 @@ def lex_events(text):
             ev.append(("I", line(m.start()), m.group(1), "[" + m.group(2) + "]"))
     for m in VIEW_RX.finditer(t):
         ev.append(("V", line(m.start()), m.group(1), m.group(2), m.group(3)))
+    for m in VACC_RX.finditer(t):                            # T2.c5: W cast-view accesses `((T *)x)->f`, `((T *)x)[i].f`, `(*(T *)x).f`, any x
+        k, depth = m.end(), 1
+        while k < len(t) and depth:
+            depth += (t[k] == "(") - (t[k] == ")")
+            k += 1
+        x = t[m.end():k - 1].strip()
+        mc = VSTEP_RX.match(t, k) if not depth and x else None
+        if not mc:
+            continue
+        bidx = tuple(s.strip() for s in IDXS_RX.findall(mc.group(1)))
+        steps = tuple((s.group(1), s.group(2), tuple(y.strip() for y in IDXS_RX.findall(s.group(3))))
+                      for s in STEP_RX.finditer(mc.group(2)))
+        if steps[0][0] != ("." if m.group(2) or bidx else "->") or (m.group(2) and bidx):
+            continue
+        store = bool(STORE_RX.match(t, mc.end())) or t[max(0, m.start() - 160):m.start()].rstrip().endswith(("++", "--"))
+        ev.append(("W", line(m.start(3)), bool(m.group(1)), m.group(3), " ".join(x.split()), bidx, steps, store))
     for m in COPY_RX.finditer(t):
         ev.append(("C", line(m.start()), m.group(1), m.group(2)))
     for m in DEREF_RX.finditer(t):
@@ -1189,6 +1209,8 @@ def links_build(S):
     own_offs = collections.defaultdict(set)                 # slot -> first-level offsets accessed through it
     deref = set()                                           # (rel, fline, ident) dereferenced in its function
     views, fflows = [], []
+    vacc = []                                               # T2.c5: (rel, fline, x, first-level offset) of cast-view accesses
+    wmb = collections.defaultdict(dict)                     # T2.c5: key -> off -> w -> cite, bound-identifier accesses only (apart own)
     ACC = collections.Counter()
     PF = collections.Counter()                               # pointer flows with a struct-bound side, by outcome
     for rel, events in S["events"]:
@@ -1218,6 +1240,7 @@ def links_build(S):
                 ACC["resolved"] += 1
                 for k, off, w, sg, fld in recs:
                     e = wm[k].setdefault(off, {}).setdefault(w, [fld, cite, {}])
+                    wmb[k].setdefault(off, {}).setdefault(w, cite)
                     if not store and not amp and w <= 2 and sg in ("s", "u"):
                         e[2].setdefault(sg, cite)
                 first = T.members(rows[b[0]]["def"]).get(steps[0][1])
@@ -1263,6 +1286,23 @@ def links_build(S):
                     m0 = T.members(rows[vb]["def"]).get(ev[4]) if ev[4] else None
                     if m0:                                   # policy views: the view type is the hub slot, its offsets its own
                         own_offs[("view", vb)].add(m0[0])
+            elif ev[0] == "W":                               # T2.c5: a cast-view access is an access of the view type's member
+                _, ln, amp, tn, x, bidx, steps, store = ev
+                vk = T.key_of.get(tn)
+                if not vk:
+                    continue
+                recs, leaf = T.chain(vk, steps)
+                if recs is None:
+                    ACC["view: " + leaf] += 1
+                    continue
+                ACC["view resolved"] += 1
+                for k, off, w, sg, fld in recs:
+                    e = wm[k].setdefault(off, {}).setdefault(w, [fld, cite, {}])
+                    if not store and not amp and w <= 2 and sg in ("s", "u"):
+                        e[2].setdefault(sg, cite)
+                m0 = T.members(rows[vk]["def"]).get(steps[0][1])
+                if m0 and fl is not None and re.fullmatch(ID, x):
+                    vacc.append((rel, fl, x, m0[0]))
     for rel, r in S["walk"].items():                         # raw cast sites on a parameter dereference it too
         for s in r["sites"]:
             if s.get("bclass") == "param" and s.get("fn") and s.get("base"):
@@ -1365,6 +1405,12 @@ def links_build(S):
     for rel, fl, ln, ctx, mk, ms, hk, hp, base, path in fflows:
         if ctx[0] == "L":
             src_of[(rel, fl, ctx[1])].add(("member", f"{base}.{path}"))
+
+    for rel, fl, x, off in vacc:                             # T2.c5: view accesses through a parameter, or a local whose single source is one
+        pn = pnames_at.get((rel, fl), set())
+        src = src_of.get((rel, fl, x), set()) if x not in pn else {("assign", x)}
+        if len(src) == 1 and next(iter(src))[0] == "assign" and next(iter(src))[1] in pn:
+            own_offs[("param", rel, fl, next(iter(src))[1])].add(off)
 
     def multi(rel, fl, dst, b):
         return b[3] != "global" and len(src_of.get((rel, fl, dst), ())) > 1
@@ -1897,9 +1943,9 @@ def links_build(S):
                     own.setdefault(v[0], f"{_cite_va(*pl[0])} {v[2]} ({ident})")
                 else:
                     bound.setdefault(v[0], f"{v[2]} ({ident})")
-    for k in sorted(wm):
-        off = min(wm[k])
-        own.setdefault(k, f"{wm[k][off][min(wm[k][off])][1]} (access {k}+0x{off:X})")
+    for k in sorted(wmb):                                    # T2.c5: bound accesses only; a cast view is no object of its own
+        off = min(wmb[k])
+        own.setdefault(k, f"{wmb[k][off][min(wmb[k][off])]} (access {k}+0x{off:X})")
     canon = set(tc.CANON_HEADERS)
     named, macro = collections.defaultdict(list), collections.defaultdict(list)
     for rel, (code, mac) in sorted(S["uses"]):
@@ -2532,6 +2578,8 @@ typedef struct CS1 { s32 a; } CS1;
 typedef struct CS2 { s32 a; } CS2;
 typedef struct CS3 { s32 a; } CS3;
 typedef struct CS4 { s32 a; } CS4;
+typedef struct BWA { u16 x; } BWA;
+typedef struct BWB { u32 x; } BWB;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -2561,6 +2609,7 @@ void k1(HQ1 *x) { x->x = 1; ht1(x); }
 void k2(HQ2 *x) { x->x = 2; ht2(x); }
 void k3(HQ3 *x) { x->a = 3; ht3(x); }
 void k4(HQ4 *x) { x->a = 4; ht4(x); }
+void func_80011900(void) { ((BWA *)getp())->x = 1; }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -2575,6 +2624,7 @@ extern HG D_80018200;
 void cpy(CS *p) { p->a = 1; }
 void ca1(CS1 *x) { cpy(x); }
 void ca2(CS2 *x) { cpy(x); }
+void func_80100900(void) { ((BWB *)getp())->x = 1; }
 """
 ST_OVB = """#include "struct_types.h"
 extern OB D_80108000;
@@ -2601,8 +2651,9 @@ def links_selftest_S():
     images = {"main": (0x80010000, 0x80020000), "ov_A": (0x80100000, 0x80110000), "ov_B": (0x80100000, 0x80110000)}
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
     fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer",
-                    "func_80010D00", "func_80010E00", "efTake", "efCall", "ht1", "ht2", "ht3", "ht4", "k1", "k2", "k3", "k4"],
-           "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500", "cpy", "ca1", "ca2"],
+                    "func_80010D00", "func_80010E00", "efTake", "efCall", "ht1", "ht2", "ht3", "ht4", "k1", "k2", "k3", "k4",
+                    "func_80011900"],
+           "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500", "cpy", "ca1", "ca2", "func_80100900"],
            "ov_B": ["takeP", "callP", "readOB", "cpy", "cb1", "cb2"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
     for a, names in fns.items():
@@ -2615,7 +2666,8 @@ def links_selftest_S():
             sig[(a, va)] = (cls_of[(a, va)], 12)
             own_sym[a].add((nm, va))
         syms[a] = t
-    for m_, o_ in (("func_80010D00", "func_80100400"), ("func_80010E00", "func_80100500")):   # body-view: one h_exact class each
+    for m_, o_ in (("func_80010D00", "func_80100400"), ("func_80010E00", "func_80100500"),
+                   ("func_80011900", "func_80100900")):   # body-view: one h_exact class each
         sig[("ov_A", min(syms["ov_A"][o_]))] = sig[("main", min(syms["main"][m_]))]
     sig[("ov_B", min(syms["ov_B"]["cpy"]))] = sig[("ov_A", min(syms["ov_A"]["cpy"]))]   # T2.c4: two copies of one routine
     for a in ("main", "ov_A"):                                # D_80018000/D_80018100: main's data, absolute in ov_A's ELF
@@ -2684,6 +2736,8 @@ def links_selftest():
          all(("hub", frozenset(("CS", c))) in ref for c in ("CS1", "CS2", "CS3", "CS4"))
          and any(h["slot"][0] == "param" and str(h["slot"][1]).startswith("h") and h["copies"] == 2 for h in Q["hubs"])
          and all(ft("CS") == ft(c) for c in ("CS1", "CS2", "CS3", "CS4")) and f("CS") != f("CS1")),
+        ("cast-only types linked by body-view, conflicting (u16 vs u32) only through view accesses: the fold is refused",
+         ("conflict", frozenset(("BWA", "BWB"))) in ref and f("BWA") != f("BWB")),
         ("two runs print identical output", outs[0] == outs[1]),
     ]
     for name, ok in cases:

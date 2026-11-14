@@ -83,13 +83,14 @@ parameter typed or effective B). Same guards (multisource, conduit, hub, poly). 
    no-evidence rows are used only through casts).
 4. widths: not a link; the settle-and-veto data. For each type, each accessed member (lexical `x->f`, `x.f`,
    `x[i].f`, member chains resolved through the definitions, x bound to the type) gives (offset, width, sign) from the
-   definition's layout (tc.Resolver) with one access cite. In byte-matched C the declared member type equals the
-   original load or store (R22). Unaccessed members are layout, not evidence: listed, never in conflict.
+   definition's layout (tc.Resolver) with one access cite. A cast view access (`((T *)x)->f`, `((T *)x)[i].f`,
+   `(*(T *)x).f`, chains, any x) is an access of T's member the same way (T2.c5), in every policy. In byte-matched C
+   the declared member type equals the original load or store (R22). Unaccessed members are layout, not evidence: listed, never in conflict.
    Conflict between two types at an accessed offset: disjoint width sets at the offset, a partial overlap the same
    side does not also cover at that offset (a union's own members never conflict), or disjoint 1- and 2-byte load
    signs. Stores and 4-byte accesses carry no sign evidence.
-   Hub own accesses: a parameter slot's are the offsets accessed through it in its definitions, a global's those
-   through its name; a return or member slot has none (so >= HUB_K types on one is always a hub).
+   Hub own accesses: a parameter slot's are the offsets accessed through it in its definitions (view accesses
+   through it, or through a local whose single source is it, included: T2.c5), a global's those through its name; a return or member slot has none (so >= HUB_K types on one is always a hub).
 
 ## Policies (T2.c2)
 `--policy typed` (classes 1-3 typed slots), `effective` (typed + `arg-eff`; the default for `--propose`), `views`
