@@ -1061,7 +1061,7 @@ Unkstruct_80041354	struct	include/struct_types.h:34951	92	no-evidence	-	-	-	cast
 Unkstruct_80078E78	struct	include/struct_types.h:330	152	no-evidence	-	-	-	cast views of untyped values only (8498 sites, first src/ov_MAIN_012/ov_MAIN_012_jr_80171B4C.c:4551), no placed object
 Unkstruct_800B5CB8	struct	include/struct_types.h:6	268	apart	-	own	C1: ov_MAIN_012/0x801840D0 src/ov_MAIN_012/ov_MAIN_012.c:1225	target of C1 (53 types)
 Unkstruct_800CAE74	struct	include/struct_types.h:20997	16	no-evidence	-	-	-	cast views of untyped values only (6 sites, first src/md_MAIN_031/md_MAIN_031.c:31), no placed object
-Unkstruct_800CAE74_2	struct	include/struct_types.h:21008	16	fold	Unkstruct_800CAE74	twin	lhash:85b2dea5a3bd fields:6	exact layout twin of Unkstruct_800CAE74 (P3.45 T6.c2 pilot P2)
+Unkstruct_800CAE74_2	struct	include/struct_types.h:21008	16	fold	Unkstruct_800CAE74	twin	lhash:85b2dea5a3bd fields:6	exact layout twin of Unkstruct_800CAE74 (P3.45 T6.c2 pilot P2) applied:bb2010962f
 Unkstruct_800CAE74_3	struct	include/struct_types.h:29040	4	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/md_MAIN_031/md_MAIN_031.c:40), no placed object
 Unkstruct_800CAE8C	struct	include/struct_types.h:34593	408	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/md_MAIN_016/md_MAIN_016.c:37), no placed object
 Unkstruct_800CAEC0	struct	include/struct_types.h:30067	432	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/md_MAIN_030/md_MAIN_030.c:44), no placed object
