@@ -27,9 +27,9 @@ void func_80131340(s32 a0)
 
     temp = guess_LookupIdValue(*(s32 *)(a0 + 0xBC), 0x2E);
     if (temp != 0) {
-        sp10.vz = 0;
-        sp10.vx = 0;
-        sp10.vy = temp;
+        sp10.unk0.v1.unk4 = 0;
+        sp10.unk0.v1.unk0 = 0;
+        sp10.unk0.v1.unk2 = temp;
     } else {
         sp10 = D_8017F730;
     }
@@ -56,24 +56,24 @@ void func_80131340(s32 a0)
         }
         if (*(u8 *)(a0 + 0xC2) == 0) {
             *(u8 *)(a0 + 0xC2) = 1;
-            sp18.vx = *(u16 *)(a0 + 0x3A);
-            sp18.vy = *(u16 *)(a0 + 0x3E);
-            sp18.vz = *(u16 *)(a0 + 0x42);
+            sp18.unk0.v1.unk0 = *(u16 *)(a0 + 0x3A);
+            sp18.unk0.v1.unk2 = *(u16 *)(a0 + 0x3E);
+            sp18.unk0.v1.unk4 = *(u16 *)(a0 + 0x42);
             sp20 = sp18;
-            sp20.vx += sp10.vx;
-            sp20.vy += sp10.vy;
-            sp20.vz += sp10.vz;
+            sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
+            sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
+            sp20.unk0.v1.unk4 += sp10.unk0.v1.unk4;
             sp28 = sp20; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE */
             func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
-            sp20.vx -= sp10.vx;
-            sp20.vy -= sp10.vy;
-            sp20.vz -= sp10.vz;
-            *(u16 *)(a0 + 0x3A) = sp20.vx;
-            *(u16 *)(a0 + 0x3E) = sp20.vy;
-            *(u16 *)(a0 + 0x42) = sp20.vz;
-            *(u16 *)(a0 + 0x6) = sp20.vx;
-            *(u16 *)(a0 + 0xA) = sp20.vy;
-            *(u16 *)(a0 + 0xE) = sp20.vz;
+            sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
+            sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
+            sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
+            *(u16 *)(a0 + 0x3A) = sp20.unk0.v1.unk0;
+            *(u16 *)(a0 + 0x3E) = sp20.unk0.v1.unk2;
+            *(u16 *)(a0 + 0x42) = sp20.unk0.v1.unk4;
+            *(u16 *)(a0 + 0x6) = sp20.unk0.v1.unk0;
+            *(u16 *)(a0 + 0xA) = sp20.unk0.v1.unk2;
+            *(u16 *)(a0 + 0xE) = sp20.unk0.v1.unk4;
         }
         D_8018E6A0 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
         if (D_8018E6A0 & 0x8000) {

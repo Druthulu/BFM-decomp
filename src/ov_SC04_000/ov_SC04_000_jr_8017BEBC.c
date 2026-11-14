@@ -5408,8 +5408,8 @@ void func_80180A68(void *arg0) {
 
 extern void guess_FreeActor(void *a0);
     void func_80180B88(void *a0) {
-        ((Unkstruct_80180B88 *)a0)->unk2 = 2;
-        ((void (*)(s32))guess_FreeActor)(((Unkstruct_80180B88 *)a0)->unkCC);
+        ((Unkstruct_8017E1E4 *)a0)->unk2 = 2;
+        ((void (*)(s32))guess_FreeActor)(((Unkstruct_8017E1E4 *)a0)->unkCC.v0.unkCC);
     }
 
 
@@ -5665,7 +5665,7 @@ void func_801810B0(s32 arg0)
         return;
     }
 
-    ((Unkstruct_801810B0 *)arg0)->unk2 = 2;
+    ((Unkstruct_801810B0 *)arg0)->unk2.s = 2;
     ((Unkstruct_801810B0 *)arg0)->unk1C = 0x10;
     ((Unkstruct_801810B0_2 *)*(s32 *)(arg0 + 0x20))->unk4 &= 0x7FFFFFFF;
 

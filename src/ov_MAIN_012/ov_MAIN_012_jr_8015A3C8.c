@@ -7282,7 +7282,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_80184418)[param_3];
-    s32 uVar6 = ((Unkstruct_80166994_2 *)param_1)->unk34;
+    s32 uVar6 = ((Unkstruct_80166994_3 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];
@@ -7894,11 +7894,11 @@ void func_8016829C(s32 a0) {
     if ((((Unkstruct_80165FA4 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_2 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_2 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
+        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
-            func_80166994(a0, 0, ((Unkstruct_80166994_2 *)a0)->unk2C, 0);
-            ((Unkstruct_80166994_2 *)a0)->unk2 = ((Unkstruct_80166994_2 *)a0)->unk2 + 1;
+            func_80166994(a0, 0, ((Unkstruct_80166994_3 *)a0)->unk2C, 0);
+            ((Unkstruct_80166994_3 *)a0)->unk2.u = ((Unkstruct_80166994_3 *)a0)->unk2.u + 1;
         }
     }
     (void)s0;
@@ -7937,11 +7937,11 @@ void func_801684B4(s32 a0) {
     if ((((Unkstruct_80165FA4 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_2 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_2 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
+        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, 2, 0);
-            ((Unkstruct_80166994_2 *)a0)->unk2 = ((Unkstruct_80166994_2 *)a0)->unk2 + 1;
+            ((Unkstruct_80166994_3 *)a0)->unk2.u = ((Unkstruct_80166994_3 *)a0)->unk2.u + 1;
         }
     }
     (void)s0;

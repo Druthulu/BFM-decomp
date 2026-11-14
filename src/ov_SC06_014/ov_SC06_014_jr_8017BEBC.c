@@ -4601,12 +4601,12 @@ s32 func_8017FE50(s32 param_1) {
     v0 = ((Unkstruct_8017EAEC *)param_1)->unk204;
     v1 = *(s32 *)(v0 + 0x20);
     if (v0 != 0) {
-        ((Unkstruct_8017FE50_2 *)v1)->unk12 = CAST_SIGN(u16, v1, 0x12) + 0x80;
+        ((Unkstruct_80183020 *)v1)->unk12.s = CAST_SIGN(u16, v1, 0x12) + 0x80;
         guess_RotTransSVWithMatrix(v1 + 0x34, param_1 + 0x20C, (s32)sp10);
         func_80015954((s32)sp10, param_1 + 4);
     }
     v1 = ((Unkstruct_8017EAEC *)param_1)->unk20;
-    ((Unkstruct_8017FE50_2 *)v1)->unk12 = CAST_SIGN(u16, v1, 0x12) + 0x80;
+    ((Unkstruct_80183020 *)v1)->unk12.s = CAST_SIGN(u16, v1, 0x12) + 0x80;
     v0 = ((Unkstruct_8017EAEC *)param_1)->unk208 + 0x80;
     ((Unkstruct_8017EAEC *)param_1)->unk208 = v0;
     return (s16)v0 == 0x800;

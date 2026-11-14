@@ -4677,7 +4677,7 @@ s32 func_80180A20(s32 *param_1) {
 
 
 
-void func_80180AB4(struct Ent_80180AB4 *arg0) {
+void func_80180AB4(Unkstruct_80187068 *arg0) {
     extern u8 D_80194470[];
     extern void func_8018332C(s32 a0, s32 a1);
     extern void func_80183BAC(u8 *a0);
@@ -5409,7 +5409,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
    every `lhu D_801EFD40` above the entity stores (cookbook line 14831). */
 
 
-void func_80181BA0(struct Ent_80181BA0 *a0) {
+void func_80181BA0(struct Ent_80181EA0 *a0) {
     extern u16 D_801EFD20;
     extern u16 D_801EFD40;
     /* §183: the TU spells D_801EFC4C as a file-scope SCALAR; reach the array view through an
@@ -5453,9 +5453,9 @@ void func_80181BA0(struct Ent_80181BA0 *a0) {
         func_80185A30(0);
         if (((s32 (*)(s32))guess_TickWaitTimer)((s32)a0) != 0) {
             p = a0->unk20;
-            a0->unk06 = 0x508;
-            a0->unk0A = -0x76C;
-            a0->unk0E = 0x18CD;
+            a0->unk6 = 0x508;
+            a0->unkA = -0x76C;
+            a0->unkE = 0x18CD;
             func_80186300((s32)a0, D_801DF1D4, p->unk12);
             func_80186BF8();
             a0->unk34 = a0->unk34 + 1;
@@ -9501,7 +9501,7 @@ extern void func_80139A68(s32 a0, u16 a1);
 extern u8 D_80194378[];
 extern s32 D_801EFD28;
 extern s32 D_801EFD2C;
-extern void func_80180AB4(struct Ent_80180AB4 *arg0);
+extern void func_80180AB4(Unkstruct_80187068 *arg0);
 
 void func_80187068(s32 a0) {
     extern u16 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
@@ -10314,15 +10314,15 @@ void func_80188094(s32 arg0) {
         *(B4_80188094 *)&D_801EFE60[0x40] = D_801ED9A4;
         D_801EFEA4 = D_801ED994;
         RotMatrixZ(rand() & 0xFFF, &m);
-        sv.vx = 0xC0;
-        sv.vz = 0;
-        sv.vy = 0;
+        sv.unk0.v1.unk0 = 0xC0;
+        sv.unk0.v1.unk4 = 0;
+        sv.unk0.v1.unk2 = 0;
         ApplyMatrixSV(&m, &sv, &sv);
-        ((Unkstruct_80188094 *)arg0)->unk6 += sv.vx;
-        ((Unkstruct_80188094 *)arg0)->unkA += sv.vy;
-        ((Unkstruct_80188094 *)arg0)->unkE += sv.vz;
-        ((Unkstruct_80188094 *)arg0)->unk10 = -((s32)(s16)sv.vx << 12);
-        ((Unkstruct_80188094 *)arg0)->unk14 = -((s32)(s16)sv.vy << 12);
+        ((Unkstruct_80188094 *)arg0)->unk6 += sv.unk0.v1.unk0;
+        ((Unkstruct_80188094 *)arg0)->unkA += sv.unk0.v1.unk2;
+        ((Unkstruct_80188094 *)arg0)->unkE += sv.unk0.v1.unk4;
+        ((Unkstruct_80188094 *)arg0)->unk10 = -((s32)(s16)sv.unk0.v1.unk0 << 12);
+        ((Unkstruct_80188094 *)arg0)->unk14 = -((s32)(s16)sv.unk0.v1.unk2 << 12);
         ((Unkstruct_80188094_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0;
         ((Unkstruct_80188094_2 *)*(s32 *)(arg0 + 0x20))->unk1A = 0;
         ((Unkstruct_80188094 *)arg0)->unk1C = 0xC;

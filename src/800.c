@@ -3642,7 +3642,7 @@ extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *p, s32 *flag);
 extern void func_80018094(void *p, s32 otz, u32 flags);
 
-void func_80017168(Src_80017168 *arg0, s32 arg1)
+void func_80017168(Unkstruct_80175AB8_2 *arg0, s32 arg1)
 {
     F3_80017168 *p;
     s32 flag;
@@ -3650,24 +3650,24 @@ void func_80017168(Src_80017168 *arg0, s32 arg1)
     s32 otz;
 
     p = (F3_80017168 *)func_80010A08(0x14);
-    p->rgbc0 = arg0->rgbc;
+    p->rgbc0 = arg0->unk18;
     SetPolyF3(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
-        otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[2],
+        otz = RotTransPers3(&arg0->unk0[0], &arg0->unk0[1], &arg0->unk0[2],
                              (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy2,
                              &otzp, &flag);
     } else {
-        p->xy0 = arg0->v[0].xy;
-        p->xy1 = arg0->v[1].xy;
-        do { p->xy2 = arg0->v[2].xy; } while (0);
-        otz = arg0->v[0].z;
+        p->xy0 = arg0->unk0[0].xy;
+        p->xy1 = arg0->unk0[1].xy;
+        do { p->xy2 = arg0->unk0[2].xy; } while (0);
+        otz = arg0->unk0[0].z;
         flag = 0;
     }
 
     if ((flag & ~0x1000) == 0) {
-        func_80018094(p, otz, arg0->attr);
+        func_80018094(p, otz, arg0->unk1C.u);
     }
 }
 
@@ -9873,25 +9873,25 @@ void func_8001EA14(Ent_EA14 *p)
             B(4) = p->unk24;
             B(5) = p->unk25;
             B(6) = p->unk26;
-            v[0].vx = e->u;
-            v[0].vy = e->v;
-            v[0].vz = sz;
-            v[1].vx = e->w;
-            v[1].vy = e->h;
-            v[1].vz = sz;
+            v[0].unk0.v1.unk0 = e->u;
+            v[0].unk0.v1.unk2 = e->v;
+            v[0].unk0.v1.unk4 = sz;
+            v[1].unk0.v1.unk0 = e->w;
+            v[1].unk0.v1.unk2 = e->h;
+            v[1].unk0.v1.unk4 = sz;
             if (p->unk02 == 3) {
                 gte_ldv3_alt(&v[0], &v[1]);
                 gte_rtpt();
                 gte_stsxy0(&sc0);
                 gte_stsxy1(&sc1);
-                H(8) = sxy.vx + ((u16 *)&sc0)[0];
-                H(0xA) = sxy.vy + ((u16 *)&sc0)[1];
+                H(8) = sxy.unk0.v1.unk0 + ((u16 *)&sc0)[0];
+                H(0xA) = sxy.unk0.v1.unk2 + ((u16 *)&sc0)[1];
                 H(0x10) = H(8) + ((u16 *)&sc1)[0];
                 H(0x1A) = H(0xA) + ((u16 *)&sc1)[1];
             } else {
                 gte_rt_alt(&vo, &v[0]);
-                H(8) = sxy.vx + vo.vx;
-                H(0xA) = sxy.vy + vo.vy;
+                H(8) = sxy.unk0.v1.unk0 + vo.vx;
+                H(0xA) = sxy.unk0.v1.unk2 + vo.vy;
                 gte_rt_alt(&vo, &v[1]);
                 H(0x10) = H(8) + vo.vx;
                 H(0x1A) = H(0xA) + vo.vy;
@@ -11540,9 +11540,9 @@ void func_80021284(s32 arg0)
     ot = (PTag_80021284 *)(sc + slot);
     func_8001D70C(arg0);
 
-    base.vx = ((Unkstruct_8001D3FC_2 *)arg0)->unk2E;
-    base.vy = ((Unkstruct_8001D3FC_2 *)arg0)->unk30;
-    base.vz = ((Unkstruct_8001D3FC_2 *)arg0)->unk32;
+    base.unk0.v1.unk0 = ((Unkstruct_8001D3FC_2 *)arg0)->unk2E;
+    base.unk0.v1.unk2 = ((Unkstruct_8001D3FC_2 *)arg0)->unk30;
+    base.unk0.v1.unk4 = ((Unkstruct_8001D3FC_2 *)arg0)->unk32;
     gte_ldv0(&base);
     gte_rtv0tr();
     gte_stlvnl(&out[0]);
@@ -11554,9 +11554,9 @@ void func_80021284(s32 arg0)
     pflag = &flag;
     off = 0x10;
     do {
-        tmp.vx = base.vx + *(u16 *)(rec + i * 4 + 0x10);
-        tmp.vy = base.vy + *(u16 *)(rec + i * 4 + 0x12);
-        tmp.vz = base.vz;
+        tmp.unk0.v1.unk0 = base.unk0.v1.unk0 + *(u16 *)(rec + i * 4 + 0x10);
+        tmp.unk0.v1.unk2 = base.unk0.v1.unk2 + *(u16 *)(rec + i * 4 + 0x12);
+        tmp.unk0.v1.unk4 = base.unk0.v1.unk4;
         gte_ldv0(ptmp);
         gte_rtv0tr();
         gte_stlvnl((VEC_80021284 *)(pout + off));

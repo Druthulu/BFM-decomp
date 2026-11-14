@@ -4553,7 +4553,7 @@ void func_8018A6A8(s32 a0)
 extern s32 func_8012CBCC(s32 a0);
     void func_8018A7B4(s32 arg0) {
         if ((((s32 (*)(void))func_8012CBCC)() & 0x2000) != 0) {
-            ((Unkstruct_801831B4 *)arg0)->unk2 = 0x2;
+            ((Unkstruct_80185360 *)arg0)->unk2 = 0x2;
         }
     }
 

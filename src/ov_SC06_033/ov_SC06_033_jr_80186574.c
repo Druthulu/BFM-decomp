@@ -2704,18 +2704,18 @@ extern void func_8017EDB0(s32 param_1);
 extern void func_8017EE4C(s32 param_1);
 extern void func_8017EDFC(s32 param);
 extern void func_8017EE44(int param_1);
-extern void func_8017EFB0(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017EFB0(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_80013F3C(s32);
 extern void RotMatrixZ(s32, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void func_80017714(void *);
-extern SVECTOR_8017E6D8 D_801D0ABC[4];
+extern M8_801312D0 D_801D0ABC[4];
 extern PW8017E6D8 D_801D0ADC;
 extern PW8017E6D8 D_801D0AE0;
 extern u8 D_801D0AE4, D_801D0AE5, D_801D0AE6, D_801D0AE8, D_801D0AE9, D_801D0AEA;
 extern int D_801D0AEC;
-extern void func_8017EFB0(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017EFB0(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern int rsin(int);
 extern int rcos(int);
 extern s32 func_80133784(s32, void*, s32);
@@ -5917,14 +5917,14 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
 
     src = &D_801C8374[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {
-        scratch.vx = src[i].vx;
-        scratch.vy = src[i].vy;
+        scratch.vx = src[i].unk0.v1.unk0;
+        scratch.vy = src[i].unk0.v1.unk2;
         scratch.vz = -param_3[0];
         RotTransSV(&scratch, &out[i], &rtflag);
     }
     for (i = 0; i < 3; i++) {
-        scratch.vx = src[i].vx;
-        scratch.vy = src[i].vy;
+        scratch.vx = src[i].unk0.v1.unk0;
+        scratch.vy = src[i].unk0.v1.unk2;
         scratch.vz = -param_3[1];
         RotTransSV(&scratch, &out[3 + i], &rtflag);
     }
@@ -6077,10 +6077,10 @@ void func_8018B3D0(void)
     pk->r0 = bp->r; \
     pk->g0 = bp->g; \
     pk->b0 = bp->b; \
-    pk->x0 = p0.vx; \
-    pk->y0 = p0.vy; \
-    pk->x1 = p1.vx; \
-    pk->y1 = p1.vy; \
+    pk->x0 = p0.unk0.v1.unk0; \
+    pk->y0 = p0.unk0.v1.unk2; \
+    pk->x1 = p1.unk0.v1.unk0; \
+    pk->y1 = p1.unk0.v1.unk2; \
     pk->addr = otp->addr; \
     otp->addr = (u32) pk; }
 
@@ -6092,49 +6092,49 @@ void func_8018B3D0(void)
             gte_stsxy((long *) &sxy);
             gte_stflg(&flag);
             gte_stszotz(&otz);
-            if ((u16) (sxy.vx + 0x200) < 0x401 &&
-                (u16) (sxy.vy + 0x180) < 0x301 &&
+            if ((u16) (sxy.unk0.v1.unk0 + 0x200) < 0x401 &&
+                (u16) (sxy.unk0.v1.unk2 + 0x180) < 0x301 &&
                 (u32) (otz - 0x10) < 0x1000) {
                 z = otz - 0x10;
                 c = (s16)t >> 6;
                 d = (t * 3) >> 8;
                 otp = (PTag_8018F694 *) ((z << 2) + (s32) ot);
 
-                p0.vx = sxy.vx - c;
-                p0.vy = sxy.vy - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 EMIT_8018F694();
 
-                p0.vx = sxy.vx + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 EMIT_8018F694();
 
-                p0.vy = sxy.vy + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 EMIT_8018F694();
 
-                p0.vx = sxy.vx - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 EMIT_8018F694();
 
                 {

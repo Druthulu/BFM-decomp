@@ -2701,18 +2701,18 @@ extern void func_8017E524(s32 param);
 extern void func_8017E56C(s32 *a0);
 extern u32 *D_8019717C[];
 extern Blk8 D_80197198[];
-extern void func_8017E6D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017E6D8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_80013F3C(s32);
 extern void RotMatrixZ(s32, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void func_80017714(void *);
-extern SVECTOR_8017E6D8 D_801D542C[4];
+extern M8_801312D0 D_801D542C[4];
 extern PW8017E6D8 D_801D544C;
 extern PW8017E6D8 D_801D5450;
 extern u8 D_801D5454, D_801D5455, D_801D5456, D_801D5458, D_801D5459, D_801D545A;
 extern int D_801D545C;
-extern void func_8017E6D8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017E6D8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_8017ED80(void *param_1);
 extern void func_8017EF54();  // K&R: 0 of 1 args (P37 unalias t4_ua13)
 extern s32  guess_SpawnActorNoArg(s32 a0, s32 a1);
@@ -6008,49 +6008,49 @@ void func_8018C3F8(void)
             gte_stsxy((long *) &sxy);
             gte_stflg(&flag);
             gte_stszotz(&otz);
-            if ((u16) (sxy.vx + 0x200) < 0x401 &&
-                (u16) (sxy.vy + 0x180) < 0x301 &&
+            if ((u16) (sxy.unk0.v1.unk0 + 0x200) < 0x401 &&
+                (u16) (sxy.unk0.v1.unk2 + 0x180) < 0x301 &&
                 (u32) (otz - 0x10) < 0x1000) {
                 z = otz - 0x10;
                 c = (s16)t >> 6;
                 d = (t * 3) >> 8;
                 otp = (PTag_8018F694 *) ((s32) ot + (z << 2));
 
-                p0.vx = sxy.vx - c;
-                p0.vy = sxy.vy - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p0.vx = sxy.vx + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p0.vy = sxy.vy + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p0.vx = sxy.vx - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 func_8018C7A8(&p0, &p1, bp, otp);
 
                 {
@@ -7924,14 +7924,14 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
 
     src = &D_801D1228[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {
-        scratch.vx = src[i].vx;
-        scratch.vy = src[i].vy;
+        scratch.vx = src[i].unk0.v1.unk0;
+        scratch.vy = src[i].unk0.v1.unk2;
         scratch.vz = -param_3[0];
         RotTransSV(&scratch, &out[i], &rtflag);
     }
     for (i = 0; i < 3; i++) {
-        scratch.vx = src[i].vx;
-        scratch.vy = src[i].vy;
+        scratch.vx = src[i].unk0.v1.unk0;
+        scratch.vy = src[i].unk0.v1.unk2;
         scratch.vz = -param_3[1];
         RotTransSV(&scratch, &out[3 + i], &rtflag);
     }
@@ -8091,10 +8091,10 @@ void func_8018F694(void)
     pk->r0 = bp->r; \
     pk->g0 = bp->g; \
     pk->b0 = bp->b; \
-    pk->x0 = p0.vx; \
-    pk->y0 = p0.vy; \
-    pk->x1 = p1.vx; \
-    pk->y1 = p1.vy; \
+    pk->x0 = p0.unk0.v1.unk0; \
+    pk->y0 = p0.unk0.v1.unk2; \
+    pk->x1 = p1.unk0.v1.unk0; \
+    pk->y1 = p1.unk0.v1.unk2; \
     pk->addr = otp->addr; \
     otp->addr = (u32) pk; }
 
@@ -8106,49 +8106,49 @@ void func_8018F694(void)
             gte_stsxy((long *) &sxy);
             gte_stflg(&flag);
             gte_stszotz(&otz);
-            if ((u16) (sxy.vx + 0x200) < 0x401 &&
-                (u16) (sxy.vy + 0x180) < 0x301 &&
+            if ((u16) (sxy.unk0.v1.unk0 + 0x200) < 0x401 &&
+                (u16) (sxy.unk0.v1.unk2 + 0x180) < 0x301 &&
                 (u32) (otz - 0x10) < 0x1000) {
                 z = otz - 0x10;
                 c = (s16)t >> 6;
                 d = (t * 3) >> 8;
                 otp = (PTag_8018F694 *) ((z << 2) + (s32) ot);
 
-                p0.vx = sxy.vx - c;
-                p0.vy = sxy.vy - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 EMIT_8018F694();
 
-                p0.vx = sxy.vx + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy + d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 + d;
                 EMIT_8018F694();
 
-                p0.vy = sxy.vy + c;
-                p1.vx = p0.vx - d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk2 = sxy.unk0.v1.unk2 + c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 - d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 EMIT_8018F694();
 
-                p0.vx = sxy.vx - c;
-                p1.vx = p0.vx + d;
-                p1.vy = p0.vy;
+                p0.unk0.v1.unk0 = sxy.unk0.v1.unk0 - c;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0 + d;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2;
                 EMIT_8018F694();
 
-                p1.vx = p0.vx;
-                p1.vy = p0.vy - d;
+                p1.unk0.v1.unk0 = p0.unk0.v1.unk0;
+                p1.unk0.v1.unk2 = p0.unk0.v1.unk2 - d;
                 EMIT_8018F694();
 
                 {

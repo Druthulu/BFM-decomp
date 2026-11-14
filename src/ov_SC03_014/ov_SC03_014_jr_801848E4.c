@@ -4297,9 +4297,9 @@ void func_801874C0(s32 a0) {
     s32 ret;
     s32 t;
 
-    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp10.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    sp10.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    sp10.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
     CAST_WIDTH(s32, a0, 0x4) += CAST_WIDTH(s32, a0, 0x10);
     CAST_WIDTH(s32, a0, 0xC) += CAST_WIDTH(s32, a0, 0x18);
 
@@ -4313,15 +4313,15 @@ void func_801874C0(s32 a0) {
     *(volatile s16 *)(a0 + 0xA) = *(u16 *)(a0 + 0xDE) - (rsin(ang) >> 4);
 
     /* volatile #2 of the barrier pair — see note 2 in the header. */
-    sp18.vx = *(volatile u16 *)(a0 + 0x6);
-    sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp18.unk0.v1.unk0 = *(volatile u16 *)(a0 + 0x6);
+    sp18.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    sp18.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
     ret = func_8012CEB0((s32)&sp10, (s32)&sp18, 1);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.vx;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.unk0.v1.unk0;
     if (ret & 0x6000) {
-        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.unk0.v1.unk2;
     }
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.unk0.v1.unk4;
 
     switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
     case 0:
@@ -5943,7 +5943,7 @@ extern void guess_FreeActor(void *a0);
 /* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC03_014 objdump */
     s32 func_80189EE8(void * arg0)
     {
-        ((Unkstruct_8017E420 *)arg0)->unk2 = 2;
+        ((Unkstruct_8017E1E4 *)arg0)->unk2 = 2;
         ((void (*)(s32 *))guess_FreeActor)(*(s32 **)((char *)arg0 + 0xcc));
     }
 

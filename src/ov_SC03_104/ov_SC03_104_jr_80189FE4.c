@@ -3244,8 +3244,8 @@ void func_8018A720(void *arg0) {
 
 extern void guess_FreeActor(void *a0);
     void func_8018A840(void *a0) {
-        ((Unkstruct_80180B88 *)a0)->unk2 = 2;
-        ((void (*)(s32))guess_FreeActor)(((Unkstruct_80180B88 *)a0)->unkCC);
+        ((Unkstruct_8017E1E4 *)a0)->unk2 = 2;
+        ((void (*)(s32))guess_FreeActor)(((Unkstruct_8017E1E4 *)a0)->unkCC.v0.unkCC);
     }
 
 

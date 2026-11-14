@@ -4350,8 +4350,8 @@ void func_80181430(s32 a0) {
     if (((Unkstruct_80181430 *)a0)->unk1C < 17) {
         return;
     }
-    ((Unkstruct_80181430 *)a0)->unk2 = 1;
-    ((Unkstruct_80181430 *)a0)->unk5C = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);
+    ((Unkstruct_80181430 *)a0)->unk2.u = 1;
+    ((Unkstruct_80181430 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);
 }
 
 

@@ -4420,7 +4420,7 @@ void func_8017F1A8(void) {
 
 
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-extern void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017F314(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 
 void func_8017F1B0(s32 param_1) {
 
@@ -4474,7 +4474,7 @@ extern void SetTransMatrix(void *);
 extern int rand(void);
 extern void func_80017714(void *);
 
-extern SVECTOR_8017E6D8 D_801B9514[4];
+extern M8_801312D0 D_801B9514[4];
 extern PW8017E6D8 D_801B9534;
 extern PW8017E6D8 D_801B9538;
 extern u8 D_801B953C, D_801B953D, D_801B953E, D_801B9540, D_801B9541, D_801B9542;
@@ -4483,13 +4483,13 @@ extern int D_801B9544;
 
 
 
-void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
-                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h)
+void func_8017F314(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
+                   M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h)
 {
     MATRIX_8017E6D8 m;
-    SVECTOR_8017E6D8 *r0_00;
-    SVECTOR_8017E6D8 *pSVar6;
-    SVECTOR_8017E6D8 *r0;
+    M8_801312D0 *r0_00;
+    M8_801312D0 *pSVar6;
+    M8_801312D0 *r0;
     int r;
     int mask;
 
@@ -4514,16 +4514,16 @@ void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     D_801B9534 = h[0];
     D_801B9538 = h[1];
 
-    f->vx = f->vx + c->vx;
-    f->vy = f->vy + c->vy;
+    f->unk0.v1.unk0 = f->unk0.v1.unk0 + c->unk0.v1.unk0;
+    f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
-    mask = f->pad & r;
+    mask = f->unk0.v1.unk6 & r;
     if (*(u16 *)(a + 0x12) & 1)
-        f->vx = f->vx + mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
-        f->vx = f->vx - mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;
     r = rand();
-    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+    { int t = f->unk0.v1.unk2 - 0x10; f->unk0.v1.unk2 = t + (r & 0x1f); }
 
     gte_ldv0(c);
     gte_rtv0tr();
@@ -4540,14 +4540,14 @@ void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
     *d = *f;
     r = rand();
-    d->vx = d->vx - (f->pad & r);
+    d->unk0.v1.unk0 = d->unk0.v1.unk0 - (f->unk0.v1.unk6 & r);
 
     gte_ldv0(d);
     gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((u16 *)b)[2];
+    r0_00->unk0.v1.unk4 = ((u16 *)b)[2];
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -4556,13 +4556,13 @@ void func_8017F314(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
     *e = *f;
     r = rand();
-    e->vx = e->vx + (f->pad & r);
+    e->unk0.v1.unk0 = e->unk0.v1.unk0 + (f->unk0.v1.unk6 & r);
 
     gte_ldv0(e);
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((u16 *)b)[2];
+    r0_00->unk0.v1.unk4 = ((u16 *)b)[2];
     func_80017714(r0_00);
 
     *c = *f;
@@ -5881,7 +5881,7 @@ extern void guess_FreeActor(void *a0);
     s32 func_801816D0(void * arg0)
     {
         ((Unkstruct_801816D0 *)arg0)->unk2 = 2;
-        ((void (*)(s32))guess_FreeActor)(((Unkstruct_801816D0 *)arg0)->unkCC);
+        ((void (*)(s32))guess_FreeActor)(((Unkstruct_801816D0 *)arg0)->unkCC.v0.unkCC);
     }
 
 
@@ -6854,14 +6854,14 @@ void func_80182A54(s32 a0) {
 void func_80182AD4(s32 arg0) {
     u16 temp;
 
-    if (((Unkstruct_80182AD4 *)arg0)->unkC4 & 4) {
-        ((Unkstruct_80182AD4 *)arg0)->unk2 = 0x13;
+    if (((Unkstruct_80182AD4 *)arg0)->unkC4.s & 4) {
+        ((Unkstruct_80182AD4 *)arg0)->unk2.s = 0x13;
     } else {
-        ((Unkstruct_80182AD4 *)arg0)->unk2 = 1;
+        ((Unkstruct_80182AD4 *)arg0)->unk2.s = 1;
     }
-    temp = *(u16 *)(((Unkstruct_80182AD4 *)arg0)->unk78 + 2);
-    ((Unkstruct_80182AD4 *)arg0)->unkE0 = 0;
-    ((Unkstruct_80182AD4 *)arg0)->unk5C = temp;
+    temp = *(u16 *)(((Unkstruct_80182AD4 *)arg0)->unk78.s + 2);
+    ((Unkstruct_80182AD4 *)arg0)->unkE0.s = 0;
+    ((Unkstruct_80182AD4 *)arg0)->unk5C.s = temp;
 }
 
 

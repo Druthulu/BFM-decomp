@@ -3397,9 +3397,9 @@ extern void (*D_8018D420[])(void);
         ((Unkstruct_8017C154 *)a0)->unk10 = ((Unkstruct_8017C154 *)a0)->unk30;
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)buf20);
         for (j = 0; j < 4; j++) {
-            c.vx = 0;
-            c.vy = 0;
-            c.vz = 0;
+            c.unk0.v1.unk0 = 0;
+            c.unk0.v1.unk2 = 0;
+            c.unk0.v1.unk4 = 0;
             d = c;
             e = c;
             for (i = 0; i < 4; i++) {
@@ -3457,16 +3457,16 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
         D_801D42D6 = 0;
     }
 
-    f->vx = f->vx + c->vx;
-    f->vy = f->vy + c->vy;
+    f->unk0.v1.unk0 = f->unk0.v1.unk0 + c->unk0.v1.unk0;
+    f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
-    mask = f->pad & r;
+    mask = f->unk0.v1.unk6 & r;
     if (CAST_SIGN(u16, a, 0x12) & 1)
-        f->vx = f->vx + mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
-        f->vx = f->vx - mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;
     r = rand();
-    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+    { int t = f->unk0.v1.unk2 - 0x10; f->unk0.v1.unk2 = t + (r & 0x1f); }
 
     gte_ldv0(c);
     gte_rtv0tr();
@@ -3483,14 +3483,14 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
 
     *d = *f;
     r = rand();
-    d->vx = d->vx - (f->pad & r);
+    d->unk0.v1.unk0 = d->unk0.v1.unk0 - (f->unk0.v1.unk6 & r);
 
     gte_ldv0(d);
     gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((Unkstruct_80015954 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = ((Unkstruct_80015954 *)b)->unk4;
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -3499,13 +3499,13 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
 
     *e = *f;
     r = rand();
-    e->vx = e->vx + (f->pad & r);
+    e->unk0.v1.unk0 = e->unk0.v1.unk0 + (f->unk0.v1.unk6 & r);
 
     gte_ldv0(e);
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((Unkstruct_80015954 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = ((Unkstruct_80015954 *)b)->unk4;
     func_80017714(r0_00);
 
     *c = *f;
@@ -4017,12 +4017,12 @@ void func_8017D1E0(void *a0)
         }
     }
 
-    vec1.vx = 0;
-    vec1.vy = CAST_WIDTH(u16, (s32)a0, 0x10);
-    vec1.vz = 1;
-    vec2.vx = 0;
-    vec2.vy = *(u16 *)((s32)a0 + 0x12);
-    vec2.vz = 1;
+    vec1.unk0.v1.unk0 = 0;
+    vec1.unk0.v1.unk2 = CAST_WIDTH(u16, (s32)a0, 0x10);
+    vec1.unk0.v1.unk4 = 1;
+    vec2.unk0.v1.unk0 = 0;
+    vec2.unk0.v1.unk2 = *(u16 *)((s32)a0 + 0x12);
+    vec2.unk0.v1.unk4 = 1;
     func_8017D318((int)a0, &vec1, &vec2, ((Unkstruct_80126B58 *)a0)->unk24);
 
     if (((Unkstruct_80126B58 *)a0)->unk10 == 0) {
@@ -4076,32 +4076,32 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
     gte_rtv0tr();
     gte_stsv(r0_00 + 1);
 
-    a1->vx = a1->vx - 2;
+    a1->unk0.v1.unk0 = a1->unk0.v1.unk0 - 2;
     gte_ldv0(a1);
     gte_rtv0tr();
     r0 = r0_00 + 2;
     gte_stsv(r0);
 
-    a2->vx = a2->vx - 2;
+    a2->unk0.v1.unk0 = a2->unk0.v1.unk0 - 2;
     gte_ldv0(a2);
     gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->vz = CAST_SIGN(u16, a0, 0xE);
+    r0_00->unk0.v1.unk4 = CAST_SIGN(u16, a0, 0xE);
     func_80017714(r0_00);
 
-    a1->vx = a1->vx + 4;
+    a1->unk0.v1.unk0 = a1->unk0.v1.unk0 + 4;
     gte_ldv0(a1);
     gte_rtv0tr();
     gte_stsv(r0);
 
-    a2->vx = a2->vx + 4;
+    a2->unk0.v1.unk0 = a2->unk0.v1.unk0 + 4;
     gte_ldv0(a2);
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->vz = CAST_SIGN(u16, a0, 0xE);
+    r0_00->unk0.v1.unk4 = CAST_SIGN(u16, a0, 0xE);
     func_80017714(r0_00);
 }
 

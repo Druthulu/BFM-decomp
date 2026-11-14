@@ -24,13 +24,13 @@ void SHARED_FN(int param_1)
     p = ((Unkstruct_80126B58 *)param_1)->unk20;
     ang = *(unsigned short *)(param_1 + 0x2c) + 0x40;
     *(unsigned short *)(param_1 + 0x2c) = ang;
-    v.vz = rsin(ang) / 256;
-    v.vy = 0;
-    v.vx = 0;
+    v.unk0.v1.unk4 = rsin(ang) / 256;
+    v.unk0.v1.unk2 = 0;
+    v.unk0.v1.unk0 = 0;
     func_800139C8(*(short *)(p + 0x12), &v, &v);
 
-    *(unsigned short *)(param_1 + 6) = *(unsigned short *)(param_1 + 0x12) + v.vx;
-    *(unsigned short *)(param_1 + 0xe) = *(unsigned short *)(param_1 + 0x1a) + v.vz;
+    *(unsigned short *)(param_1 + 6) = *(unsigned short *)(param_1 + 0x12) + v.unk0.v1.unk0;
+    *(unsigned short *)(param_1 + 0xe) = *(unsigned short *)(param_1 + 0x1a) + v.unk0.v1.unk4;
     *(unsigned short *)(param_1 + 0xa) = *(unsigned short *)(param_1 + 0xa) - *(unsigned short *)(param_1 + 0x30);
     siz = *(unsigned short *)(param_1 + 0x2e) + 0x10;
     *(unsigned short *)(param_1 + 0x2e) = siz;

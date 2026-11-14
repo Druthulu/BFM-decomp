@@ -6682,9 +6682,9 @@ void func_80181854(void *a0) {
     Blk20 mtx;
     void *p;
 
-    v.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    v.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    v.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    v.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    v.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    v.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
     /* §373.1 DEAD-RESET CSE-BREAKER (zero bytes, zero LUID disturbance).
        `&v2` feeds three calls in one cse basic block; cse unifies the three
@@ -6704,7 +6704,7 @@ void func_80181854(void *a0) {
     func_800D23D0(p);
     { p = 0; }
 
-    v2.vz = v2.vy * 2;
+    v2.unk0.v1.unk4 = v2.unk0.v1.unk2 * 2;
     RotMatrixYXZ(&v2, &mtx);
 
     CAST_WIDTH(s32, (u8 *)a0, 0x2C) =

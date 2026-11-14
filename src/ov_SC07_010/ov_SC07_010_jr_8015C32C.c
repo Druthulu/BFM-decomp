@@ -6099,7 +6099,7 @@ void func_8016829C(s32 a0) {
         ((Unkstruct_8016829C *)a0)->unk2A = v0;
         if (v0 == 0) {
             ((s32 (*)(s32, s32, s32, s32))func_80166994)(a0, 0, ((Unkstruct_8016829C *)a0)->unk2C, 0);
-            ((Unkstruct_8016829C *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_8016829C *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
     (void)s0;
@@ -6140,14 +6140,14 @@ void func_80168430(s32 param_1) {
 extern s32 guess_FreeSmallObject(u8*);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 void func_801684B4(s32 a0) {
-    if ((*(s32 *)(((Unkstruct_801684B4 *)a0)->unk34 + 0x44) & 0x2) == 0) {
+    if ((*(s32 *)(((Unkstruct_80166994_3 *)a0)->unk34 + 0x44) & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_801684B4 *)a0)->unk2A - 1;
-        ((Unkstruct_801684B4 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
+        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
             ((s32 (*)(s32, s32, s32, s32))func_80166994)(a0, 0, 2, 0);
-            ((Unkstruct_801684B4 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
 }

@@ -3912,21 +3912,21 @@ void func_8018012C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].vx + spos.x;
-            p->v[0].y = sxy[0].vy + spos.y;
-            p->v[1].x = sxy[1].vx + spos.x;
-            p->v[1].y = sxy[1].vy + spos.y;
-            p->v[2].x = sxy[2].vx + spos.x;
-            p->v[2].y = sxy[2].vy + spos.y;
+            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
+            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
+            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
+            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
             p->v[0].c = otz;
             func_8001739C(p);
-            t = sxy[1].vy;
+            t = sxy[1].unk0.v1.unk2;
             p->v[1].y = spos.y - t;
             func_8001739C(p);
-            t = sxy[2].vx;
+            t = sxy[2].unk0.v1.unk0;
             p->v[2].x = spos.x - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].vy + spos.y;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(p);
         }
     }

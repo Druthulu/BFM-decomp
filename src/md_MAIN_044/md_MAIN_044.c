@@ -752,8 +752,8 @@ void func_800CDE04(s32 param_1) {
     s16 i;
     s32 p;
 
-    q = ((Unkstruct_800CDE04 *)param_1)->unk34;
-    if (((Unkstruct_800CDE04 *)param_1)->unk2C == 0) {
+    q = ((Unkstruct_800CE004 *)param_1)->unk34;
+    if (((Unkstruct_800CE004 *)param_1)->unk2C.s == 0) {
         sp20[0] = ((Unkstruct_800CDE04_2 *)q)->unk6;
         sp20[1] = ((Unkstruct_800CDE04_2 *)q)->unkA - 0x28;
         sp20[2] = ((Unkstruct_800CDE04_2 *)q)->unkE;
@@ -784,8 +784,8 @@ void func_800CDE04(s32 param_1) {
         func_800D23D0(sp30);
         RotMatrixYXZ(sp30, (void *)(param_1 + 0x38));
         p = param_1;
-        ((Unkstruct_800CDE04 *)p)->unk1C = 0x18;
-        ((Unkstruct_800CDE04 *)p)->unk2 += 1;
+        ((Unkstruct_800CE004 *)p)->unk1C = 0x18;
+        ((Unkstruct_800CE004 *)p)->unk2 += 1;
         func_800CE004(p);
     }
 }
@@ -820,7 +820,7 @@ void func_800CE004(s32 param_1)
     func_80015954((s32)q, (s32)p);
     if (*(u8 *)((s32)q + 6) != 2)
         goto L_cnt;
-    if (((Unkstruct_800CE004 *)param_1)->unk2C < 0x1E01)
+    if (((Unkstruct_800CE004 *)param_1)->unk2C.u < 0x1E01)
         goto L_c3c;
     guess_SpawnSmallObject(0x11, (void *)param_1, ((Unkstruct_800CE004 *)param_1)->unk6,
                   (s16)(((Unkstruct_800CE004 *)param_1)->unkA - 8),

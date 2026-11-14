@@ -3171,21 +3171,21 @@ void func_8017F6A8(s32 arg0)
             prim.g2 = 0x20;
             prim.r2 = 0x20;
             prim.color = 0x50000000;
-            prim.v[0].x = sxy[0].vx + spos.x;
-            prim.v[0].y = sxy[0].vy + spos.y;
-            prim.v[1].x = sxy[1].vx + spos.x;
-            prim.v[1].y = sxy[1].vy + spos.y;
-            prim.v[2].x = sxy[2].vx + spos.x;
-            prim.v[2].y = sxy[2].vy + spos.y;
+            prim.v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
+            prim.v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
+            prim.v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
+            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            prim.v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
+            prim.v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
             prim.v[0].c = otz;
             func_8001739C(&prim);
-            t = sxy[1].vy;
+            t = sxy[1].unk0.v1.unk2;
             prim.v[1].y = spos.y - t;
             func_8001739C(&prim);
-            t = sxy[2].vx;
+            t = sxy[2].unk0.v1.unk0;
             prim.v[2].x = spos.x - t;
             func_8001739C(&prim);
-            prim.v[1].y = sxy[1].vy + spos.y;
+            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(&prim);
         }
     }

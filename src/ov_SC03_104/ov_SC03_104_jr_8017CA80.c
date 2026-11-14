@@ -4000,7 +4000,7 @@ void func_80181EA0(s32 arg0) {
     func_8012CBF4(arg0);
     if (func_80013478(arg0 + 4, arg0 + 0x88) < 0x101) {
         ((Unkstruct_80181EA0_4 *)*(s32 *)(arg0 + 0x20))->unk10 = 0;
-        ((Unkstruct_80181EA0_2 *)arg0)->unk2 = 4;
+        ((Unkstruct_80181EA0_2 *)arg0)->unk2.s = 4;
     }
 }
 

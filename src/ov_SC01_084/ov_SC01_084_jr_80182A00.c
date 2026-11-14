@@ -1143,16 +1143,16 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
     D_801C74D8 = D_80126950;
     tpage = GetTPage(0, 0, 0x300, 0x100);
     clut = GetClut(0x160, 0x14C);
-    vec.vx = arg0->vx;
-    vec.vy = arg0->vy;
-    vec.vz = arg0->vz;
+    vec.unk0.v1.unk0 = arg0->unk0.v1.unk0;
+    vec.unk0.v1.unk2 = arg0->unk0.v1.unk2;
+    vec.unk0.v1.unk4 = arg0->unk0.v1.unk4;
     uu = 0xF0;
     vv = 0;
 
     for (;;) {
-        tmp.vx = vec.vx;
-        tmp.vy = vec.vy - 0x40;
-        tmp.vz = vec.vz;
+        tmp.unk0.v1.unk0 = vec.unk0.v1.unk0;
+        tmp.unk0.v1.unk2 = vec.unk0.v1.unk2 - 0x40;
+        tmp.unk0.v1.unk4 = vec.unk0.v1.unk4;
         otz = RotTransPers((s32)&tmp, (s32)&sxy0, &pp, &flag);
         if ((D_801C74D8 >> 3) >= otz) {
             return;
@@ -1199,7 +1199,7 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
                 AddPrim(ot, p);
             }
         }
-        vec.vy -= 0x40;
+        vec.unk0.v1.unk2 -= 0x40;
     }
 }
 
@@ -1297,16 +1297,16 @@ void func_80184138(SVec_80184138 *arg0) {
     D_801C74DC = D_80126950;
     tpage = GetTPage(0, 0, 0x300, 0x100);
     clut = GetClut(0x160, 0x14D);
-    vec.vx = arg0->vx;
-    vec.vy = arg0->vy;
-    vec.vz = arg0->vz;
+    vec.unk0.v1.unk0 = arg0->unk0.v1.unk0;
+    vec.unk0.v1.unk2 = arg0->unk0.v1.unk2;
+    vec.unk0.v1.unk4 = arg0->unk0.v1.unk4;
     uu = 0xF8;
     vv = 0;
 
     for (;;) {
-        tmp.vx = vec.vx;
-        tmp.vy = vec.vy - 0x40;
-        tmp.vz = vec.vz;
+        tmp.unk0.v1.unk0 = vec.unk0.v1.unk0;
+        tmp.unk0.v1.unk2 = vec.unk0.v1.unk2 - 0x40;
+        tmp.unk0.v1.unk4 = vec.unk0.v1.unk4;
         otz = RotTransPers((s32)&tmp, (s32)&sxy0, &pp, &flag);
         if ((D_801C74DC >> 3) >= otz) {
             return;
@@ -1353,7 +1353,7 @@ void func_80184138(SVec_80184138 *arg0) {
                 AddPrim(ot, p);
             }
         }
-        vec.vy -= 0x3C;
+        vec.unk0.v1.unk2 -= 0x3C;
     }
 }
 
@@ -2665,21 +2665,21 @@ void func_80185C0C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].vx + spos.x;
-            p->v[0].y = sxy[0].vy + spos.y;
-            p->v[1].x = sxy[1].vx + spos.x;
-            p->v[1].y = sxy[1].vy + spos.y;
-            p->v[2].x = sxy[2].vx + spos.x;
-            p->v[2].y = sxy[2].vy + spos.y;
+            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
+            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
+            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
+            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
             p->v[0].c = otz;
             func_8001739C(p);
-            t = sxy[1].vy;
+            t = sxy[1].unk0.v1.unk2;
             p->v[1].y = spos.y - t;
             func_8001739C(p);
-            t = sxy[2].vx;
+            t = sxy[2].unk0.v1.unk0;
             p->v[2].x = spos.x - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].vy + spos.y;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(p);
         }
     }

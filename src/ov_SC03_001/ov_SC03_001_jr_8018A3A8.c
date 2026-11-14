@@ -3886,17 +3886,17 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
 
     w = w0;
     flag = -(guess_g_MenuPanel != idx) & 0xFF;
-    guess_SjisToGlyphCodes(w->f14, sp18);
+    guess_SjisToGlyphCodes(w->unk14.v1.unk0, sp18);
     flag2 = flag + 0;
-    ot = func_800D2650(ot, sp18, w->f10, w->f12, 1,
+    ot = func_800D2650(ot, sp18, w->unk10, w->unk12, 1,
                        flag != 0 ? 0x585858 : 0x808080);
-    ot = func_8018BCD4(ot, w->f18, idx, w->f8,
+    ot = func_8018BCD4(ot, w->unk18.v1.unk0, idx, w->unk8.v1.unk0,
                        flag2 != 0 ? 0x585858 : 0x808080);
     i = 0;
     flag3 = flag2;
-    p = w->f18;
+    p = w->unk18.v1.unk0;
     for (;;) {
-        r = func_8018B644(w->f1C, w->f0, idx, i++, sp60);
+        r = func_8018B644(w->unk1C.v1.unk0, w->unk0, idx, i++, sp60);
         if (r == 0) {
             break;
         }
@@ -3911,8 +3911,8 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
     }
     flag4 = flag2 + 0;
     return func_800D29F8(flag4,
-                         func_800D27DC(flag4 != 0, ot, w->f4, w->fC, 0),
-                         w->f8, w->fE, 0);
+                         func_800D27DC(flag4 != 0, ot, w->unk4.v1.unk0, w->unkC, 0),
+                         w->unk8.v1.unk0, w->unkE, 0);
 }
 
 

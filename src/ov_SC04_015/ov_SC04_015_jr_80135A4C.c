@@ -694,7 +694,7 @@ docall:
         }
 
         if ((s16)acc != 0 || D_801C7694 != 0) {
-            if ((*(Box **)&D_80184AC8)->f6 >= -0xBCB) {
+            if ((*(Box **)&D_80184AC8)->f6.s >= -0xBCB) {
                 *(Blk8_SC04_015_80135A4C *)guess_g_BoxHitNormalX = *(Blk8_SC04_015_80135A4C *)&D_801152B0;
             }
             (*(Box **)&D_80184AD0)->f0 = (*(Box **)&D_80184ACC)->f0;

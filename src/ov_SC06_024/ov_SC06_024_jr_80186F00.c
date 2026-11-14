@@ -2714,18 +2714,18 @@ extern void func_801817B8(s32 param_1);
 extern void func_80181854(s32 param_1);
 extern void func_80181804(s32 param);
 extern void func_8018184C(void);
-extern void func_801819B8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_801819B8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_80013F3C(s32);
 extern void RotMatrixZ(s32, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void func_80017714(void *);
-extern SVECTOR_8017E6D8 D_801E1674[4];
+extern M8_801312D0 D_801E1674[4];
 extern PW8017E6D8 D_801E1694;
 extern PW8017E6D8 D_801E1698;
 extern u8 D_801E169C, D_801E169D, D_801E169E, D_801E16A0, D_801E16A1, D_801E16A2;
 extern int D_801E16A4;
-extern void func_801819B8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_801819B8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80181ED4(s32 arg0);
 extern void func_801823A8(void *a0);
@@ -2962,24 +2962,24 @@ void func_801872EC(s32 a0, s32 a1)
     V8_801872EC sp18;
     V8_801872EC sp20;
 
-    sp10.vx = ((Unkstruct_801872EC *)a0)->unk3A;
-    sp10.vy = ((Unkstruct_801872EC *)a0)->unk3E;
-    sp10.vz = ((Unkstruct_801872EC *)a0)->unk42;
+    sp10.unk0.v1.unk0 = ((Unkstruct_801872EC *)a0)->unk3A;
+    sp10.unk0.v1.unk2 = ((Unkstruct_801872EC *)a0)->unk3E;
+    sp10.unk0.v1.unk4 = ((Unkstruct_801872EC *)a0)->unk42;
     sp18 = sp10;
-    sp18.vx += *(u16 *)(a1 + 0x0);
-    sp18.vy += *(u16 *)(a1 + 0x2);
-    sp18.vz += *(u16 *)(a1 + 0x4);
+    sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 += *(u16 *)(a1 + 0x4);
     sp20 = sp18; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE (§160e-family) */
     ((s32 (*)(s32, s32, s32))func_8012CEB0)((s32)&sp10, (s32)&sp18, 1);
-    sp18.vx -= *(u16 *)(a1 + 0x0);
-    sp18.vy -= *(u16 *)(a1 + 0x2);
-    sp18.vz -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_801872EC *)a0)->unk3A = sp18.vx;
-    ((Unkstruct_801872EC *)a0)->unk3E = sp18.vy;
-    ((Unkstruct_801872EC *)a0)->unk42 = sp18.vz;
-    ((Unkstruct_801872EC *)a0)->unk6 = sp18.vx;
-    ((Unkstruct_801872EC *)a0)->unkA = sp18.vy;
-    ((Unkstruct_801872EC *)a0)->unkE = sp18.vz;
+    sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
+    ((Unkstruct_801872EC *)a0)->unk3A = sp18.unk0.v1.unk0;
+    ((Unkstruct_801872EC *)a0)->unk3E = sp18.unk0.v1.unk2;
+    ((Unkstruct_801872EC *)a0)->unk42 = sp18.unk0.v1.unk4;
+    ((Unkstruct_801872EC *)a0)->unk6 = sp18.unk0.v1.unk0;
+    ((Unkstruct_801872EC *)a0)->unkA = sp18.unk0.v1.unk2;
+    ((Unkstruct_801872EC *)a0)->unkE = sp18.unk0.v1.unk4;
 }
 
 

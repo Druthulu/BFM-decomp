@@ -596,9 +596,9 @@ void func_80131340(s32 a0)
 
     temp = guess_LookupIdValue(((Unkstruct_800B5CB8 *)a0)->unkBC, 0x2E);
     if (temp != 0) {
-        sp10.vz = 0;
-        sp10.vx = 0;
-        sp10.vy = temp;
+        sp10.unk0.v1.unk4 = 0;
+        sp10.unk0.v1.unk0 = 0;
+        sp10.unk0.v1.unk2 = temp;
     } else {
         sp10 = D_8017EB38;
     }
@@ -625,24 +625,24 @@ void func_80131340(s32 a0)
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkC2 == 0) {
             ((Unkstruct_800B5CB8 *)a0)->unkC2 = 1;
-            sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-            sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-            sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
+            sp18.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+            sp18.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+            sp18.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unk42;
             sp20 = sp18;
-            sp20.vx += sp10.vx;
-            sp20.vy += sp10.vy;
-            sp20.vz += sp10.vz;
+            sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
+            sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
+            sp20.unk0.v1.unk4 += sp10.unk0.v1.unk4;
             sp28 = sp20; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE */
             func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
-            sp20.vx -= sp10.vx;
-            sp20.vy -= sp10.vy;
-            sp20.vz -= sp10.vz;
-            ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.vx;
-            ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.vy;
-            ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.vz;
-            ((Unkstruct_800B5CB8 *)a0)->unk6 = sp20.vx;
-            ((Unkstruct_800B5CB8 *)a0)->unkA = sp20.vy;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = sp20.vz;
+            sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
+            sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
+            sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
+            ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.unk0.v1.unk0;
+            ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.unk0.v1.unk2;
+            ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.unk0.v1.unk4;
+            ((Unkstruct_800B5CB8 *)a0)->unk6 = sp20.unk0.v1.unk0;
+            ((Unkstruct_800B5CB8 *)a0)->unkA = sp20.unk0.v1.unk2;
+            ((Unkstruct_800B5CB8 *)a0)->unkE = sp20.unk0.v1.unk4;
         }
         D_8018F078 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&sp10);
         if (D_8018F078 & 0x8000) {
@@ -1355,8 +1355,8 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     tries = 0;
     hits = 0;
     same = 0;
-    D_8017EC10->f6 = -0x7FFF;
-    D_8017EC14->f6 = 0x7FFF;
+    D_8017EC10->f6.s = -0x7FFF;
+    D_8017EC14->f6.s = 0x7FFF;
     D_8017EC10->f0 = ((Box_80133784 *)arg1)->f0;
     D_8017EC10->f4 = ((Box_80133784 *)arg1)->f4;
     D_8017EC14->f0 = ((Box_80133784 *)arg2)->f0;
@@ -1406,7 +1406,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     }
 
     if ((s16)hits != 0 || D_8018F0CC != 0) {
-        s16 t = D_8017EC10->f6;
+        s16 t = D_8017EC10->f6.s;
         if (t >= -0xBCB) {
             if (t < -0x578) {
                 flags |= 0x4000;
@@ -1414,17 +1414,17 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
                 flags |= 0x8000;
             }
         }
-        if (D_8017EC14->f6 < -0xBCB) {
+        if (D_8017EC14->f6.s < -0xBCB) {
             flags |= 0x2000;
         }
     store_out:
         ((Box_80133784 *)arg2)->f0 = D_8017EC14->f0;
         ((Box_80133784 *)arg2)->f2 = D_8017EC14->f2;
         ((Box_80133784 *)arg2)->f4 = D_8017EC14->f4;
-        ((Box_80133784 *)arg2)->f6 = D_8018F0D0;
+        ((Box_80133784 *)arg2)->f6.s = D_8018F0D0;
         return flags & 0xFFFF;
     }
-    ((Box_80133784 *)arg2)->f6 = D_8018F0D0;
+    ((Box_80133784 *)arg2)->f6.s = D_8018F0D0;
     return 0;
 }
 
@@ -1745,7 +1745,7 @@ s32 func_80134510(s32 param) {
     u16 t0 = ((Foo_80134510 *)param)->f0;
     u16 t2, t4;
 
-    ((Foo_80134510 *)param)->f6 = 0;
+    ((Foo_80134510 *)param)->f6.s = 0;
     ac->f0 = t0;
     b0->f0 = t0;
     t2 = ((Foo_80134510 *)param)->f2;
@@ -1758,7 +1758,7 @@ s32 func_80134510(s32 param) {
     if (func_801345F8(D_8018F0C0) != 0) {
         s16 x;
         ((Foo_80134510 *)param)->f2 = D_8017EC18->f2 - 2;
-        x = D_8017EC10->f6;
+        x = D_8017EC10->f6.s;
         if (x >= -3019) {
             if (x < -1400) {
                 ret = 0x4000;
@@ -1768,7 +1768,7 @@ s32 func_80134510(s32 param) {
         } else {
             ret = 0x2000;
         }
-        D_8017EC10->f6 = D_8018F0D0;
+        D_8017EC10->f6.s = D_8018F0D0;
     }
     return ret;
 }
@@ -1888,7 +1888,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_8017EC18->f0 = D_8017EC10->f0;
     D_8017EC18->f4 = D_8017EC10->f4;
     (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
-    D_8017EC10->f6 = pElem->f2;
+    D_8017EC10->f6.u = pElem->f2;
     return 1;
 }
 

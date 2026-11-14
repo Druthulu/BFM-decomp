@@ -6715,7 +6715,7 @@ void func_8016829C(s32 a0) {
         ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, ((Unkstruct_80166994_3 *)a0)->unk2C, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
     (void)s0;
@@ -6763,7 +6763,7 @@ void func_801684B4(s32 a0) {
         ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, 2, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
 }

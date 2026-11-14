@@ -3944,24 +3944,24 @@ void func_80186D20(s32 arg0) {
     s32 e;
 
     a3 = arg0;
-    ((Unkstruct_80186D20 *)a3)->unk2 = 1;
-    d = *(u16 *)(((Unkstruct_80186D20 *)a3)->unk78 + 2);
-    a1 = ((Unkstruct_80186D20 *)a3)->unk88;
-    b = ((Unkstruct_80186D20 *)a3)->unk8A;
-    c = ((Unkstruct_80186D20 *)a3)->unk8C;
-    flags = ((Unkstruct_80186D20 *)a3)->unk70;
-    ((Unkstruct_80186D20 *)a3)->unk6 = a1;
-    ((Unkstruct_80186D20 *)a3)->unkA = b;
-    ((Unkstruct_80186D20 *)a3)->unkE = c;
-    ((Unkstruct_80186D20 *)a3)->unk5C = d;
+    ((Unkstruct_8017ED0C *)a3)->unk2.u = 1;
+    d = *(u16 *)(((Unkstruct_8017ED0C *)a3)->unk78 + 2);
+    a1 = ((Unkstruct_8017ED0C *)a3)->unk88;
+    b = ((Unkstruct_8017ED0C *)a3)->unk8A;
+    c = ((Unkstruct_8017ED0C *)a3)->unk8C;
+    flags = ((Unkstruct_8017ED0C *)a3)->unk70;
+    ((Unkstruct_8017ED0C *)a3)->unk6.u = a1;
+    ((Unkstruct_8017ED0C *)a3)->unkA.u = b;
+    ((Unkstruct_8017ED0C *)a3)->unkE.u = c;
+    ((Unkstruct_8017ED0C *)a3)->unk5C.u = d;
     if (flags & 1) {
-        e = ((Unkstruct_80186D20 *)a3)->unk20;
+        e = ((Unkstruct_8017ED0C *)a3)->unk20;
         ((Unkstruct_80186D20_2 *)e)->unk2C |= 0x10;
-        e = ((Unkstruct_80186D20 *)a3)->unk20;
+        e = ((Unkstruct_8017ED0C *)a3)->unk20;
         ((Unkstruct_80186D20_2 *)e)->unk1C = 0x1666;
         ((Unkstruct_80186D20_2 *)e)->unk1A = 0x1666;
         ((Unkstruct_80186D20_2 *)e)->unk18 = 0x1666;
-        ((Unkstruct_80186D20 *)a3)->unk100 = 0x1666;
+        ((Unkstruct_8017ED0C *)a3)->unk100.u = 0x1666;
     }
 }
 
@@ -4712,9 +4712,9 @@ void func_80187DE4(s32 a0)
     V8_80187DE4 sp28;
     s32 p;
 
-    sp10.vz = 0;
-    sp10.vx = 0;
-    sp10.vy = 0x30;
+    sp10.unk0.v1.unk4 = 0;
+    sp10.unk0.v1.unk0 = 0;
+    sp10.unk0.v1.unk2 = 0x30;
 
     p = func_8012DE2C(a0);
     while (p != 0) {
@@ -4737,21 +4737,21 @@ void func_80187DE4(s32 a0)
     switch (((Unkstruct_800B5CB8 *)a0)->unkC2) {
     case 0:
         ((Unkstruct_800B5CB8 *)a0)->unkC2 = 1;
-        sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-        sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-        sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
+        sp18.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+        sp18.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+        sp18.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unk42;
         sp20 = sp18;
-        sp20.vx += sp10.vx;
-        sp20.vy += sp10.vy;
-        sp20.vz += sp10.vz;
+        sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
+        sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
+        sp20.unk0.v1.unk4 += sp10.unk0.v1.unk4;
         sp28 = sp20; /* load-bearing dead aggregate copy — no aggregate DSE in 2.7.2 */
         func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
-        sp20.vx -= sp10.vx;
-        sp20.vy -= sp10.vy;
-        sp20.vz -= sp10.vz;
-        ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.vx;
-        ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.vy;
-        ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.vz;
+        sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
+        sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
+        sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
+        ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.unk0.v1.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.unk0.v1.unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.unk0.v1.unk4;
         /* fallthrough */
     case 1:
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += CAST_SIGN(u16, a0, 0xFE);

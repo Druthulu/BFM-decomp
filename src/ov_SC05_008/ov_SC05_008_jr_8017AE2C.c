@@ -3992,28 +3992,28 @@ void func_8017DF68(SVEC_8017DF68 *p0, SVEC_8017DF68 *p1, s32 a2)
     if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv0) & ~0x1000) == 0 &&
         (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv1) & ~0x1000) == 0) {
         lo0 = *p0;
-        tx = lo0.vx + 8;
-        ty = lo0.vy - 8;
-        lo0.vx = tx;
-        lo0.vy = ty;
+        tx = lo0.unk0.v1.unk0 + 8;
+        ty = lo0.unk0.v1.unk2 - 8;
+        lo0.unk0.v1.unk0 = tx;
+        lo0.unk0.v1.unk2 = ty;
         lo1 = *p1;
-        tx = lo1.vx + 8;
-        ty = lo1.vy - 8;
-        lo1.vx = tx;
-        lo1.vy = ty;
+        tx = lo1.unk0.v1.unk0 + 8;
+        ty = lo1.unk0.v1.unk2 - 8;
+        lo1.unk0.v1.unk0 = tx;
+        lo1.unk0.v1.unk2 = ty;
         if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv2) & ~0x1000) == 0 &&
             (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv3) & ~0x1000) == 0) {
             func_8017E230(&sv0, &sv1, &sv2, &sv3, &col);
             lo0 = *p0;
-            tx = lo0.vx - 8;
-            ty = lo0.vy - 8;
-            lo0.vx = tx;
-            lo0.vy = ty;
+            tx = lo0.unk0.v1.unk0 - 8;
+            ty = lo0.unk0.v1.unk2 - 8;
+            lo0.unk0.v1.unk0 = tx;
+            lo0.unk0.v1.unk2 = ty;
             lo1 = *p1;
-            tx = lo1.vx - 8;
-            ty = lo1.vy - 8;
-            lo1.vx = tx;
-            lo1.vy = ty;
+            tx = lo1.unk0.v1.unk0 - 8;
+            ty = lo1.unk0.v1.unk2 - 8;
+            lo1.unk0.v1.unk0 = tx;
+            lo1.unk0.v1.unk2 = ty;
             if ((((s32 (*)(void *, void *))func_8012EF70)(&lo0, &sv2) & ~0x1000) == 0 &&
                 (((s32 (*)(void *, void *))func_8012EF70)(&lo1, &sv3) & ~0x1000) == 0) {
                 func_8017E230(&sv0, &sv1, &sv2, &sv3, &col);

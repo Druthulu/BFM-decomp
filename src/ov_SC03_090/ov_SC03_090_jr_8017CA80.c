@@ -5241,8 +5241,8 @@ extern s32 func_80013478(s32 a0, s32 a1);
 void func_8018400C(s32 a0) {
     func_8012CBF4(a0);
     if (func_80013478(a0 + 4, a0 + 0x88) < 0x101) {
-        *(u16 *)(((Unkstruct_8018400C *)a0)->unk20 + 0x10) = 0;
-        ((Unkstruct_8018400C *)a0)->unk2 = 4;
+        *(u16 *)(((Unkstruct_80181EA0_2 *)a0)->unk20 + 0x10) = 0;
+        ((Unkstruct_80181EA0_2 *)a0)->unk2.u = 4;
     }
 }
 
@@ -6664,14 +6664,14 @@ void func_80185FA8(s32 a0) {
     s32 p;
     s16 t;
 
-    p = ((Unkstruct_80185FA8 *)a0)->unk20;
-    t = rsin(((Unkstruct_80185FA8 *)a0)->unk1C << 6);
+    p = ((Unkstruct_80181430 *)a0)->unk20;
+    t = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
     ((Unkstruct_80185FA8_2 *)p)->unk1C = t;
     ((Unkstruct_80185FA8_2 *)p)->unk1A = t;
     ((Unkstruct_80185FA8_2 *)p)->unk18 = t;
-    if (++((Unkstruct_80185FA8 *)a0)->unk1C >= 0x11) {
-        ((Unkstruct_80185FA8 *)a0)->unk2 = 1;
-        ((Unkstruct_80185FA8 *)a0)->unk5C = *(u16 *)(((Unkstruct_80185FA8 *)a0)->unk78 + 2);
+    if (++((Unkstruct_80181430 *)a0)->unk1C >= 0x11) {
+        ((Unkstruct_80181430 *)a0)->unk2.s = 1;
+        ((Unkstruct_80181430 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);
     }
 }
 

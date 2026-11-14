@@ -3361,12 +3361,12 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
             func_80184FBC(base, *(s16 *)(a1 + 1), buf2);
             guess_RotTransSVWithMatrix((s32)buf1, (s32)D_800D3918, (s32)&out1);
             guess_RotTransSVWithMatrix((s32)buf2, (s32)D_800D3918, (s32)&out2);
-            diff.vx = out2.vx - out1.vx;
-            diff.vy = out2.vy - out1.vy;
-            diff.vz = out2.vz - out1.vz;
-            a1[2] = out1.vx;
-            a1[3] = out1.vy;
-            a1[4] = out1.vz;
+            diff.unk0.v1.unk0 = out2.unk0.v1.unk0 - out1.unk0.v1.unk0;
+            diff.unk0.v1.unk2 = out2.unk0.v1.unk2 - out1.unk0.v1.unk2;
+            diff.unk0.v1.unk4 = out2.unk0.v1.unk4 - out1.unk0.v1.unk4;
+            a1[2] = out1.unk0.v1.unk0;
+            a1[3] = out1.unk0.v1.unk2;
+            a1[4] = out1.unk0.v1.unk4;
             e = VectorNormalSS(&diff, a1 + 6);
             if (a3 == 0) {
                 a1[9] = func_80047D3C(e);
@@ -4563,14 +4563,14 @@ void func_801848A4(void *a0) {
         s32 idx;
         s32 ret;
 
-        sv.vx = ((Unkstruct_801848A4_2 *)s1)->unk14;
+        sv.vx = ((Unkstruct_80185680 *)s1)->unk14.u;
         sv.vy = 0;
-        sv.vz = ((Unkstruct_801848A4_2 *)s1)->unk18;
+        sv.vz = ((Unkstruct_80185680 *)s1)->unk18.u;
 
         idx = ((Unkstruct_801848A4 *)a0)->unk50;
         ret = VectorNormalSS(&sv, &D_801BA5A8[idx]);
         ret = func_80047D3C(ret);
-        ((Unkstruct_801848A4_2 *)s1)->unk1A = ret;
+        ((Unkstruct_80185680 *)s1)->unk1A = ret;
         func_80185480(a0, 0x28);
         func_80185810((s32)s1);
     }
@@ -4707,9 +4707,9 @@ void func_80184B50(u8 *param_1)
 
     factor = ((Unkstruct_8018526C *)s0)->unk54 * (((Unkstruct_80184B50 *)s1)->unk12 / ((Unkstruct_8018526C *)s0)->unk56);
 
-    ((Unkstruct_80184B50_3 *)s2)->unk14 = ((Unkstruct_80184B50 *)s1)->unk4 + ((factor * ((Unkstruct_80184B50 *)s1)->unkC) >> 12);
-    ((Unkstruct_80184B50_3 *)s2)->unk16 = ((Unkstruct_80184B50 *)s1)->unk6 + ((factor * ((Unkstruct_80184B50 *)s1)->unkE) >> 12);
-    ((Unkstruct_80184B50_3 *)s2)->unk18 = ((Unkstruct_80184B50 *)s1)->unk8 + ((factor * ((Unkstruct_80184B50 *)s1)->unk10) >> 12);
+    ((Unkstruct_80185680 *)s2)->unk14.s = ((Unkstruct_80184B50 *)s1)->unk4 + ((factor * ((Unkstruct_80184B50 *)s1)->unkC) >> 12);
+    ((Unkstruct_80185680 *)s2)->unk16.s = ((Unkstruct_80184B50 *)s1)->unk6 + ((factor * ((Unkstruct_80184B50 *)s1)->unkE) >> 12);
+    ((Unkstruct_80185680 *)s2)->unk18.s = ((Unkstruct_80184B50 *)s1)->unk8 + ((factor * ((Unkstruct_80184B50 *)s1)->unk10) >> 12);
 
     func_8018526C((s32)s0, -0x18, 0x18, 0x30);
     func_80185810((s32)s2);
@@ -4782,8 +4782,8 @@ void func_80184CA8(s32 a0) {
                     result = base - rem;
                 }
                 tmp[0] = result;                                        /* sp+0x20 */
-                tmp[1] = ((Unkstruct_80184CA8_2 *)s3)->unk16 + ((Unkstruct_80184CA8_2 *)s3)->unk1E;     /* sp+0x22 */
-                tmp[2] = ((Unkstruct_80184CA8_2 *)s3)->unk18;                           /* sp+0x24 */
+                tmp[1] = ((Unkstruct_80185680 *)s3)->unk16.u + ((Unkstruct_80185680 *)s3)->unk1E;     /* sp+0x22 */
+                tmp[2] = ((Unkstruct_80185680 *)s3)->unk18.u;                           /* sp+0x24 */
                 func_8017E5C8((s32)tmp);
                 func_80185218((void *)a0);
             } else {
@@ -5342,10 +5342,10 @@ void func_80185810(s32 a0)
     gte_stsxy(&v[0]);
     gte_stsz(&sz);
 
-    sx = *(s16 *)&v[0].vx;
+    sx = *(s16 *)&v[0].unk0.v1.unk0;
     if (sx < 0) sx = -sx;
     if (sx >= 0xC9) return;
-    sy = *(s16 *)&v[0].vy;
+    sy = *(s16 *)&v[0].unk0.v1.unk2;
     if (sy < 0) sy = -sy;
     if (sy >= 0xA1) return;
 
@@ -5354,12 +5354,12 @@ void func_80185810(s32 a0)
     gte_SetRotMatrix(&D_801BC9B4);
     gte_SetTransMatrix(&D_801BC9B4);
 
-    v[3].vx = ((Unkstruct_80185810 *)spr)->unk8 + ((Unkstruct_80185680 *)a0)->unk1C;
-    v[3].vy = ((Unkstruct_80185810 *)spr)->unkA + ((Unkstruct_80185680 *)a0)->unk1E;
-    v[3].vz = sz;
-    v[4].vx = ((Unkstruct_80185810 *)spr)->unk2;
-    v[4].vy = ((Unkstruct_80185810 *)spr)->unk3;
-    v[4].vz = sz;
+    v[3].unk0.v1.unk0 = ((Unkstruct_80185810 *)spr)->unk8 + ((Unkstruct_80185680 *)a0)->unk1C;
+    v[3].unk0.v1.unk2 = ((Unkstruct_80185810 *)spr)->unkA + ((Unkstruct_80185680 *)a0)->unk1E;
+    v[3].unk0.v1.unk4 = sz;
+    v[4].unk0.v1.unk0 = ((Unkstruct_80185810 *)spr)->unk2;
+    v[4].unk0.v1.unk2 = ((Unkstruct_80185810 *)spr)->unk3;
+    v[4].unk0.v1.unk4 = sz;
 
     gte_ldv3(&v[3], &v[4], &v[4]);
     gte_rtpt();
@@ -5407,10 +5407,10 @@ void func_80185810(s32 a0)
     p[0x24] = p[0x14];
     p[0x25] = p[0x1D];
 
-    *(u16 *)(p + 8)    = v[0].vx + v[1].vx;
-    *(u16 *)(p + 0xA)  = v[0].vy + v[1].vy;
-    *(u16 *)(p + 0x10) = *(u16 *)(p + 8) + v[2].vx;
-    *(u16 *)(p + 0x1A) = *(u16 *)(p + 0xA) + v[2].vy;
+    *(u16 *)(p + 8)    = v[0].unk0.v1.unk0 + v[1].unk0.v1.unk0;
+    *(u16 *)(p + 0xA)  = v[0].unk0.v1.unk2 + v[1].unk0.v1.unk2;
+    *(u16 *)(p + 0x10) = *(u16 *)(p + 8) + v[2].unk0.v1.unk0;
+    *(u16 *)(p + 0x1A) = *(u16 *)(p + 0xA) + v[2].unk0.v1.unk2;
     *(u16 *)(p + 0x12) = *(u16 *)(p + 0xA);
     *(u16 *)(p + 0x18) = *(u16 *)(p + 8);
     t20 = *(u16 *)(p + 0x10);

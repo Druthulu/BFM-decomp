@@ -19,8 +19,8 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     tries = 0;
     hits = 0;
     same = 0;
-    D_8017F808->f6 = -0x7FFF;
-    D_8017F80C->f6 = 0x7FFF;
+    D_8017F808->f6.s = -0x7FFF;
+    D_8017F80C->f6.s = 0x7FFF;
     D_8017F808->f0 = ((Box_80133784 *)arg1)->f0;
     D_8017F808->f4 = ((Box_80133784 *)arg1)->f4;
     D_8017F80C->f0 = ((Box_80133784 *)arg2)->f0;
@@ -70,7 +70,7 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     }
 
     if ((s16)hits != 0 || D_8018E6F4 != 0) {
-        s16 t = D_8017F808->f6;
+        s16 t = D_8017F808->f6.s;
         if (t >= -0xBCB) {
             if (t < -0x578) {
                 flags |= 0x4000;
@@ -78,16 +78,16 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
                 flags |= 0x8000;
             }
         }
-        if (D_8017F80C->f6 < -0xBCB) {
+        if (D_8017F80C->f6.s < -0xBCB) {
             flags |= 0x2000;
         }
     store_out:
         ((Box_80133784 *)arg2)->f0 = D_8017F80C->f0;
         ((Box_80133784 *)arg2)->f2 = D_8017F80C->f2;
         ((Box_80133784 *)arg2)->f4 = D_8017F80C->f4;
-        ((Box_80133784 *)arg2)->f6 = D_8018E6F8;
+        ((Box_80133784 *)arg2)->f6.s = D_8018E6F8;
         return flags & 0xFFFF;
     }
-    ((Box_80133784 *)arg2)->f6 = D_8018E6F8;
+    ((Box_80133784 *)arg2)->f6.s = D_8018E6F8;
     return 0;
 }

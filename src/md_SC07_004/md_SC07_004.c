@@ -5750,18 +5750,18 @@ void func_801A8990(void *a0)
     SetRotMatrix(mp);
     SetTransMatrix(mp);
 
-    vec.vy = 0;
-    vec.vx = 0;
+    vec.unk0.v1.unk2 = 0;
+    vec.unk0.v1.unk0 = 0;
 
     prod = rsin(((Unkstruct_800B5CB8 *)a0)->unk100);
     v1 = ((Unkstruct_800B5CB8 *)a0)->unkFE;
-    vec.vz = v1 + ((v1 * prod) >> 15);
+    vec.unk0.v1.unk4 = v1 + ((v1 * prod) >> 15);
 
     RotTransSV((s32)&vec, (s32)&vec, &flag[0]);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = vec.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = vec.vz;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec.unk0.v1.unk0;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = vec.unk0.v1.unk2;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = vec.unk0.v1.unk4;
 }
 
 

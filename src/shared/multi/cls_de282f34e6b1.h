@@ -5,14 +5,14 @@ void SHARED_FN(s32 a0) {
     s16 src[4];
     u8 mtx[8];
     s32 p;
-    p = ((Unkstruct_800CB8A4 *)a0)->unk34;
+    p = ((Unkstruct_8016DF5C *)a0)->unk34;
     src[0] = ((Unkstruct_800CBAA4 *)p)->unk6;
     src[1] = ((Unkstruct_800CBAA4 *)p)->unkA - 0x28;
     src[2] = ((Unkstruct_800CBAA4 *)p)->unkE;
     func_800D20C0((void *)src, (void *)mtx, 6);
-    ((Unkstruct_800CB8A4 *)a0)->unk6 = src[0];
-    ((Unkstruct_800CB8A4 *)a0)->unkA = src[1];
-    ((Unkstruct_800CB8A4 *)a0)->unkE = src[2];
+    ((Unkstruct_8016DF5C *)a0)->unk4.v1.unk2 = src[0];
+    ((Unkstruct_8016DF5C *)a0)->unkA = src[1];
+    ((Unkstruct_8016DF5C *)a0)->unkE = src[2];
     func_800D23D0((void *)mtx);
     RotMatrixYXZ((void *)mtx, (void *)(a0 + 0x38));
 }

@@ -5150,9 +5150,9 @@ void func_80181394(s32 a0, s16 *param_2, s32 a2)
     *(s32 *)(a0 + 0x4C) = (s32)*(s16 *)(a0 + 0x2A) + (s32)param_2[1];
     *(s32 *)(a0 + 0x50) = (s32)*(s16 *)(a0 + 0x2C) + (s32)param_2[2];
 
-    rot.vx = *(u16 *)(a0 + 0x18);
-    rot.vy = *(u16 *)(a0 + 0x1A) + a2;
-    rot.vz = *(u16 *)(a0 + 0x1C);
+    rot.unk0.v1.unk0 = *(u16 *)(a0 + 0x18);
+    rot.unk0.v1.unk2 = *(u16 *)(a0 + 0x1A) + a2;
+    rot.unk0.v1.unk4 = *(u16 *)(a0 + 0x1C);
     func_80185848((u16 *)&rot, (s16 *)&m1);
 
     svec_in.vx = 0;
@@ -5160,9 +5160,9 @@ void func_80181394(s32 a0, s16 *param_2, s32 a2)
     svec_in.vz = *(s32 *)(a0 + 0x10);
     ApplyMatrixSV(&m1, &svec_in, &svec_out);
 
-    *(s32 *)(a0 + 0x3C) = ((svec_out.vx << 16) >> 19) + *(s16 *)(a0 + 0x28) + param_2[0];
-    *(s32 *)(a0 + 0x40) = ((svec_out.vy << 16) >> 19) + *(s16 *)(a0 + 0x2A) + param_2[1];
-    *(s32 *)(a0 + 0x44) = ((svec_out.vz << 16) >> 19) + *(s16 *)(a0 + 0x2C) + param_2[2];
+    *(s32 *)(a0 + 0x3C) = ((svec_out.unk0.v1.unk0 << 16) >> 19) + *(s16 *)(a0 + 0x28) + param_2[0];
+    *(s32 *)(a0 + 0x40) = ((svec_out.unk0.v1.unk2 << 16) >> 19) + *(s16 *)(a0 + 0x2A) + param_2[1];
+    *(s32 *)(a0 + 0x44) = ((svec_out.unk0.v1.unk4 << 16) >> 19) + *(s16 *)(a0 + 0x2C) + param_2[2];
 }
 
 

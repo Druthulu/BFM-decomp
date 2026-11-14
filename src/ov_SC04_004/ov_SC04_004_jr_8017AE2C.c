@@ -5225,7 +5225,7 @@ void func_8017FA1C(s32 param_1, s32 param_2)
     s32 obj;
 
     obj = ((Unkstruct_8017FA1C *)param_1)->unk20;
-    ((Unkstruct_80175AB8_2 *)param_2)->unk1C = 0x50000000;
+    ((Unkstruct_80175AB8_2 *)param_2)->unk1C.s = 0x50000000;
 
     func_80017DC4((void *)(obj + 0x18), &mtx);
     func_80017DF8((s16 *)(obj + 0x10), &mtx);

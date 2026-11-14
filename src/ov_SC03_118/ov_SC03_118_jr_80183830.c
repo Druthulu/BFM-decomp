@@ -3788,17 +3788,17 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
     i = 0;
     u = arg2 + 0xD40;
     desc.v[0].vz = 3;
-    sxy[0].vx = sxy[1].vx = sxy[2].vx;
+    sxy[0].unk0.v1.unk0 = sxy[1].unk0.v1.unk0 = sxy[2].unk0.v1.unk0;
     for (; i < 3; i++) {
         p = &D_8018EFB0[i];
-        d->v[0].vx = sxy[1].vx;
-        d->v[0].vy = sxy[1].vy + p->f2;
-        d->v[1].vx = sxy[0].vx;
-        d->v[1].vy = sxy[0].vy;
-        d->v[2].vx = sxy[1].vx + p->f1;
-        d->v[2].vy = sxy[1].vy + p->f3;
-        d->v[3].vx = sxy[0].vx + p->f0;
-        d->v[3].vy = sxy[0].vy;
+        d->v[0].vx = sxy[1].unk0.v1.unk0;
+        d->v[0].vy = sxy[1].unk0.v1.unk2 + p->f2;
+        d->v[1].vx = sxy[0].unk0.v1.unk0;
+        d->v[1].vy = sxy[0].unk0.v1.unk2;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 + p->f1;
+        d->v[2].vy = sxy[1].unk0.v1.unk2 + p->f3;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 + p->f0;
+        d->v[3].vy = sxy[0].unk0.v1.unk2;
         d->uv[0].u = u;
         d->uv[0].v = 0x1FF;
         d->uv[1].u = t + 0xD20;
@@ -3808,8 +3808,8 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
         d->uv[3].u = p->f0 + u;
         d->uv[3].v = 0x100;
         func_800178EC((s32)d);
-        d->v[2].vx = sxy[1].vx - p->f1;
-        d->v[3].vx = sxy[0].vx - p->f0;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 - p->f1;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 - p->f0;
         d->uv[2].u = u - p->f1;
         d->uv[3].u = u - p->f0;
         func_800178EC((s32)d);

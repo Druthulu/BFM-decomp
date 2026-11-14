@@ -2929,24 +2929,24 @@ void func_80184E14(s32 a0, s32 a1)
     V8_80184E14 sp18;
     V8_80184E14 sp20;
 
-    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
+    sp10.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+    sp10.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+    sp10.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unk42;
     sp18 = sp10;
-    sp18.vx += *(u16 *)(a1 + 0x0);
-    sp18.vy += *(u16 *)(a1 + 0x2);
-    sp18.vz += *(u16 *)(a1 + 0x4);
+    sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 += *(u16 *)(a1 + 0x4);
     sp20 = sp18; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE (§160e-family) */
     ((s32 (*)(s32, s32, s32))func_8012CEB0)((s32)&sp10, (s32)&sp18, 1);
-    sp18.vx -= *(u16 *)(a1 + 0x0);
-    sp18.vy -= *(u16 *)(a1 + 0x2);
-    sp18.vz -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_800B5CB8 *)a0)->unk3A = sp18.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unk3E = sp18.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unk42 = sp18.vz;
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
+    sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
+    ((Unkstruct_800B5CB8 *)a0)->unk3A = sp18.unk0.v1.unk0;
+    ((Unkstruct_800B5CB8 *)a0)->unk3E = sp18.unk0.v1.unk2;
+    ((Unkstruct_800B5CB8 *)a0)->unk42 = sp18.unk0.v1.unk4;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.unk0.v1.unk0;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.unk0.v1.unk2;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.unk0.v1.unk4;
 }
 
 

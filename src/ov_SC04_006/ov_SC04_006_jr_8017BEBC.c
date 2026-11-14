@@ -3601,7 +3601,7 @@ extern void guess_FreeActor(void *a0);
 /* $v0 at exit: result of guess_FreeActor; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x20, ov_SC04_006 objdump */
     s32 func_8017E420(void * arg0)
     {
-        ((Unkstruct_8017E420 *)arg0)->unk2 = 2;
+        ((Unkstruct_8017E1E4 *)arg0)->unk2 = 2;
         ((void (*)(s32 *))guess_FreeActor)(*(s32 **)((char *)arg0 + 0xcc));
     }
 
@@ -3859,8 +3859,8 @@ void func_8017E948(void *a0) {
     ret = func_8012BD14((s32)a0);
     if (ret > 0x18FFF) {
         mask = 0x7FFFFFFF;
-        ((Unkstruct_8017E948_3 *)a0)->unk2 = 2;
-        ((Unkstruct_8017E948_3 *)a0)->unk1C = 0x10;
+        ((Unkstruct_801810B0 *)a0)->unk2.u = 2;
+        ((Unkstruct_801810B0 *)a0)->unk1C = 0x10;
         CAST_NONSTRUCT(s32, (s32)(*(s32 **)((s32)a0 + 0x20)), 4) &= mask;
         obj = *(s32 **)((s32)a0 + 0x20);
         ((Unkstruct_8017E948_4 *)obj)->unk2C |= 0x10;
@@ -3869,9 +3869,9 @@ void func_8017E948(void *a0) {
         ((Unkstruct_8017E948_4 *)obj)->unk1A = 1;
         ((Unkstruct_8017E948_4 *)obj)->unk18 = 1;
         ret = func_80143970((s32)a0);
-        ((Unkstruct_8017E948_3 *)a0)->unkCC = ret;
+        ((Unkstruct_801810B0 *)a0)->unkCC = ret;
         tail = *(s32 **)((s32)a0 + 0x78);
-        ((Unkstruct_8017E948_3 *)a0)->unk76 = *(u16 *)tail;
+        ((Unkstruct_801810B0 *)a0)->unk76 = *(u16 *)tail;
     }
 }
 

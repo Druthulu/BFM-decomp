@@ -3867,9 +3867,9 @@ void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4) {
     *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)param_3[1];
     *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)param_3[2];
 
-    angles.vx = *(u16 *)(param_1 + 0x18);
-    angles.vy = *(u16 *)(param_1 + 0x1A) + param_4;
-    angles.vz = *(u16 *)(param_1 + 0x1C);
+    angles.unk0.v1.unk0 = *(u16 *)(param_1 + 0x18);
+    angles.unk0.v1.unk2 = *(u16 *)(param_1 + 0x1A) + param_4;
+    angles.unk0.v1.unk4 = *(u16 *)(param_1 + 0x1C);
     func_8018ABC0((u16 *)&angles, (s16 *)&mtx);
 
     svec_in.vx = 0;
@@ -3877,9 +3877,9 @@ void func_8017E95C(s32 param_1, s16 *param_2, s16 *param_3, s32 param_4) {
     svec_in.vz = *(s32 *)(param_1 + 0x10);
     ApplyMatrixSV((void *)&mtx, (void *)&svec_in, (void *)&svec_out);
 
-    *(s32 *)(param_1 + 0x3C) = ((s16)svec_out.vx >> 3) + *(s16 *)(param_1 + 0x28);
-    *(s32 *)(param_1 + 0x40) = ((s16)svec_out.vy >> 3) + *(s16 *)(param_1 + 0x2A) + param_2[1];
-    *(s32 *)(param_1 + 0x44) = ((s16)svec_out.vz >> 3) + *(s16 *)(param_1 + 0x2C);
+    *(s32 *)(param_1 + 0x3C) = ((s16)svec_out.unk0.v1.unk0 >> 3) + *(s16 *)(param_1 + 0x28);
+    *(s32 *)(param_1 + 0x40) = ((s16)svec_out.unk0.v1.unk2 >> 3) + *(s16 *)(param_1 + 0x2A) + param_2[1];
+    *(s32 *)(param_1 + 0x44) = ((s16)svec_out.unk0.v1.unk4 >> 3) + *(s16 *)(param_1 + 0x2C);
 }
 
 
@@ -5930,9 +5930,9 @@ s32 func_80181DF8(s32 param_1)
 void func_80182334(s32 a0)
 {
    /* 0x10 */
-    extern Ent_801DFBF8_SC06_029_80182334 D_801DFBF8[];
+    extern Ent_801DFBF8 D_801DFBF8[];
 
-    Ent_801DFBF8_SC06_029_80182334 *e;
+    Ent_801DFBF8 *e;
     s32 i;
 
     e = &D_801DFBF8[*(s16 *)(a0 + 0x70) * 4];
@@ -5940,8 +5940,8 @@ void func_80182334(s32 a0)
     do {
         i++;
         e->x = 0;
-        e->y = -0x170;
-        e->z = -0x178;
+        e->y.s = -0x170;
+        e->z.s = -0x178;
         e->w1 = 0;
         e->w2 = 0;
         e++;
@@ -6102,9 +6102,9 @@ void func_801825D8(s32 arg0, s32 arg1)
 
     sv[0].vx = sv[2].vx = e->x - 0x20;
     sv[1].vx = sv[3].vx = e->x + 0x20;
-    sv[0].vy = sv[1].vy = e->y - 0x20;
-    sv[2].vy = sv[3].vy = e->y + 0x20;
-    sv[0].vz = sv[1].vz = sv[2].vz = sv[3].vz = e->z;
+    sv[0].vy = sv[1].vy = e->y.u - 0x20;
+    sv[2].vy = sv[3].vy = e->y.u + 0x20;
+    sv[0].vz = sv[1].vz = sv[2].vz = sv[3].vz = e->z.u;
 
     gte_SetRotMatrix(D_801DFDB4);
     gte_SetTransMatrix(D_801DFDB4);
@@ -6795,13 +6795,13 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
     pkt[0x25] = pkt[0x1D];
 
     do {
-    *(s16 *)(pkt + 0x08) = sxy[0].vx - w;
-    *(s16 *)(pkt + 0x0A) = *(s16 *)(pkt + 0x12) = sxy[0].vy;   /* L1 */
-    *(s16 *)(pkt + 0x10) = sxy[0].vx + w;
+    *(s16 *)(pkt + 0x08) = sxy[0].unk0.v1.unk0 - w;
+    *(s16 *)(pkt + 0x0A) = *(s16 *)(pkt + 0x12) = sxy[0].unk0.v1.unk2;   /* L1 */
+    *(s16 *)(pkt + 0x10) = sxy[0].unk0.v1.unk0 + w;
     } while (0);  // !FAKE: do-while
-    *(s16 *)(pkt + 0x18) = sxy[1].vx - w;
-    *(s16 *)(pkt + 0x1A) = *(s16 *)(pkt + 0x22) = sxy[1].vy;   /* L1 */
-    *(s16 *)(pkt + 0x20) = sxy[1].vx + w;
+    *(s16 *)(pkt + 0x18) = sxy[1].unk0.v1.unk0 - w;
+    *(s16 *)(pkt + 0x1A) = *(s16 *)(pkt + 0x22) = sxy[1].unk0.v1.unk2;   /* L1 */
+    *(s16 *)(pkt + 0x20) = sxy[1].unk0.v1.unk0 + w;
 
     oidx = g.otz << 2;                                          /* L2 */
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000)

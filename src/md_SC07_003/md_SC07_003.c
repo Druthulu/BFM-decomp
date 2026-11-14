@@ -1392,9 +1392,9 @@ void func_801A1B28(s32 arg0) {
             if (obj != 0) {
                 func_8012EC04(arg0, D_801F43C0, (s32 *)&mtx);
                 guess_RotTransSVWithMatrix((s32)&mtx, (s32)D_801A68DC, (s32)&sv);
-                *(u16 *)(obj + 0x6) = sv.vx;
-                *(u16 *)(obj + 0xA) = sv.vy + 0x20;
-                *(u16 *)(obj + 0xE) = sv.vz;
+                *(u16 *)(obj + 0x6) = sv.unk0.v1.unk0;
+                *(u16 *)(obj + 0xA) = sv.unk0.v1.unk2 + 0x20;
+                *(u16 *)(obj + 0xE) = sv.unk0.v1.unk4;
                 *(s16 *)(obj + 0x34) = 0x6000;
                 *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) = 0xC010;
                 mtx = *(MTX_801A1B28 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);

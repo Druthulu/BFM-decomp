@@ -3437,7 +3437,7 @@ void func_8016DF5C(s32 param_1)
             ((Unkstruct_8016DF5C *)param_1)->unk20 = iNew;
             *(s32 *)((u8 *)((void *)param_1) + 0x1c) = t10;
         }
-        ((Unkstruct_8016DF5C *)param_1)->unk2 = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
+        ((Unkstruct_8016DF5C *)param_1)->unk2.s = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
     } else {
         short asStack_60[20];
         Blk20_8016DF5C localMatrix;
@@ -3457,7 +3457,7 @@ void func_8016DF5C(s32 param_1)
         ((Unkstruct_8016DF5C *)param_1)->unk2C = 0x1000;
         ((Unkstruct_8016DF5C *)param_1)->unk30 = 0xff;
         *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;
-        ((Unkstruct_8016DF5C *)param_1)->unk2 = (4);
+        ((Unkstruct_8016DF5C *)param_1)->unk2.s = (4);
     }
 }
 

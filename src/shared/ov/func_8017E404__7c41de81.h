@@ -25,21 +25,21 @@ s32 func_8017E404(s32 param_1, s32 param_2)
     func_8012B0B4(&buf, (ang - 0x400) & 0xfff, 0x41);
     d = *(s32 *)&buf;
     px = *(u16 *)(p2 + 6);
-    out.vx = px;
-    out.vy = *(u16 *)(p2 + 0xa);
+    out.unk0.v1.unk0 = px;
+    out.unk0.v1.unk2 = *(u16 *)(p2 + 0xa);
     pz = *(u16 *)(p2 + 0xe);
-    out.vz = pz;
-    out.vx = px + d;
-    out.vz = pz + (d >> 16);
-    in.vx = *(u16 *)(p1 + 0x3a);
-    in.vy = *(u16 *)(p1 + 0x3e);
-    in.vz = *(u16 *)(p1 + 0x42);
+    out.unk0.v1.unk4 = pz;
+    out.unk0.v1.unk0 = px + d;
+    out.unk0.v1.unk4 = pz + (d >> 16);
+    in.unk0.v1.unk0 = *(u16 *)(p1 + 0x3a);
+    in.unk0.v1.unk2 = *(u16 *)(p1 + 0x3e);
+    in.unk0.v1.unk4 = *(u16 *)(p1 + 0x42);
     if ((((s32 (*)(SVEC *, SVEC *, s32))func_8012CEB0)(&in, &out, 0) & 0x2000) == 0) {
         ((void (*)(s32))func_8012ADE4)(p1);
         return 1;
     }
-    *(s16 *)(p1 + 6) = out.vx;
-    *(s16 *)(p1 + 0xa) = out.vy;
-    *(s16 *)(p1 + 0xe) = out.vz;
+    *(s16 *)(p1 + 6) = out.unk0.v1.unk0;
+    *(s16 *)(p1 + 0xa) = out.unk0.v1.unk2;
+    *(s16 *)(p1 + 0xe) = out.unk0.v1.unk4;
     return 1;
 }

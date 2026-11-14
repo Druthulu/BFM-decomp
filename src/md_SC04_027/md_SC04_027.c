@@ -697,14 +697,14 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
         flag = -(guess_g_MenuPanel != c) & 0xFF;
     }
 
-    t = ((Unkstruct_8017C120 *)s)->unk14;
+    t = ((Unkstruct_8017C120 *)s)->unk14.v0.unk14;
     if (t < 0) {
         guess_SjisToGlyphCodes((u8 *)t, sp18);
         ot = func_800D2650(ot, sp18, ((Unkstruct_8017C120 *)s)->unk10, ((Unkstruct_8017C120 *)s)->unk12, 1,
                            flag ? 0x585858 : 0x808080);
     } else {
         p = D_801EBA64[t];
-        for (k = 0; k < D_801EBAEC[((Unkstruct_8017C120 *)s)->unk14]; k++) {
+        for (k = 0; k < D_801EBAEC[((Unkstruct_8017C120 *)s)->unk14.v0.unk14]; k++) {
             bp = sp18;
             dim = flag;
             for (i = 0; i < 5; i++) {
@@ -727,7 +727,7 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
     q = *(s16 **)(s + 0x18);
     dim2 = flag;
     for (;;) {
-        r = func_801E8D70(((Unkstruct_8017C120 *)s)->unk1C, ((Unkstruct_8017C120 *)s)->unk0, c, i++, sp78);
+        r = func_801E8D70(((Unkstruct_8017C120 *)s)->unk1C.v0.unk1C, ((Unkstruct_8017C120 *)s)->unk0, c, i++, sp78);
         if (r == 0) {
             break;
         }
@@ -747,9 +747,9 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
 
     dim3 = flag;
     return func_800D29F8(dim3,
-                         func_800D27DC(dim3 != 0, ot, (void *)((Unkstruct_8017C120 *)s)->unk4,
+                         func_800D27DC(dim3 != 0, ot, (void *)((Unkstruct_8017C120 *)s)->unk4.v0.unk4,
                                        ((Unkstruct_8017C120 *)s)->unkC, 0),
-                         (void *)((Unkstruct_8017C120 *)s)->unk8, ((Unkstruct_8017C120 *)s)->unkE, 0);
+                         (void *)((Unkstruct_8017C120 *)s)->unk8.v0.unk8, ((Unkstruct_8017C120 *)s)->unkE, 0);
 }
 
 

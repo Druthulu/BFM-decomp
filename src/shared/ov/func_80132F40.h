@@ -18,9 +18,9 @@ void func_80132F40(s32 arg0)
     s32 w;
     s32 m;
     q = &v[1];
-    v[0].vx = guess_g_PlayerPosX;
-    v[0].vy = guess_g_PlayerPosY;
-    v[0].vz = guess_g_PlayerPosZ;
+    v[0].unk0.v1.unk0 = guess_g_PlayerPosX;
+    v[0].unk0.v1.unk2 = guess_g_PlayerPosY;
+    v[0].unk0.v1.unk4 = guess_g_PlayerPosZ;
     v[1] = v[0];
     if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58),
                       (s32)D_80126BE0, (s32)q) != 0) {
@@ -32,10 +32,10 @@ void func_80132F40(s32 arg0)
         c = (h < w);
         if (c) { m = hh; } else { m = w; }
         func_8012F038(*(s32 *)(arg0 + 0x20) + 0x34, &v[0], q);
-        v[1].vy = m;
+        v[1].unk0.v1.unk2 = m;
         guess_RotTransSVWithMatrix(*(s32 *)(arg0 + 0x20) + 0x34, q, &v[0]);
-        guess_g_PlayerPosX = v[0].vx;
-        guess_g_PlayerPosY = v[0].vy;
-        guess_g_PlayerPosZ = v[0].vz;
+        guess_g_PlayerPosX = v[0].unk0.v1.unk0;
+        guess_g_PlayerPosY = v[0].unk0.v1.unk2;
+        guess_g_PlayerPosZ = v[0].unk0.v1.unk4;
     }
 }

@@ -4094,13 +4094,13 @@ s32 func_80183020(s32 s0) {
     v0 = ((Unkstruct_8017EAEC *)s0)->unk204;
     v1 = *(s32 *)(v0 + 0x20);
     if (v0 != 0) {
-        ((Unkstruct_80183020 *)v1)->unk12 = ((Unkstruct_80183020 *)v1)->unk12 + 0x80;
+        ((Unkstruct_80183020 *)v1)->unk12.u = ((Unkstruct_80183020 *)v1)->unk12.u + 0x80;
         guess_RotTransSVWithMatrix(v1 + 0x34, s0 + 0x20C, &tmp);
         func_80015954(&tmp, s0 + 0x4);
     }
     v1 = ((Unkstruct_8017EAEC *)s0)->unk20;
-    v0 = ((Unkstruct_80183020 *)v1)->unk12 + 0x80;
-    ((Unkstruct_80183020 *)v1)->unk12 = v0;
+    v0 = ((Unkstruct_80183020 *)v1)->unk12.u + 0x80;
+    ((Unkstruct_80183020 *)v1)->unk12.u = v0;
     v0 = ((Unkstruct_8017EAEC *)s0)->unk208 + 0x80;
     ((Unkstruct_8017EAEC *)s0)->unk208 = v0;
     return !((s16)v0 ^ 0x800);

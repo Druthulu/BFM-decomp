@@ -3856,14 +3856,14 @@ void func_801805BC(void *arg0) {
 
     func_801789AC((s32)arg0);
 
-    v = p->unk34;   /* HImode local -> lives in $a0; `andi 0xffff` re-extends it
+    v = p->unk34.u;   /* HImode local -> lives in $a0; `andi 0xffff` re-extends it
                      * for the switch, which is why the field is u16 and not s16 */
 
     switch (v) {
     case 0:
         func_80181700(p);
         if (guess_TickWaitTimer((s32)p) != 0) {
-            p->unk34 += 1;
+            p->unk34.u += 1;
             D_801B1708 = D_801B1710;
             func_8002D834();
             D_801B170C = 0;
@@ -3872,7 +3872,7 @@ void func_801805BC(void *arg0) {
 
     case 1:
         if (D_801B1708 == D_801B170C) {
-            p->unk34 += 1;
+            p->unk34.u += 1;
             p->unk1C = 0;
             p->unkDC = 0;
             func_801807F8(D_80188E74[D_801B1710]);
@@ -3895,7 +3895,7 @@ void func_801805BC(void *arg0) {
                 D_801B1708 = 0;
                 p->unkA = -494;
                 p->unk8 = 0;
-                p->unk34 += 1;
+                p->unk34.u += 1;
             }
             break;
         case 2:
@@ -4005,10 +4005,10 @@ void func_80180950(void *arg0) {
     extern s16 D_801B1708;
     extern s16 D_801B1710;
 
-    Obj80180950 *p = (Obj80180950 *)arg0;
+    Obj801805BC *p = (Obj801805BC *)arg0;
 
     p->unk2 = 6;
-    p->unk34 = 0;
+    p->unk34.s = 0;
     p->unkDC = 0;
     p->unkDE = 0;
     ((Unkstruct_801270C8 *)&D_801270C8)->f0 = 3;
@@ -6554,7 +6554,7 @@ void func_80183D6C(void) {
 
 
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
-extern void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_80183ED8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 
 void func_80183D74(s32 param_1) {
 
@@ -6608,7 +6608,7 @@ extern void SetTransMatrix(void *);
 extern int rand(void);
 extern void func_80017714(void *);
 
-extern SVECTOR_8017E6D8 D_801B20E4[4];
+extern M8_801312D0 D_801B20E4[4];
 extern PW8017E6D8 D_801B2104;
 extern PW8017E6D8 D_801B2108;
 extern u8 D_801B210C, D_801B210D, D_801B210E, D_801B2110, D_801B2111, D_801B2112;
@@ -6618,13 +6618,13 @@ extern int D_801B2114;
 /* GTE VARIANT `gte_rtv0tr_m`: memory beyond Sony's `gte_rtv0tr` — a scheduling steer, its uses are marked (P36 T5) */
 
 
-void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
-                   SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h)
+void func_80183ED8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
+                   M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h)
 {
     MATRIX_8017E6D8 m;
-    SVECTOR_8017E6D8 *r0_00;
-    SVECTOR_8017E6D8 *pSVar6;
-    SVECTOR_8017E6D8 *r0;
+    M8_801312D0 *r0_00;
+    M8_801312D0 *pSVar6;
+    M8_801312D0 *r0;
     int r;
     int mask;
 
@@ -6649,16 +6649,16 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
     D_801B2104 = h[0];
     D_801B2108 = h[1];
 
-    f->vx = f->vx + c->vx;
-    f->vy = f->vy + c->vy;
+    f->unk0.v1.unk0 = f->unk0.v1.unk0 + c->unk0.v1.unk0;
+    f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
-    mask = f->pad & r;
+    mask = f->unk0.v1.unk6 & r;
     if (((Unkstruct_800B5CB8 *)a)->unk12 & 1)
-        f->vx = f->vx + mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
-        f->vx = f->vx - mask;
+        f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;
     r = rand();
-    { int t = f->vy - 0x10; f->vy = t + (r & 0x1f); }
+    { int t = f->unk0.v1.unk2 - 0x10; f->unk0.v1.unk2 = t + (r & 0x1f); }
 
     gte_ldv0(c);
     gte_rtv0tr();
@@ -6675,14 +6675,14 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
     *d = *f;
     r = rand();
-    d->vx = d->vx - (f->pad & r);
+    d->unk0.v1.unk0 = d->unk0.v1.unk0 - (f->unk0.v1.unk6 & r);
 
     gte_ldv0(d);
     gte_rtv0tr();
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((u16 *)b)[2];
+    r0_00->unk0.v1.unk4 = ((u16 *)b)[2];
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -6691,13 +6691,13 @@ void func_80183ED8(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d,
 
     *e = *f;
     r = rand();
-    e->vx = e->vx + (f->pad & r);
+    e->unk0.v1.unk0 = e->unk0.v1.unk0 + (f->unk0.v1.unk6 & r);
 
     gte_ldv0(e);
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->vz = ((u16 *)b)[2];
+    r0_00->unk0.v1.unk4 = ((u16 *)b)[2];
     func_80017714(r0_00);
 
     *c = *f;

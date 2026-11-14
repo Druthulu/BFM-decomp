@@ -8386,9 +8386,9 @@ void func_80187400(s32 a0)
     V8_SC02_027_80187400 sp28;
     s32 p;
 
-    sp10.vz = 0;
-    sp10.vx = 0;
-    sp10.vy = 0x30;
+    sp10.unk0.v1.unk4 = 0;
+    sp10.unk0.v1.unk0 = 0;
+    sp10.unk0.v1.unk2 = 0x30;
 
     p = func_8012DE2C(a0);
     while (p != 0) {
@@ -8411,21 +8411,21 @@ void func_80187400(s32 a0)
     switch (((Unkstruct_800B5CB8 *)a0)->unkC2) {
     case 0:
         ((Unkstruct_800B5CB8 *)a0)->unkC2 = 1;
-        sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-        sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-        sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
+        sp18.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+        sp18.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+        sp18.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unk42;
         sp20 = sp18;
-        sp20.vx += sp10.vx;
-        sp20.vy += sp10.vy;
-        sp20.vz += sp10.vz;
+        sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
+        sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
+        sp20.unk0.v1.unk4 += sp10.unk0.v1.unk4;
         sp28 = sp20; /* load-bearing dead aggregate copy — no aggregate DSE in 2.7.2 */
         func_8012CEB0((s32)&sp18, (s32)&sp20, 1);
-        sp20.vx -= sp10.vx;
-        sp20.vy -= sp10.vy;
-        sp20.vz -= sp10.vz;
-        ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.vx;
-        ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.vy;
-        ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.vz;
+        sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
+        sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
+        sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
+        ((Unkstruct_800B5CB8 *)a0)->unk3A = sp20.unk0.v1.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unk3E = sp20.unk0.v1.unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unk42 = sp20.unk0.v1.unk4;
         /* fallthrough */
     case 1:
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += CAST_SIGN(u16, a0, 0xFE);

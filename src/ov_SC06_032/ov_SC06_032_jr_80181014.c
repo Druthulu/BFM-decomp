@@ -2683,18 +2683,18 @@ extern void func_8017E228(s32 param_1);
 extern void func_8017E2C4(s32 param_1);
 extern void func_8017E274(s32 param);
 extern void func_8017E2BC(void *a0);
-extern void func_8017E428(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017E428(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void func_80013F3C(s32);
 extern void RotMatrixZ(s32, void *);
 extern void SetRotMatrix(void *);
 extern void SetTransMatrix(void *);
 extern void func_80017714(void *);
-extern SVECTOR_8017E6D8 D_801D09FC[4];
+extern M8_801312D0 D_801D09FC[4];
 extern PW8017E6D8 D_801D0A1C;
 extern PW8017E6D8 D_801D0A20;
 extern u8 D_801D0A24, D_801D0A25, D_801D0A26, D_801D0A28, D_801D0A29, D_801D0A2A;
 extern int D_801D0A2C;
-extern void func_8017E428(int a, s16 *b, SVECTOR_8017E6D8 *c, SVECTOR_8017E6D8 *d, SVECTOR_8017E6D8 *e, SVECTOR_8017E6D8 *f, s16 *g, PW8017E6D8 *h);
+extern void func_8017E428(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d, M8_801312D0 *e, M8_801312D0 *f, s16 *g, PW8017E6D8 *h);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void func_8017EA80(s32 param_1);
 extern void func_8017ECB4(s32 param_1);
@@ -3224,24 +3224,24 @@ void func_80181B24(s32 a0, s32 a1)
     V8_80181B24 sp18;
     V8_80181B24 sp20;
 
-    sp10.vx = ((Unkstruct_80181B24 *)a0)->unk3A;
-    sp10.vy = ((Unkstruct_80181B24 *)a0)->unk3E;
-    sp10.vz = ((Unkstruct_80181B24 *)a0)->unk42;
+    sp10.unk0.v1.unk0 = ((Unkstruct_80181B24 *)a0)->unk3A;
+    sp10.unk0.v1.unk2 = ((Unkstruct_80181B24 *)a0)->unk3E;
+    sp10.unk0.v1.unk4 = ((Unkstruct_80181B24 *)a0)->unk42;
     sp18 = sp10;
-    sp18.vx += *(u16 *)(a1 + 0x0);
-    sp18.vy += *(u16 *)(a1 + 0x2);
-    sp18.vz += *(u16 *)(a1 + 0x4);
+    sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 += *(u16 *)(a1 + 0x4);
     sp20 = sp18; /* load-bearing dead aggregate copy — gcc-2.7.2 has no aggregate DSE (§160e-family) */
     ((s32 (*)(s32, s32, s32))func_8012CEB0)((s32)&sp10, (s32)&sp18, 1);
-    sp18.vx -= *(u16 *)(a1 + 0x0);
-    sp18.vy -= *(u16 *)(a1 + 0x2);
-    sp18.vz -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_80181B24 *)a0)->unk3A = sp18.vx;
-    ((Unkstruct_80181B24 *)a0)->unk3E = sp18.vy;
-    ((Unkstruct_80181B24 *)a0)->unk42 = sp18.vz;
-    ((Unkstruct_80181B24 *)a0)->unk6 = sp18.vx;
-    ((Unkstruct_80181B24 *)a0)->unkA = sp18.vy;
-    ((Unkstruct_80181B24 *)a0)->unkE = sp18.vz;
+    sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
+    sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
+    sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
+    ((Unkstruct_80181B24 *)a0)->unk3A = sp18.unk0.v1.unk0;
+    ((Unkstruct_80181B24 *)a0)->unk3E = sp18.unk0.v1.unk2;
+    ((Unkstruct_80181B24 *)a0)->unk42 = sp18.unk0.v1.unk4;
+    ((Unkstruct_80181B24 *)a0)->unk6 = sp18.unk0.v1.unk0;
+    ((Unkstruct_80181B24 *)a0)->unkA = sp18.unk0.v1.unk2;
+    ((Unkstruct_80181B24 *)a0)->unkE = sp18.unk0.v1.unk4;
 }
 
 

@@ -3833,13 +3833,13 @@ void func_8017F234(s32 a0) {
             return;
         }
         func_8012EC04(((Unkstruct_800B5CB8 *)a0)->unk64, 6, (s32 *)m1);
-        in.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        in.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        in.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        in.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        in.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        in.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
         guess_RotTransSVWithMatrix((s32)m1, (s32)&in, (s32)&out);
-        ((Unkstruct_800B5CB8 *)a0)->unk6   = out.vx;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = out.vy;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = out.vz;
+        ((Unkstruct_800B5CB8 *)a0)->unk6   = out.unk0.v1.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = out.unk0.v1.unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = out.unk0.v1.unk4;
         p = func_8017FA90(a0, (rand() % 4 + 4) << 12, 0);
         if (p != 0) {
             ((Unkstruct_800B5CB8 *)p)->unk1C = rand() % 5;
@@ -3893,13 +3893,13 @@ void func_8017F55C(s32 a0) {
     case 0:
         if (guess_TickWaitTimer(a0) != 0) {
             func_8012EC04(((Unkstruct_800B5CB8 *)a0)->unk64, 0, (s32 *)m1);
-            in.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-            in.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-            in.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+            in.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+            in.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+            in.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
             guess_RotTransSVWithMatrix((s32)m1, (s32)&in, (s32)&out);
-            ((Unkstruct_800B5CB8 *)a0)->unk6 = out.vx;
-            ((Unkstruct_800B5CB8 *)a0)->unkA = out.vy;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = out.vz;
+            ((Unkstruct_800B5CB8 *)a0)->unk6 = out.unk0.v1.unk0;
+            ((Unkstruct_800B5CB8 *)a0)->unkA = out.unk0.v1.unk2;
+            ((Unkstruct_800B5CB8 *)a0)->unkE = out.unk0.v1.unk4;
             func_8012B260((u8 *)a0);
             guess_ShowObjectModel((u8 *)a0);
             ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x80;

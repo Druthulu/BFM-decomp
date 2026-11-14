@@ -3,8 +3,8 @@
 s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern s32 guess_Vec3sDotAdd_2(s32 a0, s32 a1, s32 a2);
     extern s16 * D_8017F80C;
-    extern SVec_801347A0 * D_8017F808;
-    extern SVec_801347A0 * D_8017F810;
+    extern Box_80133784 * D_8017F808;
+    extern Box_80133784 * D_8017F810;
 
     Elem_801347A0 *pElem;
     s32 val;
@@ -47,6 +47,6 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_8017F810->f0 = D_8017F808->f0;
     D_8017F810->f4 = D_8017F808->f4;
     (*(Elem_801347A0*)guess_g_BoxHitNormalX) = *pElem;
-    D_8017F808->f6 = pElem->f2;
+    D_8017F808->f6.u = pElem->f2;
     return 1;
 }
