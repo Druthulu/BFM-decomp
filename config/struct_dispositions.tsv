@@ -782,8 +782,8 @@ SV4_801AAB28	struct	include/struct_types.h:1160	8	apart	-	own	md_SC07_004/0x801A
 SV4_FC6C	struct	src/shared/engine_types.h:3605	8	apart	-	own	ov_SC03_007/0x8017FC6C src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:5577 (sv0)	own objects, no accepted link
 SV4_L_8017BEBC	struct	src/shared/engine_types.h:1860	8	apart	-	own	ov_SC02_011/0x8017C558 src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:3555 (vec)	own objects, no accepted link
 SV4x_80180ACC	struct	src/shared/engine_types.h:3606	8	no-evidence	-	-	-	cast views of untyped values only (12 sites, first src/ov_SC02_041/ov_SC02_041_jr_8017BEBC.c:5451), no placed object
-SV4x_80184754	struct	src/shared/engine_types.h:3609	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3)
-SV4x_80184B30	struct	src/shared/engine_types.h:3610	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3)
+SV4x_80184754	struct	src/shared/engine_types.h:3609	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3) applied:2186155672
+SV4x_80184B30	struct	src/shared/engine_types.h:3610	8	fold	SVECTOR	value	shape:4xs16 lhash:64533110def7	dense value shape 4 x s16 = PsyQ SVECTOR (P3.45 T6.c2 pilot P3) applied:2186155672
 SV4x_80184B30_801829C4	struct	src/shared/engine_types.h:3609	8	no-evidence	-	-	-	cast views of untyped values only (12 sites, first src/ov_SC03_089/ov_SC03_089_jr_8017CA80.c:5827), no placed object
 SV892CC	struct	src/shared/engine_types.h:3613	8	apart	-	own	ov_SC02_005/0x801892CC src/ov_SC02_005/ov_SC02_005_jr_80185E80.c:2502 (o0)	own objects, no accepted link
 SVECTOR_8017E6D8	struct	include/struct_types.h:1199	8	fold	M8_801312D0	link	C44 global: ov_MAIN_012/0x8017E838 src/ov_MAIN_012/ov_MAIN_012.c:2020 | ov_MAIN_012/0x8017E838 src/ov_MAIN_012/ov_MAIN_012_jr_80131340.c:621	global link M8_801312D0~SVECTOR_8017E6D8
