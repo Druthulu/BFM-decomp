@@ -609,7 +609,7 @@ Prim_md_MAIN_047_800CCBC0	struct	include/struct_types.h:1218	52	apart	-	own	md_M
 Pt6_8017D65C	struct	src/shared/engine_types.h:3207	6	apart	-	own	ov_SC03_121/0x8017D65C src/ov_SC03_121/ov_SC03_121_jr_8017BEBC.c:3078 (p1)	own objects, no accepted link
 Pt_80015F04	struct	include/struct_types.h:2098	4	apart	-	own	main/0x80015F04 src/800.c:2725 (pts)	own objects, no accepted link
 Pt_8017E1A8	struct	src/shared/engine_types.h:3212	8	apart	-	own	ov_SC01_000/0x8017E1A8 src/ov_SC01_000/ov_SC01_000_jr_8017BEBC.c:3395 (p)	own objects, no accepted link
-Q16	struct	src/shared/engine_types.h:569	16	fold	Blk164	link	C31 pointer: src/shared/ov/func_8012A418.h:10 (&D_80114EE8: src/shared/ov/func_80129C40.h:5) | src/shared/ov/func_8012A418.h:10 (dst: src/shared/ov/func_8012A418.h:7)	assign link Blk164~Q16
+Q16	struct	src/shared/engine_types.h:569	16	wall	-	fold	src/shared/ov/func_8012A418.h:6 +0x0	residual:LOAD-BEARING-SIZE attempt1:retype-Q16-to-Blk164-141/141-DIFF attempt2:explicit-4-word-copy-via-Blk164-words-141/141-DIFF
 Q_80138C60	struct	src/shared/engine_types.h:1729	4	apart	-	own	ov_MAIN_012/0x8017E950 src/ov_MAIN_012/ov_MAIN_012_jr_801380E0.c:756	own objects, no accepted link
 Q_8017DCC0	struct	src/shared/engine_types.h:4140	52	apart	-	own	ov_SC03_114/0x8017DCC0 src/ov_SC03_114/ov_SC03_114_jr_8017BEBC.c:3273 (q)	own objects, no accepted link
 Q_8017DF28	struct	src/shared/engine_types.h:3226	8	no-evidence	-	-	-	cast views of untyped values only (6 sites, first src/ov_SC06_022/ov_SC06_022_jr_8017BEBC.c:3414), no placed object
