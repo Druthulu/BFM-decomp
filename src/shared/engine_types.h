@@ -3443,34 +3443,6 @@ typedef struct {
     s16 v;
     u8 pad[14];
 } Row16_t;
-typedef struct {
-    u8 pad0[8];
-    s32 unk8;
-    s32 unkC;
-    s32 unk10;
-    s32 unk14;
-    u16 unk18;
-    u16 unk1A;
-    u16 unk1C;
-    u8 pad1E[2];
-    u16 unk20;
-    u16 unk22;
-    u16 unk24;
-    u8 pad26[2];
-    s16 unk28;
-    s16 unk2A;
-    s16 unk2C;
-    s16 unk2E;
-    s16 unk30;
-    s16 unk32;
-    u8 pad34[8];
-    s32 unk3C;
-    s32 unk40;
-    s32 unk44;
-    s32 unk48;
-    s32 unk4C;
-    s32 unk50;
-} S_td;
 typedef struct { s16 h[4]; } S16x4;
 typedef struct {
     u16 f00;

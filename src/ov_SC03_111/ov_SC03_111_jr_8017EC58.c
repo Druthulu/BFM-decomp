@@ -3506,7 +3506,7 @@ extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 func_80013294(void *a0, void *a1);
 
 void func_80180A10(s32 a0) {
-    extern void func_80180B80(S_td* arg0, s16* arg1, u16 arg2);
+    extern void func_80180B80(Unkstruct_80180A10_2* arg0, s16* arg1, u16 arg2);
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_80188A54[];
     extern s32 D_80188A4C;
@@ -3549,7 +3549,7 @@ void func_80180A10(s32 a0) {
 
 
 
-void func_80180B80(S_td* arg0, s16* arg1, u16 arg2) {
+void func_80180B80(Unkstruct_80180A10_2* arg0, s16* arg1, u16 arg2) {
     s16 sp0x10[16];
     s16 sp0x30[4];
     u16 sp0x38[4];
