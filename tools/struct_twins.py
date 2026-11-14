@@ -7,6 +7,7 @@ This tool joins each name to the objects it is bound to in the source, and class
 
   SEPARATE  every name is bound to >= 1 object and no object is bound to two names of the class -> a `### <lhash>` section
   SHARED    two or more names bound to the same object -> not listed; printed as a fold candidate with the shared object
+            (a SHARED_FN body in a src/shared/ header is an object of that header, cited by its lowest includer's address)
   UNBOUND   some name has no bound object (definition-only / member-only / macro-only) -> a `### <lhash>` section whose cause
             cites the use sites of the unbound names (U: the functions using them, the types naming them as a member or alias);
             a class none of whose cites carries an address is not written and is reported (T5.1.c7)
@@ -101,6 +102,8 @@ COMMENT = re.compile(r"/\*.*?\*/|//[^\n]*|\"(?:\\.|[^\"\\\n])*\"|'(?:\\.|[^'\\\n
 HEX8 = re.compile(r"(80[0-9A-Fa-f]{6})$")
 DSYM = re.compile(r"^D_([0-9A-Fa-f]{8})$")
 NORM = re.compile(r"(?:_?[0-9A-Fa-f]{8}|_(?:SC\d\d|MAIN)_\d{3}|_md)+")   # lifted-name suffixes (address / overlay)
+SHARED_FN = "SHARED_FN"   # cross-header body name, `#define SHARED_FN <own>` per includer (docs/ops/sig-evidence.md:189): per header
+SHARED_INC = {}           # header rel -> its lowest includer's address (`#define SHARED_FN func_X` + `#include`): its cites' address
 KEYWORDS = {"struct", "union", "const", "volatile", "extern", "static", "register", "typedef", "sizeof", "return", "if",
             "while", "for", "switch", "do", "else"}
 CTYPES = {"s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "int", "char", "short", "long", "unsigned", "signed", "void",
@@ -518,6 +521,25 @@ def addr_of(fn):
     return "0x" + m.group(1).upper() if m else fn
 
 
+def shared_includers(files):
+    """header rel -> lowest address among the functions that `#define SHARED_FN <own>` and then `#include` it (P3.45 T6.c3)"""
+    out = {}
+    for p in files:
+        text = p.read_text(errors="replace")
+        if "SHARED_FN" not in text or p.suffix != ".c":
+            continue
+        own = None
+        for m in re.finditer(r'(?m)^[ \t]*#[ \t]*(define[ \t]+SHARED_FN[ \t]+(\w+)|include[ \t]+"([^"]+)")', text):
+            if m.group(2):
+                own = m.group(2)
+            elif own and HEX8.search(own):
+                rel = os.path.relpath(os.path.normpath(p.parent / m.group(3)), REPO)
+                a = addr_of(own)
+                out[rel] = min(out.get(rel, a), a)
+                own = None
+    return out
+
+
 def scan_file(rel, text, wanted, sink, detail=None):
     """append (name, key, cite, where) for every binding of a wanted name in one file; `detail` (3.45 T2 --links), when given,
     maps a declaration's or cast's sink index to dict(form decl|cast, ident, stars, arr, ext, amp, line, fn)"""
@@ -536,6 +558,15 @@ def scan_file(rel, text, wanted, sink, detail=None):
         toks.append(m.group(0))
         lines.append(ln)
     binary = binary_of(rel)
+
+    def own_of(f):          # P3.45 T6.c3: a SHARED_FN routine is one object per header, never one across headers
+        return rel if f == SHARED_FN else binary
+
+    def where_of(f):
+        return f"{rel}:{f}" if f == SHARED_FN else addr_of(f)
+
+    def addr_fn(f):         # a SHARED_FN routine is cited by its lowest includer's address (twins causes need one)
+        return SHARED_INC.get(rel, f) if f == SHARED_FN else addr_of(f)
     depth, fn, fn_depth = 0, None, None
     parens = []             # stack of [callee or None, comma count, brace depth]
     last_group = None       # (index of '(' , index of ')') of the last top-level paren group
@@ -600,10 +631,10 @@ def scan_file(rel, text, wanted, sink, detail=None):
                     else:
                         sink.append((nm, ("P", h, key[-1]), cite, where))
                     # the same routine edited differently per overlay (levers, pins): same address, same local / slot
-                    sink.append((nm, ("A", addr_of(fn), key[0], key[-1]), cite, where))
+                    sink.append((nm, ("A", where_of(fn), key[0], key[-1]), cite, where))
                 for x in body:
                     if DSYM.match(x):
-                        used_by[x].add(addr_of(fn))
+                        used_by[x].add(addr_fn(fn))
                 fn, fnpend = None, []
             stmt = i + 1
             continue
@@ -620,11 +651,11 @@ def scan_file(rel, text, wanted, sink, detail=None):
             continue
         if t in macros and fn:
             for nm in macros[t]:
-                sink.append((nm, ("U", f"{binary}/{addr_of(fn)}"), f"{binary}/{addr_of(fn)}", f"{rel}:{lines[i]}"))
+                sink.append((nm, ("U", f"{binary}/{addr_fn(fn)}"), f"{binary}/{addr_fn(fn)}", f"{rel}:{lines[i]}"))
         if t not in wanted:
             continue
         if fn:
-            sink.append((t, ("U", f"{binary}/{addr_of(fn)}"), f"{binary}/{addr_of(fn)}", f"{rel}:{lines[i]}"))
+            sink.append((t, ("U", f"{binary}/{addr_fn(fn)}"), f"{binary}/{addr_fn(fn)}", f"{rel}:{lines[i]}"))
         else:
             upend.append((t, f"{rel}:{lines[i]}"))
         if stmt < n and toks[stmt] == "typedef":
@@ -652,7 +683,7 @@ def scan_file(rel, text, wanted, sink, detail=None):
                 sink.append((t, ("G", op), "0x" + op[2:].upper(), where))
             elif fn and re.match(r"[A-Za-z_]\w*$", op):
                 fnpend.append(len(sink))
-                sink.append((t, ("L", rel, fn, op), f"{binary}/{addr_of(fn)}:{op}", where))
+                sink.append((t, ("L", rel, fn, op), f"{binary}/{addr_fn(fn)}:{op}", where))
             continue
         if re.match(r"[A-Za-z_]\w*$", nxt) and nxt not in KEYWORDS:  # declaration N [*]ident
             after = toks[j + 1] if j + 1 < n else ""
@@ -661,20 +692,20 @@ def scan_file(rel, text, wanted, sink, detail=None):
                 detail[len(sink)] = dict(form="decl", ident=nxt, stars=stars, arr=after == "[", ext="extern" in toks[stmt:i],
                                          amp=False, line=lines[i], fn=fn)
             if after == "(" and not in_params:                         # N *fn(...): the return
-                sink.append((t, ("R", binary, nxt), f"{addr_of(nxt)}(ret)", where))
+                sink.append((t, ("R", own_of(nxt), nxt), f"{addr_fn(nxt)}(ret)", where))
             elif in_params:
                 p = in_params[-1]
                 (hdrpend if depth == 0 else []).append(len(sink))
-                sink.append((t, ("P", binary, p[0], p[1]), f"{addr_of(p[0])}(arg{p[1]})", where))
+                sink.append((t, ("P", own_of(p[0]), p[0], p[1]), f"{addr_fn(p[0])}(arg{p[1]})", where))
             elif depth == 0 and knr and nxt in knr[1]:
                 ix = knr[1].index(nxt)
                 hdrpend.append(len(sink))
-                sink.append((t, ("P", binary, knr[0], ix), f"{addr_of(knr[0])}(arg{ix})", where))
+                sink.append((t, ("P", own_of(knr[0]), knr[0], ix), f"{addr_fn(knr[0])}(arg{ix})", where))
             elif DSYM.match(nxt):
                 sink.append((t, ("G", nxt), "0x" + nxt[2:].upper(), where))
             elif fn:
                 fnpend.append(len(sink))
-                sink.append((t, ("L", rel, fn, nxt), f"{binary}/{addr_of(fn)}:{nxt}", where))
+                sink.append((t, ("L", rel, fn, nxt), f"{binary}/{addr_fn(fn)}:{nxt}", where))
             elif depth == 0:
                 sink.append((t, ("G", binary, nxt), nxt, where))
             else:
@@ -682,7 +713,7 @@ def scan_file(rel, text, wanted, sink, detail=None):
             continue
         if nxt in (")", ",") and stars and parens and parens[-1][0]:  # abstract declarator in a prototype
             p = parens[-1]
-            sink.append((t, ("P", binary, p[0], p[1]), f"{addr_of(p[0])}(arg{p[1]})", where))
+            sink.append((t, ("P", own_of(p[0]), p[0], p[1]), f"{addr_fn(p[0])}(arg{p[1]})", where))
     # a global's using routine: the per-overlay instances of one routine's table bind one object ("AG", counted cross-binary)
     for ix in range(s0, len(sink)):
         nm, key, cite, where = sink[ix]
@@ -712,6 +743,8 @@ def scan_all(wanted):
     """name -> key -> [cite, [where]] over src/ and include/"""
     sink = []
     files = sorted(p for d in ("src", "include") for p in (REPO / d).rglob("*") if p.suffix in (".c", ".h") and p.is_file())
+    if not SHARED_INC:
+        SHARED_INC.update(shared_includers(files))
     for p in files:
         rel = str(p.relative_to(REPO))
         if p.name.startswith(".cdecl"):
@@ -3489,7 +3522,22 @@ def links_selftest():
     _, _, nprot = ledger_write(pl, {}, have_p, {k: ("apart", "-", "own", "src/a.c:1", "re-proposed") for k in have_p})
     after, _, _ = ledger_read(pl)
     shutil.rmtree(pl.parent)
+    # P3.45 T6.c3: SHARED_FN bodies in two cross headers are two objects; the same body text in two headers is one (body hash)
+    shk, shc, inc0 = {}, {}, dict(SHARED_INC)
+    SHARED_INC.clear()
+    SHARED_INC["src/shared/ov/SA1.h"] = "0x80100000"          # its lowest includer: the SA1 cites carry that address
+    for nm, body in (("SA1", "a0->x = 1;"), ("SA2", "a0->y = 2; a0->x = 3;"), ("SB1", "a0->z = 4;"), ("SB2", "a0->z = 4;")):
+        sk = []
+        scan_file(f"src/shared/ov/{nm}.h", f"void SHARED_FN({nm} *a0) {{ {body} }}\n", {"SA1", "SA2", "SB1", "SB2"}, sk)
+        shk[nm] = {k for _, k, _, _ in sk if k[0] not in ("F", "U")}
+        shc[nm] = {c for _, _, c, _ in sk}
+    SHARED_INC.clear()
+    SHARED_INC.update(inc0)
     cases = [
+        ("SHARED_FN bodies of two headers share no object; equal body texts share their body-hash object only; cites name the includer",
+         not shk["SA1"] & shk["SA2"] and {k[0] for k in shk["SB1"] & shk["SB2"]} == {"P"}
+         and all(k[1].startswith("F:") for k in shk["SB1"] & shk["SB2"])
+         and all("0x80100000" in c for c in shc["SA1"]) and not any("0x80100000" in c for c in shc["SA2"])),
         ("look-alike pair (equal layouts and widths, no link) stays unlinked",
          f("LookA") != f("LookB") and not any(frozenset(("LookA", "LookB")) == p for _, p in acc)),
         ("shared-global pair links (class global)", ("global", frozenset(("GA", "GB"))) in acc and f("GA") == f("GB")),
