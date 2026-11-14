@@ -41,14 +41,17 @@ Usage:
                                                     write/refresh config/struct_dispositions.tsv (one row per placeholder; new rows
                                                     `undisposed`, existing dispositions kept); --check: counts per disposition and class,
                                                     FAIL (exit 1) on a missing, duplicate or unknown row or a column rule (LEDGER_HEAD)
-  tools/struct_twins.py --links [--out-dir DIR] [-j N] [--propose [--policy typed|effective|views]]
+  tools/struct_twins.py --links [--out-dir DIR] [-j N] [--propose [--policy typed|effective|views]] [--report [PATH]]
                                                     the merge-evidence census (3.45 T2; method docs/ops/p345-t2-struct-merge-evidence.md):
                                                     links (global / body / pointer incl. arg-eff, view), refusals, widths, size facts,
                                                     hubs, components, proposals per policy (typed, effective, views: one run computes all
                                                     three) -> DIR (default .run/3.45/t2) {links,refused,hubs,components,proposals}.<policy>.tsv
                                                     and {widths,sizes,eff,poly,decl_param,twins,unplaced}.tsv; sorted summary on stdout.
                                                     --propose writes the policy's (default effective) proposals into the ledger (rows whose
-                                                    reason ends in `applied:<commit>` kept). Needs a built tree (build/**/*.d, the ELFs)
+                                                    reason ends in `applied:<commit>` kept). T2.c4: outside policy typed the hub test keys
+                                                    slots by h_exact copies and refuses hub types' pointer links (hubtypes.<policy>.tsv);
+                                                    --report [PATH] writes the generated report (default docs/ops/p345-struct-merge-report.md).
+                                                    Needs a built tree (build/**/*.d, the ELFs)
                                                     and fresh build/sig_evidence/census.jsonl + .run/sig.<alias>.jsonl: exit 2 otherwise
   tools/struct_twins.py --selftest                  the --links fixtures on a synthetic tree (own symtab, .d map, sig rows); exit 0 iff all pass
   (--links / --selftest import sig_evidence, which needs rabbitizer: the tool re-execs itself under .venv/bin/python when missing)
@@ -806,6 +809,7 @@ HUB_OFFS = 2          # ... while its own accesses touch <= HUB_OFFS offsets is 
 MIN_BODY_INS = 10     # body class: h_exact classes below this many instructions are coincident look-alikes (tiny-body)
 POINTER_SUBS = ("decl", "arg", "arg-eff", "ret", "ret-of", "assign", "field", "store-global", "eff-flow", "view")   # T2.c2: arg-eff, view; T2.c3: eff-flow
 POLICIES = ("typed", "effective", "views")   # T2.c2: typed slots; + arg-eff (the --propose default); + local views
+HUB_TYPE_SUBS = ("arg", "arg-eff", "eff-flow", "assign", "field", "ret", "ret-of", "store-global", "view")   # T2.c4: a hub type's refused links
 EFF_SUBS = ("arg-eff", "eff-flow", "body-view")   # sub-kinds resting on effective types / masked copies: not in policy typed (T2.c3)
 ADDR_NAME = re.compile(r"^(?:func|D)_[0-9A-Fa-f]{6,8}")   # body-view: address names are relocations (h_exact equal), masked too
 TOK_RX = re.compile(r"[A-Za-z_]\w*|0[xX][0-9A-Fa-f]+[uUlL]*|\d+[uUlL]*|->|<<=|>>=|\+\+|--|&&|\|\||[-+*/%&|^<>=!]=|<<|>>|\S")
@@ -1733,13 +1737,29 @@ def links_build(S):
     refused = sorted({rkey(L): L for L in refused}.values(), key=rkey)
     views = sorted({lkey(L): L for L in views}.values(), key=lkey)
 
-    def settle(pc, pr):
+    def hkey(slot, pol):
+        """T2.c4 (spec "hub", slot identity): outside policy typed the copies of one routine are one slot, keyed by
+        (h_exact class, parameter i | return) when the function has a sig row; other slots are their own key"""
+        if pol == "typed" or not slot:
+            return slot
+        if slot[0] == "param" and len(slot) == 4 or slot[0] == "ret" and len(slot) == 3 and isinstance(slot[2], int):
+            sr = S["sig"].get((slot[1], slot[2]))
+            if sr and sr[1]:
+                return (slot[0], "h" + sr[0][:16]) + slot[3:]
+        return slot
+
+    def one(k):
+        return dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
+                    lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {}))
+
+    def settle(pc, pr, pol):
         """one policy's hub guard, union-find (LINK_ORDER, then cites) with the width / size vetoes, and components"""
         refused = list(pr)
-        by_slot = collections.defaultdict(list)
+        by_slot, parts = collections.defaultdict(list), collections.defaultdict(set)
         for L in pc:
             if L["cls"] == "pointer" and L["slot"]:
-                by_slot[L["slot"]].append(L)
+                by_slot[hkey(L["slot"], pol)].append(L)
+                parts[hkey(L["slot"], pol)].add(L["slot"])
         hubs, hub_slots = [], set()
         for slot in sorted(by_slot, key=str):
             ts = sorted({L["a"] for L in by_slot[slot]} | {L["b"] for L in by_slot[slot]})
@@ -1752,21 +1772,55 @@ def links_build(S):
                         break
                 if conf:
                     break
-            oo = (own_offs_param(own_offs, slot, J, span_at) if slot[0] == "param" else
+            oo = (set().union(*(own_offs_param(own_offs, p, J, span_at) for p in sorted(parts[slot], key=str))) if slot[0] == "param" else
                   own_offs.get(("global", slot[-1]), set()) if slot[0] == "global" else own_offs.get(slot, set()) if slot[0] == "view" else set())
             if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS):
                 hub_slots.add(slot)
                 hubs.append(dict(slot=slot, types=ts, why=(f"width conflict {conf[0]}/{conf[1]} at 0x{conf[2][0]:X}" if conf else
                                                            f"{len(ts)} types, own accesses at {len(oo)} offsets"),
-                                 cites=sorted({L["cite_b"] if L["sub"] not in ("ret-of",) else L["cite_a"] for L in by_slot[slot]})[:3]))
+                                 cites=sorted({L["cite_b"] if L["sub"] not in ("ret-of",) else L["cite_a"] for L in by_slot[slot]})[:3],
+                                 copies=len(parts[slot])))
         acc_links = []
         for L in pc:
-            if L["cls"] == "pointer" and L["slot"] in hub_slots:
+            if L["cls"] == "pointer" and hkey(L["slot"], pol) in hub_slots:
                 refused.append(dict(L, reason="hub"))
             else:
                 acc_links.append(L)
-        comp = {k: dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
-                        lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {})) for k in sorted(rows)}
+        htypes = []                                          # T2.c4 (spec "hub type"): header / conduit types, outside policy typed
+        if pol != "typed":
+            partners = collections.defaultdict(set)
+            for L in acc_links:
+                if L["sub"] in HUB_TYPE_SUBS:
+                    partners[L["a"]].add(L["b"])
+                    partners[L["b"]].add(L["a"])
+            for k in sorted(partners):
+                ps = sorted(partners[k])
+                if len(ps) < HUB_K:
+                    continue
+                why = None
+                for i, x in enumerate(ps):
+                    for y in ps[i + 1:]:
+                        c = width_conflict(type_map(wm, x), type_map(wm, y))
+                        v = None if c else size_veto(one(x), one(y))
+                        if c or v:
+                            why = (f"{x} / {y} width 0x{c[0]:X}: {c[1]} vs {c[2]}" if c else f"{x} / {y} size: {v}")
+                            break
+                    if why:
+                        break
+                if why:
+                    htypes.append(dict(type=k, partners=ps, why=why))
+            hset = {h["type"] for h in htypes}
+            if hset:
+                keep = []
+                for L in acc_links:
+                    if L["sub"] in HUB_TYPE_SUBS and (L["a"] in hset or L["b"] in hset):
+                        refused.append(dict(L, reason="hub-type", detail="hub type " + ",".join(sorted({L["a"], L["b"]} & hset))))
+                    else:
+                        keep.append(L)
+                acc_links = keep
+                for h in htypes:
+                    h["refused"] = sum(1 for L in refused if L["reason"] == "hub-type" and h["type"] in (L["a"], L["b"]))
+        comp = {k: one(k) for k in sorted(rows)}
         parent = {k: k for k in rows}
 
         def find(x):
@@ -1805,7 +1859,7 @@ def links_build(S):
             del comp[rb]
             accepted.append(dict(L, union=True))
         refused.sort(key=rkey)
-        return dict(accepted=accepted, refused=refused, hubs=hubs, comp=comp, find=find)
+        return dict(accepted=accepted, refused=refused, hubs=hubs, htypes=htypes, comp=comp, find=find)
     P = {}
     for pol in POLICIES:
         pc = [L for L in cand if pol != "typed" or L["sub"] not in EFF_SUBS]
@@ -1814,7 +1868,7 @@ def links_build(S):
             pc = sorted(pc + [{k: v for k, v in L.items() if k != "reason"} for L in views], key=lkey)
         else:
             pr = pr + views
-        P[pol] = settle(pc, sorted(pr, key=rkey))
+        P[pol] = settle(pc, sorted(pr, key=rkey), pol)
     # ---- what a disposition cites (T2.c2): own placed objects / accesses (apart own), or what exists (no-evidence)
     own = {}
     for o in sorted(objs):
@@ -1966,7 +2020,7 @@ def _clean(x):
 
 
 def links_render(R, reach, twins=None):
-    """(summary lines, {tsv name: text}, {policy: {placeholder key: ledger proposal}}) of one links_build result; deterministic.
+    """(summary lines, {tsv name: text}, {policy: {placeholder key: ledger proposal}}, report context) of one links_build result; deterministic.
     Per policy (T2.c2): links / refused / hubs / components / proposals.<policy>.tsv; shared: widths, sizes, eff, poly, decl_param,
     twins, unplaced"""
     T, rows = R["T"], R["T"].row
@@ -1995,7 +2049,7 @@ def links_render(R, reach, twins=None):
     S_.append(f"untyped parameter slots {len(R['eff'])}: " + " · ".join(f"{k} {n}" for k, n in sorted(es.items()))
               + f" (poly slots listed: {len(R['poly'])})")
     S_.append("body-view / eff-flow measure (T2.c3): " + " · ".join(f"{k} {n}" for k, n in sorted(R["BV"].items())))
-    dres, trows = {}, {}
+    dres, trows, ctx = {}, {}, {}
     for pol in POLICIES:
         Q = R["P"][pol]
         comp, find = Q["comp"], Q["find"]
@@ -2006,6 +2060,8 @@ def links_render(R, reach, twins=None):
         table(f"hubs.{pol}.tsv", ("slot", "types", "why", "cites"),
               [("/".join(str(x) if not isinstance(x, int) or x < 0x1000 else f"0x{x:08X}" for x in h["slot"]), ",".join(h["types"]), h["why"],
                 " | ".join(h["cites"])) for h in Q["hubs"]])
+        table(f"hubtypes.{pol}.tsv", ("type", "partners", "links_refused", "why", "partner_list"),
+              [(h["type"], len(h["partners"]), h["refused"], h["why"], ",".join(h["partners"])) for h in Q["htypes"]])
         # components: numbered by size (desc), then first member
         touch = collections.defaultdict(collections.Counter)
         for L in Q["refused"]:
@@ -2032,7 +2088,7 @@ def links_render(R, reach, twins=None):
                 admit.setdefault(L["b"], L)
         veto = {}
         for L in Q["refused"]:
-            if L["reason"] in ("conflict", "size", "hub"):
+            if L["reason"] in ("conflict", "size", "hub", "hub-type"):
                 for k, o in ((L["a"], L["b"]), (L["b"], L["a"])):
                     veto.setdefault(k, (L, o))
         pp = {}
@@ -2047,7 +2103,7 @@ def links_render(R, reach, twins=None):
                 pp[k] = ("apart", "-", "own", f"{cid[root]}: {ev}", f"target of {cid[root]} ({len(ms)} types)")
             elif k in veto:
                 L, o = veto[k]
-                pp[k] = ("apart", "-", L["reason"], f"{L['cite_a']} | {L['cite_b']}" + (f" | {L['detail']}" if L.get("detail") else ""),
+                pp[k] = ("apart", "-", "hub" if L["reason"] == "hub-type" else L["reason"], f"{L['cite_a']} | {L['cite_b']}" + (f" | {L['detail']}" if L.get("detail") else ""),
                          f"{L['reason']}: {L['sub']} link to {o} refused")
             elif k in R["own"]:
                 pp[k] = ("apart", "-", "own", R["own"][k], "own objects, no accepted link")
@@ -2055,6 +2111,7 @@ def links_render(R, reach, twins=None):
                 pp[k] = ("no-evidence", "-", "-", "-", R["noev"][k])
             pp[k] = tuple(_clean(x) for x in pp[k])
         props[pol] = pp
+        ctx[pol] = dict(crow=crow, cs=cs, cid=cid, tgt=tgt, admit=admit, pp=pp, touch=touch)
         table(f"proposals.{pol}.tsv", ("key", "disposition", "target", "class", "evidence", "reason"), [(k,) + pp[k] for k in ph])
         # DECL-PARAM resolution under this policy
         for d in R["dp"]:
@@ -2082,7 +2139,10 @@ def links_render(R, reach, twins=None):
         bands = collections.Counter(next(b for b, lo in (("21+", 21), ("6-20", 6), ("3-5", 3), ("2", 2), ("1", 1)) if len(c["members"]) >= lo)
                                     for c in comp.values())
         S_.append("  components by size band: " + " · ".join(f"{b} {bands[b]}" for b in ("1", "2", "3-5", "6-20", "21+"))
-                  + f" · hubs {len(Q['hubs'])}")
+                  + f" · hubs {len(Q['hubs'])}" + (f" (copies merged: {sum(1 for h in Q['hubs'] if h['copies'] > 1)})"
+                                                    f" · hub types {len(Q['htypes'])}" if pol != "typed" else ""))
+        for h in Q["htypes"] if pol != "typed" else ():
+            S_.append(f"    hub type {h['type']}: {len(h['partners'])} partners, {h['refused']} links refused ({h['why']})")
         S_.append("  largest 5:")
         for r in crow[:5]:
             ms = r[1].split(",")
@@ -2116,7 +2176,217 @@ def links_render(R, reach, twins=None):
     S_.append("member accesses: " + " · ".join(f"{k} {n}" for k, n in sorted(R["ACC"].items())))
     S_.append("pointer flows with a struct-bound side (placed): " + " · ".join(f"{k}/{o} {n}" for (k, o), n in sorted(R["PF"].items())))
     S_.append(f"width-map types {len(R['wm'])} · types with a load-bearing size {len(R['size_f'])}")
-    return S_, tsv, props
+    return S_, tsv, props, dict(pol=ctx, dres=dres, trows=trows, reach=reach)
+
+
+REPORT_DEFAULT = "docs/ops/p345-struct-merge-report.md"
+FIELD_STYLE = ("Fields: lowerCamelCase; a model-worded name carries `guess_` outermost (`guess_posX`) with a basis row; the citation or "
+               "basis pointer sits in the field's comment beside its `/* 0xNN */` offset (tools/struct_layout.py:18-30; unk<HEX>/pad<HEX> "
+               "keep sitting at offset HEX). Types: PascalCase (docs/wiki/Names-and-renames.md:26-40); every model-worded type name "
+               "`guess_` with a basis row (outcome R122).")
+NOEV_KINDS = (("bound only outside", "bound only outside placed functions"), ("cast views", "cast views of untyped values only"),
+              ("named in", "named outside the type files only"), ("macro only", "macro only"), ("member of", "member of other types only"),
+              ("no users", "no users"))
+
+
+def _band(n):
+    return next(b for b, lo in (("21+", 21), ("6-20", 6), ("3-5", 3), ("2", 2), ("1", 1)) if n >= lo)
+
+
+def _slot_s(s):
+    return "/".join(str(x) if not isinstance(x, int) or x < 0x1000 else f"0x{x:08X}" for x in s)
+
+
+def _cap(xs, n):
+    xs = list(xs)
+    return ", ".join(xs[:n]) + (f" … (+{len(xs) - n})" if len(xs) > n else "")
+
+
+def links_report(R, X, head):
+    """(pure) the generated merge report (spec: docs/ops/p345-t2-struct-merge-evidence.md) of one links_build / links_render
+    result: counts per policy side by side, the effective policy's components, hubs, conflicts, naming scope and fold batches"""
+    T, rows, reach, P, C = R["T"], R["T"].row, X["reach"], R["P"], X["pol"]
+    ph = sorted(k for k, r in rows.items() if r["klass"] == "placeholder")
+    E, CE = P["effective"], C["effective"]
+    find, comp = E["find"], E["comp"]
+    o = ["# 3.45 T2 — struct merge evidence report (generated)", "",
+         f"Generated by `tools/struct_twins.py --links --report` from the tree at git `{head}`. Do not edit: rerun the generator.",
+         "Method: docs/ops/p345-t2-struct-merge-evidence.md. Full lists: `.run/3.45/t2/*.<policy>.tsv`. The ledger proposals",
+         f"(config/struct_dispositions.tsv) follow policy `effective`; sections below the counts show it. HUB_K {HUB_K} · "
+         f"HUB_OFFS {HUB_OFFS} · MIN_BODY_INS {MIN_BODY_INS} · {len(ph)} placeholders of {len(rows)} inventory types.", ""]
+
+    def grid(title, keys, val):
+        o.extend([f"## {title}", "", "| | " + " | ".join(POLICIES) + " |", "|---" * (len(POLICIES) + 1) + "|"])
+        for k in keys:
+            vs = [str(val(p, k)) for p in POLICIES]
+            o.append(f"| {k} | " + " | ".join(vs) + " |")
+        o.append("")
+
+    def lk(p, cl, sub):
+        xs = [L for L in P[p]["accepted"] if (L["cls"], L["sub"]) == (cl, sub)]
+        return f"{len(xs)} / {len({k for L in xs for k in (L['a'], L['b'])})}"
+    grid("Links accepted per class and sub-kind (links / distinct types)", [f"{c}/{s}" for c, s in LINK_ORDER],
+         lambda p, k: lk(p, *k.split("/")))
+    rc = {p: collections.Counter(L["reason"].split(":")[0] for L in P[p]["refused"]) for p in POLICIES}
+    grid("Refusals by reason", sorted(set().union(*rc.values())), lambda p, k: rc[p][k])
+    bc = {p: collections.Counter(_band(len(c["members"])) for c in P[p]["comp"].values()) for p in POLICIES}
+    grid("Components by size band", ["1", "2", "3-5", "6-20", "21+", "hub slots", "hub slots merging copies", "hub types"],
+         lambda p, k: (bc[p][k] if k[0].isdigit() else len(P[p]["hubs"]) if k == "hub slots" else len(P[p]["htypes"]) if k == "hub types"
+                       else sum(1 for h in P[p]["hubs"] if h.get("copies", 1) > 1)))
+
+    def nek(r):
+        if r.startswith("unplaced:"):
+            return "unplaced: " + r[9:].split(" (")[0].strip()
+        return next((nm for pre, nm in NOEV_KINDS if r.startswith(pre)), "other")
+    sv = {}
+    for p in POLICIES:
+        pp = C[p]["pp"]
+        sv[p] = collections.Counter(v[0] for v in pp.values())
+        sv[p].update(f"apart/{v[2]}" for v in pp.values() if v[0] == "apart")
+        sv[p].update(f"fold/{v[2]}" for v in pp.values() if v[0] == "fold")
+        sv[p].update(f"no-evidence: {nek(v[4])}" for v in pp.values() if v[0] == "no-evidence")
+    grid("Projected survivors (placeholders)", ["fold"] + sorted(k for k in set().union(*sv.values()) if k.startswith("fold/"))
+         + ["apart"] + sorted(k for k in set().union(*sv.values()) if k.startswith("apart/"))
+         + ["no-evidence"] + sorted(k for k in set().union(*sv.values()) if k.startswith("no-evidence:")), lambda p, k: sv[p][k])
+
+    hub_of = collections.defaultdict(list)
+    for h in E["hubs"]:
+        for r in sorted({find(k) for k in h["types"]}):
+            hub_of[r].append(h)
+    ht_of = collections.defaultdict(list)
+    for h in E["htypes"]:
+        for k in sorted(set([h["type"]] + h["partners"])):
+            ht_of[find(k)].append(h["type"])
+    conf_of = collections.defaultdict(list)
+    for L in E["refused"]:
+        if L["reason"] in ("conflict", "size"):
+            for r in sorted({find(L["a"]), find(L["b"])}):
+                conf_of[r].append(L)
+
+    def why_target(t, ms):
+        kl = rows[t]["klass"]
+        if kl in ("PsyQ", "ledgered"):
+            return f"{kl} member"
+        ties = [k for k in ms if k != t and rows[k]["klass"] == kl and reach.get(k, 0) == reach.get(t, 0)]
+        return f"highest reach {reach.get(t, 0)}" + (f" (tied with {len(ties)}; lowest file:line {rows[t]['file_line']})" if ties else "")
+
+    def size_verdict(c, ms):
+        if c["lb"]:
+            sz, (k, kind, ci) = sorted(c["lb"].items())[0]
+            return (f"{sz} B load-bearing: {k} {kind} {ci}" + (f"; accessed extent 0x{c['ext'][0]:X} ({c['ext'][1]})" if c["ext"] else ""))
+        sz = max((rows[k]["size"] for k in ms if isinstance(rows[k]["size"], int)), default="?")
+        return f"{sz} B (largest member; no load-bearing member)" + (f"; accessed extent 0x{c['ext'][0]:X} ({c['ext'][1]})" if c["ext"] else "")
+
+    def admits(root, ms, t):
+        for k in ms:
+            L = CE["admit"].get(k)
+            if k != t and L:
+                o.append(f"  - `{k}`: {L['cls']}/{L['sub']} {L['a']}~{L['b']}: {L['cite_a']} | {L['cite_b']}")
+
+    o.extend(["## The 10 largest components (policy effective)", ""])
+    for root, c in CE["cs"][:10]:
+        ms, t = c["members"], CE["tgt"][root]
+        cf = conf_of.get(root, [])
+        cfd = list({(L["reason"], L["a"], L["b"], L["sub"], L.get("detail", "-")): 0 for L in cf})
+        tc_ = CE["touch"][root]
+        hs = sorted(hub_of.get(root, ()), key=lambda h: (-len(h["types"]), str(h["slot"])))
+        o.extend([f"### {CE['cid'][root]}: {len(ms)} types · target `{t}` ({why_target(t, ms)}) · projected reach "
+                  f"{sum(reach.get(k, 0) for k in ms)}", "",
+                  f"- members: {', '.join(ms)}", f"- size: {size_verdict(c, ms)}",
+                  f"- width conflicts / size vetoes refused at its edge: {len(cf)} links, {len(cfd)} distinct"
+                  + "".join(f"\n  - {r_} {a_}~{b_} ({s_}): {d_}" for r_, a_, b_, s_, d_ in cfd[:3]),
+                  f"- refused links touching it: " + (" · ".join(f"{r} {n}" for r, n in sorted(tc_.items())) or "none"),
+                  f"- hub slots touching it: {len(hs)}" + "".join(f"\n  - {_slot_s(h['slot'])} ({len(h['types'])} types; {h['why']})"
+                                                                for h in hs[:5]),
+                  f"- hub types touching it: {_cap(sorted(set(ht_of.get(root, ()))), 8) or 'none'}",
+                  "- admitting links (one cite each):"])
+        admits(root, ms, t)
+        o.append("")
+    small = sorted((hashlib.sha1(",".join(c["members"]).encode()).hexdigest(), root) for root, c in CE["cs"] if 2 <= len(c["members"]) <= 5)
+    o.extend(["## 10 sampled small components (2-5 members; first 10 by sha1 of the member list)", ""])
+    for _, root in small[:10]:
+        c = comp[root]
+        ms, t = c["members"], CE["tgt"][root]
+        o.append(f"- {CE['cid'][root]}: {', '.join(ms)} · target `{t}` ({why_target(t, ms)}) · size {size_verdict(c, ms)}")
+        admits(root, ms, t)
+    o.append("")
+
+    o.extend(["## Hubs and hub types (policy effective)", "",
+              f"Hub slots {len(E['hubs'])} (merging h_exact copies: {sum(1 for h in E['hubs'] if h.get('copies', 1) > 1)}); "
+              f"top 20 by types refused:", ""])
+    for h in sorted(E["hubs"], key=lambda h: (-len(h["types"]), str(h["slot"])))[:20]:
+        o.append(f"- {_slot_s(h['slot'])}: {len(h['types'])} types, {h.get('copies', 1)} copies; {h['why']}; {h['cites'][0] if h['cites'] else '-'}")
+    for p in ("effective", "views"):
+        o.extend(["", f"Hub types ({p}) {len(P[p]['htypes'])}; top 20 by links refused:", ""])
+        for h in sorted(P[p]["htypes"], key=lambda h: (-h["refused"], h["type"]))[:20]:
+            o.append(f"- `{h['type']}`: {len(h['partners'])} partners, {h['refused']} links refused; {h['why']}; partners "
+                     f"{_cap(h['partners'], 12)}")
+    o.append("")
+
+    def ckind(L):
+        d = L.get("detail", "")
+        if L["reason"] == "size":
+            return "size: two load-bearing sizes" if d.startswith("load-bearing") else "size: access past the load-bearing size"
+        off = int(d.split(":")[0], 16) if d.startswith("0x") else -1
+        kind = "partial overlap" if "@0x" in d else "width" if re.search(r" \d+B ", d) else "sign"
+        return f"conflict: {kind} at " + ("0x0" if off == 0 else "0x1-0xF" if 0 < off < 0x10 else ">= 0x10")
+    cv = [L for L in E["refused"] if L["reason"] in ("conflict", "size")]
+    ck = collections.Counter(ckind(L) for L in cv)
+    o.extend(["## Conflicts and size vetoes (policy effective)", "", f"{len(cv)} refused links; by kind and offset:", ""]
+             + [f"- {k}: {n}" for k, n in sorted(ck.items())]
+             + ["", "Top 20 by the two endpoints' reach:", ""])
+    for L in sorted(cv, key=lambda L: (-(reach.get(L["a"], 0) + reach.get(L["b"], 0)), L["cite_a"], L["cite_b"], L["a"], L["b"]))[:20]:
+        o.append(f"- {L['reason']} {L['a']}~{L['b']} ({L['cls']}/{L['sub']}): {L.get('detail', '-')}; link {L['cite_a']} | {L['cite_b']}")
+    o.append("")
+
+    dp = R["dp"]
+    o.extend(["## DECL-PARAM (outcome R179)", "",
+              f"Rows {len(dp)} · names {len({d['name'] for d in dp})} · declaration lines {len({d['decl'] for d in dp})} · resolved by the "
+              "folds: " + " · ".join(f"{p} {sum(1 for d in dp if X['dres'][(id(d), p)] == 'yes')}" for p in POLICIES)
+              + f" · struct vs void/scalar (apart, not DECL-PARAM) {R['dp_apart']['struct vs void/scalar']}", ""])
+    tr = X["trows"]
+    vk = {p: collections.Counter(tr[k][3 + i].split(" (")[0] for k in tr) for i, p in enumerate(POLICIES)}
+    grid(f"Twins re-judged ({len(tr)} docs/struct-twins.md classes)", ["linked", "split", "apart holds"], lambda p, k: vk[p][k])
+    o.extend(["Linked or split under any policy (lhash: typed | effective | views):", ""]
+             + [f"- {k}: {' | '.join(tr[k][3:])}" for k in sorted(tr) if any(not v.startswith("apart") for v in tr[k][3:])] + [""])
+
+    pp = CE["pp"]
+    surv = [k for k in ph if pp[k][0] != "fold"]
+    sc = collections.Counter("component target" if pp[k][4].startswith("target of") else f"{pp[k][0]}/{pp[k][2]}" for k in surv)
+    o.extend(["## Naming scope (policy effective)", "",
+              f"Placeholders surviving the folds (to name): {len(surv)} · " + " · ".join(f"{k} {n}" for k, n in sorted(sc.items())), "",
+              "Top 20 survivors by projected reach (sum of the component members' reach):", ""])
+    for k in sorted(surv, key=lambda k: (-sum(reach.get(m, 0) for m in comp[find(k)]["members"]), k))[:20]:
+        c = comp[find(k)]
+        ms = c["members"]
+        acc = [f"0x{off:X} {e[0]}({w})" for off in sorted(c["wm"]) for w, e in sorted(c["wm"][off].items())]
+        d = rows[k].get("def")
+        mem = sorted(T.members(d).items(), key=lambda kv: (kv[1][0], kv[0])) if d else []
+        un = [f"0x{off:X} {nm}" for nm, (off, _) in mem if off not in c["wm"]]
+        o.extend([f"- `{k}`: projected reach {sum(reach.get(m, 0) for m in ms)} · {len(ms)} members"
+                  + (f" ({_cap([m for m in ms if m != k], 8)})" if len(ms) > 1 else ""),
+                  f"  - accessed ({len(acc)}): {_cap(acc, 16) or 'none'}", f"  - unaccessed ({len(un)}): {_cap(un, 16) or 'none'}"])
+    o.extend(["", "## Planned field style", "", FIELD_STYLE, ""])
+
+    bt = {b: collections.defaultdict(list) for b in ("B1", "B2", "B3", "B4")}
+    for k in ph:
+        if pp[k][0] != "fold":
+            continue
+        r = find(k)
+        n = len(comp[r]["members"])
+        b = "B4" if n >= 21 else "B3" if n >= 6 else "B1" if pp[k][2] in ("global", "body") else "B2"
+        bt[b][r].append(k)
+    o.extend(["## Candidate fold batches (policy effective; mechanical)", "",
+              "B1 class global+body folds in components of 2-5 · B2 pointer folds in 2-5 · B3 components 6-20 · B4 each 21+ component "
+              "on its own.", ""])
+    for b in ("B1", "B2", "B3", "B4"):
+        o.append(f"- {b}: {sum(len(v) for v in bt[b].values())} folds in {len(bt[b])} components")
+    for b in ("B1", "B2", "B3"):
+        o.extend(["", f"### {b}", ""] + [f"- {CE['cid'][r]} `{CE['tgt'][r]}` <- {', '.join(v)}"
+                                         for r, v in sorted(bt[b].items(), key=lambda kv: int(CE['cid'][kv[0]][1:]))])
+    o.extend(["", "### B4", ""] + [f"- {CE['cid'][r]} `{CE['tgt'][r]}`: {len(v)} folds" for r, v in
+                                   sorted(bt["B4"].items(), key=lambda kv: int(CE['cid'][kv[0]][1:]))] + [""])
+    return "\n".join(o)
 
 
 def links_inputs(jobs):
@@ -2178,13 +2448,13 @@ def load_reach(T):
     return out
 
 
-def links(out_dir, jobs, propose=None):
+def links(out_dir, jobs, propose=None, report=None):
     import time
     t0 = time.time()
     S = links_inputs(jobs)
     R = links_build(S)
     twins, _ = tc.load_twins(TWINS_DOC.read_text() if TWINS_DOC.exists() else "")
-    summ, tsv, props = links_render(R, load_reach(S["types"]), twins)
+    summ, tsv, props, X = links_render(R, load_reach(S["types"]), twins)
     out = REPO / out_dir
     out.mkdir(parents=True, exist_ok=True)
     for name, text in sorted(tsv.items()):
@@ -2198,6 +2468,14 @@ def links(out_dir, jobs, propose=None):
         cnt = collections.Counter(v[0] for v in props[propose].values())
         print(f"--propose (policy {propose}): {len(ph)} placeholders -> {LEDGER.relative_to(REPO)} · "
               + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]) + f" · applied kept {applied} · new {new} · stale kept {kept}")
+    if report:
+        import subprocess
+        head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO, capture_output=True, text=True).stdout.strip() or "unknown"
+        dirty = subprocess.run(["git", "status", "--porcelain", "--", "src", "include"], cwd=REPO, capture_output=True, text=True).stdout
+        text = links_report(R, X, head + (" + uncommitted changes under src/ or include/" if dirty.strip() else ""))
+        rp = (REPO / report).resolve()
+        rp.write_text(text)
+        print(f"--report: {rp.relative_to(REPO) if rp.is_relative_to(REPO) else rp} ({text.count(chr(10)) + 1} lines)")
     print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
 
 
@@ -2230,6 +2508,17 @@ typedef struct BNA { s32 a; } BNA;
 typedef struct BNB { s32 a; s32 b; } BNB;
 typedef struct EFA { s32 a; } EFA;
 typedef struct EFB { s32 a; s32 b; } EFB;
+typedef struct HT { s32 a; s32 b; } HT;
+typedef struct HG { s32 a; s32 b; } HG;
+typedef struct HQ1 { u16 x; } HQ1;
+typedef struct HQ2 { u32 x; } HQ2;
+typedef struct HQ3 { s32 a; } HQ3;
+typedef struct HQ4 { s32 a; } HQ4;
+typedef struct CS { s32 a; } CS;
+typedef struct CS1 { s32 a; } CS1;
+typedef struct CS2 { s32 a; } CS2;
+typedef struct CS3 { s32 a; } CS3;
+typedef struct CS4 { s32 a; } CS4;
 """
 ST_MAIN = """#include "struct_types.h"
 extern GA D_80018000;
@@ -2250,6 +2539,15 @@ void func_80010D00(void) { ((BVA *)getp())->a = 1; }
 void func_80010E00(void) { ((BNA *)getp())->a = 1; }
 void efTake(void *p) { ((EFB *)p)->a = 1; }
 void efCall(void) { s32 q; q = getp(); ((EFA *)q)->a = 2; efTake(q); }
+extern HT D_80018200;
+void ht1(HT *p) { p->b = 1; }
+void ht2(HT *p) { p->b = 2; }
+void ht3(HT *p) { p->b = 3; }
+void ht4(HT *p) { p->b = 4; }
+void k1(HQ1 *x) { x->x = 1; ht1(x); }
+void k2(HQ2 *x) { x->x = 2; ht2(x); }
+void k3(HQ3 *x) { x->a = 3; ht3(x); }
+void k4(HQ4 *x) { x->a = 4; ht4(x); }
 """
 ST_OVA = """#include "struct_types.h"
 extern GB D_80018000;
@@ -2260,12 +2558,19 @@ s32 readWB(void) { s32 v; v = D_80018100.x; return v; }
 s32 readOA(void) { return D_80108000.a; }
 void func_80100400(void) { ((BVB *)getp())->a = 1; }
 void func_80100500(void) { ((BNB *)getq())->a = 1; }
+extern HG D_80018200;
+void cpy(CS *p) { p->a = 1; }
+void ca1(CS1 *x) { cpy(x); }
+void ca2(CS2 *x) { cpy(x); }
 """
 ST_OVB = """#include "struct_types.h"
 extern OB D_80108000;
 void takeP(PB *p) { p->a = 0; }
 void callP(PA *q) { takeP(q); }
 s32 readOB(void) { return D_80108000.a; }
+void cpy(CS *p) { p->a = 1; }
+void cb1(CS3 *x) { cpy(x); }
+void cb2(CS4 *x) { cpy(x); }
 """
 
 
@@ -2283,8 +2588,9 @@ def links_selftest_S():
     images = {"main": (0x80010000, 0x80020000), "ov_A": (0x80100000, 0x80110000), "ov_B": (0x80100000, 0x80110000)}
     stacks = {"main": ["main"], "ov_A": ["main", "ov_A"], "ov_B": ["main", "ov_B"]}
     fns = {"main": ["useLookA", "readWA", "hubfn", "c1", "c2", "c3", "c4", "effTake", "effCall", "polyTake", "polyCall", "viewer",
-                    "func_80010D00", "func_80010E00", "efTake", "efCall"], "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500"],
-           "ov_B": ["takeP", "callP", "readOB"]}
+                    "func_80010D00", "func_80010E00", "efTake", "efCall", "ht1", "ht2", "ht3", "ht4", "k1", "k2", "k3", "k4"],
+           "ov_A": ["useLookB", "readWB", "readOA", "func_80100400", "func_80100500", "cpy", "ca1", "ca2"],
+           "ov_B": ["takeP", "callP", "readOB", "cpy", "cb1", "cb2"]}
     syms, cls_of, sig, own_sym = {}, {}, {}, {}
     for a, names in fns.items():
         t = collections.defaultdict(set)
@@ -2298,10 +2604,11 @@ def links_selftest_S():
         syms[a] = t
     for m_, o_ in (("func_80010D00", "func_80100400"), ("func_80010E00", "func_80100500")):   # body-view: one h_exact class each
         sig[("ov_A", min(syms["ov_A"][o_]))] = sig[("main", min(syms["main"][m_]))]
+    sig[("ov_B", min(syms["ov_B"]["cpy"]))] = sig[("ov_A", min(syms["ov_A"]["cpy"]))]   # T2.c4: two copies of one routine
     for a in ("main", "ov_A"):                                # D_80018000/D_80018100: main's data, absolute in ov_A's ELF
-        for nm in ("D_80018000", "D_80018100"):
+        for nm in ("D_80018000", "D_80018100", "D_80018200"):
             syms[a][nm].add(int(nm[2:], 16))
-    own_sym["main"] |= {("D_80018000", 0x80018000), ("D_80018100", 0x80018100)}
+    own_sym["main"] |= {("D_80018000", 0x80018000), ("D_80018100", 0x80018100), ("D_80018200", 0x80018200)}
     for a in ("ov_A", "ov_B"):                                # D_80108000: one address, two overlay images
         syms[a]["D_80108000"].add(0x80108000)
         own_sym[a].add(("D_80108000", 0x80108000))
@@ -2318,7 +2625,8 @@ def links_selftest():
     outs, R = [], None
     for _ in range(2):
         R = links_build(links_selftest_S())
-        outs.append(links_render(R, {}))
+        rr = links_render(R, {})
+        outs.append((rr[:3], links_report(R, rr[3], "selftest")))
     Q = R["P"]["effective"]
     acc = {(L["cls"], frozenset((L["a"], L["b"]))) for L in Q["accepted"]}
     ref = {(L["reason"], frozenset((L["a"], L["b"]))) for L in Q["refused"]}
@@ -2355,6 +2663,14 @@ def links_selftest():
          ("eff-flow", frozenset(("EFA", "EFB"))) in sub["effective"] and f("EFA") == f("EFB") and ft("EFA") != ft("EFB")),
         ("a planted ledger check fails on a fold without target (and passes the same fold with one)",
          prob.get("fold without a ledger / PsyQ / ledgered target") == ["X1"] and len(prob) == 1),
+        ("hub type: >= HUB_K pointer partners, two conflicting: its pointer links refused, its global link kept (effective)",
+         all(("hub-type", frozenset(("HT", q))) in ref for q in ("HQ1", "HQ2", "HQ3", "HQ4")) and ("global", frozenset(("HT", "HG"))) in acc
+         and f("HT") == f("HG") and f("HT") != f("HQ3") and any(h["type"] == "HT" for h in Q["htypes"])
+         and not R["P"]["typed"]["htypes"] and ft("HT") == ft("HQ1")),
+        ("copies of one routine are one hub slot (effective); per copy (typed) no hub",
+         all(("hub", frozenset(("CS", c))) in ref for c in ("CS1", "CS2", "CS3", "CS4"))
+         and any(h["slot"][0] == "param" and str(h["slot"][1]).startswith("h") and h["copies"] == 2 for h in Q["hubs"])
+         and all(ft("CS") == ft(c) for c in ("CS1", "CS2", "CS3", "CS4")) and f("CS") != f("CS1")),
         ("two runs print identical output", outs[0] == outs[1]),
     ]
     for name, ok in cases:
@@ -2378,6 +2694,8 @@ def main():
     ap.add_argument("--out-dir", default=LINKS_DIR, help="with --links: the tables' directory (default %(default)s)")
     ap.add_argument("-j", type=int, default=16, help="with --links: worker processes (default %(default)s)")
     ap.add_argument("--propose", action="store_true", help="with --links: write the chosen policy's proposals into the ledger")
+    ap.add_argument("--report", nargs="?", const=REPORT_DEFAULT, metavar="PATH",
+                    help="with --links: write the generated merge report (default %(const)s)")
     ap.add_argument("--policy", choices=POLICIES, default="effective", help="with --propose: the policy (default %(default)s)")
     ap.add_argument("--selftest", action="store_true", help="the --links fixtures on a synthetic tree; exit 0 only if all pass")
     a = ap.parse_args()
@@ -2386,7 +2704,7 @@ def main():
     if a.selftest:
         return links_selftest()
     if a.links:
-        return links(a.out_dir, a.j, a.policy if a.propose else None)
+        return links(a.out_dir, a.j, a.policy if a.propose else None, a.report)
     if a.inventory:
         return inventory(a.out)
     if a.dispositions:
