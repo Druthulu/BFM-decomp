@@ -3348,7 +3348,7 @@ extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017F7C0(s32 a0) {
-        ((Unkstruct_8017F7C0 *)a0)->unkFC = 0;
+        ((Unkstruct_8017FD24 *)a0)->unkFC = 0;
         ((void (*)(void *, s32))func_8012AD44)((void *)a0, 0x1);
     }
 
