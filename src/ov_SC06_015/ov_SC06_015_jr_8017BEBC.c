@@ -3774,7 +3774,7 @@ s32 func_8017E9A8(s32 param_1) {
     s32 t;
     s32 e;
 
-    t = ((Unkstruct_8017E9A8 *)param_1)->unk204;
+    t = ((Unkstruct_8017EAEC *)param_1)->unk204;
     e = *(s32 *)(t + 0x20);
     if (t != 0) {
         *(u16 *)(e + 0x12) += 0x80;
@@ -3782,7 +3782,7 @@ s32 func_8017E9A8(s32 param_1) {
         func_80015954((s32)sp10, (s32)param_1 + 4);
     }
     ((Unkstruct_8017E9A8_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E9A8_2 *)*(s32 *)(param_1 + 0x20))->unk12 + 0x80;
-    ((Unkstruct_8017E9A8 *)param_1)->unk208 = w = ((Unkstruct_8017E9A8 *)param_1)->unk208 + 0x80;
+    ((Unkstruct_8017EAEC *)param_1)->unk208 = w = ((Unkstruct_8017EAEC *)param_1)->unk208 + 0x80;
     return (s16)w == 0x800;
 }
 

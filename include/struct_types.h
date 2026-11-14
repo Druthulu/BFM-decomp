@@ -23582,16 +23582,6 @@ typedef struct {
 typedef Unkstruct_8016DF5C_5 Unkstruct_8016DF5C_9; /* size = 0x38 */
 
 typedef struct {
-    /* Unkstruct_b433c8e0: P3.40 T3 band rank 3447; 5 TNC sites in 1 bodies; struct map 5 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x20];
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ u8 pad24[0x1e0];
-    /* 0x0204 */ s32 unk204;
-    /* 0x0208 */ u16 unk208;
-    /* 0x020a */ u8 pad20A[0x2];
-} Unkstruct_8017E9A8; /* size = 0x20c */
-
-typedef struct {
     /* Unkstruct_b7502c35: P3.40 T3 band rank 3450; 5 TNC sites in 1 bodies; struct map 5 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x198];
     /* 0x0198 */ s32 unk198;
@@ -27444,16 +27434,6 @@ typedef struct {
 } Unkstruct_800CDE04; /* size = 0x38 */
 
 typedef struct {
-    /* Unkstruct_b89d2334: P3.40 T3 band rank 4482; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x20];
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ u8 pad24[0x1e0];
-    /* 0x0204 */ s32 unk204;
-    /* 0x0208 */ u16 unk208;
-    /* 0x020a */ u8 pad20A[0x2];
-} Unkstruct_8017FE50; /* size = 0x20c */
-
-typedef struct {
     /* Unkstruct_b9450ff2: P3.40 T3 band rank 4483; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ u16 unk2;
@@ -28253,16 +28233,6 @@ typedef struct {
     /* 0x0104 */ s16 unk104;
     /* 0x0106 */ u8 pad106[0x2];
 } Unkstruct_8017F54C; /* size = 0x108 */
-
-typedef struct {
-    /* Unkstruct_ff78123e: P3.40 T3 band rank 4702; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x20];
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ u8 pad24[0x1e0];
-    /* 0x0204 */ s32 unk204;
-    /* 0x0208 */ u16 unk208;
-    /* 0x020a */ u8 pad20A[0x2];
-} Unkstruct_80183020_2; /* size = 0x20c */
 
 typedef struct {
     /* Unkstruct_008b4333: P3.40 T3 band rank 4705; 3 TNC sites in 3 bodies; struct map 3 sites; restruct.py --decide-band */
