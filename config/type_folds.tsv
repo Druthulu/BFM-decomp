@@ -480,7 +480,7 @@ Unkstruct_0882b0df	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017DF4
 Unkstruct_0b5a176e	define	Unkstruct_801824A8_2	owner:func_801824A8	no E1/E2 evidence; flat layout of the struct map record; 48 TNC sites in 8 bodies
 Unkstruct_1cc25077	define	Unkstruct_8017C2B0	owner:func_8017C2B0	no E1/E2 evidence; flat layout of the struct map record; 48 TNC sites in 8 bodies
 Unkstruct_24f8758c	define	Unkstruct_801809E8	owner:func_801809E8	no E1/E2 evidence; flat layout of the struct map record; 48 TNC sites in 6 bodies
-Unkstruct_35c0172b	define	Unkstruct_8017D9CC	owner:func_8017D9CC	no E1/E2 evidence; flat layout of the struct map record; 48 TNC sites in 6 bodies
+Unkstruct_35c0172b	define	Unkstruct_80129010	owner:func_8017D9CC	no E1/E2 evidence; flat layout of the struct map record; 48 TNC sites in 6 bodies
 Unkstruct_481facb1	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017F4F0 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_72755a8c	residual	TYPE-CANON-TWIN	layout-twin:Ramp388C	the flat def would form a tier-1 dup class with canonical Ramp388C; no fold (G62: layout identity is no entity evidence)
 Unkstruct_801647A4	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_801647A4_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps

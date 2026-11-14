@@ -3927,11 +3927,11 @@ void func_8017DCB4(s32 param_1)
         v.vz = lim + v.vz;
     }
 
-    ((Unkstruct_8017D9CC *)param_1)->unk6 += v.vx;
-    ((Unkstruct_8017D9CC *)param_1)->unkA += v.vy;
-    ((Unkstruct_8017D9CC *)param_1)->unkE += v.vz;
+    ((Unkstruct_80129010 *)param_1)->unk6 += v.vx;
+    ((Unkstruct_80129010 *)param_1)->unkA += v.vy;
+    ((Unkstruct_80129010 *)param_1)->unkE += v.vz;
 
-    ((Unkstruct_8017D9CC *)param_1)->unk16 = (rand() & 7) + 8;
+    ((Unkstruct_80129010 *)param_1)->unk16 = (rand() & 7) + 8;
 }
 
 
