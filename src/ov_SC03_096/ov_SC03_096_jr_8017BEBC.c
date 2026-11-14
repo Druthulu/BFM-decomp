@@ -2842,26 +2842,26 @@ void func_8017D130(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     c = -0xE40;
-    if (sp10.v[0] < c) {
-        sp10.v[0] = c;
+    if (sp10.vx < c) {
+        sp10.vx = c;
     }
     c = -0xAC0;
-    if (c < sp10.v[0]) {
-        sp10.v[0] = c;
+    if (c < sp10.vx) {
+        sp10.vx = c;
     }
 
     c = -0x960;
-    if (sp10.v[1] < c) {
-        sp10.v[1] = c;
+    if (sp10.vy < c) {
+        sp10.vy = c;
     }
     c = -0x202;
-    if (c < sp10.v[1]) {
-        sp10.v[1] = c;
+    if (c < sp10.vy) {
+        sp10.vy = c;
     }
 
-    sp10.v[2] = 0x480;
+    sp10.vz = 0x480;
 
-    func_8017D238(a0, sp10.v);
+    func_8017D238(a0, &sp10.vx);
 }
 
 

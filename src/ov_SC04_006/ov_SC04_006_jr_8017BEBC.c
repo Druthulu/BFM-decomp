@@ -2894,14 +2894,14 @@ void func_8017D268(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_801836E8[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    n = (u16)sp10.v[0];
+    n = (u16)sp10.vx;
     n -= 0x4C0;
     n <<= 16;
     n >>= 6;
     lim = n / 0xE40 + 0x600;
     *(s16 *)(a0 + 0x1A) = lim;
     *(s16 *)(a0 + 0x22) = lim;
-    func_8017D3E4(a0, sp10.v);
+    func_8017D3E4(a0, &sp10.vx);
 }
 
 
@@ -2924,7 +2924,7 @@ void func_8017D344(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_801836EC[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D3E4(a0, sp10.v);
+    func_8017D3E4(a0, &sp10.vx);
 }
 
 

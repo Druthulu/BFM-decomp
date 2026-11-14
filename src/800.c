@@ -11518,7 +11518,7 @@ void func_80021284(s32 arg0)
     SV_80021284 tmp;
     VEC_80021284 out[13];
     s32 flag;
-    PolyG4_80021284 *p;
+    DrMode_80021284 *p;
     PTag_80021284 *ot;
     u8 *rec;
     u32 attr;
@@ -11531,7 +11531,7 @@ void func_80021284(s32 arg0)
     u32 sc;
     u8 code;
 
-    p = (PolyG4_80021284 *)D_800A5E60;
+    p = (DrMode_80021284 *)D_800A5E60;
     sc = (u32)guess_g_DoubleBufferIndex << 14;
     rec = ((Ent_80021284 *)arg0)->rec;
     attr = ((Ent_80021284 *)arg0)->attr;
@@ -11573,10 +11573,10 @@ void func_80021284(s32 arg0)
     i = 1;
     do {
         p->len = 8;
-        p->code = code;
-        p->r0 = rec[4];
-        p->g0 = rec[5];
-        p->b0 = rec[6];
+        p->unk4.v1.code = code;
+        p->unk4.v1.r0 = rec[4];
+        p->unk4.v1.g0 = rec[5];
+        p->unk4.v1.b0 = rec[6];
         p->r1 = rec[4];
         p->g1 = rec[5];
         p->b1 = rec[6];
@@ -11605,7 +11605,7 @@ void func_80021284(s32 arg0)
 
     if (attr & 0x40000000) {
         DrMode_80021284 *dm = (DrMode_80021284 *)p;
-        dm->code0 = ((attr >> 23) & 0x60) | 0xE1000000;
+        dm->unk4.code0 = ((attr >> 23) & 0x60) | 0xE1000000;
         D_800A5E60 = D_800A5E60 + 8;
         dm->len = 1;
         ((PTag_80021284 *)dm)->addr = ot->addr;

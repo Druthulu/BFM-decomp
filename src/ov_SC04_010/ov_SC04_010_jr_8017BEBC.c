@@ -2903,22 +2903,22 @@ void func_8017D210(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
     sp18 = guess_g_CameraFollowPos;
 
-    sp10.v[0] = 0x1D0;
-    *(s16 *)&sp10.v[1] = -0x802;
-    sp10.v[2] = 0x1180;
-    y = sp18.v[0];
+    sp10.vx = 0x1D0;
+    *(s16 *)&sp10.vy = -0x802;
+    sp10.vz = 0x1180;
+    y = sp18.vx;
     if (y >= 0x1D1) {
-        sp18.v[0] = 0x1D0;
+        sp18.vx = 0x1D0;
     }
 
-    y = sp18.v[2];
+    y = sp18.vz;
     if (y < 0x10E0) {
-        sp18.v[2] = 0x10E0;
+        sp18.vz = 0x10E0;
     } else if (y >= 0x1221) {
-        sp18.v[2] = 0x1220;
+        sp18.vz = 0x1220;
     }
 
-    func_8017D2D4(a0, (s16 *)sp10.v, (s16 *)sp18.v);
+    func_8017D2D4(a0, (s16 *)&sp10.vx, (s16 *)&sp18.vx);
 }
 
 

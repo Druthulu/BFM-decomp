@@ -3552,25 +3552,25 @@ void func_8017F760(s32 a0)
     *(s32 *)(a0 + 0x14) = D_8018B62C[*(u8 *)(a0 + 5)];
 
     sp10 = *(UShortBlk_F760 *)&guess_g_CameraFollowPos;
-    ang = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
+    ang = ratan2(sp10.vx, sp10.vz) & 0xFFF;
 
-    if ((sp10.v[0] >= 0x601 && sp10.v[0] <= 0x8FF) && (sp10.v[2] >= -0x23F && sp10.v[2] <= 0x11F)) {
+    if ((sp10.vx >= 0x601 && sp10.vx <= 0x8FF) && (sp10.vz >= -0x23F && sp10.vz <= 0x11F)) {
         *(s16 *)(a0 + 0x20) = 0x38E;
-    } else if (sp10.v[0] < 0 || sp10.v[2] < -0x500) {
+    } else if (sp10.vx < 0 || sp10.vz < -0x500) {
         *(s16 *)(a0 + 0x20) = 0x155;
-        if (sp10.v[1] < -0x1C4) {
-            sp10.v[1] = -0x1C4;
+        if (sp10.vy < -0x1C4) {
+            sp10.vy = -0x1C4;
         }
-        sp18.v[1] = sp10.v[1];
+        sp18.vy = sp10.vy;
         r = func_80013294(&sp10, &sp18);
         d = ang;
         if (d < 0xA00 && r > 0xAE0) {
-            sp10.v[0] = 0;
-            sp10.v[2] = 0xAE0;
+            sp10.vx = 0;
+            sp10.vz = 0xAE0;
             func_801872B4(d, &sp10, &sp10);
-            sp10.v[0] >>= 3;
-            sp10.v[1] >>= 3;
-            sp10.v[2] >>= 3;
+            sp10.vx >>= 3;
+            sp10.vy >>= 3;
+            sp10.vz >>= 3;
         }
     } else {
         if (*(s32 *)(a0 + 0x14) == 0x2BC) {
@@ -3579,21 +3579,21 @@ void func_8017F760(s32 a0)
         *(s16 *)(a0 + 0x20) = 0x2D8;
     }
 
-    sp18.v[1] = sp10.v[1];
+    sp18.vy = sp10.vy;
     r = func_80013294(&sp10, &sp18);
     if (r < 0x780) {
-        sp10.v[0] = 0;
-        sp10.v[2] = 0x780;
+        sp10.vx = 0;
+        sp10.vz = 0x780;
         func_801872B4(ang, &sp10, &sp10);
-        sp10.v[0] >>= 3;
-        sp10.v[1] >>= 3;
-        sp10.v[2] >>= 3;
+        sp10.vx >>= 3;
+        sp10.vy >>= 3;
+        sp10.vz >>= 3;
     }
 
     p = &D_801274E8;
-    *p = guess_EaseToward(*p, sp10.v[0], 4);
-    D_801274EA = guess_EaseToward(D_801274EA, sp10.v[1], 4);
-    D_801274EC = guess_EaseToward(D_801274EC, sp10.v[2], 4);
+    *p = guess_EaseToward(*p, sp10.vx, 4);
+    D_801274EA = guess_EaseToward(D_801274EA, sp10.vy, 4);
+    D_801274EC = guess_EaseToward(D_801274EC, sp10.vz, 4);
     func_8017FA84(a0, p, ang);
 }
 

@@ -1340,8 +1340,8 @@ void func_8013D53C(void *arg0v) {
     D_801F89E8 = b2;
     D_801F8A09 = b2;
 
-    (*(S9 *)&D_801F8A00) = ((S9 *)D_801826DC)[D_801F6E38];
-    (*(S9 *)&D_801F8AB0) = *(S9 *)(&D_801F89E8 + 0x18);  /* same addr as (*(S9 *)&D_801F8A00); distinct sym defeats cse, keeps %hi/%lo */
+    (*(Rec9 *)&D_801F8A00) = ((Rec9 *)D_801826DC)[D_801F6E38];
+    (*(Rec9 *)&D_801F8AB0) = *(Rec9 *)(&D_801F89E8 + 0x18);  /* same addr as (*(S9 *)&D_801F8A00); distinct sym defeats cse, keeps %hi/%lo */
 
     D_801F8AD8 = 1;
     D_801F6E4C = -1;

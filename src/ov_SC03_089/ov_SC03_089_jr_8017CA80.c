@@ -3793,9 +3793,9 @@ void func_801817E0(s32 param_1) {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = D_8018D358[((Unkstruct_8017CF48 *)param_1)->unk5];
     }
     sp10 = *(V4_801817E0 *)&guess_g_CameraFollowPos;
-    s1 = &sp10.v[0];
-    sp10.v[0] = 0;
-    sp10.v[2] = -0x920;
+    s1 = &sp10.vx;
+    sp10.vx = 0;
+    sp10.vz = -0x920;
     func_80181BCC(param_1, s1);
 }
 
@@ -3829,7 +3829,7 @@ void func_8018188C(s32 param_1) {
     if (t < 0) {
         t += 0x3F;
     }
-    s1 = &sp10.v[0];
+    s1 = &sp10.vx;
     CAST_ALIAS(s16, param_1, 0x2E) = t >> 6;
 
     t = -rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
@@ -3840,28 +3840,28 @@ void func_8018188C(s32 param_1) {
 
     t = -0x120 - CAST_SIGN(u16, param_1, 0x28);
     a0 = t;
-    if ((t << 16) >> 16 > sp10.v[0]) {
-        sp10.v[0] = a0;
+    if ((t << 16) >> 16 > sp10.vx) {
+        sp10.vx = a0;
     }
     u = 0x120 - CAST_SIGN(u16, param_1, 0x28);
     a0 = u;
-    if ((u << 16) >> 16 < sp10.v[0]) {
-        sp10.v[0] = a0;
+    if ((u << 16) >> 16 < sp10.vx) {
+        sp10.vx = a0;
     }
     w = -0x700 - CAST_SIGN(u16, param_1, 0x2A);
     a0 = w;
-    if ((w << 16) >> 16 > sp10.v[1]) {
-        sp10.v[1] = a0;
+    if ((w << 16) >> 16 > sp10.vy) {
+        sp10.vy = a0;
     }
     w2 = -0x6C0 - CAST_SIGN(u16, param_1, 0x2C);
     a0 = w2;
-    if ((w2 << 16) >> 16 > sp10.v[2]) {
-        sp10.v[2] = a0;
+    if ((w2 << 16) >> 16 > sp10.vz) {
+        sp10.vz = a0;
     }
     u = 0xC0 - CAST_SIGN(u16, param_1, 0x2C);
     a0 = u;
-    if ((u << 16) >> 16 < sp10.v[2]) {
-        sp10.v[2] = a0;
+    if ((u << 16) >> 16 < sp10.vz) {
+        sp10.vz = a0;
     }
     func_80181BCC(param_1, s1);
 }
@@ -3883,9 +3883,9 @@ void func_80181A68(s32 param_1) {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = D_8018D360[((Unkstruct_8017CF48 *)param_1)->unk5];
     }
     sp10 = *(V4_80181A68 *)&guess_g_CameraFollowPos;
-    s1 = &sp10.v[0];
-    sp10.v[0] = 0;
-    sp10.v[2] = 0x3A0;
+    s1 = &sp10.vx;
+    sp10.vx = 0;
+    sp10.vz = 0x3A0;
     func_80181BCC(param_1, s1);
 }
 
@@ -3906,11 +3906,11 @@ void func_80181B14(s32 param_1) {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = D_8018D364[((Unkstruct_8017CF48 *)param_1)->unk5];
     }
     sp10 = *(V4_80181B14 *)&guess_g_CameraFollowPos;
-    s1 = &sp10.v[0];
-    sp10.v[0] = 0;
+    s1 = &sp10.vx;
+    sp10.vx = 0;
     a0 = 0x2A0 + 0;
-    if (sp10.v[2] < 0x2A0) {
-        sp10.v[2] = a0;
+    if (sp10.vz < 0x2A0) {
+        sp10.vz = a0;
     }
     func_80181BCC(param_1, s1);
 }

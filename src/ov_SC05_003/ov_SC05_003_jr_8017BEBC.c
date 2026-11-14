@@ -3252,10 +3252,10 @@ void func_8017E130(void *a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80186408[v0];
     }
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[1] >= -0xFF) {
-        sp10.v[1] = -0x100;
+    if (sp10.vy >= -0xFF) {
+        sp10.vy = -0x100;
     }
-    func_8017E1E8((s32)a0, sp10.v);
+    func_8017E1E8((s32)a0, &sp10.vx);
 }
 
 

@@ -2830,11 +2830,11 @@ void func_8017D4A0(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[1] */
-    if (sp10.v[1] < -0x102) {
-        sp10.v[1] = -0x102;
+    if (sp10.vy < -0x102) {
+        sp10.vy = -0x102;
     }
 
-    func_8017D558(a0, sp10.v);
+    func_8017D558(a0, &sp10.vx);
 }
 
 

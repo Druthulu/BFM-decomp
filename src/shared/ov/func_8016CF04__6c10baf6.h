@@ -43,14 +43,14 @@ short func_8016CF04(s32 param_1, s32 param_2) {
     rot[1] = 0;
     rot[2] = 0;
     ApplyMatrixSV(mtx, rot, out);
-    p->ent[(u8)p->f1].a = *(u16 *)(((int)param_1) + 6)   + out[0];
-    p->ent[(u8)p->f1].b = *(u16 *)(((int)param_1) + 0xa) + out[1];
-    p->ent[(u8)p->f1].c = *(u16 *)(((int)param_1) + 0xe) + out[2];
+    p->unk4.v0.ent[(u8)p->f1].a = *(u16 *)(((int)param_1) + 6)   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].b = *(u16 *)(((int)param_1) + 0xa) + out[1];
+    p->unk4.v0.ent[(u8)p->f1].c = *(u16 *)(((int)param_1) + 0xe) + out[2];
     rot[0] = -rot[0];
     rot[1] = -rot[1];
     ApplyMatrixSV(mtx, rot, out);
-    p->ent[(u8)p->f1].d = *(u16 *)(((int)param_1) + 6)   + out[0];
-    p->ent[(u8)p->f1].e = *(u16 *)(((int)param_1) + 0xa) + out[1];
-    p->ent[(u8)p->f1].g = *(u16 *)(((int)param_1) + 0xe) + out[2];
+    p->unk4.v0.ent[(u8)p->f1].d = *(u16 *)(((int)param_1) + 6)   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].e = *(u16 *)(((int)param_1) + 0xa) + out[1];
+    p->unk4.v0.ent[(u8)p->f1].g = *(u16 *)(((int)param_1) + 0xe) + out[2];
     return 0;
 }

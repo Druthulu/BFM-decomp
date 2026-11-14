@@ -2814,7 +2814,7 @@ void func_8017D0D4(void *a0) {
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern s16 D_80182BC4[];
 extern u8 D_80182B7C;
 extern s16 D_801A0C88;
@@ -2828,8 +2828,8 @@ extern s32 func_8017D484(u8 *param_1, s16 *param_2, s16 *param_3, u32 a3);
 
 void func_8017D110(s32 param_1)
 {
-    Blk8_80126940 sp10;
-    Blk8_80126940 sp18;
+    SVECTOR sp10;
+    SVECTOR sp18;
     u8 t;
     s32 r;
     s32 sh;
@@ -2845,23 +2845,23 @@ void func_8017D110(s32 param_1)
     if (r < 0) {
         r += 0x7F;
     }
-    sp18.v[0] = sp10.v[0] - (r >> 7);
+    sp18.vx = sp10.vx - (r >> 7);
 
     r = rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
     if (r < 0) {
         r += 0x7F;
     }
     sh = r >> 7;
-    sp18.v[2] = sp10.v[2] - sh;
-    sp18.v[1] = sp10.v[1];
+    sp18.vz = sp10.vz - sh;
+    sp18.vy = sp10.vy;
 
-    *(s16 *)(param_1 + 0xA0) = KR_AS(s32, func_8017D484)(&D_80182B7C, sp10.v, sp18.v);
+    *(s16 *)(param_1 + 0xA0) = KR_AS(s32, func_8017D484)(&D_80182B7C, &sp10.vx, &sp18.vx);
 
-    if (sp10.v[1] > 0) {
-        sp10.v[1] = 0;
+    if (sp10.vy > 0) {
+        sp10.vy = 0;
     }
-    if (sp10.v[2] >= -0x7F) {
-        sp10.v[2] = -0x80;
+    if (sp10.vz >= -0x7F) {
+        sp10.vz = -0x80;
     }
     if (*(s16 *)(param_1 + 0xA0) >= 0xB81) {
         *(s16 *)(param_1 + 0xA0) = 0xB80;
@@ -2870,7 +2870,7 @@ void func_8017D110(s32 param_1)
         *(s16 *)(param_1 + 0xA0) = 0x480;
     }
     D_801A0C88 = func_80012DBC(D_801A0C88, *(s16 *)(param_1 + 0xA0), 4, 1);
-    func_8017D2B8(param_1, D_801A0C88, sp10.v);
+    func_8017D2B8(param_1, D_801A0C88, &sp10.vx);
 }
 
 

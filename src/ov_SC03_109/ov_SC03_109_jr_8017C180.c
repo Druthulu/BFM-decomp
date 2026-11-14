@@ -2835,22 +2835,22 @@ void func_8017D3C0(s32 param_1) {
     Blk8_80126940_8017D3C0 sp10;
 
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[1] < -0x680) {
-        if (sp10.v[0] < -0x2E0) {
-            sp10.v[0] = -0x2E0;
+    if (sp10.vy < -0x680) {
+        if (sp10.vx < -0x2E0) {
+            sp10.vx = -0x2E0;
         }
-        if (sp10.v[0] > 0x2C0) {
-            sp10.v[0] = 0x2C0;
+        if (sp10.vx > 0x2C0) {
+            sp10.vx = 0x2C0;
         }
     } else {
-        if (sp10.v[0] < -0x240) {
-            sp10.v[0] = -0x240;
+        if (sp10.vx < -0x240) {
+            sp10.vx = -0x240;
         }
-        if (sp10.v[0] > 0x240) {
-            sp10.v[0] = 0x240;
+        if (sp10.vx > 0x240) {
+            sp10.vx = 0x240;
         }
     }
-    func_8017D48C(param_1, &sp10.v[0]);
+    func_8017D48C(param_1, &sp10.vx);
 }
 
 

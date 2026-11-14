@@ -2868,12 +2868,12 @@ s32 func_8017B490(s32 param)
     (*(SV4_8017B368 *)&D_80191C3C) = loc1;
     D_801931C8 = 1;
     D_80191BCC = 0x1E;
-    guess_g_MainCameraRefPointX = (*(SV4_8017B368 *)&D_80191C44).v[0];
-    guess_g_MainCameraRefPointY = (*(SV4_8017B368 *)&D_80191C44).v[1];
-    guess_g_MainCameraRefPointZ = (*(SV4_8017B368 *)&D_80191C44).v[2];
-    guess_g_MainCameraViewPointX = (*(SV4_8017B368 *)&D_80191C3C).v[0];
-    guess_g_MainCameraViewPointY = (*(SV4_8017B368 *)&D_80191C3C).v[1];
-    guess_g_MainCameraViewPointZ = (*(SV4_8017B368 *)&D_80191C3C).v[2];
+    guess_g_MainCameraRefPointX = (*(SV4_8017B368 *)&D_80191C44).vx;
+    guess_g_MainCameraRefPointY = (*(SV4_8017B368 *)&D_80191C44).vy;
+    guess_g_MainCameraRefPointZ = (*(SV4_8017B368 *)&D_80191C44).vz;
+    guess_g_MainCameraViewPointX = (*(SV4_8017B368 *)&D_80191C3C).vx;
+    guess_g_MainCameraViewPointY = (*(SV4_8017B368 *)&D_80191C3C).vy;
+    guess_g_MainCameraViewPointZ = (*(SV4_8017B368 *)&D_80191C3C).vz;
 }
 
 
@@ -2910,8 +2910,8 @@ void func_8017B614(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
-        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+        *(SVECTOR *)&buf[0] = *(SVECTOR *)src;
+        *(SVECTOR *)&buf[8] = *(SVECTOR *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2920,16 +2920,16 @@ void func_8017B614(s32 param_1, s32 param_2)
         guess_RotTransSVWithObjMatrix(param_1, (s32)src, (s32)&buf[0]);
         guess_RotTransSVWithObjMatrix(param_1, a2addr, (s32)&buf[8]);
     }
-    *(Blk8_8017B614 *)&D_80191C44 = *(Blk8_8017B614 *)&buf[0];
-    *(Blk8_8017B614 *)&D_80191C3C = *(Blk8_8017B614 *)&buf[8];
+    *(SVECTOR *)&D_80191C44 = *(SVECTOR *)&buf[0];
+    *(SVECTOR *)&D_80191C3C = *(SVECTOR *)&buf[8];
     guess_SetMainCameraHandler((s32)func_8017BE60, 0);
     D_8012694C[0] = 0;
     D_801931C8 = 1;
     D_80191BCC = 0x1E;
-    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_80191C44)->v[0];
+    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_80191C44)->vx;
     guess_g_MainCameraRefPointY = D_80191C46;
     guess_g_MainCameraRefPointZ = D_80191C48;
-    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_80191C3C)->v[0];
+    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_80191C3C)->vx;
     guess_g_MainCameraViewPointY = D_80191C3E;
     guess_g_MainCameraViewPointZ = D_80191C40;
     guess_UpdateCamera();
@@ -3116,17 +3116,17 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     guess_RotTransSVWithObjMatrix(param_1, param_2, (s32)&svec);
     D_80191BEC = svec;
 
-    v0.v[0] = -((Unkstruct_8017BA3C *)param_2)->unkC;
-    v0.v[1] = ((Unkstruct_8017BA3C *)param_2)->unk8;
-    v0.v[2] = 0;
-    v1.v[0] = 0;
-    v1.v[1] = 0;
-    v1.v[2] = -((Unkstruct_8017BA3C *)param_2)->unkA;
+    v0.vx = -((Unkstruct_8017BA3C *)param_2)->unkC;
+    v0.vy = ((Unkstruct_8017BA3C *)param_2)->unk8;
+    v0.vz = 0;
+    v1.vx = 0;
+    v1.vy = 0;
+    v1.vz = -((Unkstruct_8017BA3C *)param_2)->unkA;
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.v[0];
-    mtx.t[1] = (s32)svec.v[1];
-    mtx.t[2] = (s32)svec.v[2];
+    mtx.t[0] = (s32)svec.vx;
+    mtx.t[1] = (s32)svec.vy;
+    mtx.t[2] = (s32)svec.vz;
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
 
@@ -3154,17 +3154,17 @@ void func_8017BB34(s32 param_1, s32 param_2)
     svec = *(SV4_8017BB34 *)param_2;
     (*(SV4_8017BB34*)&D_80191BEC) = svec;
 
-    v0.v[0] = -((Unkstruct_8017BB34 *)param_2)->unkC;
-    v0.v[1] = ((Unkstruct_8017BB34 *)param_2)->unk8;
-    v0.v[2] = 0;
-    v1.v[0] = 0;
-    v1.v[1] = 0;
-    v1.v[2] = -((Unkstruct_8017BB34 *)param_2)->unkA;
+    v0.vx = -((Unkstruct_8017BB34 *)param_2)->unkC;
+    v0.vy = ((Unkstruct_8017BB34 *)param_2)->unk8;
+    v0.vz = 0;
+    v1.vx = 0;
+    v1.vy = 0;
+    v1.vz = -((Unkstruct_8017BB34 *)param_2)->unkA;
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.v[0];
-    mtx.t[1] = (s32)svec.v[1];
-    mtx.t[2] = (s32)svec.v[2];
+    mtx.t[0] = (s32)svec.vx;
+    mtx.t[1] = (s32)svec.vy;
+    mtx.t[2] = (s32)svec.vz;
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
 
@@ -3453,12 +3453,12 @@ void func_8017D154(void *a0) {
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s16 D_801820A8[];
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern u16 guess_GetPadPressed(s32 *a0);
 extern void func_8017D248(s32 a0, s16 *a1);
 
 void func_8017D190(s32 a0) {
-    Blk8_80126940 sp10;
+    SVECTOR sp10;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         u8 t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
@@ -3467,12 +3467,12 @@ void func_8017D190(s32 a0) {
     }
 
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0;
-    if (sp10.v[2] < 0x180) {
-        sp10.v[2] = 0x180;
+    sp10.vx = 0;
+    if (sp10.vz < 0x180) {
+        sp10.vz = 0x180;
     }
 
-    func_8017D248(a0, sp10.v);
+    func_8017D248(a0, &sp10.vx);
 }
 
 

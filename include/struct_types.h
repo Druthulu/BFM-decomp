@@ -1468,7 +1468,6 @@ typedef struct {
     A098Rec rec[1];
 } A098Ctx;
 typedef Prim_1412A8 B16x;
-typedef struct { u8 b0, b1, b2, b3; } BYTES_800CFAD0;
 typedef struct {
     u32 a, b, c;
 } Blk12;
@@ -1633,7 +1632,21 @@ typedef struct {
     /* 0x0E */ u16 unk0E;
 } DispSlot_800184F0;
 typedef DispSlot_800184F0 DispSlot_800184F0_80014588;
-typedef struct { u32 addr : 24; u32 len : 8; u32 code0; } DrMode_80021284;
+typedef struct {
+    /* 0x00 */ u32 addr : 24;
+    /* 0x03 */ u32 len : 8;
+    /* 0x04 */ union {
+        u32 code0;
+        struct { u8 r0, g0, b0, code; } v1;
+    } unk4;
+    /* 0x08 */ s16 x0, y0;
+    /* 0x0C */ u8 r1, g1, b1, pad1;
+    /* 0x10 */ s16 x1, y1;
+    /* 0x14 */ u8 r2, g2, b2, pad2;
+    /* 0x18 */ s16 x2, y2;
+    /* 0x1C */ u8 r3, g3, b3, pad3;
+    /* 0x20 */ s16 x3, y3;
+} DrMode_80021284; /* size = 0x24 */
 typedef struct { u32 addr : 24; u32 len : 8; u32 code; } DrTpage;
 typedef struct {
     /* 0x0000 */ u8 pad0[0x8];
@@ -2088,18 +2101,6 @@ typedef struct {
     u8 pad_00[0x10];
     Poly12Pt pts[12];
 } Poly12Obj;
-typedef struct {
-    /* 0x00 */ u32 addr : 24;
-    /* 0x03 */ u32 len : 8;
-    /* 0x04 */ u8 r0, g0, b0, code;
-    /* 0x08 */ s16 x0, y0;
-    /* 0x0C */ u8 r1, g1, b1, pad1;
-    /* 0x10 */ s16 x1, y1;
-    /* 0x14 */ u8 r2, g2, b2, pad2;
-    /* 0x18 */ s16 x2, y2;
-    /* 0x1C */ u8 r3, g3, b3, pad3;
-    /* 0x20 */ s16 x3, y3;
-} PolyG4_80021284;
 typedef struct {
     u32 c0;             /* 0x04 r0,g0,b0,code */
     s16 x0, y0;         /* 0x08 */
@@ -2816,10 +2817,6 @@ typedef struct Rec14 {
     /* 0x0E */ u16 unk0E;
     /* 0x10 */ u32 unk10;
 } Rec14;
-typedef struct Owner4EE8 {
-    /* 0x00 */ u8 pad00[0x14];
-    /* 0x14 */ Rec14 **unk14;
-} Owner4EE8;
 typedef struct {
     u8  unk00;
     u8  unk01[11];
@@ -14217,7 +14214,7 @@ typedef struct {
     /* 0x000c */ s16 unkC;
     /* 0x000e */ s16 unkE;
     /* 0x0010 */ void * unk10;
-    /* 0x0014 */ u8 pad14[0x4];
+    /* 0x0014 */ Rec14 **unk14;
     /* 0x0018 */ void * unk18;
 } Unkstruct_8002F4E4; /* size = 0x1c */
 
@@ -26161,12 +26158,14 @@ typedef struct {
 
 typedef struct {
     /* Unkstruct_7c6ff376: P3.40 T3 band rank 4226; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0000 */ s16 unk0;
+    /* 0x0002 */ u8 pad2[0x4];
     /* 0x0006 */ s16 unk6;
     /* 0x0008 */ u8 pad8[0xe4];
     /* 0x00ec */ s32 unkEC;
     /* 0x00f0 */ s32 unkF0;
-} Unkstruct_80181E08; /* size = 0xf4 */
+    /* 0x00f4 */ u8 padF4[0x10];
+} Unkstruct_80181E08; /* size = 0x104 */
 
 typedef struct {
     /* Unkstruct_7dcb9fcf: P3.40 T3 band rank 4228; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */

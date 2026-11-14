@@ -5746,12 +5746,12 @@ void func_80183A18(void *a0) {
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s16 D_8018F854[];
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern u16 guess_GetPadPressed(s32 *a0);
 extern void func_80183B58(s32 a0, s16 *a1);
 
 void func_80183A54(s32 a0) {
-    Blk8_80126940 sp10;
+    SVECTOR sp10;
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
@@ -5761,23 +5761,23 @@ void func_80183A54(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    if (sp10.v[2] < 0x440) {
+    if (sp10.vz < 0x440) {
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x800;
     } else {
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
     }
 
-    if (sp10.v[0] < -0x150) {
-        sp10.v[0] = -0x150;
+    if (sp10.vx < -0x150) {
+        sp10.vx = -0x150;
     }
-    if (sp10.v[0] >= 0x151) {
-        sp10.v[0] = 0x150;
+    if (sp10.vx >= 0x151) {
+        sp10.vx = 0x150;
     }
-    if (sp10.v[2] < -0x440) {
-        sp10.v[2] = -0x440;
+    if (sp10.vz < -0x440) {
+        sp10.vz = -0x440;
     }
 
-    func_80183B58(a0, sp10.v);
+    func_80183B58(a0, &sp10.vx);
 }
 
 

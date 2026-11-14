@@ -23,8 +23,8 @@ void func_8017B614(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B614 *)&buf[0] = *(Blk8_8017B614 *)src;
-        *(Blk8_8017B614 *)&buf[8] = *(Blk8_8017B614 *)(src + 8);
+        *(SVECTOR *)&buf[0] = *(SVECTOR *)src;
+        *(SVECTOR *)&buf[8] = *(SVECTOR *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -33,16 +33,16 @@ void func_8017B614(s32 param_1, s32 param_2)
         guess_RotTransSVWithObjMatrix(param_1, (s32)src, (s32)&buf[0]);
         guess_RotTransSVWithObjMatrix(param_1, a2addr, (s32)&buf[8]);
     }
-    *(Blk8_8017B614 *)&D_8018F98C = *(Blk8_8017B614 *)&buf[0];
-    *(Blk8_8017B614 *)&D_8018F984 = *(Blk8_8017B614 *)&buf[8];
+    *(SVECTOR *)&D_8018F98C = *(SVECTOR *)&buf[0];
+    *(SVECTOR *)&D_8018F984 = *(SVECTOR *)&buf[8];
     guess_SetMainCameraHandler((s32)func_8017BE60, 0);
     D_8012694C[0] = 0;
     D_8018FAB0 = 1;
     D_8018F914 = 0x1E;
-    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_8018F98C)->v[0];
+    guess_g_MainCameraRefPointX = ((SV4_8017B368 *)&D_8018F98C)->vx;
     guess_g_MainCameraRefPointY = D_8018F98E;
     guess_g_MainCameraRefPointZ = D_8018F990;
-    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_8018F984)->v[0];
+    guess_g_MainCameraViewPointX = ((SV4_8017B368 *)&D_8018F984)->vx;
     guess_g_MainCameraViewPointY = D_8018F986;
     guess_g_MainCameraViewPointZ = D_8018F988;
     guess_UpdateCamera();

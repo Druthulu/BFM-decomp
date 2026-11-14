@@ -3238,21 +3238,21 @@ void func_8017DBA0(s32 param_1) {
 
     sp10 = guess_g_CameraFollowPos;
 
-    if (sp10.v[1] >= -0x3FF) {
-        sp10.v[1] = -0x400;
-    } else if (sp10.v[1] < -0x800) {
-        sp10.v[1] = -0x800;
+    if (sp10.vy >= -0x3FF) {
+        sp10.vy = -0x400;
+    } else if (sp10.vy < -0x800) {
+        sp10.vy = -0x800;
     }
 
-    if (sp10.v[2] >= 0x2601) {
-        if (sp10.v[1] >= -0x4FF) {
-            sp10.v[1] = -0x500;
+    if (sp10.vz >= 0x2601) {
+        if (sp10.vy >= -0x4FF) {
+            sp10.vy = -0x500;
         }
-    } else if ((sp10.v[2] >= 0x1A01) && (sp10.v[1] >= -0x3FF)) {
-        sp10.v[1] = -0x400;
+    } else if ((sp10.vz >= 0x1A01) && (sp10.vy >= -0x3FF)) {
+        sp10.vy = -0x400;
     }
 
-    func_8017DC68(param_1, sp10.v);
+    func_8017DC68(param_1, &sp10.vx);
 }
 
 

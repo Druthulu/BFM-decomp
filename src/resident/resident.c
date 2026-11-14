@@ -744,7 +744,7 @@ void func_800CFAD0(void)
 
     u32 *ot;
 
-    ((BYTES_800CFAD0 *)&D_80114E7C)->b3 = 5;
+    ((PrimTag *)&D_80114E7C)->len = 5;
     D_80114E80 = 0xE1000085;
     D_80114E87 = 0x64;
     D_80114E84 = D_80114E85 = D_80114E86 = 0x80;

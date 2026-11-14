@@ -3388,7 +3388,7 @@ void func_8017D130(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018DF0C[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D4E4(a0, sp10.v);
+    func_8017D4E4(a0, &sp10.vx);
 }
 
 

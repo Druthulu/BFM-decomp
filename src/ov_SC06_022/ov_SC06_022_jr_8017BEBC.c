@@ -3054,28 +3054,28 @@ void func_8017D5D8(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xFC) {
-        sp10.v[0] = -0xFC;
+        sp10.vx = -0xFC;
     } else if (v1 < 0xFD) {
         ;
     } else {
-        sp10.v[0] = 0xFC;
+        sp10.vx = 0xFC;
     }
 
-    v0 = sp10.v[1];
+    v0 = sp10.vy;
     if (v0 < -0x402) {
-        sp10.v[1] = -0x402;
+        sp10.vy = -0x402;
     }
 
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     if (v1 < -0x19E0) {
-        sp10.v[2] = -0x19E0;
+        sp10.vz = -0x19E0;
     } else if (v1 >= -0x8FF) {
-        sp10.v[2] = -0x900;
+        sp10.vz = -0x900;
     }
 
-    func_8017D9C0(a0, sp10.v);
+    func_8017D9C0(a0, &sp10.vx);
     func_8017DB58(a0);
 }
 
@@ -3096,25 +3096,25 @@ void func_8017D6E0(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xC0) {
-        sp10.v[0] = -0xC0;
+        sp10.vx = -0xC0;
     } else if (v1 < 0xC1) {
         ;
     } else {
-        sp10.v[0] = 0xC0;
+        sp10.vx = 0xC0;
     }
 
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < -0x580) {
-        sp10.v[2] = -0x580;
+        sp10.vz = -0x580;
     } else if (v0 < 0x701) {
         ;
     } else {
-        sp10.v[2] = 0x700;
+        sp10.vz = 0x700;
     }
 
-    func_8017D9C0(a0, sp10.v);
+    func_8017D9C0(a0, &sp10.vx);
 }
 
 
@@ -3134,28 +3134,28 @@ void func_8017D7CC(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xFC) {
-        sp10.v[0] = -0xFC;
+        sp10.vx = -0xFC;
     } else if (v1 < 0xFD) {
         ;
     } else {
-        sp10.v[0] = 0xFC;
+        sp10.vx = 0xFC;
     }
 
-    v0 = sp10.v[1];
+    v0 = sp10.vy;
     if (v0 < -0x402) {
-        sp10.v[1] = -0x402;
+        sp10.vy = -0x402;
     }
 
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     if (v1 < -0x942) {
-        sp10.v[2] = -0x942;
+        sp10.vz = -0x942;
     } else if (v1 >= -0x8FF) {
-        sp10.v[2] = -0x900;
+        sp10.vz = -0x900;
     }
 
-    func_8017D9C0(a0, sp10.v);
+    func_8017D9C0(a0, &sp10.vx);
     func_8017DB58(a0);
 }
 
@@ -3177,25 +3177,25 @@ void func_8017D8D4(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xC0) {
-        sp10.v[0] = -0xC0;
+        sp10.vx = -0xC0;
     } else if (v1 < 0xC1) {
         ;
     } else {
-        sp10.v[0] = 0xC0;
+        sp10.vx = 0xC0;
     }
 
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < 0x6BE) {
-        sp10.v[2] = 0x6BE;
+        sp10.vz = 0x6BE;
     } else if (v0 < 0x701) {
         ;
     } else {
-        sp10.v[2] = 0x700;
+        sp10.vz = 0x700;
     }
 
-    func_8017D9C0(a0, sp10.v);
+    func_8017D9C0(a0, &sp10.vx);
 }
 
 

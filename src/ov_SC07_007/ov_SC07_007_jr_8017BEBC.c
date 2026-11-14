@@ -3767,9 +3767,9 @@ void func_8017DAE8(void *a0, void *a1)
     if (D_801C7804 == -1) {
         *(SV4 *)a1 = loc0;
     } else {
-        ((Unkstruct_8017DAE8 *)a1)->unk0 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk0, loc0.v[0], s);
-        ((Unkstruct_8017DAE8 *)a1)->unk2 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk2, loc0.v[1], s);
-        ((Unkstruct_8017DAE8 *)a1)->unk4 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk4, loc0.v[2], s);
+        ((Unkstruct_8017DAE8 *)a1)->unk0 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk0, loc0.vx, s);
+        ((Unkstruct_8017DAE8 *)a1)->unk2 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk2, loc0.vy, s);
+        ((Unkstruct_8017DAE8 *)a1)->unk4 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk4, loc0.vz, s);
     }
 }
 

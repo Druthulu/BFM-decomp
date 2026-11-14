@@ -2882,18 +2882,18 @@ void func_8017D1AC(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[1];
+    v1 = sp10.vy;
     if (v1 < -0x680) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
     } else if (v1 >= -0x602) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x1C7;
-    } else if (sp10.v[0] < 0x81) {
+    } else if (sp10.vx < 0x81) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x1C7;
     } else {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
     }
 
-    func_8017D288(a0, sp10.v);
+    func_8017D288(a0, &sp10.vx);
 }
 
 

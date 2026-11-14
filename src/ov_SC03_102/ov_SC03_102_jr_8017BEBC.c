@@ -3812,8 +3812,8 @@ void func_80180558(s32 param_1)
 {
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_80189BE8[];
-    extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
-    Blk8_80126940 sp10;
+    extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+    SVECTOR sp10;
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
@@ -3825,20 +3825,20 @@ void func_80180558(s32 param_1)
 
     {
         register s32 lo __asm__("$4") = 0x680;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-const-fold
-        sp10.v[0] = 0;
-        if (sp10.v[2] < 0x680) {
-            sp10.v[2] = lo;
+        sp10.vx = 0;
+        if (sp10.vz < 0x680) {
+            sp10.vz = lo;
         }
     }
     {
         register s32 lim __asm__("$4") = 0x900;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-const-fold
         s32 hi = 0x900;
-        if (hi < sp10.v[2]) {
-            sp10.v[2] = lim;
+        if (hi < sp10.vz) {
+            sp10.vz = lim;
         }
     }
 
-    func_80180628(param_1, sp10.v);
+    func_80180628(param_1, &sp10.vx);
 }
 
 

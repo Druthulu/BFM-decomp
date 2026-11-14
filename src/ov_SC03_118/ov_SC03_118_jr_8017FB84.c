@@ -3571,8 +3571,8 @@ void func_80181B44(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_8018DDF4[t];
     }
 
-    if (guess_g_CameraFollowPos.v[0] < -0x120) {
-        guess_g_CameraFollowPos.v[0] = -0x120;
+    if (guess_g_CameraFollowPos.vx < -0x120) {
+        guess_g_CameraFollowPos.vx = -0x120;
     }
     if (D_80126942 < -0x300) {
         D_80126942 = -0x300;
@@ -3584,11 +3584,11 @@ void func_80181B44(s32 a0) {
     sp10a = guess_g_CameraFollowPos;
     sp10b = guess_g_CameraFollowPos;
 
-    if (sp10a.v[2] >= -0x2DF) {
-        sp10a.v[2] = -0x2E0;
+    if (sp10a.vz >= -0x2DF) {
+        sp10a.vz = -0x2E0;
     }
 
-    func_80181C78(a0, sp10a.v, sp10b.v);
+    func_80181C78(a0, &sp10a.vx, &sp10b.vx);
 }
 
 

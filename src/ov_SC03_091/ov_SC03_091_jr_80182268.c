@@ -2896,14 +2896,14 @@ void func_801826C8(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190710[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0x340;
+    sp10.vx = 0x340;
     {
         s16 lim = -0x740;
-        if (sp10.v[2] < lim) {
-            sp10.v[2] = lim;
+        if (sp10.vz < lim) {
+            sp10.vz = lim;
         }
     }
-    func_80182B48(a0, sp10.v);
+    func_80182B48(a0, &sp10.vx);
 }
 
 
@@ -2930,7 +2930,7 @@ void func_80182788(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 >= 0x700) {
         if (v1 < 0x7C0) {
             ((Unkstruct_8017CF48 *)a0)->unk2E = 0x7C0 - v1;
@@ -2945,27 +2945,27 @@ void func_80182788(s32 a0) {
 
     {
         s16 lo = 0x540;
-        if (sp10.v[0] < lo) {
+        if (sp10.vx < lo) {
             c = lo;
-            sp10.v[0] = c;
+            sp10.vx = c;
         }
     }
     {
         s16 lim = 0x800;
-        if (lim < sp10.v[0]) {
+        if (lim < sp10.vx) {
             c = lim;
-            sp10.v[0] = c;
+            sp10.vx = c;
         }
     }
     {
         s16 lo2 = -0x3C0;
-        if (sp10.v[2] < lo2) {
+        if (sp10.vz < lo2) {
             c = lo2;
-            sp10.v[2] = c;
+            sp10.vz = c;
         }
     }
 
-    func_80182B48(a0, sp10.v);
+    func_80182B48(a0, &sp10.vx);
 }
 
 
@@ -2989,9 +2989,9 @@ void func_801828B8(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190718[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0x800;
-    sp10.v[2] = 0x3F0;
-    func_80182B48(a0, sp10.v);
+    sp10.vx = 0x800;
+    sp10.vz = 0x3F0;
+    func_80182B48(a0, &sp10.vx);
 }
 
 
@@ -3020,7 +3020,7 @@ void func_80182968(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 >= 0x440) {
         if (v1 < 0x500) {
             ((Unkstruct_8017CF48 *)a0)->unk2E = 0x500 - v1;
@@ -3035,27 +3035,27 @@ void func_80182968(s32 a0) {
 
     {
         s16 lo = 0x380;
-        if (sp10.v[0] < lo) {
+        if (sp10.vx < lo) {
             c = lo;
-            sp10.v[0] = c;
+            sp10.vx = c;
         }
     }
     {
         s16 lim = 0x580;
-        if (lim < sp10.v[0]) {
+        if (lim < sp10.vx) {
             c = lim;
-            sp10.v[0] = c;
+            sp10.vx = c;
         }
     }
     {
         s16 lo2 = 0xC0;
-        if (sp10.v[2] < lo2) {
+        if (sp10.vz < lo2) {
             c = lo2;
-            sp10.v[2] = c;
+            sp10.vz = c;
         }
     }
 
-    func_80182B48(a0, sp10.v);
+    func_80182B48(a0, &sp10.vx);
 }
 
 
@@ -3079,9 +3079,9 @@ void func_80182A98(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190720[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0x340;
-    sp10.v[2] = 0x780;
-    func_80182B48(a0, sp10.v);
+    sp10.vx = 0x340;
+    sp10.vz = 0x780;
+    func_80182B48(a0, &sp10.vx);
 }
 
 

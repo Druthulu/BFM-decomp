@@ -2855,19 +2855,19 @@ void func_8017D4DC(s32 arg0) {
         ((Unkstruct_8017CF48 *)arg0)->unk14 = D_80197084[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[1] < -0x150) {
-        sp10.v[1] = -0x150;
+    if (sp10.vy < -0x150) {
+        sp10.vy = -0x150;
     }
-    if (sp10.v[2] >= 0x5B1) {
-        sp10.v[2] = 0x5B0;
+    if (sp10.vz >= 0x5B1) {
+        sp10.vz = 0x5B0;
     }
-    v = sp10.v[2];
+    v = sp10.vz;
     if (v < -0x880) {
         lo = -0xC0; hi = 0xC0; p = 0; q = 0xA0;
     } else if (v < 0x280) {
         lo = -0xC0; hi = 0xC0; p = 0; q = 0xA0;
     } else {
-        v = sp10.v[0];
+        v = sp10.vx;
         if (v < 0x700) {
             lo = -0xC0; hi = 0xA70;
             if (v < 0) { p = 0; q = 0; }
@@ -2876,14 +2876,14 @@ void func_8017D4DC(s32 arg0) {
             lo = -0xC0; hi = 0xA70; p = 0; q = 0xA0;
         }
     }
-    if (sp10.v[0] < lo) {
-        sp10.v[0] = lo;
-    } else if (hi < sp10.v[0]) {
-        sp10.v[0] = hi;
+    if (sp10.vx < lo) {
+        sp10.vx = lo;
+    } else if (hi < sp10.vx) {
+        sp10.vx = hi;
     }
     ((Unkstruct_8017CF48 *)arg0)->unk2E = p;
     ((Unkstruct_8017CF48 *)arg0)->unk32 = q;
-    func_8017D648(arg0, sp10.v);
+    func_8017D648(arg0, &sp10.vx);
 }
 
 
@@ -4336,13 +4336,13 @@ void func_8017F91C(s32 a0)
         guess_ClearVelocityAndSetGravity(a0);
         guess_SetLocalVelocity(a0, ((Unkstruct_800B5CB8 *)a0)->unk70 * 12 + (s32)&D_801AAF90);
 
-        in.v[0] = 0;
-        in.v[1] = 0;
-        in.v[2] = 0x10;
+        in.vx = 0;
+        in.vy = 0;
+        in.vz = 0x10;
         guess_RotTransSVWithObjMatrix(a0, (s32)&in, (s32)&out);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = out.v[0];
-        ((Unkstruct_800B5CB8 *)a0)->unkA = out.v[1];
-        uStack_c = out.v[2];
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = out.vx;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = out.vy;
+        uStack_c = out.vz;
         ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)a0)->unkE = uStack_c;

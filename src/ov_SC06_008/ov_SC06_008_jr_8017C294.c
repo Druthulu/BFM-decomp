@@ -2855,13 +2855,13 @@ void func_8017D524(s32 a0) {
     Blk8_80126940_8017D524 sp10;
 
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[2] < 0x80) {
-        sp10.v[2] = 0x80;
+    if (sp10.vz < 0x80) {
+        sp10.vz = 0x80;
     }
-    if (sp10.v[2] > 0x2140) {
-        sp10.v[2] = 0x2140;
+    if (sp10.vz > 0x2140) {
+        sp10.vz = 0x2140;
     }
-    func_8017D5A4(a0, sp10.v);
+    func_8017D5A4(a0, &sp10.vx);
 }
 
 
@@ -4329,13 +4329,13 @@ void func_8017FB10(s32 a0)
         guess_ClearVelocityAndSetGravity(a0);
         guess_SetLocalVelocity(a0, ((Unkstruct_800B5CB8 *)a0)->unk70 * 12 + (s32)&D_8019C970);
 
-        in.v[0] = 0;
-        in.v[1] = 0;
-        in.v[2] = 0x10;
+        in.vx = 0;
+        in.vy = 0;
+        in.vz = 0x10;
         guess_RotTransSVWithObjMatrix(a0, (s32)&in, (s32)&out);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = out.v[0];
-        ((Unkstruct_800B5CB8 *)a0)->unkA = out.v[1];
-        uStack_c = out.v[2];
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = out.vx;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = out.vy;
+        uStack_c = out.vz;
         ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)a0)->unkE = uStack_c;

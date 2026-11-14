@@ -3658,14 +3658,14 @@ void func_8017E2B8(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    sel = (sp10.v[0] < -0xC38);
+    sel = (sp10.vx < -0xC38);
     if (sel)
         sel = 0xA00;
     else
         sel = 0x600;
     ((Unkstruct_8017CF48 *)a0)->unk22 = sel;
 
-    func_8017E414(a0, sp10.v);
+    func_8017E414(a0, &sp10.vx);
 }
 
 
@@ -3688,7 +3688,7 @@ void func_8017E374(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80188C84[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017E414(a0, sp10.v);
+    func_8017E414(a0, &sp10.vx);
 }
 
 

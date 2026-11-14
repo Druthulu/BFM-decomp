@@ -3234,14 +3234,14 @@ void func_8017F304(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     lo = -0x1440;
-    if (sp10.v[0] < lo) {
-        sp10.v[0] = lo;
+    if (sp10.vx < lo) {
+        sp10.vx = lo;
     }
     lo = -0x10c0;
-    if (sp10.v[0] > lo) {
-        sp10.v[0] = lo;
+    if (sp10.vx > lo) {
+        sp10.vx = lo;
     }
-    func_8017F53C(a0, sp10.v);
+    func_8017F53C(a0, &sp10.vx);
 }
 
 
@@ -3263,10 +3263,10 @@ void func_8017F3D4(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BC4[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = -0x1720;
-    sp10.v[1] = -0x202;
-    sp10.v[2] = 0xF00;
-    func_8017F53C(a0, sp10.v);
+    sp10.vx = -0x1720;
+    sp10.vy = -0x202;
+    sp10.vz = 0xF00;
+    func_8017F53C(a0, &sp10.vx);
 }
 
 
@@ -3293,9 +3293,9 @@ void func_8017F48C(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BC8[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = -0x1280;
-    sp10.v[2] = 0x11A0;
-    func_8017F53C(a0, sp10.v);
+    sp10.vx = -0x1280;
+    sp10.vz = 0x11A0;
+    func_8017F53C(a0, &sp10.vx);
 }
 
 

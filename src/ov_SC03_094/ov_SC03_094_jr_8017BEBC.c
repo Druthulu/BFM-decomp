@@ -2997,7 +2997,7 @@ void func_8017D3B8(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018B488[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D6D0(a0, sp10.v);
+    func_8017D6D0(a0, &sp10.vx);
 }
 
 
@@ -3020,26 +3020,26 @@ void func_8017D458(s32 a0) {
 
     /* Clamp sp10.v[0] */
     lim = -0x5C0;
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (v0 < lim) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     lim = -0x5C0;
     if (lim < v1) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
     /* Clamp sp10.v[2] */
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     lim = 0x1340;
     if (lim < v1) {
-        sp10.v[2] = lim;
+        sp10.vz = lim;
     }
 
-    func_8017D6D0(a0, sp10.v);
+    func_8017D6D0(a0, &sp10.vx);
 }
 
 
@@ -3063,26 +3063,26 @@ void func_8017D544(s32 a0) {
 
     /* Clamp sp10.v[0] min */
     lim = -0x6C0;
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (v0 < lim) {
-        sp10.v[0] = -0x6C0;
+        sp10.vx = -0x6C0;
     }
 
     /* Clamp sp10.v[0] max */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     lim = -0x6C0;
     if (lim < v1) {
-        sp10.v[0] = -0x6C0;
+        sp10.vx = -0x6C0;
     }
 
     /* Clamp sp10.v[2] max */
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     lim = 0x18C0;
     if (lim < v1) {
-        sp10.v[2] = 0x18C0;
+        sp10.vz = 0x18C0;
     }
 
-    func_8017D6D0(a0, sp10.v);
+    func_8017D6D0(a0, &sp10.vx);
 }
 
 
@@ -3106,7 +3106,7 @@ void func_8017D630(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018B494[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D6D0(a0, sp10.v);
+    func_8017D6D0(a0, &sp10.vx);
 }
 
 

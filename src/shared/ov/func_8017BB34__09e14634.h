@@ -12,17 +12,17 @@ void func_8017BB34(s32 param_1, s32 param_2)
     svec = *(SV4_8017BB34 *)param_2;
     (*(SV4_8017BB34*)&D_8018F934) = svec;
 
-    v0.v[0] = -*(s16 *)(param_2 + 0xc);
-    v0.v[1] = *(u16 *)(param_2 + 8);
-    v0.v[2] = 0;
-    v1.v[0] = 0;
-    v1.v[1] = 0;
-    v1.v[2] = -*(s16 *)(param_2 + 0xa);
+    v0.vx = -*(s16 *)(param_2 + 0xc);
+    v0.vy = *(u16 *)(param_2 + 8);
+    v0.vz = 0;
+    v1.vx = 0;
+    v1.vy = 0;
+    v1.vz = -*(s16 *)(param_2 + 0xa);
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
-    mtx.t[0] = (s32)svec.v[0];
-    mtx.t[1] = (s32)svec.v[1];
-    mtx.t[2] = (s32)svec.v[2];
+    mtx.t[0] = (s32)svec.vx;
+    mtx.t[1] = (s32)svec.vy;
+    mtx.t[2] = (s32)svec.vz;
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
 

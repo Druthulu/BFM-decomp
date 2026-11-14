@@ -2663,7 +2663,7 @@ extern void func_8017D0F4(void *a0);
 extern void func_8017D05C(void);
 extern void (*D_80187F34[])(void);
 extern s16 D_80187F38[];
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern void func_8017D1D0(s32 param_1, s16 *param_2);
 extern void func_8017D130(s32 a0);
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);

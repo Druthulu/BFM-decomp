@@ -129,7 +129,7 @@ extern void func_80037004(void);
  * the incomplete typedef is later completed by the TU's own full definition
  * (identical redeclaration is legal). This is a pointer-only use here, so the
  * type's spelling has no effect on codegen. */
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 
 /* ---- data ---- */
 extern s32 D_800A4EA4;
@@ -2314,8 +2314,8 @@ extern s16 D_800A4EF0;
 
 s32 func_8002F4E4(u8 *a0) {
     extern Rsc24 D_800A4640[];
-    extern Owner4EE8 *D_800A4EE8;
-    Owner4EE8 *a2;
+    extern Unkstruct_8002F4E4 *D_800A4EE8;
+    Unkstruct_8002F4E4 *a2;
     s32 idx;
     s32 lvl;
     s32 val;
@@ -2382,7 +2382,7 @@ extern s16 D_800A4EF0;
 extern void func_8002F620(void);
 
 void func_8002F5C8(u8 *a0) {
-    extern Owner4EE8 *D_800A4EE8;
+    extern Unkstruct_8002F4E4 *D_800A4EE8;
     s16 *p = &D_800A4EF0;
     u16 temp;
 
@@ -4324,7 +4324,7 @@ void func_80031FC8(void) {
 
 
 extern Rec14 *D_80068304[];
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 extern s16 D_800A4EF0;
 extern u16 D_800A46E8[];
 extern s8 D_800A4F17;
@@ -4446,7 +4446,7 @@ done:
 
 
 extern Rec14 *D_80068304[];
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 extern s16 D_800A4EF0;
 extern u16 D_800A46E8[];
 extern s8 D_800A4F17;
@@ -4630,7 +4630,7 @@ done:
 
 
 extern Rec14 *D_80068304[];
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 extern s16 D_800A4EF0;
 extern u16 D_800A46E8[];
 extern s8 D_800A4F17;
@@ -4793,7 +4793,7 @@ done:
 
 
 extern Rec14 *D_80068304[];
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 extern s16 D_800A4EF0;
 extern u16 D_800A46E8[];
 
@@ -6406,7 +6406,7 @@ void func_800342E8(u8 *a0, s32 a1) {
 extern Rec12_800_b_2 D_80068A54[];
 extern u8 D_8006AED8[];
 extern u16 D_800A46E8[];
-extern Owner4EE8 *D_800A4EE8;
+extern Unkstruct_8002F4E4 *D_800A4EE8;
 extern s16 D_800A4EF0;
 
 extern s32 func_8003310C(s32);

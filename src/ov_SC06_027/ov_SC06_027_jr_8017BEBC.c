@@ -2858,9 +2858,9 @@ void func_8017D104(s32 param_1) {
 
     L.a = guess_g_CameraFollowPos;
     L.b = guess_g_CameraFollowPos;
-    ret = ratan2(L.a.v[0], L.a.v[2]) & 0xFFF;
-    if (L.a.v[1] > -0x500) {
-        L.a.v[1] = -0x500;
+    ret = ratan2(L.a.vx, L.a.vz) & 0xFFF;
+    if (L.a.vy > -0x500) {
+        L.a.vy = -0x500;
     }
     func_8017D1C0(param_1, &L.a, &L.b, ret);
 }

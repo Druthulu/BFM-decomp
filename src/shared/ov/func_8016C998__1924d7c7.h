@@ -7,7 +7,7 @@ void func_8016C998(s32 param_1)
     u16 *psVar7;
     s32 r;
     short i;
-    extern Slot_998 D_8018EE98[];
+    extern Blk_8016CF04_8016CF04 D_8018EE98[];
 
     psVar7 = *(u16 **)(param_1 + 0x34);
     if (*psVar7 != 1) {

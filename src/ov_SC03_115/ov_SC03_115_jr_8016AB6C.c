@@ -2794,7 +2794,7 @@ void func_8016C998(s32 param_1)
     u16 *psVar7;
     s32 r;
     short i;
-    extern Slot_998 D_801944B0[];
+    extern Blk_8016CF04_8016CF04 D_801944B0[];
 
     psVar7 = *(u16 **)(param_1 + 0x34);
     if (*psVar7 != 1) {
@@ -2852,11 +2852,11 @@ extern Blk20 D_800AE620;
 short func_8016CBC0(void)
 {
 
-    extern Blk_8016CBC0 D_801944B0[];
+    extern Blk_8016CF04_8016CF04 D_801944B0[];
   Poly_8016CBC0 p0;
   Poly_8016CBC0 p1;
   Mtx8_8016CBC0 mtx;
-  Blk_8016CBC0 *blk;
+  Blk_8016CF04_8016CF04 *blk;
   Rec_8016CBC0 *sub;
   Rec_8016CBC0 *pv;
   short uVar9;
@@ -2890,7 +2890,7 @@ short func_8016CBC0(void)
     blk = &D_801944B0[i];
     if (blk->f0 != 0)
     {
-      sub = blk->ent;
+      sub = blk->unk4.v1.unk0;
       uVar9 = blk->f1;
       iVar3 = blk->f2;
       col = blk->f3;
@@ -3038,15 +3038,15 @@ short func_8016CF04(s32 param_1, s32 param_2) {
     rot[1] = 0;
     rot[2] = 0;
     ApplyMatrixSV(mtx, rot, out);
-    p->ent[(u8)p->f1].a = ((Unkstruct_8016CF04 *)param_1)->unk6   + out[0];
-    p->ent[(u8)p->f1].b = ((Unkstruct_8016CF04 *)param_1)->unkA + out[1];
-    p->ent[(u8)p->f1].c = ((Unkstruct_8016CF04 *)param_1)->unkE + out[2];
+    p->unk4.v0.ent[(u8)p->f1].a = ((Unkstruct_8016CF04 *)param_1)->unk6   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].b = ((Unkstruct_8016CF04 *)param_1)->unkA + out[1];
+    p->unk4.v0.ent[(u8)p->f1].c = ((Unkstruct_8016CF04 *)param_1)->unkE + out[2];
     rot[0] = -rot[0];
     rot[1] = -rot[1];
     ApplyMatrixSV(mtx, rot, out);
-    p->ent[(u8)p->f1].d = ((Unkstruct_8016CF04 *)param_1)->unk6   + out[0];
-    p->ent[(u8)p->f1].e = ((Unkstruct_8016CF04 *)param_1)->unkA + out[1];
-    p->ent[(u8)p->f1].g = ((Unkstruct_8016CF04 *)param_1)->unkE + out[2];
+    p->unk4.v0.ent[(u8)p->f1].d = ((Unkstruct_8016CF04 *)param_1)->unk6   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].e = ((Unkstruct_8016CF04 *)param_1)->unkA + out[1];
+    p->unk4.v0.ent[(u8)p->f1].g = ((Unkstruct_8016CF04 *)param_1)->unkE + out[2];
     return 0;
 }
 

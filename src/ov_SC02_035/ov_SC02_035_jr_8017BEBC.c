@@ -2831,11 +2831,11 @@ void func_8017D0F4(void *a0) {
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern u16 guess_GetPadPressed(s32 *a0);
 extern s16 D_80187F38[];
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern void func_8017D1D0(s32 param_1, s16 *param_2);
 
 void func_8017D130(s32 a0) {
-    Blk8_80126940 sp10;
+    SVECTOR sp10;
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
@@ -2844,7 +2844,7 @@ void func_8017D130(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80187F38[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D1D0(a0, sp10.v);
+    func_8017D1D0(a0, &sp10.vx);
 }
 
 

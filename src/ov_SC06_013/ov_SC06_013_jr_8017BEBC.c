@@ -2929,7 +2929,7 @@ void func_8017D25C(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_801826E4[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D39C(a0, sp10.v);
+    func_8017D39C(a0, &sp10.vx);
 }
 
 
@@ -2953,7 +2953,7 @@ void func_8017D2FC(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_801826E8[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D39C(a0, sp10.v);
+    func_8017D39C(a0, &sp10.vx);
 }
 
 

@@ -3094,11 +3094,11 @@ extern void guess_CopyVec3HighHalves(s32, s32*);
 extern void func_8017E33C(s32, s16*);
 
 
-extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern s32 D_801BA588;
 
 void func_8017E180(s32 param_1) {
-    Blk8_80126940 arr[3];
+    SVECTOR arr[3];
     s32 r;
     s32 a0;
     s32 a1;
@@ -3109,23 +3109,23 @@ void func_8017E180(s32 param_1) {
     r = func_8012E544(0x14B);
     if (r != 0) {
         guess_CopyVec3HighHalves(r + 4, (s32*)&arr[1]);
-        if (arr[1].v[0] < -0x200) {
-            arr[1].v[0] = -0x200;
+        if (arr[1].vx < -0x200) {
+            arr[1].vx = -0x200;
         }
-        if (arr[1].v[0] > 0x200) {
-            arr[1].v[0] = 0x200;
+        if (arr[1].vx > 0x200) {
+            arr[1].vx = 0x200;
         }
     } else {
         arr[1] = guess_g_CameraFollowPos;
     }
-    if (arr[0].v[0] < -0x108) {
-        arr[0].v[0] = -0x108;
+    if (arr[0].vx < -0x108) {
+        arr[0].vx = -0x108;
     }
-    if (arr[0].v[0] > 0x108) {
-        arr[0].v[0] = 0x108;
+    if (arr[0].vx > 0x108) {
+        arr[0].vx = 0x108;
     }
-    a1 = arr[0].v[0];
-    a0 = arr[1].v[0];
+    a1 = arr[0].vx;
+    a0 = arr[1].vx;
     *(s16*)((s32)&arr[0] + 2) = -0x102;
     *(s16*)((s32)&arr[0] + 4) = -0x200;
     v1 = a1 - a0;
@@ -3133,8 +3133,8 @@ void func_8017E180(s32 param_1) {
         v1 = a0 - a1;
     }
     CAST_ALIAS(s32, param_1, 0x14) = (v1 * 0x280) / 0x400 + 0x320;
-    t = arr[0].v[0];
-    arr[0].v[0] = t - t * (s16)(((Unkstruct_8017CF48 *)param_1)->unk10 - 0x320) / 640;
+    t = arr[0].vx;
+    arr[0].vx = t - t * (s16)(((Unkstruct_8017CF48 *)param_1)->unk10 - 0x320) / 640;
     switch (D_801BA588) {
     case 0:
         ((Unkstruct_8017CF48 *)param_1)->unk20 = 0;

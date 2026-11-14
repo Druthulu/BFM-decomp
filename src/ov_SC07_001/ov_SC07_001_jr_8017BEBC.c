@@ -2878,8 +2878,8 @@ extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_Player
 extern s16 D_80184F8C[];
 
 void func_8017DC7C(s32 a0) {
-    extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
-    Blk8_80126940 sp10;
+    extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+    SVECTOR sp10;
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
@@ -2889,23 +2889,23 @@ void func_8017DC7C(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    if (sp10.v[0] >= 0x841) {
-        sp10.v[0] = 0x840;
+    if (sp10.vx >= 0x841) {
+        sp10.vx = 0x840;
     }
-    if (sp10.v[1] < -0xF00) {
-        sp10.v[1] = -0xF00;
-    } else if (sp10.v[1] >= -0x3FF) {
-        sp10.v[1] = -0x400;
+    if (sp10.vy < -0xF00) {
+        sp10.vy = -0xF00;
+    } else if (sp10.vy >= -0x3FF) {
+        sp10.vy = -0x400;
     }
-    if (sp10.v[2] >= -0x4BF && sp10.v[1] >= -0x53F) {
-        sp10.v[1] = -0x540;
+    if (sp10.vz >= -0x4BF && sp10.vy >= -0x53F) {
+        sp10.vy = -0x540;
     }
 
-    func_8017DF14(a0, sp10.v);
+    func_8017DF14(a0, &sp10.vx);
 
-    sp10.v[0] = sp10.v[0] >> 4;
-    sp10.v[1] = (sp10.v[1] + 0xF00) * 120 / 2816;
-    ((void (*)(s32, s16 *))func_8017E278)(a0, sp10.v);
+    sp10.vx = sp10.vx >> 4;
+    sp10.vy = (sp10.vy + 0xF00) * 120 / 2816;
+    ((void (*)(s32, s16 *))func_8017E278)(a0, &sp10.vx);
 }
 
 
@@ -2919,8 +2919,8 @@ extern s16 D_80184F90[];
 
 void func_8017DDD4(s32 a0) {
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
-    extern Blk8_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
-    Blk8_80126940 sp10;
+    extern SVECTOR guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+    SVECTOR sp10;
     u8 t;
     s32 ang;
     s32 n;
@@ -2932,26 +2932,26 @@ void func_8017DDD4(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
 
-    ang = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
+    ang = ratan2(sp10.vx, sp10.vz) & 0xFFF;
 
-    if (sp10.v[1] < -0xF00) {
-        sp10.v[1] = -0xF00;
-    } else if (sp10.v[1] >= -0x53F) {
-        sp10.v[1] = -0x540;
+    if (sp10.vy < -0xF00) {
+        sp10.vy = -0xF00;
+    } else if (sp10.vy >= -0x53F) {
+        sp10.vy = -0x540;
     }
 
-    func_8017E0AC(a0, sp10.v, ang);
+    func_8017E0AC(a0, &sp10.vx, ang);
 
-    sp10.v[1] = (sp10.v[1] + 0xF00) * 120 / 2816;
+    sp10.vy = (sp10.vy + 0xF00) * 120 / 2816;
 
     ang -= 0x800;
     n = ang * 320;
     if (n < 0) {
         n += 0xFFF;
     }
-    sp10.v[0] = n >> 12;
+    sp10.vx = n >> 12;
 
-    func_8017E278(a0, sp10.v);
+    func_8017E278(a0, &sp10.vx);
 }
 
 

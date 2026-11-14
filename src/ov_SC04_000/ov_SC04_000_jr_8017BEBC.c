@@ -4249,19 +4249,19 @@ void func_8017EE5C(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
     sp18 = guess_g_CameraFollowPos;
 
-    if (sp10.v[0] < -0x140) sp10.v[0] = -0x140;
-    if (sp10.v[0] >= 0x141) sp10.v[0] = 0x140;
-    if (sp10.v[1] < -0x260) sp10.v[1] = -0x260;
-    if (sp10.v[2] >= 0x301) sp10.v[2] = 0x300;
-    if (sp10.v[2] < -0x100) sp10.v[2] = -0x380;
-    else sp10.v[2] = sp10.v[2] - 0x280;
+    if (sp10.vx < -0x140) sp10.vx = -0x140;
+    if (sp10.vx >= 0x141) sp10.vx = 0x140;
+    if (sp10.vy < -0x260) sp10.vy = -0x260;
+    if (sp10.vz >= 0x301) sp10.vz = 0x300;
+    if (sp10.vz < -0x100) sp10.vz = -0x380;
+    else sp10.vz = sp10.vz - 0x280;
 
-    if (sp18.v[0] < -0x2B0) sp18.v[0] = -0x2B0;
-    if (sp18.v[0] >= 0x2B1) sp18.v[0] = 0x2B0;
-    if (sp18.v[1] < -0x1D0) sp18.v[1] = -0x1D0;
-    if (sp18.v[2] < -0x380) sp18.v[2] = -0x380;
+    if (sp18.vx < -0x2B0) sp18.vx = -0x2B0;
+    if (sp18.vx >= 0x2B1) sp18.vx = 0x2B0;
+    if (sp18.vy < -0x1D0) sp18.vy = -0x1D0;
+    if (sp18.vz < -0x380) sp18.vz = -0x380;
 
-    func_8017F000(a0, sp10.v, sp18.v);
+    func_8017F000(a0, &sp10.vx, &sp18.vx);
 }
 
 

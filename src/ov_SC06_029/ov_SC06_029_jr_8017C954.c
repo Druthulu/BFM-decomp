@@ -3817,11 +3817,11 @@ void func_8017E83C(s32 a0) {
 
     sp10a = guess_g_CameraFollowPos;
     sp10b = guess_g_CameraFollowPos;
-    v0 = ratan2(sp10a.v[0], sp10a.v[2]);
-    sp10a.v[1] = -0x380;
-    sp10b.v[0] = 0;
-    sp10b.v[2] = 0;
-    func_8017E95C(a0, sp10a.v, sp10b.v, v0 & 0xfff);
+    v0 = ratan2(sp10a.vx, sp10a.vz);
+    sp10a.vy = -0x380;
+    sp10b.vx = 0;
+    sp10b.vz = 0;
+    func_8017E95C(a0, &sp10a.vx, &sp10b.vx, v0 & 0xfff);
 }
 
 
@@ -3835,10 +3835,10 @@ void func_8017E8DC(s32 a0) {
 
     sp10a = guess_g_CameraFollowPos;
     sp10b = guess_g_CameraFollowPos;
-    sp10a.v[1] = -0x380;
-    sp10b.v[0] = 0;
-    sp10b.v[2] = 0;
-    func_8017E95C(a0, sp10a.v, sp10b.v, 0);
+    sp10a.vy = -0x380;
+    sp10b.vx = 0;
+    sp10b.vz = 0;
+    func_8017E95C(a0, &sp10a.vx, &sp10b.vx, 0);
 }
 
 

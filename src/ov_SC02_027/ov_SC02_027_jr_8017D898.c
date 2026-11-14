@@ -3252,30 +3252,30 @@ void func_8017F2B8(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0A8[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[0] >= -0x62F) {
+    if (sp10.vx >= -0x62F) {
         lim = -0x580;
-        if (lim < sp10.v[0]) {
-            sp10.v[0] = lim;
+        if (lim < sp10.vx) {
+            sp10.vx = lim;
         }
         ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
     } else {
         mid = -0x740;
-        if (mid < sp10.v[0]) {
-            ((Unkstruct_8017CF48 *)a0)->unk2E = -0x740 - sp10.v[0];
+        if (mid < sp10.vx) {
+            ((Unkstruct_8017CF48 *)a0)->unk2E = -0x740 - sp10.vx;
         } else {
             ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
         }
     }
     ((Unkstruct_8017CF48 *)a0)->unk28 = func_80012F74(((Unkstruct_8017CF48 *)a0)->unk28, ((Unkstruct_8017CF48 *)a0)->unk2E, 4, 1);
     lim = -0x740;
-    if (sp10.v[0] < lim) {
-        sp10.v[0] = lim;
+    if (sp10.vx < lim) {
+        sp10.vx = lim;
     }
     lim = 0x780;
-    if (sp10.v[2] < lim) {
-        sp10.v[2] = lim;
+    if (sp10.vz < lim) {
+        sp10.vz = lim;
     }
-    func_8017F918(a0, sp10.v);
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3298,9 +3298,9 @@ void func_8017F3E8(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0AC[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = -0x740;
-    sp10.v[2] = 0x1020;
-    func_8017F918(a0, sp10.v);
+    sp10.vx = -0x740;
+    sp10.vz = 0x1020;
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3341,30 +3341,30 @@ void func_8017F498(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk5 = t;
     }
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[0] < -0x3C0) {
+    if (sp10.vx < -0x3C0) {
         lim = -0x540;
-        if (sp10.v[0] < -0x540) {
-            sp10.v[0] = lim;
+        if (sp10.vx < -0x540) {
+            sp10.vx = lim;
         }
         ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0B0[((Unkstruct_8017CF48 *)a0)->unk5];
     } else {
-        if (sp10.v[2] >= 0x1081) {
+        if (sp10.vz >= 0x1081) {
             s16 mid = -0x300;
-            if (sp10.v[0] < mid) {
-                ((Unkstruct_8017CF48 *)a0)->unk2E = mid - sp10.v[0];
+            if (sp10.vx < mid) {
+                ((Unkstruct_8017CF48 *)a0)->unk2E = mid - sp10.vx;
             } else {
                 ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
             }
         } else {
             s16 mid = -0x340;
-            if (sp10.v[0] < mid) {
-                ((Unkstruct_8017CF48 *)a0)->unk2E = mid - sp10.v[0];
+            if (sp10.vx < mid) {
+                ((Unkstruct_8017CF48 *)a0)->unk2E = mid - sp10.vx;
             } else {
                 ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
             }
         }
-        if (sp10.v[2] >= 0x1241) {
+        if (sp10.vz >= 0x1241) {
             ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0B0[((Unkstruct_8017CF48 *)a0)->unk5];
         } else {
             ((Unkstruct_8017CF48 *)a0)->unk14 = 0x12C;
@@ -3372,14 +3372,14 @@ void func_8017F498(s32 a0) {
     }
     ((Unkstruct_8017CF48 *)a0)->unk28 = func_80012F74(((Unkstruct_8017CF48 *)a0)->unk28, ((Unkstruct_8017CF48 *)a0)->unk2E, 4, 1);
     lim = -0x180;
-    if (lim < sp10.v[0]) {
-        sp10.v[0] = lim;
+    if (lim < sp10.vx) {
+        sp10.vx = lim;
     }
     lim = -0x380;
-    if (lim < sp10.v[1]) {
-        sp10.v[1] = lim;
+    if (lim < sp10.vy) {
+        sp10.vy = lim;
     }
-    func_8017F918(a0, sp10.v);
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3402,9 +3402,9 @@ void func_8017F624(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0B4[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = -0x240;
-    sp10.v[2] = 0x18E0;
-    func_8017F918(a0, sp10.v);
+    sp10.vx = -0x240;
+    sp10.vz = 0x18E0;
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3423,9 +3423,9 @@ void func_8017F6D4(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018F0B8[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0;
-    sp10.v[2] = 0x18E0;
-    func_8017F918(a0, sp10.v);
+    sp10.vx = 0;
+    sp10.vz = 0x18E0;
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3450,15 +3450,15 @@ void func_8017F780(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
     lim = 0x14B0;
-    sp10.v[0] = -0x190;
-    if (sp10.v[2] < lim) {
-        sp10.v[2] = lim;
+    sp10.vx = -0x190;
+    if (sp10.vz < lim) {
+        sp10.vz = lim;
     }
     lim = 0x16D0;
-    if (lim < sp10.v[2]) {
-        sp10.v[2] = lim;
+    if (lim < sp10.vz) {
+        sp10.vz = lim;
     }
-    func_8017F918(a0, sp10.v);
+    func_8017F918(a0, &sp10.vx);
 }
 
 
@@ -3483,11 +3483,11 @@ void func_8017F858(s32 a0) {
     }
     sp10 = guess_g_CameraFollowPos;
     lim = 0x1000;
-    sp10.v[0] = -0x240;
-    if (sp10.v[2] < lim) {
-        sp10.v[2] = lim;
+    sp10.vx = -0x240;
+    if (sp10.vz < lim) {
+        sp10.vz = lim;
     }
-    func_8017F918(a0, sp10.v);
+    func_8017F918(a0, &sp10.vx);
 }
 
 

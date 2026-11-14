@@ -2769,8 +2769,8 @@ extern void func_8017F894(void);
 extern void func_80181BC8(void);
 extern void func_801817A8(void);
 extern void func_8017E6C0(void *a0);
-extern St_8017E95C_r D_801B12F0[4];
-extern St_8017E95C_r D_801B12F8[4];
+extern Unkstruct_80181E08 D_801B12F0[4];
+extern Unkstruct_80181E08 D_801B12F8[4];
 extern void func_8017E95C(void);
 extern void (*D_801888B8[])();
 extern void func_80181E08(s32 arg0);
@@ -4211,7 +4211,7 @@ void func_80180D84(void *arg0) {
      * redefinition; cookbook §120: rename, don't remove) */
 
     extern s32 D_801270C8;
-    extern St_8017E95C_r D_801B12F0[4];
+    extern Unkstruct_80181E08 D_801B12F0[4];
     extern void guess_StartActorSequence(s32 a0, void * a1);
     extern void (*D_80188F18[])(void);
     extern u8 D_801889F8[];
@@ -5731,7 +5731,7 @@ void func_80182F98(void) {
 
 void func_8018300C(void) {
     extern void (*D_80188EDC[])(void);
-    extern St_8017E95C_r aD801B12F0[4] __asm__("D_801B12F0");
+    extern Unkstruct_80181E08 aD801B12F0[4] __asm__("D_801B12F0");
     s32 rec;
 
     rec = func_8012E544(0x2CD);

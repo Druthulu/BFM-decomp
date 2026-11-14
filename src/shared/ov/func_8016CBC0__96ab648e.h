@@ -3,11 +3,11 @@
 short func_8016CBC0(void)
 {
 
-    extern Blk_8016CBC0 D_8018EE98[];
+    extern Blk_8016CF04_8016CF04 D_8018EE98[];
   Poly_8016CBC0 p0;
   Poly_8016CBC0 p1;
   Mtx8_8016CBC0 mtx;
-  Blk_8016CBC0 *blk;
+  Blk_8016CF04_8016CF04 *blk;
   Rec_8016CBC0 *sub;
   Rec_8016CBC0 *pv;
   short uVar9;
@@ -41,7 +41,7 @@ short func_8016CBC0(void)
     blk = &D_8018EE98[i];
     if (blk->f0 != 0)
     {
-      sub = blk->ent;
+      sub = blk->unk4.v1.unk0;
       uVar9 = blk->f1;
       iVar3 = blk->f2;
       col = blk->f3;

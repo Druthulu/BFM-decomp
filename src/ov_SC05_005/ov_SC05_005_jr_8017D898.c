@@ -2888,24 +2888,24 @@ void func_8017EAEC(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_801860AC[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[0] < -0x1440) {
-        sp10.v[0] = -0x1440;
+    if (sp10.vx < -0x1440) {
+        sp10.vx = -0x1440;
     }
-    if (sp10.v[1] > -0x200) {
-        sp10.v[1] = -0x200;
+    if (sp10.vy > -0x200) {
+        sp10.vy = -0x200;
     }
-    if (sp10.v[0] > 0x1100) {
-        if (sp10.v[2] > -0x80) {
-            sp10.v[2] = -0x80;
+    if (sp10.vx > 0x1100) {
+        if (sp10.vz > -0x80) {
+            sp10.vz = -0x80;
         }
     }
-    sp18.v[0] = sp10.v[0] - rsin(((s16 *)base[8])[9]) / 128;
-    sp18.v[2] = sp10.v[2] - rcos(((s16 *)base[8])[9]) / 128;
-    sp18.v[1] = sp10.v[1];
-    r = KR_AS(s32, func_8017EE64)(D_80186058, sp10.v, sp18.v);
+    sp18.vx = sp10.vx - rsin(((s16 *)base[8])[9]) / 128;
+    sp18.vz = sp10.vz - rcos(((s16 *)base[8])[9]) / 128;
+    sp18.vy = sp10.vy;
+    r = KR_AS(s32, func_8017EE64)(D_80186058, &sp10.vx, &sp18.vx);
     /* §286: the store must ride the jal's delay slot -- see header. */
     D_801B1EB8 = func_80012DBC(D_801B1EB8, (s16)r, 4, (*(s16 *)(a0 + 0xA0) = r, 1));
-    func_8017EC98(a0, D_801B1EB8, sp10.v);
+    func_8017EC98(a0, D_801B1EB8, &sp10.vx);
 }
 
 

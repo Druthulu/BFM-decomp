@@ -3108,22 +3108,22 @@ void func_8017D654(s32 a0) {
     sp10 = *(Blk8_80126940_8017D654 *)&guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0x100) {
-        sp10.v[0] = -0x100;
+        sp10.vx = -0x100;
     } else if (v1 < 0x101) {
         /* v1 stays unchanged */
     } else {
-        sp10.v[0] = 0x100;
+        sp10.vx = 0x100;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < 0x9B0) {
-        sp10.v[2] = 0x9B0;
+        sp10.vz = 0x9B0;
     }
 
-    func_8017D730(a0, sp10.v);
+    func_8017D730(a0, &sp10.vx);
 }
 
 
@@ -3982,8 +3982,8 @@ void func_8017E6C0(void *a0) {
 extern void guess_ZeroMemory(void *a0, s32 a1);
 
 
-extern St_8017E95C_r D_801B12F0[4];
-extern St_8017E95C_r D_801B12F8[4];
+extern Unkstruct_80181E08 D_801B12F0[4];
+extern Unkstruct_80181E08 D_801B12F8[4];
 
 void func_8017E95C(void) {
     s32 i;
@@ -3998,12 +3998,12 @@ void func_8017E95C(void) {
 
 
 
-extern St_8017E95C_r D_801B12F0[4];
+extern Unkstruct_80181E08 D_801B12F0[4];
 extern void (*D_801888B8[])();
 extern void func_80181E08(s32 arg0);
 
 void func_8017E9B8(void) {
-    St_8017E95C_r *rec;
+    Unkstruct_80181E08 *rec;
     s32 i;
 
     rec = D_801B12F0;

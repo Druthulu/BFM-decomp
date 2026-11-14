@@ -3289,11 +3289,11 @@ void func_8017D3B0(s32 a0) {
     Blk8_80126940_8017D3B0 sp10;
 
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[0] < -0x170) {
-        sp10.v[0] = -0x170;
+    if (sp10.vx < -0x170) {
+        sp10.vx = -0x170;
     }
-    sp10.v[2] = -0x20;
-    func_8017D420(a0, sp10.v);
+    sp10.vz = -0x20;
+    func_8017D420(a0, &sp10.vx);
 }
 
 

@@ -3630,24 +3630,24 @@ void func_80181440(s32 a0) {
     sp10 = *(Blk8_80126940_80181440 *)guess_g_CameraFollowPos;
 
     lim = -0x40;
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (v0 < lim) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     lim = 0x40;
     if (lim < v1) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     lim = 0x4A0;
     if (lim < v1) {
-        sp10.v[2] = lim;
+        sp10.vz = lim;
     }
 
-    func_801815DC(a0, sp10.v);
+    func_801815DC(a0, &sp10.vx);
 }
 
 

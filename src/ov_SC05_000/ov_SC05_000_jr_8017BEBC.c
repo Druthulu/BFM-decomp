@@ -3322,16 +3322,16 @@ void func_8017D4A0(s32 param_1) {
     Blk8_80126940_8017D4A0 sp10;
 
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[1] < -0x4E0) {
-        sp10.v[1] = -0x4E0;
+    if (sp10.vy < -0x4E0) {
+        sp10.vy = -0x4E0;
     }
-    if (sp10.v[0] < -0x2D0) {
-        sp10.v[0] = -0x2D0;
+    if (sp10.vx < -0x2D0) {
+        sp10.vx = -0x2D0;
     }
-    if (sp10.v[0] > 0x2D0) {
-        sp10.v[0] = 0x2D0;
+    if (sp10.vx > 0x2D0) {
+        sp10.vx = 0x2D0;
     }
-    func_8017D538(param_1, sp10.v);
+    func_8017D538(param_1, &sp10.vx);
 }
 
 

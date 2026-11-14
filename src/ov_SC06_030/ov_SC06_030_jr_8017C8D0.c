@@ -2873,22 +2873,22 @@ void func_8017DB94(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xE0) {
-        sp10.v[0] = -0xE0;
+        sp10.vx = -0xE0;
     } else if (v1 < 0xE1) {
         /* v1 stays unchanged */
     } else {
-        sp10.v[0] = 0xE0;
+        sp10.vx = 0xE0;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < -0xE0) {
-        sp10.v[2] = -0xE0;
+        sp10.vz = -0xE0;
     }
 
-    func_8017DC70(a0, sp10.v);
+    func_8017DC70(a0, &sp10.vx);
 }
 
 

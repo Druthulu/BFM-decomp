@@ -4124,26 +4124,26 @@ void func_8017EB74(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (!(v0 < 0x101)) {
-        sp10.v[0] = 0x100;
+        sp10.vx = 0x100;
     }
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (v0 < -0x100) {
-        sp10.v[0] = -0x100;
+        sp10.vx = -0x100;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (!(v0 < 0x101)) {
-        sp10.v[2] = 0x100;
+        sp10.vz = 0x100;
     }
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < -0x100) {
-        sp10.v[2] = -0x100;
+        sp10.vz = -0x100;
     }
 
-    func_8017EC74(a0, sp10.v);
+    func_8017EC74(a0, &sp10.vx);
 }
 
 

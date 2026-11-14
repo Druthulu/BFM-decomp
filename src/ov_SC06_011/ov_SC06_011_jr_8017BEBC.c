@@ -3089,7 +3089,7 @@ void func_8017D5D0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80184104[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D8F0(a0, sp10.v);
+    func_8017D8F0(a0, &sp10.vx);
 }
 
 
@@ -3113,7 +3113,7 @@ void func_8017D670(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80184108[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D8F0(a0, sp10.v);
+    func_8017D8F0(a0, &sp10.vx);
 }
 
 
@@ -3137,7 +3137,7 @@ void func_8017D710(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018410C[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D8F0(a0, sp10.v);
+    func_8017D8F0(a0, &sp10.vx);
 }
 
 
@@ -3161,7 +3161,7 @@ void func_8017D7B0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80184110[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D8F0(a0, sp10.v);
+    func_8017D8F0(a0, &sp10.vx);
 }
 
 
@@ -3185,7 +3185,7 @@ void func_8017D850(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80184114[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D8F0(a0, sp10.v);
+    func_8017D8F0(a0, &sp10.vx);
 }
 
 

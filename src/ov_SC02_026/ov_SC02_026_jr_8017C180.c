@@ -2922,21 +2922,21 @@ void func_8017D508(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BEC[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    if (((u32)((u16)sp10.v[0] - 0x2C1) < 0x2BF) && (sp10.v[1] >= -0x35F) &&
-        ((u32)((u16)sp10.v[2] - 0x581) < 0x77F)) {
+    if (((u32)((u16)sp10.vx - 0x2C1) < 0x2BF) && (sp10.vy >= -0x35F) &&
+        ((u32)((u16)sp10.vz - 0x581) < 0x77F)) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x71;
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
         ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
         ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
         ((Unkstruct_8017CF48 *)a0)->unk30 = -0x50;
-    } else if (((u16)((u16)sp10.v[0] + 0x5FF) < 0x5FF) &&
-               ((u32)((u16)sp10.v[2] - 0x681) < 0x3FC)) {
+    } else if (((u16)((u16)sp10.vx + 0x5FF) < 0x5FF) &&
+               ((u32)((u16)sp10.vz - 0x681) < 0x3FC)) {
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x800;
         ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
         ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
         ((Unkstruct_8017CF48 *)a0)->unk30 = 0;
-    } else if (sp10.v[2] < 0x380) {
+    } else if (sp10.vz < 0x380) {
         s16 k = -0x50;                  /* §5a: born ABOVE the barrier so sched1 can hoist the li */
         ((Unkstruct_8017CF48 *)a0)->unk20 = 0x71;
         ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
@@ -2952,13 +2952,13 @@ void func_8017D508(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk30 = 0;
     }
     ((Unkstruct_8017CF48 *)a0)->unk32 = 0;
-    if (sp10.v[0] < -0x400) {
-        sp10.v[0] = -0x400;
+    if (sp10.vx < -0x400) {
+        sp10.vx = -0x400;
     }
-    if (sp10.v[1] >= -0x101) {
-        sp10.v[1] = -0x102;
+    if (sp10.vy >= -0x101) {
+        sp10.vy = -0x102;
     }
-    func_8017D780(a0, sp10.v);
+    func_8017D780(a0, &sp10.vx);
 }
 
 
@@ -2981,9 +2981,9 @@ void func_8017D6D0(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BF0[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[0] = 0x400;
-    sp10.v[2] = 0xE20;
-    func_8017D780(a0, sp10.v);
+    sp10.vx = 0x400;
+    sp10.vz = 0xE20;
+    func_8017D780(a0, &sp10.vx);
 }
 
 

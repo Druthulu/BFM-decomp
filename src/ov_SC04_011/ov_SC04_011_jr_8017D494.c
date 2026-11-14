@@ -4257,7 +4257,7 @@ void func_8018008C(s32 a0) {
     s32 s0 = a0;
     Blk8_80126940_8018008C local = guess_g_CameraFollowPos;
 
-    if (local.v[2] >= 0x1501) {
+    if (local.vz >= 0x1501) {
         D_801274E8 = local;
         D_80126954 = 0x12C;
         D_8012695C = 0x2EE;
@@ -4270,13 +4270,13 @@ void func_8018008C(s32 a0) {
         guess_SetMainCameraHandler((s32)func_80180050, 1);
     } else {
         s32 msg;
-        if (local.v[2] >= 0x901) {
+        if (local.vz >= 0x901) {
             msg = (s32)&D_80194328;
         } else {
-            if (local.v[0] >= 0x441) {
+            if (local.vx >= 0x441) {
                 msg = (s32)&D_80194314;
             } else {
-                if (local.v[2] >= 0x341) {
+                if (local.vz >= 0x341) {
                     msg = (s32)&D_80194300;
                 } else {
                     msg = (s32)&D_801942EC;
@@ -4286,10 +4286,10 @@ void func_8018008C(s32 a0) {
         func_80180570(msg);
     }
 
-    if (local.v[1] >= -0x67F) {
-        local.v[1] = -0x680;
+    if (local.vy >= -0x67F) {
+        local.vy = -0x680;
     }
-    func_801803D8(s0, local.v);
+    func_801803D8(s0, &local.vx);
 }
 
 
@@ -4318,25 +4318,25 @@ extern void func_801803D8(s32 param_1, s16 *param_2);
 void func_80180228(s32 a0) {
     Blk8_80126940_8018008C local = guess_g_CameraFollowPos;
 
-    if (local.v[0] < 0x340) {
-        local.v[0] = 0x340;
+    if (local.vx < 0x340) {
+        local.vx = 0x340;
     }
-    if (local.v[0] >= 0x6C1) {
-        local.v[0] = 0x6C0;
+    if (local.vx >= 0x6C1) {
+        local.vx = 0x6C0;
     }
-    if (local.v[2] < 0x1580) {
-        local.v[2] = 0x1580;
+    if (local.vz < 0x1580) {
+        local.vz = 0x1580;
     }
-    if (local.v[2] >= 0x1801) {
-        local.v[2] = 0x1800;
-    }
-
-    if (D_801274E8.v[1] != -0x782) {
-        D_801274E8.v[1] = guess_EaseToward(D_801274E8.v[1], -0x782, 0x10);
+    if (local.vz >= 0x1801) {
+        local.vz = 0x1800;
     }
 
-    local.v[1] = D_801274E8.v[1];
-    func_801803D8(a0, local.v);
+    if (D_801274E8.vy != -0x782) {
+        D_801274E8.vy = guess_EaseToward(D_801274E8.vy, -0x782, 0x10);
+    }
+
+    local.vy = D_801274E8.vy;
+    func_801803D8(a0, &local.vx);
 }
 
 

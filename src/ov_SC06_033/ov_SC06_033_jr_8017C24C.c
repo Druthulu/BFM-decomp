@@ -3001,15 +3001,15 @@ void func_8017D7E0(s32 param_1) {
 
     sp10 = guess_g_CameraFollowPos;
 
-    if (sp10.v[2] > 0xF80) {
-        sp10.v[2] = 0xF80;
+    if (sp10.vz > 0xF80) {
+        sp10.vz = 0xF80;
     }
 
-    if (sp10.v[2] < 0x240) {
+    if (sp10.vz < 0x240) {
         lo = -0x1C0; hi = 0x1C0; zc = -0x100; v2E = 0; v32 = 0xA0;
-    } else if (sp10.v[2] < 0x6C0) {
+    } else if (sp10.vz < 0x6C0) {
         lo = -0x1C0; hi = 0x1C0; zc = -0x100; v2E = 0; v32 = 0x40;
-    } else if (sp10.v[2] < 0xC00) {
+    } else if (sp10.vz < 0xC00) {
         lo = 0; hi = 0; zc = -0x100; v2E = 0; v32 = 0;
     } else {
         lo = -0x140; hi = 0x140; zc = -0x1000; v2E = 0; v32 = 0;
@@ -3019,7 +3019,7 @@ void func_8017D7E0(s32 param_1) {
     switch (*p) {
     case 0:
         zc = -0x100;
-        if (sp10.v[2] > 0xAC0) {
+        if (sp10.vz > 0xAC0) {
             zc = -0x1000;
             ((Unkstruct_8017CF48 *)param_1)->unk20 = 0xE3;
             *p = 1;
@@ -3028,7 +3028,7 @@ void func_8017D7E0(s32 param_1) {
         break;
     case 1:
         zc = -0x1000;
-        if (sp10.v[2] < 0x9C0) {
+        if (sp10.vz < 0x9C0) {
             zc = -0x100;
             ((Unkstruct_8017CF48 *)param_1)->unk20 = 0x2AA;
             *p = 0;
@@ -3037,20 +3037,20 @@ void func_8017D7E0(s32 param_1) {
         break;
     }
 
-    if (sp10.v[0] < lo) {
-        sp10.v[0] = lo;
-    } else if (sp10.v[0] > hi) {
-        sp10.v[0] = hi;
+    if (sp10.vx < lo) {
+        sp10.vx = lo;
+    } else if (sp10.vx > hi) {
+        sp10.vx = hi;
     }
-    if (sp10.v[1] < zc) {
-        sp10.v[1] = zc;
+    if (sp10.vy < zc) {
+        sp10.vy = zc;
     }
 
     q = &D_801274E8;
-    *q = guess_EaseToward((s32)*q, (s32)sp10.v[0], 8);
-    D_801274EA = sp10.v[1];
-    D_801274EC = sp10.v[2];
-    if ((u16)sp10.v[2] >= 0xAC1 && (u16)sp10.v[2] < 0xC00) {
+    *q = guess_EaseToward((s32)*q, (s32)sp10.vx, 8);
+    D_801274EA = sp10.vy;
+    D_801274EC = sp10.vz;
+    if ((u16)sp10.vz >= 0xAC1 && (u16)sp10.vz < 0xC00) {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = 0x4B0;
     } else {
         ((Unkstruct_8017CF48 *)param_1)->unk14 = D_801952F8[((Unkstruct_8017CF48 *)param_1)->unk5];

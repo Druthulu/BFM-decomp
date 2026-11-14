@@ -2855,22 +2855,22 @@ void func_8017EB14(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xB40) {
-        sp10.v[0] = -0xB40;
+        sp10.vx = -0xB40;
     }
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 >= 0x941) {
-        sp10.v[0] = 0x940;
+        sp10.vx = 0x940;
     }
 
     /* Clamp sp10.v[1] */
-    v0 = sp10.v[1];
+    v0 = sp10.vy;
     if (v0 >= -0x2FF) {
-        sp10.v[1] = -0x300;
+        sp10.vy = -0x300;
     }
 
-    func_8017EBFC(a0, sp10.v);
+    func_8017EBFC(a0, &sp10.vx);
 }
 
 

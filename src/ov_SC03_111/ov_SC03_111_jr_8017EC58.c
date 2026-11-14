@@ -3524,17 +3524,17 @@ void func_80180A10(s32 a0) {
     }
 
     sp10 = guess_g_CameraFollowPos;
-    if (sp10.v[1] < -0x332) {
-        sp10.v[1] = -0x332;
+    if (sp10.vy < -0x332) {
+        sp10.vy = -0x332;
     }
-    if (sp10.v[2] < -0x620) {
-        sp10.v[2] = -0x620;
+    if (sp10.vz < -0x620) {
+        sp10.vz = -0x620;
     }
 
-    s1 = ratan2(sp10.v[0], sp10.v[2]) & 0xFFF;
-    sp18[0] = (u16)sp10.v[0];
+    s1 = ratan2(sp10.vx, sp10.vz) & 0xFFF;
+    sp18[0] = (u16)sp10.vx;
     sp18[1] = 0;
-    sp18[2] = (u16)sp10.v[2];
+    sp18[2] = (u16)sp10.vz;
 
     v = (s16)func_80013294(&D_80188A4C, sp18);
 
@@ -3544,7 +3544,7 @@ void func_80180A10(s32 a0) {
         ((Unkstruct_80180A10_2 *)a0)->unk20 = v * 683 / 1568 + 0xE3;
     }
 
-    func_80180B80(a0, sp10.v, s1);
+    func_80180B80(a0, &sp10.vx, s1);
 }
 
 

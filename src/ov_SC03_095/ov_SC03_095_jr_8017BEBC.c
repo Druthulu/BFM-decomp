@@ -2892,7 +2892,7 @@ void func_8017D208(s32 a0) {
         ((Unkstruct_8017CF48 *)a0)->unk14 = D_801849F0[t];
     }
     sp10 = guess_g_CameraFollowPos;
-    func_8017D390(a0, sp10.v);
+    func_8017D390(a0, &sp10.vx);
 }
 
 
@@ -2916,26 +2916,26 @@ void func_8017D2A8(s32 a0) {
 
     /* Clamp sp10.v[0] */
     lim = 0x5C0;
-    v0 = sp10.v[0];
+    v0 = sp10.vx;
     if (v0 < lim) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     lim = 0x940;
     if (lim < v1) {
-        sp10.v[0] = lim;
+        sp10.vx = lim;
     }
 
     /* Clamp sp10.v[2] */
-    v1 = sp10.v[2];
+    v1 = sp10.vz;
     lim = 0x1340;
     if (lim < v1) {
-        sp10.v[2] = lim;
+        sp10.vz = lim;
     }
 
-    func_8017D390(a0, sp10.v);
+    func_8017D390(a0, &sp10.vx);
 }
 
 

@@ -2973,26 +2973,26 @@ void func_8017D388(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xF80) {
-        sp10.v[0] = -0xF80;
+        sp10.vx = -0xF80;
     } else if (v1 < 0x941) {
         /* v1 stays unchanged */
     } else {
-        sp10.v[0] = 0x940;
+        sp10.vx = 0x940;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < -0x100) {
-        sp10.v[2] = -0x100;
+        sp10.vz = -0x100;
     } else if (v0 < 0x481) {
         /* v0 stays unchanged */
     } else {
-        sp10.v[2] = 0x480;
+        sp10.vz = 0x480;
     }
 
-    func_8017D63C(a0, sp10.v);
+    func_8017D63C(a0, &sp10.vx);
 }
 
 
@@ -3014,22 +3014,22 @@ void func_8017D474(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xF50) {
-        sp10.v[0] = -0xF50;
+        sp10.vx = -0xF50;
     } else if (v1 < -0xEAF) {
         /* v1 stays unchanged */
     } else {
-        sp10.v[0] = -0xEB0;
+        sp10.vx = -0xEB0;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < 0x900) {
-        sp10.v[2] = 0x900;
+        sp10.vz = 0x900;
     }
 
-    func_8017D63C(a0, sp10.v);
+    func_8017D63C(a0, &sp10.vx);
 }
 
 
@@ -3052,26 +3052,26 @@ void func_8017D550(s32 a0) {
     sp10 = guess_g_CameraFollowPos;
 
     /* Clamp sp10.v[0] */
-    v1 = sp10.v[0];
+    v1 = sp10.vx;
     if (v1 < -0xF80) {
-        sp10.v[0] = -0xF80;
+        sp10.vx = -0xF80;
     } else if (v1 < 0x941) {
         /* v1 stays unchanged */
     } else {
-        sp10.v[0] = 0x940;
+        sp10.vx = 0x940;
     }
 
     /* Clamp sp10.v[2] */
-    v0 = sp10.v[2];
+    v0 = sp10.vz;
     if (v0 < 0x43E) {
-        sp10.v[2] = 0x43E;
+        sp10.vz = 0x43E;
     } else if (v0 < 0x481) {
         /* v0 stays unchanged */
     } else {
-        sp10.v[2] = 0x480;
+        sp10.vz = 0x480;
     }
 
-    func_8017D63C(a0, sp10.v);
+    func_8017D63C(a0, &sp10.vx);
 }
 
 

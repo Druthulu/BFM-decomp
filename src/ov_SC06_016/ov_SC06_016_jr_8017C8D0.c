@@ -2894,25 +2894,25 @@ void func_8017DC34(s32 a0) {
     s32 r;
 
     sp10 = guess_g_CameraFollowPos;
-    sp10.v[1] = -0x280;
-    if (sp10.v[0] < -0x80) {
-        sp10.v[0] = -0x80;
+    sp10.vy = -0x280;
+    if (sp10.vx < -0x80) {
+        sp10.vx = -0x80;
     }
-    if (sp10.v[0] >= 0x81) {
-        sp10.v[0] = 0x80;
+    if (sp10.vx >= 0x81) {
+        sp10.vx = 0x80;
     }
     r = func_8012E544(0x2D8);
     lim = -0x110;
     if (r != 0 && ((Unkstruct_800B5CB8 *)r)->unkDC == 1) {
         lim = 0x160;
     }
-    if (sp10.v[2] < lim) {
-        sp10.v[2] = lim;
+    if (sp10.vz < lim) {
+        sp10.vz = lim;
     }
-    if (sp10.v[2] >= 0x241) {
-        sp10.v[2] = 0x240;
+    if (sp10.vz >= 0x241) {
+        sp10.vz = 0x240;
     }
-    func_8017DD14(a0, sp10.v);
+    func_8017DD14(a0, &sp10.vx);
 }
 
 
