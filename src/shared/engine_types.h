@@ -250,7 +250,12 @@ struct S8016380C {
     struct M8_tag m;
 };
 
-typedef struct { s32 w[4]; } Blk16_8018A8B8;
+typedef struct {
+    /* 0x0000 */ union {
+        struct { s32 w[4]; } v0;
+        struct { u32 unk0; u32 unk4; u32 unk8; u32 unkC; } v1;
+    } unk0;
+} Blk16_8018A8B8; /* size = 0x10 */
 
 struct U8 {
     char b[8];
@@ -4394,7 +4399,7 @@ typedef struct {
 } TblEntry_80189854;
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
 typedef Blk16_8018A8B8 B16;
-typedef Prim_1412A8 B16_SC01_005_8017ED5C;
+typedef Blk16_8018A8B8 B16_SC01_005_8017ED5C;
 typedef struct { char c[4]; } Blk4_SC03_097_8017D898;
 typedef struct { u8 b0, b1, b2, b3; } Blk4_SC06_018_8018AB00;
 typedef struct { u8 b[4]; } __attribute__((packed, aligned(1))) Blk4_SC07_000_8017F8B8;
