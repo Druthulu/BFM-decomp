@@ -2,7 +2,7 @@
   "files": {
     ".claude/agents/auditor.md": {
       "base": "3.32.8",
-      "sha": "c03a9564cbef1948c6d510248310e26cc42f396fbb25edcc93ad7a7fc8531f14",
+      "sha": "c70d1066ad807729bdd7a6311ef83680c21e72f0535798f30765694fd49153b8",
       "user": null
     },
     ".claude/agents/memory-curator.md": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "ebe3097b",
-  "installed": "2026-11-12T21:39:26Z",
+  "git": "61462f4e",
+  "installed": "2026-11-14T04:46:17Z",
   "package": null,
-  "phase": "3.32.16",
-  "upstream_version": "3.32.16"
+  "phase": "3.32.18",
+  "upstream_version": "3.32.18"
 }
