@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" font-family="sans-serif">
+<rect width="1000" height="630" fill="white"/>
+<text x="500" y="20" text-anchor="middle" font-size="14" font-weight="bold">BFM-decomp — struct consolidation and cast views (from docs/readability-progress.tsv)</text>
+<text x="70" y="46" font-size="13" font-weight="bold">Placeholder struct types by outcome</text><text x="70" y="62" font-size="11" fill="#555">4,112 of 4,112 placeholder types pending at b39bed001 (config/struct_dispositions.tsv; folded = applied link + twin + value)</text>
+<line x1="70" y1="270.0" x2="980" y2="270.0" stroke="#ddd"/><text x="64" y="274.0" text-anchor="end" font-size="11" fill="#555">0</text>
+<line x1="70" y1="222.5" x2="980" y2="222.5" stroke="#ddd"/><text x="64" y="226.5" text-anchor="end" font-size="11" fill="#555">1,028</text>
+<line x1="70" y1="175.0" x2="980" y2="175.0" stroke="#ddd"/><text x="64" y="179.0" text-anchor="end" font-size="11" fill="#555">2,056</text>
+<line x1="70" y1="127.5" x2="980" y2="127.5" stroke="#ddd"/><text x="64" y="131.5" text-anchor="end" font-size="11" fill="#555">3,084</text>
+<line x1="70" y1="80.0" x2="980" y2="80.0" stroke="#ddd"/><text x="64" y="84.0" text-anchor="end" font-size="11" fill="#555">4,112</text>
+<line x1="70.0" y1="270" x2="70.0" y2="275" stroke="#888"/><text x="70.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.45 T1</text>
+<line x1="373.3" y1="270" x2="373.3" y2="275" stroke="#888"/><text x="373.3" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-13 P3.45 T2</text>
+<line x1="676.7" y1="270" x2="676.7" y2="275" stroke="#888"/><text x="676.7" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-14 P3.45 T14</text>
+<line x1="980.0" y1="270" x2="980.0" y2="275" stroke="#888"/><text x="980.0" y="288" text-anchor="middle" font-size="10" fill="#333">2026-11-14 P3.45 T5</text>
+<polyline fill="none" stroke="#d62728" stroke-width="2" points="70.0,80.0 373.3,80.0 676.7,80.0 980.0,80.0"/>
+<circle cx="70.0" cy="80.0" r="3" fill="#d62728"/>
+<circle cx="373.3" cy="80.0" r="3" fill="#d62728"/>
+<circle cx="676.7" cy="80.0" r="3" fill="#d62728"/>
+<circle cx="980.0" cy="80.0" r="3" fill="#d62728"/>
+<text x="730" y="46" font-size="12" fill="#d62728">pending (4,112)</text>
+<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,270.0 373.3,270.0 676.7,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="270.0" r="3" fill="#2ca02c"/>
+<circle cx="373.3" cy="270.0" r="3" fill="#2ca02c"/>
+<circle cx="676.7" cy="270.0" r="3" fill="#2ca02c"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#2ca02c"/>
+<text x="730" y="60" font-size="12" fill="#2ca02c">folded (0)</text>
+<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,270.0 373.3,270.0 676.7,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="270.0" r="3" fill="#1f77b4"/>
+<circle cx="373.3" cy="270.0" r="3" fill="#1f77b4"/>
+<circle cx="676.7" cy="270.0" r="3" fill="#1f77b4"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#1f77b4"/>
+<text x="730" y="74" font-size="12" fill="#1f77b4">absorbed (0)</text>
+<polyline fill="none" stroke="#9467bd" stroke-width="2" points="70.0,270.0 373.3,270.0 676.7,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="373.3" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="676.7" cy="270.0" r="3" fill="#9467bd"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#9467bd"/>
+<text x="730" y="88" font-size="12" fill="#9467bd">survivors (0)</text>
+<polyline fill="none" stroke="#8c564b" stroke-width="2" points="70.0,270.0 373.3,270.0 676.7,270.0 980.0,270.0"/>
+<circle cx="70.0" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="373.3" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="676.7" cy="270.0" r="3" fill="#8c564b"/>
+<circle cx="980.0" cy="270.0" r="3" fill="#8c564b"/>
+<text x="730" y="102" font-size="12" fill="#8c564b">walls (0)</text>
+<text x="70" y="346" font-size="13" font-weight="bold">Cast views by source census</text><text x="70" y="362" font-size="11" fill="#555">482,681 of 482,681 cast sites pending at b39bed001 (struct_twins --sources; kept-cast K apart, not in the total)</text>
+<line x1="70" y1="570.0" x2="980" y2="570.0" stroke="#ddd"/><text x="64" y="574.0" text-anchor="end" font-size="11" fill="#555">0</text>
+<line x1="70" y1="522.5" x2="980" y2="522.5" stroke="#ddd"/><text x="64" y="526.5" text-anchor="end" font-size="11" fill="#555">120,670</text>
+<line x1="70" y1="475.0" x2="980" y2="475.0" stroke="#ddd"/><text x="64" y="479.0" text-anchor="end" font-size="11" fill="#555">241,340</text>
+<line x1="70" y1="427.5" x2="980" y2="427.5" stroke="#ddd"/><text x="64" y="431.5" text-anchor="end" font-size="11" fill="#555">362,011</text>
+<line x1="70" y1="380.0" x2="980" y2="380.0" stroke="#ddd"/><text x="64" y="384.0" text-anchor="end" font-size="11" fill="#555">482,681</text>
+<line x1="70.0" y1="570" x2="70.0" y2="575" stroke="#888"/><text x="70.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-14 P3.45 T14</text>
+<line x1="980.0" y1="570" x2="980.0" y2="575" stroke="#888"/><text x="980.0" y="588" text-anchor="middle" font-size="10" fill="#333">2026-11-14 P3.45 T5</text>
+<polyline fill="none" stroke="#d62728" stroke-width="2" points="70.0,380.0 980.0,380.0"/>
+<circle cx="70.0" cy="380.0" r="3" fill="#d62728"/>
+<circle cx="980.0" cy="380.0" r="3" fill="#d62728"/>
+<text x="730" y="346" font-size="12" fill="#d62728">pending (482,681)</text>
+<polyline fill="none" stroke="#1f77b4" stroke-width="2" points="70.0,448.1 980.0,448.1"/>
+<circle cx="70.0" cy="448.1" r="3" fill="#1f77b4"/>
+<circle cx="980.0" cy="448.1" r="3" fill="#1f77b4"/>
+<text x="730" y="360" font-size="12" fill="#1f77b4">C (typed casts) (309,741)</text>
+<polyline fill="none" stroke="#ff7f0e" stroke-width="2" points="70.0,501.9 980.0,501.9"/>
+<circle cx="70.0" cy="501.9" r="3" fill="#ff7f0e"/>
+<circle cx="980.0" cy="501.9" r="3" fill="#ff7f0e"/>
+<text x="730" y="374" font-size="12" fill="#ff7f0e">raw P+I+X+M (172,940)</text>
+<polyline fill="none" stroke="#7f7f7f" stroke-width="2" points="70.0,556.8 980.0,556.8"/>
+<circle cx="70.0" cy="556.8" r="3" fill="#7f7f7f"/>
+<circle cx="980.0" cy="556.8" r="3" fill="#7f7f7f"/>
+<text x="730" y="388" font-size="12" fill="#7f7f7f">kept-cast K (33,608)</text>
+<polyline fill="none" stroke="#2ca02c" stroke-width="2" points="70.0,570.0 980.0,570.0"/>
+<circle cx="70.0" cy="570.0" r="3" fill="#2ca02c"/>
+<circle cx="980.0" cy="570.0" r="3" fill="#2ca02c"/>
+<text x="730" y="402" font-size="12" fill="#2ca02c">reinterpretation + wall (0)</text>
+</svg>

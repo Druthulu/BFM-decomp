@@ -135,6 +135,10 @@
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 | 2026-11-13 | P3.44 T13: names columns | `6a5dfa9a2` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 | 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
+| 2026-11-13 | P3.45 T1: struct inventory (from summary) | `5d8fc366b` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-13 | P3.45 T2: merge proposals (from summary) | `596f3f888` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-14 | P3.45 T14: source census (from summary) | `d6d319060` | — | — | — | — | — | — | **—** | — | — | — | — | — | — | — | — |
+| 2026-11-14 | P3.45 T5: consolidation columns | `b39bed001` | 0 | 0 | 0 | 0 | 114919 | 459287 | **172940** | 309741 | 4749 (4124 / 593) | 2042 | 452 / 2469 | 14430 (98.1 %) | 26 | 243 | 0 / 0 |
 
 **How to read it.** A *lying declaration* is a call site whose in-scope declaration names fewer parameters
 than the callee's own definition. It is not a style problem: on this processor an argument travels in a
@@ -155,6 +159,7 @@ because what a caller does with the return register is a caller byte fact (C0543
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 | 2026-11-13 | P3.44 T13: names columns | `6a5dfa9a2` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 | 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
+| 2026-11-14 | P3.45 T5: consolidation columns | `b39bed001` | 92486 | 513 | 285 | 228 | 91460 | 98448 | 39 | 108 | 206 | 98095 |
 
 **How to read the names columns.** The units come from `docs/leverage.tsv` (`docs/leverage.md`), which
 `tools/leverage_rank.py` regenerates after names land; a row whose commit has no `leverage.tsv`, or where
@@ -180,6 +185,7 @@ does not ledger; the P3.42 row predates the ledger's rows, so its *other* also h
 | 2026-11-13 | P3.44 T8: signature close (from summary) | `5dea03cae` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
 | 2026-11-13 | P3.44 T10: milestone gate | `8bac8eee3` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
 | 2026-11-13 | P3.44 T14: signature columns | `0a42e9d40` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
+| 2026-11-14 | P3.45 T5: consolidation columns | `b39bed001` | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3264 | 24 | 297 |
 
 **How to read the signature columns.** `tools/sig_evidence.py` measures every function's calling contract from
 the original bytes and `--check` compares it with the C's declarations and definitions; the rules are the rule
@@ -191,4 +197,41 @@ exist yet at a row's commit counts as 0. The rows labeled *(from summary)* and t
 counts come from those tasks' summaries, not from a census run; their ledger counts are read at their commits.
 To snapshot after a clean R22 (`make clean` empties `build/`), regenerate the signature census first:
 `tools/sig_evidence.py -j 16` (about 1 min), then `--snapshot` (P3.44-1).
+
+## Consolidation
+
+![Struct consolidation and cast views over time](readability-consolidation.svg)
+
+| date | label | commit | placeholders | folded link | folded twin | folded value | absorbed | survivors | walls | pending | cast sites | C | P | I | X | M | kept-cast K | reinterpretation | wall | cast pending |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2026-11-13 | P3.45 T1: struct inventory (from summary) | `5d8fc366b` | 4112 | 0 | 0 | 0 | 0 | 0 | 0 | 4112 | — | — | 112219 | 46489 | 10309 | 3917 | — | — | — | — |
+| 2026-11-13 | P3.45 T2: merge proposals (from summary) | `596f3f888` | 4112 | 0 | 0 | 0 | 0 | 0 | 0 | 4112 | — | — | — | — | — | — | — | — | — | — |
+| 2026-11-14 | P3.45 T14: source census (from summary) | `d6d319060` | 4112 | 0 | 0 | 0 | 0 | 0 | 0 | 4112 | 482681 | 309741 | 112224 | 46489 | 10309 | 3918 | 33608 | 0 | 0 | 482681 |
+| 2026-11-14 | P3.45 T5: consolidation columns | `b39bed001` | 4112 | 0 | 0 | 0 | 0 | 0 | 0 | 4112 | 482681 | 309741 | 112224 | 46489 | 10309 | 3918 | 33608 | 0 | 0 | 482681 |
+
+**How to read the consolidation columns.** The first eight count the *placeholder* struct and union types (types
+the decompiler invented, not PsyQ's and not already ledgered: `tools/struct_twins.py --inventory`) through their
+rows in `config/struct_dispositions.tsv`, as `struct_twins.py --dispositions --check` prints them. *Placeholders* is
+the denominator (4,112 at P3.45 T1); the seven parts after it always sum to it. *Folded link* counts types folded
+into another by an applied fold of class global, pointer, body or link (a shared object, pointer flow or body view
+proved them one type, P3.45 T2's evidence); *folded twin* counts applied folds of exact layout twins (3+ fields) and
+*folded value* applied folds of a shared value shape onto a PsyQ type. A fold is applied once its ledger reason ends
+` applied:<commit>`; a proposed fold is still pending. *Absorbed* counts types applied into their real parent (variant
+data as an overlay or union inside it); *survivors* the real root types kept, each with its root object cited;
+*walls* the refusals where the bytes change after a second attempt up the lever ladder, each with its evidence.
+*Pending* is everything else: undisposed, apart, no-evidence, and unapplied folds and absorbs.
+
+The cast columns come from the source census, `struct_twins.py --sources --check`. *Cast sites* is its
+denominator: every cast site in the matched C, by form: *C* the struct-view casts `((T *)e)->f`, and the raw
+dereferences *P* `*(T *)(base + k)`, *I* `*(T *)ident`, *X* `((T *)e)[i]` and *M* `M2C_FIELD(base, T *, k)`
+(the type census's four forms, `tools/type_census.py`).
+*Kept-cast K* counts sites inside the kept-cast macros; they are casts kept on purpose and are reported apart, not
+in *cast sites*. *Reinterpretation* and *wall* are the sites the ledger explains (a real reinterpretation of the
+same memory, or a wall with evidence), read from the census's `ledgered remainder:` line; until that line exists
+they are 0. *Cast pending* = cast sites - reinterpretation - wall. A raw site covered by a `RESIDUAL(<cause>)` is
+pending here, not ledgered.
+
+The rows labeled *(from summary)* come from the P3.45 task summaries, not a census run at that commit: T1 and T2
+carry 4,112 placeholders all pending (T2's 202 folds were proposals, not yet applied), T1's raw P/I/X/M are
+`type_census.py --check-casts`, T14's cast columns are its source census; a blank cell was not measured.
 
