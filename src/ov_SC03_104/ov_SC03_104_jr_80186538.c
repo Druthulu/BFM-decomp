@@ -4662,7 +4662,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80153BD8(s32 arg);
     extern s32 func_80153BF0(s32 a0);
     void func_80189374(u8 *param_1) {
-        ((Unkstruct_80182624 *)param_1)->unkFE = 0;
+        ((Unkstruct_80181C00 *)param_1)->unkFE = 0;
         if (func_80153BD8((s32)param_1)) {
             ((void (*)(u8 *))func_80153BF0)(param_1);
         }
