@@ -1060,3 +1060,5 @@ C0607 | Hub guards for struct-merge evidence: key slots by routine copies, test 
 C0608 | Width evidence for cast-only struct types comes from their cast-view accesses | structs,widths,views,merge,evidence,census | 2026-11-13 | 3.45/T2 | 3.45 T2.c5
 C0609 | Source census: untyped-arg judgment comes from void * SDK prototypes and kept-cast macros, not missing prototypes | struct,cast,census,prototype,t14 | 2026-11-14 | 3.45/T14 | -
 C0610 | Family union-find over pointer sources: hub guard splits pool helpers; the many-offset actor family is the real parent | struct,family,hub,actor,t14 | 2026-11-14 | 3.45/T14 | -
+C0611 | Retire a generated block: provenance line, generator refuses, consumers repointed; never quote /* */ in a comment | header,generator,provenance,struct_types,H1 | 2026-11-14 | 3.45/T6 | P3.45 T6.c1
+C0612 | Fleet-wide struct fold traps: asm-label declarators, no anonymous unions in cc1, absorb +off needs source rebase | struct,fold,restruct,cc1,union,consolidation | 2026-11-14 | 3.45/T6 | P3.45 T6.c2
