@@ -1313,7 +1313,7 @@ Unkstruct_a9323cad	define	Unkstruct_80142E38_4	owner:func_80142E38	no E1/E2 evid
 Unkstruct_af38b2c4	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_d43a5e52	define	Unkstruct_80142DC4_4	owner:func_80142DC4	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
 Unkstruct_d7d15cf7	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
-Unkstruct_db705b9d	define	Unkstruct_80180C68_3	owner:func_80180C68	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
+Unkstruct_db705b9d	define	Unkstruct_80180F98	owner:func_80180C68	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
 Unkstruct_db994e6c	define	Unkstruct_8016EBA8_2	owner:func_8016EBA8	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
 Unkstruct_f4f51141	define	Unkstruct_8017DD8C	owner:func_8017DD8C	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
 Unkstruct_fd7248ff	define	Unkstruct_8016E9EC_2	owner:func_8016E9EC	no E1/E2 evidence; flat layout of the struct map record; 14 TNC sites in 7 bodies
