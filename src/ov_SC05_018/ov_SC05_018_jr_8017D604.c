@@ -6871,7 +6871,7 @@ s32 func_80183F28_body(void *a0) __asm__("func_80183F28");
 
 s32 func_80183F28_body(void *a0)
 {
-    if (((Unkstruct_80183F28 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 2) {
+    if (((Unkstruct_8017F68C *)*(s32 *)((s32)a0 + 0x64))->unk2 != 2) {
         return 0;
     }
 
@@ -6883,9 +6883,9 @@ s32 func_80183F28_body(void *a0)
         s32 p;
         u16 st2;
         p = *(s32 *)((s32)a0 + 0x64);
-        st2 = ((Unkstruct_80183F28 *)p)->unk2;
+        st2 = ((Unkstruct_8017F68C *)p)->unk2;
         st2++;
-        ((Unkstruct_80183F28 *)p)->unk2 = st2;
+        ((Unkstruct_8017F68C *)p)->unk2 = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;

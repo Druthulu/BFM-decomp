@@ -28802,12 +28802,6 @@ typedef struct {
 } Unkstruct_8003491C; /* size = 0x8 */
 
 typedef struct {
-    /* Unkstruct_17b31777: P3.40 T3 band rank 4908; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x2];
-    /* 0x0002 */ u16 unk2;
-} Unkstruct_80183F28; /* size = 0x4 */
-
-typedef struct {
     /* Unkstruct_17cbdf86: P3.40 T3 band rank 4909; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x6];
     /* 0x0006 */ u16 unk6;
