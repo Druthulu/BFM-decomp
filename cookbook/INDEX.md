@@ -1063,3 +1063,6 @@ C0610 | Family union-find over pointer sources: hub guard splits pool helpers; t
 C0611 | Retire a generated block: provenance line, generator refuses, consumers repointed; never quote /* */ in a comment | header,generator,provenance,struct_types,H1 | 2026-11-14 | 3.45/T6 | P3.45 T6.c1
 C0612 | Fleet-wide struct fold traps: asm-label declarators, no anonymous unions in cc1, absorb +off needs source rebase | struct,fold,restruct,cc1,union,consolidation | 2026-11-14 | 3.45/T6 | P3.45 T6.c2
 C0613 | Key SHARED_FN cross-header bodies by header file, cite an includer's address (false twin joins) | struct_twins,shared,SHARED_FN,twins,census | 2026-11-14 | 3.45/T6 | P3.45 T6.c3
+C0614 | A dense value-shape test must not let pad fields cover the size | struct,fold,value-shape,twins,consolidation | 2026-11-14 | 3.45/T7 | T7.c1 group list
+C0615 | Exact layout twins: alignment attributes are load-bearing and not in the layout hash | struct,fold,twins,alignment,packed | 2026-11-14 | 3.45/T7 | T7 reviewers r1,r2,r5,r8
+C0616 | Applying many struct folds with restruct --fold-row: costs and engine walls | struct,fold,restruct,consolidation,batch | 2026-11-14 | 3.45/T7 | T7.c2 link batches
