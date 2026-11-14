@@ -5380,7 +5380,7 @@ extern void func_801330E0(void *, s16 *, s32);
 s32 func_80182438(s32 a0) {
     s32 v1;
 
-    v1 = ((Unkstruct_801803FC *)a0)->unkCC;
+    v1 = ((Unkstruct_801803FC *)a0)->unkCC.v0.unkCC;
     if (v1 != 0) {
         ((Unkstruct_801803FC_2 *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
         ((Unkstruct_801803FC_2 *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;

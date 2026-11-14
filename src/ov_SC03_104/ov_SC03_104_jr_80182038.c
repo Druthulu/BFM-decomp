@@ -4052,11 +4052,11 @@ void func_80183D54(s32 a0) {
 /* $v0 at exit: result of func_801330E0 or entry $v0, unset; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC03_104 objdump */
 s32 func_80183D98(s32 a0)
 {
-    s32 v1 = ((Unkstruct_80183D98_4 *)a0)->unkCC;
+    s32 v1 = ((Unkstruct_801803FC *)a0)->unkCC.v0.unkCC;
     if (v1) {
-        ((Unkstruct_80183D98_5 *)v1)->unk8 = ((Unkstruct_80183D98_4 *)a0)->unk6;
-        ((Unkstruct_80183D98_5 *)v1)->unkA = ((Unkstruct_80183D98_4 *)a0)->unkA;
-        ((Unkstruct_80183D98_5 *)v1)->unkC = ((Unkstruct_80183D98_4 *)a0)->unkE;
+        ((Unkstruct_80183D98_5 *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
+        ((Unkstruct_80183D98_5 *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;
+        ((Unkstruct_80183D98_5 *)v1)->unkC = ((Unkstruct_801803FC *)a0)->unkE;
         func_801330E0((void*)(v1 + 8), (s16*)(v1 + 8), -256);
     }
 }
