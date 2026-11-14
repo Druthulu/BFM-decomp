@@ -25356,7 +25356,10 @@ typedef struct {
     /* Unkstruct_20cd99be: P3.40 T3 band rank 3962; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
     /* 0x0000 */ s16 unk0;
     /* 0x0002 */ s16 unk2;
-} Unkstruct_8018A3C8_2; /* size = 0x4 */
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ u8 pad6[0xe];
+    /* 0x0014 */ s32 unk14;
+} Unkstruct_8018A3C8_2; /* size = 0x18 */
 
 typedef struct {
     /* Unkstruct_226e4a4e: P3.40 T3 band rank 3966; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
@@ -27521,15 +27524,6 @@ typedef struct {
     /* 0x0004 */ u8 pad4[0x18];
     /* 0x001c */ s32 unk1C;
 } Unkstruct_8017F1E8; /* size = 0x20 */
-
-typedef struct {
-    /* Unkstruct_c87ee453: P3.40 T3 band rank 4542; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */
-    /* 0x0000 */ s16 unk0;
-    /* 0x0002 */ s16 unk2;
-    /* 0x0004 */ s16 unk4;
-    /* 0x0006 */ u8 pad6[0xe];
-    /* 0x0014 */ s32 unk14;
-} Unkstruct_80187720; /* size = 0x18 */
 
 typedef struct {
     /* Unkstruct_c892ac38: P3.40 T3 band rank 4543; 4 TNC sites in 1 bodies; struct map 4 sites; restruct.py --decide-band */

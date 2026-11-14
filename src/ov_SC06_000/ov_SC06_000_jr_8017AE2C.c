@@ -10931,11 +10931,11 @@ void func_80187720(u8 *a0)
 
     a1 = 0;
     v1 = a0;
-    ((Unkstruct_80187720 *)a0)->unk2 = 0;
-    ((Unkstruct_80187720 *)a0)->unk0 = 0;
+    ((Unkstruct_8018A3C8_2 *)a0)->unk2 = 0;
+    ((Unkstruct_8018A3C8_2 *)a0)->unk0 = 0;
     do {
-        ((Unkstruct_80187720 *)a0)->unk4 = 0;
-        ((Unkstruct_80187720 *)v1)->unk14 = 0;
+        ((Unkstruct_8018A3C8_2 *)a0)->unk4 = 0;
+        ((Unkstruct_8018A3C8_2 *)v1)->unk14 = 0;
         v1 += 4;
         a1 += 1;
         a0 += 2;
