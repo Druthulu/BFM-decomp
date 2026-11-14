@@ -4694,7 +4694,7 @@ void func_80184B50(u8 *param_1)
     s1 = *(u8 **)(s0 + 0x50);
     s2 = s0 + 0x20;
 
-    if (*(s32 *)(((Unkstruct_80184B50_2 *)s0)->unk40 + 0xE0) & 2) {
+    if (*(s32 *)(((Unkstruct_8018526C *)s0)->unk40 + 0xE0) & 2) {
         func_80185218(s0);
         return;
     }
@@ -4705,7 +4705,7 @@ void func_80184B50(u8 *param_1)
         }
     }
 
-    factor = ((Unkstruct_80184B50_2 *)s0)->unk54 * (((Unkstruct_80184B50 *)s1)->unk12 / ((Unkstruct_80184B50_2 *)s0)->unk56);
+    factor = ((Unkstruct_8018526C *)s0)->unk54 * (((Unkstruct_80184B50 *)s1)->unk12 / ((Unkstruct_8018526C *)s0)->unk56);
 
     ((Unkstruct_80184B50_3 *)s2)->unk14 = ((Unkstruct_80184B50 *)s1)->unk4 + ((factor * ((Unkstruct_80184B50 *)s1)->unkC) >> 12);
     ((Unkstruct_80184B50_3 *)s2)->unk16 = ((Unkstruct_80184B50 *)s1)->unk6 + ((factor * ((Unkstruct_80184B50 *)s1)->unkE) >> 12);
