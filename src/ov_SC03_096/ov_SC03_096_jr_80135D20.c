@@ -1186,9 +1186,9 @@ void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     }
 
     pb4 = *(u16 **)&D_8018104C;
-    ((Unkstruct_80135260 *)a2)->unk0     = pb4[0] + *(s32 *)(a1 + 0x48);
-    ((Unkstruct_80135260 *)a2)->unk2 = pb4[1] + *(s32 *)(a1 + 0x4C);
-    ((Unkstruct_80135260 *)a2)->unk4 = pb4[2] + *(s32 *)(a1 + 0x50);
+    ((Vec3s *)a2)->x     = pb4[0] + *(s32 *)(a1 + 0x48);
+    ((Vec3s *)a2)->y = pb4[1] + *(s32 *)(a1 + 0x4C);
+    ((Vec3s *)a2)->z = pb4[2] + *(s32 *)(a1 + 0x50);
 
     *(u16 *)guess_g_BoxHitCenterX = *(u16 *)guess_g_BoxHitCenterX + *(s32 *)(a1 + 0x48);
     guess_g_BoxHitCenterY = guess_g_BoxHitCenterY + *(s32 *)(a1 + 0x4C);

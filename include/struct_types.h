@@ -3049,14 +3049,6 @@ typedef struct {
 } Unkstruct_80135004; /* size = 0x8 */
 
 typedef struct {
-    /* Unkstruct_80135260: P37 struct map 390 sites in 130 bodies; evidence {'PV': 143, 'P': 143, 'L': 145}; type_folds.tsv evidence single-fn; P3.40 T2 */
-    /* 0x0000 */ s16 unk0;
-    /* 0x0002 */ s16 unk2;
-    /* 0x0004 */ s16 unk4;
-    /* 0x0006 */ u8 pad6[0x2];
-} Unkstruct_80135260; /* size = 0x8 */
-
-typedef struct {
     /* Unkstruct_f49880fd: P37 struct map 2000 sites in 125 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
     /* 0x0000 */ u8 pad0[0x18];
     /* 0x0018 */ s16 unk18;
@@ -14347,7 +14339,7 @@ typedef struct {
     /* 0x0102 */ u8 pad102[0x2];
 } Unkstruct_80181E18; /* size = 0x104 */
 
-typedef Unkstruct_80135260 Unkstruct_80136A94_2; /* size = 0x8 */
+typedef Vec3s Unkstruct_80136A94_2; /* size = 0x8 */
 
 typedef struct {
     /* Unkstruct_46c55caf: P3.40 T3 band rank 1831; 9 TNC sites in 3 bodies; struct map 9 sites; restruct.py --decide-band */
