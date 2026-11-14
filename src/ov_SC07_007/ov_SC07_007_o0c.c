@@ -724,10 +724,10 @@ void func_8013B598(s32 a0, u16 *a1) {
     extern Spr_8013B598_8013B598 D_801C7A10[];
 
     D_801C7A10[a0].f0 = 1;
-    D_801C7A10[a0].f4 = ((Src_8013B598_8013B598 *)a1)->f0;
-    D_801C7A10[a0].f6 = ((Src_8013B598_8013B598 *)a1)->f2;
-    D_801C7A10[a0].f8 = ((Src_8013B598_8013B598 *)a1)->f4;
-    D_801C7A10[a0].fC = 0x100;
+    D_801C7A10[a0].unk4 = ((Src_8013B598_8013B598 *)a1)->f0;
+    D_801C7A10[a0].unk6 = ((Src_8013B598_8013B598 *)a1)->f2;
+    D_801C7A10[a0].unk8 = ((Src_8013B598_8013B598 *)a1)->f4;
+    D_801C7A10[a0].unkC = 0x100;
 }
 
 
@@ -735,13 +735,13 @@ void func_8013B598(s32 a0, u16 *a1) {
 
 void func_8013B6A0(s32 idx, u16 *src, s32 val)
 {
-    extern Ent_8013B6A0_8013B6A0 D_801C7A10[];
+    extern E_3B7AC_8013B7AC D_801C7A10[];
 
     D_801C7A10[idx].f0 = 1;
-    D_801C7A10[idx].f4 = ((Src_8013B6A0_8013B6A0 *)src)->f0;
-    D_801C7A10[idx].f6 = ((Src_8013B6A0_8013B6A0 *)src)->f2;
-    D_801C7A10[idx].f8 = ((Src_8013B6A0_8013B6A0 *)src)->f4;
-    D_801C7A10[idx].fC = val;
+    D_801C7A10[idx].unk4 = ((Src_8013B6A0_8013B6A0 *)src)->f0;
+    D_801C7A10[idx].unk6 = ((Src_8013B6A0_8013B6A0 *)src)->f2;
+    D_801C7A10[idx].unk8 = ((Src_8013B6A0_8013B6A0 *)src)->f4;
+    D_801C7A10[idx].unkC = val;
 }
 
 
@@ -765,7 +765,7 @@ extern s32 D_801C7B2C;
 
 void func_8013B83C(s32 a0, s32 a1, s32 a2) {
                        /* sizeof 0x1C */
-    extern Ent_8013B83C D_801C7A10[];
+    extern E_3B7AC_8013B7AC D_801C7A10[];
     extern s32 D_801C7AAC;
     extern s32 D_801C7AB0;
     extern s32 D_801C7AB4;
@@ -789,9 +789,9 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     D_801C7B2C = a2;
     for (i = 0; i < 4; i++) {
         D_801C7A10[i].f0 = 0;
-        D_801C7A10[i].f4 = D_801C7A10[i].f6 = D_801C7A10[i].f8 = 0x6000;
-        D_801C7A10[i].fC = 0x100;
-        D_801C7A10[i].f18 = 0;
+        D_801C7A10[i].unk4 = D_801C7A10[i].unk6 = D_801C7A10[i].unk8 = 0x6000;
+        D_801C7A10[i].unkC = 0x100;
+        D_801C7A10[i].unk18 = 0;
     }
     switch (((Unkstruct_8013B83C *)a0)->unk0) {
     case 0x42:

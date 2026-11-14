@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8013B83C(s32 a0, s32 a1, s32 a2) {
                        /* sizeof 0x1C */
-    extern Ent_8013B83C D_801DAA08_e[] __asm__("D_8018FA00");
+    extern E_3B7AC_8013B7AC D_801DAA08_e[] __asm__("D_8018FA00");
     extern s32 D_8018FA9C;
     extern s32 D_8018FAA0;
     extern s32 D_8018FAA4;
@@ -26,9 +26,9 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
     D_8018FB1C = a2;
     for (i = 0; i < 4; i++) {
         D_801DAA08_e[i].f0 = 0;
-        D_801DAA08_e[i].f4 = D_801DAA08_e[i].f6 = D_801DAA08_e[i].f8 = 0x6000;
-        D_801DAA08_e[i].fC = 0x100;
-        D_801DAA08_e[i].f18 = 0;
+        D_801DAA08_e[i].unk4 = D_801DAA08_e[i].unk6 = D_801DAA08_e[i].unk8 = 0x6000;
+        D_801DAA08_e[i].unkC = 0x100;
+        D_801DAA08_e[i].unk18 = 0;
     }
     switch (*(u8 *)a0) {
     case 0x42:

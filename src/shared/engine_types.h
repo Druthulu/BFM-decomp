@@ -1993,7 +1993,7 @@ typedef struct {
         u32 uv;     /* 0x0C */
         u32 wh;     /* 0x10 */
     } Sp_80175DA8;
-typedef Ent_8013B6A0_8013B6A0 Spr_8013B598_8013B598;
+typedef E_3B7AC_8013B7AC Spr_8013B598_8013B598;
 typedef struct { u8 pad[0x10]; Pt2_80182FD4 pt[12]; } Src_80182FD4;
 typedef Src_80182FD4 Src_80180F98;
 typedef Src_80182FD4 Src_80184370;

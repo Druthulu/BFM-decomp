@@ -411,7 +411,16 @@ typedef struct Bar {
 } Bar;
 typedef struct { u32 w[38]; } Blk152;
 typedef struct { s32 f0; } E4;
-typedef struct { s32 f0; u8 pad[0x18]; } E_3B7AC_8013B7AC;
+typedef struct {
+    /* 0x0000 */ s32 f0;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+    /* 0x0008 */ u16 unk8;
+    /* 0x000a */ u8 padA[0x2];
+    /* 0x000c */ s32 unkC;
+    /* 0x0010 */ u8 pad10[0x8];
+    /* 0x0018 */ s32 unk18;
+} E_3B7AC_8013B7AC; /* size = 0x1c */
 typedef E_3B7AC_8013B7AC E_3B7AC;
 typedef struct Foo {
     unsigned char pad[0xc];
@@ -481,26 +490,7 @@ typedef struct {
         void *fC;
     } E_13C08C_8013C08C;
 typedef E_13C08C_8013C08C E_13C08C;
-typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[0xC];
-    } Ent_8013B6A0_8013B6A0;
-typedef Ent_8013B6A0_8013B6A0 Ent_8013B6A0;
-typedef struct {
-        s32 f0;
-        u16 f4;
-        u16 f6;
-        u16 f8;
-        u16 fA;
-        s32 fC;
-        u8  pad[8];
-        s32 f18;
-    } Ent_8013B83C;
+typedef E_3B7AC_8013B7AC Ent_8013B6A0;
 typedef struct 
   {
     u32 *ot;
@@ -513,7 +503,7 @@ typedef struct {
         s32 f4;
         s32 f8;
     } P_13BD74;
-typedef Ent_8013B6A0_8013B6A0 Spr_8013B598;
+typedef E_3B7AC_8013B7AC Spr_8013B598;
 typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598_8013B598;
 typedef Src_8013B598_8013B598 Src_8013B598;
 typedef struct {
