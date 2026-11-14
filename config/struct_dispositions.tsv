@@ -3800,7 +3800,7 @@ Unkstruct_8018B13C	struct	include/struct_types.h:29957	256	no-evidence	-	-	-	cas
 Unkstruct_8018B1B4	struct	include/struct_types.h:13648	32	no-evidence	-	-	-	cast views of untyped values only (7 sites, first src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12382), no placed object
 Unkstruct_8018B1B4_2	struct	include/struct_types.h:29260	116	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12382), no placed object
 Unkstruct_8018B1B4_3	struct	include/struct_types.h:31686	36	no-evidence	-	-	-	cast views of untyped values only (3 sites, first src/ov_SC04_011/ov_SC04_011_jr_8017D494.c:12381), no placed object
-Unkstruct_8018B354	struct	include/struct_types.h:30915	256	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/ov_SC02_028/ov_SC02_028_jr_801884D8.c:5036), no placed object
+Unkstruct_8018B354	struct	include/struct_types.h:30915	256	fold	Unkstruct_8018A970_2	link	C32 body: func_8018A970 src/ov_SC02_027/ov_SC02_027_jr_8018A564.c:3055 | func_8018B354 src/ov_SC02_028/ov_SC02_028_jr_801884D8.c:5032	body link Unkstruct_8018A970_2~Unkstruct_8018B354 (one routine copied into ov_SC02_027 and ov_SC02_028)
 Unkstruct_8018B410	struct	include/struct_types.h:33098	256	no-evidence	-	-	-	cast views of untyped values only (1 sites, first src/ov_SC02_005/ov_SC02_005_jr_80185E80.c:3829), no placed object
 Unkstruct_8018B648	struct	include/struct_types.h:33586	208	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/ov_SC05_017/ov_SC05_017_jr_80188B1C.c:4902), no placed object
 Unkstruct_8018B698	struct	include/struct_types.h:26971	256	no-evidence	-	-	-	cast views of untyped values only (4 sites, first src/ov_SC06_018/ov_SC06_018_jr_80187AEC.c:5505), no placed object
