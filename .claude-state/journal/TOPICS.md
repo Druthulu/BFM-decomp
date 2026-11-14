@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-14T01:33:26.775Z
+# filed through: 2026-11-14T04:05:04.732Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -154,7 +154,7 @@ R150 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every 
 R151 | 2026-11-12 | decision | superseded by R154 | Decomp kit alignment with PA3 | GENERATION_PLAN.md gains 3.46 Decomp kit aligned with PA3 (depends 3.45). | .claude-state/journal/2026-11-12.md#110950-060r-claude-record
 R152 | 2026-11-12 | decision | in force | Phase-close docs and lessons in every phase | Rules T4 (a removed lever drops its config/lever_residue.tsv row in the same commit) and T5 (every… | .claude-state/journal/2026-11-12.md#124351-066r-claude-record
 R153 | 2026-11-12 | finding | in force | Phase-close docs and lessons in every phase | A rule cannot be added through mcp__pa-watch__plan_edit in this project, because the mod routes the… | .claude-state/journal/2026-11-12.md#124351-066r-claude-record
-R154 | 2026-11-12 | decision | in force | Struct consolidation (3.45) | GENERATION_PLAN.md gains 3.45 Struct consolidation and names (depends 3.44). | .claude-state/journal/2026-11-12.md#135749-072r-claude-record
+R154 | 2026-11-12 | decision | superseded by R182 | Struct consolidation (3.45) | GENERATION_PLAN.md gains 3.45 Struct consolidation and names (depends 3.44). | .claude-state/journal/2026-11-12.md#135749-072r-claude-record
 R155 | 2026-11-12 | finding | in force | Struct consolidation (3.45) | The census's struct count is 14,376 evidence clusters explaining 169,650 of 172,948 dereference sit… | .claude-state/journal/2026-11-12.md#135749-072r-claude-record
 R156 | 2026-11-12 | decision | in force | 3.44 T3 asm signature census | Control (4) part one of T3 is accepted as measured, not redefined. | .claude-state/journal/2026-11-12.md#150232-006r-claude-record
 R157 | 2026-11-12 | finding | in force | 3.44 T3 asm signature census | tools/sig_evidence.py measures 92,645 classes and 363,342 instances over all 218 binaries in about… | .claude-state/journal/2026-11-12.md#150232-006r-claude-record
@@ -174,11 +174,21 @@ R170 | 2026-11-13 | decision | in force | Phase-close docs and lessons in every 
 R171 | 2026-11-13 | finding | in force | Phase-close docs and lessons in every phase | T13, which R149 placed before T10's snapshot, did not run first. | .claude-state/journal/2026-11-13/114853-052r-claude-record.md
 R172 | 2026-11-13 | decision | in force | Phase 3.44 close | Phase 3.44 is closed with its milestone met. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R173 | 2026-11-13 | finding | in force | Phase 3.44 close | 3.44 results. | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
-R174 | 2026-11-13 | open | in force | Phase 3.44 close | 88 RETURN-LIE dedup rows are cleared for sharing (phase-ends/phase-3.44/logs/T10.return_lie_rows.ts… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
+R174 | 2026-11-13 | open | superseded by R185 | Phase 3.44 close | 88 RETURN-LIE dedup rows are cleared for sharing (phase-ends/phase-3.44/logs/T10.return_lie_rows.ts… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R175 | 2026-11-13 | open | retired by .claude-state/journal/2026-11-13/150656-069r-claude-record.md (the lever_census fix is planned as 3.45 T4) | Phase 3.44 close | tools/lever_census.py:864-875 has the same cache-order nondeterminism T2 fixed in type_census (C058… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R176 | 2026-11-13 | open | in force | Phase 3.44 close | The developer pushes the repo and the archive clone (05feeb4), and runs /mcp after the restart -> t… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R177 | 2026-11-13 | open | superseded by R178 | Phase 3.45 planning | The 3.45 planner is drafting to .run/plans/phase-3.45.md; Claude presents it with plan(kind: phase)… | .claude-state/journal/2026-11-13/143336-063r-claude-record.md
 R178 | 2026-11-13 | decision | in force | Phase 3.45 planning | The 3.45 plan is approved and installed. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
 R179 | 2026-11-13 | decision | in force | Phase 3.45 planning | T8 adds a DECL-PARAM rule to sig_evidence: a declaration's struct parameter must name its definitio… | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
 R180 | 2026-11-13 | finding | in force | Phase 3.45 planning | 3.44's signature gate cannot see parameter types. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
-R181 | 2026-11-13 | finding | in force | Phase 3.45 planning | The 3.45 plan's shape. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
+R181 | 2026-11-13 | finding | superseded by R182 | Phase 3.45 planning | The 3.45 plan's shape. | .claude-state/journal/2026-11-13/150656-069r-claude-record.md
+R182 | 2026-11-13 | decision | in force | Phase 3.45 replan to the SOTN bar | Phase 3.45 is replanned and installed (PHASE_PLAN.v1.md archived). | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R183 | 2026-11-13 | decision | in force | Phase 3.45 replan to the SOTN bar | GENERATION_PLAN.md (commit 6053079aee): 3.45 is Struct consolidation, 3.46 Struct and field names,… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R184 | 2026-11-13 | decision | in force | Phase 3.45 replan to the SOTN bar | The readability bar is the SOTN decomp: real organized structs (one per real object, variant data i… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R185 | 2026-11-13 | decision | in force | Phase 3.45 replan to the SOTN bar | R174's 88 RETURN-LIE rows go to the file-layout phase, now 3.47, as an INBOX line. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R186 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | Shape measurement (.run/3.45/shape/shape.out): - field counts: 1 field 876, 2 fields 838, 3-5 1,526… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R187 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | SOTN decomp (shallow clone grep, 2026-11-13): about 1,280 struct types (707 typedef struct/union in… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R188 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | Gen 3's narrowings (3.38-3.44), about 9 items: roughly 5 were the developer's scope picks at stop r… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R189 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | A replan keeps task ids. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R190 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | A steer is refused when no task is running ("refused: T4 is not running"). | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R191 | 2026-11-13 | open | in force | Phase 3.45 replan to the SOTN bar | Work is paused at the developer's request. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
