@@ -3826,11 +3826,11 @@ void func_8017EF48(s32 a0) {
     s32 t;
 
     func_8012CBA4(a0);
-    t = ((Unkstruct_8017ED3C *)a0)->unk1C - 1;
-    ((Unkstruct_8017ED3C *)a0)->unk1C = t;
+    t = ((Unkstruct_8017EA54 *)a0)->unk1C - 1;
+    ((Unkstruct_8017EA54 *)a0)->unk1C = t;
     if (t == 0) {
-        ((Unkstruct_8017ED3C *)a0)->unk1C = 0x6;
-        ((Unkstruct_8017ED3C *)a0)->unk2 = 0x2;
+        ((Unkstruct_8017EA54 *)a0)->unk1C = 0x6;
+        ((Unkstruct_8017EA54 *)a0)->unk2 = 0x2;
     }
     ((void (*)(u8 *))func_8012DFD4)((u8 *)a0);
 }

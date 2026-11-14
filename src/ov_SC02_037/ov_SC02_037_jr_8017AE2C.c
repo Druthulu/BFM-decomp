@@ -8786,12 +8786,12 @@ void func_8018337C(u8 *a0)
     s32 v0;
 
     func_8012CBA4((s32)a0);
-    v0 = ((Unkstruct_8018337C *)a0)->unk1C;
+    v0 = ((Unkstruct_8017EA54 *)a0)->unk1C;
     v0--;
-    ((Unkstruct_8018337C *)a0)->unk1C = v0;
+    ((Unkstruct_8017EA54 *)a0)->unk1C = v0;
     if (v0 == 0) {
-        ((Unkstruct_8018337C *)a0)->unk1C = 6;
-        ((Unkstruct_8018337C *)a0)->unk2 = 2;
+        ((Unkstruct_8017EA54 *)a0)->unk1C = 6;
+        ((Unkstruct_8017EA54 *)a0)->unk2 = 2;
     }
     func_8012DFD4(a0);
 }
