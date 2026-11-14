@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-14T04:05:04.732Z
+# filed through: 2026-11-14T05:00:22.258Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -191,4 +191,8 @@ R187 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | SOT
 R188 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | Gen 3's narrowings (3.38-3.44), about 9 items: roughly 5 were the developer's scope picks at stop r… | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
 R189 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | A replan keeps task ids. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
 R190 | 2026-11-13 | finding | in force | Phase 3.45 replan to the SOTN bar | A steer is refused when no task is running ("refused: T4 is not running"). | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
-R191 | 2026-11-13 | open | in force | Phase 3.45 replan to the SOTN bar | Work is paused at the developer's request. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R191 | 2026-11-13 | open | superseded by R192 | Phase 3.45 replan to the SOTN bar | Work is paused at the developer's request. | .claude-state/journal/2026-11-13/212041-115r-claude-record.md
+R192 | 2026-11-13 | decision | in force | Phase 3.45 replan to the SOTN bar | Work resumed: T2's review hold was released on the developer's go, and T4 started. | .claude-state/journal/2026-11-13/221540-007r-claude-record.md
+R193 | 2026-11-13 | open | in force | Phase 3.45 replan to the SOTN bar | docs/struct-twins.md:3 still states "merge on evidence, never on look-alikes", which R182 overrides… | .claude-state/journal/2026-11-13/221540-007r-claude-record.md
+R194 | 2026-11-13 | decision | in force | Pause for a Claude Code re-login (2026-11-13) | T4 is paused for the developer's re-login. | .claude-state/journal/2026-11-13/221540-007r-claude-record.md
+R195 | 2026-11-13 | open | in force | Pause for a Claude Code re-login (2026-11-13) | T4's tools-health may need a rerun after the pause; the expert's note will say -> T4 | .claude-state/journal/2026-11-13/221540-007r-claude-record.md
