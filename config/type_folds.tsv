@@ -3073,7 +3073,7 @@ Unkstruct_a61507ea	residual	TYPE-CANON-TWIN	layout-twin:Env	the flat def would f
 Unkstruct_a658543b	define	Unkstruct_8017DE24	owner:func_8017DE24	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_a6a6e212	define	Unkstruct_801802A0	owner:func_801802A0	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_a6ec58b7	define	Unkstruct_8018B8CC	owner:func_8018B8CC	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
-Unkstruct_a7eb14bb	define	Unkstruct_801834E4_2	owner:func_801834E4	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
+Unkstruct_a7eb14bb	define	Unkstruct_80184688	owner:func_801834E4	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_a853ccc0	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8017DB00_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_a87bdc99	define	Unkstruct_80180394	owner:func_80180394	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies
 Unkstruct_aaf80767	define	Unkstruct_8018A2A0	owner:func_8018A2A0	no E1/E2 evidence; flat layout of the struct map record; 6 TNC sites in 1 bodies

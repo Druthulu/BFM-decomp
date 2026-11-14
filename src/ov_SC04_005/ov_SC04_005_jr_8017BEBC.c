@@ -7102,14 +7102,14 @@ extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 void func_801834E4(s32 a0)
 {
-    u32 d = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801834E4_2 *)a0)->unk20 + 0x12),
+    u32 d = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_80184688 *)a0)->unk20 + 0x12),
                           guess_YawToPoint((void *)(a0 + 4), (void *)(a0 + 0x88)), 8);
     ((Unkstruct_801834E4_3 *)*(s32 *)(a0 + 0x20))->unk12 =
         ((Unkstruct_801834E4_3 *)*(s32 *)(a0 + 0x20))->unk12 + d;
     ((Unkstruct_801834E4_3 *)*(s32 *)(a0 + 0x20))->unk12 =
         ((Unkstruct_801834E4_3 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
     if (d + 0x1F < 0x3F) {
-        ((Unkstruct_801834E4_2 *)a0)->unk2 = 8;
+        ((Unkstruct_80184688 *)a0)->unk2 = 8;
     }
 }
 
