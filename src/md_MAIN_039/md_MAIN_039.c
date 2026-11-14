@@ -326,7 +326,7 @@ void func_800CB61C(s32 a0, s32 a1)
 
     buf = *(Blk8 *)D_800CAE0C;
     if (*(u16 *)a1 == 0x2CE) {
-        *(s16 *)&buf.c[2] = -0x1AB;
+        *(s16 *)&buf.unk0.v0.c[2] = -0x1AB;
     }
     r1 = func_8014C59C((void *)a0, (void *)a1);
     x = func_80012DBC(*(s16 *)(s2 + 0x12), (s16)r1, 0x10, 1);

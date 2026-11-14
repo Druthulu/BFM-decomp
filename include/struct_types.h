@@ -393,8 +393,11 @@ typedef struct {
 typedef struct { s32 w[8]; } Blk20_8016DF5C;
 typedef Blk20_8016DF5C Blk20;
 typedef struct {
-    u8 c[8];
-} Blk8_801867AC;
+    /* 0x0000 */ union {
+        struct { u8 c[8]; } v0;
+        struct { s16 unk0; s16 unk2; s16 unk4; } v1;
+    } unk0;
+} Blk8_801867AC; /* size = 0x8 */
 typedef Blk8_801867AC Blk8;
 typedef struct { u32 tag; u32 w1; u32 w2; u32 w3; } Prim_1412A8;
 typedef Prim_1412A8 Blk16;
@@ -17491,14 +17494,6 @@ typedef struct {
     /* 0x0004 */ u8 pad4[0x6];
     /* 0x000a */ s16 unkA;
 } Unkstruct_800159E4; /* size = 0xc */
-
-typedef struct {
-    /* Unkstruct_801E4C50: P3.40 T3 band rank 2359; 7 TNC sites in 2 bodies; struct map 10 sites; restruct.py --decide-band */
-    /* 0x0000 */ s16 unk0;
-    /* 0x0002 */ s16 unk2;
-    /* 0x0004 */ s16 unk4;
-    /* 0x0006 */ u8 pad6[0x2];
-} Unkstruct_8017EDF8; /* size = 0x8 */
 
 typedef struct {
     /* Unkstruct_98d7394c: P3.40 T3 band rank 2361; 7 TNC sites in 2 bodies; struct map 7 sites; restruct.py --decide-band */

@@ -3856,18 +3856,18 @@ void func_8017EDF8(s32 param_1, s32 param_2)
     *(s16 *)(param_1 + 0x2A) = guess_EaseToward((s32)*(s16 *)(param_1 + 0x2A), (s32)*(s16 *)(param_1 + 0x30), 0x10);
     *(s16 *)(param_1 + 0x2C) = guess_EaseToward((s32)*(s16 *)(param_1 + 0x2C), (s32)*(s16 *)(param_1 + 0x32), 0x10);
 
-    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk0;
-    *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk2;
-    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk4;
+    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk0;
+    *(s32 *)(param_1 + 0x4C) = (s32)*(s16 *)(param_1 + 0x2A) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk2;
+    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2C) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk4;
 
     func_80013F3C((s32)&mtx);
     func_800123F0((s32)&mtx, (s32)*(s16 *)(param_1 + 0x1C));
     func_80012558((s32)&mtx, (s32)*(s16 *)(param_1 + 0x1A));
     func_800126C4((s32)&mtx, (s32)*(s16 *)(param_1 + 0x18));
 
-    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk0;
-    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2A) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk2;
-    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2C) + (s32)((Unkstruct_8017EDF8 *)param_2)->unk4;
+    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk0;
+    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2A) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk2;
+    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2C) + (s32)((Blk8_801867AC *)param_2)->unk0.v1.unk4;
 
     vec.vx = 0;
     vec.vy = 0;

@@ -4219,8 +4219,8 @@ void func_8017DCD8(void) {
     extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
     extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
     extern void func_8017DE68(void *a0);
-    extern Blob8_8018A47C_8017DEA4 D_801274E8;
-    extern Blob8_8018A47C_8017DEA4 D_80185C5C;
+    extern Blk8_801867AC D_801274E8;
+    extern Blk8_801867AC D_80185C5C;
 
     D_801274E8 = D_80185C5C;
     D_80126954 = 0x190;
@@ -4250,8 +4250,8 @@ void func_8017DDA0(s32 *a0) {
     extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
     extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
     extern void func_8017DE68(void *a0);
-    extern Blob8_8018A47C_8017DEA4 D_801274E8;
-    extern Blob8_8018A47C_8017DEA4 D_80185C64;
+    extern Blk8_801867AC D_801274E8;
+    extern Blk8_801867AC D_80185C64;
 
     D_801274E8 = D_80185C64;
     D_80126954 = 0x190;
@@ -4285,11 +4285,11 @@ extern void func_8017DEEC(s32, s16*);
 
 void func_8017DEA4(s32 a0) {
 
-    extern Blob8_8018A47C_8017DEA4 D_801274E8;
-    Blob8_8018A47C_8017DEA4 tmp;
+    extern Blk8_801867AC D_801274E8;
+    Blk8_801867AC tmp;
 
     tmp = D_801274E8;
-    ((void (*)(s32, Blob8_8018A47C_8017DEA4 *))func_8017DEEC)(a0, &tmp);
+    ((void (*)(s32, Blk8_801867AC *))func_8017DEEC)(a0, &tmp);
 }
 
 

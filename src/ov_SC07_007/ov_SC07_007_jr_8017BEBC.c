@@ -3446,8 +3446,8 @@ void func_8017D288(void) {
     extern s16 guess_g_MainCameraRefOffsetTargetX; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX
     extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
     extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
-    extern Blk8_SC07_007_8017D288 D_801274F0;
-    extern Blk8_SC07_007_8017D288 D_801869C0;
+    extern Blk8_801867AC D_801274F0;
+    extern Blk8_801867AC D_801869C0;
 
     D_80126954 = 0x190;
     D_8012695C = 0x15E;
