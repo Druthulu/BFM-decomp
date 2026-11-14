@@ -4009,23 +4009,23 @@ extern void func_80171928(void *a0);
 
 void func_80182E64(void *arg0)
 {
-    Ent_80182E64 *found;
+    Unkstruct_8017F510 *found;
     s32 best;
     s32 i;
     s32 off;
     s32 d;
-    Ent_80182E64 *p;
+    Unkstruct_8017F510 *p;
 
     found = NULL;
     best = 0x7FFFFFFF;
     i = 0;
     off = 0;
 loop:
-    p = (Ent_80182E64 *)(guess_g_ObjectTable + off);
-    if (p->f_00 == 0) {
+    p = (Unkstruct_8017F510 *)(guess_g_ObjectTable + off);
+    if (p->unk0 == 0) {
         goto next;
     }
-    if (!(p->f_5C & 0x80)) {
+    if (!(p->unk5C & 0x80)) {
         goto next;
     }
     d = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
@@ -4041,7 +4041,7 @@ next:
         goto loop;
     }
     if (found != NULL) {
-        func_800D1724(found->f_DC);
+        func_800D1724(found->unkDC);
     }
     func_80171928(arg0);
 }

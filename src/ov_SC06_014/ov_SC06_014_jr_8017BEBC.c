@@ -4526,9 +4526,9 @@ void func_8017FC94(void *a0)
 
 loop:
     p = (u8 *)((s32)guess_g_ObjectTable + off);
-    if (((Unkstruct_8017FC94 *)p)->unk0 == 0)
+    if (((Unkstruct_8017F510 *)p)->unk0 == 0)
         goto next;
-    if ((((Unkstruct_8017FC94 *)p)->unk5C & 128) == 0)
+    if ((((Unkstruct_8017F510 *)p)->unk5C & 128) == 0)
         goto next;
     {
         s16 v = ((s16 (*)(s32, s32))func_80013328)((s32)a0 + 4, (s32)p + 4);
@@ -4544,7 +4544,7 @@ next:
         goto loop;
 
     if (bp != 0) {
-        func_800D1724(((Unkstruct_8017FC94 *)bp)->unkDC);
+        func_800D1724(((Unkstruct_8017F510 *)bp)->unkDC);
     }
     func_80171928(a0);
 }

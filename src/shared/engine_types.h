@@ -2688,13 +2688,6 @@ typedef struct {
 typedef Unkstruct_800B5CB8 Ent_8017FD58_8017E52C;
 typedef Unkstruct_800B5CB8 Ent_8018172C_tab;
 typedef struct {
-    u16 f_00;
-    u8 pad_02[0x5A];
-    u16 f_5C;
-    u8 pad_5E[0x7E];
-    s32 f_DC;
-} Ent_80182E64;
-typedef struct {
     /* 0x00 */ s16 unk00;
     /* 0x02 */ s16 unk02;
     /* 0x04 */ u8  pad04[0xD8];
