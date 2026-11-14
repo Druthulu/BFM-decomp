@@ -4024,11 +4024,11 @@ void func_80181EA0(u8 *arg0)
         if (((Unkstruct_80181EA0 *)arg0)->unk1C != 0) {
             ((Unkstruct_80181EA0 *)arg0)->unk1C -= 1;
         } else {
-            if (((Unkstruct_80181EA0_5 *)s0)->unk6 != 0xFF) {
+            if (((Unkstruct_80182050 *)s0)->unk6 != 0xFF) {
                 do {
                     func_80182050(arg0, s0);
                     s0 += 8;
-                } while (((Unkstruct_80181EA0_5 *)s0)->unk6 != 0xFF);
+                } while (((Unkstruct_80182050 *)s0)->unk6 != 0xFF);
             }
             ((Unkstruct_80181EA0 *)arg0)->unk1C = ((Unkstruct_80181EA0 *)arg0)->unkDC;
             __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
