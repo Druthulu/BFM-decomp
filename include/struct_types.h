@@ -33558,12 +33558,6 @@ typedef struct {
 } Unkstruct_80184B84; /* size = 0xd0 */
 
 typedef struct {
-    /* Unkstruct_10a4d39a: P3.40 T3 band rank 6229; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x20];
-    /* 0x0020 */ s32 unk20;
-} Unkstruct_8017F920_3; /* size = 0x24 */
-
-typedef struct {
     /* Unkstruct_10ab5a63: P3.40 T3 band rank 6230; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x1a];
     /* 0x001a */ u16 unk1A;

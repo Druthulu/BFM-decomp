@@ -5413,11 +5413,11 @@ void func_8017F920(s32 param_1) {
     s32 q;
     u16 h;
 
-    p = ((Unkstruct_8017F920_3 *)param_1)->unk20;
+    p = ((Unkstruct_801838EC_3 *)param_1)->unk20;
     h = ((Unkstruct_8017F920_2 *)p)->unk2C;
     if (h & 0x10) {
         ((Unkstruct_8017F920_2 *)p)->unk2C = h & 0xFFEF;
-        q = ((Unkstruct_8017F920_3 *)param_1)->unk20;
+        q = ((Unkstruct_801838EC_3 *)param_1)->unk20;
         ((Unkstruct_8017F920_2 *)q)->unk1C = 0x1000;
         ((Unkstruct_8017F920_2 *)q)->unk1A = 0x1000;
         ((Unkstruct_8017F920_2 *)q)->unk18 = 0x1000;
