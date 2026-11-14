@@ -13354,7 +13354,7 @@ Unkstruct_07f1de63	residual	TYPE-NO-MEMBER	prune:T17	T17.c3: def Unkstruct_801AB
 Unkstruct_09429726	residual	TYPE-NO-MEMBER	prune:T17	T17.c3: def Unkstruct_80185380_3 pruned; 0 uses fleet-wide after the t17 rung-S sweeps
 Unkstruct_0ab9aa3f	define	Unkstruct_800193B8_2	owner:func_800193B8	no E1/E2 evidence; flat layout of the struct map record; 1 TNC sites in 1 bodies; P3.40 T17 drift
 Unkstruct_0af7ac91	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
-Unkstruct_0b0b6004	define	Unkstruct_8017F7E8	owner:func_8017F7E8	no E1/E2 evidence; flat layout of the struct map record; 1 TNC sites in 1 bodies; P3.40 T17 drift
+Unkstruct_0b0b6004	define	Unkstruct_8017FD14_2	owner:func_8017F7E8	no E1/E2 evidence; flat layout of the struct map record; 1 TNC sites in 1 bodies; P3.40 T17 drift
 Unkstruct_0dd4c117	residual	TYPE-NO-LAYOUT	layout:size_hint=0	layout class TYPE-NO-LAYOUT (struct_map record)
 Unkstruct_0e8c0291	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
 Unkstruct_0ef39986	residual	TYPE-NO-MEMBER	prune:T17	T17.c3: def Unkstruct_801838FC_2 pruned; 0 uses fleet-wide after the t17 rung-S sweeps
