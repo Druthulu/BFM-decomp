@@ -1748,6 +1748,15 @@ def links_build(S):
                 return (slot[0], "h" + sr[0][:16]) + slot[3:]
         return slot
 
+    def bkey(L, pol):
+        """T2 (expert): a body / body-view link at parameter i of one h_exact class is a link at that routine's parameter slot,
+        so it joins the slot's hub test and is refused with it (a generic helper copied per overlay views its argument as
+        many types: c4's C1 gathered 80126B58, S800D22E4, vec, Obj through guess_AddVelocityToPos copies); outside policy typed"""
+        if pol == "typed" or L["cls"] != "body" or not L.get("slot"):
+            return None
+        m = re.match(r"arg(\d+)$", str(L["slot"][2]))
+        return ("param", "h" + str(L["slot"][1])[:16], int(m.group(1))) if m else None
+
     def one(k):
         return dict(members=[k], wm=type_map(wm, k), ext=type_extent(wm, k),
                     lb=({rows[k]["size"]: (k, *sorted(size_f[k].items())[0])} if size_f.get(k) else {}))
@@ -1760,6 +1769,8 @@ def links_build(S):
             if L["cls"] == "pointer" and L["slot"]:
                 by_slot[hkey(L["slot"], pol)].append(L)
                 parts[hkey(L["slot"], pol)].add(L["slot"])
+            elif bkey(L, pol):
+                by_slot[bkey(L, pol)].append(L)
         hubs, hub_slots = [], set()
         for slot in sorted(by_slot, key=str):
             ts = sorted({L["a"] for L in by_slot[slot]} | {L["b"] for L in by_slot[slot]})
@@ -1774,7 +1785,7 @@ def links_build(S):
                     break
             oo = (set().union(*(own_offs_param(own_offs, p, J, span_at) for p in sorted(parts[slot], key=str))) if slot[0] == "param" else
                   own_offs.get(("global", slot[-1]), set()) if slot[0] == "global" else own_offs.get(slot, set()) if slot[0] == "view" else set())
-            if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS):
+            if conf or (len(ts) >= HUB_K and len(oo) <= HUB_OFFS and parts[slot]):   # a body-only slot: hub on conflict only
                 hub_slots.add(slot)
                 hubs.append(dict(slot=slot, types=ts, why=(f"width conflict {conf[0]}/{conf[1]} at 0x{conf[2][0]:X}" if conf else
                                                            f"{len(ts)} types, own accesses at {len(oo)} offsets"),
@@ -1782,7 +1793,7 @@ def links_build(S):
                                  copies=len(parts[slot])))
         acc_links = []
         for L in pc:
-            if L["cls"] == "pointer" and hkey(L["slot"], pol) in hub_slots:
+            if L["cls"] == "pointer" and hkey(L["slot"], pol) in hub_slots or bkey(L, pol) in hub_slots:
                 refused.append(dict(L, reason="hub"))
             else:
                 acc_links.append(L)
@@ -1813,7 +1824,9 @@ def links_build(S):
             if hset:
                 keep = []
                 for L in acc_links:
-                    if L["sub"] in HUB_TYPE_SUBS and (L["a"] in hset or L["b"] in hset):
+                    # T2 (expert): two hub types never merge on any link (c4 rerun: 800B5CB8 and 80126B58 joined by
+                    # body-view copies once the 0x18 conflict left the component); that call is the review's, not the tool's
+                    if L["sub"] in HUB_TYPE_SUBS and (L["a"] in hset or L["b"] in hset) or (L["a"] in hset and L["b"] in hset):
                         refused.append(dict(L, reason="hub-type", detail="hub type " + ",".join(sorted({L["a"], L["b"]} & hset))))
                     else:
                         keep.append(L)

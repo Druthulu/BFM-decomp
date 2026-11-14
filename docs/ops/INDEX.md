@@ -82,5 +82,5 @@ p342-t7-2026-11-09-trampoline-convert.md | 3.42 T7 — 2026-11-09: trampoline-fa
 p343-t3-return-less-nonvoid-scan.md | 3.43 T3 — 2026-11-10: the 394 non-void defs with no real return at HEAD 50da691580 (method, counts, per-name list) | 404
 p343-t4-hardreg-wall-probes.md | 3.43 T4 — 2026-11-10: hard-reg pin wall probes of the 9 expand-hardreg-var rows (analysis per row, rtl diffs, C bodies, per-pass diffs); regenerate with tools/wall_probe.py | 750
 p345-t2-struct-merge-evidence.md | 3.45 T2 — the merge-evidence census: joins, evidence classes, guards, widths, size verdict, components, proposed dispositions, DECL-PARAM, selftest | 138
-p345-struct-merge-report.md | 3.45 T2 — merge-evidence report (generated, struct_twins.py --links --report): counts per policy, largest components, hubs and hub types, conflicts, naming scope, fold batches | 626
+p345-struct-merge-report.md | 3.45 T2 — merge-evidence report (generated, struct_twins.py --links --report): counts per policy, largest components, hubs and hub types, conflicts, naming scope, fold batches | 617
 sig-evidence.md | sig-evidence — the asm signature census and its gate (3.44 T3-T9) | 341
