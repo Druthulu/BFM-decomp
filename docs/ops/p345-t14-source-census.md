@@ -43,6 +43,8 @@ casts tie together, and the cast-view metric that T5 (series) and T8 (gate) read
     `proto depth n` / `proto other` (typed, no struct key); only a `void *` / byte pointer / scalar slot (`untyped_param`),
     a K&R `()` prototype, a missing slot (variadic, too few params) or no prototype is untyped (`proto untyped` /
     `unplaced`). The `gte_*` macros of `include/gte_inline.h` declare no operand types: their arguments stay untyped.
+    A kept-cast macro (`tc.KEPT_MACROS`: CAST_SIGN/WIDTH/ALIAS/MISALIGNED/NONSTRUCT) parses as a call in the flows:
+    its argument is a form-K cast, `how` = `kept-cast`, never an untyped slot (T14 expert; untyped-arg 26,209 → 22,219).
   - `assign-in:<sub>` (local): the assignments above, with the right side's type (a callee's declared return for ret-of,
     the member type for field).
   - `assign-out`: `y = x` with y's declared or effective type; `return`: `return x;` with the function's return type.

@@ -2796,7 +2796,9 @@ def sources_build(S, R):
                 flow(e, "arg-in", f"{f['fn']}({'&' if f['kind'] == 'arg&' else ''}{f['src']})", t, how, f"{crel}:{f['line']}")
         for f in out_f.get((rel, fl, x), ()):
             cite = f"{rel}:{f['line']}"
-            if f["kind"] == "arg":
+            if f["kind"] == "arg" and f["callee"] in tc.KEPT_MACROS:   # T14: a kept-cast macro is a cast (form K), not an untyped slot
+                flow(e, "arg-out", f"{f['callee']}#{f['i']}", "-", "kept-cast", cite)
+            elif f["kind"] == "arg":
                 defs = callee_defs(rel, f["callee"])[0]
                 if not defs:                                 # T14.c2: no placed body: the prototype(s) in scope type the slot
                     pr, typed_, seen_r = protos_of(rel, fl, f["callee"]), False, set()
