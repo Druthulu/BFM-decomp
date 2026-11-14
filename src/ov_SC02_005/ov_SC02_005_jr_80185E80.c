@@ -2963,12 +2963,12 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
-extern Blk16_801E2F08 D_801E2F08;
+extern Vec32 D_801E2F08;
 extern Blk20 D_800AE620;
 
 void func_80189FC4(s32 a0) {
     Blk20 localMat;
-    Blk16_801E2F08 blk16;
+    Vec32 blk16;
     s32 i;
     u8 *s0;
 
@@ -3602,7 +3602,7 @@ void func_8018AEB4(s32 a0, s32 a1)
  * kept file-local since match_one compiles standalone with -Iinclude only). */
 
 extern Blk20 D_800AE620;
-extern Blk16_801E2F08 D_801E2F08;
+extern Vec32 D_801E2F08;
 
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);

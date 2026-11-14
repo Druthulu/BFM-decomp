@@ -534,7 +534,12 @@ typedef struct {
 typedef PrimTag PTag;
 typedef Prim_1412A8 St801D9204;
 typedef E4 Unkstruct_801151D0;
-typedef struct { s32 vx, vy, vz, pad; } Vec32;
+typedef struct {
+    /* 0x0000 */ s32 vx;
+    /* 0x0004 */ s32 vy;
+    /* 0x0008 */ s32 vz;
+    /* 0x000c */ u8 padC[0x4];
+} Vec32; /* size = 0x10 */
 typedef Vec32 V32;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch md) --- */

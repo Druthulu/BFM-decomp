@@ -3203,7 +3203,7 @@ extern void func_80189F44(s32 arg0);
 extern void func_80189F64(void *a0);
 extern void func_80189FA4(void *a0);
 extern void func_80129350(s32 a0, s32 a1);
-extern Blk16_801E2F08 D_801E2F08;
+extern Vec32 D_801E2F08;
 extern void func_8018A174(s32 arg0);
 extern Blk16_8018A1D8 D_801E2F18;
 extern u8 *func_8018A30C(s32 a0, s32 a1);

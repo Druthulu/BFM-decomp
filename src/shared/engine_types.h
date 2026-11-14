@@ -2429,7 +2429,6 @@ typedef struct { s16 v[8]; } Blk16_80126940;
 typedef struct { s32 w[4]; } Blk16_8017ECD4;
 typedef Blk16_8018A8B8 Blk16_8018A1D8;
 typedef struct { s32 w[4]; } Blk16_8018A4C4;
-typedef struct { s32 w[4]; } Blk16_801E2F08;
 typedef struct {
     s16 state;   /* 0x00 */
     s16 timer;   /* 0x02 */
