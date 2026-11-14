@@ -2203,7 +2203,7 @@ extern int func_8015B6F4(int param_1);
 extern s32 func_8015B950(s32 arg0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);

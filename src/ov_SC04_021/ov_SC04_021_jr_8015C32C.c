@@ -1182,7 +1182,7 @@ extern int func_8014A51C(int param_1);
 extern s32 D_800D4B48;
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -1767,7 +1767,7 @@ extern void (*D_80181914[])(void *);
 s32 func_8015EE08(s32 a0) {
 
     extern void (*D_80181C08[])(void);
-    D_80181C08[((Unkstruct_8015E1B8 *)a0)->unk2]();
+    D_80181C08[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 
@@ -1892,7 +1892,7 @@ extern void guess_GetPlayerFramePointsB(s32, s32);
 s32 func_8015F7D4(s32 a0) {
 
     extern void (*D_80181C50[])(void);
-    D_80181C50[((Unkstruct_8015E1B8 *)a0)->unk2]();
+    D_80181C50[((Unkstruct_80126B58 *)a0)->unk2]();
 }
 
 

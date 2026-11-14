@@ -313,7 +313,7 @@ extern void guess_AddMoveVectorThenSetVelocity(void *arg0, s32 arg1, s32 arg2, s
 extern void guess_ApplyVelocity(s32*);
 
 
-void func_800CD288(Work_md_MAIN_046 *arg0) {
+void func_800CD288(Unkstruct_80126B58 *arg0) {
     s32 pad00; s32 pad04; s32 pad08; s32 pad0C;
     s32 pad10; s32 pad14; s32 pad18; s32 pad1C;
     u8 *s1;

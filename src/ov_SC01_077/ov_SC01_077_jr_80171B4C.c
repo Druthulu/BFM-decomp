@@ -31,7 +31,7 @@ extern void func_80175820(void);                          /* derive-decl, arity 
 extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 struct S;
-struct Obj;
+
 typedef void (*Handler)(Entry_tag *);
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -1238,7 +1238,7 @@ extern int func_8015B6F4(int param_1);
 extern s32 func_8014A51C(int param_1);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern void (*D_8018932C[])(void);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);

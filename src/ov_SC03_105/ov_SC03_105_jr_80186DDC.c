@@ -1173,7 +1173,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -4174,7 +4174,7 @@ void func_80188D88(s32 param_1)
     ((void (*)(s32, s32))func_8001C810)(v0, (s32)&D_801B59D8);
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80126B58 *)param_1)->unkCC = v0;
+    ((Unkstruct_80126B58 *)param_1)->unkCC.u = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
         v0 = ((Unkstruct_80126B58 *)param_1)->unk20;

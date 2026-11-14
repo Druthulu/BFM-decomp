@@ -53,7 +53,7 @@ struct SubF24C;
 struct S8014FDF4;
 struct S80151ECC;
 struct S80153150;
-struct Obj;
+
 struct M8_tag;
 struct S8016380C;
 struct U8;
@@ -236,11 +236,6 @@ struct S80153150 {
     u16 f64;   /* 0x64 */
     u8 padr[0x78];
     u8 fDE;    /* 0xDE */
-};
-
-struct Obj {
-    short unk0;
-    unsigned short idx;
 };
 
 struct M8_tag { u8 b[8]; };

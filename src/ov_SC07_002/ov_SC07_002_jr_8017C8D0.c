@@ -1177,7 +1177,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -8261,10 +8261,10 @@ void func_80185E48(s32 a0)
 {
     s32 s0 = a0;
     s32 v0;
-    func_8014BC44(s0, ((Unkstruct_80185E48 *)s0)->unkF2);
-    v0 = ((Unkstruct_80185E48 *)s0)->unk20;
+    func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
+    v0 = ((Unkstruct_80126B58 *)s0)->unk20;
     *(s16 *)(v0 + 0x10) = 0;
-    ((Unkstruct_80185E48 *)s0)->unkA8 = 0x20;
+    ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }
 

@@ -31,7 +31,7 @@ extern void func_80175820(void);                          /* derive-decl, arity 
 extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
 struct S;
-struct Obj;
+
    /* 12-byte sub-table record (stride 0xC) */
  /* 0x20 bytes */
                 /* 4 + 16*12 = 0xC4 stride */
@@ -1227,7 +1227,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern void (*D_8018932C[])(void);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);

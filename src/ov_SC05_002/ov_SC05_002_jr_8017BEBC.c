@@ -1177,7 +1177,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -4226,7 +4226,7 @@ void func_8017FA38(void *a0) {
 
     if ((res1 & 0xFF) == 0) {
         res2 = func_801788B8((s32)a0, (s32)func_801800E4);
-        ((Unkstruct_80126B58 *)a0)->unkCC = res2;
+        ((Unkstruct_80126B58 *)a0)->unkCC.u = res2;
     } else {
         val = ((Unkstruct_80126B58 *)a0)->unk70;
         val |= 0x4000;

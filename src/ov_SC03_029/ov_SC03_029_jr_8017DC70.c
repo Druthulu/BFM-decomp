@@ -1177,7 +1177,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -3322,7 +3322,7 @@ void func_8017F1E4(s32 param_1) {
         v0 = ((Unkstruct_80126B58 *)param_1)->unk210;
         if (D_8018B602[v0 << 2] != 0) {
             ((Unkstruct_80126B58 *)param_1)->unkB0 = (u32)&D_800D6078;
-            ((Unkstruct_80126B58 *)param_1)->unkCC = (u32)&D_800D6118;
+            ((Unkstruct_80126B58 *)param_1)->unkCC.u = (u32)&D_800D6118;
             ((Unkstruct_80126B58 *)param_1)->unk12E = 0;
             func_8014BF48();
             func_801722CC((s32 *)param_1);

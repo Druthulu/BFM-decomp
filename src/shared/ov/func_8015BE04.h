@@ -4,5 +4,5 @@ extern void guess_SetState(s32 *a0, s16 a1);
 extern void func_8015BE38();
 void func_8015BE04(s32 *a0) {
     guess_SetState(a0, 0x3);
-    func_8015BE38((struct Obj *)a0);
+    func_8015BE38((Unkstruct_80126B58 *)a0);
 }

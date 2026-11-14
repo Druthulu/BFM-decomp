@@ -1161,7 +1161,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -3640,7 +3640,7 @@ void func_80184AE8(s32 p)
             return;
         }
         ((void (*)(void *))guess_FreeActor)((void *)CAST_SIGN(s32, p, 0xCC));
-        ((Unkstruct_80126B58 *)p)->unkCC = 0;
+        ((Unkstruct_80126B58 *)p)->unkCC.u = 0;
         func_8001C924(((Unkstruct_80126B58 *)p)->unk20, &D_801C2718);
         guess_StartActorSequence(p, D_801D3284);
         {

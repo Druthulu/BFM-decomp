@@ -1815,7 +1815,7 @@ join:
 
 #include "../shared/ov/func_8015BDD0.h"
 
-struct Obj;
+
 #include "../shared/ov/func_8015BE04.h"
 
 extern void (*D_8018932C[])(void);

@@ -1170,7 +1170,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -4542,7 +4542,7 @@ void func_8017DF84(void *a0) {
         *(s32 *)&D_801D42E0 = CAST_SIGN(s16, (s32)a0, 0x88) << 16;
         D_801D42E4 = CAST_SIGN(s16, (s32)a0, 0x8A) << 16;
         D_801D42E8 = CAST_SIGN(s16, (s32)a0, 0x8C) << 16;
-        ((Unkstruct_80126B58 *)a0)->unkCC = func_80143970((s32)a0);
+        ((Unkstruct_80126B58 *)a0)->unkCC.u = func_80143970((s32)a0);
         ((Unkstruct_80126B58 *)a0)->unkFC = 0;
         ((Unkstruct_80126B58 *)a0)->unk1C = 0x10;
         ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
@@ -4554,7 +4554,7 @@ void func_8017DF84(void *a0) {
             return;
         }
         CAST_ALIAS(s16, (s32)a0, 0xAE) = -4;
-        ((Unkstruct_80126B58 *)a0)->unkCC = func_80143970((s32)a0);
+        ((Unkstruct_80126B58 *)a0)->unkCC.u = func_80143970((s32)a0);
         ((Unkstruct_80126B58 *)a0)->unk2 = 7;
     }
 }

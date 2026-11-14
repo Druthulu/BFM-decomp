@@ -1174,7 +1174,7 @@ extern s32 D_800D4B48;
 extern void func_8015B8F8(s32 *a0);
 extern void func_8015BD8C(s32 *a0);
 extern s32 func_8015BE94(s32 *a0);
-extern void func_8015BE38(struct Obj *a0);
+extern void func_8015BE38(Unkstruct_80126B58 *a0);
 extern s32 func_8015BE74(void);
 extern void func_80161124(void *a0);
 extern s32 func_8015BE94(s32 *a0);
@@ -11001,7 +11001,7 @@ void func_80189188(void *a0)
     func_8001C924(CAST_SIGN(void *, ent, 0x20), (void *)q);
     func_8018A42C((void *)ent, D_801E795C);
     CAST_SIGN(u16, ent, 0xA) += 1;
-    ((Unkstruct_80126B58 *)ent)->unkCC = guess_SpawnActor(0x272, 1, ent);
+    ((Unkstruct_80126B58 *)ent)->unkCC.u = guess_SpawnActor(0x272, 1, ent);
     guess_SpawnActor(0x272, 2, ent);
     guess_SpawnActor(0x272, 3, ent);
     guess_SpawnActor(0x272, 4, ent);
