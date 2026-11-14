@@ -4868,10 +4868,10 @@ void func_80181A30(s16 *arg0)
     mtx.t[2] = arg0[2];
 
     poly = (u8 *)func_80010A08(0x24);
-    ((Unkstruct_80181A30_3 *)poly)->unk4 = *(u32 *)(arg0 + 8);
-    ((Unkstruct_80181A30_3 *)poly)->unkC = *(u32 *)(arg0 + 8);
-    ((Unkstruct_80181A30_3 *)poly)->unk14 = CAST_MISALIGNED(u32, arg0, 0xA);
-    ((Unkstruct_80181A30_3 *)poly)->unk1C = CAST_MISALIGNED(u32, arg0, 0xA);
+    ((Unkstruct_80184BFC *)poly)->unk4 = *(u32 *)(arg0 + 8);
+    ((Unkstruct_80184BFC *)poly)->unkC = *(u32 *)(arg0 + 8);
+    ((Unkstruct_80184BFC *)poly)->unk14 = CAST_MISALIGNED(u32, arg0, 0xA);
+    ((Unkstruct_80184BFC *)poly)->unk1C = CAST_MISALIGNED(u32, arg0, 0xA);
     poly[3] = 8;        /* setlen(poly, 8)  */
     poly[7] = 0x38;     /* setcode POLY_G4  */
 
@@ -4893,7 +4893,7 @@ void func_80181A30(s16 *arg0)
     otp = (u32 *)((otz << 2) + (u32)ot);
 
     /* addPrim(otp, poly) */
-    ((Unkstruct_80181A30_3 *)poly)->unk0 = (((Unkstruct_80181A30_3 *)poly)->unk0 & 0xFF000000) | (*otp & 0xFFFFFF);
+    ((Unkstruct_80184BFC *)poly)->unk0 = (((Unkstruct_80184BFC *)poly)->unk0 & 0xFF000000) | (*otp & 0xFFFFFF);
     *otp = (*otp & 0xFF000000) | ((u32)poly & 0xFFFFFF);
 
     if (CAST_MISALIGNED(u32, arg0, 0xE) & 0x40000000) {
