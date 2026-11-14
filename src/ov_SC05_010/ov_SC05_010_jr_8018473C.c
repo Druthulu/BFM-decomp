@@ -5482,8 +5482,8 @@ void func_80188848(void *a0) {
 
 
 void func_8018890C(s32 a0) {
-    guess_TransformPosByObjMatrix(((Unkstruct_80188770 *)a0)->unk34, (s32)((char *)a0 + 0x4));
-    if (((Unkstruct_80188770 *)a0)->unk2C != 0) {
+    guess_TransformPosByObjMatrix(((Unkstruct_8017DBD4 *)a0)->unk34, (s32)((char *)a0 + 0x4));
+    if (((Unkstruct_8017DBD4 *)a0)->unk2C != 0) {
         return;
     }
     func_800D1FC8(a0, 5);
