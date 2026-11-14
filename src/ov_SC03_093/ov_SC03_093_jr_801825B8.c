@@ -4328,10 +4328,10 @@ void func_801845A4(int param_1)
 {
     int iVar1;
 
-    iVar1 = ((Unkstruct_801845A4_2 *)param_1)->unk1C - 1;
-    ((Unkstruct_801845A4_2 *)param_1)->unk1C = iVar1;
+    iVar1 = ((Unkstruct_801819B4 *)param_1)->unk1C - 1;
+    ((Unkstruct_801819B4 *)param_1)->unk1C = iVar1;
     if (iVar1 == 0) {
-        ((Unkstruct_801845A4_2 *)param_1)->unk2 = *(unsigned short *)(param_1 + 0x34);
+        ((Unkstruct_801819B4 *)param_1)->unk2 = *(unsigned short *)(param_1 + 0x34);
     }
 }
 
