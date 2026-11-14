@@ -1,0 +1,53 @@
+# Parameter retype touch points (SHARED_FN, KR_AS/RET_AS, sig_evidence rules, decl_param, func_8001EFE0)
+task: Phase 3.45 replan, parameter retype from untyped word to struct pointer
+agent: retriever-code
+tags: sig-evidence, shared-fn, kr-as, ret-as, decl-param, struct-twins, 3.45
+
+## Answer
+A parameter retype touches: (a) the definition text (the TU body, or the SHARED_FN body header for shared bodies); (b) every per-TU extern and shared prototype of that name (gated by DECL-ARITY / DECL-RET); (c) every `((T *)argN)` cast in the body; (d) KR_AS/RET_AS ledger rows only when a view was marked there. No DECL-PARAM rule exists in tools/sig_evidence.py at HEAD. The on-disk decl_param.tsv has a header and zero data rows.
+
+## Findings
+1. Prototypes and SHARED_FN
+- include/common.h:83 `#define RET_AS(T, fn, params) ((T (*)params)(fn))`
+- include/common.h:89 `#define KR_AS(T, fn) ((T (*)())(fn))`
+- No `#define SHARED_FN` in include/ or src/**/*.h. It is set per site in the TU: `#define SHARED_FN f` / `#define SHARED_SLOT d` / `#include "shared/.../X.h"` / `#undef` (docs/ops/sig-evidence.md:189, :265; docs/wiki/The-dedup-engine.md:40).
+- Body parameters are spelled inline in the shared header (no macro for them):
+  - src/shared/ov/func_8014F1F4.h:12 `s32 SHARED_FN(void)` (asm trampoline; SHARED_STR guard :7-10)
+  - src/shared/multi/cls_cc0ff9ac8bfb.h:3 `s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {`
+  - src/shared/slot_801ED988/cls_630164eaff26.h:2 `void SHARED_FN(u32 arg0) {`
+  - src/shared/slot_801ED988/cls_2a4b688c54b1.h:4 `s32 SHARED_FN(s32 param_1) {`
+- Per-TU externs: src/800.c:157 `extern s32 func_80049440(s32 arg0);`; src/800.c:10066-10069 extern block.
+2. Ledgers
+- config/kr_view_casts.tsv: line 1 comment; line 2 header `callee def_file cause task cites`.
+- config/ret_view_casts.tsv: line 1 comment; line 2 header `callee def_file view cause task cites`.
+- config/lying_exceptions.tsv: line 1 comment; line 2 header `callee def_file kind cause task cites`; kind `return` = DECL-RET.
+3. tools/sig_evidence.py
+- RULES :856 `["RET-VOID-READ","RET-NONE","DECL-RET","DECL-EMPTY","ARG-OVER","DECL-ARITY"]`
+- compare_core :1237. Def loop: ARG-OVER :1262-1267, RET-NONE :1260. Decl loop: DECL-RET :1282-1283, DECL-ARITY :1284-1288.
+- compare_inputs :1344; compare :1395; KIND_RULE :1412; check_core :1442.
+- DECL-PARAM would go: RULES after :856; a loop in compare_core after :1288 comparing dc["params"] to d["params"] per word (split_top :884, param_words :927).
+- docs/ops/sig-evidence.md rule table: :204 DECL-RET, :206 ARG-OVER, :207 DECL-ARITY. Unledgered summary line :243.
+- .run/3.45/t2/decl_param.tsv: header line only = `name object i decl decl_type def def_type resolved_typed resolved_effective resolved_views`. Zero data rows on disk (non-empty line count 1). Writer: tools/struct_twins.py:2223 `table("decl_param.tsv", ...)`; rows built at :1747-1757 from J["decls"] paired with definitions, per param via T.kind; summary :2222.
+4. Worked example src/800.c:10071
+- Definition: src/800.c:10071 `void func_8001EFE0(s32 arg0)` (return void; eff.tsv row says s32 arg0 effective Unkstruct_8001EFE0).
+- Declarations elsewhere in src/ or include/: NOT FOUND.
+- Call sites in C (src/, include/): NOT FOUND. asm: no content hit; the 9 asm files are named in the comment at src/800.c:9915-9928.
+- `((Unkstruct_8001EFE0 *)arg0)` casts: 14, at src/800.c:10116, 10117, 10120, 10121, 10125, 10126, 10127, 10129, 10130, 10131, 10139, 10152, 10164, 10265 (all in the body).
+- Struct: include/struct_types.h:8509 `} Unkstruct_8001EFE0; /* size = 0x84 */`. Unkstruct_8001EFE0_2 (include/struct_types.h:23908) is used on `p`, not arg0.
+
+## Dead ends
+- No KR_AS/RET_AS definitions outside include/common.h.
+- No SHARED_FN macro definition in headers (it is a site-level define).
+- Did not read the ledger data rows or the struct_twins summary counts (61,137 / 20,816 not reproduced).
+- Did not check include/*.h for shared prototypes of func_8001EFE0 beyond the content grep (none found).
+
+sources:
+- include/common.h:83,89
+- src/shared/ov/func_8014F1F4.h:7-12
+- src/800.c:157,9915,10071,10116-10265
+- include/struct_types.h:8509
+- config/kr_view_casts.tsv:1-2; config/ret_view_casts.tsv:1-2; config/lying_exceptions.tsv:1-2
+- tools/sig_evidence.py:856,1237,1262-1288,1344,1395,1412,1442
+- tools/struct_twins.py:1747-1757,2222-2223
+- docs/ops/sig-evidence.md:189,204-207,243,265
+- .run/3.45/t2/decl_param.tsv:1

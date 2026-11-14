@@ -1,0 +1,54 @@
+# Struct-view cast measurement and rewrite engine (type_census, restruct, lever_census)
+
+task: Phase 3.45 replan: starting points for the struct-view cast metric and the rewrite engine
+agent: retriever-code
+tags: type_census, restruct, check-casts, residue, struct-view-cast, lever-census, P37, P39
+
+## Answer
+- `--check-casts` gates raw P, I, X, M only. `((T *)base)->field` (form C) is NOT in that gate. Pointer arithmetic (form A) is not either.
+- A struct_map "site" is a deref'd access record from the walk (form P/I/X/M/C/K), not a per-function count. The 169,642 of 172,940 figure comes from `build_struct_map` (type_census.py:816, output at :1539).
+- Records carry `form`, `bclass` (param/local/global/gaddr/abs/func/addr-of/nested/member/other), `base`, `off`, `ctype`, `fn`, `line`. Output: `.run/P37/census/sites.jsonl` (`--sites`).
+- Rung S rewrites P-form `*(T *)(a + n)` into member access (restruct.py:44-47). It is not documented to retype declarations (declaration retyping is rung D, restruct.py:58). Stripping casts on a parameter declaration: NOT FOUND.
+- The `*(T *)((u8 *)x + n)` nested shape goes through bclass `nested` (type_census.py:252). Whether rung S handles it: NOT VERIFIED.
+
+## Findings
+(a) type_census.py
+- type_census.py:136 FORM_P `*(T *)(`; :137 FORM_I `*(T *)ident|0x…`; :138 FORM_X `((T *)e)[`; :139 FORM_M `M2C_FIELD(`
+- :140 FORM_A `(T *)(… ± …)` not deref'd; :141 FORM_C `((T *)e)->f`; :153 FORM_K (KEPT macros)
+- :1245-1252 `check_casts_counts`: raw P/I/X/M minus `defline` sites; K sites become macro_sites
+- :2168 `check_casts_verdict`; :2092 `check_casts_inputs` (reads restruct ledger_latest)
+- Record keys: walk emits dict(form, tu, fn, line, ctype, stars, base, bclass, off, text) at :314, :336, :350, :366, :390, :413, :429
+- bclass classify: :301-306 (ident becomes param/local via params_of)
+- Enclosing function: `fn` from fn_ctx :296-299
+- Output: OUT_DIR_DEFAULT `.run/P37/census` (:55): type_census.json/.txt, struct_map.json, sites.jsonl (:1576), docs/struct-map.md (:1589)
+- Residue: flag `--residue` :2289; residue_census() :2235 writes residue_census.{json,txt} to out_dir (call :2331)
+- Residue causes: restruct.py:22-24 (FILE-SCOPE, NO-TYPE-IN-MAP, TYPE-NOT-CANONICAL, TYPE-NOT-VISIBLE, plus site_class; I/M add ABS-ADDR, GADDR, GLOBAL)
+- Controls: controls() :1677, called :1504; docstring :26 (player block widths, MATRIX 32). Other controls not read.
+(b) restruct.py
+- Usage: :4-40; rung S :44-47; `--forms` :6337 (default P,X); `--residue` :6322; `--restamp` :6324; `--check-residue` :6335; `--decide-band` :6330
+- Fold path: TYPE_FOLDS_FILE :3580 (config/type_folds.tsv); type_folds() :3584; fold_type() :3601; fold_bbt() :3607; _canon_by_layout :2803; work_file_L :2900; work_file_HF :3476
+- Rung S body: plan_S :3686; compose_text :771
+- Byte judge: judge_files :329 returns dict(verdict, seconds, err, compiles, linked, cand0)
+- Ledger: RUN/LEDGER :106-107 = .run/P37/restruct/ledger.jsonl; load_ledger :409; ledger_append :418; ledger_latest :425 (latest per (rung,tu,unit))
+- Row shape: rung, tu, unit, verdict, bases, sites[{form, line, base, off, type, verdict, cause}], label, ts, calib, im{drawn,residual,compiles,seconds}, im_of (docs/ops p39-t5 line 3-4)
+- residue_match :3774
+- Generated markers in include/struct_types.h: STRUCT_TYPES_H :4427; T3_BEGIN/T3_END :4428 ("/* T3 (P3.40) band defs:begin … */" / "/* T3 band defs:end */"); T17 :4430 ("/* T17 (P3.40) drift defs:begin … */" / "/* T17 drift defs:end */"); splice_t3_defs :4717
+(c) lever_census.py and config/lever_residue.tsv
+- No struct-view or raw-arith cast is a lever kind seen. lever_census: :702 add_site("C","cast") for volatile casts only (header :18)
+- lever_residue.tsv header :1: "lever residue (reading A, Phase 39 T2)", match on (file, func, kind)
+- Kinds in rows seen: instruction, launder, pin, barrier. Tags: "T11 parked (instruction)", "delever R t8_r2", "delever S+A P37-t5_main_S1", "delever B tus9". Only 25 rows read; not exhaustive.
+- Lexical counter for `((T *)base)->` in tools/: files_with_matches list only (struct_twins.py, readability_progress.py, progress.py, share_body.py, api_draft.py, format_finetune.py, type_census.py, restruct.py); no per-function counter identified.
+
+Implication for the plan: the "0 left" metric (uncovered 0) covers P/I/X/M only. The ~322k `((T *)base)->` sites are form C, outside the gate. Measure C separately before setting a starting point.
+
+## Dead ends
+- Did not read cookbook/C0512.md or the full docs/ops/p39-t5 file (only grepped).
+- Did not verify the T1 raw counts (P=112219 I=46489 X=10309 M=3917) against a run.
+- Did not confirm the census summary includes form C in any count.
+
+sources:
+- /home/musashi/bfm-decomp/tools/type_census.py (136-153, 245-252, 296-314, 390-429, 1245-1252, 1504, 1576, 1677, 2092, 2168, 2235, 2280-2331)
+- /home/musashi/bfm-decomp/tools/restruct.py (1-60, 106-107, 329, 409-425, 771, 3580-3607, 3686, 3774, 4427-4430, 6322-6337)
+- /home/musashi/bfm-decomp/tools/lever_census.py (18, 702, 1399)
+- /home/musashi/bfm-decomp/config/lever_residue.tsv (1, 9-134)
+- /home/musashi/bfm-decomp/docs/ops/p39-t5-2026-10-02-restruct-im-recipes.md (1-6)
