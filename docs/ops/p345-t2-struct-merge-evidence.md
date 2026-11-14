@@ -39,6 +39,9 @@ dereferences it (>= 1 access) and every typed use of it is M: a cast view `((M *
 assignment to a single-source local of type M (`M *m = (M *)p;`, `m = p`). A call passing a value of type A into it
 links A~M, sub-kind `arg-eff` (cites: the call, the parameter, one typed use). Two or more struct types on one slot:
 a `poly` slot, listed, its links refused (a dispatcher). A global's effective type is class 1's global-view.
+`eff-flow` (T2.c3): the same flow kinds as class 2 (arg, ret, ret-of, assign, field, store-global) where either side
+is an untyped identifier with an effective type in its own function (a caller's `s32 p` cast only to A, passed to a
+parameter typed or effective B). Same guards (multisource, conduit, hub, poly). Policy effective includes it.
 
 ## The four evidence classes
 1. global: one object (owner, vaddr) declared or defined with type A in one file and B in another (`extern A D_x;`,
@@ -61,6 +64,12 @@ a `poly` slot, listed, its links refused (a dispatcher). A global's effective ty
 3. body: one h_exact class (nins >= MIN_BODY_INS = 10) whose placed C copies type the same slot (parameter i, return,
    a local of the same name) with A in one copy and B in another. Cite: h_exact[:12] + both copies file:line.
    Smaller classes are refused as `tiny-body` (coincident short bodies are look-alikes).
+   Sub-kind `body-view` (T2.c3): the copies' texts, with every inventory type spelling masked, are token-identical;
+   the k-th masked type position spelled A in one copy and B in another links A~B (cast views included: the same
+   instruction in byte-identical bodies is one original type). Cite: h_exact[:12] + both tokens' file:line. Copies
+   whose masked texts differ fall back to the slot comparison (parameter i, return, same-named local, each slot's
+   declared or effective type). This is the class that reaches the cast-only band types (c2: 2,973 of 3,240
+   no-evidence rows are used only through casts).
 4. widths: not a link; the settle-and-veto data. For each type, each accessed member (lexical `x->f`, `x.f`,
    `x[i].f`, member chains resolved through the definitions, x bound to the type) gives (offset, width, sign) from the
    definition's layout (tc.Resolver) with one access cite. In byte-matched C the declared member type equals the
