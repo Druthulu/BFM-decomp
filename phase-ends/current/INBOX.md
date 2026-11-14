@@ -11,3 +11,4 @@
      or an earlier phase, or an id not in GENERATION_PLAN.md, routes now. -->
 
 - <note, correction, priority change, or question>
+- -> 3.47 The 88 RETURN-LIE dedup rows cleared for sharing in 3.44 (phase-ends/phase-3.44/logs/T10.return_lie_rows.tsv) can be merged into one shared source each; do it with the layout work (R174).
