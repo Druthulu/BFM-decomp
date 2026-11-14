@@ -4242,12 +4242,11 @@ typedef Vtx_8016B6BC Vtx_8018012C;
 typedef Vtx_8016B6BC Vtx_80185C0C;
 typedef Prim_8018012C Prim_80185C0C;
 typedef struct { u8 c[4]; } W4_td;
-typedef struct { u8 c[4]; } W4_80181E88;
 typedef struct {
-    W4_80181E88 f00;   /* 0x00 */
+    W4_td f00;   /* 0x00 */
     u16 f04;           /* 0x04 */
     u16 f06;           /* 0x06 */
-    W4_80181E88 f08;   /* 0x08 */
+    W4_td f08;   /* 0x08 */
     u32 f0c;           /* 0x0c */
     u32 f10;           /* 0x10 */
     u32 f14;           /* 0x14 */

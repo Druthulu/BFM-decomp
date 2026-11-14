@@ -6519,8 +6519,8 @@ extern void func_80016A3C(void *a0);
 void func_80181E88(void *a0) {
     Prim_80181E88 p;
 
-    p.f00 = *(W4_80181E88 *)a0;
-    p.f08 = *(W4_80181E88 *)((u8 *)a0 + 4);
+    p.f00 = *(W4_td *)a0;
+    p.f08 = *(W4_td *)((u8 *)a0 + 4);
     p.f04 = 1;
     p.f10 = 0x808080;
     p.f14 = 0;
