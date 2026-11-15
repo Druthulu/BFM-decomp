@@ -99,3 +99,27 @@ mechanical / judgment with reason counts, families by size bucket (1, 2, 3-5, 6-
 family hubs by kind, `largest families` (top 20: id, size, casts, mechanical/judgment sources, anchor = highest-cast type),
 candidate coverage, the sites the source key could not place, and the projection line. Two runs on one tree print the
 same block and tables (C0582): every output is sorted with fixed tie-breaks.
+
+## The gate (T8)
+`PY tools/struct_twins.py --gate [--final] [--write-ratchet] [-j N]` (≈ the --sources build; in `make tools-health`):
+one block, exit 1 on any `FAIL`. Checks, in order:
+- `--dispositions --check`'s rules (missing, duplicate, unknown, malformed row; `ledger_problems`).
+- Broken rows (`gate_rows`): an applied fold/absorb whose key is still defined (inventory), or whose target is neither
+  defined, PsyQ/ledgered, nor reached by a chain of applied rows to a defined type; a survivor without an object cite, or
+  whose cite does not hold; a wall without `residual:<CLASS>` (restruct's X classes: SCHED-ALIAS, CSE-KILL, WIDTH,
+  ADDRESS-FOLD, ALIGNMENT, REGALLOC) and non-empty `attempt1:` / `attempt2:` in reason, without its DIFF (object cite +
+  `+0x<off>`) in evidence, or whose cite does not hold. Pending rows' cites and applied fold/absorb evidence are historical:
+  not checked.
+- `config/cast_views.tsv` rows (`source ctype form cause task cites`; cause `REINTERP` with both views cited, or `WALL
+  residual:<CLASS> attempt1: attempt2:`): FAIL with no current site (source, ctype), a cite that does not hold, a malformed cause.
+- A cite holds: `path:line` → the file has the line and it names the row's type (survivor: key name; wall: a member of
+  the key type, a `member:` path leaf, or the target; cast_views: the ctype, whitespace dropped); `<binary>/0x<addr>` →
+  that binary's linked ELF symtab (`nm --defined-only`, absolute symbols included: main's bss, C0604) has a symbol there.
+- Metrics: `pending_types` (placeholders + folded-away rows not finished: apart, no-evidence, undisposed, unapplied
+  fold/absorb); `casts_C/P/I/X/M` = sites on typeable sources (kinds param, param-copy, local, global, field, ret-of,
+  mixed) with no cast_views row (source, ctype); `casts_untypeable` = the same on arith and unplaced-text (field with no
+  function) sources; `decl_param_pending` = `config/lying_exceptions.tsv` DECL-PARAM rows whose cause does not start `WALL`.
+- Ratchet `config/consolidation_ratchet.tsv` (`metric count task note`): FAIL a count above its row; FAIL `ratchet stale:
+  lower to N with --write-ratchet` below it. `--write-ratchet` writes the current counts and refuses (exit 1) to raise a
+  row. `--final`: FAIL any metric > 0 (the milestone end state).
+Stdout is deterministic (runtime goes to stderr): two runs on one tree print the same block.

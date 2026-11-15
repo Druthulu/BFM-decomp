@@ -320,6 +320,10 @@ tools-health:
 	/usr/bin/time -f 'sig_evidence --selftest: %e s' $(VENV_PY) tools/sig_evidence.py --selftest
 	/usr/bin/time -f 'sig_evidence census: %e s' $(VENV_PY) tools/sig_evidence.py -j 16
 	/usr/bin/time -f 'sig_evidence --check: %e s' $(VENV_PY) tools/sig_evidence.py --check -j 16
+	# 3.45 T8: the consolidation gate — ledger rules, broken rows, cast_views, pending / cast counts vs
+	# config/consolidation_ratchet.tsv (docs/ops/p345-t14-source-census.md "The gate (T8)"). Reads the census above.
+	/usr/bin/time -f 'struct_twins --selftest: %e s' $(VENV_PY) tools/struct_twins.py --selftest
+	/usr/bin/time -f 'struct_twins --gate: %e s' $(VENV_PY) tools/struct_twins.py --gate -j 16
 	$(MAKE) --no-print-directory report BINARY=main
 	# AFTER report (which regenerates the digest), so this asserts the freshly-written digest agrees
 	# with the tree — and, on a tree whose digest was committed stale, says so instead of staying green.

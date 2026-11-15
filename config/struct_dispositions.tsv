@@ -17,6 +17,9 @@
 # Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
 # checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row, a class outside its
 #   closed list, a row breaking its disposition's rule above; prints finished vs pending). Tab-separated, by key.
+# Gated by tools/struct_twins.py --gate (P3.45 T8; docs/ops/p345-t14-source-census.md "The gate (T8)"): these rules, broken
+#   rows (an applied fold/absorb still defined or with a dangling target; a survivor / wall whose cite does not hold) and the
+#   pending / cast counts against config/consolidation_ratchet.tsv.
 key	kind	file_line	size	disposition	target	class	evidence	reason
 A	struct	src/shared/engine_types.h:267	28	apart	-	own	ov_SC01_000/0x80168F40 src/shared/ov/func_80168F40.h:6 (a)	own objects, no accepted link
 A098Ctx	struct	include/struct_types.h:1327	52	apart	-	own	main/0x8003A098 src/800_c.c:3888 (arg0)	own objects, no accepted link

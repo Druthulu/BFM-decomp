@@ -215,6 +215,9 @@ LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger
 # Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
 # checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row, a class outside its
 #   closed list, a row breaking its disposition's rule above; prints finished vs pending). Tab-separated, by key.
+# Gated by tools/struct_twins.py --gate (P3.45 T8; docs/ops/p345-t14-source-census.md "The gate (T8)"): these rules, broken
+#   rows (an applied fold/absorb still defined or with a dangling target; a survivor / wall whose cite does not hold) and the
+#   pending / cast counts against config/consolidation_ratchet.tsv.
 """
 INV_COLS = ("key", "names", "tag", "kind", "size", "fields_total", "unk", "pad", "named", "file:line", "block", "class", "tus",
             "binaries", "h_exact", "access_sites", "globals", "params", "returns", "locals")
@@ -493,18 +496,26 @@ def ledger_write(ledger, ph, have, props=None):
     return len(set(ph) - set(have)), len(kept), applied
 
 
+def disposition_fails(rows, have, dup, bad):
+    """(pure) (ph, gone, [(what, [keys])]) of dispositions(check=True)'s rules: missing, duplicate, unknown, malformed, ledger_problems"""
+    ph = {r["key"]: r for r in rows if r["klass"] == "placeholder"}
+    # P3.45 T6.c2: a fold/absorb row whose definition restruct --fold-row deleted is a folded-away placeholder, not an unknown key
+    gone = {k for k, e in have.items() if k not in ph and e.get("disposition") in ("fold", "absorb")}
+    miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph) - gone)
+    prob = ledger_problems(have, set(have) | {r["key"] for r in rows if r["klass"] in ("PsyQ", "ledgered")})
+    return ph, gone, [(w, ks) for w, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk),
+                                             ("malformed / unknown disposition", bad)) + tuple(prob) if ks]
+
+
 def dispositions(ledger, check):
     """write/refresh the ledger, or (check) count it and FAIL on a missing, duplicate or unknown row or a broken column rule"""
     rows = inventory_defs()
     ph = {r["key"]: r for r in rows if r["klass"] == "placeholder"}
     have, dup, bad = ledger_read(ledger)
     if check:
-        # P3.45 T6.c2: a fold/absorb row whose definition restruct --fold-row deleted is a folded-away placeholder, not an unknown key
-        gone = {k for k, e in have.items() if k not in ph and e.get("disposition") in ("fold", "absorb")}
-        miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph) - gone)
+        ph, gone, fails = disposition_fails(rows, have, dup, bad)
         cnt = collections.Counter(e.get("disposition") for e in have.values())
         cc = collections.Counter((e.get("disposition"), e.get("class")) for e in have.values() if e.get("disposition") != "undisposed")
-        prob = ledger_problems(have, set(have) | {r["key"] for r in rows if r["klass"] in ("PsyQ", "ledgered")})
         print(f"struct_twins --dispositions --check: placeholders {len(ph)} · undisposed {cnt['undisposed']} · rows {len(have) + len(dup)}"
               f" · " + " · ".join(f"{d} {cnt[d]}" for d in DISPOSITIONS[1:]))
         print("  by class: " + (" · ".join(f"{d}/{c} {n}" for (d, c), n in sorted(cc.items())) or "-"))
@@ -523,10 +534,9 @@ def dispositions(ledger, check):
         print(f"  folded away (definition deleted by restruct --fold-row) {len(gone)}")
         print(f"  finished {len(ph) + len(gone) - cons['pending']} (applied fold/absorb, survivor, wall) · pending {cons['pending']}"
               f" (apart, no-evidence, undisposed, unapplied fold/absorb)")
-        for what, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk), ("malformed / unknown disposition", bad)) + tuple(prob):
-            if ks:
-                print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
-        sys.exit(1 if miss or dup or unk or bad or prob else 0)
+        for what, ks in fails:
+            print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
+        sys.exit(1 if fails else 0)
     new, kept, _ = ledger_write(ledger, ph, have)
     print(f"struct_twins --dispositions: {len(ph)} placeholders -> {ledger.relative_to(REPO) if ledger.is_relative_to(REPO) else ledger}"
           f" · new {new} · kept stale (disposed, no longer a placeholder) {kept}")
@@ -3330,6 +3340,224 @@ def sources(out_dir, jobs, check=False):
     return 0
 
 
+# ---- 3.45 T8: the consolidation gate (docs/ops/p345-t14-source-census.md "The gate (T8)")
+RATCHET = REPO / "config" / "consolidation_ratchet.tsv"
+CAST_VIEWS = REPO / "config" / "cast_views.tsv"
+LYING = REPO / "config" / "lying_exceptions.tsv"
+GATE_METRICS = ("pending_types",) + tuple(f"casts_{f}" for f in SRC_FORMS) + ("casts_untypeable", "decl_param_pending")
+TYPEABLE_KINDS = ("param", "param-copy", "local", "global", "field", "ret-of", "mixed")   # T14 source kinds a declaration can type
+X_CLASSES = ("SCHED-ALIAS", "CSE-KILL", "WIDTH", "ADDRESS-FOLD", "ALIGNMENT", "REGALLOC")  # restruct's X residual classes (docs/levers.md §4)
+RESIDUAL_X_RX = re.compile(r"(?:^|\s)residual:(?:" + "|".join(X_CLASSES) + r")(?:\s|$)")
+PATH_CITE_RX = re.compile(r"(?<![\w./-])([\w./-]+\.[ch]):(\d+)")
+BIN_CITE_RX = re.compile(r"(?<![\w./-])([A-Za-z]\w*)/0x([0-9A-Fa-f]{8})(?![0-9A-Fa-f])")
+CV_COLS = ("source", "ctype", "form", "cause", "task", "cites")
+RATCHET_HEAD = """# config/consolidation_ratchet.tsv: the consolidation gate's ratchet (Phase 3.45 T8). One row per metric of
+# tools/struct_twins.py --gate (docs/ops/p345-t14-source-census.md "The gate (T8)"): FAIL when a count is above its row, and
+# "ratchet stale" when below it (lower it with --gate --write-ratchet, which never raises a row). --final: every count 0.
+"""
+
+
+def cites_of(text):
+    """(pure) the object cites of a text: [("path", rel, line) | ("bin", binary, va)], in text order"""
+    out = [(m.start(), ("path", m.group(1), int(m.group(2)))) for m in PATH_CITE_RX.finditer(text or "")]
+    out += [(m.start(), ("bin", m.group(1), int(m.group(2), 16))) for m in BIN_CITE_RX.finditer(text or "")]
+    return [c for _, c in sorted(out)]
+
+
+def cite_holds(c, names, line_of, sym_at):
+    """(pure over line_of, sym_at) a `path:line` cite holds when the file has the line and it names one of names (an identifier at
+    word boundaries, else the spelling with whitespace dropped, e.g. a ctype `T *`); a `<binary>/0x<addr>` cite when that binary's
+    ELF symtab has a symbol at addr"""
+    if c[0] == "bin":
+        return sym_at(c[1], c[2])
+    ln = line_of(c[1], c[2])
+    if ln is None:
+        return False
+    for nm in names:
+        if nm and (re.search(r"(?<!\w)" + re.escape(nm) + r"(?!\w)", ln) if re.fullmatch(r"\w+", nm)
+                   else re.sub(r"\s+", "", nm) in re.sub(r"\s+", "", ln)):
+            return True
+    return False
+
+
+def gate_rows(have, defined, hold, members=lambda k: ()):
+    """(pure over hold, members) [(what, [keys])] of the broken ledger rows: an applied fold/absorb whose key is still defined or
+    whose target chain (applied rows) reaches no defined / PsyQ type; a survivor or wall breaking its evidence rule or cite.
+    Pending rows and applied fold/absorb evidence cites are historical: not checked."""
+    out = collections.defaultdict(list)
+    app = lambda e: e.get("disposition") in ("fold", "absorb") and bool(APPLIED_RX.search(e.get("reason") or ""))
+
+    def reaches(t, seen):
+        while t not in defined and t not in PSYQ:
+            e = have.get(t)
+            if t in seen or not e or not app(e):
+                return False
+            seen.add(t)
+            t = e.get("target")
+        return True
+    for k, e in sorted(have.items()):
+        d, ev, rs, nm = e.get("disposition"), e.get("evidence") or "", e.get("reason") or "", k.split("@")[0]
+        if app(e):
+            if k in defined:
+                out["applied fold/absorb whose key type is still defined"].append(k)
+            if not reaches(e.get("target"), {k}):
+                out["applied fold/absorb whose target is not defined, PsyQ/ledgered, nor reached by applied rows"].append(k)
+        elif d == "survivor":
+            cs = cites_of(ev)
+            if not cs:
+                out["survivor without an object cite in evidence"].append(k)
+            elif not all(hold(c, (nm,)) for c in cs):
+                out["survivor whose cite does not hold"].append(k)
+        elif d == "wall":
+            cs = cites_of(ev)
+            if not (RESIDUAL_X_RX.search(rs) and WALL_RX[1].search(rs) and WALL_RX[2].search(rs)):
+                out["wall without residual:<X class> attempt1: attempt2: in reason"].append(k)
+            if not (cs and OFFSET_RX.search(ev)):
+                out["wall without its DIFF (object cite and +0x<off>) in evidence"].append(k)
+            elif not all(hold(c, (e.get("target"),) + tuple(members(k)) + tuple(m.group(0).split(":", 1)[1].split(".")[-1]
+                                                                             for m in MEMBER_RX.finditer(ev))) for c in cs):
+                out["wall whose cite does not hold"].append(k)
+    return sorted(out.items())
+
+
+def cast_views_read(path):
+    """the config/cast_views.tsv rows [{col: value}] (comments and the header skipped)"""
+    rows = []
+    for ln in (path.read_text().splitlines() if path.exists() else ()):
+        if ln.startswith("#") or not ln.strip() or ln.startswith("source\t"):
+            continue
+        rows.append(dict(zip(CV_COLS, ln.split("\t") + [""] * (len(CV_COLS) - len(ln.split("\t"))))))
+    return rows
+
+
+def cast_view_problems(cv, site_keys, hold):
+    """(pure over hold) [(what, [source ctype])] of the cast_views rows with no current site (source, ctype), a cite that does not
+    hold, or a cause that is neither `REINTERP` with both views cited nor `WALL residual:<X class> attempt1: attempt2:`"""
+    out = collections.defaultdict(list)
+    for r in cv:
+        rid, cs, cause = f"{r['source']} {r['ctype']}", cites_of(r["cites"]), r["cause"]
+        if (r["source"], r["ctype"]) not in site_keys:
+            out["cast_views row with no current site"].append(rid)
+        if not cs or not all(hold(c, (r["ctype"],)) for c in cs):
+            out["cast_views row whose cite does not hold"].append(rid)
+        if not ((cause.startswith("REINTERP") and len(cs) >= 2) or (cause.startswith("WALL") and RESIDUAL_X_RX.search(cause)
+                                                                 and WALL_RX[1].search(cause) and WALL_RX[2].search(cause))):
+            out["cast_views row whose cause is neither REINTERP (both views cited) nor WALL residual:<X> attempt1: attempt2:"].append(rid)
+    return sorted((w, sorted(ks)) for w, ks in out.items())
+
+
+def gate_metrics(have, keys, sites, src, cv, lying):
+    """(pure) {metric: count}: pending placeholders (keys: placeholders + folded-away rows), cast sites not backed by a cast_views
+    (source, ctype) row by form on typeable sources and on untypeable ones (arith, unplaced text), DECL-PARAM lies not walled"""
+    n = collections.Counter({m: 0 for m in GATE_METRICS})
+    for k in keys:
+        e = have.get(k) or {}
+        d = e.get("disposition")
+        if not (d in ("survivor", "wall") or (d in ("fold", "absorb") and APPLIED_RX.search(e.get("reason") or ""))):
+            n["pending_types"] += 1
+    backed = {(r["source"], r["ctype"]) for r in cv}
+    for x in sites:
+        if (x["src"], x["ctype"]) in backed:
+            continue
+        e = src[x["src"]]
+        typeable = e["kind"] in TYPEABLE_KINDS and not (e["kind"] == "field" and e.get("fl") is None)
+        n[f"casts_{x['form']}" if typeable else "casts_untypeable"] += 1
+    n["decl_param_pending"] = sum(1 for r in lying if r.get("kind") == "DECL-PARAM" and not (r.get("cause") or "").startswith("WALL"))
+    return dict(n)
+
+
+def ratchet_read(path):
+    """{metric: (count, task, note)} of the ratchet file"""
+    out = {}
+    for ln in (path.read_text().splitlines() if path.exists() else ()):
+        if ln.startswith("#") or not ln.strip() or ln.startswith("metric\t"):
+            continue
+        p = ln.split("\t") + ["-", "-"]
+        out[p[0]] = (int(p[1]), p[2], p[3])
+    return out
+
+
+def ratchet_verdict(counts, rat, final=False):
+    """(pure) the FAIL lines of the counts against the ratchet (over, stale, missing row) and, with final, every nonzero count"""
+    out = []
+    for m in GATE_METRICS:
+        c, r = counts[m], rat.get(m, (None,))[0]
+        if r is None:
+            out.append(f"{m} {c}: no ratchet row (write it with --write-ratchet)")
+        elif c > r:
+            out.append(f"{m} {c} > ratchet {r}")
+        elif c < r:
+            out.append(f"ratchet stale: {m} {c} < {r}: lower to {c} with --write-ratchet")
+        if final and c > 0:
+            out.append(f"--final: {m} {c} > 0")
+    return out
+
+
+def ratchet_text(counts, rat):
+    """(pure) (text, raised metrics): the ratchet file of the current counts (task/note kept per row); raised = rows it would raise"""
+    raised = [m for m in GATE_METRICS if m in rat and counts[m] > rat[m][0]]
+    body = "".join(f"{m}\t{counts[m]}\t{rat.get(m, (0, 'T8', '-'))[1]}\t{rat.get(m, (0, 'T8', '-'))[2]}\n" for m in GATE_METRICS)
+    return RATCHET_HEAD + "\t".join(("metric", "count", "task", "note")) + "\n" + body, raised
+
+
+def gate(jobs, final=False, write_ratchet=False):
+    """--gate: dispositions(check=True)'s rules, the broken-row and cast_views checks, the metrics against the ratchet; exit 1 on a FAIL"""
+    import time
+    t0 = time.time()
+    rows = inventory_defs()
+    have, dup, bad = ledger_read(LEDGER)
+    ph, gone, fails = disposition_fails(rows, have, dup, bad)
+    S = links_inputs(jobs)
+    R = links_build(S)
+    SR = sources_build(S, R)
+    T, texts, syms = R["T"], {}, {}
+
+    def line_of(rel, n):
+        if rel not in texts:
+            p = REPO / rel
+            texts[rel] = p.read_text(errors="replace").splitlines() if p.is_file() else None
+        ls = texts[rel]
+        return ls[n - 1] if ls is not None and 1 <= n <= len(ls) else None
+
+    def sym_at(b, va):
+        if b not in syms:
+            syms[b] = {v for v, _, _, _ in se.elf_syms(b)} if se.elf_path(b).exists() else set()
+        return va in syms[b]
+
+    def members(k):
+        r = T.row.get(k)
+        return sorted(T.members(r["def"])) if r and r.get("def") else ()
+    hold = lambda c, names: cite_holds(c, names, line_of, sym_at)
+    defined = {r["key"] for r in rows}
+    broken = gate_rows(have, defined, hold, members)
+    cv = cast_views_read(CAST_VIEWS)
+    cvp = cast_view_problems(cv, {(x["src"], x["ctype"]) for x in SR["sites"]}, hold)
+    lying = [dict(zip(("callee", "def_file", "kind", "cause", "task", "cites"), ln.split("\t")))
+             for ln in LYING.read_text().splitlines() if ln.strip() and not ln.startswith(("#", "callee\t"))]
+    counts = gate_metrics(have, set(ph) | gone, SR["sites"], SR["src"], cv, lying)
+    rat = ratchet_read(RATCHET)
+    L = []
+    if write_ratchet:
+        text, raised = ratchet_text(counts, rat)
+        if raised:
+            L.append(f"  FAIL --write-ratchet refuses to raise: {', '.join(f'{m} {rat[m][0]} -> {counts[m]}' for m in raised)}")
+        else:
+            RATCHET.write_text(text)
+            rat = ratchet_read(RATCHET)
+            L.append(f"  wrote {RATCHET.relative_to(REPO)}")
+    rv = ratchet_verdict(counts, rat, final)
+    nb = sum(len(ks) for _, ks in fails + broken + cvp)
+    print(f"struct_twins --gate{' --final' if final else ''}: ledger rows {len(have) + len(dup)} · broken rows {nb}"
+          f" · cast_views rows {len(cv)} · cast sites {len(SR['sites'])}")
+    print("  metrics: " + " · ".join(f"{m} {counts[m]} (ratchet {rat[m][0] if m in rat else '-'})" for m in GATE_METRICS))
+    for what, ks in fails + broken + cvp:
+        print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
+    L += [f"  FAIL {x}" for x in rv] or ["  ratchet: every metric at its row"]
+    print("\n".join(L))
+    print(f"runtime {time.time() - t0:.0f} s", file=sys.stderr)
+    return 1 if fails or broken or cvp or rv or any("FAIL" in x for x in L) else 0
+
+
 # --selftest: the method doc's fixtures on a synthetic tree (its own symtab, .d map, sig rows)
 ST_HDR = """typedef struct LookA { s32 a; s16 b; } LookA;
 typedef struct LookB { s32 a; s16 b; } LookB;
@@ -3566,7 +3794,62 @@ def links_selftest():
         shc[nm] = {c for _, _, c, _ in sk}
     SHARED_INC.clear()
     SHARED_INC.update(inc0)
+    # 3.45 T8: the gate's broken rows, cites, cast_views rows and ratchet, on planted rows / a planted tree
+    gl = {"src/g.c": ["SVa x;", "TW *p = q->m;", "(CVt *)a", "nothing here"]}
+    line_of = lambda rel, n: gl[rel][n - 1] if rel in gl and 1 <= n <= len(gl[rel]) else None
+    ghold = lambda c, names: cite_holds(c, names, line_of, lambda b, va: (b, va) == ("main", 0x80002000))
+    ap_ = "x applied:abc1234"
+    gled = {"AD": row("fold", "DEF", "link", "C1 body: src/old.c:1", ap_), "AK": row("fold", "DEF", "link", "-", ap_),
+            "AC": row("fold", "AD2", "twin", "-", ap_), "AD2": row("absorb", "DEF", "offset", "-", ap_),
+            "AX": row("fold", "NOPE", "value", "-", ap_), "AY": row("fold", "AZ", "value", "-", "not applied"),
+            "AQ": row("fold", "AY", "value", "-", ap_),
+            "SVa": row("survivor", "-", "global", "src/g.c:1 main/0x80002000"), "SVb": row("survivor", "-", "global", "a global"),
+            "SVc": row("survivor", "-", "global", "src/g.c:4"), "SVd": row("survivor", "-", "global", "main/0x80003000"),
+            "W1": row("wall", "TW", "fold", "src/g.c:2 +0x4", "residual:WIDTH attempt1:c1 attempt2:c2"),
+            "W2": row("wall", "TW", "fold", "src/g.c:2 +0x4", "residual:TYPE-UNION attempt1:c1 attempt2:c2"),
+            "W3": row("wall", "TW", "fold", "src/g.c:2", "residual:WIDTH attempt1:c1 attempt2:c2"),
+            "W4": row("wall", "ZZ", "fold", "src/g.c:4 +0x4", "residual:WIDTH attempt1:c1 attempt2:c2"),
+            "W5": row("wall", "ZZ", "fold", "src/g.c:2 +0x4", "residual:CSE-KILL attempt1:c1 attempt2:c2"),
+            "PD": row("apart", "-", "own", "src/gone.c:9")}
+    gbroken = dict(gate_rows(gled, {"DEF", "AK", "SVa", "TW"}, ghold, lambda k: ("m",) if k == "W5" else ()))
+    gwant = {"applied fold/absorb whose key type is still defined": ["AK"],
+             "applied fold/absorb whose target is not defined, PsyQ/ledgered, nor reached by applied rows": ["AQ", "AX"],
+             "survivor without an object cite in evidence": ["SVb"], "survivor whose cite does not hold": ["SVc", "SVd"],
+             "wall without residual:<X class> attempt1: attempt2: in reason": ["W2"],
+             "wall without its DIFF (object cite and +0x<off>) in evidence": ["W3"], "wall whose cite does not hold": ["W4"]}
+    gcv = [dict(source="s1", ctype="CVt *", form="C", cause="REINTERP", task="T5", cites="src/g.c:3 src/g.c:3"),
+           dict(source="s2", ctype="CVt *", form="C", cause="REINTERP", task="T5", cites="src/g.c:3 src/g.c:3"),
+           dict(source="s1", ctype="CVu *", form="C", cause="WALL residual:WIDTH attempt1:a attempt2:b", task="T5", cites="src/g.c:4"),
+           dict(source="s6", ctype="CVt *", form="C", cause="REINTERP", task="T5", cites="src/g.c:3")]
+    gcvp = dict(cast_view_problems(gcv, {("s1", "CVt *"), ("s1", "CVu *"), ("s6", "CVt *")}, ghold))
+    gsites = [dict(src="s1", ctype="CVt *", form="C"), dict(src="s1", ctype="X *", form="P"), dict(src="s3", ctype="X *", form="I"),
+              dict(src="s4", ctype="X *", form="X"), dict(src="s5", ctype="X *", form="M")]
+    gsrc = {"s1": dict(kind="param", fl=1), "s3": dict(kind="arith", fl=1), "s4": dict(kind="field", fl=None), "s5": dict(kind="ret-of", fl=2)}
+    gm = gate_metrics(gled, ["AD", "AY", "SVa", "PD", "NEW"], gsites, gsrc, gcv[:1],
+                      [dict(kind="DECL-PARAM", cause="WALL x"), dict(kind="DECL-PARAM", cause="SHARED-DECL-SPLIT"), dict(kind="return", cause="y")])
+    rat0 = {m: (gm[m], "T8", "-") for m in GATE_METRICS}
+    over, under = dict(gm, pending_types=gm["pending_types"] + 1), dict(gm, pending_types=gm["pending_types"] - 1)
     cases = [
+        ("gate (T8): each broken-row kind fails exactly its planted rows; pending rows' and applied rows' evidence cites unchecked",
+         gbroken == gwant or print(gbroken)),
+        ("gate (T8): a cite that no longer holds (file, line, name, symtab address) fails; one that does holds",
+         ghold(("path", "src/g.c", 1), ("SVa",)) and not ghold(("path", "src/g.c", 9), ("SVa",)) and not ghold(("path", "src/x.c", 1), ("SVa",))
+         and not ghold(("path", "src/g.c", 1), ("SV",)) and ghold(("bin", "main", 0x80002000), ()) and not ghold(("bin", "ov_A", 0x80002000), ())
+         and cites_of("src/a.c:3 main/0x8003A098 src/shared/ov/func_80168F40.h:6") == [("path", "src/a.c", 3), ("bin", "main", 0x8003A098),
+                                                                                      ("path", "src/shared/ov/func_80168F40.h", 6)]),
+        ("gate (T8): cast_views rows fail on no current site, a cite that does not hold, a malformed cause",
+         gcvp == {"cast_views row with no current site": ["s2 CVt *"], "cast_views row whose cite does not hold": ["s1 CVu *"],
+                  "cast_views row whose cause is neither REINTERP (both views cited) nor WALL residual:<X> attempt1: attempt2:": ["s6 CVt *"]}
+         or print(gcvp)),
+        ("gate (T8): metrics count pending rows, unbacked casts by form / untypeable, unwalled DECL-PARAM lies",
+         gm == dict(pending_types=3, casts_C=0, casts_P=1, casts_I=0, casts_X=0, casts_M=1, casts_untypeable=2, decl_param_pending=1) or print(gm)),
+        ("gate (T8): ratchet equal passes; over fails; under fails stale; --final fails a nonzero metric; --write-ratchet never raises",
+         ratchet_verdict(gm, rat0) == [] and ratchet_verdict(over, rat0) == ["pending_types 4 > ratchet 3"]
+         and ratchet_verdict(under, rat0) == ["ratchet stale: pending_types 2 < 3: lower to 2 with --write-ratchet"]
+         and "--final: pending_types 3 > 0" in ratchet_verdict(gm, rat0, True) and ratchet_verdict(dict.fromkeys(GATE_METRICS, 0),
+                                                                                                  {m: (0, "T8", "-") for m in GATE_METRICS}, True) == []
+         and ratchet_text(over, rat0)[1] == ["pending_types"] and ratchet_text(under, rat0)[1] == []),
+
         ("SHARED_FN bodies of two headers share no object; equal body texts share their body-hash object only; cites name the includer",
          not shk["SA1"] & shk["SA2"] and {k[0] for k in shk["SB1"] & shk["SB2"]} == {"P"}
          and all(k[1].startswith("F:") for k in shk["SB1"] & shk["SB2"])
@@ -3663,11 +3946,17 @@ def main():
                     help="with --links: write the generated merge report (default %(const)s)")
     ap.add_argument("--policy", choices=POLICIES, default="effective", help="with --propose: the policy (default %(default)s)")
     ap.add_argument("--selftest", action="store_true", help="the --links fixtures on a synthetic tree; exit 0 only if all pass")
+    ap.add_argument("--gate", action="store_true", help="the consolidation gate (T8): ledger rules, broken rows, cast_views, metrics vs "
+                    "config/consolidation_ratchet.tsv; exit 1 on any FAIL")
+    ap.add_argument("--final", action="store_true", help="with --gate: also FAIL on any metric > 0")
+    ap.add_argument("--write-ratchet", action="store_true", help="with --gate: write the current counts to the ratchet (never raises a row)")
     a = ap.parse_args()
-    if a.selftest or a.links or a.sources:
+    if a.selftest or a.links or a.sources or a.gate:
         need_se()
     if a.selftest:
         return links_selftest()
+    if a.gate:
+        return gate(a.j, a.final, a.write_ratchet)
     if a.sources:
         return sources(a.out_dir or SOURCES_DIR, a.j, a.check)
     if a.links:

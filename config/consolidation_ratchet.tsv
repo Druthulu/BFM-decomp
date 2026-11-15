@@ -1,0 +1,12 @@
+# config/consolidation_ratchet.tsv: the consolidation gate's ratchet (Phase 3.45 T8). One row per metric of
+# tools/struct_twins.py --gate (docs/ops/p345-t14-source-census.md "The gate (T8)"): FAIL when a count is above its row, and
+# "ratchet stale" when below it (lower it with --gate --write-ratchet, which never raises a row). --final: every count 0.
+metric	count	task	note
+pending_types	2915	T8	-
+casts_C	295509	T8	-
+casts_P	96734	T8	-
+casts_I	43801	T8	-
+casts_X	10268	T8	-
+casts_M	3897	T8	-
+casts_untypeable	32472	T8	-
+decl_param_pending	26	T8	-

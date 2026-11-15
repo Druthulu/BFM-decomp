@@ -1,0 +1,6 @@
+# config/cast_views.tsv: the cast sites the consolidation gate (tools/struct_twins.py --gate, Phase 3.45 T8) accepts as casts.
+# One row per (source, ctype): source = a T14 source key (docs/ops/p345-t14-source-census.md), ctype = the cast type as casts.tsv spells it,
+# form C|P|I|X|M. cause: REINTERP (the one storage is read as two views: cites both views, path:line or <binary>/0x<addr>) |
+# WALL residual:<CLASS> attempt1:<...> attempt2:<...> (CLASS one of restruct's X classes, docs/levers.md section 4). Every cite must hold
+# (the line names the ctype; the address is a symbol of that binary) and the row must have a current site, else the gate FAILs.
+source	ctype	form	cause	task	cites
