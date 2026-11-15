@@ -3710,6 +3710,30 @@ def _fold_tmpls(stmt):
     return out
 
 
+ATTR_ALIGN_RX = re.compile(r"aligned\s*\(\s*(\d+)\s*\)")
+
+
+def _fold_eff_align(res, d):
+    """(P3.45 T7.c14) the effective alignment of a struct definition under its packed / aligned(n) attributes (its natural
+    alignment without them); None when the attributes move a field or the size, or lower an alignment without packed (a typedef
+    attribute the engine does not model). Folds keep a struct copy's codegen only between definitions of one effective alignment."""
+    L = res.layout_of_fields(d["fields"], d["kind"])
+    if not L or not L[2]:
+        return None
+    a = d.get("attrs") or ""
+    eff = L[1]
+    if "packed" in a:
+        Lp = res.layout_of_fields(d["fields"], d["kind"], packed=True)
+        if not Lp or Lp[0] != L[0] or sorted(map(tuple, Lp[2])) != sorted(map(tuple, L[2])):
+            return None
+        eff = 1
+    for n in map(int, ATTR_ALIGN_RX.findall(a)):
+        if n < eff:
+            return None
+        eff = n
+    return eff if L[0] % eff == 0 else None
+
+
 def _fold_fields(res, d, masked):
     """(fields, span, cause) of one definition record: fields [dict(name, off, size, al, leaves, tmpl, cite)] in order; span (start,
     open, close, end) of `[typedef] struct … { … } names;` in its file; cause (str) when the engine cannot re-render the definition."""
@@ -3722,8 +3746,8 @@ def _fold_fields(res, d, masked):
     span = (m.start(), m.end() - 1, close, semi + 1)
     if d["kind"] != "struct":
         return None, span, f"{d['file']}:{d['line']}: a {d['kind']} definition (the engine folds structs)"
-    if re.search(r"packed|aligned", d.get("attrs") or ""):
-        return None, span, f"{d['file']}:{d['line']}: an attributed definition"
+    if re.search(r"packed|aligned", d.get("attrs") or "") and _fold_eff_align(res, d) is None:
+        return None, span, f"{d['file']}:{d['line']}: an attributed definition"   # T7.c14: only one whose attributes move a field or lower an alignment
     if d.get("ptr_names") or (not d["typedef"] and masked[close + 1:semi].strip()):
         return None, span, f"{d['file']}:{d['line']}: the definition also declares pointer/array names or objects"
     tm = []
@@ -4097,6 +4121,10 @@ def fold_plan(keys):
         if why:
             return refuse(f"{k}: {why}")
         M.append(dict(key=k, d=d, F=F, span=span, size=res.layout_of_fields(d["fields"], d["kind"])[0]))
+    effs = {(_fold_eff_align(res, x) if x["kind"] == "struct" else None) for x in [tdef] + mdefs}
+    if len(effs) > 1 and any(re.search(r"packed|aligned", x.get("attrs") or "") for x in [tdef] + mdefs):   # T7.c14: packed / aligned only between one effective alignment
+        return refuse(f"definitions of different effective alignment under packed/aligned attributes ({sorted(map(str, effs))}): "
+                      f"a struct copy's codegen would change")
     tsize = res.layout_of_fields(tdef["fields"], tdef["kind"])[0]
     # names: a member's names must mean its canonical definition everywhere (no other definition of them in the tree)
     mnames = [n for m in M for n in _fold_names(m["d"])]
@@ -4246,6 +4274,8 @@ def fold_plan(keys):
         if rd and fsig(rd) == fsig(tdef) and nsize == tsize:
             P["merged"], changed = None, False                    # the re-render would only rewrite the same fields
     if changed:
+        if re.search(r"packed|aligned", tdef.get("attrs") or ""):
+            return refuse(f"target {tsp} ({tdef['file']}:{tdef['line']}): an attributed definition would be re-rendered (T7.c14)")
         if psyq or tdef["file"] not in CANON_HEADERS:
             return refuse(f"target {tsp} ({tdef['file']}:{tdef['line']}) is a PsyQ type or outside the canonical type files: the merge would change it")
         g2 = dict(u["g"])
@@ -4699,6 +4729,17 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("fold sign conflict: the sign union compiles under cc1", rc == 0, err)
+        # T7.c14: packed/aligned attributes fold only between one effective alignment (a byte struct's packed is a no-op)
+        _fold_fixture("attr", "typedef struct { u8 b[4]; } Fx_T;\ntypedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) Fx_M;\n"
+                      "typedef struct { s32 a; s32 b; } Fx_U;\ntypedef struct { s32 a; s32 b; } __attribute__((packed, aligned(1))) Fx_P;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fe(Fx_M *m, Fx_P *q) { return m->d[1] + q->b; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "value", "shape:u8[4]", "-"), ("Fx_P", "fold", "Fx_U", "value", "shape:2xs32", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold attributes: a packed byte struct folds into its unattributed twin (same effective alignment; T7.c14)",
+           not P["refusals"] and P["merged"] is None, str(P["refusals"]))
+        P = fold_plan(["Fx_P"])
+        ok("fold attributes: a packed s32 pair into an aligned one is refused (struct copy codegen; T7.c14)",
+           any("effective alignment" in r for r in P["refusals"]), str(P["refusals"]))
         # T7.c11: the walker types `(*(T **)&x)` (a cast of an address), and a block-scope extern of another type shadows a global
         root = _fold_fixture("shadow", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 f0; u16 f4; u16 f6; } Fx_M;\n",
                              {"src/a.c": '#include "struct_types.h"\nextern s32 D_p;\n'
