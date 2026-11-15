@@ -204,7 +204,7 @@ void func_800CB2E0(void *arg0) {
     s32 cmd;
 
     a0v = arg0;
-    fp = ((Unkstruct_800CB2E0 *)a0v)->unk20.v0.unk20;
+    fp = ((Unkstruct_800CB2E0 *)a0v)->unk20;
 
     if (guess_TickWaitTimer_2((s32)a0v)) {
         do { guess_SpawnSmallObject(3, a0v, ((Unkstruct_800CB2E0 *)a0v)->unk6, ((Unkstruct_800CB2E0 *)a0v)->unkA, ((Unkstruct_800CB2E0 *)a0v)->unkE, 0, 0x80001C00); } while (0);

@@ -5405,31 +5405,31 @@ s32 func_80166690(s32 param_1, s32 param_2)
         p2 = (short)param_2;
         do {
             pv = &sub[sVar9];
-            c.unk0.v1.unk0 = pv->h[0];
-            c.unk0.v1.unk2 = pv->h[1];
-            c.unk0.v1.unk4 = pv->h[2];
-            c.unk0.v1.unk8 = pv->h[3];
-            c.unk0.v1.unkA = pv->h[4];
-            c.unk0.v1.unkC = pv->h[5];
+            c.unk0.v0.v0.vx = pv->h[0];
+            c.unk0.v0.v0.vy = pv->h[1];
+            c.unk0.v0.v0.vz = pv->h[2];
+            c.unk0.v0.v1.vx = pv->h[3];
+            c.unk0.v0.v1.vy = pv->h[4];
+            c.unk0.v0.v1.vz = pv->h[5];
             sVar10 = sVar10 + 1;
 
             if (lt2) {
                 if (p2 == 0) {
                     t = sVar8;
-                    c.unk20.v1.unk6 = t; c.unk20.v1.unk2 = t;
+                    c.unk20.v0.c1.b = t; c.unk20.v0.c0.b = t;
                     t = sVar7;
                 } else {
                     w = (sVar8 >> 1) + (sVar8 >> 3);
                     sVar7 = w;
-                    c.unk20.v1.unk6 = w; c.unk20.v1.unk2 = w;
+                    c.unk20.v0.c1.b = w; c.unk20.v0.c0.b = w;
                     t = sVar8;
                 }
-                c.unk20.v1.unk5 = t; c.unk20.v1.unk1 = t; c.unk20.v1.unk4 = t; c.unk20.v1.unk0 = t;
+                c.unk20.v0.c1.g = t; c.unk20.v0.c0.g = t; c.unk20.v0.c1.r = t; c.unk20.v0.c0.r = t;
             } else {
                 t = sVar8;
-                c.unk20.v1.unk4 = t; c.unk20.v1.unk0 = t;
+                c.unk20.v0.c1.r = t; c.unk20.v0.c0.r = t;
                 t = sVar7;
-                c.unk20.v1.unk6 = t; c.unk20.v1.unk2 = t; c.unk20.v1.unk5 = t; c.unk20.v1.unk1 = t;
+                c.unk20.v0.c1.b = t; c.unk20.v0.c0.b = t; c.unk20.v0.c1.g = t; c.unk20.v0.c0.g = t;
             }
 
             sVar9 = sVar9 - 1;
@@ -5437,14 +5437,14 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 sVar9 = 0xF;
             }
             pv = &sub[sVar9];
-            c.unk0.v1.unk10 = pv->h[0];
-            c.unk0.v1.unk12 = pv->h[1];
-            c.unk0.v1.unk14 = pv->h[2];
-            c.unk0.v1.unk18 = pv->h[3];
-            c.unk0.v1.unk1A = pv->h[4];
+            c.unk0.v0.v2.vx = pv->h[0];
+            c.unk0.v0.v2.vy = pv->h[1];
+            c.unk0.v0.v2.vz = pv->h[2];
+            c.unk0.v0.v3.vx = pv->h[3];
+            c.unk0.v0.v3.vy = pv->h[4];
             sVar8 = sVar8 - 0x10;
             sVar7 = sVar7 - 0x10;
-            c.unk0.v1.unk1C = pv->h[5];
+            c.unk0.v0.v3.vz = pv->h[5];
             if (sVar7 < 0) {
                 sVar7 = 0;
             }
@@ -5452,19 +5452,19 @@ s32 func_80166690(s32 param_1, s32 param_2)
             if (lt2) {
                 if (p2 == 0) {
                     t = sVar8;
-                    c.unk20.v1.unkE = t; c.unk20.v1.unkA = t;
+                    c.unk20.v0.c3.b = t; c.unk20.v0.c2.b = t;
                     t = sVar7;
                 } else {
                     t = sVar7;
-                    c.unk20.v1.unkE = t; c.unk20.v1.unkA = t;
+                    c.unk20.v0.c3.b = t; c.unk20.v0.c2.b = t;
                     t = sVar8;
                 }
-                c.unk20.v1.unkD = t; c.unk20.v1.unk9 = t; c.unk20.v1.unkC = t; c.unk20.v1.unk8 = t;
+                c.unk20.v0.c3.g = t; c.unk20.v0.c2.g = t; c.unk20.v0.c3.r = t; c.unk20.v0.c2.r = t;
             } else {
                 t = sVar8;
-                c.unk20.v1.unkC = t; c.unk20.v1.unk8 = t;
+                c.unk20.v0.c3.r = t; c.unk20.v0.c2.r = t;
                 t = sVar7;
-                c.unk20.v1.unkE = t; c.unk20.v1.unkA = t; c.unk20.v1.unkD = t; c.unk20.v1.unk9 = t;
+                c.unk20.v0.c3.b = t; c.unk20.v0.c2.b = t; c.unk20.v0.c3.g = t; c.unk20.v0.c2.g = t;
             }
 
             guess_AddPolyG4(&c, &blk);

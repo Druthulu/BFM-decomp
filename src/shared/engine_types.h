@@ -3144,10 +3144,7 @@ typedef SVECTOR Sv_8017E8A0;
 typedef SVECTOR Sv_8017FA2C;
 typedef struct {
     /* 0x0000 */ Sv_8017FA2C v[4];
-    /* 0x0020 */ union {
-        struct { Cv_8017FA2C c[4]; } v0;
-        struct { CVECTOR unk0[4]; } v1;
-    } unk20;
+    /* 0x0020 */ Cv_8017FA2C c[4];
     /* 0x0030 */ u32 code;
 } Prim_8017FA2C; /* size = 0x34 */
 typedef SVECTOR Sv_8017FC10;

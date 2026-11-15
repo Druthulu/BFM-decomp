@@ -4197,7 +4197,7 @@ s32 *func_8017DD28(s32 *out) {
 
     /* `lh` on a u16-declared symbol: the address cast, not a second decl —
        the TU already fixes guess_g_MenuPanel as u16 at file scope. */
-    q = D_80115134[*(s16 *)&guess_g_MenuPanel].unk18.v1.unk0;
+    q = D_80115134[*(s16 *)&guess_g_MenuPanel].unk18;
     if (D_8011512C == 1) {
         n = D_80182798[guess_g_MenuFrameCounter & 7];
     } else {

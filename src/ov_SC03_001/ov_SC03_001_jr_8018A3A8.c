@@ -3890,11 +3890,11 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
     flag2 = flag + 0;
     ot = func_800D2650(ot, sp18, w->unk10, w->unk12, 1,
                        flag != 0 ? 0x585858 : 0x808080);
-    ot = func_8018BCD4(ot, w->unk18.v1.unk0, idx, w->unk8.v1.unk0,
+    ot = func_8018BCD4(ot, w->unk18, idx, w->unk8.v1.unk0,
                        flag2 != 0 ? 0x585858 : 0x808080);
     i = 0;
     flag3 = flag2;
-    p = w->unk18.v1.unk0;
+    p = w->unk18;
     for (;;) {
         r = func_8018B644(w->unk1C.v1.unk0, w->unk0, idx, i++, sp60);
         if (r == 0) {

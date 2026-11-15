@@ -4046,20 +4046,20 @@ void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3) {
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
     if (guess_g_FrameCounter & 1) {
-        p.unk20.v0.c[1].b = 0x58;
+        p.c[1].b = 0x58;
     } else {
-        p.unk20.v0.c[1].b = 0x48;
+        p.c[1].b = 0x48;
     }
-    p.unk20.v0.c[1].r = p.unk20.v0.c[1].g = p.unk20.v0.c[1].b >> 2;
+    p.c[1].r = p.c[1].g = p.c[1].b >> 2;
     if ((u8)guess_TestGameFlag(0x81)) {
-        p.unk20.v0.c[1].g <<= 2;
-        p.unk20.v0.c[1].b >>= 1;
+        p.c[1].g <<= 2;
+        p.c[1].b >>= 1;
     }
     q = D_8018636C;
     i = 0;
-    p.unk20.v0.c[0].r = p.unk20.v0.c[0].g = p.unk20.v0.c[0].b = 0;
-    p.unk20.v0.c[2].r = p.unk20.v0.c[2].g = p.unk20.v0.c[2].b = 0;
-    p.unk20.v0.c[3].r = p.unk20.v0.c[3].g = p.unk20.v0.c[3].b = 0;
+    p.c[0].r = p.c[0].g = p.c[0].b = 0;
+    p.c[2].r = p.c[2].g = p.c[2].b = 0;
+    p.c[3].r = p.c[3].g = p.c[3].b = 0;
     p.code = 0x50000000;
     do {
         p.v[0].vx = (*q++ * D_801F8090) >> 12;
@@ -4077,8 +4077,8 @@ void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3) {
     i = 0;
     p.v[0].vy = p.v[2].vy = p.v[3].vy = 0;
     p.v[1].vx = p.v[1].vy = 0;
-    p.unk20.v0.c[1].b <<= 1;
-    p.unk20.v0.c[1].r = p.unk20.v0.c[1].g = p.unk20.v0.c[1].g << 1;
+    p.c[1].b <<= 1;
+    p.c[1].r = p.c[1].g = p.c[1].g << 1;
     do {
         p.v[0].vx = (*q++ * D_801F8090) >> 12;
         p.v[0].vz = (*q++ * D_801F8090) >> 12;
@@ -4088,12 +4088,12 @@ void func_8017FA2C(s32 param_1, s16 *param_2, s16 *param_3) {
         p.v[3].vz = (*q++ * D_801F8090) >> 12;
         q -= 2;
         if (i == 2) {
-            p.unk20.v0.c[3].b = p.unk20.v0.c[1].b;
-            p.unk20.v0.c[3].r = p.unk20.v0.c[3].g = p.unk20.v0.c[1].r;
+            p.c[3].b = p.c[1].b;
+            p.c[3].r = p.c[3].g = p.c[1].r;
         } else if (i == 3) {
-            p.unk20.v0.c[3].r = p.unk20.v0.c[3].g = p.unk20.v0.c[3].b = 0;
-            p.unk20.v0.c[0].b = p.unk20.v0.c[1].b;
-            p.unk20.v0.c[0].r = p.unk20.v0.c[0].g = p.unk20.v0.c[1].r;
+            p.c[3].r = p.c[3].g = p.c[3].b = 0;
+            p.c[0].b = p.c[1].b;
+            p.c[0].r = p.c[0].g = p.c[1].r;
         }
         guess_AddPolyG4(&p, sp10);
         i++;

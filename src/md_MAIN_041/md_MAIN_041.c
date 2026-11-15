@@ -356,11 +356,11 @@ s32 func_800CB658(s32 arg0) {
         ((struct Entity_800CB658 *)arg0)->unk1C = v;
     }
     ((struct Entity_800CB658 *)arg0)->unk12 = (s16)(((struct Entity_800CB658 *)arg0)->unk12 + ((struct Entity_800CB658 *)arg0)->unk1C);
-    ((struct Entity_800CB658 *)arg0)->mat = node->unk20.v1.unk0->mat;
+    ((struct Entity_800CB658 *)arg0)->mat = node->unk20->mat;
     func_800CB3BC(arg0, 0, 0, -0x50);
     ent = ((struct Entity_800CB658 *(*)(s32, void *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, (void *)arg0, ((struct Entity_800CB658 *)arg0)->unk6, ((struct Entity_800CB658 *)arg0)->unkA, ((struct Entity_800CB658 *)arg0)->unkE, 0, 0);
     if (ent != 0) {
-        ent->mat = node->unk20.v1.unk0->mat;
+        ent->mat = node->unk20->mat;
     }
 }
 

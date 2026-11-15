@@ -946,10 +946,7 @@ typedef struct {
         struct { s32 unk14; } v0;
         struct { void *unk0; } v1;
     } unk14;
-    /* 0x0018 */ union {
-        struct { void *unk18; } v0;
-        struct { Unkstruct_80181FAC_2 *unk0; } v1;
-    } unk18;
+    /* 0x0018 */ Unkstruct_80181FAC_2 *unk18;
     /* 0x001c */ union {
         struct { s32 unk1C; } v0;
         struct { void *unk0; } v1;
@@ -1114,15 +1111,13 @@ typedef SVECTOR SVEC_md_MAIN_047_800CCBC0;
 typedef struct {
     /* 0x0000 */ union {
         struct { SVEC_md_MAIN_047_800CCBC0 v0; SVEC_md_MAIN_047_800CCBC0 v1; SVEC_md_MAIN_047_800CCBC0 v2; SVEC_md_MAIN_047_800CCBC0 v3; } v0;
-        struct { short unk0; short unk2; short unk4; u8 pad6[0x2]; short unk8; short unkA; short unkC; u8 padE[0x2]; short unk10; short unk12; short unk14; u8 pad16[0x2]; short unk18; short unk1A; short unk1C; } v1;
-        struct { SVEC_md_MAIN_047_800CCBC0 unk0[4]; } v2;
-        struct { s16 unk0[16]; } v3;
+        struct { SVEC_md_MAIN_047_800CCBC0 unk0[4]; } v1;
+        struct { s16 unk0[16]; } v2;
     } unk0;
     /* 0x0020 */ union {
         struct { CVEC c0; CVEC c1; CVEC c2; CVEC c3; } v0;
-        struct { u8 unk0; u8 unk1; u8 unk2; u8 pad3[0x1]; u8 unk4; u8 unk5; u8 unk6; u8 pad7[0x1]; u8 unk8; u8 unk9; u8 unkA; u8 padB[0x1]; u8 unkC; u8 unkD; u8 unkE; } v1;
-        struct { CVEC unk0[4]; } v2;
-        struct { u8 unk0[16]; } v3;
+        struct { CVEC unk0[4]; } v1;
+        struct { u8 unk0[16]; } v2;
     } unk20;
     /* 0x0030 */ s32 tag;
 } Prim_md_MAIN_047_800CCBC0; /* size = 0x34 */
@@ -21082,10 +21077,7 @@ typedef struct {
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ s16 unkE;
     /* 0x0010 */ u8 pad10[0x10];
-    /* 0x0020 */ union {
-        struct { void *unk20; } v0;
-        struct { struct Src_80167540 *unk0; } v1;
-    } unk20;
+    /* 0x0020 */ struct Src_80167540 *unk20;
 } Unkstruct_800CB2E0; /* size = 0x24 */
 
 typedef struct {

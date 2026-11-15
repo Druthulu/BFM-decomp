@@ -1255,7 +1255,7 @@ s32 *func_801EFA40(s32 *out) {
     s32 n;
     s32 d;
 
-    q = (*(Panel_801EFA40 **)&D_80115134)[*(s16 *)&guess_g_MenuPanel].unk18.v1.unk0;
+    q = (*(Panel_801EFA40 **)&D_80115134)[*(s16 *)&guess_g_MenuPanel].unk18;
     if (D_8011512C == 1) {
         n = D_801F1998[guess_g_MenuFrameCounter & 7];
     } else {
