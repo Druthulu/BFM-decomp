@@ -751,7 +751,7 @@ typedef struct { u8 b[8]; } S8_80184F08;
 typedef SVECTOR SV3_80178D40;
 typedef SVECTOR SV4_801749C8;
 typedef SVECTOR SV4_8017B368;
-typedef struct { SV4_8017B368 x, y; } Pair16;
+typedef struct { SVECTOR x, y; } Pair16;
 typedef Pair16 Pair16_8017B368;
 typedef SVECTOR SV4_8017BB34;
 typedef SVECTOR SVECTOR2;
@@ -3170,10 +3170,7 @@ typedef struct {
     u8  pad17;
     u32 f18;
 } S1_80168F40;
-typedef struct {
-    s16 f0, f2, f4, f6, f8, fA, fC, fE;
-    s32 f10;
-} S80190C84;
+typedef struct S80190C84 S80190C84;
 typedef struct {
     s16 f0, f2, f4, f6, f8, fA, fC, fE;
     s32 f10;
