@@ -4223,20 +4223,6 @@ typedef struct {
     } f;
 } Work_801832E0;
 typedef struct {
-    u8  pad0[2];
-    u16 f002;
-    u8  pad_4[0xD8];
-    struct {
-        s16 f0DC;
-        u16 f0DE;
-        union {
-            struct { s32 f0E0; s32 f0E4; } l;
-            struct { u8 p[2]; s16 f0E2; u8 q[2]; s16 f0E6; } h;
-        } u;
-        u16 f0E8;
-    } f;
-} Work_80183634;
-typedef struct {
     u16 f10; /* 0x10 */
     u16 f12; /* 0x12 */
     u16 f14; /* 0x14 */

@@ -2975,7 +2975,7 @@ extern s32 D_801270C8;
 extern void func_8013373C(s32 a0);
 
 
-void func_80183634(Work_80183634 *work)
+void func_80183634(Work_801832E0 *work)
 {
     func_80180A64(&D_801D47E0, &D_801B5D38, work->f.f0DC, work->f.u.h.f0E2);
     func_80180A64(&D_801D47E0, &D_801B86B4, work->f.f0DC, work->f.u.h.f0E6);
