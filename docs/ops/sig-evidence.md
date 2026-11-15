@@ -205,6 +205,7 @@ Rules (a row per (binary, definition site) or per (binary, declaration line)):
 | DECL-EMPTY | `()` declaration; `kr_marked` when the line has `// K&R:` | the line | C0508 |
 | ARG-OVER | census `args.arity_lb` > the definition's argument words (1 per parameter; double / long long / s64 / u64 2 from an even register; K&R float = double; a struct / union returned by value adds 1 hidden word first, the $a0 return slot, pcc struct return R3.44-001 calls.c:919-921); by-value struct parameter skipped and counted; varargs never | `args.read` entry of the highest k | R3.44-001 items 2-3 |
 | DECL-ARITY | non-`()` declaration whose `arity()` (`(void)` = 0) != the definition's (K&R: names); varargs definition only when fewer than its named count | both arities | C0508, C0581 |
+| DECL-PARAM | (3.45 T8, outcome R179) per placed declaration/definition pair, each position i < min(arity) (stops at `...`; function-pointer params, K&R by-value params (promoted, untypeable) and ambiguous type names skipped and counted): `two types` = both sides struct/union and the resolved type or pointer depth differs; `word vs struct` = one side a struct/union pointer, the other a non-pointer integer/enum. Resolution (`ptypes`, struct_twins' type universe: type_census `walk_file` of the canonical headers and `include/`): typedef names, tags (`Foo` == `struct Foo`), pointer typedefs, alias chains; a name with two resolutions is ambiguous; scalars via `norm_ret`. A struct vs `void *` / a scalar pointer is no row: counted `DECL-PARAM not compared: struct vs void*/scalar-pointer` (anything else against a struct, e.g. by value vs a word: `... struct vs other`) | the census `args.read` entry of the definition's argument word of i (the callee's read of `$a<i>` / its slot), else null | R179, docs/ops/p345-t2-struct-merge-evidence.md |
 
 Unplaced, counted by reason and never guessed: file in no TU, file missing, name not in the symtab, name has several
 addresses, definition address outside own image, address in no class, >1 class (OUTSIDE-STACK), SHARED_FN header not in
@@ -216,12 +217,14 @@ Outputs:
 - `compare.jsonl`: one row per disagreement, sorted (rule, binary, vaddr, def_file, decl_file, name), keys sorted. Fields:
   rule, binary (the C's binary), owner (the instance's binary), vaddr, h, name, def_file `path:line`, bind_tu, def_ret,
   decl_file, decl_text, decl_ret, kr_marked, cite, objects (TUs including the file in that binary); ARG-OVER: arity_lb,
-  def_words, def_params; DECL-ARITY: decl_args, def_args, def_params; RET-VOID-READ: tail.
+  def_words, def_params; DECL-ARITY: decl_args, def_args, def_params; DECL-PARAM: those + i, decl_param, def_param,
+  sub (`two types` | `word vs struct`); RET-VOID-READ: tail.
 - `compare.txt` (also printed): per rule rows, functions (classes), names, def sites, declaration lines, files, objects,
   and RETURN-LIE rows of config/dedup_exceptions.tsv whose h_exact is a touched class. Then the coverage block: files, TUs,
   definitions (sites, names, K&R heads, SHARED_FN bodies), declaration lines by shape (`(void)`, `()` unmarked, `()`
   K&R-marked, nested-paren, multi-line, other; per file line, so a header line counts once), placements, unplaced by reason,
-  and src files in no .d (named).
+  src files in no .d (named), and the DECL-PARAM counts (pairs compared, parameters compared, skipped by reason, not
+  compared: struct vs void*/scalar-pointer, struct vs other).
 
 ## Ledger (3.44 T4)
 
@@ -240,7 +243,8 @@ census decoder and `cite()`, compared whitespace-normalized: a mismatch, an unkn
 or a row with no cites is a failed cite; (b) a row is used when a current disagreement matches it: `name` == callee,
 `def_file` path or `bind_tu` == def_file, rule == kind; an unmatched row is an unused row; (c) a disagreement matched by
 no row is unledgered. Prints the three counts (unledgered per rule) and the first 20 of each; since 3.44 T14 also one line
-`unledgered by rule: RET-VOID-READ n RET-NONE n DECL-RET n DECL-EMPTY n ARG-OVER n DECL-ARITY n` (every rule, this order),
+`unledgered by rule: RET-VOID-READ n RET-NONE n DECL-RET n DECL-EMPTY n ARG-OVER n DECL-ARITY n DECL-PARAM n` (every rule,
+this order; DECL-PARAM since 3.45 T8),
 which `tools/readability_progress.py --snapshot` parses. Exit 1 on any failed cite,
 unused row or unledgered disagreement, else 0. Gated in `make tools-health` since 3.44 T9 (see "The gate" below).
 def_file `-` (3.44 T6) = no C definition (asm-only callee): the row matches a disagreement of its callee+kind whose
