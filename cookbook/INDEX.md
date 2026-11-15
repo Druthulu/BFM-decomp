@@ -1070,3 +1070,4 @@ C0617 | restruct --fold-batch: one tree per batch of folds, and the traps it fix
 C0618 | Fold engine walker misses and spurious unions on value-shape folds | struct,fold,restruct,value-shape,union,consolidation | 2026-11-14 | 3.45/T7 | T7.c14
 C0619 | Fold engine after T7.c15: what it follows, --fold-collapse, and the forms still by hand | struct,fold,restruct,union,consolidation | 2026-11-15 | 3.45/T7 | T7.c15
 C0620 | Layout hash and census twin rules after the 3.45 folds | struct,twins,census,layout-hash,bitfield,consolidation | 2026-11-15 | 3.45/T7 | T7.c17
+C0621 | A two-sided ratchet gate for multi-task cleanups: fail above and below | gate,ratchet,consolidation,tools-health,struct_twins | 2026-11-15 | 3.45/T8 | P3.45 T8.c2

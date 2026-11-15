@@ -49,10 +49,11 @@ PY = /usr/bin/python3
 | phaseend_index | `PY tools/phaseend_index.py` | assemble and archive a PhaseEnd |
 | genend_index | `PY tools/genend_index.py` | assemble a GenerationEnd |
 | commit_task | `bash tools/commit_task.sh` | the only commit path; explicit paths, no trailers, never pushes; auto-staging: `docs/ops/commit-task-autostage.md` |
-| type_census gates | `PY tools/type_census.py --check --check-structs --check-casts --residue` | `--check`: done-criteria (dup/outside/dead 0, controls 4/4, unledgered lying 0; raw casts printed, not gated); in tools-health; `--check-casts --residue`: raw P/I/X/M pass only if ledgered RESIDUAL(<cause>) per site; writes residue_census |
-| sig_evidence gate | `PY tools/sig_evidence.py --check -j 16` | asm census vs C: 0 unledgered, 0 failed cites, 0 unused rows in lying_exceptions/ret_view/kr_view; in tools-health after a fresh `-j 16`; `docs/ops/sig-evidence.md` |
+| type_census gates | `PY tools/type_census.py --check --check-structs --check-casts --residue` | `--check`: dup/outside/dead 0, controls 4/4, unledgered lying 0; `--check-casts --residue`: raw P/I/X/M pass if RESIDUAL-ledgered; tools-health |
+| sig_evidence gate | `PY tools/sig_evidence.py --check -j 16` | asm census vs C (DECL-PARAM incl.): 0 unledgered, failed cites, unused rows; tools-health; `docs/ops/sig-evidence.md` |
+| consolidation gate | `PY tools/struct_twins.py --gate -j 16 [--final] [--write-ratchet]` | broken disposition rows; counts vs `config/consolidation_ratchet.tsv` (fail above or below); tools-health |
 | rename_sym | `PY tools/rename_sym.py --spec TSV --task T<n> [--dry-run]` | apply a rename per binary: symbol files, live mentions, names.tsv row (validated first; re-rename rewrites it, history stamped); prints gates and regenerators |
-| rename_scan | `PY tools/rename_scan.py --range HEAD.. \| --spec TSV \| --ledger \| --worklist FILE [--complete]` | R32 coverage: a rename lands at 0 stale, 0 unclassified; `--ledger` checks names.tsv (tools-health); `--worklist` checks dispositions |
+| rename_scan | `PY tools/rename_scan.py --range HEAD.. \| --spec TSV \| --ledger \| --worklist FILE [--complete]` | R32: renames land at 0 stale; `--ledger` (tools-health) checks names.tsv |
 | leverage_rank | `PY tools/leverage_rank.py -j 16 [--check]` | naming ranking to docs/leverage.md/.tsv; rerun after names land |
 | run | `bash tools/run.sh` | any command that may print >40 lines; `--bg` / `--wait` for long compute |
 | every other tool | `docs/tool-index.md` | generated from `config/tool_dictionary.tsv`; read by need |
