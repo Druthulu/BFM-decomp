@@ -27,10 +27,10 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     s32 t18, t1A, t1C;
     s32 *m;
 
-    in0.unk0.v3.unk0 = param_3[0] - *(s32 *)((s32)param_1 + 0x48);
-    in0.unk0.v3.unk8 = param_3[2] - *(s32 *)((s32)param_1 + 0x50);
+    in0.a = param_3[0] - *(s32 *)((s32)param_1 + 0x48);
+    in0.c = param_3[2] - *(s32 *)((s32)param_1 + 0x50);
     if ((param_2 & 0x10000000) == 0) {
-        if (in0.unk0.v3.unk0 * in0.unk0.v3.unk0 + in0.unk0.v3.unk8 * in0.unk0.v3.unk8 > 0x40000) {
+        if (in0.a * in0.a + in0.c * in0.c > 0x40000) {
             return 0;
         }
     }
@@ -40,10 +40,10 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         if (param_2 >= 0) {
             mode &= 0x40000000;
         }
-        in0.unk0.v3.unk4 = param_3[1] - *(s32 *)((s32)param_1 + 0x4C);
-        in1.unk0.v3.unk0 = param_4[0] - *(s32 *)((s32)param_1 + 0x48);
-        in1.unk0.v3.unk4 = param_4[1] - *(s32 *)((s32)param_1 + 0x4C);
-        in1.unk0.v3.unk8 = param_4[2] - *(s32 *)((s32)param_1 + 0x50);
+        in0.b = param_3[1] - *(s32 *)((s32)param_1 + 0x4C);
+        in1.a = param_4[0] - *(s32 *)((s32)param_1 + 0x48);
+        in1.b = param_4[1] - *(s32 *)((s32)param_1 + 0x4C);
+        in1.c = param_4[2] - *(s32 *)((s32)param_1 + 0x50);
         switch (mode) {
         case 0x60000000:
             m = &D_8018E6FC;
@@ -74,17 +74,17 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             vecin.vy = *(u16 *)(p + 8);
             vecin.vz = *(u16 *)(p + 0xC);
             ApplyRotMatrix(&vecin, &rotout);
-            D_8018E720 = rotout.unk0.v3.unk0;
-            D_8018E724 = rotout.unk0.v3.unk4;
-            D_8018E728 = rotout.unk0.v3.unk8;
+            D_8018E720 = rotout.a;
+            D_8018E724 = rotout.b;
+            D_8018E728 = rotout.c;
             vecin.vx = *(u16 *)(p + 6);
             vecin.vy = *(u16 *)(p + 0xA);
             vecin.vz = *(u16 *)(p + 0xE);
             ApplyRotMatrix(&vecin, &rotout);
             D_8018E71C = 0;
-            D_8018E722 = rotout.unk0.v3.unk0;
-            D_8018E726 = rotout.unk0.v3.unk4;
-            D_8018E72A = rotout.unk0.v3.unk8;
+            D_8018E722 = rotout.a;
+            D_8018E726 = rotout.b;
+            D_8018E72A = rotout.c;
             result += 2;
             break;
         case 0x40000000:
@@ -95,23 +95,23 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         }
         {
             s16 *p = *(s16 **)&D_8017F808;
-            p[0] = in0.unk0.v3.unk0;
-            p[1] = in0.unk0.v3.unk4;
-            p[2] = in0.unk0.v3.unk8;
+            p[0] = in0.a;
+            p[1] = in0.b;
+            p[2] = in0.c;
         }
         {
             s16 *p = *(s16 **)&D_8017F80C;
-            p[0] = in1.unk0.v3.unk0;
-            p[1] = in1.unk0.v3.unk4;
-            p[2] = in1.unk0.v3.unk8;
+            p[0] = in1.a;
+            p[1] = in1.b;
+            p[2] = in1.c;
         }
         return result;
     }
     {
         s16 *p = *(s16 **)&D_8017F808;
-        p[0] = in0.unk0.v3.unk0;
+        p[0] = in0.a;
         p[1] = ((u16 *)param_3)[1] - *(s32 *)((s32)param_1 + 0x4C);
-        p[2] = in0.unk0.v3.unk8;
+        p[2] = in0.c;
     }
     {
         s16 *p = *(s16 **)&D_8017F80C;

@@ -201,9 +201,9 @@ void func_800CB2AC(void *a0)
             vec.x = 0;
             vec.y = -((Unkstruct_800CB2AC *)s1)->unk2C;
             t = ((Unkstruct_800CB2AC *)s1)->unk2C;
-            m.unk0.v0.w[5] = guess_g_PlayerPosX;
-            m.unk0.v0.w[6] = guess_g_PlayerPosY - 0x1C;
-            m.unk0.v0.w[7] = guess_g_PlayerPosZ;
+            m.w[5] = guess_g_PlayerPosX;
+            m.w[6] = guess_g_PlayerPosY - 0x1C;
+            m.w[7] = guess_g_PlayerPosZ;
             vec.z = t - (t >> 2);
             guess_RotTransSVWithMatrix((s32)&m, (s32)&vec, (s32)&vec);
             ((Unkstruct_800CB2AC *)s1)->unk6 = vec.x;

@@ -4125,9 +4125,9 @@ void func_80180C38(void *a0)
     }
 
     m = D_800AE620;
-    m.unk0.v0.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.unk0.v0.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.unk0.v0.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14), &m);
     gte_SetRotMatrix(&m);

@@ -164,20 +164,20 @@ void func_800128EC(void *a0, void *a1)
     s32 t;
 
     vec = *(Blk16_956C *)a0;
-    mn = func_80049440(vec.unk0.v3.unk0);
-    t = func_80049440(vec.unk0.v3.unk4);
+    mn = func_80049440(vec.a);
+    t = func_80049440(vec.b);
     if (t < mn) {
         mn = t;
     }
-    t = func_80049440(vec.unk0.v3.unk8);
+    t = func_80049440(vec.c);
     if (t < mn) {
         mn = t;
     }
     if (mn < 0x12) {
         mn = 0x12 - mn;
-        vec.unk0.v3.unk0 >>= mn;
-        vec.unk0.v3.unk4 >>= mn;
-        vec.unk0.v3.unk8 >>= mn;
+        vec.a >>= mn;
+        vec.b >>= mn;
+        vec.c >>= mn;
     }
     func_80047E58(&vec, a1);
 }
@@ -3369,14 +3369,14 @@ void func_80016B60(Src_80016B60 *arg0, s32 arg1)
     s32 otz;
 
     p = (Blk32_801898F4 *)func_80010A08(0x20);
-    p->unk0.v1.unk4 = arg0->rgb0;
-    p->unk0.v1.unkC = arg0->rgb1;
-    p->unk0.v1.unk14 = arg0->rgb2;
+    p->w[1] = arg0->rgb0;
+    p->w[3] = arg0->rgb1;
+    p->w[5] = arg0->rgb2;
     SetLineG3(p);
     func_80017E8C(arg1);
 
     otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[2],
-                         (s32 *)&p->unk0.v1.unk8, (s32 *)&p->unk0.v1.unk10, (s32 *)&p->unk0.v1.unk18,
+                         (s32 *)&p->w[2], (s32 *)&p->w[4], (s32 *)&p->w[6],
                          &otz_unused, &flag);
 
     if ((flag & ~0x1000) == 0) {
@@ -3428,17 +3428,17 @@ void func_80016C28(Src_80016C28 *arg0, s32 arg1)
 
     p = (LineG4_80016C28 *)func_80010A08(0x28);
     SetLineG4(p);
-    p->rgb = arg0->unk20.v0.rgb0;
-    p->uv0 = arg0->unk20.v0.rgb1;
-    p->uv1 = arg0->unk20.v0.rgb2;
-    p->uv2 = arg0->unk20.v0.rgb3;
+    p->rgb = arg0->rgb0;
+    p->uv0 = arg0->rgb1;
+    p->uv1 = arg0->rgb2;
+    p->uv2 = arg0->rgb3;
     func_80017E8C(arg1);
 
-    gte_ldv3(&arg0->unk0.v0.v[0], &arg0->unk0.v0.v[1], &arg0->unk0.v0.v[2]);
+    gte_ldv3(&arg0->v[0], &arg0->v[1], &arg0->v[2]);
     gte_rtpt();
     gte_stflg(&flag);
     gte_stsxy3(&p->xy0, &p->xy1, &p->xy2);
-    gte_ldv0(&arg0->unk0.v0.v[3]);
+    gte_ldv0(&arg0->v[3]);
     gte_rtps();
     gte_stflg(&flag2);
     flag |= flag2;
@@ -3958,23 +3958,23 @@ void func_80017778(Src_80016C28 *arg0, s32 arg1, s32 arg2)
     s32 flag;
 
     p = (G4_80017778 *)func_80010A08(0x24);
-    *(u32 *)&p->r0 = arg0->unk20.v1.unk0[0];
-    *(u32 *)&p->r1 = arg0->unk20.v1.unk0[1];
-    *(u32 *)&p->r2 = arg0->unk20.v1.unk0[2];
-    *(u32 *)&p->r3 = arg0->unk20.v1.unk0[3];
+    *(u32 *)&p->r0 = arg0->rgb0;
+    *(u32 *)&p->r1 = arg0->rgb1;
+    *(u32 *)&p->r2 = arg0->rgb2;
+    *(u32 *)&p->r3 = arg0->rgb3;
     SetPolyG4(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
-        otz = RotTransPers4(&arg0->unk0.v1.unk0[0], &arg0->unk0.v1.unk0[1], &arg0->unk0.v1.unk0[2], &arg0->unk0.v1.unk0[3],
+        otz = RotTransPers4(&arg0->v[0], &arg0->v[1], &arg0->v[2], &arg0->v[3],
                              (s32 *)&p->x0, (s32 *)&p->x1, (s32 *)&p->x2, (s32 *)&p->x3,
                              &opz, &flag);
     } else {
-        *(u32 *)&p->x0 = *(u32 *)&arg0->unk0.v1.unk0[0];
-        *(u32 *)&p->x1 = *(u32 *)&arg0->unk0.v1.unk0[1];
-        *(u32 *)&p->x2 = *(u32 *)&arg0->unk0.v1.unk0[2];
-        *(u32 *)&p->x3 = *(u32 *)&arg0->unk0.v1.unk0[3];
-        otz = arg0->unk0.v1.unk0[0].vz;
+        *(u32 *)&p->x0 = *(u32 *)&arg0->v[0];
+        *(u32 *)&p->x1 = *(u32 *)&arg0->v[1];
+        *(u32 *)&p->x2 = *(u32 *)&arg0->v[2];
+        *(u32 *)&p->x3 = *(u32 *)&arg0->v[3];
+        otz = arg0->v[0].vz;
         flag = 0;
     }
 
@@ -9890,11 +9890,11 @@ void func_8001EA14(Ent_EA14 *p)
                 H(0x1A) = H(0xA) + ((u16 *)&sc1)[1];
             } else {
                 gte_rt_alt(&vo, &v[0]);
-                H(8) = sxy.unk0.v1.unk0 + vo.unk0.v3.unk0;
-                H(0xA) = sxy.unk0.v1.unk2 + vo.unk0.v3.unk4;
+                H(8) = sxy.unk0.v1.unk0 + vo.a;
+                H(0xA) = sxy.unk0.v1.unk2 + vo.b;
                 gte_rt_alt(&vo, &v[1]);
-                H(0x10) = H(8) + vo.unk0.v3.unk0;
-                H(0x1A) = H(0xA) + vo.unk0.v3.unk4;
+                H(0x10) = H(8) + vo.a;
+                H(0x1A) = H(0xA) + vo.b;
             }
             H(0x12) = H(0xA);
             H(0x18) = H(8);
@@ -10126,9 +10126,9 @@ void func_8001EFE0(s32 arg0)
         c2.coord.t[1] = ((Unkstruct_8001EFE0 *)arg0)->unkA;
         c2.coord.t[2] = ((Unkstruct_8001EFE0 *)arg0)->unkC;
     }
-    scale.unk0.v3.unk0 = ((Unkstruct_8001EFE0 *)arg0)->unk18;
-    scale.unk0.v3.unk4 = ((Unkstruct_8001EFE0 *)arg0)->unk1A;
-    scale.unk0.v3.unk8 = ((Unkstruct_8001EFE0 *)arg0)->unk1C;
+    scale.a = ((Unkstruct_8001EFE0 *)arg0)->unk18;
+    scale.b = ((Unkstruct_8001EFE0 *)arg0)->unk1A;
+    scale.c = ((Unkstruct_8001EFE0 *)arg0)->unk1C;
     func_8004901C(&c2.coord, &scale);
     mp = &ls;
     func_800547D8((s32)&c2, mp);
@@ -11586,22 +11586,22 @@ void func_80021284(s32 arg0)
         p->r3 = rec[4];
         p->g3 = rec[5];
         p->b3 = rec[6];
-        p->x0 = out[i].unk0.v3.unk0;
-        p->y0 = out[i].unk0.v3.unk4;
-        p->x1 = out[i + 1].unk0.v3.unk0;
-        p->y1 = out[i + 1].unk0.v3.unk4;
-        p->x2 = out[0].unk0.v3.unk0;
-        p->y2 = out[0].unk0.v3.unk4;
-        p->x3 = out[i + 2].unk0.v3.unk0;
-        p->y3 = out[i + 2].unk0.v3.unk4;
+        p->x0 = out[i].a;
+        p->y0 = out[i].b;
+        p->x1 = out[i + 1].a;
+        p->y1 = out[i + 1].b;
+        p->x2 = out[0].a;
+        p->y2 = out[0].b;
+        p->x3 = out[i + 2].a;
+        p->y3 = out[i + 2].b;
         ((PTag_80021284 *)p)->addr = ot->addr;
         ot->addr = (u32)p;
         i += 2;
         p++;
     } while (i < 13);
 
-    p[-1].x3 = out[1].unk0.v3.unk0;
-    p[-1].y3 = out[1].unk0.v3.unk4;
+    p[-1].x3 = out[1].a;
+    p[-1].y3 = out[1].b;
 
     if (attr & 0x40000000) {
         DrMode_80021284 *dm = (DrMode_80021284 *)p;
@@ -12282,9 +12282,9 @@ void func_800221A8(Obj221A8 *o) {
         cd.coord.t[2] = o->unk0C;
     }
 
-    vv.unk0.v3.unk0 = o->unk18;
-    vv.unk0.v3.unk4 = o->unk1A;
-    vv.unk0.v3.unk8 = 0x1000;
+    vv.a = o->unk18;
+    vv.b = o->unk1A;
+    vv.c = 0x1000;
     func_8004901C(&cd.coord, &vv);
 
     mp = &m;

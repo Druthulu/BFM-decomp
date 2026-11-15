@@ -3210,27 +3210,27 @@ void func_8017DB0C(s32 a0)
         gte_rtv0tr();
         gte_stlvnl(&vout);
         gte_stflg(&flag);
-        *(s16 *)(a0 + 0x6) = vout.unk0.v3.unk0;
-        *(s16 *)(a0 + 0xA) = vout.unk0.v3.unk4;
-        *(s16 *)(a0 + 0xE) = vout.unk0.v3.unk8;
+        *(s16 *)(a0 + 0x6) = vout.a;
+        *(s16 *)(a0 + 0xA) = vout.b;
+        *(s16 *)(a0 + 0xE) = vout.c;
     } else {
         if (*(u8 *)(a0 + 0x74)) {
-            vin.unk0.v3.unk0 = *(s32 *)&D_80126B5C;
-            vin.unk0.v3.unk4 = D_80126B60;
-            vin.unk0.v3.unk8 = D_80126B64;
+            vin.a = *(s32 *)&D_80126B5C;
+            vin.b = D_80126B60;
+            vin.c = D_80126B64;
             func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32 *)&vin, (s32 *)&res);
             if (*(u8 *)(a0 + 0x102) == 0) {
                 owner = *(s32 *)(a0 + 0x64);
-                ((Unkstruct_8017DB0C *)owner)->unkE0 += res.unk0.v3.unk0 >> 2;
+                ((Unkstruct_8017DB0C *)owner)->unkE0 += res.a >> 2;
             }
         }
         func_80132784(a0, *(s32 *)(a0 + 0x64), 0);
         if (*(u8 *)(a0 + 0x74)) {
-            res.unk0.v3.unk4 = (D_801847B8 - 1) << 16;
+            res.b = (D_801847B8 - 1) << 16;
             func_8012F1A4((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32)&res, (s32 *)&vout);
-            g[1] = vout.unk0.v3.unk0;
-            g[2] = vout.unk0.v3.unk4;
-            g[3] = vout.unk0.v3.unk8;
+            g[1] = vout.a;
+            g[2] = vout.b;
+            g[3] = vout.c;
         }
     }
 }
@@ -3540,9 +3540,9 @@ void func_8017E3F8(void *a0)
     u16 t;
     s32 f;
 
-    mtx.unk0.v0.w[5] = ((Unkstruct_8017E3F8_2 *)s0)->unk6;
-    mtx.unk0.v0.w[6] = ((Unkstruct_8017E3F8_2 *)s0)->unkA;
-    mtx.unk0.v0.w[7] = ((Unkstruct_8017E3F8_2 *)s0)->unkE;
+    mtx.w[5] = ((Unkstruct_8017E3F8_2 *)s0)->unk6;
+    mtx.w[6] = ((Unkstruct_8017E3F8_2 *)s0)->unkA;
+    mtx.w[7] = ((Unkstruct_8017E3F8_2 *)s0)->unkE;
 
     ent = ((Unkstruct_8017E3F8_2 *)s0)->unk20;
     RotMatrixY(*(s16 *)(ent + 0x12), &mtx);

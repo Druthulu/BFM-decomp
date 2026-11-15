@@ -4391,17 +4391,17 @@ void func_8017F19C(s32 param_1) {
             rot.vx += ((rand() & 0x3f) << 4) - 0x200;
             rot.vy += ((rand() & 0x3f) << 4) - 0x200;
             rot.vz += ((rand() & 0x3f) << 4) - 0x200;
-            vel.unk0.v3.unk0 = ((rand() & 0x1f) - 0x10) << 16;
-            vel.unk0.v3.unk4 = ((rand() & 0x1f) - 0x10) << 16;
-            vel.unk0.v3.unk8 = ((rand() & 0x1f) - 0x10) << 16;
+            vel.a = ((rand() & 0x1f) - 0x10) << 16;
+            vel.b = ((rand() & 0x1f) - 0x10) << 16;
+            vel.c = ((rand() & 0x1f) - 0x10) << 16;
         }
 
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.unk0.v3.unk0;
-        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.unk0.v3.unk4;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.unk0.v3.unk8;
+        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
+        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
 
         q = (s16 *)(param_1 + 0x38);
         i = 0;
@@ -7698,9 +7698,9 @@ void func_80183C54(s32 param_1)
     s32 ent;
     s16 i;
 
-    m.unk0.v0.w[5] = CAST_SIGN(s16, param_1, 6);
-    m.unk0.v0.w[6] = CAST_SIGN(s16, param_1, 0xA);
-    m.unk0.v0.w[7] = CAST_SIGN(s16, param_1, 0xE);
+    m.w[5] = CAST_SIGN(s16, param_1, 6);
+    m.w[6] = CAST_SIGN(s16, param_1, 0xA);
+    m.w[7] = CAST_SIGN(s16, param_1, 0xE);
     SetTransMatrix(&m);
     i = 0;
     do {
@@ -9547,9 +9547,9 @@ void func_801863A4(s32 a0) {
         v1.vx = 0;
         v1.vy = s1;
 
-        ref.unk0.v3.unk4 = 0;
-        ref.unk0.v3.unk0 = 0;
-        ref.unk0.v3.unk8 = (s32)0xFFFC0000;
+        ref.b = 0;
+        ref.a = 0;
+        ref.c = (s32)0xFFFC0000;
 
         RotMatrixZYX((s32)&v1, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&ref, a0 + 0x10);

@@ -3924,9 +3924,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC *)s2)->unk20;
-    D_801AE628.unk0.v0.d[0] = func_80012F74(D_801AE628.unk0.v0.d[0], 0, 10, 1);
-    D_801AE628.unk0.v0.d[1] = func_80012F74(D_801AE628.unk0.v0.d[1], 0, 10, 1);
-    D_801AE628.unk0.v0.d[2] = func_80012F74(D_801AE628.unk0.v0.d[2], 0, 10, 1);
+    D_801AE628.d[0] = func_80012F74(D_801AE628.d[0], 0, 10, 1);
+    D_801AE628.d[1] = func_80012F74(D_801AE628.d[1], 0, 10, 1);
+    D_801AE628.d[2] = func_80012F74(D_801AE628.d[2], 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC *)s2)->unk10 + ((Unkstruct_8017CFBC *)s2)->unk14;
     ((Unkstruct_8017CFBC *)s2)->unk10 = v1;

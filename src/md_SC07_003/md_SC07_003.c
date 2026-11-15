@@ -1025,9 +1025,9 @@ void func_801A143C(s32 a0) {
         *(u16 *)(*(s32 *)(a0 + 0x20) + 0x12) += D_801F435C * 240;
         pick = rand() % 8;
 
-        vin.unk0.v3.unk4 = 0;
-        vin.unk0.v3.unk8 = 0x400000;
-        for (i = 0; i < 8; i++, vin.unk0.v3.unk8 += 0x400000) {
+        vin.b = 0;
+        vin.c = 0x400000;
+        for (i = 0; i < 8; i++, vin.c += 0x400000) {
             obj = func_80132EF4(a0, 0x22);
             if (obj == 0) {
                 continue;
@@ -1049,13 +1049,13 @@ void func_801A143C(s32 a0) {
             if ((rand() & 1) == 0) {
                 t = -t;
             }
-            vin.unk0.v3.unk0 = t;
+            vin.a = t;
             m = *(s32 *)(a0 + 0x20) + 0x34;
             ApplyMatrixLV(m, (s32)&vin, (s32)&vout);
 
-            CAST_WIDTH(s32, obj, 0x4) += vout.unk0.v3.unk0;
-            CAST_WIDTH(s32, obj, 0x8) += vout.unk0.v3.unk4;
-            CAST_WIDTH(s32, obj, 0xC) += vout.unk0.v3.unk8;
+            CAST_WIDTH(s32, obj, 0x4) += vout.a;
+            CAST_WIDTH(s32, obj, 0x8) += vout.b;
+            CAST_WIDTH(s32, obj, 0xC) += vout.c;
 
             r = rand();
             ((Unkstruct_800B5CB8 *)obj)->unk34 = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
@@ -1065,9 +1065,9 @@ void func_801A143C(s32 a0) {
                 continue;
             }
 
-            stk.f0 = (*(s32 *)(a0 + 0x4) + vout.unk0.v3.unk0) >> 16;
-            stk.f2 = (*(s32 *)(a0 + 0x8) + vout.unk0.v3.unk4) >> 16;
-            stk.f4 = (*(s32 *)(a0 + 0xC) + vout.unk0.v3.unk8) >> 16;
+            stk.f0 = (*(s32 *)(a0 + 0x4) + vout.a) >> 16;
+            stk.f2 = (*(s32 *)(a0 + 0x8) + vout.b) >> 16;
+            stk.f4 = (*(s32 *)(a0 + 0xC) + vout.c) >> 16;
             stk.f6 = 0x376;
             stk.f8 = 0;
             stk.fA = 0;
@@ -1398,9 +1398,9 @@ void func_801A1B28(s32 arg0) {
                 *(s16 *)(obj + 0x34) = 0x6000;
                 *(u16 *)(*(s32 *)(obj + 0x20) + 0x2C) = 0xC010;
                 mtx = *(MTX_801A1B28 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x34);
-                vec.unk0.v3.unk4 = 0;
-                vec.unk0.v3.unk0 = 0;
-                vec.unk0.v3.unk8 = -0xC0000;
+                vec.b = 0;
+                vec.a = 0;
+                vec.c = -0xC0000;
                 RotMatrixX(0x200, &mtx);
                 ApplyMatrixLV((s32)&mtx, (s32)&vec, obj + 0x10);
             }

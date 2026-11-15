@@ -207,9 +207,9 @@ void func_800CB1EC(void *a0) {
         RotMatrixY(((s5 << 16) >> 11) + ((Unkstruct_800CB1EC *)a0)->unk2C, &buf);
 
         out[0] = 0;
-        buf.unk0.v0.w[5] = guess_g_PlayerPosX;
-        buf.unk0.v0.w[6] = guess_g_PlayerPosY;
-        buf.unk0.v0.w[7] = guess_g_PlayerPosZ;
+        buf.w[5] = guess_g_PlayerPosX;
+        buf.w[6] = guess_g_PlayerPosY;
+        buf.w[7] = guess_g_PlayerPosZ;
 
         v1 = rcos(((s5 & 0xF) << 8) + ((Unkstruct_800CB1EC *)a0)->unk2C);
         out[1] = (v1 >> 9) - 0x30;

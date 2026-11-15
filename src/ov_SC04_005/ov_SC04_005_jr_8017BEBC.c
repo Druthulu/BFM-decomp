@@ -8668,9 +8668,9 @@ void func_80185774(s32 a0) {
         v1.vx = 0;
         v1.vy = s1;
 
-        ref.unk0.v3.unk4 = 0;
-        ref.unk0.v3.unk0 = 0;
-        ref.unk0.v3.unk8 = (s32)0xFFFC0000;
+        ref.b = 0;
+        ref.a = 0;
+        ref.c = (s32)0xFFFC0000;
 
         RotMatrixZYX((s32)&v1, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&ref, a0 + 0x10);
@@ -9846,9 +9846,9 @@ void func_80187714(s32 a0)
     s32 s0;
     s16 ang;
 
-    u.arg.unk0.v2.unk14 = CAST_SIGN(s16, a0, 6);
-    u.arg.unk0.v2.unk18 = CAST_SIGN(s16, a0, 0xA);
-    u.arg.unk0.v2.unk1C = CAST_SIGN(s16, a0, 0xE);
+    u.arg.w[5] = CAST_SIGN(s16, a0, 6);
+    u.arg.w[6] = CAST_SIGN(s16, a0, 0xA);
+    u.arg.w[7] = CAST_SIGN(s16, a0, 0xE);
     SetTransMatrix(&u);
 
     ang = 0;

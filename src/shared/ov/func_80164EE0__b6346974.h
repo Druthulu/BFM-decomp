@@ -5,7 +5,7 @@ void func_80164EE0(int param_1)
     int i;
 
     for (i = 7; i >= 0; i--) {
-        D_8018E96C[i].unk0.v2.unk0 = 0;
+        D_8018E96C[i].a = 0;
     }
     *(short *)(param_1 + 0x2e) = 0x4000;
     *(short *)(param_1 + 0x2c) = 0x4000;

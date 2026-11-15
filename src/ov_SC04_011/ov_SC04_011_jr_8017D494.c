@@ -3696,17 +3696,17 @@ void func_8017F340(s32 param_1) {
             rot.vx += ((rand() & 0x3f) << 4) - 0x200;
             rot.vy += ((rand() & 0x3f) << 4) - 0x200;
             rot.vz += ((rand() & 0x3f) << 4) - 0x200;
-            vel.unk0.v3.unk0 = ((rand() & 0x1f) - 0x10) << 16;
-            vel.unk0.v3.unk4 = ((rand() & 0x1f) - 0x10) << 16;
-            vel.unk0.v3.unk8 = ((rand() & 0x1f) - 0x10) << 16;
+            vel.a = ((rand() & 0x1f) - 0x10) << 16;
+            vel.b = ((rand() & 0x1f) - 0x10) << 16;
+            vel.c = ((rand() & 0x1f) - 0x10) << 16;
         }
 
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.unk0.v3.unk0;
-        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.unk0.v3.unk4;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.unk0.v3.unk8;
+        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
+        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
 
         q = (s16 *)(param_1 + 0x38);
         i = 0;
@@ -8215,9 +8215,9 @@ void func_801852BC(s32 id)
     obj = aFC4C[id];
     RotMatrixZYX(((Unkstruct_80180BF0 *)obj)->unk20 + 0x10, (s32)&mtx);
 
-    mtx.unk0.v2.unk14 = ((Unkstruct_80180BF0 *)obj)->unk6;
-    mtx.unk0.v2.unk18 = ((Unkstruct_80180BF0 *)obj)->unkA;
-    mtx.unk0.v2.unk1C = ((Unkstruct_80180BF0 *)obj)->unkE;
+    mtx.w[5] = ((Unkstruct_80180BF0 *)obj)->unk6;
+    mtx.w[6] = ((Unkstruct_80180BF0 *)obj)->unkA;
+    mtx.w[7] = ((Unkstruct_80180BF0 *)obj)->unkE;
 
     *(Oct_801852BC *)(((Unkstruct_80180BF0 *)obj)->unk20 + 0x34) = mtx;
     *(Oct_801852BC *)(((Unkstruct_80180BF0 *)obj)->unk20 + 0x54) = mtx;
@@ -8348,13 +8348,13 @@ void func_80185648(u32 a0)
 
             w0 = r[0];
             ((Unkstruct_80185648 *)s0)->unk6 = w0;
-            m.unk0.v2.unk14 = (s16)w0;
+            m.w[5] = (s16)w0;
             w1 = r[1];
             ((Unkstruct_80185648 *)s0)->unkA = w1;
-            m.unk0.v2.unk18 = (s16)w1;
+            m.w[6] = (s16)w1;
             w2 = r[2];
             ((Unkstruct_80185648 *)s0)->unkE = w2;
-            m.unk0.v2.unk1C = (s16)w2;
+            m.w[7] = (s16)w2;
 
             {
                 s32 d = ((Unkstruct_80185648 *)s0)->unk20.v0.unk20;
@@ -10741,17 +10741,17 @@ void func_80188B78(u8 *a0)
 
         ApplyRotMatrix(&D_80194850[i], &rv);
 
-        buf[0] = ((Unkstruct_800B5CB8 *)a0)->unk6 + rv.unk0.v3.unk0;
-        buf[1] = ((Unkstruct_800B5CB8 *)a0)->unkA + rv.unk0.v3.unk4;
+        buf[0] = ((Unkstruct_800B5CB8 *)a0)->unk6 + rv.a;
+        buf[1] = ((Unkstruct_800B5CB8 *)a0)->unkA + rv.b;
         fE = ((Unkstruct_800B5CB8 *)a0)->unkE;
         buf[3] = 0x10;
 
-        vec[0] = rv.unk0.v3.unk0 << 15;
-        vec[1] = (rv.unk0.v3.unk4 * 3) << 13;
+        vec[0] = rv.a << 15;
+        vec[1] = (rv.b * 3) << 13;
         vec[3] = 0;
-        vec[2] = rv.unk0.v3.unk8 << 15;
+        vec[2] = rv.c << 15;
 
-        buf[2] = fE + rv.unk0.v3.unk8;
+        buf[2] = fE + rv.c;
 
         p = func_8018F68C(buf, (int)vec, 0xE08060);
 

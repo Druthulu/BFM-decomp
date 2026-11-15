@@ -77,7 +77,7 @@ extern s32 func_8001BFA0(void);
 extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
 
 s32 func_800D1E18(void) {
-    return CdSearchFile(D_800EC9FC, (void *) D_800D942C[func_8001BFA0()].unk0.v1.unk0) != 0;
+    return CdSearchFile(D_800EC9FC, (void *) D_800D942C[func_8001BFA0()].w[0]) != 0;
 }
 
 

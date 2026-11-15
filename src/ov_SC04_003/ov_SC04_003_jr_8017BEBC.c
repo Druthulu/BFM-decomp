@@ -5426,9 +5426,9 @@ void func_80181184(s32 p)
     s32 s0;
     s16 i;
 
-    m.unk0.v0.w[5] = CAST_SIGN(s16, p, 6);
-    m.unk0.v0.w[6] = CAST_SIGN(s16, p, 0xA);
-    m.unk0.v0.w[7] = CAST_SIGN(s16, p, 0xE);
+    m.w[5] = CAST_SIGN(s16, p, 6);
+    m.w[6] = CAST_SIGN(s16, p, 0xA);
+    m.w[7] = CAST_SIGN(s16, p, 0xE);
     SetTransMatrix(&m);
 
     for (i = 0; i < 0x1000; i += 0x200) {

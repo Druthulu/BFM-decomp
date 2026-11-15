@@ -3785,15 +3785,15 @@ void func_80180088(s32 param_1)
     }
 
     wk = D_800AE620[0];
-    wk.unk0.v0.w[5] = CAST_SIGN(short, param_1, 6);
-    wk.unk0.v0.w[6] = CAST_SIGN(short, param_1, 0xA);
-    wk.unk0.v0.w[7] = CAST_SIGN(short, param_1, 0xE);
+    wk.w[5] = CAST_SIGN(short, param_1, 6);
+    wk.w[6] = CAST_SIGN(short, param_1, 0xA);
+    wk.w[7] = CAST_SIGN(short, param_1, 0xE);
 
-    RotMatrixY(CAST_NONSTRUCT(short, (s32)*(s32 **)(param_1 + 0x20), 0x14), &wk.unk0.v0.w[0]);
+    RotMatrixY(CAST_NONSTRUCT(short, (s32)*(s32 **)(param_1 + 0x20), 0x14), &wk.w[0]);
     {
         s32 *b58 = &guess_g_PlayerActor;
-        gte_SetRotMatrix(&wk.unk0.v0.w[0]);
-        gte_SetTransMatrix(&wk.unk0.v0.w[0]);
+        gte_SetRotMatrix(&wk.w[0]);
+        gte_SetTransMatrix(&wk.w[0]);
 
         RotTransSV(D_8018F210, sp18, out);
         RotTransSV(D_8018F210 + 8, sp20, out);

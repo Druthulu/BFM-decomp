@@ -3724,19 +3724,19 @@ void func_8017EBE4(s32 a0)
         gte_rtv0tr();
         gte_stlvnl(&vout);
         gte_stflg(&flag);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = vout.unk0.v3.unk0;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = vout.unk0.v3.unk4;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = vout.unk0.v3.unk8;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = vout.a;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = vout.b;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = vout.c;
     } else {
         if (((Unkstruct_800B5CB8 *)a0)->unk74) {
-            vin.unk0.v3.unk0 = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
-            vin.unk0.v3.unk4 = D_80126B60;
-            vin.unk0.v3.unk8 = D_80126B64;
+            vin.a = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
+            vin.b = D_80126B60;
+            vin.c = D_80126B64;
             func_8012F0BC((s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34), (s32 *)&vin, (s32 *)&res);
             if (CAST_SIGN(s16, a0, 0xA) >= -255) {
                 if (CAST_WIDTH(u8, a0, 0x102) == 0) {
                     owner = ((Unkstruct_800B5CB8 *)a0)->unk64;
-                    ((Unkstruct_800B5CB8 *)owner)->unkE0 += res.unk0.v3.unk0 >> 2;
+                    ((Unkstruct_800B5CB8 *)owner)->unkE0 += res.a >> 2;
                 }
             }
         }
@@ -3749,11 +3749,11 @@ void func_8017EBE4(s32 a0)
              * instead, which costs 10 instructions.  Landing the boolean in its own s32 local
              * first forces the do_store_flag (xori/sltiu) form. */
             c = (((Unkstruct_800B5CB8 *)a0)->unkFE == 3);
-            res.unk0.v3.unk4 = (*(s16 *)((s32)&D_8018968C[0] + (c << 4)) - 1) << 16;
+            res.b = (*(s16 *)((s32)&D_8018968C[0] + (c << 4)) - 1) << 16;
             func_8012F1A4((s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34), (s32)&res, (s32 *)&vout);
-            g[1] = vout.unk0.v3.unk0;
-            g[2] = vout.unk0.v3.unk4;
-            g[3] = vout.unk0.v3.unk8;
+            g[1] = vout.a;
+            g[2] = vout.b;
+            g[3] = vout.c;
         }
     }
 }

@@ -2817,17 +2817,17 @@ void func_80181CDC(Obj1CDC *obj) {
             ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(
                 ((Unkstruct_80126B58 *)D_801C7E54)->unk20 + 0x34, D_8019292C, &pos);
 
-            d.unk0.v3.unk0 = obj->x - pos.vx;
-            d.unk0.v3.unk4 = obj->y - pos.vy;
-            d.unk0.v3.unk8 = obj->z - pos.vz;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - pos.vx;
+            d.b = obj->y - pos.vy;
+            d.c = obj->z - pos.vz;
+            Square0(&d.a, &d.a);
+            sum = d.a + d.b + d.c;
 
-            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
-            d.unk0.v3.unk4 = obj->y - (s16)guess_g_PlayerPosY;
-            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - (s16)guess_g_PlayerPosX;
+            d.b = obj->y - (s16)guess_g_PlayerPosY;
+            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.a, &d.a);
+            sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
@@ -2900,17 +2900,17 @@ void func_80181CDC(Obj1CDC *obj) {
                 }
             }
 
-            d.unk0.v3.unk0 = obj->x - pos.vx;
-            d.unk0.v3.unk4 = obj->y - pos.vy;
-            d.unk0.v3.unk8 = obj->z - pos.vz;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - pos.vx;
+            d.b = obj->y - pos.vy;
+            d.c = obj->z - pos.vz;
+            Square0(&d.a, &d.a);
+            sum = d.a + d.b + d.c;
 
-            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
-            d.unk0.v3.unk4 = obj->y + 0xC0;
-            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - (s16)guess_g_PlayerPosX;
+            d.b = obj->y + 0xC0;
+            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.a, &d.a);
+            sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
@@ -2970,17 +2970,17 @@ void func_80181CDC(Obj1CDC *obj) {
                 }
             }
 
-            d.unk0.v3.unk0 = obj->x - pos.vx;
-            d.unk0.v3.unk4 = obj->y - pos.vy;
-            d.unk0.v3.unk8 = obj->z - pos.vz;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - pos.vx;
+            d.b = obj->y - pos.vy;
+            d.c = obj->z - pos.vz;
+            Square0(&d.a, &d.a);
+            sum = d.a + d.b + d.c;
 
-            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
-            d.unk0.v3.unk4 = obj->y + 0xC0;
-            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
-            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
+            d.a = obj->x - (s16)guess_g_PlayerPosX;
+            d.b = obj->y + 0xC0;
+            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.a, &d.a);
+            sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {

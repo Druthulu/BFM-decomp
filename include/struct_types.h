@@ -394,11 +394,7 @@ typedef struct {
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
 typedef struct {
-    /* 0x0000 */ union {
-        struct { s32 w[8]; } v0;
-        struct { s32 unk0; } v1;
-        struct { u8 pad0[0x14]; s32 unk14; s32 unk18; s32 unk1C; } v2;
-    } unk0;
+    /* 0x0000 */ s32 w[8];
 } Blk20_8016DF5C; /* size = 0x20 */
 typedef Blk20_8016DF5C Blk20;
 typedef struct {
@@ -551,12 +547,10 @@ typedef PrimTag PTag;
 typedef Blk16_8018A8B8 St801D9204;
 typedef E4 Unkstruct_801151D0;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { s32 a; s32 b; s32 c; s32 d; } v0;
-        struct { s32 unk0[4]; } v1;
-        struct { int unk0; } v2;
-        struct { s32 unk0; s32 unk4; s32 unk8; } v3;
-    } unk0;
+    /* 0x0000 */ s32 a;
+    /* 0x0004 */ s32 b;
+    /* 0x0008 */ s32 c;
+    /* 0x000c */ s32 d;
 } Blk16_956C; /* size = 0x10 */
 typedef Blk16_956C V32;
 
@@ -978,11 +972,7 @@ typedef struct {
     /* 0x4 */ s32 c;
 } Rec8_801A026C;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { u16 h[6]; } v0;
-        struct { u16 unk0; u16 unk2; } v1;
-        struct { u16 unk0; u16 unk2; u16 unk4; u16 unk6; u16 unk8; u16 unkA; } v2;
-    } unk0;
+    /* 0x0000 */ u16 h[6];
 } Rec_80166690_80166690; /* size = 0xc */
 typedef struct {
     s32 unk00;
@@ -1719,10 +1709,7 @@ typedef struct {                                      /* 0x10 LINE_F2 */
     s16 x1, y1;
 } LineF2_80015F04;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { u32 w[8]; } v0;
-        struct { u8 pad0[0x4]; u32 unk4; u32 unk8; u32 unkC; u32 unk10; u32 unk14; u32 unk18; } v1;
-    } unk0;
+    /* 0x0000 */ u32 w[8];
 } Blk32_801898F4; /* size = 0x20 */
 typedef Ft4_800CBA18 LineG4_80016C28;
 typedef MATRIX MATRIX_8001EFE0;
@@ -2224,14 +2211,11 @@ typedef struct {
     u32 flags;              /* 0x24 */
 } Src_80016B60;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { SV_80016C28 v[4]; } v0;
-        struct { SV_80017778 unk0[4]; } v1;
-    } unk0;
-    /* 0x0020 */ union {
-        struct { u32 rgb0; u32 rgb1; u32 rgb2; u32 rgb3; } v0;
-        struct { u32 unk0[4]; } v1;
-    } unk20;
+    /* 0x0000 */ SV_80016C28 v[4];
+    /* 0x0020 */ u32 rgb0;
+    /* 0x0024 */ u32 rgb1;
+    /* 0x0028 */ u32 rgb2;
+    /* 0x002c */ u32 rgb3;
     /* 0x0030 */ u32 flags;
 } Src_80016C28; /* size = 0x34 */
 typedef struct {
@@ -2516,10 +2500,7 @@ typedef struct {
     /* 0x0B */ u8  unk0B;
 } B12;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { u8 b[12]; } v0;
-        struct { u8 unk0; } v1;
-    } unk0;
+    /* 0x0000 */ u8 b[12];
 } Blk12_801854C4; /* size = 0xc */
 typedef struct {               /* 0x18 stride; D_800A463C + k*0x18 */
     s32 unk00;

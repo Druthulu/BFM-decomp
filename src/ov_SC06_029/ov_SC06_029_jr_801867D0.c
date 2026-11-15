@@ -4265,12 +4265,12 @@ void func_8018865C(void)
     ang = -0xC0;
     zz = -0x40;
     i = 0;
-    vec.unk0.v3.unk0 = 0;
-    vec.unk0.v3.unk8 = 0;
+    vec.a = 0;
+    vec.c = 0;
     do {
         mtx = (*(B20 *)&D_800AE620);
         RotMatrixZ(ang, &mtx);
-        vec.unk0.v3.unk4 = ((rand() % 9) << 16) - 0x300000;
+        vec.b = ((rand() % 9) << 16) - 0x300000;
         p = ((s32 (*)(s32))func_8012913C)(0x22);
         if (p != 0) {
             ((Unkstruct_8018865C *)p)->unk6 = zz;

@@ -878,8 +878,8 @@ s32 func_801E38B4(void)
                 ((s32 *)D_801EAC58)[i] = 0;
             }
         }
-        if (((Blk16_956C *)D_801EAC58)->unk0.v0.a == 0 && ((Blk16_956C *)D_801EAC58)->unk0.v0.b == 0 && ((Blk16_956C *)D_801EAC58)->unk0.v0.c == 0 &&
-            ((Blk16_956C *)D_801EAC58)->unk0.v0.d == 0) {
+        if (((Blk16_956C *)D_801EAC58)->a == 0 && ((Blk16_956C *)D_801EAC58)->b == 0 && ((Blk16_956C *)D_801EAC58)->c == 0 &&
+            ((Blk16_956C *)D_801EAC58)->d == 0) {
             goto reset_state;
         }
         D_8011512C = 1;
@@ -1086,8 +1086,8 @@ int func_801E3C1C() {
             } else {
                 guess_g_MenuPanel = (func_8002AF60() & 3) + 1;
             }
-            if ((((Blk16_956C *)D_801EAC58)->unk0.v0.a == 0) && (((Blk16_956C *)D_801EAC58)->unk0.v0.b == 0) && (((Blk16_956C *)D_801EAC58)->unk0.v0.c == 0) &&
-                (((Blk16_956C *)D_801EAC58)->unk0.v0.d == 0)) {
+            if ((((Blk16_956C *)D_801EAC58)->a == 0) && (((Blk16_956C *)D_801EAC58)->b == 0) && (((Blk16_956C *)D_801EAC58)->c == 0) &&
+                (((Blk16_956C *)D_801EAC58)->d == 0)) {
                 D_801150D4 = 0;
                 guess_g_MenuPanel = 1;
             }

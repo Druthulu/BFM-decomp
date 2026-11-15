@@ -898,8 +898,8 @@ s32 func_801F0734(void) {
                 ((s32 *)D_801F9DBC)[i] = 0;
             }
         }
-        if (((Blk16_956C *)D_801F9DBC)->unk0.v0.a == 0 && ((Blk16_956C *)D_801F9DBC)->unk0.v0.b == 0 && ((Blk16_956C *)D_801F9DBC)->unk0.v0.c == 0 &&
-            ((Blk16_956C *)D_801F9DBC)->unk0.v0.d == 0) {
+        if (((Blk16_956C *)D_801F9DBC)->a == 0 && ((Blk16_956C *)D_801F9DBC)->b == 0 && ((Blk16_956C *)D_801F9DBC)->c == 0 &&
+            ((Blk16_956C *)D_801F9DBC)->d == 0) {
             goto reset_state;
         }
         D_8011512C = 1;

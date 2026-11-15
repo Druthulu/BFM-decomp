@@ -83,12 +83,12 @@ s32 func_800CCBC0(void)
     if (cnt != -1) {
         do {
             q = &e[idx];
-            prim.v0.vx = q->unk0.v2.unk0;
-            prim.v0.vy = q->unk0.v2.unk2;
-            prim.v0.vz = q->unk0.v2.unk4;
-            prim.v1.vx = q->unk0.v2.unk6;
-            prim.v1.vy = q->unk0.v2.unk8;
-            prim.v1.vz = q->unk0.v2.unkA;
+            prim.v0.vx = q->h[0];
+            prim.v0.vy = q->h[1];
+            prim.v0.vz = q->h[2];
+            prim.v1.vx = q->h[3];
+            prim.v1.vy = q->h[4];
+            prim.v1.vz = q->h[5];
             n = n + 1;
             idx = idx - 1;
             prim.c0.r = prim.c1.r = tim;
@@ -97,12 +97,12 @@ s32 func_800CCBC0(void)
                 idx = 15;
             }
             q = &e[idx];
-            prim.v2.vx = q->unk0.v2.unk0;
-            prim.v2.vy = q->unk0.v2.unk2;
-            prim.v2.vz = q->unk0.v2.unk4;
-            prim.v3.vx = q->unk0.v2.unk6;
-            prim.v3.vy = q->unk0.v2.unk8;
-            prim.v3.vz = q->unk0.v2.unkA;
+            prim.v2.vx = q->h[0];
+            prim.v2.vy = q->h[1];
+            prim.v2.vz = q->h[2];
+            prim.v3.vx = q->h[3];
+            prim.v3.vy = q->h[4];
+            prim.v3.vz = q->h[5];
             tim = tim - 0x10;
             half = half - 0x10;
             if (half < 0) {
@@ -149,12 +149,12 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
         p->tim = 0xf4;
         break;
     case 1:
-        v20[0] = p->e[p->idx].unk0.v2.unk0;
-        v20[1] = p->e[p->idx].unk0.v2.unk2;
-        v20[2] = p->e[p->idx].unk0.v2.unk4;
-        v28[0] = p->e[p->idx].unk0.v2.unk6;
-        v28[1] = p->e[p->idx].unk0.v2.unk8;
-        v28[2] = p->e[p->idx].unk0.v2.unkA;
+        v20[0] = p->e[p->idx].h[0];
+        v20[1] = p->e[p->idx].h[1];
+        v20[2] = p->e[p->idx].h[2];
+        v28[0] = p->e[p->idx].h[3];
+        v28[1] = p->e[p->idx].h[4];
+        v28[2] = p->e[p->idx].h[5];
         c = p->idx;
         p->idx = c + 1;
         if ((u8)(c + 1) > 0xf) {
@@ -200,12 +200,12 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
         v20[0] = v28[0] + v20[0] / param_3;
         v20[1] = v28[1] + v20[1] / param_3;
         v20[2] = v28[2] + v20[2] / param_3;
-        p->e[p->idx].unk0.v2.unk0 = v20[0];
-        p->e[p->idx].unk0.v2.unk2 = v20[1];
-        p->e[p->idx].unk0.v2.unk4 = v20[2];
-        p->e[p->idx].unk0.v2.unk6 = v28[0];
-        p->e[p->idx].unk0.v2.unk8 = v28[1];
-        p->e[p->idx].unk0.v2.unkA = v28[2];
+        p->e[p->idx].h[0] = v20[0];
+        p->e[p->idx].h[1] = v20[1];
+        p->e[p->idx].h[2] = v20[2];
+        p->e[p->idx].h[3] = v28[0];
+        p->e[p->idx].h[4] = v28[1];
+        p->e[p->idx].h[5] = v28[2];
         c = p->idx;
         p->idx = c + 1;
         if ((u8)(c + 1) > 0xf) {
@@ -216,12 +216,12 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
         }
     }
 
-    p->e[p->idx].unk0.v2.unk0 = v10[0];
-    p->e[p->idx].unk0.v2.unk2 = v10[1];
-    p->e[p->idx].unk0.v2.unk4 = v10[2];
-    p->e[p->idx].unk0.v2.unk6 = v18[0];
-    p->e[p->idx].unk0.v2.unk8 = v18[1];
-    p->e[p->idx].unk0.v2.unkA = v18[2];
+    p->e[p->idx].h[0] = v10[0];
+    p->e[p->idx].h[1] = v10[1];
+    p->e[p->idx].h[2] = v10[2];
+    p->e[p->idx].h[3] = v18[0];
+    p->e[p->idx].h[4] = v18[1];
+    p->e[p->idx].h[5] = v18[2];
     return 0;
 }
 

@@ -1539,9 +1539,9 @@ void func_801A2400(s32 arg0) {
                 v0 = guess_YawToPoint((void *)(s1 + 4), &sp20);
                 m = *(Mtx32_801A2400 *)&D_800AE620;
                 RotMatrixY((s16)v0, &m);
-                sp10.unk0.v3.unk4 = 0;
-                sp10.unk0.v3.unk0 = 0;
-                sp10.unk0.v3.unk8 = 0xFFFC0000;
+                sp10.b = 0;
+                sp10.a = 0;
+                sp10.c = 0xFFFC0000;
                 ApplyMatrixLV((s32)&m, (s32)&sp10, s1 + 0x10);
             } else {
                 func_801A34C4(s1);
@@ -1626,9 +1626,9 @@ void func_801A2400(s32 arg0) {
         sp20.vz = 0x20;
         func_801A8DCC(s1, (s32)&sp20);
         func_801A8DCC(s1, (s32)&sp20);
-        sp48.unk0.v3.unk0 = *(s32 *)(s1 + 4);
-        sp48.unk0.v3.unk4 = *(s32 *)(s1 + 8) + 0xFFC00000;
-        sp48.unk0.v3.unk8 = *(s32 *)(s1 + 0xC);
+        sp48.a = *(s32 *)(s1 + 4);
+        sp48.b = *(s32 *)(s1 + 8) + 0xFFC00000;
+        sp48.c = *(s32 *)(s1 + 0xC);
         func_80184E20(&sp48);
         func_80184E98(rand() & 0xFF8, 0x60);
         func_801ADC40((u8 *)s1);
@@ -2095,23 +2095,23 @@ void func_801A3180(s32 arg0, s32 arg1) {
     }
     dist = func_80047D3C((sp30.vx - CAST_SIGN(s16, arg0, 6)) * (sp30.vx - CAST_SIGN(s16, arg0, 6)) +
                          (sp30.vz - CAST_SIGN(s16, arg0, 0xE)) * (sp30.vz - CAST_SIGN(s16, arg0, 0xE)));
-    sp40.unk0.v3.unk4 = 0;
-    sp40.unk0.v3.unk0 = 0;
+    sp40.b = 0;
+    sp40.a = 0;
     if (!(D_8019FF8A & 0x80) && dist >= 0x101 && var_s2 < 0x300) {
         D_8019FF8A |= 0x40;
         func_801A34FC(arg0, (u16 *)&sp30);
         D_8019FF8A |= 0x10;
-        sp40.unk0.v3.unk8 = 0xFFF00000;
+        sp40.c = 0xFFF00000;
     } else {
-        sp40.unk0.v3.unk8 = -((0x400 - sd) * arg1);
+        sp40.c = -((0x400 - sd) * arg1);
     }
     m = *(Mtx32_801A3180 *)&D_800AE620;
     RotMatrixY(var_s3, &m);
     ApplyMatrixLV((s32)&m, (s32)&sp40, (s32)&sp40);
-    CAST_WIDTH(s32, arg0, 0x10) = sp40.unk0.v3.unk0;
-    CAST_WIDTH(s32, arg0, 4) += sp40.unk0.v3.unk0;
-    CAST_WIDTH(s32, arg0, 0x18) = sp40.unk0.v3.unk8;
-    CAST_WIDTH(s32, arg0, 0xC) += sp40.unk0.v3.unk8;
+    CAST_WIDTH(s32, arg0, 0x10) = sp40.a;
+    CAST_WIDTH(s32, arg0, 4) += sp40.a;
+    CAST_WIDTH(s32, arg0, 0x18) = sp40.c;
+    CAST_WIDTH(s32, arg0, 0xC) += sp40.c;
 }
 
 
@@ -3376,9 +3376,9 @@ void func_801A4FDC(void)
     p = (s32)func_801290DC(0x22, (u8 *)&vec0);
     if (p != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
-        vec1.unk0.v3.unk0 = 0;
-        vec1.unk0.v3.unk4 = -0x40000;
-        vec1.unk0.v3.unk8 = -(((rand() & 0xF) + 0x1C) << 16);
+        vec1.a = 0;
+        vec1.b = -0x40000;
+        vec1.c = -(((rand() & 0xF) + 0x1C) << 16);
         ApplyRotMatrixLV(&vec1, (void *)(p + 0x10));
         *(s16 *)(p + 0x34) = 0x3000;
     }
@@ -3412,10 +3412,10 @@ void func_801A5094(void)
     p = (s32)func_801290DC(0x2E, (u8 *)&vec0);
     if (p != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
-        vec1.unk0.v3.unk0 = 0;
-        vec1.unk0.v3.unk4 = 0;
+        vec1.a = 0;
+        vec1.b = 0;
         r = rand();
-        vec1.unk0.v3.unk8 = -(((r & 7) + 0x20) << 16);
+        vec1.c = -(((r & 7) + 0x20) << 16);
         ApplyRotMatrixLV(&vec1, (void *)(p + 0x10));
         D_801F8747[0] = 1;
         __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched2-unit-hazard
@@ -5979,9 +5979,9 @@ void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
     h.e[2] = a2;
     func_8004978C((s16 *) &h, &buf);
 
-    st.unk0.v1.unk0[0] = -a3;
-    st.unk0.v1.unk0[2] = 0;
-    st.unk0.v1.unk0[1] = 0;
+    st.a = -a3;
+    st.c = 0;
+    st.b = 0;
     ApplyMatrixLV((s32) &buf, (s32) &st, s1 + 0x10);
 
     t = (s16) a4;

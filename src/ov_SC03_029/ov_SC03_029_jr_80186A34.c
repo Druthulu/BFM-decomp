@@ -3493,9 +3493,9 @@ s32 func_80187118(s32 a0, s32 a1)
     RotMatrixY(func_8012B864(a0), &m);
     ApplyMatrixLV((s32)&m, a1, (s32)&out);
 
-    pos[0] = CAST_WIDTH(s32, a0, 0x4) + out.unk0.v3.unk0;
-    pos[1] = CAST_WIDTH(s32, a0, 0x8) + out.unk0.v3.unk4;
-    pos[2] = CAST_WIDTH(s32, a0, 0xC) + out.unk0.v3.unk8;
+    pos[0] = CAST_WIDTH(s32, a0, 0x4) + out.a;
+    pos[1] = CAST_WIDTH(s32, a0, 0x8) + out.b;
+    pos[2] = CAST_WIDTH(s32, a0, 0xC) + out.c;
 
     {
         u16 rix;

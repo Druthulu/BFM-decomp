@@ -3436,27 +3436,27 @@ void func_8017E024(s32 a0)
         gte_rtv0tr();
         gte_stlvnl(&vout);
         gte_stflg(&flag);
-        *(s16 *)(a0 + 0x6) = vout.unk0.v3.unk0;
-        *(s16 *)(a0 + 0xA) = vout.unk0.v3.unk4;
-        *(s16 *)(a0 + 0xE) = vout.unk0.v3.unk8;
+        *(s16 *)(a0 + 0x6) = vout.a;
+        *(s16 *)(a0 + 0xA) = vout.b;
+        *(s16 *)(a0 + 0xE) = vout.c;
     } else {
         if (*(u8 *)(a0 + 0x74)) {
-            vin.unk0.v3.unk0 = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
-            vin.unk0.v3.unk4 = D_80126B60;
-            vin.unk0.v3.unk8 = D_80126B64;
+            vin.a = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
+            vin.b = D_80126B60;
+            vin.c = D_80126B64;
             func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32 *)&vin, (s32 *)&res);
             if (*(u8 *)(a0 + 0x102) == 0) {
                 owner = *(s32 *)(a0 + 0x64);
-                ((Unkstruct_8017E024 *)owner)->unkE0 += res.unk0.v3.unk0 >> 2;
+                ((Unkstruct_8017E024 *)owner)->unkE0 += res.a >> 2;
             }
         }
         func_80132784(a0, *(s32 *)(a0 + 0x64), 0);
         if (*(u8 *)(a0 + 0x74)) {
-            res.unk0.v3.unk4 = (D_8019B584 - 1) << 16;
+            res.b = (D_8019B584 - 1) << 16;
             func_8012F1A4((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32)&res, (s32 *)&vout);
-            g[1] = vout.unk0.v3.unk0;
-            g[2] = vout.unk0.v3.unk4;
-            g[3] = vout.unk0.v3.unk8;
+            g[1] = vout.a;
+            g[2] = vout.b;
+            g[3] = vout.c;
         }
     }
 }
@@ -3790,9 +3790,9 @@ void func_8017E910(void *a0)
 
     m = D_800AE620;
 
-    m.unk0.v0.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.unk0.v0.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.unk0.v0.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), &m);
 

@@ -3284,16 +3284,16 @@ void func_8018797C(s32 a0) {
             u32 sign;
             tmp = *(Blk16_956C *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3308,16 +3308,16 @@ void func_8018797C(s32 a0) {
             u32 sign;
             tmp = *(Blk16_956C *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3774,12 +3774,12 @@ void func_80188554(s32 param_1) {
     {
         void *target = (void *)(param_1 + 0x88);
 
-        d.unk0.v3.unk0 = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
-        d.unk0.v3.unk4 = 0;
-        d.unk0.v3.unk8 = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
-        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+        d.a = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
+        d.b = 0;
+        d.c = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
+        Square0(&d.a, &d.a);
 
-        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
+        if (d.a + d.c > 0x8FFFF) {
             ((Unkstruct_800B5CB8 *)param_1)->unkFC =
                 guess_YawToPoint((void *)(param_1 + 0x4), target);
         } else {

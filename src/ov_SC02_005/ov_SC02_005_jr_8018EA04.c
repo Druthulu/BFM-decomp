@@ -4771,50 +4771,50 @@ void func_80190538(s32 arg0) {
         s32 dx, dz, q;
 
         dx = CAST_SIGN(s16, t, 6) - ((Unkstruct_80190538 *)s0)->unk6;
-        d.unk0.v3.unk0 = dx;
-        v.unk0.v3.unk0 = dx;
+        d.a = dx;
+        v.a = dx;
         q = ((Unkstruct_80190538 *)s0)->unkE + 0x180;
         dz = CAST_SIGN(s16, t, 0xE) - q;
-        d.unk0.v3.unk8 = dz;
-        v.unk0.v3.unk8 = dz;
-        if (dx < 0) d.unk0.v3.unk0 = -dx;
-        if (dz < 0) d.unk0.v3.unk8 = -dz;
-        if (d.unk0.v3.unk0 >= 0x21) {
-            if (dx < 0) v.unk0.v3.unk0 = -0x80000; else v.unk0.v3.unk0 = 0x80000;
+        d.c = dz;
+        v.c = dz;
+        if (dx < 0) d.a = -dx;
+        if (dz < 0) d.c = -dz;
+        if (d.a >= 0x21) {
+            if (dx < 0) v.a = -0x80000; else v.a = 0x80000;
         } else {
-            v.unk0.v3.unk0 = 0;
+            v.a = 0;
         }
-        if (d.unk0.v3.unk8 >= 0x21) {
-            if (v.unk0.v3.unk8 < 0) v.unk0.v3.unk8 = -0x80000; else v.unk0.v3.unk8 = 0x80000;
+        if (d.c >= 0x21) {
+            if (v.c < 0) v.c = -0x80000; else v.c = 0x80000;
         } else {
-            v.unk0.v3.unk8 = 0;
+            v.c = 0;
         }
-        v.unk0.v3.unk4 = 0;
+        v.b = 0;
     } else {
         s32 dx, dz, q;
 
         dz = CAST_SIGN(s16, t, 0xE) - ((Unkstruct_80190538 *)s0)->unkE;
-        d.unk0.v3.unk8 = dz;
-        v.unk0.v3.unk8 = dz;
+        d.c = dz;
+        v.c = dz;
         q = ((Unkstruct_80190538 *)s0)->unk6 - 0x180;
         dx = CAST_SIGN(s16, t, 6) - q;
-        d.unk0.v3.unk0 = dx;
-        v.unk0.v3.unk0 = dx;
-        if (dx < 0) d.unk0.v3.unk0 = -dx;
-        if (dz < 0) d.unk0.v3.unk8 = -dz;
-        if (d.unk0.v3.unk0 >= 0x21) {
-            if (dx < 0) v.unk0.v3.unk0 = -0x80000; else v.unk0.v3.unk0 = 0x80000;
+        d.a = dx;
+        v.a = dx;
+        if (dx < 0) d.a = -dx;
+        if (dz < 0) d.c = -dz;
+        if (d.a >= 0x21) {
+            if (dx < 0) v.a = -0x80000; else v.a = 0x80000;
         } else {
-            v.unk0.v3.unk0 = 0;
+            v.a = 0;
         }
-        if (d.unk0.v3.unk8 >= 0x21) {
-            if (v.unk0.v3.unk8 < 0) v.unk0.v3.unk8 = -0x80000; else v.unk0.v3.unk8 = 0x80000;
+        if (d.c >= 0x21) {
+            if (v.c < 0) v.c = -0x80000; else v.c = 0x80000;
         } else {
-            v.unk0.v3.unk8 = 0;
+            v.c = 0;
         }
-        v.unk0.v3.unk4 = 0;
+        v.b = 0;
     }
-    func_80146DE8((s32 *)s0, v.unk0.v3.unk0, v.unk0.v3.unk4, v.unk0.v3.unk8);
+    func_80146DE8((s32 *)s0, v.a, v.b, v.c);
     func_80147F50(s0);
     guess_ApplyVelocity((s32 *)s0);
     guess_AddVertSpeed(s0, 0x18000);

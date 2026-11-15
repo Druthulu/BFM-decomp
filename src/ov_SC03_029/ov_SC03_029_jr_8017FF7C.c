@@ -3907,16 +3907,16 @@ void func_80181A30(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80181A30 *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3931,16 +3931,16 @@ void func_80181A30(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80181A30 *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -6387,7 +6387,7 @@ void func_80184FF0(void *a0)
     *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += 0x40;
     func_8012B414((s32)a0);
 
-    mv.unk0.v3.unk8  = -0x40000;
+    mv.c  = -0x40000;
     rot.vz = 0;
     col = D_801C499C[(CAST_SIGN(u16, (s32)a0, 0x10A))++ & 7];
     prim.code = 0x50000000;
@@ -6420,9 +6420,9 @@ void func_80184FF0(void *a0)
             t = base + 0x800;
             t &= 0xFC0;
         horiz:
-            mv.unk0.v3.unk4 = (rcos(t) << 4) * flag;
-            mv.unk0.v3.unk0 = 0;
-            rot.vx = -ratan2(mv.unk0.v3.unk4, mv.unk0.v3.unk8);
+            mv.b = (rcos(t) << 4) * flag;
+            mv.a = 0;
+            rot.vx = -ratan2(mv.b, mv.c);
             rot.vy = 0;
             break;
         case 2:
@@ -6432,18 +6432,18 @@ void func_80184FF0(void *a0)
             t = base + 0x800;
             t &= 0xFC0;
         vert:
-            mv.unk0.v3.unk0 = (rcos(t) << 4) * flag;
-            mv.unk0.v3.unk4 = 0;
+            mv.a = (rcos(t) << 4) * flag;
+            mv.b = 0;
             rot.vx = 0;
-            rot.vy = ratan2(-mv.unk0.v3.unk8, mv.unk0.v3.unk0) - 0x400;
+            rot.vy = ratan2(-mv.c, mv.a) - 0x400;
             break;
         }
         ((void (*)(void *, void *))RotMatrixZYX)(&rot, &mtx);
 
         q = zb + k * 3;
-        p[0] += mv.unk0.v3.unk0;
-        q[-1] += mv.unk0.v3.unk4;
-        q[0] += mv.unk0.v3.unk8;
+        p[0] += mv.a;
+        q[-1] += mv.b;
+        q[0] += mv.c;
         mtx.t[0] = ((s16 *)p)[1];
         mtx.t[1] = ((s16 *)q)[-1];
         mtx.t[2] = ((s16 *)q)[1];

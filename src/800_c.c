@@ -1669,7 +1669,7 @@ void func_80037028(s32 base, s32 val) {
         D_80076240[slot].unk04 = val;
         D_80076244[slot].unk0C = 0;
         D_80076240[slot].unk08 = base;
-        b = D_80064D49[base].unk0.v1.unk0;
+        b = D_80064D49[base].b[0];
         D_80076244[slot].unk0E = b;
         D_80076240[slot].unk0C = D_800A463C[b].unk00;
 
@@ -1939,7 +1939,7 @@ s32 func_8003750C(void) {
                 continue;
             }
             h = D_800A4640[k].unk04;
-            if (h != 0 && h != D_80064D4A[val].unk0.v1.unk0) {
+            if (h != 0 && h != D_80064D4A[val].b[0]) {
                 D_800C532A[D_800A4640[k].unk08 * 2] = -1;
                 D_800A4640[k].unk04 = 0;
                 D_800A4640[k].unk08 = 0;

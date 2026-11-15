@@ -4521,7 +4521,7 @@ void func_8017E7D4(void) {
     s32 *p;
     s32 var_s1;
 
-    p = &b0.unk0.v0.w[0];
+    p = &b0.w[0];
     b0 = *(Blk20_8016DF5C *)D_801E06C4;
     b1 = *(Blk20_8016DF5C *)D_801E06E4;
     b2 = *(Blk20_8016DF5C *)D_801E0704;
@@ -4876,16 +4876,16 @@ void func_8017F26C(s32 a0) {
             u32 sign;
             tmp = *(Blk16_956C *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -4900,16 +4900,16 @@ void func_8017F26C(s32 a0) {
             u32 sign;
             tmp = *(Blk16_956C *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }

@@ -2074,10 +2074,7 @@ typedef Blk20_8016DF5C Blk32_80180770;
 typedef Blk20_8016DF5C Blk32_80180908;
 typedef struct { s32 a[14]; } Blk38;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { u8 d[4]; } v0;
-        struct { u8 unk0; } v1;
-    } unk0;
+    /* 0x0000 */ u8 d[4];
 } Blk4_8017CE90_8017CE90; /* size = 0x4 */
 typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90;
 typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90_8017F32C;

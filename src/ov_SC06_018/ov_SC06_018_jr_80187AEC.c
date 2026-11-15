@@ -5067,7 +5067,7 @@ extern Blk4_8017CE90_8017CE90 D_801D3B10;
 extern Blk4_8017CE90_8017CE90 D_801D3B08;
 
 void func_8018AB74(void) {
-    if (D_801D57B0.unk0.v1.unk0 == 0xFF) {
+    if (D_801D57B0.d[0] == 0xFF) {
         D_801D57B0 = D_801D3B10;
     } else {
         D_801D57B0 = D_801D3B08;

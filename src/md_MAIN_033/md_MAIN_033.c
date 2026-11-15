@@ -273,9 +273,9 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
     ptr = CAST_SIGN(u8 *, arg0, 0x20);
     guess_CopyVec3HighHalves(arg0 + 4, out1);
     st = *(Blk20_8016DF5C *)((Unkstruct_800CB190 *)ptr)->unk34;
-    st.unk0.v0.w[5] = 0;
-    st.unk0.v0.w[6] = 0;
-    st.unk0.v0.w[7] = 0;
+    st.w[5] = 0;
+    st.w[6] = 0;
+    st.w[7] = 0;
     guess_RotTransSVWithMatrix((s32)&st, arg1, (s32)out2);
     CAST_SIGN(u16, arg0, 6) += out2[0];
     CAST_SIGN(u16, arg0, 0xA) += out2[1];

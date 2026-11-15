@@ -5616,16 +5616,16 @@ void func_80182B44(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80182B44 *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -5640,16 +5640,16 @@ void func_80182B44(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80182B44 *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
+            off[0] = rnd % (tmp.a + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
+            off[1] = rnd % (tmp.b + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
+            off[2] = rnd % (tmp.c + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -8026,12 +8026,12 @@ void func_801862B8(s32 a0) {
     {
         void *target = (void *)(a0 + 0x88);
 
-        d.unk0.v3.unk0 = CAST_SIGN(s16, a0, 0x6) - *(s16 *)target;
-        d.unk0.v3.unk4 = 0;
-        d.unk0.v3.unk8 = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
-        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+        d.a = CAST_SIGN(s16, a0, 0x6) - *(s16 *)target;
+        d.b = 0;
+        d.c = CAST_SIGN(s16, a0, 0xE) - CAST_SIGN(s16, a0, 0x8C);
+        Square0(&d.a, &d.a);
 
-        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
+        if (d.a + d.c > 0x8FFFF) {
             ((Unkstruct_800B5CB8 *)a0)->unkFC =
                 guess_YawToPoint((void *)(a0 + 0x4), target);
         } else {
@@ -8134,12 +8134,12 @@ void func_80186530(s32 param_1)
     s32 tmp0;
 
     if ((((Unkstruct_800B5CB8 *)param_1)->unk34 == 0) && ((((Unkstruct_800B5CB8 *)param_1)->unk72 & 0x4000) != 0)) {
-        d.unk0.v3.unk0 = CAST_SIGN(s16, param_1, 0x6) - CAST_SIGN(s16, param_1, 0x88);
-        d.unk0.v3.unk4 = 0;
-        d.unk0.v3.unk8 = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
-        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+        d.a = CAST_SIGN(s16, param_1, 0x6) - CAST_SIGN(s16, param_1, 0x88);
+        d.b = 0;
+        d.c = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
+        Square0(&d.a, &d.a);
 
-        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
+        if (d.a + d.c > 0x8FFFF) {
             v0 = 1;
         } else if (func_8012BD3C(param_1, 0x600, 0x24000) == 0) {
             v0 = 1;
@@ -8159,13 +8159,13 @@ void func_80186530(s32 param_1)
         dz = *(s16 *)tmp0;
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = r + 0x28;
 
-        p->unk0.v3.unk4 = 0;
-        p->unk0.v3.unk0 = dx - dz;
-        p->unk0.v3.unk8 = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
-        Square0(&p->unk0.v3.unk0, &p->unk0.v3.unk0);
+        p->b = 0;
+        p->a = dx - dz;
+        p->c = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
+        Square0(&p->a, &p->a);
 
         s1_ptr = (void *)(param_1 + 0x88);
-        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
+        if (d.a + d.c > 0x8FFFF) {
             ((Unkstruct_800B5CB8 *)param_1)->unkFC = guess_YawToPoint((void *)(param_1 + 4), s1_ptr);
         } else {
             v0 = rand() & 0x3FF;

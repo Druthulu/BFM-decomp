@@ -328,9 +328,9 @@ void func_800CB4A4(s32 a0) {
             func_800134FC(0x400, &bak[0], &bak[0]);
             func_8001599C(&bak[0], s2);
         }
-        ((Unkstruct_800CB4A4 *)s1)->unk10 += bak[1].unk0.v1.unk0[0];
-        ((Unkstruct_800CB4A4 *)s1)->unk14 += bak[1].unk0.v1.unk0[1];
-        ((Unkstruct_800CB4A4 *)s1)->unk18 += bak[1].unk0.v1.unk0[2];
+        ((Unkstruct_800CB4A4 *)s1)->unk10 += bak[1].a;
+        ((Unkstruct_800CB4A4 *)s1)->unk14 += bak[1].b;
+        ((Unkstruct_800CB4A4 *)s1)->unk18 += bak[1].c;
         if (((Unkstruct_800CB4A4 *)s1)->unk10 > 0xE0000) {
             ((Unkstruct_800CB4A4 *)s1)->unk10 = 0xE0000;
         } else if (((Unkstruct_800CB4A4 *)s1)->unk10 < -0xE0000) {

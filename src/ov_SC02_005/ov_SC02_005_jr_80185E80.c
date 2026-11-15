@@ -3661,9 +3661,9 @@ void func_8018B058(s32 a0)
 
     angle = D_801E2F00;
 
-    vec.unk0.v3.unk0 = CAST_WIDTH(s32, a0, 0x10) >> 2;
-    vec.unk0.v3.unk4 = (s32)0xFFF40000;
-    vec.unk0.v3.unk8 = CAST_WIDTH(s32, a0, 0x18) >> 2;
+    vec.a = CAST_WIDTH(s32, a0, 0x10) >> 2;
+    vec.b = (s32)0xFFF40000;
+    vec.c = CAST_WIDTH(s32, a0, 0x18) >> 2;
     *(s16 *)&angle.b[2] = -0x100;
 
     for (i = 0; i < 4; i++) {

@@ -3383,11 +3383,11 @@ s32 func_8017E37C(void *a0, s32 a1, s32 a2)
     p += (s16)a1 * 3;
 
     sp10.x = p[0];
-    sp20.unk0.v3.unk0 = sp10.x;
+    sp20.a = sp10.x;
     sp10.y = p[1] + a2;
-    sp20.unk0.v3.unk4 = sp10.y;
+    sp20.b = sp10.y;
     sp10.z = p[2];
-    sp20.unk0.v3.unk8 = sp10.z;
+    sp20.c = sp10.z;
     sp10.f8 = p[3];
     if (sp10.f8 == 0x7FFF) {
         return 1;

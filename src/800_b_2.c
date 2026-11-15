@@ -2660,7 +2660,7 @@ int func_8002FB08(int entry) {
         return 0;
     }
     idx12 = entry * 12;
-    b = D_80064D49[entry].unk0.v1.unk0;
+    b = D_80064D49[entry].b[0];
     idx24 = b * 24;
     D_800A46C8 = *(s32 *)((u8 *)D_800A463C + idx24);
     if (D_800A4650[idx24] == 0) {
@@ -2904,7 +2904,7 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
     s32 res;
 
     if (D_800A46CC == 0) {
-        b = D_80064D49[a0].unk0.v1.unk0;
+        b = D_80064D49[a0].b[0];
         i = b * 24;
         v1 = *(s16 *)((u8 *)D_800A4644 + i);
         if (v1 != 0 && v1 != D_80064D4A[a0 * 12]) {
@@ -3038,7 +3038,7 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
 
     if (D_800A46CC == 0) {
         D_800A46C4 = 0;
-        D_800A46CE[0] = D_80064D49[entry].unk0.v1.unk0;
+        D_800A46CE[0] = D_80064D49[entry].b[0];
         D_800A46C0 = a2;
         D_800A46BC = a1;
         b = D_800A46CE[0];
