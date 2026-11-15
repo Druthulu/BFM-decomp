@@ -267,7 +267,7 @@
     },
     "tools/pa3_update.py": {
       "base": null,
-      "sha": "17904364af9e83b96877dbde9c1abbbcb926d32a5626aca369964bc2516c3df0",
+      "sha": "09ec6c51ce47c60e1d7df60da305428b08b40db117ddec2519148300336c5de3",
       "user": null
     },
     "tools/pa_bugreport.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "61462f4e",
-  "installed": "2026-11-14T04:46:17Z",
+  "git": "7f6c15b9",
+  "installed": "2026-11-15T13:52:04Z",
   "package": null,
-  "phase": "3.32.18",
-  "upstream_version": "3.32.18"
+  "phase": "3.32.19",
+  "upstream_version": "3.32.19"
 }
