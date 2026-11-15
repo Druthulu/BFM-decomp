@@ -4430,9 +4430,23 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         base = ("R", id(rec)) if rec else ("S", L_[2][0]) if L_ and len(L_[2]) == 1 and L_[2][0][:2] == (0, L_[0]) else ("T", b_)
         return (base, b_.count("*") + st_, re.sub(r"\s+", "", rest))
 
+    def ptr1(x):                                                  # (T7.c17) a one-level pointer field, no dims: (is void *) else None
+        b_, rest = x["tmpl"].split(FOLD_N)
+        b_ = re.sub(r"\s+", " ", resub(b_)).strip()
+        if rest.strip() or b_.count("*") != 1 or not b_.endswith("*"):
+            return None
+        return re.sub(r"^(?:const|volatile) ", "", b_[:-1].strip()) == "void"
+
     def agree(a, b):
+        pa, pb = ptr1(a), ptr1(b)
         return a["size"] == b["size"] and a["leaves"] == b["leaves"] and (resub(a["tmpl"]) == resub(b["tmpl"]) or (scalar_tmpl(a) and scalar_tmpl(b))
-                                                                         or bkey(a) == bkey(b))
+                                                                         or bkey(a) == bkey(b) or (pa is not None and pb is not None and (pa or pb)))
+
+    def typed(e, C_):                                             # (T7.c17) a `void *` entry takes a typed pointer's spelling from C_
+        if not ptr1(e[1]):
+            return e
+        t_ = next((x for x in C_ if x[2] == e[2] and ptr1(x[1]) is False and agree(x[1], e[1])), None)
+        return (e[0], dict(e[1], tmpl=t_[1]["tmpl"]), e[2]) if t_ else e
 
     def scal(x):                                                  # (T7.c15) a scalar field: (width, sign), else None
         k = bkey(x)
@@ -4542,7 +4556,7 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         if all(e[2] == first[2] and agree(e[1], first[1]) for e in C):
             tgt = next((e for e in C if e[0] == 0), None)
             nm = tgt[1]["name"] if tgt else f"unk{lo:X}"
-            items.append((lo, "plain", resub((tgt or first)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
+            items.append((lo, "plain", resub(typed(tgt or first, C)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
             names_top.setdefault(nm, []).append(lo)
             for e in C:
                 paths[keys[e[0]]][e[1]["name"]] = nm
@@ -4632,6 +4646,8 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
             variants.append(v)
         for v in variants:
             v["fields"].sort(key=lambda f_: f_[0])
+            for f_ in v["fields"]:
+                f_[2] = typed(f_[2], C)
         if len(variants) == 1 and not mp:                         # T7.c15: one variant left: plain fields, no union
             v = variants[0]
             hs = v["srcs"][0]

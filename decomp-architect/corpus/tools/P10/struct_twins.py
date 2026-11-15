@@ -112,19 +112,21 @@ CTYPES = {"s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "int", "char", "
 
 def load_rows(census):
     """every tier-2 row: dup_gating.tsv's (full names) plus the rows the current `## Twins` list already takes out of it
-    (type_census.json keeps every row but caps names at 40; a listed row's names equal its `names:` line, as the census checked)"""
+    (type_census.json keeps every row but caps names at 40; a listed row's names equal its `names:` line, as the census checked);
+    T7.c17: plus the tier-1 rows the census finds listable (type_census.json `structs_tier1_listable`: pending ledger rows + one type)"""
     rows = []
+    tcj = json.loads((census / "type_census.json").read_text())
+    t1 = set(tcj.get("structs_tier1_listable") or ())
     for line in (census / "dup_gating.tsv").read_text().splitlines()[1:]:
         tier, lhash, size, n, names = line.split("\t")
-        if tier == "2":
+        if tier == "2" or lhash in t1:
             rows.append(dict(lhash=lhash, size=int(size), names=names.split(",")))
     seen = {r["lhash"] for r in rows}
     sys.path.insert(0, str(REPO / "tools"))
     import type_census as tc
     listed, _ = tc.load_twins(TWINS_DOC.read_text() if TWINS_DOC.exists() else "")
-    tcj = json.loads((census / "type_census.json").read_text())
     for r in tcj["dup_layout_classes"]:
-        if r["tier"] != 2 or r["lhash"] in seen:
+        if (r["tier"] != 2 and r["lhash"] not in t1) or r["lhash"] in seen:
             continue
         names = r["names"] if len(r["names"]) == r["n_names"] else sorted((listed.get(r["lhash"]) or {}).get("names") or ())
         if len(names) != r["n_names"]:

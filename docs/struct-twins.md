@@ -2,9 +2,12 @@
 
 `tools/type_census.py --check-structs` reads this file (`TWINS_DOC`). G62 (amended 2026-11-13, the developer): exact layout twins of 3+ fields, and small dense value shapes recurring as exact twins, are one type and fold on shape alone; other layout twins without evidence stay apart until folded.
 
-- `## Twins`: one `### <lhash>` section per tier-2 duplicate row (plain or `<lhash>:opaque`) kept as separate types, with a
+- `## Twins`: one `### <lhash>` section per tier-2 (or listable tier-1, below) duplicate row (plain or `<lhash>:opaque`) kept as separate types, with a
   `names:` line (the row's names, as a set) and a `cause:` line naming at least one address (8 hex digits or `0x…`). A listed
   row does not count in `dup_classes`. An absent lhash, a name-set mismatch or an addressless cause counts in `twins_stale`.
+  A tier-1 row (one meaningful field-name signature) is listable too (T7.c17) when every definition in it is a pending
+  `config/struct_dispositions.tsv` row (`apart` or `no-evidence`: kept apart for a cited conflict, waiting for tracing) except
+  the one canonical/PsyQ type with no ledger row; any other tier-1 row gates whether listed or not.
 - `## Dead kept`: `- Name — cause` bullets; a listed canon name does not count in `dead`. A name that is not dead or no longer
   defined in the canonical headers counts in `twins_stale`.
 

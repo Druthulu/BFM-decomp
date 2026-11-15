@@ -313,7 +313,8 @@ class Resolver:
                     self._unit = (unit_off, w)
                     bit_off = 0
                 if f["name"]:
-                    leaves.append((unit_off, w, "bf"))
+                    # T7.c17: the bit offset and width ride in the sign slot ({a:16,b:16} != {addr:24,len:8}); sign still ignored
+                    leaves.append((unit_off, w, f"bf{bit_off}:{f['bits']}"))
                 bit_off += f["bits"]
                 maxal = max(maxal, fal)
                 end = unit_off + w

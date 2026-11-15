@@ -1136,12 +1136,41 @@ def load_twins(text):
     return twins, kept
 
 
-def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_text):
+LEDGER = "config/struct_dispositions.tsv"   # T7.c17: the struct disposition ledger (pending rows excuse a listed tier-1 row)
+PENDING_DISP = ("apart", "no-evidence")
+
+
+def load_ledger_disp(text):
+    """config/struct_dispositions.tsv -> {key: disposition}"""
+    out = {}
+    for line in text.splitlines():
+        f = line.split("\t")
+        if line.startswith("#") or len(f) < 5 or f[0] == "key":
+            continue
+        out[f[0]] = f[4]
+    return out
+
+
+def tier1_listable(lh, names, defs_all, ledger):
+    """(T7.c17) a tier-1 row may be listed in TWINS_DOC when every definition of the class is a pending ledger row (apart |
+    no-evidence: kept apart for a cited conflict, waiting for tracing) except the ONE canonical/PsyQ type (no ledger row)."""
+    base = lh.split(":")[0]
+    nm = lambda d: set(d["names"]) | ({d["tag"]} if d["tag"] else set())
+    ds = [d for d in defs_all if d.get("lhash") == base and nm(d) & names]
+    led = [d for d in ds if nm(d) & set(ledger)]
+    if not led or any(ledger[n] not in PENDING_DISP for d in led for n in nm(d) if n in ledger):
+        return False
+    rest = [d for d in ds if not nm(d) & set(ledger)]
+    return n_types(rest) <= 1
+
+
+def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_text, ledger=None):
     """The --check-structs reading (P38 T5.1). Returns dict(counts, dead, gating_rows, outside).
       dead      liveness = canon names used outside CANON_HEADERS (every token, no length/prefix filter) plus every canon name
                 reachable from a live canon def's body or a canon typedef alias line; a def's own names never count for itself;
                 minus the `## Dead kept` names of TWINS_DOC (a kept name not dead-by-counter or not defined in canon is stale)
       dup       a tier-2 row (plain or `:opaque`) listed under `### <lhash>` with the same name set and an addressed cause does not gate;
+                nor does a listed tier-1 row whose defs are all pending `ledger` rows but the one canonical type (T7.c17)
                 a listed lhash that is absent / mismatched / cause-less is stale (G62: layout twins without evidence stay apart)
       outside   the four outside-canon counters' defs, less block-scope defs that declare an object and sit in no gating dup class"""
     twins, kept = load_twins(twins_text)
@@ -1176,10 +1205,13 @@ def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_t
     kept_ok = {n for n in kept if n in dead_counter}
     dead = sorted(dead_counter - kept_ok)
     # ---- dup rows
-    tier2 = {r["lhash"]: r for r in dup_rows if r["tier"] == 2}
+    ledger = ledger or {}
+    t1ok = {r["lhash"] for r in dup_rows if r["tier"] == 1
+            and tier1_listable(r["lhash"], set(dup_full_names.get(r["lhash"], r["names"])), defs_all, ledger)}
+    tier2 = {r["lhash"]: r for r in dup_rows if r["tier"] == 2 or r["lhash"] in t1ok}
     twins_ok = {lh for lh, t in twins.items()
                 if lh in tier2 and t["names"] == set(dup_full_names.get(lh, tier2[lh]["names"])) and ADDR_RX.search(t["cause"] or "")}
-    gating_rows = [r for r in dup_rows if not (r["tier"] == 2 and r["lhash"] in twins_ok)]
+    gating_rows = [r for r in dup_rows if not (r["lhash"] in tier2 and r["lhash"] in twins_ok)]
     # ---- outside canon (mirrors check_structs_verdict's four counters)
     ne = [d for d in defs_all if d["kind"] != "enum"]
     outside = ([d for d in ne if d["file"].endswith(".c")]
@@ -1197,7 +1229,7 @@ def structs_reading(results, defs_all, td_all, dup_rows, dup_full_names, twins_t
     counts = dict(dup_classes=len(gating_rows), outside_canon=len(outside), dead=len(dead),
                   twins_stale=(len(twins) - len(twins_ok)) + (len(kept) - len(kept_ok)),
                   twins_listed=len(twins_ok), dead_kept=len(kept_ok), block_frames=len(frames))
-    return dict(counts=counts, dead=dead, gating_rows=gating_rows, outside=outside, dup_full_names=dup_full_names,
+    return dict(counts=counts, dead=dead, gating_rows=gating_rows, outside=outside, dup_full_names=dup_full_names, tier1_listable=sorted(t1ok),
                 stale=sorted(set(twins) - twins_ok) + sorted(set(kept) - kept_ok))
 
 
@@ -1390,7 +1422,9 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     in_c_defs = [d for d in defs_all if d["file"].endswith(".c")]
     shadow = sorted({n for d in in_c_defs for n in names_of(d) if n in canon_names})
     twins_p = REPO / TWINS_DOC
-    structs = structs_reading(results, defs_all, td_all, dup_layout_classes, dup_full_names, twins_p.read_text() if twins_p.exists() else "")
+    ledger_p = REPO / LEDGER
+    structs = structs_reading(results, defs_all, td_all, dup_layout_classes, dup_full_names, twins_p.read_text() if twins_p.exists() else "",
+                              load_ledger_disp(ledger_p.read_text()) if ledger_p.exists() else {})
     # ---- 2. sites
     sites_all = []
     raw_counts = collections.Counter()
@@ -1556,6 +1590,7 @@ def run_census(jobs, use_cache=True, out_dir=OUT_DIR_DEFAULT, want_sites=False):
     (out / "type_census.json").write_text(json.dumps(dict(summary=summary, dup_layout_classes=dup_layout_classes[:300], layout_twins=layout_twins[:100],
                                                              variants=variants[:200], dead=dead, shadow=shadow,
                                                              structs_dead=structs["dead"], structs_stale=structs["stale"],
+                                                             structs_tier1_listable=structs["tier1_listable"],
                                                              refused=[dict(tu=s["tu"], line=s["line"], text=s.get("text"), why=s.get("refused")) for s in refused[:200]]),
                                                         indent=1))
     # T5.1: the --check-structs rows behind outside_canon and dup_classes
