@@ -7,3 +7,4 @@ T14 | done | the source census: every cast by pointer source, its flows and cand
 T5 | done | the consolidation series and README graph | - | tasks/T5.md | logs/T5.md | -
 T6 | done | the fold engine: generated blocks retired, folds and absorptions, the bar written | - | tasks/T6.md | logs/T6.md | R3.45-001,R3.45-007,R3.45-008
 T7 | done | fold the linked components, the exact twins and the value shapes | - | tasks/T7.md | logs/T7.md | -
+T8 | done | the consolidation gate and DECL-PARAM | - | tasks/T8.md | logs/T8.md | -
