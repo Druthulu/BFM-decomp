@@ -103,6 +103,17 @@ def run_side(cwd, outdir, cmds, jobs):
     return fails
 
 
+def first_err(tmp, side, o):
+    """(T7.c15) ` | <first compiler error line>` of a failed compile (its captured stderr), '' when none."""
+    try:
+        lines = [l.strip() for l in open(os.path.join(tmp, side + ".err", o.replace("/", "__") + ".txt"), errors="replace")]
+    except OSError:
+        return ""
+    hit = (next((l for l in lines if re.search(r":\d+: ", l) and "warning" not in l.lower()), None)       # cc1: `f.c:12: structure has no member named ...`
+           or next((l for l in lines if "error" in l.lower()), None) or next((l for l in lines if l), ""))
+    return (" | " + hit[:200]) if hit else ""
+
+
 def main():
     ap = argparse.ArgumentParser(description="Scratch-compile the objects an edit touches at REV and in the working "
                                  "tree; cmp them. Exit 0 only when 0 differ and 0 fail. Recipe: cookbook C0589/C0590.")
@@ -143,8 +154,8 @@ def main():
         print("objects %d identical %d differ %d fail base %d new %d base==build/ %d"
               % (len(objs), same, len(diff), len(fb), len(fn), bsame))
         for o in diff: print("DIFF " + o)
-        for o in sorted(fb): print("FAIL base " + o + (" (no make line)" if o in missing else ""))
-        for o in sorted(fn): print("FAIL new " + o + (" (no make line)" if o in missing else ""))
+        for o in sorted(fb): print("FAIL base " + o + (" (no make line)" if o in missing else first_err(tmp, "baseo", o)))
+        for o in sorted(fn): print("FAIL new " + o + (" (no make line)" if o in missing else first_err(tmp, "newo", o)))
         if a.keep: print("kept " + os.path.relpath(tmp, ROOT))
         return 0 if not diff and not fb and not fn else 1
     finally:

@@ -3099,9 +3099,10 @@ def _match_open(s, j):
     return -1
 
 
-def _typed_vars(masked, spans, trx, params):
+def _typed_vars(masked, spans, trx, params, tmap=None):
     """{name: level} of the declarators spelled with the local type in the spans (level = pointer stars + array dims; 0 = a value).
-    `params`: also a type right after `(`/`,` (a parameter; its first declarator only) — never at file level (prototypes)."""
+    `params`: also a type right after `(`/`,` (a parameter; its first declarator only) — never at file level (prototypes).
+    `tmap` (T7.c15, the fold walker): {name: (tmap(matched type text), level)} instead."""
     V = {}
     for lo, hi in spans:
         for m in trx.finditer(masked, lo, hi):
@@ -3129,7 +3130,8 @@ def _typed_vars(masked, spans, trx, params):
             for p in (parts[:1] if as_param else parts):
                 dm = HF_DECLARATOR.match(HF_ASM_LABEL.sub("", p.split("=", 1)[0]))      # T6.c2: `extern T x[] __asm__("D_…");`
                 if dm:
-                    V[dm.group(2)] = len(dm.group(1)) + dm.group(3).count("[")
+                    lv = len(dm.group(1)) + dm.group(3).count("[")
+                    V[dm.group(2)] = lv if tmap is None else (tmap(m.group(0)), lv)
     return V
 
 
@@ -3620,6 +3622,13 @@ def fold_report(heads):
 # T7.c11: `--fold-batch FILE [--write]` applies one component per line in sequence on one tree; a same-width scalar sign conflict
 # is a named union of one member per sign (`union { s16 s; u16 u; } unk2;`); the merged definition sits at the component's
 # earliest definition in include order (struct_types.h before engine_types.h) when its field types are defined before it.
+# T7.c15: the walker is typed over the member and its containers (_fold_types/_tlvl: `s->pt[i].vx`, `fr.v[3].z`, nested anonymous
+# struct/union fields, objects declared with a definition), header globals and the object-like macros naming them, macro bodies
+# typed by their own cast or at every expansion; files that never spell the member are walked when they spell a container or a
+# typed global. The merge (_fold_merge) never opens a union for spellings of one type: typedef spellings of a scalar or record,
+# padding subsets (a variant joins another), arrays vs scalars vs record leaves (the host's spelling; constant-index accesses
+# respelled, a variable index refuses with its cite; a leaf in a host gap becomes `unk<off>`). `--fold-collapse [TYPE…] [--write]`
+# re-plans the variant unions already committed in the canonical headers by the same rules (accesses `.unkN.vK.f` respelled).
 # ----------------------------------------------------------------------------------------------------------------------
 FOLD_ROOT = None                    # the selftest's synthetic tree (laid out like the repo); None = REPO
 FOLD_FLOWS = ".run/3.45/t14/types.tsv"       # T14's fragment table: candidates `<parent> 0x<off> flow …` (absorb's multi-parent guard)
@@ -3710,6 +3719,30 @@ def _fold_tmpls(stmt):
     return out
 
 
+ATTR_ALIGN_RX = re.compile(r"aligned\s*\(\s*(\d+)\s*\)")
+
+
+def _fold_eff_align(res, d):
+    """(P3.45 T7.c14) the effective alignment of a struct definition under its packed / aligned(n) attributes (its natural
+    alignment without them); None when the attributes move a field or the size, or lower an alignment without packed (a typedef
+    attribute the engine does not model). Folds keep a struct copy's codegen only between definitions of one effective alignment."""
+    L = res.layout_of_fields(d["fields"], d["kind"])
+    if not L or not L[2]:
+        return None
+    a = d.get("attrs") or ""
+    eff = L[1]
+    if "packed" in a:
+        Lp = res.layout_of_fields(d["fields"], d["kind"], packed=True)
+        if not Lp or Lp[0] != L[0] or sorted(map(tuple, Lp[2])) != sorted(map(tuple, L[2])):
+            return None
+        eff = 1
+    for n in map(int, ATTR_ALIGN_RX.findall(a)):
+        if n < eff:
+            return None
+        eff = n
+    return eff if L[0] % eff == 0 else None
+
+
 def _fold_fields(res, d, masked):
     """(fields, span, cause) of one definition record: fields [dict(name, off, size, al, leaves, tmpl, cite)] in order; span (start,
     open, close, end) of `[typedef] struct … { … } names;` in its file; cause (str) when the engine cannot re-render the definition."""
@@ -3722,8 +3755,8 @@ def _fold_fields(res, d, masked):
     span = (m.start(), m.end() - 1, close, semi + 1)
     if d["kind"] != "struct":
         return None, span, f"{d['file']}:{d['line']}: a {d['kind']} definition (the engine folds structs)"
-    if re.search(r"packed|aligned", d.get("attrs") or ""):
-        return None, span, f"{d['file']}:{d['line']}: an attributed definition"
+    if re.search(r"packed|aligned", d.get("attrs") or "") and _fold_eff_align(res, d) is None:
+        return None, span, f"{d['file']}:{d['line']}: an attributed definition"   # T7.c14: only one whose attributes move a field or lower an alignment
     if d.get("ptr_names") or (not d["typedef"] and masked[close + 1:semi].strip()):
         return None, span, f"{d['file']}:{d['line']}: the definition also declares pointer/array names or objects"
     tm = []
@@ -3833,29 +3866,348 @@ def _fold_globals(trx, files, cache):
     return G
 
 
+FOLD_CONT_DEPTH = 3                    # (T7.c15) container levels the walker follows: a member in a record in a record in a record
+_FOLD_DEFS_MEMO = {}                   # (rel, text hash) -> the file's definition records (one batch re-plans the same headers)
+
+
+def _fold_defs(rel, cache):
+    """(T7.c15) the definition records (type_census.walk_file) of one file, memoized on its text."""
+    raw = _fold_view(rel, cache)[0]
+    k = (rel, len(raw), hashlib.sha1(raw.encode("utf-8", "surrogateescape")).hexdigest())
+    if k not in _FOLD_DEFS_MEMO:
+        _FOLD_DEFS_MEMO[k] = tc.walk_file(raw, rel)["definitions"]
+    return _FOLD_DEFS_MEMO[k]
+
+
+def _fold_has_def_with(msk, trx):
+    """(pure) a struct/union body in masked text spells one of the trx types (the walker's cheap filter before walk_file)."""
+    for m in sl.DEF_START.finditer(msk):
+        if m.group(2) == "enum":
+            continue
+        c = sl._match_brace(msk, m.end() - 1)
+        if c != -1 and trx.search(msk, m.end(), c):
+            return True
+    return False
+
+
+def _fold_def_objs(rel, d2, cache):
+    """(T7.c15) [(pos, name, level)] of the objects a definition also declares (`struct {…} fr, *p;`, `struct Tag {…} x;`)."""
+    _, msk, ls, *_ = _fold_view(rel, cache)
+    L = _fold_defs(rel, cache)
+    idx = next((i for i, x in enumerate(L) if x is d2), None)
+    if idx is None:
+        return []
+    k = sum(1 for x in L[:idx] if x["line"] == d2["line"])
+    pos, m = ls[d2["line"] - 1], None
+    for _ in range(k + 1):
+        m = sl.DEF_START.search(msk, pos)
+        if not m:
+            return []
+        pos = sl._match_brace(msk, m.end() - 1)
+        if pos == -1:
+            return []
+    semi = msk.find(";", pos)
+    if semi == -1:
+        return []
+    out = []
+    for p in sl._split_top(msk[pos + 1:semi], ","):
+        p = re.sub(r"__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)", " ", p)
+        dm = HF_DECLARATOR.match(HF_ASM_LABEL.sub("", p.split("=", 1)[0]))
+        if dm:
+            out.append((pos, dm.group(2), len(dm.group(1)) + dm.group(3).count("[")))
+    return out
+
+
+def _fold_types(d, aliases, cache):
+    """(T7.c15) the walker's types for d: dict(spell {normalized spelling: [tid]}, FT {tid: {field: (tid, level)}}, trx, crx,
+    tid(spelling, rel), objs {rel: [(pos, name, tid, level, scope)]}, idents). tid 0 is d; the containers — struct/union
+    definitions in src/ and include/ with a field typed with a tracked type, followed FOLD_CONT_DEPTH levels — get the others
+    (one defined in a .c types that file only); a nested anonymous struct/union field is a pseudo type of its own (`stk.unk0.v0.f4`)."""
+    norm = lambda t: re.sub(r"\s+", " ", t or "").strip()
+    spell, recs = collections.defaultdict(list), {0: d}
+    for n in d["names"] + aliases:
+        spell[n].append(0)
+    if d["tag"]:
+        spell[f"{d['kind']} {d['tag']}"].append(0)
+    seen = {(d["file"], d["line"])}
+
+    def pick(sp, rel):
+        c = spell.get(norm(sp)) or []
+        return next((t for t in c if recs[t]["file"] == rel), None) if any(recs[t]["file"] == rel for t in c) else \
+            next((t for t in c if not recs[t]["file"].endswith(".c")), None)
+
+    def spells(fs, rel):
+        return any((not f.get("nested") and pick(f["type"], rel) is not None) or (f.get("nested") and spells(f["nested"]["fields"], rel)) for f in fs)
+    front = list(spell)
+    for _ in range(FOLD_CONT_DEPTH):
+        if not front:
+            break
+        trx_f = re.compile(r"(?<![\w])(?:" + "|".join(re.escape(x).replace(r"\ ", r"\s+") for x in front) + r")(?![\w])")
+        new = []
+        for rel in _fold_files(sorted({x.split()[-1] for x in front})):
+            if not _fold_has_def_with(_fold_view(rel, cache)[1], trx_f):
+                continue
+            for d2 in _fold_defs(rel, cache):
+                if d2["kind"] == "enum" or (d2["file"], d2["line"]) in seen or not spells(d2["fields"], rel):
+                    continue
+                seen.add((d2["file"], d2["line"]))
+                tid = len(recs)
+                recs[tid] = d2
+                for sp in d2["names"] + ([f"{d2['kind']} {d2['tag']}"] if d2["tag"] else []):
+                    if not spell[sp]:
+                        new.append(sp)
+                    spell[sp].append(tid)
+        for a in _fold_aliases(sorted({x.split()[-1] for x in new}), cache):
+            t = _fold_alias_tid(a, pick, cache)
+            if t is not None and t not in spell[a]:
+                spell[a].append(t); new.append(a)
+        front = new
+    FT, nxt = {}, [len(recs)]
+
+    def fmap(fs, rel):
+        out = {}
+        for f in fs:
+            if not f["name"]:
+                continue
+            lv = f["stars"] + len(f["dims"] or [])
+            if f.get("nested"):
+                sub = fmap(f["nested"]["fields"], rel)
+                if sub:
+                    nt = nxt[0]; nxt[0] += 1
+                    FT[nt] = sub
+                    out[f["name"]] = (nt, lv)
+            else:
+                t = pick(f["type"], rel)
+                if t is not None:
+                    out[f["name"]] = (t, lv)
+        return out
+    for tid, r in sorted(recs.items()):
+        FT[tid] = fmap(r["fields"], r["file"])
+    objs = collections.defaultdict(list)
+    for tid, r in recs.items():
+        if tid and r.get("declares_object"):
+            for pos, n, lv in _fold_def_objs(r["file"], r, cache):
+                objs[r["file"]].append((pos, n, tid, lv, r.get("scope")))
+    alts = [re.escape(x).replace(r"\ ", r"\s+") for x in sorted((k for k, v in spell.items() if v), key=len, reverse=True)]
+    trx = re.compile(r"(?<![\w])(?:" + "|".join(alts) + r")(?![\w])")
+    crx = re.compile(r"^\(\s*(?:(?:const|volatile)\s+)*(?P<ty>" + "|".join(alts) + r")\s*(?P<st>\**)\s*\)")
+    return dict(spell=spell, recs=recs, FT=FT, trx=trx, crx=crx, tid=pick, objs=objs, idents=sorted({k.split()[-1] for k, v in spell.items() if v}))
+
+
+def _fold_alias_tid(a, pick, cache):
+    """(T7.c15) the tid a plain typedef alias `a` names (its aliased spelling's, seen from the alias's file), None when not found."""
+    for rel in _fold_files([a]):
+        m = re.search(r"(?<![\w.])typedef\s+((?:(?:struct|union)\s+)?[A-Za-z_]\w*)\s+" + re.escape(a) + r"\s*;", _fold_view(rel, cache)[1])
+        if m:
+            return pick(m.group(1), rel)
+    return None
+
+
+def _tlvl(t, V, T):
+    """(T7.c15) _lvl over the walker's types: (tid, level) of expression text t, None when not a tracked type. V {name: (tid, level)};
+    T: _fold_types' dict (crx a cast to a tracked type, tid() its spelling's tid, FT {tid: {field: (tid, level)}})."""
+    t = t.strip()
+    if not t:
+        return None
+    am = re.match(r"^(\**)\s*(\([^()]*\))\s*&\s*[A-Za-z_]\w*$", t)
+    if am:
+        cm = T["crx"].match(am.group(2))
+        if cm and cm.end() == len(am.group(2)):
+            k = len(cm.group("st")) - len(am.group(1))
+            return (T["tid"](cm.group("ty")), k) if k >= 0 else None
+    parts = _split_binary(t)
+    if parts is None:
+        return None
+    if len(parts) > 1:
+        ls_ = [_tlvl(p, V, T) for p in parts]
+        ptr = [x for x in ls_ if x and x[1]]
+        return ptr[0] if len(ptr) == 1 and ls_[0] and ls_[0][1] else None
+    t = re.sub(r"(\+\+|--)\s*$", "", t).strip()
+    if t.startswith(("++", "--")):
+        return _tlvl(t[2:], V, T)
+    if t[0] == "*":
+        x = _tlvl(t[1:], V, T)
+        return (x[0], x[1] - 1) if x and x[1] else None
+    if t[0] == "&":
+        x = _tlvl(t[1:], V, T)
+        return (x[0], x[1] + 1) if x is not None else None
+    cm = T["crx"].match(t)
+    if cm and t[cm.end():].strip():
+        return (T["tid"](cm.group("ty")), len(cm.group("st")))
+    if t[0] == "(":
+        c = _match_close(t, 0)
+        if c < 0:
+            return None
+        rest = t[c + 1:].lstrip()
+        if rest and not rest.startswith(("[", ".", "->", "(")):
+            return None                                   # a cast to another type
+        cur, rest = _tlvl(t[1:c], V, T), t[c + 1:]
+    else:
+        m = re.match(r"[A-Za-z_]\w*", t)
+        if not m:
+            return None
+        cur, rest = V.get(m.group(0)), t[m.end():]
+    while True:
+        rest = rest.lstrip()
+        if not rest or cur is None:
+            return cur
+        if rest[0] == "[":
+            c = _match_close(rest, 0)
+            if c < 0:
+                return None
+            cur, rest = ((cur[0], cur[1] - 1) if cur[1] else None), rest[c + 1:]
+        elif rest.startswith("->") or rest[0] == ".":
+            need = 1 if rest.startswith("->") else 0
+            m = re.match(r"(?:->|\.)\s*([A-Za-z_]\w*)", rest)
+            if not m:
+                return None
+            cur, rest = (T["FT"].get(cur[0], {}).get(m.group(1)) if cur[1] == need else None), rest[m.end():]
+        else:
+            return None
+
+
+def _fold_macro_args(msk, at):
+    """(pure) the top-level argument texts of a macro call whose `(` is at msk[at], None when unbalanced."""
+    c = _match_close(msk, at)
+    if c < 0:
+        return None
+    return sl._split_top(msk[at + 1:c], ",")
+
+
+HF_OBJ_DEFINE = re.compile(r"^[ \t]*#[ \t]*define[ \t]+(\w+)[ \t]+([^\n\\]+)$", re.M)   # an object-like one-line macro (T7.c15)
+
+
+def _fold_macro_vars(msk, spans, V, T):
+    """(T7.c15) {macro name: (tid, level)} of the object-like one-line macros in the spans whose body types under V
+    (`#define RES_FILE aResourceIdMap`)."""
+    out = {}
+    for lo, hi in spans:
+        for m in HF_OBJ_DEFINE.finditer(msk, lo, hi):
+            r = _tlvl(m.group(2), V, T)
+            if r is not None and r[0] is not None:
+                out[m.group(1)] = r
+    return out
+
+
+def _fold_fn_vars(rel, msk, fns, glob, top, T, G):
+    """(T7.c15) (T seen from rel, the file's globals, [(lo, hi, V)] per function) under the walker's types: globals G, the file's own
+    top-level objects and macro aliases, parameters, locals, objects declared with a definition; an extern of another type shadows."""
+    T = dict(T, tid=lambda sp, _p=T["tid"]: _p(sp, rel))         # a container defined in a .c types that file only
+    g_ = dict(G)
+    own = _typed_vars(msk, top, T["trx"], params=False, tmap=T["tid"])
+    for pos, n, tid, lv, scope in T["objs"].get(rel, []):
+        if scope != "block":
+            own[n] = (tid, lv)
+    for n in _extern_names(msk, top) & set(G) - set(own):
+        g_.pop(n, None)                                       # T7.c11: the file's own extern of another type shadows a header's
+    g_.update(own)
+    g_.update(_fold_macro_vars(msk, glob, g_, T))
+    fnV = []
+    for lo, hi in fns:
+        V = dict(g_)
+        mine = _typed_vars(msk, [(lo, hi)], T["trx"], params=True, tmap=T["tid"])
+        for pos, n, tid, lv, scope in T["objs"].get(rel, []):
+            if scope == "block" and lo <= pos < hi:
+                mine[n] = (tid, lv)
+        for n in _extern_names(msk, [(lo, hi)]) & set(g_) - set(mine):
+            V.pop(n, None)                                    # T7.c11: a block-scope extern of another type shadows the global
+        V.update(mine)
+        fnV.append((lo, hi, V))
+    return T, g_, fnV
+
+
+def _fold_file_acc(rel, msk, fns, glob, top, T, G, fields0, pend):
+    """(T7.c15) accesses[(start, end, field)] of d's fields (tid 0) in one file's function bodies under the walker's types, and in
+    its file-scope #define bodies when the base is typed by the file's globals or by its own cast (`((T *)(p))->v`, even spelling a
+    macro parameter); any other #define access goes to `pend` (typed at the macro's expansions, _fold_pending)."""
+    T, g_, fnV = _fold_fn_vars(rel, msk, fns, glob, top, T, G)
+    acc = []
+    for lo, hi, V in fnV:
+        for m in HF_ACCESS.finditer(msk, lo, hi):
+            if m.group(2) not in fields0:
+                continue
+            base = msk[_postfix_start(msk, m.start()):m.start()]
+            if _tlvl(base, V, T) == (0, 1 if m.group(1) == "->" else 0):
+                acc.append((m.start(2), m.end(2), m.group(2)))
+    for lo, hi in glob:
+        for mm in HF_DEFINE.finditer(msk, lo, hi):
+            plist = re.findall(r"\w+", mm.group(2) or "")
+            for m in HF_ACCESS.finditer(msk, mm.start(3), mm.end(3)):
+                if m.group(2) not in fields0:
+                    continue
+                base = msk[_postfix_start(msk, m.start()):m.start()]
+                need = (0, 1 if m.group(1) == "->" else 0)
+                if _tlvl(base, {k: v for k, v in g_.items() if k not in plist}, T) == need:
+                    acc.append((m.start(2), m.end(2), m.group(2))); continue
+                pend.append(dict(rel=rel, at=(m.start(2), m.end(2), m.group(2)), base=base, op=m.group(1), need=need, mname=mm.group(1),
+                                 plist=plist, fnlike=mm.group(2) is not None, got=set()))
+    return acc
+
+
+def _fold_pending(pend, T, G, cache, out, why):
+    """(T7.c15) the #define accesses typed at their expansions: a macro of a .c at that file's, a header's at every file's that
+    spells it; all expansions the type -> an access (into out), some -> a refusal (into why), none -> left (not the type)."""
+    if not pend:
+        return
+    names = sorted({p["mname"] for p in pend})
+    for rel in _fold_files(names):
+        mine = [p for p in pend if p["rel"] == rel or p["rel"].endswith(".h")]
+        if not mine:
+            continue
+        _, msk, _, fns, glob, top = _fold_view(rel, cache)
+        Tr, _, fnV = _fold_fn_vars(rel, msk, fns, glob, top, T, G)
+        for p in mine:
+            urx = re.compile(r"(?<![\w])" + re.escape(p["mname"]) + r"(?![\w])\s*(\()?")
+            for a, b, V in fnV:
+                for u in urx.finditer(msk, a, b):
+                    if not p["fnlike"]:
+                        p["got"].add(_tlvl(p["base"], V, Tr)); continue
+                    if not u.group(1):
+                        continue
+                    args = _fold_macro_args(msk, u.end(1) - 1)
+                    if args is None or (len(args) != len(p["plist"]) and p["plist"]):
+                        p["got"].add(None); continue
+                    sub = dict(zip(p["plist"], args))
+                    b2 = re.sub(r"(?<![\w])(" + "|".join(map(re.escape, p["plist"])) + r")(?![\w])", lambda x: "(" + sub[x.group(1)].strip() + ")",
+                                p["base"]) if p["plist"] else p["base"]
+                    p["got"].add(_tlvl(b2, V, Tr))
+    for p in pend:
+        if p["got"] == {p["need"]}:
+            out.setdefault(p["rel"], []).append(p["at"])
+        elif p["need"] in p["got"]:
+            why.append(f"{p['rel']}: macro `{p['mname']}` access `{p['base'].strip()}{p['op']}{p['at'][2]}` is the local type in only some of its expansions")
+
+
 def _fold_accesses(d, F, aliases, cache, why):
-    """{rel: [(start, end, field)]} of every access on a base of d's type (names + aliases + tag) in src/ and include/."""
+    """{rel: [(start, end, field)]} of every access on a base of d's type (names + aliases + tag) in src/ and include/. T7.c15: through
+    the walker's types (_fold_types: fields of records typed with d, `s->pt[i].vx`, `fr.v[3].z`), the headers' typed globals and the
+    object-like macros naming them (`#define RES_FILE aResourceIdMap`), over every file that spells any of them; #define accesses
+    on a macro parameter typed at the expansions (_fold_pending)."""
     lnames = d["names"] + aliases
     if not lnames and not d["tag"]:
         return {}
-    trx, _ = _fold_trx(lnames, d["tag"])
-    self_types = {re.sub(r"\s+", " ", n) for n in lnames} | ({f"{d['kind']} {d['tag']}"} if d["tag"] else set())
-    lself = {f["name"]: f["stars"] + len(f["dims"] or []) for f in d["fields"]
-             if f["name"] and not f.get("nested") and re.sub(r"\s+", " ", f["type"] or "").strip() in self_types}
-    files = _fold_files(lnames + ([d["tag"]] if d["tag"] else []))
-    G = _fold_globals(trx, files, cache)
-    out = {}
-    for rel in files:
+    T = _fold_types(d, aliases, cache)
+    G = {}
+    for rel in [r for r in _fold_files(T["idents"]) if r.endswith(".h")]:
+        _, msk, _, _, _, top = _fold_view(rel, cache)
+        for n, v in _typed_vars(msk, top, T["trx"], params=False, tmap=lambda sp, _r=rel: T["tid"](sp, _r)).items():
+            G.setdefault(n, v)
+        for pos, n, tid, lv, scope in T["objs"].get(rel, []):
+            if scope != "block":
+                G.setdefault(n, (tid, lv))
+    if G:
+        for rel in [r for r in _fold_files(sorted(G)) if r.endswith(".h")]:
+            _, msk, _, _, glob, _ = _fold_view(rel, cache)
+            for n, v in _fold_macro_vars(msk, glob, G, dict(T, tid=lambda sp, _r=rel: T["tid"](sp, _r))).items():
+                G.setdefault(n, v)
+    fields0 = {x["name"] for x in F if x["name"]}
+    out, pend = {}, []
+    for rel in _fold_files(T["idents"] + sorted(G)):
         _, msk, _, fns, glob, top = _fold_view(rel, cache)
-        g_ = dict(G)
-        own = _typed_vars(msk, top, trx, params=False)
-        for n in _extern_names(msk, top) & set(G) - set(own):
-            g_.pop(n, None)                                       # T7.c11: the file's own extern of another type shadows a header's
-        g_.update(own)
-        acc, _, ref = _hf_file_edits(msk, fns, glob, lnames, d["tag"], {x["name"] for x in F if x["name"]}, lself, False, g_override=g_)
-        why += [f"{rel}: {r}" for r in ref]
+        acc = _fold_file_acc(rel, msk, fns, glob, top, T, G, fields0, pend)
         if acc:
             out[rel] = acc
+    _fold_pending(pend, T, G, cache, out, why)
     return out
 
 
@@ -4041,6 +4393,251 @@ def _fold_render(tdef, items, size, indent="    ", comments=()):
     return "\n".join(lines)
 
 
+def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp=""):
+    """(T7.c15, lifted out of fold_plan) the merged fields of clusters of overlapping entries [(source idx, field, absolute offset)]:
+    (items for _fold_render, paths {source key: {field: new path}}, names_top {name: [off]}, refusal or None). keys: the source
+    keys by index (0 = the target's); mp: an absorb's member:<union>.<variant> path; absorb_nopath: an absorb without one (a conflict
+    refuses). Spellings of one type never open a union (bkey/agree/unify/variant joins); real width/sign conflicts do."""
+    items, paths, names_top = [], collections.defaultdict(dict), {}
+
+    def scalar_tmpl(x):
+        b = x["tmpl"].split(FOLD_N)[0].strip()
+        return not x["tmpl"].split(FOLD_N)[1].strip() and sl.scalar_of(b) is not None and not b.endswith("*")
+
+    def bkey(x):
+        """(T7.c15) a field template's shape beyond its spelling: (base, stars, dims); the typedef spellings of one scalar (`short`,
+        `s16`) or of one record (an alias of it) are one base."""
+        b_, rest = x["tmpl"].split(FOLD_N)
+        b_ = resub(b_).strip()
+        st_ = len(b_) - len(b_.rstrip("* "))
+        b_ = re.sub(r"\s+", " ", b_.rstrip("* "))
+        rec = _fold_resolve(g, re.sub(r"^(?:struct|union)\s+", "", b_))
+        L_ = None if rec else res.layout(b_)
+        base = ("R", id(rec)) if rec else ("S", L_[2][0]) if L_ and len(L_[2]) == 1 and L_[2][0][:2] == (0, L_[0]) else ("T", b_)
+        return (base, b_.count("*") + st_, re.sub(r"\s+", "", rest))
+
+    def agree(a, b):
+        return a["size"] == b["size"] and a["leaves"] == b["leaves"] and (resub(a["tmpl"]) == resub(b["tmpl"]) or (scalar_tmpl(a) and scalar_tmpl(b))
+                                                                         or bkey(a) == bkey(b))
+
+    def scal(x):                                                  # (T7.c15) a scalar field: (width, sign), else None
+        k = bkey(x)
+        return k[0][1][1:] if k[0][0] == "S" and not k[1] and not k[2] else None
+
+    def elem(x):                                                  # (T7.c15) a one-dimensional scalar array field: (width, sign), else None
+        k = bkey(x)
+        return k[0][1][1:] if k[0][0] == "S" and not k[1] and re.fullmatch(r"\[[^\[\]]+\]", k[2]) else None
+
+    def tleaves(t, stars, dims, off, pre, depth=0):
+        """(T7.c15) {absolute offset: (access path, (width, sign))} of every scalar leaf of a type spelled t (records followed,
+        arrays per element); None when a leaf has no path (a union, a bit-field, an unknown type)."""
+        if depth > 6:
+            return None
+        if stars:
+            return {off: (pre, (4, "p"))}
+        if dims:
+            L_ = res.layout(t, 0, dims[1:])
+            if not L_ or not dims[0]:
+                return None
+            out = {}
+            for k in range(dims[0]):
+                sub = tleaves(t, 0, dims[1:], off + k * L_[0], f"{pre}[{k}]", depth + 1)
+                if sub is None:
+                    return None
+                out.update(sub)
+            return out
+        rec = _fold_resolve(g, re.sub(r"^(?:struct|union)\s+", "", re.sub(r"\s+", " ", t).strip()))
+        if rec:
+            if rec["kind"] != "struct":
+                return None
+            out, o = {}, 0
+            for f in rec["fields"]:
+                if f.get("nested") or not f["name"] or f.get("bits"):
+                    return None
+                L_ = res.layout(f["type"], f["stars"], f["dims"])
+                if not L_:
+                    return None
+                o = (o + L_[1] - 1) // L_[1] * L_[1]
+                sub = tleaves(f["type"], f["stars"], f["dims"], off + o, f"{pre}.{f['name']}", depth + 1)
+                if sub is None:
+                    return None
+                out.update(sub)
+                o += L_[0]
+            return out
+        L_ = res.layout(t)
+        return {off: (pre, L_[2][0][1:])} if L_ and len(L_[2]) == 1 and L_[2][0][:2] == (0, L_[0]) else None
+
+    def hleaves(e):                                               # (T7.c15) tleaves of one entry from its template
+        b_, rest = e[1]["tmpl"].split(FOLD_N)
+        b_ = resub(b_).strip()
+        st_ = b_.count("*")
+        b_ = b_.replace("*", " ").strip()
+        try:
+            dims = [int(x, 0) for x in re.findall(r"\[([^\]]*)\]", rest)]
+        except ValueError:
+            return None
+        if re.sub(r"(\s*\[[^\]]*\])+", "", rest).strip() or "(" in b_:
+            return None
+        return tleaves(b_, st_, dims, e[2], e[1]["name"])
+
+    def unify(C):
+        """(T7.c15) array/scalar/record spellings of the same leaves: ({entry index: path}, {offset: synthesized host field}) onto
+        the host source's fields (the lowest source in the cluster: the target's spelling when it has one). A member scalar maps to
+        the host leaf at its offset (`v[2]`, `x.vy`), a member array per element to `{p0,p1,…}` (constant-index accesses respelled;
+        a variable index refuses); a leaf in a host gap (dropped padding) becomes a host field `unk<off>`; None when any entry
+        does not map."""
+        hs = min(e[0] for e in C)
+        H = [e for e in C if e[0] == hs]
+        hm = {}
+        for h in H:
+            hm.update(hleaves(h) or {})
+        out, syn = {}, {}
+
+        def leaf(o, ws, tm, w):
+            if o in hm:
+                return hm[o][0] if hm[o][1] == ws else None
+            if o in syn:
+                return f"unk{o:X}" if syn[o][3] == ws else None
+            if any(h[2] < o + w and o < h[2] + h[1]["size"] for h in H) or any(a_ < o + w and o < a_ + x[1] for a_, x in syn.items()):
+                return None
+            syn[o] = (tm, w, w, ws)
+            return f"unk{o:X}"
+        for i, e in enumerate(C):
+            if e[0] == hs:
+                continue
+            h = next((h for h in H if h[2] == e[2] and agree(h[1], e[1])), None)
+            if h:
+                out[i] = h[1]["name"]; continue
+            el, sc_ = elem(e[1]), scal(e[1])
+            tm = resub(e[1]["tmpl"].split(FOLD_N)[0]).strip() + " " + FOLD_N
+            if sc_:
+                p_ = leaf(e[2], sc_, tm, sc_[0])
+                if p_ is None:
+                    return None
+                out[i] = p_; continue
+            if el:
+                ps = [leaf(e[2] + k * el[0], el, tm, el[0]) for k in range(e[1]["size"] // el[0])]
+                if None in ps:
+                    return None
+                out[i] = "{" + ",".join(ps) + "}"; continue
+            return None
+        return out, syn
+    for C in clusters:
+        lo, hi = min(e[2] for e in C), max(e[2] + e[1]["size"] for e in C)
+        first = C[0]
+        if all(e[2] == first[2] and agree(e[1], first[1]) for e in C):
+            tgt = next((e for e in C if e[0] == 0), None)
+            nm = tgt[1]["name"] if tgt else f"unk{lo:X}"
+            items.append((lo, "plain", resub((tgt or first)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
+            names_top.setdefault(nm, []).append(lo)
+            for e in C:
+                paths[keys[e[0]]][e[1]["name"]] = nm
+            continue
+        un = unify(C) if len({e[0] for e in C}) > 1 else None
+        if un is not None:                                        # T7.c15: one spelling (the host's), no union
+            un, syn = un
+            hs = min(e[0] for e in C)
+            for i, e in enumerate(C):
+                if e[0] == hs:
+                    nm = e[1]["name"] if hs == 0 else f"unk{e[2]:X}"
+                    items.append((e[2], "plain", resub(e[1]["tmpl"]).replace(FOLD_N, nm), e[1]["size"], e[1]["al"]))
+                    names_top.setdefault(nm, []).append(e[2])
+                    paths[keys[hs]][e[1]["name"]] = nm
+            for o, (tm, w, al_, _) in sorted(syn.items()):
+                items.append((o, "plain", tm.replace(FOLD_N, f"unk{o:X}"), w, al_))
+                names_top.setdefault(f"unk{o:X}", []).append(o)
+            hn = {e[1]["name"]: (e[1]["name"] if hs == 0 else f"unk{e[2]:X}") for e in C if e[0] == hs}
+            ren1 = lambda p_: re.sub(r"^[A-Za-z_]\w*", lambda m_: hn.get(m_.group(0), m_.group(0)), p_)
+            for i, pth in un.items():
+                paths[keys[C[i][0]]][C[i][1]["name"]] = ("{" + ",".join(map(ren1, pth[1:-1].split(","))) + "}") if pth.startswith("{") else ren1(pth)
+            continue
+        sign = [(a, b) for a in C for b in C if a[0] < b[0] and a[2] == b[2] and a[1]["size"] == b[1]["size"]
+                and [(o, w) for (o, w, _) in a[1]["leaves"]] == [(o, w) for (o, w, _) in b[1]["leaves"]]
+                and any({s1, s2} == {"s", "u"} for (_, _, s1), (_, _, s2) in zip(a[1]["leaves"], b[1]["leaves"]))]
+        lw = [(o, w) for (o, w, _) in first[1]["leaves"]]
+        if sign and all(e[2] == lo and e[1]["size"] == first[1]["size"] and scalar_tmpl(e[1]) and [(o, w) for (o, w, _) in e[1]["leaves"]] == lw
+                        for e in C):
+            # T7.c11 (T6's plan): a same-width sign conflict of scalars is a named union of one member per sign; each access keeps
+            # its own sign through the member of its source (`union { s16 s; u16 u; } unk2;`; the target's name when it has one)
+            tgt = next((e for e in C if e[0] == 0), None)
+            uname, mem = tgt[1]["name"] if tgt else f"unk{lo:X}", {}
+            for e in C:
+                vn = "".join(sorted({s_ for (_, _, s_) in e[1]["leaves"]}))
+                vn = vn if vn in ("s", "u") else f"v{len(mem)}"
+                mem.setdefault(vn, resub(e[1]["tmpl"]).replace(FOLD_N, vn))
+                paths[keys[e[0]]][e[1]["name"]] = f"{uname}.{vn}"
+            items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], first[1]["size"], first[1]["al"]))
+            names_top.setdefault(uname, []).append(lo)
+            continue                                              # (a non-scalar sign conflict takes the variant union below)
+        if absorb_nopath:
+            a, b = C[0], next(e for e in C if e[0] != C[0][0] or e is not C[0])
+            return None, None, None, (f"conflict at {lo:#x}..{hi:#x} inside {tsp}: `{a[1]['name']}` ({a[1]['cite']}) vs `{b[1]['name']}` ({b[1]['cite']}): "
+                          f"needs class variant (member:<union>.<variant>)")
+        ual = max(e[1]["al"] for e in C)
+        if lo % ual:
+            return None, None, None, (f"a union at {lo:#x} would be {ual}-aligned and move the layout ({C[0][1]['cite']})")
+        uname = mp[0] if mp else f"unk{lo:X}"
+        # T7.c15: a source's fields join an existing variant when each one agrees with a variant field at its offset or overlaps none
+        # of them (a padding subset, a respelled scalar): the variants left are real width/sign conflicts
+        variants = []                                             # [dict(name, fields[[rel, name, entry]], srcs)]
+        where = {}                                                # (source idx, field name) -> (variant idx, variant field name)
+        for si in sorted({e[0] for e in C}):
+            fs = [e for e in C if e[0] == si]
+            hit = None
+            for vi, v in enumerate(variants):
+                if mp and si != 0 and not (len(mp) > 1 and v["name"] == mp[1]):
+                    continue                                      # an absorb variant keeps its named variant
+                plan, ok_ = [], True
+                for e in fs:
+                    r_ = e[2] - lo
+                    same = next((f_ for f_ in v["fields"] if f_[0] == r_ and agree(f_[2][1], e[1])), None)
+                    if same:
+                        plan.append((e, same[1])); continue
+                    if any(f_[0] < r_ + e[1]["size"] and r_ < f_[0] + f_[2][1]["size"] for f_ in v["fields"]) or \
+                            any(f_[1] == f"unk{r_:X}" for f_ in v["fields"]):
+                        ok_ = False; break
+                    plan.append((e, None))
+                if ok_:
+                    hit = (vi, plan); break
+            if hit:
+                vi, plan = hit
+                v = variants[vi]
+                v["srcs"].append(si)
+                for e, nm in plan:
+                    if nm is None:
+                        nm = f"unk{e[2] - lo:X}"
+                        v["fields"].append([e[2] - lo, nm, e])
+                    where[(si, e[1]["name"])] = (vi, nm)
+                continue
+            vname = (mp[1] if mp and len(mp) > 1 and si != 0 else f"v{len(variants)}")
+            v = dict(name=vname, fields=[], srcs=[si])
+            for e in fs:
+                nm = e[1]["name"] if si == 0 else f"unk{e[2] - lo:X}"
+                v["fields"].append([e[2] - lo, nm, e])
+                where[(si, e[1]["name"])] = (len(variants), nm)
+            variants.append(v)
+        for v in variants:
+            v["fields"].sort(key=lambda f_: f_[0])
+        if len(variants) == 1 and not mp:                         # T7.c15: one variant left: plain fields, no union
+            v = variants[0]
+            hs = v["srcs"][0]
+            ab = {f_[1]: (f_[1] if hs == 0 and f_[2][0] == 0 else f"unk{lo + f_[0]:X}") for f_ in v["fields"]}
+            for r_, nm, e in v["fields"]:
+                items.append((lo + r_, "plain", resub(e[1]["tmpl"]).replace(FOLD_N, ab[nm]), e[1]["size"], e[1]["al"]))
+                names_top.setdefault(ab[nm], []).append(lo + r_)
+            for (si, fn_), (_, nm) in where.items():
+                paths[keys[si]][fn_] = ab[nm]
+            continue
+        for (si, fn_), (vi, nm) in where.items():
+            paths[keys[si]][fn_] = f"{uname}.{variants[vi]['name']}.{nm}"
+        vlist = [(v["name"], [(r_, resub(e[1]["tmpl"]).replace(FOLD_N, nm), e[1]["size"]) for r_, nm, e in v["fields"]], 0) for v in variants]
+        usize = max(r + s_ for (_, vf, _) in vlist for (r, _, s_) in vf)
+        usize = (usize + ual - 1) // ual * ual
+        items.append((lo, "union", uname, vlist, usize, ual))
+        names_top.setdefault(uname, []).append(lo)
+    return items, paths, names_top, None
+
+
 def fold_plan(keys):
     """The fold of ledger rows `keys` into their one target, NOTHING written: dict(keys, disp, target_key, target, classes, merged
     (text or None = the target unchanged), size_old, size_new, map{type key: {field: path}}, texts{rel: new text}, counts{rel: n},
@@ -4097,6 +4694,10 @@ def fold_plan(keys):
         if why:
             return refuse(f"{k}: {why}")
         M.append(dict(key=k, d=d, F=F, span=span, size=res.layout_of_fields(d["fields"], d["kind"])[0]))
+    effs = {(_fold_eff_align(res, x) if x["kind"] == "struct" else None) for x in [tdef] + mdefs}
+    if len(effs) > 1 and any(re.search(r"packed|aligned", x.get("attrs") or "") for x in [tdef] + mdefs):   # T7.c14: packed / aligned only between one effective alignment
+        return refuse(f"definitions of different effective alignment under packed/aligned attributes ({sorted(map(str, effs))}): "
+                      f"a struct copy's codegen would change")
     tsize = res.layout_of_fields(tdef["fields"], tdef["kind"])[0]
     # names: a member's names must mean its canonical definition everywhere (no other definition of them in the tree)
     mnames = [n for m in M for n in _fold_names(m["d"])]
@@ -4136,7 +4737,10 @@ def fold_plan(keys):
         m["used"] = {f for es in m["acc"].values() for (_, _, f) in es}
     if why:
         return refuse(why[0])
-    tacc = _fold_accesses(tdef, tF, talias, cache, why)
+    psyq = (inv[tkey]["klass"] == "PsyQ") if tkey in inv else tdef["file"].startswith("include/psyq/")   # a PsyQ target keeps every field
+    tacc = {} if psyq else _fold_accesses(tdef, tF, talias, cache, why)    # T7.c15: a PsyQ target is never re-rendered (refused below)
+    if why:
+        return refuse(why[0])
     tused = {f for es in tacc.values() for (_, _, f) in es}
     member_rx = re.compile(r"(?:struct|union)\s+(?:" + "|".join(re.escape(m["d"]["tag"]) for m in M if m["d"]["tag"]) + r")\b"
                            if any(m["d"]["tag"] for m in M) else r"(?!x)x")
@@ -4145,7 +4749,6 @@ def fold_plan(keys):
     def resub(t):
         return name_rx.sub(tsp, member_rx.sub(tsp, t))
     # the merge: sources (target first), entries (source, field, absolute offset), clusters of overlapping entries
-    psyq = (inv[tkey]["klass"] == "PsyQ") if tkey in inv else tdef["file"].startswith("include/psyq/")   # a PsyQ target keeps every field
     srcs = [("target", [x for x in tF if psyq or not (_fold_is_pad(x) and x["name"] not in tused)], 0)]
     srcs += [(m["key"], [x for x in m["F"] if x["name"] in m["used"]], m["off"]) for m in M]
     ents = sorted(((si, x, x["off"] + off) for si, (_, F, off) in enumerate(srcs) for x in F), key=lambda e: (e[2], e[0]))
@@ -4157,71 +4760,10 @@ def fold_plan(keys):
         else:
             clusters.append([e])
             cur_end = e[2] + e[1]["size"]
-    items, paths, names_top = [], collections.defaultdict(dict), {}
-
-    def scalar_tmpl(x):
-        b = x["tmpl"].split(FOLD_N)[0].strip()
-        return not x["tmpl"].split(FOLD_N)[1].strip() and sl.scalar_of(b) is not None and not b.endswith("*")
-
-    def agree(a, b):
-        return a["size"] == b["size"] and a["leaves"] == b["leaves"] and (resub(a["tmpl"]) == resub(b["tmpl"]) or (scalar_tmpl(a) and scalar_tmpl(b)))
-    for C in clusters:
-        lo, hi = min(e[2] for e in C), max(e[2] + e[1]["size"] for e in C)
-        first = C[0]
-        if all(e[2] == first[2] and agree(e[1], first[1]) for e in C):
-            tgt = next((e for e in C if e[0] == 0), None)
-            nm = tgt[1]["name"] if tgt else f"unk{lo:X}"
-            items.append((lo, "plain", resub((tgt or first)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
-            names_top.setdefault(nm, []).append(lo)
-            for e in C:
-                paths[srcs[e[0]][0]][e[1]["name"]] = nm
-            continue
-        sign = [(a, b) for a in C for b in C if a[0] < b[0] and a[2] == b[2] and a[1]["size"] == b[1]["size"]
-                and [(o, w) for (o, w, _) in a[1]["leaves"]] == [(o, w) for (o, w, _) in b[1]["leaves"]]
-                and any({s1, s2} == {"s", "u"} for (_, _, s1), (_, _, s2) in zip(a[1]["leaves"], b[1]["leaves"]))]
-        lw = [(o, w) for (o, w, _) in first[1]["leaves"]]
-        if sign and all(e[2] == lo and e[1]["size"] == first[1]["size"] and scalar_tmpl(e[1]) and [(o, w) for (o, w, _) in e[1]["leaves"]] == lw
-                        for e in C):
-            # T7.c11 (T6's plan): a same-width sign conflict of scalars is a named union of one member per sign; each access keeps
-            # its own sign through the member of its source (`union { s16 s; u16 u; } unk2;`; the target's name when it has one)
-            tgt = next((e for e in C if e[0] == 0), None)
-            uname, mem = tgt[1]["name"] if tgt else f"unk{lo:X}", {}
-            for e in C:
-                vn = "".join(sorted({s_ for (_, _, s_) in e[1]["leaves"]}))
-                vn = vn if vn in ("s", "u") else f"v{len(mem)}"
-                mem.setdefault(vn, resub(e[1]["tmpl"]).replace(FOLD_N, vn))
-                paths[srcs[e[0]][0]][e[1]["name"]] = f"{uname}.{vn}"
-            items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], first[1]["size"], first[1]["al"]))
-            names_top.setdefault(uname, []).append(lo)
-            continue                                              # (a non-scalar sign conflict takes the variant union below)
-        if disp == "absorb" and any(m["path"] is None for m in M):
-            a, b = C[0], next(e for e in C if e[0] != C[0][0] or e is not C[0])
-            return refuse(f"conflict at {lo:#x}..{hi:#x} inside {tsp}: `{a[1]['name']}` ({a[1]['cite']}) vs `{b[1]['name']}` ({b[1]['cite']}): "
-                          f"needs class variant (member:<union>.<variant>)")
-        ual = max(e[1]["al"] for e in C)
-        if lo % ual:
-            return refuse(f"a union at {lo:#x} would be {ual}-aligned and move the layout ({C[0][1]['cite']})")
-        mp = next((m["path"] for m in M if m.get("path")), None)
-        uname = mp[0] if mp else f"unk{lo:X}"
-        variants = []                                             # [(vname, [(rel, decl, size)], sig, [source idx])]
-        for si in sorted({e[0] for e in C}):
-            fs = [e for e in C if e[0] == si]
-            vf = [(e[2] - lo, resub(e[1]["tmpl"]).replace(FOLD_N, e[1]["name"] if si == 0 else f"unk{e[2] - lo:X}"), e[1]["size"]) for e in fs]
-            sig = tuple((r, resub(e[1]["tmpl"])) for (r, _, _), e in zip(vf, fs))
-            hit = next((v for v in variants if v[2] == sig and si != 0), None)
-            if hit:
-                hit[3].append(si)
-                vname, inner = hit[0], hit[1]
-            else:
-                vname = (mp[1] if mp and len(mp) > 1 and si != 0 else f"v{len(variants)}")
-                variants.append((vname, vf, sig, [si]))
-                inner = vf
-            for e, (_, decl, _) in zip(fs, inner):
-                paths[srcs[si][0]][e[1]["name"]] = f"{uname}.{vname}.{_decl_name(decl)}"
-        usize = max(r + s for (_, vf, _, _) in variants for (r, _, s) in vf)
-        usize = (usize + ual - 1) // ual * ual
-        items.append((lo, "union", uname, [(v[0], v[1], 0) for v in variants], usize, ual))
-        names_top.setdefault(uname, []).append(lo)
+    items, paths, names_top, why_m = _fold_merge(clusters, [x[0] for x in srcs], resub, res, u["g"], next((m["path"] for m in M if m.get("path")), None),
+                                                 disp == "absorb" and any(m["path"] is None for m in M), tsp)
+    if why_m:
+        return refuse(why_m)
     dupn = {n: o for n, o in names_top.items() if len(o) > 1}
     if dupn:
         return refuse(f"two merged fields would share a name: {dupn}")
@@ -4246,6 +4788,8 @@ def fold_plan(keys):
         if rd and fsig(rd) == fsig(tdef) and nsize == tsize:
             P["merged"], changed = None, False                    # the re-render would only rewrite the same fields
     if changed:
+        if re.search(r"packed|aligned", tdef.get("attrs") or ""):
+            return refuse(f"target {tsp} ({tdef['file']}:{tdef['line']}): an attributed definition would be re-rendered (T7.c14)")
         if psyq or tdef["file"] not in CANON_HEADERS:
             return refuse(f"target {tsp} ({tdef['file']}:{tdef['line']}) is a PsyQ type or outside the canonical type files: the merge would change it")
         g2 = dict(u["g"])
@@ -4359,8 +4903,19 @@ def fold_plan(keys):
                     continue
                 if f not in mp_:
                     return refuse(f"{rel}: an access to `{f}` of {k} has no merged field")
-                if mp_[f] != f:
+                if mp_[f].startswith("{"):                       # T7.c15: an array over the target's scalar fields
+                    msk_r, ls_r = _fold_view(rel, cache)[1], _fold_view(rel, cache)[2]
+                    ix = re.match(r"\s*\[\s*(0[xX][0-9A-Fa-f]+|\d+)\s*\]", msk_r[e_:])
+                    names = mp_[f][1:-1].split(",")
+                    if not ix or int(ix.group(1), 0) >= len(names):
+                        refuse(f"{rel}:{bisect.bisect_right(ls_r, s_)}: `{f}[…]` of {k} without a constant index in 0..{len(names) - 1} "
+                               f"onto the scalar fields {', '.join(names)} of {tsp}")
+                        continue                                  # every such cite listed
+                    edits[rel].append((s_, e_ + ix.end(), names[int(ix.group(1), 0)]))
+                elif mp_[f] != f:
                     edits[rel].append((s_, e_, mp_[f]))
+    if P["refusals"]:
+        return P
     for rel, es in edits.items():
         es = sorted(set(es))
         try:
@@ -4595,6 +5150,212 @@ def fold_stamp(keys, commit):
     return 0
 
 
+FOLD_VARIANT = re.compile(r"^v\d+$")
+
+
+def _fold_union_parts(raw_u, msk_u):
+    """(pure) the variants of one rendered variant union statement `union { struct { … } v0; … } name`: [(vname, [field template])]
+    (_fold_tmpls per inner statement), None when a member is not an anonymous struct named v<N> (a sign union, a hand union)."""
+    o = msk_u.find("{")
+    c = sl._match_brace(msk_u, o)
+    if o == -1 or c == -1:
+        return None
+    out = []
+    for a, b in _fold_stmts(msk_u, o + 1, c):
+        st_ = msk_u[a:b].strip()
+        m = re.match(r"^struct\s*\{(.*)\}\s*([A-Za-z_]\w*)$", st_, re.S)
+        if not m or not FOLD_VARIANT.match(m.group(2)):
+            return None
+        tm = []
+        for x in sl._split_top(m.group(1), ";"):
+            if x.strip():
+                t = _fold_tmpls(x)
+                if isinstance(t, str):
+                    return None
+                tm += t
+        out.append((m.group(2), tm))
+    return out
+
+
+def fold_collapse_plan(names=None):
+    """(T7.c15) the variant unions the fold engine rendered in the canonical headers whose variants are spellings of one type (the
+    merge's normalization: typedef spellings, padding subsets, arrays vs scalars) re-planned as plain fields, NOTHING written:
+    dict(units [dict(type, file, line, union, items, paths)], texts {rel: new text}, counts {rel: n}, dispo (new text, rekeys),
+    skipped [(type.union, cause)]). `names`: only these types."""
+    import struct_twins as st
+    root = _froot()
+    if FOLD_ROOT is None:
+        u = st.type_universe()
+    else:
+        files = [h for h in CANON_HEADERS if (root / h).exists()]
+        u = st.type_universe({rel: _fread(rel) for rel in files})
+    res = sl.Resolver(u["g"])
+    cache, edits, skipped, units = {}, collections.defaultdict(list), [], []
+    for r in st.inventory_defs(u):
+        d = r["def"]
+        if d["file"] not in CANON_HEADERS or d["kind"] != "struct" or (names and not set(_fold_names(d)) & set(names)):
+            continue
+        uf = [f for f in d["fields"] if f.get("nested") and f["nested"]["kind"] == "union" and f["name"]]
+        if not uf:
+            continue
+        raw, msk, ls = _fold_view(d["file"], cache)[:3]
+        F, span, why = _fold_fields(res, d, msk)
+        if why:
+            continue
+        tsp = _fold_spell(d)
+        for f in uf:
+            x = next(x for x in F if x["name"] == f["name"])
+            st_ = next(((a, b) for a, b in _fold_stmts(msk, span[1] + 1, span[2])
+                        if re.match(r"^\s*union\s*\{", msk[a:b]) and re.search(r"\}\s*" + re.escape(f["name"]) + r"\s*$", msk[a:b])), None)
+            parts = _fold_union_parts(raw[st_[0]:st_[1]], msk[st_[0]:st_[1]]) if st_ else None
+            if not parts or len(parts) != len(f["nested"]["fields"]) or len(parts) < 2:
+                continue
+            lo, ents, bad, rn = x["off"], [], None, {}
+            for si, ((vn, tm), vf) in enumerate(zip(parts, f["nested"]["fields"])):
+                fs = vf["nested"]["fields"] if vf.get("nested") else []
+                if len(fs) != len(tm):
+                    bad = f"variant {vn}: {len(tm)} templates for {len(fs)} fields"; break
+                off = 0
+                for ff, t in zip(fs, tm):
+                    L_ = res.layout(ff["type"], ff["stars"], ff["dims"]) if not ff.get("nested") else None
+                    if L_ is None:
+                        bad = f"variant {vn} field `{ff['name']}` has no layout"; break
+                    sz, al, lv = L_
+                    o = (off + al - 1) // al * al
+                    nm = ff["name"]
+                    um = re.match(r"^unk([0-9A-F]+)$", nm)
+                    if um and int(um.group(1), 16) == o and lo:
+                        nm = f"unk{lo + o:X}"                     # a variant's union-relative unk name -> the struct offset
+                    rn[(vn, ff["name"])] = nm
+                    e = dict(name=nm, off=o, size=sz, al=al, leaves=tuple(sorted(set(lv))), tmpl=t, cite=f"{d['file']}:{d['line']}")
+                    off = o + sz
+                    if not _fold_is_pad(e):
+                        ents.append((si, e, lo + o))
+                if bad:
+                    break
+            if bad:
+                skipped.append((f"{tsp}.{f['name']}", bad)); continue
+            ents.sort(key=lambda e: (e[2], e[0]))
+            clusters, cur_end = [], -1
+            for e in ents:
+                if clusters and e[2] < cur_end:
+                    clusters[-1].append(e); cur_end = max(cur_end, e[2] + e[1]["size"])
+                else:
+                    clusters.append([e]); cur_end = e[2] + e[1]["size"]
+            items, paths, ntop, why_m = _fold_merge(clusters, [vn for vn, _ in parts], lambda t: t, res, u["g"], tsp=tsp)
+            if why_m or any(it[1] != "plain" for it in items):
+                skipped.append((f"{tsp}.{f['name']}", why_m or "a real width/sign conflict (stays a union)")); continue
+            other = {y["name"] for y in F if y["name"] != f["name"]}
+            clash = sorted(set(ntop) & other) + sorted(n for n, o in ntop.items() if len(o) > 1)
+            if clash:
+                skipped.append((f"{tsp}.{f['name']}", f"merged names clash with the struct's fields: {clash}")); continue
+            # the replacement lines: the plain fields at their offsets, pads in the gaps and to the union's end
+            s0 = st_[0] + len(msk[st_[0]:st_[1]]) - len(msk[st_[0]:st_[1]].lstrip())   # the statement's first token (`union`)
+            ind = re.match(r"[ \t]*", raw[raw.rfind("\n", 0, s0) + 1:]).group(0)
+            lines, cur = [], lo
+            for it in sorted(items, key=lambda it: it[0]):
+                if it[0] > cur:
+                    lines.append(f"{ind}/* {cur:#06x} */ u8 pad{cur:X}[{it[0] - cur:#x}];")
+                lines.append(f"{ind}/* {it[0]:#06x} */ {it[2]};")
+                cur = it[0] + it[3]
+            if lo + x["size"] > cur:
+                lines.append(f"{ind}/* {cur:#06x} */ u8 pad{cur:X}[{lo + x['size'] - cur:#x}];")
+            a_ = raw.rfind("\n", 0, s0) + 1
+            b_ = msk.find(";", st_[1])
+            b_ = raw.find("\n", b_) if raw.find("\n", b_) != -1 else len(raw)
+            paths = {vn: {f0: paths[vn][n1] for (v0, f0), n1 in rn.items() if v0 == vn and n1 in paths.get(vn, {})} for vn, _ in parts}
+            units.append(dict(type=tsp, file=d["file"], line=d["line"], union=f["name"], items=items, paths=paths, d=d, span=(a_, b_),
+                              text="\n".join(lines)))
+    # the accesses `<base>.<union>.<vN>.<field>` respelled to the plain path; any other use of the union refuses the unit
+    texts, counts = {}, {}
+    for U in units:
+        why, d = [], U["d"]
+        acc = _fold_accesses(d, [dict(name=U["union"])], _fold_aliases(_fold_names(d), cache), cache, why)
+        es, bad = [], why[0] if why else None
+        for rel, L_ in sorted(acc.items()):
+            msk_r, ls_r = _fold_view(rel, cache)[1:3]
+            for (s_, e_, _) in L_:
+                m = re.match(r"\s*\.\s*(v\d+)\s*\.\s*([A-Za-z_]\w*)", msk_r[e_:])
+                p_ = U["paths"].get(m.group(1), {}).get(m.group(2)) if m else None
+                if p_ is None:
+                    bad = f"{rel}:{bisect.bisect_right(ls_r, s_)}: a use of `{U['union']}` that is not `.vN.field`"; break
+                end = e_ + m.end()
+                if p_.startswith("{"):
+                    ix = re.match(r"\s*\[\s*(0[xX][0-9A-Fa-f]+|\d+)\s*\]", msk_r[end:])
+                    nm = p_[1:-1].split(",")
+                    if not ix or int(ix.group(1), 0) >= len(nm):
+                        bad = f"{rel}:{bisect.bisect_right(ls_r, s_)}: `{m.group(2)}[…]` without a constant index onto {', '.join(nm)}"; break
+                    es.append((rel, s_, end + ix.end(), nm[int(ix.group(1), 0)]))
+                else:
+                    es.append((rel, s_, end, p_))
+            if bad:
+                break
+        if bad:
+            skipped.append((f"{U['type']}.{U['union']}", bad)); U["skip"] = True; continue
+        edits[U["file"]].append((U["span"][0], U["span"][1], U["text"]))
+        for rel, a_, b_, t in es:
+            edits[rel].append((a_, b_, t))
+        U["n"] = len(es)
+    for rel, es in edits.items():
+        es = sorted(set(es))
+        texts[rel] = compose_text(_fold_view(rel, cache)[0], es)
+        counts[rel] = len(es)
+        edits[rel] = es
+    lmaps = {rel: _fold_line_map(_fold_view(rel, cache)[0], es) for rel, es in edits.items() if rel in CANON_HEADERS}
+    dl_, rekeys = (root / FOLD_DISPO).read_text().splitlines() if (root / FOLD_DISPO).exists() else [], {}
+
+    def remap(fl):
+        mm = re.match(r"^(.*):(\d+)$", fl)
+        if mm and mm.group(1) in lmaps:
+            nl = lmaps[mm.group(1)](int(mm.group(2)))
+            return f"{mm.group(1)}:{nl}" if nl else fl
+        return fl
+    out = []
+    for ln in dl_:
+        if ln.startswith("#") or ln.startswith("key\t") or not ln.strip():
+            out.append(ln); continue
+        c = ln.split("\t")
+        mk = re.match(r"^(.*)@(.*)$", c[0])
+        if mk and remap(mk.group(2)) != mk.group(2):
+            rekeys[c[0]] = c[0] = f"{mk.group(1)}@{remap(mk.group(2))}"
+        if len(c) > 2:
+            c[2] = remap(c[2])
+        out.append(c)
+    for c in out:
+        if isinstance(c, list) and len(c) > 5 and c[5] in rekeys:
+            c[5] = rekeys[c[5]]
+    rows = [c for c in out if isinstance(c, list)]
+    head = [c for c in out if not isinstance(c, list)]
+    rows.sort(key=lambda c: c[0])
+    return dict(units=[U for U in units if not U.get("skip")], texts=texts, counts=counts, skipped=skipped,
+                dispo=("\n".join(head + ["\t".join(c) for c in rows]) + "\n", rekeys))
+
+
+def fold_collapse(names, write):
+    """--fold-collapse [TYPE …] [--write] (T7.c15): print (and write) fold_collapse_plan; rc 0, 2 when --write finds the touched files dirty."""
+    P = fold_collapse_plan(names or None)
+    for U in P["units"]:
+        print(f"COLLAPSE {U['type']}.{U['union']} ({U['file']}:{U['line']}): accesses {U['n']} -> "
+              + ", ".join(f"{vn}.{f}->{p}" for vn, mp in sorted(U["paths"].items()) for f, p in sorted(mp.items())))
+    for k, why in P["skipped"]:
+        print(f"KEPT {k}: {why}")
+    print(f"restruct --fold-collapse: {len(P['units'])} unions collapsed · kept {len(P['skipped'])} · files {len(P['texts'])} · "
+          f"edits {sum(P['counts'].values())} · rekeys {len(P['dispo'][1])}")
+    if not write or not P["units"]:
+        return 0
+    root = _froot()
+    if FOLD_ROOT is None:
+        r = subprocess.run(["git", "status", "--porcelain", "--"] + sorted(P["texts"]) + [FOLD_DISPO], cwd=REPO, capture_output=True, text=True)
+        if r.stdout.strip():
+            print(f"restruct --fold-collapse --write: refused, uncommitted changes in {r.stdout.split()[1:3]}")
+            return 2
+    for rel, t in P["texts"].items():
+        (root / rel).write_text(t, errors="surrogateescape")
+    if (root / FOLD_DISPO).exists():
+        (root / FOLD_DISPO).write_text(P["dispo"][0])
+    return 0
+
+
 FOLD_FX_TYPES = "typedef int s32;\ntypedef short s16;\ntypedef unsigned short u16;\ntypedef unsigned char u8;\n"
 
 
@@ -4699,6 +5460,17 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("fold sign conflict: the sign union compiles under cc1", rc == 0, err)
+        # T7.c14: packed/aligned attributes fold only between one effective alignment (a byte struct's packed is a no-op)
+        _fold_fixture("attr", "typedef struct { u8 b[4]; } Fx_T;\ntypedef struct { u8 d[4]; } __attribute__((packed, aligned(1))) Fx_M;\n"
+                      "typedef struct { s32 a; s32 b; } Fx_U;\ntypedef struct { s32 a; s32 b; } __attribute__((packed, aligned(1))) Fx_P;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fe(Fx_M *m, Fx_P *q) { return m->d[1] + q->b; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "value", "shape:u8[4]", "-"), ("Fx_P", "fold", "Fx_U", "value", "shape:2xs32", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold attributes: a packed byte struct folds into its unattributed twin (same effective alignment; T7.c14)",
+           not P["refusals"] and P["merged"] is None, str(P["refusals"]))
+        P = fold_plan(["Fx_P"])
+        ok("fold attributes: a packed s32 pair into an aligned one is refused (struct copy codegen; T7.c14)",
+           any("effective alignment" in r for r in P["refusals"]), str(P["refusals"]))
         # T7.c11: the walker types `(*(T **)&x)` (a cast of an address), and a block-scope extern of another type shadows a global
         root = _fold_fixture("shadow", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 f0; u16 f4; u16 f6; } Fx_M;\n",
                              {"src/a.c": '#include "struct_types.h"\nextern s32 D_p;\n'
@@ -4714,6 +5486,131 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("fold walker: the shadowing TU compiles", rc == 0, err)
+        # T7.c15: the walker follows record fields typed with the member (nested, a record in a record), objects declared with a
+        # definition, a macro-aliased global, a macro's own cast on a parameter, a parameter base typed at its expansions — in files
+        # that never spell the member
+        root = _fold_fixture("walk2", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n"
+                             "typedef struct { s32 k; Fx_M pt[4]; struct { Fx_M q; } in; } Fx_C;\nstruct Fx_D { Fx_C c; };\n"
+                             "typedef struct Fx_D Fx_DA;\nextern Fx_M aResMap[4];\n#define RES_FILE aResMap\n"
+                             "#define RW16(p) (((Fx_M *)(p))->b)\n#define GETB(o) ((o)->b)\n",
+                             {"src/a.c": '#include "struct_types.h"\n'
+                                         's32 fa(Fx_C *s, s32 i) { Fx_DA fr; fr.c.pt[3].c = 0; return s->pt[i].b + s->in.q.a + fr.c.in.q.b; }\n'
+                                         's32 fb(void *p) { return RW16(p) + RES_FILE[1].a; }\n'
+                                         's32 fc(Fx_C *s) { return GETB(&s->pt[0]); }\n'
+                                         's32 fd(void) { struct { s32 z; Fx_C w[2]; } loc, *lp = &loc; loc.w[1].pt[0].c = 2; return lp->w[0].pt[1].b; }\n'
+                                         },
+                             [("Fx_M", "fold", "Fx_T", "link", "C13 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        a_, h_ = P["texts"].get("src/a.c", ""), P["texts"].get(led, "")
+        ok("fold walker (T7.c15): fields typed with the member, nested, a record in a record, aliased container",
+           "fr.c.pt[3].f6 = 0; return s->pt[i].f4 + s->in.q.f0 + fr.c.in.q.f4; }" in a_, f"{P['refusals']} {a_}")
+        ok("fold walker (T7.c15): objects declared with a block-scope definition (`struct {…} loc, *lp`)",
+           "loc.w[1].pt[0].f6 = 2; return lp->w[0].pt[1].f4; }" in a_, a_)
+        ok("fold walker (T7.c15): a macro-aliased global (`RES_FILE[1].a`) and a macro's own cast on its parameter",
+           "return RW16(p) + RES_FILE[1].f0; }" in a_ and "#define RW16(p) (((Fx_T *)(p))->f4)" in h_, f"{a_} | {h_}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold walker (T7.c15): the record/macro TU compiles", not P["refusals"] and rc == 0, f"{P['refusals']} {err}")
+        _fold_fixture("walk4", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n"
+                      "typedef struct { s32 k; Fx_M pt[4]; } Fx_C;\n#define GETB(o) ((o)->b)\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fc(Fx_C *s) { return GETB(&s->pt[0]); }\n'
+                                  'typedef struct { s32 b; } Fx_O;\ns32 fe(Fx_O *o) { return GETB(o) + o->b; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C13 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold walker (T7.c15): a parameter base typed at its expansions: one of another type -> refused, cited",
+           any("macro `GETB`" in r and "only some of its expansions" in r for r in P["refusals"]), str(P["refusals"]))
+        root = _fold_fixture("walk3", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n"
+                             "typedef struct { s32 k; Fx_M pt[4]; } Fx_C;\n#define GETB(o) ((o)->b)\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fc(Fx_C *s) { return GETB(&s->pt[0]) + GETB(s->pt); }\n'},
+                             [("Fx_M", "fold", "Fx_T", "link", "C14 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold walker (T7.c15): a header macro's parameter base typed at every expansion -> respelled in the header",
+           not P["refusals"] and "#define GETB(o) ((o)->f4)" in P["texts"].get(led, ""), f"{P['refusals']} {P['texts'].get(led, '')[-200:]}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold walker (T7.c15): the container TU compiles", rc == 0, err)
+        # T7.c15: spellings of one type never open a union: typedef spellings of a scalar, a padding subset, arrays vs scalars
+        _fold_fixture("spell", "typedef struct { s16 v[3]; s16 w; } Fx_T;\ntypedef struct { short a[3]; short p; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fs(Fx_M *m) { return m->a[1] + m->p; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "value", "shape:s16x4", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold spelling (T7.c15): `short a[3]` folds into `s16 v[3]` with no union, the target unchanged",
+           not P["refusals"] and P["merged"] is None and "return m->v[1] + m->w; }" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {P['merged']}")
+        root = _fold_fixture("subset", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s32 b; } Fx_M;\n"
+                             "typedef struct { s32 a; short x; u8 pad6[2]; } Fx_N;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fu(Fx_T *t, Fx_M *m, Fx_N *n) { return t->f4 + t->f6 + m->b + n->x; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "link", "C15 body: src/a.c:2", "-"), ("Fx_N", "fold", "Fx_T", "link", "C15 body: src/a.c:2", "-")])
+        P = fold_plan(["Fx_M", "Fx_N"])
+        mg = P["merged"] or ""
+        ok("fold variants (T7.c15): a padding-subset `short` spelling joins the target's variant; only the width conflict is a union",
+           not P["refusals"] and "struct { s16 f4; s16 f6; } v0;" in mg and "struct { s32 unk0; } v1;" in mg and "v2;" not in mg
+           and "return t->unk4.v0.f4 + t->unk4.v0.f6 + m->unk4.v1.unk0 + n->unk4.v0.f4; }" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold variants (T7.c15): the joined union compiles", rc == 0, err)
+        root = _fold_fixture("arrsc", "typedef struct { s16 vx; s16 vy; s16 vz; s16 pad; } Fx_T;\ntypedef struct { s16 d[4]; } Fx_M;\n"
+                             "typedef struct { s16 v[4]; } Fx_U;\ntypedef struct { s16 a; s16 b; s16 c; s16 e; } Fx_N;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fv(Fx_T *t, Fx_M *m, Fx_N *n) { return t->vy + m->d[2] + m->d[0x1] + n->c; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "value", "shape:s16x4", "-"), ("Fx_N", "fold", "Fx_U", "value", "shape:s16x4", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold array vs scalars (T7.c15): constant-index accesses respelled onto the target's scalar fields, no union",
+           not P["refusals"] and P["merged"] is None and "return t->vy + m->vz + m->vy + n->c; }" in P["texts"].get("src/a.c", ""),
+           f"{P['refusals']} {P['merged']} {P['texts'].get('src/a.c')}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold array vs scalars (T7.c15): compiles", rc == 0, err)
+        P = fold_plan(["Fx_N"])
+        ok("fold scalars vs array (T7.c15): a member scalar inside the target's array becomes an element",
+           not P["refusals"] and P["merged"] is None and "+ n->v[2]; }" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {P['merged']}")
+        root = _fold_fixture("recleaf", "typedef struct { s16 vx, vy, vz, pad; } Fx_S;\ntypedef struct { Fx_S x; Fx_S y; } Fx_T;\n"
+                             "typedef struct { s16 h[8]; } Fx_M;\ntypedef struct { s16 a; s16 b; s16 c; } Fx_N;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fr(Fx_T *t, Fx_M *m, Fx_N *n) { return t->x.vz + m->h[5] + n->b; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "value", "shape:s16x8", "-"), ("Fx_N", "fold", "Fx_T", "value", "shape:s16x3", "-")])
+        P = fold_plan(["Fx_M", "Fx_N"])
+        ok("fold array/scalars vs records (T7.c15): leaves map into the target's record fields (`h[5]` -> `y.vy`, `b` -> `x.vy`), no union",
+           not P["refusals"] and P["merged"] is None and "return t->x.vz + m->y.vy + n->x.vy; }" in P["texts"].get("src/a.c", ""),
+           f"{P['refusals']} {P['merged']} {P['texts'].get('src/a.c')}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold array/scalars vs records (T7.c15): compiles", rc == 0, err)
+        root = _fold_fixture("gap", "typedef struct { u8 unk0; u8 pad1[0x2]; u8 unk3; } Fx_T;\ntypedef struct { u8 d[4]; } Fx_M;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_T *t, Fx_M *m) { return t->unk3 + m->d[1] + m->d[3]; }\n'},
+                             [("Fx_M", "fold", "Fx_T", "value", "shape:u8x4", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("fold array over a target gap (T7.c15): the dropped padding's elements become target fields, no union",
+           not P["refusals"] and "union" not in mg and "/* 0x0001 */ u8 unk1;" in mg and "/* 0x0002 */ u8 unk2;" in mg
+           and "return t->unk3 + m->unk1 + m->unk3; }" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg} {P['texts'].get('src/a.c')}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold array over a target gap (T7.c15): compiles", rc == 0, err)
+        _fold_fixture("arrvar", "typedef struct { s16 vx; s16 vy; s16 vz; s16 pad; } Fx_T;\ntypedef struct { s16 d[4]; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fw(Fx_M *m, s32 i) {\n    return m->d[i];\n}\n'},
+                      [("Fx_M", "fold", "Fx_T", "value", "shape:s16x4", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold array vs scalars (T7.c15): a variable index refuses with its cite",
+           len(P["refusals"]) == 1 and "src/a.c:3: `d[…]`" in P["refusals"][0] and "vx, vy, vz, pad" in P["refusals"][0], str(P["refusals"]))
+        # T7.c15: --fold-collapse: a committed variant union whose variants spell one type -> plain fields, accesses respelled,
+        # struct-ledger keys below it rekeyed; a real width conflict stays a union
+        root = _fold_fixture("collapse", "typedef struct {\n    /* 0x0000 */ s32 k;\n    /* 0x0004 */ union {\n"
+                             "        struct { s32 a; s32 b; s32 c; } v0;\n        struct { s32 unk0[3]; } v1;\n        struct { int unk0; } v2;\n"
+                             "        struct { u8 pad0[0x4]; s32 unk4; } v3;\n    } unk4;\n} Fx_K; /* size = 0x10 */\n"
+                             "typedef struct {\n    /* 0x0000 */ union {\n        struct { s16 s; } v0;\n        struct { s32 unk0; } v1;\n    } unk0;\n"
+                             "} Fx_R; /* size = 0x4 */\n",
+                             {"src/a.c": '#include "struct_types.h"\n'
+                                         's32 fk(Fx_K *k, Fx_R *r) { return k->unk4.v0.b + k->unk4.v1.unk0[2] + k->unk4.v2.unk0 + k->unk4.v3.unk4 + r->unk0.v1.unk0; }\n'},
+                             [("Fx_R@include/struct_types.h:14", "apart", "-", "own", "src/a.c:2", "-")])
+        import contextlib
+        import io
+        with contextlib.redirect_stdout(io.StringIO()) as buf:
+            rc = fold_collapse([], True)
+        h_, a_, d_ = (root / led).read_text(), (root / "src/a.c").read_text(), (root / FOLD_DISPO).read_text()
+        ok("fold collapse (T7.c15): spellings of one type -> plain fields (the v0 names), accesses respelled, a width conflict kept",
+           rc == 0 and "    /* 0x0004 */ s32 a;\n    /* 0x0008 */ s32 b;\n    /* 0x000c */ s32 c;\n} Fx_K;" in h_ and "} unk0;\n} Fx_R;" in h_
+           and "/* 0x0000 */ s32 k;\n" in h_ and "return k->b + k->c + k->a + k->b + r->unk0.v1.unk0; }" in a_ and "KEPT Fx_R.unk0:" in buf.getvalue(), buf.getvalue() + h_ + a_)
+        ok("fold collapse (T7.c15): a struct-ledger key below the collapsed union moves up 3 lines", "Fx_R@include/struct_types.h:11\t" in d_, d_[-200:])
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("fold collapse (T7.c15): compiles", rc == 0, err)
         # T7.c11: a tag-only member (no typedef names; IndexError in _hf_file_edits before)
         _fold_fixture("tagonly", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\nstruct Fx_M { s32 a; s16 b; s16 c; };\n",
                       {"src/a.c": '#include "struct_types.h"\ns32 fi(struct Fx_M *m) { return m->b; }\n'},
@@ -7599,6 +8496,8 @@ def main():
                     "into their one target: dry run prints the merged definition, per-file edits, store edits, refusals; --write writes")
     ap.add_argument("--fold-batch", metavar="FILE", help="P3.45 T7.c11: one component's keys per line (comma-joined); --write applies them in "
                     "sequence on one tree (refused/crashing components skipped and listed; the restruct ledger rewritten once); dry run plans each")
+    ap.add_argument("--fold-collapse", nargs="*", metavar="TYPE", help="P3.45 T7.c15: the fold engine's variant unions in the canonical headers "
+                    "whose variants spell one type -> plain fields, accesses `.unkN.vK.f` respelled (all types, or these); --write writes")
     ap.add_argument("--fold-stamp", nargs=2, metavar=("KEY[,KEY…]", "COMMIT"), help="P3.45 T6: append ` applied:<commit>` to the rows' reasons")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
@@ -7633,6 +8532,8 @@ def main():
         sys.exit(fold_write(P) if a.write else (1 if P["refusals"] else 0))
     if a.fold_batch:
         sys.exit(fold_batch(a.fold_batch, a.write))
+    if a.fold_collapse is not None:
+        sys.exit(fold_collapse(a.fold_collapse, a.write))
     if a.fold_stamp:
         sys.exit(fold_stamp([k for k in a.fold_stamp[0].split(",") if k], a.fold_stamp[1]))
     if a.restore:
