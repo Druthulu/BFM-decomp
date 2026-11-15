@@ -3928,13 +3928,13 @@ void func_8018546C(void *a0) {
 
 void func_801854B0(s32 a0) {
     s32 ptr = ((Unkstruct_80185638_2 *)a0)->unkD0;
-    s16 val = ((Unkstruct_801854B0 *)ptr)->unk1A - 0xC0;
+    s16 val = ((Unkstruct_8018064C *)ptr)->unk1A - 0xC0;
 
-    ((Unkstruct_801854B0 *)ptr)->unk1A = val;
-    ((Unkstruct_801854B0 *)ptr)->unk18 = val;
+    ((Unkstruct_8018064C *)ptr)->unk1A = val;
+    ((Unkstruct_8018064C *)ptr)->unk18 = val;
 
     if (val < 0) {
-        ((Unkstruct_801854B0 *)ptr)->unk0 = 0;
+        ((Unkstruct_8018064C *)ptr)->unk0 = 0;
         ((Unkstruct_80185638_2 *)a0)->unk2 = ((Unkstruct_80185638_2 *)a0)->unk2 + 1;
     }
 }
@@ -4011,13 +4011,13 @@ void func_801855AC(s32 a0) {
 
 void func_80185638(s32 a0) {
     s32 ptr1 = ((Unkstruct_80185638_2 *)a0)->unkD0;
-    s16 val = ((Unkstruct_80185638 *)ptr1)->unk1A - 0xC0;
+    s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
-    ((Unkstruct_80185638 *)ptr1)->unk1A = val;
-    ((Unkstruct_80185638 *)ptr1)->unk18 = val;
+    ((Unkstruct_8018064C *)ptr1)->unk1A = val;
+    ((Unkstruct_8018064C *)ptr1)->unk18 = val;
 
     if (val < 0) {
-        ((Unkstruct_80185638 *)ptr1)->unk0 = 0;
+        ((Unkstruct_8018064C *)ptr1)->unk0 = 0;
         ((Unkstruct_80185638_2 *)a0)->unk2 = ((Unkstruct_80185638_2 *)a0)->unk2 + 1;
     }
 }

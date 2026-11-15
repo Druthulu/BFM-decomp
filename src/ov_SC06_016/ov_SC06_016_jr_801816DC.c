@@ -3705,7 +3705,7 @@ void func_80182810(int param_1)
     int v1;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80182810_2 *)param_1)->unk20 = v0;
+    ((Unkstruct_8017FD30 *)param_1)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -3715,9 +3715,9 @@ void func_80182810(int param_1)
             CAST_WIDTH(int, v1, 0x2C) = param_1;
             *(unsigned short *)(v1 + 0x30) = *(unsigned short *)(param_1 + 0x36);
         }
-        ((Unkstruct_80182810_2 *)param_1)->unk2 = 1;
-        ((Unkstruct_80182810_2 *)param_1)->unk1C = 0x16;
-        ((Unkstruct_80182810_2 *)param_1)->unk84 = 0;
+        ((Unkstruct_8017FD30 *)param_1)->unk2 = 1;
+        ((Unkstruct_8017FD30 *)param_1)->unk1C = 0x16;
+        ((Unkstruct_8017FD30 *)param_1)->unk84 = 0;
         func_80143994(param_1, 0x1800);
     }
 }

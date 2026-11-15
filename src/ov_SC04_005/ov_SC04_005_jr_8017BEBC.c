@@ -3767,13 +3767,13 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 void func_8017DD64(s32 a0) {
     s32 ptr1 = ((Unkstruct_8017CE2C_2 *)a0)->unkD0;
     s32 ptr2 = ((Unkstruct_8017CE2C_2 *)a0)->unkDC;
-    s16 val = ((Unkstruct_8017CE2C *)ptr1)->unk1A - 0xC0;
+    s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
-    ((Unkstruct_8017CE2C *)ptr1)->unk1A = val;
-    ((Unkstruct_8017CE2C *)ptr1)->unk18 = val;
+    ((Unkstruct_8018064C *)ptr1)->unk1A = val;
+    ((Unkstruct_8018064C *)ptr1)->unk18 = val;
 
     if (val < 0) {
-        ((Unkstruct_8017CE2C *)ptr1)->unk0 = 0;
+        ((Unkstruct_8018064C *)ptr1)->unk0 = 0;
         func_80178B18(a0, *(s32 *)(ptr2 + 0xC));
         ((Unkstruct_8017CE2C_2 *)a0)->unk2 = ((Unkstruct_8017CE2C_2 *)a0)->unk2 + 1;
     }
@@ -6338,14 +6338,14 @@ extern u8 D_801A4AD8[];
 extern void guess_StartActorSequence(s32, s32);
 
 void func_80182128(s32 a0) {
-    if (((Unkstruct_80182128 *)a0)->unk90 == (s32)&D_801A4918) {
+    if (((Unkstruct_80182A44 *)a0)->unk90 == (s32)&D_801A4918) {
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, D_801A4AD8);
     } else {
-        ((Unkstruct_80182128 *)a0)->unk98 = 0;
+        ((Unkstruct_80182A44 *)a0)->unk98 = 0;
     }
-    ((Unkstruct_80182128 *)a0)->unk5C = 0xAA10;
-    ((Unkstruct_80182128 *)a0)->unk2 = 1;
-    ((Unkstruct_80182128 *)a0)->unkFC = 0xF;
+    ((Unkstruct_80182A44 *)a0)->unk5C = 0xAA10;
+    ((Unkstruct_80182A44 *)a0)->unk2 = 1;
+    ((Unkstruct_80182A44 *)a0)->unkFC = 0xF;
 }
 
 
@@ -9004,12 +9004,12 @@ void func_80185F54(s32 a0) {
     s16 *v;
     s32 d;
 
-    ((Unkstruct_801825C0 *)a0)->unkFC  = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unkFC;
-    ((Unkstruct_801825C0 *)a0)->unkFE  = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unkFE;
-    ((Unkstruct_801825C0 *)a0)->unk100 = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unk100;
-    ((Unkstruct_801825C0 *)a0)->unk104 = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unk104;
-    ((Unkstruct_801825C0 *)a0)->unk106 = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unk106;
-    ((Unkstruct_801825C0 *)a0)->unk108 = ((Unkstruct_801825C0_2 *)*(s32 *)(a0 + 0x64))->unk108;
+    ((Unkstruct_801825C0 *)a0)->unkFC  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFC;
+    ((Unkstruct_801825C0 *)a0)->unkFE  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFE;
+    ((Unkstruct_801825C0 *)a0)->unk100 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk100;
+    ((Unkstruct_801825C0 *)a0)->unk104 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk104;
+    ((Unkstruct_801825C0 *)a0)->unk106 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk106;
+    ((Unkstruct_801825C0 *)a0)->unk108 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk108;
 
     ((Unkstruct_801825C0 *)a0)->unkEC = (((Unkstruct_801825C0 *)a0)->unkFC  + ((Unkstruct_801825C0 *)a0)->unkDC) >> 1;
     ((Unkstruct_801825C0 *)a0)->unkEE = (((Unkstruct_801825C0 *)a0)->unkFE  + ((Unkstruct_801825C0 *)a0)->unkDE) >> 1;
@@ -9859,11 +9859,11 @@ void func_80187714(s32 a0)
             RotMatrixY(ang, &u.mtx);
             SetRotMatrix(&u.mtx);
             RotTransSV(&D_801BEE74, sv, tv);
-            ((Unkstruct_80187714 *)s0)->unk6 = sv[0];
-            ((Unkstruct_80187714 *)s0)->unkA = sv[1];
-            ((Unkstruct_80187714 *)s0)->unkE = sv[2];
+            ((Unkstruct_80181184 *)s0)->unk6 = sv[0];
+            ((Unkstruct_80181184 *)s0)->unkA = sv[1];
+            ((Unkstruct_80181184 *)s0)->unkE = sv[2];
             ApplyRotMatrixLV(&D_801BEE7C, (void *)(a0 + 0x10));
-            ((Unkstruct_80187714 *)s0)->unk34 = 0x4000;
+            ((Unkstruct_80181184 *)s0)->unk34 = 0x4000;
         }
         ang += 0x200;
     } while (ang < 0x1000);

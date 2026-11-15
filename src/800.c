@@ -14663,7 +14663,7 @@ void *func_80025CBC(void *prims, void *scr, void *cols, void *packets,
     long otz;
     long sz0, sz1, sz2;
     long m;
-    Src_25CBC_t *s = prims;
+    TmdG3 *s = prims;
     FT3_25CBC_t *p = packets;
     u32 *tag;
 
@@ -14673,9 +14673,9 @@ void *func_80025CBC(void *prims, void *scr, void *cols, void *packets,
                  (char *)scr + (s->v1 << 3),
                  (char *)scr + (s->v2 << 3));
         gte_rtpt();
-        p->uv0 = s->uv0;
-        p->uv1 = s->uv1;
-        p->uv2 = s->uv2;
+        p->uv0 = s->rgb0;
+        p->uv1 = s->rgb1;
+        p->uv2 = s->rgb2;
         gte_stflg(&flag);
         if (flag & ~0x1000)
             continue;
@@ -14693,7 +14693,7 @@ void *func_80025CBC(void *prims, void *scr, void *cols, void *packets,
             gte_avsz3();
             gte_stotz(&otz);
         }
-        gte_ldv0((char *)cols + (s->n << 3));
+        gte_ldv0((char *)cols + (s->n0 << 3));
         gte_nccs();
         gte_strgb(&p->r0);
         tag = ot + (otz >> otshift);

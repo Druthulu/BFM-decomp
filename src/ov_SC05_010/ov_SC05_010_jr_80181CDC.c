@@ -3858,11 +3858,11 @@ void func_80183D5C(s32 arg0)
     CAST_ALIAS(u16, r, 8) = *(u16 *)&scr[0];
     CAST_ALIAS(u16, r, 0x10) = *(volatile u16 *)&scr[0];
     CAST_ALIAS(u16, r, 0x18) = *(u16 *)&scr[1];
-    ((Unkstruct_80183D5C_2 *)r)->unk20 = *(u16 *)&scr[2];
-    ((Unkstruct_80183D5C_2 *)r)->unkA = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
-    ((Unkstruct_80183D5C_2 *)r)->unk12 = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
-    ((Unkstruct_80183D5C_2 *)r)->unk1A = CAST_MISALIGNED(u16, (u16 *)&scr[1], 1);
-    ((Unkstruct_80183D5C_2 *)r)->unk22 = CAST_MISALIGNED(u16, (u16 *)&scr[2], 1);
+    ((Unkstruct_8001F730 *)r)->unk20 = *(u16 *)&scr[2];
+    ((Unkstruct_8001F730 *)r)->unkA = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
+    ((Unkstruct_8001F730 *)r)->unk12 = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
+    ((Unkstruct_8001F730 *)r)->unk1A = CAST_MISALIGNED(u16, (u16 *)&scr[1], 1);
+    ((Unkstruct_8001F730 *)r)->unk22 = CAST_MISALIGNED(u16, (u16 *)&scr[2], 1);
     AddPrim(ot, r);
     AddPrim(ot, q);
 }

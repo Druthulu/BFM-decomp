@@ -5515,9 +5515,9 @@ void func_80181F98(s32 *a0, s32 *a1) {
     ((Unkstruct_801819B4_2 *)a0)->unk6 = ((Unkstruct_80181F98_2 *)a1)->unk0;
     ((Unkstruct_801819B4_2 *)a0)->unkA = ((Unkstruct_80181F98_2 *)a1)->unk2;
     ((Unkstruct_801819B4_2 *)a0)->unkE = ((Unkstruct_80181F98_2 *)a1)->unk4;
-    ((Unkstruct_80181F98_3 *)*(s32 *)((s32)a0 + 0x20))->unk10 = ((Unkstruct_80181F98_2 *)a1)->unk6;
-    ((Unkstruct_80181F98_3 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_80181F98_2 *)a1)->unk8;
-    ((Unkstruct_80181F98_3 *)*(s32 *)((s32)a0 + 0x20))->unk14 = ((Unkstruct_80181F98_2 *)a1)->unkA;
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk10 = ((Unkstruct_80181F98_2 *)a1)->unk6;
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_80181F98_2 *)a1)->unk8;
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk14 = ((Unkstruct_80181F98_2 *)a1)->unkA;
 }
 
 

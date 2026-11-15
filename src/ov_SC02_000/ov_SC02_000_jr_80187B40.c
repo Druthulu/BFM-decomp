@@ -3513,9 +3513,9 @@ void func_80188AEC(void *a0) {
     v = rand() & 3;
     ((void (*)(void *, void *, s32, s32))func_8001CB6C)(s0, &((void (**)())D_8018F560)[v * 3], 0x3F0, 0x100);
 
-    ((Unkstruct_80188AEC_2 *)s0)->unk27 = 0x9D;
-    ((Unkstruct_80188AEC_2 *)s0)->unk1A = 0x1000;
-    ((Unkstruct_80188AEC_2 *)s0)->unk18 = 0x1000;
+    ((Unkstruct_800CBD90 *)s0)->unk27 = 0x9D;
+    ((Unkstruct_800CBD90 *)s0)->unk1A = 0x1000;
+    ((Unkstruct_800CBD90 *)s0)->unk18 = 0x1000;
 
     r1 = rand();
     ((Unkstruct_80188AEC *)a0)->unk14 = (r1 + 0xC000) << 1;

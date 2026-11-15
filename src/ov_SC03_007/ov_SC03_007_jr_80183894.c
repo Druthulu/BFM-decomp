@@ -3300,16 +3300,16 @@ extern u8 D_801E3B88[];
 void func_80183E18(void *a0) {
     s32 s0 = (s32)a0;
 
-    ((Unkstruct_80183E18 *)a0)->unk2 = 2;
+    ((Unkstruct_8017F394 *)a0)->unk2 = 2;
     guess_UpdateActorModelMatrix(s0);
     guess_ClearVelocityAndSetGravity(s0);
     guess_SetForwardVelocity(s0, D_8018C510);
-    if ((((Unkstruct_80183E18 *)s0)->unk70 & 0x200) != 0) {
+    if ((((Unkstruct_8017F394 *)s0)->unk70 & 0x200) != 0) {
         guess_StartActorSequence(s0, (void *)D_801E4B08);
     } else {
         guess_StartActorSequence(s0, (void *)D_801E3B88);
     }
-    ((Unkstruct_80183E18 *)s0)->unk1C = 0x88;
+    ((Unkstruct_8017F394 *)s0)->unk1C = 0x88;
 }
 
 

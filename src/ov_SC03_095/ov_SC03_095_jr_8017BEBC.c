@@ -4306,16 +4306,16 @@ void func_8017FC14(s32 a0) {
     extern s32 rand(void);
     extern void func_801806EC(s32 arg0);
 
-    ((Unkstruct_8017FC14 *)a0)->unkFC = ((Unkstruct_8017FC14 *)a0)->unkFE = ((Unkstruct_8017FC14 *)a0)->unk100 =
-        (u32)rsin(((Unkstruct_8017FC14 *)a0)->unk1C << 4) >> 5 & 0xFF;
-    ((Unkstruct_8017FC14 *)a0)->unk1C += 1;
-    if (((Unkstruct_8017FC14 *)a0)->unk1C < 0x41) {
+    ((Unkstruct_8017F794 *)a0)->unkFC = ((Unkstruct_8017F794 *)a0)->unkFE = ((Unkstruct_8017F794 *)a0)->unk100 =
+        (u32)rsin(((Unkstruct_8017F794 *)a0)->unk1C << 4) >> 5 & 0xFF;
+    ((Unkstruct_8017F794 *)a0)->unk1C += 1;
+    if (((Unkstruct_8017F794 *)a0)->unk1C < 0x41) {
         return;
     }
-    ((Unkstruct_8017FC14 *)a0)->unk2 = 3;
-    ((Unkstruct_8017FC14 *)a0)->unk5C = *(u16 *)(((Unkstruct_8017FC14 *)a0)->unk78 + 2);
-    ((Unkstruct_8017FC14 *)a0)->unk1C = rand();
-    ((void (*)(s32))func_801806EC)(((Unkstruct_8017FC14 *)a0)->unkD4);
+    ((Unkstruct_8017F794 *)a0)->unk2 = 3;
+    ((Unkstruct_8017F794 *)a0)->unk5C = *(u16 *)(((Unkstruct_8017F794 *)a0)->unk78 + 2);
+    ((Unkstruct_8017F794 *)a0)->unk1C = rand();
+    ((void (*)(s32))func_801806EC)(((Unkstruct_8017F794 *)a0)->unkD4);
 }
 
 
@@ -4544,19 +4544,19 @@ extern void func_80180654(void *arg0, s32 arg1);
 extern void func_801806EC(s32);
 
 void func_80180328(void *arg0) {
-    func_80180654(((Unkstruct_80180328 *)arg0)->unkD4, 0);
-    ((Unkstruct_80180328 *)arg0)->unk2 = 4;
+    func_80180654(((Unkstruct_80184A88 *)arg0)->unkD4, 0);
+    ((Unkstruct_80184A88 *)arg0)->unk2 = 4;
     {
         s32 v1;
-        v1 = ((Unkstruct_80180328 *)arg0)->unk78;
-        ((Unkstruct_80180328 *)arg0)->unk5C = *(u16 *)(v1 + 2);
+        v1 = ((Unkstruct_80184A88 *)arg0)->unk78;
+        ((Unkstruct_80184A88 *)arg0)->unk5C = *(u16 *)(v1 + 2);
     }
     {
         s32 p;
-        p = ((Unkstruct_80180328 *)arg0)->unk20;
+        p = ((Unkstruct_80184A88 *)arg0)->unk20;
         ((Unkstruct_80180328_2 *)p)->unk18 = ((Unkstruct_80180328_2 *)p)->unk1A = 0x2000;
     }
-    func_801806EC(((Unkstruct_80180328 *)arg0)->unkD4);
+    func_801806EC(((Unkstruct_80184A88 *)arg0)->unkD4);
 }
 
 

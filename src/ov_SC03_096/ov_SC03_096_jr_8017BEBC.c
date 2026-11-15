@@ -4363,13 +4363,13 @@ void func_8017FE4C(int param_1) {
 void func_8017FEA8(s32 a0) {
     s32 v1;
 
-    func_801801D4(((Unkstruct_8017FEA8 *)a0)->unkD4, 0);
-    ((Unkstruct_8017FEA8 *)a0)->unk2 = 4;
-    ((Unkstruct_8017FEA8 *)a0)->unk5C = *(u16 *)(((Unkstruct_8017FEA8 *)a0)->unk78 + 2);
-    v1 = ((Unkstruct_8017FEA8 *)a0)->unk20;
+    func_801801D4(((Unkstruct_80184A88 *)a0)->unkD4, 0);
+    ((Unkstruct_80184A88 *)a0)->unk2 = 4;
+    ((Unkstruct_80184A88 *)a0)->unk5C = *(u16 *)(((Unkstruct_80184A88 *)a0)->unk78 + 2);
+    v1 = ((Unkstruct_80184A88 *)a0)->unk20;
     ((Unkstruct_8017FEA8_2 *)v1)->unk1A = 0x2000;
     ((Unkstruct_8017FEA8_2 *)v1)->unk18 = 0x2000;
-    func_8018026C(((Unkstruct_8017FEA8 *)a0)->unkD4);
+    func_8018026C(((Unkstruct_80184A88 *)a0)->unkD4);
 }
 
 

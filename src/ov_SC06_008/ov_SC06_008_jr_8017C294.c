@@ -3106,9 +3106,9 @@ void func_8017DCD0(void *a0) {
 
 
 void func_8017DD0C(void *a0) {
-        ((Unkstruct_8017DD0C *)a0)->unkC1 = 0;
-        ((Unkstruct_8017DD0C *)a0)->unk5E = 0;
-        ((Unkstruct_8017DD0C *)a0)->unk5C &= 0xC800;
+        ((Unkstruct_8017E394 *)a0)->unkC1 = 0;
+        ((Unkstruct_8017E394 *)a0)->unk5E = 0;
+        ((Unkstruct_8017E394 *)a0)->unk5C &= 0xC800;
     }
 
 

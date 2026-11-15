@@ -3900,7 +3900,7 @@ void func_8017E9F4(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    if (((Unkstruct_8017E9F4_2 *)obj)->unk0 < -0x4E0) {
+    if (((Unkstruct_8017DCD0_2 *)obj)->unk0 < -0x4E0) {
         diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_8017DCD0 *)param_1)->unkE;
         if (diff < 0x140) {
             uVar2 = ((Unkstruct_8017DCD0 *)param_1)->unkFC - 0x10;
@@ -3940,14 +3940,14 @@ void func_8017E9F4(s32 param_1)
             ((Unkstruct_8017DCD0 *)param_1)->unk1C = 3;
             obj = func_80143C74(param_1, 0);
             if (obj != 0) {
-                ((Unkstruct_8017E9F4_2 *)obj)->unk6 = rand() % 0x120 - 0xE0;
-                ((Unkstruct_8017E9F4_2 *)obj)->unkA = -(rand() & 0x3F) - 0x502;
+                ((Unkstruct_8017DCD0_2 *)obj)->unk6 = rand() % 0x120 - 0xE0;
+                ((Unkstruct_8017DCD0_2 *)obj)->unkA = -(rand() & 0x3F) - 0x502;
                 diff = rand() % 0x560 + 0x140;
-                ((Unkstruct_8017E9F4_2 *)obj)->unkE = ((Unkstruct_8017E9F4_2 *)obj)->unkE + diff;
+                ((Unkstruct_8017DCD0_2 *)obj)->unkE = ((Unkstruct_8017DCD0_2 *)obj)->unkE + diff;
                 quotient = (CAST_SIGN(s16, param_1, 0xFC) * 0xD) / 0x300;
                 quotient = (quotient * (0x800 - diff)) / 0x800;
-                ((Unkstruct_8017E9F4_2 *)obj)->unk1A = quotient * 2;
-                do { ((Unkstruct_8017E9F4_2 *)obj)->unk48 = -((rand() & 0x1FF) << 7); } while (0);
+                ((Unkstruct_8017DCD0_2 *)obj)->unk1A = quotient * 2;
+                do { ((Unkstruct_8017DCD0_2 *)obj)->unk48 = -((rand() & 0x1FF) << 7); } while (0);
             }
         }
     }

@@ -3866,10 +3866,10 @@ void func_8017EC70(void) {
 }
 
 void func_8017EC78(void *a0) {
-    ((Unkstruct_8017EC78_2 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_8017EC78_2 *)*(s32 *)(a0 + 0x20))->unk18 - 0x100;
-    ((Unkstruct_8017EC78_2 *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_8017EC78_2 *)*(s32 *)(a0 + 0x20))->unk1A - 0x100;
+    ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk18 - 0x100;
+    ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk1A - 0x100;
     if (*(s16 *)(((Unkstruct_8017EC78 *)a0)->unk20 + 0x1a) < 0x81) {
-        ((Unkstruct_8017EC78_2 *)*(s32 *)(a0 + 0x20))->unk4 |= 0x80000000;
+        ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk4 |= 0x80000000;
         ((Unkstruct_8017EC78 *)a0)->unk2 = 1;
         ((Unkstruct_8017EC78 *)a0)->unk5C = 0x8000;
     }
@@ -3880,8 +3880,8 @@ void func_8017ECEC(void *a0) {
     ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk18 + 0x100;
     ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A + 0x100;
     if (((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A >= 0x2000) {
-        ((Unkstruct_8017ECEC *)a0)->unk2 = 1;
-        ((Unkstruct_8017ECEC *)a0)->unk5C = 0x8000;
+        ((Unkstruct_8017EC78 *)a0)->unk2 = 1;
+        ((Unkstruct_8017EC78 *)a0)->unk5C = 0x8000;
     }
 }
 

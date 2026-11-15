@@ -3112,12 +3112,12 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     guess_RotTransSVWithObjMatrix(param_1, param_2, (s32)&svec);
     D_80198B94 = svec;
 
-    v0.vx = -((Unkstruct_8017BA3C *)param_2)->unkC;
-    v0.vy = ((Unkstruct_8017BA3C *)param_2)->unk8;
+    v0.vx = -((Unkstruct_8017BB34 *)param_2)->unkC;
+    v0.vy = ((Unkstruct_8017BB34 *)param_2)->unk8;
     v0.vz = 0;
     v1.vx = 0;
     v1.vy = 0;
-    v1.vz = -((Unkstruct_8017BA3C *)param_2)->unkA;
+    v1.vz = -((Unkstruct_8017BB34 *)param_2)->unkA;
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
     mtx.t[0] = (s32)svec.vx;
@@ -4129,11 +4129,11 @@ extern void (*D_80182AC4[])(void);
 extern void (*D_80182ADC[])(void);
 
 void func_8017DF1C(s32 a0) {
-    u16 tag = ((Unkstruct_8017DF1C *)a0)->unk2;
+    u16 tag = ((Unkstruct_80181668_3 *)a0)->unk2;
 
     if (tag != 0) {
-        if (((Unkstruct_8017DF1C *)a0)->unk76 < 0x3d4) {
-            D_80182ADC[((Unkstruct_8017DF1C *)a0)->unk102]();
+        if (((Unkstruct_80181668_3 *)a0)->unk76 < 0x3d4) {
+            D_80182ADC[((Unkstruct_80181668_3 *)a0)->unk102]();
         } else {
             D_80182AC4[tag]();
         }

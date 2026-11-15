@@ -3696,24 +3696,24 @@ void func_80187968(s32 a0) {
     if ((v0 & 7) == 0) {
         s1 = func_8012913C(0x7B);
         if (s1 != 0) {
-            V8_80187968 p1;
-            V8_80187968 q;
+            struct SV3_8012CC88_tag p1;
+            struct SV3_8012CC88_tag q;
 
             v0 = *(u16 *)(a0 + 0x10A);
             CAST_WIDTH(s32, s1, 0x2C) = (v0 & 0x18) >> 3;
 
-            p1.x = *(u16 *)(a0 + 0x6);
-            p1.y = *(u16 *)(a0 + 0xA);
-            p1.z = *(u16 *)(a0 + 0xE);
-            q.x = p1.x;
-            q.y = p1.y + 0x80;
-            q.z = p1.z;
+            p1.vx = *(u16 *)(a0 + 0x6);
+            p1.vy = *(u16 *)(a0 + 0xA);
+            p1.vz = *(u16 *)(a0 + 0xE);
+            q.vx = p1.vx;
+            q.vy = p1.vy + 0x80;
+            q.vz = p1.vz;
 
             func_80133784(1, &p1, (s32)&q);
 
-            if (q.flag) {
+            if (q.pad) {
                 ((Unkstruct_800B5CB8 *)s1)->unk6 = *(u16 *)(a0 + 0x6);
-                ((Unkstruct_800B5CB8 *)s1)->unkA = q.y;
+                ((Unkstruct_800B5CB8 *)s1)->unkA = q.vy;
                 ((Unkstruct_800B5CB8 *)s1)->unkE = *(u16 *)(a0 + 0xE);
             } else {
                 func_801292C8(s1);

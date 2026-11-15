@@ -8344,11 +8344,11 @@ void func_8018BA4C(a0)
         s32 flag;    /* sp+0x20 */
     } L;
 
-    if (((Unkstruct_8018BA4C *)a0)->unk0 == 0) {
+    if (((Unkstruct_8018BBBC *)a0)->unk0 == 0) {
         return;
     }
 
-    if (((Unkstruct_8018BA4C *)a0)->unk84 == 0) {
+    if (((Unkstruct_8018BBBC *)a0)->unk84 == 0) {
         L.v[0] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk48;
         L.v[1] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk4C;
         L.v[2] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk50;
@@ -8370,13 +8370,13 @@ void func_8018BA4C(a0)
             sx = sx << 8;
             guess_RequestSound(0x849, (av | (0x3000 | sx)) & 0xFFFF);
         }
-        ((Unkstruct_8018BA4C *)a0)->unk84 = 0xA;
+        ((Unkstruct_8018BBBC *)a0)->unk84 = 0xA;
     } else {
-        (((Unkstruct_8018BA4C *)a0)->unk84)--;
+        (((Unkstruct_8018BBBC *)a0)->unk84)--;
     }
 
-    ((Unkstruct_8018BA4C *)a0)->unkFC += 0x280;
-    ((Unkstruct_8018BA4C *)a0)->unkFE -= 0x280;
+    ((Unkstruct_8018BBBC *)a0)->unkFC += 0x280;
+    ((Unkstruct_8018BBBC *)a0)->unkFE -= 0x280;
     aF8017ED80((void *)a0);
 }
 

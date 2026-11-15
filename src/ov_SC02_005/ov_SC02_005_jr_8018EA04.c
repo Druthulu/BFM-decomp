@@ -3552,7 +3552,7 @@ extern u8 D_800D387C[];
 void func_8018ECF4(s32 arg0) {
     s32 iVar1;
 
-    iVar1 = ((Unkstruct_8018ECF4_2 *)arg0)->unk20;
+    iVar1 = ((Unkstruct_8017F200_2 *)arg0)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
     ((Unkstruct_8017F200 *)iVar1)->unk27 = 0x9C;
     ((Unkstruct_8017F200 *)iVar1)->unk1A = 0x7000;
@@ -3561,8 +3561,8 @@ void func_8018ECF4(s32 arg0) {
     ((Unkstruct_8017F200 *)iVar1)->unk25 = 0x90;
     ((Unkstruct_8017F200 *)iVar1)->unk24 = 0x90;
     ((Unkstruct_8017F200 *)iVar1)->unk4 = ((Unkstruct_8017F200 *)iVar1)->unk4 | 0x50000000;
-    ((Unkstruct_8018ECF4_2 *)arg0)->unk2C = 0x46;
-    ((Unkstruct_8018ECF4_2 *)arg0)->unk2 += 1;
+    ((Unkstruct_8017F200_2 *)arg0)->unk2C = 0x46;
+    ((Unkstruct_8017F200_2 *)arg0)->unk2 += 1;
 }
 
 

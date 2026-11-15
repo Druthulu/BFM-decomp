@@ -3116,12 +3116,12 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     guess_RotTransSVWithObjMatrix(param_1, param_2, (s32)&svec);
     D_801EB12C = svec;
 
-    v0.vx = -((Unkstruct_8017BA3C *)param_2)->unkC;
-    v0.vy = ((Unkstruct_8017BA3C *)param_2)->unk8;
+    v0.vx = -((Unkstruct_8017BB34 *)param_2)->unkC;
+    v0.vy = ((Unkstruct_8017BB34 *)param_2)->unk8;
     v0.vz = 0;
     v1.vx = 0;
     v1.vy = 0;
-    v1.vz = -((Unkstruct_8017BA3C *)param_2)->unkA;
+    v1.vz = -((Unkstruct_8017BB34 *)param_2)->unkA;
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
     mtx.t[0] = (s32)svec.vx;
@@ -4152,13 +4152,13 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 void func_8017D204(s32 a0) {
     s32 ptr1 = ((Unkstruct_8017CE2C_2 *)a0)->unkD0;
     s32 ptr2 = ((Unkstruct_8017CE2C_2 *)a0)->unkDC;
-    s16 val = ((Unkstruct_8017CE2C *)ptr1)->unk1A - 0xC0;
+    s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
-    ((Unkstruct_8017CE2C *)ptr1)->unk1A = val;
-    ((Unkstruct_8017CE2C *)ptr1)->unk18 = val;
+    ((Unkstruct_8018064C *)ptr1)->unk1A = val;
+    ((Unkstruct_8018064C *)ptr1)->unk18 = val;
 
     if (val < 0) {
-        ((Unkstruct_8017CE2C *)ptr1)->unk0 = 0;
+        ((Unkstruct_8018064C *)ptr1)->unk0 = 0;
         func_80178B18(a0, *(s32 *)(ptr2 + 0xC));
         ((Unkstruct_8017CE2C_2 *)a0)->unk2 = ((Unkstruct_8017CE2C_2 *)a0)->unk2 + 1;
     }

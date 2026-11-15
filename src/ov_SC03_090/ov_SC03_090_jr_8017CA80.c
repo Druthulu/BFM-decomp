@@ -5748,9 +5748,9 @@ void func_80184A58(s32 param_1)
     if (s0 != 0) {
         ((Unkstruct_80184A58 *)param_1)->unkCC = s0;
         ((void (*)(s32, void *))guess_InitObjectKind6)(s0, &D_801A2FC0);
-        ((Unkstruct_80184A58_2 *)s0)->unk18 = 0x800;
-        ((Unkstruct_80184A58_2 *)s0)->unk1A = 0x800;
-        ((Unkstruct_80184A58_2 *)s0)->unk4 |= 0x50000000;
+        ((Unkstruct_800CB328_3 *)s0)->unk18 = 0x800;
+        ((Unkstruct_800CB328_3 *)s0)->unk1A = 0x800;
+        ((Unkstruct_800CB328_3 *)s0)->unk4 |= 0x50000000;
     }
 
     v1 = ((Unkstruct_80184A58 *)param_1)->unk20;

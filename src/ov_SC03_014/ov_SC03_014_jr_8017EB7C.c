@@ -4537,13 +4537,13 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 void func_80181E80(s32 a0) {
     s32 ptr1 = ((Unkstruct_8017CE2C_2 *)a0)->unkD0;
     s32 ptr2 = ((Unkstruct_8017CE2C_2 *)a0)->unkDC;
-    s16 val = ((Unkstruct_8017CE2C *)ptr1)->unk1A - 0xC0;
+    s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
-    ((Unkstruct_8017CE2C *)ptr1)->unk1A = val;
-    ((Unkstruct_8017CE2C *)ptr1)->unk18 = val;
+    ((Unkstruct_8018064C *)ptr1)->unk1A = val;
+    ((Unkstruct_8018064C *)ptr1)->unk18 = val;
 
     if (val < 0) {
-        ((Unkstruct_8017CE2C *)ptr1)->unk0 = 0;
+        ((Unkstruct_8018064C *)ptr1)->unk0 = 0;
         func_80178B18(a0, *(s32 *)(ptr2 + 0xC));
         ((Unkstruct_8017CE2C_2 *)a0)->unk2 = ((Unkstruct_8017CE2C_2 *)a0)->unk2 + 1;
     }

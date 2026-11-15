@@ -5496,15 +5496,15 @@ extern u16 D_800B99DC;
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80186F44(s32 a0) {
-    if (*(s16 *)(((Unkstruct_80186F44 *)a0)->unk64 + 0xE) - 0x10 < ((Unkstruct_80186F44 *)a0)->unkE) {
+    if (*(s16 *)(((Unkstruct_801871B8 *)a0)->unk64 + 0xE) - 0x10 < ((Unkstruct_801871B8 *)a0)->unkE) {
         CAST_ALIAS(s32, a0, 0x18) = 0xFFDBC000;
         CAST_ALIAS(s32, a0, 0x14) = 0xFFE00000;
-        ((Unkstruct_80186F44 *)a0)->unk48 = 0x80000;
+        ((Unkstruct_801871B8 *)a0)->unk48 = 0x80000;
         CAST_ALIAS(s32, a0, 0x44) = 0;
         CAST_ALIAS(s32, a0, 0x4C) = 0;
-        ((Unkstruct_80186F44 *)a0)->unk12 = 0xF - (D_800B99DC & 0x1F);
+        ((Unkstruct_801871B8 *)a0)->unk12 = 0xF - (D_800B99DC & 0x1F);
         guess_RequestSound(0x4D8, 0);
-        ((Unkstruct_80186F44 *)a0)->unk2 += 1;
+        ((Unkstruct_801871B8 *)a0)->unk2 += 1;
     }
 }
 

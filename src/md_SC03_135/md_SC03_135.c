@@ -1137,12 +1137,12 @@ void func_801E40A8(void) {
                 switch (i) {
                 case 0:
                     for (j = 0; j < 5; j++) {
-                        if (((Unkstruct_801E40A8 *)p)->unk8 < D_801E65B8[j]) {
+                        if (((Unkstruct_8017D730 *)p)->unk8 < D_801E65B8[j]) {
                             break;
                         }
                     }
                     if (p[0x4E] != 0) {
-                        j = (((Unkstruct_801E40A8 *)p)->unk0 == 0) ? 0x1A : 0x1C;
+                        j = (((Unkstruct_8017D730 *)p)->unk0 == 0) ? 0x1A : 0x1C;
                     }
                     *(s32 *)arr = j + 4;
                     break;
@@ -1160,7 +1160,7 @@ void func_801E40A8(void) {
                                   5, (u8 *)arr[1] + 0x12, 0);
                     break;
                 case 2:
-                    a = ((Unkstruct_801E40A8 *)p)->unk34;
+                    a = ((Unkstruct_8017D730 *)p)->unk34;
                     if (a >= 1000) {
                         a = 999;
                     }
@@ -1186,11 +1186,11 @@ void func_801E40A8(void) {
                                   5, (u8 *)arr[2] + 0x18, 0);
                     break;
                 case 3:
-                    a = ((Unkstruct_801E40A8 *)p)->unk3C;
+                    a = ((Unkstruct_8017D730 *)p)->unk3C;
                     if (a >= 1000) {
                         a = 999;
                     }
-                    b = ((Unkstruct_801E40A8 *)p)->unk3A;
+                    b = ((Unkstruct_8017D730 *)p)->unk3A;
                     if (b >= 1000) {
                         b = 999;
                     }
@@ -1201,11 +1201,11 @@ void func_801E40A8(void) {
                     ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (guess_IntToBcd_4(b, 4) | 0xC0000), 7, (u8 *)arr[3] + 6, 1);
                     break;
                 case 4:
-                    a = ((Unkstruct_801E40A8 *)p)->unk40;
+                    a = ((Unkstruct_8017D730 *)p)->unk40;
                     if (a >= 1000) {
                         a = 999;
                     }
-                    b = ((Unkstruct_801E40A8 *)p)->unk3E;
+                    b = ((Unkstruct_8017D730 *)p)->unk3E;
                     if (b >= 1000) {
                         b = 999;
                     }
@@ -1216,14 +1216,14 @@ void func_801E40A8(void) {
                     ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(r | (guess_IntToBcd_4(b, 4) | 0xC0000), 7, (u8 *)arr[4] + 6, 1);
                     break;
                 case 5:
-                    a = ((Unkstruct_801E40A8 *)p)->unk14;
+                    a = ((Unkstruct_8017D730 *)p)->unk14;
                     if (a > 99999) {
                         a = 99999;
                     }
                     ((void (*)(unsigned int, short, unsigned short *, short))func_801E4628)(guess_IntToBcd_4(a, 0xC), 5, (u8 *)arr[5] + 2, 1);
                     break;
                 case 6:
-                    a = ((Unkstruct_801E40A8 *)p)->unkC;
+                    a = ((Unkstruct_8017D730 *)p)->unkC;
                     if (a >= 0x24) {
                         a = 0x23;
                     }

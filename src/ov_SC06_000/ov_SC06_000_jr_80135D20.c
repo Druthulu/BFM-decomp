@@ -1118,16 +1118,16 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     temp_v0 = ac[2] + r;
     b4[2] = temp_v0;
     temp_v1 = b4[0];
-    if (temp_v1 < ((Unkstruct_80136824 *)arg0)->unk4) {
+    if (temp_v1 < ((Unkstruct_80135EB0 *)arg0)->unk4) {
         return 0;
     }
-    if (((Unkstruct_80136824 *)arg0)->unk6 < temp_v1) {
+    if (((Unkstruct_80135EB0 *)arg0)->unk6 < temp_v1) {
         return 0;
     }
-    if (temp_v0 < ((Unkstruct_80136824 *)arg0)->unkC) {
+    if (temp_v0 < ((Unkstruct_80135EB0 *)arg0)->unkC) {
         return 0;
     }
-    if (((Unkstruct_80136824 *)arg0)->unkE < temp_v0) {
+    if (((Unkstruct_80135EB0 *)arg0)->unkE < temp_v0) {
         return 0;
     }
     if (a1v & 0x8000) {
@@ -1146,8 +1146,8 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
         guess_g_BoxHitNormalY = -0xFFF;
         b4b[1] = pos - 2;
     }
-    (*(s16 *)guess_g_BoxHitCenterX) = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk4 + ((Unkstruct_80136824 *)arg0)->unk6) >> 1);
-    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80136824 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    (*(s16 *)guess_g_BoxHitCenterX) = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
     return 1;
 }

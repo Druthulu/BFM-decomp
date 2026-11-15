@@ -3259,16 +3259,16 @@ void func_8017D254(s32 param_1) {
     s32 pad[12];
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017D254_2 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_8017D254_2 *)param_1)->unk5 = t;
-        ((Unkstruct_8017D254_2 *)param_1)->unk14 = D_80182E10[t];
+        t = (((Unkstruct_8017D04C *)param_1)->unk5 + 1) & 1;
+        ((Unkstruct_8017D04C *)param_1)->unk5 = t;
+        ((Unkstruct_8017D04C *)param_1)->unk14 = D_80182E10[t];
     }
-    ((Unkstruct_8017D254_2 *)param_1)->unk3C = -0xBE;
-    ((Unkstruct_8017D254_2 *)param_1)->unk40 = -0xB0;
-    ((Unkstruct_8017D254_2 *)param_1)->unk44 = 0x644;
-    ((Unkstruct_8017D254_2 *)param_1)->unk48 = -0x82;
-    ((Unkstruct_8017D254_2 *)param_1)->unk4C = -0xE8;
-    ((Unkstruct_8017D254_2 *)param_1)->unk50 = 0x51A;
+    ((Unkstruct_8017D04C *)param_1)->unk3C = -0xBE;
+    ((Unkstruct_8017D04C *)param_1)->unk40 = -0xB0;
+    ((Unkstruct_8017D04C *)param_1)->unk44 = 0x644;
+    ((Unkstruct_8017D04C *)param_1)->unk48 = -0x82;
+    ((Unkstruct_8017D04C *)param_1)->unk4C = -0xE8;
+    ((Unkstruct_8017D04C *)param_1)->unk50 = 0x51A;
 }
 
 

@@ -3032,9 +3032,9 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 void func_8017D710(s32 a0) {
     s16 t;
 
-    ((Unkstruct_8017D710_2 *)*(u32 *)(a0 + 0x20))->unk10 += ((Unkstruct_8017D710 *)a0)->unkFE;
-    ((Unkstruct_8017D710_2 *)*(u32 *)(a0 + 0x20))->unk12 += ((Unkstruct_8017D710 *)a0)->unk100;
-    ((Unkstruct_8017D710_2 *)*(u32 *)(a0 + 0x20))->unk14 += ((Unkstruct_8017D710 *)a0)->unk102;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk10 += ((Unkstruct_8017D710 *)a0)->unkFE;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk12 += ((Unkstruct_8017D710 *)a0)->unk100;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk14 += ((Unkstruct_8017D710 *)a0)->unk102;
 
     t = CAST_SIGN(s16, a0, 0x100);
     if (t != 0 && ((Unkstruct_8017D710 *)a0)->unk74 != 0) {

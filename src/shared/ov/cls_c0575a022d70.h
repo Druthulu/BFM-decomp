@@ -7,27 +7,27 @@ s32 SHARED_FN(s32 a0, s32 a1) {
     s32 result;
 
     p1.z = 0;
-    p2.z = ((Unkstruct_8017E708 *)a1)->unkE;
-    p1.x = p2.x = ((Unkstruct_8017E708 *)a1)->unk4;
-    p1.y = p2.y = (s16)((Unkstruct_8017E708 *)a1)->unk8 >> 1;
+    p2.z = ((Unkstruct_8017F14C *)a1)->unkE;
+    p1.x = p2.x = ((Unkstruct_8017F14C *)a1)->unk4;
+    p1.y = p2.y = (s16)((Unkstruct_8017F14C *)a1)->unk8 >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.y = p2.y = (s16)((Unkstruct_8017E708 *)a1)->unkA >> 1;
+    p1.y = p2.y = (s16)((Unkstruct_8017F14C *)a1)->unkA >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = ((Unkstruct_8017E708 *)a1)->unk6;
+    p1.x = p2.x = ((Unkstruct_8017F14C *)a1)->unk6;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.y = p2.y = (s16)((Unkstruct_8017E708 *)a1)->unk8 >> 1;
+    p1.y = p2.y = (s16)((Unkstruct_8017F14C *)a1)->unk8 >> 1;
     result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:

@@ -5269,9 +5269,9 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 void func_80188F80(void* arg0)
 {
         s32 *p = *(s32 **)((s32)arg0 + 0xcc);
-        ((Unkstruct_80188F80_2 *)p)->unk8 = ((Unkstruct_80188F80 *)arg0)->unk6;
-        ((Unkstruct_80188F80_2 *)p)->unkA = ((Unkstruct_80188F80 *)arg0)->unkA - 0xe4;
-        ((Unkstruct_80188F80_2 *)p)->unkC = ((Unkstruct_80188F80 *)arg0)->unkE - 0x8;
+        ((Unkstruct_8017BB34 *)p)->unk8 = ((Unkstruct_801865B0 *)arg0)->unk6;
+        ((Unkstruct_8017BB34 *)p)->unkA = ((Unkstruct_801865B0 *)arg0)->unkA - 0xe4;
+        ((Unkstruct_8017BB34 *)p)->unkC = ((Unkstruct_801865B0 *)arg0)->unkE - 0x8;
     }
 
 

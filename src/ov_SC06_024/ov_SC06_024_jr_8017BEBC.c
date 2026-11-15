@@ -4408,8 +4408,8 @@ void func_8017FC34(void *a0) {
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk28 = 0x2D1;
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2A = 0x160;
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2C = 0xC020U;
-    ((Unkstruct_8017FC34_4 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
-    ((Unkstruct_8017FC34_4 *)a0)->unk1C = 7;
+    ((Unkstruct_801AB748 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+    ((Unkstruct_801AB748 *)a0)->unk1C = 7;
 }
 
 

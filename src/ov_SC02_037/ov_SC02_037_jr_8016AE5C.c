@@ -3947,10 +3947,10 @@ void func_8016D1D8(int param_1) {
             *(short *)(iVar5 + 0x1a) = 0x1400;
             *(u32 *)(iVar5 + 4) |= 0x50000000;
             pp = *(int *)(param_1 + 0x30);
-            *(u16 *)(param_1 + 0x28) = ((Unkstruct_8016D1D8_4 *)pp)->unk36;
-            *(u16 *)(param_1 + 0x12) = ((Unkstruct_8016D1D8_4 *)pp)->unk6;
-            *(short *)(param_1 + 0x16) = ((Unkstruct_8016D1D8_4 *)pp)->unkA - 0x28;
-            uVar1 = ((Unkstruct_8016D1D8_4 *)pp)->unkE;
+            *(u16 *)(param_1 + 0x28) = ((Unkstruct_8016C49C *)pp)->unk36;
+            *(u16 *)(param_1 + 0x12) = ((Unkstruct_8016C49C *)pp)->unk6;
+            *(short *)(param_1 + 0x16) = ((Unkstruct_8016C49C *)pp)->unkA - 0x28;
+            uVar1 = ((Unkstruct_8016C49C *)pp)->unkE;
             *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
             *(u16 *)(param_1 + 0x1a) = uVar1;
         }

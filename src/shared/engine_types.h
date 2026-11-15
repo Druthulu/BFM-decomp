@@ -4079,16 +4079,12 @@ typedef V8_80184F90_801844C8 V8_8018487C;
 typedef V8_80184F90_801844C8 V8_8018487C_80185344;
 typedef V8_80184F90_801844C8 V8_80184F90;
 typedef M8_801312D0 V8_801874C0;
-typedef struct {
-    u16 x, y, z;
-    u8 flag;
-} V8_80187968;
-typedef V8_80187968 V8_80187968_801804D8;
-typedef V8_80187968 V8_80187968_801807AC;
-typedef V8_80187968 V8_80187968_80181F18;
-typedef V8_80187968 V8_80187968_8018321C;
-typedef V8_80187968 V8_80187968_80183280;
-typedef V8_80187968 V8_80187968_80184194;
+typedef struct SV3_8012CC88_tag V8_80187968_801804D8;
+typedef struct SV3_8012CC88_tag V8_80187968_801807AC;
+typedef struct SV3_8012CC88_tag V8_80187968_80181F18;
+typedef struct SV3_8012CC88_tag V8_80187968_8018321C;
+typedef struct SV3_8012CC88_tag V8_80187968_80183280;
+typedef struct SV3_8012CC88_tag V8_80187968_80184194;
 typedef struct { s16 a, b, c, d; } V8x_80180D2C;
 typedef struct { s16 a, b, c, d; } V8x_8018466C;
 typedef V8_80184F90_801844C8 V_8017D9E8;
@@ -4267,7 +4263,13 @@ typedef struct {
     s16 f4;
     s16 f6;
 } D_80195AF6_t;
-struct Ent_SC07_010_8017AE2C { u8 pad[0xDC]; s32 unkDC; u8 pad_E0[0x1C]; u16 unkFC; };
+struct Ent_SC07_010_8017AE2C {
+    /* 0x0000 */ u8 pad0[0xdc];
+    /* 0x00dc */ s32 unkDC;
+    /* 0x00e0 */ u8 padE0[0x1c];
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ u8 padFE[0x2];
+}; /* size = 0x100 */
 typedef MATRIX MTX_CF90;
 typedef struct {
     u8 pad[4];
@@ -4650,7 +4652,6 @@ typedef Block4 Block4_SC02_011_80186740;
 typedef struct { s32 w0; s32 w1; } Cmd_801805C8;
 typedef E4 Cnt;
 typedef E4 Cnt_80187DE4;
-struct EntA { u8 pad[0xDC]; s32 unkDC; u8 pad_E0[0x1C]; u16 unkFC; };
 typedef struct {
     u8 pad00[4];
     u32 flags;               /* 0x04 */
@@ -4747,7 +4748,6 @@ typedef MATRIX MTX_80183940;
 typedef MATRIX MTX_85810;
 typedef Blk20_8016DF5C Mtx8_8017DE10_8017E710_SC03_006_8018450C;
 typedef Blk20_8016DF5C Mtx_8018A0E0;
-typedef struct { u8 pad[0x3C]; s32 x3C; s32 x40; s32 x44; s32 x48; s32 x4C; s32 x50; } OB;
 typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ s16 unk2;

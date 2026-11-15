@@ -2974,11 +2974,11 @@ extern s32 rand(void);
 void func_801838A4(s32 arg0) {
     s32 t;
 
-    ((Unkstruct_801838A4 *)arg0)->unk48 = 0x4000;
-    ((Unkstruct_801838A4 *)arg0)->unk2 = 7;
-    ((Unkstruct_801838A4 *)arg0)->unk1C = 0x50;
+    ((Unkstruct_8017FBD8 *)arg0)->unk48 = 0x4000;
+    ((Unkstruct_8017FBD8 *)arg0)->unk2 = 7;
+    ((Unkstruct_8017FBD8 *)arg0)->unk1C = 0x50;
     t = rand();
-    *(s16 *)(((Unkstruct_801838A4 *)arg0)->unk20 + 0x14) = t - (t / 4096) * 4096;
+    *(s16 *)(((Unkstruct_8017FBD8 *)arg0)->unk20 + 0x14) = t - (t / 4096) * 4096;
 }
 
 

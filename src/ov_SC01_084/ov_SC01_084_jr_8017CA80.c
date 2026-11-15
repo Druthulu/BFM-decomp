@@ -2918,32 +2918,32 @@ void func_8017DD68(s32 param_1) {
 
 
 void func_8017DDFC(s32 *a0) {
-        ((Unkstruct_8017DDFC *)a0)->unk3C = 0x380;
-        ((Unkstruct_8017DDFC *)a0)->unk40 = -0x200;
-        ((Unkstruct_8017DDFC *)a0)->unk44 = 0;
-        ((Unkstruct_8017DDFC *)a0)->unk48 = 0;
-        ((Unkstruct_8017DDFC *)a0)->unk4C = -0x440;
-        ((Unkstruct_8017DDFC *)a0)->unk50 = 0;
+        ((Unkstruct_80188988_2 *)a0)->unk3C = 0x380;
+        ((Unkstruct_80188988_2 *)a0)->unk40 = -0x200;
+        ((Unkstruct_80188988_2 *)a0)->unk44 = 0;
+        ((Unkstruct_80188988_2 *)a0)->unk48 = 0;
+        ((Unkstruct_80188988_2 *)a0)->unk4C = -0x440;
+        ((Unkstruct_80188988_2 *)a0)->unk50 = 0;
     }
 
 
 void func_8017DE24(s32 *a0) {
-        ((Unkstruct_8017DE24 *)a0)->unk3C = 0x140;
-        ((Unkstruct_8017DE24 *)a0)->unk40 = -0x880;
-        ((Unkstruct_8017DE24 *)a0)->unk44 = -0x140;
-        ((Unkstruct_8017DE24 *)a0)->unk48 = 0;
-        ((Unkstruct_8017DE24 *)a0)->unk4C = -0x440;
-        ((Unkstruct_8017DE24 *)a0)->unk50 = 0;
+        ((Unkstruct_80188988_2 *)a0)->unk3C = 0x140;
+        ((Unkstruct_80188988_2 *)a0)->unk40 = -0x880;
+        ((Unkstruct_80188988_2 *)a0)->unk44 = -0x140;
+        ((Unkstruct_80188988_2 *)a0)->unk48 = 0;
+        ((Unkstruct_80188988_2 *)a0)->unk4C = -0x440;
+        ((Unkstruct_80188988_2 *)a0)->unk50 = 0;
     }
 
 
 void func_8017DE50(s32 *a0) {
-        ((Unkstruct_8017DE50 *)a0)->unk3C = 0x409;
-        ((Unkstruct_8017DE50 *)a0)->unk40 = -0x840;
-        ((Unkstruct_8017DE50 *)a0)->unk44 = 0x1df;
-        ((Unkstruct_8017DE50 *)a0)->unk48 = 0x129;
-        ((Unkstruct_8017DE50 *)a0)->unk4C = -0x592;
-        ((Unkstruct_8017DE50 *)a0)->unk50 = 0x36;
+        ((Unkstruct_80188988_2 *)a0)->unk3C = 0x409;
+        ((Unkstruct_80188988_2 *)a0)->unk40 = -0x840;
+        ((Unkstruct_80188988_2 *)a0)->unk44 = 0x1df;
+        ((Unkstruct_80188988_2 *)a0)->unk48 = 0x129;
+        ((Unkstruct_80188988_2 *)a0)->unk4C = -0x592;
+        ((Unkstruct_80188988_2 *)a0)->unk50 = 0x36;
     }
 
 

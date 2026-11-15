@@ -3821,9 +3821,9 @@ void func_8017F85C(s32 *a0) {
     a0[2] += a0[5];
     a0[3] += a0[6];
     p = (s32 *)a0[8];
-    ((Unkstruct_8017F85C *)p)->unk10 += (u16)a0[0x13];
-    ((Unkstruct_8017F85C *)p)->unk12 += (u16)a0[0x14];
-    ((Unkstruct_8017F85C *)p)->unk14 += (u16)a0[0x15];
+    ((Unkstruct_80186710 *)p)->unk10 += (u16)a0[0x13];
+    ((Unkstruct_80186710 *)p)->unk12 += (u16)a0[0x14];
+    ((Unkstruct_80186710 *)p)->unk14 += (u16)a0[0x15];
 }
 
 
@@ -8060,9 +8060,9 @@ void func_80184DB8(s32 a0) {
 
     if (D_801EFD30[i] < 0x13) {
         obj = aFC4C[D_801EFD30[i]];
-        buf[0] = ((Unkstruct_80184DB8 *)*(s32 *)(obj + 0x20))->unk10;
-        buf[1] = ((Unkstruct_80184DB8 *)*(s32 *)(obj + 0x20))->unk12;
-        buf[2] = ((Unkstruct_80184DB8 *)*(s32 *)(obj + 0x20))->unk14;
+        buf[0] = ((Unkstruct_80186710 *)*(s32 *)(obj + 0x20))->unk10;
+        buf[1] = ((Unkstruct_80186710 *)*(s32 *)(obj + 0x20))->unk12;
+        buf[2] = ((Unkstruct_80186710 *)*(s32 *)(obj + 0x20))->unk14;
         func_8018681C(D_801EFD30[i], buf);
     }
 
@@ -9080,9 +9080,9 @@ void func_801868A0(void *a0, u16 *a1) {
     u16 *dst;
     s32 i;
 
-    ((Unkstruct_801868A0 *)*(s32 *)((s32)a0 + 0x20))->unk10 = a1[0];
-    ((Unkstruct_801868A0 *)*(s32 *)((s32)a0 + 0x20))->unk12 = a1[1];
-    ((Unkstruct_801868A0 *)*(s32 *)((s32)a0 + 0x20))->unk14 = a1[2];
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk10 = a1[0];
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk12 = a1[1];
+    ((Unkstruct_80186710 *)*(s32 *)((s32)a0 + 0x20))->unk14 = a1[2];
 
     dst = (u16 *)((s32)a0 + 0xE4);
     for (i = 0; i < 4; i++) {

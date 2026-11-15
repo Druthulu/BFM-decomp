@@ -4398,21 +4398,21 @@ void func_80188A90(int param_1) {
 
     psVar2 = (s16 *)D_801DFFE4;
     psVar1 = (s16 *)D_801DFFE0;
-    ((Unkstruct_80188A90_2 *)param_1)->unk48 = psVar1[0];
-    ((Unkstruct_80188A90_2 *)param_1)->unk50 = psVar1[2];
-    ((Unkstruct_80188A90_2 *)param_1)->unk3C = psVar2[0];
+    ((Unkstruct_80188988_2 *)param_1)->unk48 = psVar1[0];
+    ((Unkstruct_80188988_2 *)param_1)->unk50 = psVar1[2];
+    ((Unkstruct_80188988_2 *)param_1)->unk3C = psVar2[0];
     D_801DFFE8 = (s32)&D_801913E4;
-    ((Unkstruct_80188A90_2 *)param_1)->unk44 = psVar2[2];
+    ((Unkstruct_80188988_2 *)param_1)->unk44 = psVar2[2];
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
     ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f0 += sVar4;
     sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
-    ((Unkstruct_80188A90_2 *)param_1)->unk40 += sVar4;
-    if (((Unkstruct_80188A90_2 *)param_1)->unk4C < psVar5[1])
-        ((Unkstruct_80188A90_2 *)param_1)->unk4C = psVar5[1];
-    if (((Unkstruct_80188A90_2 *)param_1)->unk40 < ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2)
-        ((Unkstruct_80188A90_2 *)param_1)->unk40 = ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2;
+    ((Unkstruct_80188988_2 *)param_1)->unk40 += sVar4;
+    if (((Unkstruct_80188988_2 *)param_1)->unk4C < psVar5[1])
+        ((Unkstruct_80188988_2 *)param_1)->unk4C = psVar5[1];
+    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2)
+        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2;
 }
 
 

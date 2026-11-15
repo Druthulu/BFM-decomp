@@ -4072,13 +4072,13 @@ void func_8018DF44(void *a0)
         vec.vz = (s32)0xFFFE8000;
     }
 
-    ((Unkstruct_8018DF44 *)a0)->unk2C = 0x3C;
-    ((Unkstruct_8018DF44 *)a0)->unk2 = 1;
+    ((Unkstruct_8017F200_2 *)a0)->unk2C = 0x3C;
+    ((Unkstruct_8017F200_2 *)a0)->unk2 = 1;
 
     m = D_800AE620;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(((Unkstruct_8018DF44 *)a0)->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_8017F200_2 *)a0)->unk20 + 0x12), mp);
 
     ApplyMatrixLV((s32)mp, (s32)&vec, (s32)a0 + 0x10);
 }

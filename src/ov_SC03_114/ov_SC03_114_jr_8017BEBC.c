@@ -2817,12 +2817,12 @@ void func_8017D044(s32 a0) {
 
 
 void func_8017D0E4(void * arg0) {
-        ((Unkstruct_8017D0E4 *)arg0)->unk40 = -0x38D;
-        ((Unkstruct_8017D0E4 *)arg0)->unk44 = -0x44E;
-        ((Unkstruct_8017D0E4 *)arg0)->unk4C = -0x2ED;
-        ((Unkstruct_8017D0E4 *)arg0)->unk3C = 0;
-        ((Unkstruct_8017D0E4 *)arg0)->unk48 = 0;
-        ((Unkstruct_8017D0E4 *)arg0)->unk50 = -0xD8;
+        ((Unkstruct_80188988_2 *)arg0)->unk40 = -0x38D;
+        ((Unkstruct_80188988_2 *)arg0)->unk44 = -0x44E;
+        ((Unkstruct_80188988_2 *)arg0)->unk4C = -0x2ED;
+        ((Unkstruct_80188988_2 *)arg0)->unk3C = 0;
+        ((Unkstruct_80188988_2 *)arg0)->unk48 = 0;
+        ((Unkstruct_80188988_2 *)arg0)->unk50 = -0xD8;
     }
 
 

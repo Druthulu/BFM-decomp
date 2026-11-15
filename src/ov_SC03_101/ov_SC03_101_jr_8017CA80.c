@@ -4109,9 +4109,9 @@ void func_801801FC(s32 a0) {
 
     a1 = (u8 *)a0;
 
-    ((Unkstruct_801801FC_2 *)*(u32 *)(a1 + 0x20))->unk10 += ((Unkstruct_801801FC *)a1)->unkFE;
-    ((Unkstruct_801801FC_2 *)*(u32 *)(a1 + 0x20))->unk12 += CAST_SIGN(u16, a1, 0x100);
-    ((Unkstruct_801801FC_2 *)*(u32 *)(a1 + 0x20))->unk14 += ((Unkstruct_801801FC *)a1)->unk102;
+    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk10 += ((Unkstruct_801801FC *)a1)->unkFE;
+    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk12 += CAST_SIGN(u16, a1, 0x100);
+    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk14 += ((Unkstruct_801801FC *)a1)->unk102;
 
     if (((Unkstruct_801801FC *)a1)->unk100 != 0 && ((Unkstruct_801801FC *)a1)->unk74 != 0) {
         CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_801801FC *)a1)->unk100;

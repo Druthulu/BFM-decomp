@@ -3535,15 +3535,15 @@ void func_8017EBA0(s32 a0, s32 a1) {
     in[1] = guess_g_PlayerPosY;
     in[2] = guess_g_PlayerPosZ;
     func_8012F2E8(a0, (s32)in, (s32)out);
-    if (out[0] < ((Unkstruct_8017EBA0_3 *)a1)->unk4 || ((Unkstruct_8017EBA0_3 *)a1)->unk6 < out[0] ||
-        out[1] < ((Unkstruct_8017EBA0_3 *)a1)->unk8 || ((Unkstruct_8017EBA0_3 *)a1)->unkA < out[1] ||
-        out[2] < ((Unkstruct_8017EBA0_3 *)a1)->unkC || ((Unkstruct_8017EBA0_3 *)a1)->unkE < out[2]) {
+    if (out[0] < ((Unkstruct_80135EB0 *)a1)->unk4 || ((Unkstruct_80135EB0 *)a1)->unk6 < out[0] ||
+        out[1] < ((Unkstruct_80135EB0 *)a1)->unk8 || ((Unkstruct_80135EB0 *)a1)->unkA < out[1] ||
+        out[2] < ((Unkstruct_80135EB0 *)a1)->unkC || ((Unkstruct_80135EB0 *)a1)->unkE < out[2]) {
         return;
     }
     if (out[0] < 0) {
-        out[0] = ((Unkstruct_8017EBA0_3 *)a1)->unk4 - 1;
+        out[0] = ((Unkstruct_80135EB0 *)a1)->unk4 - 1;
     } else {
-        out[0] = ((Unkstruct_8017EBA0_3 *)a1)->unk6 + 1;
+        out[0] = ((Unkstruct_80135EB0 *)a1)->unk6 + 1;
     }
     guess_RotTransSVWithObjMatrix(a0, (s32)out, (s32)in);
     dst[3] = in[0];

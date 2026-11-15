@@ -6724,9 +6724,9 @@ void func_80184D0C(void *a0) {
 
 
 void func_80184D48(void *a0) {
-        ((Unkstruct_8017DD0C *)a0)->unkC1 = 0;
-        ((Unkstruct_8017DD0C *)a0)->unk5E = 0;
-        ((Unkstruct_8017DD0C *)a0)->unk5C &= 0xC800;
+        ((Unkstruct_8017E394 *)a0)->unkC1 = 0;
+        ((Unkstruct_8017E394 *)a0)->unk5E = 0;
+        ((Unkstruct_8017E394 *)a0)->unk5C &= 0xC800;
     }
 
 
@@ -7798,14 +7798,14 @@ extern u8 D_801AFA70[];
 
 void func_8018675C(s32 a0)
 {
-    s32 a1 = ((Unkstruct_8018675C *)a0)->unk64;
+    s32 a1 = ((Unkstruct_8017F12C *)a0)->unk64;
 
-    ((Unkstruct_8018675C *)a0)->unk2 = 5;
-    ((Unkstruct_8018675C *)a0)->unkCC = (s32)&D_801AFA70;
-    ((Unkstruct_8018675C *)a0)->unk1C = 0;
-    ((Unkstruct_8018675C *)a0)->unk34 = 0;
-    ((Unkstruct_8018675C *)a0)->unk100 = 0;
-    if (((Unkstruct_8018675C *)a0)->unkFC == *(s16 *)(a1 + 0x36)) {
+    ((Unkstruct_8017F12C *)a0)->unk2 = 5;
+    ((Unkstruct_8017F12C *)a0)->unkCC = (s32)&D_801AFA70;
+    ((Unkstruct_8017F12C *)a0)->unk1C = 0;
+    ((Unkstruct_8017F12C *)a0)->unk34 = 0;
+    ((Unkstruct_8017F12C *)a0)->unk100 = 0;
+    if (((Unkstruct_8017F12C *)a0)->unkFC == *(s16 *)(a1 + 0x36)) {
         *(s32 *)(a1 + 0xE0) |= 1;
     }
 }

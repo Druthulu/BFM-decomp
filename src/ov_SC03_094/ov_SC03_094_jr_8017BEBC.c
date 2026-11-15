@@ -6400,18 +6400,18 @@ void func_80183088(s32 arg0) {
     s32 w;
     s32 v1;
 
-    w = ((u32)rsin(((Unkstruct_80183088 *)arg0)->unk1C << 4) >> 5) & 0xFF;
-    v1 = ((Unkstruct_80183088 *)arg0)->unk1C;
-    ((Unkstruct_80183088 *)arg0)->unk100 = w;
-    ((Unkstruct_80183088 *)arg0)->unkFE = w;
-    ((Unkstruct_80183088 *)arg0)->unkFC = w;
+    w = ((u32)rsin(((Unkstruct_8017F794 *)arg0)->unk1C << 4) >> 5) & 0xFF;
+    v1 = ((Unkstruct_8017F794 *)arg0)->unk1C;
+    ((Unkstruct_8017F794 *)arg0)->unk100 = w;
+    ((Unkstruct_8017F794 *)arg0)->unkFE = w;
+    ((Unkstruct_8017F794 *)arg0)->unkFC = w;
     v1 = v1 + 1;
-    ((Unkstruct_80183088 *)arg0)->unk1C = v1;
+    ((Unkstruct_8017F794 *)arg0)->unk1C = v1;
     if (v1 >= 0x41) {
-        ((Unkstruct_80183088 *)arg0)->unk2 = 3;
-        ((Unkstruct_80183088 *)arg0)->unk5C = *(u16 *)(((Unkstruct_80183088 *)arg0)->unk78 + 0x2);
-        ((Unkstruct_80183088 *)arg0)->unk1C = rand();
-        func_80183B60(((Unkstruct_80183088 *)arg0)->unkD4);
+        ((Unkstruct_8017F794 *)arg0)->unk2 = 3;
+        ((Unkstruct_8017F794 *)arg0)->unk5C = *(u16 *)(((Unkstruct_8017F794 *)arg0)->unk78 + 0x2);
+        ((Unkstruct_8017F794 *)arg0)->unk1C = rand();
+        func_80183B60(((Unkstruct_8017F794 *)arg0)->unkD4);
     }
 }
 
@@ -6647,12 +6647,12 @@ extern void func_80183AC8(void *a0, s32 a1);
 extern void func_80183B60(s32 arg0);
 
 void func_8018379C(void *arg0) {
-    func_80183AC8(((Unkstruct_8018379C *)arg0)->unkD4, 0);
-    ((Unkstruct_8018379C *)arg0)->unk2 = 4;
-    ((Unkstruct_8018379C *)arg0)->unk5C = *(u16 *)(((Unkstruct_8018379C *)arg0)->unk78 + 2);
+    func_80183AC8(((Unkstruct_80184A88 *)arg0)->unkD4, 0);
+    ((Unkstruct_80184A88 *)arg0)->unk2 = 4;
+    ((Unkstruct_80184A88 *)arg0)->unk5C = *(u16 *)(((Unkstruct_80184A88 *)arg0)->unk78 + 2);
     ((Unkstruct_8018379C_2 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
         ((Unkstruct_8018379C_2 *)*(s32 *)((char *)arg0 + 0x20))->unk1A = 0x2000;
-    func_80183B60(((Unkstruct_8018379C *)arg0)->unkD4);
+    func_80183B60(((Unkstruct_80184A88 *)arg0)->unkD4);
 }
 
 

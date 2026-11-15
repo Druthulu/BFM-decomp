@@ -407,8 +407,8 @@ void func_800CB68C(s32 param_1)
 
     s32 iVar8;
 
-    iVar8 = ((Unkstruct_800CB68C *)param_1)->unk34;
-    if ((((Unkstruct_800CB68C *)param_1)->unk2C & 0x8000) == 0) {
+    iVar8 = ((Unkstruct_8016DF5C_3 *)param_1)->unk34;
+    if ((((Unkstruct_8016DF5C_3 *)param_1)->unk2C & 0x8000) == 0) {
         s32 iNew;
         s32 base;
         iNew = ((s32(*)())guess_AllocSpriteObject)();
@@ -432,10 +432,10 @@ void func_800CB68C(s32 param_1)
         {
             s32 t10;
             t10 = 0x10;
-            ((Unkstruct_800CB68C *)param_1)->unk20 = iNew;
-            ((Unkstruct_800CB68C *)param_1)->unk1C = t10;
+            ((Unkstruct_8016DF5C_3 *)param_1)->unk20 = iNew;
+            ((Unkstruct_8016DF5C_3 *)param_1)->unk1C = t10;
         }
-        ((Unkstruct_800CB68C *)param_1)->unk2 = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk2 = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
     } else {
         short asStack_60[20];
         Blk20_800CB68C localMatrix;
@@ -451,14 +451,14 @@ void func_800CB68C(s32 param_1)
         uVar2 = ((s32(*)())rand)();
         RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
-        ((Unkstruct_800CB68C *)param_1)->unk6 = guess_g_PlayerPosX + asStack_60[0];
-        ((Unkstruct_800CB68C *)param_1)->unkA = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
-        ((Unkstruct_800CB68C *)param_1)->unkE = guess_g_PlayerPosZ + asStack_60[2];
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk6 = guess_g_PlayerPosX + asStack_60[0];
+        ((Unkstruct_8016DF5C_3 *)param_1)->unkA = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
+        ((Unkstruct_8016DF5C_3 *)param_1)->unkE = guess_g_PlayerPosZ + asStack_60[2];
         *(Blk20_800CB68C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_800CB68C *)((u8 *)iVar8 + 0x38);
-        ((Unkstruct_800CB68C *)param_1)->unk2C = 0x1000;
-        ((Unkstruct_800CB68C *)param_1)->unk30 = 0xff;
-        ((Unkstruct_800CB68C *)param_1)->unk1C = 0x10;
-        ((Unkstruct_800CB68C *)param_1)->unk2 = (4);
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk2C = 0x1000;
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk30 = 0xff;
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk1C = 0x10;
+        ((Unkstruct_8016DF5C_3 *)param_1)->unk2 = (4);
     }
 }
 

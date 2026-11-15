@@ -2926,7 +2926,7 @@ void func_8017D428(s32 param_1)
     CAST_ALIAS(s32, param_1, 0x44) = D_8018269C;
     CAST_ALIAS(s32, param_1, 0x48) = D_801826A0;
     CAST_ALIAS(s32, param_1, 0x4C) = D_801826A2;
-    ((Unkstruct_8017D428 *)param_1)->unk50 = D_801826A4;
+    ((Unkstruct_80188988_2 *)param_1)->unk50 = D_801826A4;
 }
 
 

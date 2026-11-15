@@ -4225,11 +4225,11 @@ L2E0:
 
 
 void func_8017F300(s32 a0) {
-    ((Unkstruct_8017F300 *)a0)->unk2 = 7;
-    ((Unkstruct_8017F300 *)a0)->unk34 = ((Unkstruct_8017F300 *)a0)->unk100 * 4;
-    ((Unkstruct_8017F300 *)a0)->unkEC = 0;
-    if ((((Unkstruct_8017F300 *)a0)->unkE0 & 0x800) == 0) {
-        ((Unkstruct_8017F300 *)a0)->unkFE = 0;
+    ((Unkstruct_8017EF04 *)a0)->unk2 = 7;
+    ((Unkstruct_8017EF04 *)a0)->unk34 = ((Unkstruct_8017EF04 *)a0)->unk100 * 4;
+    ((Unkstruct_8017EF04 *)a0)->unkEC = 0;
+    if ((((Unkstruct_8017EF04 *)a0)->unkE0 & 0x800) == 0) {
+        ((Unkstruct_8017EF04 *)a0)->unkFE = 0;
     }
 }
 
@@ -5563,16 +5563,16 @@ void func_80181708(int param_1) {
     SV *p1 = (SV *)D_801DFD8C;
     SV *p2 = (SV *)D_801DFD90;
 
-    ((OB *)param_1)->x48 = p1->vx;
-    ((OB *)param_1)->x50 = p1->vz;
-    ((OB *)param_1)->x3C = p2->vx;
-    ((OB *)param_1)->x44 = p2->vz;
-    ((OB *)param_1)->x4C += (s16)func_80012CB8(D_801904C6_a[0], p1->vy, 0xC0);
-    ((OB *)param_1)->x40 += (s16)func_80012CB8(D_801904CE_a[0], ((SV *)D_801DFD90)->vy, 0xC0);
-    if (((OB *)param_1)->x4C < ((SV *)D_801DFD8C)->vy)
-        ((OB *)param_1)->x4C = ((SV *)D_801DFD8C)->vy;
-    if (((OB *)param_1)->x40 < ((SV *)D_801DFD90)->vy)
-        ((OB *)param_1)->x40 = ((SV *)D_801DFD90)->vy;
+    ((Unkstruct_80188988_2 *)param_1)->unk48 = p1->vx;
+    ((Unkstruct_80188988_2 *)param_1)->unk50 = p1->vz;
+    ((Unkstruct_80188988_2 *)param_1)->unk3C = p2->vx;
+    ((Unkstruct_80188988_2 *)param_1)->unk44 = p2->vz;
+    ((Unkstruct_80188988_2 *)param_1)->unk4C += (s16)func_80012CB8(D_801904C6_a[0], p1->vy, 0xC0);
+    ((Unkstruct_80188988_2 *)param_1)->unk40 += (s16)func_80012CB8(D_801904CE_a[0], ((SV *)D_801DFD90)->vy, 0xC0);
+    if (((Unkstruct_80188988_2 *)param_1)->unk4C < ((SV *)D_801DFD8C)->vy)
+        ((Unkstruct_80188988_2 *)param_1)->unk4C = ((SV *)D_801DFD8C)->vy;
+    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((SV *)D_801DFD90)->vy)
+        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((SV *)D_801DFD90)->vy;
 }
 
 

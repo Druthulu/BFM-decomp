@@ -3121,12 +3121,12 @@ void func_8017BA3C(s32 param_1, s32 param_2)
     guess_RotTransSVWithObjMatrix(param_1, param_2, (s32)&svec);
     D_801C59AC = svec;
 
-    v0.vx = -((Unkstruct_8017BA3C *)param_2)->unkC;
-    v0.vy = ((Unkstruct_8017BA3C *)param_2)->unk8;
+    v0.vx = -((Unkstruct_8017BB34 *)param_2)->unkC;
+    v0.vy = ((Unkstruct_8017BB34 *)param_2)->unk8;
     v0.vz = 0;
     v1.vx = 0;
     v1.vy = 0;
-    v1.vz = -((Unkstruct_8017BA3C *)param_2)->unkA;
+    v1.vz = -((Unkstruct_8017BB34 *)param_2)->unkA;
     ((void (*)(void *, void *))RotMatrixZYX)(&v0, &mtx);
 
     mtx.t[0] = (s32)svec.vx;
@@ -4720,21 +4720,21 @@ void func_8017EB64(s32 param_1) {
     s32 angle;
     s32 v0;
 
-    v1[0] = ((Unkstruct_8017EB64 *)param_1)->unk48;
+    v1[0] = ((Unkstruct_80188988_2 *)param_1)->unk48;
     v1[1] = 0;
-    v1[2] = ((Unkstruct_8017EB64 *)param_1)->unk50;
-    v2[0] = ((Unkstruct_8017EB64 *)param_1)->unk3C;
+    v1[2] = ((Unkstruct_80188988_2 *)param_1)->unk50;
+    v2[0] = ((Unkstruct_80188988_2 *)param_1)->unk3C;
     v2[1] = 0;
-    v2[2] = ((Unkstruct_8017EB64 *)param_1)->unk44;
+    v2[2] = ((Unkstruct_80188988_2 *)param_1)->unk44;
     dist = func_80013200(v1, v2);
-    angle = ratan2(((Unkstruct_8017EB64 *)param_1)->unk4C - ((Unkstruct_8017EB64 *)param_1)->unk40, dist);
+    angle = ratan2(((Unkstruct_80188988_2 *)param_1)->unk4C - ((Unkstruct_80188988_2 *)param_1)->unk40, dist);
     if (angle >= 0x801) {
         angle = 0x1000 - angle;
     }
     v0 = angle * 300 / 1024 + 0xC8;
     D_800B9ABA[0] = (s16)v0;
 
-    v0 = ((Unkstruct_8017EB64 *)param_1)->unk48 * 640 / 4096;
+    v0 = ((Unkstruct_80188988_2 *)param_1)->unk48 * 640 / 4096;
     D_800B9AB8[0] = (s16)v0;
 }
 
@@ -5683,17 +5683,17 @@ void func_80180320(s32 arg0) {
 
     if (D_801270C8 < 4 && D_801C7EC0 != 0) {
         t = 0x50000040;
-        *(s32 *)(((Unkstruct_80180320 *)arg0)->unkF4 + 4) = t;
-        p2 = ((Unkstruct_80180320 *)arg0)->unkF8;
+        *(s32 *)(((Unkstruct_801803AC *)arg0)->unkF4 + 4) = t;
+        p2 = ((Unkstruct_801803AC *)arg0)->unkF8;
         D_801C7EC0 = 0;
         *(s32 *)(p2 + 4) = t;
         D_80189974 = 0xFF;
         D_80189975 = 0x10;
         D_80189976 = 0x10;
-        ((Unkstruct_80180320 *)arg0)->unkE4 = 6;
-        cnt = ((Unkstruct_80180320 *)arg0)->unk34;
-        ((Unkstruct_80180320 *)arg0)->unkE8 = 0xFF;
-        ((Unkstruct_80180320 *)arg0)->unk34 = cnt + 1;
+        ((Unkstruct_801803AC *)arg0)->unkE4 = 6;
+        cnt = ((Unkstruct_801803AC *)arg0)->unk34;
+        ((Unkstruct_801803AC *)arg0)->unkE8 = 0xFF;
+        ((Unkstruct_801803AC *)arg0)->unk34 = cnt + 1;
     }
 }
 

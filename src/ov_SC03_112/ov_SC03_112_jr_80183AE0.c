@@ -3026,18 +3026,18 @@ void func_80184194(s32 a0) {
             v0 = CAST_SIGN(u16, a0, 0x10A);
             CAST_WIDTH(s32, s1, 0x2C) = (v0 & 0x18) >> 3;
 
-            p1.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-            p1.y = ((Unkstruct_800B5CB8 *)a0)->unkA;
-            p1.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
-            q.x = p1.x;
-            q.y = p1.y + 0x80;
-            q.z = p1.z;
+            p1.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
+            p1.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
+            p1.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+            q.vx = p1.vx;
+            q.vy = p1.vy + 0x80;
+            q.vz = p1.vz;
 
             func_80133784(1, &p1, (s32)&q);
 
-            if (q.flag) {
+            if (q.pad) {
                 ((Unkstruct_800B5CB8 *)s1)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-                ((Unkstruct_800B5CB8 *)s1)->unkA = q.y;
+                ((Unkstruct_800B5CB8 *)s1)->unkA = q.vy;
                 ((Unkstruct_800B5CB8 *)s1)->unkE = ((Unkstruct_800B5CB8 *)a0)->unkE;
             } else {
                 func_801292C8(s1);

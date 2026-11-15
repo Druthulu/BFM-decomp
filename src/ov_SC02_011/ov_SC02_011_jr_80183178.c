@@ -2365,9 +2365,9 @@ void func_80186548(s32 *a0) {
 
 void func_801865B0(s32 arg0) {
         s32 *p = *(s32 **)((s32)arg0 + 0xcc);
-        ((Unkstruct_801865B0_2 *)p)->unk8 = ((Unkstruct_801865B0 *)arg0)->unk6;
-        ((Unkstruct_801865B0_2 *)p)->unkA = ((Unkstruct_801865B0 *)arg0)->unkA - 0xe0;
-        ((Unkstruct_801865B0_2 *)p)->unkC = ((Unkstruct_801865B0 *)arg0)->unkE - 0x10;
+        ((Unkstruct_8017BB34 *)p)->unk8 = ((Unkstruct_801865B0 *)arg0)->unk6;
+        ((Unkstruct_8017BB34 *)p)->unkA = ((Unkstruct_801865B0 *)arg0)->unkA - 0xe0;
+        ((Unkstruct_8017BB34 *)p)->unkC = ((Unkstruct_801865B0 *)arg0)->unkE - 0x10;
     }
 
 

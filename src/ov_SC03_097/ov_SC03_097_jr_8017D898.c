@@ -4014,10 +4014,10 @@ void func_8018064C(void *arg0) {
 
     if (((Unkstruct_80180450_3 *)arg0)->unkFC >= 9) {
         if (s1 != NULL) {
-            s16 h = ((Unkstruct_8018064C_2 *)s1)->unk18;
+            s16 h = ((Unkstruct_8018064C *)s1)->unk18;
             if (h > 0) {
-                ((Unkstruct_8018064C_2 *)s1)->unk18 = h - 0x100;
-                ((Unkstruct_8018064C_2 *)s1)->unk1A = ((Unkstruct_8018064C_2 *)s1)->unk1A - 0x100;
+                ((Unkstruct_8018064C *)s1)->unk18 = h - 0x100;
+                ((Unkstruct_8018064C *)s1)->unk1A = ((Unkstruct_8018064C *)s1)->unk1A - 0x100;
             }
         }
 
@@ -4027,7 +4027,7 @@ void func_8018064C(void *arg0) {
             D_801AAAE1 -= 0x10;
             D_801AAAE2 -= 0x10;
         } else {
-            ((Unkstruct_8018064C_2 *)s1)->unk0 = 0;
+            ((Unkstruct_8018064C *)s1)->unk0 = 0;
             CAST_SIGN(s32, (u8 *)arg0, 0xCC) = 0;
             func_80180450((s32)arg0, 0x4000);
             func_80180230(arg0);
