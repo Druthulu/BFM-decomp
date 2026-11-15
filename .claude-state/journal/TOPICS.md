@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-15T13:54:18.146Z
+# filed through: 2026-11-15T18:51:37.157Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -201,3 +201,6 @@ R197 | 2026-11-13 | decision | retired by .claude-state/journal/2026-11-14.md#06
 R198 | 2026-11-14 | finding | in force | Phase 3.45 progress overnight (T14, T5, T6) | T14 is done. | .claude-state/journal/2026-11-14.md#063526-033r-claude-record
 R199 | 2026-11-14 | finding | in force | Phase 3.45 progress overnight (T14, T5, T6) | T5 is done. | .claude-state/journal/2026-11-14.md#063526-033r-claude-record
 R200 | 2026-11-14 | finding | in force | Phase 3.45 progress overnight (T14, T5, T6) | T6 is done, and all four pilots passed with 218/218 byte-identical. | .claude-state/journal/2026-11-14.md#063526-033r-claude-record
+R201 | 2026-11-15 | finding | in force | Phase 3.45 progress overnight (T14, T5, T6) | T7 is done (fold links, exact twins and value shapes). | .claude-state/journal/2026-11-15/120647-005r-claude-record.md
+R202 | 2026-11-15 | decision | in force | Phase 3.45 progress overnight (T14, T5, T6) | Work resumed after the 3.32.19 restart on the developer's "continue". | .claude-state/journal/2026-11-15/120647-005r-claude-record.md
+R203 | 2026-11-15 | open | in force | Phase 3.45 progress overnight (T14, T5, T6) | The Ghidra MCP is not connected this session (ECONNREFUSED). | .claude-state/journal/2026-11-15/120647-005r-claude-record.md
