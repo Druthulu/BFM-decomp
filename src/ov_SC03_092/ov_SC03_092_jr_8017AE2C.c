@@ -3894,7 +3894,7 @@ void func_8017CE58(s32 arg0)
     s16 my, mny, mx, mn;
     s32 code;
 
-    lim = func_800491EC() + ((Unkstruct_8017CE58_2 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
@@ -3910,7 +3910,7 @@ void func_8017CE58(s32 arg0)
     pkt = D_800A5E60;
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017CE58_3 *)*(s32 *)(arg0 + 8))->unk8;
-    vtx = *(u8 **)(((Unkstruct_8017CE58_2 *)arg0)->unk8 + 0x10);
+    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {

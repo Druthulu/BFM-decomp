@@ -5071,9 +5071,9 @@ void func_80186E50(s32 param_1)
 
     obj = ((Unkstruct_80181430 *)param_1)->unk20;
     v0 = rsin(((Unkstruct_80181430 *)param_1)->unk1C << 6);
-    ((Unkstruct_80186E50_2 *)obj)->unk1C = v0;
-    ((Unkstruct_80186E50_2 *)obj)->unk1A = v0;
-    ((Unkstruct_80186E50_2 *)obj)->unk18 = v0;
+    ((Unkstruct_8017E7B4_2 *)obj)->unk1C = v0;
+    ((Unkstruct_8017E7B4_2 *)obj)->unk1A = v0;
+    ((Unkstruct_8017E7B4_2 *)obj)->unk18 = v0;
     v0 = ((Unkstruct_80181430 *)param_1)->unk1C;
     v0 = v0 + 1;
     ((Unkstruct_80181430 *)param_1)->unk1C = v0;

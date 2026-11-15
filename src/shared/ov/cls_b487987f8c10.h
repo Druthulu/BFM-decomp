@@ -2,8 +2,8 @@
  * exemplar src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:5058 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_8017C084.h rejected by type_census --check */
 void SHARED_FN(void *a0, s32 a1, s32 a2) {
-    s16 t0 = ((Unkstruct_8017E520_5 *)a0)->unk6;
-    s16 t1 = ((Unkstruct_8017E520_5 *)a0)->unkA;
-    s16 t2 = ((Unkstruct_8017E520_5 *)a0)->unkE;
+    s16 t0 = ((Unkstruct_8016E7C8 *)a0)->unk6;
+    s16 t1 = ((Unkstruct_8016E7C8 *)a0)->unkA;
+    s16 t2 = ((Unkstruct_8016E7C8 *)a0)->unkE;
     guess_SpawnSmallObject(0x2B, a0, t0, t1, t2, a1, a2);
 }

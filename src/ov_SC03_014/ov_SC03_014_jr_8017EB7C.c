@@ -5028,17 +5028,17 @@ void func_80182930(void *a0)
     p = (s32)a0;
     obj = ((Unkstruct_8017E9D8 *)p)->unk34;
     r = rand();
-    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017E9D8_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
+    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017C218_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
     if (((Unkstruct_8017E9D8 *)p)->unk2C != 0) {
-        t = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = 0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t - 0x140;
     } else {
-        t2 = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t2 = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = -0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t2;
     }
-    e = ((Unkstruct_8017E9D8_2 *)obj)->unkE;
+    e = ((Unkstruct_8017C218_2 *)obj)->unkE;
     c = ((Unkstruct_8017E9D8 *)p)->unk2;
     ((Unkstruct_8017E9D8 *)p)->unk30 = (r >> 12) & 3;
     d = ((r >> 6) & 0x3F) - 0x20;

@@ -3208,14 +3208,14 @@ void func_80182740(void *arg0) {
     s32 s0;
 
     s0 = (s32)arg0;
-    ((Unkstruct_80182740 *)s0)->unk18 = 0;
-    if (((Unkstruct_80182740 *)s0)->unkE8 & 0x2000) {
-        ((Unkstruct_80182740 *)s0)->unk10 = 0x38000;
+    ((Unkstruct_801827A8 *)s0)->unk18 = 0;
+    if (((Unkstruct_801827A8 *)s0)->unkE8 & 0x2000) {
+        ((Unkstruct_801827A8 *)s0)->unk10 = 0x38000;
     } else {
-        ((Unkstruct_80182740 *)s0)->unk10 = 0x1C000;
+        ((Unkstruct_801827A8 *)s0)->unk10 = 0x1C000;
     }
     func_80186304((u8 *)s0, 1, 0);
-    ((Unkstruct_80182740 *)s0)->unkE0 = -1;
+    ((Unkstruct_801827A8 *)s0)->unkE0 = -1;
 }
 
 
@@ -4969,11 +4969,11 @@ void func_80184D98(void *arg0) {
     } local;
 
     func_8012B200((u8 *)s0);
-    local.x = ((Unkstruct_80184D98_2 *)*(s32 *)(s0 + 0x64))->unk6 - 0x40;
-    t = ((Unkstruct_80184D98_2 *)*(s32 *)(s0 + 0x64))->unkA - 0x80;
+    local.x = ((Unkstruct_8017C218_2 *)*(s32 *)(s0 + 0x64))->unk6 - 0x40;
+    t = ((Unkstruct_8017C218_2 *)*(s32 *)(s0 + 0x64))->unkA - 0x80;
     ((Unkstruct_80184D98 *)s0)->unk100 = t;
     local.y = t;
-    local.z = ((Unkstruct_80184D98_2 *)*(s32 *)(s0 + 0x64))->unkE;
+    local.z = ((Unkstruct_8017C218_2 *)*(s32 *)(s0 + 0x64))->unkE;
     func_80132DC4(s0, (s32)&local, 0x500);
     ((Unkstruct_80184D98 *)s0)->unk5C &= ~1;
     ((Unkstruct_80184D98 *)s0)->unkC1 = 4;

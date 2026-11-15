@@ -4240,11 +4240,11 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8017E008(s32 param_1)
 {
-    ((Unkstruct_8017E008_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
 
-    ((Unkstruct_8017E008_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
-    ((Unkstruct_8017E008_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
     guess_StartPairSequence(((Unkstruct_8017E008 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
 

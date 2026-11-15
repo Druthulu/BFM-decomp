@@ -2916,7 +2916,7 @@ void func_8017D960(s32 arg0)
     u32 rgbw;
 
     base = guess_g_RenderWork;
-    lim = func_800491EC() + ((Unkstruct_8017D960_4 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
@@ -2973,8 +2973,8 @@ void func_8017D960(s32 arg0)
 
     pkt = D_800A5E60;
     part = *(Part **)(arg0 + 0xC);
-    nparts = *(s32 *)(((Unkstruct_8017D960_4 *)arg0)->unk8 + 8);
-    vtx = *(u8 **)(((Unkstruct_8017D960_4 *)arg0)->unk8 + 0x10);
+    nparts = *(s32 *)(((Unkstruct_8017BE9C *)arg0)->unk8 + 8);
+    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(((Unkstruct_80010178 *)base)->unkA3D2) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
@@ -6666,9 +6666,9 @@ void func_80185FA8(s32 a0) {
 
     p = ((Unkstruct_80181430 *)a0)->unk20;
     t = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
-    ((Unkstruct_80185FA8_2 *)p)->unk1C = t;
-    ((Unkstruct_80185FA8_2 *)p)->unk1A = t;
-    ((Unkstruct_80185FA8_2 *)p)->unk18 = t;
+    ((Unkstruct_8017E7B4_2 *)p)->unk1C = t;
+    ((Unkstruct_8017E7B4_2 *)p)->unk1A = t;
+    ((Unkstruct_8017E7B4_2 *)p)->unk18 = t;
     if (++((Unkstruct_80181430 *)a0)->unk1C >= 0x11) {
         ((Unkstruct_80181430 *)a0)->unk2.s = 1;
         ((Unkstruct_80181430 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);

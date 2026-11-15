@@ -976,9 +976,9 @@ void func_80184964(s32 a0) {
     s32 hit;
     u32 ptr;
 
-    pos[0] = ((Unkstruct_80184964 *)a0)->unk6;
-    pos[1] = ((Unkstruct_80184964 *)a0)->unkA;
-    pos[2] = ((Unkstruct_80184964 *)a0)->unkE;
+    pos[0] = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    pos[1] = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    pos[2] = ((Unkstruct_8017C218_2 *)a0)->unkE;
     pos[1] += 0x28;
     pos[2] += 0x52;
     func_80143BDC(pos);

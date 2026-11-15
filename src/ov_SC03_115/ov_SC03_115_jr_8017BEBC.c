@@ -3928,15 +3928,15 @@ void func_8017E380(s32 arg0) {
     u16 sp10[3];
     u16 kind;
 
-    temp = ((Unkstruct_8017E380_2 *)arg0)->unk20;
+    temp = ((Unkstruct_80180388 *)arg0)->unk20;
     if (*(s32 *)(temp + 0x24) == (s32)&D_8018C7E8) {
         func_8001C924(temp, &D_8018C7D8);
     }
-    ((Unkstruct_8017E380_2 *)arg0)->unk1C = 0x18;
-    ((Unkstruct_8017E380_2 *)arg0)->unkDC &= ~0x10;
-    kind = ((Unkstruct_8017E380_2 *)arg0)->unk5E;
+    ((Unkstruct_80180388 *)arg0)->unk1C = 0x18;
+    ((Unkstruct_80180388 *)arg0)->unkDC &= ~0x10;
+    kind = ((Unkstruct_80180388 *)arg0)->unk5E;
     if (kind == 0x23) {
-        ((Unkstruct_8017E380_2 *)arg0)->unkFE = 1;
+        ((Unkstruct_80180388 *)arg0)->unkFE = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (kind == 0x24) {
         sp10[0] = 0;
@@ -3989,17 +3989,17 @@ void func_8017E528(s32 param_1, s32 param_2, s16 *param_3) {
     s32 p;
     s32 flag;
 
-    flag = ((Unkstruct_8017E528 *)param_1)->unkAA;
+    flag = ((Unkstruct_8017E418 *)param_1)->unkAA;
     p = param_1;
-    ((Unkstruct_8017E528 *)p)->unk5C = 0;
-    ((Unkstruct_8017E528 *)p)->unk98 = 0;
-    ((Unkstruct_8017E528 *)p)->unk1C = 0;
+    ((Unkstruct_8017E418 *)p)->unk5C = 0;
+    ((Unkstruct_8017E418 *)p)->unk98 = 0;
+    ((Unkstruct_8017E418 *)p)->unk1C = 0;
     if (flag == 0) {
-        ((Unkstruct_8017E528 *)p)->unk100 = *(u16 *)(((Unkstruct_8017E528 *)p)->unk20 + 0x18);
-        ((Unkstruct_8017E528 *)p)->unkDC &= ~0x80;
+        ((Unkstruct_8017E418 *)p)->unk100 = *(u16 *)(((Unkstruct_8017E418 *)p)->unk20 + 0x18);
+        ((Unkstruct_8017E418 *)p)->unkDC &= ~0x80;
     } else {
-        ((Unkstruct_8017E528 *)p)->unk104 = *(u16 *)(((Unkstruct_8017E528 *)p)->unk20 + 0x18);
-        ((Unkstruct_8017E528 *)p)->unkDC |= 0x80;
+        ((Unkstruct_8017E418 *)p)->unk104 = *(u16 *)(((Unkstruct_8017E418 *)p)->unk20 + 0x18);
+        ((Unkstruct_8017E418 *)p)->unkDC |= 0x80;
     }
 }
 

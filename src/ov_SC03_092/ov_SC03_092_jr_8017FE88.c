@@ -3046,10 +3046,10 @@ void func_80180230(void *a0)
     u16 sp0[3];
     u16 t0, t1, t2;
 
-    t0 = ((Unkstruct_80180230_2 *)a0)->unk6;
+    t0 = ((Unkstruct_8017C218_2 *)a0)->unk6;
     sp0[0] = t0;
 
-    t1 = ((Unkstruct_80180230_2 *)a0)->unkA;
+    t1 = ((Unkstruct_8017C218_2 *)a0)->unkA;
     sp0[1] = t1;
     t2 = CAST_ALIAS(u16, (s32)a0, 0xE);
     D_801B2E7A = t1;

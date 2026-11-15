@@ -4146,9 +4146,9 @@ s32 p;
 extern void guess_StartActorSequence(s32, void*);
     extern short aD801B5B88_8017F630 __asm__("D_801B5B88");
     void func_8017F630(short *a0) {
-        ((Unkstruct_8017F630_2 *)a0)->unk2 = 0x1D;
-        ((Unkstruct_8017F630_2 *)a0)->unk34 = 0;
-        ((Unkstruct_8017F630_2 *)a0)->unk1C = 0xf;
+        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
+        ((Unkstruct_80183554 *)a0)->unk34 = 0;
+        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (int)&aD801B5B88_8017F630);
     }
 
@@ -4372,7 +4372,7 @@ void func_8017FAFC(s32 param_1) {
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];
-    StructB58_8017FAFC *b58 = &(*(StructB58_8017FAFC *)&guess_g_PlayerActor);   /* $s4 */
+    Unkstruct_8017C218_2 *b58 = &(*(Unkstruct_8017C218_2 *)&guess_g_PlayerActor);   /* $s4 */
     short *psVar7 = (short *)(param_1 + 0xec);
     s32 sVar1;
     s32 r_b608;
@@ -4398,9 +4398,9 @@ void func_8017FAFC(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->f6 + tmp;
-        psVar7[1] = b58->fa;
-        psVar7[2] = b58->fe + (tmp >> 16);
+        psVar7[0] = b58->unk6 + tmp;
+        psVar7[1] = b58->unkA;
+        psVar7[2] = b58->unkE + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x80;

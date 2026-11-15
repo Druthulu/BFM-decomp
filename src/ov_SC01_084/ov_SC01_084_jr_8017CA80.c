@@ -3350,10 +3350,10 @@ extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E890(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E890 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E890 *)a0)->unk198);
-        ((Unkstruct_8017E890 *)a0)->unk204 = 0x40;
-        ((Unkstruct_8017E890 *)a0)->unk214 = ((Unkstruct_8017E890 *)a0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_8018016C *)a0)->unk198);
+        ((Unkstruct_8018016C *)a0)->unk204 = 0x40;
+        ((Unkstruct_8018016C *)a0)->unk214 = ((Unkstruct_8018016C *)a0)->unk214 + 1;
     }
 }
 

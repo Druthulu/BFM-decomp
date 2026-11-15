@@ -4,11 +4,11 @@ void SHARED_FN(s32 param_1)
 
     extern u8 D_800D387C[];
     extern u8 D_800D3888[];
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
 
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
-    ((Unkstruct_80184DD8_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_800D3888);
 

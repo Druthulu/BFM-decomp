@@ -3404,9 +3404,9 @@ void func_8017E8DC(s32 param_1)
 
 
 void func_8017EA6C(void *a0) {
-        ((Unkstruct_8017EA6C *)a0)->unk1C = 0x10;
-        ((Unkstruct_8017EA6C *)a0)->unk2 = 0x8;
-        ((Unkstruct_8017EA6C *)a0)->unk34 = 0;
+        ((Unkstruct_80183554 *)a0)->unk1C = 0x10;
+        ((Unkstruct_80183554 *)a0)->unk2 = 0x8;
+        ((Unkstruct_80183554 *)a0)->unk34 = 0;
     }
 
 

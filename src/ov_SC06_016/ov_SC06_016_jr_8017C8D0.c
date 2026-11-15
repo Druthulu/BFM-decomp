@@ -5201,9 +5201,9 @@ void func_80181290(void *a0)
 
     dist = func_8012B8A4((s16 *)a0);
 
-    localA.x = ((Unkstruct_80181290 *)a0)->unk6;
-    localA.y = ((Unkstruct_80181290 *)a0)->unkA;
-    localA.z = ((Unkstruct_80181290 *)a0)->unkE;
+    localA.x = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    localA.y = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    localA.z = ((Unkstruct_8017C218_2 *)a0)->unkE;
 
     localB.x = guess_g_PlayerPosX;
     localB.y = guess_g_PlayerPosY;
@@ -5214,8 +5214,8 @@ void func_80181290(void *a0)
         guess_SetPlayerHit(1, 0x4201, dist, 0x5A, &localB, guess_g_BoxHitNormalX);
         D_80126B9A = dist;
         func_8012B0B4((unsigned int *)&outVal, dist, 0x9E);
-        guess_g_PlayerPosX = ((Unkstruct_80181290 *)a0)->unk6 - (u16)outVal;
-        guess_g_PlayerPosZ = ((Unkstruct_80181290 *)a0)->unkE - (s16)(outVal >> 16);
+        guess_g_PlayerPosX = ((Unkstruct_8017C218_2 *)a0)->unk6 - (u16)outVal;
+        guess_g_PlayerPosZ = ((Unkstruct_8017C218_2 *)a0)->unkE - (s16)(outVal >> 16);
     }
 }
 

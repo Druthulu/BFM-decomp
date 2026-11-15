@@ -4137,14 +4137,14 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 
 void func_8017F5B0(s32 param_1) {
     s32 s0 = param_1;
-    if (guess_GetTextWindowResult(((Unkstruct_8017F5B0 *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017F5B0 *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_8018016C *)s0)->unk198);
         CAST_ALIAS(s32, s0, 0x204) = 0x20;
         guess_g_MainCameraPitchTarget = 0xE3;
         guess_g_MainCameraYawTarget = -0x71C;
         guess_g_MainCameraRefOffsetTargetX = -0x20;
         guess_g_MainCameraRefOffsetTargetY = -0x60;
-        ((Unkstruct_8017F5B0 *)s0)->unk214 = ((Unkstruct_8017F5B0 *)s0)->unk214 + 1;
+        ((Unkstruct_8018016C *)s0)->unk214 = ((Unkstruct_8018016C *)s0)->unk214 + 1;
     }
 }
 
@@ -4517,11 +4517,11 @@ extern void func_80147060(u8 *a0);
 
 void func_8017FF2C(s32 param_1) {
     s32 s0 = param_1;
-    if (guess_GetTextWindowResult(((Unkstruct_8017FF2C *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017FF2C *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_8018016C *)s0)->unk198);
         func_80147060((u8 *)s0);
-        ((Unkstruct_8017FF2C *)s0)->unk204 = 0x20;
-        ++((Unkstruct_8017FF2C *)s0)->unk214;
+        ((Unkstruct_8018016C *)s0)->unk204 = 0x20;
+        ++((Unkstruct_8018016C *)s0)->unk214;
     }
 }
 
@@ -4589,21 +4589,21 @@ void func_801800CC(s32 s0)
 {
     s32 v0;
 
-    if ((((Unkstruct_801800CC_3 *)s0)->unk204) != 0) {
+    if ((((Unkstruct_8018016C *)s0)->unk204) != 0) {
         if (func_8001A9D8() == 0) {
             s32 c14;
             c14 = 0xE;
-            v0 = ((Unkstruct_801800CC_3 *)s0)->unk204;
+            v0 = ((Unkstruct_8018016C *)s0)->unk204;
             v0 -= 1;
-            ((Unkstruct_801800CC_3 *)s0)->unk204 = v0;
+            ((Unkstruct_8018016C *)s0)->unk204 = v0;
             if (v0 == c14) {
-                ((Unkstruct_801800CC_3 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801975AC);
+                ((Unkstruct_8018016C *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801975AC);
                 guess_RequestSound(0x50E, 0);
             }
         }
     } else {
         if (((s32 (*)(s32))func_8001AAA0)(0x14) != 0) {
-            ((Unkstruct_801800CC_3 *)s0)->unk214 += 1;
+            ((Unkstruct_8018016C *)s0)->unk214 += 1;
         }
     }
 }

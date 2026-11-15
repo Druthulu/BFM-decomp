@@ -3000,12 +3000,12 @@ extern void guess_ClearVelocityAndSetGravity(s32 a0);
 
 void func_8018CAC4(void *a0) {
     s32 s0 = (s32)a0;
-    ((Unkstruct_8018CAC4 *)s0)->unk2 = 6;
+    ((Unkstruct_80184C9C *)s0)->unk2 = 6;
     guess_ClearVelocityAndSetGravity(s0);
     guess_SetForwardVelocity(s0, 0xFFFE8000);
     guess_StartActorSequence(s0, (void *)((u8 *)&D_801E2900));
-    ((Unkstruct_8018CAC4 *)s0)->unk1C = 0x96;
-    ((Unkstruct_8018CAC4 *)s0)->unkE6 = 0;
+    ((Unkstruct_80184C9C *)s0)->unk1C = 0x96;
+    ((Unkstruct_80184C9C *)s0)->unkE6 = 0;
 }
 
 

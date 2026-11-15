@@ -6261,7 +6261,7 @@ void func_80180C48(s32 a0) {
     extern s16 D_80126CB4;
     extern s16 D_80126CB6;
     extern s16 D_80126CB8;
-    D_80126CB4 = ((Unkstruct_80180C48_4 *)a0)->unk6;
+    D_80126CB4 = ((Unkstruct_8017C218_2 *)a0)->unk6;
     D_80126CB6 = CAST_ALIAS(u16, a0, 0xa);
     D_80126CB8 = CAST_ALIAS(u16, a0, 0xe);
 }

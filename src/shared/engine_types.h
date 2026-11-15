@@ -65,7 +65,7 @@ struct S8013A164;
 struct S_80149744;
 struct S_8014A3E0;
 struct B8014;
-struct Src80172E20;
+
 struct V4s80147514;
 struct Quad;
 struct A;
@@ -312,15 +312,6 @@ typedef Blk164 copy00;
 typedef struct {
     s16 f0, f1, f2, f3;
 } Vec4s_80180F94;
-
-struct Src80172E20 {
-    u8 pad0[6];
-    u16 _6;
-    u8 pad8[0xA - 8];
-    u16 _A;
-    u8 padC[0xE - 0xC];
-    u16 _E;
-};
 
 struct V4s80147514 { s16 a, b, c, d; };
 
@@ -1978,19 +1969,11 @@ typedef Src_80182FD4 Src_8018AC0C;
 typedef Src_80182FD4 Src_8018BAB4;
 typedef struct { s32 f0; s32 f1; } Struct_8017E784;
 typedef Struct_8017E784 Struct;
-typedef struct {
-    u8  pad0[6];
-    u16 f6;         /* 0x06 -> guess_g_PlayerPosX */
-    u8  pad8[2];
-    u16 fa;         /* 0x0A -> guess_g_PlayerPosY */
-    u8  padc[2];
-    u16 fe;         /* 0x0E -> guess_g_PlayerPosZ */
-} StructB58_8017FAFC;
-typedef StructB58_8017FAFC StructB58;
-typedef StructB58_8017FAFC StructB58_80180730;
-typedef StructB58_8017FAFC StructB58_80183A20;
-typedef StructB58_8017FAFC StructB58_80184414;
-typedef StructB58_8017FAFC StructB58_80185EF8;
+typedef Unkstruct_8017C218_2 StructB58;
+typedef Unkstruct_8017C218_2 StructB58_80180730;
+typedef Unkstruct_8017C218_2 StructB58_80183A20;
+typedef Unkstruct_8017C218_2 StructB58_80184414;
+typedef Unkstruct_8017C218_2 StructB58_80185EF8;
 typedef struct Sub20_1CDC {
     u8  pad0[0x14];
     u16 unk14;                       /* 0x14 */

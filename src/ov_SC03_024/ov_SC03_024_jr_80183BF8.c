@@ -3565,9 +3565,9 @@ void func_80184B80(s32 param_1, s32 param_2)
         mode = 0x50000000;
         val = 0x1333;
     }
-    code = ((Unkstruct_80184B80_2 *)prim)->unk4 & 0xCFFFFFFF;
+    code = ((Unkstruct_8017BEBC_6 *)prim)->unk4 & 0xCFFFFFFF;
     hi = 0x40000000;
-    ((Unkstruct_80184B80_2 *)prim)->unk4 = code | (mode | hi);
+    ((Unkstruct_8017BEBC_6 *)prim)->unk4 = code | (mode | hi);
 
     if (((Unkstruct_80184B80_3 *)*(s32 *)(param_1 + 0xCC))->unk0 != 0) {
         ((Unkstruct_80184B80_3 *)obj)->unk1A = val;
@@ -3789,7 +3789,7 @@ void func_801850E0(s32 a0) {
             p++;
         }
     } else {
-        ((Unkstruct_80184B80_2 *)s4)->unk0 = 0;
+        ((Unkstruct_8017BEBC_6 *)s4)->unk0 = 0;
         ((Unkstruct_80184B80 *)a0)->unk2 += 1;
     }
 }
@@ -3869,7 +3869,7 @@ extern void func_80184B80(s32 a0, s32 a1);
 
 void func_80185370(void *a0)
 {
-    ((Unkstruct_80184B80_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 += 0x20;
+    ((Unkstruct_8017BEBC_6 *)*(s32 *)((s32)a0 + 0x20))->unk12 += 0x20;
     func_80184B80((s32)a0, rand() & 0xF);
 }
 

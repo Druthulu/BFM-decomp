@@ -3304,11 +3304,11 @@ void func_8017EB6C(void *a0) {
     if (D_8018FB78 != 0) {
         return;
     }
-    if (((Unkstruct_8017EB6C *)a0)->unkB8 & 0x8000) {
-        if (guess_GetTextWindowResult(((Unkstruct_8017EB6C *)a0)->unk198) != 0) {
-            guess_CloseTextWindow(((Unkstruct_8017EB6C *)a0)->unk198);
-            ((Unkstruct_8017EB6C *)a0)->unk198 = guess_OpenTextWindow((s32)D_8018310C);
-            ((Unkstruct_8017EB6C *)a0)->unkB8 = ((Unkstruct_8017EB6C *)a0)->unkBA;
+    if (((Unkstruct_8017EADC *)a0)->unkB8 & 0x8000) {
+        if (guess_GetTextWindowResult(((Unkstruct_8017EADC *)a0)->unk198) != 0) {
+            guess_CloseTextWindow(((Unkstruct_8017EADC *)a0)->unk198);
+            ((Unkstruct_8017EADC *)a0)->unk198 = guess_OpenTextWindow((s32)D_8018310C);
+            ((Unkstruct_8017EADC *)a0)->unkB8 = ((Unkstruct_8017EADC *)a0)->unkBA;
             func_80171990(a0);
         }
     }

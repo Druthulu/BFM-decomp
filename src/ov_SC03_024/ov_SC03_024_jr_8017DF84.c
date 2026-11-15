@@ -4738,17 +4738,17 @@ void func_801812C4(s32 param_1)
     cnt = &D_801C1280;
     *cnt = cond ? 0xC0 : 0xB0;
     if ((((Unkstruct_80010178 *)m)->unkA3AA & 3) == 0) {
-        sp10[1] = ((Unkstruct_801812C4 *)param_1)->unkA;
+        sp10[1] = ((Unkstruct_8017C218_2 *)param_1)->unkA;
         for (i = 0; i < 2; i++) {
             r = rand();
             {
-                s32 t = ((Unkstruct_801812C4 *)param_1)->unk6 - 0x10;
+                s32 t = ((Unkstruct_8017C218_2 *)param_1)->unk6 - 0x10;
                 sp10[0] = t + (r & 0x1F);
             }
             r = rand();
             cond = r & 0x1F;
             {
-                s32 u = ((Unkstruct_801812C4 *)param_1)->unkE - 0x10;
+                s32 u = ((Unkstruct_8017C218_2 *)param_1)->unkE - 0x10;
                 sp10[2] = u + cond;
             }
             func_801290DC(0x65, (u8 *)sp10);

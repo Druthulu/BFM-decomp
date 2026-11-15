@@ -4501,13 +4501,13 @@ extern M2C_UNK D_801B17F0;
 void func_8017E4B4(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E4B4 *)arg0)->unk204 - 1;
-    ((Unkstruct_8017E4B4 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_8018016C *)arg0)->unk204 - 1;
+    ((Unkstruct_8018016C *)arg0)->unk204 = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_8017E4B4 *)arg0)->unk4D = (u8) (((Unkstruct_8017E4B4 *)arg0)->unk4D - 1);
-        ((Unkstruct_8017E4B4 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
-        ((Unkstruct_8017E4B4 *)arg0)->unk204 = 0x20;
-        ((Unkstruct_8017E4B4 *)arg0)->unk214 = (u8) (((Unkstruct_8017E4B4 *)arg0)->unk214 + 1);
+        ((Unkstruct_8018016C *)arg0)->unk4D = (u8) (((Unkstruct_8018016C *)arg0)->unk4D - 1);
+        ((Unkstruct_8018016C *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
+        ((Unkstruct_8018016C *)arg0)->unk204 = 0x20;
+        ((Unkstruct_8018016C *)arg0)->unk214 = (u8) (((Unkstruct_8018016C *)arg0)->unk214 + 1);
     }
 }
 

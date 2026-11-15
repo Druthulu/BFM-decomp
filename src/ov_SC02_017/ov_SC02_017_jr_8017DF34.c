@@ -7417,15 +7417,15 @@ void func_80185494(s32 a0) {
 
 
 void func_80185574(s32 arg0) {
-    ((Unkstruct_80185574 *)arg0)->unk5C = 0;
-    ((Unkstruct_80185574 *)arg0)->unk98 = 0;
-    ((Unkstruct_80185574 *)arg0)->unk1C = 0;
-    if (((Unkstruct_80185574 *)arg0)->unkAA == 0) {
-        ((Unkstruct_80185574 *)arg0)->unk100 = *(u16 *)(((Unkstruct_80185574 *)arg0)->unk20 + 0x18);
-        ((Unkstruct_80185574 *)arg0)->unkDC &= ~0x80;
+    ((Unkstruct_8017E418 *)arg0)->unk5C = 0;
+    ((Unkstruct_8017E418 *)arg0)->unk98 = 0;
+    ((Unkstruct_8017E418 *)arg0)->unk1C = 0;
+    if (((Unkstruct_8017E418 *)arg0)->unkAA == 0) {
+        ((Unkstruct_8017E418 *)arg0)->unk100 = *(u16 *)(((Unkstruct_8017E418 *)arg0)->unk20 + 0x18);
+        ((Unkstruct_8017E418 *)arg0)->unkDC &= ~0x80;
     } else {
-        ((Unkstruct_80185574 *)arg0)->unk104 = *(u16 *)(((Unkstruct_80185574 *)arg0)->unk20 + 0x18);
-        ((Unkstruct_80185574 *)arg0)->unkDC |= 0x80;
+        ((Unkstruct_8017E418 *)arg0)->unk104 = *(u16 *)(((Unkstruct_8017E418 *)arg0)->unk20 + 0x18);
+        ((Unkstruct_8017E418 *)arg0)->unkDC |= 0x80;
     }
 }
 

@@ -3085,11 +3085,11 @@ void func_8017D7A0(void *param_1)
     *(Blk4_8017D7A0 *)p_buf = *(Blk4_8017D7A0 *)&D_8019BA08;
     *(Blk4_8017D7A0 *)(p_buf + 4) = *(Blk4_8017D7A0 *)&D_8019BA0C;
     ((void (*)(int, void *))guess_InitObjectKind6)(s1, p_buf);
-    ((Unkstruct_8017D7A0 *)s1)->unk2C = 0xC010;
-    ((Unkstruct_8017D7A0 *)s1)->unk4 |= 0x50000000;
-    ((Unkstruct_8017D7A0 *)s1)->unk8 = ((Unkstruct_801819B4_2 *)param_1)->unk6;
-    ((Unkstruct_8017D7A0 *)s1)->unkA = ((Unkstruct_801819B4_2 *)param_1)->unkA - 0x10;
-    ((Unkstruct_8017D7A0 *)s1)->unkC = ((Unkstruct_801819B4_2 *)param_1)->unkE - 0x10;
+    ((Unkstruct_800CAFE0 *)s1)->unk2C = 0xC010;
+    ((Unkstruct_800CAFE0 *)s1)->unk4 |= 0x50000000;
+    ((Unkstruct_800CAFE0 *)s1)->unk8 = ((Unkstruct_801819B4_2 *)param_1)->unk6;
+    ((Unkstruct_800CAFE0 *)s1)->unkA = ((Unkstruct_801819B4_2 *)param_1)->unkA - 0x10;
+    ((Unkstruct_800CAFE0 *)s1)->unkC = ((Unkstruct_801819B4_2 *)param_1)->unkE - 0x10;
 label:
     ((void (*)(void *))func_8012AD50)(param_1);
 }
@@ -3839,28 +3839,28 @@ s32 arg0;
     s32 mask;
     s32 flag;
 
-    flag = ((Unkstruct_8017EAD8_2 *)arg0)->unkAA;
-    ((Unkstruct_8017EAD8_2 *)arg0)->unk5C = 0;
-    ((Unkstruct_8017EAD8_2 *)arg0)->unk98 = 0;
-    ((Unkstruct_8017EAD8_2 *)arg0)->unk1C = 0;
+    flag = ((Unkstruct_8017E418 *)arg0)->unkAA;
+    ((Unkstruct_8017E418 *)arg0)->unk5C = 0;
+    ((Unkstruct_8017E418 *)arg0)->unk98 = 0;
+    ((Unkstruct_8017E418 *)arg0)->unk1C = 0;
     if (flag == 0) {
         s32 t;
         s32 v;
         s32 f;
         mask = ~0x80;
-        t = ((Unkstruct_8017EAD8_2 *)arg0)->unk20;
-        f = ((Unkstruct_8017EAD8_2 *)arg0)->unkDC;
+        t = ((Unkstruct_8017E418 *)arg0)->unk20;
+        f = ((Unkstruct_8017E418 *)arg0)->unkDC;
         v = ((Unkstruct_8017EAD8_5 *)t)->unk18;
-        ((Unkstruct_8017EAD8_2 *)arg0)->unkDC = f & mask;
-        ((Unkstruct_8017EAD8_2 *)arg0)->unk100 = v;
+        ((Unkstruct_8017E418 *)arg0)->unkDC = f & mask;
+        ((Unkstruct_8017E418 *)arg0)->unk100 = v;
     } else {
         s32 q;
         s32 g;
-        q = *(u16 *)(((Unkstruct_8017EAD8_2 *)arg0)->unk20 + 0x18);
-        g = ((Unkstruct_8017EAD8_2 *)arg0)->unkDC;
+        q = *(u16 *)(((Unkstruct_8017E418 *)arg0)->unk20 + 0x18);
+        g = ((Unkstruct_8017E418 *)arg0)->unkDC;
         g |= 0x80;
-        ((Unkstruct_8017EAD8_2 *)arg0)->unkDC = g;
-        ((Unkstruct_8017EAD8_2 *)arg0)->unk104 = q;
+        ((Unkstruct_8017E418 *)arg0)->unkDC = g;
+        ((Unkstruct_8017E418 *)arg0)->unk104 = q;
     }
 }
 

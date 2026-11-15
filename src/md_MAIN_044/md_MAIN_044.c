@@ -168,9 +168,9 @@ s32 func_800CCF30(void *a0) {
 
 
 void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
-    ((Unkstruct_800CCF58 *)arg0)->unk1C = arg1;
-    ((Unkstruct_800CCF58 *)arg0)->unk1A = arg1;
-    ((Unkstruct_800CCF58 *)arg0)->unk18 = arg1;
+    ((Unkstruct_8017E7B4_2 *)arg0)->unk1C = arg1;
+    ((Unkstruct_8017E7B4_2 *)arg0)->unk1A = arg1;
+    ((Unkstruct_8017E7B4_2 *)arg0)->unk18 = arg1;
 }
 
 
@@ -675,9 +675,9 @@ void func_800CDBA8(s32 param_1) {
     v1 = ((Unkstruct_800CDBA8 *)param_1)->unk34;
     if (((Unkstruct_800CDBA8 *)param_1)->unk2C == 0) {
         s4 = 0;
-        sp20[0] = ((Unkstruct_800CDBA8_2 *)v1)->unk6;
-        sp20[1] = ((Unkstruct_800CDBA8_2 *)v1)->unkA - 0x28;
-        sp20[2] = ((Unkstruct_800CDBA8_2 *)v1)->unkE;
+        sp20[0] = ((Unkstruct_8017C218_2 *)v1)->unk6;
+        sp20[1] = ((Unkstruct_8017C218_2 *)v1)->unkA - 0x28;
+        sp20[2] = ((Unkstruct_8017C218_2 *)v1)->unkE;
         do {
             s0 = rand();
             sp28[0] = ((s0 & 0x7F) << 3) - 0x40;
@@ -754,9 +754,9 @@ void func_800CDE04(s32 param_1) {
 
     q = ((Unkstruct_800CE004 *)param_1)->unk34;
     if (((Unkstruct_800CE004 *)param_1)->unk2C.s == 0) {
-        sp20[0] = ((Unkstruct_800CDE04_2 *)q)->unk6;
-        sp20[1] = ((Unkstruct_800CDE04_2 *)q)->unkA - 0x28;
-        sp20[2] = ((Unkstruct_800CDE04_2 *)q)->unkE;
+        sp20[0] = ((Unkstruct_8017C218_2 *)q)->unk6;
+        sp20[1] = ((Unkstruct_8017C218_2 *)q)->unkA - 0x28;
+        sp20[2] = ((Unkstruct_8017C218_2 *)q)->unkE;
         for (i = 0; i < 0x12; i++) {
             r = rand();
             sp28[0] = ((r & 0x7F) << 3) - 0x40;

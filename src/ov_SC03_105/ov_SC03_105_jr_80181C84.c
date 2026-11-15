@@ -3067,9 +3067,9 @@ extern void func_80183EE8(void);
 extern void func_80184604(s32 arg0);
 
 void func_80182220(s32 a0) {
-    ((Unkstruct_80182220 *)a0)->unk2 = 0xB;
-    ((Unkstruct_80182220 *)a0)->unk1C = 0x3C;
-    ((Unkstruct_80182220 *)a0)->unk34 = 0;
+    ((Unkstruct_80183554 *)a0)->unk2 = 0xB;
+    ((Unkstruct_80183554 *)a0)->unk1C = 0x3C;
+    ((Unkstruct_80183554 *)a0)->unk34 = 0;
     guess_RequestSound(0x72C, 0);
     func_80183EE8();
     func_80184604(-1);
@@ -4008,9 +4008,9 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 s32 func_80183D38(void *a0, s16 a1, s32 a2) {
     Local_8017EE34 local;
 
-    local.f0 = ((Unkstruct_80183D38 *)a0)->unk6;
-    local.f1 = ((Unkstruct_80183D38 *)a0)->unkA;
-    local.f2 = ((Unkstruct_80183D38 *)a0)->unkE;
+    local.f0 = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    local.f1 = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    local.f2 = ((Unkstruct_8017C218_2 *)a0)->unkE;
     local.f3 = 0x170;
     local.f4 = a1;
     local.f5 = 0;

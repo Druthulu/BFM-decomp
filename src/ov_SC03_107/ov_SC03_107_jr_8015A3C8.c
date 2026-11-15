@@ -8796,13 +8796,13 @@ void func_8016A8FC(s32 a0)
     p.v1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + ((Unkstruct_8016A8FC *)a0)->unk50) >> 1);
     p.v2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + ((Unkstruct_8016A8FC *)a0)->unk54) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk6 = (short)((Unkstruct_8016A8FC *)a0)->unk4C;
-    p.w0 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unk6 + (int)((Unkstruct_8016A8FC_4 *)ptr)->unk6) >> 1);
+    p.w0 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unk6 + (int)((Unkstruct_8016E7C8 *)ptr)->unk6) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk4C = p.w0;
     ((Unkstruct_8016A8FC *)a0)->unkA = (short)((Unkstruct_8016A8FC *)a0)->unk50;
-    p.w1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + (int)((Unkstruct_8016A8FC_4 *)ptr)->unkA) >> 1);
+    p.w1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + (int)((Unkstruct_8016E7C8 *)ptr)->unkA) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk50 = p.w1;
     ((Unkstruct_8016A8FC *)a0)->unkE = (short)((Unkstruct_8016A8FC *)a0)->unk54;
-    p.w2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + (int)((Unkstruct_8016A8FC_4 *)ptr)->unkE) >> 1);
+    p.w2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + (int)((Unkstruct_8016E7C8 *)ptr)->unkE) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk54 = p.w2;
     p.b11 = 0x10;
     p.b15 = 0x80;

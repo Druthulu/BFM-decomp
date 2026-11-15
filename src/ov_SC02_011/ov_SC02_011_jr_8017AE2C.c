@@ -6740,9 +6740,9 @@ void func_80180CD4(void *a0)
     if (v > 0) {
         ((void (*)(void *))func_8018077C)(a0);
     } else {
-        ((Unkstruct_8017E948_2 *)obj)->unk64 = 0x1000;
-        ((Unkstruct_8017E948_2 *)obj)->unk62 = 0x1000;
-        ((Unkstruct_8017E948_2 *)obj)->unk60 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk64 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk62 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk60 = 0x1000;
         KR_AS(s32, guess_FreeSmallObject)();
     }
 }
@@ -6803,17 +6803,17 @@ void func_80180D64(void *a0)
     p = (s32)a0;
     obj = ((Unkstruct_8017E9D8 *)p)->unk34;
     r = rand();
-    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017E9D8_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
+    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017C218_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
     if (((Unkstruct_8017E9D8 *)p)->unk2C != 0) {
-        t = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = 0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t - 0x140;
     } else {
-        t2 = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t2 = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = -0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t2;
     }
-    e = ((Unkstruct_8017E9D8_2 *)obj)->unkE;
+    e = ((Unkstruct_8017C218_2 *)obj)->unkE;
     c = ((Unkstruct_8017E9D8 *)p)->unk2;
     ((Unkstruct_8017E9D8 *)p)->unk30 = (r >> 12) & 3;
     d = ((r >> 6) & 0x3F) - 0x20;
@@ -6987,14 +6987,14 @@ void func_80180FE4(s32 arg0)
     s32 mnc, mxc;
     s16 my, mny, mx, mn;
 
-    lim = func_800491EC() + ((Unkstruct_80180FE4 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
     pkt = D_800A5E60;
     part = *(Part80180FE4 **)(arg0 + 0xC);
-    nparts = *(s32 *)(((Unkstruct_80180FE4 *)arg0)->unk8 + 8);
-    vtx = *(u8 **)(((Unkstruct_80180FE4 *)arg0)->unk8 + 0x10);
+    nparts = *(s32 *)(((Unkstruct_8017BE9C *)arg0)->unk8 + 8);
+    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {

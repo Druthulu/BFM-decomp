@@ -6,9 +6,9 @@ void SHARED_FN(s32 a0) {
     u8 mtx[8];
     s32 p;
     p = ((Unkstruct_8016DF5C *)a0)->unk34;
-    src[0] = ((Unkstruct_800CBAA4 *)p)->unk6;
-    src[1] = ((Unkstruct_800CBAA4 *)p)->unkA - 0x28;
-    src[2] = ((Unkstruct_800CBAA4 *)p)->unkE;
+    src[0] = ((Unkstruct_8017C218_2 *)p)->unk6;
+    src[1] = ((Unkstruct_8017C218_2 *)p)->unkA - 0x28;
+    src[2] = ((Unkstruct_8017C218_2 *)p)->unkE;
     func_800D20C0((void *)src, (void *)mtx, 6);
     ((Unkstruct_8016DF5C *)a0)->unk4.v1.unk2 = src[0];
     ((Unkstruct_8016DF5C *)a0)->unkA = src[1];

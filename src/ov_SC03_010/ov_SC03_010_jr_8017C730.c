@@ -3655,17 +3655,17 @@ extern u8 D_8019FFE0;
 void func_8017EA58(s32 param_1) {
     s32 var_s0;
 
-    if (((Unkstruct_8017EA58 *)param_1)->unk2 == 0) {
-        guess_InitObjectKind6(((Unkstruct_8017EA58 *)param_1)->unk20, &D_8019FFA0);
-        *(s32 *)((((Unkstruct_8017EA58 *)param_1)->unk20) + 4) |= 0x50000000;
-        ((Unkstruct_8017EA58 *)param_1)->unk2 += 1;
+    if (((Unkstruct_8018063C *)param_1)->unk2 == 0) {
+        guess_InitObjectKind6(((Unkstruct_8018063C *)param_1)->unk20, &D_8019FFA0);
+        *(s32 *)((((Unkstruct_8018063C *)param_1)->unk20) + 4) |= 0x50000000;
+        ((Unkstruct_8018063C *)param_1)->unk2 += 1;
         return;
     }
-    var_s0 = ((Unkstruct_8017EA58 *)param_1)->unk34;
+    var_s0 = ((Unkstruct_8018063C *)param_1)->unk34;
     if ((guess_GetGameVarByte(0xCE) & 0xFF) >= var_s0) {
-        *(s32 *)((((Unkstruct_8017EA58 *)param_1)->unk20) + 0x20) = (s32)&D_8019FFE0;
+        *(s32 *)((((Unkstruct_8018063C *)param_1)->unk20) + 0x20) = (s32)&D_8019FFE0;
     } else {
-        *(s32 *)((((Unkstruct_8017EA58 *)param_1)->unk20) + 0x20) = (s32)&D_8019FFA0;
+        *(s32 *)((((Unkstruct_8018063C *)param_1)->unk20) + 0x20) = (s32)&D_8019FFA0;
     }
 }
 

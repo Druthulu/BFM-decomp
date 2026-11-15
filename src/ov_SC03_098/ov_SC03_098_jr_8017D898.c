@@ -4343,9 +4343,9 @@ void func_80181430(s32 a0) {
 
     sub = ((Unkstruct_80181430 *)a0)->unk20;
     t = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
-    ((Unkstruct_80181430_2 *)sub)->unk1C = t;
-    ((Unkstruct_80181430_2 *)sub)->unk1A = t;
-    ((Unkstruct_80181430_2 *)sub)->unk18 = t;
+    ((Unkstruct_8017E7B4_2 *)sub)->unk1C = t;
+    ((Unkstruct_8017E7B4_2 *)sub)->unk1A = t;
+    ((Unkstruct_8017E7B4_2 *)sub)->unk18 = t;
     ((Unkstruct_80181430 *)a0)->unk1C = ((Unkstruct_80181430 *)a0)->unk1C + 1;
     if (((Unkstruct_80181430 *)a0)->unk1C < 17) {
         return;

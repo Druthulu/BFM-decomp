@@ -119,10 +119,10 @@ void func_800CAFE0(s32 param_1) {
     func_8001CC3C(node, D_800D387C,
                   *(s16 *)((s32)&D_800CB5F4 + (sext >> 15)),
                   *(s16 *)((s32)&D_800CB5F6 + (sext >> 15)));
-    ((Unkstruct_800CAFE0_2 *)node)->unk1A = 0x2000;
-    ((Unkstruct_800CAFE0_2 *)node)->unk18 = 0x2000;
-    ((Unkstruct_800CAFE0_2 *)node)->unk27 = (sext >> 17) + 0x19;
-    ((Unkstruct_800CAFE0_2 *)node)->unk4 |= 0xC0000000;
+    ((Unkstruct_8017F200 *)node)->unk1A = 0x2000;
+    ((Unkstruct_8017F200 *)node)->unk18 = 0x2000;
+    ((Unkstruct_8017F200 *)node)->unk27 = (sext >> 17) + 0x19;
+    ((Unkstruct_8017F200 *)node)->unk4 |= 0xC0000000;
     save = *(u16 *)(param_1 + 0x30);
     *(s32 *)(param_1 + 0x20) = node;
     *(u16 *)(param_1 + 2) = 2;

@@ -4997,9 +4997,9 @@ void func_80180730(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->f6 + tmp;
-        psVar7[1] = b58->fa;
-        psVar7[2] = b58->fe + (tmp >> 16);
+        psVar7[0] = b58->unk6 + tmp;
+        psVar7[1] = b58->unkA;
+        psVar7[2] = b58->unkE + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x80;

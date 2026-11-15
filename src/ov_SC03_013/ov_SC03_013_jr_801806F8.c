@@ -3076,9 +3076,9 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 void func_80180EC0(s32 a0)
 {
-    if (((Unkstruct_80180EC0 *)a0)->unk74 != 0) {
-        ((Unkstruct_80180EC0 *)a0)->unk2 = 1;
-        ((Unkstruct_80180EC0 *)a0)->unk1C = 1;
+    if (((Unkstruct_8017FE88 *)a0)->unk74 != 0) {
+        ((Unkstruct_8017FE88 *)a0)->unk2 = 1;
+        ((Unkstruct_8017FE88 *)a0)->unk1C = 1;
     }
 }
 

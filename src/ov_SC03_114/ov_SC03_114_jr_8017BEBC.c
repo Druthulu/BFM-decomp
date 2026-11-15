@@ -3430,12 +3430,12 @@ void func_8017E070(s32 param_1, s32 param_2)
 
     p2 = param_2;
     func_800139C8(p2, D_8018326C, buf20);
-    buf20[0] += ((Unkstruct_8017E070_2 *)param_1)->unk6;
+    buf20[0] += ((Unkstruct_8017C218_2 *)param_1)->unk6;
     r1 = rand();
     r2 = rand();
     t = (r1 & 0xF) - 0xC0;
-    buf20[1] += (((Unkstruct_8017E070_2 *)param_1)->unkA - t) - (r2 & 0xF);
-    buf20[2] += ((Unkstruct_8017E070_2 *)param_1)->unkE;
+    buf20[1] += (((Unkstruct_8017C218_2 *)param_1)->unkA - t) - (r2 & 0xF);
+    buf20[2] += ((Unkstruct_8017C218_2 *)param_1)->unkE;
     buf20[3] = 8;
     func_8001382C(p2, D_80183274, buf10);
     buf10[3] = (s32)D_80183280;

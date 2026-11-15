@@ -4960,9 +4960,9 @@ s32 func_80187EF4(s32 arg0, u16 arg1) {
     s32 base;
 
     base = (s32)&guess_g_PlayerActor;
-    sp10[0] = ((Unkstruct_80183FD0 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_80183FD0 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_80183FD0 *)arg0)->unkE;
+    sp10[0] = ((Unkstruct_8017C218_2 *)arg0)->unk6;
+    sp10[1] = ((Unkstruct_8017C218_2 *)arg0)->unkA;
+    sp10[2] = ((Unkstruct_8017C218_2 *)arg0)->unkE;
     ((void (*)(s32, s32))guess_WorldToScreenFlag)((s32)sp10, (s32)sp18);
     x = 0x7F;
     q = sp18[0];

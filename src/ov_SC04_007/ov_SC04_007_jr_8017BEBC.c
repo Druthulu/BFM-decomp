@@ -6447,9 +6447,9 @@ s32 func_80182358(s32 a0, u16 a1) {
     p = (u16 *)&guess_g_PlayerActor;
     pan = 7;
     vol = 0x7F;
-    sp10[0] = ((Unkstruct_80182358 *)a0)->unk6;
-    sp10[1] = ((Unkstruct_80182358 *)a0)->unkA;
-    sp10[2] = ((Unkstruct_80182358 *)a0)->unkE;
+    sp10[0] = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    sp10[1] = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    sp10[2] = ((Unkstruct_8017C218_2 *)a0)->unkE;
     ((void (*)(s16 *, s16 *))guess_WorldToScreenFlag)(sp10, sp18);
     v = sp18[0];
     do { sp18[2] = 0; } while (0);  // !FAKE: do-while — sched1 LOOP-note barrier keeps the sh after the lh so no mem-unit stall pulls vol=0x7F past the jal (sched.c:2058-2074, schedule_select :2616) (P36 S104 d4)

@@ -4189,13 +4189,13 @@ void func_8018BB9C(s32 param_1)
     ((Unkstruct_8018BB9C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
 
     // v0 = *(u16*)(param_1 + 0x34) & 0x7FFF;
-    v0 = ((Unkstruct_8018BB9C *)param_1)->unk34 & 0x7FFF;
+    v0 = ((Unkstruct_80143458 *)param_1)->unk34 & 0x7FFF;
 
     if (v0) {
-        v1 = ((Unkstruct_8018BB9C *)param_1)->unk20;
+        v1 = ((Unkstruct_80143458 *)param_1)->unk20;
         ((Unkstruct_8018BB9C_2 *)v1)->unk1A = v0;
     } else {
-        v1 = ((Unkstruct_8018BB9C *)param_1)->unk20;
+        v1 = ((Unkstruct_80143458 *)param_1)->unk20;
         v0 = 0x3000;
         ((Unkstruct_8018BB9C_2 *)v1)->unk1A = v0;
     }
@@ -4206,7 +4206,7 @@ void func_8018BB9C(s32 param_1)
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196774);
 
     // *(u16*)(param_1 + 0x2) = *(u16*)(param_1 + 0x2) + 1;
-    ((Unkstruct_8018BB9C *)param_1)->unk2 = ((Unkstruct_8018BB9C *)param_1)->unk2 + 1;
+    ((Unkstruct_80143458 *)param_1)->unk2 = ((Unkstruct_80143458 *)param_1)->unk2 + 1;
 }
 
 
@@ -4249,11 +4249,11 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8018BD14(s32 param_1)
 {
-    ((Unkstruct_8018BD14_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8019681C;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8019681C;
 
-    ((Unkstruct_8018BD14_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
-    ((Unkstruct_8018BD14_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x65;
+    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x65;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196828);
 
@@ -5697,9 +5697,9 @@ void func_8018DAE0(void *a0) {
 extern s32 D_80196C14;
 
 void func_8018DB1C(s32 arg0) {
-    ((Unkstruct_8018DB1C *)arg0)->unk58 = &D_80196C14;
-    ((Unkstruct_8018DB1C *)arg0)->unk1C = 0x18;
-    ((Unkstruct_8018DB1C *)arg0)->unk2 += 1;
+    ((Unkstruct_80186B0C *)arg0)->unk58 = &D_80196C14;
+    ((Unkstruct_80186B0C *)arg0)->unk1C = 0x18;
+    ((Unkstruct_80186B0C *)arg0)->unk2 += 1;
 }
 
 

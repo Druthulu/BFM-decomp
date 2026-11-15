@@ -6967,9 +6967,9 @@ void func_801821E0(s32 param_1)
             RotTransSV(D_80192EB4, &v, &out);
             CAST_ALIAS(u16, (u8 *)s0, 0x6) = *(u16 *)&v.a;
             CAST_ALIAS(u16, (u8 *)s0, 0xA) = *(u16 *)&v.b;
-            ((Unkstruct_801821E0 *)s0)->unkE = *(u16 *)&v.c;
+            ((Unkstruct_801819D0_2 *)s0)->unkE = *(u16 *)&v.c;
             ApplyRotMatrixLV(D_80192EBC, (void *)(param_1 + 0x10));
-            ((Unkstruct_801821E0 *)s0)->unk34 = 0x4000;
+            ((Unkstruct_801819D0_2 *)s0)->unk34 = 0x4000;
         }
         s2 = s2 + 0x200;
     } while (s2 < 0x1000);
@@ -7687,9 +7687,9 @@ void func_80183360(void *a0) {
     u16 in[3];
     s16 out[2];
 
-    in[0] = ((Unkstruct_80180000 *)a0)->unk6;
-    in[1] = ((Unkstruct_80180000 *)a0)->unkA;
-    in[2] = ((Unkstruct_80180000 *)a0)->unkE;
+    in[0] = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    in[1] = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    in[2] = ((Unkstruct_8017C218_2 *)a0)->unkE;
 
     ((void (*)(u16 *, s16 *))guess_WorldToScreenFlag)(in, out);
 

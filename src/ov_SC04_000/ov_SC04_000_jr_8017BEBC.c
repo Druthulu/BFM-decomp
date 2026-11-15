@@ -5351,8 +5351,8 @@ void func_8018091C(void *a0) {
         ((void (*)(s32, s32))func_80178CBC)((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8018091C_3 *)a0)->unk2 = 4;
-    ((Unkstruct_8018091C_3 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
+    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
 }
 
 

@@ -3892,8 +3892,8 @@ void func_8017E9F4(s32 param_1)
     s16 sVar1;
     u16 uVar2;
 
-    *(u16 *)(((Unkstruct_8017E9F4 *)param_1)->unk20 + 0x14) =
-        *(u16 *)(((Unkstruct_8017E9F4 *)param_1)->unk20 + 0x14) + ((Unkstruct_8017E9F4 *)param_1)->unkFC;
+    *(u16 *)(((Unkstruct_8017DCD0 *)param_1)->unk20 + 0x14) =
+        *(u16 *)(((Unkstruct_8017DCD0 *)param_1)->unk20 + 0x14) + ((Unkstruct_8017DCD0 *)param_1)->unkFC;
 
     obj = (s32)&guess_g_PlayerPosY;
     /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare
@@ -3901,18 +3901,18 @@ void func_8017E9F4(s32 param_1)
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
     if (((Unkstruct_8017E9F4_2 *)obj)->unk0 < -0x4E0) {
-        diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_8017E9F4 *)param_1)->unkE;
+        diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_8017DCD0 *)param_1)->unkE;
         if (diff < 0x140) {
-            uVar2 = ((Unkstruct_8017E9F4 *)param_1)->unkFC - 0x10;
-            ((Unkstruct_8017E9F4 *)param_1)->unkFC = uVar2;
+            uVar2 = ((Unkstruct_8017DCD0 *)param_1)->unkFC - 0x10;
+            ((Unkstruct_8017DCD0 *)param_1)->unkFC = uVar2;
             if ((s16)uVar2 < 0) {
-                ((Unkstruct_8017E9F4 *)param_1)->unkFC = 0;
+                ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0;
             }
         } else {
-            sVar1 = ((Unkstruct_8017E9F4 *)param_1)->unkFC + 0x10;
-            ((Unkstruct_8017E9F4 *)param_1)->unkFC = sVar1;
+            sVar1 = ((Unkstruct_8017DCD0 *)param_1)->unkFC + 0x10;
+            ((Unkstruct_8017DCD0 *)param_1)->unkFC = sVar1;
             if (sVar1 > 0x300) {
-                ((Unkstruct_8017E9F4 *)param_1)->unkFC = 0x300;
+                ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0x300;
             }
             if ((diff < 0x900) && (func_800CF8B4() != 0) && (func_8014CB8C() == 0)) {
                 quotient = (CAST_SIGN(s16, param_1, 0xFC) * 0xD) / 0x300;
@@ -3922,22 +3922,22 @@ void func_8017E9F4(s32 param_1)
                 }
                 guess_g_PlayerPosZ = guess_g_PlayerPosZ + quotient;
                 guess_RequestSound(0x978, ((quotient * 0x7F / 0xD) | 0x1000) & 0xFFFF);
-                ((Unkstruct_8017E9F4 *)param_1)->unkFE = 1;
+                ((Unkstruct_8017DCD0 *)param_1)->unkFE = 1;
             }
         }
     } else {
-        sVar1 = ((Unkstruct_8017E9F4 *)param_1)->unkFC + 0x10;
-        ((Unkstruct_8017E9F4 *)param_1)->unkFC = sVar1;
+        sVar1 = ((Unkstruct_8017DCD0 *)param_1)->unkFC + 0x10;
+        ((Unkstruct_8017DCD0 *)param_1)->unkFC = sVar1;
         if (sVar1 > 0x300) {
-            ((Unkstruct_8017E9F4 *)param_1)->unkFC = 0x300;
+            ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0x300;
         }
     }
 
-    if (((Unkstruct_8017E9F4 *)param_1)->unk1C != 0) {
-        ((Unkstruct_8017E9F4 *)param_1)->unk1C = ((Unkstruct_8017E9F4 *)param_1)->unk1C - 1;
+    if (((Unkstruct_8017DCD0 *)param_1)->unk1C != 0) {
+        ((Unkstruct_8017DCD0 *)param_1)->unk1C = ((Unkstruct_8017DCD0 *)param_1)->unk1C - 1;
     } else {
         if (CAST_SIGN(s16, param_1, 0xFC) > 0x40) {
-            ((Unkstruct_8017E9F4 *)param_1)->unk1C = 3;
+            ((Unkstruct_8017DCD0 *)param_1)->unk1C = 3;
             obj = func_80143C74(param_1, 0);
             if (obj != 0) {
                 ((Unkstruct_8017E9F4_2 *)obj)->unk6 = rand() % 0x120 - 0xE0;
@@ -3953,11 +3953,11 @@ void func_8017E9F4(s32 param_1)
     }
 
     if (CAST_SIGN(s16, param_1, 0xFE) == 2) {
-        ((Unkstruct_8017E9F4 *)param_1)->unkFE = 0;
+        ((Unkstruct_8017DCD0 *)param_1)->unkFE = 0;
         guess_RequestSound(4, 0x978);
     }
     if (CAST_SIGN(s16, param_1, 0xFE) == 1) {
-        ((Unkstruct_8017E9F4 *)param_1)->unkFE = 2;
+        ((Unkstruct_8017DCD0 *)param_1)->unkFE = 2;
     }
 }
 

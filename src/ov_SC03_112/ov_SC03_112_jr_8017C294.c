@@ -4736,20 +4736,20 @@ void func_80180440(s32 a0) {
 
 
 void func_80180530(s32 param_1) {
-    s32 cond = ((Unkstruct_80180530 *)param_1)->unkAA;
-    ((Unkstruct_80180530 *)param_1)->unk5C = 0;
-    ((Unkstruct_80180530 *)param_1)->unk98 = 0;
-    ((Unkstruct_80180530 *)param_1)->unk1C = 0;
+    s32 cond = ((Unkstruct_8017E418 *)param_1)->unkAA;
+    ((Unkstruct_8017E418 *)param_1)->unk5C = 0;
+    ((Unkstruct_8017E418 *)param_1)->unk98 = 0;
+    ((Unkstruct_8017E418 *)param_1)->unk1C = 0;
     if (cond == 0) {
-        s32 w = ((Unkstruct_80180530 *)param_1)->unkDC;
+        s32 w = ((Unkstruct_8017E418 *)param_1)->unkDC;
         s32 h = ((Unkstruct_80180530_2 *)*(s32 *)(param_1 + 0x20))->unk18;
         w &= ~0x80;
-        ((Unkstruct_80180530 *)param_1)->unkDC = w;
-        ((Unkstruct_80180530 *)param_1)->unk100 = h;
+        ((Unkstruct_8017E418 *)param_1)->unkDC = w;
+        ((Unkstruct_8017E418 *)param_1)->unk100 = h;
     } else {
         s32 h = ((Unkstruct_80180530_2 *)*(s32 *)(param_1 + 0x20))->unk18;
-        ((Unkstruct_80180530 *)param_1)->unkDC |= 0x80;
-        ((Unkstruct_80180530 *)param_1)->unk104 = h;
+        ((Unkstruct_8017E418 *)param_1)->unkDC |= 0x80;
+        ((Unkstruct_8017E418 *)param_1)->unk104 = h;
     }
 }
 

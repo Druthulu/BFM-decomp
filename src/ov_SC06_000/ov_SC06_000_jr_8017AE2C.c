@@ -6003,9 +6003,9 @@ void func_80180740(void *a0)
     if (v > 0) {
         ((void (*)(void *))func_801801E8)(a0);
     } else {
-        ((Unkstruct_8017E948_2 *)obj)->unk64 = 0x1000;
-        ((Unkstruct_8017E948_2 *)obj)->unk62 = 0x1000;
-        ((Unkstruct_8017E948_2 *)obj)->unk60 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk64 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk62 = 0x1000;
+        ((Unkstruct_8017E778_2 *)obj)->unk60 = 0x1000;
         KR_AS(s32, guess_FreeSmallObject)();
     }
 }
@@ -6066,17 +6066,17 @@ void func_801807D0(void *a0)
     p = (s32)a0;
     obj = ((Unkstruct_8017E9D8 *)p)->unk34;
     r = rand();
-    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017E9D8_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
+    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017C218_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
     if (((Unkstruct_8017E9D8 *)p)->unk2C != 0) {
-        t = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = 0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t - 0x140;
     } else {
-        t2 = ((Unkstruct_8017E9D8_2 *)obj)->unkA;
+        t2 = ((Unkstruct_8017C218_2 *)obj)->unkA;
         ((Unkstruct_8017E9D8 *)p)->unk16 = -0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t2;
     }
-    e = ((Unkstruct_8017E9D8_2 *)obj)->unkE;
+    e = ((Unkstruct_8017C218_2 *)obj)->unkE;
     c = ((Unkstruct_8017E9D8 *)p)->unk2;
     ((Unkstruct_8017E9D8 *)p)->unk30 = (r >> 12) & 3;
     d = ((r >> 6) & 0x3F) - 0x20;
@@ -9263,9 +9263,9 @@ void func_8018562C(void *a0, void *a1) {
 
     func_80017D98(mb.m[0]);
     func_80017DF8(a1, mb.m[0]);
-    mb.t[0] = ((Unkstruct_8018562C *)a0)->unk6;
-    mb.t[1] = ((Unkstruct_8018562C *)a0)->unkA;
-    mb.t[2] = ((Unkstruct_8018562C *)a0)->unkE;
+    mb.t[0] = ((Unkstruct_8016E7C8 *)a0)->unk6;
+    mb.t[1] = ((Unkstruct_8016E7C8 *)a0)->unkA;
+    mb.t[2] = ((Unkstruct_8016E7C8 *)a0)->unkE;
     b.tail = *(Q_8018562C *)((s8 *)a1 + 8);
     b.head = b.tail;
     b.head.h0 = b.head.h0 - 0x20;
@@ -9324,9 +9324,9 @@ void func_80185764(s32 a0, s32 *a1)
 
     func_80017D98(mb.m[0]);
     func_80017DF8(a1, mb.m[0]);
-    mb.t[0] = ((Unkstruct_8018562C *)a0)->unk6;
-    mb.t[1] = ((Unkstruct_8018562C *)a0)->unkA - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
-    mb.t[2] = ((Unkstruct_8018562C *)a0)->unkE;
+    mb.t[0] = ((Unkstruct_8016E7C8 *)a0)->unk6;
+    mb.t[1] = ((Unkstruct_8016E7C8 *)a0)->unkA - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
+    mb.t[2] = ((Unkstruct_8016E7C8 *)a0)->unkE;
     guess_RotTransSVWithMatrix(mb.m[0], (s8 *)a1 + 8, buf);
     buf[3] = 0xA;
     func_801858E8(buf);

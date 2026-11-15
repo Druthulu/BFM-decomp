@@ -2991,31 +2991,31 @@ void func_8017D3A0(s32 a0)
         func_8005A600((s32)p, 0, 0, (u16)tp, 0);
 
         /* r0,r1,r2,r3 then g0..g3 then b0..b3 -- one load each */
-        ((Unkstruct_8017D3A0 *)p)->unk10 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk18 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk20 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk28 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk11 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk19 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk21 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk29 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk12 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk1A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk22 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_8017D3A0 *)p)->unk2A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk10 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk18 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk20 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk28 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk11 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk19 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk21 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk29 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk12 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk1A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk22 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk2A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
 
-        ((Unkstruct_8017D3A0 *)p)->unkF = 8;      /* tag len  */
-        ((Unkstruct_8017D3A0 *)p)->unk13 = 0x3A;  /* code     */
+        ((Unkstruct_801813E8_2 *)p)->unkF = 8;      /* tag len  */
+        ((Unkstruct_801813E8_2 *)p)->unk13 = 0x3A;  /* code     */
 
-        ((Unkstruct_8017D3A0 *)p)->unk1C = 0xA0;   /* x1 */
-        ((Unkstruct_8017D3A0 *)p)->unk2C = 0xA0;   /* x3 */
-        ((Unkstruct_8017D3A0 *)p)->unk16 = -0x78;  /* y0 */
-        ((Unkstruct_8017D3A0 *)p)->unk1E = -0x78;  /* y1 */
+        ((Unkstruct_801813E8_2 *)p)->unk1C = 0xA0;   /* x1 */
+        ((Unkstruct_801813E8_2 *)p)->unk2C = 0xA0;   /* x3 */
+        ((Unkstruct_801813E8_2 *)p)->unk16 = -0x78;  /* y0 */
+        ((Unkstruct_801813E8_2 *)p)->unk1E = -0x78;  /* y1 */
         c1 = -0xA0;
-        ((Unkstruct_8017D3A0 *)p)->unk14 = c1;     /* x0 */
-        ((Unkstruct_8017D3A0 *)p)->unk24 = c1;     /* x2 */
-        ((Unkstruct_8017D3A0 *)p)->unk26 = 0x78;   /* y2 */
-        ((Unkstruct_8017D3A0 *)p)->unk2E = 0x78;   /* y3 */
+        ((Unkstruct_801813E8_2 *)p)->unk14 = c1;     /* x0 */
+        ((Unkstruct_801813E8_2 *)p)->unk24 = c1;     /* x2 */
+        ((Unkstruct_801813E8_2 *)p)->unk26 = 0x78;   /* y2 */
+        ((Unkstruct_801813E8_2 *)p)->unk2E = 0x78;   /* y3 */
 
         AddPrim(ot, p + 0xC);
         AddPrim(ot, p);

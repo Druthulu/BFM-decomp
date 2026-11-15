@@ -7710,11 +7710,11 @@ void func_80183C54(s32 param_1)
             RotMatrixY(i, &m);
             SetRotMatrix(&m);
             RotTransSV(D_801A1F54, out, sv);
-            ((Unkstruct_80183C54 *)ent)->unk6 = out[0];
-            ((Unkstruct_80183C54 *)ent)->unkA = out[1];
-            ((Unkstruct_80183C54 *)ent)->unkE = out[2];
+            ((Unkstruct_801819D0_2 *)ent)->unk6 = out[0];
+            ((Unkstruct_801819D0_2 *)ent)->unkA = out[1];
+            ((Unkstruct_801819D0_2 *)ent)->unkE = out[2];
             ApplyRotMatrixLV(D_801A1F5C, param_1 + 0x10);
-            ((Unkstruct_80183C54 *)ent)->unk34 = 0x4000;
+            ((Unkstruct_801819D0_2 *)ent)->unk34 = 0x4000;
         }
         i += 0x200;
     } while (i < 0x1000);
@@ -8093,9 +8093,9 @@ void func_801844E8(void *a0) {
     s16 out2[2];
     s32 v;
 
-    in3[0] = ((Unkstruct_80180000 *)a0)->unk6;
-    in3[1] = ((Unkstruct_80180000 *)a0)->unkA;
-    in3[2] = ((Unkstruct_80180000 *)a0)->unkE;
+    in3[0] = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    in3[1] = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    in3[2] = ((Unkstruct_8017C218_2 *)a0)->unkE;
 
     ((u32 (*)(u16 *, s16 *))guess_WorldToScreenFlag)(in3, out2);
 
@@ -9792,9 +9792,9 @@ s32 func_8018691C(s32 a0, u16 a1) {
     p = (u16 *)&guess_g_PlayerActor;
     pan = 7;
     vol = 0x7F;
-    sp10[0] = ((Unkstruct_80182358 *)a0)->unk6;
-    sp10[1] = ((Unkstruct_80182358 *)a0)->unkA;
-    sp10[2] = ((Unkstruct_80182358 *)a0)->unkE;
+    sp10[0] = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    sp10[1] = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    sp10[2] = ((Unkstruct_8017C218_2 *)a0)->unkE;
     ((void (*)(s16 *, s16 *))guess_WorldToScreenFlag)(sp10, sp18);
     v = sp18[0];
     do { sp18[2] = 0; } while (0);  // !FAKE: do-while — sched1 LOOP-note barrier keeps the sh after the lh so no mem-unit stall pulls vol=0x7F past the jal (sched.c:2058-2074, schedule_select :2616) (P36 S104 d4)

@@ -3337,11 +3337,11 @@ void func_801A4EBC(u8 *a0)
         m = *(Mat32_801A4EBC *)&D_800AE620;
         mp = &m;
 
-        RotMatrixY(*(s16 *)(((Unkstruct_801A4EBC *)*(s32 *)(s1 + 0x64))->unk20 + 0x12), mp);
+        RotMatrixY(*(s16 *)(((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unk20 + 0x12), mp);
 
-        m.t0 = ((Unkstruct_801A4EBC *)*(s32 *)(s1 + 0x64))->unk6;
-        m.t1 = ((Unkstruct_801A4EBC *)*(s32 *)(s1 + 0x64))->unkA;
-        m.t2 = ((Unkstruct_801A4EBC *)*(s32 *)(s1 + 0x64))->unkE;
+        m.t0 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unk6;
+        m.t1 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unkA;
+        m.t2 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unkE;
 
         SetRotMatrix(mp);
         SetTransMatrix(mp);
@@ -5127,12 +5127,12 @@ void func_801A7C58(s32 a0) {
         j += 4;
     } while (i < 0x30);
 
-    temp = ((Unkstruct_801A7C58_2 *)a0)->unk20;
-    ((Unkstruct_801A7C58_2 *)a0)->unk1C = 6;
+    temp = ((Unkstruct_801AC8B8 *)a0)->unk20;
+    ((Unkstruct_801AC8B8 *)a0)->unk1C = 6;
     ((Unkstruct_801A7C58_3 *)temp)->unk1A = 0x400;
     ((Unkstruct_801A7C58_3 *)temp)->unk18 = 0x400;
-    ((Unkstruct_801A7C58_2 *)a0)->unk2 = 3;
-    ((Unkstruct_801A7C58_2 *)a0)->unk2C = 0;
+    ((Unkstruct_801AC8B8 *)a0)->unk2 = 3;
+    ((Unkstruct_801AC8B8 *)a0)->unk2C = 0;
 }
 
 
@@ -6895,9 +6895,9 @@ void func_801AA60C(s32 param_1, s32 param_2)
     SetRotMatrix(&guess_g_CameraWsMatrix);
     p1 = param_1;
     SetTransMatrix(&guess_g_CameraWsMatrix);
-    f.in[0] = ((Unkstruct_801AA60C *)p1)->unk6;
-    f.in[1] = ((Unkstruct_801AA60C *)p1)->unkA;
-    f.in[2] = ((Unkstruct_801AA60C *)p1)->unkE;
+    f.in[0] = ((Unkstruct_8016E7C8 *)p1)->unk6;
+    f.in[1] = ((Unkstruct_8016E7C8 *)p1)->unkA;
+    f.in[2] = ((Unkstruct_8016E7C8 *)p1)->unkE;
     RotTransPers((s32)f.in, (s32)f.xy, &f.p, &f.flag);
     if (f.flag >= 0 && (u16)(f.xy[0] + 0xC8) < 0x191 && (u16)(f.xy[1] + 0xAA) < 0x155) {
         f.xy[0] = f.xy[0] + 0xA0;
@@ -7033,9 +7033,9 @@ void func_801AA9D4(s32 a0, s32 a1) {
     work = (s32)func_8012913C(0x71);
 
     if (a0 != 0) {
-        ((Unkstruct_801AA9D4 *)work)->unk6 = ((Unkstruct_801AA9D4_2 *)a0)->unk6;
-        ((Unkstruct_801AA9D4 *)work)->unkA = ((Unkstruct_801AA9D4_2 *)a0)->unkA;
-        ((Unkstruct_801AA9D4 *)work)->unkE = ((Unkstruct_801AA9D4_2 *)a0)->unkE;
+        ((Unkstruct_801AA9D4 *)work)->unk6 = ((Unkstruct_8017C218_2 *)a0)->unk6;
+        ((Unkstruct_801AA9D4 *)work)->unkA = ((Unkstruct_8017C218_2 *)a0)->unkA;
+        ((Unkstruct_801AA9D4 *)work)->unkE = ((Unkstruct_8017C218_2 *)a0)->unkE;
         ptr = ((Unkstruct_801AA9D4 *)work)->unk20;
         CAST_WIDTH(Blk8_md_SC07_004_801AA9D4, ptr, 0x10) = *(Blk8_md_SC07_004_801AA9D4 *)a1;
         ((Unkstruct_801AA9D4 *)work)->unk30 = 5;
@@ -7903,14 +7903,14 @@ void func_801ABC04(void *a0) {
 
     func_8001CC3C(((Unkstruct_801ABC04 *)a0)->unk20, (s32)D_801B03F4, 0x2F8, 0x1C0);
 
-    ((Unkstruct_801ABC04_2 *)*(s32 *)((s32)a0 + 0x20))->unk4 |= 0x58000000;
+    ((Unkstruct_8017F200 *)*(s32 *)((s32)a0 + 0x20))->unk4 |= 0x58000000;
 
     h = (rand() & 0xF8) | 0x200;
     t = ((Unkstruct_801ABC04 *)a0)->unk20;
-    ((Unkstruct_801ABC04_2 *)t)->unk1A = h;
-    ((Unkstruct_801ABC04_2 *)t)->unk18 = h;
+    ((Unkstruct_8017F200 *)t)->unk1A = h;
+    ((Unkstruct_8017F200 *)t)->unk18 = h;
 
-    ((Unkstruct_801ABC04_2 *)*(s32 *)((s32)a0 + 0x20))->unk27 = 0x55;
+    ((Unkstruct_8017F200 *)*(s32 *)((s32)a0 + 0x20))->unk27 = 0x55;
 
     ((Unkstruct_801ABC04 *)a0)->unk2 += 1;
 }
@@ -10371,8 +10371,8 @@ void func_801AF368(void *a0)
     gte_stsz(stk + 0x4c);
     gte_stszotz(stk + 0x50);
 
-    if ((((Unkstruct_801AF368_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
-        idx = ((Unkstruct_801AF368_3 *)stk)->unk50 + 1;
+    if ((((Unkstruct_8017E2EC_3 *)stk)->unk48 & 0xFFFFEFFF) == 0) {
+        idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
         ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
             u16 flags2 = ((Unkstruct_8017E2EC_4 *)a0)->unk2C;
@@ -10389,26 +10389,26 @@ void func_801AF368(void *a0)
         if (idx < 0x1000) {
             d = (s32)&stk[0x08];
 
-            ((Unkstruct_801AF368_3 *)stk)->unk8 = ((Unkstruct_8017E2EC_4 *)a0)->unk18;
-            ((Unkstruct_801AF368_3 *)stk)->unkA = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unkC = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unkE = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk10 = ((Unkstruct_8017E2EC_4 *)a0)->unk18;
-            ((Unkstruct_801AF368_3 *)stk)->unk12 = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk14 = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk16 = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk18 = 0x1000;
-            ((Unkstruct_801AF368_3 *)stk)->unk24 = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk20 = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk1C = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_8017E2EC_4 *)a0)->unk18;
+            ((Unkstruct_8017E2EC_3 *)stk)->unkA = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unkC = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unkE = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_8017E2EC_4 *)a0)->unk18;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk12 = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk14 = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk16 = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk18 = 0x1000;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk24 = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk20 = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk1C = 0;
 
             RotMatrixZ(((Unkstruct_8017E2EC_4 *)a0)->unk14, (void *)d);
             gte_SetRotMatrix((void *)d);
             gte_SetTransMatrix((void *)d);
 
-            ((Unkstruct_801AF368_3 *)stk)->unk28 = 0x20;
-            ((Unkstruct_801AF368_3 *)stk)->unk2A = 0;
-            ((Unkstruct_801AF368_3 *)stk)->unk2C = (s16)((Unkstruct_801AF368_3 *)stk)->unk4C;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk28 = 0x20;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk2A = 0;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk2C = (s16)((Unkstruct_8017E2EC_3 *)stk)->unk4C;
             gte_ldv0(stk + 0x28);
             gte_rtps();
             gte_stsxy(stk + 0x54);

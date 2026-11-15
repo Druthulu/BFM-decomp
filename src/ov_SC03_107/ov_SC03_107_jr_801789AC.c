@@ -8598,21 +8598,21 @@ extern void func_8012E688(s32, u16, u16);
 
 void func_80180A9C(s32 a0)
 {
-    ((Unkstruct_80180A9C *)a0)->unk8 -= 0x80000;
-    ((Unkstruct_80180A9C *)a0)->unk4 += rsin(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
-    ((Unkstruct_80180A9C *)a0)->unkC += rcos(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
+    ((Unkstruct_801809E8 *)a0)->unk8 -= 0x80000;
+    ((Unkstruct_801809E8 *)a0)->unk4 += rsin(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
+    ((Unkstruct_801809E8 *)a0)->unkC += rcos(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
 
-    if (--((Unkstruct_80180A9C *)a0)->unkFE == 0) {
+    if (--((Unkstruct_801809E8 *)a0)->unkFE == 0) {
         if (guess_DistSqToPlayer(a0) < 0x4001) {
             if (func_8012BDBC(a0, 0x200) == 1) {
-                ((Unkstruct_80180A9C *)a0)->unk2 = 5;
-                ((Unkstruct_80180A9C *)a0)->unkFE = 4;
+                ((Unkstruct_801809E8 *)a0)->unk2 = 5;
+                ((Unkstruct_801809E8 *)a0)->unkFE = 4;
                 ((void (*)(s32, s32, s32))func_8012E688)(a0, 0x98F, 0);
             } else {
-                ((Unkstruct_80180A9C *)a0)->unk2 = 7;
+                ((Unkstruct_801809E8 *)a0)->unk2 = 7;
             }
         } else {
-            ((Unkstruct_80180A9C *)a0)->unk2 = 7;
+            ((Unkstruct_801809E8 *)a0)->unk2 = 7;
         }
     }
 }

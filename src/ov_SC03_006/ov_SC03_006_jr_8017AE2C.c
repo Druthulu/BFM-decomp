@@ -6447,10 +6447,10 @@ s32 func_801818D8(s32 a0, s32 a1) {
     Vec4h_801818D8 p2;
     s32 result;
 
-    p1.z = ((Unkstruct_801818D8 *)a1)->unkC;
-    p2.z = ((Unkstruct_801818D8 *)a1)->unkE;
-    p1.x = p2.x = ((Unkstruct_801818D8 *)a1)->unk4;
-    p1.y = p2.y = (s16)((Unkstruct_801818D8 *)a1)->unk8 >> 1;
+    p1.z = ((Unkstruct_80135480_6 *)a1)->unkC;
+    p2.z = ((Unkstruct_80135480_6 *)a1)->unkE;
+    p1.x = p2.x = ((Unkstruct_80135480_6 *)a1)->unk4;
+    p1.y = p2.y = (s16)((Unkstruct_80135480_6 *)a1)->unk8 >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
@@ -6462,13 +6462,13 @@ s32 func_801818D8(s32 a0, s32 a1) {
         goto save;
     }
 
-    p1.y = p2.y = (s16)((Unkstruct_801818D8 *)a1)->unkA >> 1;
+    p1.y = p2.y = (s16)((Unkstruct_80135480_6 *)a1)->unkA >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = ((Unkstruct_801818D8 *)a1)->unk6;
+    p1.x = p2.x = ((Unkstruct_80135480_6 *)a1)->unk6;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
@@ -6480,7 +6480,7 @@ s32 func_801818D8(s32 a0, s32 a1) {
         goto save;
     }
 
-    p1.y = p2.y = (s16)((Unkstruct_801818D8 *)a1)->unk8 >> 1;
+    p1.y = p2.y = (s16)((Unkstruct_80135480_6 *)a1)->unk8 >> 1;
     result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:
@@ -8757,12 +8757,12 @@ extern u8 D_801C8CBC[];
 
 void func_80184BF0(void *a0) {
     s32 s0 = (s32)a0;
-    ((Unkstruct_80184BF0 *)s0)->unk2 = 6;
+    ((Unkstruct_80184C9C *)s0)->unk2 = 6;
     guess_ClearVelocityAndSetGravity(s0);
     guess_SetForwardVelocity(s0, 0xFFFE8000);
     guess_StartActorSequence(s0, (void *)D_801C8CBC);
-    ((Unkstruct_80184BF0 *)s0)->unk1C = 0x96;
-    ((Unkstruct_80184BF0 *)s0)->unkE6 = 0;
+    ((Unkstruct_80184C9C *)s0)->unk1C = 0x96;
+    ((Unkstruct_80184C9C *)s0)->unkE6 = 0;
 }
 
 

@@ -2839,16 +2839,16 @@ void func_801800D0(s32 a0)
     {
         if (((Unkstruct_8017FC50 *)a0)->unkFC == 0)
         {
-            D_801D9750[0] = (s16)((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk18 >> 1;
-            D_801D9750[1] = (s16)((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk1A >> 1;
-            D_801D9754 = (s16)((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk1C >> 1;
+            D_801D9750[0] = (s16)((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk18 >> 1;
+            D_801D9750[1] = (s16)((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk1A >> 1;
+            D_801D9754 = (s16)((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk1C >> 1;
             CAST_ALIAS(s16, a0, 0xFC) = 1;
         }
         else
         {
-            ((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk18 = D_801D9750[0];
-            ((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk1A = D_801D9750[1];
-            ((Unkstruct_801800D0 *)*(s32 *)(a0 + 0x20))->unk1C = D_801D9754;
+            ((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk18 = D_801D9750[0];
+            ((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk1A = D_801D9750[1];
+            ((Unkstruct_8017F858_2 *)*(s32 *)(a0 + 0x20))->unk1C = D_801D9754;
         }
     }
 }

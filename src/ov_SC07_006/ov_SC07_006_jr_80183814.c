@@ -6049,8 +6049,8 @@ void func_80189FDC(s32 param_1)
     s32 s0;
 
     s1 = param_1;
-    s0 = ((Unkstruct_80189FDC_2 *)param_1)->unk20;
-    switch (((Unkstruct_80189FDC_2 *)param_1)->unk2C) {
+    s0 = ((Unkstruct_8017DE80_2 *)param_1)->unk20;
+    switch (((Unkstruct_8017DE80_2 *)param_1)->unk2C) {
     case 0:
         ((Unkstruct_80189FDC *)s0)->unk12 = 0x400;
         CAST_ALIAS(s32, (s32)s0, 4) |= 0x60000000;
@@ -6060,7 +6060,7 @@ void func_80189FDC(s32 param_1)
         D_801F6186 = 0;
         D_801F6181 = 0;
         D_801F6182 = 0;
-        ((Unkstruct_80189FDC_2 *)s1)->unk1C = 0x3C;
+        ((Unkstruct_8017DE80_2 *)s1)->unk1C = 0x3C;
         break;
     case 1:
         ((Unkstruct_80189FDC *)s0)->unk12 = 0x400;
@@ -6071,7 +6071,7 @@ void func_80189FDC(s32 param_1)
         D_801F6146 = 0;
         D_801F6141 = 0;
         D_801F6142 = 0;
-        ((Unkstruct_80189FDC_2 *)s1)->unk1C = 0x3C;
+        ((Unkstruct_8017DE80_2 *)s1)->unk1C = 0x3C;
         break;
     case 2:
         ((Unkstruct_80189FDC *)s0)->unk1E = 0xC00;
@@ -6080,7 +6080,7 @@ void func_80189FDC(s32 param_1)
         ((Unkstruct_80189FDC *)s0)->unk12 = rand();
         break;
     }
-    ((Unkstruct_80189FDC_2 *)s1)->unk2 += 1;
+    ((Unkstruct_8017DE80_2 *)s1)->unk2 += 1;
 }
 
 

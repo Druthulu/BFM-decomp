@@ -2994,11 +2994,11 @@ extern void func_801816CC(s32 a0);
 
 void func_801815F4(u8 *a0) {
     s32 c4;
-    ((Unkstruct_801815F4 *)a0)->unkE0 |= 0x28;
-    c4 = ((Unkstruct_801815F4 *)a0)->unkC4;
-    ((Unkstruct_801815F4 *)a0)->unk52 = 0;
-    ((Unkstruct_801815F4 *)a0)->unkAE |= 1;
-    ((Unkstruct_801815F4 *)a0)->unkC4 = c4 | 4;
+    ((Unkstruct_801809C0 *)a0)->unkE0 |= 0x28;
+    c4 = ((Unkstruct_801809C0 *)a0)->unkC4;
+    ((Unkstruct_801809C0 *)a0)->unk52 = 0;
+    ((Unkstruct_801809C0 *)a0)->unkAE |= 1;
+    ((Unkstruct_801809C0 *)a0)->unkC4 = c4 | 4;
     func_801816CC((s32)a0);
 }
 

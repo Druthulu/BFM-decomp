@@ -266,9 +266,9 @@ extern void guess_ClearObjectAndSubObject(u8 *);
 void func_800CD1A8(void *arg0) {
 
     guess_SpawnSmallObject(3, arg0,
-                  ((Unkstruct_800CD1A8 *)arg0)->unk6,
-                  ((Unkstruct_800CD1A8 *)arg0)->unkA,
-                  ((Unkstruct_800CD1A8 *)arg0)->unkE,
+                  ((Unkstruct_8016E7C8 *)arg0)->unk6,
+                  ((Unkstruct_8016E7C8 *)arg0)->unkA,
+                  ((Unkstruct_8016E7C8 *)arg0)->unkE,
                   0x8880000, 0x1800A000);
     ((void (*)(void *))guess_ClearObjectAndSubObject)(arg0);
 }

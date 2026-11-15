@@ -2972,15 +2972,15 @@ void func_8017F62C(void *a0, s16 a1)
     s32 a3;
 
     func_800139C8(a1, D_801A35C4, pos);
-    pos[0] = pos[0] + ((Unkstruct_8017F62C *)a0)->unk6;
+    pos[0] = pos[0] + ((Unkstruct_8017C218_2 *)a0)->unk6;
     t = rand();
     u = rand();
     v = (t & 0xF) - 0xC0;
-    a3 = ((Unkstruct_8017F62C *)a0)->unkA;
+    a3 = ((Unkstruct_8017C218_2 *)a0)->unkA;
     a3 = a3 - v;
     a3 = a3 - (u & 0xF);
     pos[1] = pos[1] + a3;
-    pos[2] = pos[2] + ((Unkstruct_8017F62C *)a0)->unkE;
+    pos[2] = pos[2] + ((Unkstruct_8017C218_2 *)a0)->unkE;
     pos[3] = 8;
     func_8001382C(a1, D_801A35CC, buf);
     buf[3] = D_801A35D8;

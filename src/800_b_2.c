@@ -6893,14 +6893,14 @@ s32 func_80034CF0(u8 *p) {
 
     self = D_80076118 + D_8006AEFC * 0x30;
 
-    ((Unkstruct_80034CF0 *)self)->unk8 = ((Unkstruct_80034CF0_2 *)p)->unk8;
-    ((Unkstruct_80034CF0 *)self)->unkC = ((Unkstruct_80034CF0_2 *)p)->unkC;
-    ((Unkstruct_80034CF0 *)self)->unk10 = ((Unkstruct_80034CF0_2 *)p)->unk10;
-    ((Unkstruct_80034CF0 *)self)->unk14 = ((Unkstruct_80034CF0_2 *)p)->unk14;
-    ((Unkstruct_80034CF0 *)self)->unk18 = ((Unkstruct_80034CF0_2 *)p)->unk18;
-    ((Unkstruct_80034CF0 *)self)->unk1C = ((Unkstruct_80034CF0_2 *)p)->unk1C;
-    ((Unkstruct_80034CF0 *)self)->unk20 = ((Unkstruct_80034CF0_2 *)p)->unk20;
-    ((Unkstruct_80034CF0 *)self)->unk24 = ((Unkstruct_80034CF0_2 *)p)->unk24;
+    ((Unkstruct_80034DFC *)self)->unk8 = ((Unkstruct_80034CF0_2 *)p)->unk8;
+    ((Unkstruct_80034DFC *)self)->unkC = ((Unkstruct_80034CF0_2 *)p)->unkC;
+    ((Unkstruct_80034DFC *)self)->unk10 = ((Unkstruct_80034CF0_2 *)p)->unk10;
+    ((Unkstruct_80034DFC *)self)->unk14 = ((Unkstruct_80034CF0_2 *)p)->unk14;
+    ((Unkstruct_80034DFC *)self)->unk18 = ((Unkstruct_80034CF0_2 *)p)->unk18;
+    ((Unkstruct_80034DFC *)self)->unk1C = ((Unkstruct_80034CF0_2 *)p)->unk1C;
+    ((Unkstruct_80034DFC *)self)->unk20 = ((Unkstruct_80034CF0_2 *)p)->unk20;
+    ((Unkstruct_80034DFC *)self)->unk24 = ((Unkstruct_80034CF0_2 *)p)->unk24;
     f28 = ((Unkstruct_80034CF0_2 *)p)->unk28;
 
     self[0] = 1;
@@ -6914,8 +6914,8 @@ s32 func_80034CF0(u8 *p) {
     D_8006AEF5 = saved;
 
     ret = oldIdx + 1;
-    ((Unkstruct_80034CF0 *)self)->unk28 = f28;
-    ((Unkstruct_80034CF0 *)self)->unk2C = oldIdx;
+    ((Unkstruct_80034DFC *)self)->unk28 = f28;
+    ((Unkstruct_80034DFC *)self)->unk2C = oldIdx;
     return ret;
 }
 

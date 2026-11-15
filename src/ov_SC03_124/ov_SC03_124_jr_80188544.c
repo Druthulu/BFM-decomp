@@ -4362,11 +4362,11 @@ void func_8018A3C8(s32 arg0) {
     s32 v0;
     s32 v1;
 
-    if (((Unkstruct_8018A3C8 *)arg0)->unkFC != 0) {
-        ((Unkstruct_8018A3C8 *)arg0)->unkFC -= 1;
-        *(s32 *)(((Unkstruct_8018A3C8 *)arg0)->unk20 + 4) ^= 0x80000000;
+    if (((Unkstruct_801819C8 *)arg0)->unkFC != 0) {
+        ((Unkstruct_801819C8 *)arg0)->unkFC -= 1;
+        *(s32 *)(((Unkstruct_801819C8 *)arg0)->unk20 + 4) ^= 0x80000000;
     }
-    v0 = ((Unkstruct_8018A3C8 *)arg0)->unkA - 0x30;
+    v0 = ((Unkstruct_801819C8 *)arg0)->unkA - 0x30;
     v1 = guess_g_PlayerPosY < v0;
     v0 = (s32)&D_801DE434;
     if (v1) {
@@ -4376,8 +4376,8 @@ void func_8018A3C8(s32 arg0) {
     v0 |= v1;
     v1 = 0x20000000;
     do { v0 |= v1; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
-    ((Unkstruct_8018A3C8 *)arg0)->unk58 = v0;
-    D_801DE4DC[((Unkstruct_8018A3C8 *)arg0)->unk2](arg0);
+    ((Unkstruct_801819C8 *)arg0)->unk58 = v0;
+    D_801DE4DC[((Unkstruct_801819C8 *)arg0)->unk2](arg0);
 }
 
 

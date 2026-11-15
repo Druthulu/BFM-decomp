@@ -3371,32 +3371,32 @@ void func_8017E22C(int param_1)
     int iVar5;
     short sVar2;
 
-    iVar5 = (int)D_801D4F2C + ((Unkstruct_8017E22C_2 *)param_1)->unk2C * 0x40;
+    iVar5 = (int)D_801D4F2C + ((Unkstruct_8017DA20 *)param_1)->unk2C * 0x40;
     iVar3 = ((int (*)(void))guess_AllocSpriteObject)();
     iVar3b = iVar3;
-    ((Unkstruct_8017E22C_2 *)param_1)->unk20 = iVar3;
+    ((Unkstruct_8017DA20 *)param_1)->unk20 = iVar3;
     if (iVar3 != 0) {
         ((void (*)(int, int))guess_InitObjectKind6)(iVar3, iVar5);
         ((void (*)(int, int))guess_BuildCircle12Points)(iVar5, 0x10);
         ((void (*)(int))func_8017E420)(iVar5);
         *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
-        if (((Unkstruct_8017E22C_2 *)param_1)->unk2C != 0) {
+        if (((Unkstruct_8017DA20 *)param_1)->unk2C != 0) {
             sVar2 = (rand() & 3) * 0x800 + 0x1000;
             ((Unkstruct_8017E22C_4 *)iVar3)->unk1A = sVar2;
             ((Unkstruct_8017E22C_4 *)iVar3)->unk18 = sVar2;
             *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
             if ((rand() & 1) != 0) {
-                ((Unkstruct_8017E22C_2 *)param_1)->unk12 = -((Unkstruct_8017E22C_2 *)param_1)->unk12;
+                ((Unkstruct_8017DA20 *)param_1)->unk12 = -((Unkstruct_8017DA20 *)param_1)->unk12;
             }
             *(unsigned short *)(param_1 + 0x1a) = (rand() & 0xf) + 3;
             if ((rand() & 1) != 0) {
-                ((Unkstruct_8017E22C_2 *)param_1)->unk1A = -((Unkstruct_8017E22C_2 *)param_1)->unk1A;
+                ((Unkstruct_8017DA20 *)param_1)->unk1A = -((Unkstruct_8017DA20 *)param_1)->unk1A;
             }
         } else {
             ((Unkstruct_8017E22C_4 *)iVar3b)->unk1A = 0x4000;
             ((Unkstruct_8017E22C_4 *)iVar3b)->unk18 = 0x4000;
         }
-        ((Unkstruct_8017E22C_2 *)param_1)->unk2 = ((Unkstruct_8017E22C_2 *)param_1)->unk2 + 1;
+        ((Unkstruct_8017DA20 *)param_1)->unk2 = ((Unkstruct_8017DA20 *)param_1)->unk2 + 1;
     } else {
         func_8017E3F0(param_1);
     }
@@ -8028,9 +8028,9 @@ void func_80185440(s32 p) {
 extern void guess_StartActorSequence(s32 a0, void * a1);
     extern short aD801CC358 __asm__("D_801CC358");
     void func_801854C0(short *a0) {
-        ((Unkstruct_801854C0 *)a0)->unk2 = 0x1D;
-        ((Unkstruct_801854C0 *)a0)->unk34 = 0;
-        ((Unkstruct_801854C0 *)a0)->unk1C = 0xf;
+        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
+        ((Unkstruct_80183554 *)a0)->unk34 = 0;
+        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (int)&aD801CC358);
     }
 
@@ -8282,9 +8282,9 @@ void func_8018598C(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->f6 + tmp;
-        psVar7[1] = b58->fa;
-        psVar7[2] = b58->fe + (tmp >> 16);
+        psVar7[0] = b58->unk6 + tmp;
+        psVar7[1] = b58->unkA;
+        psVar7[2] = b58->unkE + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x80;

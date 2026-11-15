@@ -208,9 +208,9 @@ void func_801A04D4(s32 arg0) {
 
     if (guess_GetPlayerControlScript() == 0) {
         func_80178B18((s32)s0, (s32)&D_801A698C);
-        ((Unkstruct_801A04D4 *)s0)->unk2 = 2;
-        ((Unkstruct_801A04D4 *)s0)->unk34 = 0;
-        ((Unkstruct_801A04D4 *)s0)->unk1C = 0;
+        ((Unkstruct_80183554 *)s0)->unk2 = 2;
+        ((Unkstruct_80183554 *)s0)->unk34 = 0;
+        ((Unkstruct_80183554 *)s0)->unk1C = 0;
     }
 }
 
@@ -3975,8 +3975,8 @@ void func_801A5AE0(void *a0) {
     func_8001CD50(((Unkstruct_801A5AE0 *)a0)->unk20, (s32)s1);
 
     ((Unkstruct_801A5AE0 *)a0)->unkA -= 0x100;
-    ((Unkstruct_801A5AE0_2 *)*(s32 *)((s32)a0 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_801A5AE0_2 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0x400;
+    ((Unkstruct_801816E4_2 *)*(s32 *)((s32)a0 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_801816E4_2 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0x400;
 
     ((Unkstruct_801A5AE0 *)a0)->unk2C = 0x10;
     guess_BuildCircle12Points(s1, 0x10);
@@ -3984,7 +3984,7 @@ void func_801A5AE0(void *a0) {
     *(Blk4_md_SC07_003 *)s1 = D_801A01CC;
     *(Blk4_md_SC07_003 *)D_801F4448 = D_801A01D0;
 
-    ((Unkstruct_801A5AE0_2 *)*(s32 *)((s32)a0 + 0x20))->unk1E = 0xC00;
+    ((Unkstruct_801816E4_2 *)*(s32 *)((s32)a0 + 0x20))->unk1E = 0xC00;
     ((Unkstruct_801A5AE0 *)a0)->unk2 += 1;
 }
 

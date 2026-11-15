@@ -3231,17 +3231,17 @@ void func_8018449C(s32 param_1) {
 
     prim = ((Unkstruct_8018449C_2 *)param_1)->unk20;
     var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
-    ((Unkstruct_8018449C *)prim)->unk18 = CAST_SIGN(u16, prim, 0x18) + var;
-    if (((Unkstruct_8018449C *)prim)->unk18 >= 0x2000) {
+    ((Unkstruct_8017E7B4_2 *)prim)->unk18 = CAST_SIGN(u16, prim, 0x18) + var;
+    if (((Unkstruct_8017E7B4_2 *)prim)->unk18 >= 0x2000) {
         ((Unkstruct_8018449C_2 *)param_1)->unk2 += 1;
     }
     var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
-    ((Unkstruct_8018449C *)prim)->unk1A = CAST_SIGN(u16, prim, 0x1A) + var;
+    ((Unkstruct_8017E7B4_2 *)prim)->unk1A = CAST_SIGN(u16, prim, 0x1A) + var;
     var = ((Unkstruct_8018449C_2 *)param_1)->unk2C;
     if (var < 0) {
         var += 3;
     }
-    ((Unkstruct_8018449C *)prim)->unk1C = CAST_SIGN(u16, prim, 0x1C) + (var >> 2);
+    ((Unkstruct_8017E7B4_2 *)prim)->unk1C = CAST_SIGN(u16, prim, 0x1C) + (var >> 2);
     ((Unkstruct_8018449C_2 *)param_1)->unk2C += 0x20;
 }
 

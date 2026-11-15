@@ -3107,9 +3107,9 @@ void func_801859AC(s32 p) {
 extern void guess_StartActorSequence(s32, void*);
     extern short D_801D33F4;
     void func_80185A2C(short *a0) {
-        ((Unkstruct_80185A2C *)a0)->unk2 = 0x1D;
-        ((Unkstruct_80185A2C *)a0)->unk34 = 0;
-        ((Unkstruct_80185A2C *)a0)->unk1C = 0xf;
+        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
+        ((Unkstruct_80183554 *)a0)->unk34 = 0;
+        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (int)&D_801D33F4);
     }
 
@@ -3368,9 +3368,9 @@ void func_80185EF8(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->f6 + tmp;
-        psVar7[1] = b58->fa;
-        psVar7[2] = b58->fe + (tmp >> 16);
+        psVar7[0] = b58->unk6 + tmp;
+        psVar7[1] = b58->unkA;
+        psVar7[2] = b58->unkE + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x80;

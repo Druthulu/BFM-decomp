@@ -4623,9 +4623,9 @@ void func_80180970(void *a0)
     {
         void *t;
         t = s0;
-        ((Unkstruct_80180970 *)t)->unk6 = -0x40;
-        ((Unkstruct_80180970 *)t)->unkE = 0x40;
-        ((Unkstruct_80180970 *)t)->unkA = -0x200;
+        ((Unkstruct_8016E7C8 *)t)->unk6 = -0x40;
+        ((Unkstruct_8016E7C8 *)t)->unkE = 0x40;
+        ((Unkstruct_8016E7C8 *)t)->unkA = -0x200;
         func_8018637C((s32)t, (s32)&D_801DECA4);
     }
 }
@@ -6894,7 +6894,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 0: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE4 - ((Unkstruct_801836D4_2 *)a1)->unk6;
+        diff = ((Unkstruct_801836D4 *)a0)->unkE4 - ((Unkstruct_8017C218_2 *)a1)->unk6;
         buf[0] = diff;
         tw = ((Unkstruct_801836D4 *)a0)->unkEC;
         t16 = tw;
@@ -6906,7 +6906,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 1: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE6 - ((Unkstruct_801836D4_2 *)a1)->unkA;
+        diff = ((Unkstruct_801836D4 *)a0)->unkE6 - ((Unkstruct_8017C218_2 *)a1)->unkA;
         buf[1] = diff;
         tw = ((Unkstruct_801836D4 *)a0)->unkEE;
         t16 = tw;
@@ -6918,7 +6918,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 2: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE8 - ((Unkstruct_801836D4_2 *)a1)->unkE;
+        diff = ((Unkstruct_801836D4 *)a0)->unkE8 - ((Unkstruct_8017C218_2 *)a1)->unkE;
         buf[2] = diff;
         tw = ((Unkstruct_801836D4 *)a0)->unkF0;
         t16 = tw;
@@ -8213,14 +8213,14 @@ void func_801852BC(s32 id)
     Oct_801852BC mtx;
 
     obj = aFC4C[id];
-    RotMatrixZYX(((Unkstruct_801852BC *)obj)->unk20 + 0x10, (s32)&mtx);
+    RotMatrixZYX(((Unkstruct_80180BF0 *)obj)->unk20 + 0x10, (s32)&mtx);
 
-    mtx.f = ((Unkstruct_801852BC *)obj)->unk6;
-    mtx.g = ((Unkstruct_801852BC *)obj)->unkA;
-    mtx.h = ((Unkstruct_801852BC *)obj)->unkE;
+    mtx.f = ((Unkstruct_80180BF0 *)obj)->unk6;
+    mtx.g = ((Unkstruct_80180BF0 *)obj)->unkA;
+    mtx.h = ((Unkstruct_80180BF0 *)obj)->unkE;
 
-    *(Oct_801852BC *)(((Unkstruct_801852BC *)obj)->unk20 + 0x34) = mtx;
-    *(Oct_801852BC *)(((Unkstruct_801852BC *)obj)->unk20 + 0x54) = mtx;
+    *(Oct_801852BC *)(((Unkstruct_80180BF0 *)obj)->unk20 + 0x34) = mtx;
+    *(Oct_801852BC *)(((Unkstruct_80180BF0 *)obj)->unk20 + 0x54) = mtx;
 
     ((Unkstruct_801852BC_2 *)*(s32 *)(obj + 0x20))->unk30 = 1;
 

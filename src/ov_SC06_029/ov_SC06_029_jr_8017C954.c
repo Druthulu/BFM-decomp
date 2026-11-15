@@ -2890,7 +2890,7 @@ void func_8017C954(s32 arg0)
     s32 d;
     u32 e;
 
-    lim = func_800491EC() + ((Unkstruct_8017C954_2 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
@@ -2903,7 +2903,7 @@ void func_8017C954(s32 arg0)
     colB = (e << 16) | (e << 8) | e;
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017C954_3 *)*(s32 *)(arg0 + 8))->unk8;
-    vtx = *(u8 **)(((Unkstruct_8017C954_2 *)arg0)->unk8 + 0x10);
+    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3491,14 +3491,14 @@ void func_8017DF74(s32 a0, s32 a1) {
         do {
             rowPtr = a1 + off;
             {
-                u32 c = ((Unkstruct_8017DF74 *)rowPtr)->unk18;
+                u32 c = ((Unkstruct_8017DB28_2 *)rowPtr)->unk18;
                 pp->bcast = c | ((c << 0x10) | (c << 8));
             }
-            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017DF74 *)rowPtr)->unk4;
+            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk4;
             func_80017DC4(ap, mp);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DF74 *)rowPtr)->unkA;
+            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unkA;
             func_80017E30(ap, mp);
             ApplyMatrixSV(mp, &dv[0], &sv1);
             ApplyMatrixSV(mp, &dv[1], &sv2);
@@ -3506,8 +3506,8 @@ void func_8017DF74(s32 a0, s32 a1) {
             ApplyMatrixSV(mp, &dv[3], &sv4);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DF74 *)rowPtr)->unk16;
-            func_800139C8((s32) ((Unkstruct_8017DF74 *)rowPtr)->unk8, ap, &sinOut);
+            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk16;
+            func_800139C8((s32) ((Unkstruct_8017DB28_2 *)rowPtr)->unk8, ap, &sinOut);
             sinOut.vx = sinOut.vx + vecB.vx;
             sinOut.vz = sinOut.vz + vecB.vy;
             pp->v[0].vx = sinOut.vx + sv1.vx;
@@ -4007,9 +4007,9 @@ void func_8017EDA8(s32 param_1) {
     if (guess_GetPlayerControlScript() == 0) {
         func_801746DC();
         func_80178B18(param_1, (s32)&D_80190534);
-        ((Unkstruct_8017EDA8 *)param_1)->unk2 = 2;
-        ((Unkstruct_8017EDA8 *)param_1)->unk34 = 0;
-        ((Unkstruct_8017EDA8 *)param_1)->unk1C = 3;
+        ((Unkstruct_80183554 *)param_1)->unk2 = 2;
+        ((Unkstruct_80183554 *)param_1)->unk34 = 0;
+        ((Unkstruct_80183554 *)param_1)->unk1C = 3;
     }
     func_80016450(0xFF, 0);
 }

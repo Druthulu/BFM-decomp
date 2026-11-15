@@ -85,9 +85,9 @@ void func_800CAFA0(void *a0) {
     } else {
         m = D_800AE620;
         RotMatrixY((((Unkstruct_800CAFA0 *)a0)->unk1C << 5) + ((Unkstruct_800CAFA0 *)a0)->unk2C, &m);
-        m.w[5] = ((Unkstruct_800CAFA0_2 *)s2)->unk6;
-        m.w[6] = ((Unkstruct_800CAFA0_2 *)s2)->unkA;
-        m.w[7] = ((Unkstruct_800CAFA0_2 *)s2)->unkE;
+        m.w[5] = ((Unkstruct_8016E7C8 *)s2)->unk6;
+        m.w[6] = ((Unkstruct_8016E7C8 *)s2)->unkA;
+        m.w[7] = ((Unkstruct_8016E7C8 *)s2)->unkE;
         sv.x = 0;
         sv.y = (rcos(((((Unkstruct_800CAFA0 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_800CAFA0 *)a0)->unk2C) >> 9) - 0x14;
         sv.z = -0x40;

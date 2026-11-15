@@ -8212,12 +8212,12 @@ void func_8001C320(s32 a0, s32 a1)
     u16 c2;
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C320 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C320 *)a0)->unk2 = 1;
+    ((Unkstruct_8001C5B8 *)a0)->unk0 = 1;
+    ((Unkstruct_8001C5B8 *)a0)->unk2 = 1;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     work = (s32)guess_g_RenderWork;
-    ((Unkstruct_8001C320 *)a0)->unk24 = a1;
+    ((Unkstruct_8001C5B8 *)a0)->unk24 = a1;
     if (a1 != 0) {
         CAST_ALIAS(s32, a0, 0x20) = (s32)D_80063548;
         next = (s32)D_800AF7C8;

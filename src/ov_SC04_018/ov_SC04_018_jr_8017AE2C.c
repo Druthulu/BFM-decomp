@@ -3766,37 +3766,37 @@ void func_8017D77C(s32 *arg0)
     do {
         p = (Ent_8017D6EC *)((s32)D_801E6F58 + i * 0x24);
         if (p->unk1C == 0) {
-            if (((Unkstruct_8017D77C_2 *)p)->unkC > 0x400) {
-                if (((Unkstruct_8017D77C_2 *)p)->unk18 != 0) {
-                    ((Unkstruct_8017D77C_2 *)p)->unk18 = ((Unkstruct_8017D77C_2 *)p)->unk18 - 1;
+            if (((Unkstruct_8017F688 *)p)->unkC > 0x400) {
+                if (((Unkstruct_8017F688 *)p)->unk18 != 0) {
+                    ((Unkstruct_8017F688 *)p)->unk18 = ((Unkstruct_8017F688 *)p)->unk18 - 1;
                 } else {
-                    ((Unkstruct_8017D77C_2 *)p)->unkC = ((Unkstruct_8017D77C_2 *)p)->unkC + 11;
+                    ((Unkstruct_8017F688 *)p)->unkC = ((Unkstruct_8017F688 *)p)->unkC + 11;
                 }
             } else {
-                ((Unkstruct_8017D77C_2 *)p)->unkC = ((Unkstruct_8017D77C_2 *)p)->unkC + 11;
+                ((Unkstruct_8017F688 *)p)->unkC = ((Unkstruct_8017F688 *)p)->unkC + 11;
             }
-            if (((Unkstruct_8017D77C_2 *)p)->unkC > 0x800) {
-                ((Unkstruct_8017D77C_2 *)p)->unkC = 0;
+            if (((Unkstruct_8017F688 *)p)->unkC > 0x800) {
+                ((Unkstruct_8017F688 *)p)->unkC = 0;
             }
-            c = (rsin(((Unkstruct_8017D77C_2 *)p)->unkC) / 64) & 0xFF;
+            c = (rsin(((Unkstruct_8017F688 *)p)->unkC) / 64) & 0xFF;
             c = c | ((c << 16) | (c << 8));
-            ((Unkstruct_8017D77C_2 *)p)->unk4 = c;
-            c = (rsin(((Unkstruct_8017D77C_2 *)p)->unkC) / 256) & 0xFF;
+            ((Unkstruct_8017F688 *)p)->unk4 = c;
+            c = (rsin(((Unkstruct_8017F688 *)p)->unkC) / 256) & 0xFF;
             c = c | ((c << 16) | (c << 8));
-            ((Unkstruct_8017D77C_2 *)p)->unk8 = c;
+            ((Unkstruct_8017F688 *)p)->unk8 = c;
             if ((((Unkstruct_80010178 *)m)->unkA3AA & 1) == 0) {
-                e = ((Unkstruct_8017D77C_2 *)p)->unkE + 1;
-                ((Unkstruct_8017D77C_2 *)p)->unkE = e;
+                e = ((Unkstruct_8017F688 *)p)->unkE + 1;
+                ((Unkstruct_8017F688 *)p)->unkE = e;
                 if ((s16)e >= 0x40) {
-                    ((Unkstruct_8017D77C_2 *)p)->unkE = 0;
+                    ((Unkstruct_8017F688 *)p)->unkE = 0;
                 }
             }
-            h = ((Unkstruct_8017D77C_2 *)p)->unkC;
+            h = ((Unkstruct_8017F688 *)p)->unkC;
             if (h == 0) {
                 p->unk1C = 1;
             } else if (h > 0x555) {
-                if (((Unkstruct_8017D77C_2 *)p)->unk20 == 0) {
-                    ((Unkstruct_8017D77C_2 *)p)->unk20 = 1;
+                if (((Unkstruct_8017F688 *)p)->unk20 == 0) {
+                    ((Unkstruct_8017F688 *)p)->unk20 = 1;
                     if (q[0x39] < 9) {
                         ((void (*)(void *))func_8017D9B8)(p);
                     }
@@ -4347,10 +4347,10 @@ extern void guess_StartActorSequence(s32 *a0, s32 a1);
 void func_8017E7CC(int param_1)
 {
     extern short D_801B9AA8;   /* S62 T2d: was undeclared here; gcc's limbo entry then rejected every later block-scope extern */
-    ((Unkstruct_8017E7CC *)param_1)->unk2 = 3;   /* S62 T2d: retail `li v0,3; sh v0,2(s0)` — the committed text had offset and value swapped */
-    ((Unkstruct_8017E7CC *)param_1)->unk34 = 0;
+    ((Unkstruct_80183554 *)param_1)->unk2 = 3;   /* S62 T2d: retail `li v0,3; sh v0,2(s0)` — the committed text had offset and value swapped */
+    ((Unkstruct_80183554 *)param_1)->unk34 = 0;
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, (char *)&D_801B9AA8);   /* S62 T2d: was `&((char *)&D_…)` — address of a cast, never valid C */
-    ((Unkstruct_8017E7CC *)param_1)->unk1C = 0x10;
+    ((Unkstruct_80183554 *)param_1)->unk1C = 0x10;
 }
 
 

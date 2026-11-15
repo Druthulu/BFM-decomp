@@ -4128,9 +4128,9 @@ void func_8017DCF8(s32 arg0) {
         }
         iVar2 = ((Unkstruct_8017DCF8 *)param_1)->unk20;
         ((Unkstruct_8017DCF8 *)param_1)->unk58 = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
-        ((Unkstruct_8017DCF8_3 *)iVar2)->unk1C = 0x1c00;
-        ((Unkstruct_8017DCF8_3 *)iVar2)->unk1A = 0x1c00;
-        ((Unkstruct_8017DCF8_3 *)iVar2)->unk18 = 0x1c00;
+        ((Unkstruct_8017F858_2 *)iVar2)->unk1C = 0x1c00;
+        ((Unkstruct_8017F858_2 *)iVar2)->unk1A = 0x1c00;
+        ((Unkstruct_8017F858_2 *)iVar2)->unk18 = 0x1c00;
         ((Unkstruct_8017DCF8 *)param_1)->unk5E = 0;
         ((Unkstruct_8017DCF8 *)param_1)->unk5C = ((Unkstruct_8017DCF8 *)param_1)->unk5C | 0x8800;
         ((Unkstruct_8017DCF8 *)param_1)->unk6 = ((Unkstruct_8017DCF8 *)param_1)->unkDC;
@@ -6606,9 +6606,9 @@ void func_801816E4(void *a0)
     CAST_ALIAS(u16, (s8 *)s0, 0x6) = 0;
     v0 = D_80127190;
     s1 = *(s32 **)((s8 *)s0 + 0x20);
-    ((Unkstruct_801816E4 *)s0)->unkE = 0;
+    ((Unkstruct_80180FA8 *)s0)->unkE = 0;
     v0 += -0x154;
-    ((Unkstruct_801816E4 *)s0)->unkA = v0;
+    ((Unkstruct_80180FA8 *)s0)->unkA = v0;
     func_8001CD50((s32)s1, (s32)&D_801C5CC0);
 
     v0 = -0x7800;
@@ -6620,11 +6620,11 @@ void func_801816E4(void *a0)
     v0 |= v1;
     ((Unkstruct_801816E4_2 *)s1)->unk4 = v0;
 
-    v0 = ((Unkstruct_801816E4 *)s0)->unk2;
+    v0 = ((Unkstruct_80180FA8 *)s0)->unk2;
     v1 = 0x1F;
-    ((Unkstruct_801816E4 *)s0)->unk2E = v1;
+    ((Unkstruct_80180FA8 *)s0)->unk2E = v1;
     v0 += 1;
-    ((Unkstruct_801816E4 *)s0)->unk2 = v0;
+    ((Unkstruct_80180FA8 *)s0)->unk2 = v0;
 }
 
 
