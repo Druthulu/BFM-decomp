@@ -833,8 +833,8 @@ typedef SVECTOR SVEC_8016CBC0;
 typedef Col4_8017F8BC CLR_8016CBC0;
 typedef struct
 {
-  SVEC_8016CBC0 v[4];
-  CLR_8016CBC0 col[4];
+  SVEC_md_MAIN_047_800CCBC0 v[4];
+  CVEC col[4];
   s32 tag;
 } Poly_8016CBC0;
 typedef Blk20_8016DF5C Mtx8_8016CBC0;
@@ -1618,7 +1618,7 @@ typedef SVECTOR SVec35C;
 typedef SVECTOR SVec8_8017C218;
 typedef struct {
     SVECTOR v[4];   /* 0x00 */
-    CVec4_8017C218_8017C218 c[4];   /* 0x20 */
+    CVEC c[4];   /* 0x20 */
     s32   code;   /* 0x30 */
 } Prim_8017C218_8017C218;
 typedef Prim_8017C218_8017C218 Prim_8017C218;
@@ -2742,7 +2742,7 @@ typedef struct {
     u8              pad00[0x02];
     u16             f02;
     u8              pad04[0x1C];
-    Coord_8017E550 *f20;
+    Coord_8017E330 *f20;
     u8              pad24[0x10];
     u16             f34;
 } Drv_8017E550;
@@ -2752,7 +2752,7 @@ typedef struct {
     u8              pad00[0x02];
     u16             f02;        /* 0x02 */
     u8              pad04[0x1C];
-    Coord_8017E878 *f20;        /* 0x20 */
+    Coord_8017E330 *f20;        /* 0x20 */
     u8              pad24[0x10];
     u16             f34;        /* 0x34 */
 } Drv_8017E878;
@@ -3337,7 +3337,7 @@ typedef struct SV3_8012CC88_tag V8_80187968_80184194;
 typedef SVECTOR V_8017D9E8;
 typedef Unkstruct_801343C4 V_8017DAF4;
 typedef SVECTOR V_8017DCC0;
-typedef struct { V_8017DCC0 v[4]; C_8017DCC0 c[4]; u32 flags; } Q_8017DCC0;
+typedef struct { Sv_8017FA2C v[4]; C_8017DCC0 c[4]; u32 flags; } Q_8017DCC0;
 typedef SVECTOR V_8017EEC4;
 typedef Blk16_956C Vec16_8018E8A0;
 typedef Blk16_956C Vec16_8018E8A0_80184FF0;
@@ -4282,7 +4282,7 @@ struct Node_800CB658 {
     u8 padC[0x2];
     s16 unkE;
     u8 pad10[0x10];
-    Src_800CB658 *unk20;
+    struct Src_80167540 *unk20;
 };
 struct Entity_800CB658 {
     u8 pad0[0x6];
