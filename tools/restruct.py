@@ -4627,6 +4627,14 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
                     plan.append((e, None))
                 if ok_:
                     hit = (vi, plan); break
+                # T7.c17: scalars respelling the variant's host leaves (`short unk0` -> `v0.vx`, constant paths only) join it too
+                hostE = [f_[2] for f_ in v["fields"] if f_[2][0] == v["srcs"][0]]
+                uu = unify(hostE + fs) if hostE else None
+                if uu and not uu[1] and not any(uu[0].get(len(hostE) + k, "{").startswith("{") for k in range(len(fs))):
+                    hn_ = {f_[2][1]["name"]: f_[1] for f_ in v["fields"] if f_[2][0] == v["srcs"][0]}
+                    hit = (vi, [(e, re.sub(r"^[A-Za-z_]\w*", lambda m_: hn_.get(m_.group(0), m_.group(0)), uu[0][len(hostE) + k]))
+                                for k, e in enumerate(fs)])
+                    break
             if hit:
                 vi, plan = hit
                 v = variants[vi]
@@ -4656,7 +4664,7 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
                 items.append((lo + r_, "plain", resub(e[1]["tmpl"]).replace(FOLD_N, ab[nm]), e[1]["size"], e[1]["al"]))
                 names_top.setdefault(ab[nm], []).append(lo + r_)
             for (si, fn_), (_, nm) in where.items():
-                paths[keys[si]][fn_] = ab[nm]
+                paths[keys[si]][fn_] = ab[nm] if nm in ab else re.sub(r"^[A-Za-z_]\w*", lambda m_: ab[m_.group(0)], nm)
             continue
         for (si, fn_), (vi, nm) in where.items():
             paths[keys[si]][fn_] = f"{uname}.{variants[vi]['name']}.{nm}"
@@ -5273,8 +5281,14 @@ def fold_collapse_plan(names=None):
                 else:
                     clusters.append([e]); cur_end = e[2] + e[1]["size"]
             items, paths, ntop, why_m = _fold_merge(clusters, [vn for vn, _ in parts], lambda t: t, res, u["g"], tsp=tsp)
-            if why_m or any(it[1] != "plain" for it in items):
+            ui = [it for it in items if it[1] != "plain"]
+            if why_m or (ui and (len(items) != 1 or len(ui[0][3]) >= len(parts) or any(isinstance(vf, str) for _, vf, _ in ui[0][3]))):
                 skipped.append((f"{tsp}.{f['name']}", why_m or "a real width/sign conflict (stays a union)")); continue
+            if ui:                                                # (T7.c17) fewer variants: the union kept under its own name
+                un0 = f"unk{lo:X}"
+                paths = {k_: {f_: (f["name"] + p_[len(un0):] if p_.startswith(un0 + ".") else p_) for f_, p_ in m_.items()}
+                         for k_, m_ in paths.items()}
+                ntop = {f["name"]: [lo]}
             other = {y["name"] for y in F if y["name"] != f["name"]}
             clash = sorted(set(ntop) & other) + sorted(n for n, o in ntop.items() if len(o) > 1)
             if clash:
@@ -5286,6 +5300,19 @@ def fold_collapse_plan(names=None):
             for it in sorted(items, key=lambda it: it[0]):
                 if it[0] > cur:
                     lines.append(f"{ind}/* {cur:#06x} */ u8 pad{cur:X}[{it[0] - cur:#x}];")
+                if it[1] != "plain":                              # (T7.c17) the shrunk union, as _fold_render spells one
+                    lines.append(f"{ind}/* {it[0]:#06x} */ union {{")
+                    for vname, vfields, _ in it[3]:
+                        body, vc = [], 0
+                        for rel_, decl, fsz in vfields:
+                            if rel_ > vc:
+                                body.append(f"u8 pad{vc:X}[{rel_ - vc:#x}];")
+                            body.append(decl + ";")
+                            vc = rel_ + fsz
+                        lines.append(f"{ind}    struct {{ {' '.join(body)} }} {vname};")
+                    lines.append(f"{ind}}} {f['name']};")
+                    cur = it[0] + it[4]
+                    continue
                 lines.append(f"{ind}/* {it[0]:#06x} */ {it[2]};")
                 cur = it[0] + it[3]
             if lo + x["size"] > cur:
