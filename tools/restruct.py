@@ -3757,7 +3757,7 @@ def _fold_fields(res, d, masked):
         return None, span, f"{d['file']}:{d['line']}: a {d['kind']} definition (the engine folds structs)"
     if re.search(r"packed|aligned", d.get("attrs") or "") and _fold_eff_align(res, d) is None:
         return None, span, f"{d['file']}:{d['line']}: an attributed definition"   # T7.c14: only one whose attributes move a field or lower an alignment
-    if d.get("ptr_names") or (not d["typedef"] and masked[close + 1:semi].strip()):
+    if d.get("ptr_names") or (not d["typedef"] and ATTR_STRIP.sub("", masked[close + 1:semi]).strip()):   # T7.c14: a trailing attribute declares nothing
         return None, span, f"{d['file']}:{d['line']}: the definition also declares pointer/array names or objects"
     tm = []
     for a, b in _fold_stmts(masked, m.end(), close):
@@ -5485,6 +5485,12 @@ def fold_selftest(ok):
         P = fold_plan(["Fx_P"])
         ok("fold attributes: a packed s32 pair into an aligned one is refused (struct copy codegen; T7.c14)",
            any("effective alignment" in r for r in P["refusals"]), str(P["refusals"]))
+        _fold_fixture("attr2", "struct Fx_T { s32 a; s32 b; } __attribute__((packed, aligned(1)));\nstruct Fx_M { s32 c; s32 d; } __attribute__((packed));\n",
+                      {"src/a.c": '#include "struct_types.h"\ns32 fg(struct Fx_M *m) { return m->d; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "value", "shape:2xs32", "-")])
+        P = fold_plan(["Fx_M"])
+        ok("fold attributes: tag definitions with a trailing attribute fold (both packed; T7.c14)",
+           not P["refusals"] and "return m->b;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {P['texts']}")
         # T7.c11: the walker types `(*(T **)&x)` (a cast of an address), and a block-scope extern of another type shadows a global
         root = _fold_fixture("shadow", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 f0; u16 f4; u16 f6; } Fx_M;\n",
                              {"src/a.c": '#include "struct_types.h"\nextern s32 D_p;\n'
