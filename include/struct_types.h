@@ -18849,7 +18849,7 @@ typedef struct {
     /* 0x0002 */ u16 unk2;
     /* 0x0004 */ u8 pad4[0x18];
     /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ void * unk20;
+    /* 0x0020 */ Unkstruct_801E5338 *unk20;
 } Unkstruct_801E5338_2; /* size = 0x24 */
 
 typedef struct {
