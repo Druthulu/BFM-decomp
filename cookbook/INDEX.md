@@ -1069,3 +1069,4 @@ C0616 | Applying many struct folds with restruct --fold-row: costs and engine wa
 C0617 | restruct --fold-batch: one tree per batch of folds, and the traps it fixed | struct,fold,restruct,batch,consolidation | 2026-11-14 | 3.45/T7 | T7.c11
 C0618 | Fold engine walker misses and spurious unions on value-shape folds | struct,fold,restruct,value-shape,union,consolidation | 2026-11-14 | 3.45/T7 | T7.c14
 C0619 | Fold engine after T7.c15: what it follows, --fold-collapse, and the forms still by hand | struct,fold,restruct,union,consolidation | 2026-11-15 | 3.45/T7 | T7.c15
+C0620 | Layout hash and census twin rules after the 3.45 folds | struct,twins,census,layout-hash,bitfield,consolidation | 2026-11-15 | 3.45/T7 | T7.c17
