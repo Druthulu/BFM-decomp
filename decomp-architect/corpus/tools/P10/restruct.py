@@ -8897,10 +8897,22 @@ def t_judge(files, tag, write):
     return "IDENTICAL", nobj, "written (scratch_cmp)"
 
 
+def t_dirty(porcelain, written):
+    """(pure) The unit's files `git status --porcelain` reports changed, minus the files this run wrote itself (T15.c3: keys apply in
+    order on the tree the previous left; was: every changed file refused, so a batch's second key on one TU was always refused)."""
+    out = []
+    for ln in porcelain.splitlines():
+        rel = ln[3:].strip().split(" -> ")[-1].strip('"')
+        if rel and rel not in written:
+            out.append(rel)
+    return out
+
+
 def type_sources(keys, write=False, label="T", override=None):
     """--type-source / --type-batch: plan (and with --write judge, write, ledger) each source in order on the tree the previous left."""
     global _canon, _walk
     rc = 0
+    written = set()                                                   # T15.c3: files this run wrote (a later key's guard allows them)
     for key in keys:
         P = t_plan(key, override, keys)
         if P["blocked"]:
@@ -8918,8 +8930,9 @@ def type_sources(keys, write=False, label="T", override=None):
         if verdict is None:
             if write and JUDGE_STUB is None:
                 r = subprocess.run(["git", "status", "--porcelain", "--"] + sorted(P["files"]), cwd=REPO, capture_output=True, text=True)
-                if r.stdout.strip():
-                    print(f"   refused: uncommitted changes in {r.stdout.split()[1:3]} (commit or restore first)")
+                dirty = t_dirty(r.stdout, written)
+                if dirty:
+                    print(f"   refused: uncommitted changes in {dirty[:2]} (commit or restore first)")
                     rc = 2
                     continue
             tag = "t" + hashlib.sha1(key.encode()).hexdigest()[:6]
@@ -8952,6 +8965,7 @@ def type_sources(keys, write=False, label="T", override=None):
             if write and verdict in ("IDENTICAL", "IDENTICAL-LINKED"):
                 for rel, t in P["files"].items():
                     (REPO / rel).write_text(t, errors="surrogateescape")
+                written |= set(P["files"])
                 _canon, _walk = None, None
             elif write and verdict != "UNJUDGED":
                 rc = max(rc, 1)
@@ -8979,6 +8993,12 @@ def _t_reason(x):
             break
         ws.append(w_)
     return " ".join(ws[:3])
+
+
+def _t_only(reg, b, only):
+    """(pure) --type-check's --only: a name / glob matching the source's region OR its binary (T15.c3: `--only md_SC02_009` matched
+    nothing, the md regions are `md_*`; was: region only)."""
+    return not only or any(x == o or fnmatch.fnmatch(x, o) for o in only for x in (reg, b or ""))
 
 
 def type_check(only=None, sources_dir=None):
@@ -9012,9 +9032,9 @@ def type_check(only=None, sources_dir=None):
         return k.rpartition("@")[2]
     for k in sorted(set(src) | set(latest)):
         reg = src[k]["region"] if k in src else st.region_of(k.split(":", 1)[0] if ":" in k else "")
-        if only and not any(reg == o or fnmatch.fnmatch(reg, o) for o in only):
-            continue
         b = bin_of(k)
+        if not _t_only(reg, b, only):
+            continue
         C, B = reg_c[reg], bin_c[(reg, b)]
         C["sources"] += 1
         B["sources"] += 1
@@ -9196,6 +9216,15 @@ def type_selftest(ok):
            rc == 1 and len(rows) == 1 and rows[0]["verdict"] == "WALL-PENDING" and w_.get("object") == "build/selftest/ft.o"
            and w_.get("function") == "ft_p" and w_.get("offset") == "+0x4" and w_.get("cls") not in (None, "", "UNSCORED")
            and tp.read_text() == TU and tp2.read_text() == TU2, str(rows)[:300])
+        # T15.c3 bug: the guard refused every changed file, so a batch's second key on a TU the first key wrote was refused
+        por = " M src/a/a.c\n M include/struct_types.h\n?? src/b/b.c\nR  src/c/old.c -> src/c/new.c\n"
+        ok("T guard: files this run wrote pass, other changed files refuse",
+           t_dirty(por, {"src/a/a.c"}) == ["include/struct_types.h", "src/b/b.c", "src/c/new.c"]
+           and t_dirty(" M src/a/a.c\n", {"src/a/a.c"}) == [] and t_dirty("", set()) == [])
+        # T15.c3 bug: --type-check --only <binary> matched nothing (region `md_*`)
+        ok("T --type-check --only matches a region or a binary",
+           _t_only("md_*", "md_SC02_009", ["md_SC02_009"]) and _t_only("md_*", "md_SC02_009", ["md_*"])
+           and not _t_only("md_*", "md_SC02_010", ["md_SC02_009"]) and _t_only("ov_SC02", "x", None))
     finally:
         _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows, T_SYMS_OVERRIDE, T_OBJ_STUB = keep
 

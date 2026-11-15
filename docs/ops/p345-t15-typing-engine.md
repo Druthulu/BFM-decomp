@@ -85,8 +85,30 @@ kept, wall, pending).
 1. R22 green at HEAD, then `PY tools/delever_oracle.py --snapshot-baseline` (C0622, C0538); control: a known-neutral
    key's dry run says IDENTICAL.
 2. Dry run the batch (`--type-batch FILE`); read PENDING reasons and walls; drop or `--type` keys as judged.
-3. `git status --short src include` empty, then `--write`; keys apply in order on the tree the previous left.
-4. `--type-check --only <region>`; R22 (`make clean && make extract-all JOBS=16 && make check-all JOBS=16`); commit.
+3. `git status --short src include` empty, then `--write`; keys apply in order on the tree the previous left (the guard
+   allows files this run wrote, `t_dirty`). A header unit > 40 objects is judged by scratch_cmp vs HEAD: run in background.
+4. Gates, in order, each its own call (BEFORE numbers: `struct_twins.py --sources --check` and `--gate -j 16` before step 3):
+   1. R22 alone: `make clean && make extract-all JOBS=16 && make check-all JOBS=16` -> 218/218.
+   2. `sig_evidence.py -j 16`, then `--check -j 16` rc 0 (a DECL-PARAM row a retype made unused: remove it from
+      config/lying_exceptions.tsv). `struct_twins --sources` needs `build/sig_evidence/census.jsonl`: run sig_evidence first.
+   3. `type_census.py -j 16 --check --check-structs --check-casts --residue --sites` OK (`tools/run.sh --bg`).
+   4. `struct_twins.py --write` alone (C0539).
+   5. include/ changed: `ghidra_types.py --write`, then `--check`.
+   6. `lever_census.py --check --strict --residue config/lever_residue.tsv -j 16 --quiet` rc 0.
+   7. Rule T2: `restruct.py --rung S --residue --forms P,I,X,M --only <bin> --label <l>`, `--residue --restamp …`,
+      `--check-residue --forms P,I,X,M --only <bin>` -> uncovered 0.
+   8. `struct_twins.py --sources --check` AFTER; `--gate -j 16` (a stale ratchet FAILs), `--gate --write-ratchet -j 16`.
+   9. Commit the batch: src, include, config/consolidation_ratchet.tsv, config/ghidra/types/, docs/struct-twins.md
+      (docs/struct-map.md: restore to HEAD, only a stamp churns).
+   10. `restruct.py --type-check --only <bin|region> [--sources-dir DIR]` printed (`--only` matches a region or a binary).
+
+## Pilot (T15.c3, md_SC02_009, 51 keys = sources.tsv's 50 + `guess_g_BoxHitNormalX@md_SC02_009`)
+- typed 17 (IDENTICAL; the field unit func_801E5338:a1 through scratch_cmp, 4284 objects), pending 34, wall 0, no real
+  DIFFERS (second attempt not exercised). Casts removed 46, all C; kept 0 written.
+- Pending reasons (first per key): non-cast arg-int 17, no type 8, field holder untyped 4, 2+ cast types 1,
+  non-cast assign ? 1, kept-macro CAST_WIDTH 1, non-cast other 1, width-view P 1.
+- `--sources --check`: cast sites 482681 -> 482635 (C 309741 -> 309695; P/I/X/M unchanged), sources 103626 -> 103610.
+- Gate: casts_C 295509 -> 295463 (ratchet lowered); every other metric unchanged.
 
 ## Selftest (`--selftest`, the stub oracle, fixture .run/P37/restruct/selftest/t/)
 (a) param typed in its definition and declarations; (b) two cast types -> pending; (c) raw site -> member inserted
