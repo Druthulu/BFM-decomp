@@ -14008,7 +14008,7 @@ long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
         if (D_800A2B78 != 0 && (p[-1].code & 2)) {
             d = (DRM *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
-            ((Unkstruct_800249F0 *)d)->unk3 = 1;
+            ((PrimTag *)d)->len = 1;
             d->code0 = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;

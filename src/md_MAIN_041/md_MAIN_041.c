@@ -338,7 +338,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 
 /* $v0 at exit: result of 0x80146A6C or lw $v0, 0x20($s1) at md_MAIN_041:0x800CB774; no byte-neutral return: `return 0;` moved `beqz a3,<func_800CB658+0x168>` at +0x114, md_MAIN_041 objdump */
 s32 func_800CB658(s32 arg0) {
-    struct Node_800CB658 *node;
+    Unkstruct_800CB2E0 *node;
     struct Entity_800CB658 *ent;
     s32 v;
 
@@ -356,11 +356,11 @@ s32 func_800CB658(s32 arg0) {
         ((struct Entity_800CB658 *)arg0)->unk1C = v;
     }
     ((struct Entity_800CB658 *)arg0)->unk12 = (s16)(((struct Entity_800CB658 *)arg0)->unk12 + ((struct Entity_800CB658 *)arg0)->unk1C);
-    ((struct Entity_800CB658 *)arg0)->mat = node->unk20->mat;
+    ((struct Entity_800CB658 *)arg0)->mat = node->unk20.v1.unk0->mat;
     func_800CB3BC(arg0, 0, 0, -0x50);
     ent = ((struct Entity_800CB658 *(*)(s32, void *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, (void *)arg0, ((struct Entity_800CB658 *)arg0)->unk6, ((struct Entity_800CB658 *)arg0)->unkA, ((struct Entity_800CB658 *)arg0)->unkE, 0, 0);
     if (ent != 0) {
-        ent->mat = node->unk20->mat;
+        ent->mat = node->unk20.v1.unk0->mat;
     }
 }
 

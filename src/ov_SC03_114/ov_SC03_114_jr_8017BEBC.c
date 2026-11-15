@@ -3270,18 +3270,18 @@ extern void func_80017738(void *a0, s32 a1);
 
 void func_8017DCC0(s32 arg0)
 {
-    Q_8017DCC0 q;
+    Prim_8017FA2C q;
 
     q.v[0].vx = q.v[2].vx = -0x2A;
     q.v[1].vx = q.v[3].vx = 0x2A;
     q.v[0].vy = q.v[1].vy = -0x2C;
     q.v[2].vy = q.v[3].vy = 0x2C;
-    q.c[0].r = q.c[0].g = q.c[0].b = 0xA0;
-    q.c[1].r = q.c[1].g = q.c[1].b = 0xA0;
+    q.unk20.v1.unk0[0].r = q.unk20.v1.unk0[0].g = q.unk20.v1.unk0[0].b = 0xA0;
+    q.unk20.v1.unk0[1].r = q.unk20.v1.unk0[1].g = q.unk20.v1.unk0[1].b = 0xA0;
     q.v[0].vz = q.v[1].vz = q.v[2].vz = q.v[3].vz = 0;
-    q.c[2].r = q.c[2].g = q.c[2].b = 0;
-    q.c[3].r = q.c[3].g = q.c[3].b = 0;
-    q.flags = 0x60000000;
+    q.unk20.v1.unk0[2].r = q.unk20.v1.unk0[2].g = q.unk20.v1.unk0[2].b = 0;
+    q.unk20.v1.unk0[3].r = q.unk20.v1.unk0[3].g = q.unk20.v1.unk0[3].b = 0;
+    q.code = 0x60000000;
     func_80017738(&q, *(s32 *)((s32)arg0 + 0x20) + 0x34);
 }
 

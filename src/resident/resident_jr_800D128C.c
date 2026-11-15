@@ -1702,7 +1702,7 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
     o = ofs;
     q = out;
     p = (PolyG4_800D29F8 *)((u8 *)q + 4);
-    ((Unkstruct_800D29F8 *)q)->unk3 = 1;                       /* setlen(q, 1) */
+    ((PrimTag *)q)->len = 1;                       /* setlen(q, 1) */
     p->c0 = 0xE1000000;                     /* GP0 draw-mode: dither off */
     addPrim_800D29F8(&OT_800D29F8[2], q);
     q += 2;
@@ -1741,7 +1741,7 @@ u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
     }
 
     p = (PolyG4_800D29F8 *)((u8 *)q + 4);
-    ((Unkstruct_800D29F8 *)q)->unk3 = 1;
+    ((PrimTag *)q)->len = 1;
     p->c0 = 0xE1000200;                     /* GP0 draw-mode: dither on */
     addPrim_800D29F8(&OT_800D29F8[2], q);
     return q + 2;

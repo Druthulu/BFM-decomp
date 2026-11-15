@@ -4539,7 +4539,7 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
     register s32 zr __asm__("$0");  // !FAKE: pin $0 — NEEDED DIFFERS (P36 rung B tus9) wall:dead-set-delete
 
     Ft4_801833F0 *poly;
-    Drm_801833F0 *dm;
+    DrTpage *dm;
     s32 vtx;
     u32 flags;
     s32 tp, abr, code, shift;
@@ -4637,22 +4637,22 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
     poly[-1].v3 = sv + SR3_801833F0(vtx + 0x12);
 
     if (flags & 0x40000000) {
-        dm = (Drm_801833F0 *)poly;
+        dm = (DrTpage *)poly;
         if (fl != 0) {
             m = 0;
             D_800A5E60 += 0x30;
             do {
                 m++;
-                dm->tag.len = 1;
-                dm->code0 = (abr << 5) | 0xE100000A;
+                dm->len = 1;
+                dm->code = (abr << 5) | 0xE100000A;
                 ADDPRIM_801833F0(&ot[*(volatile s32 *)((s32)q + 0x34)], dm);
                 q = (u32 *)((s32)q + 4);
                 dm++;
             } while (m < 6);
         } else {
-            dm->code0 = (abr << 5) | 0xE100000A;
+            dm->code = (abr << 5) | 0xE100000A;
             D_800A5E60 += 8;
-            dm->tag.len = 1;
+            dm->len = 1;
             ADDPRIM_801833F0(ot, dm);
             /* Zero-byte live-range stretch: puts vtx's allocno priority at
              * 1232, inside the (1228, 1296) window - see (2).  Placement is

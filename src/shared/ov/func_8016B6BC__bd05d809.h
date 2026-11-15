@@ -5,14 +5,14 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
     extern int D_8018243C;
     int iVar1;
     M8_8016B6BC *q;
-    Prim_8016B6BC prim;
-    Prim_8016B6BC *p = &prim;
+    Src_80016B60 prim;
+    Src_80016B60 *p = &prim;
     DVec_8016B6BC off;
     unsigned int v;
     unsigned int c;
 
     q = (M8_8016B6BC *)*(int *)((int)&D_8018243C + ((param_4 << 0x10) >> 0xe));
-    p->color = 0x50000000;
+    p->flags = 0x50000000;
     c = (unsigned int)param_2;
     v = 0x20;
     if (c < 0x20) {
@@ -23,10 +23,10 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
     } else {
         c = c << 8 | v << 0x10 | v;
     }
-    p->combined = c;
+    p->rgb0 = c;
     iVar1 = (int)(short)param_3;
-    p->z1c = 0;
-    p->z20 = 0;
+    p->rgb1 = 0;
+    p->rgb2 = 0;
     func_80013CFC(iVar1, (int)q++, &p->v[0]);
     func_80013CFC(iVar1, (int)q++, &p->v[1]);
     func_80013CFC(iVar1, (int)q, &p->v[2]);

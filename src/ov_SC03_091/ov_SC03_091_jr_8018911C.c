@@ -5001,16 +5001,16 @@ void func_8018BED0(void *ent, void *spr, u32 *q, u32 *ot)
             D_800A5E60 += 0x30;
             do {
                 m++;
-                dm->tag.len = 1;
-                dm->code0 = (abr << 5) | 0xE100000A;
+                dm->len = 1;
+                dm->code = (abr << 5) | 0xE100000A;
                 ADDPRIM_8018BED0(&ot[*(volatile s32 *)((s32)q + 0x34)], dm);
                 q = (u32 *)((s32)q + 4);
                 dm++;
             } while (m < 6);
         } else {
-            dm->code0 = (abr << 5) | 0xE100000A;
+            dm->code = (abr << 5) | 0xE100000A;
             D_800A5E60 += 8;
-            dm->tag.len = 1;
+            dm->len = 1;
             ADDPRIM_8018BED0(ot, dm);
             /* Zero-byte live-range stretch: puts vtx's allocno priority inside
              * the only admissible window.  Placement is load-bearing. */

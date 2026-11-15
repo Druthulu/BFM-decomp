@@ -1111,7 +1111,21 @@ typedef SVECTOR SVECTOR_801EDED4_801EF99C;
 typedef SVECTOR SVECTOR_801EDED4_801F04DC;
 typedef SVECTOR SVECTOR_801EDED4_801F1F94;
 typedef SVECTOR SVEC_md_MAIN_047_800CCBC0;
-typedef struct { SVEC_md_MAIN_047_800CCBC0 v0, v1, v2, v3; CVEC c0, c1, c2, c3; s32 tag; } Prim_md_MAIN_047_800CCBC0;
+typedef struct {
+    /* 0x0000 */ union {
+        struct { SVEC_md_MAIN_047_800CCBC0 v0; SVEC_md_MAIN_047_800CCBC0 v1; SVEC_md_MAIN_047_800CCBC0 v2; SVEC_md_MAIN_047_800CCBC0 v3; } v0;
+        struct { short unk0; short unk2; short unk4; u8 pad6[0x2]; short unk8; short unkA; short unkC; u8 padE[0x2]; short unk10; short unk12; short unk14; u8 pad16[0x2]; short unk18; short unk1A; short unk1C; } v1;
+        struct { SVEC_md_MAIN_047_800CCBC0 unk0[4]; } v2;
+        struct { s16 unk0[16]; } v3;
+    } unk0;
+    /* 0x0020 */ union {
+        struct { CVEC c0; CVEC c1; CVEC c2; CVEC c3; } v0;
+        struct { u8 unk0; u8 unk1; u8 unk2; u8 pad3[0x1]; u8 unk4; u8 unk5; u8 unk6; u8 pad7[0x1]; u8 unk8; u8 unk9; u8 unkA; u8 padB[0x1]; u8 unkC; u8 unkD; u8 unkE; } v1;
+        struct { CVEC unk0[4]; } v2;
+        struct { u8 unk0[16]; } v3;
+    } unk20;
+    /* 0x0030 */ s32 tag;
+} Prim_md_MAIN_047_800CCBC0; /* size = 0x34 */
 typedef SVECTOR SV_800CB4E4;
 typedef SVECTOR SV_800CB910;
 typedef struct {
@@ -21069,7 +21083,10 @@ typedef struct {
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ s16 unkE;
     /* 0x0010 */ u8 pad10[0x10];
-    /* 0x0020 */ void * unk20;
+    /* 0x0020 */ union {
+        struct { void *unk20; } v0;
+        struct { struct Src_80167540 *unk0; } v1;
+    } unk20;
 } Unkstruct_800CB2E0; /* size = 0x24 */
 
 typedef struct {
@@ -28308,11 +28325,6 @@ typedef struct {
     /* 0x00e0 */ s32 unkE0;
 } Unkstruct_80185864_3; /* size = 0xe4 */
 
-typedef struct {
-    /* Unkstruct_67ffc8b2: P3.40 T3 band rank 6646; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x3];
-    /* 0x0003 */ u8 unk3;
-} Unkstruct_800D29F8; /* size = 0x4 */
 
 typedef struct {
     /* Unkstruct_68106151: P3.40 T3 band rank 6647; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
@@ -28831,11 +28843,6 @@ typedef struct {
     /* 0x0036 */ u8 pad36[0x2];
 } Unkstruct_801800DC_3; /* size = 0x38 */
 
-typedef struct {
-    /* Unkstruct_f6c1efb9: P3.40 T17 drift rank 852; 1 TNC sites in 1 bodies; struct map 1 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x3];
-    /* 0x0003 */ u8 unk3;
-} Unkstruct_800249F0; /* size = 0x4 */
 
 typedef struct {
     /* Unkstruct_fb5661bd: P3.40 T17 drift rank 861; 1 TNC sites in 1 bodies; struct map 1 sites; restruct.py --decide-band */

@@ -72,7 +72,6 @@ struct A;
 struct B;
 struct packed_word;
 union word_bytes;
-struct up;
 struct Actor;
 
 
@@ -286,7 +285,6 @@ union word_bytes {
     u8 b[4];
 };
 
-struct up { int a; int b; } __attribute__((packed));
 
 struct Actor {
     char pad0[0x12];
@@ -551,16 +549,7 @@ typedef Ent_80164930_80164930 Ent_80164930;
 typedef Unkstruct_800B5CB8 Entry_8012DDA4;
 typedef Box_80133784 Foo_80134510;
 typedef Box_80133784 Foo_80134510_80134510;
-typedef struct {
-    short v0, v1, v2, pad06, w0, w1, w2, pad0E;          /* 0x00..0x0F */
-    short v3, v4, v5, pad16, w3, w4, w5, pad1E;          /* 0x10..0x1F */
-    u8 c00, c01, c02, pad23;                             /* 0x20 */
-    u8 c10, c11, c12, pad27;                             /* 0x24 */
-    u8 c20, c21, c22, pad2B;                             /* 0x28 */
-    u8 c30, c31, c32, pad2F;                             /* 0x2C */
-    int tag;                                             /* 0x30 -> struct size 0x34; tag lands at sp+0x40 */
-} Frame_80166690_80166690;
-typedef Frame_80166690_80166690 Frame_80166690;
+typedef Prim_md_MAIN_047_800CCBC0 Frame_80166690;
 typedef Pair_8013AD38 Hw4;
 typedef M8_801312D0 M8;
 typedef MATRIX MATRIX2;
@@ -831,12 +820,6 @@ typedef struct {
 /* Phase-29 crack-wave lift (func_8016CBC0 family) */
 typedef SVECTOR SVEC_8016CBC0;
 typedef Col4_8017F8BC CLR_8016CBC0;
-typedef struct
-{
-  SVEC_md_MAIN_047_800CCBC0 v[4];
-  CVEC col[4];
-  s32 tag;
-} Poly_8016CBC0;
 typedef Blk20_8016DF5C Mtx8_8016CBC0;
 
 /* Phase-29 decl-normalize+lift (func_8013D53C family) */
@@ -859,13 +842,6 @@ typedef struct {
 
 /* --- lift_types.py fleet lift --- */
 typedef Pair_8013AD38 DVec_8016B6BC;
-typedef struct {
-    SVECTOR v[3];       /* +0x00 +0x08 +0x10 */
-    unsigned long combined;  /* +0x18 */
-    unsigned long z1c;       /* +0x1c */
-    unsigned long z20;       /* +0x20 */
-    unsigned long color;     /* +0x24 */
-} Prim_8016B6BC;
 /* S33: lifted from ov_SC01_077_after.c so guess_SpawnObject can propagate (the §100 draft-local-type
  * blocker). Layout read off the already-matched callee DEFINE_func_8014680C (§71 sibling-first):
  * it takes `short *` and touches +0x00/02/04/06 as halfwords and +0x08/0C/10 as words. */
@@ -882,10 +858,6 @@ typedef D_87298 Rec801466F0;
 
 /* --- lift_types.py fleet lift --- */
 typedef PrimTag PTag_801833F0;
-typedef struct {
-    PTag_801833F0 tag;
-    u32 code0;
-} Drm_801833F0;
 typedef struct {
     PTag_801833F0 tag;
     u8 r0, g0, b0, code;
@@ -1363,14 +1335,14 @@ typedef struct {
     } P;
 typedef PrimTag PTag_80140D68;
 typedef PrimTag PTag_8018478C;
-typedef Drm_801833F0 Drm_8018478C;
+typedef DrTpage Drm_8018478C;
 typedef Ft4_801833F0 Ft4_8018478C;
 typedef PrimTag PTag_8018893C;
 typedef PrimTag PTag_80188C04;
-typedef Drm_801833F0 Drm_80188C04;
+typedef DrTpage Drm_80188C04;
 typedef Ft4_801833F0 Ft4_80188C04;
 typedef PrimTag PTag_8018B028;
-typedef Drm_801833F0 Drm_8018B028;
+typedef DrTpage Drm_8018B028;
 typedef Ft4_801833F0 Ft4_8018B028;
 typedef PrimTag PTag_8018B23C;
 typedef PrimTag PTag_8018B23C_8018234C;
@@ -1387,7 +1359,7 @@ typedef PrimTag PTag_8018B23C_8018B2C4;
 typedef PrimTag PTag_8018B23C_8018EBCC;
 typedef PrimTag PTag_8018BCD4;
 typedef PrimTag PTag_8018BED0;
-typedef Drm_801833F0 Drm_8018BED0;
+typedef DrTpage Drm_8018BED0;
 typedef Ft4_801833F0 Ft4_8018BED0;
 typedef P P_801820E0;
 typedef P P_8018222C;
@@ -1563,24 +1535,16 @@ typedef SVECTOR SVECTOR2_8017CDF0;
 typedef M8_801312D0 SVECTOR_8017C290;
 typedef M8_801312D0 SVECTOR_8017E72C;
 typedef SVECTOR SVECTOR_8017F40C;
-typedef struct {
-    SVECTOR_8017F40C v[4];      /* 0x00 */
-    s16 k30, k32, k34, k36, k38, k3a, k3c, k3e;  /* 0x20 */
-    u32 bcast;                  /* 0x30 */
-    s32 tag;                    /* 0x34 */
-    u8 code;                    /* 0x38 */
-    u8 pad39[7];                /* -> 0x40 */
-} Prim_8017F40C;
 typedef SVECTOR SVECTOR_8017F40C_8017DB28;
-typedef Prim_8017F40C Prim_8017F40C_8017DB28;
+typedef Prim_80183F84 Prim_8017F40C_8017DB28;
 typedef SVECTOR SVECTOR_8017F40C_8017DF74;
-typedef Prim_8017F40C Prim_8017F40C_8017DF74;
+typedef Prim_80183F84 Prim_8017F40C_8017DF74;
 typedef SVECTOR SVECTOR_8017F40C_8017E368;
-typedef Prim_8017F40C Prim_8017F40C_8017E368;
+typedef Prim_80183F84 Prim_8017F40C_8017E368;
 typedef SVECTOR SVECTOR_8017F40C_8017E6EC;
-typedef Prim_8017F40C Prim_8017F40C_8017E6EC;
+typedef Prim_80183F84 Prim_8017F40C_8017E6EC;
 typedef SVECTOR SVECTOR_8017F40C_8017E97C;
-typedef Prim_8017F40C Prim_8017F40C_8017E97C;
+typedef Prim_80183F84 Prim_8017F40C_8017E97C;
 typedef SVECTOR SVECTOR_8018EDB0;
 typedef SVECTOR SVECTOR_8018F060;
 typedef M8_801312D0 SVEC_8018EDB0;
@@ -1616,33 +1580,28 @@ typedef struct {
 typedef SVECTOR SVec1CDC;
 typedef SVECTOR SVec35C;
 typedef SVECTOR SVec8_8017C218;
-typedef struct {
-    SVECTOR v[4];   /* 0x00 */
-    CVEC c[4];   /* 0x20 */
-    s32   code;   /* 0x30 */
-} Prim_8017C218_8017C218;
-typedef Prim_8017C218_8017C218 Prim_8017C218;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218;
 typedef SVECTOR SVec8_8017C218_8017C218;
 typedef SVECTOR SVec8_8017C218_8017D030;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017D030;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017D030;
 typedef SVECTOR SVec8_8017C218_8017D0F8;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017D0F8;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017D0F8;
 typedef SVECTOR SVec8_8017C218_8017D2F4;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017D2F4;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017D2F4;
 typedef SVECTOR SVec8_8017C218_8017D408;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017D408;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017D408;
 typedef SVECTOR SVec8_8017C218_8017DF10;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017DF10;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017DF10;
 typedef SVECTOR SVec8_8017C218_8017E22C;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017E22C;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017E22C;
 typedef SVECTOR SVec8_8017C218_8017E3F0;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8017E3F0;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8017E3F0;
 typedef SVECTOR SVec8_8017C218_801801E8;
-typedef Prim_8017C218_8017C218 Prim_8017C218_801801E8;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_801801E8;
 typedef SVECTOR SVec8_8017C218_8018077C;
-typedef Prim_8017C218_8017C218 Prim_8017C218_8018077C;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_8018077C;
 typedef SVECTOR SVec8_8017C218_80182348;
-typedef Prim_8017C218_8017C218 Prim_8017C218_80182348;
+typedef Prim_md_MAIN_047_800CCBC0 Prim_8017C218_80182348;
 typedef SVECTOR SVec_8017C910;
 typedef struct { SVec_8017C910 v[2]; Clr_8017C910 col[2]; s32 tag; s32 pad; } Prim_8017C910;
 typedef SVECTOR SVec_8017C910_8017D7F0;
@@ -1908,7 +1867,7 @@ typedef PrimTag PTag_1412A8;
 
 /* --- lift_types.py fleet lift --- */
 typedef MATRIX MATRIX_80188114;
-typedef struct Rec80182744_s Rec80182744;
+typedef struct Rec801806C8_s Rec80182744;
 
 /* --- lift_types.py fleet lift --- */
 typedef Blk16_8018A8B8 B16_8017CDE4;
@@ -1985,11 +1944,6 @@ typedef MATRIX Mtx_8017DB0C;
 typedef MATRIX Mtx_8017E024;
 typedef MATRIX Mtx_8017EBE4;
 struct Rec801806C8_s {
-    s32 f0;
-    s32 f1;
-    s32 f2;
-} __attribute__((packed, aligned(1)));
-struct Rec80182744_s {
     s32 f0;
     s32 f1;
     s32 f2;
@@ -2712,13 +2666,14 @@ typedef struct {
     s32             fDC;        /* 0xDC */
 } Actor_8017E330;
 typedef struct {
-    u8              pad00[0x02];
-    u16             f02;        /* 0x02 */
-    u8              pad04[0x1C];
-    Coord_8017E330 *f20;        /* 0x20 */
-    u8              pad24[0x10];
-    u16             f34;        /* 0x34 */
-} Drv_8017E330;
+    /* 0x0000 */ u8 pad0[0x2];
+    /* 0x0002 */ u16 f02;
+    /* 0x0004 */ u8 pad4[0x1c];
+    /* 0x0020 */ Coord_8017E330 *f20;
+    /* 0x0024 */ u8 pad24[0x10];
+    /* 0x0034 */ u16 f34;
+    /* 0x0036 */ u8 pad36[0x2];
+} Drv_8017E330; /* size = 0x38 */
 typedef SVECTOR Rot_8017E550;
 typedef Coord_8017E330 Coord_8017E550;
 typedef struct {
@@ -2738,24 +2693,8 @@ typedef struct {
     /* 0x0098 */ s16 f98;
     /* 0x009a */ u8 pad9A[0x2];
 } Actor_8017E550; /* size = 0x9c */
-typedef struct {
-    u8              pad00[0x02];
-    u16             f02;
-    u8              pad04[0x1C];
-    Coord_8017E330 *f20;
-    u8              pad24[0x10];
-    u16             f34;
-} Drv_8017E550;
 typedef SVECTOR Rot_8017E878;
 typedef Coord_8017E330 Coord_8017E878;
-typedef struct {
-    u8              pad00[0x02];
-    u16             f02;        /* 0x02 */
-    u8              pad04[0x1C];
-    Coord_8017E330 *f20;        /* 0x20 */
-    u8              pad24[0x10];
-    u16             f34;        /* 0x34 */
-} Drv_8017E878;
 typedef struct {
     s16 v;
     u8 pad[14];
@@ -2919,10 +2858,6 @@ typedef struct {
     u8          tail[0x24]; /* 0x34 */
 } Prim_80188D90;
 typedef SVECTOR SV_8018FE20;
-typedef struct {
-    SV_8018FE20 v[4];           /* 0x00 */
-    s32 f0, f1, f2, f3, f4, f5; /* 0x20..0x37 */
-} PRIM_8018FE20;
 typedef SVECTOR SV_80191320;
 typedef SVECTOR SV_80191320_8018D05C;
 typedef SVECTOR SV_80191320_80191070;
@@ -3212,10 +3147,13 @@ typedef SVECTOR Sv_8017E3F0;
 typedef SVECTOR Sv_8017E8A0;
 typedef SVECTOR Sv_8017FA2C;
 typedef struct {
-    Sv_8017FA2C v[4];   /* 0x00 */
-    Cv_8017FA2C c[4];   /* 0x20 */
-    u32         code;   /* 0x30 */
-} Prim_8017FA2C;
+    /* 0x0000 */ Sv_8017FA2C v[4];
+    /* 0x0020 */ union {
+        struct { Cv_8017FA2C c[4]; } v0;
+        struct { C_8017DCC0 unk0[4]; } v1;
+    } unk20;
+    /* 0x0030 */ u32 code;
+} Prim_8017FA2C; /* size = 0x34 */
 typedef SVECTOR Sv_8017FC10;
 typedef SVECTOR Svec_80181EE8;
 typedef M8_801312D0 Sxy_8017DC24;
@@ -3337,7 +3275,6 @@ typedef struct SV3_8012CC88_tag V8_80187968_80184194;
 typedef SVECTOR V_8017D9E8;
 typedef Unkstruct_801343C4 V_8017DAF4;
 typedef SVECTOR V_8017DCC0;
-typedef struct { Sv_8017FA2C v[4]; C_8017DCC0 c[4]; u32 flags; } Q_8017DCC0;
 typedef SVECTOR V_8017EEC4;
 typedef Blk16_956C Vec16_8018E8A0;
 typedef Blk16_956C Vec16_8018E8A0_80184FF0;
@@ -4079,11 +4016,6 @@ typedef struct {
     s16 fEC;
     s16 fEE;
 } St_SC03_118_801834DC;
-typedef struct {
-    s16 w[16];
-    u8 b[16];
-    s32 tail;
-} Str_8017DA50;
 typedef M8_801312D0 UV8;
 typedef M8_801312D0 UV_85810;
 typedef M8_801312D0 UVec8;
@@ -4274,16 +4206,6 @@ typedef SVECTOR SVECTOR_801EDED4_801EF98C;
 typedef SVECTOR SVec_800CB3BC;
 typedef Fr_801670E4 Fr_800CB3BC;
 typedef struct Src_80167540 Src_800CB658;
-struct Node_800CB658 {
-    u8 pad0[0x6];
-    s16 unk6;
-    u8 pad8[0x2];
-    s16 unkA;
-    u8 padC[0x2];
-    s16 unkE;
-    u8 pad10[0x10];
-    struct Src_80167540 *unk20;
-};
 struct Entity_800CB658 {
     u8 pad0[0x6];
     s16 unk6;
@@ -4296,7 +4218,7 @@ struct Entity_800CB658 {
     u8 pad14[0x8];
     s32 unk1C;
     u8 pad20[0x14];
-    struct Node_800CB658 *unk34;
+    Unkstruct_800CB2E0 *unk34;
     Mat_800CB658 mat;
 };
 

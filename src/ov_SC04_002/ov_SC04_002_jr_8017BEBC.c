@@ -3911,19 +3911,19 @@ void func_8017E22C(int param_1)
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017E22C *)param_1)->unk12;
     func_80017DC4(&rot, &mtx);
 
-    prim.v[1].vx = prim.v[1].vy = prim.v[1].vz = 0;
-    prim.v[0].vy = prim.v[2].vy = prim.v[3].vy = 0;
-    prim.c[1].r = prim.c[1].g = prim.c[1].b = 0;
+    prim.unk0.v2.unk0[1].vx = prim.unk0.v2.unk0[1].vy = prim.unk0.v2.unk0[1].vz = 0;
+    prim.unk0.v2.unk0[0].vy = prim.unk0.v2.unk0[2].vy = prim.unk0.v2.unk0[3].vy = 0;
+    prim.unk20.v2.unk0[1].r = prim.unk20.v2.unk0[1].g = prim.unk20.v2.unk0[1].b = 0;
 
     c = ((s32)(s16)((Unkstruct_8017E22C *)param_1)->unk12 >> 5) + 0x20;
-    prim.c[0].r = prim.c[0].g = prim.c[0].b =
-    prim.c[2].r = prim.c[2].g = prim.c[2].b =
-    prim.c[3].r = prim.c[3].g = prim.c[3].b = c;
+    prim.unk20.v2.unk0[0].r = prim.unk20.v2.unk0[0].g = prim.unk20.v2.unk0[0].b =
+    prim.unk20.v2.unk0[2].r = prim.unk20.v2.unk0[2].g = prim.unk20.v2.unk0[2].b =
+    prim.unk20.v2.unk0[3].r = prim.unk20.v2.unk0[3].g = prim.unk20.v2.unk0[3].b = c;
     if (guess_g_FrameCounter & 1) {
-        prim.c[0].r = prim.c[2].r = prim.c[3].r = prim.c[3].r >> 1;
+        prim.unk20.v2.unk0[0].r = prim.unk20.v2.unk0[2].r = prim.unk20.v2.unk0[3].r = prim.unk20.v2.unk0[3].r >> 1;
     }
 
-    prim.code = 0x50000000;
+    prim.tag = 0x50000000;
     rot.vx = ((Unkstruct_8017E22C_3 *)obj)->unk6;
     rot.vy = ((Unkstruct_8017E22C_3 *)obj)->unkA - 8;
     rot.vz = ((Unkstruct_8017E22C_3 *)obj)->unkE;
@@ -3932,28 +3932,28 @@ void func_8017E22C(int param_1)
     p = D_8018BFBC;
     i = 0;
     do {
-        prim.v[0].vx = (s8)*p++;
-        prim.v[0].vz = (s8)*p++;
-        prim.v[2].vx = (s8)*p++;
-        prim.v[2].vz = (s8)*p++;
-        prim.v[3].vx = (s8)*p++;
-        prim.v[3].vz = (s8)*p--;
+        prim.unk0.v2.unk0[0].vx = (s8)*p++;
+        prim.unk0.v2.unk0[0].vz = (s8)*p++;
+        prim.unk0.v2.unk0[2].vx = (s8)*p++;
+        prim.unk0.v2.unk0[2].vz = (s8)*p++;
+        prim.unk0.v2.unk0[3].vx = (s8)*p++;
+        prim.unk0.v2.unk0[3].vz = (s8)*p--;
         guess_AddPolyG4(&prim, &mtx);
         i++;
     } while (i < 10);
 
-    prim.c[0].r = prim.c[0].g = prim.c[0].b = 0;
+    prim.unk20.v2.unk0[0].r = prim.unk20.v2.unk0[0].g = prim.unk20.v2.unk0[0].b = 0;
     p = D_8018BFBC;
     i = 0;
     do {
-        prim.v[2].vx = (s8)*p++;
-        prim.v[0].vx = prim.v[2].vx << 1;
-        prim.v[2].vz = (s8)*p++;
-        prim.v[0].vz = prim.v[2].vz << 1;
-        prim.v[3].vx = (s8)*p++;
-        prim.v[1].vx = prim.v[3].vx << 1;
-        prim.v[3].vz = (s8)*p--;
-        prim.v[1].vz = prim.v[3].vz << 1;
+        prim.unk0.v2.unk0[2].vx = (s8)*p++;
+        prim.unk0.v2.unk0[0].vx = prim.unk0.v2.unk0[2].vx << 1;
+        prim.unk0.v2.unk0[2].vz = (s8)*p++;
+        prim.unk0.v2.unk0[0].vz = prim.unk0.v2.unk0[2].vz << 1;
+        prim.unk0.v2.unk0[3].vx = (s8)*p++;
+        prim.unk0.v2.unk0[1].vx = prim.unk0.v2.unk0[3].vx << 1;
+        prim.unk0.v2.unk0[3].vz = (s8)*p--;
+        prim.unk0.v2.unk0[1].vz = prim.unk0.v2.unk0[3].vz << 1;
         guess_AddPolyG4(&prim, &mtx);
         i++;
     } while (i < 0x14);
@@ -3962,11 +3962,11 @@ void func_8017E22C(int param_1)
         p = D_8018BFBC;
         i = 0;
         do {
-            prim.v[0].vx = prim.v[2].vx = (s8)*p++;
-            prim.v[0].vz = prim.v[2].vz = (s8)*p++;
-            prim.v[1].vx = prim.v[3].vx = (s8)*p++;
-            prim.v[1].vz = prim.v[3].vz = (s8)*p--;
-            prim.v[0].vy = prim.v[1].vy = CAST_SIGN(u16, param_1, 0x2A);
+            prim.unk0.v2.unk0[0].vx = prim.unk0.v2.unk0[2].vx = (s8)*p++;
+            prim.unk0.v2.unk0[0].vz = prim.unk0.v2.unk0[2].vz = (s8)*p++;
+            prim.unk0.v2.unk0[1].vx = prim.unk0.v2.unk0[3].vx = (s8)*p++;
+            prim.unk0.v2.unk0[1].vz = prim.unk0.v2.unk0[3].vz = (s8)*p--;
+            prim.unk0.v2.unk0[0].vy = prim.unk0.v2.unk0[1].vy = CAST_SIGN(u16, param_1, 0x2A);
             guess_AddPolyG4(&prim, &mtx);
             i++;
         } while (i < 0x14);
@@ -10296,17 +10296,17 @@ void func_80187604(s32 a0, s32 a1, s32 a2)
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
     if (guess_g_FrameCounter & 1) {
-        p.c[1].r = 0xA0;
+        p.unk20.v0.c[1].r = 0xA0;
     } else if (!(guess_g_FrameCounter & 2)) {
-        p.c[1].r = 0x80;
+        p.unk20.v0.c[1].r = 0x80;
     } else {
-        p.c[1].r = 0xC0;
+        p.unk20.v0.c[1].r = 0xC0;
     }
-    p.c[0].r = p.c[0].g = p.c[0].b = 0;
-    p.c[2].r = p.c[2].g = p.c[2].b = 0;
-    p.c[3].r = p.c[3].g = p.c[3].b = 0;
+    p.unk20.v0.c[0].r = p.unk20.v0.c[0].g = p.unk20.v0.c[0].b = 0;
+    p.unk20.v0.c[2].r = p.unk20.v0.c[2].g = p.unk20.v0.c[2].b = 0;
+    p.unk20.v0.c[3].r = p.unk20.v0.c[3].g = p.unk20.v0.c[3].b = 0;
     p.code = 0x50000000;
-    p.c[1].g = p.c[1].b = p.c[1].r >> 2;
+    p.unk20.v0.c[1].g = p.unk20.v0.c[1].b = p.unk20.v0.c[1].r >> 2;
 
     q = D_8018B4D8;
     for (i = 0; i < 4; i++) {
@@ -10340,8 +10340,8 @@ void func_80187604(s32 a0, s32 a1, s32 a2)
 
     p.v[0].vx = 0;
     p.v[0].vz = -0x20;
-    p.c[0].r = p.c[1].r;
-    p.c[0].g = p.c[0].b = p.c[1].g;
+    p.unk20.v0.c[0].r = p.unk20.v0.c[1].r;
+    p.unk20.v0.c[0].g = p.unk20.v0.c[0].b = p.unk20.v0.c[1].g;
     for (i = 0; i < 2; i++) {
         p.v[2].vx = (s8)*q++;
         p.v[2].vz = (s8)*q++;

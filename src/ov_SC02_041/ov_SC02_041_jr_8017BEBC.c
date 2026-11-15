@@ -7908,17 +7908,17 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
     p.v[0].vz = p.v[2].vz = p.v[3].vz = 0;
     p.v[1].vx = p.v[1].vy = p.v[1].vz = 0;
     if (guess_g_FrameCounter & 1) {
-        p.c[1].r = 0xA0;
+        p.unk20.v0.c[1].r = 0xA0;
     } else if (!(guess_g_FrameCounter & 2)) {
-        p.c[1].r = 0x80;
+        p.unk20.v0.c[1].r = 0x80;
     } else {
-        p.c[1].r = 0xC0;
+        p.unk20.v0.c[1].r = 0xC0;
     }
-    p.c[0].r = p.c[0].g = p.c[0].b = 0;
-    p.c[2].r = p.c[2].g = p.c[2].b = 0;
-    p.c[3].r = p.c[3].g = p.c[3].b = 0;
+    p.unk20.v0.c[0].r = p.unk20.v0.c[0].g = p.unk20.v0.c[0].b = 0;
+    p.unk20.v0.c[2].r = p.unk20.v0.c[2].g = p.unk20.v0.c[2].b = 0;
+    p.unk20.v0.c[3].r = p.unk20.v0.c[3].g = p.unk20.v0.c[3].b = 0;
     p.code = 0x50000000;
-    p.c[1].g = p.c[1].b = p.c[1].r >> 2;
+    p.unk20.v0.c[1].g = p.unk20.v0.c[1].b = p.unk20.v0.c[1].r >> 2;
 
     q = D_80187EB4;
     for (i = 0; i < 4; i++) {
@@ -7952,8 +7952,8 @@ void func_80183FE0(s32 a0, s32 a1, s32 a2)
 
     p.v[0].vx = 0;
     p.v[0].vz = -0x20;
-    p.c[0].r = p.c[1].r;
-    p.c[0].g = p.c[0].b = p.c[1].g;
+    p.unk20.v0.c[0].r = p.unk20.v0.c[1].r;
+    p.unk20.v0.c[0].g = p.unk20.v0.c[0].b = p.unk20.v0.c[1].g;
     for (i = 0; i < 2; i++) {
         p.v[2].vx = (s8)*q++;
         p.v[2].vz = (s8)*q++;

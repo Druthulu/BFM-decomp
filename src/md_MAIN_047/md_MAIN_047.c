@@ -83,33 +83,33 @@ s32 func_800CCBC0(void)
     if (cnt != -1) {
         do {
             q = &e[idx];
-            prim.v0.vx = q->h[0];
-            prim.v0.vy = q->h[1];
-            prim.v0.vz = q->h[2];
-            prim.v1.vx = q->h[3];
-            prim.v1.vy = q->h[4];
-            prim.v1.vz = q->h[5];
+            prim.unk0.v0.v0.vx = q->h[0];
+            prim.unk0.v0.v0.vy = q->h[1];
+            prim.unk0.v0.v0.vz = q->h[2];
+            prim.unk0.v0.v1.vx = q->h[3];
+            prim.unk0.v0.v1.vy = q->h[4];
+            prim.unk0.v0.v1.vz = q->h[5];
             n = n + 1;
             idx = idx - 1;
-            prim.c0.r = prim.c1.r = tim;
-            prim.c0.g = prim.c1.g = prim.c0.b = prim.c1.b = half;
+            prim.unk20.v0.c0.r = prim.unk20.v0.c1.r = tim;
+            prim.unk20.v0.c0.g = prim.unk20.v0.c1.g = prim.unk20.v0.c0.b = prim.unk20.v0.c1.b = half;
             if (idx < 0) {
                 idx = 15;
             }
             q = &e[idx];
-            prim.v2.vx = q->h[0];
-            prim.v2.vy = q->h[1];
-            prim.v2.vz = q->h[2];
-            prim.v3.vx = q->h[3];
-            prim.v3.vy = q->h[4];
-            prim.v3.vz = q->h[5];
+            prim.unk0.v0.v2.vx = q->h[0];
+            prim.unk0.v0.v2.vy = q->h[1];
+            prim.unk0.v0.v2.vz = q->h[2];
+            prim.unk0.v0.v3.vx = q->h[3];
+            prim.unk0.v0.v3.vy = q->h[4];
+            prim.unk0.v0.v3.vz = q->h[5];
             tim = tim - 0x10;
             half = half - 0x10;
             if (half < 0) {
                 half = 0;
             }
-            prim.c2.r = prim.c3.r = tim;
-            prim.c2.g = prim.c3.g = prim.c2.b = prim.c3.b = half;
+            prim.unk20.v0.c2.r = prim.unk20.v0.c3.r = tim;
+            prim.unk20.v0.c2.g = prim.unk20.v0.c3.g = prim.unk20.v0.c2.b = prim.unk20.v0.c3.b = half;
             guess_AddPolyG4(&prim, &blk);
             cnt = cnt - 1;
         } while (cnt != -1);
