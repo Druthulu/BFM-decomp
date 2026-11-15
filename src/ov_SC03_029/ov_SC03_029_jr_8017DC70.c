@@ -3727,8 +3727,8 @@ extern s32 D_801D9740;
 void func_8017FE08(s32 a0) {
     CAST_ALIAS(s16, a0, 0x2) = 4;
     func_80132288(&D_801D9740, &D_8018B6E8, D_801ADB78);
-    ((Unkstruct_8017FE08 *)a0)->unk1C = 0x1E;
-    ((Unkstruct_8017FE08 *)a0)->unkDC = 0;
+    ((Unkstruct_8017E0D8 *)a0)->unk1C = 0x1E;
+    ((Unkstruct_8017E0D8 *)a0)->unkDC = 0;
 }
 
 

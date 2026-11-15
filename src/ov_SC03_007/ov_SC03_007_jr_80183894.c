@@ -5287,18 +5287,18 @@ void func_8018676C(s32 a0) {
     s32 v0;
     s32 v1;
 
-    v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_8018676C *)a0)->unk20 + 0x12), 0, 4);
+    v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801818B8_2 *)a0)->unk20 + 0x12), 0, 4);
     ((Unkstruct_8018676C_2 *)*(s32 *)(a0 + 0x20))->unk12 = ((Unkstruct_8018676C_2 *)*(s32 *)(a0 + 0x20))->unk12 + v0;
-    v1 = ((Unkstruct_8018676C *)a0)->unk1C;
-    ((Unkstruct_8018676C *)a0)->unk1C = v1 + 1;
+    v1 = ((Unkstruct_801818B8_2 *)a0)->unk1C;
+    ((Unkstruct_801818B8_2 *)a0)->unk1C = v1 + 1;
     if (v1 >= 0x15) {
         rect[0] = 0x248;
         rect[1] = 0x1C0;
         rect[2] = 0xC;
         rect[3] = 0x28;
         MoveImage(rect, 0x2A8, 0x188);
-        ((Unkstruct_8018676C *)a0)->unk2 += 1;
-        ((Unkstruct_8018676C *)a0)->unk1C = 0x28;
+        ((Unkstruct_801818B8_2 *)a0)->unk2 += 1;
+        ((Unkstruct_801818B8_2 *)a0)->unk1C = 0x28;
     }
 }
 

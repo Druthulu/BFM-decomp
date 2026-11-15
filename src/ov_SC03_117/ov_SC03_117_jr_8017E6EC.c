@@ -3953,11 +3953,11 @@ void func_80180394(void *a0)
     s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
     p = D_801CE458 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
     func_8001CD50(s1, (s32)p);
-    ((Unkstruct_80180394 *)s1)->unk1E = 0xCCC;
-    ((Unkstruct_80180394 *)s1)->unk10 = 0x400;
-    ((Unkstruct_80180394 *)s1)->unk1A = 0;
-    ((Unkstruct_80180394 *)s1)->unk18 = 0;
-    ((Unkstruct_80180394 *)s1)->unk4 = ((Unkstruct_80180394 *)s1)->unk4 | 0x50000000;
+    ((Unkstruct_8017DE80 *)s1)->unk1E = 0xCCC;
+    ((Unkstruct_8017DE80 *)s1)->unk10 = 0x400;
+    ((Unkstruct_8017DE80 *)s1)->unk1A = 0;
+    ((Unkstruct_8017DE80 *)s1)->unk18 = 0;
+    ((Unkstruct_8017DE80 *)s1)->unk4 = ((Unkstruct_8017DE80 *)s1)->unk4 | 0x50000000;
     guess_BuildCircle12Points(p, 0x20);
     p[5] = 0x40;
     p[4] = 0x40;
@@ -4066,8 +4066,8 @@ void func_80180628(int param_1)
 
     p = ((Unkstruct_801813D0 *)param_1)->unk20;
     *(u8 **)(p + 0x20) = D_800D387C;
-    ((Unkstruct_80180628_2 *)p)->unk27 = 0x9c;
-    ((Unkstruct_80180628_2 *)p)->unk4 = ((Unkstruct_80180628_2 *)p)->unk4 | 0x60000000;
+    ((Unkstruct_801813D0_2 *)p)->unk27 = 0x9c;
+    ((Unkstruct_801813D0_2 *)p)->unk4 = ((Unkstruct_801813D0_2 *)p)->unk4 | 0x60000000;
 
     guess_StartPairSequence(((Unkstruct_801813D0 *)param_1)->unk20, param_1 + 0x24, (s32)D_800D3888);
 
@@ -4082,11 +4082,11 @@ void func_80180628(int param_1)
     v = (r1 & 3) * 1024;
     v += (r2 & 3) * 250;
     v += (r3 & 3) * 68;
-    ((Unkstruct_80180628_2 *)p)->unk10 = v;
+    ((Unkstruct_801813D0_2 *)p)->unk10 = v;
     r4 = rand();
     v2 = (r4 & 3) * 2048 + 0x1000;
-    ((Unkstruct_80180628_2 *)p)->unk1A = v2;
-    ((Unkstruct_80180628_2 *)p)->unk18 = v2;
+    ((Unkstruct_801813D0_2 *)p)->unk1A = v2;
+    ((Unkstruct_801813D0_2 *)p)->unk18 = v2;
     r5 = rand();
     ((Unkstruct_801813D0 *)param_1)->unk2E = (r5 & 3) + 1;
     ((Unkstruct_801813D0 *)param_1)->unk2 = ((Unkstruct_801813D0 *)param_1)->unk2 + 1;

@@ -5901,10 +5901,10 @@ void func_80181A4C(void)
                                          : "r"(a0), "r"(t0));
                     v1 = (s32)(src - 6);
                     v1 = a3 + v1;
-                    a1 = ((Unkstruct_80181A4C_5 *)v1)->unk2;
+                    a1 = ((Unkstruct_801877B8 *)v1)->unk2;
                     v0 = *(s16 *)(a0 + 2);
-                    a2 = ((Unkstruct_80181A4C_5 *)v1)->unk6;
-                    v1 = ((Unkstruct_80181A4C_5 *)v1)->unkA;
+                    a2 = ((Unkstruct_801877B8 *)v1)->unk6;
+                    v1 = ((Unkstruct_801877B8 *)v1)->unkA;
                     t2 = a1 - v0;
                     t0 = t2;
                     a1 = *(s16 *)(a0 + 6);
@@ -6908,12 +6908,12 @@ void func_801833A0(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
 
     func_801835C8(param_1, ((s16 *)param_2), ((s16 *)param_3), buf);
 
-    ((Unkstruct_801833A0 *)buf)->unk3C = 0;
-    ((Unkstruct_801833A0 *)buf)->unk34 = 0;
-    ((Unkstruct_801833A0 *)buf)->unk24 = 0;
-    ((Unkstruct_801833A0 *)buf)->unk2C = 0;
-    ((Unkstruct_801833A0 *)buf)->unk2A = 0;
-    ((Unkstruct_801833A0 *)buf)->unk28 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk3C = 0;
+    ((Unkstruct_80167DBC *)buf)->unk34 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk24 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk2C = 0;
+    ((Unkstruct_80167DBC *)buf)->unk2A = 0;
+    ((Unkstruct_80167DBC *)buf)->unk28 = 0;
     if (guess_g_FrameCounter & 1) {
         buf[0x46] = 0x58;
     } else {
@@ -6932,47 +6932,47 @@ void func_801833A0(s32 param_1, s16 *param_2, s16 *param_3, void *param_4) {
     buf[0x4E] = 0;
     buf[0x4D] = 0;
     buf[0x4C] = 0;
-    ((Unkstruct_801833A0 *)buf)->unk50 = 0x50000000;
+    ((Unkstruct_80167DBC *)buf)->unk50 = 0x50000000;
 
     for (i = 0; i < 4; i++) {
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk20 = t;
+        ((Unkstruct_80167DBC *)buf)->unk20 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk22 = t;
+        ((Unkstruct_80167DBC *)buf)->unk22 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk30 = t;
+        ((Unkstruct_80167DBC *)buf)->unk30 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk32 = t;
+        ((Unkstruct_80167DBC *)buf)->unk32 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk38 = t;
+        ((Unkstruct_80167DBC *)buf)->unk38 = t;
         t = *p--;
-        ((Unkstruct_801833A0 *)buf)->unk3A = t;
+        ((Unkstruct_80167DBC *)buf)->unk3A = t;
         guess_AddPolyG4(buf + 0x20, buf);
     }
 
     p = D_80188DBC;
-    ((Unkstruct_801833A0 *)buf)->unk2C = -0x12;
-    ((Unkstruct_801833A0 *)buf)->unk3A = 0;
-    ((Unkstruct_801833A0 *)buf)->unk32 = 0;
-    ((Unkstruct_801833A0 *)buf)->unk22 = 0;
-    ((Unkstruct_801833A0 *)buf)->unk2A = 0;
-    ((Unkstruct_801833A0 *)buf)->unk28 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk2C = -0x12;
+    ((Unkstruct_80167DBC *)buf)->unk3A = 0;
+    ((Unkstruct_80167DBC *)buf)->unk32 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk22 = 0;
+    ((Unkstruct_80167DBC *)buf)->unk2A = 0;
+    ((Unkstruct_80167DBC *)buf)->unk28 = 0;
     buf[0x46] = buf[0x46] << 1;
     buf[0x44] = buf[0x45] = buf[0x45] << 1;
 
     for (i = 0; i < 4; i++) {
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk20 = t;
+        ((Unkstruct_80167DBC *)buf)->unk20 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk24 = t;
+        ((Unkstruct_80167DBC *)buf)->unk24 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk30 = t;
+        ((Unkstruct_80167DBC *)buf)->unk30 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk34 = t;
+        ((Unkstruct_80167DBC *)buf)->unk34 = t;
         t = *p++;
-        ((Unkstruct_801833A0 *)buf)->unk38 = t;
+        ((Unkstruct_80167DBC *)buf)->unk38 = t;
         t = *p--;
-        ((Unkstruct_801833A0 *)buf)->unk3C = t;
+        ((Unkstruct_80167DBC *)buf)->unk3C = t;
         if (i == 2) {
             buf[0x4E] = buf[0x46];
             buf[0x4D] = buf[0x44];

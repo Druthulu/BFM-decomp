@@ -4975,19 +4975,19 @@ extern u8 D_801E2F5C;
 
 void func_8018CC28(s32 param_1)
 {
-    func_8001CD50(((Unkstruct_8018CC28 *)param_1)->unk20, (s32)&D_801E4958);
+    func_8001CD50(((Unkstruct_80186D40 *)param_1)->unk20, (s32)&D_801E4958);
 
-    ((Unkstruct_8018CC28 *)param_1)->unkA -= 0x100;
-    *(u32 *)(((Unkstruct_8018CC28 *)param_1)->unk20 + 4) |= 0x50000000;
-    *(s16 *)(((Unkstruct_8018CC28 *)param_1)->unk20 + 0x10) = 0x400;
-    ((Unkstruct_8018CC28 *)param_1)->unk2C = 0x8;
+    ((Unkstruct_80186D40 *)param_1)->unkA -= 0x100;
+    *(u32 *)(((Unkstruct_80186D40 *)param_1)->unk20 + 4) |= 0x50000000;
+    *(s16 *)(((Unkstruct_80186D40 *)param_1)->unk20 + 0x10) = 0x400;
+    ((Unkstruct_80186D40 *)param_1)->unk2C = 0x8;
 
     guess_BuildCircle12Points(&D_801E4958, 0x8);
 
     *(Blk4_8018CC28 *)&D_801E4958 = *(Blk4_8018CC28 *)&D_801E2F58;
     *(Blk4_8018CC28 *)&D_801E495C = *(Blk4_8018CC28 *)&D_801E2F5C;
 
-    ((Unkstruct_8018CC28 *)param_1)->unk2 += 1;
+    ((Unkstruct_80186D40 *)param_1)->unk2 += 1;
 }
 
 
@@ -5057,12 +5057,12 @@ extern u8 D_801E2F64;
 
 void func_8018CE04(s32 param_1)
 {
-    func_8001CD50(((Unkstruct_8018CE04 *)param_1)->unk20, (s32)&D_801E4918);
+    func_8001CD50(((Unkstruct_80186D40 *)param_1)->unk20, (s32)&D_801E4918);
 
-    ((Unkstruct_8018CE04 *)param_1)->unkA -= 0x100;
+    ((Unkstruct_80186D40 *)param_1)->unkA -= 0x100;
     ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
     ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk10 = 0x400;
-    ((Unkstruct_8018CE04 *)param_1)->unk2C = 0x10;
+    ((Unkstruct_80186D40 *)param_1)->unk2C = 0x10;
 
     guess_BuildCircle12Points(&D_801E4918, 0x10);
 
@@ -5070,7 +5070,7 @@ void func_8018CE04(s32 param_1)
     *(Blk4_8018CE04 *)&D_801E491C = *(Blk4_8018CE04 *)&D_801E2F64;
 
     ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk1E = 0xC00;
-    ((Unkstruct_8018CE04 *)param_1)->unk2 += 1;
+    ((Unkstruct_80186D40 *)param_1)->unk2 += 1;
 }
 
 

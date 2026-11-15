@@ -3995,18 +3995,18 @@ void func_8017F098(s32 a0) {
     s32 obj;
     s32 p;
 
-    obj = ((Unkstruct_8017F098 *)a0)->unk64;
-    p = ((Unkstruct_8017F098 *)a0)->unkCC;
+    obj = ((Unkstruct_801870AC *)a0)->unk64;
+    p = ((Unkstruct_801870AC *)a0)->unkCC;
     guess_RotTransSVWithMatrix(*(s32 *)(obj + 0x20) + 0x34, p, (s32)sp10);
-    ((Unkstruct_8017F098 *)a0)->unk6 = sp10[0];
-    ((Unkstruct_8017F098 *)a0)->unkA = sp10[1];
-    ((Unkstruct_8017F098 *)a0)->unkE = sp10[2];
+    ((Unkstruct_801870AC *)a0)->unk6 = sp10[0];
+    ((Unkstruct_801870AC *)a0)->unkA = sp10[1];
+    ((Unkstruct_801870AC *)a0)->unkE = sp10[2];
     p += 8;
     if (*(s16 *)(p + 6) == 0x7FFF) {
-        ((Unkstruct_8017F098 *)a0)->unk2 = 1;
-        ((Unkstruct_8017F098 *)a0)->unk70 |= 1;
+        ((Unkstruct_801870AC *)a0)->unk2 = 1;
+        ((Unkstruct_801870AC *)a0)->unk70 |= 1;
     } else {
-        ((Unkstruct_8017F098 *)a0)->unkCC = p;
+        ((Unkstruct_801870AC *)a0)->unkCC = p;
     }
 }
 
@@ -4154,14 +4154,14 @@ void func_8017F47C(s32 a0) {
 
     func_8002D59C(4, 0x64E, ((Unkstruct_80186AAC_2 *)s1)->unk104);
 
-    ((Unkstruct_80186AAC_2 *)s1)->unk4 = ((Unkstruct_8017F47C_3 *)s0)->unk4;
-    ((Unkstruct_80186AAC_2 *)s1)->unk8 = ((Unkstruct_8017F47C_3 *)s0)->unk8 + 0xFFDA0000;
-    ((Unkstruct_80186AAC_2 *)s1)->unkC = ((Unkstruct_8017F47C_3 *)s0)->unkC;
+    ((Unkstruct_80186AAC_2 *)s1)->unk4 = ((Unkstruct_80186AAC_3 *)s0)->unk4;
+    ((Unkstruct_80186AAC_2 *)s1)->unk8 = ((Unkstruct_80186AAC_3 *)s0)->unk8 + 0xFFDA0000;
+    ((Unkstruct_80186AAC_2 *)s1)->unkC = ((Unkstruct_80186AAC_3 *)s0)->unkC;
     ((Unkstruct_80186AAC_2 *)s1)->unk70 = 1;
 
     v1 = *(s32 **)((u8 *)s1 + 0x20);
 
-    if (((Unkstruct_8017F47C_3 *)s0)->unk70 & 1) {
+    if (((Unkstruct_80186AAC_3 *)s0)->unk70 & 1) {
         ((Unkstruct_8017F47C *)v1)->unk14 = 0;
         ((Unkstruct_8017F47C *)v1)->unk12 = 0;
         ((Unkstruct_8017F47C *)v1)->unk10 = 0;

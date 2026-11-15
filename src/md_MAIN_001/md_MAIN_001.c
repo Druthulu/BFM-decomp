@@ -266,15 +266,15 @@ void func_800CF290(void) {
     n <<= 14;
     c7840 = 0x7840;
     cm28 = -28;
-    ((Unkstruct_800CF290_2 *)p0)->unk12 = c7840;
-    ((Unkstruct_800CF290_2 *)p0)->unkE = cm28;
+    ((Unkstruct_800CF290 *)p0)->unk12 = c7840;
+    ((Unkstruct_800CF290 *)p0)->unkE = cm28;
     c38 = 0x38;
     c256 = 0x100;
     p0[0x10] = 0;
     p0[0x11] = c38;
-    ((Unkstruct_800CF290_2 *)p0)->unk14 = c256;
+    ((Unkstruct_800CF290 *)p0)->unk14 = c256;
     c60 = 0x60;
-    ((Unkstruct_800CF290_2 *)p0)->unk16 = c60;
+    ((Unkstruct_800CF290 *)p0)->unk16 = c60;
     p0[0xA] = c;
     p0[9] = c;
     p0[8] = c;
@@ -309,7 +309,7 @@ void func_800CF290(void) {
         mFF = 0xFF000000;
         ((Unkstruct_800CF290 *)p1)->unk0 = (t & mFF) | (*ot & m24);
         *ot = (*ot & mFF) | ((u32)p1 & m24);
-        ((Unkstruct_800CF290_2 *)p0)->unk0 = (((Unkstruct_800CF290_2 *)p0)->unk0 & mFF) | (*ot & m24);
+        ((Unkstruct_800CF290 *)p0)->unk0 = (((Unkstruct_800CF290 *)p0)->unk0 & mFF) | (*ot & m24);
         *ot = (*ot & mFF) | ((u32)p0 & m24);
     }
 }

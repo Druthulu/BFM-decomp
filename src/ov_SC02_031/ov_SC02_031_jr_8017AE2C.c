@@ -6657,9 +6657,9 @@ void func_80182174(s32 param_1) {
     extern void (*D_80188F98[])(void);
     extern void (*D_80188EEC[])(void);
 
-    if (((Unkstruct_80182174 *)param_1)->unkFC != 0) {
-        ((Unkstruct_80182174 *)param_1)->unk2 = 2;
-        ((Unkstruct_80182174 *)param_1)->unk1C = 0x1E;
+    if (((Unkstruct_8017D758 *)param_1)->unkFC != 0) {
+        ((Unkstruct_8017D758 *)param_1)->unk2 = 2;
+        ((Unkstruct_8017D758 *)param_1)->unk1C = 0x1E;
         func_80178BF8();
         func_801746DC();
         func_80178CBC(param_1, (s32)&D_80188F98);

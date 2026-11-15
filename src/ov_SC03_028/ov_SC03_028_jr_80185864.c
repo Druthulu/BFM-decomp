@@ -3041,7 +3041,7 @@ void func_80185A3C(s32 arg0) {
         guess_AllocRenderWorkRecord((s32)D_801E08BC);
         break;
     case 1:
-        v1 = ((s32)((Unkstruct_80185A3C *)arg0)->unkFC << 16) >> 17;
+        v1 = ((s32)((Unkstruct_80185864 *)arg0)->unkFC << 16) >> 17;
         t = v1;
         if (t < 0) {
             t += 7;
@@ -3049,30 +3049,30 @@ void func_80185A3C(s32 arg0) {
         guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_801908F8 + (((v1 - (t >> 3 << 3)) << 16) >> 14)));
         break;
     case 2:
-        ((Unkstruct_80185A3C *)arg0)->unkFC = 0;
-        ((Unkstruct_80185A3C *)arg0)->unk2 = 4;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 4;
         break;
     case 3:
-        ((Unkstruct_80185A3C *)arg0)->unkFE = 0xC3;
-        ((Unkstruct_80185A3C *)arg0)->unk2 = 3;
-        ((Unkstruct_80185A3C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xC3;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 4:
-        ((Unkstruct_80185A3C *)arg0)->unkFE = 0xCB;
-        ((Unkstruct_80185A3C *)arg0)->unk2 = 3;
-        ((Unkstruct_80185A3C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xCB;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 5:
-        ((Unkstruct_80185A3C *)arg0)->unkFE = 0xC5;
-        ((Unkstruct_80185A3C *)arg0)->unk2 = 3;
-        ((Unkstruct_80185A3C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xC5;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6:
-        v1 = ((Unkstruct_80185A3C *)arg0)->unk20;
+        v1 = ((Unkstruct_80185864 *)arg0)->unk20;
         t = -*(s16 *)(v1 + 0x18);
         *(s16 *)(v1 + 0x18) = t;
-        ((Unkstruct_80185A3C *)arg0)->unk1C = 0x20;
-        ((Unkstruct_80185A3C *)arg0)->unk2 = 6;
+        ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 6;
         break;
     case 7:
     case 8:

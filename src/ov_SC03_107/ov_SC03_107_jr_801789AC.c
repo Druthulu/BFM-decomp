@@ -6930,16 +6930,16 @@ void func_8017E270(s32 param_1) {
     u16 arr[3];
     s32 temp;
 
-    temp = ((Unkstruct_8017E270_5 *)param_1)->unk20;
+    temp = ((Unkstruct_801820B0 *)param_1)->unk20;
     if (*(s32 *)(temp + 0x24) == (s32)&D_80193CF4) {
         func_8001C924(temp, &D_80193CE4);
     }
-    ((Unkstruct_8017E270_5 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_8017E270_5 *)param_1)->unkDC &= ~0x10;
-    if (((Unkstruct_8017E270_5 *)param_1)->unk5E == 0x23) {
-        ((Unkstruct_8017E270_5 *)param_1)->unkFE = 1;
+    ((Unkstruct_801820B0 *)param_1)->unk1C = 0x18;
+    ((Unkstruct_801820B0 *)param_1)->unkDC &= ~0x10;
+    if (((Unkstruct_801820B0 *)param_1)->unk5E == 0x23) {
+        ((Unkstruct_801820B0 *)param_1)->unkFE = 1;
         guess_RequestSound(0xAA1, 0);
-    } else if (((Unkstruct_8017E270_5 *)param_1)->unk5E == 0x24) {
+    } else if (((Unkstruct_801820B0 *)param_1)->unk5E == 0x24) {
         arr[0] = 0;
         arr[1] = 0x10;
         arr[2] = 0;
@@ -9356,11 +9356,11 @@ void func_80181C1C(s32 a0) {
     extern u16 D_80198BB4;
     s32 ptr;
 
-    ptr = ((Unkstruct_80181C1C *)a0)->unk20;
+    ptr = ((Unkstruct_80191C50 *)a0)->unk20;
     *(s32 *)(ptr + 4) &= 0x7FFFFFFF;
-    ((Unkstruct_80181C1C *)a0)->unkFC = 0;
-    func_800291C8(0xA, (s16)(((Unkstruct_80181C1C *)a0)->unkFE | 0x100));
-    D_80198BB0 = ((Unkstruct_80181C1C *)a0)->unk6;
+    ((Unkstruct_80191C50 *)a0)->unkFC = 0;
+    func_800291C8(0xA, (s16)(((Unkstruct_80191C50 *)a0)->unkFE | 0x100));
+    D_80198BB0 = ((Unkstruct_80191C50 *)a0)->unk6;
     D_80198BB2 = CAST_ALIAS(u16, (s32)a0, 0xA);
     D_80198BB4 = CAST_ALIAS(u16, (s32)a0, 0xE);
 }

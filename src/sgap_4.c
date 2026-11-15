@@ -107,20 +107,20 @@ void func_8003DF8C(s32 arg0, s32 arg1)
     i = arg0;
     j = arg1;
     p = D_800C73D8[(s16)arg0] + (s16)arg1 * 0xB0;
-    n = ((Unkstruct_8003DF8C *)p)->unkA0 - 1;
-    ((Unkstruct_8003DF8C *)p)->unkA0 = n;
+    n = ((Unkstruct_8003DC90 *)p)->unkA0 - 1;
+    ((Unkstruct_8003DC90 *)p)->unkA0 = n;
     if (n < 0) {
         *(s32 *)((s16)arg1 * 0xB0 + D_800C73D8[(s16)arg0] + 0x98) &= ~0x20;
         goto tail;
     }
-    if (((Unkstruct_8003DF8C *)p)->unk4C > 0) {
-        if (n % ((Unkstruct_8003DF8C *)p)->unk4C != 0) {
+    if (((Unkstruct_8003DC90 *)p)->unk4C > 0) {
+        if (n % ((Unkstruct_8003DC90 *)p)->unk4C != 0) {
             goto tail;
         }
-        ((Unkstruct_8003DF8C *)p)->unk4A -= 1;
-        if (((Unkstruct_8003DF8C *)p)->unk4A > 0) {
+        ((Unkstruct_8003DC90 *)p)->unk4A -= 1;
+        if (((Unkstruct_8003DC90 *)p)->unk4A > 0) {
             func_80041354(arg0 | (arg1 << 8), &w, &h);
-            if (w - ((Unkstruct_8003DF8C *)p)->unk4A > 0 && h - ((Unkstruct_8003DF8C *)p)->unk4A > 0 && w != 1) {
+            if (w - ((Unkstruct_8003DC90 *)p)->unk4A > 0 && h - ((Unkstruct_8003DC90 *)p)->unk4A > 0 && w != 1) {
                 func_80040DE8(arg0 | (arg1 << 8), w - 1, h - 1, 1);
             } else {
                 func_80040DE8(i | (j << 8), 1, 1, 1);
@@ -129,12 +129,12 @@ void func_8003DF8C(s32 arg0, s32 arg1)
             *(s32 *)((s16)arg1 * 0xB0 + D_800C73D8[(s16)arg0] + 0x98) &= ~0x20;
         }
     } else {
-        ((Unkstruct_8003DF8C *)p)->unk4A += ((Unkstruct_8003DF8C *)p)->unk4C;
-        if (((Unkstruct_8003DF8C *)p)->unk4A > 0) {
+        ((Unkstruct_8003DC90 *)p)->unk4A += ((Unkstruct_8003DC90 *)p)->unk4C;
+        if (((Unkstruct_8003DC90 *)p)->unk4A > 0) {
             func_80041354(arg0 | (arg1 << 8), &w, &h);
-            if (((Unkstruct_8003DF8C *)p)->unk48 >= (((Unkstruct_8003DF8C *)p)->unk9C - ((Unkstruct_8003DF8C *)p)->unkA0) * -((Unkstruct_8003DF8C *)p)->unk4C
-                && -((Unkstruct_8003DF8C *)p)->unk4C < w) {
-                func_80040DE8(arg0 | (arg1 << 8), w + ((Unkstruct_8003DF8C *)p)->unk4C, h + ((Unkstruct_8003DF8C *)p)->unk4C, 1);
+            if (((Unkstruct_8003DC90 *)p)->unk48 >= (((Unkstruct_8003DC90 *)p)->unk9C - ((Unkstruct_8003DC90 *)p)->unkA0) * -((Unkstruct_8003DC90 *)p)->unk4C
+                && -((Unkstruct_8003DC90 *)p)->unk4C < w) {
+                func_80040DE8(arg0 | (arg1 << 8), w + ((Unkstruct_8003DC90 *)p)->unk4C, h + ((Unkstruct_8003DC90 *)p)->unk4C, 1);
             } else {
                 func_80040DE8(i | (j << 8), 1, 1, 1);
             }
@@ -142,7 +142,7 @@ void func_8003DF8C(s32 arg0, s32 arg1)
             *(s32 *)((s16)arg1 * 0xB0 + D_800C73D8[(s16)arg0] + 0x98) &= ~0x20;
         }
     }
-    if (((Unkstruct_8003DF8C *)p)->unkA0 == 0 || ((Unkstruct_8003DF8C *)p)->unk4A == 0) {
+    if (((Unkstruct_8003DC90 *)p)->unkA0 == 0 || ((Unkstruct_8003DC90 *)p)->unk4A == 0) {
         *(s32 *)(D_800C73D8[(s16)i] + (s16)j * 0xB0 + 0x98) &= ~0x20;
     }
 tail:

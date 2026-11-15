@@ -4807,18 +4807,18 @@ void func_8017E35C(s32 arg0)
     u32 *tp;
     u32 uvw;
 
-    if (((Unkstruct_8017E35C *)arg0)->unk0 != 0) {
+    if (((Unkstruct_8017BEBC_5 *)arg0)->unk0 != 0) {
         return;
     }
 
-    lim = func_800491EC() + ((Unkstruct_8017E35C *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017BEBC_5 *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
     pkt = D_800A5E60;
     part = *(Part35C **)(arg0 + 0xC);
-    nparts = *(s32 *)(((Unkstruct_8017E35C *)arg0)->unk8 + 8);
-    vtx = *(u8 **)(((Unkstruct_8017E35C *)arg0)->unk8 + 0x10);
+    nparts = *(s32 *)(((Unkstruct_8017BEBC_5 *)arg0)->unk8 + 8);
+    vtx = *(u8 **)(((Unkstruct_8017BEBC_5 *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(u16)guess_g_DoubleBufferIndex << 14];
 
     for (j = 0; j < nparts; j++, part++) {

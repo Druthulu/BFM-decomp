@@ -1194,21 +1194,6 @@ cause: 12 names (4 B, all members placeholders); 8 bound to no object (UNBOUND),
 - `W_S40_8018B238`: 1 obj — ov_SC03_001/0x8018B238:ot
 - `W_S40_8018B238_80187EA0`: 1 obj — ov_SC03_124/0x80187EA0:ot
 
-### be985ec985af
-names: Unkstruct_800CB2E0_2, Unkstruct_800CDF84_2, Unkstruct_8017E850_2, Unkstruct_80181720_3, Unkstruct_801843C0_2, Unkstruct_80184728_2, Unkstruct_80184FC4_2, Unkstruct_80185020, Unkstruct_80185020_3, Unkstruct_80185020_4, Unkstruct_8018A1A4
-cause: 11 names (24 B, all members placeholders) bound to 16 distinct objects, none bound to two names: md_MAIN_015/0x800CB2E0:fp, ov_SC01_077/0x801843C0:param_1, ov_SC02_011/0x8018A1A4:s0, ov_SC04_011/0x80184728:ptr, ov_SC04_011/0x80184FC4:sub, ov_SC04_011/0x80185020:ep, ov_SC04_011/0x80185020:o, ov_SC04_011/0x80185020:sp …; full list: tools/struct_twins.py --show be985ec985af
-- `Unkstruct_800CB2E0_2`: 1 obj — md_MAIN_015/0x800CB2E0:fp
-- `Unkstruct_800CDF84_2`: 1 obj — shared/slot_800CCB1C/0x800CD5DC:q
-- `Unkstruct_8017E850_2`: 1 obj — ov_SC05_008/0x8017E850:obj
-- `Unkstruct_80181720_3`: 6 obj — ov_SC06_008/0x80182E8C:a0, ov_SC06_010/0x80185340:a0, ov_SC06_022/0x8018AB48:a0, ov_SC06_024/0x8018D020:a0, ov_SC06_032/0x8018A9D8:a0, ov_SC06_033/0x80181720:a0
-- `Unkstruct_801843C0_2`: 1 obj — ov_SC01_077/0x801843C0:param_1
-- `Unkstruct_80184728_2`: 1 obj — ov_SC04_011/0x80184728:ptr
-- `Unkstruct_80184FC4_2`: 1 obj — ov_SC04_011/0x80184FC4:sub
-- `Unkstruct_80185020`: 1 obj — ov_SC04_011/0x80185020:sp
-- `Unkstruct_80185020_3`: 1 obj — ov_SC04_011/0x80185020:ep
-- `Unkstruct_80185020_4`: 1 obj — ov_SC04_011/0x80185020:o
-- `Unkstruct_8018A1A4`: 1 obj — ov_SC02_011/0x8018A1A4:s0
-
 ### cec0d4ce5eda
 names: OB, Unkstruct_8017D0E4, Unkstruct_8017D0EC, Unkstruct_8017D39C, Unkstruct_8017D428, Unkstruct_8017DDFC, Unkstruct_8017DE24, Unkstruct_8017DE50, Unkstruct_8017EB64, Unkstruct_80188988_2, Unkstruct_80188A90_2
 cause: 11 names (84 B, all members placeholders) bound to 11 distinct objects, none bound to two names: ov_SC01_000/0x8017D428:param_1, ov_SC01_080/0x8017EB64:param_1, ov_SC01_084/0x8017DDFC:a0, ov_SC01_084/0x8017DE24:a0, ov_SC01_084/0x8017DE50:a0, ov_SC03_114/0x8017D0E4:arg0, ov_SC04_016/0x8017D0EC:a0, ov_SC06_029/0x80181708:param_1 …; full list: tools/struct_twins.py --show cec0d4ce5eda
@@ -1363,30 +1348,6 @@ cause: 8 names (4 B, all members placeholders) bound to 26 distinct objects, non
 - `Unkstruct_801A01E8`: 1 obj — 0x801A01E8
 - `W_8016BFD0`: 6 obj — ov_SC01_000/0x8016BFD0:a1, ov_SC01_000/0x8016BFD0:a2, ov_SC01_000/0x8016BFD0:a4, shared/ov/0x8016BFD0:a1, shared/ov/0x8016BFD0:a2, shared/ov/0x8016BFD0:a4
 
-### 87b54ddbf82a
-names: Unkstruct_801803FC_2, Unkstruct_801805C0_2, Unkstruct_80182674_2, Unkstruct_80183920_2, Unkstruct_80184E6C, Unkstruct_8018653C, Unkstruct_8018B744_3, Unkstruct_8018BA44
-cause: 8 names (16 B, all members placeholders) bound to 12 distinct objects, none bound to two names: ov_SC02_027/0x80182674:v1, ov_SC02_028/0x80182438:v1, ov_SC02_041/0x801805C0:a0, ov_SC03_097/0x801803FC:v1, ov_SC03_101/0x8018095C:v1, ov_SC03_104/0x80183D98:v1, ov_SC04_002/0x80184AA8:a0, ov_SC04_004/0x80183920:ptr …; full list: tools/struct_twins.py --show 87b54ddbf82a
-- `Unkstruct_801803FC_2`: 4 obj — ov_SC02_028/0x80182438:v1, ov_SC03_097/0x801803FC:v1, ov_SC03_101/0x8018095C:v1, ov_SC03_104/0x80183D98:v1
-- `Unkstruct_801805C0_2`: 2 obj — ov_SC02_041/0x801805C0:a0, ov_SC04_002/0x80184AA8:a0
-- `Unkstruct_80182674_2`: 1 obj — ov_SC02_027/0x80182674:v1
-- `Unkstruct_80183920_2`: 1 obj — ov_SC04_004/0x80183920:ptr
-- `Unkstruct_80184E6C`: 1 obj — ov_SC06_029/0x80184E6C:a0
-- `Unkstruct_8018653C`: 1 obj — ov_SC06_029/0x8018653C:a1
-- `Unkstruct_8018B744_3`: 1 obj — ov_SC04_011/0x8018B744:a1
-- `Unkstruct_8018BA44`: 1 obj — ov_SC04_011/0x8018BA44:param_2
-
-### b63e9dae1c6f
-names: Unkstruct_800CF290, Unkstruct_800CF290_2, Unkstruct_801817D0, Unkstruct_801817D0_2, Unkstruct_801817D0_3, Unkstruct_801817D0_4, Unkstruct_801817D0_5, Unkstruct_801817D0_6
-cause: 8 names (24 B, all members placeholders) bound to 8 distinct objects, none bound to two names: md_MAIN_001/0x800CF290:p0, md_MAIN_001/0x800CF290:p1, ov_SC07_010/0x801817D0:p0, ov_SC07_010/0x801817D0:p1, ov_SC07_010/0x801817D0:p2, ov_SC07_010/0x801817D0:p3, ov_SC07_010/0x801817D0:p4, ov_SC07_010/0x801817D0:p5; full list: tools/struct_twins.py --show b63e9dae1c6f
-- `Unkstruct_800CF290`: 1 obj — md_MAIN_001/0x800CF290:p1
-- `Unkstruct_800CF290_2`: 1 obj — md_MAIN_001/0x800CF290:p0
-- `Unkstruct_801817D0`: 1 obj — ov_SC07_010/0x801817D0:p4
-- `Unkstruct_801817D0_2`: 1 obj — ov_SC07_010/0x801817D0:p2
-- `Unkstruct_801817D0_3`: 1 obj — ov_SC07_010/0x801817D0:p1
-- `Unkstruct_801817D0_4`: 1 obj — ov_SC07_010/0x801817D0:p0
-- `Unkstruct_801817D0_5`: 1 obj — ov_SC07_010/0x801817D0:p3
-- `Unkstruct_801817D0_6`: 1 obj — ov_SC07_010/0x801817D0:p5
-
 ### 04f0ea744ffa
 names: Unkstruct_800CCD2C, Unkstruct_8017DE80_5, Unkstruct_8017E78C_2, Unkstruct_80181720_4, Unkstruct_80183DE0_2, Unkstruct_80185864_2, Unkstruct_80185C14_2
 cause: 7 names (28 B, all members placeholders) bound to 16 distinct objects, none bound to two names: md_MAIN_044/0x800CCD2C:s0, md_MAIN_044/0x800CCDB0:s1, ov_SC01_077/0x80183DE0:iVar7, ov_SC03_028/0x80185864:ptr, ov_SC03_028/0x80185C14:ent, ov_SC03_114/0x8017E78C:p, ov_SC04_011/0x8018F4CC:p, ov_SC04_016/0x8017DE80:ret …; full list: tools/struct_twins.py --show 04f0ea744ffa
@@ -1442,17 +1403,6 @@ cause: 7 names (12 B, all members placeholders) bound to 11 distinct objects, no
 - `Rsc12`: 1 obj — 0x80064D4A
 - `Unkstruct_80189A60`: 1 obj — ov_SC04_011/0x80189A60:v1
 
-### a949e722e813
-names: Unkstruct_8017DCF8_2, Unkstruct_8017E948_4, Unkstruct_801808B4_2, Unkstruct_801838EC_2, Unkstruct_80183A70_2, Unkstruct_8018633C, Unkstruct_80186D20_2
-cause: 7 names (48 B, all members placeholders) bound to 12 distinct objects, none bound to two names: ov_SC01_080/0x8017DCF8:iVar1, ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b …; full list: tools/struct_twins.py --show a949e722e813
-- `Unkstruct_8017DCF8_2`: 1 obj — ov_SC01_080/0x8017DCF8:iVar1
-- `Unkstruct_8017E948_4`: 1 obj — ov_SC04_006/0x8017E948:obj
-- `Unkstruct_801808B4_2`: 1 obj — ov_SC04_004/0x801808B4:v1
-- `Unkstruct_801838EC_2`: 6 obj — ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b, ov_SC03_029/0x801838EC:a1, ov_SC03_029/0x801838EC:b
-- `Unkstruct_80183A70_2`: 1 obj — ov_SC03_006/0x80183A70:p
-- `Unkstruct_8018633C`: 1 obj — ov_SC02_027/0x8018633C:p
-- `Unkstruct_80186D20_2`: 1 obj — ov_SC02_028/0x80186D20:e
-
 ### afc6a8e495a5:opaque
 names: Ent_8018A224, Rec_8017ECD4, Rec_EDC0, Unkstruct_801802C8, Unkstruct_80182050, Unkstruct_80183168, Unkstruct_80187FA0
 cause: 7 names (8 B, all members placeholders) bound to 11 distinct objects, none bound to two names: 0x80185094, 0x80185098, 0x801853A8, 0x8018A224(arg0), 0x801AAD6C, ov_SC02_011/0x80187FA0:a1, ov_SC02_016/0x801802C8:a1, ov_SC02_017/0x80183168:a1 …; full list: tools/struct_twins.py --show afc6a8e495a5:opaque
@@ -1474,17 +1424,6 @@ cause: 7 names (40 B, all members placeholders) bound to 14 distinct objects, no
 - `Unkstruct_801844AC_4`: 1 obj — ov_SC05_010/0x80184988:param_1
 - `Unkstruct_801844AC_5`: 1 obj — ov_SC05_010/0x801844AC:param_1
 - `Unkstruct_80188A10`: 1 obj — ov_SC02_005/0x80188A10:v1
-
-### c2490d6a1013
-names: Unkstruct_80180ED0, Unkstruct_80181638, Unkstruct_80181740, Unkstruct_801818B8_2, Unkstruct_8018439C, Unkstruct_8018676C, Unkstruct_801E4F6C
-cause: 7 names (36 B, all members placeholders) bound to 7 distinct objects, none bound to two names: md_SC02_009/0x801E4F6C:a0, ov_SC03_007/0x8018676C:a0, ov_SC05_003/0x80181638:a1, ov_SC05_003/0x801818B8:arg0, ov_SC05_005/0x80181740:a0, ov_SC07_000/0x80180ED0:a3, ov_SC07_002/0x8018439C:param_1; full list: tools/struct_twins.py --show c2490d6a1013
-- `Unkstruct_80180ED0`: 1 obj — ov_SC07_000/0x80180ED0:a3
-- `Unkstruct_80181638`: 1 obj — ov_SC05_003/0x80181638:a1
-- `Unkstruct_80181740`: 1 obj — ov_SC05_005/0x80181740:a0
-- `Unkstruct_801818B8_2`: 1 obj — ov_SC05_003/0x801818B8:arg0
-- `Unkstruct_8018439C`: 1 obj — ov_SC07_002/0x8018439C:param_1
-- `Unkstruct_8018676C`: 1 obj — ov_SC03_007/0x8018676C:a0
-- `Unkstruct_801E4F6C`: 1 obj — md_SC02_009/0x801E4F6C:a0
 
 ### d034b3f7c164
 names: Unkstruct_8017D710_2, Unkstruct_8017F85C, Unkstruct_801801FC_2, Unkstruct_80181F98_3, Unkstruct_80184DB8, Unkstruct_80186710, Unkstruct_801868A0
@@ -1569,16 +1508,6 @@ cause: 6 names (68 B, all members placeholders) bound to 6 distinct objects, non
 - `Unkstruct_8018AA98_2`: 1 obj — ov_SC03_014/0x8018AA98:ot
 - `Unkstruct_8018E428_3`: 1 obj — ov_SC04_011/0x8018E428:ot
 
-### 826a19728188
-names: Unkstruct_80140D68_2, Unkstruct_8017DD28, Unkstruct_801E46A0, Unkstruct_801E9BE0, Unkstruct_801EFA40, Unkstruct_801F1520
-cause: 6 names (20 B, all members placeholders) bound to 6 distinct objects, none bound to two names: md_SC03_076/0x801F1520:out, md_SC03_135/0x801E46A0:out, md_SC04_027/0x801E9BE0:out, md_SC05_026/0x801EFA40:out, ov_MAIN_012/0x8017DD28:out, ov_SC07_010/0x80140D68:out; full list: tools/struct_twins.py --show 826a19728188
-- `Unkstruct_80140D68_2`: 1 obj — ov_SC07_010/0x80140D68:out
-- `Unkstruct_8017DD28`: 1 obj — ov_MAIN_012/0x8017DD28:out
-- `Unkstruct_801E46A0`: 1 obj — md_SC03_135/0x801E46A0:out
-- `Unkstruct_801E9BE0`: 1 obj — md_SC04_027/0x801E9BE0:out
-- `Unkstruct_801EFA40`: 1 obj — md_SC05_026/0x801EFA40:out
-- `Unkstruct_801F1520`: 1 obj — md_SC03_076/0x801F1520:out
-
 ### 8b9d8e5bc124
 names: Unkstruct_801808DC, Unkstruct_80180BE4, Unkstruct_80181784, Unkstruct_80181884, Unkstruct_80185464_2, Unkstruct_8018A214
 cause: 6 names (256 B, all members placeholders) bound to 30 distinct objects, none bound to two names: ov_SC01_077/0x801808DC:a0, ov_SC02_011/0x80185464:a0, ov_SC02_026/0x80184E40:a0, ov_SC02_027/0x801898B0:a0, ov_SC02_028/0x8018A294:a0, ov_SC02_035/0x80182C94:a0, ov_SC02_035/0x80182D94:a0, ov_SC02_037/0x80181784:a0 …; full list: tools/struct_twins.py --show 8b9d8e5bc124
@@ -1589,16 +1518,6 @@ cause: 6 names (256 B, all members placeholders) bound to 30 distinct objects, n
 - `Unkstruct_80185464_2`: 1 obj — ov_SC02_011/0x80185464:a0
 - `Unkstruct_8018A214`: 1 obj — ov_SC03_028/0x8018A214:arg0
 
-### 995c88cc8874
-names: Unkstruct_80181C1C, Unkstruct_8018A61C, Unkstruct_8018D98C, Unkstruct_8019059C, Unkstruct_801919A0, Unkstruct_80191C50
-cause: 6 names (256 B, all members placeholders) bound to 6 distinct objects, none bound to two names: ov_SC03_107/0x80181C1C:a0, ov_SC03_124/0x8018A61C:arg0, ov_SC06_018/0x8019059C:dst, ov_SC06_018/0x80191C50:dst, ov_SC06_032/0x801919A0:dst, ov_SC06_033/0x8018D98C:p; full list: tools/struct_twins.py --show 995c88cc8874
-- `Unkstruct_80181C1C`: 1 obj — ov_SC03_107/0x80181C1C:a0
-- `Unkstruct_8018A61C`: 1 obj — ov_SC03_124/0x8018A61C:arg0
-- `Unkstruct_8018D98C`: 1 obj — ov_SC06_033/0x8018D98C:p
-- `Unkstruct_8019059C`: 1 obj — ov_SC06_018/0x8019059C:dst
-- `Unkstruct_801919A0`: 1 obj — ov_SC06_032/0x801919A0:dst
-- `Unkstruct_80191C50`: 1 obj — ov_SC06_018/0x80191C50:dst
-
 ### a78aec5c5049
 names: Unkstruct_8017F40C_2, Unkstruct_8017FB10, Unkstruct_8018153C, Unkstruct_80181A64, Unkstruct_80182384, Unkstruct_801EF49C
 cause: 6 names (56 B, all members placeholders) bound to 17 distinct objects, none bound to two names: md_SC03_053/0x801EF49C:a0, md_SC03_053/0x801EF560:a0, ov_SC03_001/0x8018153C:arg0, ov_SC03_001/0x80182058:a0, ov_SC03_001/0x80182058:p, ov_SC03_001/0x801834C0:a0, ov_SC03_001/0x801834C0:p, ov_SC03_002/0x80181A64:s0 …; full list: tools/struct_twins.py --show a78aec5c5049
@@ -1608,26 +1527,6 @@ cause: 6 names (56 B, all members placeholders) bound to 17 distinct objects, no
 - `Unkstruct_80181A64`: 1 obj — ov_SC03_002/0x80181A64:s0
 - `Unkstruct_80182384`: 1 obj — ov_SC05_018/0x80182384:arg0
 - `Unkstruct_801EF49C`: 2 obj — md_SC03_053/0x801EF49C:a0, md_SC03_053/0x801EF560:a0
-
-### b1a8ec7e1659
-names: Unkstruct_8001C448, Unkstruct_8001C558, Unkstruct_8001C6E4, Unkstruct_8001C744, Unkstruct_8001C7B0, Unkstruct_8001C8C4
-cause: 6 names (40 B, all members placeholders) bound to 6 distinct objects, none bound to two names: main/0x8001C448:s0_val, main/0x8001C558:a0, main/0x8001C6E4:a0, main/0x8001C744:a0, main/0x8001C7B0:arg0, main/0x8001C8C4:a0; full list: tools/struct_twins.py --show b1a8ec7e1659
-- `Unkstruct_8001C448`: 1 obj — main/0x8001C448:s0_val
-- `Unkstruct_8001C558`: 1 obj — main/0x8001C558:a0
-- `Unkstruct_8001C6E4`: 1 obj — main/0x8001C6E4:a0
-- `Unkstruct_8001C744`: 1 obj — main/0x8001C744:a0
-- `Unkstruct_8001C7B0`: 1 obj — main/0x8001C7B0:arg0
-- `Unkstruct_8001C8C4`: 1 obj — main/0x8001C8C4:a0
-
-### b5a3ef432128
-names: Unkstruct_80013350, Unkstruct_8017E960_2, Unkstruct_8017E960_3, Unkstruct_80181A4C_5, Unkstruct_80182388, Unkstruct_801877B8
-cause: 6 names (12 B, all members placeholders) bound to 7 distinct objects, none bound to two names: main/0x80013350:a0, ov_SC01_001/0x80181A4C:v1, ov_SC03_090/0x801877B8:sp10, ov_SC03_091/0x80188660:sp10, ov_SC04_016/0x8017E960:param_1, ov_SC04_016/0x8017E960:param_2, ov_SC06_029/0x80182388:sp68; full list: tools/struct_twins.py --show b5a3ef432128
-- `Unkstruct_80013350`: 1 obj — main/0x80013350:a0
-- `Unkstruct_8017E960_2`: 1 obj — ov_SC04_016/0x8017E960:param_2
-- `Unkstruct_8017E960_3`: 1 obj — ov_SC04_016/0x8017E960:param_1
-- `Unkstruct_80181A4C_5`: 1 obj — ov_SC01_001/0x80181A4C:v1
-- `Unkstruct_80182388`: 1 obj — ov_SC06_029/0x80182388:sp68
-- `Unkstruct_801877B8`: 2 obj — ov_SC03_090/0x801877B8:sp10, ov_SC03_091/0x80188660:sp10
 
 ### d29ee805f418
 names: Unkstruct_8018069C, Unkstruct_801806E8_2, Unkstruct_80180B08_2, Unkstruct_80180B18, Unkstruct_80180EDC, Unkstruct_801820DC_3
@@ -1713,15 +1612,6 @@ cause: 5 names (36 B, all members placeholders) bound to 6 distinct objects, non
 - `Unkstruct_80185264_2`: 1 obj — ov_SC06_000/0x80185264:a0
 - `Unkstruct_801AE624`: 1 obj — md_SC07_004/0x801AE624:s0
 
-### 88b18c745a2d
-names: Unkstruct_801808B0_2, Unkstruct_80181C38, Unkstruct_80182440, Unkstruct_80182A5C, Unkstruct_80186FB8
-cause: 5 names (48 B, all members placeholders) bound to 5 distinct objects, none bound to two names: ov_SC02_026/0x80182A5C:a0, ov_SC02_035/0x801808B0:param_1, ov_SC03_090/0x80186FB8:arg0, ov_SC03_094/0x80181C38:param_1, ov_SC03_098/0x80182440:a0; full list: tools/struct_twins.py --show 88b18c745a2d
-- `Unkstruct_801808B0_2`: 1 obj — ov_SC02_035/0x801808B0:param_1
-- `Unkstruct_80181C38`: 1 obj — ov_SC03_094/0x80181C38:param_1
-- `Unkstruct_80182440`: 1 obj — ov_SC03_098/0x80182440:a0
-- `Unkstruct_80182A5C`: 1 obj — ov_SC02_026/0x80182A5C:a0
-- `Unkstruct_80186FB8`: 1 obj — ov_SC03_090/0x80186FB8:arg0
-
 ### 8da756678e6d
 names: Bc8_80180E0C, Packed8, S80126B38, UnalignedPair, up
 cause: 5 names (8 B, all members placeholders) bound to 11 distinct objects, none bound to two names: 0x80126B38, 0x80126C98, 0x8014CB9C(arg0), 0x801869B4, 0x801869BC, ov_SC03_030/0x80180E0C:dst, shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src …; full list: tools/struct_twins.py --show 8da756678e6d
@@ -1730,24 +1620,6 @@ cause: 5 names (8 B, all members placeholders) bound to 11 distinct objects, non
 - `S80126B38`: 3 obj — 0x80126B38, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1
 - `UnalignedPair`: 1 obj — shared/ov/0x8014C8F0:arg0
 - `up`: 2 obj — shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src
-
-### 9af87f04762b
-names: Unkstruct_800CB6FC, Unkstruct_800CB780, Unkstruct_800CB988, Unkstruct_800CBA0C, Unkstruct_8018A950
-cause: 5 names (52 B, all members placeholders) bound to 5 distinct objects, none bound to two names: md_MAIN_015/0x800CB6FC:buf, md_MAIN_015/0x800CB988:buf, md_MAIN_038/0x800CB780:buf, md_MAIN_038/0x800CBA0C:buf, ov_SC06_024/0x8018A950:buf; full list: tools/struct_twins.py --show 9af87f04762b
-- `Unkstruct_800CB6FC`: 1 obj — md_MAIN_015/0x800CB6FC:buf
-- `Unkstruct_800CB780`: 1 obj — md_MAIN_038/0x800CB780:buf
-- `Unkstruct_800CB988`: 1 obj — md_MAIN_015/0x800CB988:buf
-- `Unkstruct_800CBA0C`: 1 obj — md_MAIN_038/0x800CBA0C:buf
-- `Unkstruct_8018A950`: 1 obj — ov_SC06_024/0x8018A950:buf
-
-### a42a395767bd
-names: Unkstruct_800159E4_2, Unkstruct_8017D3F8, Unkstruct_8017FED8_2, Unkstruct_80181AD0_2, Unkstruct_80183C80
-cause: 5 names (12 B, all members placeholders) bound to 7 distinct objects, none bound to two names: main/0x800159E4:a0, ov_SC03_089/0x80183FA4:a0, ov_SC03_090/0x80183C80:a0, ov_SC03_091/0x80184B28:a0, ov_SC04_008/0x8017D3F8:param_1, shared/ov/0x8017FED8:stack_vals, shared/ov/0x80181AD0:a0; full list: tools/struct_twins.py --show a42a395767bd
-- `Unkstruct_800159E4_2`: 1 obj — main/0x800159E4:a0
-- `Unkstruct_8017D3F8`: 1 obj — ov_SC04_008/0x8017D3F8:param_1
-- `Unkstruct_8017FED8_2`: 1 obj — shared/ov/0x8017FED8:stack_vals
-- `Unkstruct_80181AD0_2`: 1 obj — shared/ov/0x80181AD0:a0
-- `Unkstruct_80183C80`: 3 obj — ov_SC03_089/0x80183FA4:a0, ov_SC03_090/0x80183C80:a0, ov_SC03_091/0x80184B28:a0
 
 ### adbf02e5c0df
 names: Unkstruct_8017DB90_2, Unkstruct_8017EA18, Unkstruct_80180384_2, Unkstruct_80181C18_2, Unkstruct_80185E98_2
@@ -1910,22 +1782,6 @@ cause: 4 names (8 B, all members placeholders) bound to 5 distinct objects, none
 - `Unkstruct_80185660`: 1 obj — ov_SC03_105/0x80185660:a1
 - `Unkstruct_80185680_2`: 1 obj — ov_SC03_105/0x80185680:a1
 
-### 87447b78a011
-names: Unkstruct_801803AC_2, Unkstruct_80180940, Unkstruct_801892E0, Unkstruct_80189BF0
-cause: 4 names (256 B, all members placeholders) bound to 6 distinct objects, none bound to two names: ov_SC03_028/0x801892E0:s0, ov_SC03_028/0x80189768:s0, ov_SC03_028/0x80189BF0:s0, ov_SC03_031/0x801803AC:param_1, ov_SC03_031/0x80180680:param_1, ov_SC03_031/0x80180940:param_1; full list: tools/struct_twins.py --show 87447b78a011
-- `Unkstruct_801803AC_2`: 2 obj — ov_SC03_031/0x801803AC:param_1, ov_SC03_031/0x80180680:param_1
-- `Unkstruct_80180940`: 1 obj — ov_SC03_031/0x80180940:param_1
-- `Unkstruct_801892E0`: 2 obj — ov_SC03_028/0x801892E0:s0, ov_SC03_028/0x80189768:s0
-- `Unkstruct_80189BF0`: 1 obj — ov_SC03_028/0x80189BF0:s0
-
-### 906506297912
-names: Unkstruct_8017F9B4_2, Unkstruct_8017FBE8_2, Unkstruct_801A7200_3, Unkstruct_801AC8B8_2
-cause: 4 names (48 B, all members placeholders) bound to 5 distinct objects, none bound to two names: md_SC07_004/0x801A7200:param_1, md_SC07_004/0x801AC8B8:param_1, md_SC07_004/0x801AC8B8:ptr, ov_SC07_000/0x8017F9B4:s1, ov_SC07_000/0x8017FBE8:arg0; full list: tools/struct_twins.py --show 906506297912
-- `Unkstruct_8017F9B4_2`: 1 obj — ov_SC07_000/0x8017F9B4:s1
-- `Unkstruct_8017FBE8_2`: 1 obj — ov_SC07_000/0x8017FBE8:arg0
-- `Unkstruct_801A7200_3`: 1 obj — md_SC07_004/0x801A7200:param_1
-- `Unkstruct_801AC8B8_2`: 2 obj — md_SC07_004/0x801AC8B8:param_1, md_SC07_004/0x801AC8B8:ptr
-
 ### 9865e09a793d
 names: Blk3_8017D730, Blk3_801E40A8, Blk3_801E95E8, Blk3_801EF448
 cause: 4 names (3 B, all members placeholders) bound to 8 distinct objects, none bound to two names: 0x80183F30, 0x801E26C0, 0x801E7C00, 0x801EDA60, md_SC03_135/0x801E40A8:arr, md_SC04_027/0x801E95E8:arr, md_SC05_026/0x801EF448:arr, ov_MAIN_012/0x8017D730:arr; full list: tools/struct_twins.py --show 9865e09a793d
@@ -1941,22 +1797,6 @@ cause: 4 names (104 B, all members placeholders) bound to 4 distinct objects, no
 - `Unkstruct_8017FE4C`: 1 obj — ov_SC03_097/0x8017FE4C:a0
 - `Unkstruct_80183E48`: 1 obj — ov_SC06_000/0x80183E48:a0
 - `Unkstruct_801A3BCC_3`: 1 obj — md_SC07_003/0x801A3BCC:a0
-
-### b3efa9d89e9b
-names: Unkstruct_8018043C_2, Unkstruct_80180710, Unkstruct_801809D0, Unkstruct_80180C90
-cause: 4 names (256 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC03_031/0x8018043C:a0, ov_SC03_031/0x80180710:a0, ov_SC03_031/0x801809D0:a0, ov_SC03_031/0x80180C90:a0; full list: tools/struct_twins.py --show b3efa9d89e9b
-- `Unkstruct_8018043C_2`: 1 obj — ov_SC03_031/0x8018043C:a0
-- `Unkstruct_80180710`: 1 obj — ov_SC03_031/0x80180710:a0
-- `Unkstruct_801809D0`: 1 obj — ov_SC03_031/0x801809D0:a0
-- `Unkstruct_80180C90`: 1 obj — ov_SC03_031/0x80180C90:a0
-
-### bd96e978bc64
-names: Unkstruct_8018568C, Unkstruct_80185864, Unkstruct_80185A3C, Unkstruct_80185C14
-cause: 4 names (256 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC03_028/0x8018568C:arg0, ov_SC03_028/0x80185864:arg0, ov_SC03_028/0x80185A3C:arg0, ov_SC03_028/0x80185C14:arg0; full list: tools/struct_twins.py --show bd96e978bc64
-- `Unkstruct_8018568C`: 1 obj — ov_SC03_028/0x8018568C:arg0
-- `Unkstruct_80185864`: 1 obj — ov_SC03_028/0x80185864:arg0
-- `Unkstruct_80185A3C`: 1 obj — ov_SC03_028/0x80185A3C:arg0
-- `Unkstruct_80185C14`: 1 obj — ov_SC03_028/0x80185C14:arg0
 
 ### d7ccc9822201
 names: Unkstruct_8017F018, Unkstruct_80180570_2, Unkstruct_80180754, Unkstruct_801840C0
@@ -2108,27 +1948,6 @@ cause: 3 names (96 B, all members placeholders) bound to 3 distinct objects, non
 - `Unkstruct_801819DC_2`: 1 obj — ov_SC03_098/0x801819DC:a0
 - `Unkstruct_801873FC_2`: 1 obj — ov_SC03_091/0x801873FC:arg0
 
-### 851f7f3262c3
-names: Unkstruct_8017EE0C_2, Unkstruct_8017F154_2, Unkstruct_80188094_2
-cause: 3 names (48 B, all members placeholders) bound to 9 distinct objects, none bound to two names: ov_SC02_035/0x8017F018:param_1, ov_SC02_037/0x8018344C:param_1, ov_SC03_092/0x80182978:param_1, ov_SC03_097/0x80183E80:param_1, ov_SC03_099/0x8017EE0C:param_1, ov_SC03_100/0x80180838:param_1, ov_SC03_104/0x8018781C:param_1, ov_SC04_011/0x80188094:arg0 …; full list: tools/struct_twins.py --show 851f7f3262c3
-- `Unkstruct_8017EE0C_2`: 7 obj — ov_SC02_035/0x8017F018:param_1, ov_SC02_037/0x8018344C:param_1, ov_SC03_092/0x80182978:param_1, ov_SC03_097/0x80183E80:param_1, ov_SC03_099/0x8017EE0C:param_1, ov_SC03_100/0x80180838:param_1, ov_SC03_104/0x8018781C:param_1
-- `Unkstruct_8017F154_2`: 1 obj — ov_SC06_016/0x8017F154:arg0
-- `Unkstruct_80188094_2`: 1 obj — ov_SC04_011/0x80188094:arg0
-
-### 8bfb24bc422b
-names: Unkstruct_8017E7B0, Unkstruct_8019303C, Unkstruct_801932EC
-cause: 3 names (196 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC03_094/0x8017E7B0:a0, ov_SC06_018/0x801932EC:arg0, ov_SC06_032/0x8019303C:arg0; full list: tools/struct_twins.py --show 8bfb24bc422b
-- `Unkstruct_8017E7B0`: 1 obj — ov_SC03_094/0x8017E7B0:a0
-- `Unkstruct_8019303C`: 1 obj — ov_SC06_032/0x8019303C:arg0
-- `Unkstruct_801932EC`: 1 obj — ov_SC06_018/0x801932EC:arg0
-
-### 9322bf05aadb
-names: Unkstruct_800CB164, Unkstruct_800CB228_3, Unkstruct_800CBAD0
-cause: 3 names (36 B, all members placeholders) bound to 7 distinct objects, none bound to two names: md_MAIN_014/0x800CB164:src, md_MAIN_014/0x800CB254:a1, md_MAIN_014/0x800CB4D8:s1, md_MAIN_016/0x800CB228:oth, md_MAIN_028/0x800CBAD0:s, md_MAIN_028/0x800CBBA0:a1, md_MAIN_028/0x800CBDD0:s1; full list: tools/struct_twins.py --show 9322bf05aadb
-- `Unkstruct_800CB164`: 3 obj — md_MAIN_014/0x800CB164:src, md_MAIN_014/0x800CB254:a1, md_MAIN_014/0x800CB4D8:s1
-- `Unkstruct_800CB228_3`: 1 obj — md_MAIN_016/0x800CB228:oth
-- `Unkstruct_800CBAD0`: 3 obj — md_MAIN_028/0x800CBAD0:s, md_MAIN_028/0x800CBBA0:a1, md_MAIN_028/0x800CBDD0:s1
-
 ### 99a1e6ed7bf3
 names: Unkstruct_8017EC90, Unkstruct_801815D4, Unkstruct_8018450C
 cause: 3 names (224 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC01_080/0x801815D4:param_1, ov_SC03_006/0x8018450C:obj, ov_SC03_007/0x8017EC90:p; full list: tools/struct_twins.py --show 99a1e6ed7bf3
@@ -2192,13 +2011,6 @@ cause: 3 names (100 B, all members placeholders) bound to 3 distinct objects, no
 - `Unkstruct_8017C974`: 1 obj — ov_SC01_077/0x8017C974:arg0
 - `Unkstruct_8017CF90`: 1 obj — ov_SC02_005/0x8017CF90:arg0
 
-### b47558122bae
-names: Unkstruct_801827FC, Unkstruct_80183430, Unkstruct_80187114
-cause: 3 names (104 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC06_020/0x801827FC:arg0, ov_SC06_032/0x80183430:arg0, ov_SC06_033/0x80187114:a0; full list: tools/struct_twins.py --show b47558122bae
-- `Unkstruct_801827FC`: 1 obj — ov_SC06_020/0x801827FC:arg0
-- `Unkstruct_80183430`: 1 obj — ov_SC06_032/0x80183430:arg0
-- `Unkstruct_80187114`: 1 obj — ov_SC06_033/0x80187114:a0
-
 ### b4ea9dbbed86
 names: Unkstruct_80181B94, Unkstruct_80188E8C, Unkstruct_8018A594
 cause: 3 names (120 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC03_107/0x80181B94:a0, ov_SC03_118/0x80188E8C:arg0, ov_SC03_124/0x8018A594:arg0; full list: tools/struct_twins.py --show b4ea9dbbed86
@@ -2220,13 +2032,6 @@ cause: 3 names (52 B, all members placeholders) bound to 3 distinct objects, non
 - `Unkstruct_801853D0_3`: 1 obj — ov_SC04_011/0x801853D0:obj
 - `Unkstruct_80185648_2`: 1 obj — ov_SC04_011/0x80185648:s0
 
-### b84ac5c4866e
-names: Unkstruct_80186D40, Unkstruct_8018CC28, Unkstruct_8018CE04
-cause: 3 names (48 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC02_005/0x8018CC28:param_1, ov_SC02_005/0x8018CE04:param_1, ov_SC05_010/0x80186D40:param_1; full list: tools/struct_twins.py --show b84ac5c4866e
-- `Unkstruct_80186D40`: 1 obj — ov_SC05_010/0x80186D40:param_1
-- `Unkstruct_8018CC28`: 1 obj — ov_SC02_005/0x8018CC28:param_1
-- `Unkstruct_8018CE04`: 1 obj — ov_SC02_005/0x8018CE04:param_1
-
 ### ba0a915f12c2
 names: Unkstruct_8017D598_3, Unkstruct_8017E9E8, Unkstruct_8017F1B8_2
 cause: 3 names (8 B, all members placeholders) bound to 9 distinct objects, none bound to two names: ov_SC02_011/0x801878C8:entry, ov_SC02_016/0x8017FC1C:entry, ov_SC02_017/0x80182A90:entry, ov_SC02_031/0x80184B94:param_1, ov_SC03_029/0x8018197C:entry, ov_SC03_030/0x8017F1B8:entry, ov_SC04_005/0x8017F644:param_1, ov_SC05_009/0x8017E9E8:param_1 …; full list: tools/struct_twins.py --show ba0a915f12c2
@@ -2234,26 +2039,12 @@ cause: 3 names (8 B, all members placeholders) bound to 9 distinct objects, none
 - `Unkstruct_8017E9E8`: 3 obj — ov_SC02_031/0x80184B94:param_1, ov_SC04_005/0x8017F644:param_1, ov_SC05_009/0x8017E9E8:param_1
 - `Unkstruct_8017F1B8_2`: 5 obj — ov_SC02_011/0x801878C8:entry, ov_SC02_016/0x8017FC1C:entry, ov_SC02_017/0x80182A90:entry, ov_SC03_029/0x8018197C:entry, ov_SC03_030/0x8017F1B8:entry
 
-### bb965af22be0
-names: Unkstruct_80186F7C_2, Unkstruct_80188EAC_2, Unkstruct_8018D04C_2
-cause: 3 names (32 B, all members placeholders) bound to 5 distinct objects, none bound to two names: md_SC07_003/0x801A5D4C:a1, ov_SC02_005/0x8018D04C:a1, ov_SC03_028/0x8018A960:a1, ov_SC03_105/0x80188EAC:a1, ov_SC05_010/0x80186F7C:a1; full list: tools/struct_twins.py --show bb965af22be0
-- `Unkstruct_80186F7C_2`: 1 obj — ov_SC05_010/0x80186F7C:a1
-- `Unkstruct_80188EAC_2`: 2 obj — ov_SC03_028/0x8018A960:a1, ov_SC03_105/0x80188EAC:a1
-- `Unkstruct_8018D04C_2`: 2 obj — md_SC07_003/0x801A5D4C:a1, ov_SC02_005/0x8018D04C:a1
-
 ### c2ba48790859
 names: W8, W8_, func_8002EE64_b
 cause: 3 names (1 B, all members placeholders) bound to 4 distinct objects, none bound to two names: 0x80076242, 0x80076243, main/0x8002EE64:b; full list: tools/struct_twins.py --show c2ba48790859
 - `W8`: 2 obj — 0x80076242, 0x80076243
 - `W8_`: 1 obj — D_80076242_
 - `func_8002EE64_b`: 1 obj — main/0x8002EE64:b
-
-### c34a985378df
-names: Unkstruct_80186F7C, Unkstruct_80188EAC, Unkstruct_8018D04C
-cause: 3 names (32 B, all members placeholders) bound to 10 distinct objects, none bound to two names: md_SC07_003/0x801A5D4C:p20, md_SC07_003/0x801A5D4C:param_1, ov_SC02_005/0x8018D04C:p20, ov_SC02_005/0x8018D04C:param_1, ov_SC03_028/0x8018A960:p20, ov_SC03_028/0x8018A960:param_1, ov_SC03_105/0x80188EAC:p20, ov_SC03_105/0x80188EAC:param_1 …; full list: tools/struct_twins.py --show c34a985378df
-- `Unkstruct_80186F7C`: 2 obj — ov_SC05_010/0x80186F7C:p20, ov_SC05_010/0x80186F7C:param_1
-- `Unkstruct_80188EAC`: 4 obj — ov_SC03_028/0x8018A960:p20, ov_SC03_028/0x8018A960:param_1, ov_SC03_105/0x80188EAC:p20, ov_SC03_105/0x80188EAC:param_1
-- `Unkstruct_8018D04C`: 4 obj — md_SC07_003/0x801A5D4C:p20, md_SC07_003/0x801A5D4C:param_1, ov_SC02_005/0x8018D04C:p20, ov_SC02_005/0x8018D04C:param_1
 
 ### c4a736e67262
 names: Unkstruct_80180D40_2, Unkstruct_8018D7F0, Unkstruct_8018D8A8
@@ -2531,12 +2322,6 @@ cause: 2 names (196 B, all members placeholders) bound to 2 distinct objects, no
 - `Unkstruct_80130D0C`: 1 obj — ov_SC01_000/0x80130D0C:a0
 - `Unkstruct_8017EDEC`: 1 obj — ov_SC05_010/0x8017EDEC:param_1
 
-### 64db0612c4d4
-names: Work_801832E0, Work_80183634
-cause: 2 names (236 B, all members placeholders) bound to 2 distinct objects, none bound to two names: 0x801832E0(arg0), 0x80183634(arg0); full list: tools/struct_twins.py --show 64db0612c4d4
-- `Work_801832E0`: 1 obj — 0x801832E0(arg0)
-- `Work_80183634`: 1 obj — 0x80183634(arg0)
-
 ### 659458a845b4
 names: Unkstruct_80183884_2, Unkstruct_80186D54_2
 cause: 2 names (36 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_105/0x80186D54:iVar2, ov_SC03_125/0x80183884:a0; full list: tools/struct_twins.py --show 659458a845b4
@@ -2615,23 +2400,11 @@ cause: 2 names (8 B, all members placeholders) bound to 3 distinct objects, none
 - `Unkstruct_8016E9EC`: 1 obj — ov_SC01_000/0x8016E9EC:p
 - `Unkstruct_801813B4_2`: 2 obj — ov_SC03_097/0x801813B4:spr, ov_SC03_104/0x80184D50:spr
 
-### 8450efd3f95c
-names: Unkstruct_80187AD4, Unkstruct_8018897C
-cause: 2 names (124 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_090/0x80187AD4:a0, ov_SC03_091/0x8018897C:a0; full list: tools/struct_twins.py --show 8450efd3f95c
-- `Unkstruct_80187AD4`: 1 obj — ov_SC03_090/0x80187AD4:a0
-- `Unkstruct_8018897C`: 1 obj — ov_SC03_091/0x8018897C:a0
-
 ### 8467bdbe0d8c
 names: Unkstruct_80182848, Unkstruct_80182CB8_2
 cause: 2 names (8 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC01_080/0x80182CB8:a2, ov_SC02_031/0x80182848:a1; full list: tools/struct_twins.py --show 8467bdbe0d8c
 - `Unkstruct_80182848`: 1 obj — ov_SC02_031/0x80182848:a1
 - `Unkstruct_80182CB8_2`: 1 obj — ov_SC01_080/0x80182CB8:a2
-
-### 84c7f181de77
-names: Unkstruct_801320D8, Unkstruct_80189238
-cause: 2 names (96 B, all members placeholders) bound to 8 distinct objects, none bound to two names: ov_SC01_000/0x801320D8:param_1, ov_SC01_000/0x801321B0:param_1, ov_SC01_000/0x8013221C:param_1, ov_SC01_077/0x80132144:param_1, ov_SC03_014/0x80189238:param_1, ov_SC03_014/0x801899F4:param_1, ov_SC03_028/0x8018AE98:param_1, ov_SC03_105/0x80189350:param_1; full list: tools/struct_twins.py --show 84c7f181de77
-- `Unkstruct_801320D8`: 7 obj — ov_SC01_000/0x801320D8:param_1, ov_SC01_000/0x801321B0:param_1, ov_SC01_000/0x8013221C:param_1, ov_SC01_077/0x80132144:param_1, ov_SC03_014/0x801899F4:param_1, ov_SC03_028/0x8018AE98:param_1, ov_SC03_105/0x80189350:param_1
-- `Unkstruct_80189238`: 1 obj — ov_SC03_014/0x80189238:param_1
 
 ### 8648e61d9443
 names: Unkstruct_8018947C, Unkstruct_80189D8C
@@ -2657,53 +2430,11 @@ cause: 2 names (36 B, all members placeholders) bound to 2 distinct objects, non
 - `Node_800CB658`: 1 obj — md_MAIN_041/0x800CB658:node
 - `Unkstruct_800CB2E0`: 1 obj — md_MAIN_015/0x800CB2E0:a0v
 
-### 88045a8a615f
-names: Unkstruct_8017E67C, Unkstruct_80183200
-cause: 2 names (196 B, all members placeholders) bound to 6 distinct objects, none bound to two names: ov_SC03_090/0x80182F18:a0, ov_SC03_095/0x8017EF90:a0, ov_SC03_099/0x8017E67C:a0, ov_SC03_103/0x8017F8E8:a0, ov_SC03_104/0x8018708C:a0, shared/ov/0x80183200:a0; full list: tools/struct_twins.py --show 88045a8a615f
-- `Unkstruct_8017E67C`: 5 obj — ov_SC03_090/0x80182F18:a0, ov_SC03_095/0x8017EF90:a0, ov_SC03_099/0x8017E67C:a0, ov_SC03_103/0x8017F8E8:a0, ov_SC03_104/0x8018708C:a0
-- `Unkstruct_80183200`: 1 obj — shared/ov/0x80183200:a0
-
-### 89340be0976d
-names: Unkstruct_8017F098, Unkstruct_801870AC
-cause: 2 names (208 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC02_026/0x8017F098:a0, ov_SC02_028/0x801870AC:a0; full list: tools/struct_twins.py --show 89340be0976d
-- `Unkstruct_8017F098`: 1 obj — ov_SC02_026/0x8017F098:a0
-- `Unkstruct_801870AC`: 1 obj — ov_SC02_028/0x801870AC:a0
-
 ### 8944ddcbe454:opaque
 names: Blk36_800296F8, SW20
 cause: 2 names (36 B, all members placeholders) bound to 4 distinct objects, none bound to two names: 0x800298BC(arg0), 0x80079204, 0x800D4B70, main/0x800296F8:arg0; full list: tools/struct_twins.py --show 8944ddcbe454:opaque
 - `Blk36_800296F8`: 3 obj — 0x800298BC(arg0), 0x80079204, main/0x800296F8:arg0
 - `SW20`: 1 obj — 0x800D4B70
-
-### 8a3ba1fe5047
-names: Unkstruct_80184178_2, Unkstruct_801A5A10_2
-cause: 2 names (40 B, all members placeholders) bound to 4 distinct objects, none bound to two names: md_SC07_003/0x801A5A10:p, md_SC07_003/0x801A5A10:param_1, shared/ov/0x80184178:param_1, shared/ov/0x80184178:t; full list: tools/struct_twins.py --show 8a3ba1fe5047
-- `Unkstruct_80184178_2`: 2 obj — shared/ov/0x80184178:param_1, shared/ov/0x80184178:t
-- `Unkstruct_801A5A10_2`: 2 obj — md_SC07_003/0x801A5A10:p, md_SC07_003/0x801A5A10:param_1
-
-### 8aaa356ea1af
-names: Unkstruct_8018B1B4_2, Unkstruct_8018B744_2
-cause: 2 names (116 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC04_011/0x8018B1B4:sub, ov_SC04_011/0x8018B744:obj; full list: tools/struct_twins.py --show 8aaa356ea1af
-- `Unkstruct_8018B1B4_2`: 1 obj — ov_SC04_011/0x8018B1B4:sub
-- `Unkstruct_8018B744_2`: 1 obj — ov_SC04_011/0x8018B744:obj
-
-### 8d6125b619af
-names: Unkstruct_8017F47C_3, Unkstruct_80186AAC_3
-cause: 2 names (116 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC02_026/0x8017F47C:s0, ov_SC02_027/0x80186AAC:s0, ov_SC02_028/0x80187490:s0; full list: tools/struct_twins.py --show 8d6125b619af
-- `Unkstruct_8017F47C_3`: 1 obj — ov_SC02_026/0x8017F47C:s0
-- `Unkstruct_80186AAC_3`: 2 obj — ov_SC02_027/0x80186AAC:s0, ov_SC02_028/0x80187490:s0
-
-### 91386f1d4b92
-names: Unkstruct_80167DBC, Unkstruct_801833A0
-cause: 2 names (84 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC01_000/0x80167DBC:buf, ov_SC01_001/0x801833A0:buf; full list: tools/struct_twins.py --show 91386f1d4b92
-- `Unkstruct_80167DBC`: 1 obj — ov_SC01_000/0x80167DBC:buf
-- `Unkstruct_801833A0`: 1 obj — ov_SC01_001/0x801833A0:buf
-
-### 91b13222d786
-names: Unkstruct_8017C5F0_2, Unkstruct_80184FA0_2
-cause: 2 names (56 B, all members placeholders) bound to 11 distinct objects, none bound to two names: ov_SC02_011/0x8017CC8C:v0, ov_SC02_016/0x8017C9C8:v0, ov_SC02_028/0x8017C5F0:v0, ov_SC02_031/0x8017C8B4:v0, ov_SC03_014/0x80181908:v0, ov_SC03_024/0x80184FA0:v0, ov_SC03_111/0x8017D9B0:v0, ov_SC04_000/0x8017D4D0:v0 …; full list: tools/struct_twins.py --show 91b13222d786
-- `Unkstruct_8017C5F0_2`: 10 obj — ov_SC02_011/0x8017CC8C:v0, ov_SC02_016/0x8017C9C8:v0, ov_SC02_028/0x8017C5F0:v0, ov_SC02_031/0x8017C8B4:v0, ov_SC03_014/0x80181908:v0, ov_SC03_111/0x8017D9B0:v0, ov_SC04_000/0x8017D4D0:v0, ov_SC04_002/0x8017D7EC:v0 (+2)
-- `Unkstruct_80184FA0_2`: 1 obj — ov_SC03_024/0x80184FA0:v0
 
 ### 927525df50d4
 names: E_13BD74, E_13C08C_8013C08C
@@ -2711,23 +2442,11 @@ cause: 2 names (16 B, all members placeholders) bound to 2 distinct objects, non
 - `E_13BD74`: 1 obj — ov_MAIN_012/0x8013BD74:a0
 - `E_13C08C_8013C08C`: 1 obj — shared/ov/guess_InitPacketModel:a0
 
-### 928a64cf0983
-names: Unkstruct_8017DE80, Unkstruct_80180394
-cause: 2 names (32 B, all members placeholders) bound to 10 distinct objects, none bound to two names: ov_SC02_015/0x8017DE80:s1, ov_SC02_021/0x8017F904:s1, ov_SC03_029/0x80181338:s1, ov_SC03_107/0x80181140:s1, ov_SC03_111/0x80183EE8:s1, ov_SC03_112/0x80184DFC:s1, ov_SC03_113/0x80182B80:s1, ov_SC03_117/0x80180394:s1 …; full list: tools/struct_twins.py --show 928a64cf0983
-- `Unkstruct_8017DE80`: 9 obj — ov_SC02_015/0x8017DE80:s1, ov_SC02_021/0x8017F904:s1, ov_SC03_029/0x80181338:s1, ov_SC03_107/0x80181140:s1, ov_SC03_111/0x80183EE8:s1, ov_SC03_112/0x80184DFC:s1, ov_SC03_113/0x80182B80:s1, ov_SC03_117/0x80183E84:s1 (+1)
-- `Unkstruct_80180394`: 1 obj — ov_SC03_117/0x80180394:s1
-
 ### 976aef1f77f1
 names: Unkstruct_8017FD20, Unkstruct_8017FF14
 cause: 2 names (28 B, all members placeholders) bound to 5 distinct objects, none bound to two names: ov_SC06_008/0x8017FF14:a0, ov_SC06_018/0x8017FD20:a0, ov_SC06_022/0x8018CB7C:a0, ov_SC06_032/0x8018CA0C:a0, ov_SC06_033/0x801906AC:a0; full list: tools/struct_twins.py --show 976aef1f77f1
 - `Unkstruct_8017FD20`: 1 obj — ov_SC06_018/0x8017FD20:a0
 - `Unkstruct_8017FF14`: 4 obj — ov_SC06_008/0x8017FF14:a0, ov_SC06_022/0x8018CB7C:a0, ov_SC06_032/0x8018CA0C:a0, ov_SC06_033/0x801906AC:a0
-
-### 976bf615ff7e
-names: Unkstruct_801843FC_2, Unkstruct_8018449C_2
-cause: 2 names (48 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_028/0x801843FC:param_1, ov_SC03_028/0x8018449C:param_1; full list: tools/struct_twins.py --show 976bf615ff7e
-- `Unkstruct_801843FC_2`: 1 obj — ov_SC03_028/0x801843FC:param_1
-- `Unkstruct_8018449C_2`: 1 obj — ov_SC03_028/0x8018449C:param_1
 
 ### 98bfca6c8ee0
 names: Unkstruct_80181AD0_3, Unkstruct_801E5CA8_3
@@ -2747,41 +2466,11 @@ cause: 2 names (188 B, all members placeholders) bound to 5 distinct objects, no
 - `Unkstruct_8017CE18`: 2 obj — ov_SC03_117/0x8017CE18:param, ov_SC05_010/0x8017D82C:a0
 - `Unkstruct_8017ECD4_3`: 3 obj — ov_SC03_006/0x8017ECD4:arg0, ov_SC03_014/0x80180638:arg0, ov_SC03_118/0x8017F3C0:arg0
 
-### 9abdf397aaf7
-names: Unkstruct_8017F154, Unkstruct_80188094
-cause: 2 names (48 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC04_011/0x80188094:arg0, ov_SC06_016/0x8017F154:arg0; full list: tools/struct_twins.py --show 9abdf397aaf7
-- `Unkstruct_8017F154`: 1 obj — ov_SC06_016/0x8017F154:arg0
-- `Unkstruct_80188094`: 1 obj — ov_SC04_011/0x80188094:arg0
-
 ### 9c8d61900c8d
 names: PRIM_8018FE20, Prim_8017DAC4
 cause: 2 names (56 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC04_011/0x8018FE20:pp, ov_SC04_011/0x8018FE20:prim, shared/ov/0x8017DAC4:prim, shared/ov/0x8017DAC4:q; full list: tools/struct_twins.py --show 9c8d61900c8d
 - `PRIM_8018FE20`: 2 obj — ov_SC04_011/0x8018FE20:pp, ov_SC04_011/0x8018FE20:prim
 - `Prim_8017DAC4`: 2 obj — shared/ov/0x8017DAC4:prim, shared/ov/0x8017DAC4:q
-
-### 9e4dc9e4068b
-names: Unkstruct_8017D758, Unkstruct_80182174
-cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC02_031/0x80182174:param_1, ov_SC03_095/0x8017D758:a0; full list: tools/struct_twins.py --show 9e4dc9e4068b
-- `Unkstruct_8017D758`: 1 obj — ov_SC03_095/0x8017D758:a0
-- `Unkstruct_80182174`: 1 obj — ov_SC02_031/0x80182174:param_1
-
-### 9f5cd89418b8
-names: Unkstruct_8017F4EC, Unkstruct_8017F590_2
-cause: 2 names (104 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC02_031/0x8017F590:a0, ov_SC02_031/0x8017F5B4:arg0, ov_SC03_006/0x8017F4EC:arg0, ov_SC03_006/0x8017F510:arg0; full list: tools/struct_twins.py --show 9f5cd89418b8
-- `Unkstruct_8017F4EC`: 2 obj — ov_SC03_006/0x8017F4EC:arg0, ov_SC03_006/0x8017F510:arg0
-- `Unkstruct_8017F590_2`: 2 obj — ov_SC02_031/0x8017F590:a0, ov_SC02_031/0x8017F5B4:arg0
-
-### a149ebf24de1
-names: Unkstruct_8017E270_5, Unkstruct_801820B0
-cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_107/0x8017E270:param_1, ov_SC05_001/0x801820B0:a0; full list: tools/struct_twins.py --show a149ebf24de1
-- `Unkstruct_8017E270_5`: 1 obj — ov_SC03_107/0x8017E270:param_1
-- `Unkstruct_801820B0`: 1 obj — ov_SC05_001/0x801820B0:a0
-
-### a22709dfe1aa
-names: Unkstruct_80169058, Unkstruct_8016986C
-cause: 2 names (48 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_MAIN_012/0x80169058:s1, ov_MAIN_012/0x8016986C:s1; full list: tools/struct_twins.py --show a22709dfe1aa
-- `Unkstruct_80169058`: 1 obj — ov_MAIN_012/0x80169058:s1
-- `Unkstruct_8016986C`: 1 obj — ov_MAIN_012/0x8016986C:s1
 
 ### a27d2556d6b8
 names: Unkstruct_8017DB64, Unkstruct_8017F2B4
@@ -2807,23 +2496,23 @@ cause: 2 names (12 B, all members placeholders); 1 bound to no object (UNBOUND),
 - `Rec027`: 0 obj — used by type Blk027 (0x801D3148, 0x801D9F40, ov_SC02_027/0x8017BFEC:dst …)
 - `Rec_8017C738`: 4 obj — 0x801D3148, ov_SC02_027/0x8017C738:a0, ov_SC02_027/0x8017C738:p, ov_SC02_027/0x8017C738:q
 
+### a42a395767bd
+names: Unkstruct_8017D3F8, Unkstruct_80181AD0_2
+cause: 2 names (12 B, all members placeholders) bound to 7 distinct objects, none bound to two names: main/0x800159E4:a0, ov_SC03_089/0x80183FA4:a0, ov_SC03_090/0x80183C80:a0, ov_SC03_091/0x80184B28:a0, ov_SC04_008/0x8017D3F8:param_1, shared/ov/0x8017FED8:stack_vals, shared/ov/0x80181AD0:a0; full list: tools/struct_twins.py --show a42a395767bd
+- `Unkstruct_8017D3F8`: 1 obj — ov_SC04_008/0x8017D3F8:param_1
+- `Unkstruct_80181AD0_2`: 6 obj — main/0x800159E4:a0, ov_SC03_089/0x80183FA4:a0, ov_SC03_090/0x80183C80:a0, ov_SC03_091/0x80184B28:a0, shared/ov/0x8017FED8:stack_vals, shared/ov/0x80181AD0:a0
+
 ### a5b3b6c549ea
 names: Blk32u, Entry_8016E95C
 cause: 2 names (32 B, all members placeholders) bound to 5 distinct objects, none bound to two names: 0x80063AEC, 0x80075840, 0x80115218, ov_SC01_000/0x8016E95C:p, ov_SC05_010/0x80180108:arg0; full list: tools/struct_twins.py --show a5b3b6c549ea
 - `Blk32u`: 2 obj — 0x80063AEC, 0x80075840
 - `Entry_8016E95C`: 3 obj — 0x80115218, ov_SC01_000/0x8016E95C:p, ov_SC05_010/0x80180108:arg0
 
-### a79128806e01
-names: Unkstruct_8003DC90, Unkstruct_8003DF8C
-cause: 2 names (164 B, all members placeholders) bound to 2 distinct objects, none bound to two names: main/0x8003DC90:p, main/0x8003DF8C:p; full list: tools/struct_twins.py --show a79128806e01
-- `Unkstruct_8003DC90`: 1 obj — main/0x8003DC90:p
-- `Unkstruct_8003DF8C`: 1 obj — main/0x8003DF8C:p
-
-### abc87203ad8f
-names: Unkstruct_800CD314_2, Unkstruct_800CD314_3
-cause: 2 names (28 B, all members placeholders) bound to 2 distinct objects, none bound to two names: 0x8011F758, md_MAIN_047/0x800CD314:p; full list: tools/struct_twins.py --show abc87203ad8f
-- `Unkstruct_800CD314_2`: 1 obj — md_MAIN_047/0x800CD314:p
-- `Unkstruct_800CD314_3`: 1 obj — 0x8011F758
+### a949e722e813
+names: Unkstruct_8017DCF8_2, Unkstruct_801838EC_2
+cause: 2 names (48 B, all members placeholders) bound to 12 distinct objects, none bound to two names: ov_SC01_080/0x8017DCF8:iVar1, ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b …; full list: tools/struct_twins.py --show a949e722e813
+- `Unkstruct_8017DCF8_2`: 1 obj — ov_SC01_080/0x8017DCF8:iVar1
+- `Unkstruct_801838EC_2`: 11 obj — ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b, ov_SC03_029/0x801838EC:a1 (+3)
 
 ### ac91ae2d8aa0:opaque
 names: S800D22E4, vec
@@ -2849,47 +2538,11 @@ cause: 2 names (96 B, all members placeholders) bound to 134 distinct objects, n
 - `Blk60`: 133 obj — 0x8017DD00, 0x8017E6DC, 0x8017E718, 0x8017E7A4, 0x8017E9D4, 0x8017EB48, 0x8017EB9C, 0x8017EC44 (+125)
 - `Unkstruct_8017FF7C`: 1 obj — shared/ov/0x8017FF7C:a0
 
-### b273c6c59c7d
-names: Unkstruct_8017D93C, Unkstruct_8017EE48
-cause: 2 names (256 B, all members placeholders) bound to 4 distinct objects, none bound to two names: ov_SC03_095/0x8017D93C:a0, ov_SC03_095/0x8017DEA0:a0, ov_SC03_096/0x8017EE48:a0, ov_SC03_096/0x8017F3AC:a0; full list: tools/struct_twins.py --show b273c6c59c7d
-- `Unkstruct_8017D93C`: 2 obj — ov_SC03_095/0x8017D93C:a0, ov_SC03_095/0x8017DEA0:a0
-- `Unkstruct_8017EE48`: 2 obj — ov_SC03_096/0x8017EE48:a0, ov_SC03_096/0x8017F3AC:a0
-
-### b37d46876e34
-names: Unkstruct_8017EB8C, Unkstruct_801805D0
-cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC06_010/0x8017ED80:a0, ov_SC06_010/0x801805D0:s0; full list: tools/struct_twins.py --show b37d46876e34
-- `Unkstruct_8017EB8C`: 1 obj — ov_SC06_010/0x8017ED80:a0
-- `Unkstruct_801805D0`: 1 obj — ov_SC06_010/0x801805D0:s0
-
 ### b3a46b7dc45c
 names: Unkstruct_80181F4C, Unkstruct_8018C334
 cause: 2 names (16 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC06_018/0x8018C334:p, ov_SC07_007/0x80181F4C:r; full list: tools/struct_twins.py --show b3a46b7dc45c
 - `Unkstruct_80181F4C`: 1 obj — ov_SC07_007/0x80181F4C:r
 - `Unkstruct_8018C334`: 1 obj — ov_SC06_018/0x8018C334:p
-
-### b40ad6f8fb36
-names: Unkstruct_8012E364, Unkstruct_80180814
-cause: 2 names (96 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_MAIN_012/0x8012E364:arg0, shared/ov/0x8012E364:arg0, shared/ov/0x80180814:a0; full list: tools/struct_twins.py --show b40ad6f8fb36
-- `Unkstruct_8012E364`: 2 obj — ov_MAIN_012/0x8012E364:arg0, shared/ov/0x8012E364:arg0
-- `Unkstruct_80180814`: 1 obj — shared/ov/0x80180814:a0
-
-### b461bb5427c5
-names: Unkstruct_8017BEBC_5, Unkstruct_8017E35C
-cause: 2 names (104 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC06_000/0x8017E35C:arg0, ov_SC06_010/0x8017BEBC:arg0; full list: tools/struct_twins.py --show b461bb5427c5
-- `Unkstruct_8017BEBC_5`: 1 obj — ov_SC06_010/0x8017BEBC:arg0
-- `Unkstruct_8017E35C`: 1 obj — ov_SC06_000/0x8017E35C:arg0
-
-### b53a8ebc3f8b
-names: Unkstruct_8017E0D8, Unkstruct_8017FE08
-cause: 2 names (224 B, all members placeholders) bound to 5 distinct objects, none bound to two names: ov_SC03_029/0x8017FE08:a0, ov_SC03_112/0x801800E0:a0, ov_SC03_115/0x8017E0D8:a0, ov_SC05_001/0x80181E08:a0, ov_SC05_007/0x8017E688:a0; full list: tools/struct_twins.py --show b53a8ebc3f8b
-- `Unkstruct_8017E0D8`: 4 obj — ov_SC03_112/0x801800E0:a0, ov_SC03_115/0x8017E0D8:a0, ov_SC05_001/0x80181E08:a0, ov_SC05_007/0x8017E688:a0
-- `Unkstruct_8017FE08`: 1 obj — ov_SC03_029/0x8017FE08:a0
-
-### b706386ff037
-names: Unkstruct_801824F0, Unkstruct_80183F4C
-cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC04_005/0x801824F0:a0, ov_SC04_007/0x80183F4C:a0; full list: tools/struct_twins.py --show b706386ff037
-- `Unkstruct_801824F0`: 1 obj — ov_SC04_005/0x801824F0:a0
-- `Unkstruct_80183F4C`: 1 obj — ov_SC04_007/0x80183F4C:a0
 
 ### b899a826e844
 names: Unkstruct_8017DE80_4, Unkstruct_8017E070
@@ -2897,35 +2550,17 @@ cause: 2 names (52 B, all members placeholders) bound to 5 distinct objects, non
 - `Unkstruct_8017DE80_4`: 1 obj — ov_SC04_016/0x8017FED4:v1
 - `Unkstruct_8017E070`: 4 obj — md_SC07_004/0x801AF994:ret, ov_SC03_114/0x8017E918:ret, ov_SC04_011/0x8018F658:ret, ov_SC06_000/0x80188160:ret
 
-### bf129edbcab5
-names: Unkstruct_80180628_2, Unkstruct_801813D0_2
-cause: 2 names (40 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_024/0x801813D0:p, ov_SC03_117/0x80180628:p; full list: tools/struct_twins.py --show bf129edbcab5
-- `Unkstruct_80180628_2`: 1 obj — ov_SC03_117/0x80180628:p
-- `Unkstruct_801813D0_2`: 1 obj — ov_SC03_024/0x801813D0:p
-
-### c2674603d3c3
-names: Unkstruct_801810B0_2, Unkstruct_801AE624_2
-cause: 2 names (48 B, all members placeholders) bound to 4 distinct objects, none bound to two names: md_SC07_004/0x801AE624:p, md_SC07_004/0x801AE624:q, md_SC07_004/0x801AE624:r, ov_SC04_000/0x801810B0:arg0; full list: tools/struct_twins.py --show c2674603d3c3
-- `Unkstruct_801810B0_2`: 1 obj — ov_SC04_000/0x801810B0:arg0
-- `Unkstruct_801AE624_2`: 3 obj — md_SC07_004/0x801AE624:p, md_SC07_004/0x801AE624:q, md_SC07_004/0x801AE624:r
-
-### c4369b57e52e
-names: Unkstruct_801866CC, Unkstruct_801880A8
-cause: 2 names (196 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC03_006/0x801880A8:s0, ov_SC03_029/0x801866CC:s0; full list: tools/struct_twins.py --show c4369b57e52e
-- `Unkstruct_801866CC`: 1 obj — ov_SC03_029/0x801866CC:s0
-- `Unkstruct_801880A8`: 1 obj — ov_SC03_006/0x801880A8:s0
+### c2490d6a1013
+names: Unkstruct_80180ED0, Unkstruct_801818B8_2
+cause: 2 names (36 B, all members placeholders) bound to 7 distinct objects, none bound to two names: md_SC02_009/0x801E4F6C:a0, ov_SC03_007/0x8018676C:a0, ov_SC05_003/0x80181638:a1, ov_SC05_003/0x801818B8:arg0, ov_SC05_005/0x80181740:a0, ov_SC07_000/0x80180ED0:a3, ov_SC07_002/0x8018439C:param_1; full list: tools/struct_twins.py --show c2490d6a1013
+- `Unkstruct_80180ED0`: 1 obj — ov_SC07_000/0x80180ED0:a3
+- `Unkstruct_801818B8_2`: 6 obj — md_SC02_009/0x801E4F6C:a0, ov_SC03_007/0x8018676C:a0, ov_SC05_003/0x80181638:a1, ov_SC05_003/0x801818B8:arg0, ov_SC05_005/0x80181740:a0, ov_SC07_002/0x8018439C:param_1
 
 ### c4a00c76c61c
 names: Unkstruct_801808D0, Unkstruct_8018339C
 cause: 2 names (260 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC02_027/0x8018339C:s0, ov_SC02_028/0x801808D0:s0; full list: tools/struct_twins.py --show c4a00c76c61c
 - `Unkstruct_801808D0`: 1 obj — ov_SC02_028/0x801808D0:s0
 - `Unkstruct_8018339C`: 1 obj — ov_SC02_027/0x8018339C:s0
-
-### c5e5b6ec4ae5
-names: Unkstruct_80187368, Unkstruct_8018C190
-cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC06_018/0x8018C190:param_1, ov_SC06_032/0x80187368:param_1; full list: tools/struct_twins.py --show c5e5b6ec4ae5
-- `Unkstruct_80187368`: 1 obj — ov_SC06_032/0x80187368:param_1
-- `Unkstruct_8018C190`: 1 obj — ov_SC06_018/0x8018C190:param_1
 
 ### c6e867e46e6f
 names: V16x4, Vec4s16_8018423C

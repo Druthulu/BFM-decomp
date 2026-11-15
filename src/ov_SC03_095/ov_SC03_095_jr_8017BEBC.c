@@ -3096,7 +3096,7 @@ extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_8017D93C(u8 *a0) {
-        ((Unkstruct_8017D93C *)a0)->unkFC = 0;
+        ((Unkstruct_8017EE48 *)a0)->unkFC = 0;
         ((void (*)(void *, s32))func_8012AD44)(a0, 0x1);
     }
 
@@ -3311,7 +3311,7 @@ void func_8017DEA0(s32 a0) {
     extern s32 D_80191B60[];
     extern s32 D_8019BD18;
 
-    s16 state = ((Unkstruct_8017D93C *)a0)->unk70;
+    s16 state = ((Unkstruct_8017EE48 *)a0)->unk70;
     u16 bits;
 
     if (state < 3) {
@@ -3321,10 +3321,10 @@ void func_8017DEA0(s32 a0) {
         func_8017D8A0(a0, D_80191B44, 2);
     }
 
-    bits = ((Unkstruct_8017D93C *)a0)->unk72;
-    ((Unkstruct_8017D93C *)a0)->unkFE = 0;
+    bits = ((Unkstruct_8017EE48 *)a0)->unk72;
+    ((Unkstruct_8017EE48 *)a0)->unkFE = 0;
     D_8019BD18 = 0;
-    ((Unkstruct_8017D93C *)a0)->unk72 = bits | 0x1000;
+    ((Unkstruct_8017EE48 *)a0)->unk72 = bits | 0x1000;
     func_8017D93C((u8 *)a0);
 }
 

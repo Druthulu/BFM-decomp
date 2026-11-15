@@ -3899,9 +3899,9 @@ s32 func_801803FC(s32 a0) {
 
     v1 = ((Unkstruct_801803FC *)a0)->unkCC.v0.unkCC;
     if (v1 != 0) {
-        ((Unkstruct_801803FC_2 *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
-        ((Unkstruct_801803FC_2 *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;
-        ((Unkstruct_801803FC_2 *)v1)->unkC = ((Unkstruct_801803FC *)a0)->unkE;
+        ((Unkstruct_8018653C *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
+        ((Unkstruct_8018653C *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;
+        ((Unkstruct_8018653C *)v1)->unkC = ((Unkstruct_801803FC *)a0)->unkE;
         func_801330E0((void *)(v1 + 0x8), (s16 *)(v1 + 0x8), -0x100);
     }
 }

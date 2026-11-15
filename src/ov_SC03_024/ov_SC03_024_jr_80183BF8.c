@@ -3744,10 +3744,10 @@ void func_80184FA0(s32 a0) {
     func_800D23D0(&sp[4]);
     RotMatrixYXZ(&sp[4], &D_801C14D8[-5]);
 
-    ((Unkstruct_80184FA0_2 *)v0)->unk34 = (s32)&D_801C14D8[-5];
-    ((Unkstruct_80184FA0_2 *)v0)->unk1A = 0;
-    ((Unkstruct_80184FA0_2 *)v0)->unk18 = 0;
-    ((Unkstruct_80184FA0_2 *)v0)->unk4 |= 0x50000000;
+    ((Unkstruct_8017C5F0_2 *)v0)->unk34 = (s32)&D_801C14D8[-5];
+    ((Unkstruct_8017C5F0_2 *)v0)->unk1A = 0;
+    ((Unkstruct_8017C5F0_2 *)v0)->unk18 = 0;
+    ((Unkstruct_8017C5F0_2 *)v0)->unk4 |= 0x50000000;
     ((Unkstruct_8017C5F0 *)a0)->unk2 += 1;
 }
 

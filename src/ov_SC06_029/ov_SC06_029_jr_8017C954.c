@@ -5994,9 +5994,9 @@ void func_80182388(s32 a0, s32 a1)
     p = ((a1 + *(s16 *)(a0 + 0x70) * 4) << 4) + (s32)D_801DFBF8;
     guess_RotTransSVWithMatrix((s32)D_801DFD94, p, (s32)sp28);
 
-    ((Unkstruct_80182388 *)sp68)->unk2 = sp28[0] + *(u16 *)(p + 0xA);
-    ((Unkstruct_80182388 *)sp68)->unk6 = sp28[1] + *(u16 *)(p + 0xE);
-    ((Unkstruct_80182388 *)sp68)->unkA = sp28[2];
+    ((Unkstruct_801877B8 *)sp68)->unk2 = sp28[0] + *(u16 *)(p + 0xA);
+    ((Unkstruct_801877B8 *)sp68)->unk6 = sp28[1] + *(u16 *)(p + 0xE);
+    ((Unkstruct_801877B8 *)sp68)->unkA = sp28[2];
     func_8012B77C((s32)&ang, (s32)sp68, (s32)&D_80126B5C);
 
     rot[0] = ang;
@@ -7625,9 +7625,9 @@ void func_80184C68(u8 *v, s32 idx)
 
 void func_80184E6C(s32 *a0, s32 *a1) {
     if (a0 != NULL) {
-        ((Unkstruct_80184E6C *)a0)->unk8 = *(u16 *)((s32)a1 + 0x0);
-        ((Unkstruct_80184E6C *)a0)->unkA = *(u16 *)((s32)a1 + 0x2);
-        ((Unkstruct_80184E6C *)a0)->unkC = *(u16 *)((s32)a1 + 0x4);
+        ((Unkstruct_8018653C *)a0)->unk8 = *(u16 *)((s32)a1 + 0x0);
+        ((Unkstruct_8018653C *)a0)->unkA = *(u16 *)((s32)a1 + 0x2);
+        ((Unkstruct_8018653C *)a0)->unkC = *(u16 *)((s32)a1 + 0x4);
     }
 }
 

@@ -5397,19 +5397,19 @@ s32 param_1;
 {
     s32 v0;
 
-    if ((((Unkstruct_80189238 *)param_1)->unk20 = v0 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
+    if ((((Unkstruct_801320D8 *)param_1)->unk20 = v0 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
         goto fail;
     }
     if (((s32)(u8)((s32 (*)(s32))guess_TestGameFlag)(0x18)) != 0) {
         goto fail;
     }
-    guess_InitModelObject(((Unkstruct_80189238 *)param_1)->unk20, &D_801E3F20);
+    guess_InitModelObject(((Unkstruct_801320D8 *)param_1)->unk20, &D_801E3F20);
     if (((s32 (*)(s32, void *))guess_SpawnActorNoArg)(0x2B4, param_1) == 0) {
 fail:
         ((void (*)(void *))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((Unkstruct_80189238 *)param_1)->unk58 = (s32)&D_801918A0 | 0x40000000;
-        ((Unkstruct_80189238 *)param_1)->unk5C = 0x800;
+        ((Unkstruct_801320D8 *)param_1)->unk58 = (s32)&D_801918A0 | 0x40000000;
+        ((Unkstruct_801320D8 *)param_1)->unk5C = 0x800;
         ((s32 (*)(void *))func_8012AD50)(param_1);
     }
 }

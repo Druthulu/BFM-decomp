@@ -4014,10 +4014,10 @@ void func_801827FC(arg0)
 s32 arg0;
 {
     s32 temp;
-    temp = ((Unkstruct_801827FC *)arg0)->unk64;
-    ((Unkstruct_801827FC *)arg0)->unk2 = 6;
-    ((Unkstruct_801827FC *)arg0)->unk34 = 0;
-    *(u16 *)(((Unkstruct_801827FC *)arg0)->unk20 + 0x12) = *(u16 *)(*(s32 *)(temp + 0x20) + 0x12);
+    temp = ((Unkstruct_80183430 *)arg0)->unk64;
+    ((Unkstruct_80183430 *)arg0)->unk2 = 6;
+    ((Unkstruct_80183430 *)arg0)->unk34 = 0;
+    *(u16 *)(((Unkstruct_80183430 *)arg0)->unk20 + 0x12) = *(u16 *)(*(s32 *)(temp + 0x20) + 0x12);
 }
 
 

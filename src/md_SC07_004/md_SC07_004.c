@@ -4719,10 +4719,10 @@ void func_801A7200(s32 param_1)
     ((Unkstruct_801A7200 *)param_1)->unk6 = ((Unkstruct_80136A94 *)*(s32 *)(s1 + 0x20))->unk48;
     ((Unkstruct_801A7200 *)param_1)->unkA = ((Unkstruct_80136A94 *)*(s32 *)(s1 + 0x20))->unk4C;
     ((Unkstruct_801A7200 *)param_1)->unkE = ((Unkstruct_80136A94 *)*(s32 *)(s1 + 0x20))->unk50;
-    ((Unkstruct_801A7200_3 *)*(s32 *)(param_1 + 0x20))->unk18 = *(u16 *)(s2 + 0x18);
-    ((Unkstruct_801A7200_3 *)*(s32 *)(param_1 + 0x20))->unk1A = *(u16 *)(s2 + 0x1A);
-    ((Unkstruct_801A7200_3 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50800000;
-    ((Unkstruct_801A7200_3 *)*(s32 *)(param_1 + 0x20))->unk2C = 0xC020;
+    ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk18 = *(u16 *)(s2 + 0x18);
+    ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk1A = *(u16 *)(s2 + 0x1A);
+    ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50800000;
+    ((Unkstruct_801AC8B8_2 *)*(s32 *)(param_1 + 0x20))->unk2C = 0xC020;
     ((Unkstruct_801A7200 *)param_1)->unk2 = ((Unkstruct_801A7200 *)param_1)->unk2 + 1;
 }
 

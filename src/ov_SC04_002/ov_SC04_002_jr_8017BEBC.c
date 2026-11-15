@@ -8362,9 +8362,9 @@ extern void (*D_801A9618[])(void);
 void func_80184AA8(void *a0) {
     D_801A9618[((Unkstruct_801805C0 *)a0)->unk2]();
     if (((Unkstruct_801805C0 *)a0)->unk0 != 0) {
-        ((Unkstruct_801805C0_2 *)*(s32 *)((s32)a0 + 0xCC))->unk8 = ((Unkstruct_801805C0 *)a0)->unk6;
-        ((Unkstruct_801805C0_2 *)*(s32 *)((s32)a0 + 0xCC))->unkA = ((Unkstruct_801805C0 *)a0)->unkA;
-        ((Unkstruct_801805C0_2 *)*(s32 *)((s32)a0 + 0xCC))->unkC = ((Unkstruct_801805C0 *)a0)->unkE;
+        ((Unkstruct_8018653C *)*(s32 *)((s32)a0 + 0xCC))->unk8 = ((Unkstruct_801805C0 *)a0)->unk6;
+        ((Unkstruct_8018653C *)*(s32 *)((s32)a0 + 0xCC))->unkA = ((Unkstruct_801805C0 *)a0)->unkA;
+        ((Unkstruct_8018653C *)*(s32 *)((s32)a0 + 0xCC))->unkC = ((Unkstruct_801805C0 *)a0)->unkE;
     }
 }
 

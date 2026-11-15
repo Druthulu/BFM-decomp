@@ -249,9 +249,9 @@ void func_800CD314(void *arg0) {
     if (cnt < 0x20) {
         if ((cnt & 7) == 0) {
             *(Blk32 *)(s0 + 0x38) = *(Blk32 *)D_8011F75C;
-            CAST_ALIAS(s32, p, 4) = (((Unkstruct_800CD314_2 *)p)->unk4 & 0x7FFFFFFF) | (((Unkstruct_800CD314_3 *)D_8011F758)->unk4 & (s32)0x80000000);
-            CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800CD314_3 *)D_8011F758)->unk18;
-            ((Unkstruct_800CD314_2 *)p)->unk1A = ((Unkstruct_800CD314_3 *)D_8011F758)->unk1A;
+            CAST_ALIAS(s32, p, 4) = (((Unkstruct_800CD314_2 *)p)->unk4 & 0x7FFFFFFF) | (((Unkstruct_800CD314_2 *)D_8011F758)->unk4 & (s32)0x80000000);
+            CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800CD314_2 *)D_8011F758)->unk18;
+            ((Unkstruct_800CD314_2 *)p)->unk1A = ((Unkstruct_800CD314_2 *)D_8011F758)->unk1A;
             t = ((Unkstruct_800CD314 *)s0)->unk4C;
             ((Unkstruct_800CD314 *)s0)->unk6 = t;
             tb = ((Unkstruct_800CD314 *)s0)->unk54;

@@ -5404,7 +5404,7 @@ extern void GsGetLw(s32 a0, s32 a1);
 
 extern void func_8017F510(s32 arg0, s32 arg1, s32 arg2);
     void func_8017F4EC(s32 arg0) {
-        func_8017F510(arg0, ((Unkstruct_8017F4EC *)arg0)->unk8, arg0 + 0x10);
+        func_8017F510(arg0, ((Unkstruct_8017F590_2 *)arg0)->unk8, arg0 + 0x10);
     }
 
 
@@ -5663,11 +5663,11 @@ void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
 
     base = guess_g_RenderWork;
 
-    if (((Unkstruct_8017F4EC *)arg0)->unk0 != 0) {
+    if (((Unkstruct_8017F590_2 *)arg0)->unk0 != 0) {
         return;
     }
 
-    lim = func_800491EC() + ((Unkstruct_8017F4EC *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017F590_2 *)arg0)->unk64;
     func_800547D8(arg2, &mtx);
     func_80052E38(&mtx);
 
@@ -7946,12 +7946,12 @@ void func_80183A70(s32 a0) {
     *(s32 *)((((Unkstruct_80183A70 *)a0)->unk20) + 0x4) &= mask;
 
     p = ((Unkstruct_80183A70 *)a0)->unk20;
-    ((Unkstruct_80183A70_2 *)p)->unk2C |= 0x10;
+    ((Unkstruct_801838EC_2 *)p)->unk2C |= 0x10;
 
     p = ((Unkstruct_80183A70 *)a0)->unk20;
-    ((Unkstruct_80183A70_2 *)p)->unk1C = 1;
-    ((Unkstruct_80183A70_2 *)p)->unk1A = 1;
-    ((Unkstruct_80183A70_2 *)p)->unk18 = 1;
+    ((Unkstruct_801838EC_2 *)p)->unk1C = 1;
+    ((Unkstruct_801838EC_2 *)p)->unk1A = 1;
+    ((Unkstruct_801838EC_2 *)p)->unk18 = 1;
 
     CAST_ALIAS(s32, a0, 0xCC) = func_80143970(a0);
 
@@ -11235,12 +11235,12 @@ extern M2C_UNK D_801CA030;
 void func_801880A8(s32 param_1) {
     s32 s0 = param_1;
 
-    ((Unkstruct_801880A8 *)s0)->unkC2 = 0;
-    ((Unkstruct_801880A8 *)s0)->unkC3 = 0;
-    ((Unkstruct_801880A8 *)s0)->unk98 = 0;
+    ((Unkstruct_801866CC *)s0)->unkC2 = 0;
+    ((Unkstruct_801866CC *)s0)->unkC3 = 0;
+    ((Unkstruct_801866CC *)s0)->unk98 = 0;
     func_80188978(s0, (s32)&D_801C9FFC, 0);
 
-    if (((Unkstruct_801880A8 *)s0)->unk5E == 9 || ((Unkstruct_801880A8 *)s0)->unk5E == 0x1C) {
+    if (((Unkstruct_801866CC *)s0)->unk5E == 9 || ((Unkstruct_801866CC *)s0)->unk5E == 0x1C) {
         guess_SetLocalVelocity(s0, (s32)D_801CA1A8);
     } else {
         guess_SetLocalVelocity(s0, (s32)D_801CA1B4);

@@ -344,12 +344,12 @@ void func_800CB780(s32 param_1) {
 
     p = D_800CBBD4;
     i = 0;
-    ((Unkstruct_800CB780 *)buf)->unkC = 0;
-    ((Unkstruct_800CB780 *)buf)->unkA = 0;
-    ((Unkstruct_800CB780 *)buf)->unk8 = 0;
-    ((Unkstruct_800CB780 *)buf)->unk1A = 0;
-    ((Unkstruct_800CB780 *)buf)->unk12 = 0;
-    ((Unkstruct_800CB780 *)buf)->unk2 = 0;
+    ((Unkstruct_8018A950 *)buf)->unkC = 0;
+    ((Unkstruct_8018A950 *)buf)->unkA = 0;
+    ((Unkstruct_8018A950 *)buf)->unk8 = 0;
+    ((Unkstruct_8018A950 *)buf)->unk1A = 0;
+    ((Unkstruct_8018A950 *)buf)->unk12 = 0;
+    ((Unkstruct_8018A950 *)buf)->unk2 = 0;
     t = *(u8 *)(param_1 + 0x30);
     buf[0x22] = 0;
     buf[0x21] = 0;
@@ -360,17 +360,17 @@ void func_800CB780(s32 param_1) {
     buf[0x2e] = 0;
     buf[0x2d] = 0;
     buf[0x2c] = 0;
-    ((Unkstruct_800CB780 *)buf)->unk30 = 0x50000000;
+    ((Unkstruct_8018A950 *)buf)->unk30 = 0x50000000;
     buf[0x25] = t;
     buf[0x26] = t;
     buf[0x24] = t;
     do {
-        ((Unkstruct_800CB780 *)buf)->unk0 = *p++;
-        ((Unkstruct_800CB780 *)buf)->unk4 = *p++;
-        ((Unkstruct_800CB780 *)buf)->unk10 = *p++;
-        ((Unkstruct_800CB780 *)buf)->unk14 = *p++;
-        ((Unkstruct_800CB780 *)buf)->unk18 = *p++;
-        ((Unkstruct_800CB780 *)buf)->unk1C = *p--;
+        ((Unkstruct_8018A950 *)buf)->unk0 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk4 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk10 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk14 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk18 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk1C = *p--;
         guess_AddPolyG4(buf, (void *)(param_1 + 0x38));
         i++;
     } while (i < 4);
@@ -441,12 +441,12 @@ void func_800CBA0C(s32 param_1) {
 
     p = D_800CBBD4;
     i = 0;
-    ((Unkstruct_800CBA0C *)buf)->unkC = 0;
-    ((Unkstruct_800CBA0C *)buf)->unkA = 0;
-    ((Unkstruct_800CBA0C *)buf)->unk8 = 0;
-    ((Unkstruct_800CBA0C *)buf)->unk1C = 0;
-    ((Unkstruct_800CBA0C *)buf)->unk14 = 0;
-    ((Unkstruct_800CBA0C *)buf)->unk4 = 0;
+    ((Unkstruct_8018A950 *)buf)->unkC = 0;
+    ((Unkstruct_8018A950 *)buf)->unkA = 0;
+    ((Unkstruct_8018A950 *)buf)->unk8 = 0;
+    ((Unkstruct_8018A950 *)buf)->unk1C = 0;
+    ((Unkstruct_8018A950 *)buf)->unk14 = 0;
+    ((Unkstruct_8018A950 *)buf)->unk4 = 0;
     t = *(u8 *)(param_1 + 0x30);
     buf[0x22] = 0;
     buf[0x21] = 0;
@@ -457,17 +457,17 @@ void func_800CBA0C(s32 param_1) {
     buf[0x2e] = 0;
     buf[0x2d] = 0;
     buf[0x2c] = 0;
-    ((Unkstruct_800CBA0C *)buf)->unk30 = 0x50000000;
+    ((Unkstruct_8018A950 *)buf)->unk30 = 0x50000000;
     buf[0x25] = t;
     buf[0x24] = t;
     buf[0x26] = t >> 1;
     do {
-        ((Unkstruct_800CBA0C *)buf)->unk0 = *p++;
-        ((Unkstruct_800CBA0C *)buf)->unk2 = *p++;
-        ((Unkstruct_800CBA0C *)buf)->unk10 = *p++;
-        ((Unkstruct_800CBA0C *)buf)->unk12 = *p++;
-        ((Unkstruct_800CBA0C *)buf)->unk18 = *p++;
-        ((Unkstruct_800CBA0C *)buf)->unk1A = *p--;
+        ((Unkstruct_8018A950 *)buf)->unk0 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk2 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk10 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk12 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk18 = *p++;
+        ((Unkstruct_8018A950 *)buf)->unk1A = *p--;
         guess_AddPolyG4(buf, (void *)(param_1 + 0x38));
         i++;
     } while (i < 4);

@@ -5228,9 +5228,9 @@ void func_80182674(s32 *arg0) {
     ((s32 (*)(s32))func_8012E138)((s32)arg0);
     v1 = ((Unkstruct_8018520C *)arg0)->unkCC;
     if (v1 != 0) {
-        ((Unkstruct_80182674_2 *)v1)->unk8 = ((Unkstruct_8018520C *)arg0)->unk6;
-        ((Unkstruct_80182674_2 *)v1)->unkA = ((Unkstruct_8018520C *)arg0)->unkA;
-        ((Unkstruct_80182674_2 *)v1)->unkC = ((Unkstruct_8018520C *)arg0)->unkE - 0x27E;
+        ((Unkstruct_8018653C *)v1)->unk8 = ((Unkstruct_8018520C *)arg0)->unk6;
+        ((Unkstruct_8018653C *)v1)->unkA = ((Unkstruct_8018520C *)arg0)->unkA;
+        ((Unkstruct_8018653C *)v1)->unkC = ((Unkstruct_8018520C *)arg0)->unkE - 0x27E;
     }
 }
 
@@ -7637,11 +7637,11 @@ void func_8018633C(Str_8018633C *arg0) {
     arg0->f5C = a;
     if (e & 1) {
         p = arg0->f20;
-        ((Unkstruct_8018633C *)p)->unk2C |= 0x10;
+        ((Unkstruct_801838EC_2 *)p)->unk2C |= 0x10;
         p = arg0->f20;
-        ((Unkstruct_8018633C *)p)->unk1C = 0x1666;
-        ((Unkstruct_8018633C *)p)->unk1A = 0x1666;
-        ((Unkstruct_8018633C *)p)->unk18 = 0x1666;
+        ((Unkstruct_801838EC_2 *)p)->unk1C = 0x1666;
+        ((Unkstruct_801838EC_2 *)p)->unk1A = 0x1666;
+        ((Unkstruct_801838EC_2 *)p)->unk18 = 0x1666;
         arg0->f100 = 0x1666;
     }
 }

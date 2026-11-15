@@ -4949,12 +4949,12 @@ extern void func_801292C8(u8 *a0);
 
 
 void func_80182440(s32 a0) {
-    if (--((Unkstruct_80182440 *)a0)->unk1C == 0) {
-        if (((Unkstruct_80182440 *)a0)->unk2C == -1) {
-            ((Unkstruct_80182440 *)a0)->unk2 = 1;
+    if (--((Unkstruct_80182A5C *)a0)->unk1C == 0) {
+        if (((Unkstruct_80182A5C *)a0)->unk2C == -1) {
+            ((Unkstruct_80182A5C *)a0)->unk2 = 1;
         } else {
-            ((Unkstruct_80182440 *)a0)->unk2 = 2;
-            ((Unkstruct_80182440 *)a0)->unk1C = 0;
+            ((Unkstruct_80182A5C *)a0)->unk2 = 2;
+            ((Unkstruct_80182A5C *)a0)->unk1C = 0;
         }
     }
 }

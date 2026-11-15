@@ -5113,9 +5113,9 @@ extern void func_8013B598(s32 a0, u16 *a1);
 
 void func_80183FA4(s32 a0, s32 a1, s32 a2) {
     u16 sp[3];
-    sp[0] = ((Unkstruct_80183C80 *)a0)->unk2;
-    sp[1] = ((Unkstruct_80183C80 *)a0)->unk6;
-    sp[2] = ((Unkstruct_80183C80 *)a0)->unkA;
+    sp[0] = ((Unkstruct_80181AD0_2 *)a0)->unk2;
+    sp[1] = ((Unkstruct_80181AD0_2 *)a0)->unk6;
+    sp[2] = ((Unkstruct_80181AD0_2 *)a0)->unkA;
     func_8013B6A0(a1, sp, a2);
 }
 

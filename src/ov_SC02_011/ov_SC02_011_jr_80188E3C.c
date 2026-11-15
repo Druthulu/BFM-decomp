@@ -897,7 +897,7 @@ void func_8018A1A4(void *a0) {
     /* Direct struct assignment for 8-byte unaligned copy */
     *(DataBlock *)(void *)a1 = *(DataBlock *)(void *)(s0 + 8);
 
-    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_8018A1A4 *)s0)->unk10;
+    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80185020 *)s0)->unk10;
     guess_g_MainCameraRefOffsetTargetY = CAST_ALIAS(s16, s0, 0x12);
     guess_g_MainCameraRefOffsetTargetZ = CAST_ALIAS(s16, s0, 0x14);
 

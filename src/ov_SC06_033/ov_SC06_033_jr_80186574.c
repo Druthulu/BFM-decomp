@@ -3344,10 +3344,10 @@ LAB_tail:
 
 
 void func_80187114(s32 a0) {
-    s32 v1 = ((Unkstruct_80187114 *)a0)->unk64;
-    ((Unkstruct_80187114 *)a0)->unk2 = 6;
-    ((Unkstruct_80187114 *)a0)->unk34 = 0;
-    *(u16 *)(((Unkstruct_80187114 *)a0)->unk20 + 0x12) = *(u16 *)(*(s32 *)(v1 + 0x20) + 0x12);
+    s32 v1 = ((Unkstruct_80183430 *)a0)->unk64;
+    ((Unkstruct_80183430 *)a0)->unk2 = 6;
+    ((Unkstruct_80183430 *)a0)->unk34 = 0;
+    *(u16 *)(((Unkstruct_80183430 *)a0)->unk20 + 0x12) = *(u16 *)(*(s32 *)(v1 + 0x20) + 0x12);
 }
 
 

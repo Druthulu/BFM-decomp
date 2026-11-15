@@ -6768,16 +6768,16 @@ void func_8018439C(s32 param_1)
     s32 p;
     s16 h;
 
-    t = ((Unkstruct_8018439C *)param_1)->unk1C - 1;
-    ((Unkstruct_8018439C *)param_1)->unk1C = t;
+    t = ((Unkstruct_801818B8_2 *)param_1)->unk1C - 1;
+    ((Unkstruct_801818B8_2 *)param_1)->unk1C = t;
     ((Unkstruct_8017F858_2 *)*(s32 *)(param_1 + 0x20))->unk1A = D_8018A4CC[7 - t];
-    p = ((Unkstruct_8018439C *)param_1)->unk20;
+    p = ((Unkstruct_801818B8_2 *)param_1)->unk20;
     h = ((Unkstruct_8017F858_2 *)p)->unk1C + 0x20;
     ((Unkstruct_8017F858_2 *)p)->unk1C = h;
     ((Unkstruct_8017F858_2 *)p)->unk18 = h;
-    if (((Unkstruct_8018439C *)param_1)->unk1C == 0) {
-        ((Unkstruct_8018439C *)param_1)->unk2 = ((Unkstruct_8018439C *)param_1)->unk2 + 1;
-        ((Unkstruct_8018439C *)param_1)->unk1C = 0x30;
+    if (((Unkstruct_801818B8_2 *)param_1)->unk1C == 0) {
+        ((Unkstruct_801818B8_2 *)param_1)->unk2 = ((Unkstruct_801818B8_2 *)param_1)->unk2 + 1;
+        ((Unkstruct_801818B8_2 *)param_1)->unk1C = 0x30;
     }
 }
 

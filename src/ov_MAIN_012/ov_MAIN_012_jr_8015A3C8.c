@@ -8257,17 +8257,17 @@ void func_80169058(s32 a0) {
     s16 v18[4];   /* sp+0x18 SVECTOR */
     s16 v20[16];  /* sp+0x20 MATRIX_L48 */
     s16 v40[16];  /* sp+0x40 MATRIX_L48 */
-    v10[0] = ((Unkstruct_80169058 *)s1)->unk6;
-    v10[1] = ((Unkstruct_80169058 *)s1)->unkA;
-    v10[2] = ((Unkstruct_80169058 *)s1)->unkE;
+    v10[0] = ((Unkstruct_8016986C *)s1)->unk6;
+    v10[1] = ((Unkstruct_8016986C *)s1)->unkA;
+    v10[2] = ((Unkstruct_8016986C *)s1)->unkE;
     func_800D20C0(v10, v18, 1);
     func_800D23D0(v18);
     RotMatrixYXZ(v18, (void *)(s1 + 0x38));
-    v10[0] = ((Unkstruct_80169058 *)s1)->unk12;
-    v10[1] = ((Unkstruct_80169058 *)s1)->unk16;
-    v10[2] = ((Unkstruct_80169058 *)s1)->unk1A;
+    v10[0] = ((Unkstruct_8016986C *)s1)->unk12;
+    v10[1] = ((Unkstruct_8016986C *)s1)->unk16;
+    v10[2] = ((Unkstruct_8016986C *)s1)->unk1A;
     RotMatrixYXZ(v10, v40);
-    if ((((Unkstruct_80169058 *)s1)->unk2C & 0x2) == 0) {
+    if ((((Unkstruct_8016986C *)s1)->unk2C & 0x2) == 0) {
         s32 r = rand();
         v10[0] = (r & 0x7F) << 3;
         v10[1] = (((u32)(r & 0x7F00)) >> 5) + 0xC00;
@@ -8283,14 +8283,14 @@ void func_80169058(s32 a0) {
     v10[1] = 0;
     v10[2] = 0xA;
     ((void (*)(void *, void *, void *))ApplyMatrixSV)(v20, v10, v10);
-    ((Unkstruct_80169058 *)s1)->unk12 = v10[0];
-    ((Unkstruct_80169058 *)s1)->unk16 = v10[1];
+    ((Unkstruct_8016986C *)s1)->unk12 = v10[0];
+    ((Unkstruct_8016986C *)s1)->unk16 = v10[1];
     {
-        s32 c = ((Unkstruct_80169058 *)s1)->unk2;
+        s32 c = ((Unkstruct_8016986C *)s1)->unk2;
         s32 z = (u16)v10[2];
-        ((Unkstruct_80169058 *)s1)->unk1C = 0;
-        ((Unkstruct_80169058 *)s1)->unk2 = c + 1;
-        ((Unkstruct_80169058 *)s1)->unk1A = z;
+        ((Unkstruct_8016986C *)s1)->unk1C = 0;
+        ((Unkstruct_8016986C *)s1)->unk2 = c + 1;
+        ((Unkstruct_8016986C *)s1)->unk1A = z;
     }
 }
 

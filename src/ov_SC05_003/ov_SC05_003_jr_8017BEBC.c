@@ -5371,14 +5371,14 @@ void func_80181638(void *arg0) {
     s32 v0;
 
     a1 = (s32)arg0 + 0;
-    p = (u16 *)(((Unkstruct_80181638 *)a1)->unk20);
+    p = (u16 *)(((Unkstruct_801818B8_2 *)a1)->unk20);
     ((Unkstruct_80181638_2 *)p)->unk18 += 0x20;
     ((Unkstruct_80181638_2 *)p)->unk1A += 0x20;
-    v0 = ((Unkstruct_80181638 *)a1)->unk1C + 1;
-    ((Unkstruct_80181638 *)a1)->unk1C = v0;
+    v0 = ((Unkstruct_801818B8_2 *)a1)->unk1C + 1;
+    ((Unkstruct_801818B8_2 *)a1)->unk1C = v0;
     if (v0 >= 0x80) {
-        ((Unkstruct_80181638 *)a1)->unk2 += 1;
-        ((Unkstruct_80181638 *)a1)->unk1C = 0;
+        ((Unkstruct_801818B8_2 *)a1)->unk2 += 1;
+        ((Unkstruct_801818B8_2 *)a1)->unk1C = 0;
     }
 }
 

@@ -6545,16 +6545,16 @@ void func_801824F0(s32 a0) {
     extern u8 D_801A44A8[];
     extern u8 D_80199B6C[];
 
-    if (((Unkstruct_801824F0 *)a0)->unk94 < 0x3D) {
+    if (((Unkstruct_80183F4C *)a0)->unk94 < 0x3D) {
         if (func_8012D5E4(a0, (s32)D_80199CA4, (s32)D_80199CAC, 0x20) == 1) {
             (D_80126B96[0]) = 4;
         }
     }
     if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x6000) {
-        ((Unkstruct_801824F0 *)a0)->unk2 = 5;
+        ((Unkstruct_80183F4C *)a0)->unk2 = 5;
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, D_801A44A8);
-        ((Unkstruct_801824F0 *)a0)->unkFC = 0;
-        ((Unkstruct_801824F0 *)a0)->unk58 = ((s32)D_80199B6C | 0x40000000) | 0x20000000;
+        ((Unkstruct_80183F4C *)a0)->unkFC = 0;
+        ((Unkstruct_80183F4C *)a0)->unk58 = ((s32)D_80199B6C | 0x40000000) | 0x20000000;
     }
 }
 

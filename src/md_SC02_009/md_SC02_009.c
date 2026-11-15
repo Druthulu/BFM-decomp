@@ -120,16 +120,16 @@ void func_801E4EC0(void *a0) {
 
 
 void func_801E4F6C(void *a0) {
-    u16 *p = (u16 *)((Unkstruct_801E4F6C *)a0)->unk20;
+    u16 *p = (u16 *)((Unkstruct_801818B8_2 *)a0)->unk20;
 
-    if (--((Unkstruct_801E4F6C *)a0)->unk1C != -1) {
+    if (--((Unkstruct_801818B8_2 *)a0)->unk1C != -1) {
         u16 t = p[0xE] + 0x200;
         p[0xE] = t;
         p[0xC] = t;
         p[0xD] -= 0x200;
         p[0x16] |= 0x10;
     } else {
-        ((Unkstruct_801E4F6C *)a0)->unk2 += 1;
+        ((Unkstruct_801818B8_2 *)a0)->unk2 += 1;
     }
 }
 

@@ -3812,10 +3812,10 @@ void func_8017F154(s32 arg0) {
 
     m = D_800AE620;
     blk = D_8019E290;
-    f = ((Unkstruct_8017F154 *)arg0)->unk2C & 1;
-    guess_InitObjectKind6(((Unkstruct_8017F154 *)arg0)->unk20, &D_8019F95C[f << 6]);
-    ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
+    f = ((Unkstruct_80188094 *)arg0)->unk2C & 1;
+    guess_InitObjectKind6(((Unkstruct_80188094 *)arg0)->unk20, &D_8019F95C[f << 6]);
+    ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
     if (f == 0) {
         guess_BuildCircle12Points(&D_8019F95C[0], 0x80);
         *(B4_8017F154 *)&D_8019F95C[0] = D_8019E28C;
@@ -3831,16 +3831,16 @@ void func_8017F154(s32 arg0) {
         sv.unk0.v1.unk4 = 0;
         sv.unk0.v1.unk2 = 0;
         ApplyMatrixSV(&m, &sv, &sv);
-        ((Unkstruct_8017F154 *)arg0)->unk6 += sv.unk0.v1.unk0;
-        ((Unkstruct_8017F154 *)arg0)->unkA += sv.unk0.v1.unk2;
-        ((Unkstruct_8017F154 *)arg0)->unkE += sv.unk0.v1.unk4;
-        ((Unkstruct_8017F154 *)arg0)->unk10 = -((s32)(s16)sv.unk0.v1.unk0 << 12);
-        ((Unkstruct_8017F154 *)arg0)->unk14 = -((s32)(s16)sv.unk0.v1.unk2 << 12);
-        ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0;
-        ((Unkstruct_8017F154_2 *)*(s32 *)(arg0 + 0x20))->unk1A = 0;
-        ((Unkstruct_8017F154 *)arg0)->unk1C = 0xC;
+        ((Unkstruct_80188094 *)arg0)->unk6 += sv.unk0.v1.unk0;
+        ((Unkstruct_80188094 *)arg0)->unkA += sv.unk0.v1.unk2;
+        ((Unkstruct_80188094 *)arg0)->unkE += sv.unk0.v1.unk4;
+        ((Unkstruct_80188094 *)arg0)->unk10 = -((s32)(s16)sv.unk0.v1.unk0 << 12);
+        ((Unkstruct_80188094 *)arg0)->unk14 = -((s32)(s16)sv.unk0.v1.unk2 << 12);
+        ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0;
+        ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk1A = 0;
+        ((Unkstruct_80188094 *)arg0)->unk1C = 0xC;
     }
-    ((Unkstruct_8017F154 *)arg0)->unk2 += 1;
+    ((Unkstruct_80188094 *)arg0)->unk2 += 1;
 }
 
 

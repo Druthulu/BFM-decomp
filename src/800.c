@@ -521,9 +521,9 @@ s32 func_80013350(s32 *a0, s32 *a1) {
     s32 diff[3];
     s32 result[3];
 
-    diff[0] = ((Unkstruct_80013350 *)a0)->unk2 - *(s16 *)((u8 *)a1 + 2);
-    diff[1] = ((Unkstruct_80013350 *)a0)->unk6 - *(s16 *)((u8 *)a1 + 6);
-    diff[2] = ((Unkstruct_80013350 *)a0)->unkA - *(s16 *)((u8 *)a1 + 10);
+    diff[0] = ((Unkstruct_801877B8 *)a0)->unk2 - *(s16 *)((u8 *)a1 + 2);
+    diff[1] = ((Unkstruct_801877B8 *)a0)->unk6 - *(s16 *)((u8 *)a1 + 6);
+    diff[2] = ((Unkstruct_801877B8 *)a0)->unkA - *(s16 *)((u8 *)a1 + 10);
 
     Square0(diff, result);
 
@@ -2227,9 +2227,9 @@ void guess_CopyVec3HighHalves(s32 *a0, s32 *a1) {
 #undef SHARED_FN
 
 void func_800159E4(s32 *a0, s32 *a1) {
-    ((Unkstruct_800159E4 *)a1)->unk2 = ((Unkstruct_800159E4_2 *)a0)->unk2;
-    *(u16 *)((s32)a1 + 0x6) = ((Unkstruct_800159E4_2 *)a0)->unk6;
-    ((Unkstruct_800159E4 *)a1)->unkA = ((Unkstruct_800159E4_2 *)a0)->unkA;
+    ((Unkstruct_800159E4 *)a1)->unk2 = ((Unkstruct_80181AD0_2 *)a0)->unk2;
+    *(u16 *)((s32)a1 + 0x6) = ((Unkstruct_80181AD0_2 *)a0)->unk6;
+    ((Unkstruct_800159E4 *)a1)->unkA = ((Unkstruct_80181AD0_2 *)a0)->unkA;
 }
 
 void func_80015A08(s32 *a0, s32 *a1) {
@@ -3428,17 +3428,17 @@ void func_80016C28(Src_80016C28 *arg0, s32 arg1)
 
     p = (LineG4_80016C28 *)func_80010A08(0x28);
     SetLineG4(p);
-    p->rgb0 = arg0->rgb0;
-    p->rgb1 = arg0->rgb1;
-    p->rgb2 = arg0->rgb2;
-    p->rgb3 = arg0->rgb3;
+    p->rgb = arg0->unk20.v0.rgb0;
+    p->uv0 = arg0->unk20.v0.rgb1;
+    p->uv1 = arg0->unk20.v0.rgb2;
+    p->uv2 = arg0->unk20.v0.rgb3;
     func_80017E8C(arg1);
 
-    gte_ldv3(&arg0->v[0], &arg0->v[1], &arg0->v[2]);
+    gte_ldv3(&arg0->unk0.v0.v[0], &arg0->unk0.v0.v[1], &arg0->unk0.v0.v[2]);
     gte_rtpt();
     gte_stflg(&flag);
     gte_stsxy3(&p->xy0, &p->xy1, &p->xy2);
-    gte_ldv0(&arg0->v[3]);
+    gte_ldv0(&arg0->unk0.v0.v[3]);
     gte_rtps();
     gte_stflg(&flag2);
     flag |= flag2;
@@ -3903,7 +3903,7 @@ void func_800176F0(void *arg0)
 }
 
 void func_80017714(void *arg0) {
-    extern void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2);
+    extern void func_80017778(Src_80016C28 *arg0, s32 arg1, s32 arg2);
     ((void (*)(void *, s32, s32))func_80017778)(arg0, 0, 0);
 }
 
@@ -3950,7 +3950,7 @@ extern void func_80018094(void *, s32, u32);
 
 
 
-void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2)
+void func_80017778(Src_80016C28 *arg0, s32 arg1, s32 arg2)
 {
     G4_80017778 *p;
     s32 otz;
@@ -3958,23 +3958,23 @@ void func_80017778(Src_80017778 *arg0, s32 arg1, s32 arg2)
     s32 flag;
 
     p = (G4_80017778 *)func_80010A08(0x24);
-    *(u32 *)&p->r0 = arg0->rgb[0];
-    *(u32 *)&p->r1 = arg0->rgb[1];
-    *(u32 *)&p->r2 = arg0->rgb[2];
-    *(u32 *)&p->r3 = arg0->rgb[3];
+    *(u32 *)&p->r0 = arg0->unk20.v1.unk0[0];
+    *(u32 *)&p->r1 = arg0->unk20.v1.unk0[1];
+    *(u32 *)&p->r2 = arg0->unk20.v1.unk0[2];
+    *(u32 *)&p->r3 = arg0->unk20.v1.unk0[3];
     SetPolyG4(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
-        otz = RotTransPers4(&arg0->v[0], &arg0->v[1], &arg0->v[2], &arg0->v[3],
+        otz = RotTransPers4(&arg0->unk0.v1.unk0[0], &arg0->unk0.v1.unk0[1], &arg0->unk0.v1.unk0[2], &arg0->unk0.v1.unk0[3],
                              (s32 *)&p->x0, (s32 *)&p->x1, (s32 *)&p->x2, (s32 *)&p->x3,
                              &opz, &flag);
     } else {
-        *(u32 *)&p->x0 = *(u32 *)&arg0->v[0];
-        *(u32 *)&p->x1 = *(u32 *)&arg0->v[1];
-        *(u32 *)&p->x2 = *(u32 *)&arg0->v[2];
-        *(u32 *)&p->x3 = *(u32 *)&arg0->v[3];
-        otz = arg0->v[0].vz;
+        *(u32 *)&p->x0 = *(u32 *)&arg0->unk0.v1.unk0[0];
+        *(u32 *)&p->x1 = *(u32 *)&arg0->unk0.v1.unk0[1];
+        *(u32 *)&p->x2 = *(u32 *)&arg0->unk0.v1.unk0[2];
+        *(u32 *)&p->x3 = *(u32 *)&arg0->unk0.v1.unk0[3];
+        otz = arg0->unk0.v1.unk0[0].vz;
         flag = 0;
     }
 
@@ -8253,13 +8253,13 @@ void func_8001C448(s32 a0) {
     func_8001C9D0(a0);
 
     s1_val = s0_val + 0x30;
-    ((Unkstruct_8001C448 *)s0_val)->unk0 = 1;
-    ((Unkstruct_8001C448 *)s0_val)->unk2 = 1;
+    ((Unkstruct_8001C744 *)s0_val)->unk0 = 1;
+    ((Unkstruct_8001C744 *)s0_val)->unk2 = 1;
 
     GsInitCoordinate2(0, (void *)s1_val);
     GsGetLw(s1_val, (s32)&local_10[0]);
 
-    ((Unkstruct_8001C448 *)s0_val)->unk24 = 0;
+    ((Unkstruct_8001C744 *)s0_val)->unk24 = 0;
 }
 
 void func_8001C4A4(s32 a0, u32 *a1)
@@ -8298,11 +8298,11 @@ void func_8001C558(s32 a0) {
     u8 local_var[32];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C558 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C558 *)a0)->unk2 = 7;
+    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
+    ((Unkstruct_8001C744 *)a0)->unk2 = 7;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw((s32)(a0 + 0x30), (s32)&local_var[0]);
-    ((Unkstruct_8001C558 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
 }
 
 void func_8001C5B8(s32 a0, s32 a1)
@@ -8364,13 +8364,13 @@ void func_8001C6E4(void *a0) {
 
     func_8001C9D0((s32)a0);
 
-    ((Unkstruct_8001C6E4 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C6E4 *)a0)->unk2 = 8;
+    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
+    ((Unkstruct_8001C744 *)a0)->unk2 = 8;
 
     GsInitCoordinate2(0, (void *)((s32)a0 + 0x30));
     GsGetLw((s32)a0 + 0x30, (s32)sp_buf);
 
-    ((Unkstruct_8001C6E4 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
 }
 
 
@@ -8405,14 +8405,14 @@ void func_8001C7B0(void *arg0) {
 
     local_s1 = (s32)((char *)arg0 + 0x30);
 
-    ((Unkstruct_8001C7B0 *)arg0)->unk0 = 1;
-    ((Unkstruct_8001C7B0 *)arg0)->unk2 = 2;
+    ((Unkstruct_8001C744 *)arg0)->unk0 = 1;
+    ((Unkstruct_8001C744 *)arg0)->unk2 = 2;
 
     GsInitCoordinate2(0, (void *)local_s1);
 
     GsGetLw(local_s1, (s32)local_array);
 
-    ((Unkstruct_8001C7B0 *)arg0)->unk24 = 0;
+    ((Unkstruct_8001C744 *)arg0)->unk24 = 0;
 }
 
 extern void func_8001C9D0(s32 a0v);
@@ -8455,11 +8455,11 @@ void func_8001C8C4(s32 a0) {
     s32 local_20[4];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C8C4 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C8C4 *)a0)->unk2 = 5;
+    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
+    ((Unkstruct_8001C744 *)a0)->unk2 = 5;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)local_10);
-    ((Unkstruct_8001C8C4 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
 }
 
 
@@ -13858,7 +13858,7 @@ void func_80024448(int param_1, int param_2, u32 param_3)
     extern POLY_F4 * func_80024BC0(Face *f, SVECTOR_80024BC0 *sv, SVECTOR_80024BC0 *nv, POLY_F4 *poly0, s32 n, s32 shift, u32 *ot);
     extern PG4 * func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *poly0, s32 n, s32 shift, u32 *ot);
     extern PG3 * func_80025818(TPRIM_80025818 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly, s32 n, s32 shift, u32 *ot);
-    extern PktGT3 * func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, PktGT3 *arg3, s32 count, s32 shift, u32 *ot);
+    extern Ft4_800CBA18 * func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3, s32 count, s32 shift, u32 *ot);
     extern PktGT4 * func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, PktGT4 *arg3, s32 count, s32 shift, u32 *ot);
 
     v0 = *(u32 **)(param_1 + 8);
@@ -14844,13 +14844,13 @@ extern u32 D_80063884;
  * same marker was genuine. If the whole-binary gate still refuses this byte-perfect
  * body, suspect the extract/prune layer special-casing Handwritten-marked .s files
  * (duplicate-symbol link), not this function's codegen. */
-PktGT3 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, PktGT3 *arg3,
+Ft4_800CBA18 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3,
                       s32 count, s32 shift, u32 *ot)
 {
     long flag;
     long otz;
     u32 *otp;
-    PktGT3 *pkt = arg3;
+    Ft4_800CBA18 *pkt = arg3;
 
     gte_ldrgb(&D_80063884);
 
@@ -14858,8 +14858,8 @@ PktGT3 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, P
         gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
         gte_rtpt();
         pkt->uv0 = face->uv0;
-        pkt->uv1 = face->uv1;
-        pkt->uv2 = face->uv2;
+        pkt->xy2 = face->uv1;
+        pkt->uv3 = face->uv2;
         gte_stflg(&flag);
         if (!(flag & ~0x1000)) {
             gte_nclip();
@@ -14872,7 +14872,7 @@ PktGT3 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, P
                 gte_ncct();
                 otp = &ot[otz >> shift];
                 pkt->tag = (*otp & 0x00FFFFFF) | 0x09000000;
-                gte_strgb3(&pkt->rgb0, &pkt->rgb1, &pkt->rgb2);
+                gte_strgb3(&pkt->rgb, &pkt->xy1, &pkt->uv2);
                 *otp = (u32)pkt & 0x00FFFFFF;
                 pkt++;
             }
@@ -15144,7 +15144,7 @@ extern void * func_800275BC(Prim20 *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, 
 extern void * func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3, s32 count, s32 shift, s32 *ot);
 extern long *aF80027058(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027058");
 extern long *aF80027200(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027200");
-extern LineG4 *aF800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 shift, u32 *ot) __asm__("func_800279AC");
+extern Ft4_800CBA18 *aF800279AC(SrcQ *src, Vtx8 *vb, s32 unused, Ft4_800CBA18 *prim, s32 n, s32 shift, u32 *ot) __asm__("func_800279AC");
 
 /* The per-case `p += count * K` (rather than one shared `adv` temp assigned in every
  * arm) is LOAD-BEARING, not style.  With a shared temp the switch end-label is a real
@@ -15560,18 +15560,18 @@ void *func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3,
 
 extern s32 D_80078D88[];
 
-LineG4 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 shift, u32 *ot)
+Ft4_800CBA18 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, Ft4_800CBA18 *prim, s32 n, s32 shift, u32 *ot)
 {
     struct { s32 flag, otz, sz0, sz1, sz2, sz3; } g;
-    LineG4 *p = prim;
+    Ft4_800CBA18 *p = prim;
     s32 m, k;
 
     for (; n != 0; n--, src++) {
         gte_ldv3(&vb[src->i0], &vb[src->i1], &vb[src->i2]);
         gte_rtpt();
-        p->rgb1 = src->rgb1;
-        p->rgb2 = src->rgb2;
-        p->rgb3 = src->rgb3;
+        p->uv0 = src->rgb1;
+        p->uv1 = src->rgb2;
+        p->uv2 = src->rgb3;
         gte_stflg(&g.flag);
         if (g.flag & 0xFFFFEFFF) {
             continue;
@@ -15589,7 +15589,7 @@ LineG4 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 
             continue;
         }
         gte_stsxy(&p->xy3);
-        p->term = src->term;
+        p->uv3 = src->term;
         if (D_80078D88[0] & 0x8000) {
             gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
             m = g.sz2;
@@ -15608,7 +15608,7 @@ LineG4 *func_800279AC(SrcQ *src, Vtx8 *vb, s32 unused, LineG4 *prim, s32 n, s32 
             gte_avsz4();
             gte_stotz(&g.otz);
         }
-        p->rgb0 = (src->rgb0 & 0xFFFFFF) | ((u32)src->code << 24);
+        p->rgb = (src->rgb0 & 0xFFFFFF) | ((u32)src->code << 24);
         {
             u32 *q = &ot[g.otz >> shift];
             p->tag = (*q & 0xFFFFFF) | 0x09000000;

@@ -4033,12 +4033,12 @@ void func_8018043C(void *a0)
         guess_AllocRenderWorkRecord((s32)&D_801A46CC);
         break;
     case 1:
-        h = ((Unkstruct_8018043C_2 *)a0)->unkFC;
+        h = ((Unkstruct_80180C90 *)a0)->unkFC;
         guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186478 + ((h << 1) & 0x1C)));
         break;
     case 2:
-        ((Unkstruct_8018043C_2 *)a0)->unk2 = 3;
-        ((Unkstruct_8018043C_2 *)a0)->unkFC = 0;
+        ((Unkstruct_80180C90 *)a0)->unk2 = 3;
+        ((Unkstruct_80180C90 *)a0)->unkFC = 0;
         ((Unkstruct_8018043C_3 *)*(u32 *)((u8 *)a0 + 0x64))->unkDC = 0;
         break;
     }
@@ -4138,19 +4138,19 @@ void *a0;
     s32 v1;
     u16 h;
 
-    v1 = *(s32 *)(((Unkstruct_80180710 *)a0)->unk64 + 0xE0);
+    v1 = *(s32 *)(((Unkstruct_80180C90 *)a0)->unk64 + 0xE0);
     switch (v1) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801AA18C);
         break;
     case 1:
-        h = ((Unkstruct_80180710 *)a0)->unkFC;
+        h = ((Unkstruct_80180C90 *)a0)->unkFC;
         guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_801864DC + ((h << 1) & 0x1C)));
         break;
     case 2:
-        ((Unkstruct_80180710 *)a0)->unk2 = 3;
-        ((Unkstruct_80180710 *)a0)->unkFC = 0;
-        *(s32 *)(((Unkstruct_80180710 *)a0)->unk64 + 0xE0) = 0;
+        ((Unkstruct_80180C90 *)a0)->unk2 = 3;
+        ((Unkstruct_80180C90 *)a0)->unkFC = 0;
+        *(s32 *)(((Unkstruct_80180C90 *)a0)->unk64 + 0xE0) = 0;
         break;
     }
 }
@@ -4225,12 +4225,12 @@ s32 param_1;
 {
     u16 idx;
 
-    idx = (((Unkstruct_80180940 *)param_1)->unkFC >> 1) % 6;
+    idx = (((Unkstruct_801803AC_2 *)param_1)->unkFC >> 1) % 6;
     guess_AllocRenderWorkRecord((s32)D_80186528[idx]);
 
-    ((Unkstruct_80180940 *)param_1)->unk6 = ((Unkstruct_80180940 *)param_1)->unk6 + 8;
-    if (--((Unkstruct_80180940 *)param_1)->unk1C == 0) {
-        ((Unkstruct_80180940 *)param_1)->unk2 = 2;
+    ((Unkstruct_801803AC_2 *)param_1)->unk6 = ((Unkstruct_801803AC_2 *)param_1)->unk6 + 8;
+    if (--((Unkstruct_801803AC_2 *)param_1)->unk1C == 0) {
+        ((Unkstruct_801803AC_2 *)param_1)->unk2 = 2;
     }
 }
 
@@ -4251,12 +4251,12 @@ void *a0;
         guess_AllocRenderWorkRecord((s32)&D_801AFC4C);
         break;
     case 1:
-        h = ((Unkstruct_801809D0 *)a0)->unkFC;
+        h = ((Unkstruct_80180C90 *)a0)->unkFC;
         guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186540 + ((h << 1) & 0x1C)));
         break;
     case 2:
-        ((Unkstruct_801809D0 *)a0)->unk2 = 3;
-        ((Unkstruct_801809D0 *)a0)->unkFC = 0;
+        ((Unkstruct_80180C90 *)a0)->unk2 = 3;
+        ((Unkstruct_80180C90 *)a0)->unkFC = 0;
         ((Unkstruct_801809D0_2 *)*(u32 *)((u8 *)a0 + 0x64))->unkE4 = 0;
         break;
     }

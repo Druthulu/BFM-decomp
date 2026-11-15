@@ -5834,9 +5834,9 @@ void func_801808B4(s32 arg0) {
 
     if ((((Unkstruct_801808B4 *)s0)->unk0 == 0x1FC) && (((Unkstruct_801808B4 *)s0)->unkAA == 0)) {
         v1 = ((Unkstruct_801808B4 *)s0)->unk20;
-        ((Unkstruct_801808B4_2 *)v1)->unk2C |= 0x10;
+        ((Unkstruct_801838EC_2 *)v1)->unk2C |= 0x10;
         v1 = ((Unkstruct_801808B4 *)s0)->unk20;
-        ((Unkstruct_801808B4_2 *)v1)->unk18 = ((Unkstruct_801808B4_2 *)v1)->unk1A = ((Unkstruct_801808B4_2 *)v1)->unk1C = 0x1800;
+        ((Unkstruct_801838EC_2 *)v1)->unk18 = ((Unkstruct_801838EC_2 *)v1)->unk1A = ((Unkstruct_801838EC_2 *)v1)->unk1C = 0x1800;
     }
 }
 
@@ -7961,11 +7961,11 @@ void func_80183920(void *a0) {
     D_801A8CA4[((Unkstruct_80183920 *)a0)->unk2]();
     if (((Unkstruct_80183920 *)a0)->unk0 != 0) {
         void *ptr = ((Unkstruct_80183920 *)a0)->unkCC;
-        ((Unkstruct_80183920_2 *)ptr)->unk8 = ((Unkstruct_80183920 *)a0)->unk6;
+        ((Unkstruct_8018653C *)ptr)->unk8 = ((Unkstruct_80183920 *)a0)->unk6;
         ptr = ((Unkstruct_80183920 *)a0)->unkCC;
-        ((Unkstruct_80183920_2 *)ptr)->unkA = ((Unkstruct_80183920 *)a0)->unkA;
+        ((Unkstruct_8018653C *)ptr)->unkA = ((Unkstruct_80183920 *)a0)->unkA;
         ptr = ((Unkstruct_80183920 *)a0)->unkCC;
-        ((Unkstruct_80183920_2 *)ptr)->unkC = ((Unkstruct_80183920 *)a0)->unkE;
+        ((Unkstruct_8018653C *)ptr)->unkC = ((Unkstruct_80183920 *)a0)->unkE;
     }
 }
 

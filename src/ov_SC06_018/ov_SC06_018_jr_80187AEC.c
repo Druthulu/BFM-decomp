@@ -5864,13 +5864,13 @@ void func_8018C190(s32 param_1) {
     s32 r1, r2, r3;
     s32 t;
 
-    SetRotMatrix((void *)(((Unkstruct_8018C190 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_8018C190 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(((Unkstruct_80187368 *)param_1)->unk20 + 0x34));
+    SetTransMatrix((void *)(((Unkstruct_80187368 *)param_1)->unk20 + 0x34));
     RotTransSV(D_801CD4C8, fr.sv, fr.flg);
 
-    dz = ((Unkstruct_8018C190 *)param_1)->unkE4 - (s16)fr.sv[2];
-    dx = ((Unkstruct_8018C190 *)param_1)->unkE0 - (s16)fr.sv[0];
-    dy = ((Unkstruct_8018C190 *)param_1)->unkE2 - (s16)fr.sv[1];
+    dz = ((Unkstruct_80187368 *)param_1)->unkE4 - (s16)fr.sv[2];
+    dx = ((Unkstruct_80187368 *)param_1)->unkE0 - (s16)fr.sv[0];
+    dy = ((Unkstruct_80187368 *)param_1)->unkE2 - (s16)fr.sv[1];
 
     ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
     t &= 0xFFFF;
@@ -5893,11 +5893,11 @@ void func_8018C190(s32 param_1) {
     fr.pos[1] = fr.sv[1];
     fr.pos[2] = fr.sv[2];
 
-    SetRotMatrix((void *)(((Unkstruct_8018C190 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_8018C190 *)param_1)->unk20 + 0x34));
-    func_8012F038(((Unkstruct_8018C190 *)param_1)->unk20 + 0x34, (short *)(param_1 + 0xE0), fr.buf40);
+    SetRotMatrix((void *)(((Unkstruct_80187368 *)param_1)->unk20 + 0x34));
+    SetTransMatrix((void *)(((Unkstruct_80187368 *)param_1)->unk20 + 0x34));
+    func_8012F038(((Unkstruct_80187368 *)param_1)->unk20 + 0x34, (short *)(param_1 + 0xE0), fr.buf40);
 
-    ((Unkstruct_8018C190 *)param_1)->unkFE = -fr.buf40[2];
+    ((Unkstruct_80187368 *)param_1)->unkFE = -fr.buf40[2];
 }
 
 

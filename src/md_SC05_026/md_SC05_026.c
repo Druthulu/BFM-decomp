@@ -1267,13 +1267,13 @@ s32 *func_801EFA40(s32 *out) {
     *((u8 *)out + 0xD) = 0x10;
     out[1] = 0x64808080;
     pb = (u16 *)&guess_g_DoubleBufferIndex;
-    ((Unkstruct_801EFA40 *)out)->unkE = 0x4056;
+    ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_801EFA40 *)out)->unk8 = q->f0 + d;
-    ((Unkstruct_801EFA40 *)out)->unkA = q->f2 - 2;
-    ((Unkstruct_801EFA40 *)out)->unk12 = 0x10;
-    ((Unkstruct_801EFA40 *)out)->unk10 = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk8 = q->f0 + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = q->f2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_801EFA40 *)out)->addr =
         ((PTag_801EFA40 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr;

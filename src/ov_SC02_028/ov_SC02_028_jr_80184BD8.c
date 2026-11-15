@@ -3956,11 +3956,11 @@ void func_80186D20(s32 arg0) {
     ((Unkstruct_8017ED0C *)a3)->unk5C.u = d;
     if (flags & 1) {
         e = ((Unkstruct_8017ED0C *)a3)->unk20;
-        ((Unkstruct_80186D20_2 *)e)->unk2C |= 0x10;
+        ((Unkstruct_801838EC_2 *)e)->unk2C |= 0x10;
         e = ((Unkstruct_8017ED0C *)a3)->unk20;
-        ((Unkstruct_80186D20_2 *)e)->unk1C = 0x1666;
-        ((Unkstruct_80186D20_2 *)e)->unk1A = 0x1666;
-        ((Unkstruct_80186D20_2 *)e)->unk18 = 0x1666;
+        ((Unkstruct_801838EC_2 *)e)->unk1C = 0x1666;
+        ((Unkstruct_801838EC_2 *)e)->unk1A = 0x1666;
+        ((Unkstruct_801838EC_2 *)e)->unk18 = 0x1666;
         ((Unkstruct_8017ED0C *)a3)->unk100.u = 0x1666;
     }
 }

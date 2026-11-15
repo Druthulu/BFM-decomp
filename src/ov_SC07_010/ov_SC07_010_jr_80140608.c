@@ -440,16 +440,16 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     *((u8 *)out + 0xD) = 0x10;
     mhi = 0x64808080;
     out[1] = mhi;
-    ((Unkstruct_80140D68_2 *)out)->unkE = 0x4056;
+    ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     dx -= 0xD;
     q = (s16 *)(ofs * 2 + (s32)src);
     a = (u16)q[0] + (u16)D_8011516A[idx].x;
     a += dx;
-    ((Unkstruct_80140D68_2 *)out)->unk8 = a;
-    ((Unkstruct_80140D68_2 *)out)->unkA = q[1] - 4;
-    ((Unkstruct_80140D68_2 *)out)->unk12 = 0x10;
-    ((Unkstruct_80140D68_2 *)out)->unk10 = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk8 = a;
+    ((Unkstruct_8017DD28 *)out)->unkA = q[1] - 4;
+    ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
+    ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_80140D68 *)out)->addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2));
     ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2))->addr = (u32)out;

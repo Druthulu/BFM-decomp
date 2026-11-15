@@ -21,7 +21,7 @@ void SHARED_FN(u8 *a0) {
     ((Unkstruct_8017FED8 *)a0)->unk24 = v0;
     stack_vals[2] = v0;
 
-    ((Unkstruct_8017FED8 *)a0)->unk3C += ((Unkstruct_8017FED8_2 *)stack_vals)->unk2;
-    ((Unkstruct_8017FED8 *)a0)->unk3E += ((Unkstruct_8017FED8_2 *)stack_vals)->unk6;
-    ((Unkstruct_8017FED8 *)a0)->unk40 += ((Unkstruct_8017FED8_2 *)stack_vals)->unkA;
+    ((Unkstruct_8017FED8 *)a0)->unk3C += ((Unkstruct_80181AD0_2 *)stack_vals)->unk2;
+    ((Unkstruct_8017FED8 *)a0)->unk3E += ((Unkstruct_80181AD0_2 *)stack_vals)->unk6;
+    ((Unkstruct_8017FED8 *)a0)->unk40 += ((Unkstruct_80181AD0_2 *)stack_vals)->unkA;
 }

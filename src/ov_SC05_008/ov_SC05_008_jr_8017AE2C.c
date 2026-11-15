@@ -4402,9 +4402,9 @@ void func_8017E850(s32 arg0, s32 arg1) {
     if (D_801A12E4 >= 3) {
         D_801A12E4 = 2;
     }
-    ((Unkstruct_8017E850_2 *)obj)->unk14 = func_80012DBC(((Unkstruct_8017E850_2 *)obj)->unk14, (s16)(D_801A12E4 * 455), 4, 1);
-    ((Unkstruct_8017E850_2 *)obj)->unk10 = ratan2(rec[1] - rec2[1], rec2[2] - rec[2]);
-    ((Unkstruct_8017E850_2 *)obj)->unk12 = ratan2(rec2[0] - rec[0], rec2[2] - rec[2]);
+    ((Unkstruct_80185020 *)obj)->unk14 = func_80012DBC(((Unkstruct_80185020 *)obj)->unk14, (s16)(D_801A12E4 * 455), 4, 1);
+    ((Unkstruct_80185020 *)obj)->unk10 = ratan2(rec[1] - rec2[1], rec2[2] - rec[2]);
+    ((Unkstruct_80185020 *)obj)->unk12 = ratan2(rec2[0] - rec[0], rec2[2] - rec[2]);
 }
 
 

@@ -3551,43 +3551,43 @@ void func_8018568C(s32 arg0) {
     s32 ptr;
     s32 val;
 
-    switch (*(s32 *)(((Unkstruct_8018568C *)arg0)->unk64 + 0xDC)) {
+    switch (*(s32 *)(((Unkstruct_80185864 *)arg0)->unk64 + 0xDC)) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801CF87C);
         break;
     case 1:
-        var = ((Unkstruct_8018568C *)arg0)->unkFC;
+        var = ((Unkstruct_80185864 *)arg0)->unkFC;
         guess_AllocRenderWorkRecord(D_80190760[((s16)var >> 1) % 8]);
         break;
     case 2:
-        ((Unkstruct_8018568C *)arg0)->unkFC = 0;
-        ((Unkstruct_8018568C *)arg0)->unk2 = 4;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 4;
         break;
     case 3:
-        ((Unkstruct_8018568C *)arg0)->unkFE = 0xC3;
-        ((Unkstruct_8018568C *)arg0)->unk2 = 3;
-        ((Unkstruct_8018568C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xC3;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 4:
-        ((Unkstruct_8018568C *)arg0)->unkFE = 0xCB;
-        ((Unkstruct_8018568C *)arg0)->unk2 = 3;
-        ((Unkstruct_8018568C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xCB;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 5:
-        ((Unkstruct_8018568C *)arg0)->unkFE = 0xC5;
-        ((Unkstruct_8018568C *)arg0)->unk2 = 3;
-        ((Unkstruct_8018568C *)arg0)->unkFC = 0;
+        ((Unkstruct_80185864 *)arg0)->unkFE = 0xC5;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 3;
+        ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6:
-        ptr = ((Unkstruct_8018568C *)arg0)->unk20;
+        ptr = ((Unkstruct_80185864 *)arg0)->unk20;
         val = *(s16 *)(ptr + 0x18);
         *(s16 *)(ptr + 0x18) = -val;
-        ((Unkstruct_8018568C *)arg0)->unk1C = 0x20;
-        ((Unkstruct_8018568C *)arg0)->unk2 = 6;
+        ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
+        ((Unkstruct_80185864 *)arg0)->unk2 = 6;
         break;
     case 7:
     case 8:
-        *(s32 *)(((Unkstruct_8018568C *)arg0)->unk64 + 0xDC) = 0;
+        *(s32 *)(((Unkstruct_80185864 *)arg0)->unk64 + 0xDC) = 0;
         break;
     }
 }

@@ -3934,15 +3934,15 @@ void func_801A5A10(s32 param_1)
 {
     s32 p;
 
-    ((Unkstruct_801A5A10_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_801A7368;
+    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_801A7368;
 
-    ((Unkstruct_801A5A10_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
-    ((Unkstruct_801A5A10_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5A;
+    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5A;
 
     p = ((Unkstruct_801A5A10 *)param_1)->unk20;
-    ((Unkstruct_801A5A10_2 *)p)->unk1A = 0x3000;
-    ((Unkstruct_801A5A10_2 *)p)->unk18 = 0x3000;
+    ((Unkstruct_80184178_2 *)p)->unk1A = 0x3000;
+    ((Unkstruct_80184178_2 *)p)->unk18 = 0x3000;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_801A7374);
 

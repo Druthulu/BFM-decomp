@@ -3209,19 +3209,19 @@ void func_801843FC(s32 param_1)
     extern u8 D_801903C0;
     s32 s0;
 
-    s0 = ((Unkstruct_801843FC_2 *)param_1)->unk20;
+    s0 = ((Unkstruct_8018449C_2 *)param_1)->unk20;
     func_8001CD50(s0, (s32)&D_801903C0);
     ((Unkstruct_801843FC *)s0)->unk10 = 0x400;
     ((Unkstruct_801843FC *)s0)->unk4 |= 0x50000000;
     ((Unkstruct_801843FC *)s0)->unk1E = 0;
     ((Unkstruct_801843FC *)s0)->unk12 = 0;
     ((Unkstruct_801843FC *)s0)->unk14 = rand() & 0x1FF;
-    ((Unkstruct_801843FC *)s0)->unk14 = ((Unkstruct_801843FC *)s0)->unk14 + ((Unkstruct_801843FC_2 *)param_1)->unk2C;
-    ((Unkstruct_801843FC_2 *)param_1)->unk2C = 0x100;
+    ((Unkstruct_801843FC *)s0)->unk14 = ((Unkstruct_801843FC *)s0)->unk14 + ((Unkstruct_8018449C_2 *)param_1)->unk2C;
+    ((Unkstruct_8018449C_2 *)param_1)->unk2C = 0x100;
     ((Unkstruct_801843FC *)s0)->unk18 = 0;
     ((Unkstruct_801843FC *)s0)->unk1A = 0;
     ((Unkstruct_801843FC *)s0)->unk1C = 0;
-    ((Unkstruct_801843FC_2 *)param_1)->unk2 += 1;
+    ((Unkstruct_8018449C_2 *)param_1)->unk2 += 1;
 }
 
 

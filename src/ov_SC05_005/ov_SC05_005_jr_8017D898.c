@@ -4588,12 +4588,12 @@ void func_80181740(void *a0)
 {
     s32 p;
 
-    p = ((Unkstruct_80181740 *)a0)->unk20;
+    p = ((Unkstruct_801818B8_2 *)a0)->unk20;
     *(u16 *)(p + 0x18) += 0x20;
     *(u16 *)(p + 0x1A) += 0x20;
-    if (++((Unkstruct_80181740 *)a0)->unk1C >= 0x80) {
-        ((Unkstruct_80181740 *)a0)->unk1C = 0;
-        ((Unkstruct_80181740 *)a0)->unk2 += 1;
+    if (++((Unkstruct_801818B8_2 *)a0)->unk1C >= 0x80) {
+        ((Unkstruct_801818B8_2 *)a0)->unk1C = 0;
+        ((Unkstruct_801818B8_2 *)a0)->unk2 += 1;
     }
 }
 

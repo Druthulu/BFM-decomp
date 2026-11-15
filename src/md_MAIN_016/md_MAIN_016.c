@@ -175,8 +175,8 @@ void func_800CB228(s32 arg0) {
         ((Unkstruct_800CB228 *)ent)->unk28 = ((Unkstruct_800CB228 *)ent)->unk28 + 0x120;
     } else {
         t0 = ((Unkstruct_800CB228 *)ent)->unk2;
-        ((Unkstruct_800CB228 *)ent)->unk12 = (((Unkstruct_800CB228_3 *)oth)->unk12 << 16) >> 17;
-        t1 = ((Unkstruct_800CB228_3 *)oth)->unk1A;
+        ((Unkstruct_800CB228 *)ent)->unk12 = (((Unkstruct_800CB164 *)oth)->unk12 << 16) >> 17;
+        t1 = ((Unkstruct_800CB164 *)oth)->unk1A;
         t0 += 1;
         ((Unkstruct_800CB228 *)ent)->unk30 = 0x20;
         ((Unkstruct_800CB228 *)ent)->unk1C = -0xC0;
@@ -184,7 +184,7 @@ void func_800CB228(s32 arg0) {
         ((Unkstruct_800CB228 *)ent)->unk2 = t0;
         ((Unkstruct_800CB228 *)ent)->unk1A = (t1 << 16) >> 17;
     }
-    p = ((Unkstruct_800CB228_3 *)oth)->unk20;
+    p = ((Unkstruct_800CB164 *)oth)->unk20;
     *(Blk16_md_MAIN_016 *)(ent + 0x38) = *(Blk16_md_MAIN_016 *)(p + 0x34);
     *(Blk16_md_MAIN_016 *)(ent + 0x48) = *(Blk16_md_MAIN_016 *)(p + 0x44);
     func_800CAF84(ent);
