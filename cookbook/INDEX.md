@@ -1067,3 +1067,4 @@ C0614 | A dense value-shape test must not let pad fields cover the size | struct
 C0615 | Exact layout twins: alignment attributes are load-bearing and not in the layout hash | struct,fold,twins,alignment,packed | 2026-11-14 | 3.45/T7 | T7 reviewers r1,r2,r5,r8
 C0616 | Applying many struct folds with restruct --fold-row: costs and engine walls | struct,fold,restruct,consolidation,batch | 2026-11-14 | 3.45/T7 | T7.c2 link batches
 C0617 | restruct --fold-batch: one tree per batch of folds, and the traps it fixed | struct,fold,restruct,batch,consolidation | 2026-11-14 | 3.45/T7 | T7.c11
+C0618 | Fold engine walker misses and spurious unions on value-shape folds | struct,fold,restruct,value-shape,union,consolidation | 2026-11-14 | 3.45/T7 | T7.c14
