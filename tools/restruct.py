@@ -37,6 +37,7 @@
     tools/restruct.py --write-types --top N | --type NAME … [--space ov]               # the WRITER: canonical definitions rendered from the struct map (a preview)
     tools/restruct.py --type-source KEY[,KEY…] | --type-batch FILE [--type T] [--write]   # P3.45 T15 rung T: type pointer sources (T14 keys
                                                                                        # tu:fn:base), casts -> members (dry run: plan + verdict)
+    tools/restruct.py --type-check [--only REGION…] [--sources-dir DIR]                # P3.45 T15.c2: rung T per region / source (ledger x T14 sources.tsv)
     tools/restruct.py --selftest [--real]                                              # the fixture (a stub oracle); --real adds the calibration + known-true controls
     tools/restruct.py --try TU FN [--base bclass:name] [--recipes]                     # T2's rung 1 on one body (local P37S_ type) + S2 + S+A [+ the R recipes]
     tools/restruct.py --probe | --probe-decls | --probe-defs | --audit-layouts | --fanout-cost   # the T2 probes (unchanged)
@@ -908,13 +909,14 @@ def struct_plus_levers(tu, fn, text1, judge_one, label, log=None):
         # line numbers of text1 == text2 for the lever lines (a lever rewrite never adds or removes a line above the next lever)
         text2 = dl.apply_edits(text2, dl.scrub_edits(text2, orphan))
     return text2, res
-def classify_residual(tu, fn, cand_bytes):
-    """delever_search's classifier over the body's instructions: candidate object vs the baseline object of the first recipe."""
-    recs = recs_for(tu)
+def classify_residual(tu, fn, cand_bytes, base=None):
+    """delever_search's classifier over the body's instructions: candidate object vs the baseline object of the first recipe
+    (T15.c2: `base`, a baseline object path given — rung T's DIFF localization on the differing object)."""
+    recs = recs_for(tu) if base is None else [None]
     if not recs or cand_bytes is None:
         return None
-    base = oracle.baseline_path(recs[0]["obj"])
-    tmp = PROBE / "obj" / (hashlib.sha1((tu + fn).encode()).hexdigest()[:12] + ".o")
+    base = base or oracle.baseline_path(recs[0]["obj"])
+    tmp = PROBE / "obj" / (hashlib.sha1(f"{tu}{fn}".encode()).hexdigest()[:12] + ".o")
     tmp.parent.mkdir(parents=True, exist_ok=True)
     tmp.write_bytes(cand_bytes)
     try:
@@ -7676,7 +7678,10 @@ def fanout_cost(a):
 # splitting the type's pad/unk byte array, size unchanged, audit_definition clean); a member of another width/sign or a variable index
 # stays (pending width-view / index). Non-cast uses: `b + k` -> `(u8 *)b + k`; a 0/NULL test, a `void *`/`T *` slot or variable, an
 # lvalue, a cast keep; anything else is pending `non-cast <what> <line>` and the source goes to judgment with no edit. Write only on
-# IDENTICAL / IDENTICAL-LINKED; ledger rung "T". Kinds global / ret-of / field: T15.c2 (T_KIND_HOOKS).
+# IDENTICAL / IDENTICAL-LINKED; ledger rung "T". T15.c2 (T_KIND_HOOKS): global (`name@bin` / `&name@bin`: every declaration of the one
+# object, scoped by the binaries' symtabs), ret-of (the callee's return type via signature_change), field (the member's type in its
+# struct); a DIFFERS gets a second attempt (greedy_kept -> kept-cast macros, then run_recipes), else WALL-PENDING with the first
+# differing object / symbol+offset / residual class. --type-check reports the ledger per region. Doc: docs/ops/p345-t15-typing-engine.md.
 # ----------------------------------------------------------------------------------------------------------------------
 T_FLOWS = REPO / ".run/3.45/t14/flows.tsv"   # T14's flows (source flow peer type how cite): a raw-only base's typed flows
 T_HDR_RECS_CAP = 40                          # a header edit reaching more objects than this is judged by tools/scratch_cmp.py vs HEAD (C0589)
@@ -7688,11 +7693,12 @@ _t_flows = None
 
 
 def t_parse_key(key):
-    """`tu:fn:base` -> (tu, fn, base), else None (a global `name@binary`, a text key)."""
-    p = key.split(":")
-    if len(p) != 3 or not re.fullmatch(r"[A-Za-z_]\w*", p[2]) or not re.fullmatch(r"[A-Za-z_]\w*", p[1]):
+    """`tu:fn:base` -> (tu, fn, base), else None (a global `name@binary`, a text key). T15.c2: base may be an expression (T14's
+    nested / member `tu:fn:<base text>`, kind field)."""
+    p = key.split(":", 2)
+    if len(p) != 3 or "@" in p[0] or not p[2].strip() or not re.fullmatch(r"[A-Za-z_]\w*", p[1]):
         return None
-    return p[0], p[1], p[2]
+    return p[0], p[1], p[2].strip()
 
 
 def t_flow_types(key, keys=()):
@@ -7797,13 +7803,18 @@ def _t_enclosing_call(masked, p, lo):
     return None, None
 
 
+def _t_use_rx(base):
+    """A use of `base` (a name, or T15.c2 an expression: `X->m`, `f(…)`); the closing `\\b` only after a word character."""
+    return re.compile(r"(?<![\w.$])(?<!->)" + re.escape(base) + (r"\b" if re.search(r"\w$", base) else ""))
+
+
 def t_noncast(masked, d, base, tname, s0, s1, covered, skip):
     """The base's non-cast uses in masked[s0:s1] (positions inside `covered` spans — respelled sites — and the `skip` positions are not
     uses): (edits [(pos, end, repl)], keeps n, pending ['non-cast <what> <line>'])."""
     want = {"void *", tname + " *"}
     edits, keeps, pend = [], 0, []
     line = lambda q: masked.count("\n", 0, q) + 1
-    for m in re.compile(r"(?<![\w.$])(?<!->)" + re.escape(base) + r"\b").finditer(masked, s0, s1):
+    for m in _t_use_rx(base).finditer(masked, s0, s1):
         p, e = m.start(), m.end()
         if p in skip or any(a <= p < b for (a, b) in covered):
             continue
@@ -7932,11 +7943,14 @@ def t_insert_members(text, rel, tname, needs):
     return "\n".join(lines), sl.field_map(res2, rd), inserted, fails
 
 
-def t_plan(key, override=None, keys=()):
+def t_plan(key, override=None, keys=(), _as_local=False, _text=None, _expr=None):
     """One source's plan: dict(key, tu, fn, base, kind, type, decl, edits[(line, old, new)], inserted, pending[], blocked, files{rel: text},
-    log[], casts_removed, kept). blocked: the source goes to judgment and nothing is edited."""
+    log[], casts_removed, kept, forms{form: n}). blocked: the source goes to judgment and nothing is edited. T15.c2: `_compose(sub, macro)`
+    rebuilds the unit's files with only `sub` of the respelled site edits `_sites` (the rest kept, `_kept_text`) — the second attempt.
+    Internal (the kind hooks): _as_local types a ret-of / field / global-copy local as a local; _text plans on that text of the TU;
+    _expr = dict(holder, sites) plans an expression base (field) whose declaration is the struct member's."""
     P = dict(key=key, tu=None, fn=None, base=None, kind=None, type=None, decl=None, edits=[], inserted=[], pending=[], blocked=False,
-             files={}, log=[], casts_removed=0, kept=0)
+             files={}, log=[], casts_removed=0, kept=0, forms={}, _sites=[], _kept_text={}, _compose=None)
 
     def block(why):
         P["pending"].append(why)
@@ -7945,12 +7959,14 @@ def t_plan(key, override=None, keys=()):
     pk = t_parse_key(key)
     if pk is None:
         P["kind"] = "global" if "@" in key else "text"
-        return block("kind not yet supported" if "@" in key else "not a tu:fn:base key")
+        if "@" not in key:
+            return block("not a tu:fn:base key")
+        return T_KIND_HOOKS["global"](dict(P=P, key=key, override=override, keys=keys)) if "global" in T_KIND_HOOKS else block("kind not yet supported")
     tu, fn, base = pk
     P.update(tu=tu, fn=fn, base=base)
     if not (REPO / tu).exists():
         return block(f"no such file {tu}")
-    raw = (REPO / tu).read_text(errors="surrogateescape")
+    raw = _text if _text is not None else (REPO / tu).read_text(errors="surrogateescape")
     masked, defs, _, params_of, sites = file_view(tu, raw)
     d = next((x for x in defs if x["name"] == fn), None)
     if d is None:
@@ -7959,17 +7975,40 @@ def t_plan(key, override=None, keys=()):
     h0 = ls[d["line"] - 1]
     d_end = ls[d["end"]] if d["end"] < len(ls) else len(raw)
     brace = masked.find("{", h0)
-    kind, ld = t_kind(masked, d, fn, base, params_of, brace, d_end)
-    P["kind"] = kind
-    if kind in T_KIND_LATER:
-        if kind in T_KIND_HOOKS:
-            return T_KIND_HOOKS[kind](dict(P=P, raw=raw, masked=masked, d=d, sites=sites))
-        return block("kind not yet supported")
-    if kind not in ("param", "param-copy", "local"):
+    ctx = dict(P=P, key=key, override=override, keys=keys, raw=raw, masked=masked, d=d, sites=sites, brace=brace, d_end=d_end)
+    if not re.fullmatch(r"[A-Za-z_]\w*", base):
+        kind, ld = "field", None                                      # T14's nested / member base text
+        P["kind"] = kind
+        if _expr is None:
+            return T_KIND_HOOKS["field"](ctx) if "field" in T_KIND_HOOKS else block("kind not yet supported")
+    else:
+        kind, ld = t_kind(masked, d, fn, base, params_of, brace, d_end)
+        P["kind"] = kind
+        ctx["ld"] = ld
+        if kind == "global" and ld is None and not _as_local:
+            # a global named in the function: the object's key `name@binary` (the TU's binary)
+            bins = walk()["tu_aliases"].get(tu) or [tu.split("/")[1] if tu.count("/") >= 2 else "main"]
+            P["log"].append(f"a global: typed as {base}@{bins[0]}")
+            Pg = dict(P, key=f"{base}@{bins[0]}", pending=[], log=list(P["log"]))
+            return T_KIND_HOOKS["global"](dict(P=Pg, key=Pg["key"], override=override, keys=keys)) if "global" in T_KIND_HOOKS else block("kind not yet supported")
+        if kind in T_KIND_LATER and not _as_local:
+            if kind == "global":
+                P["log"].append("a local copy of a global: its declaration typed")
+            elif kind in T_KIND_HOOKS:
+                return T_KIND_HOOKS[kind](ctx)
+            else:
+                return block("kind not yet supported")
+    if kind not in ("param", "param-copy", "local") and not (_as_local and ld) and not _expr and kind != "global":
         return block(f"kind {kind}: judgment")
+    if kind == "global" and ld is None:
+        return block("a global without a local declaration")
     bcls = "param" if kind == "param" else "local"
     head_inner, _ = _head_parts(masked, d, fn)
-    bs = [s for s in sites if s.get("fn") == fn and s.get("bclass") == bcls and str(s.get("base")) == base]
+    if _expr:
+        bcls, base = "nested", _expr["holder"]                       # the holder `X->m` is the base the sites are respelled on
+        bs = list(_expr["sites"])
+    else:
+        bs = [s for s in sites if s.get("fn") == fn and s.get("bclass") == bcls and str(s.get("base")) == base]
     # the type: one struct named by the struct-view casts on this base (C sites, plain `(T *)b` casts, aggregate raw views)
     types = set()
     for s in bs:
@@ -7977,7 +8016,7 @@ def t_plan(key, override=None, keys=()):
         if s["form"] == "C" and s.get("stars") == 1 or (s["form"] in RAW_FORMS and s.get("stars") == 1 and pt and not sl.scalar_of(pt) and pt != "void"):
             types.add(pt)
     cspans = [(s["pos"], s["end"]) for s in bs if s["form"] == "C"]
-    for m in re.finditer(r"\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*)\s*\*\s*\)\s*" + re.escape(base) + r"\b", masked[:d_end]):
+    for m in re.finditer(r"\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*)\s*\*\s*\)\s*" + re.escape(base) + (r"\b" if re.search(r"\w$", base) else ""), masked[:d_end]):
         pt = sl._norm_type(m.group(1))
         if m.start() >= brace and not any(a <= m.start() < b for (a, b) in cspans) and not sl.scalar_of(pt) and pt != "void":
             types.add(pt)
@@ -8000,8 +8039,8 @@ def t_plan(key, override=None, keys=()):
     if not type_visible(tu, T):
         return block(f"type {T} not visible in {tu}")
     want = T + " *"
-    decl = declared_type(masked, d, base, bcls, head_inner) if kind == "param" else (ld[2] if ld else None)
-    P["decl"] = decl
+    decl = want if _expr else declared_type(masked, d, base, bcls, head_inner) if kind == "param" else (ld[2] if ld else None)
+    P["decl"] = _expr["decl"] if _expr else decl
     if decl is None:
         return block("declaration unreadable (K&R head / multi-declarator)")
     # the raw sites: rung S's s_edits on the type's field map; missing members inserted into pad space
@@ -8058,8 +8097,9 @@ def t_plan(key, override=None, keys=()):
         P["pending"] += npend
         P["blocked"] = True
         return P
-    edits = [(a, b, r) for (a, b, r, _) in sedits] + nedits
+    other = list(nedits)
     P["casts_removed"] = len(sedits)
+    P["forms"] = dict(collections.Counter(s["form"] for (_, _, _, s) in sedits))
     # the declaration
     if decl != want:
         if kind == "param":
@@ -8083,52 +8123,768 @@ def t_plan(key, override=None, keys=()):
                 if pm and pm.group(3) == base:
                     a2 = a + len(masked[a:b]) - len(masked[a:b].lstrip())
                     b2 = a + len(masked[a:b].rstrip())
-                    edits.append((a2, b2, f"{T} *{base}"))
+                    other.append((a2, b2, f"{T} *{base}"))
                     break
             else:
                 return block("parameter not found in the head")
         else:
-            edits.append((ld[0], ld[1], f"{T} *"))
+            other.append((ld[0], ld[1], f"{T} *"))
+    edits = [(a, b, r) for (a, b, r, _) in sedits] + other
     if not edits and not htext:
         P["log"].append("nothing to edit")
         return P
     line = lambda q: masked.count("\n", 0, q) + 1
     P["edits"] = [(line(a), raw[a:b], r) for (a, b, r) in sorted(edits)]
-    new = compose_text(raw, edits)
-    if kind == "param" and decl != want:
-        body = new[h0:d_end + len(new) - len(raw)]
+    P["_sites"] = sedits
+    P["_kept_text"] = {id(e): (t_kept_text(raw, masked, e, base, True), t_kept_text(raw, masked, e, base, False)) for e in sedits}
+    sig_log = []
+
+    def compose(sub, macro=True):
+        """the unit's files with the site edits `sub` applied and every other respelled site kept (T15.c2's second attempt)"""
+        ids = {id(e) for e in sub}
+        es = [(a, b, r) for (a, b, r, _) in sub] + other
+        for e in sedits:
+            kt = P["_kept_text"][id(e)][0 if macro else 1] if id(e) not in ids else None
+            if kt is not None:
+                es.append((e[0], e[1], kt))
+        new = compose_text(raw, es)
+        if kind == "param" and decl != want:
+            body = new[h0:d_end + len(new) - len(raw)]
+            tmp = RUN / "type_tmp"
+            tmp.mkdir(parents=True, exist_ok=True)
+            bf = tmp / f"{fn}.c"
+            bf.write_text(body, errors="surrogateescape")
+            try:
+                files, _ = signature_change(fn, None, "T", None, sig_log.append, body_file=str(bf), only_tu=tu, plan_only=True)
+            finally:
+                bf.unlink(missing_ok=True)
+                with contextlib.suppress(OSError):
+                    tmp.rmdir()
+        else:
+            files = {tu: new}
+        if htext is not None:
+            files[hdr] = (t_insert_members(files[hdr], hdr, T, {o: needs[o] for o in needs})[0] if hdr in files  # the header also declares
+                          else htext)                                                                    # the callee: on top of that text
+        return files
+    try:
+        P["files"] = compose(sedits)
+    except SystemExit as ex:
+        return block(f"signature: {ex}")
+    finally:
+        P["log"] += sig_log
+    P["_compose"] = compose
+    return P
+
+
+def t_kept_text(raw, masked, e, base_expr, macro=True):
+    """A respelled site the second attempt keeps, on its retyped base: a P-form `*(T *)(b + k)` as its rung-S kept-cast macro
+    (respell_edit, S_KEPT_MACRO) or (macro=False, run_recipes' view) as the raw cast, with `(u8 *)b` — `(p) + (k)` on a typed b would
+    scale (T15.c1's kept-macro finding). C / I / X / M sites: None (the original text; no `b + k`)."""
+    s = e[3]
+    if s.get("form") != "P":
+        return None
+    rx = re.compile(r"(?<![\w.>)])" + re.escape(base_expr) + r"(?=\s*[-+](?![-+=>]))")
+    orig = raw[e[0]:e[1]]
+    if macro:
+        r = respell_edit(raw, masked, s, site_class(s, None, kept=True))
+        if r:
+            t = r[2].replace(f", {base_expr}, ", f", (u8 *){base_expr}, ", 1)
+            return t if t != r[2] else rx.sub("(u8 *)" + base_expr, t, count=1)
+    return rx.sub("(u8 *)" + base_expr, orig, count=1)
+
+
+# ---- T15.c2: the kinds global / field / ret-of (T_KIND_HOOKS) --------------------------------------------------------------------------
+T_SYMS_OVERRIDE = None        # the selftest: {binary: {name: address}} in place of the linked ELFs' symtabs
+T_ELF_MAIN = "build/us/SLUS_007.26.elf"
+_t_syms = {}
+T_DECL_TYPE = r"((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*)"
+
+
+def t_sym_addr(b, name):
+    """The address `name` resolves to in binary b: its linked ELF's symtab (`nm`; main's names are absolute symbols of every overlay's
+    ELF), else config/symbols.<b>.txt + symbols.us.txt (C0586). None: not a symbol of b."""
+    if T_SYMS_OVERRIDE is not None:
+        return T_SYMS_OVERRIDE.get(b, {}).get(name)
+    if b not in _t_syms:
+        tab = {}
+        elf = REPO / (T_ELF_MAIN if b == "main" else f"build/{b}/{b}.elf")
+        if elf.exists():
+            r = subprocess.run(["mipsel-linux-gnu-nm", str(elf)], capture_output=True, text=True)
+            for ln in r.stdout.splitlines():
+                p = ln.split()
+                if len(p) == 3 and p[1] not in ("U", "w", "v"):
+                    tab[p[2]] = int(p[0], 16)
+        else:
+            for f in ([f"config/symbols.{b}.txt"] if b != "main" else []) + ["config/symbols.us.txt"]:
+                if (REPO / f).exists():
+                    for m in re.finditer(r"(?m)^\s*(\w+)\s*=\s*0x([0-9A-Fa-f]+)\s*;", (REPO / f).read_text(errors="replace")):
+                        tab.setdefault(m.group(1), int(m.group(2), 16))
+        _t_syms[b] = tab
+    return _t_syms[b].get(name)
+
+
+def t_file_bins(rel):
+    """The binaries a file is built into: a TU's source sets (walk tu_aliases, the build's .d sets), a header's includers'."""
+    w = walk()
+    if rel in w["tu_aliases"]:
+        return set(w["tu_aliases"][rel])
+    inc = dl.includers().get(rel, []) if T_SYMS_OVERRIDE is None else []
+    return {a for t in inc for a in w["tu_aliases"].get(t, ())}
+
+
+def _t_stmt_start(masked, p):
+    pre = masked[:p].rstrip()
+    return not pre or pre[-1] in ";{}" or pre.rsplit("\n", 1)[-1].lstrip().startswith("#")
+
+
+def _t_fn_span(masked, ls, d):
+    h0 = ls[d["line"] - 1]
+    return masked.find("{", h0), (ls[d["end"]] if d["end"] < len(ls) else len(masked))
+
+
+def _t_at(pend, rel):
+    """`non-cast <what> <line>` -> `… <rel>:<line>`"""
+    return [re.sub(r" (\d+)$", f" {rel}:\\1", x) for x in pend]
+
+
+def _t_types_of(bs, masked, bexpr, lo, hi):
+    """The struct types the casts on one base name: C sites, raw struct views, plain `(T *)b` casts in masked[lo:hi]."""
+    types = set()
+    for s in bs:
+        pt = (s.get("ctype") or "").rstrip("* ").strip()
+        if s["form"] == "C" and s.get("stars") == 1 or (s["form"] in RAW_FORMS and s.get("stars") == 1 and pt and not sl.scalar_of(pt) and pt != "void"):
+            types.add(pt)
+    cspans = [(s["pos"], s["end"]) for s in bs if s["form"] == "C"]
+    for m in re.finditer(r"\(\s*((?:struct\s+|union\s+)?[A-Za-z_]\w*)\s*\*\s*\)\s*" + re.escape(bexpr) + r"\b", masked[:hi]):
+        pt = sl._norm_type(m.group(1))
+        if m.start() >= lo and not any(a <= m.start() < b for (a, b) in cspans) and not sl.scalar_of(pt) and pt != "void":
+            types.add(pt)
+    return types
+
+
+def t_hook_global(ctx):
+    """kind global (`name@binary` / `&name@binary`): EVERY declaration of the one object retyped — the files of the binaries that resolve
+    the name to the key's address (never by name alone across binaries, G41) — `extern T D_x;` for `&D_x`, `extern T *D_x;` for D_x;
+    `((T *)&D_x)->f` -> `D_x.f`, `((T *)D_x)->f` -> `D_x->f`; every other use through t_noncast."""
+    P, key, override, keys = ctx["P"], ctx["key"], ctx["override"], ctx["keys"]
+
+    def block(why):
+        P["pending"].append(why)
+        P["blocked"] = True
+        return P
+    gaddr = key.startswith("&")
+    name, _, b0 = key.lstrip("&").rpartition("@")
+    bexpr = ("&" if gaddr else "") + name
+    bcls = "gaddr" if gaddr else "global"
+    P.update(kind="global", base=bexpr)
+    if not re.fullmatch(r"[A-Za-z_]\w*", name or ""):
+        return block("not a name@binary key")
+    a0 = t_sym_addr(b0, name)
+    word = re.compile(r"(?<![\w$])" + re.escape(name) + r"\b")
+    named = []
+    for rel in sorted(walk()["results"]):
+        p = REPO / rel
+        if not p.exists():
+            continue
+        t = p.read_text(errors="surrogateescape")
+        if name not in t or not word.search(t):
+            continue
+        named.append((rel, t, {b: t_sym_addr(b, name) for b in sorted(t_file_bins(rel))}))
+    if a0 is None and "/" in b0:
+        # T14 keys a shared / resident file's global by its directory (`shared/ov`, `src/resident`), not a binary: the one address
+        # the name has in every binary of the files naming it
+        al = {a for (_, _, ad) in named for a in ad.values() if a is not None}
+        if len(al) > 1:
+            return block(f"{name}@{b0}: {len(al)} objects across the binaries (key one binary)")
+        a0 = al.pop() if al else None
+    if a0 is None:
+        return block(f"{name} is not a symbol of {b0}")
+    views = {}
+    for rel, t, addrs in named:
+        if a0 not in addrs.values():
+            continue
+        other = [b for b, a in addrs.items() if a is not None and a != a0]
+        if other:
+            return block(f"{rel} also builds {other[0]}, where {name} is another object (G41)")
+        views[rel] = (t,) + file_view(rel, t)
+    if not views:
+        return block(f"no file of {b0} names {name}")
+    P["log"].append(f"{name} @ {a0:#x}: {len(views)} file(s) of the object")
+    types = set()
+    for rel, (t, masked, defs, _, _, sites) in views.items():
+        types |= _t_types_of([s for s in sites if s.get("bclass") == bcls and str(s.get("base")) == name], masked, bexpr, 0, len(masked))
+    if len(types) > 1:
+        ts = sorted(types)
+        return block(f"2+ cast types ({'/'.join(ts[:4])}{f' +{len(ts) - 4}' if len(ts) > 4 else ''})")
+    if types:
+        T = types.pop()
+        if override and override != T:
+            return block(f"--type {override} != cast type {T}")
+    elif override:
+        T = override
+    else:
+        ft = t_flow_types(key, keys)
+        if len(ft) != 1:
+            return block("no type" if not ft else f"conflicting flows ({'/'.join(sorted(ft))})")
+        T = ft.pop()
+    P["type"] = T
+    if T not in canon_types():
+        return block(f"type {T} not canonical")
+    unseen = [rel for rel in views if rel.endswith(".c") and not type_visible(rel, T)]
+    if unseen:
+        return block(f"type {T} not visible in {unseen[0]}")
+    fm = canon_types()[T][2]
+    if fm is None:
+        return block(f"type {T}: field map unknown")
+    want = T if gaddr else T + " *"
+    drx = re.compile(r"(?<![\w.])((?:extern|static)\s+)?" + T_DECL_TYPE + r"(\s*\**\s*)\b" + re.escape(name) + r"\s*((?:\[[^\]]*\])*)\s*(=[^;]*)?;")
+    other, sites_all, rel_of, decls, pend = collections.defaultdict(list), [], {}, set(), []
+    disp = []
+    for rel, (t, masked, defs, _, params_of, sites) in views.items():
+        ls = dl.line_starts(masked)
+        line = lambda q: masked.count("\n", 0, q) + 1
+        dspans = []
+        for m in drx.finditer(masked):
+            if not _t_stmt_start(masked, m.start()) or m.group(2).split()[-1] in T_NOT_TYPES:
+                continue
+            if m.group(4):
+                return block(f"array declaration {rel}:{line(m.start())}")
+            if m.group(5):
+                return block(f"definition with an initializer {rel}:{line(m.start())}")
+            old = sl._norm_type(m.group(2) + (" " + m.group(3).strip() if m.group(3).strip() else ""))
+            decls.add(old)
+            dspans.append((m.start(), m.end()))
+            if old != want:
+                other[rel].append((m.start(2), m.end(3), T + (" " if gaddr else " *")))
+                disp.append((f"{rel}:{line(m.start())}", t[m.start(2):m.end(3)] + name, f"{T} {name}" if gaddr else f"{T} *{name}"))
+        fspans = []
+        for d in defs:
+            fn = d["name"]
+            brace, d_end = _t_fn_span(masked, ls, d)
+            fspans.append((brace, d_end))
+            bs = [s for s in sites if s.get("fn") == fn and s.get("bclass") == bcls and str(s.get("base")) == name]
+            head_inner, _ = _head_parts(masked, d, fn)
+            why = {}
+            es, _ = s_edits(t, masked, d, bs, T, fm, f"{bcls}:{name}", head_inner, why=why)
+            pre, npre = f"(({T} *){bexpr})->", (f"{name}." if gaddr else f"{name}->")
+            sed = [(a, b, (npre + r[len(pre):]) if r.startswith(pre) else r, s) for (a, b, r, s) in es]
+            for s in bs:
+                if s["form"] == "C":
+                    if (s.get("text") or "").strip() == bexpr and not s.get("off") and s.get("index") is None:
+                        sed.append((s["pos"], s["end"], npre + s["member"], s))
+                    else:
+                        P["pending"].append(f"C-view {s.get('text')} {rel}:{s['line']}")
+                elif s["form"] in RAW_FORMS and id(s) in why:
+                    P["pending"].append(f"{why[id(s)]} {s['form']} +{(s.get('off') or 0):#x} {rel}:{s['line']}")
+                    P["kept"] += 1
+            sed, dropped = drop_overlaps(sed)
+            P["kept"] += len(dropped)
+            covered = [(a, b) for (a, b, *_) in sed]
+            ne, _, npend = t_noncast(masked, d, bexpr, T, brace, d_end, covered, set())
+            pend += _t_at(npend, rel)
+            if gaddr:                                                   # a value use of the object (its type changes to a struct)
+                for m in word.finditer(masked, brace, d_end):
+                    q = m.start()
+                    pq = masked[max(0, q - 4):q].rstrip()
+                    if any(a <= q < b for (a, b) in covered + dspans) or (pq.endswith("&") and not pq.endswith("&&")):
+                        continue
+                    pend.append(f"non-cast value {rel}:{line(q)}")
+            if ne and not all(o in ("u8", "s8", "void", "char") if gaddr else (o == "void *" or o in ("u8 *", "s8 *") or (sl.scalar_of(o) and "*" not in o))
+                              for o in decls):
+                pend += [f"non-cast ptr-arith on {'/'.join(sorted(decls))} {rel}:{line(a)}" for (a, _, _) in ne]
+            other[rel] += ne
+            for e in sed:
+                rel_of[id(e)] = rel
+                disp.append((f"{rel}:{line(e[0])}", t[e[0]:e[1]], e[2]))
+            sites_all += sed
+        for m in word.finditer(masked):
+            q = m.start()
+            if not any(a <= q < b for (a, b) in fspans + dspans):
+                pend.append(f"file-scope use {rel}:{line(q)}")
+    P["decl"] = "/".join(sorted(decls)) or None
+    if pend:
+        P["pending"] += pend
+        P["blocked"] = True
+        return P
+    if not sites_all and not any(other.values()):
+        P["log"].append("nothing to edit")
+        return P
+    P["casts_removed"] = len(sites_all)
+    P["forms"] = dict(collections.Counter(e[3]["form"] for e in sites_all))
+    P["edits"] = sorted(disp)
+    P["_sites"] = sites_all
+    P["_kept_text"] = {id(e): (t_kept_text(views[rel_of[id(e)]][0], views[rel_of[id(e)]][1], e, bexpr, True),
+                               t_kept_text(views[rel_of[id(e)]][0], views[rel_of[id(e)]][1], e, bexpr, False)) for e in sites_all}
+
+    def compose(sub, macro=True):
+        ids = {id(e) for e in sub}
+        per = collections.defaultdict(list)
+        for rel, es in other.items():
+            per[rel] += es
+        for e in sites_all:
+            kt = e[2] if id(e) in ids else P["_kept_text"][id(e)][0 if macro else 1]
+            if kt is not None:
+                per[rel_of[id(e)]].append((e[0], e[1], kt))
+        return {rel: compose_text(views[rel][0], es) for rel, es in per.items() if es}
+    P["files"] = compose(sites_all)
+    P["_compose"] = compose
+    return P
+
+
+def t_holder(masked, d, holder, head_inner):
+    """(S, member) of a member expression `((S *)X)->m` / `x->m` (x declared `S *`) / `x.m` (x declared S), else None."""
+    h = holder.strip()
+    m = re.search(r"(->|\.)\s*([A-Za-z_]\w*)$", h)
+    if not m:
+        return None
+    obj, op, mem = h[:m.start()].strip(), m.group(1), m.group(2)
+    if obj.startswith("("):
+        if tc._paren_body(obj, 0)[1] != len(obj) - 1:
+            return None
+        cm = re.match(r"^\(\s*\(\s*((?:struct\s+)?[A-Za-z_]\w*)\s*\*\s*\)", obj)
+        return (sl._norm_type(cm.group(1)), mem) if cm and op == "->" else None
+    if re.fullmatch(r"[A-Za-z_]\w*", obj):
+        dt = None
+        if d is not None:
+            dt = declared_type(masked, d, obj, "param", head_inner) or declared_type(masked, d, obj, "local", None)
+        dt = dt or declared_type(masked, d, obj, "global", None)
+        if dt and op == "->" and dt.endswith(" *") and dt.count("*") == 1:
+            return dt[:-2], mem
+        if dt and op == "." and "*" not in dt and "[" not in dt:
+            return dt, mem
+    return None
+
+
+def _t_obj_start(masked, q):
+    """The start of the object expression before `->` / `.` at q (a parenthesised cast group or a plain name), else None (a chain,
+    a call, an index: its type is not read here)."""
+    j = q
+    while j > 0 and masked[j - 1] in " \t":
+        j -= 1
+    if j > 0 and masked[j - 1] == ")":
+        depth = 0
+        for k in range(j - 1, max(-1, j - 4000), -1):
+            if masked[k] == ")":
+                depth += 1
+            elif masked[k] == "(":
+                depth -= 1
+                if depth == 0:
+                    pk = masked[:k].rstrip()[-1:]
+                    return None if pk and (pk.isalnum() or pk in "_)]") else k
+        return None
+    mi = re.search(r"[A-Za-z_]\w*$", masked[max(0, j - 80):j])
+    if not mi:
+        return None
+    k = j - len(mi.group(0))
+    pre = masked[max(0, k - 2):k]
+    return None if pre.endswith("->") or pre.endswith(".") else k
+
+
+def t_member_uses(S, mem, T, skip):
+    """Every use of member `mem` of S in the tree (the files naming S), outside the `skip` {rel: [(a, b)]} spans, through t_noncast:
+    (pending, n uses read). A use whose object type is not read here (a chain, a call) is not counted; the judge covers its bytes."""
+    pend, n = [], 0
+    rx = re.compile(r"(->|\.)\s*" + re.escape(mem) + r"\b")
+    srx = re.compile(r"\b" + re.escape(S) + r"\b")
+    for rel, r in sorted(walk()["results"].items()):
+        p = REPO / rel
+        if not r or not p.exists():
+            continue
+        t = p.read_text(errors="surrogateescape")
+        if mem not in t or not srx.search(t):
+            continue
+        masked = dl.same_len_mask(t)
+        ls = dl.line_starts(masked)
+        fdefs = [dict(name=f["fn"], line=f["line"], end=f.get("fn_end") or f["line"]) for f in r.get("fndefs", [])]
+        line = lambda q: masked.count("\n", 0, q) + 1
+        for mm in rx.finditer(masked):
+            k = _t_obj_start(masked, mm.start())
+            if k is None or any(a <= k < b for (a, b) in skip.get(rel, ())):
+                continue
+            d = next((x for x in fdefs if ls[x["line"] - 1] <= k < (ls[x["end"]] if x["end"] < len(ls) else len(masked))), None)
+            expr = masked[k:mm.end()]
+            if t_holder(masked, d, expr, _head_parts(masked, d, d["name"])[0] if d else None) != (S, mem):
+                continue
+            n += 1
+            if d is None:
+                pend.append(f"file-scope use {rel}:{line(k)}")
+                continue
+            s0, s1 = _t_fn_span(masked, ls, d)
+            others = {x.start() for x in _t_use_rx(expr).finditer(masked, s0, s1) if x.start() != k}
+            ne, _, pp = t_noncast(masked, d, expr, T, s0, s1, [], others)
+            pend += _t_at(pp, rel) + [f"non-cast ptr-arith {rel}:{line(a)}" for (a, _, _) in ne]
+    return pend, n
+
+
+def t_member_retype(text, S, mem, newtype):
+    """text with S's member `mem` declared `newtype mem` (`typedef struct {…} S;` or `struct S {…};`): (text, None) or (None, why)."""
+    masked = dl.same_len_mask(text)
+    cm = re.search(r"(?m)^\s*\}\s*" + re.escape(S) + r"\s*;", masked)
+    if cm:
+        hi, depth, lo = masked.index("}", cm.start()), 0, None
+        for k in range(hi, -1, -1):
+            if masked[k] == "}":
+                depth += 1
+            elif masked[k] == "{":
+                depth -= 1
+                if depth == 0:
+                    lo = k
+                    break
+    else:
+        sm = re.search(r"\b(?:struct|union)\s+" + re.escape(S) + r"\s*\{", masked)
+        if not sm:
+            return None, f"definition of {S} not found"
+        lo = sm.end() - 1
+        hi = tc._paren_body(masked.replace("{", "(").replace("}", ")"), lo)[1]
+    if lo is None or hi is None or hi < 0:
+        return None, f"definition of {S} unreadable"
+    ms = [m for m in re.finditer(r"(?<![\w.])" + T_DECL_TYPE + r"(\s*\**\s*)\b" + re.escape(mem) + r"\s*;", masked[lo:hi])
+          if masked[lo:lo + m.start()].count("{") - masked[lo:lo + m.start()].count("}") == 1]
+    if len(ms) != 1:
+        return None, f"{S}.{mem}: {len(ms)} member declarations"
+    m = ms[0]
+    return text[:lo + m.start(1)] + newtype + text[lo + m.end(2):], None
+
+
+def t_hook_field(ctx):
+    """kind field: a pointer member of another struct — `tu:fn:<holder text>` (T14's nested / member base) or a local assigned from a
+    member read. The member's type in its struct definition becomes `T *` (every object including that header judged: t_judge's cap ->
+    scratch_cmp, C0589/C0590); the local's declaration and the casts on the base respelled; every other use of the member in the tree
+    passed through t_noncast (any non-cast pending blocks)."""
+    P, key, override, keys = ctx["P"], ctx["key"], ctx["override"], ctx["keys"]
+    raw, masked, d, sites, brace, d_end = ctx["raw"], ctx["masked"], ctx["d"], ctx["sites"], ctx["brace"], ctx["d_end"]
+    tu, fn, base = P["tu"], P["fn"], P["base"]
+
+    def block(why, Q=P):
+        Q["pending"].append(why)
+        Q["blocked"] = True
+        Q["kind"] = "field"
+        return Q
+    head_inner, _ = _head_parts(masked, d, fn)
+    skip = collections.defaultdict(list)
+    if re.fullmatch(r"[A-Za-z_]\w*", base):                         # a local assigned from a member read
+        hs = set()
+        for m in re.finditer(r"(?<![\w.>])" + re.escape(base) + r"\s*=(?!=)\s*([^;]+);", masked[:d_end]):
+            if m.start() < brace:
+                continue
+            r_ = m.group(1).strip()
+            while (cm := re.match(r"^\(\s*[A-Za-z_][\w\s]*\**\s*\)\s*", r_)) and cm.group(0).strip("() *").split()[0] not in T_NOT_TYPES:
+                r_ = r_[cm.end():].strip()
+            h = t_holder(masked, d, r_, head_inner)
+            if h:
+                hs.add(h)
+                skip[tu].append((m.start(1), m.end(1)))
+        if len(hs) != 1:
+            return block("field source: no single typed holder" if not hs else f"field source: {len(hs)} holders")
+        S, mem = hs.pop()
+        P2 = t_plan(key, override, keys, _as_local=True)
+    else:                                                               # T14's holder text `H` / `H + k`
+        hm = re.match(r"^(.*?)\s*\+\s*(0x[0-9A-Fa-f]+|\d+)$", base)
+        H = hm.group(1).strip() if hm else base
+        h = t_holder(masked, d, H, head_inner)
+        if not h:
+            return block(f"field holder untyped ({H})")
+        S, mem = h
+        hrx = re.compile(r"^" + re.escape(H) + r"(?:\s*\+\s*(0x[0-9A-Fa-f]+|\d+))?$")
+        bs = []
+        for s in sites:
+            tm = hrx.match((s.get("text") or "").strip())
+            if s.get("fn") != fn or not tm or (s["form"] != "C" and s["form"] not in RAW_FORMS):
+                continue
+            c = dict(s, bclass="nested", base=H)
+            if s["form"] != "C":
+                c["off"] = int(tm.group(1), 0) if tm.group(1) else 0
+            bs.append(c)
+        P2 = t_plan(key, override, keys, _expr=dict(holder=H, sites=bs, decl=f"{S}.{mem}"))
+    P2["kind"] = "field"
+    if P2["blocked"]:
+        return P2
+    T = P2["type"]
+    ent = canon_types().get(S)
+    if not ent:
+        return block(f"holder type {S} not canonical", P2)
+    sd, _, sfm = ent
+    hdr = sd["file"]
+    f = next((x for x in (sfm or {}).values() if x["name"] == mem), None)
+    if f is None:
+        return block(f"{S} has no member {mem}", P2)
+    ftype = sl._norm_type(f["type"]) + (" " + "*" * f["stars"] if f["stars"] else "")
+    P2["decl"] = f"{S}.{mem}: {ftype}" + (f"; {P2['decl']}" if P2.get("decl") and "." not in str(P2["decl"]) else "")
+    retype = ftype != T + " *"
+    if retype and (f["width"] != 4 or f.get("dims") or not (f["stars"] or f["sign"] in ("s", "u"))):
+        return block(f"member {S}.{mem} is {ftype}: not a pointer-sized scalar", P2)
+    td = canon_types()[T][0]
+    if retype and td["file"] == hdr and td["line"] > sd["line"]:
+        return block(f"{T} is defined after {S} in {hdr}", P2)
+    for (a, b, *_) in P2["_sites"]:
+        skip[tu].append((a, b))
+    pend, n = t_member_uses(S, mem, T, skip)
+    P2["log"].append(f"member {S}.{mem}: {n} other use(s) read")
+    if pend:
+        P2["pending"] += pend
+        P2["blocked"] = True
+        return P2
+    inner = P2["_compose"]
+
+    def compose(sub, macro=True):
+        files = inner(sub, macro) if inner else {}
+        if retype:
+            nt, why = t_member_retype(files.get(hdr) or (REPO / hdr).read_text(errors="surrogateescape"), S, mem, T + " *")
+            if nt is None:
+                raise SystemExit(why)
+            files[hdr] = nt
+        return files
+    try:
+        P2["files"] = compose(P2["_sites"])
+    except SystemExit as ex:
+        P2["files"] = {}
+        return block(f"member: {ex}", P2)
+    if retype:
+        P2["edits"].append((hdr, f"{ftype} {mem}", f"{T} *{mem}"))
+    P2["_compose"] = compose
+    return P2
+
+
+def t_hook_ret(ctx):
+    """kind ret-of (a local assigned from a call): the callee's return type `T *` (signature_change: its definition + declarations, one
+    judged unit), the receiving local's declaration and its casts; the call's other uses through t_noncast."""
+    P, key, override, keys = ctx["P"], ctx["key"], ctx["override"], ctx["keys"]
+    masked, brace, d_end = ctx["masked"], ctx["brace"], ctx["d_end"]
+    tu, fn, base = P["tu"], P["fn"], P["base"]
+
+    def block(why, Q=P):
+        Q["pending"].append(why)
+        Q["blocked"] = True
+        Q["kind"] = "ret-of"
+        return Q
+    callees, src_spans = set(), []
+    for m in re.finditer(r"(?<![\w.>])" + re.escape(base) + r"\s*=(?!=)\s*([^;]+);", masked[:d_end]):
+        if m.start() < brace:
+            continue
+        r_ = m.group(1).strip()
+        while (cm := re.match(r"^\(\s*[A-Za-z_][\w\s]*\**\s*\)\s*", r_)) and cm.group(0).strip("() *").split()[0] not in T_NOT_TYPES:
+            r_ = r_[cm.end():].strip()
+        fm_ = re.match(r"^([A-Za-z_]\w*)\s*\(", r_)
+        if fm_ and (fm_.group(1) == "M2C_FIELD" or fm_.group(1) in tc.KEPT_MACROS):
+            return block(f"ret-of: {fm_.group(1)}(…) is a field read, not a call")
+        if fm_:
+            callees.add(fm_.group(1))
+            src_spans.append((m.start(1), m.end(1)))
+    if len(callees) != 1:
+        return block(f"ret-of: {len(callees)} callees")
+    callee = callees.pop()
+    P2 = t_plan(key, override, keys, _as_local=True)
+    P2["kind"] = "ret-of"
+    if P2["blocked"]:
+        return P2
+    T = P2["type"]
+    defs = [(rel, f) for rel, r in sorted(walk()["results"].items()) if r for f in r.get("fndefs", []) if f["fn"] == callee]
+    if len(defs) != 1:
+        return block(f"callee {callee}: {len(defs)} definitions", P2)
+    drel, f = defs[0]
+    if f.get("kr"):
+        return block(f"callee {callee}: K&R head", P2)
+    sig_files, sig_log = {}, []
+    if sl._norm_type(f["ret"]) != T + " *":
+        dtext = (REPO / drel).read_text(errors="surrogateescape")
+        dm = dl.same_len_mask(dtext)
+        dls = dl.line_starts(dm)
+        h0 = dls[f["line"] - 1]
+        e = dls[f["fn_end"]] if f["fn_end"] < len(dls) else len(dtext)
+        hm = re.search(r"([A-Za-z_][\w \t*]*?)\b" + re.escape(callee) + r"\s*\(", dm[h0:dm.find("{", h0)])
+        if not hm:
+            return block(f"callee {callee}: head unreadable", P2)
+        keep = re.match(r"(?:(?:static|inline|extern)\s+)*", hm.group(1)).group(0)
+        body = dtext[h0:e]
+        body = body[:hm.start(1)] + keep + f"{T} *" + body[hm.end(1):]
         tmp = RUN / "type_tmp"
         tmp.mkdir(parents=True, exist_ok=True)
-        bf = tmp / f"{fn}.c"
+        bf = tmp / f"{callee}.c"
         bf.write_text(body, errors="surrogateescape")
         try:
-            files, _ = signature_change(fn, None, "T", None, P["log"].append, body_file=str(bf), only_tu=tu, plan_only=True)
+            sig_files, _ = signature_change(callee, None, "T", None, sig_log.append, body_file=str(bf), plan_only=True)
+            srx = re.compile(r"\b" + re.escape(T) + r" \* " + re.escape(callee) + r"\(")    # rung D spells `T * f(`: the house `T *f(`
+            sig_files = {rel: srx.sub(f"{T} *{callee}(", x) for rel, x in sig_files.items()}
         except SystemExit as ex:
-            return block(f"signature: {ex}")
+            return block(f"signature: {ex}", P2)
         finally:
             bf.unlink(missing_ok=True)
             with contextlib.suppress(OSError):
                 tmp.rmdir()
+    # the call's other uses (every file of the unit): a discarded call keeps; anything else through t_noncast
+    pend = []
+    crx = re.compile(r"(?<![\w.>$])" + re.escape(callee) + r"\s*\(")
+    for rel in sorted(set(sig_files) | {tu}):
+        text = sig_files.get(rel) or (REPO / rel).read_text(errors="surrogateescape")
+        mk = dl.same_len_mask(text)
+        ls = dl.line_starts(mk)
+        r = walk()["results"].get(rel) or {}
+        fdefs = [dict(name=x["fn"], line=x["line"], end=x.get("fn_end") or x["line"]) for x in r.get("fndefs", [])]
+        for m in crx.finditer(mk):
+            k = m.start()
+            stmt = "\n".join(x for x in re.split(r"[;{}]", mk[max(0, k - 300):k])[-1].split("\n") if not x.lstrip().startswith("#"))
+            if re.match(r"^\s*(?:(?:extern|static|inline)\s+)*" + T_DECL_TYPE + r"[\s*]*$", stmt) and stmt.split()[-1].strip("*") not in T_NOT_TYPES:
+                continue                                                # a declaration / the definition head
+            if rel == tu and any(a <= k < b for (a, b) in src_spans):
+                continue
+            _, close = tc._paren_body(mk, m.end() - 1)
+            if close < 0:
+                continue
+            if mk[close + 1:].lstrip().startswith(";") and re.search(r"(?:[;{}]|\belse|\))\s*$", mk[max(0, k - 200):k]):
+                continue                                                # a discarded value
+            d = next((x for x in fdefs if ls[x["line"] - 1] <= k < (ls[x["end"]] if x["end"] < len(ls) else len(mk))), None)
+            if d is None:
+                pend.append(f"file-scope use {rel}:{mk.count(chr(10), 0, k) + 1}")
+                continue
+            expr = mk[k:close + 1]
+            s0, s1 = _t_fn_span(mk, ls, d)
+            others = {x.start() for x in _t_use_rx(expr).finditer(mk, s0, s1) if x.start() != k}
+            ne, _, pp = t_noncast(mk, d, expr, T, s0, s1, [], others)
+            pend += _t_at(pp, rel) + [f"non-cast ptr-arith {rel}:{mk.count(chr(10), 0, a) + 1}" for (a, _, _) in ne]
+    P2["log"] += sig_log
+    if pend:
+        P2["pending"] += pend
+        P2["blocked"] = True
+        return P2
+    P3 = t_plan(key, override, keys, _as_local=True, _text=sig_files[tu]) if tu in sig_files else P2
+    if P3 is not P2:
+        P3["log"] = P2["log"] + [x for x in P3["log"] if x not in P2["log"]]
+    P3["kind"] = "ret-of"
+    if P3["blocked"]:
+        return P3
+    inner = P3["_compose"]
+
+    def compose(sub, macro=True):
+        return {**sig_files, **(inner(sub, macro) if inner else {})}
+    P3["files"] = compose(P3["_sites"])
+    P3["_compose"] = compose
+    if sig_files:
+        P3["edits"].append((drel, f"{f['ret']} {callee}(", f"{T} *{callee}("))
+    P3["decl"] = f"{callee}() -> {f['ret']}; {P3['decl']}"
+    return P3
+
+
+T_KIND_HOOKS.update({"global": t_hook_global, "field": t_hook_field, "ret-of": t_hook_ret})
+
+
+# ---- T15.c2: the second attempt on DIFFERS and the DIFF localization ----------------------------------------------------------------
+T_OBJ_STUB = None             # the selftest: {obj: (candidate bytes, baseline path)} in place of a compile
+
+
+def t_first_diff(cand_path, base_path):
+    """(symbol, offset in it) of the first differing .text word, candidate vs baseline (objdump -dz), the baseline's naming; (None, None)
+    when the .text words agree."""
+    def words(p):
+        out, cur, start = [], None, 0
+        for ln in subprocess.run([md.OBJDUMP, "-dz", "-j", ".text", str(p)], capture_output=True, text=True).stdout.splitlines():
+            h = re.match(r"^([0-9a-f]+) <([^>]+)>:", ln)
+            if h:
+                cur, start = h.group(2), int(h.group(1), 16)
+                continue
+            mi = md._INS_RE.match(ln)
+            if mi:
+                out.append((cur, int(mi.group(1), 16) - start, int(mi.group(2), 16)))
+        return out
+    a, b = words(cand_path), words(base_path)
+    for x, y in zip(a, b):
+        if x[2] != y[2]:
+            return y[0] or x[0], y[1]
+    if len(a) != len(b):
+        z = b[len(a)] if len(b) > len(a) else a[len(b)]
+        return z[0], z[1]
+    return None, None
+
+
+def t_localize(files, err, tag):
+    """dict(object, function, offset, cls) of a DIFFERS unit: its first differing object (the judge's `[obj]`) recompiled on the
+    candidate, its first differing .text word as symbol+offset, classify_residual's class there."""
+    m = re.search(r"\[(build/[^\]\s]+\.o)\]", err or "")
+    out = dict(object=m.group(1) if m else "-", function="-", offset="-", cls="UNSCORED")
+    if not m:
+        return out
+    obj, src = m.group(1), None
+    if T_OBJ_STUB is not None:
+        cand, base = T_OBJ_STUB.get(obj, (None, None))
     else:
-        files = {tu: new}
-    if htext is not None:
-        if hdr in files:                                  # the header also declares the callee: the insertion on top of that text
-            htext = t_insert_members(files[hdr], hdr, T, {o: needs[o] for o in needs})[0]
-        files[hdr] = htext
-    P["files"] = files
-    return P
+        rec = next((r for rel in files for r in recs_for(rel) if r["obj"] == obj), None)
+        if rec is None:
+            return out
+        snaps = {rel: ((REPO / rel).read_text(errors="surrogateescape"), (REPO / rel).stat()) for rel in files}
+        try:
+            for rel, t in files.items():
+                (REPO / rel).write_text(t, errors="surrogateescape")
+            cand, _, _ = oracle.compile_obj(rec, None, tag=tag + "x")
+        finally:
+            for rel, (t, st) in snaps.items():
+                dl.restore_file(REPO / rel, t, st)
+        base, src = oracle.baseline_path(obj), rec["src"]
+    if cand is None or base is None:
+        out["cls"] = "COMPILE-ERROR" if cand is None else "NO-BASELINE"
+        return out
+    tmp = PROBE / "obj" / f"t_{tag}_loc.o"
+    tmp.parent.mkdir(parents=True, exist_ok=True)
+    tmp.write_bytes(cand)
+    try:
+        fn, off = t_first_diff(tmp, base)
+    finally:
+        tmp.unlink(missing_ok=True)
+    if fn is None:
+        out["cls"] = "NON-TEXT"
+        return out
+    out.update(function=fn, offset=f"+{off:#x}")
+    res = classify_residual(src, fn, cand, base=base)
+    out["cls"] = (res or {}).get("kind") or "UNSCORED"
+    return out
+
+
+def t_second(P, err, tag, write):
+    """The second attempt on a DIFFERS unit: greedy_kept over the respelled sites -> the minimal kept set spelled as rung-S kept-cast
+    macros (t_kept_text); no set -> run_recipes on the source TU's kept view; still DIFFERS -> no edit, the wall localized.
+    dict(files | None, kept [edits], recipe, wall, compiles)."""
+    sites, compose = P["_sites"], P["_compose"]
+    out = dict(files=None, kept=[], recipe=None, wall=None, compiles=0)
+
+    def jc(sub, tg):
+        try:
+            files = compose(sub)
+        except (SystemExit, Refuse):
+            return "TOOL-ERROR"
+        v = t_judge(files, tg, write)[0]
+        return "IDENTICAL" if v in ("IDENTICAL", "IDENTICAL-LINKED") else v
+    kept, n, gv = greedy_kept(jc, sites, tag + "g") if sites else ([], 0, "NO-SET")
+    out["compiles"] += n
+    if gv == "IDENTICAL":
+        ids = {id(k) for k in kept}
+        out.update(files=compose([e for e in sites if id(e) not in ids]), kept=kept)
+        return out
+    tu = P["tu"] if P.get("fn") else None
+    mine = [e for e in sites if (e[3].get("tu") or tu) == tu and e[3].get("fn") == P.get("fn")]
+    if tu and mine:
+        try:
+            kv = compose([e for e in sites if not any(e is x for x in mine)], macro=False)
+        except (SystemExit, Refuse):
+            kv = {}
+        if tu in kv:
+            hits = run_recipes(tu, P["fn"], kv[tu], mine, lambda cand, tg, reloc=False: judge_files({**kv, tu: cand}, tg, reloc=reloc), tag + "r")
+            out["compiles"] += len(hits)
+            ad = next((h for h in hits if h.get("adopt")), None)
+            if ad:
+                out.update(files={**kv, tu: ad["text"]}, recipe=ad["name"])
+                return out
+    out["wall"] = t_localize(P["files"], err, tag)
+    return out
 
 
 def t_judge(files, tag, write):
     """(verdict, objects, err): judge_files on the unit; a header reaching more than T_HDR_RECS_CAP objects is judged at --write by
-    tools/scratch_cmp.py against HEAD (the files written first, restored unless rc 0 — C0589/C0590)."""
-    hdrs = [r for r in files if r.endswith(".h")]
-    nobj = len({r["obj"] for h in hdrs for r in recs_for(h)}) if hdrs and JUDGE_STUB is None else 0
+    tools/scratch_cmp.py against HEAD (the files written first, restored unless rc 0 — C0589/C0590). T15.c2: the cap counts every file's
+    objects (a global / ret-of unit's declarations reach many TUs), was: the headers' only."""
+    nobj = len({r["obj"] for h in files for r in recs_for(h)}) if JUDGE_STUB is None else 0
     if nobj <= T_HDR_RECS_CAP:
         r = judge_files(files, tag)
         return r["verdict"], r["compiles"], r["err"]
     if not write:
-        return "UNJUDGED", 0, f"a header reaching {nobj} objects: --write judges it with tools/scratch_cmp.py"
+        return "UNJUDGED", 0, f"a unit reaching {nobj} objects: --write judges it with tools/scratch_cmp.py"
     snaps = {rel: ((REPO / rel).read_text(errors="surrogateescape"), (REPO / rel).stat()) for rel in files}
     for rel, t in files.items():
         (REPO / rel).write_text(t, errors="surrogateescape")
@@ -8147,6 +8903,8 @@ def type_sources(keys, write=False, label="T", override=None):
     rc = 0
     for key in keys:
         P = t_plan(key, override, keys)
+        if P["blocked"]:
+            P["files"] = {}                                           # blocked: nothing is edited (a hook's partial plan is dropped)
         print(f"T {key}  kind={P['kind']}  type={P['type'] or '-'}  decl={P['decl'] or '-'}")
         for ln, old, new in P["edits"][:16]:
             print(f"   {ln}: {old.strip()[:70]}  ->  {new[:70]}")
@@ -8164,7 +8922,33 @@ def type_sources(keys, write=False, label="T", override=None):
                     print(f"   refused: uncommitted changes in {r.stdout.split()[1:3]} (commit or restore first)")
                     rc = 2
                     continue
-            verdict, objs, err = t_judge(P["files"], "t" + hashlib.sha1(key.encode()).hexdigest()[:6], write)
+            tag = "t" + hashlib.sha1(key.encode()).hexdigest()[:6]
+            verdict, objs, err = t_judge(P["files"], tag, write)
+            if verdict == "DIFFERS" and P.get("_compose"):           # T15.c2: the second attempt
+                sec = t_second(P, err, tag, write)
+                if sec["files"] is not None:
+                    P["files"] = sec["files"]
+                    kids = {id(e) for e in sec["kept"]}
+                    P["kept"] += len(kids)
+                    P["casts_removed"] -= len(kids)
+                    P["forms"] = dict(collections.Counter(e[3]["form"] for e in P["_sites"] if id(e) not in kids))
+                    P["kept_sites"] = [dict(site_row(e[3], f"KEPT({site_class(e[3], None, kept=True)})", P["type"]),
+                                            text=P["_kept_text"][id(e)][0] or "") for e in sec["kept"]]
+                    P["attempt"], P["recipe"] = 2, sec["recipe"]
+                    print(f"   attempt 1: DIFFERS {err[:120]}")
+                    print(f"   attempt 2: " + (f"recipe {sec['recipe']} drew the kept view" if sec["recipe"] else
+                                              f"{len(kids)} site(s) kept as kept-cast macros ({sec['compiles']} compiles)"))
+                    for r in P["kept_sites"]:
+                        print(f"      {r['verdict']} {r['form']} line {r['line']}: {r['text'][:80]}")
+                    verdict, err = "IDENTICAL", ""
+                else:
+                    P["wall"] = sec["wall"]
+                    P["attempt"] = 2
+                    print(f"   attempt 1: DIFFERS {err[:120]}")
+                    w = sec["wall"]
+                    print(f"   attempt 2: no kept set, no recipe ({sec['compiles']} compiles) -> WALL-PENDING {w['object']} {w['function']}"
+                          f"{w['offset']} {w['cls']}")
+                    verdict = "WALL-PENDING"
             if write and verdict in ("IDENTICAL", "IDENTICAL-LINKED"):
                 for rel, t in P["files"].items():
                     (REPO / rel).write_text(t, errors="surrogateescape")
@@ -8178,21 +8962,120 @@ def type_sources(keys, write=False, label="T", override=None):
         if write:
             ledger_append([dict(ts=time.strftime("%Y-%m-%d %H:%M:%S"), label=label, rung="T", tu=P["tu"] or key, unit="type:" + key, fn=P["fn"],
                                 source=key, kind=P["kind"], type=P["type"], casts_removed=P["casts_removed"], kept=P["kept"],
-                                pending=P["pending"], verdict=verdict, objects=objs, files=sorted(P["files"]), err=err[:200])])
+                                pending=P["pending"], verdict=verdict, objects=objs, files=sorted(P["files"]), err=err[:200],
+                                forms=P["forms"], attempt=P.get("attempt", 1), kept_sites=P.get("kept_sites", []), recipe=P.get("recipe"),
+                                wall=P.get("wall"))])
     return rc
+
+
+T_SOURCES_DIR = ".run/3.45/t14"   # T14's tables (struct_twins.py --sources --out-dir)
+
+
+def _t_reason(x):
+    """A pending reason's head: `non-cast arg-int f#0 146` -> `non-cast arg-int`; `2+ cast types (A/B)` -> `2+ cast types`."""
+    ws = []
+    for w_ in x.split():
+        if re.search(r"[0-9/(#@:]", w_) and ws:
+            break
+        ws.append(w_)
+    return " ".join(ws[:3])
+
+
+def type_check(only=None, sources_dir=None):
+    """--type-check: rung T per region (struct_twins.region_of) and per source — the latest rung-T ledger row per key joined with T14's
+    sources.tsv (`--sources-dir`, built there by struct_twins --sources when absent): typed, casts removed by form, kept, pending with
+    reason, walls; totals per region and per binary; one line per ledgered source. Exit 0."""
+    import struct_twins as st
+    sd = pathlib.Path(sources_dir or T_SOURCES_DIR)
+    sd = sd if sd.is_absolute() else REPO / sd
+    tsv = sd / "sources.tsv"
+    if not tsv.exists():
+        print(f"restruct --type-check: no {tsv}: building it (struct_twins.py --sources --out-dir {sd})")
+        subprocess.run([sys.executable, str(REPO / "tools/struct_twins.py"), "--sources", "--out-dir", str(sd)], cwd=REPO, capture_output=True)
+    src = {}
+    if tsv.exists():
+        with open(tsv, errors="surrogateescape") as f:
+            for ln in f:
+                c = ln.rstrip("\n").split("\t")
+                if len(c) >= 7 and c[0] != "source":
+                    src[c[0]] = dict(kind=c[1], region=c[2], verdict=c[5], reasons=c[6])
+    latest = {}
+    for r in load_ledger():
+        if r.get("rung") == "T":
+            latest[r.get("source") or r["unit"][len("type:"):]] = r
+    reg_c, bin_c, reasons = (collections.defaultdict(collections.Counter) for _ in range(3))
+    lines = collections.defaultdict(list)
+
+    def bin_of(k):
+        if ":" in k:
+            return st.binary_of(k.split(":", 1)[0])
+        return k.rpartition("@")[2]
+    for k in sorted(set(src) | set(latest)):
+        reg = src[k]["region"] if k in src else st.region_of(k.split(":", 1)[0] if ":" in k else "")
+        if only and not any(reg == o or fnmatch.fnmatch(reg, o) for o in only):
+            continue
+        b = bin_of(k)
+        C, B = reg_c[reg], bin_c[(reg, b)]
+        C["sources"] += 1
+        B["sources"] += 1
+        r = latest.get(k)
+        if r is None:
+            C["untried " + (src[k]["verdict"] if k in src else "?")] += 1
+            B["untried"] += 1
+            continue
+        v = r.get("verdict")
+        if v in ("IDENTICAL", "IDENTICAL-LINKED"):
+            for X in (C, B):
+                X["typed"] += 1
+                X["casts removed"] += r.get("casts_removed") or 0
+                X["kept"] += r.get("kept") or 0
+            for fm_, n in (r.get("forms") or {}).items():
+                C[f"removed {fm_}"] += n
+        elif v == "PENDING":
+            C["pending"] += 1
+            B["pending"] += 1
+            for x in (r.get("pending") or [])[:1]:
+                reasons[reg][_t_reason(x)] += 1
+        elif v == "WALL-PENDING":
+            C["wall"] += 1
+            B["wall"] += 1
+        else:
+            C["other " + str(v)] += 1
+            B["other"] += 1
+        w_ = r.get("wall") or {}
+        lines[reg].append(f"    {k}  {r.get('kind')}  {r.get('type') or '-'}  {v}  casts {r.get('casts_removed') or 0}"
+                          f" {r.get('forms') or {}}  kept {r.get('kept') or 0}"
+                          + (f"  wall {w_.get('object')} {w_.get('function')}{w_.get('offset')} {w_.get('cls')}" if w_ else "")
+                          + (f"  pending: {'; '.join(r.get('pending')[:3])}" if r.get("pending") else ""))
+    print(f"restruct --type-check: {sum(c['sources'] for c in reg_c.values())} sources in {len(reg_c)} region(s); "
+          f"{len(latest)} rung-T ledger keys; sources {tsv.relative_to(REPO) if tsv.is_relative_to(REPO) else tsv}")
+    for reg in sorted(reg_c):
+        C = reg_c[reg]
+        fixed = ["sources", "typed", "casts removed", "kept", "pending", "wall"]
+        print(f"{reg}: " + " · ".join(f"{x} {C[x]}" for x in fixed)
+              + "".join(f" · {x} {C[x]}" for x in sorted(C) if x not in fixed))
+        if reasons[reg]:
+            print("  pending reasons: " + ", ".join(f"{x} {n}" for x, n in sorted(reasons[reg].items(), key=lambda kv: (-kv[1], kv[0]))))
+        for (rg, b) in sorted(k for k in bin_c if k[0] == reg):
+            B = bin_c[(rg, b)]
+            print(f"  {b}: " + " · ".join(f"{x} {B[x]}" for x in ("sources", "typed", "pending", "wall", "untried", "other") if B[x] or x == "sources"))
+        for ln in lines[reg]:
+            print(ln)
+    return 0
 
 
 def type_selftest(ok):
     """Rung T on a planted tree (the stub oracle): (a) a single-type param typed in its definition AND its declarations, casts -> `->`;
     (b) a two-type source -> pending judgment, no edit; (c) a raw `*(s16 *)(p + 0x10)` -> `p->unk10`, the member inserted into pad."""
-    global _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows
-    keep = (_canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows)
+    global _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows, T_SYMS_OVERRIDE, T_OBJ_STUB
+    keep = (_canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows, T_SYMS_OVERRIDE, T_OBJ_STUB)
     _t_flows = collections.defaultdict(set)                       # no live T14 flows in the fixture
     dirp = RUN / "selftest" / "t"
     (dirp / "shared").mkdir(parents=True, exist_ok=True)
     (dirp / "ov").mkdir(parents=True, exist_ok=True)
     H = ("typedef struct {\n    /* 0x0000 */ s32 unk0;\n    /* 0x0004 */ s16 unk4;\n    /* 0x0006 */ u8 pad6[0x2];\n    /* 0x0008 */ s32 unk8;\n"
-         "    /* 0x000c */ u8 padC[0xC];\n} TTyp_A; /* size = 0x18 */\ntypedef struct { s32 b0; s32 b4; } TTyp_B;\n")
+         "    /* 0x000c */ u8 padC[0xC];\n} TTyp_A; /* size = 0x18 */\ntypedef struct { s32 b0; s32 b4; } TTyp_B;\n"
+         "typedef struct {\n    /* 0x0000 */ s32 unk0;\n    /* 0x0004 */ void *unk4;\n} TTyp_C; /* size = 0x8 */\n")      # T15.c2: field
     TU = ("#include \"common.h\"\n#include \"../shared/t_types.h\"\nextern void ft_p(void *a0);\n\nvoid ft_user(void) {\n"
           "    extern void ft_p(void *a0);\n    ft_p(0);\n}\n\nvoid ft_p(void *a0) {\n    ((TTyp_A *)a0)->unk4 = 1;\n"
           "    ((TTyp_A *)a0)->unk8 = ((TTyp_A *)a0)->unk0;\n    if (a0 != 0) {\n        *(s32 *)(a0 + 0x8) = 2;\n    }\n}\n\n"
@@ -8247,8 +9130,74 @@ def type_selftest(ok):
         Pn = t_plan(f"{tu}:ft_r:p")
         ok("T(c) negative: a raw-only base with no --type and no flow -> pending `no type`", Pn["blocked"] and Pn["pending"] == ["no type"], str(Pn["pending"]))
         ok("T the fixture tree untouched by the plans", tp.read_text() == TU and hp.read_text() == H)
+        # T15.c2: the kinds global / ret-of / field, the second attempt, the DIFF localization
+        FX = {"ov/fg.c": "#include \"common.h\"\nextern s32 D_80078F20;\n\nvoid ft_g(void) {\n    ((TTyp_A *)&D_80078F20)->unk4 = 1;\n"
+                         "    ((TTyp_A *)&D_80078F20)->unk8 = ((TTyp_A *)&D_80078F20)->unk0;\n}\n",
+              "ov/fg2.c": "#include \"common.h\"\nextern s32 D_80078F20;\n\nvoid ft_g2(void) {\n    extern s32 D_80078F20;\n"
+                          "    ((TTyp_A *)&D_80078F20)->unk0 = 3;\n}\n",
+              "ov2/fg3.c": "#include \"common.h\"\nextern s32 D_80078F20;\n\nvoid ft_g3(void) {\n    D_80078F20 = 1;\n}\n",
+              "ov/fr.c": "#include \"common.h\"\n\nvoid *ft_mk(void) {\n    return 0;\n}\n\nvoid ft_ret(void) {\n    void *r;\n"
+                         "    r = ft_mk();\n    ((TTyp_A *)r)->unk4 = 1;\n}\n",
+              "ov/fr2.c": "#include \"common.h\"\nextern void *ft_mk(void);\n\nvoid ft_use(void) {\n    ft_mk();\n}\n",
+              "ov/ff.c": "#include \"common.h\"\n\nvoid ft_f(void *a0) {\n    void *q;\n    q = ((TTyp_C *)a0)->unk4;\n"
+                         "    ((TTyp_A *)q)->unk8 = 1;\n}\n"}
+        (dirp / "ov2").mkdir(parents=True, exist_ok=True)
+        fx = {}
+        for k, txt in FX.items():
+            (dirp / k).write_text(txt)
+            fx[k] = (dirp / k).relative_to(REPO).as_posix()
+        res_ = {tu: tc.walk_file(TU, tu), tu2: tc.walk_file(TU2, tu2), **{fx[k]: tc.walk_file(v, fx[k]) for k, v in FX.items()}}
+        als = {r_: (("otherbin",) if "/ov2/" in r_ else ("ftbin",)) for r_ in res_}
+        _walk = dict(results=res_, tu_aliases=als)
+        T_SYMS_OVERRIDE = {"ftbin": {"D_80078F20": 0x80078F20}, "otherbin": {"D_80078F20": 0x80099990}}
+        Pg = t_plan("&D_80078F20@ftbin")
+        g1, g2 = Pg["files"].get(fx["ov/fg.c"], ""), Pg["files"].get(fx["ov/fg2.c"], "")
+        ok("T global: `&D_x@bin` typed in every declaration of its binary, `((T *)&D_x)->f` -> `D_x.f`, the other binary's object left",
+           Pg["kind"] == "global" and Pg["type"] == "TTyp_A" and not Pg["blocked"] and fx["ov2/fg3.c"] not in Pg["files"]
+           and "extern TTyp_A D_80078F20;" in g1 and "    D_80078F20.unk4 = 1;\n    D_80078F20.unk8 = D_80078F20.unk0;\n" in g1
+           and g2.count("extern TTyp_A D_80078F20;") == 2 and "    D_80078F20.unk0 = 3;" in g2, str(Pg["pending"]) + g1[-200:])
+        Pr = t_plan(f"{fx['ov/fr.c']}:ft_ret:r")
+        r1, r2 = Pr["files"].get(fx["ov/fr.c"], ""), Pr["files"].get(fx["ov/fr2.c"], "")
+        ok("T ret-of: the callee returns `T *` (definition + declarations), the local typed, its casts `->`",
+           Pr["kind"] == "ret-of" and not Pr["blocked"] and "TTyp_A *ft_mk(void) {" in r1 and "    TTyp_A *r;\n    r = ft_mk();\n    r->unk4 = 1;\n" in r1
+           and "extern TTyp_A *ft_mk(void);" in r2, str(Pr["pending"]) + r1[-200:] + r2)
+        Pf = t_plan(f"{fx['ov/ff.c']}:ft_f:q")
+        f1, fh = Pf["files"].get(fx["ov/ff.c"], ""), Pf["files"].get(hrel, "")
+        ok("T field: the member `T *` in its struct definition, the local typed, its casts `->`",
+           Pf["kind"] == "field" and not Pf["blocked"] and "    /* 0x0004 */ TTyp_A *unk4;\n} TTyp_C;" in fh
+           and "    TTyp_A *q;\n    q = ((TTyp_C *)a0)->unk4;\n    q->unk8 = 1;\n" in f1, str(Pf["pending"]) + fh[-120:] + f1[-120:])
+        ok("T the kinds' plans wrote nothing", all((dirp / k).read_text() == v for k, v in FX.items()) and hp.read_text() == H)
+        # (d) the second attempt: d1 a planted DIFF on one respelled site -> that site kept as its kept-cast macro, written, KEPT row
+        LEDGER.unlink(missing_ok=True)
+        JUDGE_STUB = lambda files, tag: (("DIFFERS", "[build/selftest/ft.o]") if "a0->unk8 = 2" in files.get(tu, "") else ("IDENTICAL", ""))
+        rc = type_sources([f"{tu}:ft_p:a0"], write=True, label="tst")
+        rows = load_ledger()
+        ok("T(d1) a DIFFERS site -> kept as `CAST_ALIAS(s32, (u8 *)a0, 0x8)`, the rest written, a KEPT row",
+           rc == 0 and "        CAST_ALIAS(s32, (u8 *)a0, 0x8) = 2;" in tp.read_text() and "a0->unk8 = a0->unk0;" in tp.read_text()
+           and len(rows) == 1 and rows[0]["verdict"] == "IDENTICAL" and rows[0]["attempt"] == 2 and rows[0]["kept"] == 1
+           and [r_["verdict"] for r_ in rows[0]["kept_sites"]] == ["KEPT(SCHED-ALIAS)"], str(rows)[:300] + tp.read_text()[-200:])
+        tp.write_text(TU); tp2.write_text(TU2)
+        _canon = canon_fx
+        _walk = dict(results=res_, tu_aliases=als)
+        # d2: every candidate DIFFERS (the declaration itself moves bytes) -> no kept set, no recipe -> WALL-PENDING, localized, nothing written
+        LEDGER.unlink(missing_ok=True)
+        S_ = ".set noreorder\n.text\n.globl ft_p\nft_p:\n    addiu $sp, $sp, -8\n    lw $v0, {}($a0)\n    jr $ra\n    addiu $sp, $sp, 8\n"
+        objs = []
+        for i, off in enumerate((0, 4)):
+            (dirp / f"o{i}.s").write_text(S_.format(off))
+            subprocess.run(["mipsel-linux-gnu-as", "-o", str(dirp / f"o{i}.o"), str(dirp / f"o{i}.s")], check=True, capture_output=True)
+            objs.append(dirp / f"o{i}.o")
+        T_OBJ_STUB = {"build/selftest/ft.o": (objs[1].read_bytes(), objs[0])}
+        JUDGE_STUB = lambda files, tag: (("DIFFERS", "[build/selftest/ft.o]") if any("TTyp_A *a0" in v for v in files.values()) else ("IDENTICAL", ""))
+        rc = type_sources([f"{tu}:ft_p:a0"], write=True, label="tst")
+        rows = load_ledger()
+        w_ = (rows[0].get("wall") or {}) if rows else {}
+        ok("T(d2) a planted DIFF is localized: WALL-PENDING row names object, function+offset, residual class; nothing written",
+           rc == 1 and len(rows) == 1 and rows[0]["verdict"] == "WALL-PENDING" and w_.get("object") == "build/selftest/ft.o"
+           and w_.get("function") == "ft_p" and w_.get("offset") == "+0x4" and w_.get("cls") not in (None, "", "UNSCORED")
+           and tp.read_text() == TU and tp2.read_text() == TU2, str(rows)[:300])
     finally:
-        _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows = keep
+        _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows, T_SYMS_OVERRIDE, T_OBJ_STUB = keep
 
 # ----------------------------------------------------------------------------------------------------------------------
 # --selftest: the fixture (a stub oracle) + negative controls; --real adds the calibration and the known-true controls
@@ -9158,9 +10107,13 @@ def main():
     ap.add_argument("--fold-collapse", nargs="*", metavar="TYPE", help="P3.45 T7.c15: the fold engine's variant unions in the canonical headers "
                     "whose variants spell one type -> plain fields, accesses `.unkN.vK.f` respelled (all types, or these); --write writes")
     ap.add_argument("--type-source", metavar="KEY[,KEY…]", help="P3.45 T15 rung T: type pointer sources (T14 keys `tu:fn:base`, kinds param / "
-                    "param-copy / local) and respell their casts as member accesses; dry run prints kind, type, edits, verdict or pending "
+                    "param-copy / local; T15.c2: `name@bin` / `&name@bin` global, ret-of, field `tu:fn:<holder>`; a DIFFERS gets a second "
+                    "attempt — kept-cast macros, recipes — else WALL-PENDING with its DIFF localized) and respell their casts as member accesses; dry run prints kind, type, edits, verdict or pending "
                     "reason (judged, nothing written); --write applies IDENTICAL units and ledgers rung T; --type T types a raw-only base")
     ap.add_argument("--type-batch", metavar="FILE", help="P3.45 T15 rung T: --type-source over one key per line (`#` lines skipped), in order")
+    ap.add_argument("--type-check", action="store_true", help="P3.45 T15.c2 rung T: per region (--only REGION…) and per source, the latest rung-T "
+                    "ledger row joined with T14's sources.tsv: typed, casts removed by form, kept, pending with reason, walls; exit 0")
+    ap.add_argument("--sources-dir", default=None, help="--type-check: T14's tables (default .run/3.45/t14; built there when absent)")
     ap.add_argument("--fold-stamp", nargs=2, metavar=("KEY[,KEY…]", "COMMIT"), help="P3.45 T6: append ` applied:<commit>` to the rows' reasons")
     ap.add_argument("--check-residue", action="store_true", help="census sites of --forms (--only, default ov_*) not covered PER SITE by a RESIDUAL(<cause>) entry "
                     "(same form, normalised base, off; one entry per site) of their body's latest rung-S row; exit 1 if any")
@@ -9200,6 +10153,8 @@ def main():
         if a.type_batch:
             keys += [l.strip() for l in pathlib.Path(a.type_batch).read_text().splitlines() if l.strip() and not l.startswith("#")]
         sys.exit(type_sources(keys, a.write, a.label, (a.type or [None])[0]))
+    if a.type_check:
+        sys.exit(type_check(a.only, a.sources_dir))
     if a.fold_collapse is not None:
         sys.exit(fold_collapse(a.fold_collapse, a.write))
     if a.fold_stamp:
