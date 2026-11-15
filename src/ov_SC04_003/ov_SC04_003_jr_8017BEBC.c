@@ -3925,10 +3925,10 @@ void func_8017EE38(s32 a0)
 {
     s16 buf[4];
 
-    buf[0] = ((Unkstruct_8017EE38 *)a0)->unk6;
-    buf[1] = ((Unkstruct_8017EE38 *)a0)->unkA;
-    buf[2] = ((Unkstruct_8017EE38 *)a0)->unkE;
-    func_8017EE80(buf, ((Unkstruct_8017EE38 *)a0)->unk1C);
+    buf[0] = ((Unkstruct_801805F8 *)a0)->unk6;
+    buf[1] = ((Unkstruct_801805F8 *)a0)->unkA;
+    buf[2] = ((Unkstruct_801805F8 *)a0)->unkE;
+    func_8017EE80(buf, ((Unkstruct_801805F8 *)a0)->unk1C);
 }
 
 

@@ -2921,11 +2921,11 @@ extern s32 func_8012DFD4(u8 *a0);
 extern void func_8017D790(s16 *a0);
 
 void func_8017D694(s32 *a0) {
-    D_80181E64[((Unkstruct_8017D694 *)a0)->unk2]();
-    *(u16 *)(((Unkstruct_8017D694 *)a0)->unk20 + 0x12) += ((Unkstruct_8017D694 *)a0)->unkFC;
+    D_80181E64[((Unkstruct_8017D894 *)a0)->unk2]();
+    *(u16 *)(((Unkstruct_8017D894 *)a0)->unk20 + 0x12) += ((Unkstruct_8017D894 *)a0)->unkFC;
     func_8012DFD4((u8 *)a0);
-    if (((Unkstruct_8017D694 *)a0)->unk74 != 0) {
-        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_8017D694 *)a0)->unkFC;
+    if (((Unkstruct_8017D894 *)a0)->unk74 != 0) {
+        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_8017D894 *)a0)->unkFC;
     }
     func_8017D790(a0);
 }
@@ -3051,8 +3051,8 @@ void func_8017D9D8(s32 a0)
     s32 pad[2];
 
     if (guess_TickWaitTimer() != 0) {
-        ((Unkstruct_8017D9D8 *)a0)->unkFC = ((Unkstruct_8017D9D8 *)a0)->unkFC + 4;
-        if ((s16)((Unkstruct_8017D9D8 *)a0)->unkFC >= 0x11) {
+        ((Unkstruct_8017EBA0_2 *)a0)->unkFC = ((Unkstruct_8017EBA0_2 *)a0)->unkFC + 4;
+        if ((s16)((Unkstruct_8017EBA0_2 *)a0)->unkFC >= 0x11) {
             ((void (*)(void *))func_8017D66C)((void *)a0);
         }
     } else {
@@ -3062,17 +3062,17 @@ void func_8017D9D8(s32 a0)
             do { } while (0);  // !FAKE: do-while
             v0 = (s16)v0;
             if (v0 < 3) {
-                v0 = *(s16 *)(((Unkstruct_8017D9D8 *)a0)->unk20 + 0x12);
+                v0 = *(s16 *)(((Unkstruct_8017EBA0_2 *)a0)->unk20 + 0x12);
                 v0 = (v0 + 2) & 0x3FF;
                 if (v0 < 4) {
-                    ((Unkstruct_8017D9D8 *)a0)->unkFC = 0;
+                    ((Unkstruct_8017EBA0_2 *)a0)->unkFC = 0;
                 }
             } else {
                 v0 = v1 - 2;
-                ((Unkstruct_8017D9D8 *)a0)->unkFC = v0;
+                ((Unkstruct_8017EBA0_2 *)a0)->unkFC = v0;
             }
         }
-        if (((Unkstruct_8017D9D8 *)a0)->unk1C == 1) {
+        if (((Unkstruct_8017EBA0_2 *)a0)->unk1C == 1) {
             guess_RequestSound(0x720, 0);
         }
     }

@@ -2797,26 +2797,26 @@ void func_8017D994(void *arg0) {
             p = base + 0x10 + j * 0x1C;
             switch (*(s16 *)(p)) {
             case 0:
-                vel = ((Unkstruct_8017D994_2 *)p)->unkC + ((Unkstruct_8017D994_2 *)p)->unk10;
-                pos = ((Unkstruct_8017D994_2 *)p)->unk14;
-                life = ((Unkstruct_8017D994_2 *)p)->unk2 - 1;
+                vel = ((Unkstruct_8017DDE0 *)p)->unkC + ((Unkstruct_8017DDE0 *)p)->unk10;
+                pos = ((Unkstruct_8017DDE0 *)p)->unk14;
+                life = ((Unkstruct_8017DDE0 *)p)->unk2 - 1;
                 pos = pos + vel;
-                ((Unkstruct_8017D994_2 *)p)->unk14 = pos;
-                ((Unkstruct_8017D994_2 *)p)->unkC = vel;
-                ((Unkstruct_8017D994_2 *)p)->unk2 = life;
+                ((Unkstruct_8017DDE0 *)p)->unk14 = pos;
+                ((Unkstruct_8017DDE0 *)p)->unkC = vel;
+                ((Unkstruct_8017DDE0 *)p)->unk2 = life;
                 if ((s16)life == -1) {
-                    ((Unkstruct_8017D994_2 *)p)->unk0 = ((Unkstruct_8017D994_2 *)p)->unk0 + 1;
+                    ((Unkstruct_8017DDE0 *)p)->unk0 = ((Unkstruct_8017DDE0 *)p)->unk0 + 1;
                 }
-                ((Unkstruct_8017D994_2 *)p)->unk4 = ((Unkstruct_8017D994_2 *)p)->unk4 + ((Unkstruct_8017D994_2 *)p)->unk6;
-                ((Unkstruct_8017D994_2 *)p)->unkA = ((Unkstruct_8017D994_2 *)p)->unkA + 0x10;
+                ((Unkstruct_8017DDE0 *)p)->unk4 = ((Unkstruct_8017DDE0 *)p)->unk4 + ((Unkstruct_8017DDE0 *)p)->unk6;
+                ((Unkstruct_8017DDE0 *)p)->unkA = ((Unkstruct_8017DDE0 *)p)->unkA + 0x10;
                 break;
             case 1:
-                ((Unkstruct_8017D994_2 *)p)->unk4 = ((Unkstruct_8017D994_2 *)p)->unk4 + 0x80;
-                f18 = ((Unkstruct_8017D994_2 *)p)->unk18 - 8;
-                ((Unkstruct_8017D994_2 *)p)->unk18 = f18;
+                ((Unkstruct_8017DDE0 *)p)->unk4 = ((Unkstruct_8017DDE0 *)p)->unk4 + 0x80;
+                f18 = ((Unkstruct_8017DDE0 *)p)->unk18 - 8;
+                ((Unkstruct_8017DDE0 *)p)->unk18 = f18;
                 if (f18 < 0) {
-                    ((Unkstruct_8017D994_2 *)p)->unk18 = 0;
-                    ((Unkstruct_8017D994_2 *)p)->unk0 = ((Unkstruct_8017D994_2 *)p)->unk0 + 1;
+                    ((Unkstruct_8017DDE0 *)p)->unk18 = 0;
+                    ((Unkstruct_8017DDE0 *)p)->unk0 = ((Unkstruct_8017DDE0 *)p)->unk0 + 1;
                 }
                 break;
             case 2:

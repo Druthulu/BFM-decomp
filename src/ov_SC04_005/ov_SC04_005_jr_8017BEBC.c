@@ -6094,10 +6094,10 @@ extern void func_801819E0(s32 param_1, s32 param_2);
 
 void func_80181998(void *arg0, s32 arg1) {
     u16 sp10[3];
-    sp10[0] = ((Unkstruct_8018084C *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_8018084C *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_8018084C *)arg0)->unkE;
-    func_801819E0(sp10, ((Unkstruct_8018084C *)arg0)->unk1C);
+    sp10[0] = ((Unkstruct_801805F8 *)arg0)->unk6;
+    sp10[1] = ((Unkstruct_801805F8 *)arg0)->unkA;
+    sp10[2] = ((Unkstruct_801805F8 *)arg0)->unkE;
+    func_801819E0(sp10, ((Unkstruct_801805F8 *)arg0)->unk1C);
 }
 
 
@@ -6319,17 +6319,17 @@ extern void (*D_80199CC4[])();
 
 void func_801820B8(s32 arg0)
 {
-    s16 var = ((Unkstruct_801820B8 *)arg0)->unk10A;
+    s16 var = ((Unkstruct_80182DC4 *)arg0)->unk10A;
 
     if (var != 0) {
         var = var - 1;
-        ((Unkstruct_801820B8 *)arg0)->unk10A = var;
+        ((Unkstruct_80182DC4 *)arg0)->unk10A = var;
         if (var == 0) {
-            ((Unkstruct_801820B8 *)arg0)->unkC4 &= ~1;
+            ((Unkstruct_80182DC4 *)arg0)->unkC4 &= ~1;
         }
     }
 
-    D_80199CC4[((Unkstruct_801820B8 *)arg0)->unk2]();
+    D_80199CC4[((Unkstruct_80182DC4 *)arg0)->unk2]();
 }
 
 

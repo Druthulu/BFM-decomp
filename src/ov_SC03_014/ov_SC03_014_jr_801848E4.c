@@ -4587,8 +4587,8 @@ void func_80187DBC(void *a0) {
     CAST_ALIAS(u16, (s32)a0, 0xE4) = (*(u16 *)&D_801EAC78);
     CAST_ALIAS(u16, (s32)a0, 0xE6) = D_801EAC7A;
     t = D_801EAC7C;
-    ((Unkstruct_80187DBC *)a0)->unk2 = ((Unkstruct_80187DBC *)a0)->unk2 + 2;
-    ((Unkstruct_80187DBC *)a0)->unkE8 = t;
+    ((Unkstruct_80180110_2 *)a0)->unk2 = ((Unkstruct_80180110_2 *)a0)->unk2 + 2;
+    ((Unkstruct_80180110_2 *)a0)->unkE8 = t;
 }
 
 

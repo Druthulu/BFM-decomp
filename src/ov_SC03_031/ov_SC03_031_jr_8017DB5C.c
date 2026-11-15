@@ -4057,16 +4057,16 @@ void func_801804EC(void *a0)
 {
     u16 h;
 
-    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186478 + ((((Unkstruct_801804EC *)a0)->unkFC << 1) & 0x1C)));
-    h = ((Unkstruct_801804EC *)a0)->unkFE + 0x40;
-    ((Unkstruct_801804EC *)a0)->unkFE = h;
+    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186478 + ((((Unkstruct_801807C0 *)a0)->unkFC << 1) & 0x1C)));
+    h = ((Unkstruct_801807C0 *)a0)->unkFE + 0x40;
+    ((Unkstruct_801807C0 *)a0)->unkFE = h;
     if ((s16)h >= 0x201 || (s16)h < 0x600) {
-        ((Unkstruct_801804EC *)a0)->unkFC = 8;
+        ((Unkstruct_801807C0 *)a0)->unkFC = 8;
     }
-    ((Unkstruct_801804EC *)a0)->unk6 = ((Unkstruct_801804EC *)a0)->unk6 - 2;
-    ((Unkstruct_801804EC *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
+    ((Unkstruct_801807C0 *)a0)->unk6 = ((Unkstruct_801807C0 *)a0)->unk6 - 2;
+    ((Unkstruct_801807C0 *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
     if (CAST_SIGN(s16, (u8 *)a0, 0xFE) == 0x800) {
-        ((Unkstruct_801804EC *)a0)->unk2 = 2;
+        ((Unkstruct_801807C0 *)a0)->unk2 = 2;
         func_8017FF20((void *)0);
         guess_RequestSound(0x63F, 0);
     }
@@ -4271,16 +4271,16 @@ void func_80180A80(void *a0)
 {
     u16 h;
 
-    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186540 + ((((Unkstruct_80180A80 *)a0)->unkFC << 1) & 0x1C)));
-    h = ((Unkstruct_80180A80 *)a0)->unkFE + 0x40;
-    ((Unkstruct_80180A80 *)a0)->unkFE = h;
+    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_80186540 + ((((Unkstruct_801807C0 *)a0)->unkFC << 1) & 0x1C)));
+    h = ((Unkstruct_801807C0 *)a0)->unkFE + 0x40;
+    ((Unkstruct_801807C0 *)a0)->unkFE = h;
     if ((s16)h >= 0x201 || (s16)h < 0x600) {
-        ((Unkstruct_80180A80 *)a0)->unkFC = 8;
+        ((Unkstruct_801807C0 *)a0)->unkFC = 8;
     }
-    ((Unkstruct_80180A80 *)a0)->unk6 = ((Unkstruct_80180A80 *)a0)->unk6 + 2;
-    ((Unkstruct_80180A80 *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
+    ((Unkstruct_801807C0 *)a0)->unk6 = ((Unkstruct_801807C0 *)a0)->unk6 + 2;
+    ((Unkstruct_801807C0 *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
     if (CAST_SIGN(s16, (u8 *)a0, 0xFE) == 0x800) {
-        ((Unkstruct_80180A80 *)a0)->unk2 = 2;
+        ((Unkstruct_801807C0 *)a0)->unk2 = 2;
     }
 }
 
@@ -4377,16 +4377,16 @@ void func_80180D40(void *a0)
 {
     u16 h;
 
-    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_801865A4 + ((((Unkstruct_80180A80 *)a0)->unkFC << 1) & 0x1C)));
-    h = ((Unkstruct_80180A80 *)a0)->unkFE + 0x40;
-    ((Unkstruct_80180A80 *)a0)->unkFE = h;
+    guess_AllocRenderWorkRecord(*(s32 *)((u8 *)D_801865A4 + ((((Unkstruct_801807C0 *)a0)->unkFC << 1) & 0x1C)));
+    h = ((Unkstruct_801807C0 *)a0)->unkFE + 0x40;
+    ((Unkstruct_801807C0 *)a0)->unkFE = h;
     if ((s16)h >= 0x201 || (s16)h < 0x600) {
-        ((Unkstruct_80180A80 *)a0)->unkFC = 8;
+        ((Unkstruct_801807C0 *)a0)->unkFC = 8;
     }
-    ((Unkstruct_80180A80 *)a0)->unk6 = ((Unkstruct_80180A80 *)a0)->unk6 + 2;
-    ((Unkstruct_80180A80 *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
+    ((Unkstruct_801807C0 *)a0)->unk6 = ((Unkstruct_801807C0 *)a0)->unk6 + 2;
+    ((Unkstruct_801807C0 *)a0)->unkA = -0x32B - ((rsin(CAST_SIGN(s16, (u8 *)a0, 0xFE)) << 6) >> 12);
     if (CAST_SIGN(s16, (u8 *)a0, 0xFE) == 0x800) {
-        ((Unkstruct_80180A80 *)a0)->unk2 = 2;
+        ((Unkstruct_801807C0 *)a0)->unk2 = 2;
     }
 }
 

@@ -7894,14 +7894,14 @@ void func_8018418C(int param_1)
     s32 r;
 
     func_8001CB6C((u8 *)((Unkstruct_8018418C *)param_1)->unk20, &D_8018942C, 0x234, 0x1C0);
-    ((Unkstruct_8018418C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x26;
+    ((Unkstruct_8017EF48 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x26;
     ((Unkstruct_8018418C *)param_1)->unk30 = rand() & 0x1FF;
     ((Unkstruct_8018418C *)param_1)->unk32 = rand() & 0x1F;
     ((Unkstruct_8018418C *)param_1)->unk34 = rand() & 0x7F;
     r = rand();
     ptr = ((Unkstruct_8018418C *)param_1)->unk20;
-    ((Unkstruct_8018418C_2 *)ptr)->unk1A = (r % 0x1000) + 0x800;
-    ((Unkstruct_8018418C_2 *)ptr)->unk18 = ((Unkstruct_8018418C_2 *)ptr)->unk1A;
+    ((Unkstruct_8017EF48 *)ptr)->unk1A = (r % 0x1000) + 0x800;
+    ((Unkstruct_8017EF48 *)ptr)->unk18 = ((Unkstruct_8017EF48 *)ptr)->unk1A;
     ((Unkstruct_8018418C *)param_1)->unk2 = ((Unkstruct_8018418C *)param_1)->unk2 + 1;
 }
 

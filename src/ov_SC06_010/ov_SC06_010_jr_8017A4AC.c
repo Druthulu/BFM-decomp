@@ -5338,9 +5338,9 @@ void func_8017F10C(s32 a0, s32 a1)
      * parameter copy, so the scheduler places `move s2,a1` next to the first call. */
     u16 sid = a1;
 
-    L.v[0] = ((Unkstruct_8017F10C_2 *)*(s32 *)(a0 + 0x20))->unk48;
-    L.v[1] = ((Unkstruct_8017F10C_2 *)*(s32 *)(a0 + 0x20))->unk4C;
-    L.v[2] = ((Unkstruct_8017F10C_2 *)*(s32 *)(a0 + 0x20))->unk50;
+    L.v[0] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk48;
+    L.v[1] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk4C;
+    L.v[2] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk50;
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -6175,11 +6175,11 @@ void func_8018098C(s32 a0) {
     p = ((Unkstruct_8018098C *)a0)->unk20;
     ((Unkstruct_8018098C *)a0)->unk34 = 0;
     ((Unkstruct_8018098C *)a0)->unk6 = 0x7FFF;
-    ((Unkstruct_8018098C_2 *)p)->unk4 |= 0x80000000;
+    ((Unkstruct_80180068_2 *)p)->unk4 |= 0x80000000;
     q = ((Unkstruct_8018098C *)a0)->unk20;
-    ((Unkstruct_8018098C_2 *)q)->unk1C = 0x1000;
-    ((Unkstruct_8018098C_2 *)q)->unk1A = 0x1000;
-    ((Unkstruct_8018098C_2 *)q)->unk18 = 0x1000;
+    ((Unkstruct_80180068_2 *)q)->unk1C = 0x1000;
+    ((Unkstruct_80180068_2 *)q)->unk1A = 0x1000;
+    ((Unkstruct_80180068_2 *)q)->unk18 = 0x1000;
     ((Unkstruct_8018098C *)a0)->unk76 = 0x1E0;
     ((Unkstruct_8018098C *)a0)->unk5C = 0x8810;
     ((Unkstruct_8018098C *)a0)->unk2 = 5;
@@ -9196,15 +9196,15 @@ void func_80185340(s32 a0) {
 
     if (((Unkstruct_80181720 *)a0)->unk0 != 0) {
         if (((Unkstruct_80181720 *)a0)->unkFC == 0) {
-            ((Unkstruct_80181720 *)a0)->unk4 = ((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unk4;
-            ((Unkstruct_80181720 *)a0)->unk8 = ((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unk8;
-            ((Unkstruct_80181720 *)a0)->unkC = ((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unkC;
+            ((Unkstruct_80181720 *)a0)->unk4 = ((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk4;
+            ((Unkstruct_80181720 *)a0)->unk8 = ((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk8;
+            ((Unkstruct_80181720 *)a0)->unkC = ((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unkC;
             ((Unkstruct_80181720_3 *)*(s32 *)(a0 + 0x20))->unk10 =
-                *(s16 *)(((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unk20 + 0x10);
+                *(s16 *)(((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk20 + 0x10);
             ((Unkstruct_80181720_3 *)*(s32 *)(a0 + 0x20))->unk12 =
-                *(s16 *)(((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
+                *(s16 *)(((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
             ((Unkstruct_80181720_3 *)*(s32 *)(a0 + 0x20))->unk14 =
-                *(s16 *)(((Unkstruct_80181720_2 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14);
+                *(s16 *)(((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14);
         }
         if (((Unkstruct_80181720 *)a0)->unk76 < 5 && (rand() & 3) == 0 &&
             (iVar3 = func_80143C74(a0, 0)) != 0) {
@@ -9314,11 +9314,11 @@ void func_80185550(s32 arg0) {
 
 void func_801857D4(void *a0) {
     s32 v1;
-    v1 = ((Unkstruct_801857D4 *)a0)->unkCC;
-    ((Unkstruct_801857D4 *)a0)->unk5C = 0;
-    ((Unkstruct_801857D4 *)a0)->unkFC = 0x1e;
+    v1 = ((Unkstruct_80181BB4 *)a0)->unkCC;
+    ((Unkstruct_80181BB4 *)a0)->unk5C = 0;
+    ((Unkstruct_80181BB4 *)a0)->unkFC = 0x1e;
     *(s16 *)((char *)v1 + 0x5c) = 0;
-    v1 = ((Unkstruct_801857D4 *)a0)->unkD0;
+    v1 = ((Unkstruct_80181BB4 *)a0)->unkD0;
     *(s16 *)((char *)v1 + 0x5c) = 0;
 }
 

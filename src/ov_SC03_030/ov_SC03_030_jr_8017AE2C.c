@@ -5022,7 +5022,7 @@ void func_8017F6E0(int param_1)
     u8 *hit;
     u8 *m;
 
-    rec = (u8 *)D_80186464[((Unkstruct_8017F6E0 *)param_1)->unkFC];
+    rec = (u8 *)D_80186464[((Unkstruct_80182FD0 *)param_1)->unkFC];
     m = guess_g_CameraWsMatrix;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -5035,13 +5035,13 @@ void func_8017F6E0(int param_1)
 
     if ((-(s32)guess_g_ScreenHeight / 2 < sxy[1]) && (sxy[1] < (s32)(((u32)guess_g_ScreenHeight >> 1) + 0x20)) && (flag[0] >= 0)) {
         u16 temp[4];   /* sp+0x20 */
-        if (((Unkstruct_8017F6E0 *)param_1)->unk1C == 0) {
+        if (((Unkstruct_80182FD0 *)param_1)->unk1C == 0) {
             if (((Unkstruct_8017F6E0_2 *)rec)->unk6 != 0xFF) {
                 fld = rec + 8;
                 do {
-                    temp[0] = ((Unkstruct_8017F6E0 *)param_1)->unk6;
-                    temp[1] = ((Unkstruct_8017F6E0 *)param_1)->unkA;
-                    temp[2] = ((Unkstruct_8017F6E0 *)param_1)->unkE;
+                    temp[0] = ((Unkstruct_80182FD0 *)param_1)->unk6;
+                    temp[1] = ((Unkstruct_80182FD0 *)param_1)->unkA;
+                    temp[2] = ((Unkstruct_80182FD0 *)param_1)->unkE;
                     temp[0] += ((Unkstruct_8017F6E0_2 *)rec)->unk0;
                     temp[1] += *(u16 *)(fld - 6);
                     temp[2] += *(u16 *)(fld - 4);
@@ -5053,9 +5053,9 @@ void func_8017F6E0(int param_1)
                     rec += 8;
                 } while (*(s16 *)(fld - 2) != 0xFF);
             }
-            ((Unkstruct_8017F6E0 *)param_1)->unk1C = ((Unkstruct_8017F6E0 *)param_1)->unkDC;
+            ((Unkstruct_80182FD0 *)param_1)->unk1C = ((Unkstruct_80182FD0 *)param_1)->unkDC;
         }
-        ((Unkstruct_8017F6E0 *)param_1)->unk1C = ((Unkstruct_8017F6E0 *)param_1)->unk1C - 1;
+        ((Unkstruct_80182FD0 *)param_1)->unk1C = ((Unkstruct_80182FD0 *)param_1)->unk1C - 1;
     }
 }
 

@@ -7749,9 +7749,9 @@ void func_80183278(s32 *a0) {
     ((Unkstruct_80183278 *)a0)->unkFE = idx;
     ent = &D_8018A478[idx][0];
     dst = ((Unkstruct_80183278 *)a0)->unk20;
-    ((Unkstruct_80183278_2 *)dst)->unk28 = ent[0];
-    ((Unkstruct_80183278_2 *)dst)->unk2A = ent[1];
-    ((Unkstruct_80183278_2 *)dst)->unk27 = (u8)ent[2];
+    ((Unkstruct_80018450 *)dst)->unk28 = ent[0];
+    ((Unkstruct_80018450 *)dst)->unk2A = ent[1];
+    ((Unkstruct_80018450 *)dst)->unk27 = (u8)ent[2];
 }
 
 

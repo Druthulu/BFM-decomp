@@ -4253,12 +4253,12 @@ extern u32 D_801EB5A8;
 extern s32 D_801EB6D8;
 
 
-extern Struct801EF318 D_801EF318;
+extern Struct801E79D8 D_801EF318;
 
 void func_8018D0E4(void) {
     s16 i;
 
-    D_801EF318.field_0 = 0;
+    D_801EF318.unk00 = 0;
     for (i = 0; i < 0xC; i++) {
         s32 slot = i + 0x2F;
         s32 id = guess_GetGameVarByte(slot) & 0xFF;
@@ -4275,11 +4275,11 @@ void func_8018D0E4(void) {
                 rb = *(u8 *)((u8 *)&D_8010EDF1 + t);
                 m = rb & 0xFF;
                 if (flags & 0x4000) {
-                    D_801EF318.field_8 = (&D_801EB594)[id];
-                    D_801EF318.field_C = (&D_801EB5A8)[id];
+                    D_801EF318.unk08 = (&D_801EB594)[id];
+                    D_801EF318.unk0C = (&D_801EB5A8)[id];
                     guess_SetGameFlag(m, 1);
                     func_800D0FE0(slot);
-                    D_801EF318.field_0 = 2;
+                    D_801EF318.unk00 = 2;
                     return;
                 } else {
                     register s32 sc __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
@@ -4287,9 +4287,9 @@ void func_8018D0E4(void) {
                     sc = slot;
                     __asm__("" : "=r"(sc) : "0"(sc));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:greg-priority
                     d = rb - 0x14;
-                    D_801EF318.field_4 = (&D_801EB6D8)[d >> 1];
+                    D_801EF318.unk04 = (&D_801EB6D8)[d >> 1];
                     ((void (*)(s32))func_800D0F0C)(sc);
-                    D_801EF318.field_0 = 1;
+                    D_801EF318.unk00 = 1;
                     return;
                 }
             }

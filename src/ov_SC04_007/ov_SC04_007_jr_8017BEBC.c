@@ -5222,10 +5222,10 @@ extern void func_80180894(s32 param_1, s32 param_2);
 
 void func_8018084C(void *arg0, s32 arg1) {
     u16 sp10[3];
-    sp10[0] = ((Unkstruct_8018084C *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_8018084C *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_8018084C *)arg0)->unkE;
-    func_80180894(sp10, ((Unkstruct_8018084C *)arg0)->unk1C);
+    sp10[0] = ((Unkstruct_801805F8 *)arg0)->unk6;
+    sp10[1] = ((Unkstruct_801805F8 *)arg0)->unkA;
+    sp10[2] = ((Unkstruct_801805F8 *)arg0)->unkE;
+    func_80180894(sp10, ((Unkstruct_801805F8 *)arg0)->unk1C);
 }
 
 
@@ -7288,21 +7288,21 @@ void func_80183C24(s32 a0) {
     V8_80183C24 sp18;
     u16 t;
 
-    if (((Unkstruct_80183C24 *)a0)->unkC2 < 3) {
-        if (((Unkstruct_80183C24 *)a0)->unk84 == 0) {
-            sp10.x = ((Unkstruct_80183C24 *)a0)->unk6;
-            t = ((Unkstruct_80183C24 *)a0)->unkA;
+    if (((Unkstruct_801821C8 *)a0)->unkC2 < 3) {
+        if (((Unkstruct_801821C8 *)a0)->unk84 == 0) {
+            sp10.x = ((Unkstruct_801821C8 *)a0)->unk6;
+            t = ((Unkstruct_801821C8 *)a0)->unkA;
             sp10.y = t - 0x10;
-            sp10.z = ((Unkstruct_80183C24 *)a0)->unkE;
+            sp10.z = ((Unkstruct_801821C8 *)a0)->unkE;
             sp18.x = sp10.x;
             sp18.y = t + 0x10;
             sp18.z = sp10.z;
             if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
                 guess_RequestSound(0x83C, 0);
-                ((Unkstruct_80183C24 *)a0)->unk84 = 0x1E;
+                ((Unkstruct_801821C8 *)a0)->unk84 = 0x1E;
             }
         } else {
-            ((Unkstruct_80183C24 *)a0)->unk84 = ((Unkstruct_80183C24 *)a0)->unk84 - 1;
+            ((Unkstruct_801821C8 *)a0)->unk84 = ((Unkstruct_801821C8 *)a0)->unk84 - 1;
         }
     }
 }

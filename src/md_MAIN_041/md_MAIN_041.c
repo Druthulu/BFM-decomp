@@ -250,7 +250,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     u16 *q;
 
     ent = arg0;
-    node = ((Unkstruct_800CB3BC *)ent)->unk34;
+    node = ((Unkstruct_8016A8FC *)ent)->unk34;
     f.v[1].z = 0;
     f.v[1].y = 0;
     f.v[1].x = 0;
@@ -258,7 +258,7 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     f.v[2].z = 0;
     f.v[0].z = 0;
     f.col[1].b = 0x70;
-    cv = ((Unkstruct_800CB3BC *)ent)->unk12;
+    cv = ((Unkstruct_8016A8FC *)ent)->unk12;
     f.cx = arg1;
     f.cy = arg2;
     f.col[0].b = 0;
@@ -279,14 +279,14 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     i = 0;
 
     c = f.cx;
-    ((Unkstruct_800CB3BC *)ent)->unk6 = c;
-    ((Unkstruct_800CB3BC *)ent)->unk4C = (s16)c;
+    ((Unkstruct_8016A8FC *)ent)->unk6 = c;
+    ((Unkstruct_8016A8FC *)ent)->unk4C = (s16)c;
     c = f.cy;
-    ((Unkstruct_800CB3BC *)ent)->unkA = c;
-    ((Unkstruct_800CB3BC *)ent)->unk50 = (s16)c;
+    ((Unkstruct_8016A8FC *)ent)->unkA = c;
+    ((Unkstruct_8016A8FC *)ent)->unk50 = (s16)c;
     c = f.cz;
-    ((Unkstruct_800CB3BC *)ent)->unkE = c;
-    ((Unkstruct_800CB3BC *)ent)->unk54 = (s16)c;
+    ((Unkstruct_8016A8FC *)ent)->unkE = c;
+    ((Unkstruct_8016A8FC *)ent)->unk54 = (s16)c;
     func_800D20C0(&f.cx, f.a8, 8);
     func_80017E68(&f.cx, f.m1);
     func_800D23D0(f.a8);

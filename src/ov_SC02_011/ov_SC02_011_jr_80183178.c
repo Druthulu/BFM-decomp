@@ -3399,7 +3399,7 @@ void func_80187E08(s32 param_1)
     s32 v;
     s16 first;
 
-    rec = D_80195FC0[((Unkstruct_80187E08 *)param_1)->unkFC];
+    rec = D_80195FC0[((Unkstruct_80182FD0 *)param_1)->unkFC];
 
     mtx = (s32)&guess_g_CameraWsMatrix;
     gte_SetRotMatrix(mtx);
@@ -3424,7 +3424,7 @@ void func_80187E08(s32 param_1)
             if (ok2) {
                 ok2 = yt < lim2;
                 if (ok2 && flag >= 0) {
-                    v = ((Unkstruct_80187E08 *)param_1)->unk1C;
+                    v = ((Unkstruct_80182FD0 *)param_1)->unk1C;
                     if (v == 0) {
                         first = ((Unkstruct_80187E08_2 *)rec)->unk6;
                         while (first != 0xFF) {
@@ -3432,10 +3432,10 @@ void func_80187E08(s32 param_1)
                             rec = (s32 *)((s8 *)rec + 8);
                             first = ((Unkstruct_80187E08_2 *)rec)->unk6;
                         }
-                        ((Unkstruct_80187E08 *)param_1)->unk1C = ((Unkstruct_80187E08 *)param_1)->unkDC;
+                        ((Unkstruct_80182FD0 *)param_1)->unk1C = ((Unkstruct_80182FD0 *)param_1)->unkDC;
                         v = *(volatile s32 *)((s8 *)param_1 + 0x1C);
                     }
-                    ((Unkstruct_80187E08 *)param_1)->unk1C = v - 1;
+                    ((Unkstruct_80182FD0 *)param_1)->unk1C = v - 1;
                 }
             }
         }
@@ -3453,11 +3453,11 @@ void func_80187FA0(u8 *a0, u8 *a1) {
     u16 v1_load;
     u8 *result;
 
-    v1_load = ((Unkstruct_80187E08 *)a0)->unk6;
+    v1_load = ((Unkstruct_80182FD0 *)a0)->unk6;
     temp[0] = v1_load;
 
-    temp[1] = ((Unkstruct_80187E08 *)a0)->unkA;
-    temp[2] = ((Unkstruct_80187E08 *)a0)->unkE;
+    temp[1] = ((Unkstruct_80182FD0 *)a0)->unkA;
+    temp[2] = ((Unkstruct_80182FD0 *)a0)->unkE;
 
     temp[0] += ((Unkstruct_80187FA0 *)a1)->unk0;
     temp[1] += ((Unkstruct_80187FA0 *)a1)->unk2;
@@ -3489,7 +3489,7 @@ void func_80188034(s32 a0) {
     s32 q;
     s16 a1v;
 
-    idx = ((Unkstruct_80187E08 *)a0)->unkFC;
+    idx = ((Unkstruct_80182FD0 *)a0)->unkFC;
     s0 = D_80195FC8 + idx * 8;
     base = (s32)&guess_g_PlayerActor;
 

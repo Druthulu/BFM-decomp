@@ -3722,7 +3722,7 @@ void func_80184FA0(s32 a0) {
     }
 
     p = &D_801C1418;
-    ((Unkstruct_80184FA0 *)a0)->unkD0 = v0;
+    ((Unkstruct_8017C5F0 *)a0)->unkD0 = v0;
     func_8001CD50(v0, (s32)p);
 
     D_801C1419 = 0xFF;
@@ -3733,9 +3733,9 @@ void func_80184FA0(s32 a0) {
     D_801C141C = 0;
     guess_BuildCircle12Points(p, 0x100);
 
-    sp[0] = ((Unkstruct_80184FA0 *)a0)->unk6;
-    sp[1] = ((Unkstruct_80184FA0 *)a0)->unkA - 0x38;
-    sp[2] = ((Unkstruct_80184FA0 *)a0)->unkE;
+    sp[0] = ((Unkstruct_8017C5F0 *)a0)->unk6;
+    sp[1] = ((Unkstruct_8017C5F0 *)a0)->unkA - 0x38;
+    sp[2] = ((Unkstruct_8017C5F0 *)a0)->unkE;
     func_800D20C0(&sp[0], &sp[4], 5);
 
     D_801C14D8[0] = sp[0];
@@ -3748,7 +3748,7 @@ void func_80184FA0(s32 a0) {
     ((Unkstruct_80184FA0_2 *)v0)->unk1A = 0;
     ((Unkstruct_80184FA0_2 *)v0)->unk18 = 0;
     ((Unkstruct_80184FA0_2 *)v0)->unk4 |= 0x50000000;
-    ((Unkstruct_80184FA0 *)a0)->unk2 += 1;
+    ((Unkstruct_8017C5F0 *)a0)->unk2 += 1;
 }
 
 

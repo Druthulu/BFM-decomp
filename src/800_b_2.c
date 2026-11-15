@@ -3646,7 +3646,7 @@ void func_80030F80(void)
     s32 *tbl;
     s32 vb;
     s32 mask;
-    VoiceF80 *e;
+    Voice336A8 *e;
     u32 m;
     u32 v;
     s16 n;
@@ -3762,7 +3762,7 @@ void func_80030F80(void)
                             m = (m * ((s16)((Ent30D80 *)p)->unk4A >> 7)) >> 8;
                         }
                         vb = (s32)w - 0x2D2;
-                        e = (VoiceF80 *)(i * 0x48 + vb);
+                        e = (Voice336A8 *)(i * 0x48 + vb);
                         e->unk00 = tbl[((Ent30D80 *)p)->unk0A];
                         if (n != 0) {
                             if (w[0x1F] != 0) {

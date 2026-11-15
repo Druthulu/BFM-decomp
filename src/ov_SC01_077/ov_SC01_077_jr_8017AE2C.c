@@ -4956,9 +4956,9 @@ void func_8017F024(int param_1)
 
     p = ((Unkstruct_8017ED88 *)param_1)->unk20;
     func_8001CB6C((u8 *)p, (s32)&D_8018A7C0 + (rand() & 3) * 0xc, 0x3F0, 0x100);
-    ((Unkstruct_8017F024 *)p)->unk27 = 0x9D;
-    ((Unkstruct_8017F024 *)p)->unk1A = 0x1000;
-    ((Unkstruct_8017F024 *)p)->unk18 = 0x1000;
+    ((Unkstruct_8017EF48 *)p)->unk27 = 0x9D;
+    ((Unkstruct_8017EF48 *)p)->unk1A = 0x1000;
+    ((Unkstruct_8017EF48 *)p)->unk18 = 0x1000;
     func_8017ED88((void *)param_1);
     ((Unkstruct_8017ED88 *)param_1)->unk2 = ((Unkstruct_8017ED88 *)param_1)->unk2 + 1;
 }

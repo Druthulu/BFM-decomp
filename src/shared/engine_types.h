@@ -3356,21 +3356,22 @@ typedef struct {
 typedef V8_80184F90_801844C8 Rot_8017E550;
 typedef Coord_8017E330 Coord_8017E550;
 typedef struct {
-    u8              pad00[0x06];
-    s16             f06;
-    u8              pad08[0x02];
-    s16             f0A;
-    u8              pad0C[0x02];
-    s16             f0E;
-    u8              pad10[0x10];
-    Coord_8017E550 *f20;
-    u8              pad24[0x40];
-    s32             f64;
-    u8              pad68[0x08];
-    u8              f70;
-    u8              pad71[0x27];
-    s16             f98;
-} Actor_8017E550;
+    /* 0x0000 */ u8 pad0[0x6];
+    /* 0x0006 */ s16 f06;
+    /* 0x0008 */ u8 pad8[0x2];
+    /* 0x000a */ s16 f0A;
+    /* 0x000c */ u8 padC[0x2];
+    /* 0x000e */ s16 f0E;
+    /* 0x0010 */ u8 pad10[0x10];
+    /* 0x0020 */ Coord_8017E550 *f20;
+    /* 0x0024 */ u8 pad24[0x40];
+    /* 0x0064 */ s32 f64;
+    /* 0x0068 */ u8 pad68[0x8];
+    /* 0x0070 */ u8 f70;
+    /* 0x0071 */ u8 pad71[0x27];
+    /* 0x0098 */ s16 f98;
+    /* 0x009a */ u8 pad9A[0x2];
+} Actor_8017E550; /* size = 0x9c */
 typedef struct {
     u8              pad00[0x02];
     u16             f02;
@@ -3381,22 +3382,6 @@ typedef struct {
 } Drv_8017E550;
 typedef V8_80184F90_801844C8 Rot_8017E878;
 typedef Coord_8017E330 Coord_8017E878;
-typedef struct {
-    u8              pad00[0x06];
-    s16             f06;        /* 0x06 */
-    u8              pad08[0x02];
-    s16             f0A;        /* 0x0A */
-    u8              pad0C[0x02];
-    s16             f0E;        /* 0x0E */
-    u8              pad10[0x10];
-    Coord_8017E550 *f20;        /* 0x20 */
-    u8              pad24[0x40];
-    s32             f64;        /* 0x64 — driver record pointer */
-    u8              pad68[0x08];
-    u8              f70;        /* 0x70 — pose index */
-    u8              pad71[0x27];
-    s16             f98;        /* 0x98 */
-} Actor_8017E878;
 typedef struct {
     u8              pad00[0x02];
     u16             f02;        /* 0x02 */
@@ -3834,19 +3819,12 @@ typedef struct { s16 v; s16 pad[3]; } Stride8_s16_80182868_80180970;
 typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868;
 typedef struct { u16 v; u16 pad[3]; } Stride8_u16_80182868_80180970;
 typedef struct {
-    s16 unk00;   /* 0x00 */
-    s16 pad02;   /* 0x02 */
-    s32 unk04;   /* 0x04 */
-    s32 unk08;   /* 0x08 */
-    s32 unk0C;   /* 0x0C */
-} Struct801E79D8;
-typedef struct {
-    s16 field_0;
-    s16 field_2;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-} Struct801EF318;
+    /* 0x0000 */ s16 unk00;
+    /* 0x0002 */ u8 pad2[0x2];
+    /* 0x0004 */ s32 unk04;
+    /* 0x0008 */ s32 unk08;
+    /* 0x000c */ s32 unk0C;
+} Struct801E79D8; /* size = 0x10 */
 typedef struct {
     s16 unk00;
     s16 unk02;

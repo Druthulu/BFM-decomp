@@ -8191,9 +8191,9 @@ void func_80183E48(void *a0)
 
     m = *(Mat32L *)&D_800AE620;
     mp = &m;
-    ((Unkstruct_80183E48_2 *)mp)->unk18 = -0xF8;
-    ((Unkstruct_80183E48_2 *)mp)->unk14 = 0;
-    ((Unkstruct_80183E48_2 *)mp)->unk1C = 8;
+    ((Unkstruct_8017BF50 *)mp)->unk18 = -0xF8;
+    ((Unkstruct_8017BF50 *)mp)->unk14 = 0;
+    ((Unkstruct_8017BF50 *)mp)->unk1C = 8;
 
     CompMatrix((void *)(*(s32 *)(((Unkstruct_80183E48 *)a0)->unk64 + 0x20) + 0x34),
                mp,

@@ -4000,7 +4000,7 @@ void func_80181EA0(u8 *arg0)
     s32 sp10[2];
     s32 flag;
 
-    s0 = D_8018BBA4[((Unkstruct_80181EA0 *)arg0)->unkFC];
+    s0 = D_8018BBA4[((Unkstruct_80182FD0 *)arg0)->unkFC];
 
     {
         void *r0 = &guess_g_CameraWsMatrix;
@@ -4021,8 +4021,8 @@ void func_80181EA0(u8 *arg0)
         ((Unkstruct_80181EA0_3 *)sp10)->unk0 < guess_g_ScreenWidth / 2 &&
         flag >= 0)
     {
-        if (((Unkstruct_80181EA0 *)arg0)->unk1C != 0) {
-            ((Unkstruct_80181EA0 *)arg0)->unk1C -= 1;
+        if (((Unkstruct_80182FD0 *)arg0)->unk1C != 0) {
+            ((Unkstruct_80182FD0 *)arg0)->unk1C -= 1;
         } else {
             if (((Unkstruct_80182050 *)s0)->unk6 != 0xFF) {
                 do {
@@ -4030,9 +4030,9 @@ void func_80181EA0(u8 *arg0)
                     s0 += 8;
                 } while (((Unkstruct_80182050 *)s0)->unk6 != 0xFF);
             }
-            ((Unkstruct_80181EA0 *)arg0)->unk1C = ((Unkstruct_80181EA0 *)arg0)->unkDC;
+            ((Unkstruct_80182FD0 *)arg0)->unk1C = ((Unkstruct_80182FD0 *)arg0)->unkDC;
             __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
-            ((Unkstruct_80181EA0 *)arg0)->unk1C -= 1;
+            ((Unkstruct_80182FD0 *)arg0)->unk1C -= 1;
         }
     }
 
@@ -4047,11 +4047,11 @@ void func_80182050(u8 *a0, u8 *a1) {
     u16 v1_load;
     u8 *result;
 
-    v1_load = ((Unkstruct_80181EA0 *)a0)->unk6;
+    v1_load = ((Unkstruct_80182FD0 *)a0)->unk6;
     temp[0] = v1_load;
 
-    temp[1] = ((Unkstruct_80181EA0 *)a0)->unkA;
-    temp[2] = ((Unkstruct_80181EA0 *)a0)->unkE;
+    temp[1] = ((Unkstruct_80182FD0 *)a0)->unkA;
+    temp[2] = ((Unkstruct_80182FD0 *)a0)->unkE;
 
     temp[0] += ((Unkstruct_80182050 *)a1)->unk0;
     temp[1] += ((Unkstruct_80182050 *)a1)->unk2;
@@ -4080,7 +4080,7 @@ void func_801820E4(u8 *arg0)
     s32 base;
     s16 snd;
 
-    p = D_8018BBAC + ((Unkstruct_80181EA0 *)arg0)->unkFC * 8;
+    p = D_8018BBAC + ((Unkstruct_80182FD0 *)arg0)->unkFC * 8;
     base = (s32)&guess_g_PlayerActor;
     if (((Unkstruct_801820E4 *)p)->unk6 != 0) {
         guess_CopyVec3HighHalves(base + 4, sp10);

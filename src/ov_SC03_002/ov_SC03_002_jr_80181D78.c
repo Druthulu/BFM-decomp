@@ -3404,10 +3404,10 @@ extern void func_80182A78(s32 param_1, s32 param_2);
 
 void func_80182A30(void *arg0, s32 arg1) {
     u16 sp10[3];
-    sp10[0] = ((Unkstruct_8018084C *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_8018084C *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_8018084C *)arg0)->unkE;
-    func_80182A78(sp10, ((Unkstruct_8018084C *)arg0)->unk1C);
+    sp10[0] = ((Unkstruct_801805F8 *)arg0)->unk6;
+    sp10[1] = ((Unkstruct_801805F8 *)arg0)->unkA;
+    sp10[2] = ((Unkstruct_801805F8 *)arg0)->unkE;
+    func_80182A78(sp10, ((Unkstruct_801805F8 *)arg0)->unk1C);
 }
 
 

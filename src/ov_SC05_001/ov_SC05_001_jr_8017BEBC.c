@@ -6612,10 +6612,10 @@ extern void guess_StartActorSequence(s32*, s32);
 void func_8018244C(s32 a0) {
     extern u8 D_801AC580;
     extern u8 D_801AE1E4;
-    ((Unkstruct_8018244C *)a0)->unk1C = 0x37;
-    func_8001C924(((Unkstruct_8018244C *)a0)->unk20, &D_801AC580);
+    ((Unkstruct_8017E71C *)a0)->unk1C = 0x37;
+    func_8001C924(((Unkstruct_8017E71C *)a0)->unk20, &D_801AC580);
     ((void (*)(s32, void *))guess_StartActorSequence)(a0, &D_801AE1E4);
-    *(u16 *)(((Unkstruct_8018244C *)a0)->unk20 + 0x12) = ((Unkstruct_8018244C *)a0)->unk62;
+    *(u16 *)(((Unkstruct_8017E71C *)a0)->unk20 + 0x12) = ((Unkstruct_8017E71C *)a0)->unk62;
 }
 
 

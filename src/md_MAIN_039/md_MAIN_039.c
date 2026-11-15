@@ -498,12 +498,12 @@ s32 param_1;
     s32 node;
 
     p = param_1;
-    node = ((Unkstruct_800CBB54 *)p)->unk20;
+    node = ((Unkstruct_800CB7B8 *)p)->unk20;
     ((void (*)(s32))func_800CBC10)(param_1);
     guess_StepPairSequence(node, (s32 *)(p + 0x24));
-    *(u8 *)(node + 0x27) = ((Unkstruct_800CBB54 *)p)->unk28 - 0x70;
+    *(u8 *)(node + 0x27) = ((Unkstruct_800CB7B8 *)p)->unk28 - 0x70;
     ((void (*)(s32, s32))func_800CBC40)((void *)p, 0x40);
-    ((Unkstruct_800CBB54 *)p)->unk14 -= 0x4000;
+    ((Unkstruct_800CB7B8 *)p)->unk14 -= 0x4000;
     guess_AddVelocityToPos_5(p);
     if (guess_TickWaitTimer_2(p) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(p);

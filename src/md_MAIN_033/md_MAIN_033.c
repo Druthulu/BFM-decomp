@@ -416,7 +416,7 @@ void func_800CB76C(void *arg0) {
 
     s3 = ((Unkstruct_800CB76C_2 *)s2)->unk34;
     s0 = ((Unkstruct_800CB76C_2 *)s2)->unk20;
-    s1 = ((Unkstruct_800CB76C_3 *)s3)->unk20;
+    s1 = ((Unkstruct_801819B4_2 *)s3)->unk20;
     if (s0 != 0) {
         ((Unkstruct_800CB76C *)s0)->unk12 = *(u16 *)(s1 + 0x12);
         RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800CB76C *)s0)->unk34);
@@ -425,9 +425,9 @@ void func_800CB76C(void *arg0) {
         ((Unkstruct_800CB76C *)s0)->unk1A = q;
         ((Unkstruct_800CB76C *)s0)->unk18 = q;
         func_800139C8(CAST_SIGN(s16, s0, 0x12), D_800CB8FC, (s32)&sp10[0]);
-        ((Unkstruct_800CB76C_2 *)s2)->unk6 = ((Unkstruct_800CB76C_3 *)s3)->unk6 + sp10[0];
-        ((Unkstruct_800CB76C_2 *)s2)->unkA = ((Unkstruct_800CB76C_3 *)s3)->unkA + sp10[1];
-        ((Unkstruct_800CB76C_2 *)s2)->unkE = ((Unkstruct_800CB76C_3 *)s3)->unkE + sp10[2];
+        ((Unkstruct_800CB76C_2 *)s2)->unk6 = ((Unkstruct_801819B4_2 *)s3)->unk6 + sp10[0];
+        ((Unkstruct_800CB76C_2 *)s2)->unkA = ((Unkstruct_801819B4_2 *)s3)->unkA + sp10[1];
+        ((Unkstruct_800CB76C_2 *)s2)->unkE = ((Unkstruct_801819B4_2 *)s3)->unkE + sp10[2];
     }
 }
 

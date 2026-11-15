@@ -3038,19 +3038,19 @@ s32 func_801870E8(s32 a0) {
     s32 v0;
 
     if ((guess_g_FrameCounter & 0xF) == 0) {
-        local.f0 = ((Unkstruct_801870E8 *)s0)->unk6 + ((((Unkstruct_801870E8 *)s0)->unk1C << 7) - 0x1C0);
-        local.f1 = ((Unkstruct_801870E8 *)s0)->unkA - 0x80;
-        local.f2 = ((Unkstruct_801870E8 *)s0)->unkE - 0x100;
+        local.f0 = ((Unkstruct_801805F8 *)s0)->unk6 + ((((Unkstruct_801805F8 *)s0)->unk1C << 7) - 0x1C0);
+        local.f1 = ((Unkstruct_801805F8 *)s0)->unkA - 0x80;
+        local.f2 = ((Unkstruct_801805F8 *)s0)->unkE - 0x100;
         local.f3 = 0x21F;
         local.f4 = 0;
         local.f5 = 0;
-        local.f7 = ((Unkstruct_801870E8 *)s0)->unk1C * 0xC0 - 0x2A0;
+        local.f7 = ((Unkstruct_801805F8 *)s0)->unk1C * 0xC0 - 0x2A0;
         local.f8 = 0;
         local.f6 = 0x7FFF;
         func_8012C51C(&local, s0);
         guess_RequestSound(0x774, 0);
-        v0 = ((Unkstruct_801870E8 *)s0)->unk1C + 1;
-        ((Unkstruct_801870E8 *)s0)->unk1C = v0;
+        v0 = ((Unkstruct_801805F8 *)s0)->unk1C + 1;
+        ((Unkstruct_801805F8 *)s0)->unk1C = v0;
         if (v0 >= 8) {
             return 1;
         }

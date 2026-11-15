@@ -3064,7 +3064,7 @@ void func_8017D7A0(void *param_1)
     s32 v0;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8017D7A0_2 *)param_1)->unk20 = v0;
+    ((Unkstruct_801819B4_2 *)param_1)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(void *))guess_FreeActorDuringSpawn)(param_1);
         return;
@@ -3087,9 +3087,9 @@ void func_8017D7A0(void *param_1)
     ((void (*)(int, void *))guess_InitObjectKind6)(s1, p_buf);
     ((Unkstruct_8017D7A0 *)s1)->unk2C = 0xC010;
     ((Unkstruct_8017D7A0 *)s1)->unk4 |= 0x50000000;
-    ((Unkstruct_8017D7A0 *)s1)->unk8 = ((Unkstruct_8017D7A0_2 *)param_1)->unk6;
-    ((Unkstruct_8017D7A0 *)s1)->unkA = ((Unkstruct_8017D7A0_2 *)param_1)->unkA - 0x10;
-    ((Unkstruct_8017D7A0 *)s1)->unkC = ((Unkstruct_8017D7A0_2 *)param_1)->unkE - 0x10;
+    ((Unkstruct_8017D7A0 *)s1)->unk8 = ((Unkstruct_801819B4_2 *)param_1)->unk6;
+    ((Unkstruct_8017D7A0 *)s1)->unkA = ((Unkstruct_801819B4_2 *)param_1)->unkA - 0x10;
+    ((Unkstruct_8017D7A0 *)s1)->unkC = ((Unkstruct_801819B4_2 *)param_1)->unkE - 0x10;
 label:
     ((void (*)(void *))func_8012AD50)(param_1);
 }

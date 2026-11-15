@@ -158,14 +158,14 @@ void func_800CB1A0(s32 a0) {
         ((void (*)(s32))func_800CB6CC)(a0);
         return;
     }
-    index = ((Unkstruct_800CB1A0 *)self)->unk2;
+    index = ((Unkstruct_8017FCF4 *)self)->unk2;
     ((void (*)(s32))D_800CBEBC[index])(self);
 
-    if (((Unkstruct_800CB1A0 *)self)->unk0 != 0 && func_800CB7B0(self) != 0) {
+    if (((Unkstruct_8017FCF4 *)self)->unk0 != 0 && func_800CB7B0(self) != 0) {
         func_80147364(4, 0x649);
     }
 
-    value = ((Unkstruct_800CB1A0 *)self)->unkA;
+    value = ((Unkstruct_8017FCF4 *)self)->unkA;
     if (value < 0x401) {
         return;
     }

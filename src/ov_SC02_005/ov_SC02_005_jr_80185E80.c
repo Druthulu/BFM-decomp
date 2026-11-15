@@ -5060,8 +5060,8 @@ void func_8018CE04(s32 param_1)
     func_8001CD50(((Unkstruct_8018CE04 *)param_1)->unk20, (s32)&D_801E4918);
 
     ((Unkstruct_8018CE04 *)param_1)->unkA -= 0x100;
-    ((Unkstruct_8018CE04_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_8018CE04_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0x400;
+    ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk10 = 0x400;
     ((Unkstruct_8018CE04 *)param_1)->unk2C = 0x10;
 
     guess_BuildCircle12Points(&D_801E4918, 0x10);
@@ -5069,7 +5069,7 @@ void func_8018CE04(s32 param_1)
     *(Blk4_8018CE04 *)&D_801E4918 = *(Blk4_8018CE04 *)&D_801E2F60;
     *(Blk4_8018CE04 *)&D_801E491C = *(Blk4_8018CE04 *)&D_801E2F64;
 
-    ((Unkstruct_8018CE04_2 *)*(s32 *)(param_1 + 0x20))->unk1E = 0xC00;
+    ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk1E = 0xC00;
     ((Unkstruct_8018CE04 *)param_1)->unk2 += 1;
 }
 

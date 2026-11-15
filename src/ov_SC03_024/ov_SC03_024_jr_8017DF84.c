@@ -5659,9 +5659,9 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 
 void func_801826B4(void *a0) {
         s32 v1 = ((Unkstruct_801826B4 *)a0)->unkCC;
-        ((Unkstruct_801826B4_2 *)v1)->unk8 = ((Unkstruct_801826B4 *)a0)->unk6;
-        ((Unkstruct_801826B4_2 *)v1)->unkA = ((Unkstruct_801826B4 *)a0)->unkA - 0xe4;
-        ((Unkstruct_801826B4_2 *)v1)->unkC = ((Unkstruct_801826B4 *)a0)->unkE + 0x8;
+        ((Unkstruct_801914A0 *)v1)->unk8 = ((Unkstruct_801826B4 *)a0)->unk6;
+        ((Unkstruct_801914A0 *)v1)->unkA = ((Unkstruct_801826B4 *)a0)->unkA - 0xe4;
+        ((Unkstruct_801914A0 *)v1)->unkC = ((Unkstruct_801826B4 *)a0)->unkE + 0x8;
     }
 
 

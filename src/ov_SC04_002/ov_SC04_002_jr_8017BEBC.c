@@ -6980,10 +6980,10 @@ extern s16 D_801A1F24[];
 void func_80182C5C(void *a0) {
     s16 sp[4];
 
-    if (((Unkstruct_80182C5C *)a0)->unk0 == 0x1FC) {
-        sp[0] = ((Unkstruct_80182C5C *)a0)->unk6;
-        sp[1] = ((Unkstruct_80182C5C *)a0)->unkA - 0x20;
-        sp[2] = ((Unkstruct_80182C5C *)a0)->unkE;
+    if (((Unkstruct_8018018C *)a0)->unk0 == 0x1FC) {
+        sp[0] = ((Unkstruct_8018018C *)a0)->unk6;
+        sp[1] = ((Unkstruct_8018018C *)a0)->unkA - 0x20;
+        sp[2] = ((Unkstruct_8018018C *)a0)->unkE;
         sp[3] = 0x1800;
         func_801437D8((s32)((u8 *)a0 + 0x102), (s32)&sp[0], (s32)D_801A1F24, 0);
     }

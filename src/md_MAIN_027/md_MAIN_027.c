@@ -310,8 +310,8 @@ void func_800CB4A4(s32 a0) {
     s3 = ((Unkstruct_800CB4A4 *)s1)->unk4C;
     ap = *(u8 **)(s1 + 0x20);
     if (D_80078EC8 < 0x28) {
-        ((Unkstruct_800CB4A4_2 *)ap)->unk18 = ((Unkstruct_800CB4A4_2 *)ap)->unk18 - 0x40;
-        ((Unkstruct_800CB4A4_2 *)ap)->unk1A = ((Unkstruct_800CB4A4_2 *)ap)->unk1A - 0x40;
+        ((Unkstruct_800CDCA8 *)ap)->unk18 = ((Unkstruct_800CDCA8 *)ap)->unk18 - 0x40;
+        ((Unkstruct_800CDCA8 *)ap)->unk1A = ((Unkstruct_800CDCA8 *)ap)->unk1A - 0x40;
     }
     func_800CB82C(s1, ((Unkstruct_800CB4A4 *)s1)->unk58);
     if (guess_IsDirectionHeld(s3) != 0) {
@@ -320,7 +320,7 @@ void func_800CB4A4(s32 a0) {
         ((Unkstruct_800CB4A4 *)s1)->unk18 = 0;
         ((Unkstruct_800CB4A4 *)s1)->unk14 = 0;
         v0 = func_80148D44((((Unkstruct_800CB4A4 *)s1)->unk10 = 0, s1));
-        ((Unkstruct_800CB4A4_2 *)*(s32 *)(s1 + 0x20))->unk12 = v0;
+        ((Unkstruct_800CDCA8 *)*(s32 *)(s1 + 0x20))->unk12 = v0;
         func_80162FF4(s1, 0, 0, 0xFFFE4000);
         s2 = (s32 *)(s1 + 0x10);
         if (currentLocationId == 0x3038) {

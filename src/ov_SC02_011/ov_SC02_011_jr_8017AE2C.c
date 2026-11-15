@@ -5709,20 +5709,20 @@ void func_8017F458(void *a0)
     s32 v1;
 
     s2 = a0;
-    s1 = ((Unkstruct_8017F458 *)s2)->unk20;
+    s1 = ((Unkstruct_8017CFBC *)s2)->unk20;
     D_801EB448[0] = func_80012F74(D_801EB448[0], 0, 10, 1);
     D_801EB448[1] = func_80012F74(D_801EB448[1], 0, 10, 1);
     D_801EB448[2] = func_80012F74(D_801EB448[2], 0, 10, 1);
 
-    v1 = ((Unkstruct_8017F458 *)s2)->unk10 + ((Unkstruct_8017F458 *)s2)->unk14;
-    ((Unkstruct_8017F458 *)s2)->unk10 = v1;
+    v1 = ((Unkstruct_8017CFBC *)s2)->unk10 + ((Unkstruct_8017CFBC *)s2)->unk14;
+    ((Unkstruct_8017CFBC *)s2)->unk10 = v1;
 
     v0 = ((Unkstruct_8017F458_2 *)s1)->unk1A + v1;
     ((Unkstruct_8017F458_2 *)s1)->unk1A = v0;
     ((Unkstruct_8017F458_2 *)s1)->unk18 = v0;
 
-    v1 = ((Unkstruct_8017F458 *)s2)->unk30;
-    ((Unkstruct_8017F458 *)s2)->unk30 = v1 - 1;
+    v1 = ((Unkstruct_8017CFBC *)s2)->unk30;
+    ((Unkstruct_8017CFBC *)s2)->unk30 = v1 - 1;
     if (v1 == 0) {
         ((void (*)(void *))guess_FreeSmallObject)(s2);
     }

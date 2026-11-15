@@ -282,9 +282,9 @@ void func_800CB3F0(void *a0) {
     func_80017DF8((s16 *)(s2v + 0x10), mat);
     KR_AS(void, guess_ObjRotTransSV)(s3v, (s32)D_800CBCBC, (s32)ang);
 
-    ((Unkstruct_800CB3F0 *)mat)->unk14 = ang[0];
-    ((Unkstruct_800CB3F0 *)mat)->unk18 = ang[1];
-    ((Unkstruct_800CB3F0 *)mat)->unk1C = ang[2];
+    ((Unkstruct_8017BF50 *)mat)->unk14 = ang[0];
+    ((Unkstruct_8017BF50 *)mat)->unk18 = ang[1];
+    ((Unkstruct_8017BF50 *)mat)->unk1C = ang[2];
 
     guess_RotTransSVWithMatrix((s32)mat, (s32)D_800CBCC4, (s32)ang);
     func_80015954((s32)ang, (s32)a0 + 4);
@@ -424,10 +424,10 @@ void func_800CB68C(s32 param_1)
         D_800CBDB4 = 0;
         ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
-        ((Unkstruct_800CB68C_2 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
-        ((Unkstruct_800CB68C_2 *)iNew)->unk1A = 0;
-        ((Unkstruct_800CB68C_2 *)iNew)->unk18 = 0;
-        ((Unkstruct_800CB68C_2 *)iNew)->unk4 = ((Unkstruct_800CB68C_2 *)iNew)->unk4 | 0x50000000;
+        ((Unkstruct_8016DF5C_5 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
+        ((Unkstruct_8016DF5C_5 *)iNew)->unk1A = 0;
+        ((Unkstruct_8016DF5C_5 *)iNew)->unk18 = 0;
+        ((Unkstruct_8016DF5C_5 *)iNew)->unk4 = ((Unkstruct_8016DF5C_5 *)iNew)->unk4 | 0x50000000;
         ((void (*)(void *))func_800CBAA4)(((void *)param_1));
         {
             s32 t10;

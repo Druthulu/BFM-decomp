@@ -4095,15 +4095,15 @@ void func_801808CC(s32 a0, s32 a1, s32 a2, s32 a3)
         SetTransMatrix(&guess_g_CameraWsMatrix);
 
         do {
-            f = ((Unkstruct_801808CC *)e)->unk5C;
-            if ((f & 0x8000) && ((Unkstruct_801808CC *)e)->unk5E != a3) {
+            f = ((Unkstruct_80181114 *)e)->unk5C;
+            if ((f & 0x8000) && ((Unkstruct_80181114 *)e)->unk5E != a3) {
                 if (func_800133E4(sv, (s16 *)(e + 0x4)) < 0x1E40) {
-                    f = ((Unkstruct_801808CC *)e)->unk5C;
-                    ((Unkstruct_801808CC *)e)->unk60 = a1;
-                    ((Unkstruct_801808CC *)e)->unk62 = a2;
-                    ((Unkstruct_801808CC *)e)->unk5E = a3;
+                    f = ((Unkstruct_80181114 *)e)->unk5C;
+                    ((Unkstruct_80181114 *)e)->unk60 = a1;
+                    ((Unkstruct_80181114 *)e)->unk62 = a2;
+                    ((Unkstruct_80181114 *)e)->unk5E = a3;
                     f |= 1;
-                    ((Unkstruct_801808CC *)e)->unk5C = f;
+                    ((Unkstruct_80181114 *)e)->unk5C = f;
                 }
             }
             e = func_8012DDA4();

@@ -3172,7 +3172,7 @@ void func_8017DC7C(s32 a0)
     s16 temp;
     s16 vol;
 
-    t = ((Unkstruct_8017DC7C *)a0)->unk6 - D_80126CAC;
+    t = ((Unkstruct_8017D764 *)a0)->unk6 - D_80126CAC;
     if (t < 0) {
         t = -t;
     }
@@ -3194,13 +3194,13 @@ void func_8017DC7C(s32 a0)
     }
 
     if (vol == 0) {
-        if (((Unkstruct_8017DC7C *)a0)->unk84 != 0) {
-            func_8002D59C(4, 0x6DD, ((Unkstruct_8017DC7C *)a0)->unk70);
-            ((Unkstruct_8017DC7C *)a0)->unk84 = 0;
+        if (((Unkstruct_8017D764 *)a0)->unk84 != 0) {
+            func_8002D59C(4, 0x6DD, ((Unkstruct_8017D764 *)a0)->unk70);
+            ((Unkstruct_8017D764 *)a0)->unk84 = 0;
         }
     } else {
-        func_8002D59C(0x6DD, (vol | 0x1000) & 0xFFFF, ((Unkstruct_8017DC7C *)a0)->unk70);
-        ((Unkstruct_8017DC7C *)a0)->unk84 = 1;
+        func_8002D59C(0x6DD, (vol | 0x1000) & 0xFFFF, ((Unkstruct_8017D764 *)a0)->unk70);
+        ((Unkstruct_8017D764 *)a0)->unk84 = 1;
     }
 }
 

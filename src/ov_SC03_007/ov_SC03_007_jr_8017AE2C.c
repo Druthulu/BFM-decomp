@@ -5414,13 +5414,13 @@ void func_8017F920(s32 param_1) {
     u16 h;
 
     p = ((Unkstruct_801838EC_3 *)param_1)->unk20;
-    h = ((Unkstruct_8017F920_2 *)p)->unk2C;
+    h = ((Unkstruct_8017E654_2 *)p)->unk2C;
     if (h & 0x10) {
-        ((Unkstruct_8017F920_2 *)p)->unk2C = h & 0xFFEF;
+        ((Unkstruct_8017E654_2 *)p)->unk2C = h & 0xFFEF;
         q = ((Unkstruct_801838EC_3 *)param_1)->unk20;
-        ((Unkstruct_8017F920_2 *)q)->unk1C = 0x1000;
-        ((Unkstruct_8017F920_2 *)q)->unk1A = 0x1000;
-        ((Unkstruct_8017F920_2 *)q)->unk18 = 0x1000;
+        ((Unkstruct_8017E654_2 *)q)->unk1C = 0x1000;
+        ((Unkstruct_8017E654_2 *)q)->unk1A = 0x1000;
+        ((Unkstruct_8017E654_2 *)q)->unk18 = 0x1000;
     }
 }
 
@@ -6148,9 +6148,9 @@ s32 func_80180838(void *a0, s32 a1, s32 a2)
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);
 
-    matrix[5] = ((Unkstruct_80180838 *)p0)->unk8;
-    matrix[6] = ((Unkstruct_80180838 *)p0)->unkA;
-    matrix[7] = ((Unkstruct_80180838 *)p0)->unkC;
+    matrix[5] = ((Unkstruct_801914A0 *)p0)->unk8;
+    matrix[6] = ((Unkstruct_801914A0 *)p0)->unkA;
+    matrix[7] = ((Unkstruct_801914A0 *)p0)->unkC;
 
     base = D_8018BF68;
     p1 = base + 0x20;

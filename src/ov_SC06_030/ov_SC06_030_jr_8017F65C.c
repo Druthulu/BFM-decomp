@@ -3828,17 +3828,17 @@ s32 param_1;
     s32 q;
     short v;
 
-    p = ((Unkstruct_801810D0 *)param_1)->unk204;
+    p = ((Unkstruct_8017EAEC *)param_1)->unk204;
     q = *(s32 *)(p + 0x20);
     if (p != 0) {
         ((Unkstruct_801810D0_2 *)q)->unk12 = ((Unkstruct_801810D0_2 *)q)->unk12 + 0x80;
         guess_RotTransSVWithMatrix(q + 0x34, param_1 + 0x20C, (s32)sp10);
         func_80015954((s32)sp10, param_1 + 4);
     }
-    q = ((Unkstruct_801810D0 *)param_1)->unk20;
+    q = ((Unkstruct_8017EAEC *)param_1)->unk20;
     ((Unkstruct_801810D0_2 *)q)->unk12 = ((Unkstruct_801810D0_2 *)q)->unk12 + 0x80;
-    v = ((Unkstruct_801810D0 *)param_1)->unk208 + 0x80;
-    ((Unkstruct_801810D0 *)param_1)->unk208 = v;
+    v = ((Unkstruct_8017EAEC *)param_1)->unk208 + 0x80;
+    ((Unkstruct_8017EAEC *)param_1)->unk208 = v;
     return v == 0x800;
 }
 

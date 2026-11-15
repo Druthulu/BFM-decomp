@@ -404,9 +404,9 @@ void func_800CB9F8(u16 *a0, u16 *a1, s32 *a2, s32 *a3, s32 stg) {
     gte_stclmv((s32)mat + 2);
     gte_ldclmv((s32)mat + 4); gte_rtir();
     gte_stclmv((s32)mat + 4);
-    ((Unkstruct_800CB9F8 *)mat)->unk14 = a2[5];
-    ((Unkstruct_800CB9F8 *)mat)->unk18 = a2[6];
-    ((Unkstruct_800CB9F8 *)mat)->unk1C = a2[7];
+    ((Unkstruct_8017BF50 *)mat)->unk14 = a2[5];
+    ((Unkstruct_8017BF50 *)mat)->unk18 = a2[6];
+    ((Unkstruct_8017BF50 *)mat)->unk1C = a2[7];
     guess_AddPolyG4(pa, (void *)mat);
 }
 

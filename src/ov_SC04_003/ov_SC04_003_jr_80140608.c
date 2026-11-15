@@ -1837,16 +1837,16 @@ void func_80142EC0(s32 param_1) {
 
     do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     obj = ret;
-    ((Unkstruct_80142EC0 *)d)->unk20 = ret;
+    ((Unkstruct_801431E8_2 *)d)->unk20 = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
         guess_InitModelObjectKind3(obj, 0);
-        sVar2 = (s16)((((Unkstruct_80142EC0 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
+        sVar2 = (s16)((((Unkstruct_801431E8_2 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
         ((Unkstruct_80142EC0_2 *)obj)->unk1A = sVar2;
         ((Unkstruct_80142EC0_2 *)obj)->unk18 = sVar2;
-        ((Unkstruct_80142EC0 *)d)->unkFC = 0;
-        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_801837B0[((Unkstruct_80142EC0 *)d)->unk70 & 0xf]);
+        ((Unkstruct_801431E8_2 *)d)->unkFC = 0;
+        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_801837B0[((Unkstruct_801431E8_2 *)d)->unk70 & 0xf]);
         ((void (*)(s32))func_80142B2C)(d);
     }
 }

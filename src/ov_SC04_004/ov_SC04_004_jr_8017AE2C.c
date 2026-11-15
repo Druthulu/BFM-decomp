@@ -6258,12 +6258,12 @@ void func_801811E8(u8 *a0)
 {
     u16 buf[4];
 
-    if (((Unkstruct_801811E8 *)a0)->unk0 != 0x1FC) {
+    if (((Unkstruct_8018018C *)a0)->unk0 != 0x1FC) {
         return;
     }
-    buf[0] = ((Unkstruct_801811E8 *)a0)->unk6;
-    buf[1] = ((Unkstruct_801811E8 *)a0)->unkA - 0x20;
-    buf[2] = ((Unkstruct_801811E8 *)a0)->unkE;
+    buf[0] = ((Unkstruct_8018018C *)a0)->unk6;
+    buf[1] = ((Unkstruct_8018018C *)a0)->unkA - 0x20;
+    buf[2] = ((Unkstruct_8018018C *)a0)->unkE;
     buf[3] = 0x1800;
     func_801437D8((s32)(a0 + 0x102), (s32)buf, (s32)&D_80192E84, 0);
 }

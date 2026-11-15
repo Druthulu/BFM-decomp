@@ -2233,9 +2233,9 @@ void func_800159E4(s32 *a0, s32 *a1) {
 }
 
 void func_80015A08(s32 *a0, s32 *a1) {
-    ((Unkstruct_80015A08_2 *)a1)->unk0 = ((Unkstruct_80015A08 *)a0)->unk0;
-    ((Unkstruct_80015A08_2 *)a1)->unk4 = ((Unkstruct_80015A08 *)a0)->unk4;
-    ((Unkstruct_80015A08_2 *)a1)->unk8 = ((Unkstruct_80015A08 *)a0)->unk8;
+    ((Unkstruct_80015A08 *)a1)->unk0 = ((Unkstruct_80015A08 *)a0)->unk0;
+    ((Unkstruct_80015A08 *)a1)->unk4 = ((Unkstruct_80015A08 *)a0)->unk4;
+    ((Unkstruct_80015A08 *)a1)->unk8 = ((Unkstruct_80015A08 *)a0)->unk8;
 }
 
 #define SHARED_FN func_80015A2C
@@ -9114,9 +9114,9 @@ void func_8001D70C(s32 param_1)
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_b751((s32)matrix);
 
-    ((Unkstruct_8001D70C *)matrix)->unk14 = ((Unkstruct_8001D3FC_2 *)param_1)->unk8;
-    ((Unkstruct_8001D70C *)matrix)->unk18 = ((Unkstruct_8001D3FC_2 *)param_1)->unkA;
-    ((Unkstruct_8001D70C *)matrix)->unk1C = ((Unkstruct_8001D3FC_2 *)param_1)->unkC;
+    ((Unkstruct_8017BF50 *)matrix)->unk14 = ((Unkstruct_8001D3FC_2 *)param_1)->unk8;
+    ((Unkstruct_8017BF50 *)matrix)->unk18 = ((Unkstruct_8001D3FC_2 *)param_1)->unkA;
+    ((Unkstruct_8017BF50 *)matrix)->unk1C = ((Unkstruct_8001D3FC_2 *)param_1)->unkC;
 
     gte_SetRotTransMatrix((s32)matrix);
 }
@@ -9429,9 +9429,9 @@ void func_8001E094(s32 arg0)
     gte_ldclmv((s32)sc + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
-    ((Unkstruct_8001E094_2 *)res)->unk14 = ((Unkstruct_8001E094 *)*(s32 *)(arg0 + 0x34))->unk14;
-    ((Unkstruct_8001E094_2 *)res)->unk18 = ((Unkstruct_8001E094 *)*(s32 *)(arg0 + 0x34))->unk18;
-    ((Unkstruct_8001E094_2 *)res)->unk1C = ((Unkstruct_8001E094 *)*(s32 *)(arg0 + 0x34))->unk1C;
+    ((Unkstruct_8017BF50 *)res)->unk14 = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk14;
+    ((Unkstruct_8017BF50 *)res)->unk18 = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk18;
+    ((Unkstruct_8017BF50 *)res)->unk1C = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk1C;
 
     /* gte_SetRotMatrix(&guess_g_CameraWsMatrix) */
     gte_SetRotMatrix(g);
@@ -9491,9 +9491,9 @@ void func_8001E378(s32 param_1)
     gte_ldclmv((s32)sc + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
-    ((Unkstruct_8001E378_2 *)res)->unk14 = ((Unkstruct_8001E378 *)param_1)->unk8;
-    ((Unkstruct_8001E378_2 *)res)->unk18 = ((Unkstruct_8001E378 *)param_1)->unkA;
-    ((Unkstruct_8001E378_2 *)res)->unk1C = ((Unkstruct_8001E378 *)param_1)->unkC;
+    ((Unkstruct_8017BF50 *)res)->unk14 = ((Unkstruct_8001E378 *)param_1)->unk8;
+    ((Unkstruct_8017BF50 *)res)->unk18 = ((Unkstruct_8001E378 *)param_1)->unkA;
+    ((Unkstruct_8017BF50 *)res)->unk1C = ((Unkstruct_8001E378 *)param_1)->unkC;
 
     gte_SetRotMatrix(g);
 
@@ -15140,7 +15140,7 @@ extern u8 *D_800A5E60;
  * The §183 __asm__-label alias binds a locally-typed name to the real symbol, so the
  * call site keeps its `u8 *` result with no declaration conflict at the definitions. */
 extern u8 * func_800273F4(TmdG3 *f, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
-extern void * func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n, s32 shift, u32 *ot);
+extern void * func_800275BC(Prim20 *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n, s32 shift, u32 *ot);
 extern void * func_800277DC(void *a0, SVECTOR800277DC *a1, void *a2, u8 *a3, s32 count, s32 shift, s32 *ot);
 extern long *aF80027058(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027058");
 extern long *aF80027200(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot) __asm__("func_80027200");
@@ -15422,7 +15422,7 @@ extern s32 D_800A2B78;
                         /* 8 bytes */
 
 
-void *func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n,
+void *func_800275BC(Prim20 *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, s32 n,
                     s32 shift, u32 *ot)
 {
     s32 flag;
@@ -15449,10 +15449,10 @@ void *func_800275BC(TPRIM_800275BC *prim, SVEC_800275BC *vp, void *nrm, u8 *pk, 
                     gte_stsxy(pk + 0x20);
                     gte_avsz4();
                     gte_stotz(&otz);
-                    *(u32 *)(pk + 0x04) = prim->c0;
-                    *(u32 *)(pk + 0x0C) = prim->c1;
-                    *(u32 *)(pk + 0x14) = prim->c2;
-                    *(u32 *)(pk + 0x1C) = prim->c3;
+                    *(u32 *)(pk + 0x04) = prim->uv0;
+                    *(u32 *)(pk + 0x0C) = prim->uv1;
+                    *(u32 *)(pk + 0x14) = prim->uv2;
+                    *(u32 *)(pk + 0x1C) = prim->uv3;
                     *(u8 *)(pk + 7) = (*(u8 *)(pk + 7) & 2) | 0x38;
                     op = &ot[otz >> shift];
                     *(u32 *)pk = (*op & 0xFFFFFF) | 0x08000000;

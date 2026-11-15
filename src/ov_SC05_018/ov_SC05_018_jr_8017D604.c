@@ -4589,10 +4589,10 @@ void func_80180ACC(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     r[2] = st.y;
     r[3] = st.z;
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)out, arg2, arg3);
-    if (((Unkstruct_80180ACC_3 *)*(s32 *)(arg0 + 0x20))->unk2C & 0x10) {
-        ((Unkstruct_80180ACC *)arg3)->unk0 = ((Unkstruct_80180ACC *)arg3)->unk0 * ((Unkstruct_80180ACC_3 *)*(s32 *)(arg0 + 0x20))->unk18 >> 12;
-        ((Unkstruct_80180ACC *)arg3)->unk2 = ((Unkstruct_80180ACC *)arg3)->unk2 * ((Unkstruct_80180ACC_3 *)*(s32 *)(arg0 + 0x20))->unk1A >> 12;
-        ((Unkstruct_80180ACC *)arg3)->unk4 = ((Unkstruct_80180ACC *)arg3)->unk4 * ((Unkstruct_80180ACC_3 *)*(s32 *)(arg0 + 0x20))->unk1C >> 12;
+    if (((Unkstruct_8017E654_2 *)*(s32 *)(arg0 + 0x20))->unk2C & 0x10) {
+        ((Unkstruct_80180ACC *)arg3)->unk0 = ((Unkstruct_80180ACC *)arg3)->unk0 * ((Unkstruct_8017E654_2 *)*(s32 *)(arg0 + 0x20))->unk18 >> 12;
+        ((Unkstruct_80180ACC *)arg3)->unk2 = ((Unkstruct_80180ACC *)arg3)->unk2 * ((Unkstruct_8017E654_2 *)*(s32 *)(arg0 + 0x20))->unk1A >> 12;
+        ((Unkstruct_80180ACC *)arg3)->unk4 = ((Unkstruct_80180ACC *)arg3)->unk4 * ((Unkstruct_8017E654_2 *)*(s32 *)(arg0 + 0x20))->unk1C >> 12;
     }
 }
 
@@ -5794,15 +5794,15 @@ void func_8018269C(void *a0) {
     if ((guess_GetGameVarByte(0x40) & 0xFF) == 1) {
         func_800291A0(0x40, 2);
     }
-    if (((Unkstruct_8018269C *)a0)->unk10A == 0) {
-        ((Unkstruct_8018269C *)a0)->unk10A = 1;
+    if (((Unkstruct_8017FBF8 *)a0)->unk10A == 0) {
+        ((Unkstruct_8017FBF8 *)a0)->unk10A = 1;
         tbl = D_8018B00C;
-        ((Unkstruct_8018269C *)a0)->unk58 = (u32)D_8018AFC0 | 0x40000000;
+        ((Unkstruct_8017FBF8 *)a0)->unk58 = (u32)D_8018AFC0 | 0x40000000;
     } else {
         tbl = D_8018B084;
     }
     func_80178CBC((s32)a0, (s32)tbl);
-    ((Unkstruct_8018269C *)a0)->unk2 += 1;
+    ((Unkstruct_8017FBF8 *)a0)->unk2 += 1;
 }
 
 

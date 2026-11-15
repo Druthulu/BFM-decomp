@@ -1178,16 +1178,16 @@ void func_80142EC0(s32 param_1) {
 
     do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     obj = ret;
-    ((Unkstruct_80142EC0 *)d)->unk20 = ret;
+    ((Unkstruct_801431E8_2 *)d)->unk20 = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
         guess_InitModelObjectKind3(obj, 0);
-        sVar2 = (s16)((((Unkstruct_80142EC0 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
+        sVar2 = (s16)((((Unkstruct_801431E8_2 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
         ((Unkstruct_80142EC0_2 *)obj)->unk1A = sVar2;
         ((Unkstruct_80142EC0_2 *)obj)->unk18 = sVar2;
-        ((Unkstruct_80142EC0 *)d)->unkFC = 0;
-        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_801835E4[((Unkstruct_80142EC0 *)d)->unk70 & 0xf]);
+        ((Unkstruct_801431E8_2 *)d)->unkFC = 0;
+        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_801835E4[((Unkstruct_801431E8_2 *)d)->unk70 & 0xf]);
         ((void (*)(s32))func_80142B2C)(d);
     }
 }
@@ -1316,20 +1316,20 @@ void func_80143458(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_80143458_4 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
 
     p = ((Unkstruct_80143458_3 *)param_1)->unk20;
-    if (((Unkstruct_80143458_4 *)p)->unk4 == 0) {
-        ((Unkstruct_80143458_4 *)p)->unk4 = 0x50000000;
+    if (((Unkstruct_8014358C_2 *)p)->unk4 == 0) {
+        ((Unkstruct_8014358C_2 *)p)->unk4 = 0x50000000;
     }
 
-    ((Unkstruct_80143458_4 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
+    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
     v = ((Unkstruct_80143458_3 *)param_1)->unk34 & 0x7fff;
     if (v != 0) {
         p = ((Unkstruct_80143458_3 *)param_1)->unk20;
-        ((Unkstruct_80143458_4 *)p)->unk1A = v;
-        ((Unkstruct_80143458_4 *)p)->unk18 = v;
+        ((Unkstruct_8014358C_2 *)p)->unk1A = v;
+        ((Unkstruct_8014358C_2 *)p)->unk18 = v;
     }
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24,

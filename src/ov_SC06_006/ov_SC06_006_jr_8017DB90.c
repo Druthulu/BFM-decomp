@@ -3195,7 +3195,7 @@ extern void guess_ShowObjectModel(u8 *a0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017E734(void *a0);
 
-void func_8017E878(Actor_8017E878 *a0) {
+void func_8017E878(Actor_8017E550 *a0) {
     Work_8017E878 v;            /* sp+0x10 */
     Drv_8017E878 *p;
     Pose_8017E878 *pp;
@@ -3556,8 +3556,8 @@ void func_8017EEA4(void *arg)
         ((Unkstruct_8017EEA4 *)arg)->unk6 = 0;
         break;
     case 1:
-        ((Unkstruct_8017EEA4_3 *)*(u8 **)((u8 *)arg + 8))->unk4 &= 0x7FFFFFFF;
-        ((Unkstruct_8017EEA4_3 *)*(u8 **)((u8 *)arg + 8))->unk18 = ((Unkstruct_8017EEA4_3 *)*(u8 **)((u8 *)arg + 8))->unk1A =
+        ((Unkstruct_80183D90_2 *)*(u8 **)((u8 *)arg + 8))->unk4 &= 0x7FFFFFFF;
+        ((Unkstruct_80183D90_2 *)*(u8 **)((u8 *)arg + 8))->unk18 = ((Unkstruct_80183D90_2 *)*(u8 **)((u8 *)arg + 8))->unk1A =
             ((Unkstruct_8017EEA4 *)arg)->unk6 * ((Unkstruct_8017EEA4_2 *)rec)->unk6;
         if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Unkstruct_8017EEA4_2 *)rec)->unk4)
             break;
