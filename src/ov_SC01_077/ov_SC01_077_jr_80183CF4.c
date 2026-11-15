@@ -3332,7 +3332,7 @@ void func_801842C8(s32 a0) {
         ((Unkstruct_800B5CB8 *)a3)->unk18 = 0x1800;
         ((Unkstruct_800B5CB8 *)a3)->unk2C |= 0x10;
         v0 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        CAST_WIDTH(Blk8_SC01_077_801842C8, a3, 8) = CAST_WIDTH(Blk8_SC01_077_801842C8, v0, 8);
+        CAST_WIDTH(Blk8_80133CD4, a3, 8) = CAST_WIDTH(Blk8_80133CD4, v0, 8);
         ((Unkstruct_800B5CB8 *)a3)->unkA -= 0x10;
         ((Unkstruct_800B5CB8 *)a3)->unk10 = ((Unkstruct_800B5CB8 *)a3)->unk10 + CAST_SIGN(s16, a0, 0x1A) * -0x10;
     }

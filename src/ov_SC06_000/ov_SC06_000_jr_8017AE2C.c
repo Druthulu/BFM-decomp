@@ -9268,8 +9268,8 @@ void func_8018562C(void *a0, void *a1) {
     mb.t[2] = ((Unkstruct_8016E7C8 *)a0)->unkE;
     b.tail = *(Q_8018562C *)((s8 *)a1 + 8);
     b.head = b.tail;
-    b.head.h0 = b.head.h0 - 0x20;
-    b.tail.h0 = b.tail.h0 + 0x20;
+    b.head.unk0 = b.head.unk0 - 0x20;
+    b.tail.unk0 = b.tail.unk0 + 0x20;
     b.row.rot = *(Q_8018562C *)((s8 *)a1 + 0x10);
     b.row.t1 = 0;
     b.row.t0 = 0;

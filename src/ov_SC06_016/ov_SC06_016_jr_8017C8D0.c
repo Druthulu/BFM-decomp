@@ -4518,7 +4518,7 @@ void func_8018048C(void *a0) {
     s32 n;
     s32 m;
     s32 c;
-    Blk8_8018048C out;
+    Blk8_80133CD4 out;
     s16 sv[3];
 
     if (a == NULL) {

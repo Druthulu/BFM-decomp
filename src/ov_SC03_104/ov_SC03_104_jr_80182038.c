@@ -3942,17 +3942,17 @@ void func_80183AF4(void *a0) {
     extern Blk4_80183AF4 D_801BED18;
     Blk4_80183AF4 pos;   /* sp+0x10 */
     Blk4_80183AF4 vel;   /* sp+0x18 */
-    struct { u16 x; u16 y; u16 z; u16 w; } prm; /* sp+0x20 */
+    Unkstruct_801343C4 prm; /* sp+0x20 */
 
     pos = D_801BED14;
     vel = D_801BED18;
 
     *(s8 *)((u8 *)&pos + 2) = (rand() & 0x3f) - 0x80;
 
-    prm.x = 0x100;
-    prm.z = 0x80;
-    prm.y = (u16)(s32)a0;
-    prm.w = 1;
+    prm.unk0 = 0x100;
+    prm.unk4 = 0x80;
+    prm.unk2 = (u16)(s32)a0;
+    prm.unk6 = 1;
 
     func_80185400(&prm, &pos, &vel);
 }

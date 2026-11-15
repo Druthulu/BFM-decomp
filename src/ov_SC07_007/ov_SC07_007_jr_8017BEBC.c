@@ -3620,12 +3620,12 @@ extern void (*D_80186A00[])(void);
 
 void func_8017D684(s32 a0) {
     u8 *base = D_801274E8;
-    Blk8_SC07_007_8017D684 buffer;
+    Blk8_80133CD4 buffer;
 
-    *(Blk8_SC07_007_8017D684 *)base = *(Blk8_SC07_007_8017D684 *)D_80186A00;
-    buffer = CAST_WIDTH(Blk8_SC07_007_8017D684, base, 8);
+    *(Blk8_80133CD4 *)base = *(Blk8_80133CD4 *)D_80186A00;
+    buffer = CAST_WIDTH(Blk8_80133CD4, base, 8);
     ((void (*)(void *, void *))func_8017DAE8)((void *)a0, &buffer);
-    CAST_WIDTH(Blk8_SC07_007_8017D684, base, 8) = buffer;
+    CAST_WIDTH(Blk8_80133CD4, base, 8) = buffer;
     ((void (*)(void *))func_8017DF04)((void *)a0);
     func_8017DC20((void *)a0, base, base + 8);
 }

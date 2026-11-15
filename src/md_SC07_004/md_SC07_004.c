@@ -7051,7 +7051,7 @@ void func_801AA9D4(s32 a0, s32 a1) {
 
 /* no-proto on purpose: the real definition (with SV4_801AAB28* params) lives
    further down this TU; a prototyped extern here would be a types conflict */
-extern void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2);
+extern void func_801AAB28(Unkstruct_801343C4 *a0, Unkstruct_801343C4 *a1, s32 a2);
 
 void func_801AAA6C(s32 a0)
 {
@@ -7061,15 +7061,15 @@ void func_801AAA6C(s32 a0)
     s16 yOff = -0x200;
     s32 i;
 
-    r1.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + CAST_WIDTH(u16, a0, 0x50);
-    r1.y = ((Unkstruct_800B5CB8 *)a0)->unkA + *(u16 *)(a0 + 0x52);
-    r1.num = ((Unkstruct_800B5CB8 *)a0)->unkE + ((Unkstruct_800B5CB8 *)a0)->unk54;
-    r2.num = 0x24;
-    r2.count = 5;
+    r1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 + CAST_WIDTH(u16, a0, 0x50);
+    r1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA + *(u16 *)(a0 + 0x52);
+    r1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE + ((Unkstruct_800B5CB8 *)a0)->unk54;
+    r2.unk4 = 0x24;
+    r2.unk6 = 5;
     for (; j < 2; j++) {
         for (i = 0; i < 4; i++) {
-            r2.x = yOff;
-            r2.y = i * 0x400;
+            r2.unk0 = yOff;
+            r2.unk2 = i * 0x400;
             func_801AAB28(&r1, &r2, 0x101820);
         }
         yOff += 0x400;
@@ -7088,12 +7088,12 @@ void func_801AAA6C(s32 a0)
 extern int rand(void);
 extern void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3);
 
-void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2)
+void func_801AAB28(Unkstruct_801343C4 *a0, Unkstruct_801343C4 *a1, s32 a2)
 {
-    SV4_801AAB28 local1;    /* sp+0x10 : block copy of *a0 (unaligned lwl/lwr) */
-    SV4_801AAB28 local2;    /* sp+0x18 : block copy of *a1, x/y then randomised */
-    SV4_801AAB28 prev;      /* sp+0x20 : previous emitted x/y (only .x/.y used) */
-    SV4_801AAB28 spare;     /* sp+0x28 : never referenced, but the target frame
+    Unkstruct_801343C4 local1;    /* sp+0x10 : block copy of *a0 (unaligned lwl/lwr) */
+    Unkstruct_801343C4 local2;    /* sp+0x18 : block copy of *a1, x/y then randomised */
+    Unkstruct_801343C4 prev;      /* sp+0x20 : previous emitted x/y (only .x/.y used) */
+    Unkstruct_801343C4 spare;     /* sp+0x28 : never referenced, but the target frame
                                reserves it (var_size 0x20, not 0x18).  A declared
                                aggregate always gets its slot in gcc-2.7.2, so the
                                original had a fourth record here (cookbook 193-I). */
@@ -7107,8 +7107,8 @@ void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2)
     s32 r;
     u16 offY;
 
-    count = a1->count;
-    num = a1->num;
+    count = a1->unk6;
+    num = a1->unk4;
     /* The `& 0xFFFF` is load-bearing, not cosmetic.  `count` is a u32 fed by an
        `lhu`, so combine folds the mask away for free -- but at cse time the
        compare operand is an AND rather than a bare REG, so record_jump_cond
@@ -7137,20 +7137,20 @@ void func_801AAB28(SV4_801AAB28 *a0, SV4_801AAB28 *a1, s32 a2)
         do {
             if (i != 0) {
                 r = rand();
-                local2.x = prev.x + (r & 0x7FF) - 0x400;
+                local2.unk0 = prev.unk0 + (r & 0x7FF) - 0x400;
                 r = rand();
-                offY = prev.y + (r & 0x7FF) - 0x400;
+                offY = prev.unk2 + (r & 0x7FF) - 0x400;
             } else {
                 r = rand();
-                local2.x = a1->x + (r & 0x1FF) - 0x100;
+                local2.unk0 = a1->unk0 + (r & 0x1FF) - 0x100;
                 r = rand();
-                offY = a1->y + (r & 0x1FF) - 0x100;
+                offY = a1->unk2 + (r & 0x1FF) - 0x100;
             }
-            local2.y = offY;
+            local2.unk2 = offY;
             if (i != last) {
                 func_801AACD4(&local1, &local2, quotient, a2);
-                prev.x = local2.x;
-                prev.y = local2.y;
+                prev.unk0 = local2.unk0;
+                prev.unk2 = local2.unk2;
             } else {
                 /* narrowed in u16 first: convert_to_integer distributes the
                    truncation into the MINUS, giving `subu` then `andi` (the

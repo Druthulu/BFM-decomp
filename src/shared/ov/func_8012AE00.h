@@ -8,7 +8,7 @@ extern s32 func_80013478(s32 a0, s32 a1);
 s32 func_8012AE00(s32 a0) {
     s16 sp10[3];
     s16 sp18[4];
-    struct V8 sp20;
+    Blk8_80133CD4 sp20;
     s32 r1, r2;
     s32 base;
     s32 p18 = (s32)sp18;
@@ -19,7 +19,7 @@ s32 func_8012AE00(s32 a0) {
     sp18[1] = *(u16 *)(a0 + 0xA);
     sp18[2] = *(u16 *)(a0 + 0xE);
     base = (s32)&guess_g_PlayerActor;
-    sp20 = *(struct V8 *)sp18;
+    sp20 = *(Blk8_80133CD4 *)sp18;
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)sp10, (s32)&sp20) == 0) {
         return 0;
     }

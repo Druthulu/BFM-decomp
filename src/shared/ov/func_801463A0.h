@@ -48,7 +48,7 @@ void func_801463A0(void)
         *(s32 *)(obj + 0x50) = (s32)v;
     }
     func_8014BDE8((s32)&guess_g_PlayerActor);
-    *(Blk8_801463A0 *)&D_80126BE8 = *(Blk8_801463A0 *)&D_80126BE0;
+    *(Blk8_80133CD4 *)&D_80126BE8 = *(Blk8_80133CD4 *)&D_80126BE0;
     D_80126BE0_hw = guess_g_PlayerPosX;
     D_80126BE2 = guess_g_PlayerPosY;
     D_80126BE4 = guess_g_PlayerPosZ;

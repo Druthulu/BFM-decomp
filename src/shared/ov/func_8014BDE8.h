@@ -7,7 +7,7 @@ extern s32 func_80013294(void *a0, void *a1);
 extern void func_80029ED4(s32 a0);
 void func_8014BDE8(s32 a0) {
     s32 s0 = a0;
-    struct B8014 sp10;
+    Blk8_80133CD4 sp10;
     s16 sp18[4];
     if (guess_GetPlayerControlScript() != 0) {
         return;
@@ -15,7 +15,7 @@ void func_8014BDE8(s32 a0) {
     if (func_8017267C((s32 *)s0) != 0) {
         return;
     }
-    sp10 = *(struct B8014 *)(s0 + 0x98);
+    sp10 = *(Blk8_80133CD4 *)(s0 + 0x98);
     guess_CopyVec3HighHalves(s0 + 4, (s32 *)sp18);
     sp18[1] = 0;
     *(s16 *)((s32)&sp10 + 0x2) = 0;

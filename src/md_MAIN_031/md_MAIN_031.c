@@ -575,7 +575,7 @@ void func_800CBCD4(u8 *s0) {
         a3 = (u8 *)v0 + 0x78;
         a2 = (u8 *)v0 + 0x70;
         do {
-            *(Blk8_md_MAIN_031 *)a3 = *(Blk8_md_MAIN_031 *)a2;
+            *(Blk8_80133CD4 *)a3 = *(Blk8_80133CD4 *)a2;
             a3 -= 8;
             i--;
             a2 -= 8;

@@ -2563,7 +2563,7 @@ void func_801A3638(void *a0) {
         void *dst = CAST_SIGN(void *, (u8 *)s0, 0x20);
         void *src = *(void **)((u8 *)s1 + 0x20);
 
-        CAST_WIDTH(Blk8_md_SC07_003_801A3638, (u8 *)dst, 0x10) = *(Blk8_md_SC07_003_801A3638 *)((u8 *)src + 0x10);
+        CAST_WIDTH(Blk8_80133CD4, (u8 *)dst, 0x10) = *(Blk8_80133CD4 *)((u8 *)src + 0x10);
     }
 
     CAST_WIDTH(s32, (u8 *)s0, 0x4) = *(s32 *)((u8 *)s1 + 0x4);

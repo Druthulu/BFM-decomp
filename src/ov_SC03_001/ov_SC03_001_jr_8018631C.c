@@ -3416,13 +3416,13 @@ void func_80186A8C(void *arg0) {
 extern void guess_FreeActor(void *a0);
 
 void func_80186B54(unsigned int ent, unsigned int arg1) {
-    Blk8_SC03_001_80186B54 *src;
-    Blk8_SC03_001_80186B54 *dst;
+    Blk8_80133CD4 *src;
+    Blk8_80133CD4 *dst;
     int val;
     int next;
     next = ((Unkstruct_800B5CB8 *)ent)->unk64;
-    dst = (Blk8_SC03_001_80186B54 *)(((Unkstruct_800B5CB8 *)ent)->unk20 + 0x10);
-    src = (Blk8_SC03_001_80186B54 *)(*(int *)(next + 0x20) + 0x10);
+    dst = (Blk8_80133CD4 *)(((Unkstruct_800B5CB8 *)ent)->unk20 + 0x10);
+    src = (Blk8_80133CD4 *)(*(int *)(next + 0x20) + 0x10);
     *dst = *src;
     val = ((Unkstruct_800B5CB8 *)ent)->unk1C + 1;
     ((Unkstruct_800B5CB8 *)ent)->unk1C = val;

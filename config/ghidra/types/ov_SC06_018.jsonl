@@ -8,7 +8,6 @@
 {"k":"type","kind":"struct","path":"/bfm/B","size":40,"packed":false,"fields":[{"off":0,"len":32,"name":"w","type":"/bfm/s32[8]","comment":null},{"off":32,"len":8,"name":"tail","type":"/bfm/s32[2]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/B16","base":"/bfm/Blk16_8018A8B8"}
 {"k":"type","kind":"typedef","path":"/bfm/B4_8018F060","base":"/bfm/CVECTOR"}
-{"k":"type","kind":"struct","path":"/bfm/B8014","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Bar","size":12,"packed":false,"fields":[{"off":0,"len":1,"name":"b0","type":"/uchar","comment":"0x0"},{"off":1,"len":1,"name":"b1","type":"/uchar","comment":"0x1"},{"off":2,"len":1,"name":"b2","type":"/uchar","comment":"0x2"},{"off":3,"len":1,"name":"tag","type":"/uchar","comment":"0x3"},{"off":4,"len":4,"name":"a","type":"/uint","comment":"0x4"},{"off":8,"len":4,"name":"b","type":"/uint","comment":"0x8"}]}
 {"k":"type","kind":"typedef","path":"/bfm/BigCopy","base":"/bfm/Blk164"}
 {"k":"type","kind":"struct","path":"/bfm/Blip_8018F694","size":16,"packed":false,"fields":[{"off":0,"len":1,"name":"r","type":"/bfm/u8","comment":null},{"off":1,"len":1,"name":"g","type":"/bfm/u8","comment":null},{"off":2,"len":1,"name":"b","type":"/bfm/u8","comment":null},{"off":3,"len":1,"name":"pad_3","type":"/bfm/u8","comment":null},{"off":4,"len":1,"name":"dr","type":"/bfm/u8","comment":null},{"off":5,"len":1,"name":"dg","type":"/bfm/u8","comment":null},{"off":6,"len":1,"name":"db","type":"/bfm/u8","comment":null},{"off":7,"len":1,"name":"pad_7","type":"/bfm/u8","comment":null},{"off":8,"len":2,"name":"vx","type":"/bfm/s16","comment":null},{"off":10,"len":2,"name":"vy","type":"/bfm/s16","comment":null},{"off":12,"len":2,"name":"vz","type":"/bfm/s16","comment":null},{"off":14,"len":2,"name":"tm","type":"/bfm/s16","comment":null}]}
@@ -32,7 +31,6 @@
 {"k":"type","kind":"typedef","path":"/bfm/Blk8","base":"/bfm/Blk8_801867AC"}
 {"k":"type","kind":"typedef","path":"/bfm/Blk8_80126940_8017D4DC","base":"/bfm/SVECTOR"}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_80133CD4","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/s8[8]","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/Blk8_801463A0","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"_b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"unk0","type":"/bfm/Blk8_801867AC__unk0","comment":null}]}
 {"k":"type","kind":"union","path":"/bfm/Blk8_801867AC__unk0","size":8,"packed":false,"fields":[{"len":8,"name":"v0","type":"/bfm/Blk8_801867AC__unk0__v0","comment":null},{"len":6,"name":"v1","type":"/bfm/Blk8_801867AC__unk0__v1","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk8_801867AC__unk0__v0","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"c","type":"/bfm/u8[8]","comment":null}]}
@@ -127,7 +125,6 @@
 {"k":"type","kind":"union","path":"/bfm/M8_801312D0__unk0","size":8,"packed":false,"fields":[{"len":8,"name":"v0","type":"/bfm/M8_801312D0__unk0__v0","comment":null},{"len":8,"name":"v1","type":"/bfm/M8_801312D0__unk0__v1","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/M8_801312D0__unk0__v0","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"_b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/M8_801312D0__unk0__v1","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/u16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/u16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/u16","comment":null},{"off":6,"len":2,"name":"unk6","type":"/bfm/u16","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/M8_8014C6F4","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"_b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/M8_8016B6BC","size":8,"packed":false,"fields":[{"off":0,"len":4,"name":"m0","type":"/int","comment":null},{"off":4,"len":4,"name":"m1","type":"/int","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/MATRIX","size":32,"packed":false,"fields":[{"off":0,"len":18,"name":"m","type":"/short[3][3]","comment":null},{"off":20,"len":12,"name":"t","type":"/long[3]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/MATRIX2","base":"/bfm/MATRIX"}
@@ -286,7 +283,6 @@
 {"k":"type","kind":"struct","path":"/bfm/Trail","size":196,"packed":false,"fields":[{"off":0,"len":1,"name":"flag","type":"/bfm/u8","comment":null},{"off":1,"len":1,"name":"idx","type":"/bfm/u8","comment":null},{"off":2,"len":1,"name":"count","type":"/bfm/u8","comment":null},{"off":3,"len":1,"name":"timer","type":"/bfm/u8","comment":null},{"off":4,"len":192,"name":"e","type":"/bfm/TrailEntry[16]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/TrailEntry","base":"/bfm/Vec"}
 {"k":"type","kind":"union","path":"/bfm/U2","size":2,"packed":false,"fields":[{"len":2,"name":"u","type":"/bfm/u16","comment":null},{"len":2,"name":"s","type":"/bfm/s16","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/U8","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/UAlign12","base":"/bfm/Rec_80166690_80166690"}
 {"k":"type","kind":"typedef","path":"/bfm/UAlign8","base":"/bfm/Unkstruct_801343C4"}
 {"k":"type","kind":"typedef","path":"/bfm/UVEC_8018F694","base":"/bfm/M8_801312D0"}
@@ -515,7 +511,6 @@
 {"k":"type","kind":"typedef","path":"/bfm/V3","base":"/bfm/Vec3s"}
 {"k":"type","kind":"typedef","path":"/bfm/V4","base":"/bfm/Unkstruct_801343C4"}
 {"k":"type","kind":"typedef","path":"/bfm/V4_80188E10","base":"/bfm/Unkstruct_801343C4"}
-{"k":"type","kind":"struct","path":"/bfm/V8","size":8,"packed":false,"fields":[{"off":0,"len":8,"name":"b","type":"/char[8]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/V8_SC06_018_80131340","base":"/bfm/M8_801312D0"}
 {"k":"type","kind":"typedef","path":"/bfm/V8_SC06_018_80186D80","base":"/bfm/M8_801312D0"}
 {"k":"type","kind":"struct","path":"/bfm/VECTOR","size":12,"packed":false,"fields":[{"off":0,"len":4,"name":"vx","type":"/bfm/s32","comment":null},{"off":4,"len":4,"name":"vy","type":"/bfm/s32","comment":null},{"off":8,"len":4,"name":"vz","type":"/bfm/s32","comment":null}]}

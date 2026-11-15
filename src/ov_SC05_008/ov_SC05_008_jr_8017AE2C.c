@@ -5123,7 +5123,7 @@ void func_8017FF80(void *a0) {
         CAST_WIDTH(s32, (s32)a0, 0xC) = CAST_WIDTH(s32, (s32)a1, 0xC);
 
         v0 = CAST_SIGN(void *, (s32)a1, 0x20);
-        CAST_WIDTH(Blk8_8017FF80, (s32)v1, 0x10) = CAST_WIDTH(Blk8_8017FF80, (s32)v0, 0x10);
+        CAST_WIDTH(Blk8_80133CD4, (s32)v1, 0x10) = CAST_WIDTH(Blk8_80133CD4, (s32)v0, 0x10);
     } else {
         ((void (*)(void *))func_8012C098)(a0);
     }

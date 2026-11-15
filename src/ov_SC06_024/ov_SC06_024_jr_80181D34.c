@@ -3750,10 +3750,10 @@ void func_8018367C(s32 param_1) {
        it survives to alter_reg with reg_n_refs>0 and no hard reg, so
        assign_stack_local grows var_size by 8 with nothing ever stored there.
        Byte-checked: pointer-arith spelling -> frame 0x20, this -> frame 0x18. */
-    extern struct Row8_8018367C D_801AC5B2[];
-    extern struct Row8_8018367C D_801AC5AC[];
-    extern struct Row8_8018367C D_801AC5AE[];
-    extern struct Row8_8018367C D_801AC5B0[];
+    extern Unkstruct_801343C4 D_801AC5B2[];
+    extern Unkstruct_801343C4 D_801AC5AC[];
+    extern Unkstruct_801343C4 D_801AC5AE[];
+    extern Unkstruct_801343C4 D_801AC5B0[];
     extern u32 D_801AC598[];
 
     /* the entry call's result doubles as guess_InitModelObject's first argument, so it
@@ -3768,13 +3768,13 @@ void func_8018367C(s32 param_1) {
         return;
     }
 
-    guess_InitModelObject(v0, D_801AC598[D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].h & 7]);
+    guess_InitModelObject(v0, D_801AC598[D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 7]);
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     ((Unkstruct_800B5CB8 *)v1)->unk2C = ((Unkstruct_800B5CB8 *)v1)->unk2C | 0x10;
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    mask = D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].h & 0xFFF0;
+    mask = D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 0xFFF0;
     ((Unkstruct_800B5CB8 *)v1)->unk1A = mask;
     ((Unkstruct_800B5CB8 *)v1)->unk18 = mask;
 
@@ -3782,13 +3782,13 @@ void func_8018367C(s32 param_1) {
     CAST_WIDTH(u16, v1, 0x1C) = 0x400;
 
     ((Unkstruct_800B5CB8 *)param_1)->unk6 = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x6) +
-        D_801AC5AC[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AC5AC[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     ((Unkstruct_800B5CB8 *)param_1)->unkA = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA) +
-        D_801AC5AE[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AC5AE[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     ((Unkstruct_800B5CB8 *)param_1)->unkE = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xE) +
-        D_801AC5B0[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AC5B0[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     CAST_WIDTH(s16, param_1, 0xE0) = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA) + 0x140;
     func_801837D0(param_1);

@@ -4,8 +4,8 @@ s32 SHARED_FN(s32 arg0, s32 arg1, s32 arg2)
 {
     extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
     extern s32 *D_80126B90;
-    struct { u16 x, y, z, w; } a;
-    struct { u16 x, y, z, w; } b;
+    Unkstruct_801343C4 a;
+    Unkstruct_801343C4 b;
 
     guess_RotTransSVWithObjMatrix(arg0, arg1, &a);
     guess_RotTransSVWithObjMatrix(arg0, arg2, &b);

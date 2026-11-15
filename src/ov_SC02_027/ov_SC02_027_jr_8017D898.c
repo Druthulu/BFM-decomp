@@ -4563,7 +4563,7 @@ extern s32 D_8018F440;
 
 void func_801815E8(s32 a0)
 {
-    struct { u16 x, y, z, pad; } vec1;
+    Unkstruct_801343C4 vec1;
     s32 v0;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
@@ -4585,9 +4585,9 @@ void func_801815E8(s32 a0)
     ((Unkstruct_800B5CB8 *)a0)->unk100 = *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x68) + 0xC);
     guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)a0)->unk64, ((Unkstruct_800B5CB8 *)a0)->unkDC, (s32)&vec1);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec1.x;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = vec1.y;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = vec1.z;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec1.unk0;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = vec1.unk2;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = vec1.unk4;
 
     guess_StartActorSequence(a0, (s32)D_8018F3B8);
 
@@ -4741,7 +4741,7 @@ extern s32 rand(void);
 
 void func_80181B20(s32 a0)
 {
-    struct { u16 x, y, z, pad; } vec1;
+    Unkstruct_801343C4 vec1;
     s32 s2;
     s32 idx;
 
@@ -4754,9 +4754,9 @@ void func_80181B20(s32 a0)
     ((Unkstruct_800B5CB8 *)a0)->unk20 = s2;
     guess_InitModelObject(s2, (s32)D_8018F478[idx]);
     guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)a0)->unk64, (s32)&D_8018F484[idx * 8], (s32)&vec1);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec1.x;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = vec1.y;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = vec1.z;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec1.unk0;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = vec1.unk2;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = vec1.unk4;
     if (idx == 0) {
         s32 r;
         s32 sign;

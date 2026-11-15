@@ -591,18 +591,11 @@ typedef struct {
     u32 field1;
 } __attribute__((packed, aligned(1))) BlockData;
 typedef BlockData Blk8_md_MAIN_027;
-typedef struct { char c[8]; } Blk8_md_MAIN_031;
-typedef struct { char c[8]; } Blk8_md_SC07_003_801A3638;
+typedef struct { s8 c[8]; } Blk8_80133CD4;
 typedef CVECTOR Col4_8017F8BC;
 typedef Col4_8017F8BC CVEC;
 typedef Col4_8017F8BC CVecX;
-typedef struct {
-    u16 x;
-    u16 y;
-    u16 w;
-    u16 h;
-} SpadRect_800184F0;
-typedef SpadRect_800184F0 D24D0_Rect;
+typedef Unkstruct_801343C4 D24D0_Rect;
 typedef OtBlk_80180894 Env_801E46A0;
 typedef OtBlk_80180894 Env_801E9BE0;
 typedef OtBlk_80180894 Env_801EFA40;
@@ -1089,13 +1082,7 @@ typedef E4 S70;
 typedef struct { s32 pad00[8]; u16 f20; } SH20;
 typedef struct { u8 pad00[0x1A]; u16 f1A; } SP18;
 typedef SVECTOR SV3_801A4570;
-typedef struct {
-    u16 x;      /* +0x0 */
-    u16 y;      /* +0x2 */
-    u16 num;    /* +0x4 */
-    u16 count;  /* +0x6 */
-} SV4_801AAB28;
-typedef SV4_801AAB28 SV4R_801AAA6C;
+typedef Unkstruct_801343C4 SV4R_801AAA6C;
 typedef VECTOR SV4_md_SC03_135_801E585C;
 typedef SVECTOR SVEC2;
 typedef SVECTOR SVEC8_800CB1F8;
@@ -2414,7 +2401,7 @@ typedef struct {
 } Voice388C;
 typedef SVECTOR Vtx8;
 typedef struct { u8 v; } W8_;
-typedef SpadRect_800184F0 XRECT;
+typedef Unkstruct_801343C4 XRECT;
 typedef struct CdReq {
 /* 0x00 */ s32   state;
 /* 0x04 */ s32   unk04;

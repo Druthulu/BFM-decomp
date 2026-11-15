@@ -3009,13 +3009,13 @@ void func_801811A4(s32 param_1) {
         return;
     }
 
-    guess_InitModelObject(v0, D_801AD454[D_801AD46E[((Unkstruct_800B5CB8 *)param_1)->unk70].h & 7]);
+    guess_InitModelObject(v0, D_801AD454[D_801AD46E[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 7]);
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     *(u16 *)(v1 + 0x2C) = *(u16 *)(v1 + 0x2C) | 0x10;
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    mask = D_801AD46E[((Unkstruct_800B5CB8 *)param_1)->unk70].h & 0xFFF0;
+    mask = D_801AD46E[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 0xFFF0;
     *(u16 *)(v1 + 0x1A) = mask;
     *(u16 *)(v1 + 0x18) = mask;
 
@@ -3023,13 +3023,13 @@ void func_801811A4(s32 param_1) {
     *(u16 *)(v1 + 0x1C) = 0x400;
 
     ((Unkstruct_800B5CB8 *)param_1)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unk6 +
-        D_801AD468[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AD468[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     ((Unkstruct_800B5CB8 *)param_1)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unkA +
-        D_801AD46A[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AD46A[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     ((Unkstruct_800B5CB8 *)param_1)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unkE +
-        D_801AD46C[((Unkstruct_800B5CB8 *)param_1)->unk70].h;
+        D_801AD46C[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0;
 
     CAST_WIDTH(s16, param_1, 0xE0) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unkA + 0x140;
     func_801812F8(param_1);

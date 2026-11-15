@@ -7829,8 +7829,8 @@ s32 func_80184978(s32 arg0, s32 arg1, s32 arg2)
     extern s32 *D_80126B90;
     extern u8   guess_g_PlayerActor[]; // Names ledger: config/names.tsv guess_g_PlayerActor
 
-    struct { u16 x, y, z, w; } a;
-    struct { u16 x, y, z, w; } b;
+    Unkstruct_801343C4 a;
+    Unkstruct_801343C4 b;
     u8 *outp;
     u16 flags;
     s32 code;

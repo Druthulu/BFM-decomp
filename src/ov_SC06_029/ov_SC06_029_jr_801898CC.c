@@ -2867,7 +2867,7 @@ extern s32 D_8019EA7C[];
 extern u8 D_80190808[];
 extern void func_80182BC8(s32 a0);
 extern void func_8018280C(s32 param_1);
-extern Blk8_801828E4 D_801DDB48;
+extern Blk8_80133CD4 D_801DDB48;
 extern s32 D_8019EA38[];
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
@@ -3670,7 +3670,7 @@ void func_8018A314(s32 arg0)
     ((Unkstruct_8018A314 *)arg0)->unk8 = v1[2];
     ((Unkstruct_8018A314 *)arg0)->unkC = v1[3];
 
-    *(Blk8_8018A314 *)(a0 + 0x10) = *(Blk8_8018A314 *)(v1[8] + 0x10);
+    *(Unkstruct_801343C4 *)(a0 + 0x10) = *(Unkstruct_801343C4 *)(v1[8] + 0x10);
 
     if (((Unkstruct_8018A314 *)arg0)->unk90 == (s32)&D_801D4D0C && ((Unkstruct_8018A314 *)arg0)->unk98 == 0) {
         ((Unkstruct_8018A314 *)arg0)->unk48 = 0x2000;

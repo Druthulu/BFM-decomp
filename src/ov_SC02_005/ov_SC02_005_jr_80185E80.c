@@ -1187,11 +1187,11 @@ save:
 extern void func_8018B16C(s32 a0, s32 a1, s32 a2);
 
 
-extern Blob8_80187664 D_801E2EF0;
+extern Blk8_80133CD4 D_801E2EF0;
 
 void func_80187664(s32 arg0)
 {
-    Blob8_80187664 tmp;
+    Blk8_80133CD4 tmp;
 
     tmp = D_801E2EF0;
     func_8018B16C(arg0, 6, (s32)&tmp);
@@ -1204,13 +1204,13 @@ void func_80187664(s32 arg0)
  * (gcc's emit_block_move for align < 4), same idiom as the banked twin
  * func_8018A47C's D_801E2F28. */
 
-extern Blob8_801876B0 D_801E2EF8;
+extern Blk8_80133CD4 D_801E2EF8;
 extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern void func_8018B16C(s32 a0, s32 a1, s32 a2);
 
 void func_801876B0(s32 arg0)
 {
-    Blob8_801876B0 tmp;
+    Blk8_80133CD4 tmp;
     u8 *p;
     s32 i;
 
@@ -2791,8 +2791,8 @@ extern u16 D_80126B94;
  * both declarations draft-local and is byte-neutral. */
 void func_80189B30(s32 arg0)
 {
-    extern Blob8_80189B30 D_801E2F00;
-    Blob8_80189B30 blob;
+    extern Blk8_80133CD4 D_801E2F00;
+    Blk8_80133CD4 blob;
     s32 sub;
     s32 lim;
     s32 dx;
@@ -2806,8 +2806,8 @@ void func_80189B30(s32 arg0)
         if (dx >= -(s16)lim && dx <= (s16)lim) {
             dy = (s16)((u16)guess_g_PlayerPosZ - ((Unkstruct_800B5CB8 *)sub)->unk50);
             if (dy >= -(s16)lim && dy <= (s16)lim) {
-                *(Blob8_80189B30 *)&D_80126C38 = blob;
-                *(Blob8_80189B30 *)&D_80126C40 = blob;
+                *(Blk8_80133CD4 *)&D_80126C38 = blob;
+                *(Blk8_80133CD4 *)&D_80126C40 = blob;
                 D_80126B96 = 0x4005;
                 D_80126B9A = 0;
                 D_80126B98 = 5;
@@ -3128,11 +3128,11 @@ void func_8018A3B4(void *a0) {
 /* 8-byte, alignment-1 blob: the target copies it with lwl/lwr + swl/swr,
  * which is gcc's emit_block_move for align < 4. */
 
-extern Blob8_8018A47C D_801E2F28;
+extern Blk8_80133CD4 D_801E2F28;
 extern void func_8018A6A0(s32 a0, u16 *a1);
 
 void func_8018A47C(s32 a0) {
-    Blob8_8018A47C tmp;
+    Blk8_80133CD4 tmp;
 
     tmp = D_801E2F28;
     func_8018A6A0(a0, &tmp);
@@ -3153,7 +3153,7 @@ void func_8018A47C(s32 a0) {
 /* (*(Blk20_8018A4C4 *)&D_800AE620): 32-byte MATRIX-shaped blob (9 x s16 rot + pad + 3 x s32 trans),
  * copied with plain lw/sw -- same shape as the TU's existing Blk20. */
 
-extern Blob8_8018A4C4 D_801E2F30;
+extern Blk8_80133CD4 D_801E2F30;
 extern Blk16_956C D_801E2F38;
 extern Blk20 D_800AE620;
 
@@ -3165,7 +3165,7 @@ void func_8018A4C4(s32 a0)
 {
     Blk20_8018A4C4 localMat;
     s32 pad[4];
-    Blob8_8018A4C4 blobA;
+    Blk8_80133CD4 blobA;
     Blk16_956C blobB;
     s32 i;
     u8 *s0;
@@ -3183,9 +3183,9 @@ void func_8018A4C4(s32 a0)
     for (i = 0; i < 8; i++) {
         s0 = func_8012913C(0xC);
         if (s0 != NULL) {
-            ((Unkstruct_800B5CB8 *)s0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48 + *(u16 *)&blobA.b[0];
-            ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C + *(u16 *)&blobA.b[2];
-            ((Unkstruct_800B5CB8 *)s0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50 + *(u16 *)&blobA.b[4];
+            ((Unkstruct_800B5CB8 *)s0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48 + *(u16 *)&blobA.c[0];
+            ((Unkstruct_800B5CB8 *)s0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C + *(u16 *)&blobA.c[2];
+            ((Unkstruct_800B5CB8 *)s0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50 + *(u16 *)&blobA.c[4];
 
             localMat = (*(Blk20_8018A4C4 *)&D_800AE620);
             RotMatrixY(i << 9, &localMat);
@@ -3203,8 +3203,8 @@ extern void func_8018A6A0(s32 a0, u16 *a1);
 
 void func_8018A658(s32 a0) {
 
-    extern Blob8_8018A47C D_801E2F48;
-    Blob8_8018A47C tmp;
+    extern Blk8_80133CD4 D_801E2F48;
+    Blk8_80133CD4 tmp;
 
     tmp = D_801E2F48;
     func_8018A6A0(a0, &tmp);
@@ -3664,7 +3664,7 @@ void func_8018B058(s32 a0)
     vec.a = CAST_WIDTH(s32, a0, 0x10) >> 2;
     vec.b = (s32)0xFFF40000;
     vec.c = CAST_WIDTH(s32, a0, 0x18) >> 2;
-    *(s16 *)&angle.b[2] = -0x100;
+    *(s16 *)&angle.c[2] = -0x100;
 
     for (i = 0; i < 4; i++) {
         s0 = guess_SpawnActor(0x54, D_80196870[i], 0);
@@ -3676,7 +3676,7 @@ void func_8018B058(s32 a0)
             guess_ClearVelocityAndSetGravity(s0);
             ApplyMatrixLV((s32)&mtx, (s32)&vec, s0 + 0x10);
         }
-        *(s16 *)&angle.b[2] += 0x200;
+        *(s16 *)&angle.c[2] += 0x200;
     }
 }
 
@@ -5362,10 +5362,10 @@ void func_8018D4D8(void *param_1)
     if (D_801270C8[0] < 0x17) {
         imgrect img;
         u16 *src = (u16 *)((char *)D_80196C44 + (guess_g_FrameCounter[0] & 7) * 4);
-        img.x = src[0];
-        img.y = src[1];
-        img.w = 6;
-        img.h = 0x28;
+        img.unk0 = src[0];
+        img.unk2 = src[1];
+        img.unk4 = 6;
+        img.unk6 = 0x28;
         MoveImage(&img, 0x298, 0x1C0);
     }
 }

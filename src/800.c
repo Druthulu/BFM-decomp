@@ -4528,12 +4528,12 @@ s32 func_80018450(void *a0, s32 a1)
 
 extern DispSlot_800184F0 D_800B97D8[];
 
-extern void func_800599B8(SpadRect_800184F0 *rect, void *data);
+extern void func_800599B8(Unkstruct_801343C4 *rect, void *data);
 extern void func_80053D44(void *data, TexInfo_800184F0 *out);
 extern void func_80058890(void *data, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 void func_800184F0(void) {
-    SpadRect_800184F0 *rect = (SpadRect_800184F0 *)0x1F800000;
+    Unkstruct_801343C4 *rect = (Unkstruct_801343C4 *)0x1F800000;
     TexInfo_800184F0 tmp;
     DispSlot_800184F0 *e;
     DispItem_800184F0 *p;
@@ -4572,34 +4572,34 @@ void func_800184F0(void) {
 
         b9:
             if (e->unk0D == 0) {
-                rect->x = p->x;
-                rect->y = p->y;
+                rect->unk0 = p->x;
+                rect->unk2 = p->y;
                 goto tail;
             }
-            rect->x = ((u32)e->unk0C > 0x20) << 8;
-            rect->y = e->unk0C | 0x1E0;
+            rect->unk0 = ((u32)e->unk0C > 0x20) << 8;
+            rect->unk2 = e->unk0C | 0x1E0;
             goto tail;
 
         b0:
             if (e->unk0D == 0) {
-                rect->x = p->x;
-                rect->y = p->y;
+                rect->unk0 = p->x;
+                rect->unk2 = p->y;
                 goto tail;
             }
-            rect->x = e->unk08;
-            rect->y = e->unk0A;
+            rect->unk0 = e->unk08;
+            rect->unk2 = e->unk0A;
         tail:
-            rect->w = p->w;
-            rect->h = p->h;
+            rect->unk4 = p->w;
+            rect->unk6 = p->h;
             func_800599B8(rect, p->data);
             goto cont;
 
         b5:
             func_80053D44(p->data, &tmp);
-            rect->x = tmp.x;
-            rect->y = tmp.y;
-            rect->w = tmp.w;
-            rect->h = tmp.h;
+            rect->unk0 = tmp.x;
+            rect->unk2 = tmp.y;
+            rect->unk4 = tmp.w;
+            rect->unk6 = tmp.h;
             func_800599B8(rect, tmp.data);
             goto cont;
 
@@ -6615,7 +6615,7 @@ void CdReadSectorReadyCB(u8 reason) {
                     func_800599B8(p->rectp, q);
                     i++;
                     r = p->rectp;
-                    q += (s16)r->w / 2;
+                    q += (s16)r->unk4 / 2;
                     p->rectp = r + 1;
                 } while (i < n);
             }
@@ -6627,10 +6627,10 @@ void CdReadSectorReadyCB(u8 reason) {
         case 5:
             p->texIdx = 0;
             func_80043994(p->mask, 0x10);
-            p->rect.h = 0x20;
-            p->rect.w = 0x20;
-            p->rect.y = 0;
-            p->rect.x = 0;
+            p->rect.unk6 = 0x20;
+            p->rect.unk4 = 0x20;
+            p->rect.unk2 = 0;
+            p->rect.unk0 = 0;
             p->bit = 1;
             p->byteIdx = 0;
             for (;;) {
@@ -6646,10 +6646,10 @@ void CdReadSectorReadyCB(u8 reason) {
                 } else {
                     p->bit <<= 1;
                 }
-                p->rect.x += 0x20;
-                if ((s16)p->rect.x > 0x3FF) {
-                    p->rect.x = 0;
-                    p->rect.y += 0x20;
+                p->rect.unk0 += 0x20;
+                if ((s16)p->rect.unk0 > 0x3FF) {
+                    p->rect.unk0 = 0;
+                    p->rect.unk2 += 0x20;
                 }
             }
         tilePhase:
@@ -6716,10 +6716,10 @@ void CdReadSectorReadyCB(u8 reason) {
             p->phase = 0;
             goto post;
         cont1:
-            p->rect.x += 0x20;
-            if ((s16)p->rect.x > 0x3FF) {
-                p->rect.x = 0;
-                p->rect.y += 0x20;
+            p->rect.unk0 += 0x20;
+            if ((s16)p->rect.unk0 > 0x3FF) {
+                p->rect.unk0 = 0;
+                p->rect.unk2 += 0x20;
             }
         } while ((p->mask[p->byteIdx] & p->bit) == 0);
         break;

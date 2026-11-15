@@ -2866,7 +2866,7 @@ extern s32 D_8019EA7C[];
 extern u8 D_80190808[];
 extern void func_80182BC8(s32 a0);
 extern void func_8018280C(s32 param_1);
-extern Blk8_801828E4 D_801DDB48;
+extern Blk8_80133CD4 D_801DDB48;
 extern s32 D_8019EA38[];
 extern s32 func_8012B70C(s16 *a0, s16 *a1);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);

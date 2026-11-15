@@ -6164,7 +6164,7 @@ void func_8018280C(s32 param_1) {
  * NOTE: uniquely named — src/shared/engine_types.h already typedefs `Blk8`
  * (same layout) and the destination TU includes it via engine_core.h. */
 
-extern Blk8_801828E4 D_801DDB48;
+extern Blk8_80133CD4 D_801DDB48;
 extern s32 D_8019EA7C[];
 extern s32 D_8019EA38[];
 extern u8 D_800D3918[];
@@ -6183,7 +6183,7 @@ void func_801828E4(s32 param_1) {
     s32 *p;
     s32 n;
     u16 uVar1;
-    Blk8_801828E4 local;
+    Blk8_80133CD4 local;
 
     obj = ((Unkstruct_800B5CB8 *)param_1)->unk64;
     if (CAST_WIDTH(s32, param_1, 0xEC) != *(s16 *)(obj + 0x36)) {
@@ -6250,7 +6250,7 @@ void func_801828E4(s32 param_1) {
     CAST_WIDTH(s32, param_1, 0x8) = *(s32 *)(obj + 0x8);
     CAST_WIDTH(s32, param_1, 0xC) = *(s32 *)(obj + 0xC);
     dst = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    CAST_WIDTH(Blk8_801828E4, dst, 0x10) = *(Blk8_801828E4 *)(*(s32 *)(obj + 0x20) + 0x10);
+    CAST_WIDTH(Blk8_80133CD4, dst, 0x10) = *(Blk8_80133CD4 *)(*(s32 *)(obj + 0x20) + 0x10);
 }
 
 
@@ -7354,7 +7354,7 @@ done:
 /* (entity->0x58 & 0xFFFFFFF) | 0x80000000 -- see func_80182BC8's Box_80182BC8:
  * the %lo(D_8000000N) tokens in the .s are plain byte offsets, not real symbols. */
 
-extern Blk8_801828E4 D_801DDB48;
+extern Blk8_80133CD4 D_801DDB48;
 extern Vec8_80183D84 D_801DFE94[];
 extern u8  D_800D3918[];
 extern u8  guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -7421,7 +7421,7 @@ void func_80184564(s32 param_1)
         box->y.vz = sv[0].vz;
     }
 
-    *(Blk8_801828E4 *)&sv[0] = D_801DDB48;
+    *(Blk8_80133CD4 *)&sv[0] = D_801DDB48;
     p = &sv[0];
     if (func_80135888(((Unkstruct_800B5CB8 *)param_1)->unk20, ((Unkstruct_800B5CB8 *)param_1)->unk58,
                       (s32)((char *)&D_801DDB48 - 8), (s32)p) != 0) {
@@ -7698,7 +7698,7 @@ void func_80184EFC(s32 a0) {
  * `extern Blk8_801828E4 D_801DDB48;` at file scope (for func_801828E4) —
  * drop these two lines when banking, keep them for standalone compiles. */
 
-extern Blk8_801828E4 D_801DDB48;
+extern Blk8_80133CD4 D_801DDB48;
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -7715,7 +7715,7 @@ void func_80184FF8(s32 param_1)
     /* same packet shape func_801825D8 feeds to func_8012C51C */
 
     struct S8012C658 rec;
-    Blk8_801828E4 local;
+    Blk8_80133CD4 local;
     s32 obj;
     s32 n;
     s32 st;
