@@ -8995,6 +8995,12 @@ def _t_reason(x):
     return " ".join(ws[:3])
 
 
+def _t_only(reg, b, only):
+    """(pure) --type-check's --only: a name / glob matching the source's region OR its binary (T15.c3: `--only md_SC02_009` matched
+    nothing, the md regions are `md_*`; was: region only)."""
+    return not only or any(x == o or fnmatch.fnmatch(x, o) for o in only for x in (reg, b or ""))
+
+
 def type_check(only=None, sources_dir=None):
     """--type-check: rung T per region (struct_twins.region_of) and per source — the latest rung-T ledger row per key joined with T14's
     sources.tsv (`--sources-dir`, built there by struct_twins --sources when absent): typed, casts removed by form, kept, pending with
@@ -9026,9 +9032,9 @@ def type_check(only=None, sources_dir=None):
         return k.rpartition("@")[2]
     for k in sorted(set(src) | set(latest)):
         reg = src[k]["region"] if k in src else st.region_of(k.split(":", 1)[0] if ":" in k else "")
-        if only and not any(reg == o or fnmatch.fnmatch(reg, o) for o in only):
-            continue
         b = bin_of(k)
+        if not _t_only(reg, b, only):
+            continue
         C, B = reg_c[reg], bin_c[(reg, b)]
         C["sources"] += 1
         B["sources"] += 1
@@ -9215,6 +9221,10 @@ def type_selftest(ok):
         ok("T guard: files this run wrote pass, other changed files refuse",
            t_dirty(por, {"src/a/a.c"}) == ["include/struct_types.h", "src/b/b.c", "src/c/new.c"]
            and t_dirty(" M src/a/a.c\n", {"src/a/a.c"}) == [] and t_dirty("", set()) == [])
+        # T15.c3 bug: --type-check --only <binary> matched nothing (region `md_*`)
+        ok("T --type-check --only matches a region or a binary",
+           _t_only("md_*", "md_SC02_009", ["md_SC02_009"]) and _t_only("md_*", "md_SC02_009", ["md_*"])
+           and not _t_only("md_*", "md_SC02_010", ["md_SC02_009"]) and _t_only("ov_SC02", "x", None))
     finally:
         _canon, _walk, JUDGE_STUB, VISIBLE_OVERRIDE, LEDGER, _t_flows, T_SYMS_OVERRIDE, T_OBJ_STUB = keep
 
