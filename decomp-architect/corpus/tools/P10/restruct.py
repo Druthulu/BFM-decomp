@@ -4200,11 +4200,25 @@ def _fold_accesses(d, F, aliases, cache, why):
             _, msk, _, _, glob, _ = _fold_view(rel, cache)
             for n, v in _fold_macro_vars(msk, glob, G, dict(T, tid=lambda sp, _r=rel: T["tid"](sp, _r))).items():
                 G.setdefault(n, v)
+    # (T7.c15) a shared-body header (`src/shared/ov/*.h`, included inside a .c) sees its includers' file-scope objects: the .c
+    # files' typed top-level objects, kept only when every .c declaration of the name has that one type
+    Gc, bad = {}, set()
+    for rel in [r for r in _fold_files(T["idents"]) if r.endswith(".c")]:
+        _, msk, _, _, _, top = _fold_view(rel, cache)
+        for n, v in _typed_vars(msk, top, T["trx"], params=False, tmap=lambda sp, _r=rel: T["tid"](sp, _r)).items():
+            if Gc.setdefault(n, v) != v:
+                bad.add(n)
+    if Gc:
+        for rel in [r for r in _fold_files(sorted(Gc)) if r.endswith(".c")]:
+            _, msk, _, _, _, top = _fold_view(rel, cache)
+            mine = _typed_vars(msk, top, T["trx"], params=False, tmap=lambda sp, _r=rel: T["tid"](sp, _r))
+            bad |= {n for n in _extern_names(msk, top) & set(Gc) if mine.get(n) != Gc[n]}
+    Gh = dict({n: v for n, v in Gc.items() if n not in bad and n not in G}, **G)
     fields0 = {x["name"] for x in F if x["name"]}
     out, pend = {}, []
-    for rel in _fold_files(T["idents"] + sorted(G)):
+    for rel in _fold_files(T["idents"] + sorted(Gh)):
         _, msk, _, fns, glob, top = _fold_view(rel, cache)
-        acc = _fold_file_acc(rel, msk, fns, glob, top, T, G, fields0, pend)
+        acc = _fold_file_acc(rel, msk, fns, glob, top, T, Gh if rel.endswith(".h") and rel not in CANON_HEADERS else G, fields0, pend)
         if acc:
             out[rel] = acc
     _fold_pending(pend, T, G, cache, out, why)
@@ -5529,6 +5543,13 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("fold walker (T7.c15): the container TU compiles", rc == 0, err)
+        _fold_fixture("walk5", "typedef struct { s32 f0; s16 f4; s16 f6; } Fx_T;\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\n",
+                      {"src/a.c": '#include "struct_types.h"\nextern Fx_M D_q[];\n#include "shared/ov/fq.h"\n',
+                       "src/shared/ov/fq.h": 's32 fq(s32 i) { return D_q[i].b; }\n'},
+                      [("Fx_M", "fold", "Fx_T", "link", "C16 body: src/a.c:2", "-")])
+        P5 = fold_plan(["Fx_M"])
+        ok("fold walker (T7.c15): a shared-body header sees its includer's typed extern", not P5["refusals"]
+           and "return D_q[i].f4; }" in P5["texts"].get("src/shared/ov/fq.h", ""), f"{P5['refusals']} {P5['texts']}")
         # T7.c15: spellings of one type never open a union: typedef spellings of a scalar, a padding subset, arrays vs scalars
         _fold_fixture("spell", "typedef struct { s16 v[3]; s16 w; } Fx_T;\ntypedef struct { short a[3]; short p; } Fx_M;\n",
                       {"src/a.c": '#include "struct_types.h"\ns32 fs(Fx_M *m) { return m->a[1] + m->p; }\n'},

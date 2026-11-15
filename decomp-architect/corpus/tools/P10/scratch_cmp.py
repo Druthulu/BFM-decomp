@@ -109,7 +109,7 @@ def first_err(tmp, side, o):
         lines = [l.strip() for l in open(os.path.join(tmp, side + ".err", o.replace("/", "__") + ".txt"), errors="replace")]
     except OSError:
         return ""
-    hit = (next((l for l in lines if re.search(r":\d+: ", l) and "warning" not in l.lower()), None)       # cc1: `f.c:12: structure has no member named ...`
+    hit = (next((l for l in lines if re.search(r":\d+: ", l) and not re.search(r"warning|note:", l.lower())), None)       # cc1: `f.c:12: structure has no member named ...`
            or next((l for l in lines if "error" in l.lower()), None) or next((l for l in lines if l), ""))
     return (" | " + hit[:200]) if hit else ""
 
