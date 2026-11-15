@@ -5373,13 +5373,13 @@ void func_80181A58(void *a0, s32 a1)
     Vec4s_80181A58 loc_18;
     Vec4s_80181A58 loc_20;
 
-    loc_10.f0 = ((Unkstruct_80181A58 *)a0)->unk6;
-    loc_10.f1 = ((Unkstruct_80181A58 *)a0)->unkA;
-    loc_10.f2 = ((Unkstruct_80181A58 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_80181A58 *)a0)->unk6;
+    loc_10.vy = ((Unkstruct_80181A58 *)a0)->unkA;
+    loc_10.vz = ((Unkstruct_80181A58 *)a0)->unkE;
 
-    loc_18.f0 = 0;
-    loc_18.f1 = 0;
-    loc_18.f2 = (s16)(-a1);
+    loc_18.vx = 0;
+    loc_18.vy = 0;
+    loc_18.vz = (s16)(-a1);
 
     ((void(*)(s32, s32, s32))guess_RotTransSVWithObjMatrix)((s32)a0, (s32)&loc_18, (s32)&loc_20);
     func_8012CEB0((s32)&loc_10, (s32)&loc_20, 0);

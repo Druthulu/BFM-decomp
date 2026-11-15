@@ -4692,7 +4692,7 @@ extern void func_8018124C(void);
 extern void func_801810B0(s32 arg0);
 
 void func_80180DBC(void *a0) {
-    Unkstruct_80180D40 *p;
+    Pair16 *p;
     s32 i;
     s32 t;
 
@@ -4714,37 +4714,37 @@ void func_80180DBC(void *a0) {
             return;
         }
     }
-    p = (Unkstruct_80180D40 *)&D_801E650C;
+    p = (Pair16 *)&D_801E650C;
     for (i = 0; i < 0x10; i++, p++) {
-        if (p->unk0 == 1) goto st1;
-        if (p->unk0 < 2) goto done;
-        if (p->unk0 == 2) goto st2;
-        if (p->unk0 == 3) goto st3;
+        if (p->x.vx == 1) goto st1;
+        if (p->x.vx < 2) goto done;
+        if (p->x.vx == 2) goto st2;
+        if (p->x.vx == 3) goto st3;
         goto done;
     st1:
-        p->unk2++;
-        if (p->unk2 >= p->unk8 * 2) {
-            p->unk2 = 0;
-            p->unk0++;
-            p->unk4 = rand() % 280 - 140;
-            p->unk6 = rand() % 200 - 100;
-            p->unkC = (rand() & 0x3F) + 0x30;
+        p->x.vy++;
+        if (p->x.vy >= p->y.vx * 2) {
+            p->x.vy = 0;
+            p->x.vx++;
+            p->x.vz = rand() % 280 - 140;
+            p->x.pad = rand() % 200 - 100;
+            p->y.vz = (rand() & 0x3F) + 0x30;
         }
         goto done;
     st2:
-        p->unkE = 1;
-        p->unk2++;
-        p->unkA = p->unkC * p->unk2 / 6;
-        if (p->unk2 >= 6) {
-            p->unk2 = 0;
-            p->unk0++;
+        p->y.pad = 1;
+        p->x.vy++;
+        p->y.vy = p->y.vz * p->x.vy / 6;
+        if (p->x.vy >= 6) {
+            p->x.vy = 0;
+            p->x.vx++;
         }
         goto done;
     st3:
-        p->unkE = 1;
-        p->unk2++;
+        p->y.pad = 1;
+        p->x.vy++;
     done:
-        if (p->unkE != 0) {
+        if (p->y.pad != 0) {
             func_801810B0(p);
         }
     }
@@ -4793,7 +4793,7 @@ void func_801810B0(s32 arg0)
     s32 y;
     s32 half;
 
-    if (((Unkstruct_80180D40 *)arg0)->unkA <= 0) {
+    if (((Pair16 *)arg0)->y.vy <= 0) {
         return;
     }
 
@@ -4820,8 +4820,8 @@ void func_801810B0(s32 arg0)
     *(u8 *)(prim + 0x25) = 0x8F;
 
     half = (s16)CAST_SIGN(u16, arg0, 0xA) / 2;
-    x = ((Unkstruct_80180D40 *)arg0)->unk4;
-    y = ((Unkstruct_80180D40 *)arg0)->unk6;
+    x = ((Pair16 *)arg0)->x.vz;
+    y = ((Pair16 *)arg0)->x.pad;
 
     *(s16 *)(prim + 8) = x - half;
     *(s16 *)(prim + 0xA) = y - half;
@@ -4901,12 +4901,12 @@ void func_801812FC(s32 arg0) {
 
 
 
-extern Blk8_80181324 D_8018AA14;
+extern Unkstruct_8013B83C D_8018AA14;
 extern u16 D_8018AA1C[];
 extern void func_80182CDC(void*, void*, s32, s32);
 
 void func_80181324(void) {
-    Blk8_80181324 local;
+    Unkstruct_8013B83C local;
     s32 s1 = 0, s0 = 0;
     do {
         local = D_8018AA14;
@@ -5864,16 +5864,16 @@ extern s32 func_8012AD50(void *a0);
 
 
 
-extern Blk8_80182844 D_801E4F60;
-extern Blk8_80182844 D_801E4F68;
+extern Unkstruct_8013B83C D_801E4F60;
+extern Unkstruct_8013B83C D_801E4F68;
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern void func_8018290C(SVEC_8017EC98_8018290C *p0, SVEC_8017EC98_8018290C *p1);
 
 void func_80182844(void *a0)
 {
-    Blk8_80182844 blk1;
-    Blk8_80182844 blk2;
-    Blk8_80182844 out;
+    Unkstruct_8013B83C blk1;
+    Unkstruct_8013B83C blk2;
+    Unkstruct_8013B83C out;
 
     blk1 = D_801E4F60;
     blk2 = D_801E4F68;
@@ -7280,13 +7280,13 @@ void func_8018460C(void *a0, s32 a1)
     Vec4s_8018460C loc_18;
     Vec4s_8018460C loc_20;
 
-    loc_10.f0 = ((Unkstruct_8018460C *)a0)->unk6;
-    loc_10.f1 = ((Unkstruct_8018460C *)a0)->unkA;
-    loc_10.f2 = ((Unkstruct_8018460C *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_8018460C *)a0)->unk6;
+    loc_10.vy = ((Unkstruct_8018460C *)a0)->unkA;
+    loc_10.vz = ((Unkstruct_8018460C *)a0)->unkE;
 
-    loc_18.f0 = 0;
-    loc_18.f1 = 0;
-    loc_18.f2 = (s16)(-a1);
+    loc_18.vx = 0;
+    loc_18.vy = 0;
+    loc_18.vz = (s16)(-a1);
 
     ((void(*)(s32, s32, s32))guess_RotTransSVWithObjMatrix)((s32)a0, (s32)&loc_18, (s32)&loc_20);
     func_8012CEB0((s32)&loc_10, (s32)&loc_20, 0);

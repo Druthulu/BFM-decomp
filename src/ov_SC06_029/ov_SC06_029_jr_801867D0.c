@@ -3610,8 +3610,8 @@ s32 func_8018743C(void) {
     s32 vec[4];              /* sp+0x10 */
     s32 mtx[8];              /* sp+0x20 */
     s16 sv[4];               /* sp+0x40 */
-    Pos16_8018743C from;     /* sp+0x48 */
-    Pos16_8018743C to;       /* sp+0x58 */
+    Pair16 from;     /* sp+0x48 */
+    Pair16 to;       /* sp+0x58 */
     s32 ang[2];              /* sp+0x68 */
     s32 w;
     s32 n;
@@ -3621,14 +3621,14 @@ s32 func_8018743C(void) {
         guess_RotTransSVWithMatrix((s32)mtx, (s32)D_80191254, (s32)sv);
 
         CAST_ALIAS(s16, D_801DFF88, 0x6) = guess_g_PlayerPosX;
-        from.f2 = guess_g_PlayerPosX;
+        from.x.vy = guess_g_PlayerPosX;
         CAST_ALIAS(s16, D_801DFF88, 0xA) = guess_g_PlayerPosY - 0x30;
-        from.f6 = guess_g_PlayerPosY - 0x30;
+        from.x.pad = guess_g_PlayerPosY - 0x30;
         ((Unkstruct_800B5CB8 *)D_801DFF88)->unkE = guess_g_PlayerPosZ;
-        from.fA = guess_g_PlayerPosZ;
-        to.f2 = sv[0];
-        to.f6 = sv[1];
-        to.fA = sv[2];
+        from.y.vy = guess_g_PlayerPosZ;
+        to.x.vy = sv[0];
+        to.x.pad = sv[1];
+        to.y.vy = sv[2];
         func_8012B77C((s32)ang, (s32)&from, (s32)&to);
 
         w = ang[0];
@@ -4586,13 +4586,13 @@ void func_80189244(Obj_80189244 *p) {
 
     angle = 0;
     for (i = 0; i < 0x34; i++) {
-        p->unk00[i].unk00 = 0;
-        p->unk00[i].unk04 = 0;
+        p->unk00[i].vx = 0;
+        p->unk00[i].vz = 0;
     }
 
     for (i = 51; i > 0; i -= 2) {
-        p->unk00[i].unk02 = angle;
-        p->unk00[i - 1].unk02 = angle;
+        p->unk00[i].vy = angle;
+        p->unk00[i - 1].vy = angle;
         /* NOTE (§178): written as `angle + (-8 - r)` on purpose. The natural
          * `angle - 8 - (rand() % 8)` is reassociated by fold into
          * `angle - (r + 8)`, which costs one extra insn and loses the

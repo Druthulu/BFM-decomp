@@ -1834,9 +1834,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -3676,11 +3676,11 @@ void func_80178D40(s32 arg0, s32 arg1)
         (*(s16*)D_801904FC) = 3;
         break;
     case 0x4D:
-        v10.vx = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f0;
+        v10.vx = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk0;
         v10.vy = 0;
-        v10.vz = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f4;
+        v10.vz = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk4;
         ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Actor_80178D40 *)arg0), &v10, &v18);
-        v18.pad = ((Blk_80178D40 *)((Cmd_80178D40 *)arg1)->a.p)->f6;
+        v18.pad = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk6;
         func_80179D78(&v18);
         (*(s16*)D_801904FC) = 3;
         break;

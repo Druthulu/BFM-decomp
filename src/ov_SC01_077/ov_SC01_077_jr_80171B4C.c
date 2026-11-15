@@ -2515,8 +2515,8 @@ extern s32 func_80172CA0(void*);
 
 extern s16 D_80126B30;
 
-void func_80172C50(struct S8_80172780 *a0) {
-    (*(struct S8_80172780 *)&D_80126B30) = *a0;
+void func_80172C50(ElemK *a0) {
+    (*(ElemK *)&D_80126B30) = *a0;
     func_80174684((void *)func_80172CA0);
 }
 

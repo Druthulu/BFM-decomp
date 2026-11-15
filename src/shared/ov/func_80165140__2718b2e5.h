@@ -9,8 +9,8 @@ void func_80165140(s32 param_1) {
         p = &D_8018E960[i];
         if (p->used == 0) {
             p->used = 8;
-            p->a = *(B8_80165140 *)(((u8 *)param_1) + 0x2c);
-            p->b = *(B4_80165140 *)(((u8 *)param_1) + 0x50);
+            p->a = *(Unkstruct_8013B83C *)(((u8 *)param_1) + 0x2c);
+            p->b = *(CVECTOR *)(((u8 *)param_1) + 0x50);
             return;
         }
     }

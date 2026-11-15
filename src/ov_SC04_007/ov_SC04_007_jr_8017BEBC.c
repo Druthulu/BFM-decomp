@@ -3086,27 +3086,27 @@ void func_8017CD9C(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801B5238 = vec.a;
-    D_801B5228 = vec.a;
-    D_801B5218 = vec.a;
-    D_801B523C = vec.b;
-    D_801B522C = vec.b;
-    D_801B521C = vec.b;
-    D_801B5240 = vec.c;
-    D_801B5230 = vec.c;
-    D_801B5220 = vec.c;
+    D_801B5238 = vec.vx;
+    D_801B5228 = vec.vx;
+    D_801B5218 = vec.vx;
+    D_801B523C = vec.vy;
+    D_801B522C = vec.vy;
+    D_801B521C = vec.vy;
+    D_801B5240 = vec.vz;
+    D_801B5230 = vec.vz;
+    D_801B5220 = vec.vz;
 }
 
 
@@ -5629,15 +5629,15 @@ void func_801810A4(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
         }
     } else if (((Unkstruct_800B5CB8 *)a0)->unk98 != 0 && base[13] == 0) {
-        sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sp10.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        sp10.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        sp10.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
         sp18 = sp10;
-        sp18.y += 0x10;
+        sp18.unk2 += 0x10;
         func_80133784(1, &sp10, (s32)&sp18);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.x;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.y;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.z;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.unk4;
     }
 }
 
@@ -5922,7 +5922,7 @@ void func_801817E4(s32 a0) {
     extern u8 D_80198140[];
     extern u8 D_8019A758[];
     extern u8 D_801A0A84[];
-    St_80182784_801817E4 s;
+    struct S80190C84 s;
     s32 buf[8];
     u16 out[4];
     u16 sv[4];
@@ -7290,13 +7290,13 @@ void func_80183C24(s32 a0) {
 
     if (((Unkstruct_801821C8 *)a0)->unkC2 < 3) {
         if (((Unkstruct_801821C8 *)a0)->unk84 == 0) {
-            sp10.x = ((Unkstruct_801821C8 *)a0)->unk6;
+            sp10.unk0 = ((Unkstruct_801821C8 *)a0)->unk6;
             t = ((Unkstruct_801821C8 *)a0)->unkA;
-            sp10.y = t - 0x10;
-            sp10.z = ((Unkstruct_801821C8 *)a0)->unkE;
-            sp18.x = sp10.x;
-            sp18.y = t + 0x10;
-            sp18.z = sp10.z;
+            sp10.unk2 = t - 0x10;
+            sp10.unk4 = ((Unkstruct_801821C8 *)a0)->unkE;
+            sp18.unk0 = sp10.unk0;
+            sp18.unk2 = t + 0x10;
+            sp18.unk4 = sp10.unk4;
             if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
                 guess_RequestSound(0x83C, 0);
                 ((Unkstruct_801821C8 *)a0)->unk84 = 0x1E;
@@ -7506,15 +7506,15 @@ void func_80183FF8(s32 a0) {
     func_8012CBCC(a0);
 
     for (i = 0; i < 8; i += 2) {
-        sp10.x = *(u16 *)(a0 + 0x6) - D_801AC540[i];
+        sp10.vx = *(u16 *)(a0 + 0x6) - D_801AC540[i];
         y = *(u16 *)(a0 + 0xA);
-        sp10.y = y - 0x20;
-        sp10.z = *(u16 *)(a0 + 0xE) - D_801AC540[i + 1];
-        sp18.x = sp10.x;
-        sp18.y = y + 0x10;
-        sp18.z = sp10.z;
+        sp10.vy = y - 0x20;
+        sp10.vz = *(u16 *)(a0 + 0xE) - D_801AC540[i + 1];
+        sp18.vx = sp10.vx;
+        sp18.vy = y + 0x10;
+        sp18.vz = sp10.vz;
         if (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) {
-            u16 ny = sp18.y;
+            u16 ny = sp18.vy;
             *(s16 *)(a0 + 0x98) = 1;
             *(s16 *)(a0 + 0x2) = 5;
             *(s16 *)(a0 + 0xFC) = 0;
@@ -7524,14 +7524,14 @@ void func_80183FF8(s32 a0) {
         }
     }
 
-    sp10.y = -0x10;
-    sp18.y = 0x20;
+    sp10.vy = -0x10;
+    sp18.vy = 0x20;
     for (i = -0x48; i < 0x50; i += 0x20) {
-        sp10.x = i;
-        sp18.x = i;
+        sp10.vx = i;
+        sp18.vx = i;
         for (j = -0x48; j < 0x28; j += 0x20) {
-            sp10.z = j;
-            sp18.z = j;
+            sp10.vz = j;
+            sp18.vz = j;
             if (func_8012D5E4(a0, (s32)&sp10, (s32)&sp18, 0x80) == 1) {
                 D_80126B96 = 0x4002;
             }

@@ -4390,9 +4390,9 @@ s32 func_80184F44(s32 param_1) {
     extern MATRIX *D_801BE878;     /* matrix pool cursor */
     extern MATRIX D_801D0B58[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;
@@ -4894,15 +4894,15 @@ void func_80185CD8(void) {
 
 
 
-extern Blk4_80185D4C D_801D0D80;
-extern Blk4_80185D4C D_801CF0E4;
-extern Blk4_80185D4C D_801CF0DC;
+extern CVECTOR D_801D0D80;
+extern CVECTOR D_801CF0E4;
+extern CVECTOR D_801CF0DC;
 
 void func_80185D4C(void) {
-    Blk4_80185D4C *dst;
+    CVECTOR *dst;
 
     dst = &D_801D0D80;
-    if (dst->b[0] == 0xFF) {
+    if (dst->r == 0xFF) {
         *dst = D_801CF0E4;
     } else {
         *dst = D_801CF0DC;
@@ -5487,7 +5487,7 @@ void func_80186A88(s32 param_1)
 
 extern s32 guess_AllocSpriteObjectHigh(void);
 extern void guess_InitObjectKind6(s32 a0, void *a1);
-extern Blk4_80185D4C D_801D0D80;
+extern CVECTOR D_801D0D80;
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80186AD0(s32 param_1)
@@ -5808,7 +5808,7 @@ void func_801874E8(void)
 
 
 
-void func_8018750C(u8 *param_1, B4_8018750C param_2) {
+void func_8018750C(u8 *param_1, CVECTOR param_2) {
     extern Blip_8018F694 D_801D0B80[];
     u8 *p;
     u8 *q;
@@ -5819,8 +5819,8 @@ void func_8018750C(u8 *param_1, B4_8018750C param_2) {
     for (i = 0; i < 32; i++) {
         q = p + 6;
         if (*(s16 *)(q + 8) == 0) {
-            *(B8_8018750C *)(void *)(q + 2) = *(B8_8018750C *)param_1;
-            *(B4_8018750C *)(void *)p = *(B4_8018750C *)(void *)&param_2;
+            *(Unkstruct_8013B83C *)(void *)(q + 2) = *(Unkstruct_8013B83C *)param_1;
+            *(CVECTOR *)(void *)p = *(CVECTOR *)(void *)&param_2;
             v = p[0] >> 3;
             q[-2] = v ? v : 1;
             v = q[-5] >> 3;
@@ -6073,7 +6073,7 @@ void func_80187C1C(s32 param_1) {
 
 
 extern void func_80186AD0(s32 a0);
-extern void func_8018750C(u8*, B4_8018750C);
+extern void func_8018750C(u8*, CVECTOR);
 
 void func_80187C94(param_1)
 s32 param_1;

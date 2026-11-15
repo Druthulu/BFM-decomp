@@ -4390,8 +4390,8 @@ s32 func_8017E210(u8 *a0) {
 void func_8017E224(s32 param_1)
 {
     extern s32 func_80171D1C(void *a0, void *a1, s32 a2);
-    extern Blk8_8017E224 D_801D90F0;
-    Blk8_8017E224 buffer;
+    extern Unkstruct_8013B83C D_801D90F0;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801D90F0;
 
@@ -5164,7 +5164,7 @@ void func_8017F5BC(int param_1)
     int c70;
     short vf4;
     unsigned short v5c;
-    struct buf_8017F5BC sp;
+    struct S80190C84 sp;
 
     ((Unkstruct_8017F460 *)param_1)->unk2 = 2;
     ((Unkstruct_8017F460 *)param_1)->unk34 = 0;
@@ -5182,9 +5182,9 @@ void func_8017F5BC(int param_1)
         vf4 = ((Unkstruct_8017F460 *)param_1)->unkE + 0x20;
         sp.f6 = 0x2f;
         sp.f8 = 0x600;
-        sp.fa = 0;
+        sp.fA = 0;
         sp.f10 = 0;
-        sp.fe = 0;
+        sp.fE = 0;
         sp.f4 = vf4;
         iVar1 = ((int (*)(int, int))func_8012C51C)((int)&sp, param_1);
         if (iVar1 != 0) {

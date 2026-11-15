@@ -2764,8 +2764,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2777,8 +2777,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801E1A8C;
         s16 *p78C = &D_801E1A84;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801E1BC8 = 1;
@@ -3970,7 +3970,7 @@ void func_8017DA9C(s32 a0) {
 }
 
 
-extern Blk8_8017DAFC D_801E06BC;
+extern Unkstruct_8013B83C D_801E06BC;
 extern u8 D_801858EC;
 extern void guess_StartPadVibration(void *a0);
 extern s32 func_80171D78(s32 a0, s32 a1);
@@ -3981,7 +3981,7 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017DAFC(void *a0) {
     void *s0 = a0;
-    Blk8_8017DAFC buffer;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801E06BC;
     guess_StartPadVibration(&D_801858EC);
@@ -4667,7 +4667,7 @@ L_end:
 /* 8-byte, 2-byte-aligned blob: the plain struct assignment below is what emits the
    target's lwl/lwr + swl/swr block move (cookbook §48-C2 / §160a). */
 
-extern Blk8_801E0764 D_801E0764;
+extern Unkstruct_801343C4 D_801E0764;
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern u8 D_80126B5C;
 extern s32 D_80126B60;
@@ -4683,7 +4683,7 @@ extern void func_8017F018(s32 a0);
 extern void func_8017F0E8(u8 *a0, u8 *a1);
 
 void func_8017EDD4(s32 a0) {
-    Blk8_801E0764 buf;
+    Unkstruct_801343C4 buf;
     u8 *p;
     u16 v0;
 
@@ -4720,7 +4720,7 @@ void func_8017EDD4(s32 a0) {
 #include "common.h"
 
 
-extern Blk8_801E076C D_801E076C;
+extern Unkstruct_801343C4 D_801E076C;
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8017F0E8(u8 *a0, u8 *a1);
 extern void func_80131E00(struct S80131E00 *a0, s32 a1);
@@ -4730,8 +4730,8 @@ extern s32 func_8012AD50(void *a0);
 
 void func_8017EEE0(s32 a0)
 {
-    Blk8_801E076C local_20;
-    Blk8_801E076C local_18;
+    Unkstruct_801343C4 local_20;
+    Unkstruct_801343C4 local_18;
     s32 p;
 
     local_20 = D_801E076C;

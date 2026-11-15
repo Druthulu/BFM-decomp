@@ -21,12 +21,12 @@ void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     ent = arg0;
     node = *(s32 *)(ent + 0x34);
-    f.v[1].z = 0;
-    f.v[1].y = 0;
-    f.v[1].x = 0;
-    f.v[3].z = 0;
-    f.v[2].z = 0;
-    f.v[0].z = 0;
+    f.v[1].vz = 0;
+    f.v[1].vy = 0;
+    f.v[1].vx = 0;
+    f.v[3].vz = 0;
+    f.v[2].vz = 0;
+    f.v[0].vz = 0;
     f.col[1].b = 0x70;
     cv = *(u8 *)(ent + 0x12);
     f.cx = arg1;
@@ -63,20 +63,20 @@ void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     i = 0;
 
     do {
-        f.v[0].x = (s8)*p++;
-        f.v[0].y = (s8)*p++;
-        f.v[2].x = (s8)*p++;
-        f.v[2].y = (s8)*p++;
-        f.v[3].x = (s8)*p++;
-        f.v[3].y = (s8)*p--;
+        f.v[0].vx = (s8)*p++;
+        f.v[0].vy = (s8)*p++;
+        f.v[2].vx = (s8)*p++;
+        f.v[2].vy = (s8)*p++;
+        f.v[3].vx = (s8)*p++;
+        f.v[3].vy = (s8)*p--;
         guess_AddPolyG4(f.v, f.m1);
     } while ((i = i + 1) < 4);
 
     p = D_801819B4;
     i = 0;
-    f.v[3].y = 0;
-    f.v[2].y = 0;
-    f.v[0].y = 0;
+    f.v[3].vy = 0;
+    f.v[2].vy = 0;
+    f.v[0].vy = 0;
     f.col[1].g = 0xA0;
     f.col[1].b = 0x10;
     f.col[1].r = 0x10;
@@ -85,12 +85,12 @@ void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     f.pos[2] = guess_g_MainCameraAppliedViewPointZ - (s16)f.cz;
 
     do {
-        f.v[0].x = (s8)*p++;
-        f.v[0].z = (s8)*p++;
-        f.v[2].x = (s8)*p++;
-        f.v[2].z = (s8)*p++;
-        f.v[3].x = (s8)*p++;
-        f.v[3].z = (s8)*p--;
+        f.v[0].vx = (s8)*p++;
+        f.v[0].vz = (s8)*p++;
+        f.v[2].vx = (s8)*p++;
+        f.v[2].vz = (s8)*p++;
+        f.v[3].vx = (s8)*p++;
+        f.v[3].vz = (s8)*p--;
         guess_AddPolyG4(f.v, (void *)(ent + 0x38));
     } while ((i = i + 1) < 4);
 
@@ -103,9 +103,9 @@ void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         f.cx = f.cy = f.cz = ((u32)*(s32 *)(ent + 0x30) >> 1) + D_80126CE0 * 0x20;
         func_80017DC4(&f.cx, f.m2);
         func_80048EAC(f.m2, f.m1);
-        f.v[3].z = 0;
-        f.v[2].z = 0;
-        f.v[0].z = 0;
+        f.v[3].vz = 0;
+        f.v[2].vz = 0;
+        f.v[0].vz = 0;
         cv2 = *(u8 *)(ent + 0x12);
         f.col[1].b = 0x20;
         f.col[1].r = 0x20;
@@ -122,12 +122,12 @@ void func_801670E4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         p = D_801819DC;
         i = 0;
         do {
-            f.v[0].x = (s8)*p++;
-            f.v[0].y = (s8)*p++;
-            f.v[2].x = (s8)*p++;
-            f.v[2].y = (s8)*p++;
-            f.v[3].x = (s8)*p++;
-            f.v[3].y = (s8)*p--;
+            f.v[0].vx = (s8)*p++;
+            f.v[0].vy = (s8)*p++;
+            f.v[2].vx = (s8)*p++;
+            f.v[2].vy = (s8)*p++;
+            f.v[3].vx = (s8)*p++;
+            f.v[3].vy = (s8)*p--;
             guess_AddPolyG4(f.v, f.m1);
         } while ((i = i + 1) < 8);
     }

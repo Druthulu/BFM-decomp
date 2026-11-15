@@ -4,6 +4,6 @@ extern void func_80174684(void *);
 extern s16 D_80126B30;
 extern s32 func_801727D0(void *a0);
 void func_80172780(void *a0) {
-    *(struct S8_80172780 *)&D_80126B30 = *(struct S8_80172780 *)a0;
+    *(ElemK *)&D_80126B30 = *(ElemK *)a0;
     func_80174684((void *)func_801727D0);
 }

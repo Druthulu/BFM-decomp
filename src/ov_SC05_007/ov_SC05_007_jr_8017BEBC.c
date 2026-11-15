@@ -3082,8 +3082,8 @@ void func_8017D7A0(void *param_1)
     }
     p_buf = (u8 *)&D_8019CD50;
     ((void (*)(void *, unsigned short))guess_BuildCircle12Points)(p_buf, 0x28);
-    *(Blk4_8017D7A0 *)p_buf = *(Blk4_8017D7A0 *)&D_8019BA08;
-    *(Blk4_8017D7A0 *)(p_buf + 4) = *(Blk4_8017D7A0 *)&D_8019BA0C;
+    *(CVECTOR *)p_buf = *(CVECTOR *)&D_8019BA08;
+    *(CVECTOR *)(p_buf + 4) = *(CVECTOR *)&D_8019BA0C;
     ((void (*)(int, void *))guess_InitObjectKind6)(s1, p_buf);
     ((Unkstruct_800CAFE0 *)s1)->unk2C = 0xC010;
     ((Unkstruct_800CAFE0 *)s1)->unk4 |= 0x50000000;

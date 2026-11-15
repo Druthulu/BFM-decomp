@@ -2759,8 +2759,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2772,8 +2772,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801B757C;
         s16 *p78C = &D_801B7574;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801B7A98 = 1;
@@ -3450,27 +3450,27 @@ void func_8017C180(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801B75C8 = vec.a;
-    D_801B75B8 = vec.a;
-    D_801B75A8 = vec.a;
-    D_801B75CC = vec.b;
-    D_801B75BC = vec.b;
-    D_801B75AC = vec.b;
-    D_801B75D0 = vec.c;
-    D_801B75C0 = vec.c;
-    D_801B75B0 = vec.c;
+    D_801B75C8 = vec.vx;
+    D_801B75B8 = vec.vx;
+    D_801B75A8 = vec.vx;
+    D_801B75CC = vec.vy;
+    D_801B75BC = vec.vy;
+    D_801B75AC = vec.vy;
+    D_801B75D0 = vec.vz;
+    D_801B75C0 = vec.vz;
+    D_801B75B0 = vec.vz;
 }
 
 
@@ -6466,7 +6466,7 @@ void func_80181C2C(void *a0) {
                     *(u16 *)(p + 6) = w;
                     if (*(s16 *)(p + 2) < (s16)w) {
                         *(s32 *)(p + 0x14) = 2;
-                        *(W4_td *)(p + 4) = *(W4_td *)p;
+                        *(CVECTOR *)(p + 4) = *(CVECTOR *)p;
                         goto next;
                     }
                 }
@@ -6519,8 +6519,8 @@ extern void func_80016A3C(void *a0);
 void func_80181E88(void *a0) {
     Prim_80181E88 p;
 
-    p.f00 = *(W4_td *)a0;
-    p.f08 = *(W4_td *)((u8 *)a0 + 4);
+    p.f00 = *(CVECTOR *)a0;
+    p.f08 = *(CVECTOR *)((u8 *)a0 + 4);
     p.f04 = 1;
     p.f10 = 0x808080;
     p.f14 = 0;
@@ -6863,7 +6863,7 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
         } else {
             valA = oldA - tA;
         }
-        sp10.x = valA;
+        sp10.unk0 = valA;
 
         if (flag != 0) {
             tB = rand() % 80;
@@ -6873,14 +6873,14 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
             } else {
                 valB = oldB - tB;
             }
-            sp10.z = valB;
+            sp10.unk4 = valB;
         }
 
         ent = func_80132EF4(a0, 0x22);
         if (ent != 0) {
-            ((Unkstruct_800B5CB8 *)ent)->unk6 = sp10.x;
-            ((Unkstruct_800B5CB8 *)ent)->unkA = sp10.y;
-            ((Unkstruct_800B5CB8 *)ent)->unkE = sp10.z;
+            ((Unkstruct_800B5CB8 *)ent)->unk6 = sp10.unk0;
+            ((Unkstruct_800B5CB8 *)ent)->unkA = sp10.unk2;
+            ((Unkstruct_800B5CB8 *)ent)->unkE = sp10.unk4;
             r1 = rand();
             r2 = rand();
             ((Unkstruct_800B5CB8 *)ent)->unk34 = ((((r1 % 0x2000) + 0x3000) & ~0xF) | (r2 % 3));
@@ -6891,22 +6891,22 @@ void func_80182674(s32 a0, s16 *vec, s32 count, s32 flag) {
 
 
 void func_80182848(void *a0, u8 *a1, s32 a2, s32 a3, s32 a4) {
-    Spawn8_80182848 sp;
+    SVECTOR sp;
     s32 i;
     s32 t;
     s32 m;
     s32 b1;
     s32 b2;
 
-    sp = *(Spawn8_80182848 *)a1;
+    sp = *(SVECTOR *)a1;
     for (i = 0; i < a2; i++) {
         t = rand() % 320;
         b1 = ((Unkstruct_80182848 *)a1)->unk0;
-        sp.f0 = (rand() & 1) ? b1 + t : b1 - t;
+        sp.vx = (rand() & 1) ? b1 + t : b1 - t;
         if (a3 != 0) {
             m = rand() % 64;
             b2 = ((Unkstruct_80182848 *)a1)->unk4;
-            sp.f2 = (rand() & 1) ? b2 + m : b2 - m;
+            sp.vz = (rand() & 1) ? b2 + m : b2 - m;
         }
         func_8017BEBC(a0, (s16 *)&sp, (s16)a4);
     }

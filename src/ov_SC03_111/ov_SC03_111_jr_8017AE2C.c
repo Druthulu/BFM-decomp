@@ -2760,8 +2760,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2773,8 +2773,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801B95C4;
         s16 *p78C = &D_801B95BC;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801B9B10 = 1;
@@ -4283,27 +4283,27 @@ void func_8017D27C(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801B9628 = vec.a;
-    D_801B9618 = vec.a;
-    D_801B9608 = vec.a;
-    D_801B962C = vec.b;
-    D_801B961C = vec.b;
-    D_801B960C = vec.b;
-    D_801B9630 = vec.c;
-    D_801B9620 = vec.c;
-    D_801B9610 = vec.c;
+    D_801B9628 = vec.vx;
+    D_801B9618 = vec.vx;
+    D_801B9608 = vec.vx;
+    D_801B962C = vec.vy;
+    D_801B961C = vec.vy;
+    D_801B960C = vec.vy;
+    D_801B9630 = vec.vz;
+    D_801B9620 = vec.vz;
+    D_801B9610 = vec.vz;
 }
 
 
@@ -5398,16 +5398,16 @@ void func_8017EAE8(void *a0)
 
     p = (s32)a0;
     if (((Unkstruct_8017EAE8 *)p)->unk2C != 0) {
-        prim.v[0].y = ((Unkstruct_8017EAE8 *)p)->unkA - 0x20;
-        prim.v[1].y = ((Unkstruct_8017EAE8 *)p)->unkA + 0x20;
+        prim.v[0].vy = ((Unkstruct_8017EAE8 *)p)->unkA - 0x20;
+        prim.v[1].vy = ((Unkstruct_8017EAE8 *)p)->unkA + 0x20;
     } else {
-        prim.v[0].y = ((Unkstruct_8017EAE8 *)p)->unkA + 0x20;
-        prim.v[1].y = ((Unkstruct_8017EAE8 *)p)->unkA - 0x20;
+        prim.v[0].vy = ((Unkstruct_8017EAE8 *)p)->unkA + 0x20;
+        prim.v[1].vy = ((Unkstruct_8017EAE8 *)p)->unkA - 0x20;
     }
-    prim.v[0].x = ((Unkstruct_8017EAE8 *)p)->unk6;
-    prim.v[0].z = ((Unkstruct_8017EAE8 *)p)->unkE;
-    prim.v[1].x = ((Unkstruct_8017EAE8 *)p)->unk6;
-    prim.v[1].z = ((Unkstruct_8017EAE8 *)p)->unkE;
+    prim.v[0].vx = ((Unkstruct_8017EAE8 *)p)->unk6;
+    prim.v[0].vz = ((Unkstruct_8017EAE8 *)p)->unkE;
+    prim.v[1].vx = ((Unkstruct_8017EAE8 *)p)->unk6;
+    prim.v[1].vz = ((Unkstruct_8017EAE8 *)p)->unkE;
     prim.col[0].b = 0;
     prim.col[0].g = 0;
     prim.col[0].r = 0;

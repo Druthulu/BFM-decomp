@@ -3910,14 +3910,14 @@ void func_8017F378(s32 param_1)
 
 
 void func_8017F474(void *a0) {
-    extern struct B8_17F474 D_8018A790[];
+    extern Unkstruct_8013B83C D_8018A790[];
     extern s32 D_801270D8;
     extern s32 guess_TickWaitTimer(s32 a0);
     extern s32 func_8012BD14(s32 a0);
     extern s32 D_80126B9C;
     extern void func_8017F218(void *a0);
 
-    CAST_WIDTH(struct B8_17F474, (s32)a0, 0x50) = D_8018A790[0];
+    CAST_WIDTH(Unkstruct_8013B83C, (s32)a0, 0x50) = D_8018A790[0];
 
     if (D_801270D8 == 6) {
         if (guess_TickWaitTimer((s32)a0)) {

@@ -3170,13 +3170,13 @@ void func_80182944(void *arg0) {
     s32 s0;
     s32 s1 = (s32)arg0;
     u8 *s2 = (u8 *)guess_g_RenderWork;
-    V8x_80180D2C out;
+    SVECTOR out;
 
     v0 = ((Unkstruct_800B5CB8 *)s1)->unkD0;
     if (v0 != 0) {
         s0 = v0;
         guess_RotTransSVWithObjMatrix((s32)arg0, (s32)&D_801A8338, (s32)&out);
-        CAST_WIDTH(V8x_80180D2C, s0, 8) = out;
+        CAST_WIDTH(SVECTOR, s0, 8) = out;
 
         if (*(u32 *)(((Unkstruct_800B5CB8 *)s1)->unk20 + 4) & 0x80000000) {
             CAST_WIDTH(s32, s0, 4) |= 0x80000000;

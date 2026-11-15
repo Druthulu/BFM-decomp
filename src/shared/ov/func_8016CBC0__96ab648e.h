@@ -56,26 +56,26 @@ short func_8016CBC0(void)
           {
             unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
-            p0.v[0].x = a;
+            p0.v[0].vx = a;
             b = pv->unk0.v0.h[3];
-            p1.v[1].x = b;
-            p0.v[1].x = (p1.v[0].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[1].vx = b;
+            p0.v[1].vx = (p1.v[0].vx = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
             unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
-            p0.v[0].y = a;
+            p0.v[0].vy = a;
             b = pv->unk0.v0.h[4];
             uc = ((unsigned) (col & 0xFF)) >> 3;
-            p1.v[1].y = b;
-            p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[1].vy = b;
+            p0.v[1].vy = (p1.v[0].vy = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
             w9 = uVar9 - 1;
             uVar9 = w9;
           }
           {
             unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
-            p0.v[0].z = a;
+            p0.v[0].vz = a;
             b = pv->unk0.v0.h[5];
             p1.col[0].g = col;
             p0.col[1].g = col;
@@ -83,8 +83,8 @@ short func_8016CBC0(void)
             p0.col[1].b = uc;
             p1.col[0].r = uc;
             p0.col[1].r = uc;
-            p1.v[1].z = b;
-            p0.v[1].z = (p1.v[0].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[1].vz = b;
+            p0.v[1].vz = (p1.v[0].vz = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           if (w9 < 0)
           {
@@ -97,23 +97,23 @@ short func_8016CBC0(void)
           {
             unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
-            p0.v[2].x = a;
+            p0.v[2].vx = a;
             b = pv->unk0.v0.h[3];
-            p1.v[3].x = b;
-            p0.v[3].x = (p1.v[2].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[3].vx = b;
+            p0.v[3].vx = (p1.v[2].vx = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
             unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
-            p0.v[2].y = a;
+            p0.v[2].vy = a;
             b = pv->unk0.v0.h[4];
-            p1.v[3].y = b;
-            p0.v[3].y = (p1.v[2].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[3].vy = b;
+            p0.v[3].vy = (p1.v[2].vy = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
             unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
-            p0.v[2].z = a;
+            p0.v[2].vz = a;
             b = pv->unk0.v0.h[5];
             p1.col[2].g = col;
             p0.col[3].g = col;
@@ -121,8 +121,8 @@ short func_8016CBC0(void)
             p0.col[3].b = a2;
             p1.col[2].r = a2;
             p0.col[3].r = a2;
-            p1.v[3].z = b;
-            p0.v[3].z = (p1.v[2].z = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
+            p1.v[3].vz = b;
+            p0.v[3].vz = (p1.v[2].vz = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           guess_AddPolyG4(&p0, &mtx);
           guess_AddPolyG4(&p1, &mtx);

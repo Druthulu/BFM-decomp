@@ -2751,8 +2751,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2764,8 +2764,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801B37B4;
         s16 *p78C = &D_801B37AC;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801B3BD8 = 1;
@@ -3703,27 +3703,27 @@ void func_8017CD9C(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801B3800 = vec.a;
-    D_801B37F0 = vec.a;
-    D_801B37E0 = vec.a;
-    D_801B3804 = vec.b;
-    D_801B37F4 = vec.b;
-    D_801B37E4 = vec.b;
-    D_801B3808 = vec.c;
-    D_801B37F8 = vec.c;
-    D_801B37E8 = vec.c;
+    D_801B3800 = vec.vx;
+    D_801B37F0 = vec.vx;
+    D_801B37E0 = vec.vx;
+    D_801B3804 = vec.vy;
+    D_801B37F4 = vec.vy;
+    D_801B37E4 = vec.vy;
+    D_801B3808 = vec.vz;
+    D_801B37F8 = vec.vz;
+    D_801B37E8 = vec.vz;
 }
 
 
@@ -6946,8 +6946,8 @@ void func_801821E0(s32 param_1)
     extern void RotMatrixY(s32 a0, void *a1);
 
     Blk20_8016DF5C m;   /* sp+0x10 */
-    SV_801821E0 v;      /* sp+0x30 */
-    SV_801821E0 out;    /* sp+0x38 */
+    SVECTOR v;      /* sp+0x30 */
+    SVECTOR out;    /* sp+0x38 */
     s32 s0;
     s16 s2;
 
@@ -6965,9 +6965,9 @@ void func_801821E0(s32 param_1)
             RotMatrixY(s2, &m);
             SetRotMatrix(&m);
             RotTransSV(D_80192EB4, &v, &out);
-            CAST_ALIAS(u16, (u8 *)s0, 0x6) = *(u16 *)&v.a;
-            CAST_ALIAS(u16, (u8 *)s0, 0xA) = *(u16 *)&v.b;
-            ((Unkstruct_801819D0_2 *)s0)->unkE = *(u16 *)&v.c;
+            CAST_ALIAS(u16, (u8 *)s0, 0x6) = *(u16 *)&v.vx;
+            CAST_ALIAS(u16, (u8 *)s0, 0xA) = *(u16 *)&v.vy;
+            ((Unkstruct_801819D0_2 *)s0)->unkE = *(u16 *)&v.vz;
             ApplyRotMatrixLV(D_80192EBC, (void *)(param_1 + 0x10));
             ((Unkstruct_801819D0_2 *)s0)->unk34 = 0x4000;
         }

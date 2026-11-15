@@ -2860,7 +2860,7 @@ extern unsigned char D_801A6B06;
 
 
 void func_8017D118(s32 a0) {
-    St_8017D118 st;
+    struct S80190C84 st;
     s32 state;
     s32 p2;
     s32 p3;
@@ -2875,51 +2875,51 @@ void func_8017D118(s32 a0) {
             return;
         }
         func_8001C2C4(t);
-        st.f3 = 0x337;
-        st.f5 = 0;
-        st.f6 = 0;
-        st.f7 = 0;
-        st.f8 = 0;
+        st.f6 = 0x337;
+        st.fA = 0;
+        st.fC = 0;
+        st.fE = 0;
+        st.f10 = 0;
         if (((Unkstruct_800B5CB8 *)a0)->unkCC == 0) {
-            st.f4 = 0;
+            st.f8 = 0;
             st.f0 = -0x100;
-            st.f1 = -0x202;
-            st.f2 = 0;
+            st.f2 = -0x202;
+            st.f4 = 0;
             ((Unkstruct_800B5CB8 *)a0)->unkCC = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkD4 == 0) {
-            st.f4 = 2;
+            st.f8 = 2;
             st.f0 = -0xF8;
-            st.f1 = -0x502;
-            st.f2 = 0x60;
+            st.f2 = -0x502;
+            st.f4 = 0x60;
             ((Unkstruct_800B5CB8 *)a0)->unkD4 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkD0 == 0) {
-            st.f4 = 1;
+            st.f8 = 1;
             st.f0 = 0x1C0;
-            st.f1 = -0x202;
-            st.f2 = 0x160;
+            st.f2 = -0x202;
+            st.f4 = 0x160;
             ((Unkstruct_800B5CB8 *)a0)->unkD0 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkD8 == 0) {
-            st.f4 = 3;
+            st.f8 = 3;
             st.f0 = -0x100;
-            st.f1 = -0x202;
-            st.f2 = 0x60;
+            st.f2 = -0x202;
+            st.f4 = 0x60;
             ((Unkstruct_800B5CB8 *)a0)->unkD8 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkF8 == 0) {
-            st.f4 = 4;
+            st.f8 = 4;
             st.f0 = -0x100;
-            st.f1 = -0x202;
-            st.f2 = 0x60;
+            st.f2 = -0x202;
+            st.f4 = 0x60;
             ((Unkstruct_800B5CB8 *)a0)->unkF8 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkF4 == 0) {
-            st.f4 = 5;
+            st.f8 = 5;
             st.f0 = -0x100;
-            st.f1 = -0x252;
-            st.f2 = 0x60;
+            st.f2 = -0x252;
+            st.f4 = 0x60;
             ((Unkstruct_800B5CB8 *)a0)->unkF4 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_800B5CB8 *)a0)->unkCC != 0 && ((Unkstruct_800B5CB8 *)a0)->unkD0 != 0 &&
@@ -3901,17 +3901,17 @@ extern s32 func_8012C51C(void *arg0, s32 arg1);
 
 
 void func_8017EDC4(s32 arg0) {
-    St_8017EDC4 st;
+    struct S80190C84 st;
 
-    st.f3 = 0x337;
-    st.f4 = 6;
+    st.f6 = 0x337;
+    st.f8 = 6;
     st.f0 = -0x100;
-    st.f1 = -0x202;
-    st.f5 = 0;
-    st.f6 = 0;
-    st.f7 = 0;
-    st.f8 = 0;
-    st.f2 = 0x60;
+    st.f2 = -0x202;
+    st.fA = 0;
+    st.fC = 0;
+    st.fE = 0;
+    st.f10 = 0;
+    st.f4 = 0x60;
     func_8012C51C(&st, arg0);
 }
 
@@ -3921,17 +3921,17 @@ extern s32 func_8012C51C(void *arg0, s32 arg1);
 
 
 void func_8017EE20(s32 arg0) {
-    St_8017EDC4 st;
+    struct S80190C84 st;
 
-    st.f3 = 0x337;
-    st.f4 = 7;
+    st.f6 = 0x337;
+    st.f8 = 7;
     st.f0 = 0x120;
-    st.f5 = 0;
-    st.f6 = 0;
-    st.f7 = 0;
-    st.f8 = 0;
-    st.f1 = -0x202;
-    st.f2 = 0;
+    st.fA = 0;
+    st.fC = 0;
+    st.fE = 0;
+    st.f10 = 0;
+    st.f2 = -0x202;
+    st.f4 = 0;
     func_8012C51C(&st, arg0);
 }
 

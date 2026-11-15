@@ -2795,7 +2795,7 @@ extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017E83C(s32 arg0);
 extern s32 func_8017EA04(s32 arg0);
 extern MTX_8017EA48 D_800AE620;
-extern SV4_8017EA48 D_8018BD34[];
+extern SVECTOR D_8018BD34[];
 extern s32 D_801270C8[];
 extern s16 D_80126B98;
 extern s16 D_80126B9A;
@@ -2962,7 +2962,7 @@ extern s32 guess_g_PlayerActor;          /* TU:53   verbatim */ // Names ledger:
 extern s32 D_801270C8[];        /* TU:4480 verbatim */
 extern u8 guess_g_BoxHitNormalX[];         /* TU:597  verbatim */ // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern void D_801CAB58;         /* TU:5246 verbatim */
-extern SV4_8018256C D_8018C340[];        /* overlay-local canned SVECTOR pair */
+extern SVECTOR D_8018C340[];        /* overlay-local canned SVECTOR pair */
 extern void func_8018256C(s32 param_1);
 extern void (*D_8018C350[])(void);
 extern void func_801827CC(void *a0);
@@ -3012,7 +3012,7 @@ extern u8  D_8018C514[];
 extern s32 D_8018C510;
 extern s32 D_801E9CD8;
 extern void func_8018335C(s32 a0);
-extern SV4_801836B8 D_8018C524[];
+extern SVECTOR D_8018C524[];
 extern void func_801836B8(s32 param_1, s32 param_2);
 
 

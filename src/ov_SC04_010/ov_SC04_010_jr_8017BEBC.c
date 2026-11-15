@@ -3024,8 +3024,8 @@ s32 func_8017D5DC(void* param_1)
 
     s0 = D_8018F598;
     guess_BuildCircle12Points(s0, 0x28);
-    *(Blk4_8017D5DC *)s0 = *(Blk4_8017D5DC *)D_8018E24C;
-    *(Blk4_8017D5DC *)D_8018F59C = *(Blk4_8017D5DC *)D_8018E250;
+    *(CVECTOR *)s0 = *(CVECTOR *)D_8018E24C;
+    *(CVECTOR *)D_8018F59C = *(CVECTOR *)D_8018E250;
 
     guess_InitObjectKind6(s1, s0);
 

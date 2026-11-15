@@ -3411,9 +3411,9 @@ void func_8017DF28(s32 param_1)
 
     guess_InitModelObject(obj, (s32)D_801AAD08);
 
-    *(Q_8017DF28 *)(obj + 0x08) = *(Q_8017DF28 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x08);
-    *(Q_8017DF28 *)(obj + 0x10) = *(Q_8017DF28 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x10);
-    *(Q_8017DF28 *)(obj + 0x18) = *(Q_8017DF28 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x18);
+    *(SVECTOR *)(obj + 0x08) = *(SVECTOR *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x08);
+    *(SVECTOR *)(obj + 0x10) = *(SVECTOR *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x10);
+    *(SVECTOR *)(obj + 0x18) = *(SVECTOR *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x18);
     *(s32 *)(obj + 0x04) = *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x04);
     *(u16 *)(obj + 0x2C) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C;
 
@@ -4143,25 +4143,25 @@ s32 func_8017F30C(s32 a0) {
     Vec4h_8017F30C p1;
     Vec4h_8017F30C p2;
 
-    p1.z = D_80191054;
-    p2.z = D_80191056;
-    p1.y = p2.y = D_80191050;
-    p1.x = p2.x = ((s16)D_8019104C) >> 1;
+    p1.unk4 = D_80191054;
+    p2.unk4 = D_80191056;
+    p1.unk2 = p2.unk2 = D_80191050;
+    p1.unk0 = p2.unk0 = ((s16)D_8019104C) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         return 1;
     }
 
-    p1.x = p2.x = ((s16)D_8019104E) >> 1;
+    p1.unk0 = p2.unk0 = ((s16)D_8019104E) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         return 1;
     }
 
-    p1.y = p2.y = D_80191052;
+    p1.unk2 = p2.unk2 = D_80191052;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         return 1;
     }
 
-    p1.x = p2.x = ((s16)D_8019104C) >> 1;
+    p1.unk0 = p2.unk0 = ((s16)D_8019104C) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         return 1;
     }

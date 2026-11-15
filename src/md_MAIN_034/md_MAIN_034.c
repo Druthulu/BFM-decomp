@@ -814,7 +814,7 @@ extern void guess_FreeObjectAndSubObject_19(void);   /* TU later defines this vo
 
 extern Quad4_800CCAD0 D_800CCAD0;   /* struct base passed to guess_InitObjectKind6; D_800CCAD4 below is its +4 quad */
 extern Quad4_800CCAD0 D_800CCAD4;
-extern Quad4_800CCB14 D_800CCB14;
+extern CVECTOR D_800CCB14;
 extern u8 D_800CCB10;
 extern u8 D_800CCB11;
 extern u8 D_800CCB12;
@@ -845,9 +845,9 @@ void func_800CC310(void *a0)
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;
 
-        (*(Quad4_800CCAD0 *)&D_800CCB14).f0 = 0x20;
-        (*(Quad4_800CCAD0 *)&D_800CCB14).f1 = 0;
-        (*(Quad4_800CCAD0 *)&D_800CCB14).f2 = 0x20;
+        (*(Quad4_800CCAD0 *)&D_800CCB14).r = 0x20;
+        (*(Quad4_800CCAD0 *)&D_800CCB14).g = 0;
+        (*(Quad4_800CCAD0 *)&D_800CCB14).b = 0x20;
         D_800CCAD4 = (*(Quad4_800CCAD0 *)&D_800CCB14);
 
         D_800CCB10 = 0xFF;
@@ -867,7 +867,7 @@ extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 extern void guess_SetWaitTimer_2(void *a0, s32 a1);
 extern void guess_NextStep(void *a0);
 extern u8 D_800CCB10;
-extern Quad4_800CCB14 D_800CCB14;
+extern CVECTOR D_800CCB14;
 
 void func_800CC424(void *a0) {
     void *a2 = CAST_SIGN(void *, (u8 *)a0, 0x20);
@@ -896,7 +896,7 @@ extern void func_800CC6C4(void *a0, void *a1, void *a2, void *a3);
 
 extern u8 D_800CCB10;
 
-extern Quad4_800CCB14 D_800CCB14;
+extern CVECTOR D_800CCB14;
 
 void func_800CC4E8(void *a0) {
     void *s1;
@@ -994,22 +994,22 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
     void *v4;
 
     v4 = CAST_SIGN(void *, (s32)a0, 0x20);
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = ((Unkstruct_800CC424 *)v4)->unk12;
+    ((Unkstruct_801343C4 *)a3)->unk6 = ((Unkstruct_800CC424 *)v4)->unk12;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = (((Unkstruct_800CC6C4 *)a3)->unk6 + 0x555) & 0xFFF;
+    ((Unkstruct_801343C4 *)a3)->unk6 = (((Unkstruct_801343C4 *)a3)->unk6 + 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = (((Unkstruct_800CC6C4 *)a3)->unk6 + 0x555) & 0xFFF;
+    ((Unkstruct_801343C4 *)a3)->unk6 = (((Unkstruct_801343C4 *)a3)->unk6 + 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = ((Unkstruct_800CC424 *)v4)->unk10;
+    ((Unkstruct_801343C4 *)a3)->unk6 = ((Unkstruct_800CC424 *)v4)->unk10;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = (((Unkstruct_800CC6C4 *)a3)->unk6 - 0x555) & 0xFFF;
+    ((Unkstruct_801343C4 *)a3)->unk6 = (((Unkstruct_801343C4 *)a3)->unk6 - 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((Unkstruct_800CC6C4 *)a3)->unk6 = (((Unkstruct_800CC6C4 *)a3)->unk6 - 0x555) & 0xFFF;
+    ((Unkstruct_801343C4 *)a3)->unk6 = (((Unkstruct_801343C4 *)a3)->unk6 - 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 }
 
@@ -1046,9 +1046,9 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     func_80013F3C((s32)&buf);
     func_800123F0((s32)&buf, CAST_SIGN(s16, (s32)a3, 6));
 
-    v2.x = ((Unkstruct_800CC6C4 *)a3)->unk0;
-    v2.y = ((Unkstruct_800CC6C4 *)a3)->unk2;
-    v2.z = ((Unkstruct_800CC6C4 *)a3)->unk4;
+    v2.x = ((Unkstruct_801343C4 *)a3)->unk0;
+    v2.y = ((Unkstruct_801343C4 *)a3)->unk2;
+    v2.z = ((Unkstruct_801343C4 *)a3)->unk4;
     func_80020F34((s32)&buf, (s32)&v2);
 
     buf.t[0] = v1.x;

@@ -2024,7 +2024,7 @@ extern s32 guess_AllocRenderWorkRecord(s32 a0);
 void func_801550FC(s32 arg0)
 {
 
-    extern ImgRect8 D_801842D4[];
+    extern Unkstruct_8013B83C D_801842D4[];
     if (arg0 & 0x40000000) {
         MoveImage(&D_801842D4[arg0 & 0xFF], 0x200, 0x100);
     } else {

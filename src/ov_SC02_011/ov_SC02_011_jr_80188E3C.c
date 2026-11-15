@@ -895,7 +895,7 @@ void func_8018A1A4(void *a0) {
     a1 = (u8 *)&guess_g_MainCameraPitchTarget;
 
     /* Direct struct assignment for 8-byte unaligned copy */
-    *(DataBlock *)(void *)a1 = *(DataBlock *)(void *)(s0 + 8);
+    *(Unkstruct_801343C4 *)(void *)a1 = *(Unkstruct_801343C4 *)(void *)(s0 + 8);
 
     guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80185020 *)s0)->unk10;
     guess_g_MainCameraRefOffsetTargetY = CAST_ALIAS(s16, s0, 0x12);
@@ -1108,11 +1108,11 @@ void func_8018A72C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_8018A7CC(arg0, 0x1000, 0);
-    sp10.unk0 = ((Unkstruct_8018A72C *)arg3)->unk0;
-    sp10.unk4 = ((Unkstruct_8018A72C *)arg3)->unk2;
-    sp10.unk6 = 1;
+    sp10.vx = ((Unkstruct_8018A72C *)arg3)->unk0;
+    sp10.vz = ((Unkstruct_8018A72C *)arg3)->unk2;
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_8018A8E8(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -1668,9 +1668,9 @@ void func_8018AF24(void *a0, void *a1, s16 a2) {
         D_801EB5D2 = 0;
     }
 
-    D_801EB5D8 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_801EB5D9 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_801EB5DA = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_801EB5D8 = ((CVECTOR *)a1)->r;
+    D_801EB5D9 = ((CVECTOR *)a1)->g;
+    D_801EB5DA = ((CVECTOR *)a1)->b;
     D_801EB5D4 = (u32)a2 << 16;
 }
 
@@ -5171,9 +5171,9 @@ s32 func_8018F4B8(s32 param_1) {
     extern MATRIX *D_801E3B18;     /* matrix pool cursor */
     extern MATRIX D_801EB8E8[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

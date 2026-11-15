@@ -911,7 +911,7 @@ s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
     extern s32 D_80183428;
     extern u8  D_8018342F[];
     extern u8  D_80183430[];
-    extern ImgRect8 D_80183358[];
+    extern Unkstruct_8013B83C D_80183358[];
     extern u8 D_80183370;
     extern u8 D_8018332C;
     extern char D_80183340[];

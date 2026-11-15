@@ -6340,8 +6340,8 @@ extern u32 aD801F2A44[][19] __asm__("D_801F2A44");
 extern u32 aD801F2A48[][19] __asm__("D_801F2A48");
 extern u32 aD801F2A4C[][19] __asm__("D_801F2A4C");
 extern u8  aD801F2A50[][76] __asm__("D_801F2A50");
-extern Blk4_801EC660 D_801EC660;
-extern Blk4_801EC660 D_801EC664;
+extern CVECTOR D_801EC660;
+extern CVECTOR D_801EC664;
 extern s32 aF8001D074(s32, s32) __asm__("func_8001D074");
 extern void func_8001CD50(s32, s32);
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -6384,8 +6384,8 @@ void func_801824EC(s32 arg0) {
             }
             aD801F2A4C[i][0] = 0x10;
             guess_BuildCircle12Points(aD801F2A50[i], 0x10);
-            *(Blk4_801EC660 *)aD801F2A50[i] = D_801EC660;
-            *(Blk4_801EC660 *)(aD801F2A50[i] + 4) = D_801EC664;
+            *(CVECTOR *)aD801F2A50[i] = D_801EC660;
+            *(CVECTOR *)(aD801F2A50[i] + 4) = D_801EC664;
             return;
         }
         i++;

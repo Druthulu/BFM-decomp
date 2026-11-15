@@ -955,9 +955,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -2839,7 +2839,7 @@ extern u8 D_801E6C94[8];
 extern void func_80182F78(s32 arg0);
 extern void func_80183010(s32 *a0);
 extern void func_80183018(u8 *a0);
-extern St_801E6C9C D_801E6C9C;
+extern Unkstruct_8013B83C D_801E6C9C;
 extern void func_80183098(s32 arg0);
 extern s32 guess_g_MainCameraViewPointX; // Names ledger: config/names.tsv guess_g_MainCameraViewPointX
 extern void func_8018316C(void);
@@ -3940,12 +3940,12 @@ void func_80189340(s32 p)
                     rgb = ((Unkstruct_800B5CB8 *)p)->unk1C << 6;
                     for (j = 0; j < 4; j++) {
                         s32 c = rgb;
-                        ((PHdr_80189340 *)pp)->len = 8;
+                        ((Unkstruct_8013B83C *)pp)->unk3 = 8;
                         ((PG4_80189340 *)pp)->c1 = 0;
                         ((PG4_80189340 *)pp)->c3 = 0;
                         ((PG4_80189340 *)pp)->c0 = c;
                         ((PG4_80189340 *)pp)->c2 = c;
-                        ((PHdr_80189340 *)pp)->code = 0x3A;
+                        ((Unkstruct_8013B83C *)pp)->unk7 = 0x3A;
                         ((PG4_80189340 *)pp)->x0 = xy[0];
                         ((PG4_80189340 *)pp)->x1 = xy[0];
                         ((PG4_80189340 *)pp)->x2 = xy[2];
@@ -4717,9 +4717,9 @@ s32 func_8018A690(s32 param_1) {
     extern MATRIX *D_801A7B24;     /* matrix pool cursor */
     extern MATRIX D_801E8648[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

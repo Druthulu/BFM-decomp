@@ -4570,18 +4570,18 @@ extern void func_8001CBDC(s32 a0, s32 a1, s32 a2, s32 a3);
 
 extern s16 D_80196D30[][2];
 extern u8 D_80196D5C[];
-extern EffectSlot4 D_80196D68[];
+extern CVECTOR D_80196D68[];
 extern u8 D_80196D94[];
 
-extern EffectSlot4 D_80196DCC;
-extern EffectSlot4 D_80196DF4;
-extern EffectSlot4 D_80196DF8;
-extern EffectSlot4 D_80196E28;
-extern EffectSlot4 D_80196E2C;
-extern EffectSlot4 D_80196E5C;
-extern EffectSlot4 D_80196E60;
-extern EffectSlot4 D_80196E90;
-extern EffectSlot4 D_80196E94;
+extern CVECTOR D_80196DCC;
+extern CVECTOR D_80196DF4;
+extern CVECTOR D_80196DF8;
+extern CVECTOR D_80196E28;
+extern CVECTOR D_80196E2C;
+extern CVECTOR D_80196E5C;
+extern CVECTOR D_80196E60;
+extern CVECTOR D_80196E90;
+extern CVECTOR D_80196E94;
 
 void func_80190144(void *a0) {
     void *s0;
@@ -4618,7 +4618,7 @@ void func_80190144(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4 *)((s32)&D_80196E90 + 4) = D_80196D68[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_80196E90 + 4) = D_80196D68[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_80196E90 = D_80196E94; } else { D_80196E90 = D_80196E94; }
         if (COND) { D_80196E60 = D_80196E90; } else { D_80196E60 = D_80196E90; }
         if (COND) { D_80196E5C = D_80196E60; } else { D_80196E5C = D_80196E60; }

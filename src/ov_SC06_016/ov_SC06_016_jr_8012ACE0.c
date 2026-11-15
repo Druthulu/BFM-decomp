@@ -2661,13 +2661,13 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     extern Box_80133784 * D_80185428;
     extern Box_80133784 * D_80185430;
 
-    Elem_801347A0 *pElem;
+    SVECTOR *pElem;
     s32 val;
     s32 iv;
     s32 q;
     s32 dvsr;
 
-    pElem = &((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f2];
+    pElem = &((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->f2];
     val = ((s32 *)arg3)[((S0_801347A0 *)arg1)->f4];
     if (guess_Vec3sDotAdd_2((s32)pElem, (s32)D_8018542C, val) >= 0) {
         return 0;
@@ -2677,22 +2677,22 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         return 0;
     }
     iv = -iv;
-    dvsr = pElem->f2 * 48;
+    dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
     D_80185430->f0 = D_80185428->f0;
     D_80185430->f2 = D_80185428->f2 + q;
     D_80185430->f4 = D_80185428->f4;
-    if (guess_Vec3sDotAdd_2((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f6], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f8]) < -0x2F00) {
+    if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->f6], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f8]) < -0x2F00) {
         return 0;
     }
-    if (guess_Vec3sDotAdd_2((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->fa], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->fc]) < -0x2F00) {
+    if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->fa], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->fc]) < -0x2F00) {
         return 0;
     }
-    if (guess_Vec3sDotAdd_2((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->fe], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f10]) < -0x2F00) {
+    if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->fe], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f10]) < -0x2F00) {
         return 0;
     }
     if ((s16)arg0) {
-        if (guess_Vec3sDotAdd_2((s32)&((Elem_801347A0 *)arg2)[((S0_801347A0 *)arg1)->f12], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f14]) < -0x2F00) {
+        if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->f12], (s32)D_80185430, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f14]) < -0x2F00) {
             return 0;
         }
     }
@@ -2701,8 +2701,8 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_80185430->f0 = D_80185428->f0;
     D_80185430->f4 = D_80185428->f4;
-    (*(Elem_801347A0*)guess_g_BoxHitNormalX) = *pElem;
-    D_80185428->f6.u = pElem->f2;
+    (*(SVECTOR*)guess_g_BoxHitNormalX) = *pElem;
+    D_80185428->f6.u = pElem->vy;
     return 1;
 }
 
@@ -2882,9 +2882,9 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
     pb0 = D_8018542C;
 
-    ax = ((Unkstruct_80135004 *)p2)->unk0; pac = D_80185428; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_80185434); pac[0] = bx; pb8[0] = ax - bx;
-    ay = ((Unkstruct_80135004 *)p2)->unk2; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
-    az = ((Unkstruct_80135004 *)p2)->unk4; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
+    ax = ((Unkstruct_801343C4 *)p2)->unk0; pac = D_80185428; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_80185434); pac[0] = bx; pb8[0] = ax - bx;
+    ay = ((Unkstruct_801343C4 *)p2)->unk2; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
+    az = ((Unkstruct_801343C4 *)p2)->unk4; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
 
     id = ((int)arg0) & 0xFFFF;
     a1v = pac[0]; a2v = pac[2];
@@ -2893,10 +2893,10 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
     if (func_80134A74(id, a1v, a2v, D_8019E360)) {
     found:
         pb4 = (*(u16 * *)&D_80185430);
-        ((Unkstruct_80135004 *)p2)->unk0 = pb4[0];
-        ((Unkstruct_80135004 *)p2)->unk2 = pb4[1];
-        ((Unkstruct_80135004 *)p2)->unk4 = pb4[2];
-        ((Unkstruct_80135004 *)p2)->unk6 = D_8019E370;
+        ((Unkstruct_801343C4 *)p2)->unk0 = pb4[0];
+        ((Unkstruct_801343C4 *)p2)->unk2 = pb4[1];
+        ((Unkstruct_801343C4 *)p2)->unk4 = pb4[2];
+        ((Unkstruct_801343C4 *)p2)->unk6 = D_8019E370;
         return 1;
     }
     {

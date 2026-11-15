@@ -4318,8 +4318,8 @@ void func_80183FCC(s32 param_1)
     s2 = &D_801E44A0;
     guess_BuildCircle12Points(s2, 0x28);
 
-    *(Blk4_80183FCC *)s2 = *(Blk4_80183FCC *)&D_801E2E70;
-    *(Blk4_80183FCC *)&D_801E44A4 = *(Blk4_80183FCC *)&D_801E2E74;
+    *(CVECTOR *)s2 = *(CVECTOR *)&D_801E2E70;
+    *(CVECTOR *)&D_801E44A4 = *(CVECTOR *)&D_801E2E74;
 
     s0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
     ((Unkstruct_800B5CB8 *)param_1)->unkCC = s0;

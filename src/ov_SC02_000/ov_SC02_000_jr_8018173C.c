@@ -955,9 +955,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -3530,7 +3530,7 @@ void func_80183018(u8 *a0) {
 }
 
 
-extern St_801E6C9C D_801E6C9C;
+extern Unkstruct_8013B83C D_801E6C9C;
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_ApplyVertSpeed(s32 a0);
 extern void guess_SetVelocityFromMoveVector(s32 arg0);
@@ -3538,16 +3538,16 @@ extern void guess_AddVertSpeed(s32 a0, s32 a1);
 
 void func_80183098(s32 arg0)
 {
-    St_801E6C9C buf;
+    Unkstruct_8013B83C buf;
 
     buf = D_801E6C9C;
     if (((Unkstruct_80126B58 *)arg0)->unkA >= -0xBFF) {
-        CAST_ALIAS(u16, arg0, 0x88) = *(u16 *)&buf.b[0];
-        CAST_ALIAS(u16, arg0, 0x06) = *(u16 *)&buf.b[0];
-        CAST_ALIAS(u16, arg0, 0x8A) = *(u16 *)&buf.b[2];
-        CAST_ALIAS(u16, arg0, 0x0A) = *(u16 *)&buf.b[2];
-        ((Unkstruct_80126B58 *)arg0)->unk8C = *(u16 *)&buf.b[4];
-        ((Unkstruct_80126B58 *)arg0)->unkE = *(u16 *)&buf.b[4];
+        CAST_ALIAS(u16, arg0, 0x88) = *(u16 *)&buf.unk0;
+        CAST_ALIAS(u16, arg0, 0x06) = *(u16 *)&buf.unk0;
+        CAST_ALIAS(u16, arg0, 0x8A) = *(u16 *)&buf.unk2;
+        CAST_ALIAS(u16, arg0, 0x0A) = *(u16 *)&buf.unk2;
+        ((Unkstruct_80126B58 *)arg0)->unk8C = *(u16 *)&buf.unk4;
+        ((Unkstruct_80126B58 *)arg0)->unkE = *(u16 *)&buf.unk4;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk4D -= 1;
         ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
@@ -4294,7 +4294,7 @@ void func_8018483C(s32 a0) {
     s16 *q;
     s16 *r;
     s16 buf[4];
-    S80190C84_8018483C sp;
+    struct S80190C84 sp;
 
     /* s4 = a0 MUST be here, above the early return: it puts `move $s4,$a0` in bb0, which
        gives the prologue's `sw $s4` an anti-dep successor. sched2 then ranks `sw $s4`
@@ -4946,9 +4946,9 @@ s32 func_80185C48(s32 a0, s32 a1) {
     Vec3s16 v2;
     s32 ret;
 
-    v1.x = *(u16 *)(a0 + 0x3A);
-    v1.y = *(u16 *)(a0 + 0x3E) + 0x51;
-    v1.z = *(u16 *)(a0 + 0x42);
+    v1.vx = *(u16 *)(a0 + 0x3A);
+    v1.vy = *(u16 *)(a0 + 0x3E) + 0x51;
+    v1.vz = *(u16 *)(a0 + 0x42);
 
     *(s32 *)(a0 + 0x10) += *(s32 *)(a0 + 0x44);
     *(s32 *)(a0 + 0x14) += *(s32 *)(a0 + 0x48);
@@ -4958,15 +4958,15 @@ s32 func_80185C48(s32 a0, s32 a1) {
     *(s32 *)(a0 + 0x8) += *(s32 *)(a0 + 0x14);
     *(s32 *)(a0 + 0xC) += *(s32 *)(a0 + 0x18);
 
-    v2.x = *(u16 *)(a0 + 0x6);
-    v2.y = *(u16 *)(a0 + 0xA) + 0x51;
-    v2.z = *(u16 *)(a0 + 0xE);
+    v2.vx = *(u16 *)(a0 + 0x6);
+    v2.vy = *(u16 *)(a0 + 0xA) + 0x51;
+    v2.vz = *(u16 *)(a0 + 0xE);
 
     ret = func_8012CEB0((s32)&v1, (s32)&v2, a1);
 
-    *(s16 *)(a0 + 0x6) = v2.x;
-    *(s16 *)(a0 + 0xA) = v2.y - 0x51;
-    *(s16 *)(a0 + 0xE) = v2.z;
+    *(s16 *)(a0 + 0x6) = v2.vx;
+    *(s16 *)(a0 + 0xA) = v2.vy - 0x51;
+    *(s16 *)(a0 + 0xE) = v2.vz;
 
     if (ret & 0x6000) {
         *(s32 *)(a0 + 0x14) = 0;
@@ -5133,13 +5133,13 @@ void func_8018618C(s32 param_1)
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_801861D8(s32 a0) {
-    Sprite8_801861D8 spr;
+    struct S80190C84 spr;
 
     spr.f2 = -0xF70;
     spr.f0 = 0;
     spr.f4 = 0;
     spr.f6 = 0x41;
-    spr.fa = 0;
+    spr.fA = 0;
     spr.f8 = 0;
     func_8012C51C(&spr, a0);
 }
@@ -5168,7 +5168,7 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_8018626C(void) {
     s32 *ctr = &D_801270D0;
-    Pkt_8018626C pkt;
+    struct S80190C84 pkt;
     s16 pos[3];
     s32 buf[2];
     s32 angle;
@@ -5181,15 +5181,15 @@ void func_8018626C(void) {
         pos[2] = guess_g_PlayerPosZ;
         angle = ratan2(*(s16 *)D_800D391C - (s16)guess_g_PlayerPosZ, (s16)guess_g_PlayerPosX - *(s16 *)D_800D3918);
         func_8012B0B4((unsigned int *)buf, (angle - 0x400) & 0xFFF, 0x110);
-        pkt.f1 = -0x1004;
-        pkt.f3 = 0x2F;
-        pkt.f4 = 0x400;
-        pkt.f5 = 0;
-        pkt.f6 = 0x7FFF;
-        pkt.f8 = 0;
-        pkt.f7 = 0;
+        pkt.f2 = -0x1004;
+        pkt.f6 = 0x2F;
+        pkt.f8 = 0x400;
+        pkt.fA = 0;
+        pkt.fC = 0x7FFF;
+        pkt.f10 = 0;
+        pkt.fE = 0;
         pkt.f0 = (s16)buf[0];
-        pkt.f2 = (s16)(buf[0] >> 16);
+        pkt.f4 = (s16)(buf[0] >> 16);
         if (func_8012C51C(&pkt, 0) != 0) {
             D_801270CC = D_801270CC + 1;
         }
@@ -5618,7 +5618,7 @@ extern u16 D_800B99D8;
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 #ifndef BFM_ENGINE_TYPES_H
-struct sprite8 {
+struct S80190C84 {
     short f0;   /* +0x00 */
     short f2;   /* +0x02 */
     short f4;   /* +0x04 */
@@ -5637,7 +5637,7 @@ void func_80187480(s32 arg0)
     s32 i;
     s32 s2;
     s32 s3;
-    struct sprite8 spr;
+    struct S80190C84 spr;
 
     acc = D_800B99DC;
     s3 = D_800B99D8;
@@ -5656,7 +5656,7 @@ void func_80187480(s32 arg0)
         } else {
             spr.f8 = 2;
         }
-        spr.fa = acc >> 16;
+        spr.fA = acc >> 16;
         func_8012C51C(&spr, s2);
         s3++;
         acc += s3;
@@ -5675,7 +5675,7 @@ extern s32 func_8012C51C(void *a0, s32 a1);
  * needs a local copy — guarded so the banked TU uses the shared definition and never redefines
  * it. Layout is byte-identical to the shared one (20-byte struct => frame 0x40). */
 #ifndef BFM_ENGINE_TYPES_H
-struct sprite8 {
+struct S80190C84 {
     short f0;   /* +0x00 */
     short f2;   /* +0x02 */
     short f4;   /* +0x04 */
@@ -5693,7 +5693,7 @@ void func_80187558(s32 arg0)
     s32 i;
     s32 s2;
     u16 s3;
-    struct sprite8 spr;
+    struct S80190C84 spr;
     s32 t;
 
     s3 = D_800B99D8;
@@ -5708,7 +5708,7 @@ void func_80187558(s32 arg0)
         spr.f6 = 0x4D;
         spr.f8 = rand() % 3;
         i++;
-        spr.fa = s3;
+        spr.fA = s3;
         s3++;
         s2 += 0xC;
         func_8012C51C(&spr, arg0);
@@ -5717,7 +5717,7 @@ void func_80187558(s32 arg0)
 
 
 #ifndef BFM_ENGINE_TYPES_H
-struct sprite8 {
+struct S80190C84 {
     short f0;
     short f2;
     short f4;
@@ -5737,7 +5737,7 @@ void func_8018762C(s32 a0, s32 a1)
     s32 i;
     s32 s1;
     u16 s2;
-    struct sprite8 spr;
+    struct S80190C84 spr;
     s32 t;
 
     s2 = D_800B99D8;
@@ -5751,7 +5751,7 @@ void func_8018762C(s32 a0, s32 a1)
         spr.f2 = ((Unkstruct_8018762C *)a1)->unk2 - s1;
         spr.f6 = 0x4D;
         if (i >= 2) spr.f8 = 0;
-        spr.fa = s2;
+        spr.fA = s2;
         s2++;
         s1 += 0x18;
         i++;

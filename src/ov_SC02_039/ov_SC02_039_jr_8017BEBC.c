@@ -3508,31 +3508,31 @@ s32 func_8017E2F4(s32 a0, s32 a1) {
     s16 avg;
 
     p2addr = (s32)&p2;
-    p1.x = p2.x = CAST_SIGN(u16, a1, 0x4);
-    p1.y = p2.y = ((Unkstruct_8017DDDC *)a1)->unk8 - 0x10;
-    p1.z = ((Unkstruct_8017DDDC *)a1)->unkC;
-    p2.z = ((Unkstruct_8017DDDC *)a1)->unkE;
+    p1.unk0 = p2.unk0 = CAST_SIGN(u16, a1, 0x4);
+    p1.unk2 = p2.unk2 = ((Unkstruct_8017DDDC *)a1)->unk8 - 0x10;
+    p1.unk4 = ((Unkstruct_8017DDDC *)a1)->unkC;
+    p2.unk4 = ((Unkstruct_8017DDDC *)a1)->unkE;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
     avg = (((Unkstruct_8017DDDC *)a1)->unk4 + ((Unkstruct_8017DDDC *)a1)->unk6) >> 1;
-    p1.x = p2.x = avg;
+    p1.unk0 = p2.unk0 = avg;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = (((Unkstruct_8017DDDC *)a1)->unk4 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_8017DDDC *)a1)->unk4 + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = (((Unkstruct_8017DDDC *)a1)->unk6 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_8017DDDC *)a1)->unk6 + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = CAST_SIGN(u16, a1, 0x6);
+    p1.unk0 = p2.unk0 = CAST_SIGN(u16, a1, 0x6);
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
@@ -3782,7 +3782,7 @@ void func_8017E910(void *a0)
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
     extern void func_8012E32C(void);
-    extern SV4_8017E910 D_8019B5AC;
+    extern SVECTOR D_8019B5AC;
 
     u16 input[3];
     Mat32_8017E910 m;
@@ -4094,17 +4094,17 @@ s32 func_8017EF5C(s32 a0, s32 a1) {
     s32 val;
 
     half = ((Src_8013B598_8013B598 *)a1)->f2 >> 1;
-    p2.x = half;
-    p1.x = -half;
+    p2.unk0 = half;
+    p1.unk0 = -half;
 
     for (i = 0; i < ((Src_8013B598_8013B598 *)a1)->f0; i++) {
         val = *(u16 *)(a1 + 0x8 + i * 2);
-        p2.y = val;
-        p1.y = val;
+        p2.unk2 = val;
+        p1.unk2 = val;
         for (j = 0; j < ((Src_8013B598_8013B598 *)a1)->f0; j++) {
             val = *(u16 *)(a1 + 0x8 + j * 2);
-            p2.z = val;
-            p1.z = val;
+            p2.unk4 = val;
+            p1.unk4 = val;
             if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0) {
                 return 1;
             }

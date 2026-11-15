@@ -3147,10 +3147,10 @@ extern s32  rcos(s32 a0);
 extern s32  rsin(s32 a0);
 
 extern Blip_8018F694 D_801D57F0[];
-extern Blk4_8018FF98 D_801D3B14[];
-extern Blk4_8018FF98 D_801D3B18[];
-extern Blk4_8018FF98 D_801D59F0[];
-extern Blk4_8018FF98 D_801D59F4[];
+extern CVECTOR D_801D3B14[];
+extern CVECTOR D_801D3B18[];
+extern CVECTOR D_801D59F0[];
+extern CVECTOR D_801D59F4[];
 
 extern u8 D_801D110C[];
 extern u8 D_801D1220[];

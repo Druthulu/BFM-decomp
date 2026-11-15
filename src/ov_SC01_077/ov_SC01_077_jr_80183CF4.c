@@ -1003,9 +1003,9 @@ extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern void func_80013E94(void *a0, void *a1);
 extern void func_80156A1C(s32 a0, s32 a1);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -3525,8 +3525,8 @@ extern void D_80196F3C;
 
 void func_8018470C(s32 param_1)
 {
-    SV4U svec;            /* sp+0x10 */
-    struct sprite8 spr;   /* sp+0x18 */
+    Unkstruct_801343C4 svec;            /* sp+0x10 */
+    struct S80190C84 spr;   /* sp+0x18 */
     s32 base;
     u16 uVar1;
 
@@ -3539,16 +3539,16 @@ void func_8018470C(s32 param_1)
         if ((((Unkstruct_800B5CB8 *)param_1)->unk70 & 0x8000) != 0) {
             guess_RotTransSVWithObjMatrix(param_1, (s32)&D_8018AF88, (s32)&svec);
             spr.f6 = 0xda;
-            spr.fa = 0;
-            spr.fc = 0x7fff;
-            spr.f0 = svec.a;
-            spr.f2 = svec.b;
-            spr.f4 = svec.c;
-            spr.fe = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12;
+            spr.fA = 0;
+            spr.fC = 0x7fff;
+            spr.f0 = svec.unk0;
+            spr.f2 = svec.unk2;
+            spr.f4 = svec.unk4;
+            spr.fE = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12;
             func_8012C51C(&spr, param_1);
-            spr.fe = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 + 0x100;
+            spr.fE = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 + 0x100;
             func_8012C51C(&spr, param_1);
-            spr.fe = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 - 0x100;
+            spr.fE = ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 - 0x100;
             func_8012C51C(&spr, param_1);
         }
         guess_RequestSound(0x43e, 0);
@@ -3866,9 +3866,9 @@ s32 func_80184F08(s32 param_1) {
     extern char * D_801991C0;
     extern char D_801DA8E8[];
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     char *puVar2, *puVar4;

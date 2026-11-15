@@ -3152,7 +3152,7 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 extern s16 D_80189640[];
 extern u8 D_801895D0[];
 extern s16 D_801ACE50;
-extern Unk_80126940 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
+extern Unkstruct_801343C4 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_CameraFollowPos
 extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
@@ -3161,7 +3161,7 @@ extern s32 func_80012DBC(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8017E2E8(s32 a0, s32 a1, s16 *a2);
 
 void func_8017E160(s32 param_1) {
-    Unk_80126940 pos;
+    Unkstruct_801343C4 pos;
     s16 vec[3];
     s32 h;
     s32 cur;
@@ -3172,15 +3172,15 @@ void func_8017E160(s32 param_1) {
         *(s32 *)((s32)param_1 + 0x14) = D_80189640[t];
     }
     pos = guess_g_CameraFollowPos;
-    if ((s16)pos.f1 >= -0xFF) {
-        *(s16 *)&pos.f1 = -0x100;
+    if ((s16)pos.unk2 >= -0xFF) {
+        *(s16 *)&pos.unk2 = -0x100;
     }
-    if ((s16)pos.f2 < -0x3C0) {
-        *(s16 *)&pos.f2 = -0x3C0;
+    if ((s16)pos.unk4 < -0x3C0) {
+        *(s16 *)&pos.unk4 = -0x3C0;
     }
-    vec[0] = pos.f0 - rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
-    vec[2] = pos.f2 - rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
-    vec[1] = pos.f1;
+    vec[0] = pos.unk0 - rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
+    vec[2] = pos.unk4 - rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
+    vec[1] = pos.unk2;
     h = KR_AS(s32, func_8017E4B4)(D_801895D0, (s16 *)&pos, vec);
     /* the D_801ACE50 read must precede the 0xA0 store in the RTL stream:
        it is what puts the store last in the block, so reorg fills the
@@ -3851,31 +3851,31 @@ s32 func_8017EFAC(s32 a0, s32 a1) {
     s16 avg;
 
     if (((Unkstruct_800B5CB8 *)a0)->unk74 != 0) {
-        p1.x = p2.x = *(u16 *)(a1 + 0x4);
-        p1.y = p2.y = *(u16 *)(a1 + 0x8) - 0x10;
-        p1.z = *(u16 *)(a1 + 0xC);
-        p2.z = *(u16 *)(a1 + 0xE);
+        p1.unk0 = p2.unk0 = *(u16 *)(a1 + 0x4);
+        p1.unk2 = p2.unk2 = *(u16 *)(a1 + 0x8) - 0x10;
+        p1.unk4 = *(u16 *)(a1 + 0xC);
+        p2.unk4 = *(u16 *)(a1 + 0xE);
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
         avg = (*(s16 *)(a1 + 0x4) + *(s16 *)(a1 + 0x6)) >> 1;
-        p1.x = p2.x = avg;
+        p1.unk0 = p2.unk0 = avg;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        p1.x = p2.x = (*(s16 *)(a1 + 0x4) + avg) >> 1;
+        p1.unk0 = p2.unk0 = (*(s16 *)(a1 + 0x4) + avg) >> 1;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        p1.x = p2.x = (*(s16 *)(a1 + 0x6) + avg) >> 1;
+        p1.unk0 = p2.unk0 = (*(s16 *)(a1 + 0x6) + avg) >> 1;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        p1.x = p2.x = *(u16 *)(a1 + 0x6);
+        p1.unk0 = p2.unk0 = *(u16 *)(a1 + 0x6);
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }

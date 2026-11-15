@@ -2807,10 +2807,10 @@ void func_8017EEC4(void) {
             break;
         }
         if (D_801B1738 != 0) {
-            v.x = ((Unkstruct_800B5CB8 *)rec)->unk6;
-            v.y = ((Unkstruct_800B5CB8 *)rec)->unkA;
-            v.z = ((Unkstruct_800B5CB8 *)rec)->unkE;
-            v.y -= 0x50;
+            v.vx = ((Unkstruct_800B5CB8 *)rec)->unk6;
+            v.vy = ((Unkstruct_800B5CB8 *)rec)->unkA;
+            v.vz = ((Unkstruct_800B5CB8 *)rec)->unkE;
+            v.vy -= 0x50;
             func_8017EF94(&v, 0);
             func_8017EF94(&v, 1);
             func_8017EF94(&v, 2);
@@ -2884,31 +2884,31 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
     Quad_8017EF94 *q;
 
     func_8012EF70((s32)arg0, (s32)&sp30);
-    if ((u32)(sp30.x + 0x77) >= 0x13F) {
+    if ((u32)(sp30.vx + 0x77) >= 0x13F) {
         return;
     }
-    if ((u32)(sp30.x + 0xC7) >= 0x13F) {
+    if ((u32)(sp30.vx + 0xC7) >= 0x13F) {
         return;
     }
-    if ((u32)(sp30.y + 0x63) >= 0xEF) {
+    if ((u32)(sp30.vy + 0x63) >= 0xEF) {
         return;
     }
-    if ((u32)(sp30.y + 0x8B) >= 0xEF) {
+    if ((u32)(sp30.vy + 0x8B) >= 0xEF) {
         return;
     }
-    sp30.x = sp30.x + 0x78;
+    sp30.vx = sp30.vx + 0x78;
     if (*(u16 *)&guess_g_DoubleBufferIndex != 0) {
-        t = sp30.y + 0x64;
+        t = sp30.vy + 0x64;
     } else {
-        t = sp30.y + 0x154;
+        t = sp30.vy + 0x154;
     }
-    sp30.y = t;
-    if (sp30.y <= 0) {
-        sp30.y = 0;
+    sp30.vy = t;
+    if (sp30.vy <= 0) {
+        sp30.vy = 0;
     }
     w = 0x50;
-    sx = sp30.x;
-    sy = sp30.y;
+    sx = sp30.vx;
+    sy = sp30.vy;
 
     r = RotTransPers((s32)&D_8018890C[arg1][0], (s32)&out[0], &p, &flag);
     total = r;

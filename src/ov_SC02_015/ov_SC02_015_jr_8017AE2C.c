@@ -2763,8 +2763,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2776,8 +2776,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_80190304;
         s16 *p78C = &D_801902FC;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_80190628 = 1;
@@ -3810,21 +3810,21 @@ void func_8017DC24(s32 arg0)
             prim.g2 = 0x20;
             prim.r2 = 0x20;
             prim.color = 0x50000000;
-            prim.v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
-            prim.v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
-            prim.v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
-            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
-            prim.v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
-            prim.v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
-            prim.v[0].c = otz;
+            prim.v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
+            prim.v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
+            prim.v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            prim.v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
+            prim.v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            prim.v[0].vz = otz;
             func_8001739C(&prim);
             t = sxy[1].unk0.v1.unk2;
-            prim.v[1].y = spos.f2 - t;
+            prim.v[1].vy = spos.f2 - t;
             func_8001739C(&prim);
             t = sxy[2].unk0.v1.unk0;
-            prim.v[2].x = spos.f0 - t;
+            prim.v[2].vx = spos.f0 - t;
             func_8001739C(&prim);
-            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(&prim);
         }
     }

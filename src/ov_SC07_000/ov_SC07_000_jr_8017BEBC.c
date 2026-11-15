@@ -3770,8 +3770,8 @@ void func_8017E830(void *arg0)
 
 
 extern s16 D_801D05A0[];
-extern Blk4_E960 D_80186540[];
-extern Blk4_E960 D_801CE6E0;
+extern CVECTOR D_80186540[];
+extern CVECTOR D_801CE6E0;
 
 void func_8017E960(void *a0) {
     s32 ret;
@@ -3788,8 +3788,8 @@ void func_8017E960(void *a0) {
     func_8001CA88(ret, s0);
     guess_BuildCircle12Points(s0, 0x100);
 
-    *(Blk4_E960 *)s0 = D_80186540[((Unkstruct_800B5CB8 *)a0)->unk70];
-    *(Blk4_E960 *)(s0 + 4) = D_801CE6E0;
+    *(CVECTOR *)s0 = D_80186540[((Unkstruct_800B5CB8 *)a0)->unk70];
+    *(CVECTOR *)(s0 + 4) = D_801CE6E0;
 
     ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk2E = 0xC080;
 

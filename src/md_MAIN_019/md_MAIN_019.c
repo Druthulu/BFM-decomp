@@ -298,7 +298,7 @@ void func_800CB578(void *arg0) {
     u16 pos[4];
     MTX_CB578 mat;
     u16 sv[4];
-    B4_CB578 clr[2];
+    CVECTOR clr[2];
     s32 obj;
     s32 t;
     s16 sn;
@@ -316,7 +316,7 @@ void func_800CB578(void *arg0) {
     mat.t[1] = ((Unkstruct_800B5CB8 *)obj)->unk4C;
     mat.t[2] = ((Unkstruct_800B5CB8 *)obj)->unk50;
     ((Unkstruct_80126B58 *)arg0)->unk64 = (((Unkstruct_80126B58 *)arg0)->unk64 + 0x71) & 0xFFF;
-    *(B8_CB578 *)pos = CAST_WIDTH(B8_CB578, (u8 *)arg0, 0x10);
+    *(Unkstruct_8013B83C *)pos = CAST_WIDTH(Unkstruct_8013B83C, (u8 *)arg0, 0x10);
 
     sn = rsin(CAST_SIGN(s16, (u8 *)arg0, 0x62)) / 128;
     t = rcos(CAST_SIGN(s16, (u8 *)arg0, 0x60));
@@ -328,8 +328,8 @@ void func_800CB578(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk62 = (((Unkstruct_80126B58 *)arg0)->unk62 + 0x38) & 0xFFF;
 
     p = D_800CC5B0 + ((Unkstruct_80126B58 *)arg0)->unk50 * 160;
-    clr[0] = *(B4_CB578 *)(D_800CC114 + ((Unkstruct_80126B58 *)arg0)->unk50 * 4);
-    clr[1] = *(B4_CB578 *)(D_800CC114 + ((Unkstruct_80126B58 *)arg0)->unk50 * 4);
+    clr[0] = *(CVECTOR *)(D_800CC114 + ((Unkstruct_80126B58 *)arg0)->unk50 * 4);
+    clr[1] = *(CVECTOR *)(D_800CC114 + ((Unkstruct_80126B58 *)arg0)->unk50 * 4);
     sv[0] = sv[1] = sv[2] = 0x1000;
     func_800CB9F8(pos, (u16 *)p, (s32 *)&mat, (s32 *)clr, (s32)sv);
 
@@ -337,9 +337,9 @@ void func_800CB578(void *arg0) {
     i = 0;
     do {
         clr[0] = clr[1];
-        clr[1].b[0] = func_800130D0(clr[1].b[0], 0, 0xC);
-        clr[1].b[1] = func_800130D0(clr[1].b[1], 0, 0xC);
-        clr[1].b[2] = func_800130D0(clr[1].b[2], 0, 0xC);
+        clr[1].r = func_800130D0(clr[1].r, 0, 0xC);
+        clr[1].g = func_800130D0(clr[1].g, 0, 0xC);
+        clr[1].b = func_800130D0(clr[1].b, 0, 0xC);
         sv[0] = sv[1] = sv[2] = sv[2] - 0x100;
         func_800CB9F8((u16 *)p, (u16 *)(p + 0x10), (s32 *)&mat, (s32 *)clr, (s32)sv);
         p += 0x10;
@@ -348,20 +348,20 @@ void func_800CB578(void *arg0) {
 
     p = D_800CC638 + ((Unkstruct_80126B58 *)arg0)->unk50 * 160;
     clr[0] = clr[1];
-    clr[1].b[0] = func_800130D0(clr[1].b[0], 0, 0xA);
-    clr[1].b[1] = func_800130D0(clr[1].b[1], 0, 0xA);
-    clr[1].b[2] = func_800130D0(clr[1].b[2], 0, 0xA);
+    clr[1].r = func_800130D0(clr[1].r, 0, 0xA);
+    clr[1].g = func_800130D0(clr[1].g, 0, 0xA);
+    clr[1].b = func_800130D0(clr[1].b, 0, 0xA);
     sv[0] = sv[1] = sv[2] = sv[2] - 0x100;
     func_800CB9F8((u16 *)p, (u16 *)(p + 0x10), (s32 *)&mat, (s32 *)clr, (s32)sv);
 
     i = 0;
     p = &D_800CC638[0x10] + ((Unkstruct_80126B58 *)arg0)->unk50 * 160;
     do {
-        *(B8_CB578 *)p = *(B8_CB578 *)(p - 8);
+        *(Unkstruct_8013B83C *)p = *(Unkstruct_8013B83C *)(p - 8);
         i += 1;
         p -= 8;
     } while (i < 0x13);
-    *(B8_CB578 *)p = *(B8_CB578 *)pos;
+    *(Unkstruct_8013B83C *)p = *(Unkstruct_8013B83C *)pos;
 }
 
 

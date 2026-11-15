@@ -1507,18 +1507,18 @@ extern u8 D_8018AA6C[];
 s32 func_801845EC(s32 a0, s32 a1)
 {
     s32 s1;
-    struct S845EC_in in;
+    struct S80190C84 in;
     Vec3s out;
 
     guess_RotTransSVWithObjMatrix(a0, (s32)&D_8018AA6C[a1 * 8], (s32)&out);
-    in.f00 = out.x;
-    in.f02 = out.y;
-    in.f04 = out.z;
-    in.f06 = 0x20;
-    in.f08 = a1;
-    in.f0A = 0;
+    in.f0 = out.x;
+    in.f2 = out.y;
+    in.f4 = out.z;
+    in.f6 = 0x20;
+    in.f8 = a1;
+    in.fA = 0;
     in.f10 = 0;
-    in.f0E = 0;
+    in.fE = 0;
     s1 = func_8012C51C((void *)&in, a0);
 
     if (a1 == 0 && s1 != 0) {
@@ -1584,7 +1584,7 @@ void func_801846B4(int param_1)
     if (cond == 0x11) {
         func_80185E68(param_1, (s32)&D_8018AA74);
     } else if (cond == 0xF) {
-        struct S80190C84_846B4 tmp;
+        struct S80190C84 tmp;
         Vec3s out;
 
         guess_RotTransSVWithObjMatrix(param_1, (s32)&D_8018AA74, (s32)&out);
@@ -2665,21 +2665,21 @@ void func_80185C0C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
-            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
-            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
-            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
-            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
-            p->v[0].c = otz;
+            p->v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
+            p->v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
+            p->v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
+            p->v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            p->v[0].vz = otz;
             func_8001739C(p);
             t = sxy[1].unk0.v1.unk2;
-            p->v[1].y = spos.f2 - t;
+            p->v[1].vy = spos.f2 - t;
             func_8001739C(p);
             t = sxy[2].unk0.v1.unk0;
-            p->v[2].x = spos.f0 - t;
+            p->v[2].vx = spos.f0 - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(p);
         }
     }
@@ -2736,9 +2736,9 @@ s32 func_80185E98(s32 param_1) {
     extern MATRIX *D_8018ACB8;     /* matrix pool cursor */
     extern MATRIX D_801C7708[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

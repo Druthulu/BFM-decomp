@@ -4279,28 +4279,28 @@ s32 func_8017F14C(s32 a0, s32 a1) {
     Vec4h_8017F14C p2;
     s32 result;
 
-    p1.z = 0;
-    p2.z = ((Unkstruct_8017F14C *)a1)->unkE;
-    p1.y = p2.y = ((Unkstruct_8017F14C *)a1)->unk8;
-    p1.x = p2.x = (s16)((Unkstruct_8017F14C *)a1)->unk4 >> 1;
+    p1.unk4 = 0;
+    p2.unk4 = ((Unkstruct_8017F14C *)a1)->unkE;
+    p1.unk2 = p2.unk2 = ((Unkstruct_8017F14C *)a1)->unk8;
+    p1.unk0 = p2.unk0 = (s16)((Unkstruct_8017F14C *)a1)->unk4 >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = (s16)((Unkstruct_8017F14C *)a1)->unk6 >> 1;
+    p1.unk0 = p2.unk0 = (s16)((Unkstruct_8017F14C *)a1)->unk6 >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.y = p2.y = ((Unkstruct_8017F14C *)a1)->unkA;
+    p1.unk2 = p2.unk2 = ((Unkstruct_8017F14C *)a1)->unkA;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = (s16)((Unkstruct_8017F14C *)a1)->unk4 >> 1;
+    p1.unk0 = p2.unk0 = (s16)((Unkstruct_8017F14C *)a1)->unk4 >> 1;
     result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:

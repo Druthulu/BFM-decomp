@@ -3109,7 +3109,7 @@ void func_801824A8(void *a0)
 
         v1 = *(u8 **)(s2 + 0x20);
         v0 = *(u8 **)(s0 + 0x20);
-        *(struct Un8_8018613C *)(v1 + 0x10) = *(struct Un8_8018613C *)(v0 + 0x10);
+        *(Unkstruct_8013B83C *)(v1 + 0x10) = *(Unkstruct_8013B83C *)(v0 + 0x10);
 
         a0p = *(u8 **)(s2 + 0x20);
         ((Unkstruct_801824A8_3 *)a0p)->unk12 = ((Unkstruct_801824A8_3 *)a0p)->unk12 - ((Unkstruct_801824A8_2 *)s0)->unkFE;
@@ -3780,14 +3780,14 @@ void func_80183314(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_8017F750 *)a0)->unk6 >> 12;
+    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
     a2 = (s32 *)D_801C90A0[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801C90B8[v1 * 16] = a1;
-    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_8017F750 *)a0)->unk0;
-    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_8017F750 *)a0)->unk2;
-    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_8017F750 *)a0)->unk4;
-    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_8017F750 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_801343C4 *)a0)->unk0;
+    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_801343C4 *)a0)->unk2;
+    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_801343C4 *)a0)->unk4;
+    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
 }
 
 

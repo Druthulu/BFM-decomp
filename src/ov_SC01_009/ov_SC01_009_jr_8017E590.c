@@ -3447,23 +3447,23 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_8017F39C(s32 arg0)
 {
-    struct Rec8017F39C rec;
+    struct S80190C84 rec;
 
-    rec.f06 = 0x1AB;
-    rec.f08 = ((Unkstruct_8017F39C *)arg0)->unk10A;
-    rec.f0A = 0;
-    rec.f0C = -0x400;
-    rec.f0E = 0;
+    rec.f6 = 0x1AB;
+    rec.f8 = ((Unkstruct_8017F39C *)arg0)->unk10A;
+    rec.fA = 0;
+    rec.fC = -0x400;
+    rec.fE = 0;
     rec.f10 = 0;
     if (CAST_SIGN(s16, arg0, 0x10A) < 0x28) {
-        rec.f00 = -0x1C0;
-        rec.f02 = -0xB2;
-        rec.f04 = 0x188;
+        rec.f0 = -0x1C0;
+        rec.f2 = -0xB2;
+        rec.f4 = 0x188;
         ((Unkstruct_8017F39C *)arg0)->unk108 = 1;
     } else {
-        rec.f00 = -0x18;
-        rec.f02 = -0x82;
-        rec.f04 = -0x200;
+        rec.f0 = -0x18;
+        rec.f2 = -0x82;
+        rec.f4 = -0x200;
     }
     ((Unkstruct_8017F39C *)arg0)->unkD4 = func_8012C51C(&rec, arg0);
 }

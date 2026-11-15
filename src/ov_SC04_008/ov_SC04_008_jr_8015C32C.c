@@ -947,9 +947,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -3271,8 +3271,8 @@ void func_80165140(s32 param_1) {
         p = &D_80190E98[i];
         if (p->used == 0) {
             p->used = 8;
-            p->a = *(B8_80165140 *)(((u8 *)param_1) + 0x2c);
-            p->b = *(B4_80165140 *)(((u8 *)param_1) + 0x50);
+            p->a = *(Unkstruct_8013B83C *)(((u8 *)param_1) + 0x2c);
+            p->b = *(CVECTOR *)(((u8 *)param_1) + 0x50);
             return;
         }
     }

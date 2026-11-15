@@ -2872,10 +2872,10 @@ void func_8017E9BC(s32 s0) {
 #include "common.h"
 
 
-extern Block4 D_801CE398;
-extern Block4 D_801CCEF8;
+extern CVECTOR D_801CE398;
+extern CVECTOR D_801CCEF8;
 extern u8 D_801CCEFC[];
-extern Block4 D_801CE39C;
+extern CVECTOR D_801CE39C;
 extern s32 guess_AllocSpriteObjectHigh(void);
 extern void func_8001CD50(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -2894,8 +2894,8 @@ void func_8017EA1C(s32 a0) {
         s0 = (u8 *)&D_801CE398;
         func_8001CD50(s1, (s32 *)s0);
         guess_BuildCircle12Points(s0, 0xE0);
-        *(Block4 *)s0 = D_801CCEF8;
-        D_801CE39C = (*(Block4 *)D_801CCEFC);
+        *(CVECTOR *)s0 = D_801CCEF8;
+        D_801CE39C = (*(CVECTOR *)D_801CCEFC);
         ((Unkstruct_8017EA1C *)s1)->unk18 = 0x1000;
         ((Unkstruct_8017EA1C *)s1)->unk1A = 0x1000;
         ((Unkstruct_8017EA1C *)s1)->unk10 = 0xC00;
@@ -2916,7 +2916,7 @@ void func_8017EA1C(s32 a0) {
 
 
 
-extern Block4 D_801CE398;
+extern CVECTOR D_801CE398;
 
 void func_8017EB34(s32 a0) {
     s32 *work;
@@ -3423,28 +3423,28 @@ s32 func_8017F78C(s32 a0) {
     Vec4h_F78C p2;
     s32 result;
 
-    p1.z = D_801887B0;
-    p2.z = D_801887B2;
-    p1.y = p2.y = D_801887AC;
-    p1.x = p2.x = (s16)D_801887A8 >> 1;
+    p1.unk4 = D_801887B0;
+    p2.unk4 = D_801887B2;
+    p1.unk2 = p2.unk2 = D_801887AC;
+    p1.unk0 = p2.unk0 = (s16)D_801887A8 >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = (s16)D_801887AA >> 1;
+    p1.unk0 = p2.unk0 = (s16)D_801887AA >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.y = p2.y = D_801887AE;
+    p1.unk2 = p2.unk2 = D_801887AE;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = (s16)D_801887A8 >> 1;
+    p1.unk0 = p2.unk0 = (s16)D_801887A8 >> 1;
     result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:
@@ -3912,21 +3912,21 @@ void func_8018012C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
-            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
-            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
-            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
-            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
-            p->v[0].c = otz;
+            p->v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
+            p->v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
+            p->v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
+            p->v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            p->v[0].vz = otz;
             func_8001739C(p);
             t = sxy[1].unk0.v1.unk2;
-            p->v[1].y = spos.f2 - t;
+            p->v[1].vy = spos.f2 - t;
             func_8001739C(p);
             t = sxy[2].unk0.v1.unk0;
-            p->v[2].x = spos.f0 - t;
+            p->v[2].vx = spos.f0 - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(p);
         }
     }

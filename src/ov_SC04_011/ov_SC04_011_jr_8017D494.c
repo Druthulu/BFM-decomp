@@ -9847,53 +9847,53 @@ void func_8018778C(void *a0)
     s32 i;
     s16 ang;
 
-    v10.x = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x48);
-    v10.y = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x4C);
-    v10.z = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x50);
-    v18.x = guess_g_PlayerPosX;
-    v18.y = guess_g_PlayerPosY;
-    v18.z = guess_g_PlayerPosZ;
+    v10.vx = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x48);
+    v10.vy = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x4C);
+    v10.vz = *(s32 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x50);
+    v18.vx = guess_g_PlayerPosX;
+    v18.vy = guess_g_PlayerPosY;
+    v18.vz = guess_g_PlayerPosZ;
 
     ang = func_8012B70C((s16 *)&v10, (s16 *)&v18) & 0xFFF;
 
     for (i = 0; i < 3; i++) {
         s16 x = (i << 6) - 0x40;
-        v18.x = x;
-        v10.x = x;
-        v10.z = -0x140;
-        v18.z = 0;
-        v18.y = -0x40;
-        v10.y = -0x40;
+        v18.vx = x;
+        v10.vx = x;
+        v10.vz = -0x140;
+        v18.vz = 0;
+        v18.vy = -0x40;
+        v10.vy = -0x40;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
 
-        v18.y = 0;
-        v10.y = 0;
+        v18.vy = 0;
+        v10.vy = 0;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
 
-        v18.y = 0x40;
-        v10.y = 0x40;
+        v18.vy = 0x40;
+        v10.vy = 0x40;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
 
-        v10.z = -0x280;
-        v18.z = -0x140;
+        v10.vz = -0x280;
+        v18.vz = -0x140;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
 
-        v18.y = 0;
-        v10.y = 0;
+        v18.vy = 0;
+        v10.vy = 0;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
 
-        v18.y = -0x40;
-        v10.y = -0x40;
+        v18.vy = -0x40;
+        v10.vy = -0x40;
         if (func_80187940((s32)a0, (s32)&v10, (s32)&v18, ang)) {
             return;
         }
@@ -11115,13 +11115,13 @@ s32 func_80189478(s32 arg0)
 
     u16 v2;
 
-    p1.x = -D_801948D8[((Unkstruct_800B5CB8 *)arg0)->unk70];
+    p1.unk0 = -D_801948D8[((Unkstruct_800B5CB8 *)arg0)->unk70];
     v2 = D_801948D8[((Unkstruct_800B5CB8 *)arg0)->unk70];
-    p2.y = 0;
-    p1.y = 0;
-    p2.z = 0;
-    p1.z = 0;
-    p2.x = v2;
+    p2.unk2 = 0;
+    p1.unk2 = 0;
+    p2.unk4 = 0;
+    p1.unk4 = 0;
+    p2.unk0 = v2;
 
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x54, (s32)&p1, &b);
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x54, (s32)&p2, &c);
@@ -12384,7 +12384,7 @@ void func_8018B1B4(s32 arg0) {
             ((Unkstruct_8018B1B4 *)out)->unk2 = *(u16 *)((s32) D_80194B66 + i) + ((Unkstruct_8018B1B4_2 *)sub)->unk6C;
             sub = ((Unkstruct_8018B1B4_3 *)handle)->unk20;
             ((Unkstruct_8018B1B4 *)out)->unk4 = *(u16 *)((s32) D_80194B68 + i) + ((Unkstruct_8018B1B4_2 *)sub)->unk70;
-            *(Blk8_8018B1B4 *)(out + 0x08) = *(Blk8_8018B1B4 *)((s32) D_80194BA4 + i);
+            *(Unkstruct_8013B83C *)(out + 0x08) = *(Unkstruct_8013B83C *)((s32) D_80194BA4 + i);
             *(Blk4_8018B1B4 *)(out + 0x10) = D_801ED994;
             *(Blk4_8018B1B4 *)(out + 0x14) = D_801ED994;
             ((Unkstruct_8018B1B4 *)out)->unk18 = 0;
@@ -12571,9 +12571,9 @@ extern void guess_InitObjectKind6(s32 a0, void *a1);
 /* §183: the TU spells these symbols differently at file scope, so reach them through
    __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
    same assembler symbol, private type, zero declaration surface. */
-extern Blk4_8018B4E0 aED994_8018B4E0[1] __asm__("D_801ED994");
-extern Blk4_8018B4E0 aEFD80_8018B4E0[1] __asm__("D_801EFD80");
-extern Blk4_8018B4E0 aEFD84_8018B4E0[1] __asm__("D_801EFD84");
+extern CVECTOR aED994_8018B4E0[1] __asm__("D_801ED994");
+extern CVECTOR aEFD80_8018B4E0[1] __asm__("D_801EFD80");
+extern CVECTOR aEFD84_8018B4E0[1] __asm__("D_801EFD84");
 
 s32 func_8018B4E0(s32 a0) {
     s32 s2 = a0;
@@ -12617,9 +12617,9 @@ extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
 /* §183: the TU spells these symbols differently at file scope, so reach them through
    __asm__ label ALIASES -- the TU's own established idiom (func_80188094, L6390):
    same assembler symbol, private type, zero declaration surface. */
-extern Blk4_8018B5E4 aED994_8018B5E4[1] __asm__("D_801ED994");
-extern Blk4_8018B5E4 aEFD80_8018B5E4[1] __asm__("D_801EFD80");
-extern Blk4_8018B5E4 aEFD84_8018B5E4[1] __asm__("D_801EFD84");
+extern CVECTOR aED994_8018B5E4[1] __asm__("D_801ED994");
+extern CVECTOR aEFD80_8018B5E4[1] __asm__("D_801EFD80");
+extern CVECTOR aEFD84_8018B5E4[1] __asm__("D_801EFD84");
 
 /* Not present in this TU yet; typed by access width (lb -> signed byte,
  * used in bltz/bgez sign tests as the loop's negative-sentinel scan). */
@@ -12772,7 +12772,7 @@ extern u8 D_801EFEA0[];
  * which does not match the target's inline copy at all (TU note at
  * func_8018E1F0, L5311-5327). Route it through an align-1 struct assign
  * instead -- block-scoped so it cannot collide with anything file-scope. */
-extern Blk4_8018B948 D_801ED9B4;
+extern CVECTOR D_801ED9B4;
 
 s32 func_8018B948(void) {
     s32 obj;
@@ -12788,7 +12788,7 @@ s32 func_8018B948(void) {
 
         guess_BuildCircle12Points((void *)ptr, 0x40);
 
-        *(Blk4_8018B948 *)ptr = D_801ED9B4;
+        *(CVECTOR *)ptr = D_801ED9B4;
     }
 
     return obj;
@@ -14661,11 +14661,11 @@ void func_8018E034(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_8018E0D4(arg0, 0x1000, 0);
-    sp10.unk0 = *(u16 *)(arg3 + 0x0);
-    sp10.unk4 = *(u16 *)(arg3 + 0x2);
-    sp10.unk6 = 1;
+    sp10.vx = *(u16 *)(arg3 + 0x0);
+    sp10.vz = *(u16 *)(arg3 + 0x2);
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_8018E1F0(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -15222,9 +15222,9 @@ void func_8018E82C(void *a0, void *a1, s16 a2) {
         D_801F130A = 0;
     }
 
-    D_801F1310 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_801F1311 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_801F1312 = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_801F1310 = ((CVECTOR *)a1)->r;
+    D_801F1311 = ((CVECTOR *)a1)->g;
+    D_801F1312 = ((CVECTOR *)a1)->b;
     D_801F130C = (u32)a2 << 16;
 }
 
@@ -15991,17 +15991,17 @@ void func_8018F9C0(void *a0) {
 
     extern s16 D_801EBCC4[][2];
     extern u8 D_801EBCF0[];
-    extern EffectSlot4_8018F9C0 D_801EBCFC[];
+    extern CVECTOR D_801EBCFC[];
     extern u8 D_801EBD28[];
-    extern EffectSlot4_8018F9C0 D_801EBD60;
-    extern EffectSlot4_8018F9C0 D_801EBD88;
-    extern EffectSlot4_8018F9C0 D_801EBD8C;
-    extern EffectSlot4_8018F9C0 D_801EBDBC;
-    extern EffectSlot4_8018F9C0 D_801EBDC0;
-    extern EffectSlot4_8018F9C0 D_801EBDF0;
-    extern EffectSlot4_8018F9C0 D_801EBDF4;
-    extern EffectSlot4_8018F9C0 D_801EBE24;
-    extern EffectSlot4_8018F9C0 D_801EBE28;
+    extern CVECTOR D_801EBD60;
+    extern CVECTOR D_801EBD88;
+    extern CVECTOR D_801EBD8C;
+    extern CVECTOR D_801EBDBC;
+    extern CVECTOR D_801EBDC0;
+    extern CVECTOR D_801EBDF0;
+    extern CVECTOR D_801EBDF4;
+    extern CVECTOR D_801EBE24;
+    extern CVECTOR D_801EBE28;
     void *s0;
     void *s1;
 
@@ -16036,7 +16036,7 @@ void func_8018F9C0(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_8018F9C0 *)((s32)&D_801EBE24 + 4) = D_801EBCFC[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_801EBE24 + 4) = D_801EBCFC[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_801EBE24 = D_801EBE28; } else { D_801EBE24 = D_801EBE28; }
         if (COND) { D_801EBDF4 = D_801EBE24; } else { D_801EBDF4 = D_801EBE24; }
         if (COND) { D_801EBDF0 = D_801EBDF4; } else { D_801EBDF0 = D_801EBDF4; }

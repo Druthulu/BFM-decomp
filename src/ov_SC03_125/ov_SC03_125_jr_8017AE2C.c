@@ -2761,8 +2761,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2774,8 +2774,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801C40C4;
         s16 *p78C = &D_801C40BC;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801C44C8 = 1;
@@ -3456,18 +3456,18 @@ void func_8017C234(s32 a0)
     s16 *s0;
     u8 *s2;
     s16 s4;
-    Buf8017BF50_8017C234 buf;
+    struct S80190C84 buf;
 
     s3 = a0;
     s0 = *(s16 **)(s3 + 0xDC);
     if (s0 != 0) {
         s2 = D_801C40F0;
         s4 = 0;
-        buf.unk06 = 0x158;
-        buf.unk0A = 0;
-        buf.unk08 = 0;
-        buf.unk0E = 0;
-        buf.unk10 = 0;
+        buf.f6 = 0x158;
+        buf.fA = 0;
+        buf.f8 = 0;
+        buf.fE = 0;
+        buf.f10 = 0;
         do {
             u16 v1;
 
@@ -3475,9 +3475,9 @@ void func_8017C234(s32 a0)
             if ((v1 & 0xFFFF) == 0x8000) break;
 
             if (((Unkstruct_8017BF50_2 *)s3)->unk70 != 0) {
-                buf.unk00 = *s0++;
-                buf.unk02 = *s0++;
-                buf.unk04 = *s0++;
+                buf.f0 = *s0++;
+                buf.f2 = *s0++;
+                buf.f4 = *s0++;
                 if (((s32 (*)(void *))func_8012C750)(&buf) == 0) break;
             } else {
                 s32 v3;

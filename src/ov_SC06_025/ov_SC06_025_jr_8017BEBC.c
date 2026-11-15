@@ -3038,17 +3038,17 @@ void func_8017D4F0(void *param_1) {
 
     switch (state) {
     case 0:
-        buf.x = 0;
-        if (buf.y < -0x300) {
-            buf.y = -0x300;
+        buf.vx = 0;
+        if (buf.vy < -0x300) {
+            buf.vy = -0x300;
         }
-        if (buf.y >= -0x17F) {
-            buf.y = -0x180;
+        if (buf.vy >= -0x17F) {
+            buf.vy = -0x180;
         }
-        if (buf.z < -0x3E0) {
-            buf.z = -0x3E0;
-        } else if (buf.z >= 0x401) {
-            buf.z = 0x400;
+        if (buf.vz < -0x3E0) {
+            buf.vz = -0x3E0;
+        } else if (buf.vz >= 0x401) {
+            buf.vz = 0x400;
         }
         a0 = param_1;
         ((Unkstruct_8017D4F0_2 *)a0)->unk14 = 0x4B0;
@@ -3056,9 +3056,9 @@ void func_8017D4F0(void *param_1) {
         func_8017D8C8(a0, &buf, 4);
         break;
     case 1:
-        buf.y = -0x178;
-        buf.z = 0x1C9;
-        buf.x = 0;
+        buf.vy = -0x178;
+        buf.vz = 0x1C9;
+        buf.vx = 0;
         a0 = param_1;
         ((Unkstruct_8017D4F0_2 *)a0)->unk14 = 0x4B0;
         ((Unkstruct_8017D4F0_2 *)a0)->unk30 = -0x20;
@@ -3066,18 +3066,18 @@ void func_8017D4F0(void *param_1) {
         break;
     case 2:
         a0 = param_1;
-        buf.y = -0x178;
-        buf.z = 0x280;
-        buf.x = 0;
+        buf.vy = -0x178;
+        buf.vz = 0x280;
+        buf.vx = 0;
         ((Unkstruct_8017D4F0_2 *)a0)->unk14 = 0x320;
         ((Unkstruct_8017D4F0_2 *)a0)->unk30 = -0x80;
         func_8017D8C8(a0, &buf, 4);
         break;
     case 3:
         a0 = param_1;
-        buf.y = -0x178;
-        buf.z = 0x280;
-        buf.x = 0;
+        buf.vy = -0x178;
+        buf.vz = 0x280;
+        buf.vx = 0;
         ((Unkstruct_8017D4F0_2 *)a0)->unk14 = 0x320;
         ((Unkstruct_8017D4F0_2 *)a0)->unk30 = -0x80;
         func_8017D8C8(a0, &buf, 4);
@@ -4031,8 +4031,8 @@ void func_8017E9B8(void) {
                  /* 8-byte stride record */
 
 extern Tbl8_801AFF3C D_801AFF3C;
-extern Ent8_80188 D_801888CC[];
-extern Ent8_80188 D_801888EC[];
+extern Unkstruct_801343C4 D_801888CC[];
+extern Unkstruct_801343C4 D_801888EC[];
 extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
 extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerPosY
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
@@ -4069,9 +4069,9 @@ void func_8017EA74(s32 a0) {
         break;
 
     case 1:
-        *(u16 *)(a0 + 0x16) = D_801888CC[*(s16 *)(a0 + 0x8)].a;
-        *(u16 *)(a0 + 0x1A) = D_801888CC[*(s16 *)(a0 + 0x8)].b;
-        *(u16 *)(a0 + 0x1E) = D_801888CC[*(s16 *)(a0 + 0x8)].c;
+        *(u16 *)(a0 + 0x16) = D_801888CC[*(s16 *)(a0 + 0x8)].unk0;
+        *(u16 *)(a0 + 0x1A) = D_801888CC[*(s16 *)(a0 + 0x8)].unk2;
+        *(u16 *)(a0 + 0x1E) = D_801888CC[*(s16 *)(a0 + 0x8)].unk4;
         *(u16 *)(a0 + 0x2) = *(u16 *)(a0 + 0x2) + 1;
         *(s16 *)(a0 + 0xA) = 0;
         break;
@@ -4093,9 +4093,9 @@ void func_8017EA74(s32 a0) {
             }
         }
 
-        vecA[1] = D_801888EC[*(s16 *)(a0 + 0x8)].b;
-        vecA[0] = vecA[0] + D_801888EC[*(s16 *)(a0 + 0x8)].a;
-        vecA[2] = vecA[2] + D_801888EC[*(s16 *)(a0 + 0x8)].c;
+        vecA[1] = D_801888EC[*(s16 *)(a0 + 0x8)].unk2;
+        vecA[0] = vecA[0] + D_801888EC[*(s16 *)(a0 + 0x8)].unk0;
+        vecA[2] = vecA[2] + D_801888EC[*(s16 *)(a0 + 0x8)].unk4;
 
         vecB[0] = *(u16 *)(a0 + 0x16);
         vecB[1] = *(u16 *)(a0 + 0x1A);

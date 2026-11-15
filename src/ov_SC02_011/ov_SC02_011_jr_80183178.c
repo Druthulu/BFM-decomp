@@ -2894,9 +2894,9 @@ extern void guess_InitObjectKind6(s32, void *);
 extern void guess_BuildCircle12Points(void *, u16);
 
 
-extern Block4 D_801E9E30;
-extern Block4 D_801EB524;
-extern Block4 D_801EB528;
+extern CVECTOR D_801E9E30;
+extern CVECTOR D_801EB524;
+extern CVECTOR D_801EB528;
 
 void func_80187110(s32 a0) {
     u8 *s0;
@@ -2915,7 +2915,7 @@ void func_80187110(s32 a0) {
     guess_BuildCircle12Points(s0, 0x80);
 
     // Copy 4 bytes from D_801E9E30 to D_801EB524
-    *(Block4 *)s0 = D_801E9E30;
+    *(CVECTOR *)s0 = D_801E9E30;
 
     // Copy 4 bytes from D_801E9E30 to D_801EB528
     D_801EB528 = D_801E9E30;
@@ -2940,13 +2940,13 @@ void func_80187110(s32 a0) {
 
 
 
-extern Block4 D_801EB524;
+extern CVECTOR D_801EB524;
 extern u8 D_801EB525;
 extern u8 D_801EB526;
 
 void func_801871CC(void) {
-    if (D_801EB524.b[0] < 0xc0) {
-        D_801EB524.b[0] += 4;
+    if (D_801EB524.r < 0xc0) {
+        D_801EB524.r += 4;
     }
     if (D_801EB525 < 0xc0) {
         D_801EB525 += 4;
@@ -2978,7 +2978,7 @@ void func_80187254(s32 arg0) {
 
 
 
-extern Block4 D_801EB524;
+extern CVECTOR D_801EB524;
 extern unsigned char D_801EB525;
 extern unsigned char D_801EB526;
 
@@ -2993,9 +2993,9 @@ void func_801872B4(s32 arg0) {
     if (((Unkstruct_801872B4 *)a0)->unk1A > 0x800) {
         ((Unkstruct_801872B4 *)a0)->unk1A = ((Unkstruct_801872B4 *)a0)->unk1A - 0x200;
     }
-    v1 = D_801EB524.b[0];
+    v1 = D_801EB524.r;
     if (v1 >= 0xC1) {
-        D_801EB524.b[0] = v1 - 4;
+        D_801EB524.r = v1 - 4;
         D_801EB525 -= 4;
         D_801EB526 -= 8;
     }
@@ -3003,7 +3003,7 @@ void func_801872B4(s32 arg0) {
 
 
 
-extern Block4 D_801EB524;
+extern CVECTOR D_801EB524;
 extern u8 D_801EB525;
 extern u8 D_801EB526;
 
@@ -3025,7 +3025,7 @@ void func_8018734C(void *a0) {
     } else {
         v = 0x10 - ((t & 0xF) >> 1);
     }
-    D_801EB524.b[0] = v * 12;
+    D_801EB524.r = v * 12;
     D_801EB525 = v * 12;
     D_801EB526 = v * 2;
 }

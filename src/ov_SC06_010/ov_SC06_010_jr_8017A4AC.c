@@ -2930,8 +2930,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2943,8 +2943,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801B1FFC;
         s16 *p78C = &D_801B1FF4;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801B2C08 = 1;
@@ -3540,14 +3540,14 @@ void func_8017BEBC(s32 arg0)
     XDV2 tmpxy[4];
     XSV2 box[8];
     XSV2 sxy[8];
-    XV8  vt[3];
-    XV8  vd8;
+    Unkstruct_8013B83C  vt[3];
+    Unkstruct_8013B83C  vd8;
     XMTX2 mtx;
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;
 
     s32 lim;
     s32 nparts;
-    XV8 *vtp;
+    Unkstruct_8013B83C *vtp;
     s32 j;
     u32 nprim;
     u32 i;
@@ -3663,11 +3663,11 @@ void func_8017BEBC(s32 arg0)
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
                         w = prim->c;
-                        vt[0] = *(XV8 *)va;
-                        vt[1] = *(XV8 *)vb;
+                        vt[0] = *(Unkstruct_8013B83C *)va;
+                        vt[1] = *(Unkstruct_8013B83C *)vb;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
-                        vt[2] = *(XV8 *)vc;
+                        vt[2] = *(Unkstruct_8013B83C *)vc;
                         gte_ldv3c(vtp);
                         gte_rtpt();
                         gte_stflg(&g.flag);
@@ -3737,7 +3737,7 @@ void func_8017BEBC(s32 arg0)
                                 case 2:
                                 case 3:
                                     gte_stsxy3c(&tmpxy[0]);
-                                    vd8 = *(XV8 *)vd;
+                                    vd8 = *(Unkstruct_8013B83C *)vd;
                                     gte_ldv0(&vd8);
                                     gte_rtps();
                                     if (tmpxy[0].vx > tmpxy[1].vx) {
@@ -3954,15 +3954,15 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
     XDV2 tmpxy[4];
     XSV2 box[8];
     XSV2 sxy[8];
-    XV8  vt[3];
-    XV8  vd8;
+    Unkstruct_8013B83C  vt[3];
+    Unkstruct_8013B83C  vd8;
     XMTX2 mtx;
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;
 
     s32 lim;
     s32 cl;
     s32 nparts;
-    XV8 *vtp;
+    Unkstruct_8013B83C *vtp;
     s32 j;
     u32 nprim;
     u32 i;
@@ -4078,11 +4078,11 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
                         w = prim->c;
-                        vt[0] = *(XV8 *)va;
-                        vt[1] = *(XV8 *)vb;
+                        vt[0] = *(Unkstruct_8013B83C *)va;
+                        vt[1] = *(Unkstruct_8013B83C *)vb;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
-                        vt[2] = *(XV8 *)vc;
+                        vt[2] = *(Unkstruct_8013B83C *)vc;
                         gte_ldv3c(vtp);
                         gte_rtpt();
                         gte_stflg(&g.flag);
@@ -4152,7 +4152,7 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                                 case 2:
                                 case 3:
                                     gte_stsxy3c(&tmpxy[0]);
-                                    vd8 = *(XV8 *)vd;
+                                    vd8 = *(Unkstruct_8013B83C *)vd;
                                     gte_ldv0(&vd8);
                                     gte_rtps();
                                     if (tmpxy[0].vx > tmpxy[1].vx) {
@@ -7611,9 +7611,9 @@ s32 func_80182A2C(s32 param_1) {
     extern MATRIX *D_801A6A2C;     /* matrix pool cursor */
     extern MATRIX D_801B2AE8[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

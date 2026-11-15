@@ -3102,27 +3102,27 @@ void func_8017CD9C(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801A9A88 = vec.a;
-    D_801A9A78 = vec.a;
-    D_801A9A68 = vec.a;
-    D_801A9A8C = vec.b;
-    D_801A9A7C = vec.b;
-    D_801A9A6C = vec.b;
-    D_801A9A90 = vec.c;
-    D_801A9A80 = vec.c;
-    D_801A9A70 = vec.c;
+    D_801A9A88 = vec.vx;
+    D_801A9A78 = vec.vx;
+    D_801A9A68 = vec.vx;
+    D_801A9A8C = vec.vy;
+    D_801A9A7C = vec.vy;
+    D_801A9A6C = vec.vy;
+    D_801A9A90 = vec.vz;
+    D_801A9A80 = vec.vz;
+    D_801A9A70 = vec.vz;
 }
 
 

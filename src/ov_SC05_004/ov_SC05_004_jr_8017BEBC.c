@@ -4201,10 +4201,10 @@ extern s32 func_8001D074(s32 a0, s32 a1);
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
 extern void guess_InitObjectKind6(int a0, void *a1);
 
-extern Blk4_8017E808 D_8019EFF8;
-extern Blk4_8017E808 D_8019EFFC;
-extern Blk4_8017E808 D_8019DBF8;
-extern Blk4_8017E808 D_8019DBFC;
+extern CVECTOR D_8019EFF8;
+extern CVECTOR D_8019EFFC;
+extern CVECTOR D_8019DBF8;
+extern CVECTOR D_8019DBFC;
 
 s32 func_8017E808(u8 *a0) {
     s32 s1;

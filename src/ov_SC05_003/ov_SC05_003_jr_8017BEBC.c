@@ -5590,7 +5590,7 @@ extern s32 func_8012BE54(s32 a0);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_80181C00(s32 arg0) {
-    S80190C84L sp;
+    struct S80190C84 sp;
     s32 counter;
     s32 divisor;
 

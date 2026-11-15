@@ -2918,7 +2918,7 @@ extern void func_801826C4(s32 a0);
 extern s32 func_8018287C(void *param_1);
 extern void func_80182744(void *arg0);
 extern void func_801827A4(void);
-extern Blk8_801827C4 D_801EE3F4;
+extern Unkstruct_8013B83C D_801EE3F4;
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern void func_80182938(void *arg0);
 extern void func_801829F4(u8*, u8*);
@@ -5064,9 +5064,9 @@ s32 func_80189384(s32 param_1) {
     extern MATRIX *D_801EB5BC;     /* matrix pool cursor */
     extern MATRIX D_801EFBA0[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

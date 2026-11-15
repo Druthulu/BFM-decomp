@@ -2762,8 +2762,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2775,8 +2775,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801E9CAC;
         s16 *p78C = &D_801E9CA4;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801EB250 = 1;
@@ -4191,7 +4191,7 @@ void func_8017DE40(s32 param_1)
     s32 p1;
     s16 *p0;
     MTX_8017DE40 m1;
-    SV4_8017DE40 svec_in;
+    SVECTOR svec_in;
     s16 vec[3];
     u8 t;
 
@@ -4237,9 +4237,9 @@ void func_8017DE40(s32 param_1)
     m1.t[0] = *(s16 *)(p1 + 0x28) + vec[0];
     m1.t[1] = *(s16 *)(p1 + 0x2A) + *p0;
     m1.t[2] = *(s16 *)(p1 + 0x2C) + vec[2];
-    svec_in.a = 0;
-    svec_in.b = 0;
-    svec_in.c = *(s32 *)(p1 + 0x10);
+    svec_in.vx = 0;
+    svec_in.vy = 0;
+    svec_in.vz = *(s32 *)(p1 + 0x10);
     guess_RotTransSVWithMatrix((s32)&m1, (s32)&svec_in, (s32)vec);
 
     *(s32 *)(p1 + 0x3C) = vec[0];
@@ -4754,7 +4754,7 @@ s32 func_8017EA04(s32 arg0) {
  * *_<addr> house convention (law 8: same name => same body, else a new name). */
 
 extern MTX_8017EA48 D_800AE620;
-extern SV4_8017EA48 D_8018BD34[];
+extern SVECTOR D_8018BD34[];
 /* §-note: declared as a 1-element array so its load carries MEM_IN_STRUCT_P and is
  * therefore killed by every `nonscalar` write (cse.c note_mem_written/invalidate_memory),
  * which is what produces the target's re-load of the pointer before each `sh`. */
@@ -4771,11 +4771,11 @@ extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 s32 func_8017EA48(s32 param_1)
 {
     MTX_8017EA48 mtx;   /* sp+0x10 */
-    SV4_8017EA48 v0;    /* sp+0x30 */
-    SV4_8017EA48 v1;    /* sp+0x38 */
-    SV4_8017EA48 c0;    /* sp+0x40 */
-    SV4_8017EA48 c1;    /* sp+0x48 */
-    SV4_8017EA48 buf;   /* sp+0x50 */
+    SVECTOR v0;    /* sp+0x30 */
+    SVECTOR v1;    /* sp+0x38 */
+    SVECTOR c0;    /* sp+0x40 */
+    SVECTOR c1;    /* sp+0x48 */
+    SVECTOR buf;   /* sp+0x50 */
     s32 ret;
     s32 r;
 
@@ -5574,8 +5574,8 @@ extern u8 *func_8017FD6C(s32 a0, s32 a1, s32 a2);
 
 void func_8017FC6C(s32 s2)
 {
-    SV4_FC6C sv0;   /* sp+0x10 */
-    SV4_FC6C sv1;   /* sp+0x18 */
+    SVECTOR sv0;   /* sp+0x10 */
+    SVECTOR sv1;   /* sp+0x18 */
     s32 flag;       /* sp+0x20 */
 
     gte_SetRotMatrix(((Unkstruct_8017FC6C *)s2)->unk20 + 0x34);

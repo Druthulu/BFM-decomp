@@ -1918,7 +1918,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         return 0;
     }
     iv = -iv;
-    dvsr = pElem->f2 * 48;
+    dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
     D_801841A4->f0 = D_8018419C->f0;
     D_801841A4->f2 = D_8018419C->f2 + q;
@@ -1943,7 +1943,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_801841A4->f0 = D_8018419C->f0;
     D_801841A4->f4 = D_8018419C->f4;
     (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
-    D_8018419C->f6.u = pElem->f2;
+    D_8018419C->f6.u = pElem->vy;
     return 1;
 }
 

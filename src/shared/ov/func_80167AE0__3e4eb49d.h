@@ -14,12 +14,12 @@ void func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
 
     guess_SetSegmentMatrixFacingCamera(param_1, ((s16 *)param_2), ((s16 *)param_3), fr.matrix);
 
-    fr.v[3].z = 0;
-    fr.v[2].z = 0;
-    fr.v[0].z = 0;
-    fr.v[1].z = 0;
-    fr.v[1].y = 0;
-    fr.v[1].x = 0;
+    fr.v[3].vz = 0;
+    fr.v[2].vz = 0;
+    fr.v[0].vz = 0;
+    fr.v[1].vz = 0;
+    fr.v[1].vy = 0;
+    fr.v[1].vx = 0;
     flags = guess_g_FrameCounter;
     if (flags & 1) {
         fr.col[1].r = 0xa0;
@@ -44,35 +44,35 @@ void func_80167AE0(s32 param_1, s32 param_2, s32 param_3) {
     fr.col[1].g = fr.col[1].r >> 2;
     i = 0;
 L1:
-        fr.v[0].x = (s8)*p++;
-        fr.v[0].y = (s8)*p++;
-        fr.v[2].x = (s8)*p++;
-        fr.v[2].y = (s8)*p++;
-        fr.v[3].x = (s8)*p++;
-        fr.v[3].y = (s8)*p--;
+        fr.v[0].vx = (s8)*p++;
+        fr.v[0].vy = (s8)*p++;
+        fr.v[2].vx = (s8)*p++;
+        fr.v[2].vy = (s8)*p++;
+        fr.v[3].vx = (s8)*p++;
+        fr.v[3].vy = (s8)*p--;
         guess_AddPolyG4(fr.v, fr.matrix);
         t = i + 1;
         i = t + 0;
         if ((s16)t < 4) goto L1;
 
-    fr.v[3].y = 0;
-    fr.v[2].y = 0;
-    fr.v[0].y = 0;
-    fr.v[1].y = 0;
-    fr.v[1].x = 0;
-    fr.v[1].z = -0x20;
+    fr.v[3].vy = 0;
+    fr.v[2].vy = 0;
+    fr.v[0].vy = 0;
+    fr.v[1].vy = 0;
+    fr.v[1].vx = 0;
+    fr.v[1].vz = -0x20;
     p = D_80181BC0;
     i = 0;
 L2:
-        fr.v[0].x = (s8)*p++;
-        fr.v[0].z = (s8)*p++;
-        fr.v[2].x = (s8)*p++;
-        fr.v[2].z = (s8)*p++;
-        fr.v[3].x = (s8)*p++;
-        fr.v[3].z = (s8)*p--;
+        fr.v[0].vx = (s8)*p++;
+        fr.v[0].vz = (s8)*p++;
+        fr.v[2].vx = (s8)*p++;
+        fr.v[2].vz = (s8)*p++;
+        fr.v[3].vx = (s8)*p++;
+        fr.v[3].vz = (s8)*p--;
         guess_AddPolyG4(fr.v, fr.matrix);
         if ((s16)i == 1) {
-            fr.v[1].z = 0x20;
+            fr.v[1].vz = 0x20;
             p += 2;
         }
         t = i + 1;
@@ -80,17 +80,17 @@ L2:
         if ((s16)t < 4) goto L2;
 
     p += 2;
-    fr.v[0].x = 0;
-    fr.v[0].z = -0x20;
+    fr.v[0].vx = 0;
+    fr.v[0].vz = -0x20;
     fr.col[0].r = fr.col[1].r;
     fr.col[0].b = fr.col[1].g;
     fr.col[0].g = fr.col[1].g;
     i = 0;
 L3:
-        fr.v[2].x = (s8)*p++;
-        fr.v[2].z = (s8)*p++;
-        fr.v[3].x = (s8)*p++;
-        fr.v[3].z = (s8)*p++;
+        fr.v[2].vx = (s8)*p++;
+        fr.v[2].vz = (s8)*p++;
+        fr.v[3].vx = (s8)*p++;
+        fr.v[3].vz = (s8)*p++;
         guess_AddPolyG4(fr.v, fr.matrix);
         t = i + 1;
         i = t + 0;

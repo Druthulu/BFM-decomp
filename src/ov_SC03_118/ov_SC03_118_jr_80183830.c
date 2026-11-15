@@ -3755,12 +3755,12 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
     extern u8 D_8018EFA0[];
     extern u8 D_8018EFA8[];
     extern u8 D_8018EF98[];
-    extern Tbl_80184F18 D_8018EFB0[];
+    extern Unkstruct_801343C4 D_8018EFB0[];
     SXY_80184F18 sxy[6];
     MTX_80184F18 mtx;
     Desc_80184F18 desc;
     Desc_80184F18 *d;
-    Tbl_80184F18 *p;
+    Unkstruct_801343C4 *p;
     u16 t;
     s32 u;
     s32 i;
@@ -3792,26 +3792,26 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
     for (; i < 3; i++) {
         p = &D_8018EFB0[i];
         d->v[0].vx = sxy[1].unk0.v1.unk0;
-        d->v[0].vy = sxy[1].unk0.v1.unk2 + p->f2;
+        d->v[0].vy = sxy[1].unk0.v1.unk2 + p->unk4;
         d->v[1].vx = sxy[0].unk0.v1.unk0;
         d->v[1].vy = sxy[0].unk0.v1.unk2;
-        d->v[2].vx = sxy[1].unk0.v1.unk0 + p->f1;
-        d->v[2].vy = sxy[1].unk0.v1.unk2 + p->f3;
-        d->v[3].vx = sxy[0].unk0.v1.unk0 + p->f0;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 + p->unk2;
+        d->v[2].vy = sxy[1].unk0.v1.unk2 + p->unk6;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 + p->unk0;
         d->v[3].vy = sxy[0].unk0.v1.unk2;
         d->uv[0].unk0 = u;
         d->uv[0].unk2 = 0x1FF;
         d->uv[1].unk0 = t + 0xD20;
         d->uv[1].unk2 = 0x100;
-        d->uv[2].unk0 = p->f1 + u;
+        d->uv[2].unk0 = p->unk2 + u;
         d->uv[2].unk2 = 0x1FF;
-        d->uv[3].unk0 = p->f0 + u;
+        d->uv[3].unk0 = p->unk0 + u;
         d->uv[3].unk2 = 0x100;
         func_800178EC((s32)d);
-        d->v[2].vx = sxy[1].unk0.v1.unk0 - p->f1;
-        d->v[3].vx = sxy[0].unk0.v1.unk0 - p->f0;
-        d->uv[2].unk0 = u - p->f1;
-        d->uv[3].unk0 = u - p->f0;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 - p->unk2;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 - p->unk0;
+        d->uv[2].unk0 = u - p->unk2;
+        d->uv[3].unk0 = u - p->unk0;
         func_800178EC((s32)d);
     }
 }
@@ -4017,11 +4017,11 @@ void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_801855F0(arg0, 0x1000, 0);
-    sp10.unk0 = ((Unkstruct_80185550 *)arg3)->unk0;
-    sp10.unk4 = ((Unkstruct_80185550 *)arg3)->unk2;
-    sp10.unk6 = 1;
+    sp10.vx = ((Unkstruct_80185550 *)arg3)->unk0;
+    sp10.vz = ((Unkstruct_80185550 *)arg3)->unk2;
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_8018570C(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -4582,9 +4582,9 @@ void func_80185D48(void *a0, void *a1, s16 a2) {
         D_801D4362 = 0;
     }
 
-    D_801D4368 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_801D4369 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_801D436A = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_801D4368 = ((CVECTOR *)a1)->r;
+    D_801D4369 = ((CVECTOR *)a1)->g;
+    D_801D436A = ((CVECTOR *)a1)->b;
     D_801D4364 = (u32)a2 << 16;
 }
 

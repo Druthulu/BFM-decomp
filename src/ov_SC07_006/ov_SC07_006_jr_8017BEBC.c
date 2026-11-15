@@ -1805,9 +1805,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -3511,20 +3511,20 @@ void func_8017D67C(s32 arg0) {
         break;
     }
 
-    prim.v[1].z = 0;
-    prim.v[1].x = 0;
-    prim.v[0].z = 0;
-    prim.v[0].x = 0;
+    prim.v[1].vz = 0;
+    prim.v[1].vx = 0;
+    prim.v[0].vz = 0;
+    prim.v[0].vx = 0;
     prim.tag = 0x50000000;
     st = ((Unkstruct_800B5CB8 *)e)->unk34;
     prim.col[0] = 0x808080;
     prim.col[1] = 0x101010;
     if (st < 2) {
-        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
-        prim.v[1].y = 0;
+        prim.v[0].vy = ((Unkstruct_800B5CB8 *)e)->unkE4;
+        prim.v[1].vy = 0;
     } else {
-        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
-        prim.v[1].y = CAST_WIDTH(s32, e, 0xEC);
+        prim.v[0].vy = ((Unkstruct_800B5CB8 *)e)->unkE4;
+        prim.v[1].vy = CAST_WIDTH(s32, e, 0xEC);
     }
     func_80016A5C(&prim, ((Unkstruct_800B5CB8 *)e)->unk20 + 0x34);
 }

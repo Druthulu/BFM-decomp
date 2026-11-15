@@ -3448,30 +3448,30 @@ s32 func_8017E608(s32 a0, s32 a1, s16 a2) {
     s32 p2addr;
 
     p2addr = (s32)&p2;
-    p1.x = p2.x = CAST_SIGN(u16, a1, 0x4);
-    p1.z = p2.z = a2;
-    p1.y = ((Unkstruct_8017E4DC *)a1)->unk8;
-    p2.y = ((Unkstruct_8017E4DC *)a1)->unkA;
+    p1.unk0 = p2.unk0 = CAST_SIGN(u16, a1, 0x4);
+    p1.unk4 = p2.unk4 = a2;
+    p1.unk2 = ((Unkstruct_8017E4DC *)a1)->unk8;
+    p2.unk2 = ((Unkstruct_8017E4DC *)a1)->unkA;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = (((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 2;
+    p1.unk0 = p2.unk0 = (((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 2;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = (((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = ((((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 2) * 3;
+    p1.unk0 = p2.unk0 = ((((Unkstruct_8017E4DC *)a1)->unk4 + ((Unkstruct_8017E4DC *)a1)->unk6) >> 2) * 3;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.x = p2.x = CAST_SIGN(u16, a1, 0x6);
+    p1.unk0 = p2.unk0 = CAST_SIGN(u16, a1, 0x6);
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
@@ -3555,8 +3555,8 @@ u8 *func_8017E908(void) {
 }
 
 
-extern Block4 D_80191968;
-extern Block4 D_8019196C;
+extern CVECTOR D_80191968;
+extern CVECTOR D_8019196C;
 extern u8 *func_8017E908(void);
 extern void func_801292C8(u8 *a0);
 extern void func_8001CD50(s32 a0, s32 a1);
@@ -3570,8 +3570,8 @@ void func_8017E940(s32 a0) {
     s0 = (u8 *)func_8017E908();
     if (s0 != 0) {
         func_8001CD50(((Unkstruct_800B5CB8 *)s1)->unk20, (s32)s0);
-        *(Block4 *)(s0 + 0) = D_80191968;
-        *(Block4 *)(s0 + 4) = D_8019196C;
+        *(CVECTOR *)(s0 + 0) = D_80191968;
+        *(CVECTOR *)(s0 + 4) = D_8019196C;
 
         p1 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         ((Unkstruct_800B5CB8 *)p1)->unk10 = 0x400;

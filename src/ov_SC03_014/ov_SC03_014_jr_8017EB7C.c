@@ -3964,27 +3964,27 @@ void func_801811D4(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801EA918 = vec.a;
-    D_801EA908 = vec.a;
-    D_801EA8F8 = vec.a;
-    D_801EA91C = vec.b;
-    D_801EA90C = vec.b;
-    D_801EA8FC = vec.b;
-    D_801EA920 = vec.c;
-    D_801EA910 = vec.c;
-    D_801EA900 = vec.c;
+    D_801EA918 = vec.vx;
+    D_801EA908 = vec.vx;
+    D_801EA8F8 = vec.vx;
+    D_801EA91C = vec.vy;
+    D_801EA90C = vec.vy;
+    D_801EA8FC = vec.vy;
+    D_801EA920 = vec.vz;
+    D_801EA910 = vec.vz;
+    D_801EA900 = vec.vz;
 }
 
 
@@ -5077,16 +5077,16 @@ void func_80182A40(void *a0)
 
     p = (s32)a0;
     if (((Unkstruct_80182A40 *)p)->unk2C != 0) {
-        prim.v[0].y = ((Unkstruct_80182A40 *)p)->unkA - 0x20;
-        prim.v[1].y = ((Unkstruct_80182A40 *)p)->unkA + 0x20;
+        prim.v[0].vy = ((Unkstruct_80182A40 *)p)->unkA - 0x20;
+        prim.v[1].vy = ((Unkstruct_80182A40 *)p)->unkA + 0x20;
     } else {
-        prim.v[0].y = ((Unkstruct_80182A40 *)p)->unkA + 0x20;
-        prim.v[1].y = ((Unkstruct_80182A40 *)p)->unkA - 0x20;
+        prim.v[0].vy = ((Unkstruct_80182A40 *)p)->unkA + 0x20;
+        prim.v[1].vy = ((Unkstruct_80182A40 *)p)->unkA - 0x20;
     }
-    prim.v[0].x = ((Unkstruct_80182A40 *)p)->unk6;
-    prim.v[0].z = ((Unkstruct_80182A40 *)p)->unkE;
-    prim.v[1].x = ((Unkstruct_80182A40 *)p)->unk6;
-    prim.v[1].z = ((Unkstruct_80182A40 *)p)->unkE;
+    prim.v[0].vx = ((Unkstruct_80182A40 *)p)->unk6;
+    prim.v[0].vz = ((Unkstruct_80182A40 *)p)->unkE;
+    prim.v[1].vx = ((Unkstruct_80182A40 *)p)->unk6;
+    prim.v[1].vz = ((Unkstruct_80182A40 *)p)->unkE;
     prim.col[0].b = 0;
     prim.col[0].g = 0;
     prim.col[0].r = 0;
@@ -5140,14 +5140,14 @@ void func_80182C28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     Buf8017BF34_80182C28 buf;
     s32 v0;
 
-    buf.unk06 = 0x6B;
-    buf.unk00 = -0x94;
-    buf.unk02 = -0x68;
-    buf.unk04 = 0;
-    buf.unk08 = arg3;
-    buf.unk0A = 0;
-    buf.unk0E = arg2;
-    buf.unk10 = D_8018F77C[(s16)arg2];
+    buf.f6 = 0x6B;
+    buf.f0 = -0x94;
+    buf.f2 = -0x68;
+    buf.f4 = 0;
+    buf.f8 = arg3;
+    buf.fA = 0;
+    buf.fE = arg2;
+    buf.f10 = D_8018F77C[(s16)arg2];
 
     v0 = ((s32 (*)(void *))func_8012C750)(&buf);
     if (v0 != 0) {

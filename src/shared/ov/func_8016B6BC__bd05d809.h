@@ -31,12 +31,12 @@ void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
     func_80013CFC(iVar1, (int)q++, &p->v[1]);
     func_80013CFC(iVar1, (int)q, &p->v[2]);
     guess_CopyVec3HighHalves(param_1 + 4, (s32 *)&off);
-    p->v[0].x += off.x;
-    p->v[0].y += off.y;
-    p->v[1].x += off.x;
-    p->v[1].y += off.y;
-    p->v[2].x += off.x;
-    p->v[2].y += off.y;
-    p->v[0].c = 3;
+    p->v[0].vx += off.x;
+    p->v[0].vy += off.y;
+    p->v[1].vx += off.x;
+    p->v[1].vy += off.y;
+    p->v[2].vx += off.x;
+    p->v[2].vy += off.y;
+    p->v[0].vz = 3;
     func_8001739C(p);
 }

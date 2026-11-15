@@ -957,9 +957,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -3208,32 +3208,32 @@ void func_80182E4C(s32 a0) {
     } else if (y > 0) {
         y = 0;
     }
-    p1.y = y;
-    p2.y = y;
+    p1.unk2 = y;
+    p2.unk2 = y;
 
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A3B58[i];
-        p1.z = D_801A3B58[i + 1];
-        p2.x = D_801A3B58[i + 2];
-        p2.z = D_801A3B58[i + 3];
+        p1.unk0 = D_801A3B58[i];
+        p1.unk4 = D_801A3B58[i + 1];
+        p2.unk0 = D_801A3B58[i + 2];
+        p2.unk4 = D_801A3B58[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A3B80[i];
-        p1.z = D_801A3B80[i + 1];
-        p2.x = D_801A3B80[i + 2];
-        p2.z = D_801A3B80[i + 3];
+        p1.unk0 = D_801A3B80[i];
+        p1.unk4 = D_801A3B80[i + 1];
+        p2.unk0 = D_801A3B80[i + 2];
+        p2.unk4 = D_801A3B80[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A3BA8[i];
-        p1.z = D_801A3BA8[i + 1];
-        p2.x = D_801A3BA8[i + 2];
-        p2.z = D_801A3BA8[i + 3];
+        p1.unk0 = D_801A3BA8[i];
+        p1.unk4 = D_801A3BA8[i + 1];
+        p2.unk0 = D_801A3BA8[i + 2];
+        p2.unk4 = D_801A3BA8[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
@@ -3298,9 +3298,9 @@ void func_801830E4(void *arg0) {
     e = (Ent_8017FD58_801830E4 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
         if (e->f0 == 0x12C) {
-            pos.x = e->x;
-            pos.y = e->y;
-            pos.z = e->z;
+            pos.unk0 = e->x;
+            pos.unk2 = e->y;
+            pos.unk4 = e->z;
             ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
             if (*(s16 *)(p->f64 + 0xFC) < 0) {
                 ang -= 0x400;
@@ -3308,15 +3308,15 @@ void func_801830E4(void *arg0) {
                 ang += 0x400;
             }
             ang &= 0xFFF;
-            pos.x -= rsin(ang) >> 8;
-            pos.z -= rcos(ang) >> 8;
-            tmp.x = e->x;
-            tmp.y = e->y;
-            tmp.z = e->z;
+            pos.unk0 -= rsin(ang) >> 8;
+            pos.unk4 -= rcos(ang) >> 8;
+            tmp.unk0 = e->x;
+            tmp.unk2 = e->y;
+            tmp.unk4 = e->z;
             dst = tmp;
             if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.x;
-                e->z = pos.z;
+                e->x = pos.unk0;
+                e->z = pos.unk4;
             }
         }
     }

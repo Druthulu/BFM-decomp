@@ -5559,8 +5559,8 @@ extern void guess_BuildCircle12Points(void *, u16);
 
 
 extern u8 D_801EAC94;
-extern Block4 D_801E94F4;
-extern Block4 D_801EAC98;
+extern CVECTOR D_801E94F4;
+extern CVECTOR D_801EAC98;
 
 void func_80189680(s32 a0) {
     u8 *s0;
@@ -5576,7 +5576,7 @@ void func_80189680(s32 a0) {
 
     guess_BuildCircle12Points(s0, 0x80);
 
-    *(Block4 *)s0 = D_801E94F4;
+    *(CVECTOR *)s0 = D_801E94F4;
 
     D_801EAC98 = D_801E94F4;
 
@@ -6306,19 +6306,19 @@ void func_8018A680(void) {
 
 
 extern void func_8018A744(s32 arg0, s32 arg1, s32 arg2);
-extern void func_8018A860(s32 arg0, Rec_8018A6A4 *arg1, s32 arg2, s32 arg3);
+extern void func_8018A860(s32 arg0, SVECTOR *arg1, s32 arg2, s32 arg3);
 
 void func_8018A6A4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    Rec_8018A6A4 sp10;
+    SVECTOR sp10;
     s32 i;
     s32 ang;
 
     func_8018A744(arg0, 0x1000, 0);
-    sp10.unk0 = *(u16 *)(arg3 + 0x0);
-    sp10.unk4 = *(u16 *)(arg3 + 0x2);
-    sp10.unk6 = 1;
+    sp10.vx = *(u16 *)(arg3 + 0x0);
+    sp10.vz = *(u16 *)(arg3 + 0x2);
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_8018A860(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -6372,12 +6372,12 @@ extern s16 D_801EADEA[0];
 
 
 s32 func_8018A934(void);
-extern void func_8018A860(s32 arg0, Rec_8018A6A4 *arg1, s32 arg2, s32 arg3);
+extern void func_8018A860(s32 arg0, SVECTOR *arg1, s32 arg2, s32 arg3);
 
 void func_8018A808(s32 a0, s32 a1, s32 a2) {
     s32 v0 = func_8018A934();
     if (v0 >= 0) {
-        func_8018A860(v0, (Rec_8018A6A4 *)a0, a1, a2);
+        func_8018A860(v0, (SVECTOR *)a0, a1, a2);
     }
 }
 
@@ -6437,10 +6437,10 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     ((Unkstruct_8018A860 *)s1)->unk0 = ((Unkstruct_8018A860_2 *)a1)->unk0;
 
-    *(B4_SC03_014_8018A860 *)((u8 *)s1 + 6) = *(B4_SC03_014_8018A860 *)a2;
+    *(CVECTOR *)((u8 *)s1 + 6) = *(CVECTOR *)a2;
     ((Unkstruct_8018A860 *)s1)->unk9 = 0;
 
-    *(B4_SC03_014_8018A860 *)((u8 *)s1 + 10) = *(B4_SC03_014_8018A860 *)a3;
+    *(CVECTOR *)((u8 *)s1 + 10) = *(CVECTOR *)a3;
     ((Unkstruct_8018A860 *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
@@ -6858,9 +6858,9 @@ void func_8018AE9C(void *a0, void *a1, s16 a2) {
         D_801EACDA = 0;
     }
 
-    D_801EACE0 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_801EACE1 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_801EACE2 = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_801EACE0 = ((CVECTOR *)a1)->r;
+    D_801EACE1 = ((CVECTOR *)a1)->g;
+    D_801EACE2 = ((CVECTOR *)a1)->b;
     D_801EACDC = (u32)a2 << 16;
 }
 

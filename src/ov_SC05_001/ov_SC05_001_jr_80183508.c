@@ -3663,7 +3663,7 @@ s32 func_8018466C(void *arg0)
 
     guess_RotTransSVWithObjMatrix((s32)arg0, (s32)D_801AE3A0, (s32)buf);
 
-    CAST_WIDTH(V8x_8018466C, (u8 *)s0, 8) = *(V8x_8018466C *)buf;
+    CAST_WIDTH(SVECTOR, (u8 *)s0, 8) = *(SVECTOR *)buf;
 
     setMask = 0x80000000;
     if (*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk20 + 4) < 0) {

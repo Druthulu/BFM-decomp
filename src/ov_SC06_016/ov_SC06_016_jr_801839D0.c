@@ -2956,11 +2956,11 @@ void func_80183D80(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80183E20(arg0, 0x1000, 0);
-    sp10.unk0 = *(u16 *)(arg3 + 0x0);
-    sp10.unk4 = *(u16 *)(arg3 + 0x2);
-    sp10.unk6 = 1;
+    sp10.vx = *(u16 *)(arg3 + 0x0);
+    sp10.vz = *(u16 *)(arg3 + 0x2);
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_80183F3C(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -3518,9 +3518,9 @@ void func_80184578(void *a0, void *a1, s16 a2) {
         D_8019FF0A = 0;
     }
 
-    D_8019FF10 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_8019FF11 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_8019FF12 = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_8019FF10 = ((CVECTOR *)a1)->r;
+    D_8019FF11 = ((CVECTOR *)a1)->g;
+    D_8019FF12 = ((CVECTOR *)a1)->b;
     D_8019FF0C = (u32)a2 << 16;
 }
 

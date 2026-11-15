@@ -3105,7 +3105,7 @@ void func_80181BE4(s32 p)
         }
         s1c = ((Unkstruct_800B5CB8 *)p)->unk1C;
         if (s1c == 0xC) {
-            struct PrimBE4 sp;
+            struct S80190C84 sp;
             s16 buf[4];
             s32 tv0;
             guess_RotTransSVWithObjMatrix(p, (s32)D_8018AA6C, (s32)buf);

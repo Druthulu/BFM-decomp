@@ -820,7 +820,7 @@ s32 func_8013A8FC(s32);
 
 s32 func_80138C60(s32 arg0)
 {
-    extern Q_80138C60 D_801870EC[];
+    extern CVECTOR D_801870EC[];
     u16 t;
     u8 b;
     s32 f;
@@ -851,7 +851,7 @@ s32 func_80138C60(s32 arg0)
         }
     }
 
-    CAST_WIDTH(Q_80138C60, arg0, 0x24) = D_801870EC[idx];
+    CAST_WIDTH(CVECTOR, arg0, 0x24) = D_801870EC[idx];
 
     func_80139BE0(arg0);
     func_80139C7C((u8 *)arg0);

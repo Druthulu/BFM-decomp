@@ -2765,8 +2765,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2778,8 +2778,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801C5A04;
         s16 *p78C = &D_801C59FC;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801C7EDC = 1;
@@ -6760,7 +6760,7 @@ void func_801819D0(s32 a0) {
     func_800D23D0(sp18);
     sp18[2] = sp18[1] << 2;
     if (((Unkstruct_801819D0_2 *)a0)->unk34 != 0) {
-        *(Copy8 *)(((Unkstruct_801819D0_2 *)a0)->unk34 + 0x10) = *(Copy8 *)sp18;
+        *(Unkstruct_8013B83C *)(((Unkstruct_801819D0_2 *)a0)->unk34 + 0x10) = *(Unkstruct_8013B83C *)sp18;
     }
 }
 
@@ -7367,11 +7367,11 @@ void func_8018287C(s32 arg0) {
     base = (u16 *)&guess_g_PlayerActor;
     if (guess_TickWaitTimer(arg0) != 0) {
         for (i = 0; i < 4; i++) {
-            in.x = ((Unkstruct_800B5CB8 *)arg0)->unk6 + D_8018A30C[i][0];
-            in.y = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-            in.z = ((Unkstruct_800B5CB8 *)arg0)->unkE + D_8018A310[i][0];
+            in.unk0 = ((Unkstruct_800B5CB8 *)arg0)->unk6 + D_8018A30C[i][0];
+            in.unk2 = ((Unkstruct_800B5CB8 *)arg0)->unkA;
+            in.unk4 = ((Unkstruct_800B5CB8 *)arg0)->unkE + D_8018A310[i][0];
             out = in;
-            out.y -= 0x18;
+            out.unk2 -= 0x18;
             if (func_8012DF34(0, (s32)&in, (s32)&out) != 0) {
                 base[0x21] = i << 10;
                 base[0x20] = 0xA;
@@ -7505,7 +7505,7 @@ void func_80182B30(int param_1)
 
 extern Entry16 D_8018A414[];
 extern s32 D_801C7550[];
-extern void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4);
+extern void func_80182CB8(void *a0, Unkstruct_8013B83C *a1, Unkstruct_8013B83C *a2, s16 a3, s16 a4);
 
 
 void func_80182B90(void *a0, s32 a1, s16 a2) {
@@ -7519,8 +7519,8 @@ void func_80182B90(void *a0, s32 a1, s16 a2) {
 
     for (; i.plain < 4; i.plain++) {
         if (D_801C7550[i.plain] != 0 && D_801C7550[(i.plain + 1) & 3] != 0) {
-            S8Blob la = p1[i.bf.idx].a;
-            S8Blob lb = p2[i.bf.idx].a;
+            Unkstruct_8013B83C la = p1[i.bf.idx].a;
+            Unkstruct_8013B83C lb = p2[i.bf.idx].a;
             func_80182CB8(a0, &la, &lb, (s16)a1, a2);
         }
     }
@@ -7550,7 +7550,7 @@ extern s32 rsin(s32 a0);
 extern void guess_AddPolyG4(void *a0, void *a1);
 extern s32 D_801C7560[];
 
-void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4)
+void func_80182CB8(void *a0, Unkstruct_8013B83C *a1, Unkstruct_8013B83C *a2, s16 a3, s16 a4)
 {
     MTX_80182CB8 m;
     SV_80182CB8 delta;

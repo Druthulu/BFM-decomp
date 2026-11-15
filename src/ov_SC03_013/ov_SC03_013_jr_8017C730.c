@@ -3494,28 +3494,28 @@ s32 func_8017EAB0(s32 a0) {
 
     tbl = (u16 *)&D_80184CCC[((Unkstruct_800B5CB8 *)a0)->unk100 * 16];
 
-    p1.z = tbl[6];
-    p2.z = tbl[7];
-    p1.y = p2.y = -0x20 + 0x40;
-    p1.x = p2.x = tbl[2];
+    p1.vz = tbl[6];
+    p2.vz = tbl[7];
+    p1.vy = p2.vy = -0x20 + 0x40;
+    p1.vx = p2.vx = tbl[2];
     if (func_8017EE28(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = tbl[3];
+    p1.vx = p2.vx = tbl[3];
     if (func_8017EE28(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.y = p2.y = -0x20;
+    p1.vy = p2.vy = -0x20;
     if (func_8017EE28(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.x = p2.x = tbl[2];
+    p1.vx = p2.vx = tbl[2];
     result = func_8017EE28(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:

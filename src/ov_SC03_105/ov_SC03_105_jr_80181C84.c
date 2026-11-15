@@ -3176,7 +3176,7 @@ extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_Frame
 extern s32 rsin(s32 a0);
 extern s32 D_8018E59C[];
 extern u8 D_801B822C[];
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 
 /* LOAD-BEARING: K&R definition with s16 a1/a2/a3. The `s16` parameter type is what
  * produces the per-use `sll/sra 16` pairs; s32 params + explicit (s16) casts give a
@@ -3263,7 +3263,7 @@ void func_801824CC(a0, a1, a2, a3, mask)
 #include "common.h"
 
 extern s32  rand(void);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern u8   D_800D3918[];
@@ -3332,7 +3332,7 @@ extern void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32  VectorNormalSS(void *a0, void *a1);
 extern s32  func_80047D3C(s32 a0);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern s32  rand(void);
 extern u8   D_800D3918[];
 extern u8   D_8018E47C[];
@@ -3437,7 +3437,7 @@ void func_80182BD8(s32 a0, u16 *a1, s32 a2, s32 a3)
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s32 rand(void);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern s32 D_8018E59C[];
 
 void func_80182DCC(void *arg0) {
@@ -3535,7 +3535,7 @@ void func_80183174(s32 a0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 
 void func_801831E0(s32 arg0, s32 arg1) {
 
@@ -3622,7 +3622,7 @@ void func_801831E0(s32 arg0, s32 arg1) {
 
 
 extern s32 rand(void);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 
 /* MATCH candidate (106/106 in match_one; see rtu_match below).  T5x Fable, 2026-09-05.
  *
@@ -3710,7 +3710,7 @@ void func_801834A4(s32 arg0) {
 
 
 extern s32 rand(void);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern u8 D_8018E47C[];
 
 void func_8018364C(void *arg0) {
@@ -4198,7 +4198,7 @@ void func_80183F84(void *a0, void *a1) {
 extern s32 rand(void);
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern s32 D_8018E59C[];
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 
@@ -4861,7 +4861,7 @@ extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 
 void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
 {
-    Buf buf;
+    Pair16 buf;
 
     if ((param_1 & 0x1000000) != 0) {
         s32 p;
@@ -4869,19 +4869,19 @@ void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
 
         p = param_1 & 0xfeffffff;
         p = p + param_2 * 8;
-        buf.h[0] = *(s16 *)(p + 6);
+        buf.x.vx = *(s16 *)(p + 6);
         w = *(s32 *)p;
-        buf.h[1] = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
-        buf.h[2] = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
+        buf.x.vy = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
+        buf.x.vz = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
         RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = *(s8 *)(p + 3);
         param_3[6] = *(s8 *)(p + 4);
         param_3[7] = *(s8 *)(p + 5);
     } else {
         param_1 = param_1 + param_2 * 0xc;
-        buf.h[0] = ((struct Vec *)param_1)->unk6;
-        buf.h[1] = ((struct Vec *)param_1)->unk8;
-        buf.h[2] = ((struct Vec *)param_1)->unkA;
+        buf.x.vx = ((struct Vec *)param_1)->unk6;
+        buf.x.vy = ((struct Vec *)param_1)->unk8;
+        buf.x.vz = ((struct Vec *)param_1)->unkA;
         RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = ((struct Vec *)param_1)->unk0;
         param_3[6] = ((struct Vec *)param_1)->unk2;
@@ -4896,7 +4896,7 @@ void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
 extern s32 func_801851E0(void);
 extern void func_80185660(s32 *a0, s32 *a1, s32 a2);
 
-s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8) {
+s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8) {
     s32 obj;
 
     obj = func_801851E0();
@@ -4907,16 +4907,16 @@ s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s
     *(s16 *)(obj + 0x2E) = a1;
     *(s16 *)(obj + 0x2C) = a1;
     *(s16 *)(obj + 0x30) = 0x1000;
-    *(Vec4x16 *)(obj + 0x34) = *a5;
+    *(Unkstruct_801343C4 *)(obj + 0x34) = *a5;
     *(s32 *)(obj + 0x40) = a6;
     *(s16 *)(obj + 0x3C) = a2;
     *(s16 *)(obj + 0x3E) = a3;
     func_80185660((s32 *)(obj + 0x20), (s32 *)(obj + 0x48), a7);
     *(s16 *)(obj + 0x0) = a0;
     *(s32 *)(obj + 0x14) = a8;
-    *(s16 *)(obj + 0x6) = a5->f0;
-    *(s16 *)(obj + 0xA) = a5->f1;
-    *(s16 *)(obj + 0xE) = a5->f2;
+    *(s16 *)(obj + 0x6) = a5->unk0;
+    *(s16 *)(obj + 0xA) = a5->unk2;
+    *(s16 *)(obj + 0xE) = a5->unk4;
     return obj;
 }
 
@@ -5067,13 +5067,13 @@ s32 func_80185480(void *a0, void *a1)
     w0 = *(s32 *)((s32)a0 + 0x10) << 1;
     w1 = *(s32 *)((s32)a0 + 0x18) << 1;
 
-    va.x = 0;
-    vb.x = (*(s16 *)(s4p + 0x14) + *((s16 *)&w0 + 1)) >> 1;
-    va.z = 0;
-    vb.z = (*(s16 *)(s4p + 0x18) + *((s16 *)&w1 + 1)) >> 1;
+    va.vx = 0;
+    vb.vx = (*(s16 *)(s4p + 0x14) + *((s16 *)&w0 + 1)) >> 1;
+    va.vz = 0;
+    vb.vz = (*(s16 *)(s4p + 0x18) + *((s16 *)&w1 + 1)) >> 1;
     sum = *(u16 *)(s4p + 0x16) + *(u16 *)(s4p + 0x1E) + 0x30;
-    vb.y = sum;
-    va.y = sum;
+    vb.vy = sum;
+    va.vy = sum;
 
     i = 0;
     do {
@@ -5082,8 +5082,8 @@ s32 func_80185480(void *a0, void *a1)
         if (func_80135888(((Unkstruct_80126B58 *)b58)->unk20, ((Unkstruct_80126B58 *)b58)->unk38,
                           (s32)&c, (s32)&d) == 0) {
             va = vb;
-            vb.x = *(u16 *)(s4p + 0x14) + *((u16 *)&w0 + 1);
-            vb.z = *(u16 *)(s4p + 0x18) + *((u16 *)&w1 + 1);
+            vb.vx = *(u16 *)(s4p + 0x14) + *((u16 *)&w0 + 1);
+            vb.vz = *(u16 *)(s4p + 0x18) + *((u16 *)&w1 + 1);
             i++;
         } else {
             guess_SetPlayerHit(1, 0x4201, 0, (s32)a1, (s32)&d, (s32)guess_g_BoxHitNormalX);

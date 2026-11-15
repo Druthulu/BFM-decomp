@@ -1010,9 +1010,9 @@ extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
 extern void func_80013E94(void *a0, void *a1);
 extern void func_80156A1C(s32 a0, s32 a1);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -3438,7 +3438,7 @@ lab_ab0:
     case 1: {
         s32 s1c = ((Unkstruct_800B5CB8 *)arg0)->unk1C;
         if (s1c == 0xc) {
-            struct Prim_SC01_077_80182268 sp;
+            struct S80190C84 sp;
             s16 buf[4];
             s32 tv0;
             guess_RotTransSVWithObjMatrix(arg0, (s32)&(*(s32 *)&D_8018AA6C), (s32)buf);

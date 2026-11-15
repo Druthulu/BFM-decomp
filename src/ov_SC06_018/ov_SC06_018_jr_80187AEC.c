@@ -4871,8 +4871,8 @@ s32 func_8018A86C(s32 param_1)
 
     s32 diff;
     s16 sdiff;
-    SV4_8018A86C buf1;
-    SV4_8018A86C buf2;
+    SVECTOR buf1;
+    SVECTOR buf2;
     s32 color;
     u16 cnt;
 
@@ -5931,8 +5931,8 @@ void func_8018C334(s32 param_1, s32 param_2)
     do {
         i++;
         if (((Unkstruct_8018C334 *)p)->unkE == 0) {
-            *(B8_8018C334 *)(p + 8) = *(B8_8018C334 *)(((u8 *)param_1) + 0);
-            *(B4_8018C334 *)p = CAST_NONSTRUCT(B4_8018C334, ((u8 *)&param_2), 0);
+            *(Unkstruct_8013B83C *)(p + 8) = *(Unkstruct_8013B83C *)(((u8 *)param_1) + 0);
+            *(CVECTOR *)p = CAST_NONSTRUCT(CVECTOR, ((u8 *)&param_2), 0);
             c = p[0] >> 3;
             p[4] = c;
             if (c == 0) {
@@ -7908,7 +7908,7 @@ extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_Render
 void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */
     SVECTOR_8018F060 scratch;      /* 0x30 */
-    B8_8018F060 out[6];   /* 0x38 */
+    Unkstruct_8013B83C out[6];   /* 0x38 */
     u32     pkt[10];      /* 0x68 : v0..v3 + color(0x88) + code(0x8C) */
     SVECTOR_8018F060 rtflag;       /* 0x90 (8 bytes -> 0x94 gap) */
     s32     flag1;        /* 0x98 */
@@ -7940,10 +7940,10 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     pkt[9] = 0x50000000;
 
     /* face 0: verts 0,1,3,4 */
-    *(B8_8018F060 *)&pkt[0] = out[0];
-    *(B8_8018F060 *)&pkt[2] = out[1];
-    *(B8_8018F060 *)&pkt[4] = out[3];
-    *(B8_8018F060 *)&pkt[6] = out[4];
+    *(Unkstruct_8013B83C *)&pkt[0] = out[0];
+    *(Unkstruct_8013B83C *)&pkt[2] = out[1];
+    *(Unkstruct_8013B83C *)&pkt[4] = out[3];
+    *(Unkstruct_8013B83C *)&pkt[6] = out[4];
     mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     SetRotMatrix(a);
@@ -7976,10 +7976,10 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     }
 
     /* face 1: verts 1,2,4,5 */
-    *(B8_8018F060 *)&pkt[0] = out[1];
-    *(B8_8018F060 *)&pkt[2] = out[2];
-    *(B8_8018F060 *)&pkt[4] = out[4];
-    *(B8_8018F060 *)&pkt[6] = out[5];
+    *(Unkstruct_8013B83C *)&pkt[0] = out[1];
+    *(Unkstruct_8013B83C *)&pkt[2] = out[2];
+    *(Unkstruct_8013B83C *)&pkt[4] = out[4];
+    *(Unkstruct_8013B83C *)&pkt[6] = out[5];
     mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     SetRotMatrix(a);
@@ -8012,10 +8012,10 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     }
 
     /* face 2: verts 2,0,5,3 */
-    *(B8_8018F060 *)&pkt[0] = out[2];
-    *(B8_8018F060 *)&pkt[2] = out[0];
-    *(B8_8018F060 *)&pkt[4] = out[5];
-    *(B8_8018F060 *)&pkt[6] = out[3];
+    *(Unkstruct_8013B83C *)&pkt[0] = out[2];
+    *(Unkstruct_8013B83C *)&pkt[2] = out[0];
+    *(Unkstruct_8013B83C *)&pkt[4] = out[5];
+    *(Unkstruct_8013B83C *)&pkt[6] = out[3];
     mb = (u8 *)&guess_g_RenderWork;
     a = mb + 0x18;
     SetRotMatrix(a);

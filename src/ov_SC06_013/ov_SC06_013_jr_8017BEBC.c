@@ -3151,12 +3151,12 @@ void func_8017D87C(void *a0)
         return;
     }
 
-    localB.x = guess_g_PlayerPosX;
-    localA.x = guess_g_PlayerPosX;
-    localA.y = guess_g_PlayerPosY + 0x10;
-    localB.y = guess_g_PlayerPosY - 0x10;
-    localB.z = guess_g_PlayerPosZ;
-    localA.z = guess_g_PlayerPosZ;
+    localB.unk0 = guess_g_PlayerPosX;
+    localA.unk0 = guess_g_PlayerPosX;
+    localA.unk2 = guess_g_PlayerPosY + 0x10;
+    localB.unk2 = guess_g_PlayerPosY - 0x10;
+    localB.unk4 = guess_g_PlayerPosZ;
+    localA.unk4 = guess_g_PlayerPosZ;
 
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
         guess_SetPlayerHit(1, 0x4007, 0, 0xA, (s32)&localB, (s32)guess_g_BoxHitNormalX);

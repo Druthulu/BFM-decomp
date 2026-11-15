@@ -5058,7 +5058,7 @@ void func_80180A70(s32 param_1) {
      * func_8012C51C, spelled all-s16 here because every field is written
      * from a signed literal (`addiu $v0,$zero,-0x100`, not `ori`). */
 
-    Rec_SC06_029_80180A70 rec;      /* sp+0x10 */
+    struct S80190C84 rec;      /* sp+0x10 */
     u16 pt[3];    /* sp+0x28 */
     s32 i;
     s32 j;
@@ -5067,14 +5067,14 @@ void func_80180A70(s32 param_1) {
 
     switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
     case 1:
-        rec.s0 = 0;
-        rec.s2 = -0x100;
-        rec.s4 = 0;
-        rec.s6 = 0x32B;
-        rec.s8 = 0;
-        rec.sA = 0;
-        rec.w10 = 0;
-        rec.sC = 0x7FFF;
+        rec.f0 = 0;
+        rec.f2 = -0x100;
+        rec.f4 = 0;
+        rec.f6 = 0x32B;
+        rec.f8 = 0;
+        rec.fA = 0;
+        rec.f10 = 0;
+        rec.fC = 0x7FFF;
         /* `D_801DDB34[i - 2]` is what strength-reduces to the $s6 outer giv
          * plus the $s5 inner-preheader invariant copy; a plain walked
          * pointer emits neither (§179-F's converse). */
@@ -5082,18 +5082,18 @@ void func_80180A70(s32 param_1) {
             for (j = 0; j < 8; j++) {
                 base = 0x100 + j * 0x200;      /* giv: init lands after the hoist */
                 r = rand() % 128;
-                rec.sE = (rand() & 1) ? base + r : base - r;
+                rec.fE = (rand() & 1) ? base + r : base - r;
                 func_8012C51C(&rec, D_801DDB34[i - 2]);
             }
         }
-        rec.s2 = -0xA2;
-        rec.s4 = 0x260;
-        rec.s6 = 0x32C;
-        rec.sE = 0;
+        rec.f2 = -0xA2;
+        rec.f4 = 0x260;
+        rec.f6 = 0x32C;
+        rec.fE = 0;
         ((Unkstruct_800B5CB8 *)param_1)->unkD0 = func_8012C51C(&rec, param_1);
-        rec.s2 = -0x680;
-        rec.s4 = 0;
-        rec.s6 = 0x32D;
+        rec.f2 = -0x680;
+        rec.f4 = 0;
+        rec.f6 = 0x32D;
         ((Unkstruct_800B5CB8 *)param_1)->unkCC = func_8012C51C(&rec, param_1);
         func_8001C924((void *)((Unkstruct_800B5CB8 *)param_1)->unk20, &D_801A072C);
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = ((Unkstruct_800B5CB8 *)param_1)->unk34 + 1;
@@ -6286,7 +6286,7 @@ void func_80182BC8(s32 a0) {
         SVector_80182BC8 svec2;
         s32 flag;
         s32 t;
-        Box_80182BC8 *box;
+        Pair16 *box;
 
         func_8012EA90(a0, 0, buf);
 
@@ -6305,28 +6305,28 @@ void func_80182BC8(s32 a0) {
         RotTransSV(&svec1, &svec1, &flag);
         RotTransSV(&svec2, &svec2, &flag);
 
-        box = (Box_80182BC8 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
+        box = (Pair16 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
 
         if (svec1.vx > svec2.vx) {
-            box->max_x = svec1.vx;
-            box->min_x = svec2.vx;
+            box->x.pad = svec1.vx;
+            box->x.vz = svec2.vx;
         } else {
-            box->max_x = svec2.vx;
-            box->min_x = svec1.vx;
+            box->x.pad = svec2.vx;
+            box->x.vz = svec1.vx;
         }
         if (svec1.vy > svec2.vy) {
-            box->max_y = svec1.vy;
-            box->min_y = svec2.vy;
+            box->y.vy = svec1.vy;
+            box->y.vx = svec2.vy;
         } else {
-            box->max_y = svec2.vy;
-            box->min_y = svec1.vy;
+            box->y.vy = svec2.vy;
+            box->y.vx = svec1.vy;
         }
         if (svec1.vz > svec2.vz) {
-            box->max_z = svec1.vz;
-            box->min_z = svec2.vz;
+            box->y.pad = svec1.vz;
+            box->y.vz = svec2.vz;
         } else {
-            box->max_z = svec2.vz;
-            box->min_z = svec1.vz;
+            box->y.pad = svec2.vz;
+            box->y.vz = svec1.vz;
         }
     }
 }
@@ -7400,25 +7400,25 @@ void func_80184564(s32 param_1)
     RotTransSV(&sv[1], &sv[1], &flag);
 
     if (sv[0].vx > sv[1].vx) {
-        box->max_x = sv[0].vx;
-        box->min_x = sv[1].vx;
+        box->x.pad = sv[0].vx;
+        box->x.vz = sv[1].vx;
     } else {
-        box->max_x = sv[1].vx;
-        box->min_x = sv[0].vx;
+        box->x.pad = sv[1].vx;
+        box->x.vz = sv[0].vx;
     }
     if (sv[0].vy > sv[1].vy) {
-        box->max_y = sv[0].vy;
-        box->min_y = sv[1].vy;
+        box->y.vy = sv[0].vy;
+        box->y.vx = sv[1].vy;
     } else {
-        box->max_y = sv[1].vy;
-        box->min_y = sv[0].vy;
+        box->y.vy = sv[1].vy;
+        box->y.vx = sv[0].vy;
     }
     if (sv[0].vz > sv[1].vz) {
-        box->max_z = sv[0].vz;
-        box->min_z = sv[1].vz;
+        box->y.pad = sv[0].vz;
+        box->y.vz = sv[1].vz;
     } else {
-        box->max_z = sv[1].vz;
-        box->min_z = sv[0].vz;
+        box->y.pad = sv[1].vz;
+        box->y.vz = sv[0].vz;
     }
 
     *(Blk8_801828E4 *)&sv[0] = D_801DDB48;

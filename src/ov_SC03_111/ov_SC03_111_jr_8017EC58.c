@@ -3905,7 +3905,7 @@ extern void func_800178EC(s32 a0);
 extern u8 D_80188B70[];
 extern u8 D_80188B78[];
 extern u8 D_80188B80[];
-extern Tbl_80181574 D_80188B88[];
+extern Unkstruct_801343C4 D_80188B88[];
 
 void func_80181574(s16 *arg0, s32 arg1, s32 arg2)
 {
@@ -3913,7 +3913,7 @@ void func_80181574(s16 *arg0, s32 arg1, s32 arg2)
     MTX_80181574 mtx;
     Desc_80181574 desc;
     Desc_80181574 *d;
-    Tbl_80181574 *p;
+    Unkstruct_801343C4 *p;
     s32 t;
     s32 i;
 
@@ -3943,26 +3943,26 @@ void func_80181574(s16 *arg0, s32 arg1, s32 arg2)
     for (; i < 4; i++) {
         p = &D_80188B88[i];
         d->v[0].vx = sxy[1].unk0.v1.unk0;
-        d->v[0].vy = sxy[1].unk0.v1.unk2 + p->f2;
+        d->v[0].vy = sxy[1].unk0.v1.unk2 + p->unk4;
         d->v[1].vx = sxy[0].unk0.v1.unk0;
         d->v[1].vy = sxy[0].unk0.v1.unk2;
-        d->v[2].vx = sxy[1].unk0.v1.unk0 + p->f1;
-        d->v[2].vy = sxy[1].unk0.v1.unk2 + p->f3;
-        d->v[3].vx = sxy[0].unk0.v1.unk0 + p->f0;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 + p->unk2;
+        d->v[2].vy = sxy[1].unk0.v1.unk2 + p->unk6;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 + p->unk0;
         d->v[3].vy = sxy[0].unk0.v1.unk2;
         d->uv[0].unk0 = arg1;
         d->uv[0].unk2 = 0x1FF;
         d->uv[1].unk0 = t + 0xC20;
         d->uv[1].unk2 = 0x100;
-        d->uv[2].unk0 = p->f1 + arg1;
+        d->uv[2].unk0 = p->unk2 + arg1;
         d->uv[2].unk2 = 0x1FF;
-        d->uv[3].unk0 = p->f0 + arg1;
+        d->uv[3].unk0 = p->unk0 + arg1;
         d->uv[3].unk2 = 0x100;
         func_800178EC((s32)d);
-        d->v[2].vx = sxy[1].unk0.v1.unk0 - p->f1;
-        d->v[3].vx = sxy[0].unk0.v1.unk0 - p->f0;
-        d->uv[2].unk0 = arg1 - p->f1;
-        d->uv[3].unk0 = arg1 - p->f0;
+        d->v[2].vx = sxy[1].unk0.v1.unk0 - p->unk2;
+        d->v[3].vx = sxy[0].unk0.v1.unk0 - p->unk0;
+        d->uv[2].unk0 = arg1 - p->unk2;
+        d->uv[3].unk0 = arg1 - p->unk0;
         func_800178EC((s32)d);
     }
 }

@@ -2763,8 +2763,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2776,8 +2776,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801C549C;
         s16 *p78C = &D_801C5494;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801C5840 = 1;
@@ -3329,7 +3329,7 @@ void func_8017BEBC(s32 param_1, s32 param_2)
     extern s32 D_801C54F0;
     /* 8-byte short-only vector (SVECTOR); 32-byte MATRIX_L48 (t[] at +0x14) */
 
-    SV4_L_8017BEBC vec;                              /* sp+0x10 */
+    SVECTOR vec;                              /* sp+0x10 */
     MTX_L_8017BEBC mtx;                              /* sp+0x18 */
     s32 obj = ((Unkstruct_8017BEBC *)param_1)->unkCC;
     s32 prim = ((Unkstruct_8017BEBC *)param_1)->unk20;
@@ -3357,27 +3357,27 @@ void func_8017BEBC(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801C54E8 = vec.a;
-    D_801C54D8 = vec.a;
-    D_801C54C8 = vec.a;
-    D_801C54EC = vec.b;
-    D_801C54DC = vec.b;
-    D_801C54CC = vec.b;
-    D_801C54F0 = vec.c;
-    D_801C54E0 = vec.c;
-    D_801C54D0 = vec.c;
+    D_801C54E8 = vec.vx;
+    D_801C54D8 = vec.vx;
+    D_801C54C8 = vec.vx;
+    D_801C54EC = vec.vy;
+    D_801C54DC = vec.vy;
+    D_801C54CC = vec.vy;
+    D_801C54F0 = vec.vz;
+    D_801C54E0 = vec.vz;
+    D_801C54D0 = vec.vz;
 }
 
 

@@ -2798,7 +2798,7 @@ extern void func_80182334(void);
 extern void func_8012E9C0(s32 a0);
 extern s16 D_8018EDFC;
 extern s32 func_8018233C(s32 arg0);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern u8 D_8018E47C[];
 extern void func_8018364C(void *arg0);
 extern void func_8018373C(void *a0, s32 a1);
@@ -2865,7 +2865,7 @@ extern void func_80184F5C(s32 arg0);
 extern void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3);
 extern s32 func_801851E0(void);
 extern void func_80185660(s32 *a0, s32 *a1, s32 a2);
-extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Vec4x16 *a5, s32 a6, s32 a7, s32 a8);
+extern s32 func_801850D8(s32 a0, s32 a1, s32 a2, s32 a3, Unkstruct_801343C4 *a5, s32 a6, s32 a7, s32 a8);
 extern void func_80185FB4(s32 a0, s32 a1, s32 a2);
 extern void func_80185FB4(s32, s32, s32);
 extern void guess_RotTransSVWithMatrix(s32, s32, s32);
@@ -4120,8 +4120,8 @@ void func_80188C34(s32 param_1)
 
     guess_BuildCircle12Points(&D_801BCA08, 0x10);
 
-    *(Blk4_8018CE04_80188C34 *)&D_801BCA08 = *(Blk4_8018CE04_80188C34 *)&D_801B82E0;
-    *(Blk4_8018CE04_80188C34 *)&D_801BCA0C = *(Blk4_8018CE04_80188C34 *)&D_801B82E4;
+    *(CVECTOR *)&D_801BCA08 = *(CVECTOR *)&D_801B82E0;
+    *(CVECTOR *)&D_801BCA0C = *(CVECTOR *)&D_801B82E4;
 
     ((Unkstruct_80188C34_2 *)*(s32 *)(param_1 + 0x20))->unk1E = 0xC00;
     ((Unkstruct_80188C34 *)param_1)->unk2 += 1;
@@ -4466,17 +4466,17 @@ void func_80189454(void *a0) {
 
     extern s16 D_8018F31C[][2];
     extern u8 D_8018F348[];
-    extern EffectSlot4_80189454 D_8018F354[];
+    extern CVECTOR D_8018F354[];
     extern u8 D_8018F380[];
-    extern EffectSlot4_80189454 D_8018F3B8;
-    extern EffectSlot4_80189454 D_8018F3E0;
-    extern EffectSlot4_80189454 D_8018F3E4;
-    extern EffectSlot4_80189454 D_8018F414;
-    extern EffectSlot4_80189454 D_8018F418;
-    extern EffectSlot4_80189454 D_8018F448;
-    extern EffectSlot4_80189454 D_8018F44C;
-    extern EffectSlot4_80189454 D_8018F47C;
-    extern EffectSlot4_80189454 D_8018F480;
+    extern CVECTOR D_8018F3B8;
+    extern CVECTOR D_8018F3E0;
+    extern CVECTOR D_8018F3E4;
+    extern CVECTOR D_8018F414;
+    extern CVECTOR D_8018F418;
+    extern CVECTOR D_8018F448;
+    extern CVECTOR D_8018F44C;
+    extern CVECTOR D_8018F47C;
+    extern CVECTOR D_8018F480;
     void *s0;
     void *s1;
 
@@ -4511,7 +4511,7 @@ void func_80189454(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_80189454 *)((s32)&D_8018F47C + 4) = D_8018F354[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_8018F47C + 4) = D_8018F354[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_8018F47C = D_8018F480; } else { D_8018F47C = D_8018F480; }
         if (COND) { D_8018F44C = D_8018F47C; } else { D_8018F44C = D_8018F47C; }
         if (COND) { D_8018F448 = D_8018F44C; } else { D_8018F448 = D_8018F44C; }

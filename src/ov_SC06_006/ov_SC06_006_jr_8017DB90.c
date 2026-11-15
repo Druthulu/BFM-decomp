@@ -3003,7 +3003,7 @@ extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017F824(s32 a0, s32 a1);
 
 void func_8017E330(Actor_8017E330 *a0) {
-    Work_8017E330 v;            /* sp+0x10 */
+    Pair16 v;            /* sp+0x10 */
     Drv_8017E330 *p;
     s32 i;
     s32 t;
@@ -3020,15 +3020,15 @@ void func_8017E330(Actor_8017E330 *a0) {
         guess_ShowObjectModel((u8 *)a0);
         a0->f98 = 0;
 
-        v.x = (D_801F8428[i].x * D_801F8090) >> 12;
-        v.y = (D_801F8428[i].y * D_801F8090) >> 12;
-        v.z = (D_801F8428[i].z * D_801F8090) >> 12;
+        v.x.vx = (D_801F8428[i].x * D_801F8090) >> 12;
+        v.x.vy = (D_801F8428[i].y * D_801F8090) >> 12;
+        v.x.vz = (D_801F8428[i].z * D_801F8090) >> 12;
 
         if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 2) {
             func_8017F824(&v, 0x200);
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
             /* The target keeps `lh` + `sra 3` (the UNCOMBINED extendhisi2_internal
              * form).  At -O2 mips.md's extendhisi2 expander does
              *   `if (optimize && MEM) force_not_mem`, so expand always emits
@@ -3041,16 +3041,16 @@ void func_8017E330(Actor_8017E330 *a0) {
              * The split load/shift statements give the non-adjacency (the
              * `lw 0x20($s0)` sits between them); the zero-byte re-tie with a
              * "memory" clobber supplies the write.  Byte-exact, emits nothing. */
-            t = p->f20->rot.x;
-            a0->f20->rot.x = (s16)t >> 3;
-            t = p->f20->rot.y;
-            a0->f20->rot.y = (s16)t >> 3;
-            t = p->f20->rot.z;
-            a0->f20->rot.z = (s16)t >> 3;
+            t = p->f20->rot.vx;
+            a0->f20->rot.vx = (s16)t >> 3;
+            t = p->f20->rot.vy;
+            a0->f20->rot.vy = (s16)t >> 3;
+            t = p->f20->rot.vz;
+            a0->f20->rot.vz = (s16)t >> 3;
         } else {
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
             a0->f20->rot = p->f20->rot;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
@@ -3095,25 +3095,25 @@ void func_8017E550(Actor_8017E550 *a0) {
         guess_ShowObjectModel((u8 *)a0);
         a0->f98 = 0;
 
-        v.x = (pp->x * D_801F8090) >> 12;
-        v.y = (pp->y * D_801F8090) >> 12;
-        v.z = (pp->z * D_801F8090) >> 12;
+        v.x.vx = (pp->x * D_801F8090) >> 12;
+        v.x.vy = (pp->y * D_801F8090) >> 12;
+        v.x.vz = (pp->z * D_801F8090) >> 12;
 
         if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 2) {
             func_8017F824(&v, 0x200);
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
-            t = p->f20->rot.x;
-            a0->f20->rot.x = (s16)t >> 3;
-            t = p->f20->rot.y;
-            a0->f20->rot.y = (s16)t >> 3;
-            t = p->f20->rot.z;
-            a0->f20->rot.z = (s16)t >> 3;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
+            t = p->f20->rot.vx;
+            a0->f20->rot.vx = (s16)t >> 3;
+            t = p->f20->rot.vy;
+            a0->f20->rot.vy = (s16)t >> 3;
+            t = p->f20->rot.vz;
+            a0->f20->rot.vz = (s16)t >> 3;
         } else {
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
             a0->f20->rot = p->f20->rot;
         }
 
@@ -3211,19 +3211,19 @@ void func_8017E878(Actor_8017E550 *a0) {
         guess_ShowObjectModel((u8 *)a0);
         a0->f98 = 0;
 
-        v.x = (pp->x * D_801F8090) >> 12;
-        v.y = (pp->y * D_801F8090) >> 12;
-        v.z = (pp->z * D_801F8090) >> 12;
+        v.x.vx = (pp->x * D_801F8090) >> 12;
+        v.x.vy = (pp->y * D_801F8090) >> 12;
+        v.x.vz = (pp->z * D_801F8090) >> 12;
 
         if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 0xF) {
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
             func_8017E734(a0);
         } else {
-            a0->f06 = v.x;
-            a0->f0A = v.y;
-            a0->f0E = v.z;
+            a0->f06 = v.x.vx;
+            a0->f0A = v.x.vy;
+            a0->f0E = v.x.vz;
             a0->f20->rot = p->f20->rot;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
@@ -3432,15 +3432,15 @@ extern int rand(void);
 
 u32 func_8017ED24(u32 param_1, u32 param_2)
 {
-    Col4 buf;
+    CVECTOR buf;
     s32 r;
     s32 g;
     s32 b;
 
-    buf = *(Col4 *)&param_2;
-    r = buf.b[0];
-    g = buf.b[1];
-    b = buf.b[2];
+    buf = *(CVECTOR *)&param_2;
+    r = buf.r;
+    g = buf.g;
+    b = buf.b;
 
     if (rand() & 1) {
         r -= rand() & 0x1F;
@@ -3478,10 +3478,10 @@ u32 func_8017ED24(u32 param_1, u32 param_2)
         }
     }
 
-    buf.b[0] = r;
-    buf.b[1] = g;
-    buf.b[2] = b;
-    *(Col4 *)param_1 = buf;
+    buf.r = r;
+    buf.g = g;
+    buf.b = b;
+    *(CVECTOR *)param_1 = buf;
     return param_1;
 }
 
@@ -4981,17 +4981,17 @@ void func_801811D4(void *a0) {
 
     extern s16 D_801F53BC[][2];
     extern u8 D_801F53E8[];
-    extern EffectSlot4_801811D4 D_801F53F4[];
+    extern CVECTOR D_801F53F4[];
     extern u8 D_801F5420[];
-    extern EffectSlot4_801811D4 D_801F5458;
-    extern EffectSlot4_801811D4 D_801F5480;
-    extern EffectSlot4_801811D4 D_801F5484;
-    extern EffectSlot4_801811D4 D_801F54B4;
-    extern EffectSlot4_801811D4 D_801F54B8;
-    extern EffectSlot4_801811D4 D_801F54E8;
-    extern EffectSlot4_801811D4 D_801F54EC;
-    extern EffectSlot4_801811D4 D_801F551C;
-    extern EffectSlot4_801811D4 D_801F5520;
+    extern CVECTOR D_801F5458;
+    extern CVECTOR D_801F5480;
+    extern CVECTOR D_801F5484;
+    extern CVECTOR D_801F54B4;
+    extern CVECTOR D_801F54B8;
+    extern CVECTOR D_801F54E8;
+    extern CVECTOR D_801F54EC;
+    extern CVECTOR D_801F551C;
+    extern CVECTOR D_801F5520;
     void *s0;
     void *s1;
 
@@ -5026,7 +5026,7 @@ void func_801811D4(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_801811D4 *)((s32)&D_801F551C + 4) = D_801F53F4[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_801F551C + 4) = D_801F53F4[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_801F551C = D_801F5520; } else { D_801F551C = D_801F5520; }
         if (COND) { D_801F54EC = D_801F551C; } else { D_801F54EC = D_801F551C; }
         if (COND) { D_801F54E8 = D_801F54EC; } else { D_801F54E8 = D_801F54EC; }

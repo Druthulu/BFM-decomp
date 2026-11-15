@@ -696,7 +696,7 @@ extern void func_80139BE0(s32);
 
 s32 func_80138C60(s32 arg0)
 {
-    extern Q_80138C60 D_8017EC50[];
+    extern CVECTOR D_8017EC50[];
     u16 t;
     u8 b;
     s32 f;
@@ -727,7 +727,7 @@ s32 func_80138C60(s32 arg0)
         }
     }
 
-    CAST_WIDTH(Q_80138C60, arg0, 0x24) = D_8017EC50[idx];
+    CAST_WIDTH(CVECTOR, arg0, 0x24) = D_8017EC50[idx];
 
     func_80139BE0(arg0);
     func_80139C7C((u8 *)arg0);

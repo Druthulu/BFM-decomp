@@ -3576,27 +3576,27 @@ void func_80184B80(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_80184B80 *)param_1)->unkFC + 0x80;
     ((Unkstruct_80184B80 *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_80184B80 *)param_1)->unkFE + 0x100;
     ((Unkstruct_80184B80 *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801C13C8 = vec.a;
-    D_801C13B8 = vec.a;
-    D_801C13A8 = vec.a;
-    D_801C13CC = vec.b;
-    D_801C13BC = vec.b;
-    D_801C13AC = vec.b;
-    D_801C13D0 = vec.c;
-    D_801C13C0 = vec.c;
-    D_801C13B0 = vec.c;
+    D_801C13C8 = vec.vx;
+    D_801C13B8 = vec.vx;
+    D_801C13A8 = vec.vx;
+    D_801C13CC = vec.vy;
+    D_801C13BC = vec.vy;
+    D_801C13AC = vec.vy;
+    D_801C13D0 = vec.vz;
+    D_801C13C0 = vec.vz;
+    D_801C13B0 = vec.vz;
 }
 
 
@@ -4059,7 +4059,7 @@ void func_801856BC(s32 a0, s32 a1)
 
     s32 i;
 
-    for (i = 0; D_801B9330[i].x != 0; i++) {
+    for (i = 0; D_801B9330[i].vx != 0; i++) {
         guess_SpawnActor(0x10D, i, a0);
     }
 }
@@ -4227,11 +4227,11 @@ void func_80185A44(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80185AE4(arg0, 0x1000, 0);
-    sp10.unk0 = *(u16 *)(arg3 + 0x0);
-    sp10.unk4 = *(u16 *)(arg3 + 0x2);
-    sp10.unk6 = 1;
+    sp10.vx = *(u16 *)(arg3 + 0x0);
+    sp10.vz = *(u16 *)(arg3 + 0x2);
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_80185C00(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -4790,9 +4790,9 @@ void func_8018623C(void *a0, void *a1, s16 a2) {
         D_801C14EA = 0;
     }
 
-    D_801C14F0 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_801C14F1 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_801C14F2 = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_801C14F0 = ((CVECTOR *)a1)->r;
+    D_801C14F1 = ((CVECTOR *)a1)->g;
+    D_801C14F2 = ((CVECTOR *)a1)->b;
     D_801C14EC = (u32)a2 << 16;
 }
 

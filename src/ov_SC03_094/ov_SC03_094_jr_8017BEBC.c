@@ -3180,23 +3180,23 @@ s32 func_8017D898(s32 a0, s32 a1) {
     s32 dx, dz;
     u16 *p66;
 
-    x = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_8018B53C[a1].x;
-    src.x = x;
-    y = ((Unkstruct_800B5CB8 *)a0)->unkA + D_8018B53C[a1].y;
-    src.y = y;
-    z = ((Unkstruct_800B5CB8 *)a0)->unkE + D_8018B53C[a1].z;
-    src.z = z;
-    x += D_8018B53C[a1 + 1].x;
-    dst.x = x;
-    y += D_8018B53C[a1 + 1].y;
-    dst.y = y;
-    z += D_8018B53C[a1 + 1].z;
-    dst.z = z;
+    x = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_8018B53C[a1].unk0;
+    src.vx = x;
+    y = ((Unkstruct_800B5CB8 *)a0)->unkA + D_8018B53C[a1].unk2;
+    src.vy = y;
+    z = ((Unkstruct_800B5CB8 *)a0)->unkE + D_8018B53C[a1].unk4;
+    src.vz = z;
+    x += D_8018B53C[a1 + 1].unk0;
+    dst.vx = x;
+    y += D_8018B53C[a1 + 1].unk2;
+    dst.vy = y;
+    z += D_8018B53C[a1 + 1].unk4;
+    dst.vz = z;
 
     if (func_80133784(1, &src, (s32)&dst) == 0) {
-        src.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_8018B53C[a1 + 4].x;
-        src.y = ((Unkstruct_800B5CB8 *)a0)->unkA + D_8018B53C[a1 + 4].y;
-        src.z = ((Unkstruct_800B5CB8 *)a0)->unkE + D_8018B53C[a1 + 4].z;
+        src.vx = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_8018B53C[a1 + 4].unk0;
+        src.vy = ((Unkstruct_800B5CB8 *)a0)->unkA + D_8018B53C[a1 + 4].unk2;
+        src.vz = ((Unkstruct_800B5CB8 *)a0)->unkE + D_8018B53C[a1 + 4].unk4;
 
         q = (s16 *)&src;
         e = (Ent_8017D898 *)guess_g_ObjectTable;
@@ -3387,14 +3387,14 @@ void func_8017DEBC(s32 a0) {
      * live across the stack stores -- naming them in C locals collapses the
      * three duplicate reloads, cookbook law 23 / §193-E). */
     x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    src.x = x;
+    src.vx = x;
     y = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    src.y = y - 0x10;
+    src.vy = y - 0x10;
     z = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    dst.x = x;
-    dst.y = y + 0x10;
-    src.z = z;
-    dst.z = z;
+    dst.vx = x;
+    dst.vy = y + 0x10;
+    src.vz = z;
+    dst.vz = z;
 
     if (func_80133784(1, &src, (s32)&dst) == 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
@@ -3948,32 +3948,32 @@ void func_8017EC9C(s32 a0) {
     } else if (y > 0) {
         y = 0;
     }
-    p1.y = y;
-    p2.y = y;
+    p1.unk2 = y;
+    p2.unk2 = y;
 
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A68AC[i];
-        p1.z = D_801A68AC[i + 1];
-        p2.x = D_801A68AC[i + 2];
-        p2.z = D_801A68AC[i + 3];
+        p1.unk0 = D_801A68AC[i];
+        p1.unk4 = D_801A68AC[i + 1];
+        p2.unk0 = D_801A68AC[i + 2];
+        p2.unk4 = D_801A68AC[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A68D4[i];
-        p1.z = D_801A68D4[i + 1];
-        p2.x = D_801A68D4[i + 2];
-        p2.z = D_801A68D4[i + 3];
+        p1.unk0 = D_801A68D4[i];
+        p1.unk4 = D_801A68D4[i + 1];
+        p2.unk0 = D_801A68D4[i + 2];
+        p2.unk4 = D_801A68D4[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801A68FC[i];
-        p1.z = D_801A68FC[i + 1];
-        p2.x = D_801A68FC[i + 2];
-        p2.z = D_801A68FC[i + 3];
+        p1.unk0 = D_801A68FC[i];
+        p1.unk4 = D_801A68FC[i + 1];
+        p2.unk0 = D_801A68FC[i + 2];
+        p2.unk4 = D_801A68FC[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
@@ -4038,9 +4038,9 @@ void func_8017EF34(void *arg0) {
     e = (Ent_8017FD58_8017EF34 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
         if (e->f0 == 0x12C) {
-            pos.x = e->x;
-            pos.y = e->y;
-            pos.z = e->z;
+            pos.unk0 = e->x;
+            pos.unk2 = e->y;
+            pos.unk4 = e->z;
             ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
             if (*(s16 *)(p->f64 + 0xFC) < 0) {
                 ang -= 0x400;
@@ -4048,15 +4048,15 @@ void func_8017EF34(void *arg0) {
                 ang += 0x400;
             }
             ang &= 0xFFF;
-            pos.x -= rsin(ang) >> 8;
-            pos.z -= rcos(ang) >> 8;
-            tmp.x = e->x;
-            tmp.y = e->y;
-            tmp.z = e->z;
+            pos.unk0 -= rsin(ang) >> 8;
+            pos.unk4 -= rcos(ang) >> 8;
+            tmp.unk0 = e->x;
+            tmp.unk2 = e->y;
+            tmp.unk4 = e->z;
             dst = tmp;
             if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.x;
-                e->z = pos.z;
+                e->x = pos.unk0;
+                e->z = pos.unk4;
             }
         }
     }
@@ -7146,24 +7146,24 @@ extern void func_80183E70(s32 a0, s32 a1);
 s32 func_801844C8(s32 a0) {
 
     extern u16 D_80126B96;
-    extern V8_80184F90_801844C8 D_801B2BA8[];
-    extern V8_80184F90_801844C8 D_801B2BC8[];
-    extern V8_80184F90_801844C8 D_801B2BE8[];
-    V8_80184F90_801844C8 src;
-    V8_80184F90_801844C8 dst;
+    extern SVECTOR D_801B2BA8[];
+    extern SVECTOR D_801B2BC8[];
+    extern SVECTOR D_801B2BE8[];
+    SVECTOR src;
+    SVECTOR dst;
     s32 i;
     s32 j;
 
     switch (((Unkstruct_800B5CB8 *)a0)->unkFC) {
     case 1:
-        src.z = 0x60;
-        dst.z = 0x80;
+        src.vz = 0x60;
+        dst.vz = 0x80;
         for (j = -0x50; j < 0x60; j += 0x20) {
-            src.y = j;
-            dst.y = j;
+            src.vy = j;
+            dst.vy = j;
             for (i = -0x50; i < 0x60; i += 0x20) {
-                src.x = i;
-                dst.x = i;
+                src.vx = i;
+                dst.vx = i;
                 if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
                     D_80126B96 = 0x4004;
                 }
@@ -7172,14 +7172,14 @@ s32 func_801844C8(s32 a0) {
         break;
 
     case 2:
-        src.z = -0x60;
-        dst.z = -0x80;
+        src.vz = -0x60;
+        dst.vz = -0x80;
         for (j = -0x50; j < 0x60; j += 0x20) {
-            src.y = j;
-            dst.y = j;
+            src.vy = j;
+            dst.vy = j;
             for (i = -0x50; i < 0x60; i += 0x20) {
-                src.x = i;
-                dst.x = i;
+                src.vx = i;
+                dst.vx = i;
                 if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
                     D_80126B96 = 0x4004;
                 }
@@ -7188,14 +7188,14 @@ s32 func_801844C8(s32 a0) {
         break;
 
     case 3:
-        src.x = 0x60;
-        dst.x = 0x80;
+        src.vx = 0x60;
+        dst.vx = 0x80;
         for (j = -0x50; j < 0x60; j += 0x20) {
-            src.y = j;
-            dst.y = j;
+            src.vy = j;
+            dst.vy = j;
             for (i = -0x50; i < 0x60; i += 0x20) {
-                src.z = i;
-                dst.z = i;
+                src.vz = i;
+                dst.vz = i;
                 if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
                     D_80126B96 = 0x4004;
                 }
@@ -7204,14 +7204,14 @@ s32 func_801844C8(s32 a0) {
         break;
 
     case 4:
-        src.x = -0x60;
-        dst.x = -0x80;
+        src.vx = -0x60;
+        dst.vx = -0x80;
         for (j = -0x50; j < 0x60; j += 0x20) {
-            src.y = j;
-            dst.y = j;
+            src.vy = j;
+            dst.vy = j;
             for (i = -0x50; i < 0x60; i += 0x20) {
-                src.z = i;
-                dst.z = i;
+                src.vz = i;
+                dst.vz = i;
                 if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
                     D_80126B96 = 0x4004;
                 }
@@ -7221,16 +7221,16 @@ s32 func_801844C8(s32 a0) {
 
     }
 
-    src.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].x;
-    src.y = ((Unkstruct_800B5CB8 *)a0)->unkA + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].y;
-    src.z = ((Unkstruct_800B5CB8 *)a0)->unkE + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].z;
-    dst.x = src.x + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].x;
-    dst.y = src.y + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].y;
-    dst.z = src.z + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].z;
+    src.vx = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vx;
+    src.vy = ((Unkstruct_800B5CB8 *)a0)->unkA + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vy;
+    src.vz = ((Unkstruct_800B5CB8 *)a0)->unkE + D_801B2BA8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vz;
+    dst.vx = src.vx + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vx;
+    dst.vy = src.vy + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vy;
+    dst.vz = src.vz + D_801B2BC8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vz;
 
     if (func_80133784(0, &src, (s32)&dst) & 0x8000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = (u16)dst.x - D_801B2BE8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].x;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = (u16)dst.z - D_801B2BE8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].z;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = (u16)dst.vx - D_801B2BE8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vx;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = (u16)dst.vz - D_801B2BE8[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vz;
         func_80183E70(a0, ((Unkstruct_800B5CB8 *)a0)->unkFC);
         return 0;
     }
@@ -7271,17 +7271,17 @@ void func_8018487C(s32 a0) {
     func_8012CBCC(a0);
 
     x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    src.x = x;
+    src.vx = x;
     y = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    src.y = y + 0x50;
+    src.vy = y + 0x50;
     z = ((Unkstruct_800B5CB8 *)a0)->unkE;
-    dst.x = x;
-    dst.y = y + 0x70;
-    src.z = z;
-    dst.z = z;
+    dst.vx = x;
+    dst.vy = y + 0x70;
+    src.vz = z;
+    dst.vz = z;
 
     if (func_80133784(1, &src, (s32)&dst) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unkA = dst.y - 0x60;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = dst.vy - 0x60;
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
         ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x1E;
         func_80183E70(a0, 0);
@@ -7289,14 +7289,14 @@ void func_8018487C(s32 a0) {
         func_8012E688((void *)a0, 0x6F1, 0);
     }
 
-    src.y = 0x60;
-    dst.y = 0x80;
+    src.vy = 0x60;
+    dst.vy = 0x80;
     for (i = -0x50; i < 0x60; i += 0x20) {
-        src.x = i;
-        dst.x = i;
+        src.vx = i;
+        dst.vx = i;
         for (j = -0x50; j < 0x60; j += 0x20) {
-            src.z = j;
-            dst.z = j;
+            src.vz = j;
+            dst.vz = j;
             if (func_8012DEB8(a0, (s32)&src, (s32)&dst) == 1) {
                 D_80126B96 = 0x4002;
             }
@@ -7337,10 +7337,10 @@ extern s32 *func_8012F49C(s32 *param_1, s32 param_2, s32 param_3);
 
 void func_801849B4(s32 a0) {
 
-    extern V8_80184F90_801844C8 D_801B2C08[];
+    extern SVECTOR D_801B2C08[];
 
-    V8_80184F90_801844C8 src;
-    V8_80184F90_801844C8 dst;
+    SVECTOR src;
+    SVECTOR dst;
     s16 out[8];
     s32 d;
 
@@ -7380,18 +7380,18 @@ void func_801849B4(s32 a0) {
         if (func_801844C8(a0) == 0) {
             CAST_WIDTH(s16, a0, 0xDC) = 0x1E;
         } else {
-            src.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].x;
-            src.y = ((Unkstruct_800B5CB8 *)a0)->unkA + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].y;
-            src.z = ((Unkstruct_800B5CB8 *)a0)->unkE + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].z;
-            dst.x = src.x;
-            dst.y = src.y + 0x20;
-            dst.z = src.z;
+            src.vx = ((Unkstruct_800B5CB8 *)a0)->unk6 + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vx;
+            src.vy = ((Unkstruct_800B5CB8 *)a0)->unkA + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vy;
+            src.vz = ((Unkstruct_800B5CB8 *)a0)->unkE + D_801B2C08[((Unkstruct_800B5CB8 *)a0)->unkFC - 1].vz;
+            dst.vx = src.vx;
+            dst.vy = src.vy + 0x20;
+            dst.vz = src.vz;
             if (func_80133784(1, &src, (s32)&dst) != 0) {
                 func_80183E70(a0, 5);
                 ((Unkstruct_800B5CB8 *)a0)->unk84 = 1;
-                src.z = 0;
-                src.y = 0;
-                src.x = 0;
+                src.vz = 0;
+                src.vy = 0;
+                src.vx = 0;
                 func_8012F49C((s32 *)out, a0, (s32)&src);
                 d = out[0] * out[0] + out[1] * out[1];
                 if (d > 40000) {

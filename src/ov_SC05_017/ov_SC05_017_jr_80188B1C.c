@@ -4092,14 +4092,14 @@ void func_8018A3C8(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_8017F750 *)a0)->unk6 >> 12;
+    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
     a2 = (s32 *)D_801ED648[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801ED660[v1 * 16] = a1;
-    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_8017F750 *)a0)->unk0;
-    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_8017F750 *)a0)->unk2;
-    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_8017F750 *)a0)->unk4;
-    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_8017F750 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_801343C4 *)a0)->unk0;
+    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_801343C4 *)a0)->unk2;
+    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_801343C4 *)a0)->unk4;
+    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
 }
 
 

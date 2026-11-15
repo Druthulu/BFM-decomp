@@ -4,7 +4,7 @@ extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_800129CC(s32 a0, s32 a1);
 void func_80147514(s32 arg0) {
     s16 buf[8];
-    *(struct V4s80147514 *)buf = *(struct V4s80147514 *)(arg0 + 0x120);
+    *(SVECTOR *)buf = *(SVECTOR *)(arg0 + 0x120);
     if (((u16)buf[0] | (u16)buf[1] | (u16)buf[2]) == 0) {
         buf[1] = -0xFFF;
     }

@@ -3798,16 +3798,16 @@ void func_8017F154(s32 arg0) {
          /* 8, align 2 */
 
     extern M32_8017F154 D_800AE620;
-    extern B4_8017F154 D_8019E28C;
-    extern B4_8017F154 D_8019E290;
-    extern B4_8017F154 D_8019E294;
+    extern CVECTOR D_8019E28C;
+    extern CVECTOR D_8019E290;
+    extern CVECTOR D_8019E294;
     extern u8 D_8019F95C[];
-    extern B4_8017F154 D_8019F960;
-    extern B4_8017F154 D_8019F9A0;
+    extern CVECTOR D_8019F960;
+    extern CVECTOR D_8019F9A0;
 
     M32_8017F154 m;     /* sp+0x10 */
     SV_8017F154 sv;     /* sp+0x30 */
-    B4_8017F154 blk;    /* sp+0x38 */
+    CVECTOR blk;    /* sp+0x38 */
     s32 f;
 
     m = D_800AE620;
@@ -3818,13 +3818,13 @@ void func_8017F154(s32 arg0) {
     ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
     if (f == 0) {
         guess_BuildCircle12Points(&D_8019F95C[0], 0x80);
-        *(B4_8017F154 *)&D_8019F95C[0] = D_8019E28C;
+        *(CVECTOR *)&D_8019F95C[0] = D_8019E28C;
         D_8019F960 = D_8019E28C;
         func_80184438();
         func_80184578((void *)0, &blk, -8);
     } else {
         guess_BuildCircle12Points(&D_8019F95C[0x40], 0x10);
-        *(B4_8017F154 *)&D_8019F95C[0x40] = D_8019E294;
+        *(CVECTOR *)&D_8019F95C[0x40] = D_8019E294;
         D_8019F9A0 = D_8019E28C;
         RotMatrixZ(rand() & 0xFFF, &m);
         sv.unk0.v1.unk0 = 0xC0;
@@ -3990,8 +3990,8 @@ void func_8017F694(s32 arg0) {
             ((Unkstruct_800B5CB8 *)ptr2)->unk10 = 0;
             ((Unkstruct_800B5CB8 *)ptr2)->unk12 = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
             CAST_WIDTH(s16, ptr2, 0x14) = 0;
-            CAST_WIDTH(SVec8_8017F694, ptr2, 0x8) = *(SVec8_8017F694 *)(*(s32 *)(arg0 + 0x20) + 0x8);
-            CAST_WIDTH(SVec8_8017F694, ptr2, 0x18) = *(SVec8_8017F694 *)(*(s32 *)(arg0 + 0x20) + 0x18);
+            CAST_WIDTH(SVECTOR, ptr2, 0x8) = *(SVECTOR *)(*(s32 *)(arg0 + 0x20) + 0x8);
+            CAST_WIDTH(SVECTOR, ptr2, 0x18) = *(SVECTOR *)(*(s32 *)(arg0 + 0x20) + 0x18);
             guess_AllocRenderWorkRecord((s32)(D_80188FAC + ((guess_g_FrameCounter & 7) << 5)));
         }
     }
@@ -4624,22 +4624,22 @@ void func_801806FC(void *a0)
 
 void func_801807C4(void *a0)
 {
-    SV4L sv1;
-    SV4L sv2;
-    SV4L out1;
-    SV4L out2;
+    SVECTOR sv1;
+    SVECTOR sv2;
+    SVECTOR out1;
+    SVECTOR out2;
     s32 i;
     s32 j;
 
     i = 0;
     do {
-        sv1.c = 0x40 - (i << 7);
+        sv1.vz = 0x40 - (i << 7);
         j = i + 1;
-        sv1.a = 0;
-        sv1.b = 0;
-        sv2.a = 0;
-        sv2.b = 0;
-        sv2.c = 0x40 - (j << 7);
+        sv1.vx = 0;
+        sv1.vy = 0;
+        sv2.vx = 0;
+        sv2.vy = 0;
+        sv2.vz = 0x40 - (j << 7);
         guess_RotTransSVWithObjMatrix((s32)a0, (s32)&sv1, (s32)&out1);
         guess_RotTransSVWithObjMatrix((s32)a0, (s32)&sv2, (s32)&out2);
         func_80180894((s32)&out1, (s32)&out2, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x18), i);
@@ -4758,37 +4758,37 @@ s32 func_80180BF0(void *a0)
     s32 ret;
     s16 ang;
 
-    v10.x = ((Unkstruct_80180BF0 *)a0)->unk6;
-    v10.y = ((Unkstruct_80180BF0 *)a0)->unkA;
-    v10.z = ((Unkstruct_80180BF0 *)a0)->unkE;
-    v18.x = guess_g_PlayerPosX;
-    v18.y = guess_g_PlayerPosY;
-    v18.z = guess_g_PlayerPosZ;
+    v10.vx = ((Unkstruct_80180BF0 *)a0)->unk6;
+    v10.vy = ((Unkstruct_80180BF0 *)a0)->unkA;
+    v10.vz = ((Unkstruct_80180BF0 *)a0)->unkE;
+    v18.vx = guess_g_PlayerPosX;
+    v18.vy = guess_g_PlayerPosY;
+    v18.vz = guess_g_PlayerPosZ;
 
     ang = func_8012B70C((s16 *)&v10, (s16 *)&v18) & 0xFFF;
 
-    v10.z = -0x280;
-    v18.z = 0;
+    v10.vz = -0x280;
+    v18.vz = 0;
 
     for (i = 0; i < 3; i++) {
         s16 x = (i * 0x2C) - 0x2C;
-        v18.x = x;
-        v10.x = x;
+        v18.vx = x;
+        v10.vx = x;
 
-        v18.y = -0x2C;
-        v10.y = -0x2C;
+        v18.vy = -0x2C;
+        v10.vy = -0x2C;
         if ((ret = func_80180D24((s32)a0, (s32)&v10, (s32)&v18, ang)) != 0) {
             return ret;
         }
 
-        v18.y = 0;
-        v10.y = 0;
+        v18.vy = 0;
+        v10.vy = 0;
         if ((ret = func_80180D24((s32)a0, (s32)&v10, (s32)&v18, ang)) != 0) {
             return ret;
         }
 
-        v18.y = 0x2C;
-        v10.y = 0x2C;
+        v18.vy = 0x2C;
+        v10.vy = 0x2C;
         if ((ret = func_80180D24((s32)a0, (s32)&v10, (s32)&v18, ang)) != 0) {
             return ret;
         }
@@ -5201,14 +5201,14 @@ void func_80181290(void *a0)
 
     dist = func_8012B8A4((s16 *)a0);
 
-    localA.x = ((Unkstruct_8017C218_2 *)a0)->unk6;
-    localA.y = ((Unkstruct_8017C218_2 *)a0)->unkA;
-    localA.z = ((Unkstruct_8017C218_2 *)a0)->unkE;
+    localA.unk0 = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    localA.unk2 = ((Unkstruct_8017C218_2 *)a0)->unkA;
+    localA.unk4 = ((Unkstruct_8017C218_2 *)a0)->unkE;
 
-    localB.x = guess_g_PlayerPosX;
-    localB.y = guess_g_PlayerPosY;
-    localB.z = guess_g_PlayerPosZ;
-    localB.y -= 0x40;
+    localB.unk0 = guess_g_PlayerPosX;
+    localB.unk2 = guess_g_PlayerPosY;
+    localB.unk4 = guess_g_PlayerPosZ;
+    localB.unk2 -= 0x40;
 
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&localA, (s32)&localB) != 0) {
         guess_SetPlayerHit(1, 0x4201, dist, 0x5A, &localB, guess_g_BoxHitNormalX);
@@ -5239,7 +5239,7 @@ void func_801813B0(s32 param_1) {
     idx = D_8019FD70;
 
     for (i = 0; i < 65; i++) {
-        *(Blk8_801813B0 *)(dst + i * 8) = *(Blk8_801813B0 *)(src + i * 8);
+        *(Unkstruct_8013B83C *)(dst + i * 8) = *(Unkstruct_8013B83C *)(src + i * 8);
         v = *(s16 *)((u8 *)src + i * 8 + 2);
         v = (s16)v;
         v = (s16)v;

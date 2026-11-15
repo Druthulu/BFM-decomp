@@ -3287,30 +3287,30 @@ s32 func_8017DDDC(s32 a0, s32 a1) {
 
     rp1 = (s32)&p1;
 
-    p2.x = p1.x = CAST_SIGN(u16, a1, 4);
-    p2.y = p1.y = ((Unkstruct_8017DDDC *)a1)->unk8 - 0x10;
-    p2.z = ((Unkstruct_8017DDDC *)a1)->unkC;
-    p1.z = ((Unkstruct_8017DDDC *)a1)->unkE;
+    p2.unk0 = p1.unk0 = CAST_SIGN(u16, a1, 4);
+    p2.unk2 = p1.unk2 = ((Unkstruct_8017DDDC *)a1)->unk8 - 0x10;
+    p2.unk4 = ((Unkstruct_8017DDDC *)a1)->unkC;
+    p1.unk4 = ((Unkstruct_8017DDDC *)a1)->unkE;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.x = p1.x = mid = (((Unkstruct_8017DDDC *)a1)->unk4 + ((Unkstruct_8017DDDC *)a1)->unk6) >> 1;
+    p2.unk0 = p1.unk0 = mid = (((Unkstruct_8017DDDC *)a1)->unk4 + ((Unkstruct_8017DDDC *)a1)->unk6) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.x = p1.x = (u32)(((Unkstruct_8017DDDC *)a1)->unk4 + mid) >> 1;
+    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_8017DDDC *)a1)->unk4 + mid) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.x = p1.x = (u32)(((Unkstruct_8017DDDC *)a1)->unk6 + mid) >> 1;
+    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_8017DDDC *)a1)->unk6 + mid) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.x = p1.x = CAST_SIGN(u16, a1, 6);
+    p2.unk0 = p1.unk0 = CAST_SIGN(u16, a1, 6);
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
@@ -3804,17 +3804,17 @@ s32 func_8017EA44(s32 a0, s32 a1) {
     s32 val;
 
     half = ((Src_8013B598_8013B598 *)a1)->f2 >> 1;
-    p2.x = half;
-    p1.x = -half;
+    p2.unk0 = half;
+    p1.unk0 = -half;
 
     for (i = 0; i < ((Src_8013B598_8013B598 *)a1)->f0; i++) {
         val = *(u16 *)(a1 + 0x8 + i * 2);
-        p2.y = val;
-        p1.y = val;
+        p2.unk2 = val;
+        p1.unk2 = val;
         for (j = 0; j < ((Src_8013B598_8013B598 *)a1)->f0; j++) {
             val = *(u16 *)(a1 + 0x8 + j * 2);
-            p2.z = val;
-            p1.z = val;
+            p2.unk4 = val;
+            p1.unk4 = val;
             if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0) {
                 return 1;
             }

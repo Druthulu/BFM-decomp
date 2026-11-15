@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80138C60(s32 arg0, s32 arg1)
 {
-    extern Q_80138C60 D_8017F848[];
+    extern CVECTOR D_8017F848[];
     u16 t;
     u8 b;
     s32 f;
@@ -33,7 +33,7 @@ s32 func_80138C60(s32 arg0, s32 arg1)
         }
     }
 
-    *(Q_80138C60 *)(arg0 + 0x24) = D_8017F848[idx];
+    *(CVECTOR *)(arg0 + 0x24) = D_8017F848[idx];
 
     func_80139BE0(arg0);
     func_80139C7C((u8 *)arg0);

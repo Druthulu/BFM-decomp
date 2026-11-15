@@ -985,7 +985,7 @@ void func_801A1984(s32 a0)
 
 /* 4-byte, alignment-1 rodata blob ("  @") -> lwl/lwr + swl/swr block move */
 
-extern M4_801A0168 D_801A0168;
+extern CVECTOR D_801A0168;
 extern u16 D_8019FF8A;
 
 extern void func_801A370C(s32 a0);
@@ -1009,7 +1009,7 @@ extern void func_8018503C(void);
 extern int rand(void);
 
 void func_801A19C0(s32 a0) {
-    M4_801A0168 sp10;
+    CVECTOR sp10;
 
     sp10 = D_801A0168;
     func_801A370C(a0);
@@ -1230,7 +1230,7 @@ INCLUDE_RODATA("asm/md_SC07_004/nonmatchings/md_SC07_004", D_801A0168);
 /* 4-byte, alignment-1 rodata blob -> lwl/lwr + swl/swr block move */
 
 
-extern M4_801A0168 D_801A0168;
+extern CVECTOR D_801A0168;
 extern u16 D_8019FF8A;
 extern s32 D_801AFD58;
 extern s32 D_801EEAC8;
@@ -1267,7 +1267,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_801A1F3C(s32 s0)
 {
-    M4_801A0168 sp10;
+    CVECTOR sp10;
     s32 v0;
     void *p;
 
@@ -1441,7 +1441,7 @@ void func_801A2364(s32 a0)
  * header is either a fresh symbol or a verbatim copy of the TU's own spelling.
  * ------------------------------------------------------------------------- */
 
-extern M4_801A0168 D_801A0168;
+extern CVECTOR D_801A0168;
 
 /* 16-byte VECTOR / 8-byte SVECTOR / 32-byte matrix, local-suffixed per this
  * TU's house style (cf. Mtx32_801A3180 / SVec_801A3180 at :901-903). */
@@ -1515,7 +1515,7 @@ void func_801A2400(s32 arg0) {
     SVec_801A2400 sp20;
     Mtx32_801A2400 m;          /* sp+0x28 */
     Vec32_801A2400 sp48;
-    M4_801A0168 sp58;          /* sp+0x58 (house style: cf. func_801A19C0) */
+    CVECTOR sp58;          /* sp+0x58 (house style: cf. func_801A19C0) */
     s32 s1;
     s32 s0;
     s32 v0;
@@ -3662,8 +3662,8 @@ extern int rand(void);   /* canonical: identical decl already at md_SC07_004.c:1
  * the four u16[] form byte-matches the body but inflates the frame to 0x30
  * (vars=16) instead of the target's 0x20.  D_801B0174 / D_801AFE44 are real
  * dlabels in asm/md_SC07_004/data/tail.data.s, so +2/+4/+6 relocate exactly. */
-extern Rec8_801A57E8 D_801B0174[];
-extern Rec8_801A57E8 D_801AFE44[];
+extern Unkstruct_801343C4 D_801B0174[];
+extern Unkstruct_801343C4 D_801AFE44[];
 
 extern u8 D_801AFEBC[];
 extern u8 D_801B01C4[];
@@ -3694,19 +3694,19 @@ void func_801A57E8(void *a0) {
     /* NOTE: 0xD4 is written THIRD in the source but the scheduler sinks/raises
      * it to land between the 0x102 and 0xFE stores, exactly as in the target. */
     if (((Unkstruct_800B5CB8 *)a0)->unk104 != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk102 = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].d & 0xF000;
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].d & 0xFFF;
+        ((Unkstruct_800B5CB8 *)a0)->unk102 = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].unk6 & 0xF000;
+        ((Unkstruct_800B5CB8 *)a0)->unkFE = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].unk6 & 0xFFF;
         ((Unkstruct_800B5CB8 *)a0)->unkD4 = (s32)D_801B01C4;
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].a;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].b;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].c;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = D_801B0174[((Unkstruct_800B5CB8 *)a0)->unk70].unk4;
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unk102 = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].d & 0xF000;
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].d & 0xFFF;
+        ((Unkstruct_800B5CB8 *)a0)->unk102 = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].unk6 & 0xF000;
+        ((Unkstruct_800B5CB8 *)a0)->unkFE = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].unk6 & 0xFFF;
         ((Unkstruct_800B5CB8 *)a0)->unkD4 = (s32)D_801AFEBC;
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].a;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].b;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].c;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = D_801AFE44[((Unkstruct_800B5CB8 *)a0)->unk70].unk4;
     }
 
     if (((Unkstruct_800B5CB8 *)a0)->unk102 != 0) {
@@ -3858,7 +3858,7 @@ extern void func_801A6184(u8 *, s32, s32);
 extern void func_801A5E60(s32 a0, u8 *v);
 
 void func_801A5D68(void *arg) {
-    Entry8_801A5D68 buf[4];
+    Unkstruct_801343C4 buf[4];
     u8 *p;
     s32 i;
     u16 val;
@@ -3880,16 +3880,16 @@ void func_801A5D68(void *arg) {
            Preheader strata (cookbook 190-A) then fall out exactly: biv init
            `i = 0`, hoisted invariant `D_801F885C`, giv init `$a0 = $s2`. */
         for (i = 0; i < 4; i++) {
-            buf[i].f0 = D_801B02DC[*p].unk0;
+            buf[i].unk0 = D_801B02DC[*p].unk0;
             /* f2 is cleared AFTER f0 in source order so sched1 sinks the
                `sh $zero, 0x2($a0)` into the `lhu`'s load-delay slot; written
                first it emits at the block top and leaves a `nop` behind
                (+1 instruction). */
-            buf[i].f2 = 0;
+            buf[i].unk2 = 0;
             val = D_801B02DE[*p].unk0;
-            buf[i].f4 = val;
+            buf[i].unk4 = val;
             if (*p >= 6) {
-                buf[i].f4 = val + D_801F885C;
+                buf[i].unk4 = val + D_801F885C;
             }
             p++;
         }
@@ -4021,22 +4021,22 @@ void func_801A6184(u8 *s2, s32 p1, s32 p2)
     RotTransSV(p1, (s32)&out1, &flag);
     RotTransSV(p2, (s32)&out2, &flag);
 
-    mid.x = (out1.x + out2.x) >> 1;
-    mid.y = (out1.y + out2.y) >> 1;
-    mid.z = (out1.z + out2.z) >> 1;
-    diff.x = out2.x - out1.x;
-    diff.y = out2.y - out1.y;
-    diff.z = out2.z - out1.z;
+    mid.vx = (out1.vx + out2.vx) >> 1;
+    mid.vy = (out1.vy + out2.vy) >> 1;
+    mid.vz = (out1.vz + out2.vz) >> 1;
+    diff.vx = out2.vx - out1.vx;
+    diff.vy = out2.vy - out1.vy;
+    diff.vz = out2.vz - out1.vz;
 
     func_800D23D0(&diff);
     RotMatrixYXZ(&diff, &mtx);
 
-    pos[0] = guess_g_MainCameraAppliedViewPointX - mid.x;
-    pos[1] = guess_g_MainCameraAppliedViewPointY - mid.y;
-    pos[2] = guess_g_MainCameraAppliedViewPointZ - mid.z;
+    pos[0] = guess_g_MainCameraAppliedViewPointX - mid.vx;
+    pos[1] = guess_g_MainCameraAppliedViewPointY - mid.vy;
+    pos[2] = guess_g_MainCameraAppliedViewPointZ - mid.vz;
     ApplyTransposeMatrixLV(&mtx, pos, pos);
 
-    diff.z = -ratan2(pos[0], pos[1]);
+    diff.vz = -ratan2(pos[0], pos[1]);
     RotMatrixYXZ(&diff, &mtx);
 
     mtx.t[0] = ((Unkstruct_80136A94 *)*(s32 *)(s2 + 0x20))->unk48;
@@ -4406,12 +4406,12 @@ void func_801A6AD0(s32 arg0) {
     ((Unkstruct_800B5CB8 *)arg0)->unkE = *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0xE);
 
     /* 8-byte struct copy at offset 0x50 */
-    CAST_WIDTH(Blk8_801A6AD0, arg0, 0x50) =
-        *(Blk8_801A6AD0 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x50);
+    CAST_WIDTH(Unkstruct_801343C4, arg0, 0x50) =
+        *(Unkstruct_801343C4 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x50);
 
     /* 8-byte struct copy at offset 0x10 of the nested (+0x20) struct */
-    *(Blk8_801A6AD0 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x10) =
-        *(Blk8_801A6AD0 *)(*(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x20) + 0x10);
+    *(Unkstruct_801343C4 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x10) =
+        *(Unkstruct_801343C4 *)(*(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x20) + 0x10);
 
     guess_UpdateActorModelMatrix(arg0);
 
@@ -5213,19 +5213,19 @@ void func_801A7D34(s32 a0) {
     ((Unkstruct_801A788C_2 *)v1)->unk1A = 0x100;
     ((Unkstruct_801A788C_2 *)v1)->unk18 = 0x100;
 
-    t = ((Unkstruct_801A7D34 *)s1)->unk0 >> 4;
+    t = ((CVECTOR *)s1)->r >> 4;
     ((Unkstruct_801A788C *)a0)->unk12 = t;
     if (t == 0) {
         ((Unkstruct_801A788C *)a0)->unk12 = 1;
     }
 
-    t = ((Unkstruct_801A7D34 *)s1)->unk1 >> 4;
+    t = ((CVECTOR *)s1)->g >> 4;
     ((Unkstruct_801A788C *)a0)->unk16 = t;
     if (t == 0) {
         ((Unkstruct_801A788C *)a0)->unk16 = 1;
     }
 
-    t = ((Unkstruct_801A7D34 *)s1)->unk2 >> 4;
+    t = ((CVECTOR *)s1)->b >> 4;
     ((Unkstruct_801A788C *)a0)->unk1A = t;
     if (t == 0) {
         ((Unkstruct_801A788C *)a0)->unk1A = 1;
@@ -5512,15 +5512,15 @@ void func_801A8494(void *a0)
     SetRotMatrix((void *)(((Unkstruct_800B5CB8 *)t)->unk20 + 0x34));
     SetTransMatrix((void *)(((Unkstruct_800B5CB8 *)t)->unk20 + 0x34));
 
-    vec.y = -0x40;
-    vec.x = 0;
-    vec.z = 0x20;
+    vec.vy = -0x40;
+    vec.vx = 0;
+    vec.vz = 0x20;
 
     RotTransSV((s32)&vec, (s32)&vec, &flag);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec.x;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = vec.y;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = vec.z;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = vec.vx;
+    ((Unkstruct_800B5CB8 *)a0)->unkA = vec.vy;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = vec.vz;
 }
 
 
@@ -5846,8 +5846,8 @@ void func_801A8B64(s32 arg0, s32 arg1)
     gte_rtps();
     gte_stsxy(&xy1);
 
-    dy = xy1.y - xy0.y;
-    dx = xy1.x - xy0.x;
+    dy = xy1.vy - xy0.vy;
+    dx = xy1.vx - xy0.vx;
     ang = ratan2(dy, dx);
 
     p = CAST_SIGN(s32 *, arg0, 0x20);
@@ -5902,13 +5902,13 @@ void func_801A8CE0(s32 a0, s16 a1, s32 a2, s32 a3)
     if (var_s1 != 0) {
         CAST_ALIAS(u16, var_s1, 0xA) += *(u16 *)((s32)a0 + 0x52);
         CAST_ALIAS(s32, var_s1, 0x1C) = (s16)a3;
-        sp10.x = guess_g_MainCameraAppliedViewPointX;
-        sp10.y = guess_g_MainCameraAppliedViewPointY;
-        sp10.z = guess_g_MainCameraAppliedViewPointZ;
+        sp10.vx = guess_g_MainCameraAppliedViewPointX;
+        sp10.vy = guess_g_MainCameraAppliedViewPointY;
+        sp10.vz = guess_g_MainCameraAppliedViewPointZ;
         ret = guess_YawToPoint((void *)((s32)a0 + 4), &sp10);
-        sp10.x = 0x200;
-        sp10.y = ret;
-        sp10.z = a1;
+        sp10.vx = 0x200;
+        sp10.vy = ret;
+        sp10.vz = a1;
         RotMatrixYXZ(&sp10, &mtx);
         flag[0] = a2;
         flag[1] = flag[2] = 0;
@@ -5958,7 +5958,7 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
    last, reversed: sw $s6/lw $s6 / li $a1,0x70 / sw $s5/move $s5 / sw $s4/move
    $s4.  Widening a2 to s32 re-pins all four copies and costs 7 mismatches. */
 void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
-    SVec801A8E34 h;
+    ElemK h;
     Blk16_956C st;
     Mat801A8E34 buf;
     s32 s1;
@@ -5969,14 +5969,14 @@ void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
         return;
     }
 
-    h.m[0] = guess_g_MainCameraAppliedViewPointX;
-    h.m[1] = guess_g_MainCameraAppliedViewPointY;
-    h.m[2] = guess_g_MainCameraAppliedViewPointZ;
+    h.e[0] = guess_g_MainCameraAppliedViewPointX;
+    h.e[1] = guess_g_MainCameraAppliedViewPointY;
+    h.e[2] = guess_g_MainCameraAppliedViewPointZ;
     t = guess_YawToPoint((void *) (a0 + 4), &h);
 
-    h.m[0] = 0x200;
-    h.m[1] = t;
-    h.m[2] = a2;
+    h.e[0] = 0x200;
+    h.e[1] = t;
+    h.e[2] = a2;
     func_8004978C((s16 *) &h, &buf);
 
     st.unk0.v1.unk0[0] = -a3;
@@ -7037,7 +7037,7 @@ void func_801AA9D4(s32 a0, s32 a1) {
         ((Unkstruct_801AA9D4 *)work)->unkA = ((Unkstruct_8017C218_2 *)a0)->unkA;
         ((Unkstruct_801AA9D4 *)work)->unkE = ((Unkstruct_8017C218_2 *)a0)->unkE;
         ptr = ((Unkstruct_801AA9D4 *)work)->unk20;
-        CAST_WIDTH(Blk8_md_SC07_004_801AA9D4, ptr, 0x10) = *(Blk8_md_SC07_004_801AA9D4 *)a1;
+        CAST_WIDTH(Unkstruct_801343C4, ptr, 0x10) = *(Unkstruct_801343C4 *)a1;
         ((Unkstruct_801AA9D4 *)work)->unk30 = 5;
         ((Unkstruct_801AA9D4 *)work)->unk32 = 1;
         ((Unkstruct_801AA9D4 *)work)->unk34 = 0x180F0F0;
@@ -8915,12 +8915,12 @@ extern u8 D_801B07F0[];
 void func_801AD2CC(void) {
     extern u8 D_801B07F2[];
     extern u8 D_801F8A78[];
-    Rec8_801A57E8 rect;
+    Unkstruct_801343C4 rect;
 
-    rect.c = 0x10;
-    rect.d = 1;
-    rect.a = *(u16 *)D_801B07F0;
-    rect.b = (*(u16 *)D_801B07F2);
+    rect.unk4 = 0x10;
+    rect.unk6 = 1;
+    rect.unk0 = *(u16 *)D_801B07F0;
+    rect.unk2 = (*(u16 *)D_801B07F2);
     func_800599B8(&rect, D_801F8A78);
 }
 
@@ -9211,7 +9211,7 @@ void func_801AD914(s32 arg0, void *arg1, s32 arg2) {
 
     sp0 = (void *)guess_SpawnActor(0x3A1, 1, arg0);
     if (sp0 != NULL) {
-        *(Blk8_801AD914 *)(((Unkstruct_800B5CB8 *)sp0)->unk20 + 0x10) = *(Blk8_801AD914 *)arg1;
+        *(Unkstruct_801343C4 *)(((Unkstruct_800B5CB8 *)sp0)->unk20 + 0x10) = *(Unkstruct_801343C4 *)arg1;
         guess_UpdateActorModelMatrix((s32)sp0);
         sp10.vz = 0;
         sp10.vx = 0;
@@ -9239,7 +9239,7 @@ void func_801AD9D4(void *a0) {
  * second identical typedef is a hard error in gcc 2.7.2. Typedefs emit no bytes. */
 
 
-extern M4_801AE734 D_801B0838[];
+extern CVECTOR D_801B0838[];
 
 void func_801ADA10(s32 a0) {
     s32 m;
@@ -9248,8 +9248,8 @@ void func_801ADA10(s32 a0) {
     m = (s16)(((Unkstruct_800B5CB8 *)a0)->unk2E + 1) % 6;
     ((Unkstruct_800B5CB8 *)a0)->unk2E = ((Unkstruct_800B5CB8 *)a0)->unk2E + 1;
     d = CAST_WIDTH(s32, a0, 0x34);
-    CAST_WIDTH(M4_801AE734, d, 0x14) = D_801B0838[(s16)(m * 2)];
-    CAST_WIDTH(M4_801AE734, d, 0x18) = D_801B0838[(s16)(m * 2) + 1];
+    CAST_WIDTH(CVECTOR, d, 0x14) = D_801B0838[(s16)(m * 2)];
+    CAST_WIDTH(CVECTOR, d, 0x18) = D_801B0838[(s16)(m * 2) + 1];
 }
 
 
@@ -9394,7 +9394,7 @@ void func_801ADD98(u8 *a0, volatile u8 *a1, volatile u8 *a2) {
 extern void func_800599B8(void *rect, void *data);
 
 void func_801ADE1C(void *a0, u16 *a1, s8 *a2, u8 *a3) {
-    Rec8_801A57E8 rect;
+    Unkstruct_801343C4 rect;
     s32 i;
     void *pos = a0;
     u16 *data = a1;
@@ -9445,10 +9445,10 @@ void func_801ADE1C(void *a0, u16 *a1, s8 *a2, u8 *a3) {
         out++;
     }
 
-    rect.a = ((Unkstruct_80181FAC_2 *)pos)->unk0;
-    rect.b = ((Unkstruct_80181FAC_2 *)pos)->unk2;
-    rect.c = 16;
-    rect.d = 1;
+    rect.unk0 = ((Unkstruct_80181FAC_2 *)pos)->unk0;
+    rect.unk2 = ((Unkstruct_80181FAC_2 *)pos)->unk2;
+    rect.unk4 = 16;
+    rect.unk6 = 1;
 
     func_800599B8(&rect, data);
 }
@@ -9884,7 +9884,7 @@ void func_801AE6D4(void *arg0) {
 
 
 extern s32 func_801AEA40(s32 a0, s32 a1, s32 a2);
-extern M4_801AE734 D_801B0838[];
+extern CVECTOR D_801B0838[];
 extern u8 D_801B0868[];
 
 void func_801AE734(s32 arg0) {
@@ -9898,8 +9898,8 @@ void func_801AE734(s32 arg0) {
         m = (s16)((Unkstruct_801AE734_2 *)s0)->unk2C % 6;
         ((Unkstruct_801AE734_2 *)s0)->unk34 = t1;
         ((Unkstruct_801AE734_2 *)s0)->unk2E = ((Unkstruct_801AE734_2 *)s0)->unk2C;
-        *(M4_801AE734 *)(t1 + 0x14) = D_801B0838[(s16)(m * 2)];
-        *(M4_801AE734 *)(t1 + 0x18) = D_801B0838[(s16)(m * 2) + 1];
+        *(CVECTOR *)(t1 + 0x14) = D_801B0838[(s16)(m * 2)];
+        *(CVECTOR *)(t1 + 0x18) = D_801B0838[(s16)(m * 2) + 1];
         ((Unkstruct_801AE734 *)t1)->unk12 = -0x3F80;
         ((Unkstruct_801AE734 *)t1)->unk10 = 0x200;
         ((Unkstruct_801AE734 *)t1)->unkC = 0x200;
@@ -9970,19 +9970,19 @@ void func_801AE908(void *a0) {
 extern void guess_ZeroMemory(void *a0, s32 a1);
 
 
-extern U16x4 D_801F8EA0[];
+extern Unkstruct_801343C4 D_801F8EA0[];
 extern u16 D_801F8EA2;
 extern u16 D_801F8EA4;
 
 void func_801AE990(void *a0) {
-    U16x4 *dst;
+    Unkstruct_801343C4 *dst;
     s32 i;
     u8 *p;
 
     dst = D_801F8EA0;
 
     if (a0 != NULL) {
-        *dst = *(U16x4 *)a0;
+        *dst = *(Unkstruct_801343C4 *)a0;
     } else {
         D_801F8EA4 = 0;
         D_801F8EA2 = 0;
@@ -10048,21 +10048,21 @@ const s8 D_801A022C[4] = { 0, 0, 0, 0 };
 void func_801AEB04(s32 a0, s16 a1, s32 a2, s32 a3) {
     ((Unkstruct_801AE734 *)a0)->unk0 = 1;
     ((Unkstruct_801AE734 *)a0)->unk2 = a1;
-    *(B8_801AEB04 *)(a0 + 0x04) = *(B8_801AEB04 *)a2;
+    *(Unkstruct_8013B83C *)(a0 + 0x04) = *(Unkstruct_8013B83C *)a2;
     ((Unkstruct_801AE734 *)a0)->unk10 = 0x1000;
     ((Unkstruct_801AE734 *)a0)->unkE = 0x1000;
     ((Unkstruct_801AE734 *)a0)->unkC = 0x1000;
     ((Unkstruct_801AE734 *)a0)->unk12 = 0;
     ((Unkstruct_801AE734 *)a0)->unk20 = a3;
-    *(M4_801AEB04 *)(a0 + 0x14) = *(M4_801AEB04 *)&D_801A022C;
-    *(M4_801AEB04 *)(a0 + 0x18) = *(M4_801AEB04 *)&D_801A022C;
-    *(M4_801AEB04 *)(a0 + 0x1C) = *(M4_801AEB04 *)&D_801A022C;
+    *(CVECTOR *)(a0 + 0x14) = *(CVECTOR *)&D_801A022C;
+    *(CVECTOR *)(a0 + 0x18) = *(CVECTOR *)&D_801A022C;
+    *(CVECTOR *)(a0 + 0x1C) = *(CVECTOR *)&D_801A022C;
 }
 
 
 
 
-extern U16x4 D_801F8EA0[];
+extern Unkstruct_801343C4 D_801F8EA0[];
 extern u16 D_801F8EA2;
 extern u16 D_801F8EA4;
 extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
@@ -10193,20 +10193,20 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
 
-    sv[0].z = 0;
-    sv[0].y = 0;
-    sv[0].x = 0;
+    sv[0].vz = 0;
+    sv[0].vy = 0;
+    sv[0].vx = 0;
     w1 = ((Unkstruct_801AEC38 *)a1)->unk2 >> 5;
-    sv[1].y = 0;
-    sv[1].x = w1;
+    sv[1].vy = 0;
+    sv[1].vx = w1;
     w2 = ((Unkstruct_801AEC38 *)a1)->unk2 * 3 >> 2;
-    sv[2].x = -w1;
-    sv[2].y = 0;
-    sv[3].y = 0;
-    sv[3].x = 0;
-    sv[1].z = w2;
-    sv[2].z = w2;
-    sv[3].z = ((Unkstruct_801AEC38 *)a1)->unk2;
+    sv[2].vx = -w1;
+    sv[2].vy = 0;
+    sv[3].vy = 0;
+    sv[3].vx = 0;
+    sv[1].vz = w2;
+    sv[2].vz = w2;
+    sv[3].vz = ((Unkstruct_801AEC38 *)a1)->unk2;
 
     pkt = func_80010A08(0x24);
     pkt[3] = 8;

@@ -3383,27 +3383,27 @@ void func_8017D960(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801B5BC8 = vec.a;
-    D_801B5BB8 = vec.a;
-    D_801B5BA8 = vec.a;
-    D_801B5BCC = vec.b;
-    D_801B5BBC = vec.b;
-    D_801B5BAC = vec.b;
-    D_801B5BD0 = vec.c;
-    D_801B5BC0 = vec.c;
-    D_801B5BB0 = vec.c;
+    D_801B5BC8 = vec.vx;
+    D_801B5BB8 = vec.vx;
+    D_801B5BA8 = vec.vx;
+    D_801B5BCC = vec.vy;
+    D_801B5BBC = vec.vy;
+    D_801B5BAC = vec.vy;
+    D_801B5BD0 = vec.vz;
+    D_801B5BC0 = vec.vz;
+    D_801B5BB0 = vec.vz;
 }
 
 
@@ -4504,7 +4504,7 @@ void func_8017F3E4(void *a0) {
      * index+result collapse onto $a0 with the base in $v0 — 10 mismatched
      * instructions, byte-identical in count and shape. 'ctx'/'val' must go the
      * other way: block-scope, so their loads stay inside their own block. */
-    SC05_F3E4_Tbl8 *e;
+    Unkstruct_801343C4 *e;
 
     p = (s32)a0;
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
@@ -4522,16 +4522,16 @@ void func_8017F3E4(void *a0) {
         u16 val;
 
         idx = ((Unkstruct_800B5CB8 *)p)->unk70;
-        e = (SC05_F3E4_Tbl8 *)D_801897B8 + idx;
-        ((Unkstruct_800B5CB8 *)p)->unk6 = ((Unkstruct_800B5CB8 *)p)->unk6 + e->f0;
-        ((Unkstruct_800B5CB8 *)p)->unkA = ((Unkstruct_800B5CB8 *)p)->unkA + e->f2;
-        ((Unkstruct_800B5CB8 *)p)->unkE = ((Unkstruct_800B5CB8 *)p)->unkE + e->f4;
+        e = (Unkstruct_801343C4 *)D_801897B8 + idx;
+        ((Unkstruct_800B5CB8 *)p)->unk6 = ((Unkstruct_800B5CB8 *)p)->unk6 + e->unk0;
+        ((Unkstruct_800B5CB8 *)p)->unkA = ((Unkstruct_800B5CB8 *)p)->unkA + e->unk2;
+        ((Unkstruct_800B5CB8 *)p)->unkE = ((Unkstruct_800B5CB8 *)p)->unkE + e->unk4;
 
         /* ctx is re-read here rather than cached from v0: the two intervening
          * calls kill it for cse (§193-E), and the .s shows exactly one
          * 'lw $v1,0x20($s0)' per interval. */
         ctx = ((Unkstruct_800B5CB8 *)p)->unk20;
-        val = ((SC05_F3E4_Tbl8 *)D_8018974E + ((Unkstruct_800B5CB8 *)p)->unk70)->f0;
+        val = ((Unkstruct_801343C4 *)D_8018974E + ((Unkstruct_800B5CB8 *)p)->unk70)->unk0;
         CAST_WIDTH(u16, ctx, 0x1C) = val;
         ((Unkstruct_800B5CB8 *)ctx)->unk1A = val;
         ((Unkstruct_800B5CB8 *)ctx)->unk18 = val;
@@ -4543,13 +4543,13 @@ void func_8017F3E4(void *a0) {
         u16 val;
 
         idx = ((Unkstruct_800B5CB8 *)p)->unk70;
-        e = (SC05_F3E4_Tbl8 *)D_80189748 + idx;
-        ((Unkstruct_800B5CB8 *)p)->unk6 = ((Unkstruct_800B5CB8 *)p)->unk6 + e->f0;
-        ((Unkstruct_800B5CB8 *)p)->unkA = ((Unkstruct_800B5CB8 *)p)->unkA + e->f2;
-        ((Unkstruct_800B5CB8 *)p)->unkE = ((Unkstruct_800B5CB8 *)p)->unkE + e->f4;
+        e = (Unkstruct_801343C4 *)D_80189748 + idx;
+        ((Unkstruct_800B5CB8 *)p)->unk6 = ((Unkstruct_800B5CB8 *)p)->unk6 + e->unk0;
+        ((Unkstruct_800B5CB8 *)p)->unkA = ((Unkstruct_800B5CB8 *)p)->unkA + e->unk2;
+        ((Unkstruct_800B5CB8 *)p)->unkE = ((Unkstruct_800B5CB8 *)p)->unkE + e->unk4;
 
         ctx = ((Unkstruct_800B5CB8 *)p)->unk20;
-        val = e->f6;                     /* == D_8018974E[idx].f0 */
+        val = e->unk6;                     /* == D_8018974E[idx].f0 */
         CAST_WIDTH(u16, ctx, 0x1C) = val;
         ((Unkstruct_800B5CB8 *)ctx)->unk1A = val;
         ((Unkstruct_800B5CB8 *)ctx)->unk18 = val;

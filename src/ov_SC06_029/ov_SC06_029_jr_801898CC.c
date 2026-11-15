@@ -4196,17 +4196,17 @@ void func_8018AF48(void *a0) {
 
     extern s16 D_801D7114[][2];
     extern u8 D_801D7140[];
-    extern EffectSlot4_8018AF48 D_801D714C[];
+    extern CVECTOR D_801D714C[];
     extern u8 D_801D7178[];
-    extern EffectSlot4_8018AF48 D_801D71B0;
-    extern EffectSlot4_8018AF48 D_801D71D8;
-    extern EffectSlot4_8018AF48 D_801D71DC;
-    extern EffectSlot4_8018AF48 D_801D720C;
-    extern EffectSlot4_8018AF48 D_801D7210;
-    extern EffectSlot4_8018AF48 D_801D7240;
-    extern EffectSlot4_8018AF48 D_801D7244;
-    extern EffectSlot4_8018AF48 D_801D7274;
-    extern EffectSlot4_8018AF48 D_801D7278;
+    extern CVECTOR D_801D71B0;
+    extern CVECTOR D_801D71D8;
+    extern CVECTOR D_801D71DC;
+    extern CVECTOR D_801D720C;
+    extern CVECTOR D_801D7210;
+    extern CVECTOR D_801D7240;
+    extern CVECTOR D_801D7244;
+    extern CVECTOR D_801D7274;
+    extern CVECTOR D_801D7278;
     void *s0;
     void *s1;
 
@@ -4241,7 +4241,7 @@ void func_8018AF48(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_8018AF48 *)((s32)&D_801D7274 + 4) = D_801D714C[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_801D7274 + 4) = D_801D714C[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_801D7274 = D_801D7278; } else { D_801D7274 = D_801D7278; }
         if (COND) { D_801D7244 = D_801D7274; } else { D_801D7244 = D_801D7274; }
         if (COND) { D_801D7240 = D_801D7244; } else { D_801D7240 = D_801D7244; }
@@ -5047,9 +5047,9 @@ s32 func_8018BFF8(s32 param_1) {
     extern MATRIX *D_801D997C;     /* matrix pool cursor */
     extern MATRIX D_801E1FF8[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

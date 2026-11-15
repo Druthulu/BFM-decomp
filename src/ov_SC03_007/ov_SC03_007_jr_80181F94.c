@@ -2797,7 +2797,7 @@ extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_8017E83C(s32 arg0);
 extern s32 func_8017EA04(s32 arg0);
 extern MTX_8017EA48 D_800AE620;
-extern SV4_8017EA48 D_8018BD34[];
+extern SVECTOR D_8018BD34[];
 extern s32 D_801270C8[];
 extern s16 D_80126B98;
 extern s16 D_80126B9A;
@@ -3272,16 +3272,16 @@ extern s32 guess_g_PlayerActor;          /* TU:53   verbatim */ // Names ledger:
 extern s32 D_801270C8[];        /* TU:4480 verbatim */
 extern u8 guess_g_BoxHitNormalX[];         /* TU:597  verbatim */ // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern void D_801CAB58;         /* TU:5246 verbatim */
-extern SV4_8018256C D_8018C340[];        /* overlay-local canned SVECTOR pair */
+extern SVECTOR D_8018C340[];        /* overlay-local canned SVECTOR pair */
 
 void func_8018256C(s32 param_1)
 {
     MTX_8018256C mtx;   /* sp+0x18 : declared, never used (frame tell, S193-I) */
-    SV4_8018256C v0;    /* sp+0x38 */
-    SV4_8018256C v1;    /* sp+0x40 */
-    SV4_8018256C c0;    /* sp+0x48 */
-    SV4_8018256C c1;    /* sp+0x50 */
-    SV4_8018256C buf;   /* sp+0x58 */
+    SVECTOR v0;    /* sp+0x38 */
+    SVECTOR v1;    /* sp+0x40 */
+    SVECTOR c0;    /* sp+0x48 */
+    SVECTOR c1;    /* sp+0x50 */
+    SVECTOR buf;   /* sp+0x58 */
     u8 *base = (u8 *)&guess_g_PlayerActor;
     s32 r;
     s32 ok;
@@ -4034,7 +4034,7 @@ void func_80183670(s32 a0, s32 a1, s32 a2, void *a3) {
  * object's own field pointer instead and simply never deleted the now-dead local. */
 
 extern s32 D_801270C8[];
-extern SV4_801836B8 D_8018C524[];
+extern SVECTOR D_8018C524[];
 extern void SetRotMatrix(void *a0);
 extern void SetTransMatrix(void *a0);
 extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -4046,11 +4046,11 @@ extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_Box
 void func_801836B8(s32 param_1, s32 param_2)
 {
     MTX_801836B8 mtx;  /* sp+0x18 : unused, see typedef comment above */
-    SV4_801836B8 v0;   /* sp+0x38 : RotTransSV out #1 */
-    SV4_801836B8 v1;   /* sp+0x40 : RotTransSV out #2 */
-    SV4_801836B8 c0;   /* sp+0x48 : copy of v0 -> func_80135888 arg2 */
-    SV4_801836B8 c1;   /* sp+0x50 : copy of v1 -> func_80135888 arg3 */
-    SV4_801836B8 buf;  /* sp+0x58 : RotTransSV scratch arg2 */
+    SVECTOR v0;   /* sp+0x38 : RotTransSV out #1 */
+    SVECTOR v1;   /* sp+0x40 : RotTransSV out #2 */
+    SVECTOR c0;   /* sp+0x48 : copy of v0 -> func_80135888 arg2 */
+    SVECTOR c1;   /* sp+0x50 : copy of v1 -> func_80135888 arg3 */
+    SVECTOR buf;  /* sp+0x58 : RotTransSV scratch arg2 */
     s32 flag;
 
     SetRotMatrix((void *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34));

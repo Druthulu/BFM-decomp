@@ -4859,7 +4859,7 @@ void func_80180ABC(s32 a0)
     s32 s1 = a0;
     s32 sp18[3];
     s32 sp28[2];
-    Local_80180ABC local;
+    struct S80190C84 local;
     u16 sc;
     s32 v;
     u16 t0;
@@ -4946,16 +4946,16 @@ void func_80180ABC(s32 a0)
         if (*(s32 *)(s1 + 0x1C) % 50 == 0) {
             if (*(s32 *)(s1 + 0xE4) != 0) {
                 local.f0 = *(u16 *)(s1 + 0x6);
-                local.f1 = *(u16 *)(s1 + 0xA);
-                local.f2 = *(u16 *)(s1 + 0xE);
-                local.f3 = 0x171;
-                local.f4 = 0;
-                local.f5 = 0;
-                local.f6 = 0x7FFF;
-                local.f7 = 0x400;
-                local.f8 = 0x4000;
+                local.f2 = *(u16 *)(s1 + 0xA);
+                local.f4 = *(u16 *)(s1 + 0xE);
+                local.f6 = 0x171;
+                local.f8 = 0;
+                local.fA = 0;
+                local.fC = 0x7FFF;
+                local.fE = 0x400;
+                local.f10 = 0x4000;
                 func_8012C51C(&local, s1);
-                local.f7 = -0x400;
+                local.fE = -0x400;
                 func_8012C51C(&local, s1);
                 *(s32 *)(s1 + 0xE4) = *(s32 *)(s1 + 0xE4) - 1;
             }

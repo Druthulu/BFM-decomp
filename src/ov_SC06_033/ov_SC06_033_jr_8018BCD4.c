@@ -3034,10 +3034,10 @@ extern s32  rcos(s32 a0);
 extern s32  rsin(s32 a0);
 
 extern Blip_8018F694 D_801D0C40[];
-extern Blk4_8018FF98 D_801CF1A4[];
-extern Blk4_8018FF98 D_801CF1A8[];
-extern Blk4_8018FF98 D_801D0E40[];
-extern Blk4_8018FF98 D_801D0E44[];
+extern CVECTOR D_801CF1A4[];
+extern CVECTOR D_801CF1A8[];
+extern CVECTOR D_801D0E40[];
+extern CVECTOR D_801D0E44[];
 
 extern u8 D_801C8258[];
 extern u8 D_801C836C[];

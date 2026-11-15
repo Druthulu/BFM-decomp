@@ -3721,17 +3721,17 @@ void func_80181F40(s32 param_1)
             CAST_WIDTH(u32, param_1, 8) = *(u32 *)(t1 + 8);
             CAST_WIDTH(u32, param_1, 0xC) = *(u32 *)(t1 + 0xC);
 
-            CAST_WIDTH(UAlign8_80181F40, param_1, 0x50) = *(UAlign8_80181F40 *)(t1 + 0x50);
+            CAST_WIDTH(Unkstruct_801343C4, param_1, 0x50) = *(Unkstruct_801343C4 *)(t1 + 0x50);
 
             {
                 s32 dst = ((Unkstruct_800B5CB8 *)param_1)->unk20;
                 s32 src = *(s32 *)(t1 + 0x20);
-                *(UAlign8_80181F40 *)(dst + 0x10) = *(UAlign8_80181F40 *)(src + 0x10);
+                *(Unkstruct_801343C4 *)(dst + 0x10) = *(Unkstruct_801343C4 *)(src + 0x10);
             }
             {
                 s32 dst = ((Unkstruct_800B5CB8 *)param_1)->unk20;
                 s32 src = *(s32 *)(t1 + 0x20);
-                *(UAlign8_80181F40 *)(dst + 0x18) = *(UAlign8_80181F40 *)(src + 0x18);
+                *(Unkstruct_801343C4 *)(dst + 0x18) = *(Unkstruct_801343C4 *)(src + 0x18);
             }
             {
                 s32 src = *(s32 *)(t1 + 0x20);
@@ -5102,9 +5102,9 @@ s32 func_80184310(s32 param_1) {
     extern MATRIX *D_801B6C18;     /* matrix pool cursor */
     extern MATRIX D_801BA858[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

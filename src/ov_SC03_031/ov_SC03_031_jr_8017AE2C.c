@@ -2763,8 +2763,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2776,8 +2776,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801C5E8C;
         s16 *p78C = &D_801C5E84;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801C6230 = 1;
@@ -3454,27 +3454,27 @@ void func_8017C180(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801C5ED8 = vec.a;
-    D_801C5EC8 = vec.a;
-    D_801C5EB8 = vec.a;
-    D_801C5EDC = vec.b;
-    D_801C5ECC = vec.b;
-    D_801C5EBC = vec.b;
-    D_801C5EE0 = vec.c;
-    D_801C5ED0 = vec.c;
-    D_801C5EC0 = vec.c;
+    D_801C5ED8 = vec.vx;
+    D_801C5EC8 = vec.vx;
+    D_801C5EB8 = vec.vx;
+    D_801C5EDC = vec.vy;
+    D_801C5ECC = vec.vy;
+    D_801C5EBC = vec.vy;
+    D_801C5EE0 = vec.vz;
+    D_801C5ED0 = vec.vz;
+    D_801C5EC0 = vec.vz;
 }
 
 

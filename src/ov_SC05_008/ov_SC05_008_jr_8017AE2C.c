@@ -2763,8 +2763,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2776,8 +2776,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801A1054;
         s16 *p78C = &D_801A104C;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801A1270 = 1;
@@ -4309,7 +4309,7 @@ void func_8017E6A4(s32 param_1)
     func_8012B370(param_1);
     guess_RotTransSVWithObjMatrix(param_1, (s32)D_80186544, (s32)&buf[0]);
     do { func_80015954((s32)&buf[0], (s32)&D_80126B5C); } while (0);
-    *(Blk8_8017E6A4 *)D_80126BE0 = *(Blk8_8017E6A4 *)&buf[0];
+    *(Unkstruct_8013B83C *)D_80126BE0 = *(Unkstruct_8013B83C *)&buf[0];
 
     CAST_ALIAS(s16, (s32)b78, 8) = guess_g_PlayerPosX;
     CAST_ALIAS(s32, (s32)b78, 0x48) = (s32)(s16)guess_g_PlayerPosX;
@@ -4507,7 +4507,7 @@ void func_8017EBB8(void *a0) {
         ((Unkstruct_800B5CB8 *)s1)->unk88 = *(u16 *)((u8 *)D_8019E666 + ((Unkstruct_800B5CB8 *)s1)->unk70 * 12 - 2);
         ((Unkstruct_800B5CB8 *)s1)->unk8A = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].unk0.v1.unk0;
         ((Unkstruct_800B5CB8 *)s1)->unk8C = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].unk0.v1.unk2;
-        CAST_WIDTH(Blk8_EBB8, copy, 0x10) = *(Blk8_EBB8 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0x20) + 0x10);
+        CAST_WIDTH(Unkstruct_8013B83C, copy, 0x10) = *(Unkstruct_8013B83C *)(*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0x20) + 0x10);
         CAST_WIDTH(s32, s1, 0xC) = 0;
         CAST_WIDTH(s32, s1, 8) = 0;
         CAST_WIDTH(s32, s1, 4) = 0;
@@ -4521,9 +4521,9 @@ void func_8017EBB8(void *a0) {
         ((Unkstruct_800B5CB8 *)s1)->unk8C = *(u16 *)(sum + 4) - *(u16 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0xE);
         guess_InitModelObject(ent, s2);
         ((Unkstruct_800B5CB8 *)ent)->unk2C = ((Unkstruct_800B5CB8 *)ent)->unk2C | 0x80;
-        CAST_WIDTH(Blk8_EBB8, s1, 0xCC) = *(Blk8_EBB8 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0xCC);
+        CAST_WIDTH(Unkstruct_8013B83C, s1, 0xCC) = *(Unkstruct_8013B83C *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0xCC);
         CAST_WIDTH(s32, ent, 0x80) = s1 + 0xCC;
-        CAST_WIDTH(Blk8_EBB8, ent, 0x10) = *(Blk8_EBB8 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0x20) + 0x10);
+        CAST_WIDTH(Unkstruct_8013B83C, ent, 0x10) = *(Unkstruct_8013B83C *)(*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0x20) + 0x10);
         CAST_WIDTH(s32, s1, 0xC) = 0;
         CAST_WIDTH(s32, s1, 8) = 0;
         CAST_WIDTH(s32, s1, 4) = 0;

@@ -2204,18 +2204,18 @@ s16 *func_80015908(s32 a0, s32 a1)
 }
 
 void func_80015954(s32 a0, s32 a1) {
-    *(u16 *)(a1 + 0x2) = ((Unkstruct_80015954 *)a0)->unk0;
-    *(u16 *)(a1 + 0x6) = ((Unkstruct_80015954 *)a0)->unk2;
-    *(u16 *)(a1 + 0xA) = ((Unkstruct_80015954 *)a0)->unk4;
+    *(u16 *)(a1 + 0x2) = ((Unkstruct_801343C4 *)a0)->unk0;
+    *(u16 *)(a1 + 0x6) = ((Unkstruct_801343C4 *)a0)->unk2;
+    *(u16 *)(a1 + 0xA) = ((Unkstruct_801343C4 *)a0)->unk4;
 }
 
 /* guess_CopyVec3HighHalves: copies the high halfwords of the three words at a0 (+0x2, +0x6, +0xA) to the s16 vector a1 (+0x0, +0x2, +0x4)
  * Confidence high, code inference: a1[0..2] = u16 at a0 +0x2/+0x6/+0xA; func_80015954 is the reverse
  * Names ledger: config/names.tsv guess_CopyVec3HighHalves */
 void guess_CopyVec3HighHalves(s32 *a0, s32 *a1) {
-    ((Unkstruct_80015954 *)a1)->unk0 = *(u16 *)((s32)a0 + 0x2);
-    ((Unkstruct_80015954 *)a1)->unk2 = *(u16 *)((s32)a0 + 0x6);
-    ((Unkstruct_80015954 *)a1)->unk4 = *(u16 *)((s32)a0 + 0xA);
+    ((Unkstruct_801343C4 *)a1)->unk0 = *(u16 *)((s32)a0 + 0x2);
+    ((Unkstruct_801343C4 *)a1)->unk2 = *(u16 *)((s32)a0 + 0x6);
+    ((Unkstruct_801343C4 *)a1)->unk4 = *(u16 *)((s32)a0 + 0xA);
 }
 
 #define SHARED_FN func_8001599C
@@ -10164,7 +10164,7 @@ void func_8001EFE0(s32 arg0)
                 if (((Unkstruct_8001EFE0 *)arg0)->unk2C & 0x80) {
                     col = *(COL_8001EFE0 *)(*(u8 **)(arg0 + 0x80));
                 } else {
-                    col.x = col.y = col.z = 0x80;
+                    col.unk0 = col.unk2 = col.unk4 = 0x80;
                 }
                 mode = (attr >> 24) & 3;
                 um.m[0][0] = CAST_SIGN(u16, arg0, 0x18);
@@ -10237,9 +10237,9 @@ void func_8001EFE0(s32 arg0)
                         } else {
                             *(u16 *)(q + 0xE) = cbase | 0x10;
                         }
-                        q[4] = col.x;
-                        q[5] = col.y;
-                        q[6] = col.z;
+                        q[4] = col.unk0;
+                        q[5] = col.unk2;
+                        q[6] = col.unk4;
                         v0.vx = ((Unkstruct_8001EFE0_2 *)p)->unk8;
                         vv2 = ((Unkstruct_8001EFE0_2 *)p)->unkA;
                         v0.vy = vv2;
@@ -15002,7 +15002,7 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
     ov = base[41898];
     if (idx == 0) {
         rgb[0] = face->rgb;
-        ((Unkstruct_80026514 *)rgb)->unk3 = 0x34;
+        ((CVECTOR *)rgb)->cd = 0x34;
         gte_ldrgb(rgb);
     } else {
         gte_ldrgb(&D_80063884);
@@ -15073,7 +15073,7 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
     ov = base[41898];
     if (idx == 0) {
         rgb[0] = face->rgb;
-        ((Unkstruct_800268D0 *)rgb)->unk3 = 0x3C;
+        ((CVECTOR *)rgb)->cd = 0x3C;
         gte_ldrgb(rgb);
     } else {
         gte_ldrgb(&D_80063888);

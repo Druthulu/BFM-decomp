@@ -1805,9 +1805,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -4057,17 +4057,17 @@ void func_8017E32C(void *a0) {
 
     extern s16 D_8018BAD4[][2];
     extern u8 D_8018BB00[];
-    extern EffectSlot4_8017E32C D_8018BB0C[];
+    extern CVECTOR D_8018BB0C[];
     extern u8 D_8018BB38[];
-    extern EffectSlot4_8017E32C D_8018BB70;
-    extern EffectSlot4_8017E32C D_8018BB98;
-    extern EffectSlot4_8017E32C D_8018BB9C;
-    extern EffectSlot4_8017E32C D_8018BBCC;
-    extern EffectSlot4_8017E32C D_8018BBD0;
-    extern EffectSlot4_8017E32C D_8018BC00;
-    extern EffectSlot4_8017E32C D_8018BC04;
-    extern EffectSlot4_8017E32C D_8018BC34;
-    extern EffectSlot4_8017E32C D_8018BC38;
+    extern CVECTOR D_8018BB70;
+    extern CVECTOR D_8018BB98;
+    extern CVECTOR D_8018BB9C;
+    extern CVECTOR D_8018BBCC;
+    extern CVECTOR D_8018BBD0;
+    extern CVECTOR D_8018BC00;
+    extern CVECTOR D_8018BC04;
+    extern CVECTOR D_8018BC34;
+    extern CVECTOR D_8018BC38;
     void *s0;
     void *s1;
 
@@ -4102,7 +4102,7 @@ void func_8017E32C(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_8017E32C *)((s32)&D_8018BC34 + 4) = D_8018BB0C[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_8018BC34 + 4) = D_8018BB0C[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_8018BC34 = D_8018BC38; } else { D_8018BC34 = D_8018BC38; }
         if (COND) { D_8018BC04 = D_8018BC34; } else { D_8018BC04 = D_8018BC34; }
         if (COND) { D_8018BC00 = D_8018BC04; } else { D_8018BC00 = D_8018BC04; }

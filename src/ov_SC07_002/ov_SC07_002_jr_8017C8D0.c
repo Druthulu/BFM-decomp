@@ -4644,7 +4644,7 @@ extern s32 func_8018059C(s32 arg0);
 void func_801804D4(void *a0, s32 a1) {
     D_8019F048 = *(s32 *)((s32)a0 + 8);
     D_8019F04A = *(s32 *)((s32)a0 + 0x10);
-    *(DBlock_8019F04C *)(void *)&D_8019F04C = *(DBlock_8019F04C *)(void *)((s32)a0 + 0x18);
+    *(Unkstruct_801343C4 *)(void *)&D_8019F04C = *(Unkstruct_801343C4 *)(void *)((s32)a0 + 0x18);
     D_8019F054 = *(u16 *)((s32)a0 + 0x28);
     D_8019F056 = *(u16 *)((s32)a0 + 0x2A);
     D_8019F03C = 0;
@@ -5167,12 +5167,12 @@ void func_80181394(s32 a0, s16 *param_2, s32 a2)
 
 
 
-extern V8_SC07_002_8017C8D0 D_8018A2E0[];
+extern Unkstruct_801343C4 D_8018A2E0[];
 extern u8 D_8019F060[];
 
 void func_801817E0(s32 arg0)
 {
-    *(V8_SC07_002_8017C8D0 *)D_8019F060 = D_8018A2E0[arg0];
+    *(Unkstruct_801343C4 *)D_8019F060 = D_8018A2E0[arg0];
 }
 
 
@@ -5798,12 +5798,12 @@ void func_80182818(void *a0)
     extern void SetTransMatrix(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
 
-    SV4_80182818 sv;
+    SVECTOR sv;
     u8 buf[36];
 
-    sv.a = 0;
-    sv.b = ((Unkstruct_8018260C *)a0)->unkE4;
-    sv.c = ((Unkstruct_8018260C *)a0)->unkE6;
+    sv.vx = 0;
+    sv.vy = ((Unkstruct_8018260C *)a0)->unkE4;
+    sv.vz = ((Unkstruct_8018260C *)a0)->unkE6;
 
     RotMatrixZYX((s32)&sv, (s32)buf);
 
@@ -5814,15 +5814,15 @@ void func_80182818(void *a0)
     SetRotMatrix(buf);
     SetTransMatrix(buf);
 
-    sv.b = 0;
-    sv.a = 0;
-    sv.c = 0xA0;
+    sv.vy = 0;
+    sv.vx = 0;
+    sv.vz = 0xA0;
 
     RotTransSV(&sv, &sv, buf + 0x20);
 
-    ((Unkstruct_8018260C *)a0)->unk6 = sv.a;
-    ((Unkstruct_8018260C *)a0)->unkA = sv.b;
-    ((Unkstruct_8018260C *)a0)->unkE = sv.c;
+    ((Unkstruct_8018260C *)a0)->unk6 = sv.vx;
+    ((Unkstruct_8018260C *)a0)->unkA = sv.vy;
+    ((Unkstruct_8018260C *)a0)->unkE = sv.vz;
 }
 
 
@@ -6878,11 +6878,11 @@ void func_801845B8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80184658(arg0, 0x1000, 0);
-    sp10.unk0 = *(u16 *)(arg3 + 0x0);
-    sp10.unk4 = *(u16 *)(arg3 + 0x2);
-    sp10.unk6 = 1;
+    sp10.vx = *(u16 *)(arg3 + 0x0);
+    sp10.vz = *(u16 *)(arg3 + 0x2);
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_80184774(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -7442,9 +7442,9 @@ void func_80184DB0(void *a0, void *a1, s16 a2) {
         D_8019FD72 = 0;
     }
 
-    D_8019FD78 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_8019FD79 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_8019FD7A = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_8019FD78 = ((CVECTOR *)a1)->r;
+    D_8019FD79 = ((CVECTOR *)a1)->g;
+    D_8019FD7A = ((CVECTOR *)a1)->b;
     D_8019FD74 = (u32)a2 << 16;
 }
 
@@ -8526,17 +8526,17 @@ void func_80186494(void *a0) {
 
     extern s16 D_80198A2C[][2];
     extern u8 D_80198A58[];
-    extern EffectSlot4_80186494 D_80198A64[];
+    extern CVECTOR D_80198A64[];
     extern u8 D_80198A90[];
-    extern EffectSlot4_80186494 D_80198AC8;
-    extern EffectSlot4_80186494 D_80198AF0;
-    extern EffectSlot4_80186494 D_80198AF4;
-    extern EffectSlot4_80186494 D_80198B24;
-    extern EffectSlot4_80186494 D_80198B28;
-    extern EffectSlot4_80186494 D_80198B58;
-    extern EffectSlot4_80186494 D_80198B5C;
-    extern EffectSlot4_80186494 D_80198B8C;
-    extern EffectSlot4_80186494 D_80198B90;
+    extern CVECTOR D_80198AC8;
+    extern CVECTOR D_80198AF0;
+    extern CVECTOR D_80198AF4;
+    extern CVECTOR D_80198B24;
+    extern CVECTOR D_80198B28;
+    extern CVECTOR D_80198B58;
+    extern CVECTOR D_80198B5C;
+    extern CVECTOR D_80198B8C;
+    extern CVECTOR D_80198B90;
     void *s0;
     void *s1;
 
@@ -8571,7 +8571,7 @@ void func_80186494(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_80186494 *)((s32)&D_80198B8C + 4) = D_80198A64[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_80198B8C + 4) = D_80198A64[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_80198B8C = D_80198B90; } else { D_80198B8C = D_80198B90; }
         if (COND) { D_80198B5C = D_80198B8C; } else { D_80198B5C = D_80198B8C; }
         if (COND) { D_80198B58 = D_80198B5C; } else { D_80198B58 = D_80198B5C; }

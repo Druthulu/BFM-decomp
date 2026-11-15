@@ -3498,13 +3498,13 @@ void func_80180D2C(void *arg0) {
     s32 s0;
     s32 s1 = (s32)arg0;
     u8 *s2 = (u8 *)guess_g_RenderWork;
-    V8x_80180D2C out;
+    SVECTOR out;
 
     v0 = ((Unkstruct_800B5CB8 *)s1)->unkD0;
     if (v0 != 0) {
         s0 = v0;
         guess_RotTransSVWithObjMatrix((s32)arg0, (s32)&D_8019BFFC, (s32)&out);
-        CAST_WIDTH(V8x_80180D2C, s0, 8) = out;
+        CAST_WIDTH(SVECTOR, s0, 8) = out;
 
         if (*(u32 *)(((Unkstruct_800B5CB8 *)s1)->unk20 + 4) & 0x80000000) {
             CAST_WIDTH(s32, s0, 4) |= 0x80000000;
@@ -3528,25 +3528,25 @@ extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 func_8012C51C(void *a0, s32 a1);
 
 void func_80180E10(s32 arg0) {
-    Loc_80180E10 loc;
+    struct S80190C84 loc;
     u32 buf[2];
     s32 i;
     u32 *bp;
 
     i = 0;
     bp = buf;
-    loc.f06 = 0x33;
-    loc.f0A = 0;
-    loc.f08 = 0;
+    loc.f6 = 0x33;
+    loc.fA = 0;
+    loc.f8 = 0;
     loc.f10 = 0;
-    loc.f0E = 0;
-    loc.f0C = 0x7FFF;
+    loc.fE = 0;
+    loc.fC = 0x7FFF;
 
     while (i < 5) {
         func_8012B0B4(bp, rand() % 4096, rand() % 64);
-        loc.f00 = ((Unkstruct_800B5CB8 *)arg0)->unk6 + *(s32 *)buf;
-        loc.f02 = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x60;
-        loc.f04 = ((Unkstruct_800B5CB8 *)arg0)->unkE + (*(s32 *)buf >> 16);
+        loc.f0 = ((Unkstruct_800B5CB8 *)arg0)->unk6 + *(s32 *)buf;
+        loc.f2 = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x60;
+        loc.f4 = ((Unkstruct_800B5CB8 *)arg0)->unkE + (*(s32 *)buf >> 16);
         func_8012C51C(&loc, arg0);
         i++;
     }

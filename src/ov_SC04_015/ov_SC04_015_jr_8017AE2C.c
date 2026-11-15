@@ -2758,8 +2758,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2771,8 +2771,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801C892C;
         s16 *p78C = &D_801C8924;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801C9368 = 1;
@@ -3366,11 +3366,11 @@ void func_8017BF70(s32 a0)
     if (s0 != 0) {
         s2 = D_801C8958;
         s4 = 0;
-        buf.unk06 = 0x158;
-        buf.unk0A = 0;
-        buf.unk08 = 0;
-        buf.unk0E = 0;
-        buf.unk10 = 0;
+        buf.f6 = 0x158;
+        buf.fA = 0;
+        buf.f8 = 0;
+        buf.fE = 0;
+        buf.f10 = 0;
         do {
             u16 v1;
 
@@ -3378,9 +3378,9 @@ void func_8017BF70(s32 a0)
             if ((v1 & 0xFFFF) == 0x8000) break;
 
             if (((Unkstruct_8017BF70_2 *)s3)->unk70 != 0) {
-                buf.unk00 = *s0++;
-                buf.unk02 = *s0++;
-                buf.unk04 = *s0++;
+                buf.f0 = *s0++;
+                buf.f2 = *s0++;
+                buf.f4 = *s0++;
                 if (((s32 (*)(void *))func_8012C750)(&buf) == 0) break;
             } else {
                 s32 v3;
@@ -6764,17 +6764,17 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 void func_80180F94(void *a0, s32 a1)
 {
-    Vec4s_80180F94 loc_10;
-    Vec4s_80180F94 loc_18;
-    Vec4s_80180F94 loc_20;
+    SVECTOR loc_10;
+    SVECTOR loc_18;
+    SVECTOR loc_20;
 
-    loc_10.f0 = ((Unkstruct_8016E7C8 *)a0)->unk6;
-    loc_10.f1 = ((Unkstruct_8016E7C8 *)a0)->unkA;
-    loc_10.f2 = ((Unkstruct_8016E7C8 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_8016E7C8 *)a0)->unk6;
+    loc_10.vy = ((Unkstruct_8016E7C8 *)a0)->unkA;
+    loc_10.vz = ((Unkstruct_8016E7C8 *)a0)->unkE;
 
-    loc_18.f0 = 0;
-    loc_18.f1 = 0;
-    loc_18.f2 = (s16)(-a1);
+    loc_18.vx = 0;
+    loc_18.vy = 0;
+    loc_18.vz = (s16)(-a1);
 
     ((void(*)(s32, s32, s32))guess_RotTransSVWithObjMatrix)((s32)a0, (s32)&loc_18, (s32)&loc_20);
     func_8012CEB0((s32)&loc_10, (s32)&loc_20, 0);

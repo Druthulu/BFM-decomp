@@ -3671,9 +3671,9 @@ extern void guess_InitObjectKind6(int, void *);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 
 
-extern Block4 D_801B41C8;
-extern Block4 D_801B2BCC;
-extern Block4 D_801B2BD0;
+extern CVECTOR D_801B41C8;
+extern CVECTOR D_801B2BCC;
+extern CVECTOR D_801B2BD0;
 
 void func_8017F9F4(s32 a0) {
     s32 *s1;
@@ -3686,8 +3686,8 @@ void func_8017F9F4(s32 a0) {
 
     guess_BuildCircle12Points(s0, 0x20);
 
-    *(Block4 *)s0 = D_801B2BCC;
-    *(Block4 *)(s0 + 4) = D_801B2BD0;
+    *(CVECTOR *)s0 = D_801B2BCC;
+    *(CVECTOR *)(s0 + 4) = D_801B2BD0;
 
     guess_InitObjectKind6(s1[8], s0);
 
@@ -3703,7 +3703,7 @@ void func_8017F9F4(s32 a0) {
 
 
 
-extern Block4 D_801B41C8;
+extern CVECTOR D_801B41C8;
 extern void func_80129350(s32 a0, s32 a1);
 
 void func_8017FABC(s32 a0) {

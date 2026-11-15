@@ -948,9 +948,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern unsigned char D_8011520C[];
@@ -4444,9 +4444,9 @@ void func_80186060(s32 a0)
     j = 0;
     do {
         i++;
-        ((Row_80186060 *)D_801A6038)[j].a.raw[2] = v1;
-        ((Row_80186060 *)D_801A6038)[j].a.raw[1] = v1;
-        ((Row_80186060 *)D_801A6038)[j].a.raw[0] = v1;
+        ((Row_80186060 *)D_801A6038)[j].a.unk2 = v1;
+        ((Row_80186060 *)D_801A6038)[j].a.unk1 = v1;
+        ((Row_80186060 *)D_801A6038)[j].a.unk0 = v1;
         j++;
     } while (i < 3);
     D_801A5FEE = v1;

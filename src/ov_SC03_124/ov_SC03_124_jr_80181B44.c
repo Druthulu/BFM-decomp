@@ -3488,14 +3488,14 @@ void func_80182980(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_8017F750 *)a0)->unk6 >> 12;
+    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
     a2 = (s32 *)D_801E1A30[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801E1A48[v1 * 16] = a1;
-    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_8017F750 *)a0)->unk0;
-    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_8017F750 *)a0)->unk2;
-    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_8017F750 *)a0)->unk4;
-    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_8017F750 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_801343C4 *)a0)->unk0;
+    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_801343C4 *)a0)->unk2;
+    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_801343C4 *)a0)->unk4;
+    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
 }
 
 
@@ -4764,13 +4764,13 @@ void func_80184350(void *a0, s32 a1)
     Vec4s_80184350 loc_18;
     Vec4s_80184350 loc_20;
 
-    loc_10.f0 = ((Unkstruct_80184350_3 *)a0)->unk6;
-    loc_10.f1 = ((Unkstruct_80184350_3 *)a0)->unkA;
-    loc_10.f2 = ((Unkstruct_80184350_3 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_80184350_3 *)a0)->unk6;
+    loc_10.vy = ((Unkstruct_80184350_3 *)a0)->unkA;
+    loc_10.vz = ((Unkstruct_80184350_3 *)a0)->unkE;
 
-    loc_18.f0 = 0;
-    loc_18.f1 = 0;
-    loc_18.f2 = (s16)(-a1);
+    loc_18.vx = 0;
+    loc_18.vy = 0;
+    loc_18.vz = (s16)(-a1);
 
     ((void(*)(s32, s32, s32))guess_RotTransSVWithObjMatrix)((s32)a0, (s32)&loc_18, (s32)&loc_20);
     func_8012CEB0((s32)&loc_10, (s32)&loc_20, 0);

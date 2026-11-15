@@ -4295,8 +4295,8 @@ extern void guess_FreeActor(void *a0);
 #undef SHARED_FN
 
 
-extern Block4 D_801D2E50;
-extern Block4 D_801D4308;
+extern CVECTOR D_801D2E50;
+extern CVECTOR D_801D4308;
 extern u8 D_801D4304;
 extern void guess_InitObjectKind6(int, void *);
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -4321,7 +4321,7 @@ s32 a0;
     guess_BuildCircle12Points(s0, 0x80);
 
     
-    *(Block4 *)s0 = D_801D2E50;
+    *(CVECTOR *)s0 = D_801D2E50;
 
     
     D_801D4308 = D_801D2E50;

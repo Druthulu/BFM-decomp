@@ -686,7 +686,7 @@ extern s32 func_801A3054(s32 a0, s32 a1, s32 a2);
 void func_801A0E28(s32 a0) {
     s32 s1 = a0;
     s32 sp10[8];                /* 0x10: 32-byte matrix */
-    Vec8_801A0E28 sp30;         /* 0x30 */
+    Unkstruct_801343C4 sp30;         /* 0x30 */
     u16 sp38[8];                /* 0x38: 16 bytes, fields at +2/+6/+10 */
     struct {
         u16 f0;                 /* 0x48 */
@@ -709,9 +709,9 @@ void func_801A0E28(s32 a0) {
         *(s16 *)(p + 0x12) = *(u16 *)(p + 0x12) + r;
         func_8012EC04(s1, k, sp10);
         guess_RotTransSVWithMatrix((s32)sp10, (s32)D_801A68D4, (s32)&sp30);
-        sp38[1] = sp30.a;
-        sp38[3] = sp30.b;
-        sp38[5] = sp30.c;
+        sp38[1] = sp30.unk0;
+        sp38[3] = sp30.unk2;
+        sp38[5] = sp30.unk4;
         func_80184E20(sp38);
         if ((*(s32 *)(s1 + 0x94) & 1) == 0) {
             func_80184E98(rand() & 0xFF0, 0x40);
@@ -722,8 +722,8 @@ void func_801A0E28(s32 a0) {
     st = *(s32 *)(s1 + 0x94);
     if (st == 0x23) {
         if (((s32 (*)(s32))func_8012BD14)(s1) > 0x23FFF) {
-            sp30.a = sp30.b = 0;
-            *(s16 *)&sp30.c = -0x180;
+            sp30.unk0 = sp30.unk2 = 0;
+            *(s16 *)&sp30.unk4 = -0x180;
             guess_RotTransSVWithObjMatrix(s1, (s32)&sp30, (s32)&sp30);
             if (func_801A3054(s1, (s32)&sp30, 0x200) != 0) {
                 D_801F4310[0] = guess_g_PlayerPosX;
@@ -733,16 +733,16 @@ void func_801A0E28(s32 a0) {
                 /* S54 law 22 (S193-C): the shared tail is written in BOTH arms so
                    cross_jump merges the scheduled common suffix, leaving each arm's
                    own `$a1` setup ($s0 copy vs a fresh addiu) above the merge point. */
-                sp30.a = sp30.b = 0;
-                *(s16 *)&sp30.c = -0x200;
+                sp30.unk0 = sp30.unk2 = 0;
+                *(s16 *)&sp30.unk4 = -0x200;
                 guess_RotTransSVWithObjMatrix(s1, (s32)&sp30, (s32)&sp30);
-                *(Vec8_801A0E28 *)D_801F4310 = sp30;
+                *(Unkstruct_801343C4 *)D_801F4310 = sp30;
             }
         } else {
-            sp30.a = sp30.b = 0;
-            *(s16 *)&sp30.c = -0x200;
+            sp30.unk0 = sp30.unk2 = 0;
+            *(s16 *)&sp30.unk4 = -0x200;
             guess_RotTransSVWithObjMatrix(s1, (s32)&sp30, (s32)&sp30);
-            *(Vec8_801A0E28 *)D_801F4310 = sp30;
+            *(Unkstruct_801343C4 *)D_801F4310 = sp30;
         }
         st = *(s32 *)(s1 + 0x94);
     }
@@ -750,9 +750,9 @@ void func_801A0E28(s32 a0) {
     if (st == 0x2F || st == 0x40 || st == 0x51) {
         func_8012EC04(s1, D_801F43C0, sp10);
         guess_RotTransSVWithMatrix((s32)sp10, (s32)D_801A68D4, (s32)&sp30);
-        sp48.f0 = sp30.a;
-        sp48.f2 = sp30.b;
-        sp48.f4 = sp30.c;
+        sp48.f0 = sp30.unk0;
+        sp48.f2 = sp30.unk2;
+        sp48.f4 = sp30.unk4;
         sp48.f6 = 0x378;
         sp48.f8 = sp48.fA = 0;
         sp48.fE = sp48.f10 = 0;
@@ -1003,7 +1003,7 @@ extern s16 D_801F435C;
 void func_801A143C(s32 a0) {
     Vec801A143C vin;
     Vec801A143C vout;
-    Spawn801A143C stk;
+    struct S80190C84 stk;
     s32 i;
     s32 pick;
     s32 obj;
@@ -1188,15 +1188,15 @@ extern s32  func_8012B70C(s16 *a0, s16 *a1);
 
 void func_801A1924(s32 arg0) {
     s32 sp10[8];                /* 0x10 */
-    Vec8_801A1924 sp30;         /* 0x30 */
+    Unkstruct_801343C4 sp30;         /* 0x30 */
     u16 sp38[4];                /* 0x38 */
 
     func_8012EC04(arg0, 0x10, sp10);
     guess_RotTransSVWithMatrix((s32)sp10, (s32)D_801A68FC, (s32)&sp30);
     guess_RotTransSVWithMatrix((s32)sp10, (s32)(D_801A68FC + 8), (s32)sp38);
-    guess_g_PlayerPosX = sp30.a;
-    guess_g_PlayerPosY = sp30.b;
-    guess_g_PlayerPosZ = sp30.c;
+    guess_g_PlayerPosX = sp30.unk0;
+    guess_g_PlayerPosY = sp30.unk2;
+    guess_g_PlayerPosZ = sp30.unk4;
     *(s16 *)(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk0 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
 }
 
@@ -1596,7 +1596,7 @@ extern u16 D_801A6BBE[];
 
 void func_801A2014(s32 p)
 {
-    Prim801A2014 prim;   /* sp+0x10 */
+    struct S80190C84 prim;   /* sp+0x10 */
     u16 sv[4];           /* sp+0x28 */
     s32 m[8];            /* sp+0x30 */
     s32 flag;            /* sp+0x50 */
@@ -1628,19 +1628,19 @@ void func_801A2014(s32 p)
         for (i = 0; i < 16; i++) {
             off = i * 8;
             RotTransSV((s32)(D_801A6BB8 + off), (s32)sv, &flag);
-            prim.x = sv[0];
-            prim.y = sv[1];
-            prim.z = sv[2];
-            prim.f06 = 0x38A;
-            prim.f08 = i;
-            prim.f0A = 0;
+            prim.f0 = sv[0];
+            prim.f2 = sv[1];
+            prim.f4 = sv[2];
+            prim.f6 = 0x38A;
+            prim.f8 = i;
+            prim.fA = 0;
             /* §190-B / sched1 LUID tie-break: the 0x0E / 0x10 / 0x0C stores must be
              * written in THIS order -- it is the only ordering of the nine field stores
              * that reproduces the target's sched1+sched2 interleave (see notes). */
-            prim.f0E = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 +
+            prim.fE = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 +
                        *(u16 *)((u8 *)D_801A6BBE + off);
             prim.f10 = 0;
-            prim.f0C = 0x7FFF;
+            prim.fC = 0x7FFF;
             func_8012C51C(&prim, p);
         }
         guess_RequestSound(0xB9E, 0);
@@ -2010,7 +2010,7 @@ void func_801A293C(void *arg0)
     s32 sp18[8];      /* 0x18 */
     s32 sp38[8];      /* 0x38 */
     u16 sp58[4];      /* 0x58 */
-    Prim293C prim;    /* 0x60 */
+    struct S80190C84 prim;    /* 0x60 */
     s32 flag;         /* 0x78 */
     s32 otz1;         /* 0x7C */
     s32 otz2;         /* 0x80 */
@@ -2048,20 +2048,20 @@ void func_801A293C(void *arg0)
                 if ((rand() & 1) == 0) {
                     s0 = (s32)(D_801A6C50 + (rand() % 9) * 8);
                     guess_RotTransSVWithMatrix((s32)sp18, s0, (s32)sp58);
-                    prim.f0E = s6;
+                    prim.fE = s6;
                 } else {
                     s0 = (s32)(D_801A6C98 + (rand() % 9) * 8);
                     guess_RotTransSVWithMatrix((s32)sp38, s0, (s32)sp58);
-                    prim.f0E = f5;
+                    prim.fE = f5;
                 }
-                prim.f00 = sp58[0];
-                prim.f02 = sp58[1];
-                prim.f04 = sp58[2];
-                prim.f06 = 0x399;
-                prim.f0A = 0;
-                prim.f08 = 0;
+                prim.f0 = sp58[0];
+                prim.f2 = sp58[1];
+                prim.f4 = sp58[2];
+                prim.f6 = 0x399;
+                prim.fA = 0;
+                prim.f8 = 0;
                 prim.f10 = s0;
-                prim.f0C = 0x7FFF;
+                prim.fC = 0x7FFF;
                 func_8012C51C(&prim, s1);
             }
         }
@@ -2390,8 +2390,8 @@ void func_801A3334(void *a0) {
 
     /* unaligned (align-1) 8-byte copy: (*(s1+0x20))[+0x10] = (*(s2+0x20))[+0x10] */
     {
-        CAST_NONSTRUCT(Vec8_md_SC07_003_801A3334, (u8 *)*(u32 *)((u8 *)s1 + 0x20), 0x10) =
-            CAST_NONSTRUCT(Vec8_md_SC07_003_801A3334, (u8 *)*(u32 *)((u8 *)s2 + 0x20), 0x10);
+        CAST_NONSTRUCT(Unkstruct_801343C4, (u8 *)*(u32 *)((u8 *)s1 + 0x20), 0x10) =
+            CAST_NONSTRUCT(Unkstruct_801343C4, (u8 *)*(u32 *)((u8 *)s2 + 0x20), 0x10);
     }
 
     CAST_WIDTH(s32, (u8 *)s1, 0x4) = *(s32 *)((u8 *)s2 + 0x4);
@@ -2597,7 +2597,7 @@ void func_801A3788(void *arg0) {
 
     func_801A38E4((void *)s1, (void *)(arg0 + 0xCC), 0x10, 6, 0);
 
-    *(V8x_801A3788 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x10) = *(V8x_801A3788 *)(*(s32 *)(s1 + 0x20) + 0x10);
+    *(SVECTOR *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x10) = *(SVECTOR *)(*(s32 *)(s1 + 0x20) + 0x10);
 
     CAST_WIDTH(s32, arg0, 0x4) = *(s32 *)(s1 + 0x4);
     CAST_WIDTH(s32, arg0, 0x8) = *(s32 *)(s1 + 0x8);
@@ -3831,20 +3831,20 @@ void func_801A5674(void *arg0) {
         break;
     }
 
-    prim.v[1].z = 0;
-    prim.v[1].x = 0;
-    prim.v[0].z = 0;
-    prim.v[0].x = 0;
+    prim.v[1].vz = 0;
+    prim.v[1].vx = 0;
+    prim.v[0].vz = 0;
+    prim.v[0].vx = 0;
     prim.tag = 0x50000000;
     st = ((Unkstruct_800B5CB8 *)e)->unk34;
     prim.col[0] = 0x808080;
     prim.col[1] = 0x101010;
     if (st < 2) {
-        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
-        prim.v[1].y = 0;
+        prim.v[0].vy = ((Unkstruct_800B5CB8 *)e)->unkE4;
+        prim.v[1].vy = 0;
     } else {
-        prim.v[0].y = ((Unkstruct_800B5CB8 *)e)->unkE4;
-        prim.v[1].y = CAST_WIDTH(s32, e, 0xEC);
+        prim.v[0].vy = ((Unkstruct_800B5CB8 *)e)->unkE4;
+        prim.v[1].vy = CAST_WIDTH(s32, e, 0xEC);
     }
     func_80016A5C(&prim, ((Unkstruct_800B5CB8 *)e)->unk20 + 0x34);
 }
@@ -3967,7 +3967,7 @@ extern u8 D_801F4448[];
 
 
 const Blk4_md_SC07_003 D_801A01CC = {{0x00, 0x00, 0x00, 0x00}};
-const Blk4_md_SC07_003 D_801A01D0 = {{0xFF, 0x80, 0x00, 0x00}};
+const Blk4_md_SC07_003 D_801A01D0 = {0xFF, 0x80, 0x00, 0x00};
 
 void func_801A5AE0(void *a0) {
     void *s1 = D_801F4444;

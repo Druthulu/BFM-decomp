@@ -4085,16 +4085,16 @@ extern s32 D_801A9788;
 
 
 void func_801870AC(s32 a0) {
-    Blk8_801870AC sv;
+    Unkstruct_8013B83C sv;
     s32 obj;
     s32 p;
 
     obj = ((Unkstruct_801870AC *)a0)->unk64;
     p = ((Unkstruct_801870AC *)a0)->unkCC;
     guess_RotTransSVWithMatrix(*(s32 *)(obj + 0x20) + 0x34, p, (s32)&sv);
-    CAST_ALIAS(u16, a0, 6) = *(u16 *)&sv.c[0];
-    CAST_ALIAS(u16, a0, 0xA) = *(u16 *)&sv.c[2];
-    ((Unkstruct_801870AC *)a0)->unkE = *(u16 *)&sv.c[4];
+    CAST_ALIAS(u16, a0, 6) = *(u16 *)&sv.unk0;
+    CAST_ALIAS(u16, a0, 0xA) = *(u16 *)&sv.unk2;
+    ((Unkstruct_801870AC *)a0)->unkE = *(u16 *)&sv.unk4;
     p += 8;
     if (*(s16 *)(p + 6) == 0x7FFF) {
         ((Unkstruct_801870AC *)a0)->unk2 = 1;

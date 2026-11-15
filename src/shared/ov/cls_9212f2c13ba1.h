@@ -26,12 +26,12 @@ void SHARED_FN(void *a0)
     SetRotMatrix(mp);
     SetTransMatrix(mp);
 
-    sv.a = 0;
-    sv.b = 0;
-    sv.c = *(u16 *)((s32)a0 + 0xE2);
+    sv.vx = 0;
+    sv.vy = 0;
+    sv.vz = *(u16 *)((s32)a0 + 0xE2);
 
     RotTransSV(&sv, &sv, &out);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sv.a;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sv.c;
+    ((Unkstruct_800B5CB8 *)a0)->unk6 = sv.vx;
+    ((Unkstruct_800B5CB8 *)a0)->unkE = sv.vz;
 }

@@ -3041,13 +3041,13 @@ void func_80186074(s32 a0) {
 
     t = rsin(((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 & 0xFFF);
     r = 0x30;
-    sp30.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * r) >> 12);
-    sp30.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
+    sp30.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * r) >> 12);
+    sp30.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
     t = rcos(((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 & 0xFFF);
-    sp30.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * r) >> 12);
-    sp38.x = sp30.x;
-    sp38.y = sp30.y + 0x60;
-    sp38.z = sp30.z;
+    sp30.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * r) >> 12);
+    sp38.unk0 = sp30.unk0;
+    sp38.unk2 = sp30.unk2 + 0x60;
+    sp38.unk4 = sp30.unk4;
 
     if ((func_80133784(1, &sp30, (s32)&sp38) & 0x6000) == 0) {
         CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x38);
@@ -3147,13 +3147,13 @@ void func_80186428(s32 a0) {
 
     v = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
     r = 0x30;
-    sp30.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((v * r) >> 12);
-    sp30.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
+    sp30.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((v * r) >> 12);
+    sp30.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
     v = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    sp30.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((v * r) >> 12);
-    sp38.x = sp30.x;
-    sp38.y = sp30.y + 0x60;
-    sp38.z = sp30.z;
+    sp30.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - ((v * r) >> 12);
+    sp38.unk0 = sp30.unk0;
+    sp38.unk2 = sp30.unk2 + 0x60;
+    sp38.unk4 = sp30.unk4;
 
     if ((func_80133784(1, &sp30, (s32)&sp38) & 0x6000) == 0) {
         CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x38);
@@ -3375,13 +3375,13 @@ void func_801868D0(s32 a0) {
 
     v = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
     r = 0x30;
-    sp20.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((v * r) >> 12);
-    sp20.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
+    sp20.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((v * r) >> 12);
+    sp20.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
     v = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    sp20.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((v * r) >> 12);
-    sp28.x = sp20.x;
-    sp28.y = sp20.y + 0x60;
-    sp28.z = sp20.z;
+    sp20.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - ((v * r) >> 12);
+    sp28.unk0 = sp20.unk0;
+    sp28.unk2 = sp20.unk2 + 0x60;
+    sp28.unk4 = sp20.unk4;
 
     if ((func_80133784(1, &sp20, (s32)&sp28) & 0x6000) == 0) {
         CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x38);
@@ -3881,11 +3881,11 @@ void func_8018745C(s32 a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkFE = 1;
         guess_SetVelocityXZFromLocal(a0, (s32)D_801A662C);
         if ((((s32 (*)(s32))func_8012CBA4)(a0) & 0x6000) == 0) {
-            sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-            sp10.y = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-            sp10.z = ((Unkstruct_800B5CB8 *)a0)->unk42;
+            sp10.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk3A;
+            sp10.unk2 = ((Unkstruct_800B5CB8 *)a0)->unk3E;
+            sp10.unk4 = ((Unkstruct_800B5CB8 *)a0)->unk42;
             sp18 = sp10;
-            sp18.y += 8;
+            sp18.unk2 += 8;
             if (func_80133784(1, &sp10, (s32)&sp18) != 0) {
                 CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x38);
                 CAST_WIDTH(s32, a0, 0x8) = *(s32 *)(a0 + 0x3C);
@@ -3987,15 +3987,15 @@ void func_8018767C(s32 *s0) {
     }
 
     // Load halfwords from s0
-    buf_src.a = ((Unkstruct_800B5CB8 *)s0)->unk3A;
-    buf_src.b = ((Unkstruct_800B5CB8 *)s0)->unk3E;
-    buf_src.c = ((Unkstruct_800B5CB8 *)s0)->unk42;
+    buf_src.unk0 = ((Unkstruct_800B5CB8 *)s0)->unk3A;
+    buf_src.unk2 = ((Unkstruct_800B5CB8 *)s0)->unk3E;
+    buf_src.unk4 = ((Unkstruct_800B5CB8 *)s0)->unk42;
 
     // Struct assignment generates lwl/lwr + swl/swr
     buf_dst = buf_src;
 
     // Modify the b field of buf_dst (at offset 2)
-    buf_dst.b += 8;
+    buf_dst.unk2 += 8;
 
     v0 = func_80133784(1, &buf_src, (s32)&buf_dst);
     if (v0 == 0) {

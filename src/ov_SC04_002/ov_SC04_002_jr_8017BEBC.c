@@ -3238,27 +3238,27 @@ void func_8017D0B8(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801C0D98 = vec.a;
-    D_801C0D88 = vec.a;
-    D_801C0D78 = vec.a;
-    D_801C0D9C = vec.b;
-    D_801C0D8C = vec.b;
-    D_801C0D7C = vec.b;
-    D_801C0DA0 = vec.c;
-    D_801C0D90 = vec.c;
-    D_801C0D80 = vec.c;
+    D_801C0D98 = vec.vx;
+    D_801C0D88 = vec.vx;
+    D_801C0D78 = vec.vx;
+    D_801C0D9C = vec.vy;
+    D_801C0D8C = vec.vy;
+    D_801C0D7C = vec.vy;
+    D_801C0DA0 = vec.vz;
+    D_801C0D90 = vec.vz;
+    D_801C0D80 = vec.vz;
 }
 
 
@@ -5865,24 +5865,24 @@ s32 func_801814F4(s32 a0, s32 a1) {
     s32 t;
     s32 r;
 
-    sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
-    sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp10.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+    sp10.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x20;
+    sp10.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
     t = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
     r = (s16)a1;
-    sp18.y = sp10.y;
-    sp18.x = sp10.x - ((t * r) >> 12);
+    sp18.unk2 = sp10.unk2;
+    sp18.unk0 = sp10.unk0 - ((t * r) >> 12);
     t = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-    sp18.z = sp10.z - ((t * r) >> 12);
+    sp18.unk4 = sp10.unk4 - ((t * r) >> 12);
     if (!(func_80133784(1, &sp10, (s32)&sp18) & 0x8000)) {
         t = rsin(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-        sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * 8) >> 12);
-        sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x10;
+        sp10.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 - ((t * 8) >> 12);
+        sp10.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA - 0x10;
         t = rcos(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF);
-        sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * 8) >> 12);
-        sp18.x = sp10.x;
-        sp18.y = sp10.y + 0x20;
-        sp18.z = sp10.z;
+        sp10.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - ((t * 8) >> 12);
+        sp18.unk0 = sp10.unk0;
+        sp18.unk2 = sp10.unk2 + 0x20;
+        sp18.unk4 = sp10.unk4;
         return (func_80133784(1, &sp10, (s32)&sp18) & 0x6000) == 0;
     }
     CAST_WIDTH(s32, a0, 0x4) = CAST_WIDTH(s32, a0, 0x38);
@@ -6909,7 +6909,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80182A6C(void *arg0) {
     s32 s0 = (s32)arg0;
-    struct PrimSpec80182A6C prim;
+    struct S80190C84 prim;
     s32 vec[3];
     s32 out[3];
     s32 tv0;
@@ -8957,15 +8957,15 @@ void func_80185668(s32 a0) {
             ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
         }
     } else if (((Unkstruct_800B5CB8 *)a0)->unk98 != 0 && base[13] == 0) {
-        sp10.x = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.y = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.z = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sp10.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        sp10.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        sp10.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
         sp18 = sp10;
-        sp18.y += 0x10;
+        sp18.unk2 += 0x10;
         func_80133784(1, &sp10, (s32)&sp18);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.x;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.y;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.z;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.unk2;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.unk4;
     }
 }
 

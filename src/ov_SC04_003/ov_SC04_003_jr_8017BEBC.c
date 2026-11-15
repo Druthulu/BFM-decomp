@@ -3459,7 +3459,7 @@ void func_8017E040(void *a0) {
 
 void func_8017E07C(void *a0, s32 a1) {
     extern s32 func_8012C51C(void *a0, s32 a1);
-    struct S80143BDC sp;
+    struct S80190C84 sp;
 
     if (a0 != 0 && ((Unkstruct_800B5CB8 *)a0)->unk0 != 0) {
         sp.f0 = ((Unkstruct_800B5CB8 *)a0)->unk6;

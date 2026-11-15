@@ -9,16 +9,16 @@ void func_8017C910(void *a0)
     s32 p;
     p = (s32)a0;
     if (*(s32 *)(p + 0x2C) != 0) {
-        prim.v[0].y = *(u16 *)(p + 0xA) - 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) + 0x20;
+        prim.v[0].vy = *(u16 *)(p + 0xA) - 0x20;
+        prim.v[1].vy = *(u16 *)(p + 0xA) + 0x20;
     } else {
-        prim.v[0].y = *(u16 *)(p + 0xA) + 0x20;
-        prim.v[1].y = *(u16 *)(p + 0xA) - 0x20;
+        prim.v[0].vy = *(u16 *)(p + 0xA) + 0x20;
+        prim.v[1].vy = *(u16 *)(p + 0xA) - 0x20;
     }
-    prim.v[0].x = *(u16 *)(p + 0x6);
-    prim.v[0].z = *(u16 *)(p + 0xE);
-    prim.v[1].x = *(u16 *)(p + 0x6);
-    prim.v[1].z = *(u16 *)(p + 0xE);
+    prim.v[0].vx = *(u16 *)(p + 0x6);
+    prim.v[0].vz = *(u16 *)(p + 0xE);
+    prim.v[1].vx = *(u16 *)(p + 0x6);
+    prim.v[1].vz = *(u16 *)(p + 0xE);
     prim.col[0].b = 0;
     prim.col[0].g = 0;
     prim.col[0].r = 0;

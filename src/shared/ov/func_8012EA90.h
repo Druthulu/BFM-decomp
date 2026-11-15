@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
 {
-    Buf buf;
+    Pair16 buf;
     s32 iVar4;
     u32 v;      /* $s1 */
     iVar4 = *(s32 *)(param_1 + 0x20);
@@ -15,10 +15,10 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
         s32 w;
         p = (s32)(v & 0xfeffffff);
         p = p + param_2 * 8;
-        buf.h[0] = *(s16 *)(p + 6);
+        buf.x.vx = *(s16 *)(p + 6);
         w = *(s32 *)p;
-        buf.h[1] = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
-        buf.h[2] = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
+        buf.x.vy = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
+        buf.x.vz = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
         RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = *(s8 *)(p + 3);
         param_3[6] = *(s8 *)(p + 4);
@@ -27,9 +27,9 @@ void func_8012EA90(s32 param_1, s32 param_2, s32 *param_3)
         s32 q;
         v = v + param_2 * 0xc;
         q = (s32)v;
-        buf.h[0] = *(s16 *)(q + 6);
-        buf.h[1] = *(s16 *)(q + 8);
-        buf.h[2] = *(s16 *)(q + 0xa);
+        buf.x.vx = *(s16 *)(q + 6);
+        buf.x.vy = *(s16 *)(q + 8);
+        buf.x.vz = *(s16 *)(q + 0xa);
         RotMatrixZYX((s32)&buf, (s32)param_3);
         param_3[5] = *(s16 *)(q + 0);
         param_3[6] = *(s16 *)(q + 2);

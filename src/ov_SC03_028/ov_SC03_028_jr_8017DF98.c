@@ -3799,7 +3799,7 @@ void func_8017FE18(s32 param_1) {
         buf[2] = z;
     }
 
-    *(V *)buf = *(V *)&guess_g_CameraFollowPos;
+    *(Unkstruct_801343C4 *)buf = *(Unkstruct_801343C4 *)&guess_g_CameraFollowPos;
 
     guess_CopyVec3HighHalves(func_8012E544(0x82) + 4, sp18);
 

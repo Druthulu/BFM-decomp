@@ -2894,7 +2894,7 @@ extern s32 D_80181CA0;
 extern s32 D_8018F8B4[];
 
 void func_8017D25C(s32 arg0) {
-    Struct_8017D25C sp10;
+    struct S80190C84 sp10;
     s32 var;
     s32 s1;
     s32 s2;
@@ -2906,28 +2906,28 @@ void func_8017D25C(s32 arg0) {
         ((Unkstruct_800B5CB8 *)arg0)->unk20 = var;
         if (var != 0) {
             func_8001C2C4(var);
-            sp10.unk06 = 0x385;
-            sp10.unk0A = 0;
-            sp10.unk0C = 0;
-            sp10.unk0E = 0;
-            sp10.unk10 = 0;
-            sp10.unk02 = -0x202;
+            sp10.f6 = 0x385;
+            sp10.fA = 0;
+            sp10.fC = 0;
+            sp10.fE = 0;
+            sp10.f10 = 0;
+            sp10.f2 = -0x202;
             if (((Unkstruct_800B5CB8 *)arg0)->unkCC == 0) {
-                sp10.unk08 = 0;
-                sp10.unk00 = 0;
-                sp10.unk04 = -0x140;
+                sp10.f8 = 0;
+                sp10.f0 = 0;
+                sp10.f4 = -0x140;
                 ((Unkstruct_800B5CB8 *)arg0)->unkCC = func_8012C51C(&sp10, arg0);
             }
             if (((Unkstruct_800B5CB8 *)arg0)->unkD0 == 0) {
-                sp10.unk08 = 1;
-                sp10.unk00 = 0x40;
-                sp10.unk04 = -0x60;
+                sp10.f8 = 1;
+                sp10.f0 = 0x40;
+                sp10.f4 = -0x60;
                 ((Unkstruct_800B5CB8 *)arg0)->unkD0 = func_8012C51C(&sp10, arg0);
             }
             if (((Unkstruct_800B5CB8 *)arg0)->unkD4 == 0) {
-                sp10.unk08 = 2;
-                sp10.unk00 = -0x40;
-                sp10.unk04 = -0x60;
+                sp10.f8 = 2;
+                sp10.f0 = -0x40;
+                sp10.f4 = -0x60;
                 ((Unkstruct_800B5CB8 *)arg0)->unkD4 = func_8012C51C(&sp10, arg0);
             }
             if ((((Unkstruct_800B5CB8 *)arg0)->unkCC != 0) && (((Unkstruct_800B5CB8 *)arg0)->unkD0 != 0) && (((Unkstruct_800B5CB8 *)arg0)->unkD4 != 0)) {

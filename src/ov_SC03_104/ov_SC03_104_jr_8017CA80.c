@@ -3668,7 +3668,7 @@ void func_80181528(s32 a0) {
         *(s32 *)(a0 + 0x14) = D_8018E7F8[t];
     }
 
-    *(S16x4 *)buf = *(S16x4 *)guess_g_CameraFollowPos;
+    *(ElemK *)buf = *(ElemK *)guess_g_CameraFollowPos;
     buf[0] = 0;
     buf[1] = -0x82;
     buf[2] = -0x5A0;

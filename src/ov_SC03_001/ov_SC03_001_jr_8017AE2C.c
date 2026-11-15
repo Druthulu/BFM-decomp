@@ -2743,8 +2743,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2756,8 +2756,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801EE654;
         s16 *p78C = &D_801EE64C;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801EF3F0 = 1;
@@ -3335,11 +3335,11 @@ void func_8017BF50(s32 a0)
     if (s0 != 0) {
         s2 = D_801EE680;
         s4 = 0;
-        buf.unk06 = 0x158;
-        buf.unk0A = 0;
-        buf.unk08 = 0;
-        buf.unk0E = 0;
-        buf.unk10 = 0;
+        buf.f6 = 0x158;
+        buf.fA = 0;
+        buf.f8 = 0;
+        buf.fE = 0;
+        buf.f10 = 0;
         do {
             u16 v1;
 
@@ -3347,9 +3347,9 @@ void func_8017BF50(s32 a0)
             if ((v1 & 0xFFFF) == 0x8000) break;
 
             if (((Unkstruct_8017BF50_5 *)s3)->unk70 != 0) {
-                buf.unk00 = *s0++;
-                buf.unk02 = *s0++;
-                buf.unk04 = *s0++;
+                buf.f0 = *s0++;
+                buf.f2 = *s0++;
+                buf.f4 = *s0++;
                 if (((s32 (*)(void *))func_8012C750)(&buf) == 0) break;
             } else {
                 s32 v3;
@@ -3668,15 +3668,15 @@ s32 func_8017D5F0(s32 a0, s32 a1) {
     s32 s0 = a0;
     s32 s1 = a1;
     s16 spA[4];            /* sp+0x10 */
-    struct M8012AF0C spB;  /* sp+0x18 (src) */
-    struct M8012AF0C spC;  /* sp+0x20 (dst) */
+    SVECTOR spB;  /* sp+0x18 (src) */
+    SVECTOR spC;  /* sp+0x20 (dst) */
 
     spA[0] = ((Unkstruct_800B5CB8 *)s0)->unk3A;
     spA[1] = ((Unkstruct_800B5CB8 *)s0)->unk3E;
     spA[2] = ((Unkstruct_800B5CB8 *)s0)->unk42;
-    spB.a = ((Unkstruct_800B5CB8 *)s0)->unk6;
-    spB.b = ((Unkstruct_800B5CB8 *)s0)->unkA;
-    spB.c = ((Unkstruct_800B5CB8 *)s0)->unkE;
+    spB.vx = ((Unkstruct_800B5CB8 *)s0)->unk6;
+    spB.vy = ((Unkstruct_800B5CB8 *)s0)->unkA;
+    spB.vz = ((Unkstruct_800B5CB8 *)s0)->unkE;
     spC = spB;
 
     if (func_80135888(*(s32 *)(s1 + 0x20), *(s32 *)(s1 + 0x58), (s32)spA, (s32)&spC) != 0) {
@@ -5189,14 +5189,14 @@ void func_8017F750(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_8017F750 *)a0)->unk6 >> 12;
+    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
     a2 = (s32 *)D_801EE950[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801EE968[v1 * 16] = a1;
-    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_8017F750 *)a0)->unk0;
-    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_8017F750 *)a0)->unk2;
-    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_8017F750 *)a0)->unk4;
-    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_8017F750 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_801343C4 *)a0)->unk0;
+    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_801343C4 *)a0)->unk2;
+    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_801343C4 *)a0)->unk4;
+    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
 }
 
 

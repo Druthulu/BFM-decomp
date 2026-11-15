@@ -5054,9 +5054,9 @@ s32 func_80188234(s32 param_1) {
     extern MATRIX *D_801D5340;     /* matrix pool cursor */
     extern MATRIX D_801E20D8[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

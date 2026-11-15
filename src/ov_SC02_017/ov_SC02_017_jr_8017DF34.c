@@ -5462,13 +5462,13 @@ extern s32 func_8018287C(void *param_1);
 
 
 
-extern Blk8_801827C4 D_801EE3F4;
+extern Unkstruct_8013B83C D_801EE3F4;
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern void func_80182938(void *arg0);
 extern void func_801829F4(u8*, u8*);
 
 void func_801827C4(void *arg0) {
-    Blk8_801827C4 buffer;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801EE3F4;
     func_80182938(arg0);
@@ -6904,8 +6904,8 @@ void func_8018495C(void *a0)
         return;
     }
 
-    *(Blk8_8018495C *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x10) =
-        *(Blk8_8018495C *)(*(s32 *)(s1 + 0x20) + 0x10);
+    *(Unkstruct_8013B83C *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x10) =
+        *(Unkstruct_8013B83C *)(*(s32 *)(s1 + 0x20) + 0x10);
 
     if (CAST_SIGN(u16, s0, 0x70) & 1) {
         t = *(s32 *)(s1 + 0x1C);
@@ -6942,8 +6942,8 @@ void func_8018495C(void *a0)
     ((Unkstruct_800B5CB8 *)s0)->unkA = out.y;
     ((Unkstruct_800B5CB8 *)s0)->unkE = out.z;
 
-    *(Blk8_8018495C *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x18) =
-        *(Blk8_8018495C *)(*(s32 *)(s1 + 0x20) + 0x18);
+    *(Unkstruct_8013B83C *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x18) =
+        *(Unkstruct_8013B83C *)(*(s32 *)(s1 + 0x20) + 0x18);
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C =
         *(u16 *)(*(s32 *)(s1 + 0x20) + 0x2C);

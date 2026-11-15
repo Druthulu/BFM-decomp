@@ -3250,18 +3250,18 @@ L874:
     if (((Unkstruct_8017F790 *)a0)->unkFE == 0) return 0;
     func_8013C938();
     {
-        PrimF790 sp;
+        struct S80190C84 sp;
         s32 f18v;
-        sp.f16 = 0x1ED;
+        sp.f6 = 0x1ED;
         f18v = CAST_SIGN(u16, a0, 0x100);
-        sp.f1A = 0;
-        sp.f1C = 0;
-        sp.f1E = 0;
-        sp.f20 = 0;
+        sp.fA = 0;
+        sp.fC = 0;
+        sp.fE = 0;
         sp.f10 = 0;
-        sp.f12 = -0x400;
-        sp.f14 = 0;
-        sp.f18 = f18v;
+        sp.f0 = 0;
+        sp.f2 = -0x400;
+        sp.f4 = 0;
+        sp.f8 = f18v;
         ((Unkstruct_8017F790 *)a0)->unkD4 = func_8012C51C(&sp, a0);
     }
     ((Unkstruct_8017F790 *)a0)->unk104 = 0;
@@ -3963,21 +3963,21 @@ extern s32 func_8012C51C(void *, s32);
 
 void func_80180A38(s32 a0)
 {
-    Prim80180A38 sp;
+    struct S80190C84 sp;
 
-    sp.f16 = 0x1D9;
-    sp.f1C = 0x800;
-    sp.f12 = -0x82;
-    sp.f1A = 0;
-    sp.f18 = 0;
-    sp.f20 = 0;
-    sp.f1E = 0;
+    sp.f6 = 0x1D9;
+    sp.fC = 0x800;
+    sp.f2 = -0x82;
+    sp.fA = 0;
+    sp.f8 = 0;
     sp.f10 = 0;
-    sp.f14 = -0x140;
+    sp.fE = 0;
+    sp.f0 = 0;
+    sp.f4 = -0x140;
     ((Unkstruct_80180A38_2 *)a0)->unkCC = func_8012C51C(&sp, a0);
 
-    sp.f16 = 0x1DA;
-    sp.f14 = -0x180;
+    sp.f6 = 0x1DA;
+    sp.f4 = -0x180;
     ((Unkstruct_80180A38_2 *)a0)->unkD0 = func_8012C51C(&sp, a0);
 
     ((Unkstruct_80180A38_2 *)a0)->unk6 = 0x88;
@@ -4859,7 +4859,7 @@ void func_801820F8(s32 a0) {
     s32 *src = (s32 *)D_801C339C[k];
     s32 base = *(s32 *)(D_801C36F8[m] + k * 4);
     Blk12_801854C4 *pd12;
-    Blk8_820F8 *pd8;
+    Unkstruct_8013B83C *pd8;
     u8 *t0;
     u8 *t1;
     s32 cond;
@@ -4871,7 +4871,7 @@ void func_801820F8(s32 a0) {
         pd12 = (Blk12_801854C4 *)&D_801CDD30;
         t0 = (u8 *)base;
     } else {
-        pd8 = (Blk8_820F8 *)&D_801CDE20;
+        pd8 = (Unkstruct_8013B83C *)&D_801CDE20;
         t1 = (u8 *)(base & 0xFEFFFFFF);
     }
     while (*src != 0) {
@@ -4883,7 +4883,7 @@ void func_801820F8(s32 a0) {
             }
         } else {
             *dst++ = *src;
-            *pd8 = *(Blk8_820F8 *)t1;
+            *pd8 = *(Unkstruct_8013B83C *)t1;
             pd8++;
         }
         src++;

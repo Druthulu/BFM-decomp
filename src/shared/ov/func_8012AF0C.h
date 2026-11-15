@@ -4,15 +4,15 @@ s32 func_8012AF0C(s32 a0, s32 a1) {
     s32 s1 = a0;
     s32 s2 = a1;
     s16 spA[4];                /* sp+0x10 */
-    struct M8012AF0C spB;      /* sp+0x18 (src) */
-    struct M8012AF0C spC;      /* sp+0x20 (dst) */
+    SVECTOR spB;      /* sp+0x18 (src) */
+    SVECTOR spC;      /* sp+0x20 (dst) */
     s16 spD[4];                /* sp+0x28 */
     spA[0] = *(u16 *)(s1 + 0x3A);
     spA[1] = *(u16 *)(s1 + 0x3E);
     spA[2] = *(u16 *)(s1 + 0x42);
-    spB.a = *(u16 *)(s1 + 0x6);
-    spB.b = *(u16 *)(s1 + 0xA);
-    spB.c = *(u16 *)(s1 + 0xE);
+    spB.vx = *(u16 *)(s1 + 0x6);
+    spB.vy = *(u16 *)(s1 + 0xA);
+    spB.vz = *(u16 *)(s1 + 0xE);
     spC = spB;
     if (func_80135888(*(s32 *)(s2 + 0x20), *(s32 *)(s2 + 0x58), (s32)spA, (s32)&spC) != 0) {
         s32 r0, r1;

@@ -4202,11 +4202,11 @@ void func_8017F6E8(s32 param_1)
 #include "common.h"
 
 void func_8017F748(void *a0) {
-    extern Blk8x D_801E2DD0;
+    extern Unkstruct_8013B83C D_801E2DD0;
     extern s32 func_80171D78(s32 a0, s32 a1);
     extern void func_80142454(s32 a0);
     extern s32 D_801270C8[0];
-    Blk8x buffer;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801E2DD0;
     if (func_80171D78((s32)a0, (s32)&buffer)) {
@@ -4472,13 +4472,13 @@ void func_8017FDB4(void *arg0) {
 
 
 void func_8017FE08(void *a0) {
-    extern Blk8_FE08 D_801E2DE0;
+    extern Unkstruct_8013B83C D_801E2DE0;
     extern s32 func_80171D78(s32, s32);
     extern s32 func_801289F0(void);
     extern void guess_SetAnimScript(s32 *, s32);
     extern void func_8014706C(void *);
     extern u8 D_800D5D4C[];
-    Blk8_FE08 buffer;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801E2DE0;
     if (func_80171D78((s32)a0, (s32)&buffer) && func_801289F0()) {
@@ -4545,9 +4545,9 @@ void func_8017FF8C(void *a0) {
 
 
 void func_8017FFF0(s32 arg0) {
-    extern Blk8x D_801E2DE8;
+    extern Unkstruct_8013B83C D_801E2DE8;
     extern s32 D_801270C8[0];
-    Blk8x buffer;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801E2DE8;
     if (--((Unkstruct_8017FFF0 *)arg0)->unk204 == -1) {
@@ -5175,7 +5175,7 @@ void func_80180E08(s32 *param_1)
     s32 new58;
     u8 buf[8];
 
-    *(Blk8_E08 *)buf = *(Blk8_E08 *)D_801E2E08;
+    *(Unkstruct_8013B83C *)buf = *(Unkstruct_8013B83C *)D_801E2E08;
     d1 = (s16)func_80012CB8((s16)D_80126950, 0x118, 10);
     d2 = (s16)func_80012CB8((s16)D_80126958, 0x708, 10);
     d3 = (s16)func_80012CB8((s16)D_80126970, 0x1B8, 10);

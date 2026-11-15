@@ -3660,18 +3660,18 @@ void func_801809C4(Obj_801809C4 *obj) {
         u32 d;
         func_8012B0B4(buf, ang - D_8018A998[i], D_8018A9A4[0]);
         c = buf[0];
-        base[i].x = c;
-        base[i].y = cy;
+        base[i].vx = c;
+        base[i].vy = cy;
         c = (s32)c >> 16;
-        base[i].z = c;
+        base[i].vz = c;
         func_8012B0B4(buf, ang - D_8018A998[i + 3], D_8018A9A6[0]);
         d = buf[0];
         k = (i + 3) * 8;
         e = (SVec_801809C4 *)((u8 *)base + k);
-        e->x = d;
-        e->y = cy;
+        e->vx = d;
+        e->vy = cy;
         d = (s32)d >> 16;
-        e->z = d;
+        e->vz = d;
     }
 
     func_8012E32C();

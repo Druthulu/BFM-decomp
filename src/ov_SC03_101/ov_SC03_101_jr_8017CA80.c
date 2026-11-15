@@ -3161,32 +3161,32 @@ void func_8017E518(s32 a0) {
     } else if (y > 0) {
         y = 0;
     }
-    p1.y = y;
-    p2.y = y;
+    p1.unk2 = y;
+    p2.unk2 = y;
 
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801964A8[i];
-        p1.z = D_801964A8[i + 1];
-        p2.x = D_801964A8[i + 2];
-        p2.z = D_801964A8[i + 3];
+        p1.unk0 = D_801964A8[i];
+        p1.unk4 = D_801964A8[i + 1];
+        p2.unk0 = D_801964A8[i + 2];
+        p2.unk4 = D_801964A8[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801964D0[i];
-        p1.z = D_801964D0[i + 1];
-        p2.x = D_801964D0[i + 2];
-        p2.z = D_801964D0[i + 3];
+        p1.unk0 = D_801964D0[i];
+        p1.unk4 = D_801964D0[i + 1];
+        p2.unk0 = D_801964D0[i + 2];
+        p2.unk4 = D_801964D0[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
     }
     for (i = 0; i < 20; i += 4) {
-        p1.x = D_801964F8[i];
-        p1.z = D_801964F8[i + 1];
-        p2.x = D_801964F8[i + 2];
-        p2.z = D_801964F8[i + 3];
+        p1.unk0 = D_801964F8[i];
+        p1.unk4 = D_801964F8[i + 1];
+        p2.unk0 = D_801964F8[i + 2];
+        p2.unk4 = D_801964F8[i + 3];
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
             D_80126B96 = 0x4004;
         }
@@ -3251,9 +3251,9 @@ void func_8017E7B0(void *arg0) {
     e = (Ent_8017FD58_8017E7B0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
         if (e->f0 == 0x12C) {
-            pos.x = e->x;
-            pos.y = e->y;
-            pos.z = e->z;
+            pos.unk0 = e->x;
+            pos.unk2 = e->y;
+            pos.unk4 = e->z;
             ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
             if (*(s16 *)(p->f64 + 0xFC) < 0) {
                 ang -= 0x400;
@@ -3261,15 +3261,15 @@ void func_8017E7B0(void *arg0) {
                 ang += 0x400;
             }
             ang &= 0xFFF;
-            pos.x -= rsin(ang) >> 8;
-            pos.z -= rcos(ang) >> 8;
-            tmp.x = e->x;
-            tmp.y = e->y;
-            tmp.z = e->z;
+            pos.unk0 -= rsin(ang) >> 8;
+            pos.unk4 -= rcos(ang) >> 8;
+            tmp.unk0 = e->x;
+            tmp.unk2 = e->y;
+            tmp.unk4 = e->z;
             dst = tmp;
             if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.x;
-                e->z = pos.z;
+                e->x = pos.unk0;
+                e->z = pos.unk4;
             }
         }
     }
@@ -4367,21 +4367,21 @@ extern s32 rand(void);
 extern void func_80181FC4(s32, s32, s32);
 
 
-extern Blk4_80182194 D_8019C980;
-extern Blk4_80182194 D_8019C984;
+extern CVECTOR D_8019C980;
+extern CVECTOR D_8019C984;
 
 void func_801806B8(s32 a0) {
-    Blk4_80182194 sp10;
-    Blk4_80182194 sp18;
-    Args_80182194 arg;
+    CVECTOR sp10;
+    CVECTOR sp18;
+    Unkstruct_801343C4 arg;
 
     sp10 = D_8019C980;
     sp18 = D_8019C984;
     *(s8 *)((u8 *)&sp10 + 2) = (rand() & 0x3F) - 0x80;
-    arg.f00 = 0x100;
-    arg.f04 = 0x80;
-    arg.f02 = a0;
-    arg.f06 = 1;
+    arg.unk0 = 0x100;
+    arg.unk4 = 0x80;
+    arg.unk2 = a0;
+    arg.unk6 = 1;
     ((void (*)(void *, void *, void *))func_80181FC4)((void *)&arg, (void *)&sp10, (void *)&sp18);
 }
 
@@ -4522,10 +4522,10 @@ void func_801809B0(s32 a0, s32 a1) {
      * file-scope decl in this TU: it is already declared twice, block-scoped and
      * with two different types (Blk32_8018AA98_80183D30_801809B0 @5594, s32 @6053).  This
      * body follows that existing TU precedent verbatim. */
-    extern Blk8_801809B0 D_8019C988;
+    extern Unkstruct_8013B83C D_8019C988;
     extern s32 D_800AE620;
     Msg_8018248C_801809B0 msg;          /* sp+0x10 (24-byte stride, §193-I) */
-    Blk8_801809B0 vec;                 /* sp+0x28 */
+    Unkstruct_8013B83C vec;                 /* sp+0x28 */
     Blk32_8018AA98_80183D30_801809B0 m; /* sp+0x30 */
 
     vec = D_8019C988;
@@ -4535,21 +4535,21 @@ void func_801809B0(s32 a0, s32 a1) {
     ApplyMatrixSV(&m, &vec, &vec);
 
     if (a0 != 0 && ((Unkstruct_80180450 *)a0)->unk0 != 0) {
-        msg.x = ((Unkstruct_80180450 *)a0)->unk6 + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
-        msg.y = ((Unkstruct_80180450 *)a0)->unkA + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
-        msg.z = ((Unkstruct_80180450 *)a0)->unkE + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
+        msg.f0 = ((Unkstruct_80180450 *)a0)->unk6 + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
+        msg.f2 = ((Unkstruct_80180450 *)a0)->unkA + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
+        msg.f4 = ((Unkstruct_80180450 *)a0)->unkE + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
     } else {
-        msg.z = 0;
-        msg.y = 0;
-        msg.x = 0;
+        msg.f4 = 0;
+        msg.f2 = 0;
+        msg.f0 = 0;
     }
 
-    msg.type = 0x1E1;
-    msg.sub = (s16)a1;
-    msg.pad_A = 0;
-    msg.pad_E = 0;
-    msg.extra = ((Unkstruct_80180450 *)a0)->unkDC;
-    msg.flag = 0x7FFF;
+    msg.f6 = 0x1E1;
+    msg.f8 = (s16)a1;
+    msg.fA = 0;
+    msg.fE = 0;
+    msg.f10 = ((Unkstruct_80180450 *)a0)->unkDC;
+    msg.fC = 0x7FFF;
 
     ((s32 (*)(void *, s32))func_8012C51C)(&msg, a0);
 }
@@ -5275,11 +5275,11 @@ void func_80181E60(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80181F00(arg0, 0x1000, 0);
-    sp10.unk0 = ((Unkstruct_80181E60 *)arg3)->unk0;
-    sp10.unk4 = ((Unkstruct_80181E60 *)arg3)->unk2;
-    sp10.unk6 = 1;
+    sp10.vx = ((Unkstruct_80181E60 *)arg3)->unk0;
+    sp10.vz = ((Unkstruct_80181E60 *)arg3)->unk2;
+    sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
-        sp10.unk2 = ang;
+        sp10.vy = ang;
         func_8018201C(i, &sp10, arg1, arg2);
         ang += 0x100;
     }
@@ -5839,9 +5839,9 @@ void func_80182658(void *a0, void *a1, s16 a2) {
         D_8019DD7A = 0;
     }
 
-    D_8019DD80 = ((Unkstruct_80181FAC *)a1)->unk0;
-    D_8019DD81 = ((Unkstruct_80181FAC *)a1)->unk1;
-    D_8019DD82 = ((Unkstruct_80181FAC *)a1)->unk2;
+    D_8019DD80 = ((CVECTOR *)a1)->r;
+    D_8019DD81 = ((CVECTOR *)a1)->g;
+    D_8019DD82 = ((CVECTOR *)a1)->b;
     D_8019DD7C = (u32)a2 << 16;
 }
 

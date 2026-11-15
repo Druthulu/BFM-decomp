@@ -3063,7 +3063,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         return 0;
     }
     iv = -iv;
-    dvsr = pElem->f2 * 48;
+    dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
     D_801870B4->f0 = D_801870AC->f0;
     D_801870B4->f2 = D_801870AC->f2 + q;
@@ -3088,7 +3088,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_801870B4->f0 = D_801870AC->f0;
     D_801870B4->f4 = D_801870AC->f4;
     (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
-    D_801870AC->f6.u = pElem->f2;
+    D_801870AC->f6.u = pElem->vy;
     return 1;
 }
 
@@ -3264,9 +3264,9 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
     pb0 = D_801870B0;
 
-    ax = ((Unkstruct_80135004 *)p2)->unk0; pac = D_801870AC; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_801870B8); pac[0] = bx; pb8[0] = ax - bx;
-    ay = ((Unkstruct_80135004 *)p2)->unk2; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
-    az = ((Unkstruct_80135004 *)p2)->unk4; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
+    ax = ((Unkstruct_801343C4 *)p2)->unk0; pac = D_801870AC; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_801870B8); pac[0] = bx; pb8[0] = ax - bx;
+    ay = ((Unkstruct_801343C4 *)p2)->unk2; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
+    az = ((Unkstruct_801343C4 *)p2)->unk4; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
 
     id = ((int)arg0) & 0xFFFF;
     a1v = pac[0]; a2v = pac[2];
@@ -3275,10 +3275,10 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
     if (func_80134A74(id, a1v, a2v, D_801D94F0)) {
     found:
         pb4 = (*(u16 * *)&D_801870B4);
-        ((Unkstruct_80135004 *)p2)->unk0 = pb4[0];
-        ((Unkstruct_80135004 *)p2)->unk2 = pb4[1];
-        ((Unkstruct_80135004 *)p2)->unk4 = pb4[2];
-        ((Unkstruct_80135004 *)p2)->unk6 = D_801D9500;
+        ((Unkstruct_801343C4 *)p2)->unk0 = pb4[0];
+        ((Unkstruct_801343C4 *)p2)->unk2 = pb4[1];
+        ((Unkstruct_801343C4 *)p2)->unk4 = pb4[2];
+        ((Unkstruct_801343C4 *)p2)->unk6 = D_801D9500;
         return 1;
     }
     {

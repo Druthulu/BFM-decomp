@@ -628,10 +628,10 @@ s32 func_800CFC1C(u16 *param_1)
                 if (uVar13 != 0) {
                     u8 *argp;
                     argp = buf;
-                    ((Unkstruct_800CFC1C *)buf)->unk0 = psVar14[-3];
-                    ((Unkstruct_800CFC1C *)buf)->unk2 = psVar14[-2];
-                    ((Unkstruct_800CFC1C *)buf)->unk4 = psVar14[-1];
-                    ((Unkstruct_800CFC1C *)buf)->unk6 = psVar14[0];
+                    ((Unkstruct_801343C4 *)buf)->unk0 = psVar14[-3];
+                    ((Unkstruct_801343C4 *)buf)->unk2 = psVar14[-2];
+                    ((Unkstruct_801343C4 *)buf)->unk4 = psVar14[-1];
+                    ((Unkstruct_801343C4 *)buf)->unk6 = psVar14[0];
                     func_800599B8(argp);
                 }
                 uVar16 = uVar16 | uVar13;

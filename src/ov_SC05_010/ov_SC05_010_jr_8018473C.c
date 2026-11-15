@@ -4380,8 +4380,8 @@ void func_80186D40(s32 param_1)
 
     guess_BuildCircle12Points(&D_801C7E7C, 0x10);
 
-    *(Blk4_8018CE04_80186D40 *)&D_801C7E7C = *(Blk4_8018CE04_80186D40 *)&D_801C5B80;
-    *(Blk4_8018CE04_80186D40 *)&D_801C7E80 = *(Blk4_8018CE04_80186D40 *)&D_801C5B84;
+    *(CVECTOR *)&D_801C7E7C = *(CVECTOR *)&D_801C5B80;
+    *(CVECTOR *)&D_801C7E80 = *(CVECTOR *)&D_801C5B84;
 
     ((Unkstruct_80164BDC *)*(s32 *)(param_1 + 0x20))->unk1E = 0xC00;
     ((Unkstruct_80186D40 *)param_1)->unk2 += 1;
@@ -4832,17 +4832,17 @@ void func_801878E8(void *a0) {
 
     extern s16 D_801C3B7C[][2];
     extern u8 D_801C3BA8[];
-    extern EffectSlot4_801878E8 D_801C3BB4[];
+    extern CVECTOR D_801C3BB4[];
     extern u8 D_801C3BE0[];
-    extern EffectSlot4_801878E8 D_801C3C18;
-    extern EffectSlot4_801878E8 D_801C3C40;
-    extern EffectSlot4_801878E8 D_801C3C44;
-    extern EffectSlot4_801878E8 D_801C3C74;
-    extern EffectSlot4_801878E8 D_801C3C78;
-    extern EffectSlot4_801878E8 D_801C3CA8;
-    extern EffectSlot4_801878E8 D_801C3CAC;
-    extern EffectSlot4_801878E8 D_801C3CDC;
-    extern EffectSlot4_801878E8 D_801C3CE0;
+    extern CVECTOR D_801C3C18;
+    extern CVECTOR D_801C3C40;
+    extern CVECTOR D_801C3C44;
+    extern CVECTOR D_801C3C74;
+    extern CVECTOR D_801C3C78;
+    extern CVECTOR D_801C3CA8;
+    extern CVECTOR D_801C3CAC;
+    extern CVECTOR D_801C3CDC;
+    extern CVECTOR D_801C3CE0;
     void *s0;
     void *s1;
 
@@ -4877,7 +4877,7 @@ void func_801878E8(void *a0) {
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
 #define COND (*(s32 *)((s32)a0 + 0x2C) > 0)
-        *(EffectSlot4_801878E8 *)((s32)&D_801C3CDC + 4) = D_801C3BB4[*(s32 *)((s32)a0 + 0x2C)];
+        *(CVECTOR *)((s32)&D_801C3CDC + 4) = D_801C3BB4[*(s32 *)((s32)a0 + 0x2C)];
         if (COND) { D_801C3CDC = D_801C3CE0; } else { D_801C3CDC = D_801C3CE0; }
         if (COND) { D_801C3CAC = D_801C3CDC; } else { D_801C3CAC = D_801C3CDC; }
         if (COND) { D_801C3CA8 = D_801C3CAC; } else { D_801C3CA8 = D_801C3CAC; }

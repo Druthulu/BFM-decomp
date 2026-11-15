@@ -2754,8 +2754,8 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Blk8_8017B238_8017B238 *)&buf[0] = *(Blk8_8017B238_8017B238 *)src;
-        *(Blk8_8017B238_8017B238 *)&buf[8] = *(Blk8_8017B238_8017B238 *)(src + 8);
+        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
 
@@ -2767,8 +2767,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801EB184;
         s16 *p78C = &D_801EB17C;
-        *(Blk8_8017B238_8017B238 *)p794 = *(Blk8_8017B238_8017B238 *)&buf[0];
-        *(Blk8_8017B238_8017B238 *)p78C = *(Blk8_8017B238_8017B238 *)&buf[8];
+        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
+        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801EBA08 = 1;
@@ -3580,27 +3580,27 @@ void func_8017C558(s32 param_1, s32 param_2)
 
     t = ((Unkstruct_8017BEBC *)param_1)->unkFC + 0x80;
     ((Unkstruct_8017BEBC *)param_1)->unkFC = t;
-    vec.a = t;
+    vec.vx = t;
     t = ((Unkstruct_8017BEBC *)param_1)->unkFE + 0x100;
     ((Unkstruct_8017BEBC *)param_1)->unkFE = t;
-    vec.b = t;
-    vec.c = 0;
+    vec.vy = t;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
 
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x100;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x100;
     ApplyMatrixSV(&mtx, &vec, &vec);
 
-    D_801EB1D0 = vec.a;
-    D_801EB1C0 = vec.a;
-    D_801EB1B0 = vec.a;
-    D_801EB1D4 = vec.b;
-    D_801EB1C4 = vec.b;
-    D_801EB1B4 = vec.b;
-    D_801EB1D8 = vec.c;
-    D_801EB1C8 = vec.c;
-    D_801EB1B8 = vec.c;
+    D_801EB1D0 = vec.vx;
+    D_801EB1C0 = vec.vx;
+    D_801EB1B0 = vec.vx;
+    D_801EB1D4 = vec.vy;
+    D_801EB1C4 = vec.vy;
+    D_801EB1B4 = vec.vy;
+    D_801EB1D8 = vec.vz;
+    D_801EB1C8 = vec.vz;
+    D_801EB1B8 = vec.vz;
 }
 
 
@@ -5210,7 +5210,7 @@ void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = ((Unkstruct_80015954 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = ((Unkstruct_801343C4 *)b)->unk4;
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -5225,7 +5225,7 @@ void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = ((Unkstruct_80015954 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = ((Unkstruct_801343C4 *)b)->unk4;
     func_80017714(r0_00);
 
     *c = *f;
@@ -6852,16 +6852,16 @@ void func_80180E74(void *a0)
 
     p = (s32)a0;
     if (((Unkstruct_80180E74 *)p)->unk2C != 0) {
-        prim.v[0].y = ((Unkstruct_80180E74 *)p)->unkA - 0x20;
-        prim.v[1].y = ((Unkstruct_80180E74 *)p)->unkA + 0x20;
+        prim.v[0].vy = ((Unkstruct_80180E74 *)p)->unkA - 0x20;
+        prim.v[1].vy = ((Unkstruct_80180E74 *)p)->unkA + 0x20;
     } else {
-        prim.v[0].y = ((Unkstruct_80180E74 *)p)->unkA + 0x20;
-        prim.v[1].y = ((Unkstruct_80180E74 *)p)->unkA - 0x20;
+        prim.v[0].vy = ((Unkstruct_80180E74 *)p)->unkA + 0x20;
+        prim.v[1].vy = ((Unkstruct_80180E74 *)p)->unkA - 0x20;
     }
-    prim.v[0].x = ((Unkstruct_80180E74 *)p)->unk6;
-    prim.v[0].z = ((Unkstruct_80180E74 *)p)->unkE;
-    prim.v[1].x = ((Unkstruct_80180E74 *)p)->unk6;
-    prim.v[1].z = ((Unkstruct_80180E74 *)p)->unkE;
+    prim.v[0].vx = ((Unkstruct_80180E74 *)p)->unk6;
+    prim.v[0].vz = ((Unkstruct_80180E74 *)p)->unkE;
+    prim.v[1].vx = ((Unkstruct_80180E74 *)p)->unk6;
+    prim.v[1].vz = ((Unkstruct_80180E74 *)p)->unkE;
     prim.col[0].b = 0;
     prim.col[0].g = 0;
     prim.col[0].r = 0;
@@ -7406,8 +7406,8 @@ void func_80181E40(s32 param_1) {
 
 
 void func_80181EF4(s32 param_1) {
-    extern Blk8L D_801E9DA0;
-    Blk8L buffer;
+    extern Unkstruct_8013B83C D_801E9DA0;
+    Unkstruct_8013B83C buffer;
 
     buffer = D_801E9DA0;
     if (func_80171CC4((void *)param_1, &buffer)) {
@@ -7811,7 +7811,7 @@ void func_80182714(s32 param_1) {
     s16 dist;
     s16 mode;
 
-    *(Blk8S16 *)&buf[4] = *(Blk8S16 *)&D_801E9DA8;
+    *(SVECTOR *)&buf[4] = *(SVECTOR *)&D_801E9DA8;
     q = &buf[4];
     mode = 0;
     if ((guess_GetPadPressed(&guess_g_PlayerActor) & 3) != 0) {
@@ -7820,7 +7820,7 @@ void func_80182714(s32 param_1) {
     *(s32 *)(param_1 + 0x14) = D_80195058[*(u8 *)(param_1 + 5)];
     base = &guess_g_CameraFollowPos;
     angle = ratan2(*base << 16, D_80126944 << 16) & 0xFFF;
-    *(Blk8S16 *)&buf[0] = *(Blk8S16 *)base;
+    *(SVECTOR *)&buf[0] = *(SVECTOR *)base;
     p = &buf[0];
     buf[5] = D_80126942;
     ang = angle;

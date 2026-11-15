@@ -905,7 +905,7 @@ extern void func_80154ED8(s32 a0, s32 a1);
 extern void MoveImage(void *a0, s32 a1, s32 a2);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
-extern ImgRect8 D_801800B8[];
+extern Unkstruct_8013B83C D_801800B8[];
 
 void func_801550FC(s32 arg0)
 {

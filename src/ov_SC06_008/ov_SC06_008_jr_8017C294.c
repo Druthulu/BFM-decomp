@@ -2934,15 +2934,15 @@ void func_8017D73C(s32 a0) {
         n = 0x10;
     }
 
-    p1.y = y;
-    p2.y = y;
+    p1.unk2 = y;
+    p2.unk2 = y;
     i = 0;
     if (n != 0) {
         do {
-            p1.x = D_80189324[i];
-            p1.z = D_80189324[i + 1];
-            p2.x = D_80189324[i + 2];
-            p2.z = D_80189324[i + 3];
+            p1.unk0 = D_80189324[i];
+            p1.unk4 = D_80189324[i + 1];
+            p2.unk0 = D_80189324[i + 2];
+            p2.unk4 = D_80189324[i + 3];
             if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
                 D_80126B96 = 0x4004;
             }
@@ -2954,10 +2954,10 @@ void func_8017D73C(s32 a0) {
     i = 0;
     if (n != 0) {
         do {
-            p1.x = D_8018934C[i];
-            p1.z = D_8018934C[i + 1];
-            p2.x = D_8018934C[i + 2];
-            p2.z = D_8018934C[i + 3];
+            p1.unk0 = D_8018934C[i];
+            p1.unk4 = D_8018934C[i + 1];
+            p2.unk0 = D_8018934C[i + 2];
+            p2.unk4 = D_8018934C[i + 3];
             if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
                 D_80126B96 = 0x4004;
             }
@@ -2969,10 +2969,10 @@ void func_8017D73C(s32 a0) {
     i = 0;
     if (n != 0) {
         do {
-            p1.x = D_80189374[i];
-            p1.z = D_80189374[i + 1];
-            p2.x = D_80189374[i + 2];
-            p2.z = D_80189374[i + 3];
+            p1.unk0 = D_80189374[i];
+            p1.unk4 = D_80189374[i + 1];
+            p2.unk0 = D_80189374[i + 2];
+            p2.unk4 = D_80189374[i + 3];
             if (func_8012DEB8(a0, (s32)&p1, (s32)&p2) == 1) {
                 D_80126B96 = 0x4004;
             }
@@ -4787,9 +4787,9 @@ s32 func_80180578(s32 param_1) {
     extern MATRIX *D_8019E738;     /* matrix pool cursor */
     extern MATRIX D_801AA158[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;

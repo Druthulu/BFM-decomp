@@ -7,18 +7,18 @@ void func_80156670(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param
     extern s32 D_801151E0[];
     extern s32 D_801150E0[];
     extern u8 D_8011DAD8[];
-    extern B8 D_80128120[];
-    extern B8 D_80128138[];
-    extern S8 D_80126AF0[];
+    extern Unkstruct_8013B83C D_80128120[];
+    extern Unkstruct_8013B83C D_80128138[];
+    extern SVECTOR D_80126AF0[];
     extern u8 D_80126730[];
     extern u8 D_8011520C[];
-    extern S8 D_801270A8;
+    extern SVECTOR D_801270A8;
     u32 i;
     func_80156B74(param_1, param_4, (u8 *)(param_1 + 0x1A9));
     i = 0;
     do {
         D_801151E0[i] = 0;
-        if (D_80126AF0[i].d == 0) {
+        if (D_80126AF0[i].pad == 0) {
             D_801151E0[i] = ((s32 (*)(s32, u16, u16, s32, s32, s32, s32, s32, s32,
                                       s32, u16, s32, s32))func_80157158)(
                 param_1, param_2 & 0xFFFF, param_3 & 0xFFFF,

@@ -2720,9 +2720,9 @@ extern void func_8017F6A4(s32 param_1);
 extern s32 guess_TickWaitTimer(s32);
 extern void func_8017F880(s32 a0);
 extern void func_8017F8C0(void *a0);
-extern Block4 D_801B41C8;
-extern Block4 D_801B2BCC;
-extern Block4 D_801B2BD0;
+extern CVECTOR D_801B41C8;
+extern CVECTOR D_801B2BCC;
+extern CVECTOR D_801B2BD0;
 extern void func_8017F9F4(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_8017FABC(s32 a0);
@@ -4964,9 +4964,9 @@ s32 func_80183F10(s32 param_1) {
     extern MATRIX *D_801B0A64;
     extern MATRIX D_801B4940[];
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     char *puVar2;

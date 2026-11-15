@@ -3,26 +3,26 @@
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);
 void func_8014964C(s32 param_1, s32 param_2) {
-    Vec3 in;
-    Vec3 out;
+    SVECTOR in;
+    SVECTOR out;
     s32 mid[2];
     s32 p2;
-    Vec3 *pin;
+    SVECTOR *pin;
     s32 *m1;
     s32 *m2;
     s32 mtx;
     p2 = param_2;
-    in.f0 = *(s16 *)(p2 + 2);
-    in.f2 = *(s16 *)(p2 + 6);
-    in.f4 = *(s16 *)(p2 + 0xA);
+    in.vx = *(s16 *)(p2 + 2);
+    in.vy = *(s16 *)(p2 + 6);
+    in.vz = *(s16 *)(p2 + 0xA);
     pin = &in;
     mtx = *(s32 *)(param_1 + 0x20);
     m1 = mid;
-    ((void (*)(s32, Vec3 *, s32 *))guess_RotTransSVWithMatrix)(mtx + 0x34, pin, m1);
+    ((void (*)(s32, SVECTOR *, s32 *))guess_RotTransSVWithMatrix)(mtx + 0x34, pin, m1);
     m1 = 0;
     m2 = mid;
-    ((void (*)(s32 *, Vec3 *))guess_WorldToScreenFlag)(m2, &out);
-    *(s16 *)(p2 + 2) = out.f0;
-    *(s16 *)(p2 + 6) = out.f2;
-    *(s16 *)(p2 + 0xA) = out.f4;
+    ((void (*)(s32 *, SVECTOR *))guess_WorldToScreenFlag)(m2, &out);
+    *(s16 *)(p2 + 2) = out.vx;
+    *(s16 *)(p2 + 6) = out.vy;
+    *(s16 *)(p2 + 0xA) = out.vz;
 }

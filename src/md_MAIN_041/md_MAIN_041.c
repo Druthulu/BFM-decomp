@@ -251,12 +251,12 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
 
     ent = arg0;
     node = ((Unkstruct_8016A8FC *)ent)->unk34;
-    f.v[1].z = 0;
-    f.v[1].y = 0;
-    f.v[1].x = 0;
-    f.v[3].z = 0;
-    f.v[2].z = 0;
-    f.v[0].z = 0;
+    f.v[1].vz = 0;
+    f.v[1].vy = 0;
+    f.v[1].vx = 0;
+    f.v[3].vz = 0;
+    f.v[2].vz = 0;
+    f.v[0].vz = 0;
     f.col[1].b = 0x70;
     cv = ((Unkstruct_8016A8FC *)ent)->unk12;
     f.cx = arg1;
@@ -293,32 +293,32 @@ void func_800CB3BC(s32 arg0, s16 arg1, s16 arg2, s16 arg3) {
     RotMatrixYXZ(f.a8, f.m1);
 
     do {
-        f.v[0].x = (s8)*p++;
-        f.v[0].y = (s8)*p++;
-        f.v[2].x = (s8)*p++;
-        f.v[2].y = (s8)*p++;
-        f.v[3].x = (s8)*p++;
-        f.v[3].y = (s8)*p--;
+        f.v[0].vx = (s8)*p++;
+        f.v[0].vy = (s8)*p++;
+        f.v[2].vx = (s8)*p++;
+        f.v[2].vy = (s8)*p++;
+        f.v[3].vx = (s8)*p++;
+        f.v[3].vy = (s8)*p--;
         guess_AddPolyG4(f.v, f.m1);
     } while ((i = i + 1) < 4);
 
     q = D_800CB7FC;
     i = 0;
-    f.v[1].z = 0x50;
+    f.v[1].vz = 0x50;
     f.col[1].b = 0xA0;
-    f.v[3].y = 0;
-    f.v[2].y = 0;
-    f.v[0].y = 0;
+    f.v[3].vy = 0;
+    f.v[2].vy = 0;
+    f.v[0].vy = 0;
     f.col[1].g = 0x10;
     f.col[1].r = 0x10;
 
     do {
-        f.v[0].x = *q++;
-        f.v[0].z = *q++;
-        f.v[2].x = *q++;
-        f.v[2].z = *q++;
-        f.v[3].x = *q++;
-        f.v[3].z = *q--;
+        f.v[0].vx = *q++;
+        f.v[0].vz = *q++;
+        f.v[2].vx = *q++;
+        f.v[2].vz = *q++;
+        f.v[3].vx = *q++;
+        f.v[3].vz = *q--;
         guess_AddPolyG4(f.v, (void *)(ent + 0x38));
     } while ((i = i + 1) < 4);
 }

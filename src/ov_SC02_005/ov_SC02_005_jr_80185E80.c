@@ -1102,26 +1102,26 @@ s32 func_801873FC(s32 a0) {
 
     box = (u8 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
 
-    p1.x = ((Unkstruct_801873FC *)box)->unk4;
-    p1.z = ((Unkstruct_801873FC *)box)->unkC;
-    p2.x = ((Unkstruct_801873FC *)box)->unk4;
-    p2.z = ((Unkstruct_801873FC *)box)->unkE;
+    p1.unk0 = ((Unkstruct_801873FC *)box)->unk4;
+    p1.unk4 = ((Unkstruct_801873FC *)box)->unkC;
+    p2.unk0 = ((Unkstruct_801873FC *)box)->unk4;
+    p2.unk4 = ((Unkstruct_801873FC *)box)->unkE;
     step = (u32)(((Unkstruct_801873FC *)box)->unk6 - CAST_SIGN(s16, box, 4)) >> 1;
 
     for (i = 0; i < 3; i++) {
-        p1.y = p2.y = ((Unkstruct_801873FC *)box)->unk8;
+        p1.unk2 = p2.unk2 = ((Unkstruct_801873FC *)box)->unk8;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        p1.y = p2.y = ((Unkstruct_801873FC *)box)->unkA;
+        p1.unk2 = p2.unk2 = ((Unkstruct_801873FC *)box)->unkA;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        x = p1.x + step;
-        p1.x = x;
-        p2.x = x;
+        x = p1.unk0 + step;
+        p1.unk0 = x;
+        p2.unk0 = x;
     }
 
     return 0;
@@ -1154,29 +1154,29 @@ s32 func_80187560(s32 a0, s32 a1, s32 a2) {
     Vec4h_80187560 p2;
     s32 result;
 
-    p1.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + *(u16 *)(a1 + 0x4);
-    p2.x = ((Unkstruct_800B5CB8 *)a0)->unk6 + *(u16 *)(a1 + 0x6);
-    p1.y = p2.y = a2 + (((Unkstruct_800B5CB8 *)a0)->unkA + *(u16 *)(a1 + 0xA));
+    p1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 + *(u16 *)(a1 + 0x4);
+    p2.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6 + *(u16 *)(a1 + 0x6);
+    p1.unk2 = p2.unk2 = a2 + (((Unkstruct_800B5CB8 *)a0)->unkA + *(u16 *)(a1 + 0xA));
 
-    p1.z = p2.z = ((Unkstruct_800B5CB8 *)a0)->unkE - 0x30;
+    p1.unk4 = p2.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - 0x30;
     if (func_8012DF34(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.z = p2.z = ((Unkstruct_800B5CB8 *)a0)->unkE - 0x10;
+    p1.unk4 = p2.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE - 0x10;
     if (func_8012DF34(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.z = p2.z = ((Unkstruct_800B5CB8 *)a0)->unkE + 0x10;
+    p1.unk4 = p2.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE + 0x10;
     if (func_8012DF34(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.z = p2.z = ((Unkstruct_800B5CB8 *)a0)->unkE + 0x30;
+    p1.unk4 = p2.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE + 0x30;
     result = func_8012DF34(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:
@@ -2497,12 +2497,12 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 s32 func_801892CC(s32 arg0)
 {
-    SV892CC v0;
-    SV892CC v1;
-    SV892CC o0;
-    SV892CC o1;
-    SV892CC o2;
-    SV892CC o3;
+    SVECTOR v0;
+    SVECTOR v1;
+    SVECTOR o0;
+    SVECTOR o1;
+    SVECTOR o2;
+    SVECTOR o3;
     u8 *p;
     u16 *hit;
     s32 i;
@@ -2512,16 +2512,16 @@ s32 func_801892CC(s32 arg0)
         return 0;
     }
 
-    v0.a = v1.a = 0;
-    v0.c = v1.c = 0;
-    v0.b = 0;
-    v1.b = D_801964F4;
+    v0.vx = v1.vx = 0;
+    v0.vz = v1.vz = 0;
+    v0.vy = 0;
+    v1.vy = D_801964F4;
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v0, (s32)&o0);
     count = 0;
     p = guess_g_ObjectTable;
 
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v1, (s32)&o1);
-    v1.b = D_801964F6;
+    v1.vy = D_801964F6;
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v0, (s32)&o2);
     guess_RotTransSVWithObjMatrix(arg0, (s32)&v1, (s32)&o3);
 
@@ -3298,7 +3298,7 @@ void func_8018A968(s32 a0)
     s32 i;
     s32 self = a0;
     u16 *tab;
-    LocalStruct_8018A968 local;
+    struct S80190C84 local;
     s32 v0;
     s32 v1;
     s32 *pbase;
@@ -3313,20 +3313,20 @@ void func_8018A968(s32 a0)
 
     tmp = *(u16 *)D_80195AC6;
 
-    local.field_2 = -0x8C0;
-    local.field_6 = 0x57;
-    local.field_A = 0;
-    local.field_8 = 0;
-    local.field_E = 0;
-    local.field_10 = 0;
+    local.f2 = -0x8C0;
+    local.f6 = 0x57;
+    local.fA = 0;
+    local.f8 = 0;
+    local.fE = 0;
+    local.f10 = 0;
 
     pos = tmp - 0xA8;
 
     for (; i < 6; i++) {
         v0 = tab[0];
-        local.field_4 = pos;
+        local.f4 = pos;
         v0 = v0 + 0xE4;
-        local.field_0 = v0;
+        local.f0 = v0;
         v1 = func_8012C51C(&local, 0);
         *p0 = v1;
         if (v1 != 0) {
@@ -3335,9 +3335,9 @@ void func_8018A968(s32 a0)
         }
 
         v0 = tab[-1];
-        local.field_4 = pos;
+        local.f4 = pos;
         v0 = v0 - 0x114;
-        local.field_0 = v0;
+        local.f0 = v0;
         v1 = func_8012C51C(&local, 0);
         *p1 = v1;
         if (v1 != 0) {
@@ -4286,8 +4286,8 @@ void func_8018BDD0(s32 param_1)
 {
     guess_BuildCircle12Points(&D_801E4918, 0x50);
 
-    *(Blk4_8018BDD0 *)&D_801E4918 = *(Blk4_8018BDD0 *)&D_801E2F50;
-    *(Blk4_8018BDD0 *)&D_801E491C = *(Blk4_8018BDD0 *)&D_801E2F54;
+    *(CVECTOR *)&D_801E4918 = *(CVECTOR *)&D_801E2F50;
+    *(CVECTOR *)&D_801E491C = *(CVECTOR *)&D_801E2F54;
 
     *(u32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) |= 0xD0000000;
     CAST_ALIAS(s16, param_1, 0xA) = -0x20;
@@ -4984,8 +4984,8 @@ void func_8018CC28(s32 param_1)
 
     guess_BuildCircle12Points(&D_801E4958, 0x8);
 
-    *(Blk4_8018CC28 *)&D_801E4958 = *(Blk4_8018CC28 *)&D_801E2F58;
-    *(Blk4_8018CC28 *)&D_801E495C = *(Blk4_8018CC28 *)&D_801E2F5C;
+    *(CVECTOR *)&D_801E4958 = *(CVECTOR *)&D_801E2F58;
+    *(CVECTOR *)&D_801E495C = *(CVECTOR *)&D_801E2F5C;
 
     ((Unkstruct_80186D40 *)param_1)->unk2 += 1;
 }
@@ -5417,7 +5417,7 @@ void func_8018D608(s32 a0)
 {
     s32 s0;
     s32 *counter;
-    LocalStruct local_struct;
+    struct S80190C84 local_struct;
     s32 v0;
     u16 *val;
 
@@ -5430,22 +5430,22 @@ void func_8018D608(s32 a0)
         return;
     }
 
-    local_struct.field_6 = 0x58;
-    local_struct.field_0 = -0x50;
-    local_struct.field_2 = -0x802;
-    local_struct.field_4 = -0xF80;
-    local_struct.field_A = 0;
-    local_struct.field_8 = 0;
-    local_struct.field_C = 0;
+    local_struct.f6 = 0x58;
+    local_struct.f0 = -0x50;
+    local_struct.f2 = -0x802;
+    local_struct.f4 = -0xF80;
+    local_struct.fA = 0;
+    local_struct.f8 = 0;
+    local_struct.fC = 0;
 
     v0 = func_8012C750((s32)&local_struct);
 
-    local_struct.field_6 = 0x59;
-    local_struct.field_0 = -0x70;
-    local_struct.field_4 = 0;
-    local_struct.field_2 = 0;
-    local_struct.field_E = 0;
-    local_struct.field_10 = 0;
+    local_struct.f6 = 0x59;
+    local_struct.f0 = -0x70;
+    local_struct.f4 = 0;
+    local_struct.f2 = 0;
+    local_struct.fE = 0;
+    local_struct.f10 = 0;
 
     func_8012C51C(&local_struct, v0);
 

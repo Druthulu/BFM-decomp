@@ -4425,9 +4425,9 @@ s32 func_80188C28(s32 param_1) {
     extern MATRIX *D_801C7C0C;     /* matrix pool cursor */
     extern MATRIX D_801D0C18[];    /* matrix pool end */
 
-    S8_80184F08 s60;
+    Unkstruct_8013B83C s60;
     SVECTOR_80184F08 sStack_58;
-    S8_80184F08 s50;
+    Unkstruct_8013B83C s50;
     int auStack_48[8];
     s32 iVar5, iVar8;
     MATRIX *m;
@@ -5929,7 +5929,7 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
         RotTransSV(&scratch, &out[3 + i], &rtflag);
     }
 
-    *(B4_8018AD9C *)&pkt[8] = *(B4_8018AD9C *)&param_4;
+    *(CVECTOR *)&pkt[8] = *(CVECTOR *)&param_4;
     pkt[9] = 0x50000000;
 
     /* face 0: verts 0,1,3,4 */

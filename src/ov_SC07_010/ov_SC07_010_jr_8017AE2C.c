@@ -1259,9 +1259,9 @@ extern void func_80156648(s32 *a0);
 extern u8 D_8011DAD8[];
 extern s32 func_8014C568(s16 *a0, s16 *a1);
 extern void func_801567BC(s32 a0);
-extern B8 D_80128120[];
-extern B8 D_80128138[];
-extern S8 D_80126AF0[];
+extern Unkstruct_8013B83C D_80128120[];
+extern Unkstruct_8013B83C D_80128138[];
+extern SVECTOR D_80126AF0[];
 extern u8 D_80126730[];
 extern void func_80156848(s32 param_1, s32 param_2, s32 arg2);
 extern void func_80156A1C(s32 param_1, s32 param_2);
@@ -4599,7 +4599,7 @@ extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern s32 rand(void);
 
 
-extern struct S6C D_80185D6C[];
+extern Unkstruct_8013B83C D_80185D6C[];
 extern struct S72 D_80185D72[];
 extern Unkstruct_80181FAC_2 D_80185D9E[];
 
@@ -5554,7 +5554,7 @@ void func_8017FD54(void *param_1) {
     func_800134FC(*(s16 *)((s32)param_1 + 0xC), (void *)D_80185EA0, (void *)((s32)param_1 + 0x2C));
     func_8001382C(*(s16 *)((s32)param_1 + 0xE), (void *)((s32)param_1 + 0x2C), (void *)((s32)param_1 + 0x2C));
 
-    *(Blk8017FD54 *)((s8 *)param_1 + 0x3C) = *(Blk8017FD54 *)D_80185EB0;
+    *(Unkstruct_801343C4 *)((s8 *)param_1 + 0x3C) = *(Unkstruct_801343C4 *)D_80185EB0;
 
     *(u16 *)((s32)param_1 + 0x16) = 0x1000;
     if (rand() & 1) {
@@ -6045,25 +6045,25 @@ void func_80180944(s32 param_1)
     *(s32 *)(prim + 4) = code | (mode | hi);
     val = ((Unkstruct_800B5CB8 *)param_1)->unk108 + 0x80;
     ((Unkstruct_800B5CB8 *)param_1)->unk108 = val;
-    vec.a = val;
+    vec.vx = val;
     val = CAST_SIGN(u16, param_1, 0x10A) + 0x100;
     ((Unkstruct_800B5CB8 *)param_1)->unk10A = val;
-    vec.b = val;
-    vec.c = 0;
+    vec.vy = val;
+    vec.vz = 0;
     RotMatrixYXZ(&vec, &mtx);
-    vec.b = 0;
-    vec.a = 0;
-    vec.c = 0x200;
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x200;
     ApplyMatrixSV(&mtx, &vec, &vec);
-    D_801A9274 = vec.a;
-    D_801A9264 = vec.a;
-    D_801A9254 = vec.a;
-    D_801A9278 = vec.b;
-    D_801A9268 = vec.b;
-    D_801A9258 = vec.b;
-    D_801A927C = vec.c;
-    D_801A926C = vec.c;
-    D_801A925C = vec.c;
+    D_801A9274 = vec.vx;
+    D_801A9264 = vec.vx;
+    D_801A9254 = vec.vx;
+    D_801A9278 = vec.vy;
+    D_801A9268 = vec.vy;
+    D_801A9258 = vec.vy;
+    D_801A927C = vec.vz;
+    D_801A926C = vec.vz;
+    D_801A925C = vec.vz;
 }
 
 

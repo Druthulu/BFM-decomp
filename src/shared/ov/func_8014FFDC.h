@@ -5,8 +5,8 @@ s32 func_8014FFDC(s32 e, void *a1, void *a2) {
     extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
-    Vec8_c1 save;
-    Vec8_c1 test;
+    SVECTOR save;
+    SVECTOR test;
     s32 found;
     u8 *p;
     found = 0;
@@ -21,7 +21,7 @@ s32 func_8014FFDC(s32 e, void *a1, void *a2) {
                         test = save;
                         if (func_80135D20(*(s32 *)(p + 0x20), *(s32 *)(p + 0x58), &test) != 0) {
                             found = 1;
-                            if (test.unk2 < *(s16 *)((s32)a1 + 2)) {
+                            if (test.vy < *(s16 *)((s32)a1 + 2)) {
                                 __builtin_memcpy(a1, &test, 8);
                                 __builtin_memcpy(a2, guess_g_BoxHitNormalX, 8);
                             }

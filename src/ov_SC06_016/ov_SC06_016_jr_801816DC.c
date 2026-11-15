@@ -2938,12 +2938,12 @@ void func_80181840(void *s0) {
 
     i = 0;
     do {
-        src.x = ((Unkstruct_8017C218_2 *)s0)->unk6 + D_80189118[i];
-        src.y = ((Unkstruct_8017C218_2 *)s0)->unkA + 0x40;
-        src.z = ((Unkstruct_8017C218_2 *)s0)->unkE + D_80189124[i];
+        src.unk0 = ((Unkstruct_8017C218_2 *)s0)->unk6 + D_80189118[i];
+        src.unk2 = ((Unkstruct_8017C218_2 *)s0)->unkA + 0x40;
+        src.unk4 = ((Unkstruct_8017C218_2 *)s0)->unkE + D_80189124[i];
 
         dst = src;
-        dst.y -= 0x100;
+        dst.unk2 -= 0x100;
 
         func_8018191C((s32)s0, &src, &dst, dist);
         i++;

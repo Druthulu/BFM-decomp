@@ -3179,14 +3179,14 @@ void func_8017D9E8(s32 a0) {
             }
         }
     }
-    src.y = 0;
-    dst.y = 0x10;
+    src.vy = 0;
+    dst.vy = 0x10;
     for (i = -0x80; i < 0x80; i += 0x20) {
-        src.x = i;
-        dst.x = i;
+        src.vx = i;
+        dst.vx = i;
         for (j = -0x80; j < 0xC0; j += 0x20) {
-            src.z = j;
-            dst.z = j;
+            src.vz = j;
+            dst.vz = j;
             if (func_8012D5E4(a0, (s32)&src, (s32)&dst, 0x64) == 1) {
                 D_80126B96 = 0x4002;
             }

@@ -3479,11 +3479,11 @@ void func_8017F428(s32 self) {
     w = CAST_SIGN(u16, temp, 4) + *(u16 *)(self + 0xDE);
     CAST_ALIAS(u16, temp, 4) = w;
     if ((s16)w >= 0x500) {
-        *(u16 *)&sp18.x = guess_g_PlayerPosX;
-        *(u16 *)&sp18.y = guess_g_PlayerPosY;
-        *(u16 *)&sp18.z = guess_g_PlayerPosZ;
+        *(u16 *)&sp18.vx = guess_g_PlayerPosX;
+        *(u16 *)&sp18.vy = guess_g_PlayerPosY;
+        *(u16 *)&sp18.vz = guess_g_PlayerPosZ;
         sp20 = sp18;
-        sp20.y -= 0x50;
+        sp20.vy -= 0x50;
         if (func_80135888(CAST_SIGN(s32 *, self, 0x20), ((Unkstruct_800B5CB8 *)self)->unk58, (s32)&sp18, (s32)&sp20) != 0) {
             guess_SetPlayerHit(1, 0x4002, 0, 0xA, (s32)&sp20, (s32)guess_g_BoxHitNormalX);
         }
@@ -3493,11 +3493,11 @@ void func_8017F428(s32 self) {
         sp20 = sp18;
         for (i = 0; i < 5; i++) {
             d = rand() % 96;
-            b = sp18.x;
-            sp20.x = (rand() & 1) ? b + d : b - d;
+            b = sp18.vx;
+            sp20.vx = (rand() & 1) ? b + d : b - d;
             d2 = rand() % 5;
-            b2 = sp18.z;
-            sp20.z = (rand() & 1) ? b2 + d2 : b2 - d2;
+            b2 = sp18.vz;
+            sp20.vz = (rand() & 1) ? b2 + d2 : b2 - d2;
             func_801290DC(0x31, (u8 *)&sp20);
         }
         guess_RequestSound(0x651, 0);

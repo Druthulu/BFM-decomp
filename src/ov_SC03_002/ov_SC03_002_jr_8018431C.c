@@ -3121,7 +3121,7 @@ void func_801846E8(void *a0)
 
         v1 = *(u8 **)(s2 + 0x20);
         v0 = *(u8 **)(s0 + 0x20);
-        *(struct Un8_8018613C *)(v1 + 0x10) = *(struct Un8_8018613C *)(v0 + 0x10);
+        *(Unkstruct_8013B83C *)(v1 + 0x10) = *(Unkstruct_8013B83C *)(v0 + 0x10);
 
         a0p = *(u8 **)(s2 + 0x20);
         ((Unkstruct_801824A8_3 *)a0p)->unk12 = ((Unkstruct_801824A8_3 *)a0p)->unk12 - ((Unkstruct_801824A8_2 *)s0)->unkFE;
