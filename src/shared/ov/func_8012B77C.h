@@ -4,7 +4,7 @@ extern s32 ratan2(s32 a0, s32 a1);
 extern s32 rcos(s32 a0); /* rsin-like: angle (0..0xFFF) -> 1.12 fixed */
 extern s32 rsin(s32 a0); /* rcos-like: angle (0..0xFFF) -> 1.12 fixed */
 s32 func_8012B77C(s32 out, s32 from, s32 to) {
-    Ang2_8012B77C_8012B77C t;
+    Rot1CDC t;
     s32 dx, dy, dz;
     s32 ang;
     s32 r1, r2;
@@ -12,11 +12,11 @@ s32 func_8012B77C(s32 out, s32 from, s32 to) {
     dx = *(s16 *)(to + 0x2) - *(s16 *)(from + 0x2);
     dy = *(s16 *)(to + 0x6) - *(s16 *)(from + 0x6);
     ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
-    t.hi = ang;
+    t.b = ang;
     r1 = rcos(ang);
     r2 = rsin(ang);
     dz = (dz * r1 + dx * r2) >> 12;
-    t.lo = ratan2(dy, -dz);
-    *(Ang2_8012B77C_8012B77C *)out = t;
+    t.a = ratan2(dy, -dz);
+    *(Rot1CDC *)out = t;
     return out;
 }

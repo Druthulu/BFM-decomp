@@ -888,11 +888,7 @@ typedef Unkstruct_8017D2A4 Hd4a4_8017D5DC;
 typedef Unkstruct_8017D2A4 Hd4a4_8017DC48;
 typedef struct packed_word PW8017C290;
 typedef struct packed_word PW8017E72C;
-typedef struct {
-    u32 lo : 16;
-    u32 hi : 16;
-} Ang2_8012B77C_8012B77C;
-typedef Ang2_8012B77C_8012B77C Ang2_8012B77C_80187180;
+typedef struct Rot1CDC Ang2_8012B77C_80187180;
 typedef CVECTOR B4_80181970;
 typedef CVECTOR B4_80181ABC;
 typedef CVECTOR B4_8018201C;
@@ -3150,7 +3146,7 @@ typedef struct {
     /* 0x0000 */ Sv_8017FA2C v[4];
     /* 0x0020 */ union {
         struct { Cv_8017FA2C c[4]; } v0;
-        struct { C_8017DCC0 unk0[4]; } v1;
+        struct { CVECTOR unk0[4]; } v1;
     } unk20;
     /* 0x0030 */ u32 code;
 } Prim_8017FA2C; /* size = 0x34 */

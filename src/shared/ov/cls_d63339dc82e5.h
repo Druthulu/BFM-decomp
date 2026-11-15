@@ -12,12 +12,12 @@ s32 SHARED_FN(s32 out, s32 from, s32 to) {
     dy = ((Unkstruct_801312D0 *)to)->unk2 - ((Unkstruct_801312D0 *)from)->unk2;
 
     ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
-    t.hi = ang;
+    t.b = ang;
 
     r1 = rcos(ang);
     r2 = rsin(ang);
     dz = (dz * r1 + dx * r2) >> 12;
-    t.lo = ratan2(dy, -dz);
+    t.a = ratan2(dy, -dz);
 
     *(Ang2_8012B77C_80187180 *)out = t;
     return out;

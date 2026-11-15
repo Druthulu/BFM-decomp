@@ -1911,8 +1911,7 @@ typedef struct {
     s16 x3, y3;         /* 0x20 */
 } PolyG4_800D29F8;
 typedef Src_8013B598_8013B598 Pos800D20C0;
-typedef struct { u8 r, g, b, code; } C_8017DCC0;
-typedef C_8017DCC0 RGBC;
+typedef CVECTOR RGBC;
 typedef struct {            /* 0x24 — POLY_G4 */
     u32  tag;
     RGBC c0;

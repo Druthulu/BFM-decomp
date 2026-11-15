@@ -14237,7 +14237,7 @@ PG4 *func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *pol
                     gte_nccs();
                     gte_strgb(&poly->c3);
 
-                    poly->c0.code = (poly->c0.code & 2) | 0x38;
+                    poly->c0.cd = (poly->c0.cd & 2) | 0x38;
 
                     otp = &ot[g.z >> shift];
                     poly->tag = (*otp & 0xFFFFFF) | 0x08000000;
@@ -14247,7 +14247,7 @@ PG4 *func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *pol
                     poly = (PG4 *)((u8 *)poly + 0x24);
 
                     if (D_800A2B78 != 0) {
-                        if ((prim->c0.code & 2) != 0) {
+                        if ((prim->c0.cd & 2) != 0) {
                             otp = &ot[g.z >> shift];
                             ((u8 *)poly)[3] = 1;
                             ((DRM *)poly)->code0 =
