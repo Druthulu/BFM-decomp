@@ -34,7 +34,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s16 D_80126CB0;
 extern s32 func_8013E298(s16 *a0);
 extern s16 D_80126CAC;
@@ -1340,7 +1340,7 @@ void func_80143458(s32 param_1)
 
 
 extern void func_8014358C(s32 param_1);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 #include "../shared/ov/func_8014350C.h"

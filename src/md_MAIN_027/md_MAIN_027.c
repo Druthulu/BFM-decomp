@@ -303,7 +303,7 @@ void func_800CB4A4(s32 a0) {
     s32 v0;
     s32 d;
     s32 flag;
-    CB4A4_V4 bak[2];
+    Blk16_956C bak[2];
     s16 *dig;
 
     s1 = a0;
@@ -315,7 +315,7 @@ void func_800CB4A4(s32 a0) {
     }
     func_800CB82C(s1, ((Unkstruct_800CB4A4 *)s1)->unk58);
     if (guess_IsDirectionHeld(s3) != 0) {
-        bak[1] = CAST_WIDTH(CB4A4_V4, s1, 0x10);
+        bak[1] = CAST_WIDTH(Blk16_956C, s1, 0x10);
         guess_ClearMoveVector(s1);
         ((Unkstruct_800CB4A4 *)s1)->unk18 = 0;
         ((Unkstruct_800CB4A4 *)s1)->unk14 = 0;
@@ -324,13 +324,13 @@ void func_800CB4A4(s32 a0) {
         func_80162FF4(s1, 0, 0, 0xFFFE4000);
         s2 = (s32 *)(s1 + 0x10);
         if (currentLocationId == 0x3038) {
-            bak[0] = *(CB4A4_V4 *)s2;
+            bak[0] = *(Blk16_956C *)s2;
             func_800134FC(0x400, &bak[0], &bak[0]);
             func_8001599C(&bak[0], s2);
         }
-        ((Unkstruct_800CB4A4 *)s1)->unk10 += bak[1].w[0];
-        ((Unkstruct_800CB4A4 *)s1)->unk14 += bak[1].w[1];
-        ((Unkstruct_800CB4A4 *)s1)->unk18 += bak[1].w[2];
+        ((Unkstruct_800CB4A4 *)s1)->unk10 += bak[1].unk0.v1.unk0[0];
+        ((Unkstruct_800CB4A4 *)s1)->unk14 += bak[1].unk0.v1.unk0[1];
+        ((Unkstruct_800CB4A4 *)s1)->unk18 += bak[1].unk0.v1.unk0[2];
         if (((Unkstruct_800CB4A4 *)s1)->unk10 > 0xE0000) {
             ((Unkstruct_800CB4A4 *)s1)->unk10 = 0xE0000;
         } else if (((Unkstruct_800CB4A4 *)s1)->unk10 < -0xE0000) {
@@ -556,14 +556,14 @@ s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *
 extern void func_800178EC(s32 a0);
 
 void func_800CBBF8(s32 *a0, s32 *a1) {
-    ((Unkstruct_800CB82C *)a0)->unk0 += ((Unkstruct_800CBBF8 *)a1)->unk0;
-    ((Unkstruct_800CB82C *)a0)->unk2 += ((Unkstruct_800CBBF8 *)a1)->unk2;
-    ((Unkstruct_800CB82C *)a0)->unk8 += ((Unkstruct_800CBBF8 *)a1)->unk0;
-    ((Unkstruct_800CB82C *)a0)->unkA += ((Unkstruct_800CBBF8 *)a1)->unk2;
-    ((Unkstruct_800CB82C *)a0)->unk10 += ((Unkstruct_800CBBF8 *)a1)->unk0;
-    ((Unkstruct_800CB82C *)a0)->unk12 += ((Unkstruct_800CBBF8 *)a1)->unk2;
-    ((Unkstruct_800CB82C *)a0)->unk18 += ((Unkstruct_800CBBF8 *)a1)->unk0;
-    ((Unkstruct_800CB82C *)a0)->unk1A += ((Unkstruct_800CBBF8 *)a1)->unk2;
+    ((Unkstruct_800CB82C *)a0)->unk0 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
+    ((Unkstruct_800CB82C *)a0)->unk2 += ((Unkstruct_80181FAC_2 *)a1)->unk2;
+    ((Unkstruct_800CB82C *)a0)->unk8 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
+    ((Unkstruct_800CB82C *)a0)->unkA += ((Unkstruct_80181FAC_2 *)a1)->unk2;
+    ((Unkstruct_800CB82C *)a0)->unk10 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
+    ((Unkstruct_800CB82C *)a0)->unk12 += ((Unkstruct_80181FAC_2 *)a1)->unk2;
+    ((Unkstruct_800CB82C *)a0)->unk18 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
+    ((Unkstruct_800CB82C *)a0)->unk1A += ((Unkstruct_80181FAC_2 *)a1)->unk2;
     func_800178EC((s32)a0);
 }
 

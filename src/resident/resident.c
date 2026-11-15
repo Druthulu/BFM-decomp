@@ -679,7 +679,7 @@ void func_800CF94C(void) {
 extern u16 D_800B99F6;
 extern s16 D_80114E74;
 extern s16 D_800D3408[];
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s16 D_800B9A00;
 extern u16 D_800AF7B8;
 
@@ -921,12 +921,12 @@ void func_800CFDA4(void) {
  *   jal guess_RequestResourceLoad                                =>   guess_RequestResourceLoad(2,0,&rec,0,0); }
  */
 extern s32 D_800D34AC[];
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
 
 void func_800CFDE8(s32 arg0) {
     s32 idx = D_800D34AC[arg0 & 0xFFFF0FFF] & 0xFFF;
-    if (idx >= 0 && cdFileLocTable[idx].word0 != 0) {
+    if (idx >= 0 && cdFileLocTable[idx].unk0 != 0) {
         guess_RequestResourceLoad(2, 0, (u8 *)&cdFileLocTable[idx], 0, 0);
     }
 }
@@ -938,7 +938,7 @@ s32 func_800CFE60(void) {
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
     extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
-    extern CdFileLoc cdFileLocTable[];
+    extern Unkstruct_80180CD4 cdFileLocTable[];
     extern void *D_80072C74;
     extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
     extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
@@ -1007,7 +1007,7 @@ s32 func_800CFE60(void) {
         p = 0;
     }
 
-    if (file >= 0 && cdFileLocTable[file].word0 != 0) {
+    if (file >= 0 && cdFileLocTable[file].unk0 != 0) {
         res = CdReadRequest(&cdFileLocTable[file], D_80072C74, mode, p);
     } else {
         res = 1;

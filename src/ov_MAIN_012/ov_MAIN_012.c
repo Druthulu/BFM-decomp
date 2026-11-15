@@ -351,7 +351,7 @@ void func_80128AF4(void) {
 
 
 
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128C98(s32 arg0) {
@@ -370,7 +370,7 @@ s32 func_80128C98(s32 arg0) {
 
 
 
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 
 s32 func_80128CFC(s32 arg0) {

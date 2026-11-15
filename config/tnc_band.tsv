@@ -587,7 +587,7 @@ rank	map_type	sites	bodies	cum_pct
 583	Unkstruct_814e6287	32	4	65.638
 584	Unkstruct_e773df21	32	4	65.661
 585	Unkstruct_feaec7f3	32	4	65.684
-586	Unkstruct_8013AD38	32	2	65.707
+586	Pair_8013AD38	32	2	65.707
 587	Unkstruct_36be0ff5	32	1	65.730
 588	Unkstruct_80166994	31	6	65.752
 589	Unkstruct_8014CD0C	31	5	65.774
@@ -1455,7 +1455,7 @@ rank	map_type	sites	bodies	cum_pct
 1451	Unkstruct_801431E8_2	12	2	77.101
 1452	Unkstruct_80146578	12	2	77.109
 1453	Unkstruct_80160D10	12	2	77.118
-1454	Unkstruct_8016EB3C	12	2	77.127
+1454	Unkstruct_8017553C	12	2	77.127
 1455	Unkstruct_80185978	12	2	77.135
 1456	Unkstruct_92c41126	12	2	77.144
 1457	Unkstruct_b131d1c9	12	2	77.152
@@ -2113,7 +2113,7 @@ rank	map_type	sites	bodies	cum_pct
 2109	Unkstruct_801650C4	8	2	81.722
 2110	Unkstruct_8016BFA8	8	2	81.728
 2111	Unkstruct_8016EC0C	8	2	81.734
-2112	Unkstruct_8017D8A4	8	2	81.740
+2112	Vec	8	2	81.740
 2113	Unkstruct_87951449	8	2	81.745
 2114	Unkstruct_886af8c3	8	2	81.751
 2115	Unkstruct_93ff072e	8	2	81.757
@@ -5936,7 +5936,7 @@ rank	map_type	sites	bodies	cum_pct
 5932	Unkstruct_8015FD74	2	2	93.933
 5933	Unkstruct_8016084C	2	2	93.935
 5934	Unkstruct_80162330	2	2	93.936
-5935	Unkstruct_80162834	2	2	93.938
+5935	Unkstruct_8017553C	2	2	93.938
 5936	Unkstruct_80162870	2	2	93.939
 5937	Unkstruct_80165240	2	2	93.941
 5938	Unkstruct_8016901C	2	2	93.942
@@ -9889,7 +9889,7 @@ rank	map_type	sites	bodies	cum_pct
 9885	Unkstruct_80183A40	1	1	97.952
 9886	Unkstruct_80183A68	1	1	97.953
 9887	Unkstruct_80183AE4	1	1	97.954
-9888	Unkstruct_80183AE8	1	1	97.954
+9888	Unkstruct_80181FAC_2	1	1	97.954
 9889	Unkstruct_80183B00	1	1	97.955
 9890	Unkstruct_80183C04	1	1	97.956
 9891	Unkstruct_80183C20	1	1	97.957
@@ -10444,7 +10444,7 @@ rank	map_type	sites	bodies	cum_pct
 10440	Unkstruct_8018A970	1	1	98.350
 10441	Unkstruct_8018A9B8	1	1	98.351
 10442	Unkstruct_8018A9D4	1	1	98.351
-10443	Unkstruct_8018AA98	1	1	98.352
+10443	Unkstruct_80181BA8	1	1	98.352
 10444	Unkstruct_8018AB04	1	1	98.353
 10445	Unkstruct_8018AB08	1	1	98.354
 10446	Unkstruct_8018AB3C	1	1	98.354

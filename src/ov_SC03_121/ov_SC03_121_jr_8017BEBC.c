@@ -861,7 +861,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183F7C;
 extern void (*D_80183FA4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80183F84;
@@ -3075,8 +3075,8 @@ extern s32 func_801343C4(s32 angle, s32 p1, s32 p2);
 
 
 s32 func_8017D65C(s32 a0) {
-    Pt6_8017D65C p1;
-    Pt6_8017D65C p2;
+    Vec3s p1;
+    Vec3s p2;
     s32 i;
     s32 j;
     s32 hit;
@@ -3087,25 +3087,25 @@ s32 func_8017D65C(s32 a0) {
     s16 sy2;
     s16 sz2;
 
-    p1.b = (u16)((Unkstruct_800B5CB8 *)a0)->unkA - 0x40;
+    p1.y = (u16)((Unkstruct_800B5CB8 *)a0)->unkA - 0x40;
 
     hit = 0;
     for (i = 0; i < 4; i++) {
         f0 = D_80185CAC[0];
         sy = CAST_SIGN(s16, (u8 *)a0, 0x6);
-        p1.a = sy + (((f0 - sy) * i) >> 2);
+        p1.x = sy + (((f0 - sy) * i) >> 2);
 
         f2 = D_80185CAC[2];
         sz = CAST_SIGN(s16, (u8 *)a0, 0xE);
-        p1.c = sz + (((f2 - sz) * i) >> 2);
+        p1.z = sz + (((f2 - sz) * i) >> 2);
 
         sy2 = CAST_SIGN(s16, (u8 *)a0, 0x6);
         j = i + 1;
-        p2.a = sy2 + (((f0 - sy2) * j) >> 2);
-        p2.b = *(u16 *)&D_80185CAC[1];
+        p2.x = sy2 + (((f0 - sy2) * j) >> 2);
+        p2.y = *(u16 *)&D_80185CAC[1];
 
         sz2 = CAST_SIGN(s16, (u8 *)a0, 0xE);
-        p2.c = sz2 + (((f2 - sz2) * j) >> 2);
+        p2.z = sz2 + (((f2 - sz2) * j) >> 2);
 
         if (func_801343C4(1, (s32)&p1, (s32)&p2) != 0) {
             hit = 1;

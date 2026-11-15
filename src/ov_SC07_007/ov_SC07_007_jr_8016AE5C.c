@@ -100,7 +100,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -689,7 +689,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1737,7 +1737,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3426,7 +3426,7 @@ void func_8016C998(s32 param_1)
             return;
         }
         D_801C6CE0[i].f0 = 1;
-        *(Blk32_998 *)(r + 0x38) = *(Blk32_998 *)(param_1 + 0x38);
+        *(Blk20_8016DF5C *)(r + 0x38) = *(Blk20_8016DF5C *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
         *(s16 *)(r + 6) = ((Unkstruct_8016C998_2 *)param_1)->unk6;
         *(s16 *)(r + 0xa) = ((Unkstruct_8016C998_2 *)param_1)->unkA;
@@ -3504,18 +3504,18 @@ short func_8016CBC0(void)
         {
           pv = &sub[uVar9];
           {
-            unsigned int a = pv->h[0];
+            unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
             p0.v[0].x = a;
-            b = pv->h[3];
+            b = pv->unk0.v0.h[3];
             p1.v[1].x = b;
             p0.v[1].x = (p1.v[0].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[1];
+            unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
             p0.v[0].y = a;
-            b = pv->h[4];
+            b = pv->unk0.v0.h[4];
             uc = ((unsigned) (col & 0xFF)) >> 3;
             p1.v[1].y = b;
             p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
@@ -3523,10 +3523,10 @@ short func_8016CBC0(void)
             uVar9 = w9;
           }
           {
-            unsigned int a = pv->h[2];
+            unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
             p0.v[0].z = a;
-            b = pv->h[5];
+            b = pv->unk0.v0.h[5];
             p1.col[0].g = col;
             p0.col[1].g = col;
             p1.col[0].b = uc;
@@ -3545,26 +3545,26 @@ short func_8016CBC0(void)
           a2 = (unsigned) (col & 0xFF);
           a2 = a2 >> 3;
           {
-            unsigned int a = pv->h[0];
+            unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
             p0.v[2].x = a;
-            b = pv->h[3];
+            b = pv->unk0.v0.h[3];
             p1.v[3].x = b;
             p0.v[3].x = (p1.v[2].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[1];
+            unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
             p0.v[2].y = a;
-            b = pv->h[4];
+            b = pv->unk0.v0.h[4];
             p1.v[3].y = b;
             p0.v[3].y = (p1.v[2].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[2];
+            unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
             p0.v[2].z = a;
-            b = pv->h[5];
+            b = pv->unk0.v0.h[5];
             p1.col[2].g = col;
             p0.col[3].g = col;
             p1.col[2].b = a2;
@@ -3690,7 +3690,7 @@ void func_8016D1D8(int param_1) {
     unsigned int uVar3;
     short sVar4;
     SVEC_L1 sv;
-    MTX_L1 mtx;
+    Blk20_8016DF5C mtx;
 
     iVar5 = ((Unkstruct_8016D1D8 *)param_1)->unk34;
     if (((Unkstruct_8016D1D8 *)param_1)->unk2C == 0) {

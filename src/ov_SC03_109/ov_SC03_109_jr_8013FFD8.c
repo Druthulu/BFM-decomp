@@ -146,7 +146,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -829,7 +829,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;

@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80184358;
 extern void (*D_80184380[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80184360;
@@ -2722,7 +2722,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 j;
     u32 nprim;
     u32 i;
-    Prim_8017CD9C *prim;
+    Blk12 *prim;
     u8 *pkt;
     u8 *vtx;
     u8 *vd;
@@ -2829,13 +2829,13 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim_8017CD9C *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         vv[0] = *(SVECTOR2 *)va;
                         vv[1] = *(SVECTOR2 *)vb;
@@ -2890,7 +2890,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0] | 0x2000000;
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2951,7 +2951,7 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0] | 0x2000000;
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -4394,7 +4394,7 @@ void *a0;
 
 extern s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3);
 extern u8 D_801A45C4[];
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern void guess_FreeActor(void *a0);
 extern void func_80180E34(s32 arg0);
 
@@ -4466,7 +4466,7 @@ void func_8017FEC0(s32 a0) {
  *   (same idiom the TU already uses for ApplyMatrixSV / func_8012CBCC).
  */
 
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern void guess_FreeActor(void *a0);
 extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_80180E34(s32 arg0);
@@ -4492,7 +4492,7 @@ void func_8017FF60(s32 a0) {
 
     switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
     case 0:
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
         ((void (*)(s32, void *, void *))func_80180E34)(a0, &D_801A45C4[0], &sp10);
         func_801808E8(a0, &sp10, 1, 1);
         ((void (*)(s32, void *, void *))func_80180E34)(a0, &D_801A45C4[0x10], &sp10);
@@ -4544,7 +4544,7 @@ void func_8017FF60(s32 a0) {
         break;
 
     case 3:
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
         ((void (*)(s32, void *, void *))func_80180E34)(a0, &D_801A45C4[0], &sp10);
         if ((func_801808E8(a0, &sp10, 1, 1) & 0xE000) == 0) {
             guess_FreeActor((void *)a0);
@@ -4898,7 +4898,7 @@ s32 func_80180834(void *a0) {
 #include "common.h"
 #include "../shared/engine_prelude.h"
 
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern s32 func_80133784(s32, void *, s32);
 
 s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
@@ -4910,7 +4910,7 @@ s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
         sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk3A;
         sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unk3E;
         sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unk42;
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
     } else {
         sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -4964,7 +4964,7 @@ ret:
 
 #include "common.h"
 #include "../shared/engine_prelude.h"
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern s32 func_80133784(s32, void*, s32);
 
 #define SHARED_FN func_80180B04
@@ -5325,8 +5325,8 @@ extern s32 func_80181720(void *arg0);
 void func_80181540(void *a0) {
 
     extern void (*D_801A47A8[])(void);
-    D_801A47A8[((Unkstruct_80181540 *)a0)->unk2]();
-    if (((Unkstruct_80181540 *)a0)->unk0 != 0) {
+    D_801A47A8[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 0) {
         ((s32 (*)())func_80181720)(a0);
     }
 }
@@ -5573,7 +5573,7 @@ void func_80181A08(s32 arg0) {
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),

@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801866B4;
 extern void (*D_801866DC[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801866BC;
@@ -3807,7 +3807,7 @@ void func_80180010(void *a0) {
 
 
 extern void func_8018012C(s32 arg0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern u8 *func_801290DC(s32 arg0, u8 *arg1);
 extern void func_8012E5CC(s32 param_1, u16 param_2, u16 param_3);
@@ -3823,7 +3823,7 @@ void func_80180064(s32 arg0) {
     CAST_WIDTH(s32, arg0, 0x10) += 0;
     ((Unkstruct_800B5CB8 *)arg0)->unk14 += 0xC000;
     CAST_WIDTH(s32, arg0, 0x18) += 0;
-    guess_AddVelocityToPos((struct vec *)arg0);
+    guess_AddVelocityToPos((S800D22E4 *)arg0);
     if (CAST_SIGN(s16, arg0, 0x2E) < CAST_SIGN(s16, arg0, 0xA)) {
         ((Unkstruct_800B5CB8 *)arg0)->unkA = CAST_SIGN(s16, arg0, 0x2E);
         guess_CopyVec3HighHalves(arg0 + 4, (s32 *)sp10);
@@ -3887,9 +3887,9 @@ void func_8018012C(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_801887F4 = spos.z;
-        D_801887FC = spos.z;
-        D_80188804 = spos.z;
+        D_801887F4 = spos.f4;
+        D_801887FC = spos.f4;
+        D_80188804 = spos.f4;
         func_80017D98(&mtx);
         /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
         mtx.t[2] = 0;
@@ -3912,21 +3912,21 @@ void func_8018012C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
-            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
-            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
-            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
-            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
+            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
+            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
+            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
+            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
             p->v[0].c = otz;
             func_8001739C(p);
             t = sxy[1].unk0.v1.unk2;
-            p->v[1].y = spos.y - t;
+            p->v[1].y = spos.f2 - t;
             func_8001739C(p);
             t = sxy[2].unk0.v1.unk0;
-            p->v[2].x = spos.x - t;
+            p->v[2].x = spos.f0 - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(p);
         }
     }

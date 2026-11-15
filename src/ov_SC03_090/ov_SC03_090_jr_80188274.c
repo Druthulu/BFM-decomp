@@ -849,7 +849,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D880;
 extern void (*D_8018D8A8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D888;
@@ -2818,7 +2818,7 @@ extern void (*D_801A5C14[])(void);
 extern void func_80186D04(void *a0);
 extern void func_801292C8(u8 *a0);
 extern s32 func_80186F84(s32 arg0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_801870EC(s32 a0, s32 a1, s32 a2);
 extern void (*D_801A5CA8[])(void);
@@ -4884,22 +4884,22 @@ void func_8018AC0C(void *a0, void *a1)
 
     if (((Unkstruct_8018AC0C *)a0)->unk1E & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -4911,14 +4911,14 @@ void func_8018AC0C(void *a0, void *a1)
         func_8018B028(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();

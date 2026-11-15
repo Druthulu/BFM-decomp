@@ -138,7 +138,7 @@ s32 func_801860F4(s16 *arg0) {
 
 
 
-extern TBL_80186144 D_80195AF8[];
+extern Unkstruct_8017C8B0 D_80195AF8[];
 
 extern u16 D_801E43B4;
 
@@ -146,7 +146,7 @@ s32 func_80186144(void *a0, s32 a1)
 {
     s16 idx = D_801E43B4;
 
-    if (D_80195AF8[idx].f0 == a1)
+    if (D_80195AF8[idx].unk0 == a1)
         return idx;
     return -1;
 }
@@ -451,7 +451,7 @@ extern u8 D_80195AC4[];
 extern s16 D_80195ACE;
 
 
-extern D_80195AF4_t D_80195AF4[];
+extern Unkstruct_8017C8B0 D_80195AF4[];
 
 s32 func_8018675C(void *a0)
 {
@@ -591,9 +591,9 @@ void func_80186A04(s32 arg0) {
     s16 idx;
     s32 flags;
     u32 key;
-    Entry_80186A04 *t0;
-    Entry_80186A04 *a2;
-    Entry_80186A04 *p;
+    Unkstruct_8017C8B0 *t0;
+    Unkstruct_8017C8B0 *a2;
+    Unkstruct_8017C8B0 *p;
     s32 a1;
     s32 j;
     s16 v0;
@@ -608,17 +608,17 @@ void func_80186A04(s32 arg0) {
     }
     do { key = D_80195B4C[idx]; } while (0);
     if (key >= 0x16) {
-        t0 = (Entry_80186A04 *)&D_801961E0;
+        t0 = (Unkstruct_8017C8B0 *)&D_801961E0;
         key -= 0x16;
     } else {
-        t0 = (Entry_80186A04 *)&D_801961B8;
+        t0 = (Unkstruct_8017C8B0 *)&D_801961B8;
     }
     /* zero-byte allocno-priority ref-boost (cookbook regalloc "ref-boost", global.c:594):
      * lifts `key`'s n_refs 7 -> 8 across the floor_log2 step so it allocates before the
      * table base -> key=$a3 / base=$t0 as in the target. Emits no instruction. */
     for (a1 = 0; a1 < 4; a1++) {
         a2 = &t0[a1];
-        v0 = a2->val;
+        v0 = a2->unk6;
         if (v0 != -1) {
             if (v0 == (s32)(key & 0xFFFF)) {
                 return;
@@ -628,10 +628,10 @@ void func_80186A04(s32 arg0) {
             }
             for (j = 3; a1 < j; j--) {
                 p = &t0[j];
-                p->val = p[-1].val;
+                p->unk6 = p[-1].unk6;
             }
         }
-        a2->val = key;
+        a2->unk6 = key;
         return;
     }
 }
@@ -2963,12 +2963,12 @@ extern void RotMatrixY(s32 a0, void *a1);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
-extern Vec32 D_801E2F08;
+extern Blk16_956C D_801E2F08;
 extern Blk20 D_800AE620;
 
 void func_80189FC4(s32 a0) {
     Blk20 localMat;
-    Vec32 blk16;
+    Blk16_956C blk16;
     s32 i;
     u8 *s0;
 
@@ -3154,7 +3154,7 @@ void func_8018A47C(s32 a0) {
  * copied with plain lw/sw -- same shape as the TU's existing Blk20. */
 
 extern Blob8_8018A4C4 D_801E2F30;
-extern Blk16_8018A4C4 D_801E2F38;
+extern Blk16_956C D_801E2F38;
 extern Blk20 D_800AE620;
 
 extern u8 *func_8012913C(s32 a0);
@@ -3166,7 +3166,7 @@ void func_8018A4C4(s32 a0)
     Blk20_8018A4C4 localMat;
     s32 pad[4];
     Blob8_8018A4C4 blobA;
-    Blk16_8018A4C4 blobB;
+    Blk16_956C blobB;
     s32 i;
     u8 *s0;
 
@@ -3602,7 +3602,7 @@ void func_8018AEB4(s32 a0, s32 a1)
  * kept file-local since match_one compiles standalone with -Iinclude only). */
 
 extern Blk20 D_800AE620;
-extern Vec32 D_801E2F08;
+extern Blk16_956C D_801E2F08;
 
 extern u8 *func_8012913C(s32 a0);
 extern void func_80129350(s32 a0, s32 a1);
@@ -3661,9 +3661,9 @@ void func_8018B058(s32 a0)
 
     angle = D_801E2F00;
 
-    vec.vx = CAST_WIDTH(s32, a0, 0x10) >> 2;
-    vec.vy = (s32)0xFFF40000;
-    vec.vz = CAST_WIDTH(s32, a0, 0x18) >> 2;
+    vec.unk0.v3.unk0 = CAST_WIDTH(s32, a0, 0x10) >> 2;
+    vec.unk0.v3.unk4 = (s32)0xFFF40000;
+    vec.unk0.v3.unk8 = CAST_WIDTH(s32, a0, 0x18) >> 2;
     *(s16 *)&angle.b[2] = -0x100;
 
     for (i = 0; i < 4; i++) {

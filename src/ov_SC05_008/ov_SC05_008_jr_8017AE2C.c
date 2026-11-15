@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801847AC;
 extern void (*D_801847D4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801847B4;
@@ -4461,7 +4461,7 @@ extern void (*D_8018654C[])(void);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern s32 D_80186558[];
 extern s32 D_8019E64C;
-extern Rec12_EBB8 D_8019E666[];
+extern Rec_80166690_80166690 D_8019E666[];
 extern s32 D_801A1098;
 extern s32 D_801A10A0;
 extern s32 D_801A10A8;
@@ -4505,8 +4505,8 @@ void func_8017EBB8(void *a0) {
         *(s32 *)(s2 + 0) = v;
         guess_InitModelObject(copy, s2);
         ((Unkstruct_800B5CB8 *)s1)->unk88 = *(u16 *)((u8 *)D_8019E666 + ((Unkstruct_800B5CB8 *)s1)->unk70 * 12 - 2);
-        ((Unkstruct_800B5CB8 *)s1)->unk8A = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].x;
-        ((Unkstruct_800B5CB8 *)s1)->unk8C = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].y;
+        ((Unkstruct_800B5CB8 *)s1)->unk8A = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].unk0.v1.unk0;
+        ((Unkstruct_800B5CB8 *)s1)->unk8C = D_8019E666[((Unkstruct_800B5CB8 *)s1)->unk70].unk0.v1.unk2;
         CAST_WIDTH(Blk8_EBB8, copy, 0x10) = *(Blk8_EBB8 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s1)->unk64 + 0x20) + 0x10);
         CAST_WIDTH(s32, s1, 0xC) = 0;
         CAST_WIDTH(s32, s1, 8) = 0;

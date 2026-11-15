@@ -104,7 +104,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -692,7 +692,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1716,7 +1716,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3542,33 +3542,33 @@ void func_8017D8A4(s32 d, void *s, void *a, s32 t, s32 n) {
 
     if (n > 0) {
         do {
-            ((Unkstruct_8017D8A4_2 *)d)->unk0 = ((Unkstruct_8017D8A4 *)s)->unk0 + ((((s16)((Unkstruct_8017D8A4_3 *)a)->unk0 - (s16)((Unkstruct_8017D8A4 *)s)->unk0) * t) >> 12);
-            ((Unkstruct_8017D8A4_2 *)d)->unk2 = ((Unkstruct_8017D8A4 *)s)->unk2 + ((((s16)((Unkstruct_8017D8A4_3 *)a)->unk2 - (s16)((Unkstruct_8017D8A4 *)s)->unk2) * t) >> 12);
-            ((Unkstruct_8017D8A4_2 *)d)->unk4 = ((Unkstruct_8017D8A4 *)s)->unk4 + ((((s16)((Unkstruct_8017D8A4_3 *)a)->unk4 - (s16)((Unkstruct_8017D8A4 *)s)->unk4) * t) >> 12);
-            v0 = ((Unkstruct_8017D8A4_3 *)a)->unk6 - ((Unkstruct_8017D8A4 *)s)->unk6;
+            ((Unkstruct_8017D8A4_2 *)d)->unk0 = ((struct Vec *)s)->unk0 + ((((s16)((struct Vec *)a)->unk0 - (s16)((struct Vec *)s)->unk0) * t) >> 12);
+            ((Unkstruct_8017D8A4_2 *)d)->unk2 = ((struct Vec *)s)->unk2 + ((((s16)((struct Vec *)a)->unk2 - (s16)((struct Vec *)s)->unk2) * t) >> 12);
+            ((Unkstruct_8017D8A4_2 *)d)->unk4 = ((struct Vec *)s)->unk4 + ((((s16)((struct Vec *)a)->unk4 - (s16)((struct Vec *)s)->unk4) * t) >> 12);
+            v0 = ((struct Vec *)a)->unk6 - ((struct Vec *)s)->unk6;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017D8A4_2 *)d)->unk6 = ((Unkstruct_8017D8A4 *)s)->unk6 + ((v0 * t) >> 12);
-            v0 = ((Unkstruct_8017D8A4_3 *)a)->unk8 - ((Unkstruct_8017D8A4 *)s)->unk8;
+            ((Unkstruct_8017D8A4_2 *)d)->unk6 = ((struct Vec *)s)->unk6 + ((v0 * t) >> 12);
+            v0 = ((struct Vec *)a)->unk8 - ((struct Vec *)s)->unk8;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017D8A4_2 *)d)->unk8 = ((Unkstruct_8017D8A4 *)s)->unk8 + ((v0 * t) >> 12);
-            v0 = ((Unkstruct_8017D8A4_3 *)a)->unkA - ((Unkstruct_8017D8A4 *)s)->unkA;
+            ((Unkstruct_8017D8A4_2 *)d)->unk8 = ((struct Vec *)s)->unk8 + ((v0 * t) >> 12);
+            v0 = ((struct Vec *)a)->unkA - ((struct Vec *)s)->unkA;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017D8A4_2 *)d)->unkA = ((Unkstruct_8017D8A4 *)s)->unkA + ((v0 * t) >> 12);
+            ((Unkstruct_8017D8A4_2 *)d)->unkA = ((struct Vec *)s)->unkA + ((v0 * t) >> 12);
             d += 0xC;
             s = (u8 *)s + 0xC;
             a = (u8 *)a + 0xC;
@@ -3586,33 +3586,33 @@ void func_8017DA30(s32 d, void *x, void *y, s32 t, s32 n, s32 w) {
     t0 = t + ((rsin(w) * (rsin(t >> 1) >> 3)) >> 12);
     if (n > 0) {
         do {
-            ((Unkstruct_8017DA30_2 *)d)->unk0 = ((Unkstruct_8017DA30 *)x)->unk0 + ((((s16)((Unkstruct_8017DA30_4 *)y)->unk0 - (s16)((Unkstruct_8017DA30 *)x)->unk0) * t) >> 12);
-            ((Unkstruct_8017DA30_2 *)d)->unk2 = ((Unkstruct_8017DA30 *)x)->unk2 + ((((s16)((Unkstruct_8017DA30_4 *)y)->unk2 - (s16)((Unkstruct_8017DA30 *)x)->unk2) * t0) >> 12);
-            ((Unkstruct_8017DA30_2 *)d)->unk4 = ((Unkstruct_8017DA30 *)x)->unk4 + ((((s16)((Unkstruct_8017DA30_4 *)y)->unk4 - (s16)((Unkstruct_8017DA30 *)x)->unk4) * t0) >> 12);
-            v0 = ((Unkstruct_8017DA30_4 *)y)->unk6 - ((Unkstruct_8017DA30 *)x)->unk6;
+            ((struct Vec *)d)->unk0 = ((struct Vec *)x)->unk0 + ((((s16)((struct Vec *)y)->unk0 - (s16)((struct Vec *)x)->unk0) * t) >> 12);
+            ((struct Vec *)d)->unk2 = ((struct Vec *)x)->unk2 + ((((s16)((struct Vec *)y)->unk2 - (s16)((struct Vec *)x)->unk2) * t0) >> 12);
+            ((struct Vec *)d)->unk4 = ((struct Vec *)x)->unk4 + ((((s16)((struct Vec *)y)->unk4 - (s16)((struct Vec *)x)->unk4) * t0) >> 12);
+            v0 = ((struct Vec *)y)->unk6 - ((struct Vec *)x)->unk6;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017DA30_2 *)d)->unk6 = ((Unkstruct_8017DA30 *)x)->unk6 + ((v0 * t) >> 12);
-            v0 = ((Unkstruct_8017DA30_4 *)y)->unk8 - ((Unkstruct_8017DA30 *)x)->unk8;
+            ((struct Vec *)d)->unk6 = ((struct Vec *)x)->unk6 + ((v0 * t) >> 12);
+            v0 = ((struct Vec *)y)->unk8 - ((struct Vec *)x)->unk8;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017DA30_2 *)d)->unk8 = ((Unkstruct_8017DA30 *)x)->unk8 + ((v0 * t) >> 12);
-            v0 = ((Unkstruct_8017DA30_4 *)y)->unkA - ((Unkstruct_8017DA30 *)x)->unkA;
+            ((struct Vec *)d)->unk8 = ((struct Vec *)x)->unk8 + ((v0 * t) >> 12);
+            v0 = ((struct Vec *)y)->unkA - ((struct Vec *)x)->unkA;
             if (v0 >= 0x801) {
                 v0 -= 0x1000;
             }
             if (v0 < -0x800) {
                 v0 += 0x1000;
             }
-            ((Unkstruct_8017DA30_2 *)d)->unkA = ((Unkstruct_8017DA30 *)x)->unkA + ((v0 * t) >> 12);
+            ((struct Vec *)d)->unkA = ((struct Vec *)x)->unkA + ((v0 * t) >> 12);
             d += 0xC;
             x = (u8 *)x + 0xC;
             y = (u8 *)y + 0xC;

@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80185218;
 extern void (*D_80185240[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80185220;
@@ -2794,8 +2794,8 @@ void func_80175AB8(param_1)
     s16 param_1;
 {
    /* size 0x0C */
-    extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
-    extern S_AF634 guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
+    extern VECTOR guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern VECTOR guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
 
     extern u8  guess_g_HudPlayerRecord; // Names ledger: config/names.tsv guess_g_HudPlayerRecord
     extern u16 guess_g_HudHpPanelX; // Names ledger: config/names.tsv guess_g_HudHpPanelX
@@ -2830,7 +2830,7 @@ void func_80175AB8(param_1)
     s32 idx;
     s16 sv;
 
-    p = (u32 *)(guess_g_PacketBufferBase[param_1].g0 + guess_g_PacketBufferUsed[param_1].g0 * 4);
+    p = (u32 *)(guess_g_PacketBufferBase[param_1].vx + guess_g_PacketBufferUsed[param_1].vx * 4);
     base = &guess_g_HudPlayerRecord;
     arr = base - 0x48;
     slot = (u32 *)(param_1 * 4 + (s32)arr);
@@ -2861,7 +2861,7 @@ void func_80175AB8(param_1)
     *p = (((u32)p - 0x14) & 0xFFFFFF) | 0x2000000;
     slot[8] = (u32)p;
     p += 5;
-    guess_g_PacketBufferUsed[param_1].g0 += ((s32)p - (s32)slot[6]) >> 2;
+    guess_g_PacketBufferUsed[param_1].vx += ((s32)p - (s32)slot[6]) >> 2;
 }
 
 
@@ -2879,8 +2879,8 @@ void func_80175DA8(param_1)
 
     extern u8  guess_g_HudPlayerRecord; // Names ledger: config/names.tsv guess_g_HudPlayerRecord
     extern u8  guess_g_ActiveMenu; // Names ledger: config/names.tsv guess_g_ActiveMenu
-    extern S_AF634 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
-    extern S_AF634 guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
+    extern VECTOR guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
+    extern VECTOR guess_g_PacketBufferBase[]; // Names ledger: config/names.tsv guess_g_PacketBufferBase
     extern u16 D_80186AE0[];
     extern u16 D_80186B30[];
     extern u16 D_80186B3C;
@@ -2901,7 +2901,7 @@ void func_80175DA8(param_1)
     s32 fl;
     u16 v;
 
-    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].g0 + guess_g_PacketBufferUsed[(s16)param_1].g0 * 4);
+    p = (Sp_80175DA8 *)(guess_g_PacketBufferBase[(s16)param_1].vx + guess_g_PacketBufferUsed[(s16)param_1].vx * 4);
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28) = p;
     i = 0;
     do {
@@ -2935,8 +2935,8 @@ void func_80175DA8(param_1)
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;
     p++;
     {
-        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].g0;
-        guess_g_PacketBufferUsed[(s16)param_1].g0 =
+        s32 acc = guess_g_PacketBufferUsed[(s16)param_1].vx;
+        guess_g_PacketBufferUsed[(s16)param_1].vx =
             acc + (((s32)p - *(s32 *)(s + (s16)param_1 * 4 + 0x28)) >> 2);
     }
 

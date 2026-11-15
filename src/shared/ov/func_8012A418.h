@@ -3,10 +3,10 @@
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern BigCopy D_80114EE8;
 void func_8012A418(void) {
-    struct Q16 *src;
-    struct Q16 *dst;
-    struct Q16 *end;
-    src = (struct Q16 *)guess_g_ActiveCamera;
+    Blk16_956C *src;
+    Blk16_956C *dst;
+    Blk16_956C *end;
+    src = (Blk16_956C *)guess_g_ActiveCamera;
     dst = &D_80114EE8;
     end = src + 10;
     do {

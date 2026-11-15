@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80182D28;
 extern void (*D_80182D50[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80182D30;
@@ -2692,7 +2692,7 @@ extern void func_8017E2C8(void);
 extern s32 func_8017D9BC(s32 a0);
 extern s32 func_8017DA10(void *a0);
 extern void func_8017DA64(void);
-extern Struct_80184C18 D_80184C18[];
+extern Unkstruct_80180CD4 D_80184C18[];
 extern void func_8017DAD4(s32 arg0);
 extern u8 D_80184C59[];
 extern void func_8017DB20(s32 *arg);
@@ -3239,13 +3239,13 @@ void func_80180494(void *a0)
 
 
 
-extern Blk4_80180518 D_801AD358[1];
-extern Blk4_80180518 D_801AD35C[1];
-extern Blk4_80180518 D_801AD398[1];
-extern Blk4_80180518 D_801AD39C[1];
-extern Blk4_80180518 D_801ABF54[1];
-extern Blk4_80180518 D_801ABF58[1];
-extern Blk4_80180518 D_801ABF5C[1];
+extern Blk4_8017CE90_8017CE90 D_801AD358[1];
+extern Blk4_8017CE90_8017CE90 D_801AD35C[1];
+extern Blk4_8017CE90_8017CE90 D_801AD398[1];
+extern Blk4_8017CE90_8017CE90 D_801AD39C[1];
+extern Blk4_8017CE90_8017CE90 D_801ABF54[1];
+extern Blk4_8017CE90_8017CE90 D_801ABF58[1];
+extern Blk4_8017CE90_8017CE90 D_801ABF5C[1];
 extern u8 D_801A5288[];
 
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -3282,8 +3282,8 @@ void func_80180518(s32 a0) {
 
 
 
-extern Blk4_80180518 D_801AD358[1];
-extern Blk4_80180518 D_801AD398[1];
+extern Blk4_8017CE90_8017CE90 D_801AD358[1];
+extern Blk4_8017CE90_8017CE90 D_801AD398[1];
 extern void guess_InitObjectKind6(s32, void *);
 extern s32 guess_GetGameVarByte(s32 arg);
 

@@ -4,13 +4,13 @@ int func_8012D664(int arg0, int arg1, int arg2) {
     extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
     extern int D_8017F5B4;
 
-    struct S8012D664_8012D664 s;
+    Vec3s s;
     int ret;
     int t;
 
-    s.a = (*(unsigned short*)&guess_g_PlayerPosX);
-    s.b = (*(unsigned short*)&guess_g_PlayerPosY) - 0x40;
-    s.c = (*(unsigned short*)&guess_g_PlayerPosZ);
+    s.x = (*(unsigned short*)&guess_g_PlayerPosX);
+    s.y = (*(unsigned short*)&guess_g_PlayerPosY) - 0x40;
+    s.z = (*(unsigned short*)&guess_g_PlayerPosZ);
     ret = ((int(*)())func_800132BC)(arg0, &s);
     t = arg1 + 0x20;
     if (ret < t * t) {

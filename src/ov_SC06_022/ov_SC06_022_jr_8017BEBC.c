@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018F110;
 extern void (*D_8018F138[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018F118;
@@ -3396,14 +3396,14 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 void func_8017DF28(s32 param_1)
 {
     Blk20 mtx;              /* sp+0x10 */
-    VEC_8017DF28 pos;       /* sp+0x30 */
-    VEC_8017DF28 *mptr;
+    VECTOR pos;       /* sp+0x30 */
+    VECTOR *mptr;
     s32 obj;
 
     mtx = D_800AE620;
 
     obj = ((s32 (*)(void))guess_AllocModelObject)();
-    mptr = (VEC_8017DF28 *)&mtx;
+    mptr = (VECTOR *)&mtx;
     if (obj == 0) {
         guess_FreeActor((void *)param_1);
         return;
@@ -3427,9 +3427,9 @@ void func_8017DF28(s32 param_1)
 
     ((Unkstruct_800B5CB8 *)param_1)->unkAE = 0x2000;
 
-    pos.y = -0xC0000;
-    pos.x = 0;
-    pos.z = -0x80000;
+    pos.vy = -0xC0000;
+    pos.vx = 0;
+    pos.vz = -0x80000;
 
     /* libgte RotMatrixY returns MATRIX*: the value-returning call is the
      * second $v0 set that keeps sched1 from boosting the guess_AllocModelObject call

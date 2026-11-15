@@ -851,7 +851,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801953CC;
 extern void (*D_801953F4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801953D4;
@@ -2808,7 +2808,7 @@ extern void (*D_801AD5E0[])(s32);
 extern s32 func_80143C74(s32 a0, s32 a1);
 extern void func_80182C98(s32 a0);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern int func_8012D664(int arg0, int arg1, int arg2);
 extern u8  D_801AD3C4;
@@ -4557,7 +4557,7 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 #include "common.h"
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 
@@ -5050,10 +5050,10 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
 void func_8018AB00(void)
 {
     extern void guess_BuildCircle12Points(void *, unsigned short);
-    extern Blk4_SC06_018_8018AB00 D_801D57B0;
-    extern Blk4_SC06_018_8018AB00 D_801D57B4;
-    extern Blk4_SC06_018_8018AB00 D_801D3B08;
-    extern Blk4_SC06_018_8018AB00 D_801D3B0C;
+    extern Blk4_8017CE90_8017CE90 D_801D57B0;
+    extern Blk4_8017CE90_8017CE90 D_801D57B4;
+    extern Blk4_8017CE90_8017CE90 D_801D3B08;
+    extern Blk4_8017CE90_8017CE90 D_801D3B0C;
 
     guess_BuildCircle12Points(&D_801D57B0, 0x80);
 
@@ -5062,12 +5062,12 @@ void func_8018AB00(void)
 }
 
 
-extern Blk4_SC06_018_8018AB00 D_801D57B0;
-extern Blk4_SC06_018_8018AB00 D_801D3B10;
-extern Blk4_SC06_018_8018AB00 D_801D3B08;
+extern Blk4_8017CE90_8017CE90 D_801D57B0;
+extern Blk4_8017CE90_8017CE90 D_801D3B10;
+extern Blk4_8017CE90_8017CE90 D_801D3B08;
 
 void func_8018AB74(void) {
-    if (D_801D57B0.b0 == 0xFF) {
+    if (D_801D57B0.unk0.v1.unk0 == 0xFF) {
         D_801D57B0 = D_801D3B10;
     } else {
         D_801D57B0 = D_801D3B08;
@@ -5607,7 +5607,7 @@ void func_8018B8B0(s32 param_1)
 
 
 
-extern Blk4_SC06_018_8018AB00 D_801D57B0;
+extern Blk4_8017CE90_8017CE90 D_801D57B0;
 
 void func_8018B8F8(s32 param_1)
 {
@@ -6236,7 +6236,7 @@ void func_8018CB14(s32 param_1)
 }
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8018CC88(void *a0);
 extern void func_8018CD04(void *a0);
@@ -6280,7 +6280,7 @@ void func_8018CB88(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_8018CD04 *)(p))->h)
-#define RW32(p) (((Unkstruct_8018CD04_2 *)(p))->v)
+#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
 
 void func_8018CD04(void *a0)
 {

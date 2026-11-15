@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186C90;
 extern void (*D_80186CB8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186C98;
@@ -2768,7 +2768,7 @@ extern void func_801845E8(s32 a0);
 extern void func_80184660(s32 a0, s32 a1);
 extern void func_80184804(void);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_8017F3B8(s32 a0);
 extern void (*D_80188E60[])(void);
 extern void func_8017F578(void *a0);
@@ -3508,7 +3508,7 @@ void func_80182334(void *a0) {
 }
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8017F5FC(s32 param_1);
 extern u8 D_8019F95C;
@@ -3520,7 +3520,7 @@ void func_80182424(s32 param_1)
     s32 p;
     s16 v;
 
-    guess_AddVelocityToPos((struct vec *)param_1);
+    guess_AddVelocityToPos((S800D22E4 *)param_1);
 
     p = ((Unkstruct_80126B58 *)param_1)->unk20;
     v = *(s16 *)(p + 0x18);

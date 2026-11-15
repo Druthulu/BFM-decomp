@@ -462,7 +462,7 @@ void func_800CD63C(s32 a0, s32 a1)
 {
     s16 sp10[3];
     s32 sp18[2];
-    W8__md_MAIN_044 sp20;
+    Blk20_8016DF5C sp20;
     s32 t;
     s32 r;
 
@@ -473,7 +473,7 @@ void func_800CD63C(s32 a0, s32 a1)
     sp10[1] = ((((t << 17) >> 16) * r) / 4096);
     sp10[2] = 0;
 
-    sp20 = *(W8__md_MAIN_044 *)a1;
+    sp20 = *(Blk20_8016DF5C *)a1;
 
     func_80015A2C(a0 + 0x58, (s32)&sp20 + 0x14);
     guess_RotTransSVWithMatrix((s32)&sp20, (s32)sp10, (s32)sp18);

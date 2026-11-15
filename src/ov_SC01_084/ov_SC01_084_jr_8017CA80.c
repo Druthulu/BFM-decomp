@@ -861,7 +861,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80188644;
 extern void (*D_8018866C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018864C;
@@ -2771,12 +2771,12 @@ void func_8017DAF8(void)
 {
     extern u8 guess_g_MainCamera[]; // Names ledger: config/names.tsv guess_g_MainCamera
     extern u8 D_8011F920[];
-    Blk16_SC01_084_8017DAF8 *src;
-    Blk16_SC01_084_8017DAF8 *dst;
-    Blk16_SC01_084_8017DAF8 *end;
+    Blk16_956C *src;
+    Blk16_956C *dst;
+    Blk16_956C *end;
 
-    dst = (Blk16_SC01_084_8017DAF8 *)&guess_g_MainCamera;
-    src = (Blk16_SC01_084_8017DAF8 *)D_8011F920;
+    dst = (Blk16_956C *)&guess_g_MainCamera;
+    src = (Blk16_956C *)D_8011F920;
     end = src + 10;
     do {
         *dst = *src;

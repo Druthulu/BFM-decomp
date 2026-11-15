@@ -33,7 +33,7 @@ extern void func_801758FC(void);                          /* derive-decl, arity 
 struct S;
 
 typedef void (*Handler)(Entry_tag *);
-struct vec;
+
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
@@ -896,7 +896,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80188914;
 extern void (*D_8018893C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018891C;
@@ -2917,7 +2917,7 @@ extern u8 D_8018A7C0;
 extern void func_8017EEC0(s32 param_1);
 extern s32 func_8017EF50(s32 param_1);
 extern void func_8017F024(int param_1);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8017F0B4(u8 *a0);
 extern s32 (*D_8018A87C[])();
@@ -3800,7 +3800,7 @@ extern u8 D_8018AFB0[];
 void func_80184D50(s32 *self)
 {
     s32 *tgt = (s32 *)((Unkstruct_800B5CB8 *)self)->unk64;
-    SV3 out;
+    Vec3s out;
 
     if (((Unkstruct_800B5CB8 *)self)->unkFE == 0x7FFF) {
         ((Unkstruct_800B5CB8 *)self)->unkFE =
@@ -3827,9 +3827,9 @@ void func_80184D50(s32 *self)
             *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xC);
     } else {
         guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)self)->unk64, (s32)D_8018AFB0, (s32)&out);
-        ((Unkstruct_800B5CB8 *)self)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)self)->unkA = out.b;
-        ((Unkstruct_800B5CB8 *)self)->unkE = out.c;
+        ((Unkstruct_800B5CB8 *)self)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)self)->unkA = out.y;
+        ((Unkstruct_800B5CB8 *)self)->unkE = out.z;
     }
 
     *(Blk8 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x18) =
@@ -4192,8 +4192,8 @@ extern int D_801B12AC;
 
 void func_801856F8(int param_1)
 {
-    SV3 in;
-    SV3 out;
+    Vec3s in;
+    Vec3s out;
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
@@ -4202,13 +4202,13 @@ void func_801856F8(int param_1)
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801B12AC);
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.x = 0;
+        in.y = 0;
+        in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.b;
-        c = out.c;
+        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+        c = out.z;
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)param_1)->unkE = c;
@@ -4462,7 +4462,7 @@ void func_80185E68(s32 arg0) {
     extern u8 D_80062BDC;
     extern s32 D_801D55AC[];
     extern u8 D_801D5588[];
-    extern Blk12_80185E68 D_801DA910[];
+    extern Blk12_801854C4 D_801DA910[];
     extern u8 D_801D5578;
     extern u8 D_801D6F8C[];
     extern s16 D_801DA98A[];
@@ -4493,7 +4493,7 @@ void func_80185E68(s32 arg0) {
     idx = ((Unkstruct_800B5CB8 *)arg0)->unkFC = D_801D5588[((Unkstruct_800B5CB8 *)arg0)->unk76];
 
     for (i = 0; i < 10; i++) {
-        D_801DA910[i] = ((Blk12_80185E68 *)(*(s32 *)D_801D55AC[((Unkstruct_800B5CB8 *)arg0)->unk76]))[i];
+        D_801DA910[i] = ((Blk12_801854C4 *)(*(s32 *)D_801D55AC[((Unkstruct_800B5CB8 *)arg0)->unk76]))[i];
     }
 
     guess_StartActorSequence(arg0, &D_801D5578);

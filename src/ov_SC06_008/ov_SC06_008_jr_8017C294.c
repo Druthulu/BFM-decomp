@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018760C;
 extern void (*D_80187634[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80187614;
@@ -3383,11 +3383,11 @@ s32 func_8017E37C(void *a0, s32 a1, s32 a2)
     p += (s16)a1 * 3;
 
     sp10.x = p[0];
-    sp20.vx = sp10.x;
+    sp20.unk0.v3.unk0 = sp10.x;
     sp10.y = p[1] + a2;
-    sp20.vy = sp10.y;
+    sp20.unk0.v3.unk4 = sp10.y;
     sp10.z = p[2];
-    sp20.vz = sp10.z;
+    sp20.unk0.v3.unk8 = sp10.z;
     sp10.f8 = p[3];
     if (sp10.f8 == 0x7FFF) {
         return 1;
@@ -6471,7 +6471,7 @@ void func_80182E8C(s32 a0) {
 
 
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern u8 * func_8012913C(s32 arg0);
 extern void func_801292C8(u8 *a0);

@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80182D28;
 extern void (*D_80182D50[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80182D30;
@@ -2829,7 +2829,7 @@ void func_8017DAAC(void) {
 
 
 
-extern Struct_80184C18 D_80184C18[];
+extern Unkstruct_80180CD4 D_80184C18[];
 extern s32 func_80171CC4(void *a0, void *a1);
 extern void func_80171928(void *a0);
 

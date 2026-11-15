@@ -862,7 +862,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E728;
 extern void (*D_8018E750[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E730;
@@ -3079,10 +3079,10 @@ void func_8017E778(s32 arg0)
                     nprim = part->nprim;
                     prim = (Prim_SC03_091_8017E778 *)part->prim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -3154,7 +3154,7 @@ void func_8017E778(s32 arg0)
                                                 *(u32 *)&((PolyGT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyGT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyGT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 cb = 0x34000000;
                                                 rgbw = (c0 | cb) | (c0 << 8) | (c0 << 16);
                                                 ((PolyGT3 *)pkt)->rgb0 = rgbw;
@@ -3174,7 +3174,7 @@ void func_8017E778(s32 arg0)
                                                 *(u32 *)&((PolyFT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 cb = tp[0] & 0xFF000000;
                                                 ((PolyFT3 *)pkt)->rgbc = cb;
                                                 ((PolyFT3 *)pkt)->uvc0 = tp[1];
@@ -3270,7 +3270,7 @@ void func_8017E778(s32 arg0)
                                                     *(u32 *)&((PolyGT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                     *(u32 *)&((PolyGT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                     gte_stsxy((long *)&((PolyGT4 *)pkt)->x3);
-                                                    tp = (u32 *)prim->w0;
+                                                    tp = (u32 *)prim->a;
                                                     cb = 0x3C000000;
                                                     rgbw = (c0 | cb) | (c0 << 8) | (c0 << 16);
                                                     ((PolyGT4 *)pkt)->rgb0 = rgbw;
@@ -3294,7 +3294,7 @@ void func_8017E778(s32 arg0)
                                                     *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                    tp = (u32 *)prim->w0;
+                                                    tp = (u32 *)prim->a;
                                                     cb = tp[0] & 0xFF000000;
                                                     ((PolyFT4 *)pkt)->rgbc = cb;
                                                     ((PolyFT4 *)pkt)->uvc0 = tp[1];

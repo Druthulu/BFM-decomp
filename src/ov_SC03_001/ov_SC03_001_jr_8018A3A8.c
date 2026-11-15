@@ -849,7 +849,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018F304;
 extern void (*D_8018F32C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018F30C;
@@ -3817,7 +3817,7 @@ void func_8018B238(void) {
 
     /* §36 bitfield-store OT link, exactly as in func_8018BCD4 next door. */
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
-    ((W_S40_8018B238 *)ot)->w = 0x02000000;
+    ((W_S40_8018B238_80187EA0 *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238 *)ot)->addr =
         ((PTag_S40_8018B238 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr;
     ((PTag_S40_8018B238 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr = (u32)ot;
@@ -3881,7 +3881,7 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
     s32 flag3;
     s32 flag4;
     s16 i;
-    Prim4_8017E978_8018B478 *p;
+    Pair_8013AD38 *p;
     s32 r;
 
     w = w0;
@@ -3905,7 +3905,7 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
             if (flag3 != 0) {
                 sp60[0] += -0x282828;
             }
-            do { ot = func_800D2650(ot, sp18, p->f0, p->f2, 1, sp60[0]); } while (0);
+            do { ot = func_800D2650(ot, sp18, p->x, p->y, 1, sp60[0]); } while (0);
         }
         p++;
     }

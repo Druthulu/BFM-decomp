@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
  /* 0x1C */
  /* 0x1D0 */
-struct vec;
+
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C140;
 extern void (*D_8018C168[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C148;
@@ -2880,7 +2880,7 @@ extern void func_80184698(s32 *a0);
 extern void (*D_8018E8BC[])(void *);
 extern void func_80184738(void);
 extern void func_801847B0(void);
-extern void guess_AddVelocityToPos_3(struct vec *a0);
+extern void guess_AddVelocityToPos_3(S800D22E4 *a0);
 extern void func_80185218(void *arg0);
 extern s32  func_80185680(void *a0, void *a1);
 extern void func_8018574C(void *a0);

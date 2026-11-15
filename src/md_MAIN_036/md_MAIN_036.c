@@ -528,17 +528,17 @@ void func_800CB910(s32 param_1) {
             rot.vx += ((rand() & 0x3f) << 4) - 0x200;
             rot.vy += ((rand() & 0x3f) << 4) - 0x200;
             rot.vz += ((rand() & 0x3f) << 4) - 0x200;
-            vel.vx = ((rand() & 0x1f) - 0x10) << 18;
-            vel.vy = ((rand() & 0x1f) - 0x10) << 18;
-            vel.vz = ((rand() & 0x1f) - 0x10) << 18;
+            vel.unk0.v3.unk0 = ((rand() & 0x1f) - 0x10) << 18;
+            vel.unk0.v3.unk4 = ((rand() & 0x1f) - 0x10) << 18;
+            vel.unk0.v3.unk8 = ((rand() & 0x1f) - 0x10) << 18;
         }
 
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.vx;
-        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.vy;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.vz;
+        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.unk0.v3.unk0;
+        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.unk0.v3.unk4;
+        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.unk0.v3.unk8;
 
         q = (s16 *)(param_1 + 0x38);
         i = 0;

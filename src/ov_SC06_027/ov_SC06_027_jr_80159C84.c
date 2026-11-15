@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8017FDCC;
 extern void (*D_8017FDF4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8017FDD4;
@@ -1111,7 +1111,7 @@ extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventS
 extern s32 D_8019C158;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(A801593E4 *a0);
-extern Entry D_801803AC[];
+extern Pair_8013AD38 D_801803AC[];
 extern void (*D_801805C0[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);

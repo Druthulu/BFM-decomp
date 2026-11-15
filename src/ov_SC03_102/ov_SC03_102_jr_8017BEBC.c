@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80187F78;
 extern void (*D_80187FA0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80187F80;
@@ -2812,10 +2812,10 @@ void func_8017BEBC(s32 arg0)
                     prim = (Prim_SC03_102_8017BEBC *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -2863,7 +2863,7 @@ void func_8017BEBC(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->w0;
+                                            ((PolyF3 *)pkt)->rgbc = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -2907,7 +2907,7 @@ void func_8017BEBC(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2961,7 +2961,7 @@ void func_8017BEBC(s32 arg0)
                                                 zc = za;
                                                 if (zc < zb) zc = zb;
                                                 g.opz = zc;
-                                                ((PolyF4 *)pkt)->rgbc = prim->w0;
+                                                ((PolyF4 *)pkt)->rgbc = prim->a;
                                                 otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3017,7 +3017,7 @@ void func_8017BEBC(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -3411,10 +3411,10 @@ void func_8017CD9C(s32 arg0)
                     nprim = part->nprim;
                     prim = (Prim_SC03_102_8017CD9C *)part->prim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -3486,7 +3486,7 @@ void func_8017CD9C(s32 arg0)
                                                 *(u32 *)&((PolyGT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyGT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyGT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 cb = 0x34000000;
                                                 rgbw = (c0 | cb) | (c0 << 8) | (c0 << 16);
                                                 ((PolyGT3 *)pkt)->rgb0 = rgbw;
@@ -3506,7 +3506,7 @@ void func_8017CD9C(s32 arg0)
                                                 *(u32 *)&((PolyFT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 cb = tp[0] & 0xFF000000;
                                                 ((PolyFT3 *)pkt)->rgbc = cb;
                                                 ((PolyFT3 *)pkt)->uvc0 = tp[1];
@@ -3602,7 +3602,7 @@ void func_8017CD9C(s32 arg0)
                                                     *(u32 *)&((PolyGT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                     *(u32 *)&((PolyGT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                     gte_stsxy((long *)&((PolyGT4 *)pkt)->x3);
-                                                    tp = (u32 *)prim->w0;
+                                                    tp = (u32 *)prim->a;
                                                     cb = 0x3C000000;
                                                     rgbw = (c0 | cb) | (c0 << 8) | (c0 << 16);
                                                     ((PolyGT4 *)pkt)->rgb0 = rgbw;
@@ -3626,7 +3626,7 @@ void func_8017CD9C(s32 arg0)
                                                     *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                    tp = (u32 *)prim->w0;
+                                                    tp = (u32 *)prim->a;
                                                     cb = tp[0] & 0xFF000000;
                                                     ((PolyFT4 *)pkt)->rgbc = cb;
                                                     ((PolyFT4 *)pkt)->uvc0 = tp[1];
@@ -4048,7 +4048,7 @@ void func_80180BFC(void *a0) {
  *     expansion is already what the target has.
  */
 
-struct vec;
+
 
    /* 0x8 */
                /* 0x20 */
@@ -4060,7 +4060,7 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 extern s32 *D_80126B90;
 extern u8 D_80189C10[];
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 rand(void);
 extern void RotMatrixY(s32 a0, void *a1);
@@ -4090,7 +4090,7 @@ void func_80180C38(void *a0)
         sv_a.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sv_a.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
         sv_a.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         sv_b.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sv_b.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -4125,9 +4125,9 @@ void func_80180C38(void *a0)
     }
 
     m = D_800AE620;
-    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.unk0.v0.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.unk0.v0.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.unk0.v0.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14), &m);
     gte_SetRotMatrix(&m);
@@ -4181,10 +4181,10 @@ kill:
 
 #include "common.h"
 
-struct vec;
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern s32 func_801811F0(s32 a0);
 
@@ -4199,7 +4199,7 @@ void func_80181030(s32 a0)
         sv1.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
         sv1.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
         ((Unkstruct_800B5CB8 *)a0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 + 0x18000;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         sv2.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sv2.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;

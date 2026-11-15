@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801926D8;
 extern void (*D_80192700[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801926E0;
@@ -4592,10 +4592,10 @@ void func_8018454C(s32 a0)
 #include "common.h"
 
 /* D_80195AF4_t moved to ov_SC02_005_shared.h (S74 §431 split). */
-extern D_80195AF4_t D_80195AF4[];
+extern Unkstruct_8017C8B0 D_80195AF4[];
 
 
-extern D_80195AF6_t D_80195AF6[];
+extern Unkstruct_8017C8B0 D_80195AF6[];
 
 extern s16 D_80126CB4;
 extern s16 D_80126CB8;
@@ -4629,9 +4629,9 @@ void func_801846CC(void *a0)
             local.f2 = *(u16 *)((u8 *)p + 0xA) + 0x80;
             local.f4 = *(u16 *)((u8 *)p + 0xE);
         } else {
-            local.f0 = D_80195AF4[((Unkstruct_800B5CB8 *)a0)->unk100].f0;
+            local.f0 = D_80195AF4[((Unkstruct_800B5CB8 *)a0)->unk100].unk0;
             local.f2 = CAST_NONSTRUCT(u16, (u8 *)(*(void **)((u8 *)a0 + 0x64)), 0xA);
-            local.f4 = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].f0;
+            local.f4 = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].unk0;
         }
     }
 
@@ -4705,7 +4705,7 @@ extern void func_8013C9C4(void *a0);
 extern void (*D_80191060[])(void);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 
-extern D_80195AF6_t D_80195AF6[];
+extern Unkstruct_8017C8B0 D_80195AF6[];
 
 void func_80184828(void *a0)
 {
@@ -4750,8 +4750,8 @@ void func_80184828(void *a0)
                 func_8018AEB4(((Unkstruct_800B5CB8 *)a0)->unk100, 0);
             }
         } else {
-            D_80195AF6_t *p = D_80195AF6;
-            s16 newval = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].f0;
+            Unkstruct_8017C8B0 *p = D_80195AF6;
+            s16 newval = D_80195AF6[((Unkstruct_800B5CB8 *)a0)->unk100].unk0;
 
             if (newval >= CAST_SIGN(s16, (u8 *)a0, 0xE)) {
                 __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-operand-order

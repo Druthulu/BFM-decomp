@@ -856,7 +856,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183BA4;
 extern void (*D_80183BCC[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80183BAC;
@@ -4225,7 +4225,7 @@ extern s16 D_80185870[];
 extern s32 D_801858A8[];
 
 void func_801800B8(void *a0) {
-    Cmd801800B8 *p;
+    Rec8_801A026C *p;
     u8 *obj;
     s32 t;
     s32 u;
@@ -4252,9 +4252,9 @@ void func_801800B8(void *a0) {
     guess_UpdateCamera();
 
     p = ((Ctl801800B8 *)a0)->unk0.v1.unk0;
-    while (p->kind != -1) {
-        obj = D_801F80AC[p->kind];
-        switch (p->cmd) {
+    while (p->a != -1) {
+        obj = D_801F80AC[p->a];
+        switch (p->b) {
         case 0:
             guess_HideObjectModel(obj);
             ((Unkstruct_800B5CB8 *)obj)->unk98 = 0;
@@ -4262,18 +4262,18 @@ void func_801800B8(void *a0) {
             break;
         case 1:
             guess_ShowObjectModel(obj);
-            func_801802A0((s32)obj, p->arg,
+            func_801802A0((s32)obj, p->c,
                           D_80185870[((Unkstruct_800B5CB8 *)obj)->unk70],
                           D_801858A8[((Unkstruct_800B5CB8 *)obj)->unk70]);
             ((Unkstruct_800B5CB8 *)obj)->unk34 = 1;
             break;
         case 2:
             guess_ShowObjectModel(obj);
-            guess_StartActorSequence((s32)obj, (void *)p->arg);
+            guess_StartActorSequence((s32)obj, (void *)p->c);
             ((Unkstruct_800B5CB8 *)obj)->unk34 = 2;
             break;
         case 3:
-            ((Unkstruct_800B5CB8 *)obj)->unkDC = p->arg;
+            ((Unkstruct_800B5CB8 *)obj)->unkDC = p->c;
             break;
         }
         p++;
@@ -5097,7 +5097,7 @@ extern s32 func_8014C050(s32 a0, s32 a1);
 
 extern void func_801815DC(void *a0);
 extern void func_80181658(void *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_801814DC(void *a0) {
@@ -5108,7 +5108,7 @@ void func_801814DC(void *a0) {
 
     if (((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {
             u16 t = ((Unkstruct_800B5CB8 *)a0)->unkA + 0x1000;
@@ -5139,7 +5139,7 @@ void func_801814DC(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_80181658 *)(p))->h)
-#define RW32(p) (((Unkstruct_80181658_2 *)(p))->v)
+#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
 
 void func_80181658(void *a0)
 {

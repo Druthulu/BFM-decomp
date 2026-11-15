@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C9F4;
 extern void (*D_8018CA1C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C9FC;
@@ -3411,7 +3411,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
    /* 12-byte stride */
 
 extern Blk20 D_800AE620;
-extern Rec12_801888F4 D_8018F560[];
+extern VECTOR D_8018F560[];
 extern s32  rand(void);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8001CC3C(s32 a0, s32 a1, s32 a2, s32 a3);
@@ -3463,7 +3463,7 @@ void func_801888F4(void *arg0)
 /* $v0 at exit: result of func_801292C8 or addiu $v0, $zero, 0x10 at ov_SC02_000:0x80188A94 or negu $v0, $v0 at ov_SC02_000:0x80188AB4; asm body, no C return */
 s32 func_80188A18(s32 param_1)
 {
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
     extern void func_801292C8(u8 *a0);
 
     register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
@@ -3501,7 +3501,7 @@ s32 func_80188A18(s32 param_1)
 
 extern s32 rand(void);
 extern void func_8001CB6C(u8*, s32, s32, s32);
-extern Rec12_801888F4 D_8018F560[];
+extern VECTOR D_8018F560[];
 
 void func_80188AEC(void *a0) {
     void *s0;
@@ -3531,7 +3531,7 @@ void func_80188AEC(void *a0) {
 }
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 #define SHARED_FN func_80188BAC
@@ -4138,7 +4138,7 @@ void func_80189A70(s32 *a0)
     s32 v;
     s32 t;
     s32 c;
-    Range_80189A70 range;
+    Pair_8013AD38 range;
 
     v = (s16)(CAST_SIGN(u16, (s32)a0, 0x100) -= 0x10);
     if (v < 0) {
@@ -4152,8 +4152,8 @@ void func_80189A70(s32 *a0)
     } else {
         c = v | ((v << 16) | t);
     }
-    range.start = 0;
-    range.end = 0x50;
+    range.x = 0;
+    range.y = 0x50;
     func_80189B1C(a0, &range, D_8018F71C, func_80189DB8(a0, c));
 }
 
@@ -4175,7 +4175,7 @@ void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3) {
     u16 *p;
     u16 t;
 
-    p = D_801E82A0 + a1->start * 4;
+    p = D_801E82A0 + a1->x * 4;
 
     func_80017DC4(a2, &mtx);
 
@@ -4184,15 +4184,15 @@ void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3) {
     mtx.t[2] = 0;
     buf.tag = 0x50000000;
 
-    i = a1->start;
+    i = a1->x;
     buf.p1 = a3;
     buf.p0 = a3;
     buf.zero2 = 0;
     buf.zero1 = 0;
 
-    if (i < a1->end) {
+    if (i < a1->y) {
         rec = &buf;
-        for (; i < a1->end; i++) {
+        for (; i < a1->y; i++) {
             t = p[0];
             rec->t0.vy = 0;
             rec->t0.vx = t;
@@ -4448,8 +4448,8 @@ extern int D_801A7820;
 
 void func_8018A128(int param_1)
 {
-    SV3 in;
-    SV3 out;
+    Vec3s in;
+    Vec3s out;
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
@@ -4458,13 +4458,13 @@ void func_8018A128(int param_1)
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801A7820);
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.x = 0;
+        in.y = 0;
+        in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_80126B58 *)param_1)->unk6 = out.a;
-        ((Unkstruct_80126B58 *)param_1)->unkA = out.b;
-        c = out.c;
+        ((Unkstruct_80126B58 *)param_1)->unk6 = out.x;
+        ((Unkstruct_80126B58 *)param_1)->unkA = out.y;
+        c = out.z;
         ((Unkstruct_80126B58 *)param_1)->unk1C = 0x5a;
         CAST_WIDTH(short, param_1, 0x34) = 1;
         ((Unkstruct_80126B58 *)param_1)->unkE = c;

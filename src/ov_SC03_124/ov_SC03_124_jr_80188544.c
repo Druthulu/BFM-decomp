@@ -847,7 +847,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C9A8;
 extern void (*D_8018C9D0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C9B0;
@@ -3213,7 +3213,7 @@ s32 *func_8018893C(out, src, idx, w, col)
 
     c = D_80115138[idx];
 
-    ((W_8018893C *)out)->w = 0x04000000;
+    ((W_S40_8018B238_80187EA0 *)out)->w = 0x04000000;
     *((u8 *)out + 0xC) = 0x30;
     *((u8 *)out + 0xD) = 0x48;
     *(s16 *)((u8 *)out + 0xE) = 0x4056;

@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018003C;
 extern void (*D_80180064[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80180044;
@@ -3710,7 +3710,7 @@ extern void (*D_80181D94[])(void);
 
 
 extern void func_8017DC24(s32);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern s32 D_80181D90;
 
@@ -3774,8 +3774,8 @@ extern s16 D_80181DB0;
 void func_8017DC24(s32 arg0)
 {
     Prim_8017DC24 prim;             /* sp+0x10 */
-    Pos_8017DC24 wpos;              /* sp+0x38 */
-    Pos_8017DC24 spos;              /* sp+0x40 */
+    Src_8013B598_8013B598 wpos;              /* sp+0x38 */
+    Src_8013B598_8013B598 spos;              /* sp+0x40 */
     Sxy_8017DC24 sxy[4];            /* sp+0x48 (only 0..2 used; 4th slot fills 0x60) */
     Mtx_8017DC24 mtx;               /* sp+0x68 */
     s32 otz;                        /* sp+0x88 */
@@ -3785,9 +3785,9 @@ void func_8017DC24(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_80181DA0 = spos.z;
-        D_80181DA8 = spos.z;
-        D_80181DB0 = spos.z;
+        D_80181DA0 = spos.f4;
+        D_80181DA8 = spos.f4;
+        D_80181DB0 = spos.f4;
         func_80017D98(&mtx);
         /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
         mtx.t[2] = 0;
@@ -3810,21 +3810,21 @@ void func_8017DC24(s32 arg0)
             prim.g2 = 0x20;
             prim.r2 = 0x20;
             prim.color = 0x50000000;
-            prim.v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
-            prim.v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
-            prim.v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
-            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
-            prim.v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
-            prim.v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
+            prim.v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
+            prim.v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
+            prim.v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
+            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            prim.v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
+            prim.v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
             prim.v[0].c = otz;
             func_8001739C(&prim);
             t = sxy[1].unk0.v1.unk2;
-            prim.v[1].y = spos.y - t;
+            prim.v[1].y = spos.f2 - t;
             func_8001739C(&prim);
             t = sxy[2].unk0.v1.unk0;
-            prim.v[2].x = spos.x - t;
+            prim.v[2].x = spos.f0 - t;
             func_8001739C(&prim);
-            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            prim.v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(&prim);
         }
     }

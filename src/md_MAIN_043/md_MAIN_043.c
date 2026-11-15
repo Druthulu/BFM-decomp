@@ -284,7 +284,7 @@ void func_800CD054(void *a0) {
     if (*(s16 *)(s1 + 0x1C) == 0x1000) {
         *(u16 *)(s1 + 0x1C) = 0;
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
-        *(S4_800CD054 *)(dp + 4) = *(S4_800CD054 *)(dp + 0xC);
+        *(W_8016BFD0 *)(dp + 4) = *(W_8016BFD0 *)(dp + 0xC);
     }
     v0 = guess_TickWaitTimer_2((s32)a0);
     if (v0 != 0) {
@@ -438,7 +438,7 @@ void func_800CD404(void *a0) {
             *(s32 *)(s0 + 0x34) = dstp;
             srcp = ((Unkstruct_80126B58 *)*(s32 *)(a0 + 0x4C))->unk20;
             srcp = *(s32 *)(srcp + 0x34);
-            *(Block32 *)dstp = *(Block32 *)srcp;
+            *(Blk20_8016DF5C *)dstp = *(Blk20_8016DF5C *)srcp;
         }
         ((Unkstruct_80126B58 *)a0)->unk6 = CAST_SIGN(u16, s2, 6);
         v = CAST_SIGN(u16, s2, 0xA);

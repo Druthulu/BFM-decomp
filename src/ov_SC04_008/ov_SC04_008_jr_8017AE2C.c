@@ -856,7 +856,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801808BC;
 extern void (*D_801808E4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801808C4;
@@ -3840,20 +3840,20 @@ void func_8017DB64(int param_1)
     extern s16 D_80193344;
     extern s32 D_8019334C;
 
-    UVec_8017DB64 v;
+    Vec3s v;
     int p;
     s32 ptr;
     u16 *o;
 
     p = ((Unkstruct_8017DB64 *)param_1)->unk20;
     o = (u16 *)param_1;
-    v.vy = 0;
-    v.vx = 0;
-    v.vz = o[0x16];
+    v.y = 0;
+    v.x = 0;
+    v.z = o[0x16];
     func_800139C8(((Unkstruct_8017DB64_2 *)p)->unk12 = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
 
-    o[3] = o[9] + v.vx;
-    o[7] = o[0xD] + v.vz;
+    o[3] = o[9] + v.x;
+    o[7] = o[0xD] + v.z;
     o[5] = o[5] + o[0xB];
     ptr = D_8019334C;
     o[8] = o[8] + *(unsigned short *)ptr;
@@ -3911,19 +3911,19 @@ void func_8017DCB4(s32 param_1)
 
     func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
 
-    if (v.vx > ((Unkstruct_8017DCB4 *)D_80193348)->unk0) {
-        lim = ((Unkstruct_8017DCB4 *)D_80193348)->unk0;
+    if (v.vx > ((Pair_8013AD38 *)D_80193348)->x) {
+        lim = ((Pair_8013AD38 *)D_80193348)->x;
         v.vx = v.vx - lim;
-    } else if (v.vx < -((Unkstruct_8017DCB4 *)D_80193348)->unk0) {
-        lim = ((Unkstruct_8017DCB4 *)D_80193348)->unk0;
+    } else if (v.vx < -((Pair_8013AD38 *)D_80193348)->x) {
+        lim = ((Pair_8013AD38 *)D_80193348)->x;
         v.vx = lim + v.vx;
     }
 
-    if (v.vz > ((Unkstruct_8017DCB4 *)D_80193348)->unk2) {
-        lim = ((Unkstruct_8017DCB4 *)D_80193348)->unk2;
+    if (v.vz > ((Pair_8013AD38 *)D_80193348)->y) {
+        lim = ((Pair_8013AD38 *)D_80193348)->y;
         v.vz = v.vz - lim;
-    } else if (v.vz < -((Unkstruct_8017DCB4 *)D_80193348)->unk2) {
-        lim = ((Unkstruct_8017DCB4 *)D_80193348)->unk2;
+    } else if (v.vz < -((Pair_8013AD38 *)D_80193348)->y) {
+        lim = ((Pair_8013AD38 *)D_80193348)->y;
         v.vz = lim + v.vz;
     }
 

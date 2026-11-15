@@ -856,7 +856,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C140;
 extern void (*D_8018C168[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C148;
@@ -2887,7 +2887,7 @@ void func_80181C84(s32 a0)
      * allocno that conflicts with the unused-remainder pseudo of `0x1C0 / n` in $v1; a per-block q is
      * local and takes $v1 itself. */
     s32 s1;
-    Local_80181C84 local;
+    Local_8017EE34 local;
     u8 *b58;
     u16 tE;
     u16 t34;
@@ -3789,27 +3789,27 @@ extern s32 VectorNormalSS(void *a0, void *a1);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 s32 func_8018388C(void *a0, s32 a1) {
-    Vec3s16_8018388C s;
-    Vec3s16_8018388C s1;
-    Vec3s16_8018388C diff;
+    Vec3s s;
+    Vec3s s1;
+    Vec3s diff;
     s16 *box0;
     s16 *box1;
 
     box0 = (s16 *)(((s32)D_80126B90 & 0xFFFFFFF) | 0x80000000);
     box1 = (s16 *)((((Unkstruct_8018388C *)a0)->unk58 & 0xFFFFFFF) | 0x80000000);
 
-    s.a = guess_g_PlayerPosX;
-    s.b = guess_g_PlayerPosY;
-    s.c = guess_g_PlayerPosZ;
+    s.x = guess_g_PlayerPosX;
+    s.y = guess_g_PlayerPosY;
+    s.z = guess_g_PlayerPosZ;
 
-    s1.a = ((Unkstruct_8018388C *)a0)->unk6;
-    s1.b = ((Unkstruct_8018388C *)a0)->unkA;
-    s1.c = ((Unkstruct_8018388C *)a0)->unkE;
+    s1.x = ((Unkstruct_8018388C *)a0)->unk6;
+    s1.y = ((Unkstruct_8018388C *)a0)->unkA;
+    s1.z = ((Unkstruct_8018388C *)a0)->unkE;
 
     if (func_8013361C(box0, box1, &s, &s1) != 0) {
-        diff.a = s.a - s1.a;
-        diff.b = s.b - s1.b;
-        diff.c = s.c - s1.c;
+        diff.x = s.x - s1.x;
+        diff.y = s.y - s1.y;
+        diff.z = s.z - s1.z;
 
         VectorNormalSS(&diff, &diff);
 
@@ -3968,8 +3968,8 @@ s32 func_80183C20(void *a0) {
 extern s32 ratan2(s32 dx, s32 dy);
     s32 func_80183C6C(void * arg0, void * arg1) {
         return ((s32 (*)(s32, s32))ratan2)(
-            ((Unkstruct_80183C6C_2 *)arg1)->unk2 - ((Unkstruct_80183C6C *)arg0)->unk2,
-            ((Unkstruct_80183C6C_2 *)arg1)->unk0 - ((Unkstruct_80183C6C *)arg0)->unk0
+            ((Pair_8013AD38 *)arg1)->y - ((Pair_8013AD38 *)arg0)->y,
+            ((Pair_8013AD38 *)arg1)->x - ((Pair_8013AD38 *)arg0)->x
         ) - 0x400 & 0xFFF;
     }
 
@@ -4230,33 +4230,33 @@ extern s32 func_80135004(s32 a0, void *a1, s32 a2);
  */
 void func_8018423C(s32 arg0)
 {
-    Vec4s16_8018423C pos;
-    Vec4s16_8018423C vec;
-    Vec4s16_8018423C tmp;
-    Vec4s16_8018423C out;
+    V16x4 pos;
+    V16x4 vec;
+    V16x4 tmp;
+    V16x4 out;
     s32 i;
     s32 j;
     s32 k;
     s32 step;
     s32 r;
 
-    pos.f0 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    pos.f1 = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    pos.f2 = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-    vec.f2 = 0;
-    vec.f0 = 0;
+    pos.unk0 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
+    pos.unk2 = ((Unkstruct_800B5CB8 *)arg0)->unkA;
+    pos.unk4 = ((Unkstruct_800B5CB8 *)arg0)->unkE;
+    vec.unk4 = 0;
+    vec.unk0 = 0;
 
     j = 0;
     do {
         i = j + 1;
-        vec.f1 = -(i << 7);
+        vec.unk2 = -(i << 7);
         guess_RotTransSVWithObjMatrix(arg0, (s32)&vec, (s32)&vec);
         if (func_80135004(1, &pos, (s32)&vec) != 0) {
             if ((guess_g_FrameCounter & 7) == 0) {
                 step = -0x40;
                 out = vec;
                 for (k = 0; k < 8; k++, step += 0x10) {
-                    out.f0 = vec.f0 + step;
+                    out.unk0 = vec.unk0 + step;
                     r = (s16)(rand() % 0x1000 + 0x2000);
                     func_801850D8(7, r, 0, 0, &out, 0, D_8018E59C[rand() & 1], 0);
                 }
@@ -4417,8 +4417,8 @@ void func_80184738(void)
 void func_801847B0(void) {
 }
 
-struct vec;
-extern void guess_AddVelocityToPos_3(struct vec *a0);
+
+extern void guess_AddVelocityToPos_3(S800D22E4 *a0);
 extern void func_80185218(void *arg0);
 extern s32  func_80185680(void *a0, void *a1);
 extern void func_8018574C(void *a0);
@@ -4444,7 +4444,7 @@ void func_801847B8(void *a0) {
             } else {
                 u16 v0, v1, a1;
 
-                guess_AddVelocityToPos_3((struct vec *)a0);
+                guess_AddVelocityToPos_3((S800D22E4 *)a0);
                 v0 = ((Unkstruct_801847B8 *)a0)->unk6;
                 v1 = ((Unkstruct_801847B8 *)a0)->unkA;
                 a1 = ((Unkstruct_801847B8 *)a0)->unkE;
@@ -4471,8 +4471,8 @@ void func_801847B8(void *a0) {
  * pass the pointer through as void* here -- identical codegen, no dereference
  * happens on our side of the call. The real TU declaration is adopted verbatim at
  * bank time (law 2/8). */
-struct vec;
-extern void guess_AddVelocityToPos_3(struct vec *a0);
+
+extern void guess_AddVelocityToPos_3(S800D22E4 *a0);
 extern void func_80185218(void *arg0);
 
 /* No definition/decl anywhere in the fleet for these three -- derived from the
@@ -4501,7 +4501,7 @@ void func_801848A4(void *a0) {
             s32 a1f;
             s32 cnt;
 
-            guess_AddVelocityToPos_3((struct vec *)a0);
+            guess_AddVelocityToPos_3((S800D22E4 *)a0);
             v1  = ((Unkstruct_801848A4 *)a0)->unk6;
             a0f = ((Unkstruct_801848A4 *)a0)->unkA;
             cnt = ((Unkstruct_801848A4 *)a0)->unk1C + 1;
@@ -4541,7 +4541,7 @@ void func_801848A4(void *a0) {
             s32 a1f;
             s32 cnt;
 
-            guess_AddVelocityToPos_3((struct vec *)a0);
+            guess_AddVelocityToPos_3((S800D22E4 *)a0);
             v1  = ((Unkstruct_801848A4 *)a0)->unk6;
             a0f = ((Unkstruct_801848A4 *)a0)->unkA;
             cnt = ((Unkstruct_801848A4 *)a0)->unk1C + 1;
@@ -4879,13 +4879,13 @@ void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
         param_3[7] = *(s8 *)(p + 5);
     } else {
         param_1 = param_1 + param_2 * 0xc;
-        buf.h[0] = ((Unkstruct_80184FBC *)param_1)->unk6;
-        buf.h[1] = ((Unkstruct_80184FBC *)param_1)->unk8;
-        buf.h[2] = ((Unkstruct_80184FBC *)param_1)->unkA;
+        buf.h[0] = ((struct Vec *)param_1)->unk6;
+        buf.h[1] = ((struct Vec *)param_1)->unk8;
+        buf.h[2] = ((struct Vec *)param_1)->unkA;
         RotMatrixZYX((s32)&buf, (s32)param_3);
-        param_3[5] = ((Unkstruct_80184FBC *)param_1)->unk0;
-        param_3[6] = ((Unkstruct_80184FBC *)param_1)->unk2;
-        param_3[7] = ((Unkstruct_80184FBC *)param_1)->unk4;
+        param_3[5] = ((struct Vec *)param_1)->unk0;
+        param_3[6] = ((struct Vec *)param_1)->unk2;
+        param_3[7] = ((struct Vec *)param_1)->unk4;
     }
 }
 
@@ -4945,10 +4945,10 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 /* guess_AddVelocityToPos_3: adds the velocity words +0x10, +0x14, +0x18 of a0 to its position words +0x4, +0x8, +0xC
  * Confidence medium, xref chain: +0x4 += +0x10, +0x8 += +0x14, +0xC += +0x18; guess_SetVelocityXZFromLocal writes +0x10/+0x18
  * Names ledger: config/names.tsv guess_AddVelocityToPos_3 */
-void guess_AddVelocityToPos_3(struct vec *a0) {
-    a0->unk4 += a0->unk10;
-    a0->unk8 += a0->unk14;
-    a0->unkC += a0->unk18;
+void guess_AddVelocityToPos_3(S800D22E4 *a0) {
+    a0->f4 += a0->f10;
+    a0->f8 += a0->f14;
+    a0->fC += a0->f18;
 }
 
 
@@ -5011,20 +5011,20 @@ extern s32  VectorNormalSS(void *a0, void *a1);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 
 s32 func_80185380(s32 a0, s16 *a1, s32 a2) {
-    Vec3s16_80185380 s;
-    Vec3s16_80185380 diff;
+    Vec3s s;
+    Vec3s diff;
     s16 *box0;
 
     box0 = (s16 *)(((s32)D_80126B90 & 0xFFFFFFF) | 0x80000000);
 
-    s.a = guess_g_PlayerPosX;
-    s.b = guess_g_PlayerPosY;
-    s.c = guess_g_PlayerPosZ;
+    s.x = guess_g_PlayerPosX;
+    s.y = guess_g_PlayerPosY;
+    s.z = guess_g_PlayerPosZ;
 
     if (func_8013361C(box0, a1, (s16 *)&s, (s16 *)(a0 + 0x34)) != 0) {
-        diff.a = s.a - CAST_SIGN(u16, a0, 0x34);
-        diff.b = s.b - CAST_SIGN(u16, a0, 0x36);
-        diff.c = s.c - CAST_SIGN(u16, a0, 0x38);
+        diff.x = s.x - CAST_SIGN(u16, a0, 0x34);
+        diff.y = s.y - CAST_SIGN(u16, a0, 0x36);
+        diff.z = s.z - CAST_SIGN(u16, a0, 0x38);
 
         VectorNormalSS(&diff, &diff);
 
@@ -5106,10 +5106,10 @@ s32 func_80185628(s16 *a0, s16 *a1) {
 
 
 void func_80185660(s32 *a0, s32 *a1, s32 a2) {
-        ((Unkstruct_80185660 *)a1)->unk0 = a2;
+        ((Unkstruct_80185680_2 *)a1)->unk0 = a2;
         *(s32 *)((s32)a0 + 0x24) = a2;
-        ((Unkstruct_80185660 *)a1)->unk4 = 0;
-        ((Unkstruct_80185660 *)a1)->unk6 = *(u8 *)a2 & 0x3F;
+        ((Unkstruct_80185680_2 *)a1)->unk4 = 0;
+        ((Unkstruct_80185680_2 *)a1)->unk6 = *(u8 *)a2 & 0x3F;
     }
 
 

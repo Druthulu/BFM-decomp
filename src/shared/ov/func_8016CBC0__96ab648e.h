@@ -54,18 +54,18 @@ short func_8016CBC0(void)
         {
           pv = &sub[uVar9];
           {
-            unsigned int a = pv->h[0];
+            unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
             p0.v[0].x = a;
-            b = pv->h[3];
+            b = pv->unk0.v0.h[3];
             p1.v[1].x = b;
             p0.v[1].x = (p1.v[0].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[1];
+            unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
             p0.v[0].y = a;
-            b = pv->h[4];
+            b = pv->unk0.v0.h[4];
             uc = ((unsigned) (col & 0xFF)) >> 3;
             p1.v[1].y = b;
             p0.v[1].y = (p1.v[0].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
@@ -73,10 +73,10 @@ short func_8016CBC0(void)
             uVar9 = w9;
           }
           {
-            unsigned int a = pv->h[2];
+            unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
             p0.v[0].z = a;
-            b = pv->h[5];
+            b = pv->unk0.v0.h[5];
             p1.col[0].g = col;
             p0.col[1].g = col;
             p1.col[0].b = uc;
@@ -95,26 +95,26 @@ short func_8016CBC0(void)
           a2 = (unsigned) (col & 0xFF);
           a2 = a2 >> 3;
           {
-            unsigned int a = pv->h[0];
+            unsigned int a = pv->unk0.v0.h[0];
             unsigned int b;
             p0.v[2].x = a;
-            b = pv->h[3];
+            b = pv->unk0.v0.h[3];
             p1.v[3].x = b;
             p0.v[3].x = (p1.v[2].x = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[1];
+            unsigned int a = pv->unk0.v0.h[1];
             unsigned int b;
             p0.v[2].y = a;
-            b = pv->h[4];
+            b = pv->unk0.v0.h[4];
             p1.v[3].y = b;
             p0.v[3].y = (p1.v[2].y = ((unsigned) (((s16) a) + ((s16) b))) >> 1);
           }
           {
-            unsigned int a = pv->h[2];
+            unsigned int a = pv->unk0.v0.h[2];
             unsigned int b;
             p0.v[2].z = a;
-            b = pv->h[5];
+            b = pv->unk0.v0.h[5];
             p1.col[2].g = col;
             p0.col[3].g = col;
             p1.col[2].b = a2;

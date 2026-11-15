@@ -847,7 +847,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C9A8;
 extern void (*D_8018C9D0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C9B0;
@@ -3772,7 +3772,7 @@ s32 *func_801880E0(s32 *ot, Panel_8017E978_801880E0 *w0, s16 idx) {
             if (flag3 != 0) {
                 sp60[0] += -0x282828;
             }
-            ot = func_800D2650(ot, sp18, p->f0, p->f2, 1, sp60[0]);
+            ot = func_800D2650(ot, sp18, p->x, p->y, 1, sp60[0]);
         }
         p++;
     }

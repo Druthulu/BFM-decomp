@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801841A8;
 extern void (*D_801841D0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801841B0;
@@ -3556,7 +3556,7 @@ void func_801800C0(s32 arg0)
     s16 var;
     s16 var2;
     u16 u0;
-    Trio sp; // unused
+    Vec3s sp; // unused
 
     *(s32*)(arg0 + 0x1c) += 1;
     var = *(s16*)(arg0 + 0x10a);
@@ -3600,9 +3600,9 @@ void func_801800C0(s32 arg0)
     if (guess_TestGameFlag(0x129) & 0xFF) {
         guess_SetGameFlag(0x129, 0);
         guess_SetGameFlag(0x126, 0);
-        sp.a = 0x20;
-        sp.b = 0;
-        sp.c = -0x80;
+        sp.x = 0x20;
+        sp.y = 0;
+        sp.z = -0x80;
         ((void (*)(void*, void*))func_80171B10)(&guess_g_PlayerActor, &sp);
     }
     if (!(guess_TestGameFlag(0x126) & 0xFF)) goto block_126;
@@ -4858,7 +4858,7 @@ void func_801820F8(s32 a0) {
     s32 m = ((Unkstruct_800B5CB8 *)a0)->unkFE;
     s32 *src = (s32 *)D_801C339C[k];
     s32 base = *(s32 *)(D_801C36F8[m] + k * 4);
-    Blk12_820F8 *pd12;
+    Blk12_801854C4 *pd12;
     Blk8_820F8 *pd8;
     u8 *t0;
     u8 *t1;
@@ -4868,7 +4868,7 @@ void func_801820F8(s32 a0) {
     base = *(s32 *)base;
     cond = base & 0x1000000;
     if (cond == 0) {
-        pd12 = (Blk12_820F8 *)&D_801CDD30;
+        pd12 = (Blk12_801854C4 *)&D_801CDD30;
         t0 = (u8 *)base;
     } else {
         pd8 = (Blk8_820F8 *)&D_801CDE20;
@@ -4878,7 +4878,7 @@ void func_801820F8(s32 a0) {
         if (cond == 0) {
             if ((u16)(*(u16 *)(t0 + 2) + 0x1FF) < 0x3FF) {
                 *dst++ = *src;
-                *pd12 = *(Blk12_820F8 *)t0;
+                *pd12 = *(Blk12_801854C4 *)t0;
                 pd12++;
             }
         } else {

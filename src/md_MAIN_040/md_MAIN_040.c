@@ -302,12 +302,12 @@ extern int rand(void);
 extern u8 D_800CB8EC[];
 extern u8 D_800CB8F8[];
 extern SV_800CB4E4 D_800CB954[];
-extern V32_800CB4E4 D_800CB984;
+extern Blk16_956C D_800CB984;
 
 void func_800CB4E4(s32 param_1) {
     SV_800CB4E4 rot;
     MTX_800CB4E4 m;
-    V32_800CB4E4 vel;
+    Blk16_956C vel;
     s32 obj;
     s32 node;
 
@@ -329,17 +329,17 @@ void func_800CB4E4(s32 param_1) {
             rot.vx += ((rand() & 0x3f) << 4) - 0x200;
             rot.vy += ((rand() & 0x3f) << 4) - 0x200;
             rot.vz += ((rand() & 0x3f) << 4) - 0x200;
-            vel.vx = ((rand() & 0x1f) - 0x10) * 3 << 15;
-            vel.vy = ((rand() & 0x1f) - 0x10) * 3 << 15;
-            vel.vz = ((rand() & 0x1f) - 0x10) * 3 << 15;
+            vel.unk0.v3.unk0 = ((rand() & 0x1f) - 0x10) * 3 << 15;
+            vel.unk0.v3.unk4 = ((rand() & 0x1f) - 0x10) * 3 << 15;
+            vel.unk0.v3.unk8 = ((rand() & 0x1f) - 0x10) * 3 << 15;
         }
 
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.vx;
-        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.vy;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.vz;
+        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.unk0.v3.unk0;
+        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.unk0.v3.unk4;
+        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.unk0.v3.unk8;
 
         guess_SetWaitTimer_2((s32 *)param_1, 4);
         ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;

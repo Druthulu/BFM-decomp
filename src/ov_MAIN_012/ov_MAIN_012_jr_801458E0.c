@@ -97,7 +97,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80128CFC(s32 arg0);
@@ -121,7 +121,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 D_800B9AAE[];
@@ -200,7 +200,7 @@ extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern void func_8012A418(void);
-extern Vec8 guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -756,7 +756,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -4145,14 +4145,14 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 // @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
 extern void guess_StartPadVibration(void *a0);
 
-void func_80153CCC(S80153CCC *a0) {
+void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
 
     extern s32 D_80180178;
     extern void (*D_801801A0[])(void *a0);
     extern s16 D_8011DB0C;
     extern u16 D_8011F748;
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80180178);
-    D_801801A0[a0->idx](a0);
+    D_801801A0[a0->unk2](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

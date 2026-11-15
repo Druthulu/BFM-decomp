@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80189608;
 extern void (*D_80189630[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80189610;
@@ -2835,10 +2835,10 @@ void func_8017DC70(s32 arg0)
                     prim = (Prim_SC03_029_8017DC70 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -2886,7 +2886,7 @@ void func_8017DC70(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->w0;
+                                            ((PolyF3 *)pkt)->rgbc = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -2930,7 +2930,7 @@ void func_8017DC70(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2984,7 +2984,7 @@ void func_8017DC70(s32 arg0)
                                                 zc = za;
                                                 if (zc < zb) zc = zb;
                                                 g.opz = zc;
-                                                ((PolyF4 *)pkt)->rgbc = prim->w0;
+                                                ((PolyF4 *)pkt)->rgbc = prim->a;
                                                 otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3040,7 +3040,7 @@ void func_8017DC70(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -3631,9 +3631,9 @@ void func_8017FA84(s32 a0, s16* a1, u32 a2)
     *(s16 *)((s32)a0 + 0x2A) = ((s16 (*)(s16, s16, s32))guess_EaseToward)(*(s16 *)((s32)a0 + 0x2A), *(s16 *)((s32)a0 + 0x30), 0x10);
     *(s16 *)((s32)a0 + 0x2C) = ((s16 (*)(s16, s16, s32))guess_EaseToward)(*(s16 *)((s32)a0 + 0x2C), *(s16 *)((s32)a0 + 0x32), 0x10);
 
-    *(s32 *)((s32)a0 + 0x48) = *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_8017FA84_2 *)a1)->unk0;
-    *(s32 *)((s32)a0 + 0x4C) = *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_8017FA84_2 *)a1)->unk2;
-    *(s32 *)((s32)a0 + 0x50) = *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_8017FA84_2 *)a1)->unk4;
+    *(s32 *)((s32)a0 + 0x48) = *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_801312D0 *)a1)->unk0;
+    *(s32 *)((s32)a0 + 0x4C) = *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_801312D0 *)a1)->unk2;
+    *(s32 *)((s32)a0 + 0x50) = *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_801312D0 *)a1)->unk4;
 
     sp40[0] = *(u16 *)((s32)a0 + 0x18);
     sp40[1] = *(u16 *)((s32)a0 + 0x1A) + a2;
@@ -3645,9 +3645,9 @@ void func_8017FA84(s32 a0, s16* a1, u32 a2)
     sp30[2] = *(s32 *)((s32)a0 + 0x10);
     ApplyMatrixSV(sp10, sp30, sp38);
 
-    *(s32 *)((s32)a0 + 0x3C) = ((s16)sp38[0] >> 3) + *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_8017FA84_2 *)a1)->unk0;
-    *(s32 *)((s32)a0 + 0x40) = ((s16)sp38[1] >> 3) + *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_8017FA84_2 *)a1)->unk2;
-    *(s32 *)((s32)a0 + 0x44) = ((s16)sp38[2] >> 3) + *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_8017FA84_2 *)a1)->unk4;
+    *(s32 *)((s32)a0 + 0x3C) = ((s16)sp38[0] >> 3) + *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_801312D0 *)a1)->unk0;
+    *(s32 *)((s32)a0 + 0x40) = ((s16)sp38[1] >> 3) + *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_801312D0 *)a1)->unk2;
+    *(s32 *)((s32)a0 + 0x44) = ((s16)sp38[2] >> 3) + *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_801312D0 *)a1)->unk4;
 }
 
 

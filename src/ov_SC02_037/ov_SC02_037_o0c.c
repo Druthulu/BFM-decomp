@@ -97,7 +97,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80018450(s32 a0, s32 a1);
@@ -121,7 +121,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -207,7 +207,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Vec8 guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -1075,8 +1075,8 @@ s32 param_2;
         u32 i;           
         s32 unused;      
         s32 base8;       
-        T3Reloc *r;      
-        T3Reloc *s;      
+        Bar *r;      
+        Bar *s;      
         if (CAST_ALIAS(s32, param_2, 4) == 0) {
             base10 = param_2 + 0x10;
             base4008 = param_1 + 0x4008;
@@ -1084,17 +1084,17 @@ s32 param_2;
             base8 = param_1 + 8;
             p = base10;
             for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
-                ((Unkstruct_8013C414_2 *)p)->unk0 = ((Unkstruct_8013C414_2 *)p)->unk0 + base8;
+                ((VECTOR *)p)->vx = ((VECTOR *)p)->vx + base8;
                 if (CAST_ALIAS(s32, p, 4) != 0) {
                     CAST_ALIAS(s32, p, 4) = CAST_ALIAS(s32, p, 4) + base10;
                     q = CAST_ALIAS(s32, p, 4);
                     ((Unkstruct_8013C414_3 *)q)->unk0 = ((Unkstruct_8013C414_3 *)q)->unk0 + q;
                     CAST_ALIAS(s32, q, 0x14) = CAST_ALIAS(s32, q, 0x14) + q;
-                    r = (T3Reloc *)CAST_ALIAS(s32, q, 0x14);
+                    r = (Bar *)CAST_ALIAS(s32, q, 0x14);
                     CAST_ALIAS(s32, q, 0x18) = CAST_ALIAS(s32, q, 0x18) * 0xC + CAST_ALIAS(s32, q, 0x14);
-                    s = (T3Reloc *)CAST_ALIAS(s32, q, 0x18);
+                    s = (Bar *)CAST_ALIAS(s32, q, 0x18);
                     while (r < s) {
-                        switch (r->type) {
+                        switch (r->tag) {
                         case 0x24:
                         case 0x2C:
                         case 0x34:
@@ -1125,14 +1125,14 @@ s32 param_2;
             p = param_2 + 0x10;
             for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
                 if (CAST_ALIAS(s32, p, 8) == 0) {
-                    CAST_ALIAS(s32, p, 8) = *(s32 *)(((Unkstruct_8013C414_2 *)p)->unk0);
+                    CAST_ALIAS(s32, p, 8) = *(s32 *)(((VECTOR *)p)->vx);
                 }
                 p = p + 0xC;
             }
         } else {
             p = param_2 + 0x10;
             for (i = 0; i < CAST_ALIAS(u32, param_2, 8); i++) {
-                *(s32 *)(((Unkstruct_8013C414_2 *)p)->unk0) = CAST_ALIAS(s32, p, 8);
+                *(s32 *)(((VECTOR *)p)->vx) = CAST_ALIAS(s32, p, 8);
                 p = p + 0xC;
             }
         }

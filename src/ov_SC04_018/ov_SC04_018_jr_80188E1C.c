@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018F00C;
 extern void (*D_8018F034[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018F014;
@@ -4093,7 +4093,7 @@ done:
 
 extern s32 (*D_801E0498[])();
 extern s32 D_801E7980;
-extern void func_8018A224(Ent_8018A224 *arg0, s32 arg1);
+extern void func_8018A224(Rec8_8018A390_8018523C *arg0, s32 arg1);
 
 void func_8018A1D0(s32 a0)
 {
@@ -4111,7 +4111,7 @@ extern u8 D_801E04E0[];
 extern void func_8018A2E0(u16 *a0, s32 a1);
 
 
-void func_8018A224(Ent_8018A224 *arg0, s32 arg1)
+void func_8018A224(Rec8_8018A390_8018523C *arg0, s32 arg1)
 {
     u8 rect[4];
     s32 step;
@@ -4129,11 +4129,11 @@ void func_8018A224(Ent_8018A224 *arg0, s32 arg1)
     rect[1] = q;
     rect[2] = half;
     rect[3] = 0;
-    if (arg0->f3 != -1) {
+    if (arg0->w != -1) {
         do {
-            func_8018A2E0(&arg0->f0, *(s32 *)rect);
+            func_8018A2E0(&arg0->x, *(s32 *)rect);
             arg0++;
-        } while (arg0->f3 != -1);
+        } while (arg0->w != -1);
     }
 }
 

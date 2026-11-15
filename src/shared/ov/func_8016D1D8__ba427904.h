@@ -10,7 +10,7 @@ void func_8016D1D8(int param_1) {
     unsigned int uVar3;
     short sVar4;
     SVEC_L1 sv;
-    MTX_L1 mtx;
+    Blk20_8016DF5C mtx;
 
     iVar5 = *(int *)(param_1 + 0x34);
     if (*(int *)(param_1 + 0x2c) == 0) {

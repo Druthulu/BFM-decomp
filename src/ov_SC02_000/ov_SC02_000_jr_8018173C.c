@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C9F4;
 extern void (*D_8018CA1C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C9FC;
@@ -2935,9 +2935,9 @@ s32 func_80181E70(s32 param_1, s32 param_2, s32 param_3)
     *(s16 *)(param_1 + 0x2a) = ((s16 (*)(s32, s32, s32))guess_EaseToward)((s32)*(s16 *)(param_1 + 0x2a), (s32)*(s16 *)(param_1 + 0x30), 0x10);
     *(s16 *)(param_1 + 0x2c) = ((s16 (*)(s32, s32, s32))guess_EaseToward)((s32)*(s16 *)(param_1 + 0x2c), (s32)*(s16 *)(param_1 + 0x32), 0x10);
 
-    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_80181E70 *)param_3)->unk0;
-    *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_80181E70 *)param_3)->unk2;
-    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_80181E70 *)param_3)->unk4;
+    *(s32 *)(param_1 + 0x48) = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_801312D0 *)param_3)->unk0;
+    *(s32 *)(param_1 + 0x4c) = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_801312D0 *)param_3)->unk2;
+    *(s32 *)(param_1 + 0x50) = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_801312D0 *)param_3)->unk4;
 
     rot.vx = *(u16 *)(param_1 + 0x18);
     rot.vy = *(u16 *)(param_1 + 0x1a) + param_2;
@@ -2948,9 +2948,9 @@ s32 func_80181E70(s32 param_1, s32 param_2, s32 param_3)
     func_80012558((s32)&mtx, (s32)rot.vy);
     func_800126C4((s32)&mtx, (s32)rot.vx);
 
-    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_80181E70 *)param_3)->unk0;
-    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_80181E70 *)param_3)->unk2;
-    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_80181E70 *)param_3)->unk4;
+    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_801312D0 *)param_3)->unk0;
+    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_801312D0 *)param_3)->unk2;
+    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_801312D0 *)param_3)->unk4;
 
     vec.vx = 0;
     vec.vy = 0;
@@ -4234,7 +4234,7 @@ void func_8018453C(s32 param_1) {
         ((Unkstruct_800B5CB8 *)v1)->unk12 = 0xC00;
         CAST_WIDTH(u16, s5, 0xDC) = 4;
         D_801E87B0 = *(Blk8_8018453C *)(((Unkstruct_800B5CB8 *)s5)->unk20 + 0x10);
-        (*(Blk32_801E8788 *)&D_801E8788) = *(Blk32_801E8788 *)(((Unkstruct_800B5CB8 *)s5)->unk20 + 0x34);
+        (*(Blk20_8016DF5C *)&D_801E8788) = *(Blk20_8016DF5C *)(((Unkstruct_800B5CB8 *)s5)->unk20 + 0x34);
         func_801861D8(s5);
         func_8013C360((s32)D_801B6AD0);
         func_801831E4();

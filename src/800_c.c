@@ -664,39 +664,39 @@ void func_8003602C(s32 arg0) {
     u8 state;
     s32 sync;
 
-    switch (((Unkstruct_8003602C *)arg0)->unk3) {
+    switch (((Unkstruct_800359B0 *)arg0)->unk3) {
     case 0:
     case 1:
     default:
-        ((Unkstruct_8003602C *)arg0)->unk2 = 0;
+        ((Unkstruct_800359B0 *)arg0)->unk2 = 0;
         break;
     case 2:
-        ((Unkstruct_8003602C *)arg0)->unk2 = 1;
+        ((Unkstruct_800359B0 *)arg0)->unk2 = 1;
         func_800434BC();
-        ((Unkstruct_8003602C *)arg0)->unk3 += 2;
+        ((Unkstruct_800359B0 *)arg0)->unk3 += 2;
         break;
     case 3:
-        ((Unkstruct_8003602C *)arg0)->unk2 = 1;
+        ((Unkstruct_800359B0 *)arg0)->unk2 = 1;
         func_800434BC();
-        ((Unkstruct_8003602C *)arg0)->unk3 += 1;
+        ((Unkstruct_800359B0 *)arg0)->unk3 += 1;
         /* fall through */
     case 4:
         func_80043704(9, 0);
         func_8003621C();
-        state = ((Unkstruct_8003602C *)arg0)->unk3;
-        ((Unkstruct_8003602C *)arg0)->unk2 = 1;
-        ((Unkstruct_8003602C *)arg0)->unk3 = state + 1;
+        state = ((Unkstruct_800359B0 *)arg0)->unk3;
+        ((Unkstruct_800359B0 *)arg0)->unk2 = 1;
+        ((Unkstruct_800359B0 *)arg0)->unk3 = state + 1;
         break;
     case 5:
         sync = func_8004355C(1, result);
         if (sync == 0) {
-            ((Unkstruct_8003602C *)arg0)->unk2 = 1;
+            ((Unkstruct_800359B0 *)arg0)->unk2 = 1;
             return;
         }
         if (sync == 5 && (result[0] & 0x10)) {
             D_80076214 = 1;
         }
-        ((Unkstruct_8003602C *)arg0)->unk2 = 0;
+        ((Unkstruct_800359B0 *)arg0)->unk2 = 0;
         break;
     }
 }
@@ -1642,13 +1642,13 @@ void func_80036FB0(s32 arg0, s32 arg1) {
 
 extern Slot16A D_80076240[];
 extern Slot16 D_80076244[];
-extern Elm12   D_80064D49[];
+extern Blk12_801854C4   D_80064D49[];
 extern Ent24   D_800A463C[];
 extern u8  D_80076251;
 extern s32 D_8007622C[];
 extern W32 D_80076228;
-extern W8  D_80076243;
-extern W8  D_80076242;
+extern W8_  D_80076243;
+extern W8_  D_80076242;
 extern W32 D_80076294;
 extern W32 D_80076238;
 extern s32 D_8007629C;
@@ -1669,7 +1669,7 @@ void func_80037028(s32 base, s32 val) {
         D_80076240[slot].unk04 = val;
         D_80076244[slot].unk0C = 0;
         D_80076240[slot].unk08 = base;
-        b = D_80064D49[base].unk00;
+        b = D_80064D49[base].unk0.v1.unk0;
         D_80076244[slot].unk0E = b;
         D_80076240[slot].unk0C = D_800A463C[b].unk00;
 
@@ -1722,8 +1722,8 @@ extern W32   D_80076228;
 extern s32   D_8007622C[];
 extern W32   D_80076238;
 extern Slot16A D_80076240[];
-extern W8    D_80076242;
-extern W8    D_80076243;
+extern W8_    D_80076242;
+extern W8_    D_80076243;
 extern W32   D_80076294;
 extern s32   D_8007629C;       /* src/800.c already declares this one as `extern s32` */
 extern u8    D_800BA320[];
@@ -1878,7 +1878,7 @@ void func_800373D0(void) {
 
 int func_800374CC(int *out)
 {
-    extern W8 D_80076243;
+    extern W8_ D_80076243;
     extern s32 D_8007623C;
 
     s32 x = D_80076243.v;
@@ -1897,7 +1897,7 @@ extern s32  D_8007629C;
 extern u8   D_8006AEF4;
 extern u8   D_80076298;
 extern Rsc16 D_80076248[];    /* .unk09 = D_80076251, .unk0A = D_80076252 */
-extern Rsc12 D_80064D4A[];
+extern Blk12_801854C4 D_80064D4A[];
 extern Rsc24  D_800A4640[];
 extern s16  D_800C5328[];
 extern s16  D_800C532A[];
@@ -1939,7 +1939,7 @@ s32 func_8003750C(void) {
                 continue;
             }
             h = D_800A4640[k].unk04;
-            if (h != 0 && h != D_80064D4A[val].unk00) {
+            if (h != 0 && h != D_80064D4A[val].unk0.v1.unk0) {
                 D_800C532A[D_800A4640[k].unk08 * 2] = -1;
                 D_800A4640[k].unk04 = 0;
                 D_800A4640[k].unk08 = 0;
@@ -3593,15 +3593,15 @@ void func_80039308(u8 **arg0, s16 arg1) {
                                 ((Unkstruct_80039308_3 *)q)->unk14 = prod >> 15;
                             }
                             p[0x5D] = 1;
-                            D_800A2B98 &= ~((VMask *)q)->w;
-                            D_800C7D20 |= ((VMask *)q)->w;
+                            D_800A2B98 &= ~((W_S40_8018B238_80187EA0 *)q)->w;
+                            D_800C7D20 |= ((W_S40_8018B238_80187EA0 *)q)->w;
                             D_800762B4[t7] = 1;
                             if (t9[1] & 4) {
-                                D_800A2BA0 &= ~((VMask *)q)->w;
-                                D_800C7D2C |= ((VMask *)q)->w;
+                                D_800A2BA0 &= ~((W_S40_8018B238_80187EA0 *)q)->w;
+                                D_800C7D2C |= ((W_S40_8018B238_80187EA0 *)q)->w;
                             } else {
-                                D_800C7D2C &= ~((VMask *)q)->w;
-                                D_800A2BA0 |= ((VMask *)q)->w;
+                                D_800C7D2C &= ~((W_S40_8018B238_80187EA0 *)q)->w;
+                                D_800A2BA0 |= ((W_S40_8018B238_80187EA0 *)q)->w;
                             }
                             idx1 = t7;
                             r = &D_800C6DD0[idx1 * 0x60];

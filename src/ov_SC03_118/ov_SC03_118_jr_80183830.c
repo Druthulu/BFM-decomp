@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018B760;
 extern void (*D_8018B788[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018B768;
@@ -3281,12 +3281,12 @@ extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 void func_80184334(int param_1) {
     struct W80184334 *p = (struct W80184334 *)param_1;
 
-    p->f48 = (short)guess_EaseToward((int)*(short *)&p->f48, (int)((Unkstruct_80184334_2 *)D_801D4358)->unk0, 0x20);
-    p->f4C = (short)guess_EaseToward((int)*(short *)&p->f4C, (int)((Unkstruct_80184334_2 *)D_801D4358)->unk2, 0x20);
-    p->f50 = (short)guess_EaseToward((int)*(short *)&p->f50, (int)((Unkstruct_80184334_2 *)D_801D4358)->unk4, 0x20);
-    p->f3C = (short)guess_EaseToward((int)*(short *)&p->f3C, (int)((Unkstruct_80184334 *)D_801D435C)->unk0, 0x20);
-    p->f40 = (short)guess_EaseToward((int)*(short *)&p->f40, (int)((Unkstruct_80184334 *)D_801D435C)->unk2, 0x20);
-    p->f44 = (short)guess_EaseToward((int)*(short *)&p->f44, (int)((Unkstruct_80184334 *)D_801D435C)->unk4, 0x20);
+    p->f48 = (short)guess_EaseToward((int)*(short *)&p->f48, (int)((Unkstruct_801312D0 *)D_801D4358)->unk0, 0x20);
+    p->f4C = (short)guess_EaseToward((int)*(short *)&p->f4C, (int)((Unkstruct_801312D0 *)D_801D4358)->unk2, 0x20);
+    p->f50 = (short)guess_EaseToward((int)*(short *)&p->f50, (int)((Unkstruct_801312D0 *)D_801D4358)->unk4, 0x20);
+    p->f3C = (short)guess_EaseToward((int)*(short *)&p->f3C, (int)((Unkstruct_801312D0 *)D_801D435C)->unk0, 0x20);
+    p->f40 = (short)guess_EaseToward((int)*(short *)&p->f40, (int)((Unkstruct_801312D0 *)D_801D435C)->unk2, 0x20);
+    p->f44 = (short)guess_EaseToward((int)*(short *)&p->f44, (int)((Unkstruct_801312D0 *)D_801D435C)->unk4, 0x20);
 }
 
 
@@ -3799,19 +3799,19 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
         d->v[2].vy = sxy[1].unk0.v1.unk2 + p->f3;
         d->v[3].vx = sxy[0].unk0.v1.unk0 + p->f0;
         d->v[3].vy = sxy[0].unk0.v1.unk2;
-        d->uv[0].u = u;
-        d->uv[0].v = 0x1FF;
-        d->uv[1].u = t + 0xD20;
-        d->uv[1].v = 0x100;
-        d->uv[2].u = p->f1 + u;
-        d->uv[2].v = 0x1FF;
-        d->uv[3].u = p->f0 + u;
-        d->uv[3].v = 0x100;
+        d->uv[0].unk0 = u;
+        d->uv[0].unk2 = 0x1FF;
+        d->uv[1].unk0 = t + 0xD20;
+        d->uv[1].unk2 = 0x100;
+        d->uv[2].unk0 = p->f1 + u;
+        d->uv[2].unk2 = 0x1FF;
+        d->uv[3].unk0 = p->f0 + u;
+        d->uv[3].unk2 = 0x100;
         func_800178EC((s32)d);
         d->v[2].vx = sxy[1].unk0.v1.unk0 - p->f1;
         d->v[3].vx = sxy[0].unk0.v1.unk0 - p->f0;
-        d->uv[2].u = u - p->f1;
-        d->uv[3].u = u - p->f0;
+        d->uv[2].unk0 = u - p->f1;
+        d->uv[3].unk0 = u - p->f0;
         func_800178EC((s32)d);
     }
 }

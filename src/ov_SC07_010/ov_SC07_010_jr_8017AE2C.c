@@ -36,7 +36,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s16 D_80126CB0;
 extern s32 func_8013E298(s16 *a0);
 extern s16 D_80126CAC;
@@ -1168,7 +1168,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3486,8 +3486,8 @@ void func_8017C59C(s32 arg0)
     CellC59C **rowptr;
     CellC59C **p;
     CellC59C *cell;
-    PrimC59C *prim;
-    PrimC59C *end;
+    Blk12 *prim;
+    Blk12 *end;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3602,10 +3602,10 @@ void func_8017C59C(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -3653,7 +3653,7 @@ void func_8017C59C(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C59C *)pkt)->rgbc = prim->w0;
+                                    ((PF3_C59C *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3701,7 +3701,7 @@ void func_8017C59C(s32 arg0)
                                     *(u32 *)&((PFT3_C59C *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_C59C *)pkt)->rgbc = tp[0];
                                     ((PFT3_C59C *)pkt)->uvc0 = tp[1];
                                     ((PFT3_C59C *)pkt)->uvp1 = tp[2];
@@ -3755,7 +3755,7 @@ void func_8017C59C(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C59C *)pkt)->rgbc = prim->w0;
+                                        ((PF4_C59C *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3813,7 +3813,7 @@ void func_8017C59C(s32 arg0)
                                         *(u32 *)&((PFT4_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_C59C *)pkt)->rgbc = tp[0];
                                         ((PFT4_C59C *)pkt)->uvc0 = tp[1];
                                         ((PFT4_C59C *)pkt)->uvp1 = tp[2];
@@ -4020,8 +4020,8 @@ void func_8017D898(s32 param_1) {
 
     if (func_80171A88(param_1) != 0) {
         guess_CopyVec3HighHalves(param_1 + 4, sp10);
-        ((Unkstruct_8017D898_3 *)sp10)->unk0 -= 0x20;
-        ((Unkstruct_8017D898_3 *)sp10)->unk2 -= 0x20;
+        ((Pair_8013AD38 *)sp10)->x -= 0x20;
+        ((Pair_8013AD38 *)sp10)->y -= 0x20;
         func_8017EBB8((void *)0, sp10);
         guess_PlaySoundUnlessSkipped(0xC13);
         func_8014706C((void *)param_1);
@@ -4564,11 +4564,11 @@ void func_8017E520(s32 a0) {
 
 
 void func_8017E5B8(s32 a0, s32 a1) {
-    extern struct P8 D_80185D28[];
-    extern struct P8 D_80185D2A[];
-    extern struct P8 D_80185D2C[];
-    extern struct P8 D_80185D2E[];
-    extern struct P4 D_80185D5A[];
+    extern struct S72 D_80185D28[];
+    extern struct S72 D_80185D2A[];
+    extern struct S72 D_80185D2C[];
+    extern struct S72 D_80185D2E[];
+    extern Unkstruct_80181FAC_2 D_80185D5A[];
     extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
     extern void func_80015954(s32 a0, s32 a1);
     extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
@@ -4601,7 +4601,7 @@ extern s32 rand(void);
 
 extern struct S6C D_80185D6C[];
 extern struct S72 D_80185D72[];
-extern struct S9E D_80185D9E[];
+extern Unkstruct_80181FAC_2 D_80185D9E[];
 
 void func_8017E70C(void) {
     s32 r; /* incoming $s3, never written */

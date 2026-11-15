@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801856C0;
 extern void (*D_801856E8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801856C8;
@@ -5048,22 +5048,22 @@ void func_801814F8(void *a0, void *a1)
 
     if (*(s16 *)((s32)a0 + 0x1E) & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -5075,14 +5075,14 @@ void func_801814F8(void *a0, void *a1)
         func_80181914(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -5295,7 +5295,7 @@ void func_80181E60(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_8019DE84;
-        D_8019DE84 = ((Unkstruct_80181F00 *)arg0)->unk0;
+        D_8019DE84 = ((Unkstruct_80181FAC_2 *)arg0)->unk0;
         D_8019DE86 = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_8019DE88 = arg1;
         D_8019DE8A[0] = arg2;
@@ -5697,14 +5697,14 @@ void func_80182254(s32 arg0)
     v[0] = v[1];
     func_8004901C(mp, v);
 
-    t = ((Unkstruct_80182254 *)ent)->unk0;
+    t = ((Unkstruct_80181BA8 *)ent)->unk0;
     sv[2] = 0;
     sv[1] = 0;
     sv[0] = t;
     *(s16 *)(p + 8) = bx;
     *(s16 *)(p + 0xA) = by;
 
-    RotMatrixZ(((Unkstruct_80182254 *)ent)->unk2 - (((s32)((Unkstruct_80182254 *)ent)->unk4 << 16) >> 17), mp);
+    RotMatrixZ(((Unkstruct_80181BA8 *)ent)->unk2 - (((s32)((Unkstruct_80181BA8 *)ent)->unk4 << 16) >> 17), mp);
     ApplyMatrixSV(mp, sv, out);
     *(s16 *)(p + 0x10) = bx + (u16)out[0];
     *(s16 *)(p + 0x12) = by + (u16)out[1];

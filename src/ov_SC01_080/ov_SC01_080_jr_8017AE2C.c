@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80185350;
 extern void (*D_80185378[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80185358;
@@ -3385,8 +3385,8 @@ void func_8017C59C(s32 arg0)
     CellC59C **rowptr;
     CellC59C **p;
     CellC59C *cell;
-    PrimC59C *prim;
-    PrimC59C *end;
+    Blk12 *prim;
+    Blk12 *end;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3501,10 +3501,10 @@ void func_8017C59C(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -3552,7 +3552,7 @@ void func_8017C59C(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C59C *)pkt)->rgbc = prim->w0;
+                                    ((PF3_C59C *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3600,7 +3600,7 @@ void func_8017C59C(s32 arg0)
                                     *(u32 *)&((PFT3_C59C *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_C59C *)pkt)->rgbc = tp[0];
                                     ((PFT3_C59C *)pkt)->uvc0 = tp[1];
                                     ((PFT3_C59C *)pkt)->uvp1 = tp[2];
@@ -3654,7 +3654,7 @@ void func_8017C59C(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C59C *)pkt)->rgbc = prim->w0;
+                                        ((PF4_C59C *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3712,7 +3712,7 @@ void func_8017C59C(s32 arg0)
                                         *(u32 *)&((PFT4_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_C59C *)pkt)->rgbc = tp[0];
                                         ((PFT4_C59C *)pkt)->uvc0 = tp[1];
                                         ((PFT4_C59C *)pkt)->uvp1 = tp[2];
@@ -4657,9 +4657,9 @@ void func_8017E8A0(s32 param_1, s32 param_2)
     func_80012558((s32)&mtx, (s32)*(s16 *)(param_1 + 0x1a));
     func_800126C4((s32)&mtx, (s32)*(s16 *)(param_1 + 0x18));
 
-    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_8017E8A0 *)param_2)->unk0;
-    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_8017E8A0 *)param_2)->unk2;
-    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_8017E8A0 *)param_2)->unk4;
+    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_801312D0 *)param_2)->unk0;
+    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_801312D0 *)param_2)->unk2;
+    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_801312D0 *)param_2)->unk4;
 
     vec.vx = 0;
     vec.vy = 0;
@@ -6349,7 +6349,7 @@ void func_801810A8(void *a0) {
 
 #include "common.h"
 
-struct vec;
+
 
 extern s16 D_801C7540;
 extern s32 D_8012718C;
@@ -6361,7 +6361,7 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801696D8(s32 a0, s32 a1);
 extern void func_80169A4C(s32 a0, s32 a1);
 
@@ -6444,7 +6444,7 @@ void func_801810E4(void *a0) {
     if (q == 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk1C <<= 1;
     }
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
     if (((Unkstruct_800B5CB8 *)a0)->unk28 != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_800B5CB8 *)a0)->unk14 += 0xF000;
@@ -6468,14 +6468,14 @@ void func_801813D4(void *a0) {
 
 #include "common.h"
 
-struct vec;
+
 
 extern s32 rand(void);
 extern void RotMatrixYXZ(void *a0, void *a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
 extern void func_800D23D0(void *a0);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801696D8(s32 a0, s32 a1);
 extern s32 func_80135168(u16 a0, u16 *a1, u16 *a2);
 
@@ -6512,7 +6512,7 @@ void func_80181410(s32 param_1)
         sp10[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
         sp10[1] = ((Unkstruct_800B5CB8 *)param_1)->unkA;
         sp10[2] = ((Unkstruct_800B5CB8 *)param_1)->unkE;
-        guess_AddVelocityToPos((struct vec *)param_1);
+        guess_AddVelocityToPos((S800D22E4 *)param_1);
         sp18[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
         sp18[1] = ((Unkstruct_800B5CB8 *)param_1)->unkA;
         sp18[2] = ((Unkstruct_800B5CB8 *)param_1)->unkE;
@@ -6647,10 +6647,10 @@ void func_80181770(u8 *arg0) {
 
 
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_801817CC(s32 *a0) {
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
     if (((Unkstruct_800B5CB8 *)a0)->unk28 != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_800B5CB8 *)a0)->unk14 += 0xF000;
@@ -7562,11 +7562,11 @@ void func_80182CB8(void *a0, S8Blob *a1, S8Blob *a2, s16 a3, s16 a4)
     s32 r;
 
     func_80017D98(&m);
-    m.t[0] = ((Unkstruct_80182CB8 *)a1)->unk0;
-    m.t[1] = ((Unkstruct_80182CB8 *)a1)->unk2;
-    m.t[2] = ((Unkstruct_80182CB8 *)a1)->unk4;
-    delta.vx = ((Unkstruct_80182CB8_2 *)a2)->unk0 - ((Unkstruct_80182CB8 *)a1)->unk0;
-    delta.vz = ((Unkstruct_80182CB8_2 *)a2)->unk4 - ((Unkstruct_80182CB8 *)a1)->unk4;
+    m.t[0] = ((Unkstruct_801312D0 *)a1)->unk0;
+    m.t[1] = ((Unkstruct_801312D0 *)a1)->unk2;
+    m.t[2] = ((Unkstruct_801312D0 *)a1)->unk4;
+    delta.vx = ((Unkstruct_80182CB8_2 *)a2)->unk0 - ((Unkstruct_801312D0 *)a1)->unk0;
+    delta.vz = ((Unkstruct_80182CB8_2 *)a2)->unk4 - ((Unkstruct_801312D0 *)a1)->unk4;
     q = (SV_80182CB8 *)D_801C7560;
     c.vz = 0;
     c.vy = 0;

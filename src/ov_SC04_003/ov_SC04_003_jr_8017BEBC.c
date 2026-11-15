@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183F84;
 extern void (*D_80183FAC[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80183F8C;
@@ -3738,22 +3738,22 @@ void func_8017E4F4(void *a0, void *a1)
 
     if (*(s16 *)((s32)a0 + 0x1E) & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -3765,14 +3765,14 @@ void func_8017E4F4(void *a0, void *a1)
         func_8017E910(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -4669,7 +4669,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017FF9C(void *a0) {
-    struct S8017FF9C_sp sp;
+    struct S8012C658 sp;
     s32 vec[3];
     s32 out[3];
     s32 ret;
@@ -5422,13 +5422,13 @@ void func_80181184(s32 p)
 {
     Blk20 m;
     u16 lv[3];
-    SV3 sv;
+    Vec3s sv;
     s32 s0;
     s16 i;
 
-    m.w[5] = CAST_SIGN(s16, p, 6);
-    m.w[6] = CAST_SIGN(s16, p, 0xA);
-    m.w[7] = CAST_SIGN(s16, p, 0xE);
+    m.unk0.v0.w[5] = CAST_SIGN(s16, p, 6);
+    m.unk0.v0.w[6] = CAST_SIGN(s16, p, 0xA);
+    m.unk0.v0.w[7] = CAST_SIGN(s16, p, 0xE);
     SetTransMatrix(&m);
 
     for (i = 0; i < 0x1000; i += 0x200) {
@@ -5726,8 +5726,8 @@ extern int D_80198278;
 
 void func_801817E8(int param_1)
 {
-    SV3 in;
-    SV3 out;
+    Vec3s in;
+    Vec3s out;
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
@@ -5736,13 +5736,13 @@ void func_801817E8(int param_1)
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_80198278);
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.x = 0;
+        in.y = 0;
+        in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.b;
-        c = out.c;
+        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+        c = out.z;
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)param_1)->unkE = c;

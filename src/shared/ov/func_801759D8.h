@@ -21,8 +21,8 @@ s32 func_801759D8(void)
     p2 = *(u32 **)(p + sq->h * 4 + 0x38);
     *p2 = (*p2 & 0xff000000) | (old & 0xffffff);
     {
-        s32 acc = guess_g_PacketBufferUsed[sq->h].g0;
+        s32 acc = guess_g_PacketBufferUsed[sq->h].vx;
         s32 t = *(s32 *)(p + sq->h * 4 + 0x38) - 0x14;
-        guess_g_PacketBufferUsed[sq->h].g0 = acc + ((*(s32 *)(p + sq->h * 4 + 0x40) - t) >> 2);
+        guess_g_PacketBufferUsed[sq->h].vx = acc + ((*(s32 *)(p + sq->h * 4 + 0x40) - t) >> 2);
     }
 }

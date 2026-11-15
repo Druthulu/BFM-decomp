@@ -140,7 +140,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -789,9 +789,9 @@ void func_8013B6A0(s32 idx, u16 *src, s32 val)
     extern E_3B7AC_8013B7AC D_80196B20[];
 
     D_80196B20[idx].f0 = 1;
-    D_80196B20[idx].unk4 = ((Src_8013B6A0_8013B6A0 *)src)->f0;
-    D_80196B20[idx].unk6 = ((Src_8013B6A0_8013B6A0 *)src)->f2;
-    D_80196B20[idx].unk8 = ((Src_8013B6A0_8013B6A0 *)src)->f4;
+    D_80196B20[idx].unk4 = ((Src_8013B598_8013B598 *)src)->f0;
+    D_80196B20[idx].unk6 = ((Src_8013B598_8013B598 *)src)->f2;
+    D_80196B20[idx].unk8 = ((Src_8013B598_8013B598 *)src)->f4;
     D_80196B20[idx].unkC = val;
 }
 

@@ -1170,22 +1170,22 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
         }
         ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
-        if ((s16)((DVec_80183DA4 *)&sxy0)->vy < 120) {
-            if ((s16)((DVec_80183DA4 *)&sxy1)->vy < -119) {
+        if ((s16)((Unkstruct_80181FAC_2 *)&sxy0)->unk2 < 120) {
+            if ((s16)((Unkstruct_80181FAC_2 *)&sxy1)->unk2 < -119) {
                 return;
             }
             if ((s16)w >= 2) {
                 p = (Ft4_80183DA4 *)func_80010A08(0x28);
                 *(s32 *)((u8 *)p + 4) = 0x808080;
                 SetPolyFT4(p);
-                p->x0 = ((DVec_80183DA4 *)&sxy0)->vx - w;
-                p->y0 = ((DVec_80183DA4 *)&sxy0)->vy;
-                p->x1 = ((DVec_80183DA4 *)&sxy0)->vx + w;
-                p->y1 = ((DVec_80183DA4 *)&sxy0)->vy;
-                p->x2 = ((DVec_80183DA4 *)&sxy1)->vx - w;
-                p->y2 = ((DVec_80183DA4 *)&sxy1)->vy;
-                p->x3 = ((DVec_80183DA4 *)&sxy1)->vx + w;
-                p->y3 = ((DVec_80183DA4 *)&sxy1)->vy;
+                p->x0 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk0 - w;
+                p->y0 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk2;
+                p->x1 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk0 + w;
+                p->y1 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk2;
+                p->x2 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk0 - w;
+                p->y2 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk2;
+                p->x3 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk0 + w;
+                p->y3 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk2;
                 p->u0 = uu;
                 p->v0 = vv;
                 p->u1 = 0xF7;
@@ -1324,22 +1324,22 @@ void func_80184138(SVec_80184138 *arg0) {
         }
         ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
-        if ((s16)((DVec_80184138 *)&sxy0)->vy < 120) {
-            if ((s16)((DVec_80184138 *)&sxy1)->vy < -119) {
+        if ((s16)((DVec_80184138 *)&sxy0)->unk2 < 120) {
+            if ((s16)((DVec_80184138 *)&sxy1)->unk2 < -119) {
                 return;
             }
             if ((s16)w >= 2) {
                 p = (Ft4_80184138 *)func_80010A08(0x28);
                 *(s32 *)((u8 *)p + 4) = 0x808080;
                 SetPolyFT4(p);
-                p->x0 = ((DVec_80184138 *)&sxy0)->vx - w;
-                p->y0 = ((DVec_80184138 *)&sxy0)->vy;
-                p->x1 = ((DVec_80184138 *)&sxy0)->vx + w;
-                p->y1 = ((DVec_80184138 *)&sxy0)->vy;
-                p->x2 = ((DVec_80184138 *)&sxy1)->vx - w;
-                p->y2 = ((DVec_80184138 *)&sxy1)->vy;
-                p->x3 = ((DVec_80184138 *)&sxy1)->vx + w;
-                p->y3 = ((DVec_80184138 *)&sxy1)->vy;
+                p->x0 = ((DVec_80184138 *)&sxy0)->unk0 - w;
+                p->y0 = ((DVec_80184138 *)&sxy0)->unk2;
+                p->x1 = ((DVec_80184138 *)&sxy0)->unk0 + w;
+                p->y1 = ((DVec_80184138 *)&sxy0)->unk2;
+                p->x2 = ((DVec_80184138 *)&sxy1)->unk0 - w;
+                p->y2 = ((DVec_80184138 *)&sxy1)->unk2;
+                p->x3 = ((DVec_80184138 *)&sxy1)->unk0 + w;
+                p->y3 = ((DVec_80184138 *)&sxy1)->unk2;
                 p->u0 = uu;
                 p->v0 = vv;
                 p->u1 = 0xFF;
@@ -1508,12 +1508,12 @@ s32 func_801845EC(s32 a0, s32 a1)
 {
     s32 s1;
     struct S845EC_in in;
-    struct S845EC_out out;
+    Vec3s out;
 
     guess_RotTransSVWithObjMatrix(a0, (s32)&D_8018AA6C[a1 * 8], (s32)&out);
-    in.f00 = out.a;
-    in.f02 = out.b;
-    in.f04 = out.c;
+    in.f00 = out.x;
+    in.f02 = out.y;
+    in.f04 = out.z;
     in.f06 = 0x20;
     in.f08 = a1;
     in.f0A = 0;
@@ -1585,12 +1585,12 @@ void func_801846B4(int param_1)
         func_80185E68(param_1, (s32)&D_8018AA74);
     } else if (cond == 0xF) {
         struct S80190C84_846B4 tmp;
-        SV3_846B4 out;
+        Vec3s out;
 
         guess_RotTransSVWithObjMatrix(param_1, (s32)&D_8018AA74, (s32)&out);
-        tmp.f0 = out.a;
-        tmp.f2 = out.b;
-        tmp.f4 = out.c;
+        tmp.f0 = out.x;
+        tmp.f2 = out.y;
+        tmp.f4 = out.z;
         tmp.f6 = 0x20;
         tmp.f8 = 1;
         tmp.fA = 0;
@@ -2516,7 +2516,7 @@ void func_80185B34(s32 param_1) {
 #include "common.h"
 
 extern void func_80185C0C(s32 arg0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_80185B78(void *a0) {
@@ -2638,9 +2638,9 @@ void func_80185C0C(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_8018AC5C = spos.z;
-        D_8018AC64 = spos.z;
-        D_8018AC6C = spos.z;
+        D_8018AC5C = spos.f4;
+        D_8018AC64 = spos.f4;
+        D_8018AC6C = spos.f4;
         func_80017D98(&mtx);
         /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
         mtx.t[2] = 0;
@@ -2665,21 +2665,21 @@ void func_80185C0C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.x;
-            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.y;
-            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.x;
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
-            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.x;
-            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.y;
+            p->v[0].x = sxy[0].unk0.v1.unk0 + spos.f0;
+            p->v[0].y = sxy[0].unk0.v1.unk2 + spos.f2;
+            p->v[1].x = sxy[1].unk0.v1.unk0 + spos.f0;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[2].x = sxy[2].unk0.v1.unk0 + spos.f0;
+            p->v[2].y = sxy[2].unk0.v1.unk2 + spos.f2;
             p->v[0].c = otz;
             func_8001739C(p);
             t = sxy[1].unk0.v1.unk2;
-            p->v[1].y = spos.y - t;
+            p->v[1].y = spos.f2 - t;
             func_8001739C(p);
             t = sxy[2].unk0.v1.unk0;
-            p->v[2].x = spos.x - t;
+            p->v[2].x = spos.f0 - t;
             func_8001739C(p);
-            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.y;
+            p->v[1].y = sxy[1].unk0.v1.unk2 + spos.f2;
             func_8001739C(p);
         }
     }
@@ -3054,8 +3054,8 @@ extern int D_801A2DA4;
 
 void func_80186688(int param_1)
 {
-    SV3 in;
-    SV3 out;
+    Vec3s in;
+    Vec3s out;
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
@@ -3064,13 +3064,13 @@ void func_80186688(int param_1)
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801A2DA4);
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.x = 0;
+        in.y = 0;
+        in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.b;
-        c = out.c;
+        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+        c = out.z;
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)param_1)->unkE = c;

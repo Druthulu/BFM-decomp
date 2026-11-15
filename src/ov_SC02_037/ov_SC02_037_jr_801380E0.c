@@ -97,7 +97,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80018450(s32 a0, s32 a1);
@@ -121,7 +121,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -208,7 +208,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Vec8 guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -862,16 +862,16 @@ void func_801397B0(s32 arg0)
 
     ((Unkstruct_801397B0_5 *)buf)->unk0 = 0;
 
-    t2 = ((Unkstruct_801397B0_7 *)b164)->unk2;
-    t0 = ((Unkstruct_801397B0_7 *)b164)->unk0;
+    t2 = ((Pair_8013AD38 *)b164)->y;
+    t0 = ((Pair_8013AD38 *)b164)->x;
     hi = (t2 & 0x100) >> 4;
     lo = ((t0 & 0x3C0) >> 6) | 0x20;
     ((Unkstruct_801397B0_5 *)buf)->unkC = hi | lo | ((t2 & 0x200) << 2);
 
     b1A8 = (u8 *)&D_80184298 + off;
     do {
-        ((Unkstruct_801397B0_5 *)buf)->unk10 = ((Unkstruct_801397B0_8 *)b1A8)->unk0;
-        ((Unkstruct_801397B0_5 *)buf)->unk12 = ((Unkstruct_801397B0_8 *)b1A8)->unk2;
+        ((Unkstruct_801397B0_5 *)buf)->unk10 = ((Unkstruct_80181FAC_2 *)b1A8)->unk0;
+        ((Unkstruct_801397B0_5 *)buf)->unk12 = ((Unkstruct_80181FAC_2 *)b1A8)->unk2;
         ((Unkstruct_801397B0_5 *)buf)->unk16 = 0x80;
         ((Unkstruct_801397B0_5 *)buf)->unk15 = 0x80;
         ((Unkstruct_801397B0_5 *)buf)->unk14 = 0x80;
@@ -1075,12 +1075,12 @@ void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
         gte_stlvnl(res);
         ((Pair *)out2)[i].x = res[0];
         ((Pair *)out2)[i].y = res[1];
-        if (((Unkstruct_8013AD38_5 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
-        if (((Unkstruct_8013AD38_5 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+        if (((Unkstruct_8013AD38_5 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((Unkstruct_8013AD38_5 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
     }
     ((Pair *)out2)[i] = ((Pair *)out2)[0];
-    if (((Unkstruct_8013AD38_5 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
-    if (((Unkstruct_8013AD38_5 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+    if (((Unkstruct_8013AD38_5 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((Unkstruct_8013AD38_5 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
 }
 
 
@@ -1126,7 +1126,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     if (sa == 0) {
         ((Unkstruct_8013B274_3 *)L)->unk0 = 0;
     } else {
-        quot = ((s32)sa << 12) / ((Unkstruct_8013B274_5 *)a2)->unk0;
+        quot = ((s32)sa << 12) / ((Pair_8013AD38 *)a2)->x;
         ang = (s16)quot;
         if (!(D_80184356 < ang)) goto outer_else;
         if (!(ang < D_8018435C)) goto inner_else;
@@ -1148,7 +1148,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     gte_ldv0(L); gte_rtv0tr();
     gte_stlvnl((u8 *)L + 8);
 
-    if (((Unkstruct_8013B274_5 *)a2)->unk2 > 0)
+    if (((Pair_8013AD38 *)a2)->y > 0)
         ((Unkstruct_8013B274_3 *)L)->unkC -= 1;
     else
         ((Unkstruct_8013B274_3 *)L)->unkC += 2;

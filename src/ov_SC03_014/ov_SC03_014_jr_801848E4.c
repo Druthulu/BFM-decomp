@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D364;
 extern void (*D_8018D38C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D36C;
@@ -6723,14 +6723,14 @@ void func_8018AA98(s32 arg0)
     v[0] = v[1];
     func_8004901C(mp, v);
 
-    t = ((Unkstruct_8018AA98 *)ent)->unk0;
+    t = ((Unkstruct_80181BA8 *)ent)->unk0;
     sv[2] = 0;
     sv[1] = 0;
     sv[0] = t;
     *(s16 *)(p + 8) = bx;
     *(s16 *)(p + 0xA) = by;
 
-    RotMatrixZ(((Unkstruct_8018AA98 *)ent)->unk2 - (((s32)((Unkstruct_8018AA98 *)ent)->unk4 << 16) >> 17), mp);
+    RotMatrixZ(((Unkstruct_80181BA8 *)ent)->unk2 - (((s32)((Unkstruct_80181BA8 *)ent)->unk4 << 16) >> 17), mp);
     ApplyMatrixSV(mp, sv, out);
     *(s16 *)(p + 0x10) = bx + (u16)out[0];
     *(s16 *)(p + 0x12) = by + (u16)out[1];

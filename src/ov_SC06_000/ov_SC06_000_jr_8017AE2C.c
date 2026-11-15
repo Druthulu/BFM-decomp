@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018A080;
 extern void (*D_8018A0A8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018A088;
@@ -3924,9 +3924,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC *)s2)->unk20;
-    D_801AE628.d[0] = func_80012F74(D_801AE628.d[0], 0, 10, 1);
-    D_801AE628.d[1] = func_80012F74(D_801AE628.d[1], 0, 10, 1);
-    D_801AE628.d[2] = func_80012F74(D_801AE628.d[2], 0, 10, 1);
+    D_801AE628.unk0.v0.d[0] = func_80012F74(D_801AE628.unk0.v0.d[0], 0, 10, 1);
+    D_801AE628.unk0.v0.d[1] = func_80012F74(D_801AE628.unk0.v0.d[1], 0, 10, 1);
+    D_801AE628.unk0.v0.d[2] = func_80012F74(D_801AE628.unk0.v0.d[2], 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC *)s2)->unk10 + ((Unkstruct_8017CFBC *)s2)->unk14;
     ((Unkstruct_8017CFBC *)s2)->unk10 = v1;
@@ -4789,7 +4789,7 @@ void func_8017E35C(s32 arg0)
     s32 j;
     u32 i;
     u8 *pkt;
-    Prim_SC06_000_8017E35C *prim;
+    Blk12 *prim;
     u32 nprim;
     u8 *vtx;
     s32 nparts;
@@ -4894,13 +4894,13 @@ void func_8017E35C(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim_SC06_000_8017E35C *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         vbuf[0] = *(V8_SC06_000_8017E35C *)va;
@@ -4945,7 +4945,7 @@ void func_8017E35C(s32 arg0)
                                             d = oz - 400;
                                             if (d < 0) d = 0;
                                             d = (d >> 8) << 22;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((Ft3_35C *)pkt)->rgbc = tp[0];
                                             ((Ft3_35C *)pkt)->uvc0 = tp[1] + d;
                                             ((Ft3_35C *)pkt)->uvp1 = tp[2];
@@ -4997,7 +4997,7 @@ void func_8017E35C(s32 arg0)
                                                 *(u32 *)&((Ft4_35C *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((Ft4_35C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((Ft4_35C *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((Ft4_35C *)pkt)->rgbc = tp[0];
                                                 ((Ft4_35C *)pkt)->uvc0 = tp[1] + d;
                                                 ((Ft4_35C *)pkt)->uvp1 = tp[2];
@@ -5275,7 +5275,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
     u32 nprim;
     s32 j;
     u32 i;
-    Prim_SC06_000_8017EF68 *prim;
+    Blk12 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -5384,13 +5384,13 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim_SC06_000_8017EF68 *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         vv[0] = *(SVECTOR2 *)va;
@@ -5444,7 +5444,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                             if (zb < 0) zb = 0;
                                             zb >>= 8;
                                             zb <<= 22;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1] + zb;
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -5452,7 +5452,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                             za >>= 2;
                                             za <<= 2;
                                             otp = (u32 *)(za + ot);
-                                            ((Unkstruct_8017EF68 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x7000000;
+                                            ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x7000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                             pkt += 0x28;
                                         }
@@ -5507,7 +5507,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1] + dz;
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -5517,7 +5517,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 za >>= 2;
                                             za <<= 2;
                                             otp = (u32 *)(za + ot);
-                                                ((Unkstruct_8017EF68 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x9000000;
+                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x28;
                                             }
@@ -5573,7 +5573,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = colA | 0x2E000000;
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1] + dz;
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -5585,7 +5585,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 za >>= 2;
                                                 za <<= 2;
                                                 op1 = (u32 *)(za + ot);
-                                                ((Unkstruct_8017EF68 *)pkt)->unk0 = (*op1 & 0xFFFFFF) | 0x9000000;
+                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op1 & 0xFFFFFF) | 0x9000000;
                                                 *op1 = (*op1 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x28;
@@ -5595,10 +5595,10 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 CAST_ALIAS(u32, pkt, 4) = 0xE1000040;
                                                 CAST_ALIAS(u32, pkt, 0x10) = *(u32 *)&tmpxy[1];
                                                 CAST_ALIAS(u32, pkt, 0x14) = *(u32 *)&tmpxy[2];
-                                                ((Unkstruct_8017EF68 *)pkt)->unk18 = *(u32 *)&tmpxy[3];
+                                                ((Unkstruct_8017C954 *)pkt)->unk18 = *(u32 *)&tmpxy[3];
                                                 {
                                                 u32 *op2 = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                                ((Unkstruct_8017EF68 *)pkt)->unk0 = (*op2 & 0xFFFFFF) | 0x6000000;
+                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op2 & 0xFFFFFF) | 0x6000000;
                                                 *op2 = (*op2 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x1C;
@@ -6959,9 +6959,9 @@ void func_80181CCC(s32 param_1, s32 param_2, s32 param_3)
     *(s16 *)(param_1 + 0x2A) = guess_EaseToward(*(s16 *)(param_1 + 0x2A), *(s16 *)(param_1 + 0x30), 0x10);
     *(s16 *)(param_1 + 0x2C) = guess_EaseToward(*(s16 *)(param_1 + 0x2C), *(s16 *)(param_1 + 0x32), 0x10);
 
-    *(s32 *)(param_1 + 0x48) = *(s16 *)(param_1 + 0x28) + ((Unkstruct_80181CCC *)param_2)->unk0;
-    *(s32 *)(param_1 + 0x4C) = *(s16 *)(param_1 + 0x2A) + ((Unkstruct_80181CCC *)param_2)->unk2;
-    *(s32 *)(param_1 + 0x50) = *(s16 *)(param_1 + 0x2C) + ((Unkstruct_80181CCC *)param_2)->unk4;
+    *(s32 *)(param_1 + 0x48) = *(s16 *)(param_1 + 0x28) + ((Unkstruct_801312D0 *)param_2)->unk0;
+    *(s32 *)(param_1 + 0x4C) = *(s16 *)(param_1 + 0x2A) + ((Unkstruct_801312D0 *)param_2)->unk2;
+    *(s32 *)(param_1 + 0x50) = *(s16 *)(param_1 + 0x2C) + ((Unkstruct_801312D0 *)param_2)->unk4;
 
     r[0] = *(u16 *)(param_1 + 0x18);
     r[1] = *(u16 *)(param_1 + 0x1A) + param_3;
@@ -6973,9 +6973,9 @@ void func_80181CCC(s32 param_1, s32 param_2, s32 param_3)
     svIn[2] = *(s32 *)(param_1 + 0x10);
     ApplyMatrixSV(mat, svIn, vecOut);
 
-    *(s32 *)(param_1 + 0x3C) = ((s16)vecOut[0] >> 3) + *(s16 *)(param_1 + 0x28) + ((Unkstruct_80181CCC *)param_2)->unk0;
-    *(s32 *)(param_1 + 0x40) = ((s16)vecOut[1] >> 3) + *(s16 *)(param_1 + 0x2A) + ((Unkstruct_80181CCC *)param_2)->unk2;
-    *(s32 *)(param_1 + 0x44) = ((s16)vecOut[2] >> 3) + *(s16 *)(param_1 + 0x2C) + ((Unkstruct_80181CCC *)param_2)->unk4;
+    *(s32 *)(param_1 + 0x3C) = ((s16)vecOut[0] >> 3) + *(s16 *)(param_1 + 0x28) + ((Unkstruct_801312D0 *)param_2)->unk0;
+    *(s32 *)(param_1 + 0x40) = ((s16)vecOut[1] >> 3) + *(s16 *)(param_1 + 0x2A) + ((Unkstruct_801312D0 *)param_2)->unk2;
+    *(s32 *)(param_1 + 0x44) = ((s16)vecOut[2] >> 3) + *(s16 *)(param_1 + 0x2C) + ((Unkstruct_801312D0 *)param_2)->unk4;
 }
 
 
@@ -7627,7 +7627,7 @@ void func_80182E38(int param_1)
             t = (t1 + 0xc0) * 0x3600;
             v0 = -(((int)t >> 16) + 0x1a0);       /* the negu belongs to the else-arm only */
         }
-        ((Unkstruct_80182E38 *)sv)->unk4 = v0;
+        ((Unkstruct_801312D0 *)sv)->unk4 = v0;
         func_8004978C((s16 *)(CAST_ALIAS(int, param_1, 0x20) + 0x10), mat);
         gte_SetRotMatrix(mat);
         gte_ldv0(sv);
@@ -7641,11 +7641,11 @@ void func_80182E38(int param_1)
             uVar2 = *(unsigned int *)(param_1 + 0x1c);
             *(unsigned int *)(param_1 + 0x1c) = uVar2 + 1;
             if ((uVar2 & 7) == 0) {
-                ((Unkstruct_80182E38 *)sv)->unk0 = -0x48;
-                ((Unkstruct_80182E38 *)sv)->unk2 = 0;
-                ((Unkstruct_80182E38 *)sv)->unk4 = 0x58;
+                ((Unkstruct_801312D0 *)sv)->unk0 = -0x48;
+                ((Unkstruct_801312D0 *)sv)->unk2 = 0;
+                ((Unkstruct_801312D0 *)sv)->unk4 = 0x58;
                 func_8018325C(param_1, mat, sv);
-                ((Unkstruct_80182E38 *)sv)->unk0 = 0x48;
+                ((Unkstruct_801312D0 *)sv)->unk0 = 0x48;
                 func_8018325C(param_1, mat, sv);
             }
         }
@@ -8124,7 +8124,7 @@ extern void func_8012E014(s32 a0);
 
 void func_80183C9C(void *a0)
 {
-    Mat_80183C9C mat;
+    Mat801A8E34 mat;
     u16 res[3];
     s32 self = (s32)a0;
 
@@ -9992,7 +9992,7 @@ void func_8018677C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801B1EF4;
-        D_801B1EF4 = ((Unkstruct_80181854 *)arg0)->unk0;
+        D_801B1EF4 = ((Unkstruct_80181FAC_2 *)arg0)->unk0;
         D_801B1EF6 = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801B1EF8 = arg1;
         D_801B1EFA = arg2;
@@ -10947,8 +10947,8 @@ void func_80187754(s32 *arg0) {
     s32 i;
     s32 t;
 
-    ((Unkstruct_80187754 *)arg0)->unk2 = 0;
-    ((Unkstruct_80187754 *)arg0)->unk0 = 0;
+    ((Pair_8013AD38 *)arg0)->y = 0;
+    ((Pair_8013AD38 *)arg0)->x = 0;
     for (i = 0; i < 8; i++) {
         ((s16 *)arg0)[i + 2] = 0;
         t = arg0[i + 5];
@@ -11051,7 +11051,7 @@ void func_801878A8(Ctl_8018A550_801878A8 *ctl, Rec_8018A550_801878A8 *rec)
 
 extern void func_80187AB8(void *a0);
 extern void func_80187B34(void *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_801879B8(void *a0) {
@@ -11062,7 +11062,7 @@ void func_801879B8(void *a0) {
 
     if (((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {
             u16 t = ((Unkstruct_800B5CB8 *)a0)->unkA + 0x1000;
@@ -11093,7 +11093,7 @@ void func_801879B8(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_80187B34 *)(p))->h)
-#define RW32(p) (((Unkstruct_80187B34_2 *)(p))->v)
+#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
 
 void func_80187B34(void *a0)
 {

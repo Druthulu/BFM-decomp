@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E360;
 extern void (*D_8018E388[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E368;
@@ -2875,7 +2875,7 @@ void func_8017C954(s32 arg0)
     s32 j;
     u32 i;
     Part *part;
-    Prim_SC06_029_8017C954 *prim;
+    Blk12 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -2984,13 +2984,13 @@ void func_8017C954(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x78 && (s16)mnc < 0x79) {
-                    prim = (Prim_SC06_029_8017C954 *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -3038,7 +3038,7 @@ void func_8017C954(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->w0;
+                                            ((PolyF3 *)pkt)->rgbc = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3083,7 +3083,7 @@ void func_8017C954(s32 arg0)
                                                 g.opz = za;
                                             }
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -3136,7 +3136,7 @@ void func_8017C954(s32 arg0)
                                                 if (za < g.sz1) za = g.sz1;
                                                 if (za < zb) za = zb;
                                                 g.opz = za;
-                                                ((PolyF4 *)pkt)->rgbc = prim->w0;
+                                                ((PolyF4 *)pkt)->rgbc = prim->a;
                                                 otp = (u32 *)(((za >> 2) << 2) + ot);
                                                 ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3191,7 +3191,7 @@ void func_8017C954(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -3253,7 +3253,7 @@ void func_8017C954(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = colA | 0x2E000000;
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -5321,7 +5321,7 @@ extern void guess_FreeActor(void *a0);
 
 extern u8 D_80190348[];   /* §183 unified with func_80180FE0 */
 
-extern D80190448_t D_80190448;
+extern Vec3s D_80190448;
 
 extern s32 D_801DDB2C[5]; /* §183 TYPE-adopted-TU */
 extern void *D_801DDBF0;
@@ -5334,7 +5334,7 @@ void func_80181170(int arg0) {
     Rec_80181170 *r;
     void *p;
     void *tag348;
-    D80190448_t *p3;
+    Vec3s *p3;
     s32 magic;
 
     i = 0;
@@ -5350,9 +5350,9 @@ void func_80181170(int arg0) {
                 if (r->tag == tag348 && r->flag == 0) {
                     p = D_801DDBF0;
                     if (p != 0) {
-                        p3->f4 = magic;
-                        p3->f2 = magic;
-                        p3->f0 = magic;
+                        p3->z = magic;
+                        p3->y = magic;
+                        p3->x = magic;
                         guess_FreeActor(p);
                     }
                 }
@@ -5607,7 +5607,7 @@ extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
 extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 extern void func_80181D94(s32 a0);
 extern void func_80182334(s32 a0);
-extern D80190448_t D_80190448;
+extern Vec3s D_80190448;
 
 void func_80181898(s32 param_1) {
     if (guess_InitActorModel(param_1, &D_80190780)) {
@@ -6072,7 +6072,7 @@ void func_801825D8(s32 arg0, s32 arg1)
 
     SV_801825D8 sv[4];
     u16 buf[4];
-    Rec_801825D8 rec;
+    struct S8012C658 rec;
     Ent_801DFBF8 *e;
     u8 b;
     u8 t;
@@ -6081,18 +6081,18 @@ void func_801825D8(s32 arg0, s32 arg1)
     e = &D_801DFBF8[(b & 0xF) + ((Unkstruct_800B5CB8 *)arg0)->unk70 * 4];
     if (!(b & 0x40)) {
         guess_RotTransSVWithMatrix((s32)D_801DFD94, (s32)e, (s32)buf);
-        rec.u0 = buf[0];
-        rec.u1 = buf[1];
-        rec.u2 = buf[2];
-        rec.s6 = 0x31C;
+        rec.unk0 = buf[0];
+        rec.unk2 = buf[1];
+        rec.unk4 = buf[2];
+        rec.unk6 = 0x31C;
         t = *(u8 *)(arg1 + 6) & 0xF;
-        rec.s8 = t;
-        rec.sA = 0;
-        rec.w10 = 0;
-        rec.sE = 0;
-        rec.sC = 0x7FFF;
+        rec.unk8 = t;
+        rec.unkA = 0;
+        rec.unk10 = 0;
+        rec.unkE = 0;
+        rec.unkC = 0x7FFF;
         if (*(u8 *)(arg1 + 6) & 0x20) {
-            rec.s8 = t | 0x4000;
+            rec.unk8 = t | 0x4000;
             *(u8 *)(arg1 + 6) &= ~0x20;
         }
         func_8012C51C(&rec, arg0);
@@ -6977,7 +6977,7 @@ void func_80183B1C(s32 param_1) {
 
 
 
-extern D80190448_t D_80190448;
+extern Vec3s D_80190448;
 extern s16 D_8019044A;
 extern s16 D_8019044C;
 extern s32 rsin(s32 a0);
@@ -6988,7 +6988,7 @@ void func_80183CB8(s32 param_1) {
     s16 *p0;
 
     iVar1 = rsin(((Unkstruct_800B5CB8 *)param_1)->unk1C << 7);
-    p0 = &D_80190448.f0;
+    p0 = &D_80190448.x;
     *p0 = ((iVar1 << 7) >> 12) + 0x80;
     D_8019044C = -0x40;
     D_8019044A = -0x40;
@@ -7714,7 +7714,7 @@ void func_80184FF8(s32 param_1)
 {
     /* same packet shape func_801825D8 feeds to func_8012C51C */
 
-    Rec_80184FF8 rec;
+    struct S8012C658 rec;
     Blk8_801828E4 local;
     s32 obj;
     s32 n;
@@ -7735,15 +7735,15 @@ void func_80184FF8(s32 param_1)
     }
 join:
     if ((((Unkstruct_800B5CB8 *)param_1)->unk1C & 0xF) == 0) {
-        rec.u0 = ((Unkstruct_800B5CB8 *)param_1)->unk88;
-        rec.u1 = ((Unkstruct_800B5CB8 *)param_1)->unk8A;
-        rec.u2 = ((Unkstruct_800B5CB8 *)param_1)->unk8C;
-        rec.s6 = 0x31C;
-        rec.s8 = CAST_SIGN(u16, param_1, 0x70) | 0x8000;
-        rec.sA = 0;
-        rec.w10 = 0;
-        rec.sE = 0;
-        rec.sC = 0x7FFF;
+        rec.unk0 = ((Unkstruct_800B5CB8 *)param_1)->unk88;
+        rec.unk2 = ((Unkstruct_800B5CB8 *)param_1)->unk8A;
+        rec.unk4 = ((Unkstruct_800B5CB8 *)param_1)->unk8C;
+        rec.unk6 = 0x31C;
+        rec.unk8 = CAST_SIGN(u16, param_1, 0x70) | 0x8000;
+        rec.unkA = 0;
+        rec.unk10 = 0;
+        rec.unkE = 0;
+        rec.unkC = 0x7FFF;
         func_8012C51C(&rec, ((Unkstruct_800B5CB8 *)param_1)->unk64);
         ((Unkstruct_800B5CB8 *)param_1)->unkFE = CAST_SIGN(u16, param_1, 0xFE) + 1;
         if (((Unkstruct_800B5CB8 *)param_1)->unkFE >= 2) {
@@ -7809,14 +7809,14 @@ void func_80185214(s32 a0)
 
     prim.clut = 0x79;
 
-    prim.uv[0].u = 0xC00;
-    prim.uv[0].v = 0x180;
-    prim.uv[1].u = 0xC7F;
-    prim.uv[1].v = 0x180;
-    prim.uv[2].u = 0xC00;
-    prim.uv[2].v = 0x1FF;
-    prim.uv[3].u = 0xC7F;
-    prim.uv[3].v = 0x1FF;
+    prim.uv[0].x = 0xC00;
+    prim.uv[0].y = 0x180;
+    prim.uv[1].x = 0xC7F;
+    prim.uv[1].y = 0x180;
+    prim.uv[2].x = 0xC00;
+    prim.uv[2].y = 0x1FF;
+    prim.uv[3].x = 0xC7F;
+    prim.uv[3].y = 0x1FF;
 
     t = t | (t << 8) | (t << 16);
     col = 0x808080 - t;

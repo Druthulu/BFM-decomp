@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8017FAD4;
 extern void (*D_8017FAFC[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8017FADC;
@@ -3500,10 +3500,10 @@ void func_8017C59C(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -3551,7 +3551,7 @@ void func_8017C59C(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C59C *)pkt)->rgbc = prim->w0;
+                                    ((PF3_C59C *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3599,7 +3599,7 @@ void func_8017C59C(s32 arg0)
                                     *(u32 *)&((PFT3_C59C *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_C59C *)pkt)->rgbc = tp[0];
                                     ((PFT3_C59C *)pkt)->uvc0 = tp[1];
                                     ((PFT3_C59C *)pkt)->uvp1 = tp[2];
@@ -3653,7 +3653,7 @@ void func_8017C59C(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C59C *)pkt)->rgbc = prim->w0;
+                                        ((PF4_C59C *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3711,7 +3711,7 @@ void func_8017C59C(s32 arg0)
                                         *(u32 *)&((PFT4_C59C *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_C59C *)pkt)->rgbc = tp[0];
                                         ((PFT4_C59C *)pkt)->uvc0 = tp[1];
                                         ((PFT4_C59C *)pkt)->uvp1 = tp[2];
@@ -4024,7 +4024,7 @@ void func_8017DB2C(s32 a0) {
         func_801292C8((u8 *)a0);
     } else {
         if (CAST_SIGN(s16, a0, 0x2E) != 0) {
-            guess_AddVelocityToPos((struct vec *)a0);
+            guess_AddVelocityToPos((S800D22E4 *)a0);
             CAST_WIDTH(s32, a0, 0x10) -= CAST_WIDTH(s32, a0, 0x10) >> 3;
             ((Unkstruct_800B5CB8 *)a0)->unk14 += -0x4000;
             CAST_WIDTH(s32, a0, 0x18) -= CAST_WIDTH(s32, a0, 0x18) >> 3;
@@ -4032,7 +4032,7 @@ void func_8017DB2C(s32 a0) {
             vecA[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
             vecA[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
             vecA[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
-            guess_AddVelocityToPos((struct vec *)a0);
+            guess_AddVelocityToPos((S800D22E4 *)a0);
             vecB[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
             vecB[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
             vecB[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;

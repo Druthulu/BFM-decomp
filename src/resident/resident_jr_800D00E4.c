@@ -106,7 +106,7 @@ extern int CdReadRequest(void *dst, void *src, int arg2, int arg3);
 extern void func_800CF94C(void);
 extern s16 D_80114E74;
 extern s16 D_800D3408[];
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern u16 D_800AF7B8;
 extern void func_800167B8(s32 arg0);
 extern void func_800CFAD0(void);
@@ -178,7 +178,7 @@ s32 func_800D0214(s32 arg0) {
     extern s32 D_800A2E20;
     extern s32 D_800D34AC[];
     extern s16 D_800D34AE[];
-    extern CdFileLoc cdFileLocTable[];
+    extern Unkstruct_80180CD4 cdFileLocTable[];
     extern s32 CdReadRequest(void *, void *, s32, s32);
 
     s32 mask = ~0xF000;
@@ -193,7 +193,7 @@ s32 func_800D0214(s32 arg0) {
     *p = val;
 
     id = raw & 0xFFF;
-    if (id >= 0 && cdFileLocTable[id].word0 != 0) {
+    if (id >= 0 && cdFileLocTable[id].unk0 != 0) {
         return CdReadRequest(&cdFileLocTable[id], arg0, 0, p);
     }
     return 1;
@@ -273,9 +273,9 @@ void func_800D02C0(s32 arg0) {
  * ============================================================================
  */
 s32 func_800D02D0(s32 arg0) {
-    extern CdFileLoc cdFileLocTable[];
-    extern CdFileLoc D_800D3768[];
-    extern CdFileLoc D_800D3764[];
+    extern Unkstruct_80180CD4 cdFileLocTable[];
+    extern Unkstruct_80180CD4 D_800D3768[];
+    extern Unkstruct_80180CD4 D_800D3764[];
     extern s32 guess_g_CdReadList; // Names ledger: config/names.tsv guess_g_CdReadList
     extern s32 *guess_g_CdReadListDest; // Names ledger: config/names.tsv guess_g_CdReadListDest
     extern s32 D_80072C78;
@@ -323,9 +323,9 @@ s32 func_800D02D0(s32 arg0) {
     p = &D_800A2E20;
     guess_g_CdReadListDest = p;
     p = &guess_g_CdReadList;
-    *p = D_800D3768[arg0].word0;
+    *p = D_800D3768[arg0].unk0;
     if (arg0 >= 0) {
-        ret = guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].word0], D_80072C78, (s32)p);
+        ret = guess_RequestResourceLoad(0, 0, (u8 *)&cdFileLocTable[D_800D3764[arg0].unk0], D_80072C78, (s32)p);
     } else {
         ret = 1;
     }
@@ -345,7 +345,7 @@ s32 func_800D0488(s32 arg0) {
     extern s32 D_800D3850[];
     extern s32 D_800D384C[];
     extern s32 D_80072C7C;
-    extern CdFileLoc cdFileLocTable[];
+    extern Unkstruct_80180CD4 cdFileLocTable[];
     extern s32 guess_RequestResourceLoad(s32 arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
     extern void func_8001B384(void);
 

@@ -139,7 +139,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -243,7 +243,7 @@ extern void func_8012ACA0(void *arg0);
 s32 func_8012ACE0(void *o) {
     int i;
     for (i = 0; ; i++) {
-        switch (((Owner_8012ACE0_8012ACE0 *)o)->list[i].cmd) {
+        switch (((Owner_8012ACE0_8012ACE0 *)o)->list[i].unk4) {
             case -2:
             case -1:
             case 0:

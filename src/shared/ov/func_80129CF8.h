@@ -19,7 +19,7 @@ extern s32 guess_g_ActiveCamera;           /* canonical (10 siblings): scalar s3
  * Names ledger: config/names.tsv guess_UpdateCamera */
 void guess_UpdateCamera(void)
 {
-    RView view; /* unused: reserves the extra 0x20 frame bytes the target has */
+    Blk20_8016DF5C view; /* unused: reserves the extra 0x20 frame bytes the target has */
     s32 *cam;
     s32 *p1;
     s32 *p2;
@@ -83,6 +83,6 @@ void guess_UpdateCamera(void)
     cam[0x1e] = cam[0x16];
     cam[0x1d] = iVar2;
     GsSetRefView2L(&cam[0x17]);
-    *(RView *)(p2 + 6) = *(RView *)GsWSMATRIX;
+    *(Blk20_8016DF5C *)(p2 + 6) = *(Blk20_8016DF5C *)GsWSMATRIX;
     guess_g_ActiveCamera = (s32)cam;
 }

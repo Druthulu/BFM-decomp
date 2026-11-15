@@ -10,8 +10,8 @@ void func_8013C414(s32 param_1, s32 param_2)
     u32 i;           /* 0x14 */
     s32 unused;      /* 0x18 */
     s32 base8;       /* 0x1C */
-    T3Reloc *r;      /* 0x20 */
-    T3Reloc *s;      /* 0x24 */
+    Bar *r;      /* 0x20 */
+    Bar *s;      /* 0x24 */
 
     if (*(s32 *)(param_2 + 4) == 0) {
         base10 = param_2 + 0x10;
@@ -26,11 +26,11 @@ void func_8013C414(s32 param_1, s32 param_2)
                 q = *(s32 *)(p + 4);
                 *(s32 *)q = *(s32 *)q + q;
                 *(s32 *)(q + 0x14) = *(s32 *)(q + 0x14) + q;
-                r = (T3Reloc *)*(s32 *)(q + 0x14);
+                r = (Bar *)*(s32 *)(q + 0x14);
                 *(s32 *)(q + 0x18) = *(s32 *)(q + 0x18) * 0xC + *(s32 *)(q + 0x14);
-                s = (T3Reloc *)*(s32 *)(q + 0x18);
+                s = (Bar *)*(s32 *)(q + 0x18);
                 while (r < s) {
-                    switch (r->type) {
+                    switch (r->tag) {
                     case 0x24:
                     case 0x2C:
                     case 0x34:

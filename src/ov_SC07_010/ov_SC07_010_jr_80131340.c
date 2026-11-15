@@ -102,7 +102,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -2330,7 +2330,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     extern s32 D_801A6A5C;
     extern s16 D_801A6A60, D_801A6A62, D_801A6A64, D_801A6A66, D_801A6A68, D_801A6A6A;
 
-    Vec32 in0, in1, rotout;
+    Blk16_956C in0, in1, rotout;
     Mat32 mat2;
     Vec16 vecin;
     s32 result;
@@ -2340,10 +2340,10 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     s32 t18, t1A, t1C;
     s32 *m;
 
-    in0.vx = param_3[0] - ((Unkstruct_80135480_5 *)param_1)->unk48;
-    in0.vz = param_3[2] - ((Unkstruct_80135480_5 *)param_1)->unk50;
+    in0.unk0.v3.unk0 = param_3[0] - ((Unkstruct_80135480_5 *)param_1)->unk48;
+    in0.unk0.v3.unk8 = param_3[2] - ((Unkstruct_80135480_5 *)param_1)->unk50;
     if ((param_2 & 0x10000000) == 0) {
-        if (in0.vx * in0.vx + in0.vz * in0.vz > 0x40000) {
+        if (in0.unk0.v3.unk0 * in0.unk0.v3.unk0 + in0.unk0.v3.unk8 * in0.unk0.v3.unk8 > 0x40000) {
             return 0;
         }
     }
@@ -2353,10 +2353,10 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         if (param_2 >= 0) {
             mode &= 0x40000000;
         }
-        in0.vy = param_3[1] - ((Unkstruct_80135480_5 *)param_1)->unk4C;
-        in1.vx = param_4[0] - ((Unkstruct_80135480_5 *)param_1)->unk48;
-        in1.vy = param_4[1] - ((Unkstruct_80135480_5 *)param_1)->unk4C;
-        in1.vz = param_4[2] - ((Unkstruct_80135480_5 *)param_1)->unk50;
+        in0.unk0.v3.unk4 = param_3[1] - ((Unkstruct_80135480_5 *)param_1)->unk4C;
+        in1.unk0.v3.unk0 = param_4[0] - ((Unkstruct_80135480_5 *)param_1)->unk48;
+        in1.unk0.v3.unk4 = param_4[1] - ((Unkstruct_80135480_5 *)param_1)->unk4C;
+        in1.unk0.v3.unk8 = param_4[2] - ((Unkstruct_80135480_5 *)param_1)->unk50;
         switch (mode) {
         case 0x60000000:
             m = &D_801A6A3C;
@@ -2387,17 +2387,17 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             vecin.vy = ((Unkstruct_80135480_6 *)p)->unk8;
             vecin.vz = ((Unkstruct_80135480_6 *)p)->unkC;
             ApplyRotMatrix(&vecin, &rotout);
-            D_801A6A60 = rotout.vx;
-            D_801A6A64 = rotout.vy;
-            D_801A6A68 = rotout.vz;
+            D_801A6A60 = rotout.unk0.v3.unk0;
+            D_801A6A64 = rotout.unk0.v3.unk4;
+            D_801A6A68 = rotout.unk0.v3.unk8;
             vecin.vx = CAST_ALIAS(u16, p, 6);
             vecin.vy = ((Unkstruct_80135480_6 *)p)->unkA;
             vecin.vz = ((Unkstruct_80135480_6 *)p)->unkE;
             ApplyRotMatrix(&vecin, &rotout);
             D_801A6A5C = 0;
-            D_801A6A62 = rotout.vx;
-            D_801A6A66 = rotout.vy;
-            D_801A6A6A = rotout.vz;
+            D_801A6A62 = rotout.unk0.v3.unk0;
+            D_801A6A66 = rotout.unk0.v3.unk4;
+            D_801A6A6A = rotout.unk0.v3.unk8;
             result += 2;
             break;
         case 0x40000000:
@@ -2408,23 +2408,23 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         }
         {
             s16 *p = *(s16 **)&D_80182550;
-            p[0] = in0.vx;
-            p[1] = in0.vy;
-            p[2] = in0.vz;
+            p[0] = in0.unk0.v3.unk0;
+            p[1] = in0.unk0.v3.unk4;
+            p[2] = in0.unk0.v3.unk8;
         }
         {
             s16 *p = *(s16 **)&D_80182554;
-            p[0] = in1.vx;
-            p[1] = in1.vy;
-            p[2] = in1.vz;
+            p[0] = in1.unk0.v3.unk0;
+            p[1] = in1.unk0.v3.unk4;
+            p[2] = in1.unk0.v3.unk8;
         }
         return result;
     }
     {
         s16 *p = *(s16 **)&D_80182550;
-        p[0] = in0.vx;
+        p[0] = in0.unk0.v3.unk0;
         p[1] = ((Unkstruct_80135480_8 *)param_3)->unk2 - ((Unkstruct_80135480_5 *)param_1)->unk4C;
-        p[2] = in0.vz;
+        p[2] = in0.unk0.v3.unk8;
     }
     {
         s16 *p = *(s16 **)&D_80182554;

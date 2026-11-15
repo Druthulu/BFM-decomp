@@ -1042,7 +1042,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186AF8;
 extern void (*D_80186B20[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186B00;
@@ -3879,7 +3879,7 @@ void func_8017CE58(s32 arg0)
     u32 nprim;
     u32 i;
     Part *part;
-    Prim_SC03_092_8017CE58 *prim;
+    Blk12 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3986,13 +3986,13 @@ void func_8017CE58(s32 arg0)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim_SC03_092_8017CE58 *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         wlo = w & 0xFFFF;
                         extra = w >> 16;
                         vc = vtx + wlo;
@@ -4070,7 +4070,7 @@ void func_8017CE58(s32 arg0)
                                                 za = gsz1;
                                                 if (za < gsz2) za = gsz2;
                                             }
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             fade = 0x80 - (za - 400) / 12;
                                             gopz = za;
                                             if (fade < 0) fade = 0;
@@ -4139,7 +4139,7 @@ void func_8017CE58(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 fade = 0x80 - (za - 400) / 12;
                                                 if (fade < 0) fade = 0;
                                                 cc = fade << 8;
@@ -5447,12 +5447,12 @@ void func_8017FA74(s32 arg0)
     extern u8 D_80188F40[];
     extern u8 D_80188F50[];
     extern u8 D_80188F70[];
-    extern Tbl8_8017FC44 D_80189380[];
+    extern Unkstruct_80180CD4 D_80189380[];
 
     s32 a0;
     s32 v1;
     s32 idx;
-    Tbl8_8017FC44 *rec;
+    Unkstruct_80180CD4 *rec;
 
     switch (D_801B2E70) {
     case 0:
@@ -5505,8 +5505,8 @@ void func_8017FA74(s32 arg0)
                 }
             }
             rec = &D_80189380[idx];
-            guess_SetObjectPosAndYaw(arg0, (s32)&D_80188EF8 + rec->unk00 * 8);
-            guess_StartActorSequence(arg0, (void *)rec->unk04);
+            guess_SetObjectPosAndYaw(arg0, (s32)&D_80188EF8 + rec->unk0 * 8);
+            guess_StartActorSequence(arg0, (void *)rec->unk4);
             ((Unkstruct_80126B58 *)arg0)->unk58 = (s32)&D_80188F10 | 0x40000000;
             CAST_WIDTH(u16, arg0, 0x5C) = 0x800;
             D_801B2E70 = 0;
@@ -5530,7 +5530,7 @@ extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
 void func_8017FC44(void *a0)
 {
     extern u8 D_801AC5AC[];
-    extern Tbl8_8017FC44 D_80189380[];
+    extern Unkstruct_80180CD4 D_80189380[];
     extern u8 D_80188EF8;
     extern u8 D_80188F10;
     extern s32 func_80180150(void *a0);
@@ -5539,7 +5539,7 @@ void func_8017FC44(void *a0)
     s32 v1;
     s32 idx;
     s32 s3;
-    Tbl8_8017FC44 *p;
+    Unkstruct_80180CD4 *p;
     s32 t;
 
     v1 = guess_GetStoryProgress();
@@ -5587,9 +5587,9 @@ void func_8017FC44(void *a0)
     }
 
     p = &D_80189380[idx];
-    t = p->unk00 * 8;
+    t = p->unk0 * 8;
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_80188EF8 + t);
-    guess_StartActorSequence((s32)a0, (void *)p->unk04);
+    guess_StartActorSequence((s32)a0, (void *)p->unk4);
 
     ((Unkstruct_80126B58 *)a0)->unk58 = (s32)&D_80188F10 | 0x40000000;
     CAST_WIDTH(u16, (s32)a0, 0x5C) = 0x800;

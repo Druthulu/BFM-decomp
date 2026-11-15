@@ -3241,7 +3241,7 @@ void func_801431E8(s32 param_1) {
 
 #include "../shared/ov/func_80143390.h"
 
-struct vec;
+
 #include "../shared/ov/func_801433F0.h"
 
 // @class: plumbing
@@ -3279,7 +3279,7 @@ void func_80143458(s32 param_1)
     ((Unkstruct_80143458 *)param_1)->unk2 = ((Unkstruct_80143458 *)param_1)->unk2 + 1;
 }
 
-struct vec;
+
 #include "../shared/ov/func_8014350C.h"
 
 

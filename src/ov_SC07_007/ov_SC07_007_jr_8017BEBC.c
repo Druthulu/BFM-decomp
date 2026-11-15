@@ -104,7 +104,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -693,7 +693,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1717,7 +1717,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3767,9 +3767,9 @@ void func_8017DAE8(void *a0, void *a1)
     if (D_801C7804 == -1) {
         *(SV4 *)a1 = loc0;
     } else {
-        ((Unkstruct_8017DAE8 *)a1)->unk0 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk0, loc0.vx, s);
-        ((Unkstruct_8017DAE8 *)a1)->unk2 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk2, loc0.vy, s);
-        ((Unkstruct_8017DAE8 *)a1)->unk4 = func_800130D0(((Unkstruct_8017DAE8 *)a1)->unk4, loc0.vz, s);
+        ((Unkstruct_801312D0 *)a1)->unk0 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk0, loc0.vx, s);
+        ((Unkstruct_801312D0 *)a1)->unk2 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk2, loc0.vy, s);
+        ((Unkstruct_801312D0 *)a1)->unk4 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk4, loc0.vz, s);
     }
 }
 
@@ -3792,13 +3792,13 @@ void func_8017DC20(void *param_1, void *param_2, void *param_3) {
     *(s16 *)(p1 + 0x2A) = guess_EaseToward((s32)*(s16 *)(p1 + 0x2A), (s32)*(s16 *)(p1 + 0x30), 0x10);
     *(s16 *)(p1 + 0x2C) = guess_EaseToward((s32)*(s16 *)(p1 + 0x2C), (s32)*(s16 *)(p1 + 0x32), 0x10);
 
-    *(s32 *)(p1 + 0x48) = (s32)*(s16 *)(p1 + 0x28) + (s32)((Unkstruct_8017DC20_2 *)p3)->unk0;
-    *(s32 *)(p1 + 0x4C) = (s32)*(s16 *)(p1 + 0x2A) + (s32)((Unkstruct_8017DC20_2 *)p3)->unk2;
-    *(s32 *)(p1 + 0x50) = (s32)*(s16 *)(p1 + 0x2C) + (s32)((Unkstruct_8017DC20_2 *)p3)->unk4;
+    *(s32 *)(p1 + 0x48) = (s32)*(s16 *)(p1 + 0x28) + (s32)((Unkstruct_801312D0 *)p3)->unk0;
+    *(s32 *)(p1 + 0x4C) = (s32)*(s16 *)(p1 + 0x2A) + (s32)((Unkstruct_801312D0 *)p3)->unk2;
+    *(s32 *)(p1 + 0x50) = (s32)*(s16 *)(p1 + 0x2C) + (s32)((Unkstruct_801312D0 *)p3)->unk4;
 
-    *(s32 *)(p1 + 0x3C) = (s32)((Unkstruct_8017DC20_3 *)p2)->unk0;
-    *(s32 *)(p1 + 0x40) = (s32)((Unkstruct_8017DC20_3 *)p2)->unk2;
-    *(s32 *)(p1 + 0x44) = (s32)((Unkstruct_8017DC20_3 *)p2)->unk4;
+    *(s32 *)(p1 + 0x3C) = (s32)((Unkstruct_801312D0 *)p2)->unk0;
+    *(s32 *)(p1 + 0x40) = (s32)((Unkstruct_801312D0 *)p2)->unk2;
+    *(s32 *)(p1 + 0x44) = (s32)((Unkstruct_801312D0 *)p2)->unk4;
 }
 
 
@@ -4139,9 +4139,9 @@ void func_8017E424(s32 s0) {
 
     if (((Unkstruct_8017E424 *)s0)->unk8 == 0) {
         s1 = ((Unkstruct_8017E424 *)s0)->unk10;
-        if (((Unkstruct_8017E424_2 *)s1)->unk0 != 0) {
-            KR_AS(void, func_80181120)(0, ((Unkstruct_8017E424_2 *)s1)->unk0);
-            ((Unkstruct_8017E424 *)s0)->unk8 = ((Unkstruct_8017E424_2 *)s1)->unk4;
+        if (((Unkstruct_80180CD4 *)s1)->unk0 != 0) {
+            KR_AS(void, func_80181120)(0, ((Unkstruct_80180CD4 *)s1)->unk0);
+            ((Unkstruct_8017E424 *)s0)->unk8 = ((Unkstruct_80180CD4 *)s1)->unk4;
             ((Unkstruct_8017E424 *)s0)->unk10 = ((Unkstruct_8017E424 *)s0)->unk10 + 8;
         } else {
             guess_ZeroMemory((void *)s0, 0x18);
@@ -7587,7 +7587,7 @@ void func_801827E0(void) {
 
 
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s16 D_801887C4[];
 
 s32 func_8018283C(s32 param_1) {

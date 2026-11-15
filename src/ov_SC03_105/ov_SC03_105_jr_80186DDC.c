@@ -5,7 +5,7 @@
 typedef void (*Handler)(struct Entry_8016E95C *);
  /* 0x1C */
  /* 0x1D0 */
-struct vec;
+
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
 extern s32 guess_g_CurrentEvent; // Names ledger: config/names.tsv guess_g_CurrentEvent
@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C140;
 extern void (*D_8018C168[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C148;
@@ -2845,7 +2845,7 @@ extern MATRIX_80188114 D_801BC9B4;
 extern u16 D_801BC9C4;
 extern void func_80184698(s32 *a0);
 extern void func_801847B0(void);
-extern void guess_AddVelocityToPos_3(struct vec *a0);
+extern void guess_AddVelocityToPos_3(S800D22E4 *a0);
 extern void func_80185218(void *arg0);
 extern s32  func_80185680(void *a0, void *a1);
 extern void func_80185810(s32 a0);
@@ -3034,7 +3034,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 s32 func_801870E8(s32 a0) {
 
     s32 s0 = a0;
-    Local_801870E8 local;
+    Local_8017EE34 local;
     s32 v0;
 
     if ((guess_g_FrameCounter & 0xF) == 0) {

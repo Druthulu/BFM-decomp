@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80187F14;
 extern void (*D_80187F3C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80187F1C;
@@ -3234,8 +3234,8 @@ s32 func_8017DD84(s32 a0)
 
 /* 16-byte stride table indexed by *(s16*)(obj+0x70) */
 
-extern Pair8_8017DDC4 D_801D0120[];
-extern Rec16_8017DDC4 D_801A42B8[];
+extern Unkstruct_80180CD4 D_801D0120[];
+extern Blk16_956C D_801A42B8[];
 
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
@@ -3264,11 +3264,11 @@ void func_8017DDC4(void *a0)
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
-            D_801D0120[((Unkstruct_800B5CB8 *)a0)->unk70].a =
+            D_801D0120[((Unkstruct_800B5CB8 *)a0)->unk70].unk0 =
                 ((s32 *)t)[((Unkstruct_800B5CB8 *)a0)->unk70];
         }
     }
-    D_801D0120[((Unkstruct_800B5CB8 *)a0)->unk70].b = 0;
+    D_801D0120[((Unkstruct_800B5CB8 *)a0)->unk70].unk4 = 0;
     guess_InitModelObject(((Unkstruct_800B5CB8 *)a0)->unk20,
                   (s32)&D_801D0120[((Unkstruct_800B5CB8 *)a0)->unk70]);
 
@@ -4418,13 +4418,13 @@ s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
 
 
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_8017F9D4(a0)
 s32 a0;
 {
     if (CAST_SIGN(u16, a0, 0x2) == 0) {
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
         if (((Unkstruct_800B5CB8 *)a0)->unk1C < 0x23) {
             ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x10000;
         }
@@ -4432,7 +4432,7 @@ s32 a0;
             return;
         }
     } else {
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
         if (--((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {
             return;
         }
@@ -6245,20 +6245,20 @@ extern void func_801292C8(u8 *a0);
 
 
 void func_80182AF4(s32 a0) {
-    SV3L2 sp10;
+    Local_8017EE34 sp10;
 
     func_80182DBC(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
     if (((Unkstruct_800B5CB8 *)a0)->unk1C >= 0x1F) {
-        sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-        sp10.f6 = 0x17F;
-        sp10.f8 = 0x8000;
-        sp10.fA = 0;
-        sp10.f10 = 0;
-        sp10.fE = 0;
-        sp10.fC = 0x7FFF;
+        sp10.f0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        sp10.f1 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        sp10.f2 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sp10.f3 = 0x17F;
+        sp10.f4 = 0x8000;
+        sp10.f5 = 0;
+        sp10.f8 = 0;
+        sp10.f7 = 0;
+        sp10.f6 = 0x7FFF;
         func_8012C51C((void *)&sp10, CAST_WIDTH(s32, a0, 0x24));
         func_801292C8((u8 *)a0);
     }
@@ -6267,7 +6267,7 @@ void func_80182AF4(s32 a0) {
 
 #include "../shared/engine_prelude.h"  /* match_one-only: gives struct vec + SV3_8012CC88; the real TU already includes this */
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),

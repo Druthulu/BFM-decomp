@@ -23,9 +23,9 @@
 void SHARED_FN(s32 a0) {
     s32 ret = func_8012BD14(a0);
     if (ret <= 0x64000) {
-        Struct_8017E784 *ptr = CAST_SIGN(Struct_8017E784 *, a0, 0x20);
+        Unkstruct_80180CD4 *ptr = CAST_SIGN(Unkstruct_80180CD4 *, a0, 0x20);
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        ptr->f1 = ptr->f1 & 0x7FFFFFFF;
+        ptr->unk4 = ptr->unk4 & 0x7FFFFFFF;
         func_80143970((void *)a0);
         func_8012E688((void *)a0, 0xBA2, 0);
     }

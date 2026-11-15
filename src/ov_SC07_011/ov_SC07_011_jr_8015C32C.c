@@ -101,7 +101,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -691,7 +691,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1728,7 +1728,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -5492,11 +5492,11 @@ extern void guess_NextStep(void *a0);
 void func_80164EE0(int param_1)
 {
 
-    extern DStruct D_8018F344[];
+    extern Blk16_956C D_8018F344[];
     int i;
 
     for (i = 7; i >= 0; i--) {
-        D_8018F344[i].f0 = 0;
+        D_8018F344[i].unk0.v2.unk0 = 0;
     }
     ((Unkstruct_80164EE0_2 *)param_1)->unk2E = 0x4000;
     ((Unkstruct_80164EE0_2 *)param_1)->unk2C = 0x4000;
@@ -5991,12 +5991,12 @@ s32 func_80166690(s32 param_1, s32 param_2)
         p2 = (short)param_2;
         do {
             pv = &sub[sVar9];
-            c.v0 = pv->h[0];
-            c.v1 = pv->h[1];
-            c.v2 = pv->h[2];
-            c.w0 = pv->h[3];
-            c.w1 = pv->h[4];
-            c.w2 = pv->h[5];
+            c.v0 = pv->unk0.v0.h[0];
+            c.v1 = pv->unk0.v0.h[1];
+            c.v2 = pv->unk0.v0.h[2];
+            c.w0 = pv->unk0.v0.h[3];
+            c.w1 = pv->unk0.v0.h[4];
+            c.w2 = pv->unk0.v0.h[5];
             sVar10 = sVar10 + 1;
 
             if (lt2) {
@@ -6023,14 +6023,14 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 sVar9 = 0xF;
             }
             pv = &sub[sVar9];
-            c.v3 = pv->h[0];
-            c.v4 = pv->h[1];
-            c.v5 = pv->h[2];
-            c.w3 = pv->h[3];
-            c.w4 = pv->h[4];
+            c.v3 = pv->unk0.v0.h[0];
+            c.v4 = pv->unk0.v0.h[1];
+            c.v5 = pv->unk0.v0.h[2];
+            c.w3 = pv->unk0.v0.h[3];
+            c.w4 = pv->unk0.v0.h[4];
             sVar8 = sVar8 - 0x10;
             sVar7 = sVar7 - 0x10;
-            c.w5 = pv->h[5];
+            c.w5 = pv->unk0.v0.h[5];
             if (sVar7 < 0) {
                 sVar7 = 0;
             }
@@ -7401,7 +7401,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
 
     fr.center.x = (*((s16 *)param_2) + *((s16 *)param_3)) >> 1;
     fr.center.y = (((s16 *)param_2)[1] + ((s16 *)param_3)[1]) >> 1;
-    fr.center.z = (((Unkstruct_8016A290_2 *)param_2)->unk4 + ((Unkstruct_8016A290_3 *)param_3)->unk4) >> 1;
+    fr.center.z = (((Unkstruct_8016A290_2 *)param_2)->unk4 + ((Unkstruct_8016A290_2 *)param_3)->unk4) >> 1;
     ((void(*)(s32, void *, void *))guess_ObjRotTransSV)(iVar3, &fr.center, &fr.center);
 
     CAST_ALIAS(u16, param_1, 0x6) = *(u16 *)&fr.center.x;
@@ -7410,7 +7410,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     func_800D20C0(&fr.center, &fr.diff, 8);
     func_80017E68(&fr.center, fr.mtx);
 
-    fr.diff.x = ((Unkstruct_8016A290_3 *)param_3)->unk0 - ((Unkstruct_8016A290_2 *)param_2)->unk0;
+    fr.diff.x = ((Unkstruct_8016A290_2 *)param_3)->unk0 - ((Unkstruct_8016A290_2 *)param_2)->unk0;
     fr.diff.y = CAST_MISALIGNED(u16, ((s16 *)param_3), 1) - CAST_MISALIGNED(u16, ((s16 *)param_2), 1);
     fr.diff.z = CAST_ALIAS(u16, ((s16 *)param_3), 2) - CAST_ALIAS(u16, ((s16 *)param_2), 2);
     ((void(*)(s32, void *, void *))ApplyMatrixSV)(((Unkstruct_8016A290_8 *)iVar3)->unk20 + 0x34, &fr.diff, &fr.diff);

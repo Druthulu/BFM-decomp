@@ -863,7 +863,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186AF8;
 extern void (*D_80186B20[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186B00;
@@ -3224,7 +3224,7 @@ void func_8018066C(void *a0)
     extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
     extern s32 D_80189480[];
     extern u8 D_80189458;
-    extern Rec16_8018066C D_80189460[];
+    extern Blk16_956C D_80189460[];
     extern u8 D_801AFB90[];
     extern void guess_StartActorSequence(s32 a0, void *a1);
 
@@ -3626,8 +3626,8 @@ extern s32 func_8012AD50(void *a0);
 void func_80180F08(void *a0)
 {
 
-    extern Pair8_8017DDC4_80180F08 D_801B2EB0[];
-    extern Rec16_8017DDC4_80180F08 D_801AC62C[];
+    extern Unkstruct_80180CD4 D_801B2EB0[];
+    extern Blk16_956C D_801AC62C[];
     s32 v0;
     s32 s1;
     s32 t;
@@ -3643,11 +3643,11 @@ void func_80180F08(void *a0)
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
-            D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].a =
+            D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].unk0 =
                 ((s32 *)t)[((Unkstruct_800B5CB8 *)a0)->unk70];
         }
     }
-    D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].b = 0;
+    D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].unk4 = 0;
     guess_InitModelObject(((Unkstruct_800B5CB8 *)a0)->unk20,
                   (s32)&D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70]);
 

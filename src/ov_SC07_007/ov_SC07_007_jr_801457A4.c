@@ -100,7 +100,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 D_800B9AAE[];
@@ -670,7 +670,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -4033,14 +4033,14 @@ void func_80153320(void *a0) {
 // @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
 extern void guess_StartPadVibration(void *a0);
 
-void func_80153CCC(S80153CCC *a0) {
+void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
 
     extern s32 D_80184D28;
     extern void (*D_80184D50[])(void *a0);
     extern s16 D_8011DB0C;
     extern u16 D_8011F748;
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80184D28);
-    D_80184D50[a0->idx](a0);
+    D_80184D50[a0->unk2](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80180A00;
 extern void (*D_80180A28[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80180A08;
@@ -3236,7 +3236,7 @@ void func_8017D490(void)
  */
 void func_8017DD04(s32 arg0, s32 arg1)
 {
-    extern void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3);
+    extern void func_8017E1A8(Unkstruct_8017C8B0 *p, s32 arg1, s32 arg2, s32 arg3);
     extern u8 *D_800A5E60;
     extern u8 D_800AA60C[];
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
@@ -3392,18 +3392,18 @@ void func_8017DD04(s32 arg0, s32 arg1)
  * first-class dial"), here reached by plain variable reuse — no asm re-tie.
  */
 
-void func_8017E1A8(Pt_8017E1A8 *p, s32 arg1, s32 arg2, s32 arg3) {
+void func_8017E1A8(Unkstruct_8017C8B0 *p, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
     s32 ax;
     s32 ay;
 
     for (i = 0; i < 9; i++) {
-        ax = p[i].x - 0xA0;
-        ay = p[i].y - 0x78;
+        ax = p[i].unk0 - 0xA0;
+        ay = p[i].unk2 - 0x78;
         ax = (ax * arg3) / 0x1000;
         ay = (ay * arg3) / 0x1000;
-        p[i].sx = ax + arg1;
-        p[i].sy = ay + arg2;
+        p[i].unk4 = ax + arg1;
+        p[i].unk6 = ay + arg2;
     }
 }
 

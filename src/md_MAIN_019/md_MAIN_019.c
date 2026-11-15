@@ -223,7 +223,7 @@ extern void func_800CBC0C(void *a0);
 
 void func_800CB3FC(void *arg0)
 {
-    RView view; /* unused: reserves the extra 0x20 frame bytes the target has */
+    Blk20_8016DF5C view; /* unused: reserves the extra 0x20 frame bytes the target has */
     CAST_WIDTH(u16, (s32)arg0, 0x14) -= 6;
     func_800CB578(arg0);
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {

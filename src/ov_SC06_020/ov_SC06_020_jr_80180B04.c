@@ -849,7 +849,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186E54;
 extern void (*D_80186E7C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186E5C;
@@ -3691,7 +3691,7 @@ void func_80181F40(s32 param_1)
                     ((Unkstruct_800B5CB8 *)param_1)->unkFE = (s8)*(u8 *)(a1 + 0x64);
                     ((Unkstruct_800B5CB8 *)param_1)->unk100 = (s8)*(u8 *)(a1 + 0x65);
                 } else {
-                    CAST_WIDTH(UAlign12_80181F40, param_1, 0xFC) = *(UAlign12_80181F40 *)(a2 + 0x90);
+                    CAST_WIDTH(Rec_80166690_80166690, param_1, 0xFC) = *(Rec_80166690_80166690 *)(a2 + 0x90);
                 }
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk20 = a3;
             }

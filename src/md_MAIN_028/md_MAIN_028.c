@@ -415,8 +415,8 @@ void func_800CBAD0(s32 a0) {
         ((Unkstruct_800CB8A0 *)a0)->unk2 = 4;
     }
     v = ((Unkstruct_800CB164 *)s)->unk20;
-    *(Blk_800CBAD0 *)(a0 + 0x38) = *(Blk_800CBAD0 *)(v + 0x34);
-    *(Blk_800CBAD0 *)(a0 + 0x48) = *(Blk_800CBAD0 *)(v + 0x44);
+    *(Blk16_956C *)(a0 + 0x38) = *(Blk16_956C *)(v + 0x34);
+    *(Blk16_956C *)(a0 + 0x48) = *(Blk16_956C *)(v + 0x44);
     func_800CB8A0(a0);
     return;
 
@@ -446,8 +446,8 @@ void func_800CBBA0(void *a0) {
         ((Unkstruct_800CB8A0 *)a0)->unk1A = (s16)m >> 1;
     }
     v0 = ((Unkstruct_800CB164 *)a1)->unk20;
-    *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x38) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x34);
-    *(S16_md_MAIN_014_800CB254 *)((s32)a0 + 0x48) = *(S16_md_MAIN_014_800CB254 *)(v0 + 0x44);
+    *(Blk16_956C *)((s32)a0 + 0x38) = *(Blk16_956C *)(v0 + 0x34);
+    *(Blk16_956C *)((s32)a0 + 0x48) = *(Blk16_956C *)(v0 + 0x44);
     func_800CB8A0((s32)a0);
 }
 
@@ -514,8 +514,8 @@ void func_800CBDD0(s32 a0) {
 
     s1 = ((Unkstruct_800CB8A0 *)a0)->unk34;
     v0 = ((Unkstruct_800CB164 *)s1)->unk20;
-    *(Struct16 *)(a0 + 0x38) = *(Struct16 *)(v0 + 0x34);
-    *(Struct16 *)(a0 + 0x48) = *(Struct16 *)(v0 + 0x44);
+    *(Blk16_956C *)(a0 + 0x38) = *(Blk16_956C *)(v0 + 0x34);
+    *(Blk16_956C *)(a0 + 0x48) = *(Blk16_956C *)(v0 + 0x44);
     func_800CB8A0(a0);
     var1C = ((Unkstruct_800CB8A0 *)a0)->unk1C - 1;
     ((Unkstruct_800CB8A0 *)a0)->unk1C = var1C;

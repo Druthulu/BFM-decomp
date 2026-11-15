@@ -862,7 +862,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80180EF4;
 extern void (*D_80180F1C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80180EFC;
@@ -3436,27 +3436,27 @@ void func_8017E024(s32 a0)
         gte_rtv0tr();
         gte_stlvnl(&vout);
         gte_stflg(&flag);
-        *(s16 *)(a0 + 0x6) = vout.vx;
-        *(s16 *)(a0 + 0xA) = vout.vy;
-        *(s16 *)(a0 + 0xE) = vout.vz;
+        *(s16 *)(a0 + 0x6) = vout.unk0.v3.unk0;
+        *(s16 *)(a0 + 0xA) = vout.unk0.v3.unk4;
+        *(s16 *)(a0 + 0xE) = vout.unk0.v3.unk8;
     } else {
         if (*(u8 *)(a0 + 0x74)) {
-            vin.vx = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
-            vin.vy = D_80126B60;
-            vin.vz = D_80126B64;
+            vin.unk0.v3.unk0 = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
+            vin.unk0.v3.unk4 = D_80126B60;
+            vin.unk0.v3.unk8 = D_80126B64;
             func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32 *)&vin, (s32 *)&res);
             if (*(u8 *)(a0 + 0x102) == 0) {
                 owner = *(s32 *)(a0 + 0x64);
-                ((Unkstruct_8017E024 *)owner)->unkE0 += res.vx >> 2;
+                ((Unkstruct_8017E024 *)owner)->unkE0 += res.unk0.v3.unk0 >> 2;
             }
         }
         func_80132784(a0, *(s32 *)(a0 + 0x64), 0);
         if (*(u8 *)(a0 + 0x74)) {
-            res.vy = (D_8019B584 - 1) << 16;
+            res.unk0.v3.unk4 = (D_8019B584 - 1) << 16;
             func_8012F1A4((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32)&res, (s32 *)&vout);
-            g[1] = vout.vx;
-            g[2] = vout.vy;
-            g[3] = vout.vz;
+            g[1] = vout.unk0.v3.unk0;
+            g[2] = vout.unk0.v3.unk4;
+            g[3] = vout.unk0.v3.unk8;
         }
     }
 }
@@ -3790,9 +3790,9 @@ void func_8017E910(void *a0)
 
     m = D_800AE620;
 
-    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.unk0.v0.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.unk0.v0.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.unk0.v0.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), &m);
 
@@ -4068,7 +4068,7 @@ void func_8017EED8(s32 a0in) {
     if (s1 != 0) {
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         if (func_8017EF5C(param_1, s1) != 0) {
-            D_80126B96 = ((Unkstruct_8017EA44 *)s1)->unk4;
+            D_80126B96 = ((Src_8013B598_8013B598 *)s1)->f4;
             D_80126B98 = CAST_ALIAS(s16, s1, 6);
         }
     }
@@ -4093,15 +4093,15 @@ s32 func_8017EF5C(s32 a0, s32 a1) {
     s32 i, j;
     s32 val;
 
-    half = ((Unkstruct_8017EA44 *)a1)->unk2 >> 1;
+    half = ((Src_8013B598_8013B598 *)a1)->f2 >> 1;
     p2.x = half;
     p1.x = -half;
 
-    for (i = 0; i < ((Unkstruct_8017EA44 *)a1)->unk0; i++) {
+    for (i = 0; i < ((Src_8013B598_8013B598 *)a1)->f0; i++) {
         val = *(u16 *)(a1 + 0x8 + i * 2);
         p2.y = val;
         p1.y = val;
-        for (j = 0; j < ((Unkstruct_8017EA44 *)a1)->unk0; j++) {
+        for (j = 0; j < ((Src_8013B598_8013B598 *)a1)->f0; j++) {
             val = *(u16 *)(a1 + 0x8 + j * 2);
             p2.z = val;
             p1.z = val;

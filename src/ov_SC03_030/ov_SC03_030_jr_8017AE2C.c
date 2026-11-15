@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183C44;
 extern void (*D_80183C6C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80183C4C;
@@ -3503,8 +3503,8 @@ void func_8017C974(s32 arg0)
     CellC974 **rowptr;
     CellC974 **p;
     CellC974 *cell;
-    PrimC974 *prim;
-    PrimC974 *end;
+    Blk12 *prim;
+    Blk12 *end;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3619,10 +3619,10 @@ void func_8017C974(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -3670,7 +3670,7 @@ void func_8017C974(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C974 *)pkt)->rgbc = prim->w0;
+                                    ((PF3_C974 *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3718,7 +3718,7 @@ void func_8017C974(s32 arg0)
                                     *(u32 *)&((PFT3_C974 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_C974 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_C974 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_C974 *)pkt)->rgbc = tp[0];
                                     ((PFT3_C974 *)pkt)->uvc0 = tp[1];
                                     ((PFT3_C974 *)pkt)->uvp1 = tp[2];
@@ -3772,7 +3772,7 @@ void func_8017C974(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C974 *)pkt)->rgbc = prim->w0;
+                                        ((PF4_C974 *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3830,7 +3830,7 @@ void func_8017C974(s32 arg0)
                                         *(u32 *)&((PFT4_C974 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_C974 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C974 *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_C974 *)pkt)->rgbc = tp[0];
                                         ((PFT4_C974 *)pkt)->uvc0 = tp[1];
                                         ((PFT4_C974 *)pkt)->uvp1 = tp[2];
@@ -4513,20 +4513,20 @@ extern s32 D_801E0744[];
 
 
 void func_8017E7D4(void) {
-    Copy32 b0;
-    Copy32 b1;
-    Copy32 b2;
-    Copy32 b3;
-    Copy32 b4;
+    Blk20_8016DF5C b0;
+    Blk20_8016DF5C b1;
+    Blk20_8016DF5C b2;
+    Blk20_8016DF5C b3;
+    Blk20_8016DF5C b4;
     s32 *p;
     s32 var_s1;
 
-    p = &b0.w[0];
-    b0 = *(Copy32 *)D_801E06C4;
-    b1 = *(Copy32 *)D_801E06E4;
-    b2 = *(Copy32 *)D_801E0704;
-    b3 = *(Copy32 *)D_801E0724;
-    b4 = *(Copy32 *)D_801E0744;
+    p = &b0.unk0.v0.w[0];
+    b0 = *(Blk20_8016DF5C *)D_801E06C4;
+    b1 = *(Blk20_8016DF5C *)D_801E06E4;
+    b2 = *(Blk20_8016DF5C *)D_801E0704;
+    b3 = *(Blk20_8016DF5C *)D_801E0724;
+    b4 = *(Blk20_8016DF5C *)D_801E0744;
     switch (D_801E1BB4) {
     case 0:
         D_801E1C40 = 1;
@@ -4853,7 +4853,7 @@ void func_8017F26C(s32 a0) {
     s32 count;
     s32 idx;
     s32 *entry;
-    Quad_8018797C_8017F26C tmp;
+    Blk16_956C tmp;
     s32 off[3];
     u16 reload;
 
@@ -4874,18 +4874,18 @@ void func_8017F26C(s32 a0) {
         {
             s32 rnd;
             u32 sign;
-            tmp = *(Quad_8018797C_8017F26C *)(entry[2] + 0x10);
+            tmp = *(Blk16_956C *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -4898,18 +4898,18 @@ void func_8017F26C(s32 a0) {
         {
             s32 rnd;
             u32 sign;
-            tmp = *(Quad_8018797C_8017F26C *)(entry[2] + 0x30);
+            tmp = *(Blk16_956C *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -4927,7 +4927,7 @@ void func_8017F26C(s32 a0) {
 
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_8017F5D8(s32 arg0)
@@ -5568,8 +5568,8 @@ extern s32 func_8012C0EC(s32 a0);
 void func_8018055C(void *a0) {
 
     extern void (*D_8018689C[])(void);
-    D_8018689C[((Unkstruct_8017F254 *)a0)->unk2]();
-    if (((Unkstruct_8017F254 *)a0)->unk0 != 0) {
+    D_8018689C[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 0) {
         ((void (*)(void *))func_8012C0EC)(a0);
     }
 }
@@ -5669,8 +5669,8 @@ extern s32 func_8012C0EC(s32 a0);
 void func_801807A0(void *a0) {
 
     extern void (*D_80186934[])(void);
-    D_80186934[((Unkstruct_8017F254 *)a0)->unk2]();
-    if (((Unkstruct_8017F254 *)a0)->unk0 != 0) {
+    D_80186934[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 0) {
         ((void (*)(void *))func_8012C0EC)(a0);
     }
 }
@@ -5891,8 +5891,8 @@ extern s32 func_8012C0EC(s32 a0);
 void func_80180DAC(void *a0) {
 
     extern void (*D_801869C4[])(void);
-    D_801869C4[((Unkstruct_8017F254 *)a0)->unk2]();
-    if (((Unkstruct_8017F254 *)a0)->unk0 != 0) {
+    D_801869C4[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 0) {
         ((void (*)(void *))func_8012C0EC)(a0);
     }
 }
@@ -5977,8 +5977,8 @@ extern s32 func_8012C0EC(s32 a0);
 void func_8018101C(void *a0) {
 
     extern void (*D_801869CC[])(void);
-    D_801869CC[((Unkstruct_8017F254 *)a0)->unk2]();
-    if (((Unkstruct_8017F254 *)a0)->unk0 != 0) {
+    D_801869CC[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 0) {
         ((void (*)(void *))func_8012C0EC)(a0);
     }
 }

@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801808BC;
 extern void (*D_801808E4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801808C4;
@@ -3245,8 +3245,8 @@ void func_8017DAF4(s32 param_1)
     s1 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_8017DAF4 *)param_1)->unk20 = s1;
     if (s1 != 0) {
-        ((Unkstruct_8017DAF4_2 *)s2)->unk0 = *(s32 *)((s32)D_80196A98 + (((Unkstruct_8017DAF4 *)param_1)->unk70 << 2));
-        ((Unkstruct_8017DAF4_2 *)s2)->unk4 = 0;
+        ((Unkstruct_80180CD4 *)s2)->unk0 = *(s32 *)((s32)D_80196A98 + (((Unkstruct_8017DAF4 *)param_1)->unk70 << 2));
+        ((Unkstruct_80180CD4 *)s2)->unk4 = 0;
         guess_InitModelObject(s1, (s32)s2);
 
         v0 = *(s32 *)(((Unkstruct_8017DAF4 *)param_1)->unk64 + 0x20);

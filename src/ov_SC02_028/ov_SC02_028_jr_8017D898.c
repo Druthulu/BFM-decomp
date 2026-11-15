@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D23C;
 extern void (*D_8018D264[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D244;
@@ -3836,8 +3836,8 @@ extern s32 func_8012AD50(void *a0);
 void func_8018034C(void *a0)
 {
 
-    extern Pair8_8017DDC4_8018034C D_801D30D8[];
-    extern Rec16_8017DDC4_8018034C D_801A4C38[];
+    extern Unkstruct_80180CD4 D_801D30D8[];
+    extern Blk16_956C D_801A4C38[];
     s32 v0;
     s32 s1;
     s32 t;
@@ -3853,11 +3853,11 @@ void func_8018034C(void *a0)
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
-            D_801D30D8[((Unkstruct_800B5CB8 *)a0)->unk70].a =
+            D_801D30D8[((Unkstruct_800B5CB8 *)a0)->unk70].unk0 =
                 ((s32 *)t)[((Unkstruct_800B5CB8 *)a0)->unk70];
         }
     }
-    D_801D30D8[((Unkstruct_800B5CB8 *)a0)->unk70].b = 0;
+    D_801D30D8[((Unkstruct_800B5CB8 *)a0)->unk70].unk4 = 0;
     guess_InitModelObject(((Unkstruct_800B5CB8 *)a0)->unk20,
                   (s32)&D_801D30D8[((Unkstruct_800B5CB8 *)a0)->unk70]);
 
@@ -4081,7 +4081,7 @@ void func_80180970(void *a0)
     extern Stride8_u16_80182868_80180970 D_801A4D0C[];
     extern Stride8_u16_80182868_80180970 D_801A4D0E[];
     extern Stride8_u16_80182868_80180970 D_801A4D10[];
-    extern Stride8_s16_80182868_80180970 D_801A4D12[];
+    extern Unkstruct_8017C8B0 D_801A4D12[];
     extern s16 D_801A4CC0[];
 
     s32 v0;
@@ -4130,7 +4130,7 @@ void func_80180970(void *a0)
             id = D_801A4CC0[i + 1];
             if (id == state) {
                 if (id >= 2) {
-                    if (D_801A4D12[id].v != 0) {
+                    if (D_801A4D12[id].unk0 != 0) {
                         CAST_SIGN(s16, (s32)a0, 0x6) -= 0x200;
                     } else {
                         CAST_SIGN(s16, (s32)a0, 0x6) += 0x200;
@@ -4164,11 +4164,11 @@ void func_80180BAC(void *a0)
 {
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern void guess_RequestSound(s32 a0, s32 a1);
-    extern Stride8_s16_80182868_80180970 D_801A4D12[];
+    extern Unkstruct_8017C8B0 D_801A4D12[];
 
     s32 v;
 
-    v = D_801A4D12[((Unkstruct_800B5CB8 *)a0)->unk70].v;
+    v = D_801A4D12[((Unkstruct_800B5CB8 *)a0)->unk70].unk0;
     ((Unkstruct_800B5CB8 *)a0)->unk44 = (v == 0) ? 0x8000 : -0x8000;
     func_8012AD44(a0, 2);
     guess_RequestSound(0x686, 0);
@@ -4203,7 +4203,7 @@ void func_80180C04(void *arg0)
 
     extern s16 D_801A4D04;
     extern Stride8_u16_80182868_80180970 D_801A4D0C[];
-    extern Stride8_s16_80182868_80180970 D_801A4D12[];
+    extern Unkstruct_8017C8B0 D_801A4D12[];
 
 
 
@@ -4225,7 +4225,7 @@ void func_80180C04(void *arg0)
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC, -1);
     } else {
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC,
-                      D_801A4D12[((Unkstruct_800B5CB8 *)s0)->unk70].v);
+                      D_801A4D12[((Unkstruct_800B5CB8 *)s0)->unk70].unk0);
     }
 
     lim = 0x200;
@@ -4234,7 +4234,7 @@ void func_80180C04(void *arg0)
         lim = 0x180;
     }
 
-    b = D_801A4D12[id].v;
+    b = D_801A4D12[id].unk0;
     val = D_801A4D0C[id].v;
     flag = 1;
 
@@ -5969,22 +5969,22 @@ void func_80182FD4(void *a0, void *a1)
 
     if (*(s16 *)((s32)a0 + 0x1E) & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -5996,14 +5996,14 @@ void func_80182FD4(void *a0, void *a1)
         func_801833F0(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -6357,7 +6357,7 @@ void func_8018393C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D328C;
-        D_801D328C = ((Unkstruct_80181854 *)arg0)->unk0;
+        D_801D328C = ((Unkstruct_80181FAC_2 *)arg0)->unk0;
         D_801D328E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D3290 = arg1;
         D_801D3292 = arg2;

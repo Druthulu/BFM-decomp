@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80181CF0;
 extern void (*D_80181D18[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80181CF8;
@@ -2991,7 +2991,7 @@ void func_8017DAAC(void) {
 
 
 
-extern Struct_80184C18 D_80183B84[];
+extern Unkstruct_80180CD4 D_80183B84[];
 extern s32 func_80171CC4(void *a0, void *a1);
 extern void func_80171928(void *a0);
 
@@ -3608,12 +3608,12 @@ void func_8017E8B0(void *a0) {
 
 
 extern u8 D_8019FFA0;
-extern Blk4_80180518 D_8019FFA4[1];
+extern Blk4_8017CE90_8017CE90 D_8019FFA4[1];
 extern u8 D_8019FFE0;
-extern Blk4_80180518 D_8019FFE4[1];
-extern Blk4_80180518 D_8019EBCC[1];
-extern Blk4_80180518 D_8019EBD0[1];
-extern Blk4_80180518 D_8019EBD4[1];
+extern Blk4_8017CE90_8017CE90 D_8019FFE4[1];
+extern Blk4_8017CE90_8017CE90 D_8019EBCC[1];
+extern Blk4_8017CE90_8017CE90 D_8019EBD0[1];
+extern Blk4_8017CE90_8017CE90 D_8019EBD4[1];
 extern u8 D_80183C90[];
 
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -3627,12 +3627,12 @@ void func_8017E934(s32 a0) {
     u16 cnt;
     u16 flg;
 
-    guess_BuildCircle12Points((void *)((Blk4_80180518 *)&D_8019FFA0), 0x20);
-    ((Blk4_80180518 *)&D_8019FFA0)[0] = D_8019EBCC[0];
+    guess_BuildCircle12Points((void *)((Blk4_8017CE90_8017CE90 *)&D_8019FFA0), 0x20);
+    ((Blk4_8017CE90_8017CE90 *)&D_8019FFA0)[0] = D_8019EBCC[0];
     D_8019FFA4[0] = D_8019EBD0[0];
 
-    guess_BuildCircle12Points((void *)((Blk4_80180518 *)&D_8019FFE0), 0x20);
-    ((Blk4_80180518 *)&D_8019FFE0)[0] = D_8019EBD4[0];
+    guess_BuildCircle12Points((void *)((Blk4_8017CE90_8017CE90 *)&D_8019FFE0), 0x20);
+    ((Blk4_8017CE90_8017CE90 *)&D_8019FFE0)[0] = D_8019EBD4[0];
     D_8019FFE4[0] = D_8019EBD0[0];
 
     for (i = 0, p = D_80183C90; i < 8; i++, p += 8) {

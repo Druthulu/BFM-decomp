@@ -852,7 +852,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801926D8;
 extern void (*D_80192700[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801926E0;
@@ -2926,8 +2926,8 @@ extern void func_801844D4(s32 arg0);
 extern Blk20 D_800AE620;
 extern void RotMatrixY(s32 a0, void *a1);
 extern void func_8018454C(s32 a0);
-extern D_80195AF4_t D_80195AF4[];
-extern D_80195AF6_t D_80195AF6[];
+extern Unkstruct_8017C8B0 D_80195AF4[];
+extern Unkstruct_8017C8B0 D_80195AF6[];
 extern s16 D_80126CB4;
 extern s16 D_80126CB8;
 extern void *func_8018ABE0(s32 a0);
@@ -2999,7 +2999,7 @@ extern s32 D_801959E0[];
 extern u16 func_80185E54(s32 arg0);
 extern s32 func_80132E6C(s16 *a0);
 extern s32 func_801860F4(s16 *arg0);
-extern TBL_80186144 D_80195AF8[];
+extern Unkstruct_8017C8B0 D_80195AF8[];
 extern MainStruct *D_801E43A4;
 extern void func_8018622C(MainStruct *a0);
 extern void *D_801959EC[];
@@ -3203,7 +3203,7 @@ extern void func_80189F44(s32 arg0);
 extern void func_80189F64(void *a0);
 extern void func_80189FA4(void *a0);
 extern void func_80129350(s32 a0, s32 a1);
-extern Vec32 D_801E2F08;
+extern Blk16_956C D_801E2F08;
 extern void func_8018A174(s32 arg0);
 extern Blk16_8018A1D8 D_801E2F18;
 extern u8 *func_8018A30C(s32 a0, s32 a1);
@@ -3211,7 +3211,7 @@ extern u8 * func_8018A30C(s32 a0, s32 a1);
 extern Blob8_8018A47C D_801E2F28;
 extern void func_8018A6A0(s32 a0, u16 *a1);
 extern Blob8_8018A4C4 D_801E2F30;
-extern Blk16_8018A4C4 D_801E2F38;
+extern Blk16_956C D_801E2F38;
 extern void func_8018A4C4(s32 a0);
 extern void func_8018A7D0(void);
 extern s32 func_8012C51C(void *a0, s32 a1);
@@ -4771,50 +4771,50 @@ void func_80190538(s32 arg0) {
         s32 dx, dz, q;
 
         dx = CAST_SIGN(s16, t, 6) - ((Unkstruct_80190538 *)s0)->unk6;
-        d.vx = dx;
-        v.vx = dx;
+        d.unk0.v3.unk0 = dx;
+        v.unk0.v3.unk0 = dx;
         q = ((Unkstruct_80190538 *)s0)->unkE + 0x180;
         dz = CAST_SIGN(s16, t, 0xE) - q;
-        d.vz = dz;
-        v.vz = dz;
-        if (dx < 0) d.vx = -dx;
-        if (dz < 0) d.vz = -dz;
-        if (d.vx >= 0x21) {
-            if (dx < 0) v.vx = -0x80000; else v.vx = 0x80000;
+        d.unk0.v3.unk8 = dz;
+        v.unk0.v3.unk8 = dz;
+        if (dx < 0) d.unk0.v3.unk0 = -dx;
+        if (dz < 0) d.unk0.v3.unk8 = -dz;
+        if (d.unk0.v3.unk0 >= 0x21) {
+            if (dx < 0) v.unk0.v3.unk0 = -0x80000; else v.unk0.v3.unk0 = 0x80000;
         } else {
-            v.vx = 0;
+            v.unk0.v3.unk0 = 0;
         }
-        if (d.vz >= 0x21) {
-            if (v.vz < 0) v.vz = -0x80000; else v.vz = 0x80000;
+        if (d.unk0.v3.unk8 >= 0x21) {
+            if (v.unk0.v3.unk8 < 0) v.unk0.v3.unk8 = -0x80000; else v.unk0.v3.unk8 = 0x80000;
         } else {
-            v.vz = 0;
+            v.unk0.v3.unk8 = 0;
         }
-        v.vy = 0;
+        v.unk0.v3.unk4 = 0;
     } else {
         s32 dx, dz, q;
 
         dz = CAST_SIGN(s16, t, 0xE) - ((Unkstruct_80190538 *)s0)->unkE;
-        d.vz = dz;
-        v.vz = dz;
+        d.unk0.v3.unk8 = dz;
+        v.unk0.v3.unk8 = dz;
         q = ((Unkstruct_80190538 *)s0)->unk6 - 0x180;
         dx = CAST_SIGN(s16, t, 6) - q;
-        d.vx = dx;
-        v.vx = dx;
-        if (dx < 0) d.vx = -dx;
-        if (dz < 0) d.vz = -dz;
-        if (d.vx >= 0x21) {
-            if (dx < 0) v.vx = -0x80000; else v.vx = 0x80000;
+        d.unk0.v3.unk0 = dx;
+        v.unk0.v3.unk0 = dx;
+        if (dx < 0) d.unk0.v3.unk0 = -dx;
+        if (dz < 0) d.unk0.v3.unk8 = -dz;
+        if (d.unk0.v3.unk0 >= 0x21) {
+            if (dx < 0) v.unk0.v3.unk0 = -0x80000; else v.unk0.v3.unk0 = 0x80000;
         } else {
-            v.vx = 0;
+            v.unk0.v3.unk0 = 0;
         }
-        if (d.vz >= 0x21) {
-            if (v.vz < 0) v.vz = -0x80000; else v.vz = 0x80000;
+        if (d.unk0.v3.unk8 >= 0x21) {
+            if (v.unk0.v3.unk8 < 0) v.unk0.v3.unk8 = -0x80000; else v.unk0.v3.unk8 = 0x80000;
         } else {
-            v.vz = 0;
+            v.unk0.v3.unk8 = 0;
         }
-        v.vy = 0;
+        v.unk0.v3.unk4 = 0;
     }
-    func_80146DE8((s32 *)s0, v.vx, v.vy, v.vz);
+    func_80146DE8((s32 *)s0, v.unk0.v3.unk0, v.unk0.v3.unk4, v.unk0.v3.unk8);
     func_80147F50(s0);
     guess_ApplyVelocity((s32 *)s0);
     guess_AddVertSpeed(s0, 0x18000);

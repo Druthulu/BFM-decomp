@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E360;
 extern void (*D_8018E388[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E368;
@@ -2801,7 +2801,7 @@ extern void *D_801DDBF4;
 extern s32 func_80180FE0(s32 a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern u8 D_80190348[];   /* §183 unified with func_80180FE0 */
-extern D80190448_t D_80190448;
+extern Vec3s D_80190448;
 extern void *D_801DDBF0;
 extern void func_80181170(int param_1);
 extern u8 D_8019072C[];
@@ -4265,12 +4265,12 @@ void func_8018865C(void)
     ang = -0xC0;
     zz = -0x40;
     i = 0;
-    vec.vx = 0;
-    vec.vz = 0;
+    vec.unk0.v3.unk0 = 0;
+    vec.unk0.v3.unk8 = 0;
     do {
         mtx = (*(B20 *)&D_800AE620);
         RotMatrixZ(ang, &mtx);
-        vec.vy = ((rand() % 9) << 16) - 0x300000;
+        vec.unk0.v3.unk4 = ((rand() % 9) << 16) - 0x300000;
         p = ((s32 (*)(s32))func_8012913C)(0x22);
         if (p != 0) {
             ((Unkstruct_8018865C *)p)->unk6 = zz;
@@ -4370,14 +4370,14 @@ void func_80188988(int param_1) {
     ((Unkstruct_80188988_2 *)param_1)->unk44 = psVar2[2];
     sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
     ((Unkstruct_80188988 *)(param_1 + 0x48))->f0 += sVar4;
-    sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk0, 0x80);
+    sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, ((Pair_8013AD38 *)D_801DFFE4)->x, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     ((Unkstruct_80188988_2 *)param_1)->unk3C += sVar4;
     if (psVar5[0] < ((Unkstruct_80188988_2 *)param_1)->unk48) {
         ((Unkstruct_80188988_2 *)param_1)->unk48 = psVar5[0];
     }
-    if (((Unkstruct_80188A90_3 *)D_801DFFE4)->unk0 < ((Unkstruct_80188988_2 *)param_1)->unk3C) {
-        ((Unkstruct_80188988_2 *)param_1)->unk3C = ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk0;
+    if (((Pair_8013AD38 *)D_801DFFE4)->x < ((Unkstruct_80188988_2 *)param_1)->unk3C) {
+        ((Unkstruct_80188988_2 *)param_1)->unk3C = ((Pair_8013AD38 *)D_801DFFE4)->x;
     }
 }
 
@@ -4406,13 +4406,13 @@ void func_80188A90(int param_1) {
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
     ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f0 += sVar4;
-    sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2, 0x80);
+    sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((Pair_8013AD38 *)D_801DFFE4)->y, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     ((Unkstruct_80188988_2 *)param_1)->unk40 += sVar4;
     if (((Unkstruct_80188988_2 *)param_1)->unk4C < psVar5[1])
         ((Unkstruct_80188988_2 *)param_1)->unk4C = psVar5[1];
-    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2)
-        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((Unkstruct_80188A90_3 *)D_801DFFE4)->unk2;
+    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((Pair_8013AD38 *)D_801DFFE4)->y)
+        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((Pair_8013AD38 *)D_801DFFE4)->y;
 }
 
 

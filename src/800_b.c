@@ -211,7 +211,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
                     *q-- = 0;
                 }
               }
-                *(Blk32u *)&D_80075840[0x60] = *(Blk32u *)D_80063AEC;
+                *(struct Entry_8016E95C *)&D_80075840[0x60] = *(struct Entry_8016E95C *)D_80063AEC;
                 *(Blk128u *)&D_80075840[0x80] = *(Blk128u *)&D_80063AEC[0x2C];
                 *(Blk128u *)&D_80075840[0x100] = *(Blk128u *)&D_80063AEC[0xEC];
                 *(Blk128u *)&D_80075840[0x180] = *(Blk128u *)&D_80063AEC[0x1AC];

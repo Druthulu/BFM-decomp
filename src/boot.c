@@ -301,10 +301,10 @@ void main(void) {
             ((Unkstruct_80010178 *)p)->unkA3D2 = D_800C7C74;
 
             D_800A5E60 = (s32)(D_8007BA70 + ((Unkstruct_80010178 *)p)->unkA3D2 * 80000);
-            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk8 =
+            ((VECTOR *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->vz =
                 (s32)(D_800A4F48 + ((Unkstruct_80010178 *)p)->unkA3D2 * 1600);
-            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk0 = 0x640;
-            ((struct MainSlot *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->unk4 = 0;
+            ((VECTOR *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->vx = 0x640;
+            ((VECTOR *)(p + ((((Unkstruct_80010178 *)p)->unkA3D2 * 3) << 2)))->vy = 0;
 
             func_800189A8();
             func_80015208();

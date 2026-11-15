@@ -12,10 +12,10 @@ int SHARED_FN(short *pos, int a1, int a2)
         ((Unkstruct_800B5CB8 *)v1)->unk1C = pos[3];
 
         if (a1 != 0) {
-            CAST_WIDTH(s32, v1, 0x10) = ((Unkstruct_8017E94C *)a1)->unk0;
-            ((Unkstruct_800B5CB8 *)v1)->unk14 = ((Unkstruct_8017E94C *)a1)->unk4;
-            CAST_WIDTH(s32, v1, 0x18) = ((Unkstruct_8017E94C *)a1)->unk8;
-            CAST_WIDTH(s32, v1, 0x34) = ((Unkstruct_8017E94C *)a1)->unkC;
+            CAST_WIDTH(s32, v1, 0x10) = ((Blk16_956C *)a1)->unk0.v0.a;
+            ((Unkstruct_800B5CB8 *)v1)->unk14 = ((Blk16_956C *)a1)->unk0.v0.b;
+            CAST_WIDTH(s32, v1, 0x18) = ((Blk16_956C *)a1)->unk0.v0.c;
+            CAST_WIDTH(s32, v1, 0x34) = ((Blk16_956C *)a1)->unk0.v0.d;
         }
 
         if (a2 != 0) {

@@ -862,7 +862,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183324;
 extern void (*D_8018334C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018332C;
@@ -3045,7 +3045,7 @@ void func_8017E278(s32 a0, s32 a1) {
     extern s16 D_800B9ABA[];
     extern s32 D_801AABA0;
 
-    D_800B9AB8 = D_801AABA0 + ((Unkstruct_8017E278 *)a1)->unk0;
+    D_800B9AB8 = D_801AABA0 + ((Unkstruct_80181FAC_2 *)a1)->unk0;
     D_800B9ABA[0] = CAST_ALIAS(u16, a1, 2);
 }
 
@@ -3537,9 +3537,9 @@ void func_8017ED50(s32 a0)
 }
 
 
-extern Rec_EDC0 D_801AAD6C[];
-extern Rec_EDC0 D_80185094[];
-extern Rec_EDC0 D_80185098[];
+extern Rec8_8018A390_8018523C D_801AAD6C[];
+extern Rec8_8018A390_8018523C D_80185094[];
+extern Rec8_8018A390_8018523C D_80185098[];
 extern u8 D_80181CAC;
 extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
 extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
@@ -3550,32 +3550,32 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017EDC0(s32 a0, s32 a1, s32 a2, s32 a3)
 {
-    Rec_EDC0 *rec;
+    Rec8_8018A390_8018523C *rec;
     u16 sp10[4];
     u16 sp18[4];
 
     rec = &D_801AAD6C[a3];
     if ((((Unkstruct_8017EDC0 *)a0)->unkE0 & a2) != 0) {
         *(s32 *)a1 += 0x1000;
-        rec->f2 = rec->f2 + *(u16 *)(a1 + 2);
-        if ((s16)rec->f2 >= 0x400) {
+        rec->y = rec->y + *(u16 *)(a1 + 2);
+        if ((s16)rec->y >= 0x400) {
             *(s32 *)a1 = 0;
-            rec->f2 = 0x400;
+            rec->y = 0x400;
             func_8017E3E8(a3, (s16 *)rec, 0);
         } else {
             func_8017E3E8(a3, (s16 *)rec, 1);
         }
-        if (rec->f6 == 0) {
+        if (rec->w == 0) {
             guess_RequestSound(0xC03, 0);
-            rec->f6 = 1;
+            rec->w = 1;
         }
     } else {
         sp10[0] = guess_g_PlayerPosX;
         sp10[1] = 0;
         sp10[2] = guess_g_PlayerPosZ;
-        sp18[0] = D_80185094[a3].f0;
+        sp18[0] = D_80185094[a3].x;
         sp18[1] = 0;
-        sp18[2] = D_80185098[a3].f0;
+        sp18[2] = D_80185098[a3].x;
         if (func_800132BC((s32)sp10, (s32)sp18) < 0x9001) {
             ((Unkstruct_8017EDC0 *)a0)->unkE0 |= a2;
             func_8013C9C4(&D_80181CAC);

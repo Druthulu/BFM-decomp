@@ -264,8 +264,8 @@ void func_800CB300(s32 arg0) {
     func_800126C4((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk10);
     func_800123F0((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk14);
     func_80012558((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk12);
-    *(M16 *)(s0 + 0x34) = *(M16 *)&mat[0];
-    *(M16 *)(s0 + 0x44) = *(M16 *)&mat[4];
+    *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
+    *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];
     ((Unkstruct_800CB300 *)s0)->unk2C = ((Unkstruct_800CB300 *)s0)->unk2C | 1;
     func_80163194(s1, -(((((Unkstruct_800CB300_2 *)s1)->unk50 - 0x28) << 14) / 40), 0, 0, (s32)&mat);
     guess_AddVelocityToPos_2((s32 *)s1);

@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80189608;
 extern void (*D_80189630[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80189610;
@@ -2861,7 +2861,7 @@ extern void func_80181940(void *a0);
 extern s32 D_8018BAF0[];
 extern void func_8018197C(s32 a0);
 extern void func_80181A30(s32 a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 extern void func_80181D9C(s32 arg0);
 extern void (*D_8018BBBC[])(void);
 extern void func_80181E44(void *a0);
@@ -3493,9 +3493,9 @@ s32 func_80187118(s32 a0, s32 a1)
     RotMatrixY(func_8012B864(a0), &m);
     ApplyMatrixLV((s32)&m, a1, (s32)&out);
 
-    pos[0] = CAST_WIDTH(s32, a0, 0x4) + out.vx;
-    pos[1] = CAST_WIDTH(s32, a0, 0x8) + out.vy;
-    pos[2] = CAST_WIDTH(s32, a0, 0xC) + out.vz;
+    pos[0] = CAST_WIDTH(s32, a0, 0x4) + out.unk0.v3.unk0;
+    pos[1] = CAST_WIDTH(s32, a0, 0x8) + out.unk0.v3.unk4;
+    pos[2] = CAST_WIDTH(s32, a0, 0xC) + out.unk0.v3.unk8;
 
     {
         u16 rix;

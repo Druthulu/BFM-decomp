@@ -98,7 +98,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80128CFC(s32 arg0);
@@ -123,7 +123,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -210,7 +210,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Vec8 guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -772,7 +772,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1885,7 +1885,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3939,7 +3939,7 @@ extern char *D_8018251C[]; /* label strings */
 extern s32 D_801827A8[];   /* level thresholds */
 extern u16 *D_80182580[];  /* icon tables */
 extern char *D_8018253C;
-extern Blk3_8017D730 D_80183F30;
+extern Blk3_801E40A8 D_80183F30;
 
 void func_8017D730(void) {
     s16 k;
@@ -4069,7 +4069,7 @@ void func_8017D730(void) {
                 } else if (i == 4) {
                     strcpy((char *)arr[i], D_8018253C);
                 } else {
-                    *(Blk3_8017D730 *)arr[i] = D_80183F30;
+                    *(Blk3_801E40A8 *)arr[i] = D_80183F30;
                 }
             }
         }
@@ -4190,7 +4190,7 @@ s32 *func_8017DD28(s32 *out) {
     extern u16 D_80182798[];
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
-    Prim4_8017DD28 *q;
+    Unkstruct_80181FAC_2 *q;
     volatile u16 *pb;
     s32 n;
     s32 d;
@@ -4212,8 +4212,8 @@ s32 *func_8017DD28(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->f0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->f2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

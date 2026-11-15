@@ -852,7 +852,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801891D0;
 extern void (*D_801891F8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801891D8;
@@ -3373,7 +3373,7 @@ extern u8 D_8018C374[];
 void func_8018283C(s32 *self)
 {
     s32 *tgt = (s32 *)((Unkstruct_800B5CB8 *)self)->unk64;
-    SV3 out;
+    Vec3s out;
 
     if (((Unkstruct_800B5CB8 *)self)->unkFE == 0x7FFF) {
         ((Unkstruct_800B5CB8 *)self)->unkFE =
@@ -3400,9 +3400,9 @@ void func_8018283C(s32 *self)
             *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xC);
     } else {
         guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)self)->unk64, (s32)D_8018C374, (s32)&out);
-        ((Unkstruct_800B5CB8 *)self)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)self)->unkA = out.b;
-        ((Unkstruct_800B5CB8 *)self)->unkE = out.c;
+        ((Unkstruct_800B5CB8 *)self)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)self)->unkA = out.y;
+        ((Unkstruct_800B5CB8 *)self)->unkE = out.z;
     }
 
     *(Blk8 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x18) =

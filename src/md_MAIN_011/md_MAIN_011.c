@@ -88,7 +88,7 @@ void func_800CF28C(void) {
     extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u8 D_800D31F8[];
     extern u8 D_800D3334[];
-    extern S6 D_800D4A5C[];
+    extern Vec3s D_800D4A5C[];
     extern s16 D_800D4C80;
     extern u16 D_800D4C9C;
     extern s32 D_800D4C90;
@@ -213,7 +213,7 @@ void func_800CF28C(void) {
             }
         }
         if ((u16)(D_800D4C9C & 0x20)) {
-            sp1C = D_800D4A5C[D_800D3348].unk04;
+            sp1C = D_800D4A5C[D_800D3348].z;
             guess_SetGameFlag(sp1C, (u8)guess_TestGameFlag(sp1C) == 0);
         }
         break;
@@ -472,17 +472,17 @@ void func_800D04F4(void) {
     extern s32 D_800D3344;
     extern s16 D_800D3348;
     extern s16 D_800D334A;
-    extern S6 D_800D4A5C[];
+    extern Vec3s D_800D4A5C[];
     extern s32 func_800153CC(int, int, int, int, int, int);
     extern void func_8001534C(int, void *, int, int, int, int);
     extern s32 guess_TestGameFlag(int);
-    S6 *sp18;
+    Vec3s *sp18;
 
     D_800D3344 = guess_GetStoryProgress();
     func_800153CC(0x11, D_800D3344, 0xC8, 0xA6, 0x44, 0);
     sp18 = &D_800D4A5C[D_800D3348];
     func_8001534C(0x12, sp18, 0x98, 0xB2, 0x43, 0);
-    func_8001534C(0x13, (guess_TestGameFlag(sp18->unk04) & 0xFF) ? D_800CEE3C : D_800CEE40, 0xC8, 0xB2, 0, 0);
+    func_8001534C(0x13, (guess_TestGameFlag(sp18->z) & 0xFF) ? D_800CEE3C : D_800CEE40, 0xC8, 0xB2, 0, 0);
     func_800153CC(0x14, (s16)(D_800D334A / 60), 0x68, 0xBE, 0x42, 0);
     func_800153CC(0x15, (s16)(D_800D334A % 60), 0x80, 0xBE, 0x42, 0);
     func_8001534C(0x16, D_800CEE44, 0x40, 0xCA, 0x43, 0);

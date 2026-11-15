@@ -144,7 +144,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -1030,12 +1030,12 @@ void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
         gte_stlvnl(res);
         ((Pair_8013AD38 *)out2)[i].x = res[0];
         ((Pair_8013AD38 *)out2)[i].y = res[1];
-        if (((Unkstruct_8013AD38 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
-        if (((Unkstruct_8013AD38 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+        if (((Pair_8013AD38 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((Pair_8013AD38 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
     }
     ((Pair_8013AD38 *)out2)[i] = ((Pair_8013AD38 *)out2)[0];
-    if (((Unkstruct_8013AD38 *)flag)->unk0 < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
-    if (((Unkstruct_8013AD38 *)flag)->unk2 < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+    if (((Pair_8013AD38 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((Pair_8013AD38 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
 }
 
 

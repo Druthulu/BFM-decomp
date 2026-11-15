@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D364;
 extern void (*D_8018D38C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D36C;
@@ -3955,9 +3955,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC_4 *)s2)->unk20;
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[0] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[0], 0, 10, 1);
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[1] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[1], 0, 10, 1);
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[2] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[2], 0, 10, 1);
+    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[0] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[0], 0, 10, 1);
+    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[1] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[1], 0, 10, 1);
+    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[2] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).unk0.v0.d[2], 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk10 + ((Unkstruct_8017CFBC_4 *)s2)->unk14;
     ((Unkstruct_8017CFBC_4 *)s2)->unk10 = v1;
@@ -4758,10 +4758,10 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                         for (i = 0; i < nprim; i++, prim++) {
                             m24 = 0xFFFFFF;
                             vp = &vdv;
-                            w = prim->w1;
+                            w = prim->b;
                             va = vtx + (w & 0xFFFF);
                             vb = vtx + (w >> 16);
-                            w = prim->w2;
+                            w = prim->c;
                             vc = vtx + (w & 0xFFFF);
                             v[0] = *(SVec_SC03_014_8017DF84 *)va;
                             v[1] = *(SVec_SC03_014_8017DF84 *)vb;
@@ -4817,7 +4817,7 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                                     g.opz = za;
                                                 }
                                                 if (code == 7) g.opz = za + 0x200;
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT3 *)pkt)->rgbc = tp[0] | 0x2000000;
                                                 ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -4878,7 +4878,7 @@ void func_8017DF84(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                                     *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                     *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                    tp = (u32 *)prim->w0;
+                                                    tp = (u32 *)prim->a;
                                                     ((PolyFT4 *)pkt)->rgbc = tp[0] | 0x2000000;
                                                     ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                     ((PolyFT4 *)pkt)->uvp1 = tp[2];

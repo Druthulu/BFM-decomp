@@ -372,29 +372,29 @@ void func_800CB6A0(void *a0, void *a1, void *a2, s32 a3) {
     o0 = &vec[0][0];
 
     vin[2] = 0;
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x30;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x20;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 - 0x30;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 - 0x20;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(o0);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x30;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x20;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 + 0x30;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 - 0x20;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(vec[1]);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x30;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x20;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 - 0x30;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 + 0x20;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(vec[2]);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x30;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x20;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 + 0x30;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 + 0x20;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
@@ -439,29 +439,29 @@ void func_800CB964(void *a0, void *a1, void *a2) {
     o0 = &vec[0][0];
 
     vin[2] = 0;
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x38;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x28;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 - 0x38;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 - 0x28;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(o0);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x38;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 - 0x28;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 + 0x38;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 - 0x28;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(vec[1]);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 - 0x38;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x28;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 - 0x38;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 + 0x28;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();
     gte_stsv(vec[2]);
 
-    vin[0] = ((Unkstruct_800CB6A0 *)a1)->unk0 + 0x38;
-    vin[1] = ((Unkstruct_800CB6A0 *)a1)->unk2 + 0x28;
+    vin[0] = ((Unkstruct_80181FAC_2 *)a1)->unk0 + 0x38;
+    vin[1] = ((Unkstruct_80181FAC_2 *)a1)->unk2 + 0x28;
     gte_SetRotMatrix(mat);
     gte_ldv0(vin);
     gte_rtv0();

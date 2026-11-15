@@ -1957,10 +1957,10 @@ extern void func_8002EC10(void);
 
 void func_8002EE64(void) {
     s32 g1, g2, g3, g4;
-    struct func_8002EE64_b b;
+    W8_ b;
 
-    b.c = 0x88;
-    ((void (*)(s32, s32, s32, s32, struct func_8002EE64_b))func_80036EB4)(g1, g2, g3, g4, b);
+    b.v = 0x88;
+    ((void (*)(s32, s32, s32, s32, W8_))func_80036EB4)(g1, g2, g3, g4, b);
     func_8002EC10();
 }
 
@@ -2635,7 +2635,7 @@ extern void func_800415A8(s32);
 
 
 
-extern Elm12 D_80064D49[];
+extern Blk12_801854C4 D_80064D49[];
 extern u8    D_80064D4D[];
 extern Ent24 D_800A463C[];
 extern Rsc24 D_800A4640[];
@@ -2660,7 +2660,7 @@ int func_8002FB08(int entry) {
         return 0;
     }
     idx12 = entry * 12;
-    b = D_80064D49[entry].unk00;
+    b = D_80064D49[entry].unk0.v1.unk0;
     idx24 = b * 24;
     D_800A46C8 = *(s32 *)((u8 *)D_800A463C + idx24);
     if (D_800A4650[idx24] == 0) {
@@ -2860,7 +2860,7 @@ s32 func_8002FDE8(s32 idx, s32 data) {
 #ifndef BFM_800_SHARED_H
 #endif
 
-extern Elm12 D_80064D49[];
+extern Blk12_801854C4 D_80064D49[];
 extern u8    D_80064D4A[];
 extern u8    D_80064D4E[];
 extern Ent24 D_800A463C[];
@@ -2904,7 +2904,7 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
     s32 res;
 
     if (D_800A46CC == 0) {
-        b = D_80064D49[a0].unk00;
+        b = D_80064D49[a0].unk0.v1.unk0;
         i = b * 24;
         v1 = *(s16 *)((u8 *)D_800A4644 + i);
         if (v1 != 0 && v1 != D_80064D4A[a0 * 12]) {
@@ -2989,7 +2989,7 @@ s32 func_800301A4(void)
 
 /* Every one of these is copied verbatim from src/800_b.c's own file-scope block (~L3489-3505,
  * above the stub), so the spliced draft re-declares nothing incompatibly. */
-extern Elm12 D_80064D49[];
+extern Blk12_801854C4 D_80064D49[];
 extern u8    D_80064D4A[];
 extern Ent24 D_800A463C[];
 extern Rsc24 D_800A4640[];
@@ -3038,7 +3038,7 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
 
     if (D_800A46CC == 0) {
         D_800A46C4 = 0;
-        D_800A46CE[0] = D_80064D49[entry].unk00;
+        D_800A46CE[0] = D_80064D49[entry].unk0.v1.unk0;
         D_800A46C0 = a2;
         D_800A46BC = a1;
         b = D_800A46CE[0];
@@ -6449,9 +6449,9 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
         idx--;
         e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
         if (flags & 0x1000) {
-            e->unk1C[0].unk06 = 1;
-            e->unk1C[0].unk02 = 0x100;
-            e->unk1C[0].unk04 = ((s32)(flags & 0x7F) * 0x3FFF) >> 7;
+            e->unk1C[0].unk6 = 1;
+            e->unk1C[0].unk2 = 0x100;
+            e->unk1C[0].unk4 = ((s32)(flags & 0x7F) * 0x3FFF) >> 7;
             if (flags & 0x2000) {
                 e->unk38 = D_8006AED8[(flags >> 8) & 0xF];
             } else {
@@ -6504,7 +6504,7 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
     }
     e->unk36 = 0;
 
-    pa = &e->unk1C[0].unk00;
+    pa = &e->unk1C[0].unk0;
     for (i = 0; i < 3; i++, pa = (s16 *)((u8 *)pa + 8)) {
         pa[1] = 0x100;
         *((u8 *)pa + 6) = 0;

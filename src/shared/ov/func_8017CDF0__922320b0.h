@@ -22,7 +22,7 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
     u32 nprim;
     u32 i;
     Part_8017CDF0 *part;
-    Prim_8017CDF0 *prim;
+    Blk12 *prim;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -122,13 +122,13 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
                 mxc = xmx1;
                 if (mxc < xmx2) mxc = xmx2;
                 if ((s16)mxc >= -0x6E && (s16)mnc < 0x6F) {
-                    prim = (Prim_8017CDF0 *)part->prim;
+                    prim = (Blk12 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         tri[0] = *(SVECTOR2_8017CDF0 *)va;
                         tri[1] = *(SVECTOR2_8017CDF0 *)vb;
                         vc = vtx + (w & 0xFFFF);
@@ -179,7 +179,7 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
                                                 za = g.sz1;
                                                 if (za < g.sz2) za = g.sz2;
                                             }
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             c0 = tp[0];
                                             g.opz = za;
                                             ((PolyFT3_8017CDF0 *)pkt)->rgbc = c0;
@@ -241,7 +241,7 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
                                                 *(u32 *)&((PolyFT4_8017CDF0 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4_8017CDF0 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4_8017CDF0 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4_8017CDF0 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4_8017CDF0 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4_8017CDF0 *)pkt)->uvp1 = tp[2];

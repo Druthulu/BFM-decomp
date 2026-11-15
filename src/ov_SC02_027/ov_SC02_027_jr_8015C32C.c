@@ -848,7 +848,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D038;
 extern void (*D_8018D060[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D040;
@@ -3906,7 +3906,7 @@ void func_801627E8(void)
 extern void (*D_8018DDE8[])(void);
 
 void func_80162834(void *a0) {
-    D_8018DDE8[((Unkstruct_80162834 *)a0)->unk1]();
+    D_8018DDE8[((Unkstruct_8017553C *)a0)->unk1]();
 }
 
 
@@ -4423,7 +4423,7 @@ void func_80164EA4(void *a0) {
 // @unstuck(P36): none — MATCH
 
   /* stride 0x10 */
-extern DStruct D_801D8E44[];
+extern Blk16_956C D_801D8E44[];
 
 extern void func_80165124(void *a0);
 extern void guess_NextStep(void *a0);
@@ -4433,7 +4433,7 @@ void func_80164EE0(int param_1)
     int i;
 
     for (i = 7; i >= 0; i--) {
-        D_801D8E44[i].f0 = 0;
+        D_801D8E44[i].unk0.v2.unk0 = 0;
     }
     ((Unkstruct_80164EE0 *)param_1)->unk2E = 0x4000;
     ((Unkstruct_80164EE0 *)param_1)->unk2C = 0x4000;
@@ -4863,12 +4863,12 @@ s32 func_80166690(s32 param_1, s32 param_2)
         p2 = (short)param_2;
         do {
             pv = &sub[sVar9];
-            c.v0 = pv->h[0];
-            c.v1 = pv->h[1];
-            c.v2 = pv->h[2];
-            c.w0 = pv->h[3];
-            c.w1 = pv->h[4];
-            c.w2 = pv->h[5];
+            c.v0 = pv->unk0.v0.h[0];
+            c.v1 = pv->unk0.v0.h[1];
+            c.v2 = pv->unk0.v0.h[2];
+            c.w0 = pv->unk0.v0.h[3];
+            c.w1 = pv->unk0.v0.h[4];
+            c.w2 = pv->unk0.v0.h[5];
             sVar10 = sVar10 + 1;
 
             if (lt2) {
@@ -4895,14 +4895,14 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 sVar9 = 0xF;
             }
             pv = &sub[sVar9];
-            c.v3 = pv->h[0];
-            c.v4 = pv->h[1];
-            c.v5 = pv->h[2];
-            c.w3 = pv->h[3];
-            c.w4 = pv->h[4];
+            c.v3 = pv->unk0.v0.h[0];
+            c.v4 = pv->unk0.v0.h[1];
+            c.v5 = pv->unk0.v0.h[2];
+            c.w3 = pv->unk0.v0.h[3];
+            c.w4 = pv->unk0.v0.h[4];
             sVar8 = sVar8 - 0x10;
             sVar7 = sVar7 - 0x10;
-            c.w5 = pv->h[5];
+            c.w5 = pv->unk0.v0.h[5];
             if (sVar7 < 0) {
                 sVar7 = 0;
             }

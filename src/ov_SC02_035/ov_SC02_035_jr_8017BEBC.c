@@ -856,7 +856,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801862C8;
 extern void (*D_801862F0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801862D0;
@@ -4899,20 +4899,20 @@ extern void func_801292C8(u8 *a0);
 
 
 void func_80180948(s32 a0) {
-    SV3L2 sp10;
+    Local_8017EE34 sp10;
 
     func_80180C10(a0);
     ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
     if (((Unkstruct_800B5CB8 *)a0)->unk1C >= 0x1F) {
-        sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-        sp10.f6 = 0x17F;
-        sp10.f8 = 0x8000;
-        sp10.fA = 0;
-        sp10.f10 = 0;
-        sp10.fE = 0;
-        sp10.fC = 0x7FFF;
+        sp10.f0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        sp10.f1 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+        sp10.f2 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sp10.f3 = 0x17F;
+        sp10.f4 = 0x8000;
+        sp10.f5 = 0;
+        sp10.f8 = 0;
+        sp10.f7 = 0;
+        sp10.f6 = 0x7FFF;
         func_8012C51C((void *)&sp10, CAST_WIDTH(s32, a0, 0x24));
         func_801292C8((u8 *)a0);
     }
@@ -4920,7 +4920,7 @@ void func_80180948(s32 a0) {
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),

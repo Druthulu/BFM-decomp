@@ -3,7 +3,7 @@
  * rank 1 src/800.c:2272 rejected by type_census --check */
 void SHARED_FN(void* a0, void* a1)
 {
-    ((Unkstruct_800128EC *)a1)->unk0 = ((s16 *)a0)[1 - 1];
-    ((Unkstruct_800128EC *)a1)->unk4 = ((s16 *)a0)[2 - 1];
-    ((Unkstruct_800128EC *)a1)->unk8 = ((s16 *)a0)[3 - 1];
+    ((VECTOR *)a1)->vx = ((s16 *)a0)[1 - 1];
+    ((VECTOR *)a1)->vy = ((s16 *)a0)[2 - 1];
+    ((VECTOR *)a1)->vz = ((s16 *)a0)[3 - 1];
 }

@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80180880;
 extern void (*D_801808A8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80180888;
@@ -1298,15 +1298,15 @@ void func_8015934C(void *arg0) {
 extern s16 currentLocationId;
 extern s32 func_80029A94(s32);
 
-extern Entry D_80180E60[];
+extern Pair_8013AD38 D_80180E60[];
 
 s32 func_80159464(void) {
-    Entry *e;
+    Pair_8013AD38 *e;
 
     e = D_80180E60;
-    while (e->id != 0) {
-        if (currentLocationId == e->id) {
-            return e->val;
+    while (e->x != 0) {
+        if (currentLocationId == e->x) {
+            return e->y;
         }
         e++;
     }

@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D038;
 extern void (*D_8018D060[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D040;
@@ -3724,7 +3724,7 @@ extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_Player
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern unsigned char guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern s32 rand(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void RotMatrixY(s32 a0, void *a1);
@@ -3748,7 +3748,7 @@ void func_80180088(s32 param_1)
         sp18[0] = *(unsigned short *)(param_1 + 6);
         sp18[1] = *(unsigned short *)(param_1 + 0xA);
         sp18[2] = *(unsigned short *)(param_1 + 0xE);
-        guess_AddVelocityToPos((struct vec *)param_1);
+        guess_AddVelocityToPos((S800D22E4 *)param_1);
         sp20[0] = *(unsigned short *)(param_1 + 6);
         sp20[1] = *(unsigned short *)(param_1 + 0xA);
         sp20[2] = *(unsigned short *)(param_1 + 0xE);
@@ -3785,15 +3785,15 @@ void func_80180088(s32 param_1)
     }
 
     wk = D_800AE620[0];
-    wk.w[5] = CAST_SIGN(short, param_1, 6);
-    wk.w[6] = CAST_SIGN(short, param_1, 0xA);
-    wk.w[7] = CAST_SIGN(short, param_1, 0xE);
+    wk.unk0.v0.w[5] = CAST_SIGN(short, param_1, 6);
+    wk.unk0.v0.w[6] = CAST_SIGN(short, param_1, 0xA);
+    wk.unk0.v0.w[7] = CAST_SIGN(short, param_1, 0xE);
 
-    RotMatrixY(CAST_NONSTRUCT(short, (s32)*(s32 **)(param_1 + 0x20), 0x14), &wk.w[0]);
+    RotMatrixY(CAST_NONSTRUCT(short, (s32)*(s32 **)(param_1 + 0x20), 0x14), &wk.unk0.v0.w[0]);
     {
         s32 *b58 = &guess_g_PlayerActor;
-        gte_SetRotMatrix(&wk.w[0]);
-        gte_SetTransMatrix(&wk.w[0]);
+        gte_SetRotMatrix(&wk.unk0.v0.w[0]);
+        gte_SetTransMatrix(&wk.unk0.v0.w[0]);
 
         RotTransSV(D_8018F210, sp18, out);
         RotTransSV(D_8018F210 + 8, sp20, out);
@@ -3846,7 +3846,7 @@ void func_80180088(s32 param_1)
 }
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_80143BDC(u16 *a0);
 
 void func_80180538(void *a0) {
@@ -3859,7 +3859,7 @@ void func_80180538(void *a0) {
 
     ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x18000;
 
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
 
     sp18[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
     sp18[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -5071,8 +5071,8 @@ extern s32 func_8012AD50(void *a0);
 void func_80182244(void *a0)
 {
 
-    extern Pair8_8017DDC4_80182244 D_801DA750[];
-    extern Rec16_8017DDC4_80182244 D_801AB59C[];
+    extern Unkstruct_80180CD4 D_801DA750[];
+    extern Blk16_956C D_801AB59C[];
     s32 v0;
     s32 s1;
     s32 t;
@@ -5088,11 +5088,11 @@ void func_80182244(void *a0)
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
-            D_801DA750[((Unkstruct_800B5CB8 *)a0)->unk70].a =
+            D_801DA750[((Unkstruct_800B5CB8 *)a0)->unk70].unk0 =
                 ((s32 *)t)[((Unkstruct_800B5CB8 *)a0)->unk70];
         }
     }
-    D_801DA750[((Unkstruct_800B5CB8 *)a0)->unk70].b = 0;
+    D_801DA750[((Unkstruct_800B5CB8 *)a0)->unk70].unk4 = 0;
     guess_InitModelObject(((Unkstruct_800B5CB8 *)a0)->unk20,
                   (s32)&D_801DA750[((Unkstruct_800B5CB8 *)a0)->unk70]);
 
@@ -5307,7 +5307,7 @@ void func_80182868(void *a0)
     extern Stride8_u16_80182868 D_801AB670[];
     extern Stride8_u16_80182868 D_801AB672[];
     extern Stride8_u16_80182868 D_801AB674[];
-    extern Stride8_s16_80182868 D_801AB676[];
+    extern Unkstruct_8017C8B0 D_801AB676[];
     extern s16 D_801AB624[];
 
     s32 v0;
@@ -5356,7 +5356,7 @@ void func_80182868(void *a0)
             id = D_801AB624[i + 1];
             if (id == state) {
                 if (id >= 2) {
-                    if (D_801AB676[id].v != 0) {
+                    if (D_801AB676[id].unk0 != 0) {
                         CAST_SIGN(s16, (s32)a0, 0x6) -= 0x200;
                     } else {
                         CAST_SIGN(s16, (s32)a0, 0x6) += 0x200;
@@ -5387,12 +5387,12 @@ void func_80182A44(void *arg0) {
 
 
 void func_80182AA4(void *a0) {
-    extern Stride8_s16_80182868 D_801AB676[];
+    extern Unkstruct_8017C8B0 D_801AB676[];
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern void guess_RequestSound(s32 a0, s32 a1);
     s32 v0;
 
-    v0 = D_801AB676[((Unkstruct_800B5CB8 *)a0)->unk70].v;
+    v0 = D_801AB676[((Unkstruct_800B5CB8 *)a0)->unk70].unk0;
     if (v0 == 0) {
         v0 = 0x8000;
     } else {
@@ -5418,7 +5418,7 @@ extern void func_80182C78(s32 a0);
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 D_801AB660[];
 extern Stride8_u16_80182868 D_801AB670[];
-extern Stride8_s16_80182868 D_801AB676[];
+extern Unkstruct_8017C8B0 D_801AB676[];
 extern s16 D_801AB668[];
 
 void func_80182AFC(s32 arg0)
@@ -5439,7 +5439,7 @@ void func_80182AFC(s32 arg0)
         func_80182D4C((u8 *)s0, (u8 *)D_801AB660, -1);
     } else {
         st = *(s16 *)(s0 + 0x70);
-        func_80182D4C((u8 *)s0, (u8 *)D_801AB660, D_801AB676[st].v);
+        func_80182D4C((u8 *)s0, (u8 *)D_801AB660, D_801AB676[st].unk0);
     }
 
     s2 = 0x200;
@@ -5448,7 +5448,7 @@ void func_80182AFC(s32 arg0)
         s2 = 0x180;
     }
 
-    v1 = D_801AB676[st].v;
+    v1 = D_801AB676[st].unk0;
     a0v = D_801AB670[st].v;
     ok = 1;
     if (v1 != 0) {
@@ -8196,7 +8196,7 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
 
 void func_80187004(s32 a0) {
     if (CAST_SIGN(u16, a0, 0x2) == 0) {
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
         if (((Unkstruct_800B5CB8 *)a0)->unk1C < 0x23) {
             ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x10000;
         }
@@ -8204,7 +8204,7 @@ void func_80187004(s32 a0) {
             return;
         }
     } else {
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
         if (--((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {
             return;
         }

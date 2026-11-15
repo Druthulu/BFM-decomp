@@ -70,20 +70,20 @@ extern u8 D_800AF680;
 
  /* 0x20 bytes */
 
-extern D_800D942C_entry D_800D942C[];
+extern Blk20_8016DF5C D_800D942C[];
 extern u8 D_800EC9FC[];
 
 extern s32 func_8001BFA0(void);
 extern CdlFILE *CdSearchFile(CdlFILE *fp, char *name);
 
 s32 func_800D1E18(void) {
-    return CdSearchFile(D_800EC9FC, (void *) D_800D942C[func_8001BFA0()].unk00) != 0;
+    return CdSearchFile(D_800EC9FC, (void *) D_800D942C[func_8001BFA0()].unk0.v1.unk0) != 0;
 }
 
 
 
 
-extern D_800D942C_entry D_800D942C[];
+extern Blk20_8016DF5C D_800D942C[];
 extern s32 D_800EC9E0;
 extern void func_800D1E9C(void *arg0);
 extern void func_8001BFB0(void);
@@ -111,8 +111,8 @@ extern s32 D_800EC9F8;
 extern u8 D_800EC9FC[];
 
 struct S_D2394;
-struct S_D2394B;
-extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, struct S_D2394B *a5);
+
+extern void func_800D2394(struct S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, Unkstruct_80180CD4 *a5);
 extern s32 func_800D2454(s32 a0, s32 a1, s32 *a2);
 extern void func_800D24D0(void);
 extern s32 func_800D2704(s32 a0, s32 a1);
@@ -259,7 +259,7 @@ extern s32 D_800D9480;
 
 
 
-void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, S_D2394B *a5) {
+void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, Unkstruct_80180CD4 *a5) {
     if (D_800D9480 == 1) {
         t->f8 = 0;
         t->f14 = 0;
@@ -275,8 +275,8 @@ void func_800D2394(S_D2394 *t, s16 a1, s16 a2, s16 a3, s32 a4, S_D2394B *a5) {
     t->f1A = a2;
     t->f20 = a3;
     t->f22 = a4;
-    t->f30 = (a5->f4 != 0) ? 0x18 : 0x10;
-    t->f38 = a5->f4;
+    t->f30 = (a5->unk4 != 0) ? 0x18 : 0x10;
+    t->f38 = a5->unk4;
     if (t->f28 == 0) {
         t->f2C = a1;
         t->f2E = a2;

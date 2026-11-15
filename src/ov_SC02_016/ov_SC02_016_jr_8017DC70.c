@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186274;
 extern void (*D_8018629C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018627C;
@@ -2832,10 +2832,10 @@ void func_8017DC70(s32 arg0)
                     prim = (Prim_SC02_016_8017DC70 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -2883,7 +2883,7 @@ void func_8017DC70(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->w0;
+                                            ((PolyF3 *)pkt)->rgbc = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -2927,7 +2927,7 @@ void func_8017DC70(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2981,7 +2981,7 @@ void func_8017DC70(s32 arg0)
                                                 zc = za;
                                                 if (zc < zb) zc = zb;
                                                 g.opz = zc;
-                                                ((PolyF4 *)pkt)->rgbc = prim->w0;
+                                                ((PolyF4 *)pkt)->rgbc = prim->a;
                                                 otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3037,7 +3037,7 @@ void func_8017DC70(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -3837,16 +3837,16 @@ void func_8017FCD0(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_8017FCD0 *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3861,16 +3861,16 @@ void func_8017FCD0(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_8017FCD0 *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3890,7 +3890,7 @@ void func_8017FCD0(s32 a0) {
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 
 #define SHARED_FN func_8018003C
 #include "../shared/ov/cls_60540aa768e1.h"
@@ -3968,14 +3968,14 @@ void func_801802C8(u8 *a0, u8 *a1) {
     temp[1] = ((Unkstruct_80182FD0 *)a0)->unkA;
     temp[2] = ((Unkstruct_80182FD0 *)a0)->unkE;
 
-    temp[0] += ((Unkstruct_801802C8 *)a1)->unk0;
-    temp[1] += ((Unkstruct_801802C8 *)a1)->unk2;
-    temp[2] += ((Unkstruct_801802C8 *)a1)->unk4;
+    temp[0] += ((Rec8_8018A390_8018523C *)a1)->x;
+    temp[1] += ((Rec8_8018A390_8018523C *)a1)->y;
+    temp[2] += ((Rec8_8018A390_8018523C *)a1)->z;
 
     result = func_801290DC(0x36, (u8 *)temp);
 
     if (result) {
-        CAST_WIDTH(s32, result, 0x2C) = ((Unkstruct_801802C8 *)a1)->unk6;
+        CAST_WIDTH(s32, result, 0x2C) = ((Rec8_8018A390_8018523C *)a1)->w;
     }
 }
 
@@ -4191,12 +4191,12 @@ void func_80180728(s32 param_1) {
     {
         void *target = (void *)(param_1 + 0x88);
 
-        d.vx = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
-        d.vy = 0;
-        d.vz = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
-        Square0(&d.vx, &d.vx);
+        d.unk0.v3.unk0 = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
+        d.unk0.v3.unk4 = 0;
+        d.unk0.v3.unk8 = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
+        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
 
-        if (d.vx + d.vz > 0x8FFFF) {
+        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
             ((Unkstruct_800B5CB8 *)param_1)->unkFC =
                 guess_YawToPoint((void *)(param_1 + 0x4), target);
         } else {
@@ -4303,12 +4303,12 @@ void func_8018099C(s32 param_1)
     s32 tmp0;
 
     if ((CAST_SIGN(u16, param_1, 0x34) == 0) && ((((Unkstruct_8018099C *)param_1)->unk72 & 0x4000) != 0)) {
-        d.vx = ((Unkstruct_8018099C *)param_1)->unk6 - ((Unkstruct_8018099C *)param_1)->unk88;
-        d.vy = 0;
-        d.vz = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
-        Square0(&d.vx, &d.vx);
+        d.unk0.v3.unk0 = ((Unkstruct_8018099C *)param_1)->unk6 - ((Unkstruct_8018099C *)param_1)->unk88;
+        d.unk0.v3.unk4 = 0;
+        d.unk0.v3.unk8 = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
+        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
 
-        if (d.vx + d.vz > 0x8FFFF) {
+        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
             v0 = 1;
         } else if (guess_DistSqToPlayer(param_1) > 0x10000) {
             v0 = 1;
@@ -4328,13 +4328,13 @@ void func_8018099C(s32 param_1)
         dz = *(s16 *)tmp0;
         ((Unkstruct_8018099C *)param_1)->unk1C = r + 0x28;
 
-        p->vy = 0;
-        p->vx = dx - dz;
-        p->vz = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
-        Square0(&p->vx, &p->vx);
+        p->unk0.v3.unk4 = 0;
+        p->unk0.v3.unk0 = dx - dz;
+        p->unk0.v3.unk8 = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
+        Square0(&p->unk0.v3.unk0, &p->unk0.v3.unk0);
 
         s1_ptr = (void *)(param_1 + 0x88);
-        if (d.vx + d.vz > 0x8FFFF) {
+        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
             ((Unkstruct_8018099C *)param_1)->unkFC = guess_YawToPoint((void *)(param_1 + 4), s1_ptr);
         } else {
             v0 = rand() & 0x3FF;

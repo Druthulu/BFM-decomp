@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80187520;
 extern void (*D_80187548[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80187528;
@@ -2842,10 +2842,10 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                     prim = (Prim_8017D174 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         vv[0] = *(SVECTOR2 *)va;
                         vv[1] = *(SVECTOR2 *)vb;
@@ -2900,7 +2900,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0] | 0x2000000;
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2961,7 +2961,7 @@ void func_8017D174(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0] | 0x2000000;
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -3724,19 +3724,19 @@ void func_8017EBE4(s32 a0)
         gte_rtv0tr();
         gte_stlvnl(&vout);
         gte_stflg(&flag);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = vout.vx;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = vout.vy;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = vout.vz;
+        ((Unkstruct_800B5CB8 *)a0)->unk6 = vout.unk0.v3.unk0;
+        ((Unkstruct_800B5CB8 *)a0)->unkA = vout.unk0.v3.unk4;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = vout.unk0.v3.unk8;
     } else {
         if (((Unkstruct_800B5CB8 *)a0)->unk74) {
-            vin.vx = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
-            vin.vy = D_80126B60;
-            vin.vz = D_80126B64;
+            vin.unk0.v3.unk0 = *(s32 *)&D_80126B5C;   /* TU declares D_80126B5C as u8 -- cast at the use */
+            vin.unk0.v3.unk4 = D_80126B60;
+            vin.unk0.v3.unk8 = D_80126B64;
             func_8012F0BC((s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34), (s32 *)&vin, (s32 *)&res);
             if (CAST_SIGN(s16, a0, 0xA) >= -255) {
                 if (CAST_WIDTH(u8, a0, 0x102) == 0) {
                     owner = ((Unkstruct_800B5CB8 *)a0)->unk64;
-                    ((Unkstruct_800B5CB8 *)owner)->unkE0 += res.vx >> 2;
+                    ((Unkstruct_800B5CB8 *)owner)->unkE0 += res.unk0.v3.unk0 >> 2;
                 }
             }
         }
@@ -3749,11 +3749,11 @@ void func_8017EBE4(s32 a0)
              * instead, which costs 10 instructions.  Landing the boolean in its own s32 local
              * first forces the do_store_flag (xori/sltiu) form. */
             c = (((Unkstruct_800B5CB8 *)a0)->unkFE == 3);
-            res.vy = (*(s16 *)((s32)&D_8018968C[0] + (c << 4)) - 1) << 16;
+            res.unk0.v3.unk4 = (*(s16 *)((s32)&D_8018968C[0] + (c << 4)) - 1) << 16;
             func_8012F1A4((s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34), (s32)&res, (s32 *)&vout);
-            g[1] = vout.vx;
-            g[2] = vout.vy;
-            g[3] = vout.vz;
+            g[1] = vout.unk0.v3.unk0;
+            g[2] = vout.unk0.v3.unk4;
+            g[3] = vout.unk0.v3.unk8;
         }
     }
 }

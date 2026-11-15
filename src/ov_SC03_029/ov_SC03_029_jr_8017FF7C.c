@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80189608;
 extern void (*D_80189630[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80189610;
@@ -3907,16 +3907,16 @@ void func_80181A30(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80181A30 *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3931,16 +3931,16 @@ void func_80181A30(s32 a0) {
             u32 sign;
             tmp = *(Quad_8018797C_80181A30 *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3959,7 +3959,7 @@ void func_80181A30(s32 a0) {
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 
 #define SHARED_FN func_80181D9C
 #include "../shared/ov/cls_60540aa768e1.h"
@@ -4015,20 +4015,20 @@ void func_80181EA0(u8 *arg0)
     gte_stsxy(sp10);
     gte_stflg(&flag);
 
-    if (-(s32) guess_g_ScreenHeight / 2 < ((Unkstruct_80181EA0_3 *)sp10)->unk2 &&
-        ((Unkstruct_80181EA0_3 *)sp10)->unk2 < guess_g_ScreenHeight / 2 &&
-        -(s32) guess_g_ScreenWidth / 2 < ((Unkstruct_80181EA0_3 *)sp10)->unk0 &&
-        ((Unkstruct_80181EA0_3 *)sp10)->unk0 < guess_g_ScreenWidth / 2 &&
+    if (-(s32) guess_g_ScreenHeight / 2 < ((Pair_8013AD38 *)sp10)->y &&
+        ((Pair_8013AD38 *)sp10)->y < guess_g_ScreenHeight / 2 &&
+        -(s32) guess_g_ScreenWidth / 2 < ((Pair_8013AD38 *)sp10)->x &&
+        ((Pair_8013AD38 *)sp10)->x < guess_g_ScreenWidth / 2 &&
         flag >= 0)
     {
         if (((Unkstruct_80182FD0 *)arg0)->unk1C != 0) {
             ((Unkstruct_80182FD0 *)arg0)->unk1C -= 1;
         } else {
-            if (((Unkstruct_80182050 *)s0)->unk6 != 0xFF) {
+            if (((Rec8_8018A390_8018523C *)s0)->w != 0xFF) {
                 do {
                     func_80182050(arg0, s0);
                     s0 += 8;
-                } while (((Unkstruct_80182050 *)s0)->unk6 != 0xFF);
+                } while (((Rec8_8018A390_8018523C *)s0)->w != 0xFF);
             }
             ((Unkstruct_80182FD0 *)arg0)->unk1C = ((Unkstruct_80182FD0 *)arg0)->unkDC;
             __asm__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B tus9) wall:cse-value-forward
@@ -4053,14 +4053,14 @@ void func_80182050(u8 *a0, u8 *a1) {
     temp[1] = ((Unkstruct_80182FD0 *)a0)->unkA;
     temp[2] = ((Unkstruct_80182FD0 *)a0)->unkE;
 
-    temp[0] += ((Unkstruct_80182050 *)a1)->unk0;
-    temp[1] += ((Unkstruct_80182050 *)a1)->unk2;
-    temp[2] += ((Unkstruct_80182050 *)a1)->unk4;
+    temp[0] += ((Rec8_8018A390_8018523C *)a1)->x;
+    temp[1] += ((Rec8_8018A390_8018523C *)a1)->y;
+    temp[2] += ((Rec8_8018A390_8018523C *)a1)->z;
 
     result = func_801290DC(0x3D, (u8 *)temp);
 
     if (result) {
-        CAST_WIDTH(s32, result, 0x2C) = ((Unkstruct_80182050 *)a1)->unk6;
+        CAST_WIDTH(s32, result, 0x2C) = ((Rec8_8018A390_8018523C *)a1)->w;
     }
 }
 
@@ -5934,10 +5934,10 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 void func_80184694(void *a0)
 {
-    Blk20_80184694 m;
+    Blk20_8016DF5C m;
     VecL_80184694 vec;
     void *mp;
-    extern Blk20_80184694 aD800AE620_80184694 __asm__("D_800AE620");
+    extern Blk20_8016DF5C aD800AE620_80184694 __asm__("D_800AE620");
 
     vec.vy = 0;
     vec.vx = 0;
@@ -5961,7 +5961,7 @@ void func_80184694(void *a0)
 
 extern u16 D_801270C0;
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 extern s32 func_801847FC(arg0);
 
 void func_80184764(void *a0) {
@@ -5994,7 +5994,7 @@ void func_80184764(void *a0) {
     ptr_0x20 = *(void **)(s0 + 0x20);
     ((Unkstruct_800B5CB8 *)ptr_0x20)->unk1A += 0x100;
 
-    guess_AddVelocityToPos((struct vec *)s0);
+    guess_AddVelocityToPos((S800D22E4 *)s0);
 }
 
 
@@ -6387,7 +6387,7 @@ void func_80184FF0(void *a0)
     *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += 0x40;
     func_8012B414((s32)a0);
 
-    mv.vz  = -0x40000;
+    mv.unk0.v3.unk8  = -0x40000;
     rot.vz = 0;
     col = D_801C499C[(CAST_SIGN(u16, (s32)a0, 0x10A))++ & 7];
     prim.code = 0x50000000;
@@ -6420,9 +6420,9 @@ void func_80184FF0(void *a0)
             t = base + 0x800;
             t &= 0xFC0;
         horiz:
-            mv.vy = (rcos(t) << 4) * flag;
-            mv.vx = 0;
-            rot.vx = -ratan2(mv.vy, mv.vz);
+            mv.unk0.v3.unk4 = (rcos(t) << 4) * flag;
+            mv.unk0.v3.unk0 = 0;
+            rot.vx = -ratan2(mv.unk0.v3.unk4, mv.unk0.v3.unk8);
             rot.vy = 0;
             break;
         case 2:
@@ -6432,18 +6432,18 @@ void func_80184FF0(void *a0)
             t = base + 0x800;
             t &= 0xFC0;
         vert:
-            mv.vx = (rcos(t) << 4) * flag;
-            mv.vy = 0;
+            mv.unk0.v3.unk0 = (rcos(t) << 4) * flag;
+            mv.unk0.v3.unk4 = 0;
             rot.vx = 0;
-            rot.vy = ratan2(-mv.vz, mv.vx) - 0x400;
+            rot.vy = ratan2(-mv.unk0.v3.unk8, mv.unk0.v3.unk0) - 0x400;
             break;
         }
         ((void (*)(void *, void *))RotMatrixZYX)(&rot, &mtx);
 
         q = zb + k * 3;
-        p[0] += mv.vx;
-        q[-1] += mv.vy;
-        q[0] += mv.vz;
+        p[0] += mv.unk0.v3.unk0;
+        q[-1] += mv.unk0.v3.unk4;
+        q[0] += mv.unk0.v3.unk8;
         mtx.t[0] = ((s16 *)p)[1];
         mtx.t[1] = ((s16 *)q)[-1];
         mtx.t[2] = ((s16 *)q)[1];
@@ -6911,12 +6911,12 @@ void func_80185BD8(s32 a0) {
     u32 v0;
     u32 (*func_ptr)(void);
 
-    v0 = ((Unkstruct_80185BD8_2 *)s0)->unk2;
+    v0 = ((Unkstruct_80181FAC_2 *)s0)->unk2;
     v0 = v0 * 4;
     func_ptr = (u32 (*)(void))D_801C93A8[v0 / 4];
     func_ptr();
 
-    v0 = ((Unkstruct_80185BD8_2 *)s0)->unk0;
+    v0 = ((Unkstruct_80181FAC_2 *)s0)->unk0;
     if (v0 == 0) {
         return;
     }

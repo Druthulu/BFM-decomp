@@ -848,7 +848,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80181070;
 extern void (*D_80181098[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80181078;
@@ -2853,7 +2853,7 @@ extern void (*D_80181E98[])(void);
 // @unstuck(P36): none — MATCH
 
   /* stride 0x10 */
-extern DStruct D_8018E96C[];
+extern Blk16_956C D_8018E96C[];
 
 extern void func_80165124(void *a0);
 extern void guess_NextStep(void *a0);

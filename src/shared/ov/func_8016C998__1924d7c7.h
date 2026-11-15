@@ -39,7 +39,7 @@ void func_8016C998(s32 param_1)
             return;
         }
         D_8018EE98[i].f0 = 1;
-        *(Blk32_998 *)(r + 0x38) = *(Blk32_998 *)(param_1 + 0x38);
+        *(Blk20_8016DF5C *)(r + 0x38) = *(Blk20_8016DF5C *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
         *(s16 *)(r + 6) = *(s16 *)(param_1 + 6);
         *(s16 *)(r + 0xa) = *(s16 *)(param_1 + 0xa);

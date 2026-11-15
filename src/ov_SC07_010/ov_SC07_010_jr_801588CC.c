@@ -34,7 +34,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s16 D_80126CB0;
 extern s32 func_8013E298(s16 *a0);
 extern s16 D_80126CAC;
@@ -1166,7 +1166,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -1591,13 +1591,13 @@ extern s32 func_80029A94(s32);
 
 s32 func_80159464(void) {
 
-    extern Entry D_80184398[];
-    Entry *e;
+    extern Pair_8013AD38 D_80184398[];
+    Pair_8013AD38 *e;
 
     e = D_80184398;
-    while (e->id != 0) {
-        if (currentLocationId == e->id) {
-            return e->val;
+    while (e->x != 0) {
+        if (currentLocationId == e->x) {
+            return e->y;
         }
         e++;
     }

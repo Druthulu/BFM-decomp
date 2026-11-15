@@ -859,7 +859,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80184238;
 extern void (*D_80184260[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80184240;
@@ -3578,7 +3578,7 @@ extern u8 D_800D3918[];
 
 void func_8017FE10(s32 a0) {
     extern u8 D_801A60E8[];   /* two 0x10-byte records: +0x00 and +0x10 */
-    SV3L sp10;
+    Vec3s sp10;
     s32 v1;
 
     v1 = ((s32 (*)(void *, void *, s32))func_80180C0C)((void *)a0, D_800D3918, 1);
@@ -3631,7 +3631,7 @@ void func_8017FEC8(void *a0) {
 
 
 
-extern void guess_ApplyAccelAndVelocity(struct vec*);
+extern void guess_ApplyAccelAndVelocity(S800D22E4*);
 extern void func_80180F3C(void *a0);
 extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_FreeActor(void *a0);
@@ -3700,7 +3700,7 @@ void func_8017FFC8(s32 a0) {
  *   (same idiom the TU already uses for ApplyMatrixSV / func_8012CBCC).
  */
 
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern void guess_FreeActor(void *a0);
 extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void*);
@@ -3727,7 +3727,7 @@ void func_80180068(s32 a0) {
 
     switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
     case 0:
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
         ((void (*)(s32, void *, void *))func_80180F3C)(a0, &D_801A60E8[0], &sp10);
         func_801809F0(a0, &sp10, 1, 1);
         ((void (*)(s32, void *, void *))func_80180F3C)(a0, &D_801A60E8[0x10], &sp10);
@@ -3779,7 +3779,7 @@ void func_80180068(s32 a0) {
         break;
 
     case 3:
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
         ((void (*)(s32, void *, void *))func_80180F3C)(a0, &D_801A60E8[0], &sp10);
         if ((func_801809F0(a0, &sp10, 1, 1) & 0xE000) == 0) {
             guess_FreeActor((void *)a0);
@@ -4139,8 +4139,8 @@ s32 func_8018093C(void *a0) {
 }
 
 
-struct vec;
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3) {
@@ -4152,7 +4152,7 @@ s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3) {
         sp10[0] = ((Unkstruct_800B5CB8 *)a0)->unk3A;
         sp10[1] = ((Unkstruct_800B5CB8 *)a0)->unk3E;
         sp10[2] = ((Unkstruct_800B5CB8 *)a0)->unk42;
-        guess_ApplyAccelAndVelocity((struct vec *)a0);
+        guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
     } else {
         sp10[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sp10[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -4204,8 +4204,8 @@ done:
 }
 
 
-struct vec;
-extern void guess_ApplyAccelAndVelocity(struct vec *a0);
+
+extern void guess_ApplyAccelAndVelocity(S800D22E4 *a0);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 
 
@@ -4784,7 +4784,7 @@ void func_80181B10(s32 a0) {
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),

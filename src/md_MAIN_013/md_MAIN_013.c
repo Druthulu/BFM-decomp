@@ -181,12 +181,12 @@ void func_800CB138(s32 arg0) {
             __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             { register Blk20 *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-              t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
-              blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
-              t0 = s->w[3]; t1 = s->w[4]; t2 = s->w[5];
-              blk.w[3] = t0; blk.w[4] = t1; blk.w[5] = t2;
-              t0 = s->w[6]; t1 = s->w[7];
-              blk.w[6] = t0; blk.w[7] = t1; }
+              t0 = s->unk0.v0.w[0]; t1 = s->unk0.v0.w[1]; t2 = s->unk0.v0.w[2];
+              blk.unk0.v0.w[0] = t0; blk.unk0.v0.w[1] = t1; blk.unk0.v0.w[2] = t2;
+              t0 = s->unk0.v0.w[3]; t1 = s->unk0.v0.w[4]; t2 = s->unk0.v0.w[5];
+              blk.unk0.v0.w[3] = t0; blk.unk0.v0.w[4] = t1; blk.unk0.v0.w[5] = t2;
+              t0 = s->unk0.v0.w[6]; t1 = s->unk0.v0.w[7];
+              blk.unk0.v0.w[6] = t0; blk.unk0.v0.w[7] = t1; }
             ang = *(s16 *)(arg0 + 0x10);
             { void *q = &blk; RotMatrixZ(ang, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             vec[0] = *(s32 *)(arg0 + 0x30) << 2;
@@ -204,12 +204,12 @@ void func_800CB138(s32 arg0) {
             { register Blk20 *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               s32 t0, t1; register s32 t2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-              t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
-              blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
-              t0 = s->w[3]; t1 = s->w[4]; t2 = s->w[5];
-              blk.w[3] = t0; blk.w[4] = t1; blk.w[5] = t2;
-              t0 = s->w[6]; t1 = s->w[7];
-              blk.w[6] = t0; blk.w[7] = t1; }
+              t0 = s->unk0.v0.w[0]; t1 = s->unk0.v0.w[1]; t2 = s->unk0.v0.w[2];
+              blk.unk0.v0.w[0] = t0; blk.unk0.v0.w[1] = t1; blk.unk0.v0.w[2] = t2;
+              t0 = s->unk0.v0.w[3]; t1 = s->unk0.v0.w[4]; t2 = s->unk0.v0.w[5];
+              blk.unk0.v0.w[3] = t0; blk.unk0.v0.w[4] = t1; blk.unk0.v0.w[5] = t2;
+              t0 = s->unk0.v0.w[6]; t1 = s->unk0.v0.w[7];
+              blk.unk0.v0.w[6] = t0; blk.unk0.v0.w[7] = t1; }
             { void *q; __asm__ __volatile__("" : : : "memory"); q = &blk;  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
               RotMatrixZ(ang2, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             MulMatrix0(m, &blk, arg0 + 0x38);
@@ -326,12 +326,12 @@ void func_800CB56C(s32 arg0) {
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     { register Blk20 *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-      t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
-      blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
-      t0 = s->w[3]; t1 = s->w[4]; t2 = s->w[5];
-      blk.w[3] = t0; blk.w[4] = t1; blk.w[5] = t2;
-      t0 = s->w[6]; t1 = s->w[7];
-      blk.w[6] = t0; blk.w[7] = t1; }
+      t0 = s->unk0.v0.w[0]; t1 = s->unk0.v0.w[1]; t2 = s->unk0.v0.w[2];
+      blk.unk0.v0.w[0] = t0; blk.unk0.v0.w[1] = t1; blk.unk0.v0.w[2] = t2;
+      t0 = s->unk0.v0.w[3]; t1 = s->unk0.v0.w[4]; t2 = s->unk0.v0.w[5];
+      blk.unk0.v0.w[3] = t0; blk.unk0.v0.w[4] = t1; blk.unk0.v0.w[5] = t2;
+      t0 = s->unk0.v0.w[6]; t1 = s->unk0.v0.w[7];
+      blk.unk0.v0.w[6] = t0; blk.unk0.v0.w[7] = t1; }
     ang = ((Unkstruct_800CB56C *)arg0)->unk10;
     { void *q = &blk; RotMatrixZ(ang, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     vec[0] = ((Unkstruct_800CB56C *)arg0)->unk30 << 2;
@@ -349,12 +349,12 @@ void func_800CB56C(s32 arg0) {
     { register Blk20 *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       s32 t0, t1; register s32 t2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-      t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
-      blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
-      t0 = s->w[3]; t1 = s->w[4]; t2 = s->w[5];
-      blk.w[3] = t0; blk.w[4] = t1; blk.w[5] = t2;
-      t0 = s->w[6]; t1 = s->w[7];
-      blk.w[6] = t0; blk.w[7] = t1; }
+      t0 = s->unk0.v0.w[0]; t1 = s->unk0.v0.w[1]; t2 = s->unk0.v0.w[2];
+      blk.unk0.v0.w[0] = t0; blk.unk0.v0.w[1] = t1; blk.unk0.v0.w[2] = t2;
+      t0 = s->unk0.v0.w[3]; t1 = s->unk0.v0.w[4]; t2 = s->unk0.v0.w[5];
+      blk.unk0.v0.w[3] = t0; blk.unk0.v0.w[4] = t1; blk.unk0.v0.w[5] = t2;
+      t0 = s->unk0.v0.w[6]; t1 = s->unk0.v0.w[7];
+      blk.unk0.v0.w[6] = t0; blk.unk0.v0.w[7] = t1; }
     { void *q; __asm__ __volatile__("" : : : "memory"); q = &blk;  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
       RotMatrixZ(ang2, q); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     MulMatrix0(ent, &blk, arg0 + 0x38);

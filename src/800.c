@@ -32,15 +32,15 @@ void func_800123F0(s32 param_1, s32 param_2)
 
     /* Build Z-rotation matrix on stack */
     v1 = -sin_val;
-    ((Unkstruct_800123F0 *)matrix)->unk0 = cos_val;
-    ((Unkstruct_800123F0 *)matrix)->unk8 = cos_val;
-    ((Unkstruct_800123F0 *)matrix)->unk2 = v1;
-    ((Unkstruct_800123F0 *)matrix)->unk4 = 0;
-    ((Unkstruct_800123F0 *)matrix)->unk6 = sin_val;
-    ((Unkstruct_800123F0 *)matrix)->unkA = 0;
-    ((Unkstruct_800123F0 *)matrix)->unkC = 0;
-    ((Unkstruct_800123F0 *)matrix)->unkE = 0;
-    ((Unkstruct_800123F0 *)matrix)->unk10 = 0x1000;
+    ((Unkstruct_8017D7D0 *)matrix)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk8 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk2 = v1;
+    ((Unkstruct_8017D7D0 *)matrix)->unk4 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk6 = sin_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unkC = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk10 = 0x1000;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_8b56(s1);
 
@@ -68,15 +68,15 @@ void func_80012558(s32 param_1, s32 param_2)
 
     /* Build rotation matrix on stack */
     v1 = 0x1000;
-    ((Unkstruct_80012558 *)matrix)->unk4 = sin_val;
-    ((Unkstruct_80012558 *)matrix)->unk0 = cos_val;
-    ((Unkstruct_80012558 *)matrix)->unk2 = 0;
-    ((Unkstruct_80012558 *)matrix)->unk6 = 0;
-    ((Unkstruct_80012558 *)matrix)->unk8 = v1;
-    ((Unkstruct_80012558 *)matrix)->unkA = 0;
-    ((Unkstruct_80012558 *)matrix)->unkC = -sin_val;
-    ((Unkstruct_80012558 *)matrix)->unkE = 0;
-    ((Unkstruct_80012558 *)matrix)->unk10 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk4 = sin_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk8 = v1;
+    ((Unkstruct_8017D7D0 *)matrix)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unkC = -sin_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk10 = cos_val;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_8b56(s1);
 
@@ -104,15 +104,15 @@ void func_800126C4(s32 param_1, s32 param_2)
 
     /* Build X-rotation matrix on stack */
     v1 = 0x1000;
-    ((Unkstruct_800126C4 *)matrix)->unk0 = v1;
-    ((Unkstruct_800126C4 *)matrix)->unk2 = 0;
-    ((Unkstruct_800126C4 *)matrix)->unk4 = 0;
-    ((Unkstruct_800126C4 *)matrix)->unk6 = 0;
-    ((Unkstruct_800126C4 *)matrix)->unk8 = cos_val;
-    ((Unkstruct_800126C4 *)matrix)->unkA = -sin_val;
-    ((Unkstruct_800126C4 *)matrix)->unkC = 0;
-    ((Unkstruct_800126C4 *)matrix)->unkE = sin_val;
-    ((Unkstruct_800126C4 *)matrix)->unk10 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk0 = v1;
+    ((Unkstruct_8017D7D0 *)matrix)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk4 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unk8 = cos_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unkA = -sin_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unkC = 0;
+    ((Unkstruct_8017D7D0 *)matrix)->unkE = sin_val;
+    ((Unkstruct_8017D7D0 *)matrix)->unk10 = cos_val;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_8b56(s1);
 
@@ -159,25 +159,25 @@ extern void func_80047E58(void *arg0, void *arg1);
 
 void func_800128EC(void *a0, void *a1)
 {
-    Vec4_800128EC vec;
+    Blk16_956C vec;
     s32 mn;
     s32 t;
 
-    vec = *(Vec4_800128EC *)a0;
-    mn = func_80049440(vec.x);
-    t = func_80049440(vec.y);
+    vec = *(Blk16_956C *)a0;
+    mn = func_80049440(vec.unk0.v3.unk0);
+    t = func_80049440(vec.unk0.v3.unk4);
     if (t < mn) {
         mn = t;
     }
-    t = func_80049440(vec.z);
+    t = func_80049440(vec.unk0.v3.unk8);
     if (t < mn) {
         mn = t;
     }
     if (mn < 0x12) {
         mn = 0x12 - mn;
-        vec.x >>= mn;
-        vec.y >>= mn;
-        vec.z >>= mn;
+        vec.unk0.v3.unk0 >>= mn;
+        vec.unk0.v3.unk4 >>= mn;
+        vec.unk0.v3.unk8 >>= mn;
     }
     func_80047E58(&vec, a1);
 }
@@ -596,16 +596,16 @@ void func_800134FC(s16 param_1, s32 param_2, s32 param_3)
     cos_val = rcos(param_1);
 
     v1 = 0x1000;
-    ((Unkstruct_800134FC *)m1)->unk0 = v1;
+    ((Unkstruct_8017D7D0 *)m1)->unk0 = v1;
     v1 = -sin_val;
-    ((Unkstruct_800134FC *)m1)->unk8 = cos_val;
-    ((Unkstruct_800134FC *)m1)->unk10 = cos_val;
-    ((Unkstruct_800134FC *)m1)->unkE = sin_val;
-    ((Unkstruct_800134FC *)m1)->unk2 = 0;
-    ((Unkstruct_800134FC *)m1)->unk4 = 0;
-    ((Unkstruct_800134FC *)m1)->unk6 = 0;
-    ((Unkstruct_800134FC *)m1)->unkA = v1;
-    ((Unkstruct_800134FC *)m1)->unkC = 0;
+    ((Unkstruct_8017D7D0 *)m1)->unk8 = cos_val;
+    ((Unkstruct_8017D7D0 *)m1)->unk10 = cos_val;
+    ((Unkstruct_8017D7D0 *)m1)->unkE = sin_val;
+    ((Unkstruct_8017D7D0 *)m1)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)m1)->unk4 = 0;
+    ((Unkstruct_8017D7D0 *)m1)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)m1)->unkA = v1;
+    ((Unkstruct_8017D7D0 *)m1)->unkC = 0;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_3eb0(m0, m1);
 
@@ -682,16 +682,16 @@ void func_8001382C(s16 angle, void *a1, void *a2)
     cos_val = rcos(angle);
 
     v1 = 0x1000;
-    ((Unkstruct_8001382C *)rot)->unk4 = sin_val;
-    ((Unkstruct_8001382C *)rot)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk4 = sin_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk0 = cos_val;
     rotp = &rot[0];
-    ((Unkstruct_8001382C *)rot)->unk2 = 0;
-    ((Unkstruct_8001382C *)rot)->unk6 = 0;
-    ((Unkstruct_8001382C *)rot)->unk8 = v1;
-    ((Unkstruct_8001382C *)rot)->unkA = 0;
-    ((Unkstruct_8001382C *)rot)->unkC = -sin_val;
-    ((Unkstruct_8001382C *)rot)->unkE = 0;
-    ((Unkstruct_8001382C *)rot)->unk10 = cos_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk2 = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unk6 = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unk8 = v1;
+    ((Unkstruct_8017D7D0 *)rot)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unkC = -sin_val;
+    ((Unkstruct_8017D7D0 *)rot)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unk10 = cos_val;
 
     gte_SetRotMatrix(matrix);
 
@@ -832,17 +832,17 @@ void func_80013CFC(short param_1, void *param_2, void *param_3)
     cos_val = rcos(param_1);
 
     v1 = -sin_val;
-    ((Unkstruct_80013CFC *)rot)->unk0 = cos_val;
-    ((Unkstruct_80013CFC *)rot)->unk8 = cos_val;
-    ((Unkstruct_80013CFC *)rot)->unk10 = 0x1000;
+    ((Unkstruct_8017D7D0 *)rot)->unk0 = cos_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk8 = cos_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk10 = 0x1000;
     rotp = rot;
-    ((Unkstruct_80013CFC *)rot)->unk6 = sin_val;
+    ((Unkstruct_8017D7D0 *)rot)->unk6 = sin_val;
     matp = matrix;
-    ((Unkstruct_80013CFC *)rot)->unk2 = v1;
-    ((Unkstruct_80013CFC *)rot)->unk4 = 0;
-    ((Unkstruct_80013CFC *)rot)->unkA = 0;
-    ((Unkstruct_80013CFC *)rot)->unkC = 0;
-    ((Unkstruct_80013CFC *)rot)->unkE = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unk2 = v1;
+    ((Unkstruct_8017D7D0 *)rot)->unk4 = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unkA = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unkC = 0;
+    ((Unkstruct_8017D7D0 *)rot)->unkE = 0;
 
     gte_SetRotMatrix(matp);
     gte_ldclmv(rotp);
@@ -946,9 +946,9 @@ void func_8001404C(s32 *a0, s32 *a1) {
 void func_800140B8(s32 a0, s32 a1, s32 a2)
 {
     gte_lwx2_ctc2x2_lwx3_ctc2x3_fc24();
-    ((Unkstruct_800140B8 *)a2)->unk0 <<= 16;
-    ((Unkstruct_800140B8 *)a2)->unk4 <<= 16;
-    ((Unkstruct_800140B8 *)a2)->unk8 <<= 16;
+    ((VECTOR *)a2)->vx <<= 16;
+    ((VECTOR *)a2)->vy <<= 16;
+    ((VECTOR *)a2)->vz <<= 16;
 }
 
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -2722,7 +2722,7 @@ extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_Or
 void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
     extern OtBlk_80016450_80015F04 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
-    Pt_80015F04 pts[4];
+    Unkstruct_80181FAC_2 pts[4];
     LineF2_80015F04 *p;
     u8 *base;
     u32 *otp;
@@ -2760,14 +2760,14 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
      * (save, load, filler) interleave.  Emits nothing. */
     __asm__("" : "=r"(x0) : "0"(x0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
 
-    pts[0].x = x0;
-    pts[0].y = ob;
-    pts[1].x = a0;
-    pts[1].y = ob;
-    pts[2].x = a0;
-    pts[2].y = a1;
-    pts[3].x = x0;
-    pts[3].y = a1;
+    pts[0].unk0 = x0;
+    pts[0].unk2 = ob;
+    pts[1].unk0 = a0;
+    pts[1].unk2 = ob;
+    pts[2].unk0 = a0;
+    pts[2].unk2 = a1;
+    pts[3].unk0 = x0;
+    pts[3].unk2 = a1;
 
     p = (LineF2_80015F04 *)func_80010A08(sz);
 
@@ -2786,10 +2786,10 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p->r0 = arg4;
         p->g0 = arg5;
         p->b0 = arg6;
-        p->x0 = pts[i].x;
-        p->y0 = pts[i].y;
-        p->x1 = pts[i + 1].x;
-        p->y1 = pts[i + 1].y;
+        p->x0 = pts[i].unk0;
+        p->y0 = pts[i].unk2;
+        p->x1 = pts[i + 1].unk0;
+        p->y1 = pts[i + 1].unk2;
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
@@ -2800,8 +2800,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p++;
     }
 
-    p[-1].x1 = pts[0].x;
-    p[-1].y1 = pts[0].y;
+    p[-1].x1 = pts[0].unk0;
+    p[-1].y1 = pts[0].unk2;
 
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[((Unkstruct_80010178 *)base)->unkA3D2 * 20], arg7, arg8);
@@ -3322,24 +3322,24 @@ extern void func_80018094(void *p, s32 otz, u32 flags);
 
 void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
 {
-    LineG2_80016A7C *p;
+    F3_27058_t *p;
     s32 opz;
     s32 flag;
     s32 otz;
 
-    p = (LineG2_80016A7C *)func_80010A08(0x14);
-    p->rgb0 = arg0->rgb0;
-    p->rgb1 = arg0->rgb1;
+    p = (F3_27058_t *)func_80010A08(0x14);
+    p->rgb = arg0->rgb0;
+    p->xy1 = arg0->rgb1;
     SetLineG2(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
         otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[1],
-                             (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy1,
+                             (s32 *)&p->xy0, (s32 *)&p->xy2, (s32 *)&p->xy2,
                              &opz, &flag);
     } else {
         p->xy0 = arg0->v[0].xy;
-        p->xy1 = arg0->v[1].xy;
+        p->xy2 = arg0->v[1].xy;
         do { otz = arg0->v[0].z; } while (0);
         flag = 0;
     }
@@ -3354,7 +3354,7 @@ void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
 
 
 extern s32 func_80010A08(s32);
-extern void SetLineG3(LineG3_80016B60 *p);
+extern void SetLineG3(Blk32_801898F4 *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *sxy0, s32 *sxy1, s32 *sxy2,
@@ -3363,20 +3363,20 @@ extern void func_80018094(void *p, s32 otz, u32 flags);
 
 void func_80016B60(Src_80016B60 *arg0, s32 arg1)
 {
-    LineG3_80016B60 *p;
+    Blk32_801898F4 *p;
     s32 flag;
     s32 otz_unused;
     s32 otz;
 
-    p = (LineG3_80016B60 *)func_80010A08(0x20);
-    p->rgb0 = arg0->rgb0;
-    p->rgb1 = arg0->rgb1;
-    p->rgb2 = arg0->rgb2;
+    p = (Blk32_801898F4 *)func_80010A08(0x20);
+    p->unk0.v1.unk4 = arg0->rgb0;
+    p->unk0.v1.unkC = arg0->rgb1;
+    p->unk0.v1.unk14 = arg0->rgb2;
     SetLineG3(p);
     func_80017E8C(arg1);
 
     otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[2],
-                         (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy2,
+                         (s32 *)&p->unk0.v1.unk8, (s32 *)&p->unk0.v1.unk10, (s32 *)&p->unk0.v1.unk18,
                          &otz_unused, &flag);
 
     if ((flag & ~0x1000) == 0) {
@@ -3635,7 +3635,7 @@ void func_80016F18(S16F18 *arg0, s32 arg1, s32 arg2)
  /* 0x14 */
 
 extern s32 func_80010A08(s32 size);
-extern void SetPolyF3(F3_80017168 *p);
+extern void SetPolyF3(F3_27058_t *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *sxy0, s32 *sxy1, s32 *sxy2,
@@ -3644,13 +3644,13 @@ extern void func_80018094(void *p, s32 otz, u32 flags);
 
 void func_80017168(Unkstruct_80175AB8_2 *arg0, s32 arg1)
 {
-    F3_80017168 *p;
+    F3_27058_t *p;
     s32 flag;
     s32 otzp;
     s32 otz;
 
-    p = (F3_80017168 *)func_80010A08(0x14);
-    p->rgbc0 = arg0->unk18;
+    p = (F3_27058_t *)func_80010A08(0x14);
+    p->rgb = arg0->unk18;
     SetPolyF3(p);
 
     if (arg1 != 0) {
@@ -3712,13 +3712,13 @@ extern void func_80018094(void *, s32, u32);
 
 void func_80017294(Src_80017294 *arg0, s32 arg1)
 {
-    F4_80017294 *p;
+    F4_27200_t *p;
     s32 otz;
     s32 flag;
     s32 opz;
 
-    p = (F4_80017294 *)func_80010A08(0x18);
-    p->rgbc = arg0->rgbc;
+    p = (F4_27200_t *)func_80010A08(0x18);
+    p->rgb = arg0->rgbc;
     SetPolyF4(p);
 
     if (arg1 != 0) {
@@ -3767,7 +3767,7 @@ void func_800173BC(void *arg0, void *arg1)
  /* 0x1C */
 
 extern s32 func_80010A08(s32 size);
-extern void SetPolyG3(G3_800173DC *p);
+extern void SetPolyG3(Unkstruct_8017C954 *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *sxy0, s32 *sxy1, s32 *sxy2,
@@ -3779,26 +3779,26 @@ extern void func_80018094(void *a0, s32 a1, u32 a2);
 
 void func_800173DC(Src_800173DC *arg0, s32 arg1)
 {
-    G3_800173DC *p;
+    Unkstruct_8017C954 *p;
     s32 otzp;
     s32 flg;
     s32 otz;
 
-    p = (G3_800173DC *)func_80010A08(0x1C);
-    p->rgbc0 = arg0->rgbc0;
-    p->rgbc1 = arg0->rgbc1;
-    p->rgbc2 = arg0->rgbc2;
+    p = (Unkstruct_8017C954 *)func_80010A08(0x1C);
+    p->unk4 = arg0->rgbc0;
+    p->unkC = arg0->rgbc1;
+    p->unk14 = arg0->rgbc2;
     SetPolyG3(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
         otz = RotTransPers3(&arg0->v0, &arg0->v1, &arg0->v2,
-                             (s32 *)&p->xy0, (s32 *)&p->xy1, (s32 *)&p->xy2,
+                             (s32 *)&p->unk8, (s32 *)&p->unk10, (s32 *)&p->unk18,
                              &otzp, &flg);
     } else {
-        p->xy0 = arg0->v0.xy;
-        p->xy1 = arg0->v1.xy;
-        p->xy2 = arg0->v2.xy;
+        p->unk8 = arg0->v0.xy;
+        p->unk10 = arg0->v1.xy;
+        p->unk18 = arg0->v2.xy;
         do { otz = arg0->v0.z; } while (0);
         flg = 0;
     }
@@ -4314,9 +4314,9 @@ extern void SetTransMatrix(void *);
 
 void func_80017E8C(s32 arg0)
 {
-    Blk32_80017E8C m;
+    Blk20_8016DF5C m;
 
-    m = *(Blk32_80017E8C *)arg0;
+    m = *(Blk20_8016DF5C *)arg0;
     CompMatrix(&guess_g_CameraWsMatrix, &m, &m);
     SetRotMatrix(&m);
     SetTransMatrix(&m);
@@ -7440,9 +7440,9 @@ extern s32 D_800AE70C;
  * redeclaration-type conflict entirely (the TU's own u8[] declarations, wherever they occur, are
  * untouched and still visible under their own name), while this alias gets the true array-of-struct
  * type gcc needs to avoid the CSE. Byte-measured MATCH. */
-extern ResMapCol aResourceIdMap[] __asm__("resourceIdMap");
-extern ResMapCol aD_8006313A[] __asm__("D_8006313A");
-extern ResMapCol aD_8006313C[] __asm__("D_8006313C");
+extern Vec3s aResourceIdMap[] __asm__("resourceIdMap");
+extern Vec3s aD_8006313A[] __asm__("D_8006313A");
+extern Vec3s aD_8006313C[] __asm__("D_8006313C");
 #define RES_FILE aResourceIdMap
 #define RES_ARG aD_8006313A
 #define RES_POST aD_8006313C
@@ -7473,8 +7473,8 @@ void ResourceLoadStateMachine(void) {
             resLoad_result = 1;
             return;
         }
-        if (RES_FILE[resLoad_curId].v == resLoad_loadedFileIdx && RES_POST[resLoad_curId].v != 0) {
-            guess_RequestSound((u16)RES_POST[resLoad_curId].v, 0);
+        if (RES_FILE[resLoad_curId].x == resLoad_loadedFileIdx && RES_POST[resLoad_curId].x != 0) {
+            guess_RequestSound((u16)RES_POST[resLoad_curId].x, 0);
             resLoad_lastId = resLoad_curId;
             resLoad_result = 1;
             return;
@@ -7482,8 +7482,8 @@ void ResourceLoadStateMachine(void) {
         if (CdQueueBusy() != 0) {
             break;
         }
-        if (RES_FILE[resLoad_curId].v < 0) {
-            ((void (*)())func_80036D58)(RES_ARG[resLoad_curId].v);
+        if (RES_FILE[resLoad_curId].x < 0) {
+            ((void (*)())func_80036D58)(RES_ARG[resLoad_curId].x);
             resLoad_result = 1;
             return;
         }
@@ -7491,15 +7491,15 @@ void ResourceLoadStateMachine(void) {
             resLoad_result = 1;
             return;
         }
-        if (cdReq_curSector != 0 && *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8) != cdReq_curSector) {
+        if (cdReq_curSector != 0 && *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].x * 8) != cdReq_curSector) {
             break;
         }
-        cdReq_curSector = *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].v * 8);
+        cdReq_curSector = *(s32 *)(cdFileLocTable + RES_FILE[resLoad_curId].x * 8);
         resLoad_state++;
         /* fallthrough */
     case 1:
-        result = StreamLoadStateMachine(RES_ARG[resLoad_curId].v,
-                                        &cdFileLocTable[RES_FILE[resLoad_curId].v * 8], 0x10);
+        result = StreamLoadStateMachine(RES_ARG[resLoad_curId].x,
+                                        &cdFileLocTable[RES_FILE[resLoad_curId].x * 8], 0x10);
         if (result == 2) {
             resLoad_state++;
             result = 0;
@@ -7517,9 +7517,9 @@ void ResourceLoadStateMachine(void) {
         break;
     }
     if (result != 0) {
-        resLoad_loadedFileIdx = RES_FILE[resLoad_curId].v;
-        if (RES_POST[resLoad_curId].v > 0) {
-            guess_RequestSound((u16)RES_POST[resLoad_curId].v, 0);
+        resLoad_loadedFileIdx = RES_FILE[resLoad_curId].x;
+        if (RES_POST[resLoad_curId].x > 0) {
+            guess_RequestSound((u16)RES_POST[resLoad_curId].x, 0);
             resLoad_lastId = resLoad_curId;
             if (resLoad_curId == 0x3D) {
                 func_8001B710();
@@ -9597,10 +9597,10 @@ void func_8001E7E0(u8 *arg0)
         shift = 2 - mode;
         otp = &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20];
         do {
-            id = ((Unkstruct_8001E7E0_3 *)p)->unk0;
-            sx = ((Unkstruct_8001E7E0_2 *)arg0)->unk28 + (((Unkstruct_8001E7E0_3 *)p)->unk4 >> shift);
+            id = ((RecDA34 *)p)->id;
+            sx = ((Unkstruct_8001E7E0_2 *)arg0)->unk28 + (((RecDA34 *)p)->dx >> shift);
             vx = sx;
-            sy = ((Unkstruct_8001E7E0_2 *)arg0)->unk2A + ((Unkstruct_8001E7E0_3 *)p)->unk6;
+            sy = ((Unkstruct_8001E7E0_2 *)arg0)->unk2A + ((RecDA34 *)p)->dy;
             vy = sy;
             if (attr & 0x40000000) {
                 tpage = (mode << 7) | (((attr >> 28) & 3) << 5) | ((sy & 0x100) >> 4) |
@@ -9611,11 +9611,11 @@ void func_8001E7E0(u8 *arg0)
             }
             buf[0] = attr;
             ((Unkstruct_8001E7E0 *)buf)->unk4 =
-                ((Unkstruct_8001E7E0_3 *)p)->unk8 + (ox + ((Unkstruct_8001E7E0_2 *)arg0)->unk2E);
+                ((RecDA34 *)p)->px + (ox + ((Unkstruct_8001E7E0_2 *)arg0)->unk2E);
             ((Unkstruct_8001E7E0 *)buf)->unk6 =
-                ((Unkstruct_8001E7E0_3 *)p)->unkA + (oy + ((Unkstruct_8001E7E0_2 *)arg0)->unk30);
-            ((Unkstruct_8001E7E0 *)buf)->unk8 = ((Unkstruct_8001E7E0_3 *)p)->unk2;
-            ((Unkstruct_8001E7E0 *)buf)->unkA = ((Unkstruct_8001E7E0_3 *)p)->unk3;
+                ((RecDA34 *)p)->py + (oy + ((Unkstruct_8001E7E0_2 *)arg0)->unk30);
+            ((Unkstruct_8001E7E0 *)buf)->unk8 = ((RecDA34 *)p)->w;
+            ((Unkstruct_8001E7E0 *)buf)->unkA = ((RecDA34 *)p)->h;
             ((Unkstruct_8001E7E0 *)buf)->unkC = tpage;
             ((Unkstruct_8001E7E0 *)buf)->unkE = (vx - ((tpage & 0xF) << 6)) << shift;
             vv = vy;
@@ -9890,11 +9890,11 @@ void func_8001EA14(Ent_EA14 *p)
                 H(0x1A) = H(0xA) + ((u16 *)&sc1)[1];
             } else {
                 gte_rt_alt(&vo, &v[0]);
-                H(8) = sxy.unk0.v1.unk0 + vo.vx;
-                H(0xA) = sxy.unk0.v1.unk2 + vo.vy;
+                H(8) = sxy.unk0.v1.unk0 + vo.unk0.v3.unk0;
+                H(0xA) = sxy.unk0.v1.unk2 + vo.unk0.v3.unk4;
                 gte_rt_alt(&vo, &v[1]);
-                H(0x10) = H(8) + vo.vx;
-                H(0x1A) = H(0xA) + vo.vy;
+                H(0x10) = H(8) + vo.unk0.v3.unk0;
+                H(0x1A) = H(0xA) + vo.unk0.v3.unk4;
             }
             H(0x12) = H(0xA);
             H(0x18) = H(8);
@@ -10126,9 +10126,9 @@ void func_8001EFE0(s32 arg0)
         c2.coord.t[1] = ((Unkstruct_8001EFE0 *)arg0)->unkA;
         c2.coord.t[2] = ((Unkstruct_8001EFE0 *)arg0)->unkC;
     }
-    scale.vx = ((Unkstruct_8001EFE0 *)arg0)->unk18;
-    scale.vy = ((Unkstruct_8001EFE0 *)arg0)->unk1A;
-    scale.vz = ((Unkstruct_8001EFE0 *)arg0)->unk1C;
+    scale.unk0.v3.unk0 = ((Unkstruct_8001EFE0 *)arg0)->unk18;
+    scale.unk0.v3.unk4 = ((Unkstruct_8001EFE0 *)arg0)->unk1A;
+    scale.unk0.v3.unk8 = ((Unkstruct_8001EFE0 *)arg0)->unk1C;
     func_8004901C(&c2.coord, &scale);
     mp = &ls;
     func_800547D8((s32)&c2, mp);
@@ -10451,9 +10451,9 @@ extern void (*D_80063500[])();
 void func_8001FB8C(s32 *a0, s32 *a1)
 {
     if (a0[1] < 0) return;
-    if (((Unkstruct_8001FB8C *)a0)->unk0 != 1) return;
-    if (((Unkstruct_8001FB8C *)a0)->unk2 < 9) {
-        D_80063500[((Unkstruct_8001FB8C *)a0)->unk2](a0);
+    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 1) return;
+    if (((Unkstruct_80181FAC_2 *)a0)->unk2 < 9) {
+        D_80063500[((Unkstruct_80181FAC_2 *)a0)->unk2](a0);
         a1[0]++;
     }
 }
@@ -11586,22 +11586,22 @@ void func_80021284(s32 arg0)
         p->r3 = rec[4];
         p->g3 = rec[5];
         p->b3 = rec[6];
-        p->x0 = out[i].vx;
-        p->y0 = out[i].vy;
-        p->x1 = out[i + 1].vx;
-        p->y1 = out[i + 1].vy;
-        p->x2 = out[0].vx;
-        p->y2 = out[0].vy;
-        p->x3 = out[i + 2].vx;
-        p->y3 = out[i + 2].vy;
+        p->x0 = out[i].unk0.v3.unk0;
+        p->y0 = out[i].unk0.v3.unk4;
+        p->x1 = out[i + 1].unk0.v3.unk0;
+        p->y1 = out[i + 1].unk0.v3.unk4;
+        p->x2 = out[0].unk0.v3.unk0;
+        p->y2 = out[0].unk0.v3.unk4;
+        p->x3 = out[i + 2].unk0.v3.unk0;
+        p->y3 = out[i + 2].unk0.v3.unk4;
         ((PTag_80021284 *)p)->addr = ot->addr;
         ot->addr = (u32)p;
         i += 2;
         p++;
     } while (i < 13);
 
-    p[-1].x3 = out[1].vx;
-    p[-1].y3 = out[1].vy;
+    p[-1].x3 = out[1].unk0.v3.unk0;
+    p[-1].y3 = out[1].unk0.v3.unk4;
 
     if (attr & 0x40000000) {
         DrMode_80021284 *dm = (DrMode_80021284 *)p;
@@ -12158,34 +12158,34 @@ void func_80021D38(Obj_80021D38 *p)
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[j].vx = vec[0];
-            out[j].vy = vec[1];
+            out[j].unk0 = vec[0];
+            out[j].unk2 = vec[1];
 
             gte_ldv0(&sv[1]);
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[k].vx = vec[0];
-            out[k].vy = vec[1];
+            out[k].unk0 = vec[0];
+            out[k].unk2 = vec[1];
 
             gte_ldv0(&sv[2]);
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[i + 3].vx = vec[0];
-            out[i + 3].vy = vec[1];
+            out[i + 3].unk0 = vec[0];
+            out[i + 3].unk2 = vec[1];
         } else {
             gte_ldv3(&sv[0], &sv[1], &sv[2]);
             gte_rtpt();
             gte_stsxy3(&out[i + 1], &out[i + 2], &out[i + 3]);
         }
 
-        out[i + 1].vx += out[0].vx;
-        out[i + 1].vy += out[0].vy;
-        out[i + 2].vx += out[0].vx;
-        out[i + 2].vy += out[0].vy;
-        out[i + 3].vx += out[0].vx;
-        out[i + 3].vy += out[0].vy;
+        out[i + 1].unk0 += out[0].unk0;
+        out[i + 1].unk2 += out[0].unk2;
+        out[i + 2].unk0 += out[0].unk0;
+        out[i + 2].unk2 += out[0].unk2;
+        out[i + 3].unk0 += out[0].unk0;
+        out[i + 3].unk2 += out[0].unk2;
     }
 
     func_800226C0(p, pts, out, ot + (d << 2));
@@ -12282,9 +12282,9 @@ void func_800221A8(Obj221A8 *o) {
         cd.coord.t[2] = o->unk0C;
     }
 
-    vv.vx = o->unk18;
-    vv.vy = o->unk1A;
-    vv.vz = 0x1000;
+    vv.unk0.v3.unk0 = o->unk18;
+    vv.unk0.v3.unk4 = o->unk1A;
+    vv.unk0.v3.unk8 = 0x1000;
     func_8004901C(&cd.coord, &vv);
 
     mp = &m;
@@ -12341,29 +12341,29 @@ void func_800221A8(Obj221A8 *o) {
                     gte_ldv0(&sv0);
                     gte_rtps();
                     gte_stsxy(&sxy2[0]);
-                    sxy[0].x += sxy2[0].x;
-                    sxy[0].y += sxy2[0].y;
+                    sxy[0].unk0 += sxy2[0].unk0;
+                    sxy[0].unk2 += sxy2[0].unk2;
                 }
                 i = 0;
                 do {
-                    sv0.vx = s->pt[i].x;
-                    sv0.vy = s->pt[i].y;
+                    sv0.vx = s->pt[i].unk0;
+                    sv0.vy = s->pt[i].unk2;
                     sv0.vz = sz;
-                    sv1.vx = s->pt[i + 1].x;
-                    sv1.vy = s->pt[i + 1].y;
+                    sv1.vx = s->pt[i + 1].unk0;
+                    sv1.vy = s->pt[i + 1].unk2;
                     sv1.vz = sz;
-                    sv2.vx = s->pt[i + 2].x;
-                    sv2.vy = s->pt[i + 2].y;
+                    sv2.vx = s->pt[i + 2].unk0;
+                    sv2.vy = s->pt[i + 2].unk2;
                     sv2.vz = sz;
                     gte_ldv3(&sv0, &sv1, &sv2);
                     gte_rtpt();
                     gte_stsxy3(&sxy[i + 1], &sxy[i + 2], &sxy[i + 3]);
-                    sxy[i + 1].x += sxy[0].x;
-                    sxy[i + 1].y += sxy[0].y;
-                    sxy[i + 2].x += sxy[0].x;
-                    sxy[i + 2].y += sxy[0].y;
-                    sxy[i + 3].x += sxy[0].x;
-                    sxy[i + 3].y += sxy[0].y;
+                    sxy[i + 1].unk0 += sxy[0].unk0;
+                    sxy[i + 1].unk2 += sxy[0].unk2;
+                    sxy[i + 2].unk0 += sxy[0].unk0;
+                    sxy[i + 2].unk2 += sxy[0].unk2;
+                    sxy[i + 3].unk0 += sxy[0].unk0;
+                    sxy[i + 3].unk2 += sxy[0].unk2;
                     i += 3;
                 } while (i < 0xC);
                 func_800226C0((s32)o, (s32)s, (s32)&sxy[0], (s32)(ot + z * 4));
@@ -12560,11 +12560,11 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 *(u16 *)(d - 0x18) = ((Unkstruct_800226C0 *)ss)->unk6;
                 *(u16 *)(d - 0x12) = ((Unkstruct_800226C0 *)ss)->unk8;
                 *(u16 *)(d - 0x10) = ((Unkstruct_800226C0 *)ss)->unkA;
-                *(u16 *)(d - 0x0A) = ((Unkstruct_800226C0_2 *)ww)->unk0;
-                *(u16 *)(d - 0x08) = ((Unkstruct_800226C0_2 *)ww)->unk2;
+                *(u16 *)(d - 0x0A) = ((Unkstruct_80181FAC_2 *)ww)->unk0;
+                *(u16 *)(d - 0x08) = ((Unkstruct_80181FAC_2 *)ww)->unk2;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x02) = ((Unkstruct_800226C0_3 *)e)->unk0;
-                *(u16 *)(d) = ((Unkstruct_800226C0_3 *)e)->unk2;
+                *(u16 *)(d - 0x02) = ((Unkstruct_80181FAC_2 *)e)->unk0;
+                *(u16 *)(d) = ((Unkstruct_80181FAC_2 *)e)->unk2;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)((u8 *)pts));
@@ -12595,8 +12595,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
 
         *(u16 *)(p - 0x14) = ((Unkstruct_800226C0 *)pts)->unk4;
         *(u16 *)(p - 0x12) = ((Unkstruct_800226C0 *)pts)->unk6;
-        *(u16 *)(p - 0x04) = ((Unkstruct_800226C0_2 *)work)->unk0;
-        *(u16 *)(p - 0x02) = ((Unkstruct_800226C0_2 *)work)->unk2;
+        *(u16 *)(p - 0x04) = ((Unkstruct_80181FAC_2 *)work)->unk0;
+        *(u16 *)(p - 0x02) = ((Unkstruct_80181FAC_2 *)work)->unk2;
 
         if (((Unkstruct_8001DA34 *)arg0)->unk1E & 0x4000) {
             u32 maskAddr;
@@ -12630,16 +12630,16 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 d[-0x06] = col[0x0C];
                 d[-0x05] = col[0x0D];
                 d[-0x04] = col[0x0E];
-                *(u16 *)(d - 0x1A) = ((Unkstruct_800226C0_2 *)ww)->unk0;
-                *(u16 *)(d - 0x18) = ((Unkstruct_800226C0_2 *)ww)->unk2;
+                *(u16 *)(d - 0x1A) = ((Unkstruct_80181FAC_2 *)ww)->unk0;
+                *(u16 *)(d - 0x18) = ((Unkstruct_80181FAC_2 *)ww)->unk2;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x12) = ((Unkstruct_800226C0_3 *)e)->unk0;
-                *(u16 *)(d - 0x10) = ((Unkstruct_800226C0_3 *)e)->unk2;
+                *(u16 *)(d - 0x12) = ((Unkstruct_80181FAC_2 *)e)->unk0;
+                *(u16 *)(d - 0x10) = ((Unkstruct_80181FAC_2 *)e)->unk2;
                 *(u16 *)(d - 0x0A) = ((Unkstruct_800226C0 *)pts)->unk0;
                 *(u16 *)(d - 0x08) = ((Unkstruct_800226C0 *)pts)->unk2;
                 e = (u8 *)work + mm;
-                *(u16 *)(d - 0x02) = ((Unkstruct_800226C0_3 *)e)->unk0;
-                *(u16 *)(d) = ((Unkstruct_800226C0_3 *)e)->unk2;
+                *(u16 *)(d - 0x02) = ((Unkstruct_80181FAC_2 *)e)->unk0;
+                *(u16 *)(d) = ((Unkstruct_80181FAC_2 *)e)->unk2;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)work);
@@ -12667,8 +12667,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 p += 0x24;
             } while (i < 12);
 
-            *(u16 *)(p - 0x04) = ((Unkstruct_800226C0_2 *)work)->unk0;
-            *(u16 *)(p - 0x02) = ((Unkstruct_800226C0_2 *)work)->unk2;
+            *(u16 *)(p - 0x04) = ((Unkstruct_80181FAC_2 *)work)->unk0;
+            *(u16 *)(p - 0x02) = ((Unkstruct_80181FAC_2 *)work)->unk2;
         }
     } else {
         u32 maskAddr;
@@ -12955,18 +12955,18 @@ void guess_BuildCircle12Points(Poly12Obj *a0, u16 a1) {
      * s1-before-s0 increment order.  An explicit pre-loop `ang = 0` statement
      * sits ahead of the LSR-inserted init instead -> 6-instruction residual. */
     for (; i < 4; i++) {
-        a0->pts[i].x = (rsin(i * 0x155) * radius) >> 12;
-        a0->pts[i].y = (rcos(i * 0x155) * radius) >> 12;
+        a0->pts[i].unk0 = (rsin(i * 0x155) * radius) >> 12;
+        a0->pts[i].unk2 = (rcos(i * 0x155) * radius) >> 12;
     }
 
     for (i = 4; i < 7; i++) {
-        a0->pts[i].x = a0->pts[6 - i].x;
-        a0->pts[i].y = -a0->pts[6 - i].y;
+        a0->pts[i].unk0 = a0->pts[6 - i].unk0;
+        a0->pts[i].unk2 = -a0->pts[6 - i].unk2;
     }
 
     for (i = 7; i < 12; i++) {
-        a0->pts[i].x = -a0->pts[12 - i].x;
-        a0->pts[i].y = a0->pts[12 - i].y;
+        a0->pts[i].unk0 = -a0->pts[12 - i].unk0;
+        a0->pts[i].unk2 = a0->pts[12 - i].unk2;
     }
 }
 
@@ -13826,7 +13826,7 @@ extern s32 D_80078D88[];
  * those definitions (verbatim where the types are spellable here, no-proto otherwise). */
 extern long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count, s32 shift, s32 ot);
 extern u8 * func_80024DE8(TmdG3 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
-extern u8 * func_8002528C(Prim_800 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot);
+extern u8 * func_8002528C(Face2 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot);
 extern void * func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, s32 n, s32 shift, u32 *ot);
 extern u8 *func_80025A30(u8 *prim, u8 *vtx, u8 *nrm, u8 *pkt, s32 n, s32 shift, u32 *ot);
 extern void *func_80025CBC(void *prims, void *scr, void *cols, void *packets, s32 count, s32 otshift, u32 *ot);
@@ -13857,8 +13857,8 @@ void func_80024448(int param_1, int param_2, u32 param_3)
      * and the emitted bytes are identical (measured on a synthetic TU, S72m_1). */
     extern POLY_F4 * func_80024BC0(Face *f, SVECTOR_80024BC0 *sv, SVECTOR_80024BC0 *nv, POLY_F4 *poly0, s32 n, s32 shift, u32 *ot);
     extern PG4 * func_80025000(SRCQ *p, SVEC_80025000 *verts, SVEC_80025000 *norms, PG4 *poly0, s32 n, s32 shift, u32 *ot);
-    extern PG3 * func_80025818(TPRIM_80025818 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly, s32 n, s32 shift, u32 *ot);
-    extern Ft4_800CBA18 * func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3, s32 count, s32 shift, u32 *ot);
+    extern PG3 * func_80025818(FaceT3 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly, s32 n, s32 shift, u32 *ot);
+    extern Ft4_800CBA18 * func_80026128(FaceT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3, s32 count, s32 shift, u32 *ot);
     extern PktGT4 * func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, PktGT4 *arg3, s32 count, s32 shift, u32 *ot);
 
     v0 = *(u32 **)(param_1 + 8);
@@ -13980,7 +13980,7 @@ long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
     long otz;
     u32 *tag;
     F3_249F0_t *p = (F3_249F0_t *)prim;
-    DM_249F0_t *d;
+    DRM *d;
 
     for (; count != 0; count--, f += 16) {
         gte_ldv3(verts + (((Src_249F0_t *)f)->v0 << 3),
@@ -14006,10 +14006,10 @@ long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
         *tag = (u32)p & 0xFFFFFF;
         p++;
         if (D_800A2B78 != 0 && (p[-1].code & 2)) {
-            d = (DM_249F0_t *)p;
+            d = (DRM *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
             ((Unkstruct_800249F0 *)d)->unk3 = 1;
-            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->code0 = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;
             p = (F3_249F0_t *)(d + 1);
@@ -14281,7 +14281,7 @@ extern s32 D_80078D88[];
 extern s32 D_800A2B78;
 
 
-u8 *func_8002528C(Prim_800 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot)
+u8 *func_8002528C(Face2 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n, s32 shift, u32 *ot)
 {
     struct { s32 flag, opz, sz1, sz2, sz3; } g;
     u8 *pk = (u8 *)arg3;
@@ -14316,7 +14316,7 @@ u8 *func_8002528C(Prim_800 *pr, Vec8_800 *vtx, Vec8_800 *nrm, void *arg3, s32 n,
                         gte_avsz3();
                         gte_stotz(&g.opz);
                     }
-                    gte_ldrgb(&pr->rgbc);
+                    gte_ldrgb(&pr->rgb);
                     gte_ldv3(&nrm[pr->n0], &nrm[pr->n1], &nrm[pr->n2]);
                     gte_ncct();
                     gte_strgb3_g3(pk);
@@ -14476,7 +14476,7 @@ void *func_80025504(GFace *prim, GVec8 *vtx, GVec8 *nrm, GPolyG4 *poly, s32 n, s
 
 extern s32 D_800A2B78;
 
-PG3 *func_80025818(TPRIM_80025818 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly,
+PG3 *func_80025818(FaceT3 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nrm, PG3 *poly,
                    s32 n, s32 shift, u32 *ot)
 {
     s32 otz;
@@ -14498,13 +14498,13 @@ PG3 *func_80025818(TPRIM_80025818 *prim, SVEC8_80025818 *vtx, SVEC8_80025818 *nr
                     gte_avsz3();
                     gte_stotz(&otz);
                     gte_ldv0(&nrm[prim->n0]);
-                    gte_ldrgb(&prim->rgb0);
+                    gte_ldrgb(&prim->w1);
                     gte_nccs();
                     gte_strgb(&p->r0);
-                    gte_ldrgb(&prim->rgb1);
+                    gte_ldrgb(&prim->w2);
                     gte_nccs();
                     gte_strgb(&p->r1);
-                    gte_ldrgb(&prim->rgb2);
+                    gte_ldrgb(&prim->w3);
                     gte_nccs();
                     gte_strgb(&p->r2);
                     p->code = (p->code & 2) | 0x30;
@@ -14844,7 +14844,7 @@ extern u32 D_80063884;
  * same marker was genuine. If the whole-binary gate still refuses this byte-perfect
  * body, suspect the extract/prune layer special-casing Handwritten-marked .s files
  * (duplicate-symbol link), not this function's codegen. */
-Ft4_800CBA18 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3,
+Ft4_800CBA18 *func_80026128(FaceT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *nrm, Ft4_800CBA18 *arg3,
                       s32 count, s32 shift, u32 *ot)
 {
     long flag;
@@ -14857,9 +14857,9 @@ Ft4_800CBA18 *func_80026128(FaceGT3 *face, SVEC8_80026128 *vtx, SVEC8_80026128 *
     while (count != 0) {
         gte_ldv3(&vtx[face->v0], &vtx[face->v1], &vtx[face->v2]);
         gte_rtpt();
-        pkt->uv0 = face->uv0;
-        pkt->xy2 = face->uv1;
-        pkt->uv3 = face->uv2;
+        pkt->uv0 = face->w1;
+        pkt->xy2 = face->w2;
+        pkt->uv3 = face->w3;
         gte_stflg(&flag);
         if (!(flag & ~0x1000)) {
             gte_nclip();
@@ -14974,7 +14974,7 @@ PktGT4 *func_800262D8(FaceGT4 *face, SVEC8_800262D8 *vtx, SVEC8_800262D8 *nrm, P
  * (P40 T18.c1). D_8006388C / D_8006389C are declared here
  * (no other declaration in the TU).
  */
-extern Tex_26514_t D_8006388C[];
+extern HB D_8006388C[];
 extern u8 D_8006389C[];
 
 
@@ -14984,7 +14984,7 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
     u32 rgb[2];
     long flag;
     long otz;
-    Tex_26514_t *tex;
+    HB *tex;
     u8 c;
     u16 clut;
     u16 tpage;
@@ -14997,7 +14997,7 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
     tex = &D_8006388C[idx];
     c = D_8006389C[idx];
     clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
-    tpage = ((D_800A2B78 & 3) << 5) | ((tex->y >> 4) & 0x10) | ((tex->x & 0x3FF) >> 6) | ((tex->y & 0x200) << 2);
+    tpage = ((D_800A2B78 & 3) << 5) | ((tex->hB2 >> 4) & 0x10) | ((tex->hB0 & 0x3FF) >> 6) | ((tex->hB2 & 0x200) << 2);
     ou = base[41898];
     ov = base[41898];
     if (idx == 0) {
@@ -15023,12 +15023,12 @@ u8 *func_80026514(Face_26514_t *face, char *verts, char *norms, GT3_26514_t *p, 
         gte_ldv3(norms + (face->n0 << 3), norms + (face->n1 << 3), norms + (face->n2 << 3));
         gte_ncct();
         gte_strgb3(&p->r0, &p->r1, &p->r2);
-        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (u8)(tex->x << 2);
-        v0 = tex->y + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
-        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (u8)(tex->x << 2);
-        v1 = tex->y + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
-        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (u8)(tex->x << 2);
-        v2 = tex->y + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
+        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (u8)(tex->hB0 << 2);
+        v0 = tex->hB2 + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
+        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (u8)(tex->hB0 << 2);
+        v1 = tex->hB2 + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
+        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (u8)(tex->hB0 << 2);
+        v2 = tex->hB2 + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
         if (D_800A2B78 != 0)
             p->code |= 2;
         p->u0 = u0;
@@ -15055,7 +15055,7 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
     u32 rgb[2];
     long flag;
     long otz;
-    Tex_26514_t *tex;
+    HB *tex;
     u8 c;
     u16 clut;
     u16 tpage;
@@ -15068,7 +15068,7 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
     tex = &D_8006388C[idx];
     c = D_8006389C[idx];
     clut = ((c + 256) << 6) | (c < 224 ? 0x16 : 0x10);
-    tpage = ((D_800A2B78 & 3) << 5) | ((tex->y >> 4) & 0x10) | ((tex->x & 0x3FF) >> 6) | ((tex->y & 0x200) << 2);
+    tpage = ((D_800A2B78 & 3) << 5) | ((tex->hB2 >> 4) & 0x10) | ((tex->hB0 & 0x3FF) >> 6) | ((tex->hB2 & 0x200) << 2);
     ou = base[41898];
     ov = base[41898];
     if (idx == 0) {
@@ -15103,14 +15103,14 @@ u8 *func_800268D0(Face_268D0_t *face, char *verts, char *norms, GT4_268D0_t *p, 
         gte_ldv0(norms + (face->n3 << 3));
         gte_nccs();
         gte_strgb(&p->r3);
-        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
-        v0 = tex->y + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
-        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
-        v1 = tex->y + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
-        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
-        v2 = tex->y + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
-        u3 = (((u8)ou + (s16)p->x3 / 2) & 0x1F) + (((u8)tex->x << 2) & 0xFF);
-        v3 = tex->y + (((u8)ov + (s16)p->y3 / 2) & 0x1F);
+        u0 = (((u8)ou + (s16)p->x0 / 2) & 0x1F) + (((u8)tex->hB0 << 2) & 0xFF);
+        v0 = tex->hB2 + (((u8)ov + (s16)p->y0 / 2) & 0x1F);
+        u1 = (((u8)ou + (s16)p->x1 / 2) & 0x1F) + (((u8)tex->hB0 << 2) & 0xFF);
+        v1 = tex->hB2 + (((u8)ov + (s16)p->y1 / 2) & 0x1F);
+        u2 = (((u8)ou + (s16)p->x2 / 2) & 0x1F) + (((u8)tex->hB0 << 2) & 0xFF);
+        v2 = tex->hB2 + (((u8)ov + (s16)p->y2 / 2) & 0x1F);
+        u3 = (((u8)ou + (s16)p->x3 / 2) & 0x1F) + (((u8)tex->hB0 << 2) & 0xFF);
+        v3 = tex->hB2 + (((u8)ov + (s16)p->y3 / 2) & 0x1F);
         if (D_800A2B78 != 0)
             p->code |= 2;
         p->u0 = u0;
@@ -15282,7 +15282,7 @@ long *func_80027058(char *f, s32 verts, s32 norms, long *prim, s32 count,
             d = (DM_27058_t *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
             ((u8 *)d)[3] = 1;
-            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->code0 = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;
             p = (F3_27058_t *)(d + 1);
@@ -15311,9 +15311,9 @@ long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
     DM_27200_t *d;
 
     for (; count != 0; count--, f += 20) {
-        gte_ldv3(verts + (((Src_27200_t *)f)->v0 << 3),
-                 verts + (((Src_27200_t *)f)->v1 << 3),
-                 verts + (((Src_27200_t *)f)->v2 << 3));
+        gte_ldv3(verts + (((Face2 *)f)->v0 << 3),
+                 verts + (((Face2 *)f)->n1 << 3),
+                 verts + (((Face2 *)f)->v1 << 3));
         gte_rtpt();
         gte_stflg(&flag);
         if (flag & ~0x1000)
@@ -15323,7 +15323,7 @@ long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
         if (otz <= 0)
             continue;
         gte_stsxy3_f3(p);
-        gte_ldv0(verts + (((Src_27200_t *)f)->v3 << 3));
+        gte_ldv0(verts + (((Face2 *)f)->n2 << 3));
         gte_rtps();
         gte_stflg(&flag);
         if (flag & ~0x1000)
@@ -15331,7 +15331,7 @@ long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
         gte_stsxy(&p->xy3);
         gte_avsz4();
         gte_stotz(&otz);
-        *(u32 *)((char *)p + 4) = ((Src_27200_t *)f)->rgb;
+        *(u32 *)((char *)p + 4) = ((Face2 *)f)->rgb;
         tag = (u32 *)(ot + ((otz >> shift) << 2));
         p->tag = (*tag & 0xFFFFFF) | 0x05000000;
         *tag = (u32)p & 0xFFFFFF;
@@ -15340,7 +15340,7 @@ long *func_80027200(char *f, s32 verts, s32 norms, long *prim, s32 count,
             d = (DM_27200_t *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
             ((u8 *)d)[3] = 1;
-            d->code = 0xE100000A | ((D_800A2B78 & 3) << 5);
+            d->code0 = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;
             p = (F4_27200_t *)(d + 1);
@@ -16827,7 +16827,7 @@ void func_80029774(s32 a0) {
     }
 
     for (i = 0; i < 0x18; i++) {
-        *(Blk4_80029774 *)(dst + 0x27C + i * 4) = *(Blk4_80029774 *)(D_800BA2B8 + i * 4);
+        *(W_8016BFD0 *)(dst + 0x27C + i * 4) = *(W_8016BFD0 *)(D_800BA2B8 + i * 4);
     }
 
     D_800A5E58[a0] = 1;

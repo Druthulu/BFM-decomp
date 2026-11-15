@@ -709,8 +709,8 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
             dim = flag;
             for (i = 0; i < 5; i++) {
                 if (i == 0) {
-                    sp60[0] = (((Unkstruct_801E3540 *)p)->unk0 + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
-                              ((((Unkstruct_801E3540 *)p)->unk2 + ((Unkstruct_8017C120 *)s)->unk12) << 16);
+                    sp60[0] = (((Pair_8013AD38 *)p)->x + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
+                              ((((Pair_8013AD38 *)p)->y + ((Unkstruct_8017C120 *)s)->unk12) << 16);
                 } else {
                     *(s32 *)(bp + 0x48 + i * 4) = p[i];
                 }
@@ -1092,7 +1092,7 @@ extern char *D_801EB894[]; /* label strings */
 extern s32 D_801EBB20[];   /* level thresholds */
 extern u16 *D_801EB8F8[];  /* icon tables */
 extern char *D_801EB8B4;
-extern Blk3_801E95E8 D_801E7C00;
+extern Blk3_801E40A8 D_801E7C00;
 
 void func_801E95E8(void) {
     s16 k;
@@ -1226,7 +1226,7 @@ void func_801E95E8(void) {
                 } else if (i == 4) {
                     strcpy((char *)arr[i], D_801EB8B4);
                 } else {
-                    *(Blk3_801E95E8 *)arr[i] = D_801E7C00;
+                    *(Blk3_801E40A8 *)arr[i] = D_801E7C00;
                 }
             }
         }
@@ -1292,14 +1292,14 @@ s32 *func_801E9BE0(s32 *out) {
 
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
-    Prim4_801E9BE0 *q;
+    Unkstruct_80181FAC_2 *q;
     volatile u16 *pb;
     s32 n;
     s32 d;
 
     /* D_80115134 is an s32 table base here -- keep s32 arithmetic,
        fold +0x18 into the load displacement. */
-    q = *(Prim4_801E9BE0 **)((*(s16 *)&guess_g_MenuPanel << 5) + D_80115134 + 0x18);
+    q = *(Unkstruct_80181FAC_2 **)((*(s16 *)&guess_g_MenuPanel << 5) + D_80115134 + 0x18);
     if (D_8011512C == 1) {
         n = D_801EBB10[guess_g_MenuFrameCounter & 7];
     } else {
@@ -1314,8 +1314,8 @@ s32 *func_801E9BE0(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->f0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->f2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

@@ -97,7 +97,7 @@ extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 sp10)
 extern int func_801288E8(int arg0);
 extern int func_80128940(int arg0);
 extern void func_80010AE0(s32 a0);
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern s32 guess_RequestResourceLoad(s32 a0, s32 a1, void *a2, s32 a3, s32 a4);
 extern s32 func_80128C98(s32 arg0);
 extern s32 func_80128CFC(s32 arg0);
@@ -122,7 +122,7 @@ extern u8 * func_801291C0(void);
 extern void func_80129248(s16 a0);
 extern void func_801292C8(u8 *a0);
 extern void func_8012927C(void);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_80129350(s32 a0, s32 a1);
 extern void func_80129374(s32 a0, s32 a1);
 extern s16 guess_g_BackgroundLayerPriority[]; // Names ledger: config/names.tsv guess_g_BackgroundLayerPriority
@@ -209,7 +209,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Vec8 guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -772,7 +772,7 @@ extern int func_8013E064(s16 *a0, s16 *a1);
 extern int func_8013E0FC(s16 *a0, s16 *a1);
 extern int func_8013E194(s16 *a0, s16 *a1);
 extern void Square12(s32 *a0, s32 *a1);
-extern s32 func_8013E22C(VecA *a0, struct VecB *a1);
+extern s32 func_8013E22C(VecA *a0, Vec3s *a1);
 extern s32 func_8013E298(s16 *a0);
 extern int func_8013E2C4(short *a0);
 extern void *D_801274CC;
@@ -1887,7 +1887,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -6708,11 +6708,11 @@ extern void guess_NextStep(void *a0);
 void func_80164EE0(int param_1)
 {
 
-    extern DStruct D_8019A9FC[];
+    extern Blk16_956C D_8019A9FC[];
     int i;
 
     for (i = 7; i >= 0; i--) {
-        D_8019A9FC[i].f0 = 0;
+        D_8019A9FC[i].unk0.v2.unk0 = 0;
     }
     ((Unkstruct_80164EE0_2 *)param_1)->unk2E = 0x4000;
     ((Unkstruct_80164EE0_2 *)param_1)->unk2C = 0x4000;
@@ -7219,12 +7219,12 @@ s32 func_80166690(s32 param_1, s32 param_2)
         p2 = (short)param_2;
         do {
             pv = &sub[uVar9];
-            c.v0 = pv->h[0];
-            c.v1 = pv->h[1];
-            c.v2 = pv->h[2];
-            c.w0 = pv->h[3];
-            c.w1 = pv->h[4];
-            c.w2 = pv->h[5];
+            c.v0 = pv->unk0.v0.h[0];
+            c.v1 = pv->unk0.v0.h[1];
+            c.v2 = pv->unk0.v0.h[2];
+            c.w0 = pv->unk0.v0.h[3];
+            c.w1 = pv->unk0.v0.h[4];
+            c.w2 = pv->unk0.v0.h[5];
             sVar10 = sVar10 + 1;
 
             if (lt2) {
@@ -7251,14 +7251,14 @@ s32 func_80166690(s32 param_1, s32 param_2)
                 uVar9 = 0xF;
             }
             pv = &sub[uVar9];
-            c.v3 = pv->h[0];
-            c.v4 = pv->h[1];
-            c.v5 = pv->h[2];
-            c.w3 = pv->h[3];
-            c.w4 = pv->h[4];
+            c.v3 = pv->unk0.v0.h[0];
+            c.v4 = pv->unk0.v0.h[1];
+            c.v5 = pv->unk0.v0.h[2];
+            c.w3 = pv->unk0.v0.h[3];
+            c.w4 = pv->unk0.v0.h[4];
             uVar8 = uVar8 - 0x10;
             uVar7 -= 0x10;
-            c.w5 = pv->h[5];
+            c.w5 = pv->unk0.v0.h[5];
             if (uVar7 < 0) {
                 uVar7 = 0;
             }

@@ -851,7 +851,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018C2CC;
 extern void (*D_8018C2F4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018C2D4;
@@ -2935,7 +2935,7 @@ extern s32 D_8018E768[];
 extern void func_80182A90(s32 a0);
 extern void func_80182B44(s32 a0);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 extern void func_80182EB0(s32 arg0);
 extern void (*D_8018E90C[])();
 extern void func_80182F58(int param_1);
@@ -3967,8 +3967,8 @@ extern int D_801E1D80;
 
 void func_80187D80(int param_1)
 {
-    SV3 in;
-    SV3 out;
+    Vec3s in;
+    Vec3s out;
     short c;
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
@@ -3977,13 +3977,13 @@ void func_80187D80(int param_1)
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801E1D80);
-        in.a = 0;
-        in.b = 0;
-        in.c = 0x10;
+        in.x = 0;
+        in.y = 0;
+        in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.b;
-        c = out.c;
+        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+        c = out.z;
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x5a;
         ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
         ((Unkstruct_800B5CB8 *)param_1)->unkE = c;
@@ -4582,7 +4582,7 @@ extern u8 D_801E2148[];
 void func_801889E4(s32 *self)
 {
     s32 *tgt = (s32 *)((Unkstruct_800B5CB8 *)self)->unk64;
-    SV3 out;
+    Vec3s out;
 
     if (((Unkstruct_800B5CB8 *)self)->unkFE == 0x7FFF) {
         ((Unkstruct_800B5CB8 *)self)->unkFE =
@@ -4609,9 +4609,9 @@ void func_801889E4(s32 *self)
             *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xC);
     } else {
         guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)self)->unk64, (s32)D_801E2148, (s32)&out);
-        ((Unkstruct_800B5CB8 *)self)->unk6 = out.a;
-        ((Unkstruct_800B5CB8 *)self)->unkA = out.b;
-        ((Unkstruct_800B5CB8 *)self)->unkE = out.c;
+        ((Unkstruct_800B5CB8 *)self)->unk6 = out.x;
+        ((Unkstruct_800B5CB8 *)self)->unkA = out.y;
+        ((Unkstruct_800B5CB8 *)self)->unkE = out.z;
     }
 
     *(Blk8 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x18) =

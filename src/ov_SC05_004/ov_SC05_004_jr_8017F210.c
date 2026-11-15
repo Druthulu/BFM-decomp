@@ -849,7 +849,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183464;
 extern void (*D_8018348C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018346C;
@@ -3602,13 +3602,13 @@ extern void (*D_8019AF60[])(void *);
 
 void func_80180930(void *a0)
 {
-    struct { u16 k; u16 v; } trio[3];
+    Unkstruct_80181FAC_2 trio[3];
     s32 xy;
     s32 hi;
 
-    trio[0].v = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk5C;
-    trio[1].v = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk60;
-    trio[2].v = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk64;
+    trio[0].unk2 = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk5C;
+    trio[1].unk2 = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk60;
+    trio[2].unk2 = ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk64;
 
     func_8012B77C((s32)&xy, (s32)a0 + 4, (s32)trio);
 

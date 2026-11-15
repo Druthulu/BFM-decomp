@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801887E8;
 extern void (*D_80188810[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801887F0;
@@ -3659,10 +3659,10 @@ void func_8017BEBC(s32 arg0)
                     if (i >= nprim) goto noprim;
                     m24 = 0xFFFFFF;
                     do {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vt[0] = *(XV8 *)va;
                         vt[1] = *(XV8 *)vb;
                         vc = vtx + (w & 0xFFFF);
@@ -3719,7 +3719,7 @@ void func_8017BEBC(s32 arg0)
                                             }
                                             if (code == 7) g.opz = za + 0x200;
                                             tz = g.opz;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             q = 0x80 - (tz - 0x190) / 24;
                                             if (q < 0) q = 0;
                                             rgb = q | (q << 8) | (q << 16);
@@ -3783,7 +3783,7 @@ void func_8017BEBC(s32 arg0)
                                                 *(u32 *)&((XFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((XFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tz = g.opz;
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 q = 0x80 - (tz - 0x190) / 24;
                                                 if (q < 0) q = 0;
                                                 rgb = q | (q << 8) | (q << 16);
@@ -4074,10 +4074,10 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                     if (i >= nprim) goto noprim;
                     m24 = 0xFFFFFF;
                     do {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vt[0] = *(XV8 *)va;
                         vt[1] = *(XV8 *)vb;
                         vc = vtx + (w & 0xFFFF);
@@ -4134,7 +4134,7 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                                             }
                                             if (code == 7) g.opz = za + 0x40;
                                             tz = g.opz;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             q = 0x80 - (tz - 0x190) / 24;
                                             if (q < 0) q = 0;
                                             rgb = q | (q << 8) | (q << 16);
@@ -4198,7 +4198,7 @@ void func_8017CAD4(s32 *ctx, s32 *model, s32 mtxsrc)
                                                 *(u32 *)&((XFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((XFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tz = g.opz;
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 q = 0x80 - (tz - 0x190) / 24;
                                                 if (q < 0) q = 0;
                                                 rgb = q | (q << 8) | (q << 16);
@@ -9244,7 +9244,7 @@ void func_80185340(s32 a0) {
 
 
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern u8 * func_8012913C(s32 arg0);
 extern void func_801292C8(u8 *a0);

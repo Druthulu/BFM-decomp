@@ -120,8 +120,8 @@ void func_800CB0B0(void *arg0) {
         *(s32 *)(s0 + 4) = flag;
         guess_TransformPosByObjMatrix(s2, (s32)arg0 + 4);
         src = ((Unkstruct_80126B58 *)s2)->unk20;
-        *(func_800CB0B0_Blk16 *)(s0 + 0x34) = *(func_800CB0B0_Blk16 *)(src + 0x34);
-        *(func_800CB0B0_Blk16 *)(s0 + 0x44) = *(func_800CB0B0_Blk16 *)(src + 0x44);
+        *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)(src + 0x34);
+        *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)(src + 0x44);
         guess_NextStep(arg0);
     } else {
         ((void (*)(void *))guess_FreeObjectAndSubObject_2)(arg0);
@@ -148,8 +148,8 @@ void func_800CB188(void *arg0) {
     ((Unkstruct_800CB188 *)arg0)->unk4 = 0;
     guess_TransformPosByObjMatrix(s0, (s32)arg0 + 4);
     v0 = *(s32 *)(s0 + 0x20);
-    *(func_800CB188_Blk16 *)(s1 + 0x34) = *(func_800CB188_Blk16 *)(v0 + 0x34);
-    *(func_800CB188_Blk16 *)(s1 + 0x44) = *(func_800CB188_Blk16 *)(v0 + 0x44);
+    *(Blk16_956C *)(s1 + 0x34) = *(Blk16_956C *)(v0 + 0x34);
+    *(Blk16_956C *)(s1 + 0x44) = *(Blk16_956C *)(v0 + 0x44);
     v1 = ((Unkstruct_800CB188_2 *)s1)->unk4 & 0x7FFFFFFF;
     CAST_ALIAS(s32, s1, 4) = v1;
     if (guess_g_FrameCounter & 1) {

@@ -147,8 +147,8 @@ void func_800CB0B4(s32 param_1) {
             s32 srcp;
             dstp = ((Unkstruct_80126B58 *)param_1)->unk20;
             srcp = ((Unkstruct_80126B58 *)iVar2)->unk20;
-            *(Blk16X *)(dstp + 0x34) = *(Blk16X *)(srcp + 0x34);
-            *(Blk16X *)(dstp + 0x44) = *(Blk16X *)(srcp + 0x44);
+            *(Blk16_956C *)(dstp + 0x34) = *(Blk16_956C *)(srcp + 0x34);
+            *(Blk16_956C *)(dstp + 0x44) = *(Blk16_956C *)(srcp + 0x44);
         }
         func_80146DE8(param_1, 0, 0, 0xFFF00000);
         func_800CB4CC((void *)param_1);
@@ -201,8 +201,8 @@ void func_800CB228(s32 param_1) {
     func_800123F0(&m, *(s16 *)((s8 *)obj + 0x14));
     func_80163194(param_1, 0, 0, -0x3000, &m);
     guess_AddVelocityToPos_2(param_1);
-    *(Blk16X *)((s8 *)obj + 0x34) = *(Blk16X *)&m.w[0];
-    *(Blk16X *)((s8 *)obj + 0x44) = *(Blk16X *)&m.w[4];
+    *(Blk16_956C *)((s8 *)obj + 0x34) = *(Blk16_956C *)&m.w[0];
+    *(Blk16_956C *)((s8 *)obj + 0x44) = *(Blk16_956C *)&m.w[4];
     if (guess_TickWaitTimer_2(param_1) != 0) {
         guess_SetWaitTimer_2((s32 *)param_1, 8);
         guess_NextStep((void *)param_1);
@@ -435,17 +435,17 @@ void func_800CB860(s32 param_1) {
             rot.vx += ((rand() & 0x3f) << 4) - 0x200;
             rot.vy += ((rand() & 0x3f) << 4) - 0x200;
             rot.vz += ((rand() & 0x3f) << 4) - 0x200;
-            vel.vx = ((rand() & 0x1f) - 0x10) * 0x18000;
-            vel.vy = ((rand() & 0x1f) - 0x10) * 0x18000;
-            vel.vz = ((rand() & 0x1f) - 0x10) * 0x18000;
+            vel.unk0.v3.unk0 = ((rand() & 0x1f) - 0x10) * 0x18000;
+            vel.unk0.v3.unk4 = ((rand() & 0x1f) - 0x10) * 0x18000;
+            vel.unk0.v3.unk8 = ((rand() & 0x1f) - 0x10) * 0x18000;
         }
 
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.vx;
-        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.vy;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.vz;
+        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.unk0.v3.unk0;
+        ((Unkstruct_80126B58 *)param_1)->unk14 = vel.unk0.v3.unk4;
+        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.unk0.v3.unk8;
 
         *(u8 *)(pb + 0x24) = 0xC0;
         *(u8 *)(pb + 0x25) = 0xC0;

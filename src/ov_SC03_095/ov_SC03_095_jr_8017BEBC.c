@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80182D2C;
 extern void (*D_80182D54[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80182D34;
@@ -4654,7 +4654,7 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 
 
 s32 func_801805C8(s32 arg0) {
-    Cmd_801805C8 *ptr;
+    Unkstruct_80180CD4 *ptr;
     s32 val;
     s32 next;
 
@@ -4668,18 +4668,18 @@ s32 func_801805C8(s32 arg0) {
         return 0;
     }
 
-    ptr = CAST_SIGN(Cmd_801805C8 *, arg0, 0xD0);
+    ptr = CAST_SIGN(Unkstruct_80180CD4 *, arg0, 0xD0);
     ptr = ptr + 1;
-    if ((ptr->w0 & 0x40000000) != 0) {
-        ptr = CAST_SIGN(Cmd_801805C8 *, arg0, 0xCC);
-    } else if (ptr->w0 < 0) {
+    if ((ptr->unk0 & 0x40000000) != 0) {
+        ptr = CAST_SIGN(Unkstruct_80180CD4 *, arg0, 0xCC);
+    } else if (ptr->unk0 < 0) {
         ((Unkstruct_800B5CB8 *)arg0)->unkE0 = 0;
         return 1;
     }
-    next = ptr->w0;
-    CAST_SIGN(Cmd_801805C8 *, arg0, 0xD0) = ptr;
+    next = ptr->unk0;
+    CAST_SIGN(Unkstruct_80180CD4 *, arg0, 0xD0) = ptr;
     ((Unkstruct_800B5CB8 *)arg0)->unkE0 = next;
-    guess_AllocRenderWorkRecord((s32)ptr->w1);
+    guess_AllocRenderWorkRecord((s32)ptr->unk4);
     return 0;
 }
 

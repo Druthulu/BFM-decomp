@@ -1539,9 +1539,9 @@ void func_801A2400(s32 arg0) {
                 v0 = guess_YawToPoint((void *)(s1 + 4), &sp20);
                 m = *(Mtx32_801A2400 *)&D_800AE620;
                 RotMatrixY((s16)v0, &m);
-                sp10.vy = 0;
-                sp10.vx = 0;
-                sp10.vz = 0xFFFC0000;
+                sp10.unk0.v3.unk4 = 0;
+                sp10.unk0.v3.unk0 = 0;
+                sp10.unk0.v3.unk8 = 0xFFFC0000;
                 ApplyMatrixLV((s32)&m, (s32)&sp10, s1 + 0x10);
             } else {
                 func_801A34C4(s1);
@@ -1626,9 +1626,9 @@ void func_801A2400(s32 arg0) {
         sp20.vz = 0x20;
         func_801A8DCC(s1, (s32)&sp20);
         func_801A8DCC(s1, (s32)&sp20);
-        sp48.vx = *(s32 *)(s1 + 4);
-        sp48.vy = *(s32 *)(s1 + 8) + 0xFFC00000;
-        sp48.vz = *(s32 *)(s1 + 0xC);
+        sp48.unk0.v3.unk0 = *(s32 *)(s1 + 4);
+        sp48.unk0.v3.unk4 = *(s32 *)(s1 + 8) + 0xFFC00000;
+        sp48.unk0.v3.unk8 = *(s32 *)(s1 + 0xC);
         func_80184E20(&sp48);
         func_80184E98(rand() & 0xFF8, 0x60);
         func_801ADC40((u8 *)s1);
@@ -2095,23 +2095,23 @@ void func_801A3180(s32 arg0, s32 arg1) {
     }
     dist = func_80047D3C((sp30.vx - CAST_SIGN(s16, arg0, 6)) * (sp30.vx - CAST_SIGN(s16, arg0, 6)) +
                          (sp30.vz - CAST_SIGN(s16, arg0, 0xE)) * (sp30.vz - CAST_SIGN(s16, arg0, 0xE)));
-    sp40.vy = 0;
-    sp40.vx = 0;
+    sp40.unk0.v3.unk4 = 0;
+    sp40.unk0.v3.unk0 = 0;
     if (!(D_8019FF8A & 0x80) && dist >= 0x101 && var_s2 < 0x300) {
         D_8019FF8A |= 0x40;
         func_801A34FC(arg0, (u16 *)&sp30);
         D_8019FF8A |= 0x10;
-        sp40.vz = 0xFFF00000;
+        sp40.unk0.v3.unk8 = 0xFFF00000;
     } else {
-        sp40.vz = -((0x400 - sd) * arg1);
+        sp40.unk0.v3.unk8 = -((0x400 - sd) * arg1);
     }
     m = *(Mtx32_801A3180 *)&D_800AE620;
     RotMatrixY(var_s3, &m);
     ApplyMatrixLV((s32)&m, (s32)&sp40, (s32)&sp40);
-    CAST_WIDTH(s32, arg0, 0x10) = sp40.vx;
-    CAST_WIDTH(s32, arg0, 4) += sp40.vx;
-    CAST_WIDTH(s32, arg0, 0x18) = sp40.vz;
-    CAST_WIDTH(s32, arg0, 0xC) += sp40.vz;
+    CAST_WIDTH(s32, arg0, 0x10) = sp40.unk0.v3.unk0;
+    CAST_WIDTH(s32, arg0, 4) += sp40.unk0.v3.unk0;
+    CAST_WIDTH(s32, arg0, 0x18) = sp40.unk0.v3.unk8;
+    CAST_WIDTH(s32, arg0, 0xC) += sp40.unk0.v3.unk8;
 }
 
 
@@ -2720,8 +2720,8 @@ void func_801A40CC(s32 a0) {
 
     for (; i < 4; i++) {
         guess_BuildCircle12Points((void *)p, 0x40);
-        *(Blk4_801A40CC *)p = *(Blk4_801A40CC *)&D_801AFEF8;
-        *(Blk4_801A40CC *)q = *(Blk4_801A40CC *)&D_801A01B4;
+        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801AFEF8;
+        *(W_8016BFD0 *)q = *(W_8016BFD0 *)&D_801A01B4;
         q += 0x40;
         p += 0x40;
     }
@@ -3376,9 +3376,9 @@ void func_801A4FDC(void)
     p = (s32)func_801290DC(0x22, (u8 *)&vec0);
     if (p != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
-        vec1.vx = 0;
-        vec1.vy = -0x40000;
-        vec1.vz = -(((rand() & 0xF) + 0x1C) << 16);
+        vec1.unk0.v3.unk0 = 0;
+        vec1.unk0.v3.unk4 = -0x40000;
+        vec1.unk0.v3.unk8 = -(((rand() & 0xF) + 0x1C) << 16);
         ApplyRotMatrixLV(&vec1, (void *)(p + 0x10));
         *(s16 *)(p + 0x34) = 0x3000;
     }
@@ -3412,10 +3412,10 @@ void func_801A5094(void)
     p = (s32)func_801290DC(0x2E, (u8 *)&vec0);
     if (p != 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
-        vec1.vx = 0;
-        vec1.vy = 0;
+        vec1.unk0.v3.unk0 = 0;
+        vec1.unk0.v3.unk4 = 0;
         r = rand();
-        vec1.vz = -(((r & 7) + 0x20) << 16);
+        vec1.unk0.v3.unk8 = -(((r & 7) + 0x20) << 16);
         ApplyRotMatrixLV(&vec1, (void *)(p + 0x10));
         D_801F8747[0] = 1;
         __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched2-unit-hazard
@@ -3438,10 +3438,10 @@ void func_801A5194(s32 arg0) {
     sp10[2] = *(s32 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x50) << 16;
     func_80133060((u8 *)sp10, (s32 *)(arg0 + 4), -0x60);
 
-    *(Blk32_801A5194 *)(((Unkstruct_801A5194 *)arg0)->unk20 + 0x34) =
-        *(Blk32_801A5194 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x34);
-    *(Blk32_801A5194 *)(((Unkstruct_801A5194 *)arg0)->unk20 + 0x54) =
-        *(Blk32_801A5194 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x54);
+    *(Blk20_8016DF5C *)(((Unkstruct_801A5194 *)arg0)->unk20 + 0x34) =
+        *(Blk20_8016DF5C *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x34);
+    *(Blk20_8016DF5C *)(((Unkstruct_801A5194 *)arg0)->unk20 + 0x54) =
+        *(Blk20_8016DF5C *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x54);
 
     ((Unkstruct_801A5194_2 *)*(s32 *)(arg0 + 0x20))->unk48 = ((Unkstruct_801A5194 *)arg0)->unk6;
     ((Unkstruct_801A5194_2 *)*(s32 *)(arg0 + 0x20))->unk4C = ((Unkstruct_801A5194 *)arg0)->unkA;
@@ -3851,8 +3851,8 @@ extern u8 D_801B0328[];
 extern u8 D_801B0330[];
 extern u8 D_801B030C[];                     /* 0xFF-terminated enum byte stream */
 extern u16 D_801F885C;
-extern Pair4_801B02DC D_801B02DC[];
-extern Pair4_801B02DC D_801B02DE[];
+extern Unkstruct_80181FAC_2 D_801B02DC[];
+extern Unkstruct_80181FAC_2 D_801B02DE[];
 
 extern void func_801A6184(u8 *, s32, s32);
 extern void func_801A5E60(s32 a0, u8 *v);
@@ -3880,13 +3880,13 @@ void func_801A5D68(void *arg) {
            Preheader strata (cookbook 190-A) then fall out exactly: biv init
            `i = 0`, hoisted invariant `D_801F885C`, giv init `$a0 = $s2`. */
         for (i = 0; i < 4; i++) {
-            buf[i].f0 = D_801B02DC[*p].v;
+            buf[i].f0 = D_801B02DC[*p].unk0;
             /* f2 is cleared AFTER f0 in source order so sched1 sinks the
                `sh $zero, 0x2($a0)` into the `lhu`'s load-delay slot; written
                first it emits at the block top and leaves a `nop` behind
                (+1 instruction). */
             buf[i].f2 = 0;
-            val = D_801B02DE[*p].v;
+            val = D_801B02DE[*p].unk0;
             buf[i].f4 = val;
             if (*p >= 6) {
                 buf[i].f4 = val + D_801F885C;
@@ -4732,7 +4732,7 @@ extern u8 D_801F8744[];
 void func_801A72DC(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
     s32 v0;
 
@@ -4742,7 +4742,7 @@ void func_801A72DC(void *a0)
         func_801292C8((u8 *)a0);
         return;
     }
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk20 =
         (s32)D_801F8744 + (*(s16 *)((s32)a0 + 0x2C) << 6);
 }
@@ -5411,7 +5411,7 @@ void func_801A8228(s32 a0)
     s32 v0;
 
     *(Blk4_md_SC07_004_801A8228 *)&D_801F89F8 = *(Blk4_md_SC07_004_801A8228 *)&D_801A0210;
-    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(Unkstruct_801A01E8 *)&D_801A01E8);
+    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(W_8016BFD0 *)&D_801A01E8);
 
     v0 = *(s32 *)(a0 + 0x20);
     *(s16 *)(v0 + 0x1A) = 0;
@@ -5959,7 +5959,7 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
    $s4.  Widening a2 to s32 re-pins all four copies and costs 7 mismatches. */
 void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
     SVec801A8E34 h;
-    Vec801A8E34 st;
+    Blk16_956C st;
     Mat801A8E34 buf;
     s32 s1;
     s32 t;
@@ -5979,9 +5979,9 @@ void func_801A8E34(a0, a1, a2, a3, a4) s32 a0; s32 a1; s16 a2; s32 a3; s32 a4; {
     h.m[2] = a2;
     func_8004978C((s16 *) &h, &buf);
 
-    st.m[0] = -a3;
-    st.m[2] = 0;
-    st.m[1] = 0;
+    st.unk0.v1.unk0[0] = -a3;
+    st.unk0.v1.unk0[2] = 0;
+    st.unk0.v1.unk0[1] = 0;
     ApplyMatrixLV((s32) &buf, (s32) &st, s1 + 0x10);
 
     t = (s16) a4;
@@ -6735,16 +6735,16 @@ void func_801AA210(void *a0, void *a1, void *a2)
     SetRotMatrix(a1);
     SetTransMatrix(a1);
 
-    sv.vy = 0;
-    sv.vx = 0;
-    sv.vz = -0x50;
+    sv.y = 0;
+    sv.x = 0;
+    sv.z = -0x50;
     RotTransSV((s32)&sv, (s32)a2, &flag);
 
-    sv.vx = -0x38;
-    sv.vz = -0x18;
+    sv.x = -0x38;
+    sv.z = -0x18;
     RotTransSV((s32)&sv, (s32)((s8 *)a2 + 8), &flag);
 
-    sv.vx = 0x38;
+    sv.x = 0x38;
     RotTransSV((s32)&sv, (s32)((s8 *)a2 + 0x10), &flag);
 }
 
@@ -7179,9 +7179,9 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
     s32 flag;            /* sp+0x38 */
 
     RotMatrixZYX((s32)a1, (s32)&mtx);
-    mtx.t[0] = ((Unkstruct_801AACD4 *)a0)->unk0;
-    mtx.t[1] = ((Unkstruct_801AACD4 *)a0)->unk2;
-    mtx.t[2] = ((Unkstruct_801AACD4 *)a0)->unk4;
+    mtx.t[0] = ((Unkstruct_801312D0 *)a0)->unk0;
+    mtx.t[1] = ((Unkstruct_801312D0 *)a0)->unk2;
+    mtx.t[2] = ((Unkstruct_801312D0 *)a0)->unk4;
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
     sv.vy = 0;
@@ -7736,7 +7736,7 @@ void func_801AB818(void *a0) {
     u8 *s1 = *(u8 **)((s32)a0 + 0x24);
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
-        U16x2N tmp;
+        U16x2 tmp;
 
         *(s32 *)((s32)a0 + 0x1C) -= 1;
         func_801A8440((s32)a0);
@@ -7748,7 +7748,7 @@ void func_801AB818(void *a0) {
          * last_mem_set; as ((s32 *)a0)[12] it is an in-struct access, which sched1 hoists above the frame store. */
         *(s32 *)&tmp = *(s32 *)(s1 + 0);
         *(s32 *)&tmp += ((s32 *)a0)[12];
-        *(U16x2N *)(s1 + 0) = tmp;
+        *(U16x2 *)(s1 + 0) = tmp;
     } else {
         func_801292C8((u8 *)a0);
     }
@@ -7921,7 +7921,7 @@ void func_801ABC04(void *a0) {
 void func_801ABC8C(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
     extern void func_801A8B64(s32 a0, s32 a1);
 
     u16 local[3];
@@ -7933,14 +7933,14 @@ void func_801ABC8C(void *a0)
         local[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
         if (CAST_SIGN(s16, (s32)a0, 0x2C) == 0) {
-            guess_AddVelocityToPos((struct vec *)a0);
+            guess_AddVelocityToPos((S800D22E4 *)a0);
         } else {
             void *s1 = CAST_WIDTH(void *, (s32)a0, 0x34);
 
             ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk2E;
             ((Unkstruct_800B5CB8 *)a0)->unkA = CAST_WIDTH(u16, (s32)a0, 0x30);
             ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)((s32)a0 + 0x32);
-            guess_AddVelocityToPos((struct vec *)a0);
+            guess_AddVelocityToPos((S800D22E4 *)a0);
 
             ((Unkstruct_800B5CB8 *)a0)->unk2E = ((Unkstruct_800B5CB8 *)a0)->unk6;
             CAST_WIDTH(u16, (s32)a0, 0x30) = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -8176,9 +8176,9 @@ extern s32 guess_StepPairSequence(s32 a0, s32 *a1);
 void func_801AC234(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
     if (guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((char *)a0 + 0x24)) != 0 ||
         (CAST_SIGN(s16, (char *)a0, 0x2C) != 2 && CAST_SIGN(s16, (char *)a0, 0xA) >= -0x200)) {
         func_801292C8((u8 *)a0);
@@ -8471,7 +8471,7 @@ extern Blk4_801A7358 D_801F88B8;
 void func_801AC940(s32 arg0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
     s32 a1 = arg0;
     s32 v0;
@@ -8490,7 +8490,7 @@ void func_801AC940(s32 arg0)
         ((Unkstruct_801AC940 *)a1)->unk2C = v1;
         *(s32 *)(((Unkstruct_801AC940 *)a1)->unk20 + 0x20) = (s32)&D_801F88B8 + (v1 << 6);
     }
-    guess_AddVelocityToPos((struct vec *)a1);
+    guess_AddVelocityToPos((S800D22E4 *)a1);
 }
 
 
@@ -8529,7 +8529,7 @@ void func_801AC9CC(void *arg0) {
 void func_801ACA88(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
     extern void func_8017E5D4(void *a0);
     extern void func_8017E1E8(void *a0, void *a1, void *a2);
 
@@ -8544,7 +8544,7 @@ void func_801ACA88(void *a0)
         func_801292C8((u8 *)a0);
     } else {
         ((Unkstruct_800B5CB8 *)a0)->unk1C = v0 - 1;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         buf[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
         buf[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
@@ -8604,7 +8604,7 @@ void func_801ACB2C(void *a0)
 void func_801ACC24(void *a0)
 {
     extern void func_801292C8(u8 *a0);
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
     extern void func_8017E5D4(void *a0);
     extern void func_8017E1E8(void *a0, void *a1, void *a2);
 
@@ -8622,7 +8622,7 @@ void func_801ACC24(void *a0)
     }
 
     *(s32 *)((s32)a0 + 0x1C) = v0 - 1;
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
 
     buf[0] = t0 = *(u16 *)((s32)a0 + 0x6);
     buf[1] = t1 = *(u16 *)((s32)a0 + 0xA);
@@ -8770,9 +8770,9 @@ void func_801ACE5C(void *a0) {
     if (s1 != 0) {
         p = (void *)&D_801F8D18;
         guess_BuildCircle12Points(p, 0x80);
-        *(Blk4_md_SC07_004_801ACE5C *)p = *(Blk4_md_SC07_004_801ACE5C *)&D_801A0218;
+        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801A0218;
         ((Unkstruct_800B5CB8 *)a0)->unkE0 = 0x20C;
-        *(Blk4_md_SC07_004_801ACE5C *)&D_801F8D1C = *(Blk4_md_SC07_004_801ACE5C *)&D_801A021C;
+        *(W_8016BFD0 *)&D_801F8D1C = *(W_8016BFD0 *)&D_801A021C;
         guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;
@@ -8783,9 +8783,9 @@ void func_801ACE5C(void *a0) {
     if (s1 != 0) {
         p = (void *)&D_801F8D58;
         guess_BuildCircle12Points(p, 0x60);
-        *(Blk4_md_SC07_004_801ACE5C *)p = *(Blk4_md_SC07_004_801ACE5C *)&D_801A0220;
+        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801A0220;
         ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0xC02;
-        *(Blk4_md_SC07_004_801ACE5C *)&D_801F8D5C = *(Blk4_md_SC07_004_801ACE5C *)&D_801A021C;
+        *(W_8016BFD0 *)&D_801F8D5C = *(W_8016BFD0 *)&D_801A021C;
         guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;
@@ -9113,7 +9113,7 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 void func_801AD700(void *a0)
 {
     void *s0;
-    S12_801AD700 sp10;
+    VECTOR sp10;
     s16 i;
 
     for (i = 0x100; i < 0x1000; i += 0x200) {
@@ -9126,9 +9126,9 @@ void func_801AD700(void *a0)
             ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12;
             *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) = i;
             func_8012B414((s32)s0);
-            sp10.f18 = 0;
-            sp10.f10 = 0;
-            sp10.f14 = 0x400000;
+            sp10.vz = 0;
+            sp10.vx = 0;
+            sp10.vy = 0x400000;
             ApplyMatrixLV(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x34, (s32)&sp10, (s32)s0 + 0x10);
         }
     }
@@ -9206,16 +9206,16 @@ extern VECTOR *ApplyMatrixLV(s32, s32, s32);
 
 void func_801AD914(s32 arg0, void *arg1, s32 arg2) {
     void *sp0;
-    S12_801AD914 sp10;
+    VECTOR sp10;
     s32 inner;
 
     sp0 = (void *)guess_SpawnActor(0x3A1, 1, arg0);
     if (sp0 != NULL) {
         *(Blk8_801AD914 *)(((Unkstruct_800B5CB8 *)sp0)->unk20 + 0x10) = *(Blk8_801AD914 *)arg1;
         guess_UpdateActorModelMatrix((s32)sp0);
-        sp10.f18 = 0;
-        sp10.f10 = 0;
-        sp10.f14 = arg2;
+        sp10.vz = 0;
+        sp10.vx = 0;
+        sp10.vy = arg2;
         ((s32 (*)(s32, s32, s32))ApplyMatrixLV)(((Unkstruct_800B5CB8 *)sp0)->unk20 + 0x34, (s32)&sp10, (s32)sp0 + 0x10);
         inner = ((Unkstruct_800B5CB8 *)sp0)->unk20;
         CAST_WIDTH(u16, inner, 0x1C) = 0x500;
@@ -9445,8 +9445,8 @@ void func_801ADE1C(void *a0, u16 *a1, s8 *a2, u8 *a3) {
         out++;
     }
 
-    rect.a = ((Unkstruct_801ADE1C *)pos)->unk0;
-    rect.b = ((Unkstruct_801ADE1C *)pos)->unk2;
+    rect.a = ((Unkstruct_80181FAC_2 *)pos)->unk0;
+    rect.b = ((Unkstruct_80181FAC_2 *)pos)->unk2;
     rect.c = 16;
     rect.d = 1;
 
@@ -9799,7 +9799,7 @@ void func_801AE520(void *a0) {
     u8 *s1 = D_801F8D98 + ((*(u16 *)((s32)a0 + 0x2E) & 3) << 6);
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
-        U16x2L tmp;
+        U16x2 tmp;
 
         *(s32 *)((s32)a0 + 0x1C) -= 1;
         func_801AD55C(a0);
@@ -9810,11 +9810,11 @@ void func_801AE520(void *a0) {
 
         *(s32 *)&tmp = *(s32 *)(s1 + 0);
         *(s32 *)&tmp -= D_801B07FC[0];
-        *(U16x2L *)(s1 + 0) = tmp;
+        *(U16x2 *)(s1 + 0) = tmp;
 
         *(s32 *)&tmp = *(s32 *)(s1 + 4);
         *(s32 *)&tmp -= D_801B0800[0];
-        *(U16x2L *)(s1 + 4) = tmp;
+        *(U16x2 *)(s1 + 4) = tmp;
 
     } else {
         func_801292C8((u8 *)a0);
@@ -10283,7 +10283,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
 
 extern void func_801AF2EC(void *a0);
 extern void func_801AF368(void *a0);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 void func_801AF1EC(void *a0) {
@@ -10294,7 +10294,7 @@ void func_801AF1EC(void *a0) {
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
         *(s32 *)((s32)a0 + 0x1C) -= 1;
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {
             u16 t = *(u16 *)((s32)a0 + 0xA) + 0x1000;
@@ -10333,7 +10333,7 @@ void func_801AF1EC(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_801AF368 *)(p))->h)
-#define RW32(p) (((Unkstruct_801AF368_2 *)(p))->v)
+#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
 
 void func_801AF368(void *a0)
 {

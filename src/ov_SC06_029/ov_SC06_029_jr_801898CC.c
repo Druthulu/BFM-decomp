@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E360;
 extern void (*D_8018E388[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E368;
@@ -2802,7 +2802,7 @@ extern void *D_801DDBF4;
 extern s32 func_80180FE0(s32 a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern u8 D_80190348[];   /* §183 unified with func_80180FE0 */
-extern D80190448_t D_80190448;
+extern Vec3s D_80190448;
 extern void *D_801DDBF0;
 extern void func_80181170(int param_1);
 extern u8 D_8019072C[];
@@ -3839,7 +3839,7 @@ void func_8018A6A4(s32 p) {
         tbl = ((Unkstruct_8018A6A4_2 *)p)->unkDC;
         ((Unkstruct_8017E7B4_2 *)o)->unk1C = t1;
         ((Unkstruct_8017E7B4_2 *)o)->unk18 = t1;
-        lim1 = ((Unkstruct_8018A6A4_3 *)tbl)->unk0;
+        lim1 = ((Unkstruct_801312D0 *)tbl)->unk0;
         lv1 = lim1;
         if (lim1 < t1) {
             ((Unkstruct_8017E7B4_2 *)o)->unk1C = lv1;
@@ -3847,11 +3847,11 @@ void func_8018A6A4(s32 p) {
         }
         t2 = CAST_SIGN(u16, o, 0x1A) + 0x800;
         ((Unkstruct_8017E7B4_2 *)o)->unk1A = t2;
-        lim2 = ((Unkstruct_8018A6A4_3 *)tbl)->unk2;
+        lim2 = ((Unkstruct_801312D0 *)tbl)->unk2;
         lv2 = lim2;
         if (lim2 < t2) {
             ((Unkstruct_8017E7B4_2 *)o)->unk1A = lv2;
-            ((Unkstruct_8018A6A4_2 *)p)->unk1C = ((Unkstruct_8018A6A4_3 *)tbl)->unk4;
+            ((Unkstruct_8018A6A4_2 *)p)->unk1C = ((Unkstruct_801312D0 *)tbl)->unk4;
             ((Unkstruct_8018A6A4_2 *)p)->unk34 += 1;
         }
     } else if (((s32 (*)(void))guess_TickWaitTimer)() != 0) {

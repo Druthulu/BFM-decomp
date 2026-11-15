@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018A798;
 extern void (*D_8018A7C0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018A7A0;
@@ -3178,8 +3178,8 @@ void func_80185020(void *a0) {
  *   0x30/0x32/0x34 u16 deltas   0x36 s16 state counter
  */
 
-struct vec;
-extern void guess_AddVelocityToPos(struct vec *a0);
+
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 extern s32 guess_WorldToScreenFlag(void *param_1, void *param_2);   /* TU spelling (line 329) — cast at use */
 extern s32  rand(void);
@@ -3233,7 +3233,7 @@ void func_8018505C(void *a0) {
         }
     }
 
-    guess_AddVelocityToPos((struct vec *)a0);
+    guess_AddVelocityToPos((S800D22E4 *)a0);
 
     in3[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
     in3[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;

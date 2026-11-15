@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80181070;
 extern void (*D_80181098[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80181078;
@@ -1173,7 +1173,7 @@ extern s32 D_8018E858;
 extern s16 currentLocationId;
 extern s32 func_80029A94(s32);
 
-extern Entry D_80181650[];
+extern Pair_8013AD38 D_80181650[];
 
 #include "../shared/ov/func_80159464__08b70f0d.h"
 

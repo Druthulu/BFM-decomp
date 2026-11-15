@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186A8C;
 extern void (*D_80186AB4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186A94;
@@ -3941,25 +3941,25 @@ s32 func_80180808() {
     extern s32 D_801B1B50;
 
     s32 pos = D_801B1704 * 2;
-    Rec_80180808 *rec = (Rec_80180808 *)D_801B1B50;
+    Unkstruct_80185680_2 *rec = (Unkstruct_80185680_2 *)D_801B1B50;
 
-    if (rec->f0 == -1) {
+    if (rec->unk0 == -1) {
         return 3;
     }
     if (D_801B1720 != -1) {
-        if (D_801B1720 != rec->f0) {
+        if (D_801B1720 != rec->unk0) {
             return 2;
         }
-        if (pos < rec->f4) {
+        if (pos < rec->unk4) {
             return 2;
         }
-        if (!(rec->f6 < pos)) {
+        if (!(rec->unk6 < pos)) {
             D_801B1B50 = (s32)(rec + 1);
             return 1;
         }
         return 2;
     }
-    return (rec->f6 < pos) << 1;
+    return (rec->unk6 < pos) << 1;
 }
 
 
@@ -4241,8 +4241,8 @@ void func_80180E30(void *a0) {
     extern void func_80182170(void *a0);
     u16 flag;
 
-    D_80189020[((Unkstruct_80180E30_2 *)a0)->unk2]();
-    flag = ((Unkstruct_80180E30_2 *)a0)->unk0;
+    D_80189020[((Unkstruct_80181FAC_2 *)a0)->unk2]();
+    flag = ((Unkstruct_80181FAC_2 *)a0)->unk0;
     D_801B1720 = -1;
     if (flag != 0) {
         ((void (*)())func_80182170)(a0);
@@ -4302,7 +4302,7 @@ extern void (*D_801890CC[])(void);
  * apart; both tables are walked with the same 4-byte stride, so the second is
  * reached through a pointer cast of &D_801891F6 (the target's `la $v1` form). */
 
-extern Rec4_801891F4 D_801891F4[];
+extern Pair_8013AD38 D_801891F4[];
 extern s16 D_801891F6;
 extern s16 D_801B1704;
 extern u8 D_801B1B90[];
@@ -4351,19 +4351,19 @@ void func_80180F70(void *a0) {
      * into `la`+`lh 0($x)` (+1 insn). Compare written `target == arr[i]` so the
      * bne operands land as `bne $a2,$v0`. */
     if (D_801891F6 != -1) {
-        Rec4_801891F4 *base = (Rec4_801891F4 *)&D_801891F6;
+        Pair_8013AD38 *base = (Pair_8013AD38 *)&D_801891F6;
         s32 i = 0;
         s32 target = (s32)D_801B1704 * 2;
         do {
-            if (target == D_801891F4[i].v) {
-                if (base[i].v == 1) {
+            if (target == D_801891F4[i].x) {
+                if (base[i].x == 1) {
                     ((Unkstruct_80180F70 *)a0)->unkFC = 1;   /* +0xFC = pending anim id */
                 } else {
                     ((Unkstruct_80180F70 *)a0)->unkFC = 2;
                 }
             }
             i++;
-        } while (base[i].v != -1);
+        } while (base[i].x != -1);
     }
 
     if (((Unkstruct_80180F70 *)a0)->unk70 != 1 && ((Unkstruct_80180F70 *)a0)->unk70 != 3) {
@@ -4918,7 +4918,7 @@ void func_80181E08(s32 arg0) {
 
     V8_SC06_025_80181E08 *pa, *pb;
     G4 *q;
-    G3 *t;
+    S800D22E4 *t;
     s32 p;                        /* sp+0x28 : RotTransPers* `p`   out-param */
     s32 flag;                     /* sp+0x2C : RotTransPers* `flag` out-param */
     s32 i;
@@ -4975,15 +4975,15 @@ void func_80181E08(s32 arg0) {
     pa = (V8_SC06_025_80181E08 *)(arg0 + 0x2C);
 
     for (i = 0; i < 12; i++) {
-        t = (G3 *)func_80010A08(0x1C);
-        t->rgb0 = col;
+        t = (S800D22E4 *)func_80010A08(0x1C);
+        t->f4 = col;
         *((u8 *)t + 7) = 0x32;
-        t->rgb2 = col;
-        t->rgb1 = col;
-        t->tag = 0x06000000;
-        otz = RotTransPers((s32)&pa[i], (s32)&t->xy0, &p, &flag);
-        RotTransPers((s32)&pa[(i + 1) % 12], (s32)&t->xy1, &p, &flag);
-        RotTransPers(arg0 + 0xF4, (s32)&t->xy2, &p, &flag);
+        t->f14 = col;
+        t->fC = col;
+        t->f0 = 0x06000000;
+        otz = RotTransPers((s32)&pa[i], (s32)&t->f8, &p, &flag);
+        RotTransPers((s32)&pa[(i + 1) % 12], (s32)&t->f10, &p, &flag);
+        RotTransPers(arg0 + 0xF4, (s32)&t->f18, &p, &flag);
         otz = func_801823D4(otz, -0x1A);
         AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, t);
         func_8012E28C(otz, zpush);

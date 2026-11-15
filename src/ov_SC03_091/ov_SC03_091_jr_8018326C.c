@@ -848,7 +848,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E728;
 extern void (*D_8018E750[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E730;
@@ -4211,9 +4211,9 @@ void func_801859D8(void *a0)
     }
 
     do { guess_RotTransSVWithObjMatrix(s1, (s32)&D_801A606C, (s32)&out); } while (0);
-    ((Unkstruct_80126B58 *)s0)->unk6 = out.a;
-    ((Unkstruct_80126B58 *)s0)->unkA = out.b;
-    ((Unkstruct_80126B58 *)s0)->unkE = out.c;
+    ((Unkstruct_80126B58 *)s0)->unk6 = out.x;
+    ((Unkstruct_80126B58 *)s0)->unkA = out.y;
+    ((Unkstruct_80126B58 *)s0)->unkE = out.z;
     func_80185D2C(s0);
 
     ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20 = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20;
@@ -5750,7 +5750,7 @@ void func_80187EF8(s32 s0) {
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),
@@ -6468,7 +6468,7 @@ void func_80188F04(s32 a0)
             ((Unkstruct_800B5CB8 *)a0)->unk1C = t - 1;
         }
     } else {
-        guess_AddVelocityToPos((struct vec *)a0);
+        guess_AddVelocityToPos((S800D22E4 *)a0);
         if (guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((s32)a0 + 0x24)) != 0) {
             func_801292C8((u8 *)a0);
         }

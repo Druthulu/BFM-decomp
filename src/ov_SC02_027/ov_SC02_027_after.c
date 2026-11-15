@@ -2523,9 +2523,9 @@ extern void (*D_8018D060[])(void *a0);
 extern s16 D_8011DB0C;
 extern u16 D_8011F748;
 
-void func_80153CCC(S80153CCC *a0) {
+void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_8018D038);
-    D_8018D060[a0->idx](a0);
+    D_8018D060[a0->unk2](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

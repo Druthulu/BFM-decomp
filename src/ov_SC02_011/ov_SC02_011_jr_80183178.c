@@ -1111,7 +1111,7 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern u8 D_801957EC[];
 
 void func_80184C98(s32 param_1) {
-    SV3_80184C98 pt;
+    Vec3s pt;
     u16 v1;
     s32 v0;
 
@@ -1120,9 +1120,9 @@ void func_80184C98(s32 param_1) {
         ((Unkstruct_800B5CB8 *)param_1)->unk5C = v1 & 0xFFFE;
         if (CAST_WIDTH(u16, param_1, 0x5E) == 9) {
             guess_ClearVelocityAndSetGravity(param_1);
-            pt.a = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 6);
-            pt.b = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA);
-            pt.c = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xE);
+            pt.x = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 6);
+            pt.y = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA);
+            pt.z = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xE);
             if (((s32 (*)(s32, s32))func_80185098)(param_1, (s32)&pt) == 1) {
                 guess_SetLocalVelocity(param_1, (s32)D_801957EC);
             }
@@ -1143,7 +1143,7 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 
 void func_80184D50(s32 param_1) {
-    SV3_80184D50 pt;
+    Vec3s pt;
     s32 t;
     u16 h;
 
@@ -1156,9 +1156,9 @@ void func_80184D50(s32 param_1) {
         ((Unkstruct_800B5CB8 *)param_1)->unkE = h + 0x68;
         guess_ClearVelocityAndSetGravity(param_1);
 
-        pt.a = guess_g_PlayerPosX;
-        pt.b = guess_g_PlayerPosY;
-        pt.c = guess_g_PlayerPosZ;
+        pt.x = guess_g_PlayerPosX;
+        pt.y = guess_g_PlayerPosY;
+        pt.z = guess_g_PlayerPosZ;
         if (((s32 (*)(s32, s32))func_80185098)(param_1, (s32)&pt) == 1) {
             guess_SetLocalVelocity(param_1, (s32)D_801957EC);
         }
@@ -1192,13 +1192,13 @@ extern void func_8001AAD0(s32 a0, s32 a1);
 
 void func_80184E00(s32 param_1)
 {
-    SV3_80184E00 pt;
-    SV3_80184E00 sv1;
-    SV3_80184E00 sv2;
+    Vec3s pt;
+    Vec3s sv1;
+    Vec3s sv2;
 
-    pt.a = guess_g_PlayerPosX;
-    pt.b = guess_g_PlayerPosY;
-    pt.c = guess_g_PlayerPosZ;
+    pt.x = guess_g_PlayerPosX;
+    pt.y = guess_g_PlayerPosY;
+    pt.z = guess_g_PlayerPosZ;
     func_80185098(param_1, (s32)&pt);
 
     if (func_8012CBCC(param_1) & 0x6000) {
@@ -1238,13 +1238,13 @@ extern void func_8001AAD0(s32 a0, s32 a1);
 
 void func_80184F48(s32 param_1)
 {
-    SV3_80184F48 sv1;
-    SV3_80184F48 sv2;
-    SV3_80184F48 pt;
+    Vec3s sv1;
+    Vec3s sv2;
+    Vec3s pt;
 
-    pt.a = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 6);
-    pt.b = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA);
-    pt.c = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xE);
+    pt.x = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 6);
+    pt.y = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA);
+    pt.z = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xE);
     func_80185098(param_1, (s32)&pt);
 
     if (func_8012CBCC(param_1) & 0x6000) {
@@ -3151,7 +3151,7 @@ void func_80187654(u8 *param_1)
     u8 *obj;
     u8 idx;
     s16 off;
-    SV3_80187654 out;
+    Vec3s out;
 
     obj = CAST_SIGN(u8 *, param_1, 0x20);
 
@@ -3162,9 +3162,9 @@ void func_80187654(u8 *param_1)
 
     guess_RotTransSVWithObjMatrix((s32)param_1, D_80195DB0[idx] + off * 8, (s32)&out);
 
-    ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.a;
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = out.b;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE = out.c;
+    ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
+    ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+    ((Unkstruct_800B5CB8 *)param_1)->unkE = out.z;
 
     func_8012B260(param_1);
 }
@@ -3261,7 +3261,7 @@ void func_8018797C(s32 a0) {
     s32 count;
     s32 idx;
     s32 *entry;
-    Quad_8018797C tmp;
+    Blk16_956C tmp;
     s32 off[3];
     u16 reload;
 
@@ -3282,18 +3282,18 @@ void func_8018797C(s32 a0) {
         {
             s32 rnd;
             u32 sign;
-            tmp = *(Quad_8018797C *)(entry[2] + 0x10);
+            tmp = *(Blk16_956C *)(entry[2] + 0x10);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3306,18 +3306,18 @@ void func_8018797C(s32 a0) {
         {
             s32 rnd;
             u32 sign;
-            tmp = *(Quad_8018797C *)(entry[2] + 0x30);
+            tmp = *(Blk16_956C *)(entry[2] + 0x30);
             rnd = rand();
-            off[0] = rnd % (tmp.f0 + 1);
+            off[0] = rnd % (tmp.unk0.v3.unk0 + 1);
             sign = rnd & 1;
             if (sign != 0) {
                 off[0] = -off[0];
             }
-            off[1] = rnd % (tmp.f1 + 1);
+            off[1] = rnd % (tmp.unk0.v3.unk4 + 1);
             if (sign != 0) {
                 off[1] = -off[1];
             }
-            off[2] = rnd % (tmp.f2 + 1);
+            off[2] = rnd % (tmp.unk0.v3.unk8 + 1);
             if (sign != 0) {
                 off[2] = -off[2];
             }
@@ -3337,7 +3337,7 @@ void func_8018797C(s32 a0) {
 #include "common.h"
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 extern void func_801292C8(u8 *a0);
 
 #define SHARED_FN func_80187CE8
@@ -3459,14 +3459,14 @@ void func_80187FA0(u8 *a0, u8 *a1) {
     temp[1] = ((Unkstruct_80182FD0 *)a0)->unkA;
     temp[2] = ((Unkstruct_80182FD0 *)a0)->unkE;
 
-    temp[0] += ((Unkstruct_80187FA0 *)a1)->unk0;
-    temp[1] += ((Unkstruct_80187FA0 *)a1)->unk2;
-    temp[2] += ((Unkstruct_80187FA0 *)a1)->unk4;
+    temp[0] += ((Rec8_8018A390_8018523C *)a1)->x;
+    temp[1] += ((Rec8_8018A390_8018523C *)a1)->y;
+    temp[2] += ((Rec8_8018A390_8018523C *)a1)->z;
 
     result = func_801290DC(0x3E, (u8 *)temp);
 
     if (result) {
-        CAST_WIDTH(s32, result, 0x2C) = ((Unkstruct_80187FA0 *)a1)->unk6;
+        CAST_WIDTH(s32, result, 0x2C) = ((Rec8_8018A390_8018523C *)a1)->w;
     }
 }
 
@@ -3774,12 +3774,12 @@ void func_80188554(s32 param_1) {
     {
         void *target = (void *)(param_1 + 0x88);
 
-        d.vx = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
-        d.vy = 0;
-        d.vz = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
-        Square0(&d.vx, &d.vx);
+        d.unk0.v3.unk0 = CAST_SIGN(s16, param_1, 0x6) - *(s16 *)target;
+        d.unk0.v3.unk4 = 0;
+        d.unk0.v3.unk8 = CAST_SIGN(s16, param_1, 0xE) - CAST_SIGN(s16, param_1, 0x8C);
+        Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
 
-        if (d.vx + d.vz > 0x8FFFF) {
+        if (d.unk0.v3.unk0 + d.unk0.v3.unk8 > 0x8FFFF) {
             ((Unkstruct_800B5CB8 *)param_1)->unkFC =
                 guess_YawToPoint((void *)(param_1 + 0x4), target);
         } else {

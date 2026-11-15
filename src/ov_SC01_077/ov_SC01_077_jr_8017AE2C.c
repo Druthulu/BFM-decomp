@@ -899,7 +899,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80188914;
 extern void (*D_8018893C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018891C;
@@ -3617,8 +3617,8 @@ void func_8017C974(s32 arg0)
     CellC974 **rowptr;
     CellC974 **p;
     CellC974 *cell;
-    PrimC974 *prim;
-    PrimC974 *end;
+    Blk12 *prim;
+    Blk12 *end;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -3733,10 +3733,10 @@ void func_8017C974(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -3784,7 +3784,7 @@ void func_8017C974(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C974 *)pkt)->rgbc = prim->w0;
+                                    ((PF3_C974 *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3832,7 +3832,7 @@ void func_8017C974(s32 arg0)
                                     *(u32 *)&((PFT3_C974 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_C974 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_C974 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_C974 *)pkt)->rgbc = tp[0];
                                     ((PFT3_C974 *)pkt)->uvc0 = tp[1];
                                     ((PFT3_C974 *)pkt)->uvp1 = tp[2];
@@ -3886,7 +3886,7 @@ void func_8017C974(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C974 *)pkt)->rgbc = prim->w0;
+                                        ((PF4_C974 *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3944,7 +3944,7 @@ void func_8017C974(s32 arg0)
                                         *(u32 *)&((PFT4_C974 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_C974 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C974 *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_C974 *)pkt)->rgbc = tp[0];
                                         ((PFT4_C974 *)pkt)->uvc0 = tp[1];
                                         ((PFT4_C974 *)pkt)->uvp1 = tp[2];
@@ -4907,7 +4907,7 @@ void func_8017EEC0(s32 param_1) {
 /* $v0 at exit: result of func_801292C8 or addiu $v0, $zero, 0x10 at ov_SC01_077:0x8017EFCC or negu $v0, $v0 at ov_SC01_077:0x8017EFEC; asm body, no C return */
 s32 func_8017EF50(s32 param_1)
 {
-    extern void guess_AddVelocityToPos(struct vec *a0);
+    extern void guess_AddVelocityToPos(S800D22E4 *a0);
     extern void func_801292C8(u8 *a0);
 
     register unsigned short c __asm__("$5");  // !FAKE: pin $5 c — local-alloc find_free_reg, local-alloc.c:2073 (P36 S105 f7 minimum-lever) wall:lreg-priority
@@ -4963,8 +4963,8 @@ void func_8017F024(int param_1)
     ((Unkstruct_8017ED88 *)param_1)->unk2 = ((Unkstruct_8017ED88 *)param_1)->unk2 + 1;
 }
 
-struct vec;
-extern void guess_AddVelocityToPos(struct vec *a0);
+
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern void func_801292C8(u8 *a0);
 
 #define SHARED_FN func_8017F0B4

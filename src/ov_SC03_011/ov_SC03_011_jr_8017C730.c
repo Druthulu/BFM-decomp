@@ -861,7 +861,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183060;
 extern void (*D_80183088[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80183068;
@@ -2820,10 +2820,10 @@ void func_8017C730(s32 arg0)
                     prim = (Prim_SC03_011_8017C730 *)part->prim;
                     nprim = part->nprim;
                     for (i = 0; i < nprim; i++, prim++) {
-                        w = prim->w1;
+                        w = prim->b;
                         va = vtx + (w & 0xFFFF);
                         vb = vtx + (w >> 16);
-                        w = prim->w2;
+                        w = prim->c;
                         vc = vtx + (w & 0xFFFF);
                         w = w >> 16;
                         gte_ldv3(va, vb, vc);
@@ -2871,7 +2871,7 @@ void func_8017C730(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->w0;
+                                            ((PolyF3 *)pkt)->rgbc = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -2915,7 +2915,7 @@ void func_8017C730(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code == 7) g.opz = za + 0x200;
-                                            tp = (u32 *)prim->w0;
+                                            tp = (u32 *)prim->a;
                                             ((PolyFT3 *)pkt)->rgbc = tp[0];
                                             ((PolyFT3 *)pkt)->uvc0 = tp[1];
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
@@ -2969,7 +2969,7 @@ void func_8017C730(s32 arg0)
                                                 zc = za;
                                                 if (zc < zb) zc = zb;
                                                 g.opz = zc;
-                                                ((PolyF4 *)pkt)->rgbc = prim->w0;
+                                                ((PolyF4 *)pkt)->rgbc = prim->a;
                                                 otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3025,7 +3025,7 @@ void func_8017C730(s32 arg0)
                                                 *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                                tp = (u32 *)prim->w0;
+                                                tp = (u32 *)prim->a;
                                                 ((PolyFT4 *)pkt)->rgbc = tp[0];
                                                 ((PolyFT4 *)pkt)->uvc0 = tp[1];
                                                 ((PolyFT4 *)pkt)->uvp1 = tp[2];
@@ -4135,9 +4135,9 @@ void func_8017EB88(s32 arg0) {
  * access plus an inline `sll a0,i,3` for the rest (-1 ins, wrong preheader). */
 
 extern Blk32_8017ECD4 D_800AE620;
-extern Blk16_8017ECD4 D_801A0E44;
-extern Blk16_8017ECD4 D_801A0E54;
-extern Rec_8017ECD4 D_801853A8[];
+extern Blk16_956C D_801A0E44;
+extern Blk16_956C D_801A0E54;
+extern Rec8_8018A390_8018523C D_801853A8[];
 
 extern s32 func_80132EF4(s32 a0, s32 a1);
 extern void RotMatrixY(s32 a0, void *a1);
@@ -4147,8 +4147,8 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017ECD4(s32 a0) {
     Blk32_8017ECD4 m;   /* sp+0x10 */
-    Blk16_8017ECD4 va;  /* sp+0x30 */
-    Blk16_8017ECD4 vb;  /* sp+0x40 */
+    Blk16_956C va;  /* sp+0x30 */
+    Blk16_956C vb;  /* sp+0x40 */
     void *mp;
     s32 obj;
     s32 i;
@@ -4183,10 +4183,10 @@ void func_8017ECD4(s32 a0) {
     for (i = 0; i < 4; i++) {
         obj = func_80132EF4(a0, 0x24);
         if (obj != 0) {
-            ((Unkstruct_800B5CB8 *)obj)->unk6 = ((Unkstruct_800B5CB8 *)obj)->unk6 + D_801853A8[i].f0;
-            ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_800B5CB8 *)obj)->unkA + D_801853A8[i].f2;
-            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + D_801853A8[i].f4;
-            CAST_WIDTH(s32, obj, 0x2C) = D_801853A8[i].f6 << 16;
+            ((Unkstruct_800B5CB8 *)obj)->unk6 = ((Unkstruct_800B5CB8 *)obj)->unk6 + D_801853A8[i].x;
+            ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_800B5CB8 *)obj)->unkA + D_801853A8[i].y;
+            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + D_801853A8[i].z;
+            CAST_WIDTH(s32, obj, 0x2C) = D_801853A8[i].w << 16;
             ((Unkstruct_800B5CB8 *)obj)->unk30 = 0x80000;
         }
     }
@@ -4369,12 +4369,12 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
  /* 0x0C */
 
 void func_8017F370(s32 arg0) {
-    Mtx_8017F370 m;    /* sp+0x10 */
-    Vec12_8017F370 v;  /* sp+0x30 */
+    Blk20_8016DF5C m;    /* sp+0x10 */
+    VECTOR v;  /* sp+0x30 */
 
-    v.f0 = 0;
-    v.f4 = ((Unkstruct_8017F370 *)arg0)->unk2C;
-    v.f8 = ((Unkstruct_8017F370 *)arg0)->unk30;
+    v.vx = 0;
+    v.vy = ((Unkstruct_8017F370 *)arg0)->unk2C;
+    v.vz = ((Unkstruct_8017F370 *)arg0)->unk30;
 
     *(s16 *)(((Unkstruct_8017F370 *)arg0)->unk20 + 0x12) =
         (ratan2(-(s32)((Unkstruct_8017F370 *)arg0)->unkE, (s32)((Unkstruct_8017F370 *)arg0)->unk6) + 0x400) & 0xFFF;

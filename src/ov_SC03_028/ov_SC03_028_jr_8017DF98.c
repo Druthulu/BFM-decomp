@@ -850,7 +850,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D7D0;
 extern void (*D_8018D7F8[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D7D8;
@@ -2777,8 +2777,8 @@ void func_8017DF98(s32 arg0)
     CellDF98 **rowptr;
     CellDF98 **p;
     CellDF98 *cell;
-    PrimDF98 *prim;
-    PrimDF98 *end;
+    Blk12 *prim;
+    Blk12 *end;
     u8 *pkt;
     u32 ot;
     u8 *vtx;
@@ -2893,10 +2893,10 @@ void func_8017DF98(s32 arg0)
             end = cell->end;
             vtx = cell->vtx;
             while (prim < end) {
-                w = prim->w1;
+                w = prim->b;
                 va = vtx + (w & 0xFFFF);
                 vb = vtx + (w >> 16);
-                w = prim->w2;
+                w = prim->c;
                 vc = vtx + (w & 0xFFFF);
                 w = w >> 16;
                 gte_ldv3(va, vb, vc);
@@ -2944,7 +2944,7 @@ void func_8017DF98(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_DF98 *)pkt)->rgbc = prim->w0;
+                                    ((PF3_DF98 *)pkt)->rgbc = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -2992,7 +2992,7 @@ void func_8017DF98(s32 arg0)
                                     *(u32 *)&((PFT3_DF98 *)pkt)->x0 = *(u32 *)&tmpxy[0];
                                     *(u32 *)&((PFT3_DF98 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                     *(u32 *)&((PFT3_DF98 *)pkt)->x2 = *(u32 *)&tmpxy[2];
-                                    tp = (u32 *)prim->w0;
+                                    tp = (u32 *)prim->a;
                                     ((PFT3_DF98 *)pkt)->rgbc = tp[0];
                                     ((PFT3_DF98 *)pkt)->uvc0 = tp[1];
                                     ((PFT3_DF98 *)pkt)->uvp1 = tp[2];
@@ -3046,7 +3046,7 @@ void func_8017DF98(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_DF98 *)pkt)->rgbc = prim->w0;
+                                        ((PF4_DF98 *)pkt)->rgbc = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3104,7 +3104,7 @@ void func_8017DF98(s32 arg0)
                                         *(u32 *)&((PFT4_DF98 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                         *(u32 *)&((PFT4_DF98 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_DF98 *)pkt)->x3 = *(u32 *)&tmpxy[3];
-                                        tp = (u32 *)prim->w0;
+                                        tp = (u32 *)prim->a;
                                         ((PFT4_DF98 *)pkt)->rgbc = tp[0];
                                         ((PFT4_DF98 *)pkt)->uvc0 = tp[1];
                                         ((PFT4_DF98 *)pkt)->uvp1 = tp[2];

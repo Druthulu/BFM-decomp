@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80188644;
 extern void (*D_8018866C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018864C;
@@ -3463,9 +3463,9 @@ void func_80180650(s32 a0, s32 out) {
     sinVal = rcos(angle) * q2 >> 12;
     cosVal = rsin(angle) * q2 >> 12;
 
-    ((Unkstruct_80180650 *)out)->unk0 = sinVal;
-    ((Unkstruct_80180650 *)out)->unk2 = q1;
-    ((Unkstruct_80180650 *)out)->unk4 = cosVal;
+    ((Unkstruct_801312D0 *)out)->unk0 = sinVal;
+    ((Unkstruct_801312D0 *)out)->unk2 = q1;
+    ((Unkstruct_801312D0 *)out)->unk4 = cosVal;
 }
 
 
@@ -3493,9 +3493,9 @@ void func_8018072C(s32 a0, s32 a1, s32 out) {
     sinVal = rcos(angle) * a1 >> 12;
     cosVal = rsin(angle) * a1 >> 12;
 
-    ((Unkstruct_8018072C *)out)->unk0 = sinVal;
-    ((Unkstruct_8018072C *)out)->unk2 = q1;
-    ((Unkstruct_8018072C *)out)->unk4 = cosVal;
+    ((Unkstruct_801312D0 *)out)->unk0 = sinVal;
+    ((Unkstruct_801312D0 *)out)->unk2 = q1;
+    ((Unkstruct_801312D0 *)out)->unk4 = cosVal;
 }
 
 

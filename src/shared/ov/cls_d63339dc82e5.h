@@ -7,9 +7,9 @@ s32 SHARED_FN(s32 out, s32 from, s32 to) {
     s32 ang;
     s32 r1, r2;
 
-    dz = ((Unkstruct_80187180 *)to)->unk4 - ((Unkstruct_80187180_2 *)from)->unk4;
-    dx = ((Unkstruct_80187180 *)to)->unk0 - ((Unkstruct_80187180_2 *)from)->unk0;
-    dy = ((Unkstruct_80187180 *)to)->unk2 - ((Unkstruct_80187180_2 *)from)->unk2;
+    dz = ((Unkstruct_801312D0 *)to)->unk4 - ((Unkstruct_801312D0 *)from)->unk4;
+    dx = ((Unkstruct_801312D0 *)to)->unk0 - ((Unkstruct_801312D0 *)from)->unk0;
+    dy = ((Unkstruct_801312D0 *)to)->unk2 - ((Unkstruct_801312D0 *)from)->unk2;
 
     ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;
     t.hi = ang;

@@ -13,13 +13,13 @@ void func_80133298(s32 *a0)
     s32 in[3];
     s32 out[3];
     s32 tmp[3];
-    Blk32L_80133298 m;
+    Blk20_8016DF5C m;
     in[0] = D_80126B5C_w;
     in[1] = D_80126B60;
     in[2] = D_80126B64;
     func_8012F0BC((s32 *)(a0[8] + 0x34), in, tmp);
     guess_UpdateActorModelMatrix((s32)a0);
-    m = *(Blk32L_80133298 *)(a0[8] + 0x34);
+    m = *(Blk20_8016DF5C *)(a0[8] + 0x34);
     func_8013339C((s16 *)&m, (s16 *)(a0[8] + 0x18));
     func_8012F1A4((s32 *)&m, (s32)tmp, out);
     D_80126B5C_w = out[0];

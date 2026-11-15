@@ -274,17 +274,17 @@ void func_800CB328(void *a0) {
 
             m = D_800AE620;
             RotMatrixY(((Unkstruct_800CB328 *)obj)->unk30, &m);
-            rot.vx = 0;
-            rot.vy = -(CAST_SIGN(u32, (s32)obj, 0x2C) >> 1);
-            rot.vz = ((Unkstruct_800CB328 *)obj)->unk2C;
+            rot.x = 0;
+            rot.y = -(CAST_SIGN(u32, (s32)obj, 0x2C) >> 1);
+            rot.z = ((Unkstruct_800CB328 *)obj)->unk2C;
             m.t[0] = guess_g_PlayerPosX;
             m.t[1] = guess_g_PlayerPosY - 0x1C;
             m.t[2] = guess_g_PlayerPosZ;
             guess_RotTransSVWithMatrix((s32)&m, (s32)&rot, (s32)&rot);
 
-            CAST_ALIAS(u16, (s32)obj, 0x6) = *(u16 *)&rot.vx;
-            CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.vy;
-            ((Unkstruct_800CB328 *)obj)->unkE = *(u16 *)&rot.vz;
+            CAST_ALIAS(u16, (s32)obj, 0x6) = *(u16 *)&rot.x;
+            CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.y;
+            ((Unkstruct_800CB328 *)obj)->unkE = *(u16 *)&rot.z;
 
             ((Unkstruct_800CB328_2 *)pf34)->unk4 &= mask;
             ((Unkstruct_800CB328_2 *)pf34)->unk18 = ((Unkstruct_800CB328_3 *)pf20)->unk18;

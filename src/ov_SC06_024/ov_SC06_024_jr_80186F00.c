@@ -846,7 +846,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801915E8;
 extern void (*D_80191610[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801915F0;
@@ -3751,7 +3751,7 @@ void func_8018833C(s32 param_1)
                     ((Unkstruct_800B5CB8 *)param_1)->unkFE = (s8)*(u8 *)(a1 + 0x64);
                     ((Unkstruct_800B5CB8 *)param_1)->unk100 = (s8)*(u8 *)(a1 + 0x65);
                 } else {
-                    CAST_WIDTH(UAlign12_8018833C, param_1, 0xFC) = *(UAlign12_8018833C *)(a2 + 0x90);
+                    CAST_WIDTH(Rec_80166690_80166690, param_1, 0xFC) = *(Rec_80166690_80166690 *)(a2 + 0x90);
                 }
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk20 = a3;
             }
@@ -5074,7 +5074,7 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 
@@ -6748,7 +6748,7 @@ void func_8018D020(s32 a0) {
 
 
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern u8 * func_8012913C(s32 arg0);
 extern void func_801292C8(u8 *a0);

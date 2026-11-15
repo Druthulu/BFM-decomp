@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018A798;
 extern void (*D_8018A7C0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018A7A0;
@@ -2817,17 +2817,17 @@ void func_80181CDC(Obj1CDC *obj) {
             ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(
                 ((Unkstruct_80126B58 *)D_801C7E54)->unk20 + 0x34, D_8019292C, &pos);
 
-            d.vx = obj->x - pos.vx;
-            d.vy = obj->y - pos.vy;
-            d.vz = obj->z - pos.vz;
-            Square0(&d.vx, &d.vx);
-            sum = d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - pos.vx;
+            d.unk0.v3.unk4 = obj->y - pos.vy;
+            d.unk0.v3.unk8 = obj->z - pos.vz;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
-            d.vx = obj->x - (s16)guess_g_PlayerPosX;
-            d.vy = obj->y - (s16)guess_g_PlayerPosY;
-            d.vz = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.vx, &d.vx);
-            sum -= d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
+            d.unk0.v3.unk4 = obj->y - (s16)guess_g_PlayerPosY;
+            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
@@ -2900,17 +2900,17 @@ void func_80181CDC(Obj1CDC *obj) {
                 }
             }
 
-            d.vx = obj->x - pos.vx;
-            d.vy = obj->y - pos.vy;
-            d.vz = obj->z - pos.vz;
-            Square0(&d.vx, &d.vx);
-            sum = d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - pos.vx;
+            d.unk0.v3.unk4 = obj->y - pos.vy;
+            d.unk0.v3.unk8 = obj->z - pos.vz;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
-            d.vx = obj->x - (s16)guess_g_PlayerPosX;
-            d.vy = obj->y + 0xC0;
-            d.vz = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.vx, &d.vx);
-            sum -= d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
+            d.unk0.v3.unk4 = obj->y + 0xC0;
+            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
@@ -2970,17 +2970,17 @@ void func_80181CDC(Obj1CDC *obj) {
                 }
             }
 
-            d.vx = obj->x - pos.vx;
-            d.vy = obj->y - pos.vy;
-            d.vz = obj->z - pos.vz;
-            Square0(&d.vx, &d.vx);
-            sum = d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - pos.vx;
+            d.unk0.v3.unk4 = obj->y - pos.vy;
+            d.unk0.v3.unk8 = obj->z - pos.vz;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum = d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
-            d.vx = obj->x - (s16)guess_g_PlayerPosX;
-            d.vy = obj->y + 0xC0;
-            d.vz = obj->z - (s16)guess_g_PlayerPosZ;
-            Square0(&d.vx, &d.vx);
-            sum -= d.vx + d.vy + d.vz;
+            d.unk0.v3.unk0 = obj->x - (s16)guess_g_PlayerPosX;
+            d.unk0.v3.unk4 = obj->y + 0xC0;
+            d.unk0.v3.unk8 = obj->z - (s16)guess_g_PlayerPosZ;
+            Square0(&d.unk0.v3.unk0, &d.unk0.v3.unk0);
+            sum -= d.unk0.v3.unk0 + d.unk0.v3.unk4 + d.unk0.v3.unk8;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
@@ -3304,7 +3304,7 @@ extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 void func_80183098(s32 param_1) {
     u16 sp18[3];
     u16 sp20[3];
-    Cam183098 *cam;
+    Src_8013B598_8013B598 *cam;
     s32 d;
 
     switch (CAST_WIDTH(u16, param_1, 0x34)) {
@@ -3326,7 +3326,7 @@ void func_80183098(s32 param_1) {
     /* §153 address-rematerialisation launder: without it cse's find_best_addr
      * folds `cam->y` back to %hi/%lo(guess_g_PlayerPosX+4) and emits a SECOND `la`
      * instead of the target's `lh 0x4($s1)`.  Zero bytes. */
-    cam = (Cam183098 *)&guess_g_PlayerPosX;
+    cam = (Src_8013B598_8013B598 *)&guess_g_PlayerPosX;
     __asm__("" : "=r"(cam) : "0"(cam));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
 
     CAST_WIDTH(s32, param_1, 0x4) += ((Unkstruct_80126B58 *)param_1)->unk10;
@@ -3335,11 +3335,11 @@ void func_80183098(s32 param_1) {
     /* ONE local for both tail-guard differences (§176-B addendum): it is what
      * puts the load pair on $v1/$v0 and lets sched2's WAR edge emit
      * addu;addu;sw;sw;lh above. */
-    d = ((Unkstruct_80126B58 *)param_1)->unk6 - (s16)cam->x;
+    d = ((Unkstruct_80126B58 *)param_1)->unk6 - (s16)cam->f0;
     if ((u32)(d + 0x1F) >= 0x3F) {
         return;
     }
-    d = (s16)cam->y - ((Unkstruct_80126B58 *)param_1)->unkA;
+    d = (s16)cam->f4 - ((Unkstruct_80126B58 *)param_1)->unkA;
     if ((u32)(d + 0xF) >= 0x7F) {
         return;
     }
@@ -3357,8 +3357,8 @@ void func_80183098(s32 param_1) {
          * z is read late and dies immediately, so all three land in $v0/$v1.
          * The two chained assignments (§205) give the store order
          * 0x20,0x18 … 0x24,0x1C the target schedules. */
-        u16 x = cam->x;
-        u16 y = cam->y;
+        u16 x = cam->f0;
+        u16 y = cam->f4;
 
         sp18[0] = sp20[0] = x;
         sp18[1] = y - 0x10;

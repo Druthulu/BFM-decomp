@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80184474;
 extern void (*D_8018449C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018447C;
@@ -3603,8 +3603,8 @@ void func_80180DB4(s32 ent) {
 
 extern void func_8017FB38(s32 param_1);
 extern struct D_801D0630_s D_801D0630[];
-extern struct D_801D0660_s D_801D0660[];
-extern struct D_801D0660_s D_801D0662[];
+extern Unkstruct_80181FAC_2 D_801D0660[];
+extern Unkstruct_80181FAC_2 D_801D0662[];
 
 void func_80180ED0(s32 arg0) {
     s32 a3 = arg0;
@@ -3614,8 +3614,8 @@ void func_80180ED0(s32 arg0) {
     if (((Unkstruct_80180ED0 *)a3)->unk1C != 0) {
         (((Unkstruct_80180ED0 *)a3)->unk1C)--;
         for (i = 0, a1 = (s32)D_801D0630; i < 12; i += 2) {
-            *(u16 *)(a1 + 0) += D_801D0660[i >> 1].f0;
-            *(u16 *)(a1 + 2) += D_801D0662[i >> 1].f0;
+            *(u16 *)(a1 + 0) += D_801D0660[i >> 1].unk0;
+            *(u16 *)(a1 + 2) += D_801D0662[i >> 1].unk0;
             a1 += 8;
         }
         *(u16 *)(((Unkstruct_80180ED0 *)a3)->unk20 + 0x18) += 0x200;
@@ -3952,8 +3952,8 @@ void func_801817B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80181854(arg0, 0x1000, 0);
-    sp10.unk0 = ((Unkstruct_801817B4 *)arg3)->unk0;
-    sp10.unk4 = ((Unkstruct_801817B4 *)arg3)->unk2;
+    sp10.unk0 = ((Unkstruct_80181FAC_2 *)arg3)->unk0;
+    sp10.unk4 = ((Unkstruct_80181FAC_2 *)arg3)->unk2;
     sp10.unk6 = 1;
     for (i = 0, ang = 0; i < 16; i++) {
         sp10.unk2 = ang;
@@ -4814,7 +4814,7 @@ void func_8018234C(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_8018234C_2 *)sv)->unk0 = p->f0;
+    ((Unkstruct_801312D0 *)sv)->unk0 = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018234C *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -4832,7 +4832,7 @@ void func_8018234C(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_8018234C_2 *)sv)->unk0 = 2;
+    ((Unkstruct_801312D0 *)sv)->unk0 = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018234C *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];

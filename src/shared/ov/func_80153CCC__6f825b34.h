@@ -1,8 +1,8 @@
 /* func_80153CCC — shared body (overlay slot 0x80128158, h_exact 6f825b34). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-void func_80153CCC(S80153CCC *a0) {
+void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80181070);
-    D_80181098[a0->idx](a0);
+    D_80181098[a0->unk2](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

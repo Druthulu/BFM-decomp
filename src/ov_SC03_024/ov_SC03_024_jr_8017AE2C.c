@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80188D04;
 extern void (*D_80188D2C[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80188D0C;
@@ -3966,9 +3966,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC_3 *)s2)->unk20;
-    D_801C11B0.d[0] = func_80012F74(D_801C11B0.d[0], 0, 10, 1);
-    D_801C11B0.d[1] = func_80012F74(D_801C11B0.d[1], 0, 10, 1);
-    D_801C11B0.d[2] = func_80012F74(D_801C11B0.d[2], 0, 10, 1);
+    D_801C11B0.unk0.v0.d[0] = func_80012F74(D_801C11B0.unk0.v0.d[0], 0, 10, 1);
+    D_801C11B0.unk0.v0.d[1] = func_80012F74(D_801C11B0.unk0.v0.d[1], 0, 10, 1);
+    D_801C11B0.unk0.v0.d[2] = func_80012F74(D_801C11B0.unk0.v0.d[2], 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk10 + ((Unkstruct_8017CFBC_3 *)s2)->unk14;
     ((Unkstruct_8017CFBC_3 *)s2)->unk10 = v1;

@@ -711,8 +711,8 @@ s32 func_801EE8E0(s32 ot, u8 *s, s16 c) {
             dim = flag;
             for (i = 0; i < 5; i++) {
                 if (i == 0) {
-                    sp60[0] = (((Unkstruct_801E3540 *)p)->unk0 + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
-                              ((((Unkstruct_801E3540 *)p)->unk2 + ((Unkstruct_8017C120 *)s)->unk12) << 16);
+                    sp60[0] = (((Pair_8013AD38 *)p)->x + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
+                              ((((Pair_8013AD38 *)p)->y + ((Unkstruct_8017C120 *)s)->unk12) << 16);
                 } else {
                     *(s32 *)(bp + 0x48 + i * 4) = p[i];
                 }
@@ -1090,7 +1090,7 @@ extern char *D_801F171C[];
 extern s32 D_801F19A8[];
 extern u16 *D_801F1780[];
 extern char *D_801F173C;
-extern Blk3_801EF448 D_801EDA60;
+extern Blk3_801E40A8 D_801EDA60;
 
 void func_801EF448(void) {
     s16 k; s16 i; s16 j;
@@ -1180,7 +1180,7 @@ void func_801EF448(void) {
                 } else if (i == 4) {
                     strcpy((char *)arr[i], D_801F173C);
                 } else {
-                    *(Blk3_801EF448 *)arr[i] = D_801EDA60;
+                    *(Blk3_801E40A8 *)arr[i] = D_801EDA60;
                 }
             }
         }
@@ -1250,7 +1250,7 @@ s32 *func_801EFA40(s32 *out) {
     extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
-    Prim4_801EFA40 *q;
+    Unkstruct_80181FAC_2 *q;
     volatile u16 *pb;
     s32 n;
     s32 d;
@@ -1270,8 +1270,8 @@ s32 *func_801EFA40(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->f0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->f2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

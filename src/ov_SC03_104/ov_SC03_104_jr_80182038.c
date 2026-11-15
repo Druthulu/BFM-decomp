@@ -851,7 +851,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018CAB8;
 extern void (*D_8018CAE0[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018CAC0;
@@ -3196,7 +3196,7 @@ void func_801829C4(void *a0)
     extern s32 D_80199F08;
     s32 s0 = (s32)a0;
     s32 s1;
-    SV3x_80184B30_801829C4 out;
+    Vec3s out;
 
     s1 = ((Unkstruct_800B5CB8 *)s0)->unk64;
 
@@ -3213,9 +3213,9 @@ void func_801829C4(void *a0)
     }
 
     do { guess_RotTransSVWithObjMatrix(s1, (s32)&D_80199F08, (s32)&out); } while (0);
-    ((Unkstruct_800B5CB8 *)s0)->unk6 = out.a;
-    ((Unkstruct_800B5CB8 *)s0)->unkA = out.b;
-    ((Unkstruct_800B5CB8 *)s0)->unkE = out.c;
+    ((Unkstruct_800B5CB8 *)s0)->unk6 = out.x;
+    ((Unkstruct_800B5CB8 *)s0)->unkA = out.y;
+    ((Unkstruct_800B5CB8 *)s0)->unkE = out.z;
     func_80182D18(s0);
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk20 = *(s32 *)(*(s32 *)(s1 + 0x20) + 0x20);
@@ -4598,22 +4598,22 @@ void func_80184934(void *a0, void *a1)
 
     if (((Unkstruct_80180F98 *)a0)->unk1E & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -4625,14 +4625,14 @@ void func_80184934(void *a0, void *a1)
         func_80184D50(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -4843,7 +4843,7 @@ extern s16 D_801C0240;
     void func_8018533C(s32 arg0, s32 arg1, s32 arg2) {
 
     extern s16 D_801C0242;
-        D_801C023C = ((Unkstruct_80181854 *)arg0)->unk0;
+        D_801C023C = ((Unkstruct_80181FAC_2 *)arg0)->unk0;
         D_801C023E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801C0240 = arg1;
         D_801C0242 = arg2;

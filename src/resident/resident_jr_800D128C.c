@@ -106,7 +106,7 @@ extern int CdReadRequest(void *dst, void *src, int arg2, int arg3);
 extern void func_800CF94C(void);
 extern s16 D_80114E74;
 extern s16 D_800D3408[];
-extern CdFileLoc cdFileLocTable[];
+extern Unkstruct_80180CD4 cdFileLocTable[];
 extern u16 D_800AF7B8;
 extern void func_800167B8(s32 arg0);
 extern void func_800CFAD0(void);
@@ -1174,11 +1174,11 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     s32 dx, dy, dz;
     s32 shift;
 
-    { s32 tx = p->t5C; dx = tx - arg0->x; }
+    { s32 tx = p->t5C; dx = tx - arg0->f0; }
     local.vx = dx;
-    { s32 ty = p->t60; dy = ty - arg0->y; }
+    { s32 ty = p->t60; dy = ty - arg0->f2; }
     local.vy = dy;
-    { s32 tz = p->t64; dz = tz - arg0->z; }
+    { s32 tz = p->t64; dz = tz - arg0->f4; }
     local.vz = dz;
 
     if (((u32)((dx + 0x3FFF) & 0xFFFF) < 0x7FFF) &&
@@ -1197,9 +1197,9 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     VectorNormalSS(&local, arg1);
 
     shift = arg2 & 0xFFFF;
-    arg0->x += arg1->vx >> shift;
-    arg0->y += arg1->vy >> shift;
-    arg0->z += arg1->vz >> shift;
+    arg0->f0 += arg1->vx >> shift;
+    arg0->f2 += arg1->vy >> shift;
+    arg0->f4 += arg1->vz >> shift;
 }
 
 /* ANALYSIS (asm 0x68):

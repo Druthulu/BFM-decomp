@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_801896CC;
 extern void (*D_801896F4[])(void *a0);
-extern void func_80153CCC(S80153CCC *a0);
+extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_801896D4;
@@ -5720,7 +5720,7 @@ void func_80181CD0(s32 a0) {
 
 
 
-extern void guess_AddVelocityToPos(struct vec *a0);
+extern void guess_AddVelocityToPos(S800D22E4 *a0);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 
 /* a0 = actor/entity base (struct vec-compatible; s16 fields at +6/+A/+E, s32 flag/vel at +0x14),
@@ -5802,17 +5802,17 @@ void func_8018205C(void *a0) {
     if (t > 0) return;
     p = (char *)((Unkstruct_801873DC *)a0)->unkD0;
     p += 8;
-    x = ((Unkstruct_8018205C_2 *)p)->unk0;
+    x = ((Unkstruct_80180CD4 *)p)->unk0;
     if (x & 0x40000000) {
         p = (char *)((Unkstruct_801873DC *)a0)->unkCC;
     } else if (x < 0) {
         ((Unkstruct_801873DC *)a0)->unkE0 = 0;
         return;
     }
-    v = ((Unkstruct_8018205C_2 *)p)->unk0;
+    v = ((Unkstruct_80180CD4 *)p)->unk0;
     ((Unkstruct_801873DC *)a0)->unkD0 = (int)p;
     ((Unkstruct_801873DC *)a0)->unkE0 = v;
-    guess_AllocRenderWorkRecord(((Unkstruct_8018205C_2 *)p)->unk4);
+    guess_AllocRenderWorkRecord(((Unkstruct_80180CD4 *)p)->unk4);
 }
 
 
@@ -7489,7 +7489,7 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
-extern void guess_AddVelocityToPos(struct vec*);
+extern void guess_AddVelocityToPos(S800D22E4*);
 
 #define SHARED_FN func_80184E54
 #include "../shared/multi/cls_9d74594f1906.h"
