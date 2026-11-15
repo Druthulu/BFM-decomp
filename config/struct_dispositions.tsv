@@ -30,7 +30,7 @@ Actor_80178D40	struct	src/shared/engine_types.h:603	268	apart	-	own	ov_MAIN_012/
 Actor_8017E330	struct	src/shared/engine_types.h:2652	224	apart	-	own	ov_SC06_006/0x8017E330 src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c:3005 (a0)	own objects, no accepted link
 Actor_8017E550	struct	src/shared/engine_types.h:2679	156	apart	-	own	ov_SC06_006/0x8017E550 src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c:3081 (a0)	own objects, no accepted link
 Actor_8017E878	struct	src/shared/engine_types.h:2708	156	fold	Actor_8017E550	twin	lhash:474e1fa40ab6 fields:7	T7 twin T052a: f20 Coord_8017E878 = Coord_8017E330; same body shape (src/ov_SC06_006/ov_SC06_006_jr_8017DB90.c:3198) applied:5dd969094e
-Ang2_8012B77C_8012B77C	struct	src/shared/engine_types.h:891	4	fold	Rot1CDC	value	shape:bf32 lhash:bac823edd3d4	T7 value V033a: only writes fields + whole copy; target Rot1CDC because its fields are read signed (src/shared/ov/func_8012B77C.h:15 src/shared/ov/func_8012B77C.h:20)
+Ang2_8012B77C_8012B77C	struct	src/shared/engine_types.h:891	4	fold	Rot1CDC	value	shape:bf32 lhash:bac823edd3d4	T7 value V033a: only writes fields + whole copy; target Rot1CDC because its fields are read signed (src/shared/ov/func_8012B77C.h:15 src/shared/ov/func_8012B77C.h:20) applied:4f0465f80e
 Args_80182194	struct	src/shared/engine_types.h:2003	8	fold	Unkstruct_801343C4	value	shape:4xu16 lhash:8d605044e3bf	T7 value V019a: value 4xu16; SDK users split to PsyQ, rest representative (src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:5271 src/ov_SC03_101/ov_SC03_101_jr_8017CA80.c:4376) applied:68e0103785
 Args_801837B0	struct	src/shared/engine_types.h:3474	228	no-evidence	-	-	-	cast views of untyped values only (2 sites, first src/ov_SC03_118/ov_SC03_118_o0d.c:3004), no placed object
 B	struct	include/struct_types.h:870	40	apart	-	own	md_MAIN_039/0x800CB228 src/md_MAIN_039/md_MAIN_039.c:187 (m)	own objects, no accepted link
@@ -214,7 +214,7 @@ C24	struct	include/struct_types.h:1342	32	apart	-	own	main/0x80030730 src/800_b_
 CB4A4_V4	struct	include/struct_types.h:595	16	fold	Blk16_956C	value	shape:4xs32 lhash:d4b0395bb0af	T7 value V018a: value; no SDK use, no conflict: representative (src/md_MAIN_027/md_MAIN_027.c:306 src/md_MAIN_027/md_MAIN_027.c:318) applied:5129284641
 CD221A8	struct	include/struct_types.h:1748	80	apart	-	own	main/0x800221A8 src/800.c:12258 (cd)	own objects, no accepted link
 COORD2_8001EFE0	struct	include/struct_types.h:1717	80	apart	-	own	main/0x8001EFE0 src/800.c:10078 (c2)	own objects, no accepted link
-C_8017DCC0	struct	include/struct_types.h:1914	4	fold	CVECTOR	value	shape:u8[4] lhash:4cc70dd1aeae	T7 value V050a: {r,g,b,code} in Q_8017DCC0 c[4]; no contradicting use (src/shared/engine_types.h:4246 src/800.c:15077)
+C_8017DCC0	struct	include/struct_types.h:1914	4	fold	CVECTOR	value	shape:u8[4] lhash:4cc70dd1aeae	T7 value V050a: {r,g,b,code} in Q_8017DCC0 c[4]; no contradicting use (src/shared/engine_types.h:4246 src/800.c:15077) applied:4f0465f80e
 Cam183098	struct	src/shared/engine_types.h:2106	6	fold	Src_8013B598_8013B598	value	shape:3xu16 lhash:ceca4ea3ade1	T7 value V013a: view of guess_g_PlayerPosX (src/ov_SC05_010/ov_SC05_010_jr_80181CDC.c:3329) applied:5129284641
 Cam8012E138	struct	src/shared/engine_types.h:436	6	fold	Src_8013B598_8013B598	value	shape:3xu16 lhash:ceca4ea3ade1	T7 value V013a: no conflicting use (src/shared/ov/func_8012E138.h:11) applied:5129284641
 CardSlot	struct	include/struct_types.h:1384	8	apart	-	own	main/0x8007609C src/800_b.c:52	own objects, no accepted link
