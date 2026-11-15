@@ -11,7 +11,7 @@ unknown with a closed reason list, argument reads and site setup, width evidence
   sig_evidence.py --compare [-j N]             # C declarations/definitions vs the census -> build/sig_evidence/compare.*
   sig_evidence.py --check [-j N]               # --compare + config/lying_exceptions.tsv cites/coverage -> check.txt; rc 1 on any gap
 """
-import argparse, array, bisect, collections, concurrent.futures, hashlib, json, os, pathlib, posixpath, re, struct, \
+import argparse, array, bisect, collections, concurrent.futures, functools, hashlib, json, os, pathlib, posixpath, re, struct, \
     subprocess, sys
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
@@ -853,7 +853,7 @@ def dump(row):
 # Spec: docs/ops/sig-evidence.md "## Comparison (3.44 T4)". The C is read through argcheck's own patterns (DEF, KR_DEF +
 # kr_params, SHARED_BIND, arity, norm_ret) on comment-masked text (lc.sc.mask_text, C0206); declarations through a
 # balanced-paren `extern` parser (also the nested-paren and multi-line forms DECL misses, C0581).
-RULES = ["RET-VOID-READ", "RET-NONE", "DECL-RET", "DECL-EMPTY", "ARG-OVER", "DECL-ARITY"]
+RULES = ["RET-VOID-READ", "RET-NONE", "DECL-RET", "DECL-EMPTY", "ARG-OVER", "DECL-ARITY", "DECL-PARAM"]
 SHAPES = ["(void)", "() unmarked", "() K&R-marked", "nested-paren", "multi-line", "other"]
 KW = {"if", "for", "while", "switch", "return", "sizeof"}
 DECL_HEAD = re.compile(r"\bextern\s+([A-Za-z_][\w \t\n*]*?)\b([A-Za-z_]\w*)\s*\(")
@@ -866,6 +866,10 @@ RET_AS_RX = re.compile(r"\b(RET_AS|KR_AS)\s*\(")                   # RET_AS(T, f
 RET_EXPR = re.compile(r"\breturn\b(?!\s*;)")
 V0_EXIT = "$v0 at exit:"
 _AC = None
+ARG_READS = {}          # 3.45 T8: {h: {arg word k: census args.read cite}}, filled by compare_inputs (DECL-PARAM's cite)
+_PT = None              # 3.45 T8: ptypes() — type name -> struct identity (DECL-PARAM)
+C_SCALAR = {"void", "char", "short", "int", "long", "unsigned", "signed", "float", "double"}
+PQUAL = {"const", "volatile", "register"}
 
 
 def ac():
@@ -892,6 +896,123 @@ def split_top(p):
             cur += ch
     return out + [cur]
 
+
+def ptypes(texts=None):
+    """3.45 T8 DECL-PARAM: {name: ("agg", key, stars) | ("fn",) | ("amb",)} over struct_twins' type universe (type_census
+    walk_file of the canonical headers and include/, or `texts` {rel: raw}): a struct/union definition's typedef names, tag
+    (one namespace: `Foo` == `struct Foo`) and pointer typedef names; alias typedefs followed to their definition. A name
+    with two distinct resolutions is ("amb",). key = the definition's `file:line`."""
+    import type_census as tc
+    files = (sorted(texts) if texts is not None else
+             list(dict.fromkeys(list(tc.CANON_HEADERS) + sorted(str(p.relative_to(REPO)) for p in (REPO / "include").rglob("*.h")))))
+    cand = collections.defaultdict(set)
+    tds = []
+    for rel in files:
+        r = tc.walk_file(texts[rel] if texts is not None else (REPO / rel).read_text(errors="replace"), rel)
+        for d in r["definitions"]:
+            if d["kind"] not in ("struct", "union"):
+                continue
+            k = f"{d['file']}:{d['line']}"
+            for nm in d["names"] + ([d["tag"]] if d["tag"] else []):
+                cand[nm].add(("agg", k, 0))
+            for nm in d.get("ptr_names") or ():
+                cand[nm].add(("agg", k, 1))
+        tds += r["typedef_aliases"]
+    alias = collections.defaultdict(list)
+    for a in tds:
+        alias[a["name"]].append(a)
+    for nm in sorted(alias):
+        for a in alias[nm]:
+            if a.get("fnptr"):
+                cand[nm].add(("fn",))
+                continue
+            st, cur = a["alias_stars"] + len(a["alias_dims"]), a
+            for _ in range(8):
+                t = re.sub(r"^(?:struct|union)\s+", "", cur["alias_of"].strip())
+                if t in cand and t != nm:
+                    cand[nm].update(("agg", x[1], x[2] + st) if x[0] == "agg" else x for x in list(cand[t]))
+                    break
+                nxt = alias.get(t)
+                if not nxt or t == nm or len(nxt) > 1 or nxt[0].get("fnptr"):
+                    break
+                cur = nxt[0]
+                st += cur["alias_stars"] + len(cur["alias_dims"])
+    return {nm: min(v) if len(v) == 1 else ("amb",) for nm, v in cand.items()}
+
+
+@functools.lru_cache(maxsize=None)
+def ptype(text, _depth=0):
+    """3.45 T8 DECL-PARAM: the class of one parameter's type spelling (name or not): ("fn",) function pointer, ("amb",)
+    ambiguous name, ("agg", key, stars) struct/union (an unresolved `struct T` keys as `struct T`), ("int", stars)
+    integer/enum, ("void", stars), ("fp", stars), ("unk",) an unresolved type name."""
+    global _PT
+    if "(" in text:
+        return ("fn",)
+    if _PT is None:
+        _PT = ptypes()
+    toks = [x for x in re.findall(r"[A-Za-z_]\w*|\*|\[", text) if x not in PQUAL]
+    stars = toks.count("*") + toks.count("[")
+    ids = [x for x in toks if x not in ("*", "[")]
+    if not ids:
+        return ("unk",)
+    if ids[0] in ("struct", "union"):
+        r = _PT.get(ids[1]) if len(ids) > 1 else None
+        if r and r[0] != "agg":
+            return r
+        return ("agg", r[1], r[2] + stars) if r else ("agg", " ".join(ids[:2]), stars)
+    if ids[0] == "enum":
+        return ("int", stars)
+    if ids[0] in C_SCALAR:
+        n = nret(" ".join(x for x in ids if x in C_SCALAR)).split()
+        return ("void" if n == ["void"] else "fp" if n[0] in ("float", "double") else "int", stars)
+    r = _PT.get(ids[0])
+    if r:
+        return ("agg", r[1], r[2] + stars) if r[0] == "agg" else r
+    n = nret(ids[0])
+    if n != ids[0] and not _depth:
+        return ptype(n + " " + "*" * stars, 1)
+    return ("unk",)
+
+
+
+def decl_param_types(dparams, fparams, kind, ret):
+    """3.45 T8 DECL-PARAM of one declaration/definition parameter pair: (coverage counts [(key, n)], disagreements
+    [(i, sub, arg word k, decl type, def type)]); `kind` the definition's DEF/KR, `ret` its return (the hidden word)."""
+    dps, fps = [p.strip() for p in split_top(dparams)], [p.strip() for p in split_top(fparams)]
+    cnt, out = collections.Counter(), []
+    for i in range(min(len(dps), len(fps))):
+        a, f = dps[i], fps[i]
+        if a == "..." or f == "...":
+            break
+        if kind == "KR" and "*" not in f:
+            cnt["DECL-PARAM skipped: K&R by-value parameter"] += 1
+            continue
+        ta, tf = ptype(a), ptype(f)
+        if "fn" in (ta[0], tf[0]):
+            cnt["DECL-PARAM skipped: function pointer"] += 1
+            continue
+        if "amb" in (ta[0], tf[0]):
+            cnt["DECL-PARAM skipped: ambiguous type name"] += 1
+            continue
+        cnt["DECL-PARAM parameters compared"] += 1
+        if ta[0] != "agg" and tf[0] != "agg":
+            continue
+        if ta[0] == tf[0]:
+            if ta == tf:
+                continue
+            sub = "two types"
+        else:
+            g, s = (ta, tf) if ta[0] == "agg" else (tf, ta)         # the struct side, the other side
+            if g[2] and s == ("int", 0):
+                sub = "word vs struct"
+            else:
+                cnt["DECL-PARAM not compared: struct vs void*/scalar-pointer" if s[0] in ("void", "int", "fp") and s[1]
+                    else "DECL-PARAM not compared: struct vs other"] += 1
+                continue
+        k = (param_words(", ".join(fps[:i]), hidden=ret_words(ret)) if kind != "KR" else
+             param_words(None, fps[:i], hidden=ret_words(ret)))[0]
+        out.append((i, sub, k, " ".join(a.split()), " ".join(f.split())))
+    return sorted(cnt.items()), out
 
 _AGG = None
 
@@ -1248,6 +1369,22 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
         else:                                                   # every exit writer is `entry` (C0587)
             cov["RET-VOID-READ skipped: no value produced (rows)"] += 1
             novalue.add(base["h"])
+
+    dpc = {}                                                    # decl_param's per-(params, params, kind, ret) result
+
+    def decl_param(base, dc, d):                                # 3.45 T8 (R179): per parameter position, docs/ops/sig-evidence.md
+        key = (dc["params"], d["params"], d["kind"], d["ret"])
+        if key not in dpc:
+            dpc[key] = decl_param_types(*key)
+        cnt, out = dpc[key]
+        cov["DECL-PARAM pairs compared"] += 1
+        for c, n in cnt:
+            cov[c] += n
+        for i, sub, k, a, f in out:
+            rows.append(dict(base, rule="DECL-PARAM", cite=ARG_READS.get(base["h"], {}).get(k), decl_args=dc["arity"],
+                             def_args=d["arity"] - d["varargs"], def_params=d["params"], i=i, decl_param=a, def_param=f,
+                             sub=sub))
+
     seen_files = {f for b in tus for _, _, deps in tus[b] for f in deps}
 
     rows = []
@@ -1286,6 +1423,9 @@ def compare_core(parsed, tus, symtab, images, stacks, cls_of, info, return_lie, 
             if bad:
                 rows.append(dict(base, rule="DECL-ARITY", cite=None, decl_args=dc["arity"],
                                  def_args=d["arity"] - d["varargs"], def_params=d["params"]))
+        if dc["params"] not in ("", "void") and d["params"] not in ("", "void"):
+            decl_param(base, dc, d)
+
 
     # files in no TU: their definitions and declarations are unplaced, never guessed
     for f in orphans:
@@ -1371,6 +1511,9 @@ def compare_inputs(jobs):
                             r["ret"]["tail"], not r["exit"] or any(w != "entry" for _, ws in r["exit"] for w in ws))
             for b, va, _ in r["instances"]:
                 cls_of[(b, int(va, 16))] = r["h"]
+            ARG_READS[r["h"]] = {}
+            for k, c in a["read"]:
+                ARG_READS[r["h"]].setdefault(k, c)
     rl = set()
     for ln in (REPO / "config" / "dedup_exceptions.tsv").read_text().splitlines():
         c = ln.split("\t")
@@ -1811,6 +1954,42 @@ def selftest():
           "multi-line: 1 / 1 / 1" in txt, x)
     check("unplaced: file in no TU counted apart", "definition: file in no TU: 1" in txt and
           "declaration: file in no TU: 1" in txt, txt)
+
+    # 3.45 T8 DECL-PARAM (R179): per position; struct identity through typedef / tag aliases; word vs struct both ways;
+    # void* vs struct* counted apart; K&R by-value, function pointers and an ambiguous name skipped and counted
+    global _PT
+    _PT = ptypes({"src/ov/pt.h": "struct Foo { int a; };\ntypedef struct Foo FooT;\ntypedef struct Bar { int b; } Bar;\n"
+                                 "struct Baz { int c; };\nstruct Dup { int x; };\n",
+                  "src/ov/pt2.h": "struct Dup { int y; };\n"})
+    ptype.cache_clear()
+    p_c = "\n".join([
+        'extern void p_two(struct Foo *a);', 'extern void p_dep(Bar *a);', 'extern void p_wd(s32 a, s32 b);',
+        'extern void p_ws(struct Foo *a);', 'extern void p_al(FooT *a);', 'extern void p_vp(void *a);',
+        'extern void p_kr(Bar *a);', 'extern void p_amb(struct Dup *a);', 'extern void p_fn(void (*cb)(int));',
+        'void p_two(struct Baz *a) { }', 'void p_dep(Bar **a) { }', 'void p_wd(s32 a, Bar *b) { }', 'void p_ws(u32 a) { }',
+        'void p_al(struct Foo *x) { }', 'void p_vp(Bar *a) { }', 'void p_kr(a)', 's32 a;', '{ }', 'void p_amb(s32 a) { }',
+        'void p_fn(Bar *cb) { }', ''])
+    pn = ["p_two", "p_dep", "p_wd", "p_ws", "p_al", "p_vp", "p_kr", "p_amb", "p_fn"]
+    clsp = {("ov", O + 16 * i): "h_" + n for i, n in enumerate(pn)}
+    ARG_READS["h_p_wd"] = {1: "ov:0x80100024 lw"}
+    rowsp, txtp = compare_core({"src/ov/p.c": parse_text("src/ov/p.c", p_c)},
+                               {"main": [], "ov": [("build/src/ov/p.o", "src/ov/p.c", ["src/ov/p.c"])]},
+                               {"ov": {n: {O + 16 * i} for i, n in enumerate(pn)}, "main": {}},
+                               {"main": (M, M + 0x100), "ov": (O, O + 0x100)}, {"main": ["main"], "ov": ["main", "ov"]},
+                               clsp, {h: ("unused", None, 0, None, [], True) for h in clsp.values()}, set(), [])
+    x = sorted((r["name"], r["i"], r["sub"], r["cite"], r["decl_param"], r["def_param"]) for r in rowsp if r["rule"] == "DECL-PARAM")
+    check("DECL-PARAM two types (tag, depth), word vs struct both ways (cite = args.read of the arg word); a typedef alias "
+          "of the same struct no row",
+          x == [("p_dep", 0, "two types", None, "Bar *a", "Bar **a"), ("p_two", 0, "two types", None, "struct Foo *a", "struct Baz *a"),
+                ("p_wd", 1, "word vs struct", "ov:0x80100024 lw", "s32 b", "Bar *b"),
+                ("p_ws", 0, "word vs struct", None, "struct Foo *a", "u32 a")], x)
+    check("DECL-PARAM void* vs struct* counted apart; K&R by-value, function pointer, ambiguous name skipped and counted",
+          all(s in txtp for s in ("DECL-PARAM not compared: struct vs void*/scalar-pointer: 1",
+                                  "DECL-PARAM skipped: K&R by-value parameter: 1", "DECL-PARAM skipped: function pointer: 1",
+                                  "DECL-PARAM skipped: ambiguous type name: 1", "DECL-PARAM pairs compared: 9")), txtp)
+    ARG_READS.clear()
+    _PT = None
+    ptype.cache_clear()
 
     # 3.44 T5 asm labels (C0223): a declaration `CNAME(...) __asm__("SYM");` is SYM's; a definition of CNAME is SYM's
     b_c = "\n".join([
