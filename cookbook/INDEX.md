@@ -1073,3 +1073,7 @@ C0620 | Layout hash and census twin rules after the 3.45 folds | struct,twins,ce
 C0621 | A two-sided ratchet gate for multi-task cleanups: fail above and below | gate,ratchet,consolidation,tools-health,struct_twins | 2026-11-15 | 3.45/T8 | P3.45 T8.c2
 C0622 | Oracle DIFFERS on an unchanged file: refresh the delever baseline snapshot after a green R22 | restruct,oracle,delever,baseline,rung-T | 2026-11-15 | 3.45/T15 | P3.45 T15.c1
 C0623 | Typing engine (rung T) batches: type untyped callee slots first; --only by binary; ratchet after | restruct,rung-T,typing,param,ratchet,struct | 2026-11-15 | 3.45/T15 | P3.45 T15.c3 pilot
+C0624 | Find a view's real parent by its object pool, not the placeholder's address name | struct,parent,pool,actor,absorb,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16 c1-c4 judges
+C0625 | Absorb views into one parent in sequence: gap-union variants, sign-union joins, fold-batch traps | struct,absorb,variant,union,fold-batch,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16.c5
+C0626 | Absorb leaf mapping: pointer vs s32, fixed-point halves, typed-pointer adoption trap | struct,absorb,fixed-point,union,pointer,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16.c6
+C0627 | Per-source absorb: split a placeholder across parents by pointer source (fold-batch keys files) | struct,absorb,per-source,split,fold-batch,t16 | 2026-11-16 | 3.45/T16 | P3.45 T16.c7
