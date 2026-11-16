@@ -3340,9 +3340,9 @@ void func_8017D040(s32 arg0) {
     t = 0x190;
     D_80126954 = t;
     ptr = &D_8018DE64[arg0];
-    t = ((Unkstruct_8017D040 *)ptr)->unkA;
+    t = ((Ent8018DE64 *)ptr)->off0A;
     D_8012695C = t;
-    t = ((Unkstruct_8017D040 *)ptr)->unkC;
+    t = ((Ent8018DE64 *)ptr)->off0C;
     guess_g_MainCameraPitchTarget = t;
     D_801F6098 = (s16 *)ptr;
     tc = CAST_ALIAS(u16, (s32)ptr, 8);

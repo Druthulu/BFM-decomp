@@ -212,8 +212,7 @@ struct S801730FC {
 
 struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
 
-typedef struct { s32 words[41]; } Blk164;
-typedef Blk164 BigCopy;
+typedef Unkstruct_80126948 BigCopy;
 
 struct S8013A0A4 {
     u8 pad0[4];
@@ -257,7 +256,7 @@ struct S_8014A3E0 {
     u16 h8C;      /* 0x8C */
 };
 
-typedef Blk164 copy00;
+typedef Unkstruct_80126948 copy00;
 
 struct A {
     u16 unk00; u16 unk02; u16 unk04;   /* 0x10 0x12 0x14 */
@@ -2069,7 +2068,7 @@ typedef Unkstruct_801343C4 Blk8_8018453C;
 typedef Unkstruct_8013B83C Blk8_80191320_80191070;
 typedef SVECTOR Blk8_dc3c;
 typedef SVECTOR Blk8_dd58;
-typedef Blk164 Blk_0xA4;
+typedef Unkstruct_80126948 Blk_0xA4;
 typedef Blk8_80133CD4 Blob8_8018B058;
 typedef BlockData Block8_80181600;
 typedef BlockData Block8_80184C74;
@@ -2127,11 +2126,6 @@ typedef struct {
     /* 0xDE */ s16 unkDE;
     /* 0xE0 */ s32 unkE0;
 } Ent58_fx;
-typedef struct {
-    s16 off00; s16 off02; s16 off04; s16 off06;
-    u16 off08; s16 off0A; u16 off0C;
-    u8 pad0E[0x12];
-} Ent8018DE64;
 typedef Unkstruct_800B5CB8 Ent_8014D820;
 typedef struct {
     u16 f0;                         /* 0x00 */
@@ -3455,7 +3449,7 @@ typedef struct {
 typedef Blk16_8018A8B8 B16_80183ED8;
 typedef Blk20_8016DF5C B20;
 typedef CVECTOR B4_80188094;
-typedef Blk164 Blk164_SC02_005_8017E798;
+typedef Unkstruct_80126948 Blk164_SC02_005_8017E798;
 typedef Blk16_956C Blk16_E898;
 typedef Blk16_956C Blk16_SC02_000_80182CB4;
 typedef Blk20_8016DF5C Blk32_80181708;
@@ -3996,7 +3990,6 @@ typedef struct { u8 pad[2]; u16 f; } Unkstruct_801824D4;
 typedef struct { u8 pad[2]; u16 f; } Unkstruct_80182560;
 typedef H16 Unkstruct_8018528C;
 typedef E4 Unkstruct_8018528C_2;
-typedef struct { s32 a, b, c, d, e, f, g, h, f20; } Unkstruct_8018637C;
 typedef E4 Unkstruct_80188988;
 typedef E4 Unkstruct_80188A90;
 typedef E4 Unkstruct_801BC620;

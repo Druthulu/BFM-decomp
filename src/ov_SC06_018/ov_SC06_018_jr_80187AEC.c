@@ -7968,7 +7968,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
+    ((SVECTOR *)pkt)->vz = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -8004,7 +8004,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
+    ((SVECTOR *)pkt)->vz = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -8040,7 +8040,7 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018F060 *)pkt)->unk4 = (s16)oz;
+    ((SVECTOR *)pkt)->vz = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {

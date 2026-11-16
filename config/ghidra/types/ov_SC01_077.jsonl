@@ -7,12 +7,11 @@
 {"k":"type","kind":"struct","path":"/bfm/B","size":40,"packed":false,"fields":[{"off":0,"len":32,"name":"w","type":"/bfm/s32[8]","comment":null},{"off":32,"len":8,"name":"tail","type":"/bfm/s32[2]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/B16","base":"/bfm/Blk16_8018A8B8"}
 {"k":"type","kind":"struct","path":"/bfm/Bar","size":12,"packed":false,"fields":[{"off":0,"len":1,"name":"b0","type":"/uchar","comment":"0x0"},{"off":1,"len":1,"name":"b1","type":"/uchar","comment":"0x1"},{"off":2,"len":1,"name":"b2","type":"/uchar","comment":"0x2"},{"off":3,"len":1,"name":"tag","type":"/uchar","comment":"0x3"},{"off":4,"len":4,"name":"a","type":"/uint","comment":"0x4"},{"off":8,"len":4,"name":"b","type":"/uint","comment":"0x8"}]}
-{"k":"type","kind":"typedef","path":"/bfm/BigCopy","base":"/bfm/Blk164"}
+{"k":"type","kind":"typedef","path":"/bfm/BigCopy","base":"/bfm/Unkstruct_80126948"}
 {"k":"type","kind":"struct","path":"/bfm/Blk12","size":12,"packed":false,"fields":[{"off":0,"len":4,"name":"a","type":"/bfm/u32","comment":null},{"off":4,"len":4,"name":"b","type":"/bfm/u32","comment":null},{"off":8,"len":4,"name":"c","type":"/bfm/u32","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk12_801854C4","size":12,"packed":false,"fields":[{"off":0,"len":12,"name":"b","type":"/bfm/u8[12]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk152","size":152,"packed":false,"fields":[{"off":0,"len":152,"name":"w","type":"/bfm/u32[38]","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Blk16","base":"/bfm/Blk16_8018A8B8"}
-{"k":"type","kind":"struct","path":"/bfm/Blk164","size":164,"packed":false,"fields":[{"off":0,"len":164,"name":"words","type":"/bfm/s32[41]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk16_8018A8B8","size":16,"packed":false,"fields":[{"off":0,"len":16,"name":"unk0","type":"/bfm/Blk16_8018A8B8__unk0","comment":null}]}
 {"k":"type","kind":"union","path":"/bfm/Blk16_8018A8B8__unk0","size":16,"packed":false,"fields":[{"len":16,"name":"v0","type":"/bfm/Blk16_8018A8B8__unk0__v0","comment":null},{"len":16,"name":"v1","type":"/bfm/Blk16_8018A8B8__unk0__v1","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Blk16_8018A8B8__unk0__v0","size":16,"packed":false,"fields":[{"off":0,"len":16,"name":"w","type":"/bfm/s32[4]","comment":null}]}
@@ -632,7 +631,7 @@
 {"k":"type","kind":"struct","path":"/bfm/actor4c","size":428,"packed":false,"fields":[{"off":0,"len":32,"name":"pad00","type":"/bfm/u8[32]","comment":null},{"off":32,"len":4,"name":"unk20","type":"/bfm/actor4c *","comment":"0x20"},{"off":36,"len":32,"name":"pad24","type":"/bfm/u8[32]","comment":null},{"off":68,"len":4,"name":"unk44","type":"/bfm/u32","comment":"0x44"},{"off":72,"len":108,"name":"pad48","type":"/bfm/u8[108]","comment":null},{"off":180,"len":4,"name":"unkB4","type":"/bfm/s32 *","comment":"0xB4  command-stream pointer"},{"off":184,"len":2,"name":"unkB8","type":"/bfm/s16","comment":"0xB8  countdown timer"},{"off":186,"len":2,"name":"unkBA","type":"/bfm/s16","comment":"0xBA"},{"off":188,"len":1,"name":"unkBC","type":"/bfm/u8","comment":"0xBC  program counter"},{"off":189,"len":1,"name":"unkBD","type":"/bfm/u8","comment":"0xBD"},{"off":190,"len":30,"name":"padBE","type":"/bfm/u8[30]","comment":null},{"off":220,"len":1,"name":"unkDC","type":"/bfm/u8","comment":"0xDC"},{"off":221,"len":203,"name":"padDD","type":"/bfm/u8[203]","comment":null},{"off":424,"len":1,"name":"unk1A8","type":"/bfm/u8","comment":"0x1A8"}]}
 {"k":"type","kind":"typedef","path":"/bfm/code","base":"/void *"}
 {"k":"type","kind":"typedef","path":"/bfm/code_fn","base":"/void *"}
-{"k":"type","kind":"typedef","path":"/bfm/copy00","base":"/bfm/Blk164"}
+{"k":"type","kind":"typedef","path":"/bfm/copy00","base":"/bfm/Unkstruct_80126948"}
 {"k":"type","kind":"typedef","path":"/bfm/f32","base":"/float"}
 {"k":"type","kind":"typedef","path":"/bfm/f64","base":"/double"}
 {"k":"type","kind":"struct","path":"/bfm/obj","size":12,"packed":false,"fields":[{"off":0,"len":4,"name":"pad0","type":"/bfm/u8[4]","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"pad6","type":"/bfm/u8[2]","comment":null},{"off":8,"len":4,"name":"unk8","type":"/bfm/s32","comment":null}]}

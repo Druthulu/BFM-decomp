@@ -6736,8 +6736,8 @@ void func_80181918(s32 arg0) {
     t = rand();
     CAST_ALIAS(u16, arg0, 6) = guess_g_PlayerPosX + D_80126B6A * 32 + (t & 0x1FF) - 0xFF;
     CAST_ALIAS(u16, arg0, 0xA) = guess_g_PlayerPosY - 0x120;
-    cnt = ((Unkstruct_80181918 *)arg0)->unk2;
-    ((Unkstruct_80181918 *)arg0)->unkE = guess_g_PlayerPosZ + D_80126B72 * 32 + (t >> 7) - 0xFF;
+    cnt = ((Unkstruct_8011DB30 *)arg0)->unk2;
+    ((Unkstruct_8011DB30 *)arg0)->unkE.u = guess_g_PlayerPosZ + D_80126B72 * 32 + (t >> 7) - 0xFF;
     CAST_ALIAS(s32, arg0, 0x14) += 0x50000;
     CAST_ALIAS(u16, arg0, 2) = cnt + 1;
     CAST_ALIAS(s32, arg0, 0x1C) = 0x60;

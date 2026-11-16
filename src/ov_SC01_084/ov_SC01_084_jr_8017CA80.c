@@ -2737,7 +2737,7 @@ void func_8017DA00(void) {
     extern void func_8017DD2C(void *a0);
     u8 *cam = guess_g_MainCamera;
 
-    *(Blk164 *)D_8011F920 = *(Blk164 *)cam;
+    *(Unkstruct_80126948 *)D_8011F920 = *(Unkstruct_80126948 *)cam;
     ((Unkstruct_80126948 *)cam)->unk8 = 500;
     ((Unkstruct_80126948 *)cam)->unkC = 500;
     guess_SetMainCameraHandler((s32)func_8017DD2C, 1);

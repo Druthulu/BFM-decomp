@@ -8473,7 +8473,7 @@ extern void func_80151664(s32 a0v);
 
 void func_8018637C(s32 param_1) {
     D_80127518 = 0;
-    *(u16 *)(((Unkstruct_8018637C *)param_1)->f20 + 0x10) = 0;
+    *(u16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) = 0;
     ((Unkstruct_80126B58 *)param_1)->unkA8 = 0x20;
     func_80151664(param_1);
 }
