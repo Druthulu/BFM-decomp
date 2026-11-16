@@ -538,7 +538,6 @@ typedef struct { u32 w[23]; } DrawEnv_8013DD68;
 typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;
 typedef SVECTOR Elem;
 typedef struct { u8 _pad[0x34]; } Elem52_801B5094;
-typedef Unkstruct_80185680_2 Elem_8012ACE0_8012ACE0;
 typedef struct {
     u16 f0;
     u8 pad_2[0x4e];
@@ -3409,10 +3408,6 @@ struct Ent_SC07_010_8017AE2C {
     /* 0x00fe */ u8 padFE[0x2];
 }; /* size = 0x100 */
 typedef MATRIX MTX_CF90;
-typedef struct {
-    u8 pad[4];
-    s32 field_4;
-} SubStruct;
 typedef struct {
     u8 pad_00[0x20];
     SubStruct *f_20;

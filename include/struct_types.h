@@ -328,6 +328,20 @@ typedef struct {
     /* 0x024c */ u8 pad24C[0x8];
 } Unkstruct_80126B58; /* size = 0x254 */
 
+/* T16.c6: defined ahead of Unkstruct_801202A0 (moved, byte-neutral, Unkstruct_80185680_2 from below, its alias and SubStruct
+   from src/shared/engine_types.h): the parent's absorbed views MainStruct / Owner_8012ACE0_8012ACE0 spell them. */
+typedef struct {
+    /* Unkstruct_91b15ded: P3.40 T3 band rank 1770; 10 TNC sites in 1 bodies; struct map 10 sites; restruct.py --decide-band */
+    /* 0x0000 */ s32 unk0;
+    /* 0x0004 */ s16 unk4;
+    /* 0x0006 */ s16 unk6;
+} Unkstruct_80185680_2; /* size = 0x8 */
+typedef Unkstruct_80185680_2 Elem_8012ACE0_8012ACE0;
+typedef struct {
+    u8 pad[4];
+    s32 field_4;
+} SubStruct;
+
 /* Unkstruct_801202A0 — the actor slot (guess_g_ObjectTable 0x801202A0 x 96, 0x10C each; P3.45 T16.c1 model).
    Common fields flat; extA/extB/extC/extD are the per-kind gap unions (`raw` + one struct member per class variant, T16.c5). */
 typedef struct Unkstruct_801202A0 {
@@ -12444,13 +12458,6 @@ typedef struct {
     /* 0x0072 */ u8 pad72[0x5a];
     /* 0x00cc */ s32 unkCC;
 } Unkstruct_801808F0; /* size = 0xd0 */
-
-typedef struct {
-    /* Unkstruct_91b15ded: P3.40 T3 band rank 1770; 10 TNC sites in 1 bodies; struct map 10 sites; restruct.py --decide-band */
-    /* 0x0000 */ s32 unk0;
-    /* 0x0004 */ s16 unk4;
-    /* 0x0006 */ s16 unk6;
-} Unkstruct_80185680_2; /* size = 0x8 */
 
 typedef struct {
     /* Unkstruct_968b7d91: P3.40 T3 band rank 1771; 10 TNC sites in 1 bodies; struct map 10 sites; restruct.py --decide-band */

@@ -4294,7 +4294,8 @@ def _fold_lb(d, aliases, cache):
             V.update(_typed_vars(msk, top, trx, params=False))
             V.update(_typed_vars(msk, [(lo, hi)], trx, params=True))
             for n in sorted(x for x, lv in V.items() if lv >= 1):
-                rx = re.compile(r"(?<![\w.>])" + re.escape(n) + r"\b\s*(?:\[(?!\s*0\s*\])|\+\+|--|[+-](?!>))|(?:\+\+|--)\s*\b" + re.escape(n) + r"\b")
+                # (T16.c6: `)` too: a name right after `)` is a cast operand, `(s32)a0 + k` is integer arithmetic)
+                rx = re.compile(r"(?<![\w.>)])" + re.escape(n) + r"\b\s*(?:\[(?!\s*0\s*\])|\+\+|--|[+-](?!>))|(?:\+\+|--)\s*\b" + re.escape(n) + r"\b")
                 mm = rx.search(msk, lo, hi)
                 if mm:
                     cite(mm.start(), f"pointer arithmetic on `{n}`")
@@ -4328,6 +4329,28 @@ def _fold_flow_parents(names):
 
 
 FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* [su]; )+)\} " + FOLD_N + "$")
+_FOLD_FIX_SLOT = r"((?:union \{ (?:[A-Za-z_][\w ]* [su]; )+\} )|(?:[A-Za-z_][\w ]* ))"
+FOLD_FIX_U = re.compile(r"^union \{ " + _FOLD_FIX_SLOT + r"val; struct \{ " + _FOLD_FIX_SLOT + r"lo; " + _FOLD_FIX_SLOT + r"hi; \} i; \} "
+                        + FOLD_N + "$")
+
+
+def _fold_fix_members(tmpl):
+    """(T16.c6, pure) {slot: {sign: base type}} (slots val, lo, hi) of a field template that is a committed fixed-point union
+    (`union { s32 val; struct { u16 lo; u16 hi; } i; } N`, a slot may be a sign union `union { u16 u; s16 s; } hi`), else None."""
+    m = FOLD_FIX_U.match(tmpl or "")
+    if not m:
+        return None
+    out = {}
+    for slot, t in zip(("val", "lo", "hi"), m.groups()):
+        t = t.strip()
+        if t.startswith("union"):
+            out[slot] = {d.rsplit(" ", 1)[1]: d.rsplit(" ", 1)[0] for d in (x.strip() for x in t[t.find("{") + 1:t.rfind("}")].split(";")) if d}
+        else:
+            sc = sl.scalar_of(t)
+            if not sc or sc[1] not in ("s", "u"):
+                return None
+            out[slot] = {sc[1]: t}
+    return out
 
 
 def _fold_sign_members(tmpl):
@@ -4513,11 +4536,12 @@ def _fold_render(tdef, items, size, indent="    ", comments=()):
     return "\n".join(lines)
 
 
-def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp=""):
+def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp="", absorb=False):
     """(T7.c15, lifted out of fold_plan) the merged fields of clusters of overlapping entries [(source idx, field, absolute offset)]:
     (items for _fold_render, paths {source key: {field: new path}}, names_top {name: [off]}, refusal or None). keys: the source
     keys by index (0 = the target's); mp: an absorb's member:<union>.<variant> path; absorb_nopath: an absorb without one (a conflict
-    refuses). Spellings of one type never open a union (bkey/agree/unify/variant joins); real width/sign conflicts do."""
+    refuses). Spellings of one type never open a union (bkey/agree/unify/variant joins); real width/sign conflicts do.
+    absorb (T16.c6): the leaf maps of an absorb (leafmap below) run before a conflict refuses."""
     items, paths, names_top = [], collections.defaultdict(dict), {}
 
     def scalar_tmpl(x):
@@ -4656,6 +4680,83 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
                 out[i] = "{" + ",".join(ps) + "}"; continue
             return None
         return out, syn
+
+    def sc1(x):                                                   # (T16.c6) a one-leaf s/u scalar field: (width, sign), else None
+        lv = x["leaves"]
+        return (x["size"], lv[0][2]) if scalar_tmpl(x) and len(lv) == 1 and lv[0][:2] == (0, x["size"]) and lv[0][2] in ("s", "u") else None
+
+    def base1(x):
+        return re.sub(r"\s+", " ", resub(x["tmpl"].split(FOLD_N)[0])).strip()
+
+    def leafmap(C):
+        """(T16.c6, absorb) one 4-byte parent leaf the views spell otherwise: ([item], {entry index: path}), a str cause, or None.
+        A parent pointer takes same-width s/u view scalars (respelled as the pointer member; the byte gate judges each object). A
+        parent s/u scalar takes `void *` views at its offset (as the scalar) and 16-bit half reads: the fixed-point union
+        `union { s32 val; struct { u16 lo; u16 hi; } i; } unkN` (half signs per the reads, two signs = a sign union in the slot;
+        the parent's own accesses respelled `.val`); a committed one is joined (a slot never gains a second sign once committed)."""
+        T_ = [i for i, e in enumerate(C) if e[0] == 0]
+        if len(T_) != 1:
+            return None
+        ti = T_[0]
+        tgt = C[ti]
+        t, lo, nm = tgt[1], tgt[2], tgt[1]["name"]
+        oth = [(i, e) for i, e in enumerate(C) if i != ti]
+        if t["size"] != 4 or lo % 4 or not oth:
+            return None
+        if ptr1(t) is not None:
+            if not all(e[2] == lo and e[1]["size"] == 4 and (sc1(e[1]) or (ptr1(e[1]) is not None and agree(e[1], t))) for _, e in oth) \
+                    or not any(sc1(e[1]) for _, e in oth):
+                return None
+            for _, e in oth:
+                if sc1(e[1]):
+                    e[1]["lmap"] = True
+            return [(lo, "plain", resub(typed(tgt, C)[1]["tmpl"]).replace(FOLD_N, nm), 4, t["al"])], {i: nm for i in range(len(C))}
+        fx = _fold_fix_members(t["tmpl"])
+        s0 = sc1(t)
+        if not fx and not (s0 and s0[0] == 4):
+            return None
+        want = []                                                 # (entry index, slot, sign or None = a void * on val, base)
+        for i, e in oth:
+            x, r = e[1], e[2] - lo
+            s_ = sc1(x)
+            if r == 0 and x["size"] == 4 and s_:
+                want.append((i, "val", s_[1], base1(x)))
+            elif r == 0 and x["size"] == 4 and ptr1(x):
+                want.append((i, "val", None, None))
+            elif r in (0, 2) and x["size"] == 2 and s_:
+                want.append((i, ("lo", "hi")[r // 2], s_[1], base1(x)))
+            elif r == 0 and x["size"] == 4 and ptr1(x) is False:
+                return (f"a typed pointer `{x['name']}` ({x['cite']}) onto the scalar parent leaf `{nm}` ({t['cite']}) at {lo:#x}: "
+                        f"the parent keeps its scalar (T16.c6); retype the parent first")
+            else:
+                return None
+        for i, sl_, sg, _ in want:
+            if sg is None:
+                C[i][1]["lmap"] = True
+        if not fx and all(w[1] == "val" for w in want):           # no half read: a `void *` view onto the plain scalar
+            if any(w[2] not in (None, s0[1]) for w in want):
+                return None
+            return [(lo, "plain", resub(t["tmpl"]).replace(FOLD_N, nm), 4, t["al"])], {i: nm for i in range(len(C))}
+        slots = {k: dict(v) for k, v in (fx or {"val": {s0[1]: base1(t)}}).items()}
+        for i, sl_, sg, b in want:
+            if sg and sg not in slots.setdefault(sl_, {}):
+                if fx and slots[sl_]:
+                    return (f"`{C[i][1]['name']}` ({C[i][1]['cite']}) reads {nm}.{sl_} as {b}: a second sign in a committed fixed-point "
+                            f"slot ({t['cite']}) would respell its earlier accesses")
+                slots[sl_][sg] = b
+        for k in ("lo", "hi"):
+            slots.setdefault(k, {}) or slots[k].setdefault("u", "u16")
+
+        def rend(s):
+            v = slots[s]
+            return f"{next(iter(v.values()))} {s}" if len(v) == 1 else f"union {{ {'; '.join(f'{b} {sg}' for sg, b in v.items())}; }} {s}"
+
+        def path(s, sg):
+            return (f"{nm}.val" if s == "val" else f"{nm}.i.{s}") + (f".{sg or next(iter(slots[s]))}" if len(slots[s]) > 1 else "")
+        out = {ti: nm if fx else path("val", s0[1])}
+        for i, sl_, sg, _ in want:
+            out[i] = path(sl_, sg)
+        return [(lo, "union", nm, [("val", rend("val"), 0), ("i", f"struct {{ {rend('lo')}; {rend('hi')}; }} i", 0)], 4, 4)], out
     for C in clusters:
         lo, hi = min(e[2] for e in C), max(e[2] + e[1]["size"] for e in C)
         first = C[0]
@@ -4719,6 +4820,16 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
             items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], first[1]["size"], first[1]["al"]))
             names_top.setdefault(uname, []).append(lo)
             continue                                              # (a non-scalar sign conflict takes the variant union below)
+        lm = leafmap(C) if absorb and not mp else None            # (a member:<union>.<variant> path asks for the T6 variant union)
+        if isinstance(lm, str):
+            return None, None, None, lm
+        if lm:                                                    # T16.c6: pointer/scalar leaves and fixed-point halves (leafmap)
+            its, pm_ = lm
+            items += its
+            names_top.setdefault(next(e[1]["name"] for e in C if e[0] == 0), []).append(lo)
+            for i, pth in pm_.items():
+                paths[keys[C[i][0]]][C[i][1]["name"]] = pth
+            continue
         if absorb_nopath:
             a, b = C[0], next(e for e in C if e[0] != C[0][0] or e is not C[0])
             return None, None, None, (f"conflict at {lo:#x}..{hi:#x} inside {tsp}: `{a[1]['name']}` ({a[1]['cite']}) vs `{b[1]['name']}` ({b[1]['cite']}): "
@@ -4948,7 +5059,7 @@ def fold_plan(keys):
             clusters.append([e])
             cur_end = e[2] + e[1]["size"]
     items, paths, names_top, why_m = _fold_merge(clusters, [x[0] for x in srcs], resub, res, u["g"], next((m["path"] for m in M if m.get("path")), None),
-                                                 disp == "absorb" and any(m["path"] is None for m in M), tsp)
+                                                 disp == "absorb" and any(m["path"] is None for m in M), tsp, absorb=disp == "absorb")
     if why_m:
         return refuse(why_m)
     for m, x, a, gn, vn in gents:                                 # T16.c5: the gap variants (joined by name, padded to the offsets)
@@ -5032,8 +5143,9 @@ def fold_plan(keys):
             return refuse(f"render check: audit_definition: {aud[0]}")
         leaves = set(lay2[2])
         for C in clusters:
-            for (_, x, ab) in C:
-                if not all((ab + o, w, s_) in leaves for (o, w, s_) in x["leaves"]):
+            for (_, x, ab) in C:                                  # (T16.c6: a leaf-mapped field keeps its width, not its sign)
+                if not all((ab + o, w, s_) in leaves or (x.get("lmap") and any(l_[:2] == (ab + o, w) for l_ in leaves))
+                           for (o, w, s_) in x["leaves"]):
                     return refuse(f"render check: `{x['name']}` ({x['cite']}) is not a leaf of the merged {tsp} at {ab:#x}")
         for (_, x, ab, gn, _) in gents:
             if not all((ab + o, w, s_) in leaves for (o, w, s_) in x["leaves"]):
@@ -6015,7 +6127,39 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("sign unions (T16.c5): compiles under cc1", rc == 0, err)
-        _fold_fixture("offconf", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
+        # T16.c6: leaf maps (a view s32 onto the parent's pointer; 16-bit half reads open the fixed-point union, joined after)
+        root = _fold_fixture("leafmap", "typedef struct { s32 q; } Fx_S;\ntypedef struct { void *p0; s32 f4; s32 f8; } Fx_P;\n"
+                             "typedef struct { s32 a; s16 b; u16 c; } Fx_M;\ntypedef struct { u8 pad0[4]; s32 v; u8 pad8[2]; u16 h; } Fx_N;\n"
+                             "typedef struct { u8 pad0[6]; s16 h; } Fx_O;\ntypedef struct { u8 pad0[8]; Fx_S *p8; } Fx_Q;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 ga(Fx_M *m, Fx_P *p) { m->a = 0; return m->b + m->c + p->f4; }\n'
+                                         's32 gn(Fx_N *n) { return n->v + n->h; }\ns32 go(Fx_O *o) { return o->h; }\n'
+                                         's32 gq(Fx_Q *q) { return q->p8->q; }\n'},
+                             [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-"),
+                              ("Fx_N", "absorb", "Fx_P", "offset", "+0x0 src/a.c:3", "-"),
+                              ("Fx_O", "absorb", "Fx_P", "offset", "+0x0 src/a.c:4", "-"),
+                              ("Fx_Q", "absorb", "Fx_P", "offset", "+0x0 src/a.c:5", "-")])
+        P = fold_plan(["Fx_M"])
+        mg, tx = P["merged"] or "", P["texts"].get("src/a.c", "")
+        ok("leaf maps (T16.c6): a view s32 maps onto the parent pointer; half reads open the fixed-point union, the parent's own access .val",
+           not P["refusals"] and "/* 0x0000 */ void *p0;" in mg and re.search(r"union \{\s+s32 val;\s+struct \{ s16 lo; u16 hi; \} i;\s+\} f4;", mg)
+           and "/* 0x0008 */ s32 f8;" in mg and "{ m->p0 = 0; return m->f4.i.lo + m->f4.i.hi + p->f4.val; }" in tx, f"{P['refusals']} {mg} {tx}")
+        fold_write(P)
+        P = fold_plan(["Fx_N"])
+        tx = P["texts"].get("src/a.c", "")
+        ok("leaf maps (T16.c6): a later view joins the committed fixed-point union (s32 -> .val) and opens one at +0x8 (u16 high half)",
+           not P["refusals"] and re.search(r"union \{\s+s32 val;\s+struct \{ s16 lo; u16 hi; \} i;\s+\} f4;", P["merged"] or "")
+           and re.search(r"union \{\s+s32 val;\s+struct \{ u16 lo; u16 hi; \} i;\s+\} f8;", P["merged"] or "")
+           and "return n->f4.val + n->f8.i.hi;" in tx, f"{P['refusals']} {P['merged']} {tx}")
+        fold_write(P)
+        P = fold_plan(["Fx_O"])
+        ok("leaf maps (T16.c6): a second sign on a committed fixed-point slot is refused",
+           len(P["refusals"]) == 1 and "second sign in a committed fixed-point slot" in P["refusals"][0], str(P["refusals"]))
+        P = fold_plan(["Fx_Q"])
+        ok("leaf maps (T16.c6): a typed pointer view onto a scalar parent leaf is refused (the parent keeps its scalar)",
+           len(P["refusals"]) == 1 and "the parent keeps its scalar" in P["refusals"][0], str(P["refusals"]))
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("leaf maps (T16.c6): compiles under cc1", rc == 0, err)
+        _fold_fixture("offconf", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s8 a; s8 b; s16 c; } Fx_M;\n",   # (T16.c6: s16 halves map)
                       {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_M *m, Fx_P *p) { return m->a + p->f0; }\n'},
                       [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")])
         P = fold_plan(["Fx_M"])
