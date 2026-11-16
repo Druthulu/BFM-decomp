@@ -4,18 +4,18 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     SV3_8012CC88 sp18;
     s32 v0;
 
-    sp10.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp10.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp10.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    sp10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    sp10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
     sp10.vx += *(u16*)(a1 + 0);
     sp10.vy += *(u16*)(a1 + 2);
     sp10.vz += *(u16*)(a1 + 4);
 
     guess_AddVelocityToPos((S800D22E4 *)a0);
 
-    sp18.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp18.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp18.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp18.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    sp18.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    sp18.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
     sp18.vx += *(u16*)(a1 + 0);
     sp18.vy += *(u16*)(a1 + 2);
     sp18.vz += *(u16*)(a1 + 4);
@@ -25,12 +25,12 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     sp18.vx -= *(u16*)(a1 + 0);
     sp18.vy -= *(u16*)(a1 + 2);
     sp18.vz -= *(u16*)(a1 + 4);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sp18.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = sp18.vy;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sp18.vz;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sp18.vx;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sp18.vy;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sp18.vz;
 
     if (v0 & 0x6000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk14 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk14 = 0;
     }
     return v0;
 }

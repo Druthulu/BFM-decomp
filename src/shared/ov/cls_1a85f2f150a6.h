@@ -12,12 +12,12 @@ void SHARED_FN(s32 a0, s32 a1, s32 a2) {
     if (v1 == 0) {
         return;
     }
-    if (((Unkstruct_800B5CB8 *)v1)->unkCC != s0) {
+    if (((Unkstruct_801202A0 *)v1)->extB.kcls_1a85f2f150a6.unkCC != s0) {
         return;
     }
-    if (((Unkstruct_800B5CB8 *)v1)->unkD0 != s1) {
+    if (((Unkstruct_801202A0 *)v1)->extB.kcls_1a85f2f150a6.unkD0 != s1) {
         return;
     }
-    ((Unkstruct_800B5CB8 *)v1)->unkCC = 0;
-    ((Unkstruct_800B5CB8 *)v1)->unkD0 = 0;
+    ((Unkstruct_801202A0 *)v1)->extB.kcls_1a85f2f150a6.unkCC = 0;
+    ((Unkstruct_801202A0 *)v1)->extB.kcls_1a85f2f150a6.unkD0 = 0;
 }

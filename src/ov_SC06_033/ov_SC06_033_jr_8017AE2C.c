@@ -3413,8 +3413,8 @@ int param_1;
     }
     *p = (s16)(iVar1 >> 8);
     func_800139C8(*(short *)(addr + 0x14), p - 2, local);
-    ((Unkstruct_80126B58 *)param_1)->unk6 = *(u16 *)(param_1 + 0x12) + local[0];
-    ((Unkstruct_80126B58 *)param_1)->unkE = *(u16 *)(param_1 + 0x1A) + local[2];
+    ((Unkstruct_80126B58 *)param_1)->unk6.s = *(u16 *)(param_1 + 0x12) + local[0];
+    ((Unkstruct_80126B58 *)param_1)->unkE.s = *(u16 *)(param_1 + 0x1A) + local[2];
     cnt = ((Unkstruct_80126B58 *)param_1)->unk1C - 1;
     ((Unkstruct_80126B58 *)param_1)->unk1C = cnt;
     if (cnt == -1) {

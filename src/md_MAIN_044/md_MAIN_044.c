@@ -342,8 +342,8 @@ void func_800CD2EC(s32 *s1) {
         if ((*(u16 *)&guess_g_FrameCounter & 3) == 0) {
             func_800CD57C(s1);
         }
-        guess_SpawnSmallObject(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6, ((Unkstruct_80126B58 *)s1)->unkA,
-                      ((Unkstruct_80126B58 *)s1)->unkE, *(s16 *)(s2 + 0x12), 0);
+        guess_SpawnSmallObject(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6.s, ((Unkstruct_80126B58 *)s1)->unkA.s,
+                      ((Unkstruct_80126B58 *)s1)->unkE.s, *(s16 *)(s2 + 0x12), 0);
         func_800CD848((s32)s1);
         func_800CD780((s32)s1);
         p = buf + 0x20;
@@ -433,9 +433,9 @@ extern s32 func_801469C8(s32, void *, s32, s32, u16, s32, s32, s32);
 void func_800CD57C(void *arg0) {
     if (((s32 (*)(void *, void *, s32, s32, s32, s32, s32, s32))func_801469C8)(
             (void *)0x27, arg0,
-            ((Unkstruct_80126B58 *)arg0)->unk6,
-            ((Unkstruct_80126B58 *)arg0)->unkA,
-            ((Unkstruct_80126B58 *)arg0)->unkE,
+            ((Unkstruct_80126B58 *)arg0)->unk6.s,
+            ((Unkstruct_80126B58 *)arg0)->unkA.s,
+            ((Unkstruct_80126B58 *)arg0)->unkE.s,
             ((Unkstruct_80126B58 *)arg0)->unk50 & 7,
             0, 8) != 0) {
         (((Unkstruct_80126B58 *)arg0)->unk50) += 1;

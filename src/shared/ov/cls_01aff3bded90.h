@@ -3,7 +3,7 @@ void SHARED_FN(s32 arg0) {
     u8 val;
 
     /* Check field at +0x100 */
-    if (((Unkstruct_800B5CB8 *)arg0)->unk100 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->extD.kcls_01aff3bded90.unk100 == 0) {
         func_8002A04C(arg0);
     }
 

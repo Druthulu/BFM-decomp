@@ -4794,7 +4794,7 @@ void func_801806F8(s32 a0)
             break;
         }
         D_801BA6B0 = 0;
-        ((Ent34 *)s0)->st++;
+        ((Unkstruct_801202A0 *)s0)->unk34.u++;
         func_800599B8((s32)D_8018E7E0, (s32)D_8018E7C0);
         /* fallthrough */
     case 7:
@@ -5090,19 +5090,19 @@ void func_80180EC0(s32 a0)
             break;
         }
         if (func_80183A64((s32 *)s0, 0xC00000, 0xFF400000) != 1) {
-            if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6 >= 0) {
-                if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6 < 0x80) {
+            if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6.s >= 0) {
+                if (*(s16 *)(s0 + 0x6) - ((Unkstruct_80126B58 *)b58)->unk6.s < 0x80) {
                     goto JOIN2;
                 }
                 break;
             } else {
-                if (((Unkstruct_80126B58 *)b58)->unk6 - *(s16 *)(s0 + 0x6) >= 0x80) {
+                if (((Unkstruct_80126B58 *)b58)->unk6.s - *(s16 *)(s0 + 0x6) >= 0x80) {
                     break;
                 }
             }
         }
     JOIN2:
-        if (*(s16 *)(s0 + 0x6) < ((Unkstruct_80126B58 *)b58)->unk6) {
+        if (*(s16 *)(s0 + 0x6) < ((Unkstruct_80126B58 *)b58)->unk6.s) {
             *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
         } else {
             *(u16 *)(s0 + 0x34) = 6;

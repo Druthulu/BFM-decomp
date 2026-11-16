@@ -2922,7 +2922,7 @@ void func_80181C84(s32 a0)
         *(u16 *)(s1 + 0x6) = 0;
         *(s32 *)(s1 + 0x58) = ((s32)D_8018E2B8 | 0x40000000) | 0x20000000;
         *(u16 *)(s1 + 0x34) = *(u16 *)(s1 + 0x34) + 1;
-        func_80184604(((Unkstruct_80126B58 *)b58)->unk6 > 0 ? 4 : 6);
+        func_80184604(((Unkstruct_80126B58 *)b58)->unk6.s > 0 ? 4 : 6);
         local.f0 = *(u16 *)(s1 + 0x6);
         local.f1 = *(u16 *)(s1 + 0xA);
         tE = *(u16 *)(s1 + 0xE);
@@ -2945,7 +2945,7 @@ void func_80181C84(s32 a0)
             /* LOAD-BEARING: the duplicated store (§224), not a ternary. As `<= 0 ? 4 : 3` the
              * shape is right but the result takes $v1; only the if/else lets it reuse the
              * dead compare's $v0. Polarity matters too: the DEFAULT (delay-slot) value is 3. */
-            if (((Unkstruct_80126B58 *)b58)->unk6 <= 0) {
+            if (((Unkstruct_80126B58 *)b58)->unk6.s <= 0) {
                 *(u16 *)(s1 + 0x34) = 4;
             } else {
                 *(u16 *)(s1 + 0x34) = 3;

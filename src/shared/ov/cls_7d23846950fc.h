@@ -3,13 +3,13 @@ void SHARED_FN(void *a0)
 {
     s32 v1;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk102 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kcls_7d23846950fc.unk102 == 0) {
         func_8002A04C((s32)a0);
         func_8002AC00(0x1A);
     }
 
-    if (!((((Unkstruct_800B5CB8 *)a0)->unk70 & 0x8000))) {
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk68;
+    if (!((((Unkstruct_801202A0 *)a0)->unk70.s & 0x8000))) {
+        v1 = ((Unkstruct_801202A0 *)a0)->unk68;
         if (v1 != 0 && ((CAST_SIGN(short, (char *)a0, 0x72) & 0x8000))) {
             *(unsigned short *)(v1 + 0xA) = *(unsigned short *)(v1 + 0xA) & 0x7FFF;
         }

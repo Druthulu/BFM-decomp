@@ -874,7 +874,7 @@ void func_801A1470(s32 s0) {
         *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x1C) = 0x1000;
         D_801F8858 = 0;
         ((Unkstruct_800B5CB8 *)s0)->unk1C = 0;
-        ((S34_801A1470 *)s0)->st = ((S34_801A1470 *)s0)->st + 1;
+        ((S34_801A1470 *)s0)->unk34.u = ((S34_801A1470 *)s0)->unk34.u + 1;
         break;
     case 4:
         if (((Unkstruct_800B5CB8 *)s0)->unk1C != 0) {

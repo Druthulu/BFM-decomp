@@ -3853,9 +3853,9 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 
 void func_8017E1E8(void *a0)
 {
-    guess_SpawnSmallObject(3, a0, ((Unkstruct_80126B58 *)a0)->unk6,
+    guess_SpawnSmallObject(3, a0, ((Unkstruct_80126B58 *)a0)->unk6.s,
                   (s16)(CAST_SIGN(u16, (u8 *)a0, 0xA) - 0x10),
-                  ((Unkstruct_80126B58 *)a0)->unkE, 0x80FFFF8, 0xE000B000);
+                  ((Unkstruct_80126B58 *)a0)->unkE.s, 0x80FFFF8, 0xE000B000);
 }
 
 

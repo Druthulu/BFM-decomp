@@ -6852,7 +6852,7 @@ void func_80181A44(s32 a0) {
     s0 = a0;
     guess_StartActorSequence(s0, D_801B101C);
 
-    v1 = ((Unkstruct_80126B58 *)s0)->unk6 - CAST_WIDTH(s16, s0, 0xDC);
+    v1 = ((Unkstruct_80126B58 *)s0)->unk6.s - CAST_WIDTH(s16, s0, 0xDC);
     if (v1 < -0x60) {
         *(s16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x12) = 0xC00;
     } else if (!(v1 < 0x61)) {

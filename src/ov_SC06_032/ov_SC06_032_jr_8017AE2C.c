@@ -3412,8 +3412,8 @@ s32 param_1;
     }
     *pa = (s16)(v0 >> 8);
     func_800139C8(*(s16 *)(node + 0x14), (void *)(pa - 2), vec);
-    ((Unkstruct_80126B58 *)param_1)->unk6 = *(s16 *)(param_1 + 0x12) + vec[0];
-    ((Unkstruct_80126B58 *)param_1)->unkE = *(s16 *)(param_1 + 0x1A) + vec[2];
+    ((Unkstruct_80126B58 *)param_1)->unk6.s = *(s16 *)(param_1 + 0x12) + vec[0];
+    ((Unkstruct_80126B58 *)param_1)->unkE.s = *(s16 *)(param_1 + 0x1A) + vec[2];
     cnt = ((Unkstruct_80126B58 *)param_1)->unk1C - 1;
     ((Unkstruct_80126B58 *)param_1)->unk1C = cnt;
     if (cnt == -1) {

@@ -4,9 +4,9 @@ void SHARED_FN(a0)
 void *a0;
 {
     guess_ClearVelocityAndSetGravity(a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE4 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0x40;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+    ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
+    ((Unkstruct_801202A0 *)a0)->extC.kcls_725f5619f306.unkE4 = 0;
+    ((Unkstruct_801202A0 *)a0)->extC.kcls_725f5619f306.unkE8 = 0x40;
 }

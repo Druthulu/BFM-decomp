@@ -6,30 +6,30 @@ void SHARED_FN(s32 a0) {
     s16 temp;
     s32 v0;
 
-    ((Unkstruct_800B5CB8 *)a0)->unk2C += ((Unkstruct_800B5CB8 *)a0)->unk2E;
+    ((Unkstruct_801202A0 *)a0)->extA.kcls_ae1124e6e4cc.unk2C += ((Unkstruct_801202A0 *)a0)->extA.kcls_ae1124e6e4cc.unk2E;
 
-    s1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    s1 = ((Unkstruct_801202A0 *)a0)->unk20;
 
     temp = ((Unkstruct_800B5CB8 *)s1)->unk10 + 0x71;
     ((Unkstruct_800B5CB8 *)s1)->unk10 = temp;
     v0 = rsin(temp);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk12 + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = ((Unkstruct_801202A0 *)a0)->unk10.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
 
     v0 = rcos(CAST_SIGN(s16, s1, 0x10));
-    ((Unkstruct_800B5CB8 *)a0)->unkE = ((Unkstruct_800B5CB8 *)a0)->unk1A + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = ((Unkstruct_801202A0 *)a0)->unk18.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
 
-    ((Unkstruct_800B5CB8 *)a0)->unk14 += 0xFFFF4000;
-    CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_800B5CB8 *)a0)->unk14;
+    ((Unkstruct_801202A0 *)a0)->unk14 += 0xFFFF4000;
+    CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_801202A0 *)a0)->unk14;
 
     ((Unkstruct_800B5CB8 *)s1)->unk1A += 0xCC;
     ((Unkstruct_800B5CB8 *)s1)->unk18 = ((Unkstruct_800B5CB8 *)s1)->unk1A;
 
-    if ((((Unkstruct_800B5CB8 *)a0)->unk1C & 3) == 0) {
-        guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
+    if ((((Unkstruct_801202A0 *)a0)->unk1C.s & 3) == 0) {
+        guess_StepPairSequence(((Unkstruct_801202A0 *)a0)->unk20, (s32 *)(a0 + 0x24));
     }
 
-    ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s == -1) {
         func_801292C8((u8 *)a0);
     }
 }

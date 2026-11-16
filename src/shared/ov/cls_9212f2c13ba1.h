@@ -17,11 +17,11 @@ void SHARED_FN(void *a0)
     m = *(Mat32_8017E2BC *)&D_800AE620;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), mp);
 
-    m.w[5] = ((Unkstruct_800B5CB8 *)a0)->unkFE;
+    m.w[5] = ((Unkstruct_801202A0 *)a0)->unkFE;
     m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = ((Unkstruct_800B5CB8 *)a0)->unk100;
+    m.w[7] = ((Unkstruct_801202A0 *)a0)->extD.kcls_9212f2c13ba1.unk100;
 
     SetRotMatrix(mp);
     SetTransMatrix(mp);
@@ -32,6 +32,6 @@ void SHARED_FN(void *a0)
 
     RotTransSV(&sv, &sv, &out);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = sv.vx;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = sv.vz;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sv.vx;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sv.vz;
 }

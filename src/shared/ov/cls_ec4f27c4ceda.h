@@ -2,10 +2,10 @@
  * exemplar src/ov_SC03_108/ov_SC03_108_jr_8017F83C.c:2943 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void *arg0) {
     if (((s32 (*)(s32))func_8012BE54)((s32)arg0) <= 0x40000) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 9;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 9;
         func_8012B21C(arg0);
         guess_ShowObjectModel((s32)arg0);
-        ((Unkstruct_800B5CB8 *)arg0)->unkCC =
+        ((Unkstruct_801202A0 *)arg0)->extB.kcls_ec4f27c4ceda.unkCC =
             ((s32 (*)(s32 *, s32))func_80143994)(arg0, 0x1000);
     }
 }

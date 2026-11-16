@@ -5046,10 +5046,10 @@ void func_8018B698(s32 *s0) {
     guess_NextStep(s0);
     return;
 clamp:
-    if (((Unkstruct_80126B58 *)s0)->unkE >= 0x240) {
+    if (((Unkstruct_80126B58 *)s0)->unkE.s >= 0x240) {
         return;
     }
-    ((Unkstruct_80126B58 *)s0)->unkE = 0x240;
+    ((Unkstruct_80126B58 *)s0)->unkE.s = 0x240;
 }
 
 

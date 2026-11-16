@@ -5023,12 +5023,12 @@ void func_80187D70(s32 a0)
 
     *sp0 = KR_AS(s32, func_8017EC7C)(a0);
     func_80149020((s32 *)a0);
-    CAST_ALIAS(s16, a0, 0x6) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk6, *sp0, 8);
-    CAST_ALIAS(s16, a0, 0xA) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkA, D_801C3D12, 8);
-    ((Unkstruct_80126B58 *)a0)->unkE = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkE, D_801C3D14, 8);
-    if ((((Unkstruct_80126B58 *)a0)->unk6 == *sp0) &&
-        (((Unkstruct_80126B58 *)a0)->unkA == D_801C3D12) &&
-        (((Unkstruct_80126B58 *)a0)->unkE == D_801C3D14)) {
+    CAST_ALIAS(s16, a0, 0x6) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk6.s, *sp0, 8);
+    CAST_ALIAS(s16, a0, 0xA) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkA.s, D_801C3D12, 8);
+    ((Unkstruct_80126B58 *)a0)->unkE.s = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkE.s, D_801C3D14, 8);
+    if ((((Unkstruct_80126B58 *)a0)->unk6.s == *sp0) &&
+        (((Unkstruct_80126B58 *)a0)->unkA.s == D_801C3D12) &&
+        (((Unkstruct_80126B58 *)a0)->unkE.s == D_801C3D14)) {
         ((Unkstruct_80126B58 *)a0)->unkDE = 0;
         ((Unkstruct_80126B58 *)a0)->unkDF = 0;
         guess_NextStep((void *)a0);
@@ -5280,9 +5280,9 @@ void func_80188334(s32 arg0)
     guess_SetVelocityFromMoveVector(arg0);
     guess_ApplyVelocity(arg0);
     guess_AddVertSpeed(arg0, 0x8000);
-    guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6,
+    guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s,
                   ((s32)(CAST_SIGN(u16, arg0, 0xA) - 0x10) << 16) >> 16,
-                  ((Unkstruct_80126B58 *)arg0)->unkE, 0x080FFFF8, 0xE000B000);
+                  ((Unkstruct_80126B58 *)arg0)->unkE.s, 0x080FFFF8, 0xE000B000);
     guess_ApplyVertSpeed(arg0);
     iVar1 = func_801535F4(arg0);
     if (iVar1 == 1) goto LAB_80188418;

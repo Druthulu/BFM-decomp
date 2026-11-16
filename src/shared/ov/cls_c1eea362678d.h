@@ -4,14 +4,14 @@ void SHARED_FN(void *arg0) {
     s16 hval;
     s32 temp;
 
-    hval = ((Unkstruct_800B5CB8 *)arg0)->unk10A;
+    hval = ((Unkstruct_801202A0 *)arg0)->unk10A;
     if (hval & 0x8000) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk12 =
-            func_80012ABC(*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), hval & 0xFFF, 4);
+            func_80012ABC(*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20 + 0x12), hval & 0xFFF, 4);
     }
-    temp = ((Unkstruct_800B5CB8 *)arg0)->unkF8;
-    if (temp != 0 && ((Unkstruct_800B5CB8 *)arg0)->unk90 != temp) {
+    temp = ((Unkstruct_801202A0 *)arg0)->unkF8;
+    if (temp != 0 && ((Unkstruct_801202A0 *)arg0)->unk90 != temp) {
         ((void (*)(s32, s32))guess_StartActorSequence)((s32)arg0, temp);
-        ((Unkstruct_800B5CB8 *)arg0)->unkF8 = 0;
+        ((Unkstruct_801202A0 *)arg0)->unkF8 = 0;
     }
 }

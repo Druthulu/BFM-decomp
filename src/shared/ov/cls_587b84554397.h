@@ -5,12 +5,12 @@ void SHARED_FN(s32 arg0) {
     u16 out[4];
     s32 p;
 
-    p = ((Unkstruct_800B5CB8 *)arg0)->unk64;
-    if (CAST_SIGN(s16, p, 0x36) == ((Unkstruct_800B5CB8 *)arg0)->unk10A) {
-        func_8012EC04(p, ((Unkstruct_800B5CB8 *)arg0)->unkFC, buf);
+    p = ((Unkstruct_801202A0 *)arg0)->unk64;
+    if (CAST_SIGN(s16, p, 0x36) == ((Unkstruct_801202A0 *)arg0)->unk10A) {
+        func_8012EC04(p, ((Unkstruct_801202A0 *)arg0)->unkFC.s, buf);
         ((void (*)(s32 *, s32, u16 *))guess_RotTransSVWithMatrix)(buf, arg0 + 0x88, out);
-        ((Unkstruct_800B5CB8 *)arg0)->unk6 = out[0];
-        ((Unkstruct_800B5CB8 *)arg0)->unkA = out[1];
-        ((Unkstruct_800B5CB8 *)arg0)->unkE = out[2];
+        ((Unkstruct_801202A0 *)arg0)->unk4.i.hi = out[0];
+        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi = out[1];
+        ((Unkstruct_801202A0 *)arg0)->unkC.i.hi = out[2];
     }
 }

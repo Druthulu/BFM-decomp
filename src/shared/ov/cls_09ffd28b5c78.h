@@ -19,19 +19,19 @@ void SHARED_FN(s32 self)
     obj = func_80132EF4(self, 0x22);
     if (obj != 0) {
         u16 c;
-        ((Unkstruct_800B5CB8 *)obj)->unk6 = sv[0];
-        ((Unkstruct_800B5CB8 *)obj)->unkA = sv[1];
+        ((Unkstruct_801202A0 *)obj)->unk4.i.hi = sv[0];
+        ((Unkstruct_801202A0 *)obj)->unk8.i.hi = sv[1];
         c = sv[2];
-        ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x4000;
-        ((Unkstruct_800B5CB8 *)obj)->unkE = c;
+        ((Unkstruct_801202A0 *)obj)->unk34.u = 0x4000;
+        ((Unkstruct_801202A0 *)obj)->unkC.i.hi = c;
         ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk2C = 0xC008;
     }
     for (i = 0; i < 7; i++) {
         target = guess_SpawnActor(0x2FE, i, self);
         if (target != 0) {
-            ((Unkstruct_800B5CB8 *)target)->unk6 = sv[0];
-            ((Unkstruct_800B5CB8 *)target)->unkA = sv[1];
-            ((Unkstruct_800B5CB8 *)target)->unkE = sv[2];
+            ((Unkstruct_801202A0 *)target)->unk4.i.hi = sv[0];
+            ((Unkstruct_801202A0 *)target)->unk8.i.hi = sv[1];
+            ((Unkstruct_801202A0 *)target)->unkC.i.hi = sv[2];
         }
     }
     guess_RequestSound(0xAE6, 0);

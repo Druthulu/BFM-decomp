@@ -3,9 +3,9 @@ s32 SHARED_FN(s32 a0)
 {
     u16 sp[3];
     s32 result;
-    sp[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
     result = func_80134510((s32)sp);
     return ((u32)result > 0) ? 1 : 0;
 }

@@ -5931,13 +5931,13 @@ s32 func_8018347C(s32 *arg0, s32 arg1, s32 arg2) {
         guess_g_PlayerPosX = buf[0];
         guess_g_PlayerPosZ = buf[2];
     }
-    if ((((Unkstruct_80126B58 *)base)->unkA < -0xD00) && (((Unkstruct_80126B58 *)base)->unkE < 0)) {
-        if (((Unkstruct_80126B58 *)base)->unk6 >= 0) {
-            if (((Unkstruct_80126B58 *)base)->unk6 < 0x160) {
-                ((Unkstruct_80126B58 *)base)->unk6 = 0x160;
+    if ((((Unkstruct_80126B58 *)base)->unkA.s < -0xD00) && (((Unkstruct_80126B58 *)base)->unkE.s < 0)) {
+        if (((Unkstruct_80126B58 *)base)->unk6.s >= 0) {
+            if (((Unkstruct_80126B58 *)base)->unk6.s < 0x160) {
+                ((Unkstruct_80126B58 *)base)->unk6.s = 0x160;
             }
-        } else if (((Unkstruct_80126B58 *)base)->unk6 >= -0x15F) {
-            ((Unkstruct_80126B58 *)base)->unk6 = -0x160;
+        } else if (((Unkstruct_80126B58 *)base)->unk6.s >= -0x15F) {
+            ((Unkstruct_80126B58 *)base)->unk6.s = -0x160;
         }
     }
     if ((s16)arg2 != 0) {

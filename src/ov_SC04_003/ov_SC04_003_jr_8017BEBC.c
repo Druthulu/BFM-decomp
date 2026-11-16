@@ -5514,7 +5514,7 @@ void func_80181398(s32 param_1) {
 
     ret = ((s32 (*)(s32))func_8012CBF4)(param_1);
     s0 = param_1;
-    h = ((Unkstruct_80126B58 *)s0)->unkA;
+    h = ((Unkstruct_80126B58 *)s0)->unkA.s;
     p = ((Unkstruct_80126B58 *)s0)->unkD0;
     if (h >= 0x81) {
         if (p != 0) {

@@ -6,6 +6,6 @@ void SHARED_FN(s32 a0) {
     shift_temp = ((a0 << 16) >> 16);
     v1 = func_8012E57C(0x61, shift_temp);
     if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk108 = 2;
+        ((Unkstruct_801202A0 *)v1)->extD.kcls_2bf2dadd09e0.unk108 = 2;
     }
 }

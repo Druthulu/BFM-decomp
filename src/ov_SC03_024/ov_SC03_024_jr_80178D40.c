@@ -2702,7 +2702,7 @@ void func_80178D40(s32 arg0, s32 arg1)
     SV3_80178D40 v10, v18, v20, v28, v30, v38, v40, v48;
     s32 out50[2];
     SV3_80178D40 v58, v60;
-    Actor_80178D40 *pv = &(*(Actor_80178D40*)&guess_g_PlayerActor);
+    Unkstruct_80126B58 *pv = &(*(Unkstruct_80126B58*)&guess_g_PlayerActor);
     s32 i5b, i5c, fp5b, fp5c;
     s32 *q5b, *q5c, *p5c, *r5c;
     s16 *g = &D_801C17A8;
@@ -3146,9 +3146,9 @@ void func_80178D40(s32 arg0, s32 arg1)
         v40.vx = ((Actor_80178D40 *)arg0)->unk6;
         v40.vy = ((Actor_80178D40 *)arg0)->unkA;
         v40.vz = ((Actor_80178D40 *)arg0)->unkE;
-        v48.vx = pv->unk6;
-        v48.vy = pv->unkA;
-        v48.vz = pv->unkE;
+        v48.vx = pv->unk6.u;
+        v48.vy = pv->unkA.u;
+        v48.vz = pv->unkE.u;
         guess_WorldToScreen(out50, &v40);
         w1 = out50[0];
         guess_WorldToScreen(out50, &v48);
@@ -3163,9 +3163,9 @@ void func_80178D40(s32 arg0, s32 arg1)
         v58.vx = ((Actor_80178D40 *)arg0)->unk6;
         v58.vy = ((Actor_80178D40 *)arg0)->unkA;
         v58.vz = ((Actor_80178D40 *)arg0)->unkE;
-        v60.vx = pv->unk6;
-        v60.vy = pv->unkA;
-        v60.vz = pv->unkE;
+        v60.vx = pv->unk6.u;
+        v60.vy = pv->unkA.u;
+        v60.vz = pv->unkE.u;
         guess_WorldToScreen(out50, &v58);
         w1 = out50[0];
         guess_WorldToScreen(out50, &v60);

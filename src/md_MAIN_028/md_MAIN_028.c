@@ -271,16 +271,16 @@ s32 func_800CB6D4(s32 a0) {
         tmp[2] = 0;
     }
 
-    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unk6, (s16)(CAST_WIDTH(u16, a0, 0x10) + (u16)tmp[0]), 0xA, 1);
-    ((Unkstruct_80126B58 *)a0)->unk6 = v0;
+    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unk6.s, (s16)(CAST_WIDTH(u16, a0, 0x10) + (u16)tmp[0]), 0xA, 1);
+    ((Unkstruct_80126B58 *)a0)->unk6.s = v0;
 
-    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unkA, (s16)(*(u16 *)(a0 + 0x12) + (u16)tmp[1]), 0xA, 1);
-    ((Unkstruct_80126B58 *)a0)->unkA = v0;
+    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unkA.s, (s16)(*(u16 *)(a0 + 0x12) + (u16)tmp[1]), 0xA, 1);
+    ((Unkstruct_80126B58 *)a0)->unkA.s = v0;
 
-    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unkE, (s16)(CAST_WIDTH(u16, a0, 0x14) + (u16)tmp[2]), 0xA, 1);
-    ((Unkstruct_80126B58 *)a0)->unkE = v0;
+    v0 = func_80012F74(((Unkstruct_80126B58 *)a0)->unkE.s, (s16)(CAST_WIDTH(u16, a0, 0x14) + (u16)tmp[2]), 0xA, 1);
+    ((Unkstruct_80126B58 *)a0)->unkE.s = v0;
 
-    v0 = ratan2(((Unkstruct_80126B58 *)a0)->unk6 - CAST_WIDTH(s16, a0, 0x44), *(s16 *)(a0 + 0x46) - ((Unkstruct_80126B58 *)a0)->unkA);
+    v0 = ratan2(((Unkstruct_80126B58 *)a0)->unk6.s - CAST_WIDTH(s16, a0, 0x44), *(s16 *)(a0 + 0x46) - ((Unkstruct_80126B58 *)a0)->unkA.s);
     *(u16 *)(s1 + 0x14) = (v0 - 0x200) & 0xFFF;
 
     {

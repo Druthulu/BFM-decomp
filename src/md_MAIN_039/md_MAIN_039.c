@@ -243,8 +243,8 @@ void func_800CB424(void *a0)
         return;
     }
     for (i = 0; i < 4; i++) {
-        guess_SpawnSmallObject(0x4E, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
-                      ((Unkstruct_80126B58 *)a0)->unkE, i, 1);
+        guess_SpawnSmallObject(0x4E, a0, ((Unkstruct_80126B58 *)a0)->unk6.s, ((Unkstruct_80126B58 *)a0)->unkA.s,
+                      ((Unkstruct_80126B58 *)a0)->unkE.s, i, 1);
     }
 }
 
@@ -350,9 +350,9 @@ s32 func_800CB6F4(int param_1, int param_2)
     int iVarX;
     int iVarY;
     int sp[6];
-    sp[0] = (int)((Unkstruct_80126B58 *)param_1)->unk6;
-    sp[1] = (int)((Unkstruct_80126B58 *)param_1)->unkA;
-    sp[2] = (int)((Unkstruct_80126B58 *)param_1)->unkE;
+    sp[0] = (int)((Unkstruct_80126B58 *)param_1)->unk6.s;
+    sp[1] = (int)((Unkstruct_80126B58 *)param_1)->unkA.s;
+    sp[2] = (int)((Unkstruct_80126B58 *)param_1)->unkE.s;
     r0 = &guess_g_CameraWsMatrix;
     gte_SetRotMatrix(r0);
     gte_SetTransMatrix(r0);

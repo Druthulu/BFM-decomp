@@ -3,9 +3,9 @@
 void SHARED_FN(u8 *a0, u8 *a1) {
     u16 sp0[3];
 
-    sp0[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    sp0[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    sp0[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    sp0[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    sp0[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    sp0[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
 
     sp0[0] += *(u16 *)(a1 + 0);
     sp0[1] += *(u16 *)(a1 + 2);

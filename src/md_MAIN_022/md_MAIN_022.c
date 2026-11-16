@@ -241,8 +241,8 @@ void func_800CB354(void *a0) {
         return;
     }
     *(u16 *)((s32)v1 + 0x12) = (*(u16 *)((s32)v1 + 0x12) - 0x71) & 0xFFF;
-    guess_SpawnSmallObject(0x3E, a0, ((Unkstruct_80126B58 *)a0)->unk6, ((Unkstruct_80126B58 *)a0)->unkA,
-                  ((Unkstruct_80126B58 *)a0)->unkE, 0, 0);
+    guess_SpawnSmallObject(0x3E, a0, ((Unkstruct_80126B58 *)a0)->unk6.s, ((Unkstruct_80126B58 *)a0)->unkA.s,
+                  ((Unkstruct_80126B58 *)a0)->unkE.s, 0, 0);
 }
 
 

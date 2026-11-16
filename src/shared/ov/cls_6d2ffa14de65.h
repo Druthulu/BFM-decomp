@@ -2,11 +2,11 @@
 void SHARED_FN(s32 a0) {
     s32 i;
 
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
     for (i = 0; i < 10; i++) {
         if (guess_SpawnActor(0x16F, i, a0) != 0) {
             (CAST_SIGN(u16, a0, 0xFC))++;
         }
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk106 = CAST_SIGN(u16, a0, 0xFC);
+    ((Unkstruct_801202A0 *)a0)->extD.kcls_6d2ffa14de65.unk106 = CAST_SIGN(u16, a0, 0xFC);
 }

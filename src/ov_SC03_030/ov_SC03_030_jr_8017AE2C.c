@@ -4010,7 +4010,7 @@ void func_8017DB98(s32 arg0)
     if (func_80172664((s32 *)arg0) != 0) {
         func_80171990((u8 *)arg0);
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkE < -0xE00) {
+    if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0xE00) {
         func_80171928(arg0);
     }
 }
@@ -4062,7 +4062,7 @@ void func_8017DD08(s32 param_1) {
     func_8017E204(param_1);
     func_8017E090(param_1);
     func_8017E1BC(param_1);
-    if (((Unkstruct_80126B58 *)param_1)->unkE < -0x1120) {
+    if (((Unkstruct_80126B58 *)param_1)->unkE.s < -0x1120) {
         guess_ClearMoveVector(param_1);
         func_80171990(param_1);
     }
@@ -4085,8 +4085,8 @@ void func_8017DD80(void *a0)
 
     guess_ClearMoveVector((s32)a0);
 
-    if (((Unkstruct_80126B58 *)a0)->unkE < -0x1180) {
-        ((Unkstruct_80126B58 *)a0)->unkE = -0x1180;
+    if (((Unkstruct_80126B58 *)a0)->unkE.s < -0x1180) {
+        ((Unkstruct_80126B58 *)a0)->unkE.s = -0x1180;
     }
 
     guess_StartPadVibration(&D_801858EC);
@@ -4095,7 +4095,7 @@ void func_8017DD80(void *a0)
     func_8017E090(a0);
     func_8017E1E8(a0);
 
-    if (((Unkstruct_80126B58 *)a0)->unkA >= -0x302) {
+    if (((Unkstruct_80126B58 *)a0)->unkA.s >= -0x302) {
         p = &D_801E1ABE;
         *p = 0x10E;
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)(p - 3));

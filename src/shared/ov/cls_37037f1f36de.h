@@ -4,8 +4,8 @@ void SHARED_FN(void *arg0) {
 
     sp0 = arg0;
     func_80182334((s32)arg0);
-    if (func_80182478() + 0x28 == ((Unkstruct_800B5CB8 *)sp0)->unkDC) {
-        ((Unkstruct_800B5CB8 *)sp0)->unkFE = 0;
+    if (func_80182478() + 0x28 == ((Unkstruct_801202A0 *)sp0)->unkDC.val) {
+        ((Unkstruct_801202A0 *)sp0)->unkFE = 0;
         guess_RequestSound(0x88F, 0);
         func_8012AD50(sp0);
     }

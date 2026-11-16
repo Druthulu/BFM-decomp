@@ -10,12 +10,12 @@ s32 SHARED_FN(void *arg0) {
     pointA[1] = guess_g_PlayerPosY;
     pointA[2] = guess_g_PlayerPosZ;
 
-    pointB[0] = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    pointB[1] = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    pointB[2] = ((Unkstruct_800B5CB8 *)arg0)->unkE;
+    pointB[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
+    pointB[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
+    pointB[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
     pointA[1] = guess_g_PlayerPosY - 42;
 
-    addr = (((Unkstruct_800B5CB8 *)arg0)->unk58 & 0xFFFFFFF) | 0x80000000;
+    addr = (((Unkstruct_801202A0 *)arg0)->unk58.s & 0xFFFFFFF) | 0x80000000;
 
     if (((*(s16 *)(addr + 4) + pointB[0]) > pointA[0]) ||
         ((*(s16 *)(addr + 6) + pointB[0]) < pointA[0]) ||

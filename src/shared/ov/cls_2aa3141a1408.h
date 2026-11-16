@@ -16,7 +16,7 @@ void SHARED_FN(s32 arg0) {
         mask = 0x7FFFFFFF;
         end = t;
         do {
-            if (((Unkstruct_800B5CB8 *)p)->unk0 == arg0) {
+            if (((Unkstruct_801202A0 *)p)->unk0 == arg0) {
                 q = CAST_SIGN(void *, p, 0x20);
                 CAST_WIDTH(s32, q, 4) = CAST_WIDTH(s32, q, 4) & mask;
             }

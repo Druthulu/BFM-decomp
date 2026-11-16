@@ -1825,7 +1825,7 @@ void func_8015D414(int param_1)
     ((Unkstruct_80126B58 *)param_1)->unk13A = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13C = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13E = 0;
-    ((Unkstruct_80126B58 *)param_1)->unkA = ((Unkstruct_80126B58 *)param_1)->unkA + 0x48;
+    ((Unkstruct_80126B58 *)param_1)->unkA.s = ((Unkstruct_80126B58 *)param_1)->unkA.s + 0x48;
     ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk10 = 0;
     ((void (*)(void))func_801553C0)();
     guess_SetTexAnim(param_1, 0x11);

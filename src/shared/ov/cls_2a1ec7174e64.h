@@ -2,10 +2,10 @@
 void SHARED_FN(void *arg0) {
     void *s0 = arg0;
 
-    if ((((Unkstruct_800B5CB8 *)s0)->unk5E == 0x33) && (((Unkstruct_800B5CB8 *)s0)->unk70 == 3)) {
+    if ((((Unkstruct_801202A0 *)s0)->unk5E == 0x33) && (((Unkstruct_801202A0 *)s0)->unk70.s == 3)) {
         func_80165988();
     }
-    if (((Unkstruct_800B5CB8 *)s0)->unk78 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk78 != 0) {
         func_8002A04C((s32)s0);
     }
     guess_FreeActor(s0);

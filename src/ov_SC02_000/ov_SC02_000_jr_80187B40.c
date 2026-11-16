@@ -4462,12 +4462,12 @@ void func_8018A128(int param_1)
         in.y = 0;
         in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_80126B58 *)param_1)->unk6 = out.x;
-        ((Unkstruct_80126B58 *)param_1)->unkA = out.y;
+        ((Unkstruct_80126B58 *)param_1)->unk6.s = out.x;
+        ((Unkstruct_80126B58 *)param_1)->unkA.s = out.y;
         c = out.z;
         ((Unkstruct_80126B58 *)param_1)->unk1C = 0x5a;
         CAST_WIDTH(short, param_1, 0x34) = 1;
-        ((Unkstruct_80126B58 *)param_1)->unkE = c;
+        ((Unkstruct_80126B58 *)param_1)->unkE.s = c;
     }
     *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) =
         *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) - 0x80;

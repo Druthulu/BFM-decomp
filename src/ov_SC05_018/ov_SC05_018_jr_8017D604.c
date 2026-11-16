@@ -3880,9 +3880,9 @@ void func_8017F990(s32 arg0, s32 arg1) {
     buf[2] = t;
     if ((guess_g_FrameCounter & 3) == 0) {
         guess_SpawnSmallObject(6, arg0,
-                      ((Unkstruct_80126B58 *)arg0)->unk6,
-                      ((Unkstruct_80126B58 *)arg0)->unkA,
-                      ((Unkstruct_80126B58 *)arg0)->unkE,
+                      ((Unkstruct_80126B58 *)arg0)->unk6.s,
+                      ((Unkstruct_80126B58 *)arg0)->unkA.s,
+                      ((Unkstruct_80126B58 *)arg0)->unkE.s,
                       t, 0);
     }
 }

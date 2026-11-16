@@ -4,13 +4,13 @@ void SHARED_FN() {
 
     v1 = func_8012E544(0x19C);
     if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)v1)->unkFC.s = 0;
     }
 
     v1 = func_8012E544(0x29A);
     if (v1 != 0) {
         CAST_ALIAS(s16, v1, 6) = -0x180;
         CAST_ALIAS(s16, v1, 10) = -0x380;
-        ((Unkstruct_800B5CB8 *)v1)->unkE = 0x6A0;
+        ((Unkstruct_801202A0 *)v1)->unkC.i.hi = 0x6A0;
     }
 }

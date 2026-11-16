@@ -5011,7 +5011,7 @@ s32 func_801813E4(void *a0)
     switch (st) {
     case 7:
     case 0xB:
-        if ((((Unkstruct_80126B58 *)base)->unk6 < -0x580) && ((u32)(CAST_SIGN(u16, base, 0xE) - 0x181) < 0x27F)) {
+        if ((((Unkstruct_80126B58 *)base)->unk6.s < -0x580) && ((u32)(CAST_SIGN(u16, base, 0xE) - 0x181) < 0x27F)) {
             goto ret0;
         }
         goto call;

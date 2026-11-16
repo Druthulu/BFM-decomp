@@ -3,12 +3,12 @@
 void SHARED_FN(s32 a0)
 {
     CAST_SIGN(u16, a0, 0xFC) += 0x20;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = CAST_SIGN(u16, a0, 0x100);
-    CAST_WIDTH(s32, a0, 0x8) -= rsin(((Unkstruct_800B5CB8 *)a0)->unkFC) << 10;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi = CAST_SIGN(u16, a0, 0x100);
+    CAST_WIDTH(s32, a0, 0x8) -= rsin(((Unkstruct_801202A0 *)a0)->unkFC.s) << 10;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unkFC >= 0x400) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = 4;
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s >= 0x400) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
+        ((Unkstruct_801202A0 *)a0)->unkFE = 4;
         func_8012E688(a0, 0x98F, 0);
     }
 }

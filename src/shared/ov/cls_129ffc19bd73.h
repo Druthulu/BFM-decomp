@@ -10,7 +10,7 @@ void SHARED_FN(s32 param_1) {
         return;
     }
     guess_CopyVec3HighHalves(param_1 + 4, (s32 *)delta);
-    if (((Unkstruct_800B5CB8 *)param_1)->unkDC != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unkDC.val != 0) {
         t = rand() % 352;
         d = t;
         if (t & 1) {

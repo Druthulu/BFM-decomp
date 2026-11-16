@@ -4211,9 +4211,9 @@ void func_801859D8(void *a0)
     }
 
     do { guess_RotTransSVWithObjMatrix(s1, (s32)&D_801A606C, (s32)&out); } while (0);
-    ((Unkstruct_80126B58 *)s0)->unk6 = out.x;
-    ((Unkstruct_80126B58 *)s0)->unkA = out.y;
-    ((Unkstruct_80126B58 *)s0)->unkE = out.z;
+    ((Unkstruct_80126B58 *)s0)->unk6.s = out.x;
+    ((Unkstruct_80126B58 *)s0)->unkA.s = out.y;
+    ((Unkstruct_80126B58 *)s0)->unkE.s = out.z;
     func_80185D2C(s0);
 
     ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20 = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20;

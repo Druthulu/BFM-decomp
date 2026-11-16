@@ -8,7 +8,7 @@ void SHARED_FN(s32 param_1)
         return;
     }
 
-    if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 4) {
+    if (((Unkstruct_801202A0 *)param_1)->unk70.s == 4) {
         result = guess_SpawnActor(0x12C, 4, param_1);
         if (result != 0) {
             *(unsigned short *)(result + 0x6) = *(unsigned short *)(param_1 + 0x88);
@@ -25,7 +25,7 @@ void SHARED_FN(s32 param_1)
         func_80153BF0(param_1);
     }
 
-    if (((Unkstruct_800B5CB8 *)param_1)->unk78 != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk78 != 0) {
         func_8002A04C(param_1);
     }
 

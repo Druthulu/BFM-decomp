@@ -3593,7 +3593,7 @@ void func_8017D994(s32 a0) {
     guess_InitModelObject(v0, s0_ptr[1]);
     ((void (*)(s32, void *))guess_StartActorSequence)(a0, (void *)s0_ptr[2]);
 
-    ((Unkstruct_801202A0 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk58.s = 0;
 
     sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;

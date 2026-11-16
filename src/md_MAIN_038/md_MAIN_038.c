@@ -197,8 +197,8 @@ void func_800CB360(void *arg0) {
     s32 v1 = CAST_SIGN(u32, (s32)arg0, 0x20);
     *(u16 *)(v1 + 0x14) += 0x200;
     if (guess_TickWaitTimer_2((s32)arg0)) {
-        guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6, ((Unkstruct_80126B58 *)arg0)->unkA,
-                      ((Unkstruct_80126B58 *)arg0)->unkE, 0, 0x1C00);
+        guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s, ((Unkstruct_80126B58 *)arg0)->unkA.s,
+                      ((Unkstruct_80126B58 *)arg0)->unkE.s, 0, 0x1C00);
     } else {
         void *r16 = mat + 0x20;
         u32 ret;

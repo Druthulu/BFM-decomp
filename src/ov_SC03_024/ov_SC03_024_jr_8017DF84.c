@@ -4178,7 +4178,7 @@ void func_80180580(s32 *a0)
     s16 buf[4];
     s32 i;
 
-    if (((Unkstruct_80126B58 *)a0)->unkA > -0x83) {
+    if (((Unkstruct_80126B58 *)a0)->unkA.s > -0x83) {
         i = 0;
         func_80183094();
         *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = 0;

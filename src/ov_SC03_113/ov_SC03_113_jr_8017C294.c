@@ -4122,7 +4122,7 @@ void func_8017F4DC(s32 arg0) {
         if (t < 0) {
             dist = 0;
         }
-        camAng = ((Unkstruct_80126B58 *)cam)->unkA;
+        camAng = ((Unkstruct_80126B58 *)cam)->unkA.s;
         ang = tbl2[idx];
 
         if (ang > camAng) {

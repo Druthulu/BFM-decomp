@@ -8,6 +8,6 @@ void SHARED_FN(void *a0) {
     val = ptr[1];
     val |= 0x80000000;
     ptr[1] = val;
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
     func_8012AD44((s32 *)a0, 3);
 }

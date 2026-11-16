@@ -4223,7 +4223,7 @@ void func_8017EE0C(s32 a0)
         {
             s32 t4 = D_80183098[((Unkstruct_800B5CB8 *)s0)->unk100].value - 1;
             s32 t5 = ((Unkstruct_800B5CB8 *)s0)->unkA + t4;
-            ((Unkstruct_80126B58 *)anchor)->unkA = t5;   /* guess_g_PlayerActor + 0xA */
+            ((Unkstruct_80126B58 *)anchor)->unkA.s = t5;   /* guess_g_PlayerActor + 0xA */
         }
     }
 

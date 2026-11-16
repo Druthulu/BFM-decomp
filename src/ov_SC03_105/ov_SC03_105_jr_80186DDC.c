@@ -2956,8 +2956,8 @@ void func_80186DDC(void *arg0)
             t2 = *(u8 **)(ent + 0xCC);
             func_8013C9C4(D_8018AAA4);
             func_80187434((void *)ent);
-            ((Unkstruct_80186DDC_2 *)t2)->unk2 = 0xC;
-            *(u32 *)(((Unkstruct_80186DDC_2 *)t2)->unk20 + 4) |= 0x80000000;
+            ((Unkstruct_801202A0 *)t2)->unk2.s = 0xC;
+            *(u32 *)(((Unkstruct_801202A0 *)t2)->unk20 + 4) |= 0x80000000;
             guess_RequestSound(0xC2F, 0);
             ((Unkstruct_80186DDC *)ent)->unkFE = 1;
         }
@@ -3172,9 +3172,9 @@ void func_801874D0(void *a0)
     guess_RotTransSVWithMatrix((s32)buf, (s32)&D_8018F140, (s32)out);
 
     v1 = CAST_SIGN(s32, (s32)a0, 0xCC);
-    ((Unkstruct_80126B58 *)v1)->unk6 = out[0];
-    ((Unkstruct_80126B58 *)v1)->unkA = out[1] + 0x10;
-    ((Unkstruct_80126B58 *)v1)->unkE = out[2];
+    ((Unkstruct_80126B58 *)v1)->unk6.s = out[0];
+    ((Unkstruct_80126B58 *)v1)->unkA.s = out[1] + 0x10;
+    ((Unkstruct_80126B58 *)v1)->unkE.s = out[2];
 }
 
 
@@ -3928,9 +3928,9 @@ void func_801886C8(s32 a0) {
         if ((((Unkstruct_80126B58 *)a0)->unk70 & 0x8000) == 0) {
             ((Unkstruct_80126B58 *)a0)->unk18 = 0xFFFE0000;
             *(s32 *)(a0 + 0x48) = 0x4000;
-            ((Unkstruct_80126B58 *)a0)->unk6 = -0x3D;
-            ((Unkstruct_80126B58 *)a0)->unkA = -0x166;
-            ((Unkstruct_80126B58 *)a0)->unkE = -0xB0;
+            ((Unkstruct_80126B58 *)a0)->unk6.s = -0x3D;
+            ((Unkstruct_80126B58 *)a0)->unkA.s = -0x166;
+            ((Unkstruct_80126B58 *)a0)->unkE.s = -0xB0;
             func_8012B260((u8 *)a0);
             ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
         } else {
@@ -3966,17 +3966,17 @@ void func_80188828(s32 arg0)
                 *(s32 *)(arg0 + 0x48) = 0;
                 CAST_WIDTH(u16, arg0, 0x34) += 1;
             }
-            if (((Unkstruct_80126B58 *)arg0)->unkE < -0x1E9) {
-                ((Unkstruct_80126B58 *)arg0)->unkE = -0x1EA;
+            if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0x1E9) {
+                ((Unkstruct_80126B58 *)arg0)->unkE.s = -0x1EA;
             }
             guess_RequestSound(0x773, 0);
         }
         break;
     case 1:
         *(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x10) += 0x20;
-        if (((Unkstruct_80126B58 *)arg0)->unkE < -0x1E9) {
+        if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0x1E9) {
             ((Unkstruct_80126B58 *)arg0)->unk18 = 0;
-            ((Unkstruct_80126B58 *)arg0)->unkE = -0x1EA;
+            ((Unkstruct_80126B58 *)arg0)->unkE.s = -0x1EA;
             CAST_WIDTH(u16, arg0, 0x34) += 1;
         }
         break;

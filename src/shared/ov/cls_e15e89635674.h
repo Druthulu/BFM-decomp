@@ -2,7 +2,7 @@
  * exemplar src/ov_SC04_015/ov_SC04_015_jr_8017AE2C.c:6836 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 *a0, s32 a1) {
     guess_HideObjectModel((u8 *)a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
     guess_SetObjectPosAndYaw((s32)a0, a1);
 }

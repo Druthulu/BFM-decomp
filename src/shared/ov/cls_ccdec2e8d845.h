@@ -4,26 +4,26 @@ void SHARED_FN(s32 arg0) {
     u16 diff;
     s32 p;
 
-    ((Unkstruct_800B5CB8 *)arg0)->unkB4 |= 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unkC4 &= ~2;
-    if (((Unkstruct_800B5CB8 *)arg0)->unk60 != 0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk7C = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-        ((Unkstruct_800B5CB8 *)arg0)->unk7E = ((Unkstruct_800B5CB8 *)arg0)->unkA;
-        ((Unkstruct_800B5CB8 *)arg0)->unk80 = ((Unkstruct_800B5CB8 *)arg0)->unkE;
-        func_8016AA50(arg0, ((Unkstruct_800B5CB8 *)arg0)->unk60);
+    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkB4 |= 1;
+    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkC4 &= ~2;
+    if (((Unkstruct_801202A0 *)arg0)->unk60 != 0) {
+        ((Unkstruct_801202A0 *)arg0)->unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
+        ((Unkstruct_801202A0 *)arg0)->unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
+        ((Unkstruct_801202A0 *)arg0)->unk80 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+        func_8016AA50(arg0, ((Unkstruct_801202A0 *)arg0)->unk60);
     }
     diff = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
-    ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk60 = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk76 = diff;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_800B5CB8 *)arg0)->unk62 + 0x800) & 0xFFF;
-    p = ((Unkstruct_800B5CB8 *)arg0)->unk20;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk60 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk76 = diff;
+    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
+    p = ((Unkstruct_801202A0 *)arg0)->unk20;
     CAST_WIDTH(u16, p, 0x14) = 0;
     ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
-    ((Unkstruct_800B5CB8 *)arg0)->unkC2 = 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unk98 = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x3C;
+    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkC2 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x3C;
     guess_RequestSound(0x526, 0);
 }

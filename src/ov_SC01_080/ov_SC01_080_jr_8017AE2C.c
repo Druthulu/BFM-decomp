@@ -5028,8 +5028,8 @@ void func_8017F2A4(s32 *param_1)
 
     if (func_80172658(param_1) != 0) {
         idx = CAST_WIDTH(s32, (s32)param_1, 0x218);
-        curx = ((Unkstruct_80126B58 *)param_1)->unk6;
-        curz = ((Unkstruct_80126B58 *)param_1)->unkE;
+        curx = ((Unkstruct_80126B58 *)param_1)->unk6.s;
+        curz = ((Unkstruct_80126B58 *)param_1)->unkE.s;
         CAST_ALIAS(s16, (s32)param_1, 0x20C) = ratan2(curx - D_80189664[idx][0], curz - D_80189668[idx][0]) & 0xFFF;
         CAST_ALIAS(s16, (s32)param_1, 0x20E) = guess_g_MainCameraPitchTarget;
         guess_g_MainCameraPitchTarget = 0x38E;

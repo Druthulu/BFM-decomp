@@ -3873,7 +3873,7 @@ void func_8015D414(int param_1)
     ((Unkstruct_80126B58 *)param_1)->unk13A = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13C = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13E = 0;
-    ((Unkstruct_80126B58 *)param_1)->unkA = ((Unkstruct_80126B58 *)param_1)->unkA + 0x48;
+    ((Unkstruct_80126B58 *)param_1)->unkA.s = ((Unkstruct_80126B58 *)param_1)->unkA.s + 0x48;
     *(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x10) = 0;
     ((void (*)(void))func_801553C0)();
     guess_SetTexAnim(param_1, 0x11);
@@ -6359,9 +6359,9 @@ LAB_matched:
         *(s32 *)(iVar8 + 0x4c) = *(s16 *)(param_1 + 0x5a);
         *(s32 *)(iVar8 + 0x50) = CAST_WIDTH(s16, param_1, 0x5c);
         ((void (*)(s32, s32, s32))guess_ObjRotTransSV)(param_1, (s32)&in, (s32)out);
-        ((Unkstruct_80126B58 *)param_1)->unk6 = out[0];
-        ((Unkstruct_80126B58 *)param_1)->unkA = out[1];
-        ((Unkstruct_80126B58 *)param_1)->unkE = out[2];
+        ((Unkstruct_80126B58 *)param_1)->unk6.s = out[0];
+        ((Unkstruct_80126B58 *)param_1)->unkA.s = out[1];
+        ((Unkstruct_80126B58 *)param_1)->unkE.s = out[2];
     }
 
     if (0x80 < ((Unkstruct_80126B58 *)psVar6)->unk188) {
@@ -6407,12 +6407,12 @@ LAB_end:
     uVar4 = func_80012F74(*(s16 *)(iVar8 + 0x1a), 0x1800, 3, 1);
     *(s16 *)(iVar8 + 0x1a) = uVar4;
     *(s16 *)(iVar8 + 0x18) = uVar4;
-    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unk6, CAST_WIDTH(s16, param_1, 0x58), 8, 1);
-    ((Unkstruct_80126B58 *)param_1)->unk6 = uVar4;
-    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unkA, *(s16 *)(param_1 + 0x5a), 8, 1);
-    ((Unkstruct_80126B58 *)param_1)->unkA = uVar4;
-    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unkE, CAST_WIDTH(s16, param_1, 0x5c), 8, 1);
-    ((Unkstruct_80126B58 *)param_1)->unkE = uVar4;
+    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unk6.s, CAST_WIDTH(s16, param_1, 0x58), 8, 1);
+    ((Unkstruct_80126B58 *)param_1)->unk6.s = uVar4;
+    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unkA.s, *(s16 *)(param_1 + 0x5a), 8, 1);
+    ((Unkstruct_80126B58 *)param_1)->unkA.s = uVar4;
+    uVar4 = func_80012F74(((Unkstruct_80126B58 *)param_1)->unkE.s, CAST_WIDTH(s16, param_1, 0x5c), 8, 1);
+    ((Unkstruct_80126B58 *)param_1)->unkE.s = uVar4;
 }
 
 

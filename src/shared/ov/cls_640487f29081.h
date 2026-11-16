@@ -11,10 +11,10 @@ void SHARED_FN(s32 arg0)
 
     rec = arg0;
     r = rand();
-    ((Unkstruct_800B5CB8 *)rec)->unk104 = CAST_SIGN(u16, rec, 0xFC);
+    ((Unkstruct_801202A0 *)rec)->extD.kcls_640487f29081.unk104 = CAST_SIGN(u16, rec, 0xFC);
     func_8012B200((u8 *)rec);
     n = rand();
-    ((Unkstruct_800B5CB8 *)rec)->unk1C = n % 60 + 0x78;
-    ((Unkstruct_800B5CB8 *)rec)->unkFE = (s16)r % 32 + 0xA;
-    ((Unkstruct_800B5CB8 *)rec)->unk2 = 2;
+    ((Unkstruct_801202A0 *)rec)->unk1C.s = n % 60 + 0x78;
+    ((Unkstruct_801202A0 *)rec)->unkFE = (s16)r % 32 + 0xA;
+    ((Unkstruct_801202A0 *)rec)->unk2.s = 2;
 }

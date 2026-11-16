@@ -23,5 +23,5 @@ void SHARED_FN(s32 a0) {
     CAST_ALIAS(u16, a0, 2) = 5;
     CAST_ALIAS(u16, a0, 0x34) = 0;
     CAST_ALIAS(s32, a0, 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = guess_g_PlayerPosY - 96;
+    ((Unkstruct_801202A0 *)a0)->unkFE = guess_g_PlayerPosY - 96;
 }

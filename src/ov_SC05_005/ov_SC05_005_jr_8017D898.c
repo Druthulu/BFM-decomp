@@ -4370,7 +4370,7 @@ void func_80181224(void *a0) {
         }
 
         a1 = ((Unkstruct_80181164 *)a0)->unk64;
-        if (((Unkstruct_80181224 *)a1)->unk90 == &D_801AB2EC && ((Unkstruct_80181224 *)a1)->unk94 == 9) {
+        if (((Unkstruct_801202A0 *)a1)->unk90 == &D_801AB2EC && ((Unkstruct_801202A0 *)a1)->unk94.s == 9) {
             ((Unkstruct_80181164 *)a0)->unk2 = 2;
         }
         func_801815E0(a0, 2);

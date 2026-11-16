@@ -6,7 +6,7 @@ s32 SHARED_FN(s32 arg0) {
 
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x35C && ((Unkstruct_800B5CB8 *)arg0)->unk64 == ((Unkstruct_800B5CB8 *)p)->unk64 &&
+        if (((Unkstruct_801202A0 *)p)->unk0 == 0x35C && ((Unkstruct_801202A0 *)arg0)->unk64 == ((Unkstruct_801202A0 *)p)->unk64 &&
             arg0 != (s32)p) {
             return 1;
         }

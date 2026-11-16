@@ -133,7 +133,7 @@ void func_800CB034(void *a0) {
     if (((s32 (*)(void *))func_8016151C)((void *)s0) == 0) {
         return;
     }
-    ((Unkstruct_80126B58 *)s0)->unkA = CAST_SIGN(u16, (s32)s0, 0xA) + 8;
+    ((Unkstruct_80126B58 *)s0)->unkA.s = CAST_SIGN(u16, (s32)s0, 0xA) + 8;
     func_801615C4((void *)s0, 0);
     func_800CB17C((struct S *)s0);
 }

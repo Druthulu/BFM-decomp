@@ -5467,7 +5467,7 @@ void func_80182AFC(s32 arg0)
         s32 vt;
         vt = ok + 0;
         if (vt != 0) {
-            if (((Unkstruct_80126B58 *)base)->unkA >= *(s16 *)(s0 + 0xA) + D_801AB668[0]) {
+            if (((Unkstruct_80126B58 *)base)->unkA.s >= *(s16 *)(s0 + 0xA) + D_801AB668[0]) {
                 func_8012DB84();
             }
         }
@@ -5575,7 +5575,7 @@ void func_80182D4C(u8 *a0, u8 *a1, s32 a2)
 
     tmp = *(u16 *)(a0 + 0xA) + *(u16 *)(a1 + 0x8);
     tmp -= 1;
-    ((Unkstruct_80126B58 *)base)->unkA = tmp;
+    ((Unkstruct_80126B58 *)base)->unkA.s = tmp;
 }
 
 

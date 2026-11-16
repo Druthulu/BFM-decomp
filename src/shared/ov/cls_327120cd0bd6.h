@@ -2,10 +2,10 @@
  * exemplar src/ov_SC03_104/ov_SC03_104_jr_80182038.c:3432 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(s32 arg0) {
     s32 v1;
-    v1 = ((Unkstruct_800B5CB8 *)arg0)->unkCC;
+    v1 = ((Unkstruct_801202A0 *)arg0)->extB.kcls_327120cd0bd6.unkCC;
     if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_800B5CB8 *)arg0)->unk6;
-        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_800B5CB8 *)arg0)->unkA - 0x19;
-        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_800B5CB8 *)arg0)->unkE;
+        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
+        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi - 0x19;
+        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
     }
 }

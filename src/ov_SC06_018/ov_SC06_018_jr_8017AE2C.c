@@ -3402,8 +3402,8 @@ void func_8017C120(s32 param_1) {
     }
     *p = val >> 8;
     func_800139C8(*(s16 *)(node + 0x14), p - 2, vec);
-    ((Unkstruct_80126B58 *)param_1)->unk6 = *(u16 *)(param_1 + 0x12) + vec[0];
-    ((Unkstruct_80126B58 *)param_1)->unkE = *(u16 *)(param_1 + 0x1a) + vec[2];
+    ((Unkstruct_80126B58 *)param_1)->unk6.s = *(u16 *)(param_1 + 0x12) + vec[0];
+    ((Unkstruct_80126B58 *)param_1)->unkE.s = *(u16 *)(param_1 + 0x1a) + vec[2];
     val2 = ((Unkstruct_80126B58 *)param_1)->unk1C - 1;
     ((Unkstruct_80126B58 *)param_1)->unk1C = val2;
     if (val2 == -1) {

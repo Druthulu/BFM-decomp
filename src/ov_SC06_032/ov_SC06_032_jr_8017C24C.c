@@ -3127,7 +3127,7 @@ extern u8 D_80196DF0[];
 void func_8017DCA4(s32 a0)
 {
     if (currentLocationId == 0x3083) {
-        ((Unkstruct_80126B58 *)a0)->unkA = ((Unkstruct_80126B58 *)a0)->unkA - 8;
+        ((Unkstruct_80126B58 *)a0)->unkA.s = ((Unkstruct_80126B58 *)a0)->unkA.s - 8;
     }
     guess_PlaySoundUnlessSkipped(0x451);
     ((void (*)(s32))func_801511E0)(a0);
