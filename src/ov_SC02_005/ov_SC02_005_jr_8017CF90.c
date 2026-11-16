@@ -2519,7 +2519,7 @@ extern s32 D_801E3E18;
 extern short D_801E4C4C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -4847,18 +4847,18 @@ extern s16 D_801E4C50;
  *    invisible to it; only `objdump -drz` on the object catches it.  Source order
  *    must therefore be 62 then 6A to emit 6A then 62.
  */
-void func_80180610(void *a0) {
+void func_80180610(Unkstruct_80126B58 *a0) {
     extern Row_801944F4 D_801944F4[];
     s32 v1;
 
-    ((Unkstruct_80126B58 *)a0)->unkAA &= 0x90;
-    ((Unkstruct_80126B58 *)a0)->unkAE = 0x8080;
-    ((Unkstruct_80126B58 *)a0)->unkAC &= 0x90;
-    if (((Unkstruct_80126B58 *)a0)->unk0 != 0xD) {
+    a0->unkAA &= 0x90;
+    a0->unkAE = 0x8080;
+    a0->unkAC &= 0x90;
+    if (a0->unk0 != 0xD) {
         func_80175454();
-        ((Unkstruct_80126B58 *)a0)->unk1F8 |= 0x1000000;
+        a0->unk1F8 |= 0x1000000;
         func_8017E664();
-        v1 = D_801944F4[((Unkstruct_80126B58 *)a0)->unk20C].f6;
+        v1 = D_801944F4[a0->unk20C].f6;
         __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched-load-delay-fill
         guess_g_MainCameraRefOffsetTargetX = -0x60;
         *(s16 *)&D_80126970 = -0x60;
@@ -4868,7 +4868,7 @@ void func_80180610(void *a0) {
         guess_g_MainCameraYawTarget = v1;
         *(Blk8 *)&D_801E4C50 = *(Blk8 *)&D_801944F4[CAST_ALIAS(s16, (s32)a0, 0x20C)].f0;
         func_8014C6C0();
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        a0->unk214 += 1;
     }
 }
 

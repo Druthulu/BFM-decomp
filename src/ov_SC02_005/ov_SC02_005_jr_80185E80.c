@@ -1240,26 +1240,26 @@ extern void func_80186F14(void *a0);
 extern u8 D_80195B2C[];
 
 void func_80187768(void *a0) {
-    s32 s0 = (s32)a0;
+    Unkstruct_801202A0 *s0 = (s32)a0;
     u32 temp;
     s32 v0_val;
 
     guess_ClearVelocityAndSetGravity(s0);
 
-    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80187768.unkE8 |= 1;
+    s0->extC.kSC02_005_80187768.unkE8 |= 1;
     func_80186304((u8*)s0, 0, 0);
 
-    temp = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80187768.unkE8;
+    temp = s0->extC.kSC02_005_80187768.unkE8;
     if (temp & 0x2000) {
-        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x10;
+        s0->unk1C.u = 0x10;
     } else {
-        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x20;
+        s0->unk1C.u = 0x20;
     }
 
     v0_val = (s32)D_80195B2C | 0x40000000;
-    ((Unkstruct_801202A0 *)s0)->unk58.u = v0_val;
-    ((Unkstruct_801202A0 *)s0)->unk5C.s = 0;
-    ((Unkstruct_801202A0 *)s0)->extB.kSC02_005_80187768.unkAE = -1;
+    s0->unk58.u = v0_val;
+    s0->unk5C.s = 0;
+    s0->extB.kSC02_005_80187768.unkAE = -1;
 
     func_8012AD44((s32*)s0, 1);
     func_80186F14((void*)s0);

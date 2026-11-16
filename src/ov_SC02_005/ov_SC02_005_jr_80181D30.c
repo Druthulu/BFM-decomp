@@ -2523,7 +2523,7 @@ extern s32 D_801E3E18;
 extern short D_801E4C4C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3284,11 +3284,11 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186F14(void *a0);
 
 void func_801828D8(void *arg0) {
-    s32 s0 = (s32)arg0;
+    Unkstruct_801202A0 *s0 = (s32)arg0;
     u32 v;
 
-    v = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801828D8.unkE8;
-    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801828D8.unkE8 = v | 1;
+    v = s0->extC.kSC02_005_801828D8.unkE8;
+    s0->extC.kSC02_005_801828D8.unkE8 = v | 1;
     func_8012AD44((s32 *)s0, 2);
     func_80186F14((void *)s0);
 }
