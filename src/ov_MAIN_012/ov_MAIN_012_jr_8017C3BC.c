@@ -1375,7 +1375,7 @@ extern void guess_StartChargedSquareAction(void);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern u8 func_80165658(s32 a0, s32 a1);
 extern s32 func_801497A8(s32 *a0);
 extern void func_801653B8(s32 *a0);
@@ -3467,7 +3467,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_80178B70(s32 param_1, s32 param_2);
 extern void func_80178BB8(s32 a0, s32 a1);
 extern void func_80178BF8(s32 _unused0, s32 _unused1);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern void guess_CloseTextWindowIfOpen(s32 a0);

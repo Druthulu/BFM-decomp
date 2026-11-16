@@ -638,14 +638,14 @@ void func_800CD96C(s32 param_1) {
 }
 
 
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 
 void func_800CDA14(s32 a0) {
-    s32 v1;
+    Unkstruct_800CB098 *v1;
 
     v1 = func_8014C088(a0, 0x13);
     if (v1 != 0) {
-        ((Unkstruct_800CB098 *)v1)->unk60 = 1;
+        v1->unk60 = 1;
     }
 }
 

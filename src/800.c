@@ -143,7 +143,7 @@ void func_8001282C(void *a0)
 
 
 extern void func_80014070(void* a0, void* a1);
-extern void func_800128EC(void* a0, void* a1);
+extern void func_800128EC(Blk16_956C *a0, void *a1);
 
 void func_800128B4(void* a0)
 {
@@ -157,7 +157,7 @@ void func_800128B4(void* a0)
 extern s32 func_80049440(s32 arg0);
 extern void func_80047E58(void *arg0, void *arg1);
 
-void func_800128EC(void *a0, void *a1)
+void func_800128EC(Blk16_956C *a0, void *a1)
 {
     Blk16_956C vec;
     s32 mn;
@@ -9217,9 +9217,9 @@ extern u8 D_800A6610[];
 extern u8 *D_800A5E60;
 extern void func_8004978C(s16 *a0, void *a1);
 extern void func_8004917C();
-void func_8001E094(s32 arg0);
+void func_8001E094(Unkstruct_800B5BD8 *arg0);
 void func_8001E378(s32 param_1);
-s32 func_8001E668();
+s32 func_8001E668(Unkstruct_800B5BD8 *a0, s32 a1, GTEOutV *a2, s32 *a3);
 
 
 
@@ -9397,27 +9397,27 @@ void func_8001DA34(s32 param_1)
 
 extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
-void func_8001E094(s32 arg0)
+void func_8001E094(Unkstruct_800B5BD8 *arg0)
 {
     s16 sc[16];
     s16 res[16];
     s32 g;
     s32 t;
 
-    sc[0] = ((Unkstruct_800B5BD8 *)arg0)->unk18.u;
+    sc[0] = arg0->unk18.u;
     sc[1] = 0;
     sc[2] = 0;
     sc[3] = 0;
-    sc[4] = ((Unkstruct_800B5BD8 *)arg0)->unk1A.u;
+    sc[4] = arg0->unk1A.u;
     sc[5] = 0;
     sc[6] = 0;
     sc[7] = 0;
-    sc[8] = ((Unkstruct_800B5BD8 *)arg0)->unk1C.u;
+    sc[8] = arg0->unk1C.u;
 
     g = (s32)&guess_g_CameraWsMatrix;
 
     /* gte_SetRotMatrix(obj->mat) */
-    gte_SetRotMatrix(((Unkstruct_800B5BD8 *)arg0)->unk34);
+    gte_SetRotMatrix(arg0->unk34);
 
     /* res = obj->mat * sc, column by column */
     gte_ldclmv((s32)sc); gte_rtir();
@@ -9429,9 +9429,9 @@ void func_8001E094(s32 arg0)
     gte_ldclmv((s32)sc + 4); gte_rtir();
     gte_stclmv((s32)res + 4);
 
-    ((Unkstruct_8017BF50 *)res)->unk14 = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk14;
-    ((Unkstruct_8017BF50 *)res)->unk18 = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk18;
-    ((Unkstruct_8017BF50 *)res)->unk1C = ((Unkstruct_8017BF50 *)*(s32 *)(arg0 + 0x34))->unk1C;
+    ((Unkstruct_8017BF50 *)res)->unk14 = ((Unkstruct_8017BF50 *)arg0->unk34)->unk14;
+    ((Unkstruct_8017BF50 *)res)->unk18 = ((Unkstruct_8017BF50 *)arg0->unk34)->unk18;
+    ((Unkstruct_8017BF50 *)res)->unk1C = ((Unkstruct_8017BF50 *)arg0->unk34)->unk1C;
 
     /* gte_SetRotMatrix(&guess_g_CameraWsMatrix) */
     gte_SetRotMatrix(g);
@@ -9531,21 +9531,21 @@ void func_8001E378(s32 param_1)
 /* GTE screen-space output slot: {xy; z; pad} */
  /* 8 bytes */
 
-s32 func_8001E668(s32 a0, s32 a1, GTEOutV *a2, s32 *a3)
+s32 func_8001E668(Unkstruct_800B5BD8 *a0, s32 a1, GTEOutV *a2, s32 *a3)
 {
     GTESVec v[4];
     s32 flag2;
     s32 otz;
 
-    v[0].vx = ((Unkstruct_800B5BD8 *)a0)->unk2E + ((RecDA34 *)a1)->px;
-    v[0].vy = ((Unkstruct_800B5BD8 *)a0)->unk30.u + ((RecDA34 *)a1)->py;
-    v[1].vx = ((Unkstruct_800B5BD8 *)a0)->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
-    v[1].vy = ((Unkstruct_800B5BD8 *)a0)->unk30.u + ((RecDA34 *)a1)->py;
-    v[2].vx = ((Unkstruct_800B5BD8 *)a0)->unk2E + ((RecDA34 *)a1)->px;
-    v[2].vy = ((Unkstruct_800B5BD8 *)a0)->unk30.u + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
-    v[3].vx = ((Unkstruct_800B5BD8 *)a0)->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
-    v[3].vy = ((Unkstruct_800B5BD8 *)a0)->unk30.u + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
-    v[0].vz = v[1].vz = v[2].vz = v[3].vz = ((Unkstruct_800B5BD8 *)a0)->unk32.u;
+    v[0].vx = a0->unk2E + ((RecDA34 *)a1)->px;
+    v[0].vy = a0->unk30.u + ((RecDA34 *)a1)->py;
+    v[1].vx = a0->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
+    v[1].vy = a0->unk30.u + ((RecDA34 *)a1)->py;
+    v[2].vx = a0->unk2E + ((RecDA34 *)a1)->px;
+    v[2].vy = a0->unk30.u + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
+    v[3].vx = a0->unk2E + ((RecDA34 *)a1)->px + ((RecDA34 *)a1)->w;
+    v[3].vy = a0->unk30.u + ((RecDA34 *)a1)->py + ((RecDA34 *)a1)->h;
+    v[0].vz = v[1].vz = v[2].vz = v[3].vz = a0->unk32.u;
 
     gte_ldv3(&v[0], &v[1], &v[2]);
     gte_rtpt();
@@ -11645,7 +11645,7 @@ extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
  * func_800226C0()` at 12556, and it is codegen-identical here (all four
  * arguments are pointers, unaffected by the default argument promotions).
  * func_80023138's spelling below is verbatim from its definition at 12688. */
-extern void func_8001E094(s32 arg0);
+extern void func_8001E094(Unkstruct_800B5BD8 *arg0);
 extern void func_8001E378(s32 param_1);
 extern void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot);
 extern void func_80023138(s32 *arg0, u8 *col, u8 *pts, u32 *ot);

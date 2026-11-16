@@ -497,7 +497,7 @@ extern u8 func_8014BFD4(void);
 extern void func_8014BFF4(s32 a0, s32 a1);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014C0C8(s32 a0_unused, s32 a1, s32 a2);
 extern s32 func_8014C118(void * a0, s32 a1, s32 a2);
 extern s32 func_8014C168(s32 * param_1, s32 param_2);
@@ -4778,7 +4778,7 @@ extern void func_80178D18(void);
  *   D_801A4DC4 is indexed by a signed s16 (sll #1 -> 2-byte stride) and
  *     read with lhu -> u16 array.
  */
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8002A088(s32);
 extern s32 func_8002A2D4(s32);
 extern s32 func_8002A544(s32);
@@ -5905,7 +5905,7 @@ void func_80182F88(s32 param) {
 void func_80182FD4(void *a0, void *a1)
 {
 
-    extern void func_8001E094(s32 arg0);
+    extern void func_8001E094(Unkstruct_800B5BD8 *arg0);
     extern void func_8001E378(void *a0);
     extern void func_801833F0(void *a0, void *a1, u32 *a2, u32 *a3);
     extern u8 D_800A6610[];

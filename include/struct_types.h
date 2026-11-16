@@ -15208,7 +15208,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ u16 unk2;
     /* 0x0004 */ u8 pad4[0x1c];
-    /* 0x0020 */ s32 unk20;
+    /* 0x0020 */ Unkstruct_80184178_2 *unk20;
 } Unkstruct_801A5A10; /* size = 0x24 */
 
 typedef struct {
@@ -28223,7 +28223,7 @@ typedef struct {
 typedef struct {
     /* Unkstruct_daa42f59: P3.40 T17 drift rank 812; 1 TNC sites in 1 bodies; struct map 1 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x20];
-    /* 0x0020 */ s32 unk20;
+    /* 0x0020 */ Blk16_956C *unk20;
 } Unkstruct_800CB458_2; /* size = 0x24 */
 
 typedef Unkstruct_801844AC_5 Unkstruct_801844AC_6; /* size = 0x28 */

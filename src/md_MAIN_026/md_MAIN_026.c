@@ -50,7 +50,7 @@ void func_800CAF10(void *arg0) {
 
 void func_800CAF68(void *arg0) {
     extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
-    extern s32 func_8014C088(s32 a0, s32 a1);
+    extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
     extern s32 guess_SpawnObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 sp5, s32 sp6, s32 sp7, s32 sp8);
     extern void guess_PlaySoundUnlessSkipped(s32 arg0);
     extern void func_800CB098(void *a0);
@@ -68,7 +68,7 @@ void func_800CAF68(void *arg0) {
 }
 
 
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_80165A20(s32 a0);
 extern void func_800CB108(s32 *arg0);
 
@@ -91,7 +91,7 @@ void func_800CB078(void) {
 #include "common.h"
 
 extern s32 func_8014C168(s32 *arg0, s32 arg1);
-extern s32 func_8014C088(s32 arg0, s32 arg1);
+extern Unkstruct_800CB098 *func_8014C088(s32 arg0, s32 arg1);
 
 void func_800CB098(s32 a0) {
     s32 s0;

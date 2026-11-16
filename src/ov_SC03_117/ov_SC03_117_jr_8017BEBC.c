@@ -500,7 +500,7 @@ extern u8 func_8014BFD4(void);
 extern void func_8014BFF4(s32 a0, s32 a1);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014C0C8(s32 a0_unused, s32 a1, s32 a2);
 extern s32 func_8014C118(void * a0, s32 a1, s32 a2);
 extern s32 func_8014C168(s32 * param_1, s32 param_2);
@@ -3079,7 +3079,7 @@ void func_8017CE18(s32 param) {
 }
 
 
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014CB58(void);
 extern s32 func_80171990(u8 *a0);
 extern void func_8014B5C4(s32 *a0, s32 a1, s32 a2);

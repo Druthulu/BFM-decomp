@@ -2350,7 +2350,7 @@ void func_801A31CC(void *arg0) {
 
 extern void guess_FreeActor(void *a0);
 extern void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4);
-extern s32 func_801A3BCC(void *a0);
+extern s32 func_801A3BCC(Unkstruct_801202A0 *a0);
 
 extern u16 D_801F43C0;
 extern u8 D_801A6DA4[4];
@@ -2791,7 +2791,7 @@ void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
 extern u8 D_801A6DA8[];
 extern MATRIX *RotMatrixZYX(SVECTOR *a0, MATRIX *a1);
 
-s32 func_801A3BCC(void *a0)
+s32 func_801A3BCC(Unkstruct_801202A0 *a0)
 {
     s32 buf[2];
     s32 out[2];
@@ -2805,7 +2805,7 @@ s32 func_801A3BCC(void *a0)
     MATRIX *r;
     s32 *g;
 
-    obj = ((Unkstruct_801202A0 *)a0)->unk64;
+    obj = a0->unk64;
     g = &guess_g_PlayerActor;
     rot.vx = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk10;
     rot.vy = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk12;
@@ -3932,7 +3932,7 @@ extern u8 D_801A7374[];
 
 void func_801A5A10(s32 param_1)
 {
-    s32 p;
+    Unkstruct_80184178_2 *p;
 
     ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_801A7368;
 
@@ -3941,8 +3941,8 @@ void func_801A5A10(s32 param_1)
     ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5A;
 
     p = ((Unkstruct_801A5A10 *)param_1)->unk20;
-    ((Unkstruct_80184178_2 *)p)->unk1A = 0x3000;
-    ((Unkstruct_80184178_2 *)p)->unk18 = 0x3000;
+    p->unk1A = 0x3000;
+    p->unk18 = 0x3000;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_801A7374);
 

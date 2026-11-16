@@ -534,7 +534,7 @@ extern u8 func_8014BFD4(void);
 extern void func_8014BFF4(s32 a0, s32 a1);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014C0C8(s32 a0_unused, s32 a1, s32 a2);
 extern s32 func_8014C118(void * a0, s32 a1, s32 a2);
 extern s32 func_8014C168(s32 * param_1, s32 param_2);
@@ -2673,12 +2673,12 @@ void func_80178BF8(s32 a0, s32 a1);
 void func_80178CBC(s32 a0, s32 a1);
 extern void func_80178BB8(s32 a0, s32 a1);
 extern void func_80178BF8(s32 _unused0, s32 _unused1);
-void func_80178D40(s32, s32);                    /* extern */
+void func_80178D40(Actor_80178D40 *arg0, s32 arg1);                    /* extern */
 extern s32 D_801DA308;
 extern short D_801DAB2C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);

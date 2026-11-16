@@ -249,14 +249,14 @@ void func_800CB458(s32 arg0) {
     extern s32 guess_SpawnSmallObject(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     s32 s0 = arg0;
     s32 s1;
-    s32 v0;
+    Blk16_956C *v0;
     s32 id;
 
     s1 = ((Unkstruct_800CB458 *)s0)->unk34;
     v0 = ((Unkstruct_800CB458_2 *)s1)->unk20;
 
-    *(Blk16_956C *)(s0 + 0x38) = *(Blk16_956C *)(v0 + 0x34);
-    *(Blk16_956C *)(s0 + 0x48) = *(Blk16_956C *)(v0 + 0x44);
+    *(Blk16_956C *)(s0 + 0x38) = *(Blk16_956C *)((u8 *)v0 + 0x34);
+    *(Blk16_956C *)(s0 + 0x48) = *(Blk16_956C *)((u8 *)v0 + 0x44);
 
     ((void (*)(s32))func_800CAF84)(arg0);
 

@@ -749,7 +749,7 @@ extern void func_8015F7A0(s32 *arg0);
 extern void guess_StartChargedSquareAction(void);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s32 func_8014CB7C(void);
-extern s32 func_8014C088(s32 a0, s32 a1);
+extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
 extern u8 func_80165658(s32 a0, s32 a1);
 extern s32 func_801497A8(s32 *a0);
 extern void func_801653B8(s32 *a0);
