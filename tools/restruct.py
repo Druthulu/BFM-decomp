@@ -8879,6 +8879,8 @@ def t_kept_text(raw, masked, e, base_expr, macro=True):
 T_SYMS_OVERRIDE = None        # the selftest: {binary: {name: address}} in place of the linked ELFs' symtabs
 T_ELF_MAIN = "build/us/SLUS_007.26.elf"
 _t_syms = {}
+_t_inc = None                 # T16.c9: (walk, dl.includers()) — t_file_bins' header includers, once per walk
+_t_gtypes = {}                # T16.c9: (rel, bclass, name, sha1(text)) -> the struct types the file's casts name on the global
 T_DECL_TYPE = r"((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*)"
 
 
@@ -8907,11 +8909,26 @@ def t_sym_addr(b, name):
 
 def t_file_bins(rel):
     """The binaries a file is built into: a TU's source sets (walk tu_aliases, the build's .d sets), a header's includers'."""
+    global _t_inc
     w = walk()
     if rel in w["tu_aliases"]:
         return set(w["tu_aliases"][rel])
-    inc = dl.includers().get(rel, []) if T_SYMS_OVERRIDE is None else []
+    if T_SYMS_OVERRIDE is None and (_t_inc is None or _t_inc[0] is not w):
+        _t_inc = (w, dl.includers())                                  # T16.c9: once per walk (was per header file: 69 x 2 s per key)
+    inc = _t_inc[1].get(rel, []) if T_SYMS_OVERRIDE is None else []
     return {a for t in inc for a in w["tu_aliases"].get(t, ())}
+
+
+def t_cast_free(text, name):
+    """(pure, T16.c9) True when no use of `name` in text can be a cast's operand: between each use's statement start (`;`, `{`, `}`)
+    and the use there is no `)` and no CAST_ macro (a cast is a prefix, so its `)` precedes its operand in the same statement)."""
+    m = dl.same_len_mask(text)
+    for u in re.finditer(r"(?<![\w$])" + re.escape(name) + r"\b", m):
+        q = u.start()
+        seg = m[max(m.rfind(";", 0, q), m.rfind("{", 0, q), m.rfind("}", 0, q)) + 1:q]
+        if ")" in seg or "CAST_" in seg:
+            return False
+    return True
 
 
 def _t_stmt_start(masked, p):
@@ -8981,20 +8998,32 @@ def t_hook_global(ctx):
         a0 = al.pop() if al else None
     if a0 is None:
         return block(f"{name} is not a symbol of {b0}")
-    views = {}
+    vtext = {}
     for rel, t, addrs in named:
         if a0 not in addrs.values():
             continue
         other = [b for b, a in addrs.items() if a is not None and a != a0]
         if other:
             return block(f"{rel} also builds {other[0]}, where {name} is another object (G41)")
-        views[rel] = (t,) + file_view(rel, t)
-    if not views:
+        vtext[rel] = t
+    if not vtext:
         return block(f"no file of {b0} names {name}")
-    P["log"].append(f"{name} @ {a0:#x}: {len(views)} file(s) of the object")
-    types = set()
-    for rel, (t, masked, defs, _, _, sites) in views.items():
-        types |= _t_types_of([s for s in sites if s.get("bclass") == bcls and str(s.get("base")) == name], masked, bexpr, 0, len(masked))
+    P["log"].append(f"{name} @ {a0:#x}: {len(vtext)} file(s) of the object")
+    # T16.c9: the type is planned before any file is fully viewed (a 2+ / non-canonical / invisible type blocks in seconds, was ~87 s
+    # per key over 3797 files): a file whose every use of the name has no `)` / CAST_ between its statement start and the name holds
+    # no cast on it (t_cast_free) and adds no type; the per-file types are memoized on the text across the run's keys (_t_gtypes)
+    views, types = {}, set()
+    for rel, t in vtext.items():
+        mk = (rel, bcls, name, hashlib.sha1(t.encode(errors="surrogateescape")).hexdigest())
+        if mk not in _t_gtypes:
+            if t_cast_free(t, name):
+                _t_gtypes[mk] = frozenset()
+            else:
+                views[rel] = (t,) + file_view(rel, t)
+                _, masked, _, _, _, sites = views[rel]
+                _t_gtypes[mk] = frozenset(_t_types_of([s for s in sites if s.get("bclass") == bcls and str(s.get("base")) == name],
+                                                      masked, bexpr, 0, len(masked)))
+        types |= _t_gtypes[mk]
     if len(types) > 1:
         ts = sorted(types)
         return block(f"2+ cast types ({'/'.join(ts[:4])}{f' +{len(ts) - 4}' if len(ts) > 4 else ''})")
@@ -9012,12 +9041,13 @@ def t_hook_global(ctx):
     P["type"] = T
     if T not in canon_types():
         return block(f"type {T} not canonical")
-    unseen = [rel for rel in views if rel.endswith(".c") and not type_visible(rel, T)]
+    unseen = [rel for rel in vtext if rel.endswith(".c") and not type_visible(rel, T)]
     if unseen:
         return block(f"type {T} not visible in {unseen[0]}")
     fm = canon_types()[T][2]
     if fm is None:
         return block(f"type {T}: field map unknown")
+    views = {rel: views.get(rel) or ((t,) + file_view(rel, t)) for rel, t in vtext.items()}   # the edit plan: every file, in order
     want = T if gaddr else T + " *"
     drx = re.compile(r"(?<![\w.])((?:extern|static)\s+)?" + T_DECL_TYPE + r"(\s*\**\s*)\b" + re.escape(name) + r"\s*((?:\[[^\]]*\])*)\s*(=[^;]*)?;")
     other, sites_all, rel_of, decls, pend = collections.defaultdict(list), [], {}, set(), []
@@ -9842,7 +9872,10 @@ def type_selftest(ok):
                          "    r = ft_mk();\n    ((TTyp_A *)r)->unk4 = 1;\n}\n",
               "ov/fr2.c": "#include \"common.h\"\nextern void *ft_mk(void);\n\nvoid ft_use(void) {\n    ft_mk();\n}\n",
               "ov/ff.c": "#include \"common.h\"\n\nvoid ft_f(void *a0) {\n    void *q;\n    q = ((TTyp_C *)a0)->unk4;\n"
-                         "    ((TTyp_A *)q)->unk8 = 1;\n}\n"}
+                         "    ((TTyp_A *)q)->unk8 = 1;\n}\n",
+              "ov/fg4.c": "#include \"common.h\"\nextern s32 D_80078F30;\n\nvoid ft_g4(void) {\n    ((TTyp_A *)&D_80078F30)->unk4 = 1;\n}\n",
+              "ov/fg5.c": "#include \"common.h\"\nextern s32 D_80078F30;\n\nvoid ft_g5(void) {\n    *(TTyp_B *)((u8 *)&D_80078F30 + 4) = *(TTyp_B *)0;\n}\n",
+              "ov/fg6.c": "#include \"common.h\"\nextern s32 D_80078F30;\n\nvoid ft_g6(void) {\n    D_80078F30 = 1; /* ((x)) */\n}\n"}
         (dirp / "ov2").mkdir(parents=True, exist_ok=True)
         fx = {}
         for k, txt in FX.items():
@@ -9851,7 +9884,16 @@ def type_selftest(ok):
         res_ = {tu: tc.walk_file(TU, tu), tu2: tc.walk_file(TU2, tu2), **{fx[k]: tc.walk_file(v, fx[k]) for k, v in FX.items()}}
         als = {r_: (("otherbin",) if "/ov2/" in r_ else ("ftbin",)) for r_ in res_}
         _walk = dict(results=res_, tu_aliases=als)
-        T_SYMS_OVERRIDE = {"ftbin": {"D_80078F20": 0x80078F20}, "otherbin": {"D_80078F20": 0x80099990}}
+        T_SYMS_OVERRIDE = {"ftbin": {"D_80078F20": 0x80078F20, "D_80078F30": 0x80078F30}, "otherbin": {"D_80078F20": 0x80099990}}
+        # T16.c9: the global's type planned before the full views: a cast-free file adds no type and is not viewed; 2+ types block
+        ok("T global screen: t_cast_free finds a cast's operand, a comment's `)` and a plain use are cast-free",
+           t_cast_free("x = 1; D_a = 2; /* ) */ y = D_a;\n", "D_a") and not t_cast_free("    ((T *)&D_a)->f = 1;\n", "D_a")
+           and not t_cast_free("{ *(s16 *)(4 + D_a) = 1; }", "D_a") and not t_cast_free("CAST_ALIAS(T, &D_a, 0) = 1;", "D_a"))
+        Pg2 = t_plan("&D_80078F30@ftbin")
+        g6 = [v for k_, v in _t_gtypes.items() if k_[0] == fx["ov/fg6.c"] and k_[2] == "D_80078F30"]
+        ok("T global: casts of two types across files -> `2+ cast types` before any edit plan; the cast-free file adds none",
+           Pg2["blocked"] and not Pg2["files"] and Pg2["pending"] == ["2+ cast types (TTyp_A/TTyp_B)"] and g6 == [frozenset()],
+           str(Pg2["pending"]) + str(g6))
         Pg = t_plan("&D_80078F20@ftbin")
         g1, g2 = Pg["files"].get(fx["ov/fg.c"], ""), Pg["files"].get(fx["ov/fg2.c"], "")
         ok("T global: `&D_x@bin` typed in every declaration of its binary, `((T *)&D_x)->f` -> `D_x.f`, the other binary's object left",
