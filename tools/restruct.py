@@ -3636,6 +3636,14 @@ def fold_report(heads):
 # padding subsets (a variant joins another), arrays vs scalars vs record leaves (the host's spelling; constant-index accesses
 # respelled, a variable index refuses with its cite; a leaf in a host gap becomes `unk<off>`). `--fold-collapse [TYPE…] [--write]`
 # re-plans the variant unions already committed in the canonical headers by the same rules (accesses `.unkN.vK.f` respelled).
+# T16.c5: declared gap unions. A target field `union { u8 raw[<n>]; … } extX;` (a named union holding a `raw` byte array of its
+# full size) is a gap: an absorbed member's accessed fields inside [lo,hi) go into the union's struct member `<variant>` (created
+# when absent, joined when present: a field agreeing in offset/size/leaves is reused, an overlap refuses), padded to the field
+# offsets (`u8 pad<rel>[…]`), fields named `unk<absolute offset>`; accesses respelled `p->extX.<variant>.unkNN`, even with no
+# conflict; the member's fields outside every gap merge as above; a field straddling a gap edge refuses. Evidence: the absorb's
+# `member:extX.<variant>` tokens (class variant); a token per gap names that gap's variant, and the first token's variant serves
+# every gap the view touches that no token names (one token suffices); a token naming no gap union is the T6 variant path. An
+# absorb with no token touching a gap refuses (needs class variant).
 # ----------------------------------------------------------------------------------------------------------------------
 FOLD_ROOT = None                    # the selftest's synthetic tree (laid out like the repo); None = REPO
 FOLD_FLOWS = ".run/3.45/t14/types.tsv"       # T14's fragment table: candidates `<parent> 0x<off> flow …` (absorb's multi-parent guard)
@@ -4319,6 +4327,80 @@ def _fold_flow_parents(names):
     return out
 
 
+FOLD_GAP_RAW = re.compile(r"^(?:u8|unsigned char) raw\[(0x[0-9A-Fa-f]+|\d+)\]$")
+
+
+def _fold_gaps(res, tdef, tF):
+    """(T16.c5) the target's declared gap unions: {name: dict(lo, hi, members [verbatim non-struct member text], variants {vname:
+    [[rel, name, decl, size, al, leaves]]}, order [vname])} — a named union field holding `u8 raw[<its size>]`; its struct members
+    are the class variants already placed (pad-named fields dropped, re-padded at render). A str cause when one does not parse."""
+    out = {}
+    nested = {f["name"]: f for f in tdef["fields"] if f.get("nested")}
+    for x in tF:
+        t = x["tmpl"]
+        if not t.startswith("union {") or x["name"] not in nested:
+            continue
+        o = t.find("{")
+        c = sl._match_brace(t, o)
+        stm = [t[a:b].strip() for a, b in _fold_stmts(t, o + 1, c) if t[a:b].strip()]
+        raw = [s for s in stm if FOLD_GAP_RAW.match(s)]
+        if not raw or int(FOLD_GAP_RAW.match(raw[0]).group(1), 0) != x["size"]:
+            continue                                              # a union without `raw` (sign / T7 variant unions): not a gap
+        g = dict(lo=x["off"], hi=x["off"] + x["size"], members=[s for s in stm if not s.startswith("struct")], variants={}, order=[])
+        recs = {f["name"]: f for f in nested[x["name"]]["nested"]["fields"]}
+        for s in stm:
+            if not s.startswith("struct"):
+                continue
+            so = s.find("{")
+            sc = sl._match_brace(s, so)
+            vn = s[sc + 1:].strip()
+            if vn not in recs or not (recs[vn].get("nested") or {}).get("fields"):
+                return f"{x['cite']}: gap union {x['name']}: member `{vn}` does not parse"
+            tm = []
+            for a, b in _fold_stmts(s, so + 1, sc):
+                r_ = _fold_tmpls(s[a:b])
+                if isinstance(r_, str):
+                    return f"{x['cite']}: gap union {x['name']}.{vn}: {r_}"
+                tm += r_
+            fs = recs[vn]["nested"]["fields"]
+            if len(tm) != len(fs):
+                return f"{x['cite']}: gap union {x['name']}.{vn}: {len(tm)} templates for {len(fs)} fields"
+            vf, off = [], 0
+            for f, tmpl in zip(fs, tm):
+                L = None if f.get("nested") else res.layout(f["type"], f["stars"], f["dims"])
+                if not L:
+                    return f"{x['cite']}: gap union {x['name']}.{vn}: field `{f['name']}` has no layout"
+                off = (off + L[1] - 1) // L[1] * L[1]
+                if not _fold_is_pad(dict(name=f["name"], tmpl=tmpl)):
+                    vf.append([off, f["name"], tmpl.replace(FOLD_N, f["name"]), L[0], L[1], tuple(sorted(set(L[2])))])
+                off += L[0]
+            g["variants"][vn] = vf
+            g["order"].append(vn)
+        out[x["name"]] = g
+    return out
+
+
+def _fold_gap_decl(name, g):
+    """(T16.c5, pure) a gap union's declaration text and (size, align): `raw` (and any other non-struct member) first, then one
+    `struct { … } <variant>;` per class variant, its fields at their offsets inside the gap (u8 pad<rel> between); None when a
+    variant does not fit the gap or the union's alignment would move it."""
+    parts, al = list(g["members"]), 1
+    for vn in g["order"]:
+        body, vc, val = [], 0, 1
+        for rel, _, decl, sz, fal, _ in sorted(g["variants"][vn]):
+            if rel > vc:
+                body.append(f"u8 pad{vc:X}[{rel - vc:#x}];")
+            body.append(decl + ";")
+            vc, val = rel + sz, max(val, fal)
+        if (vc + val - 1) // val * val > g["hi"] - g["lo"]:
+            return None
+        al = max(al, val)
+        parts.append(f"struct {{ {' '.join(body)} }} {vn}")
+    if g["lo"] % al or (g["hi"] - g["lo"]) % al:
+        return None
+    return f"union {{ {'; '.join(parts)}; }} {name}", (g["hi"] - g["lo"], al)
+
+
 FOLD_INC_ORDER = ("include/struct_types.h", "src/shared/engine_types.h")   # common.h includes struct_types.h; engine_types.h includes common.h
 FOLD_C_WORDS = frozenset("struct union enum const volatile unsigned signed int char short long void float double sizeof".split())
 
@@ -4753,13 +4835,20 @@ def fold_plan(keys):
     if P["refusals"]:
         return P
     # absorb: the offset / the variant path, one parent per type
+    gaps = _fold_gaps(res, tdef, tF) if disp == "absorb" else {}
+    if isinstance(gaps, str):
+        return refuse(f"target {tsp}: {gaps}")
     for m, e in zip(M, rows):
-        m["off"], m["path"] = 0, None
+        m["off"], m["path"], m["gpath"] = 0, None, []
         if disp == "absorb":
             mo = st.OFFSET_RX.search(e.get("evidence") or "")
             m["off"] = int(mo.group(0)[3:], 16) if mo else 0
-            mp = st.MEMBER_RX.search(e.get("evidence") or "")
-            m["path"] = mp.group(0).strip()[len("member:"):].split(".") if mp else None
+            for mp in st.MEMBER_RX.finditer(e.get("evidence") or ""):   # T16.c5: tokens naming a declared gap union are gap variants
+                pth = mp.group(0).strip()[len("member:"):].split(".")
+                if pth[0] in gaps and len(pth) == 2:
+                    m["gpath"].append(pth)
+                elif m["path"] is None:
+                    m["path"] = pth
     if disp == "absorb":
         fl = _fold_flow_parents(set(mnames))
         if fl is None:
@@ -4795,7 +4884,27 @@ def fold_plan(keys):
         return name_rx.sub(tsp, member_rx.sub(tsp, t))
     # the merge: sources (target first), entries (source, field, absolute offset), clusters of overlapping entries
     srcs = [("target", [x for x in tF if psyq or not (_fold_is_pad(x) and x["name"] not in tused)], 0)]
-    srcs += [(m["key"], [x for x in m["F"] if x["name"] in m["used"]], m["off"]) for m in M]
+    # T16.c5: a member field inside a declared gap union goes to its class variant there (below), never into the plain merge
+    gents, gap_changed = [], False
+    for m in M:
+        for x in m["F"]:
+            a = x["off"] + m["off"]
+            if x["name"] not in m["used"]:
+                continue
+            for gn, g in gaps.items():
+                if a < g["hi"] and g["lo"] < a + x["size"]:
+                    if not (g["lo"] <= a and a + x["size"] <= g["hi"]):
+                        return refuse(f"{m['key']}: `{x['name']}` ({x['cite']}) at {a:#x}+{x['size']:#x} straddles the gap union "
+                                      f"{tsp}.{gn} [{g['lo']:#x},{g['hi']:#x})")
+                    vm = {p[0]: p[1] for p in m["gpath"]}
+                    vn = vm.get(gn) or (m["gpath"][0][1] if m["gpath"] else None)   # one token expands to every gap the view touches
+                    if not vn:
+                        return refuse(f"{m['key']}: `{x['name']}` ({x['cite']}) at {a:#x} lies inside the gap union {tsp}.{gn}: "
+                                      f"needs class variant (member:{gn}.<variant>)")
+                    gents.append((m, x, a, gn, vn))
+                    break
+    gset = {(id(m), x["name"]) for m, x, _, _, _ in gents}
+    srcs += [(m["key"], [x for x in m["F"] if x["name"] in m["used"] and (id(m), x["name"]) not in gset], m["off"]) for m in M]
     ents = sorted(((si, x, x["off"] + off) for si, (_, F, off) in enumerate(srcs) for x in F), key=lambda e: (e[2], e[0]))
     clusters, cur_end = [], -1
     for e in ents:
@@ -4809,7 +4918,33 @@ def fold_plan(keys):
                                                  disp == "absorb" and any(m["path"] is None for m in M), tsp)
     if why_m:
         return refuse(why_m)
-    dupn = {n: o for n, o in names_top.items() if len(o) > 1}
+    for m, x, a, gn, vn in gents:                                 # T16.c5: the gap variants (joined by name, padded to the offsets)
+        g = gaps[gn]
+        if vn not in g["variants"]:
+            g["variants"][vn] = []
+            g["order"].append(vn)
+        vf, rel = g["variants"][vn], a - g["lo"]
+        same = next((f_ for f_ in vf if f_[0] == rel and f_[3] == x["size"] and f_[5] == x["leaves"]), None)
+        if same:
+            paths[m["key"]][x["name"]] = f"{gn}.{vn}.{same[1]}"
+            continue
+        hit = next((f_ for f_ in vf if f_[0] < rel + x["size"] and rel < f_[0] + f_[3]), None)
+        if hit:
+            return refuse(f"{m['key']}: `{x['name']}` ({x['cite']}) at {a:#x} conflicts with {tsp}.{gn}.{vn}.{hit[1]} (+{hit[0]:#x}, "
+                          f"{hit[3]:#x} bytes) inside the variant")
+        nm = f"unk{a:X}"
+        vf.append([rel, nm, resub(x["tmpl"]).replace(FOLD_N, nm), x["size"], x["al"], x["leaves"]])
+        paths[m["key"]][x["name"]] = f"{gn}.{vn}.{nm}"
+        gap_changed = True
+    for gn in sorted({e[3] for e in gents}):
+        gd = _fold_gap_decl(gn, gaps[gn])
+        if gd is None:
+            return refuse(f"gap union {tsp}.{gn}: a class variant would not fit [{gaps[gn]['lo']:#x},{gaps[gn]['hi']:#x}) or would move it")
+        k = next((i for i, it in enumerate(items) if it[1] == "plain" and it[0] == gaps[gn]["lo"] and it[2].endswith(f" {gn}")), None)
+        if k is None:
+            return refuse(f"gap union {tsp}.{gn}: not a plain field of the merge (an overlap at {gaps[gn]['lo']:#x})")
+        items[k] = (gaps[gn]["lo"], "plain", gd[0], gd[1][0], gd[1][1])
+    dupn ={n: o for n, o in names_top.items() if len(o) > 1}
     if dupn:
         return refuse(f"two merged fields would share a name: {dupn}")
     maxal = max([it[-1] for it in items] + [1])
@@ -4821,7 +4956,7 @@ def fold_plan(keys):
             refuse(f"{m['key']}: absorb at +{m['off']:#x}: its pointer sources address {tsp}+{m['off']:#x}; retyping them to the parent "
                    f"needs the sources rebased (a lever, not a token rewrite)")
     # the rendered target (unchanged when every member field agrees with a target field and the size holds)
-    changed = nsize != tsize or any(it[1] == "union" for it in items) or any(
+    changed = gap_changed or nsize != tsize or any(it[1] == "union" for it in items) or any(
         it[1] == "plain" and not any(e[0] == 0 for C in clusters for e in C if e[2] == it[0]) for it in items) or len(srcs[0][1]) != len(tF)
     fsig = lambda d_: [(f["name"], f["type"], f["stars"], f["dims"]) for f in d_["fields"]]
     if changed:
@@ -4830,7 +4965,7 @@ def fold_plan(keys):
                  if ln.strip().startswith("/*") and ln.strip().endswith("*/") and not ml.strip()]   # the body's standalone comment lines
         P["merged"] = _fold_render(tdef, items, nsize, comments=notes)
         rd = next((x for x in tc.walk_file(P["merged"] + "\n", tdef["file"])["definitions"]), None)
-        if rd and fsig(rd) == fsig(tdef) and nsize == tsize:
+        if rd and fsig(rd) == fsig(tdef) and nsize == tsize and not gap_changed:   # (a gap variant changes no top-level field)
             P["merged"], changed = None, False                    # the re-render would only rewrite the same fields
     if changed:
         if re.search(r"packed|aligned", tdef.get("attrs") or ""):
@@ -4852,6 +4987,9 @@ def fold_plan(keys):
             for (_, x, ab) in C:
                 if not all((ab + o, w, s_) in leaves for (o, w, s_) in x["leaves"]):
                     return refuse(f"render check: `{x['name']}` ({x['cite']}) is not a leaf of the merged {tsp} at {ab:#x}")
+        for (_, x, ab, gn, _) in gents:
+            if not all((ab + o, w, s_) in leaves for (o, w, s_) in x["leaves"]):
+                return refuse(f"render check: `{x['name']}` ({x['cite']}) is not a leaf of the merged {tsp}.{gn} at {ab:#x}")
     # load-bearing sizes
     if nsize != tsize:
         lb = _fold_lb(tdef, talias, cache)
@@ -5782,6 +5920,40 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("absorb variant: compiles under cc1", rc == 0, err)
+        # T16.c5: declared gap unions (a variant created, then joined by name, a second variant beside it; offset class refused)
+        gp = ("typedef struct {\n    /* 0x0000 */ s32 f0;\n    /* 0x0004 */ union { u8 raw[0x8]; } extA;\n    /* 0x000c */ s32 fC;\n"
+              "} Fx_P; /* size = 0x10 */\ntypedef struct { s32 a; s16 b; s16 c; } Fx_M;\ntypedef struct { s32 a; s32 b; s32 c; } Fx_N;\n"
+              "typedef struct { s32 a; s32 b; } Fx_O;\ntypedef struct { s32 a; s16 b; s16 c; s32 d; } Fx_Q;\n")
+        root = _fold_fixture("gap", gp, {"src/a.c": '#include "struct_types.h"\ns32 gm(Fx_M *m) { return m->a + m->c; }\n'
+                                                      's32 gn(Fx_N *n) { return n->c; }\ns32 go(Fx_O *o) { return o->b; }\n'
+                                                      's32 gq(Fx_Q *q, Fx_P *p) { return q->c + q->d + p->fC; }\n'},
+                             [("Fx_M", "absorb", "Fx_P", "variant", "member:extA.kM src/a.c:2", "-"),
+                              ("Fx_N", "absorb", "Fx_P", "variant", "member:extA.kM src/a.c:3", "-"),
+                              ("Fx_O", "absorb", "Fx_P", "offset", "+0x0 src/a.c:4", "-"),
+                              ("Fx_Q", "absorb", "Fx_P", "variant", "member:extA.kQ src/a.c:5", "-")])
+        P = fold_plan(["Fx_M"])
+        mg = P["merged"] or ""
+        ok("gap union: a field inside the gap goes into variant kM (padded), no conflict needed; outside fields merge plain",
+           not P["refusals"] and "/* 0x0004 */ union { u8 raw[0x8]; struct { u8 pad0[0x2]; s16 unk6; } kM; } extA;" in mg
+           and "/* 0x0000 */ s32 f0;" in mg and "return m->f0 + m->extA.kM.unk6;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        P = fold_plan(["Fx_N"])
+        mg = P["merged"] or ""
+        ok("gap union: a second view with the same variant joins kM (new field appended at its offset)",
+           not P["refusals"] and "struct { u8 pad0[0x2]; s16 unk6; s32 unk8; } kM; } extA;" in mg
+           and "return n->extA.kM.unk8;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        P = fold_plan(["Fx_O"])
+        ok("gap union: an offset-class absorb with a field inside the gap is refused (needs class variant)",
+           len(P["refusals"]) == 1 and "needs class variant (member:extA.<variant>)" in P["refusals"][0], str(P["refusals"]))
+        P = fold_plan(["Fx_Q"])
+        mg = P["merged"] or ""
+        ok("gap union: another variant name opens a second struct member; the parent's own accesses keep their spelling",
+           not P["refusals"] and "struct { u8 pad0[0x2]; s16 unk6; s32 unk8; } kM; struct { u8 pad0[0x2]; s16 unk6; s32 unk8; } kQ; } extA;" in mg
+           and "return q->extA.kQ.unk6 + q->extA.kQ.unk8 + p->fC;" in P["texts"].get("src/a.c", ""), f"{P['refusals']} {mg}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("gap union: compiles under cc1", rc == 0, err)
         _fold_fixture("offconf", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
                       {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_M *m, Fx_P *p) { return m->a + p->f0; }\n'},
                       [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")])

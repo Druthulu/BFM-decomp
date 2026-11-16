@@ -324,7 +324,126 @@ typedef struct {
     /* 0x0246 */ u16 unk246;
     /* 0x0248 */ u16 unk248;
     /* 0x024a */ s16 unk24A;
-} Unkstruct_80126B58; /* size = 0x24c */
+    /* T16.c5: 0x254 bytes: guess_ZeroMemory(&guess_g_PlayerActor, 0x254) (src/shared/ov/func_80145CEC__05c7cfc4.h:51) */
+    /* 0x024c */ u8 pad24C[0x8];
+} Unkstruct_80126B58; /* size = 0x254 */
+
+/* Unkstruct_801202A0 — the actor slot (guess_g_ObjectTable 0x801202A0 x 96, 0x10C each; P3.45 T16.c1 model).
+   Common fields flat; extA/extB/extC/extD are the per-kind gap unions (`raw` + one struct member per class variant, T16.c5). */
+typedef struct Unkstruct_801202A0 {
+    /* T16.c5: actor slot; gaps extA 0x24 (0x10), extB 0xA0 (0x34), extC 0xE0 (0x18), extD 0x100 (0xA) */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ s32 unk4;
+    /* 0x0008 */ s32 unk8;
+    /* 0x000c */ s32 unkC;
+    /* 0x0010 */ s32 unk10;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ s32 unk18;
+    /* 0x001c */ s32 unk1C;
+    /* 0x0020 */ void *unk20;
+    /* 0x0024 */ union { u8 raw[0x10]; } extA;
+    /* 0x0034 */ u16 unk34;
+    /* 0x0036 */ u16 unk36;
+    /* 0x0038 */ u8 pad38[0xC];
+    /* 0x0044 */ s32 unk44;
+    /* 0x0048 */ s32 unk48;
+    /* 0x004c */ s32 unk4C;
+    /* 0x0050 */ u16 unk50;
+    /* 0x0052 */ u16 unk52;
+    /* 0x0054 */ u16 unk54;
+    /* 0x0056 */ u8 pad56[0x2];
+    /* 0x0058 */ s32 unk58;
+    /* 0x005c */ s16 unk5C;
+    /* 0x005e */ u8 unk5E;
+    /* 0x005f */ u8 pad5F[0x1];
+    /* 0x0060 */ s16 unk60;
+    /* 0x0062 */ u16 unk62;
+    /* 0x0064 */ struct Unkstruct_801202A0 *unk64;
+    /* 0x0068 */ void *unk68;
+    /* 0x006c */ s32 unk6C;
+    /* 0x0070 */ u16 unk70;
+    /* 0x0072 */ u16 unk72;
+    /* 0x0074 */ u8 unk74;
+    /* 0x0075 */ u8 unk75;
+    /* 0x0076 */ s16 unk76;
+    /* 0x0078 */ void *unk78;
+    /* 0x007c */ s16 unk7C;
+    /* 0x007e */ s16 unk7E;
+    /* 0x0080 */ s16 unk80;
+    /* 0x0082 */ s16 unk82;
+    /* 0x0084 */ s16 unk84;
+    /* 0x0086 */ u16 unk86;
+    /* 0x0088 */ u16 unk88;
+    /* 0x008a */ u16 unk8A;
+    /* 0x008c */ u16 unk8C;
+    /* 0x008e */ u8 pad8E[0x2];
+    /* 0x0090 */ void *unk90;
+    /* 0x0094 */ s32 unk94;
+    /* 0x0098 */ s16 unk98;
+    /* 0x009a */ s16 unk9A;
+    /* 0x009c */ s32 unk9C;
+    /* 0x00a0 */ union { u8 raw[0x34]; } extB;
+    /* 0x00d4 */ struct Unkstruct_801202A0 *unkD4;
+    /* 0x00d8 */ s32 unkD8;
+    /* 0x00dc */ s32 unkDC;
+    /* 0x00e0 */ union { u8 raw[0x18]; } extC;
+    /* 0x00f8 */ s32 unkF8;
+    /* 0x00fc */ u16 unkFC;
+    /* 0x00fe */ s16 unkFE;
+    /* 0x0100 */ union { u8 raw[0xA]; } extD;
+    /* 0x010a */ s16 unk10A;
+} Unkstruct_801202A0; /* size = 0x10c */
+
+/* Unkstruct_800B5BD8 — the sprite record (0x38, guess_g_RenderWork+0x65A8; render head +0x0..+0x10 shared with the 0x84 model record
+   Unkstruct_8001C9D0; P3.45 T16.c1 model). */
+typedef struct {
+    /* T16.c5: sprite record; +0x0 pool tag 2, +0x2 render kind (src/800.c:8585-8735), +0x18 scale (src/800.c:8740) */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ s32 unk4;
+    /* 0x0008 */ u16 unk8;
+    /* 0x000a */ u16 unkA;
+    /* 0x000c */ u16 unkC;
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u16 unk10;
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0x2];
+    /* 0x0018 */ s16 unk18;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
+    /* 0x001e */ s16 unk1E;
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ u8 unk24;
+    /* 0x0025 */ u8 unk25;
+    /* 0x0026 */ u8 unk26;
+    /* 0x0027 */ u8 unk27;
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ u16 unk2C;
+    /* 0x002e */ u16 unk2E;
+    /* 0x0030 */ s16 unk30;
+    /* 0x0032 */ s16 unk32;
+    /* 0x0034 */ s32 unk34;
+} Unkstruct_800B5BD8; /* size = 0x38 */
+
+/* Unkstruct_8011DB30 — the fx record (D_8011DB30 x 128, 0x38 each; free when +0x0 == 0: src/shared/ov/func_801291C0.h:5-17). */
+typedef struct {
+    /* T16.c5: fx record */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u8 pad2[0x36];
+} Unkstruct_8011DB30; /* size = 0x38 */
+
+/* Unkstruct_8011D030 — the small object (guess_g_SmallObjectPool 0x8011D030 x 30, 0x58 each; +0x0 kind -> D_80126728 handler,
+   +0x20 pointer: src/shared/ov/func_80165CA0.h:14-23). */
+typedef struct {
+    /* T16.c5: small object */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u8 pad2[0x1E];
+    /* 0x0020 */ s16 *unk20;
+    /* 0x0024 */ u8 pad24[0x34];
+} Unkstruct_8011D030; /* size = 0x58 */
 
 /* Unkstruct_80078E78 — the player record at 0x80078E78 (guess_g_PlayerRecord; 0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
    src/resident/resident_jr_800D00E4.c, u8 guess_g_PlayerRecord[] in 880 TUs). Hand-written (P38 T3): field widths are the type the
