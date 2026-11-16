@@ -2489,7 +2489,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2706,7 +2706,7 @@ extern void func_801800B8(void *arg0);
 extern void func_801800E0(void *a0, u8 *a1);
 extern void func_80180D04(void *a0);
 extern void func_80180CE4(void);
-extern void guess_StartActorSequence(s32 a0, void * a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_801812FC(s32 arg);
 extern void func_80181518(s32 param_1);
 extern void (*D_8018AB24[])(void);
@@ -3288,8 +3288,8 @@ void func_80185E34(void *a0) {
  * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
  * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void * a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern s32 func_80185F68(void * a0);
@@ -3487,7 +3487,7 @@ extern void func_801292C8(u8 *a0);
 
 void func_801862F8(s32 arg0) {
     extern s32 guess_GetStoryProgress(void);
-    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
     extern void guess_FreeActor(void *a0);
     s32 flag;
     s32 r;

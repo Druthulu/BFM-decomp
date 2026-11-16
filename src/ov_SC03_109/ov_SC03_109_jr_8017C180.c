@@ -2509,7 +2509,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2931,7 +2931,7 @@ void func_8017D694(s32 *a0) {
 }
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 
 #define SHARED_FN func_8017D72C
 #include "../shared/ov/cls_492294a0f4c8.h"
@@ -3189,8 +3189,8 @@ void func_8017DCE4(void *a0) {
  * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
  * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32, void*);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern s32 func_8017DE18(void * a0);
@@ -3262,11 +3262,11 @@ void func_8017DE74(void *a0) {
 
 
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern void guess_StartActorSequence(s32, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8017E1AC(param_1);
 
 
@@ -3330,7 +3330,7 @@ extern void func_80178D18(void);
 extern u8 D_80197744[];
 extern u8 D_8019784C[];
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_FreeActor(void *a0);
 
 void func_8017E024(void *a0) {
@@ -3363,7 +3363,7 @@ void func_8017E024(void *a0) {
 void func_8017E0E4(s32 arg0) {
     extern u8 D_80197734[];
     extern void guess_RequestSound(s32 a0, s32 a1);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
     if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
         if (((Unkstruct_800B5CB8 *)arg0)->unkFE == 2) {

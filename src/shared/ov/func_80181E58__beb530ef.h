@@ -9,7 +9,7 @@ extern void func_8018276C(s32 a0);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012AD50(void *a0);
 extern void guess_InitModelObjectKind3(s32 a0, s32 a1);
-extern void guess_StartActorSequence(void *a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_801C6410;
 extern u8 D_8018DE14;

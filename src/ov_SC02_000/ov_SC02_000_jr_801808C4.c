@@ -29,7 +29,7 @@ void func_80180A18(int param)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (simple struct-field init + two calls, natural schedule)
 
-extern void guess_StartActorSequence(s32, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_RequestSound(s32, s32);
 extern unsigned char D_801A6F44;
 
@@ -50,13 +50,13 @@ void func_80180A64(s32 param_1)
 
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 func_8012E544(s32 a0);
-extern void guess_StartActorSequence(s32, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void func_801803B0(int arg0);
 extern s32 rand(void);

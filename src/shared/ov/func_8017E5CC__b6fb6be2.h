@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_ShowObjectModel(s32);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80184C90(s32);
 extern short D_80191074;
 extern short D_801B99A8;

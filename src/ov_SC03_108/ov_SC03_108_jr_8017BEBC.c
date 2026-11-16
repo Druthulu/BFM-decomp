@@ -2518,7 +2518,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3071,7 +3071,7 @@ void func_8017D8E8(s32 a0p)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8001C2C4(s32 a0);
 extern void func_8001C1E4(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *arg0);
@@ -3397,7 +3397,7 @@ s32 a0;
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern u8 D_801847C8[];
 extern u8 D_801847C9[];
 extern void func_8017E27C(void *a0);
@@ -3656,7 +3656,7 @@ void func_8017E508(s32 param_1) {
 #include "common.h"
 
 extern s32 rand(void);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_FreeActor(void *a0);
 extern s32 func_80132EF4(s32 a0, s32 a1);
@@ -4101,7 +4101,7 @@ L_end:
  *   : not declared in this TU; typed by the majority project-wide spelling.
  */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern void guess_InitObjectKind6(int, void *);
 extern s32 guess_AllocSpriteObjectHigh(void);
 extern s32 func_80143994(s32 a0, s32 a1);
@@ -4174,7 +4174,7 @@ void func_8017F2E8(s32 param_1)
     extern s32 guess_TickWaitTimer(s32 a0);
     extern void func_8012ADE4(u8 *a0);
     extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-    extern void guess_ClearVelocityAndSetGravity(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
     extern void func_80131E00(s32 a0, s32 a1);
 

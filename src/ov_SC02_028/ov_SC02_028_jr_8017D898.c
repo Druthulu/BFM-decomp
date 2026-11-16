@@ -2506,7 +2506,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3775,7 +3775,7 @@ void func_80180214(void *a0)
 }
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 
 void func_80180294(s32 arg0)
 {
@@ -3827,7 +3827,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
-extern void guess_ClearVelocityAndSetGravity(void *a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 extern s32 func_80132EF4(s32 a0, s32 a1);
@@ -4461,7 +4461,7 @@ void func_801810C8(s32 arg0) {
 
 extern s32 D_801A4CB0;
 extern s32 D_801A6360;
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
@@ -4608,7 +4608,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
     }
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 #define SHARED_FN func_80181404
@@ -4616,7 +4616,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 #undef SHARED_FN
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 #define SHARED_FN func_8018144C
@@ -4909,7 +4909,7 @@ void func_80181A40(void *a0)
 }
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 
 #define SHARED_FN func_80181AD0
 #include "../shared/ov/cls_6d2ffa14de65.h"
@@ -5056,7 +5056,7 @@ void func_80181ED4(s32 arg0) {
 
 #include "common.h"
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void func_801822D0(void *arg0);
 extern s32 guess_AllocSpriteObjectHigh(void);
@@ -5636,7 +5636,7 @@ extern void func_8001CF00(s32 a0);
 extern void guess_BuildCircle12Points(void *a0, unsigned short a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_GetGameVarByte(s32 arg);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 func_8012AD50(void *a0);
 
 void func_801829BC(void *a0)

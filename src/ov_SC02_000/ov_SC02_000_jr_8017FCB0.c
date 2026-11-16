@@ -2528,7 +2528,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2674,7 +2674,7 @@ extern s16 D_8018E6D0;
 extern s32 func_80013478(s32 a0, s32 a1);
 extern s32 ratan2(s32, s32);
 extern s32 func_8017E958(s32 param_1, s32 param_2);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern char D_801A668C[];
 extern void func_8017F5A0(int param_1);
 extern s32 D_801A72C4;
@@ -2723,9 +2723,9 @@ void func_8017FCB0(void *a0) {
 
 // @class: other
 // @unstuck(P36): none — MATCH (26 ins, match_one confirmed)
-extern void guess_StartActorSequence(int, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_UpdateActorModelMatrix(int);
-extern void guess_ClearVelocityAndSetGravity(int);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern unsigned char D_801A6F44;
 extern unsigned char D_8018E6EC;
@@ -2748,9 +2748,9 @@ void func_8017FD80(int param_1) {
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (straight-line stores + 4 calls; delay-slot 0x2 store of 6 schedules into first jal)
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
 extern unsigned char D_801A6F44;
@@ -2778,9 +2778,9 @@ void func_8017FDE8(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (straight-line stores + 5 calls; sibling func_801823A0 is the matched twin)
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
@@ -2922,8 +2922,8 @@ void func_8017FF18(int param_1)
 
 extern unsigned char D_801A6E7C[];
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80143CD4(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_800CB0E8(int param);
@@ -2949,9 +2949,9 @@ void func_801801EC(int param_1)
 extern s32 func_8012CBA4(s32);
 extern int guess_TickWaitTimer(int a0);
 extern void guess_UpdateActorModelMatrix(int a0);
-extern void guess_ClearVelocityAndSetGravity(int a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void guess_StartActorSequence(int a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_801803B0(int arg0);
 extern int rand(void);
 extern int D_801270D4;
@@ -3011,7 +3011,7 @@ void func_80180264(int param_1)
 #include "../shared/ov/func_801803B0__c0330a34.h"
 
 
-extern void guess_StartActorSequence(int, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 D_801A72C4;
 
 void func_801803D0(int param_1)
@@ -3030,7 +3030,7 @@ void func_801803D0(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected (param_1 lives in $s0 across the call; a0 reused as first arg)
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern unsigned char D_801A73BC[];
 
 void func_80180428(int param_1)
@@ -3064,7 +3064,7 @@ extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32  func_8012C51C(void *a0, s32 a1);
 extern s32  guess_TickWaitTimer(s32 a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32  rand(void);
 extern void func_801803D0(int param_1);
 extern void func_80180428(int param_1);
@@ -3179,7 +3179,7 @@ lab_ab0:
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern s32  guess_TickWaitTimer(s32 a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8012C098(void *param_1);
 extern void guess_FreeActor(void *a0);
 extern s32  D_801270CC;
@@ -3240,8 +3240,8 @@ void func_801806E4(int p)
 // @unstuck(P36): none — MATCH (unsigned short store @0x5c forces ori vs li/addiu for 0xaa10)
 
 extern int D_801A6C5C;
-extern void guess_StartActorSequence(s32 a0, void *a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_80180878(short *param_1)
 {

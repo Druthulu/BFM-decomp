@@ -2507,7 +2507,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2667,7 +2667,7 @@ extern void func_8017C100(s32 param_1);
 extern void func_8017C1AC(s32 param_1);
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8012B260(u8 *a0);
 extern void func_8017C1EC(s32 a0);
 extern void func_8017C2B0(s32 a0);
@@ -2756,7 +2756,7 @@ extern void func_80184CB8(s32*, s32);
 extern void func_8017E5A0(void * arg0);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_ShowObjectModel(s32);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80184C90(s32);
 extern short D_80191074;
 extern short D_801B99A8;
@@ -2830,7 +2830,7 @@ extern void func_80180134(void);
 extern void func_8018015C(u8 *a0);
 extern void func_80180164(void * arg0);
 extern void func_80180190(void * arg0);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);  /* fleet-canonical sig (TU L3775) */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);  /* fleet-canonical sig (TU L3775) */
 extern short D_801918F4;
 extern short D_801B65B8;
 extern void func_8018034C(void *arg0);
@@ -2901,7 +2901,7 @@ extern s32 D_801D7598;
 extern s32 D_801D2200;
 extern s32 D_801E7018;
 extern void func_801819B0(void);
-extern void guess_StartActorSequence(s32 *, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80178CBC(s32 *, s32);
 extern s32 D_80191B3C;
 extern s32 D_80191B74;
@@ -3056,7 +3056,7 @@ void func_80183E6C(void *a0)
 
 
 extern short D_801B99A8;
-    extern void guess_StartActorSequence(s32*, s32);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_ShowObjectModel(s32);
 extern void func_80184C90(s32);
 
@@ -3064,7 +3064,7 @@ void func_80183FA8(arg0)
 s32 *arg0;
 {
     extern void guess_ShowObjectModel(s32 a0);
-    extern void guess_StartActorSequence(s32*, s32);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern void func_80184C90(s32 a0);
     extern short D_801B99A8;
 
@@ -3278,7 +3278,7 @@ extern void func_80184CB8(s32*, s32);
 
 extern int func_80178970(void);
 extern short D_801B99A8;
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80178D18(void);
 
 void func_80184504(arg0)
@@ -3297,7 +3297,7 @@ void *arg0;
 
 extern int func_80178970(void);
 extern short D_801B99A8;
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80178D18(void);
 
 void func_80184560(arg0)
@@ -3467,7 +3467,7 @@ s32 func_801847BC(void *a0, void *a1) {
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_80184858
 #include "../shared/ov/cls_0960520aba0d.h"
 #undef SHARED_FN
@@ -3490,7 +3490,7 @@ extern void guess_StartActorSequence(s32*, s32);
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_80184884
 #include "../shared/ov/cls_8d58b29c1fa1.h"
 #undef SHARED_FN
@@ -3513,7 +3513,7 @@ extern void guess_StartActorSequence(s32*, s32);
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_801848B0
 #include "../shared/ov/cls_06bf59fdb7af.h"
 #undef SHARED_FN

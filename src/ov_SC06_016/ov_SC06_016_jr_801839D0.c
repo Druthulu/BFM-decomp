@@ -2504,7 +2504,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2737,7 +2737,7 @@ extern void guess_RequestSound(s32 arg0, s32 arg1);
 extern void func_801822A0(void);
 extern void func_801822C4(void);
 extern void func_801822FC(void);
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern u8 D_80188A70[];
 extern u8 D_80188A04[];
@@ -2768,8 +2768,8 @@ extern void func_801834D8(s32 param_1);
 extern void (*D_8019A524[])(void);
 extern void func_8018384C(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(void *a0);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80183888(void *a0);
 
 
@@ -2858,9 +2858,9 @@ void func_80183BBC(void *a0) {
 
 
 extern s32 D_8019A4F0;
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern u8 D_801851C4[];
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80183BF8(a0)
 void *a0;
@@ -2880,10 +2880,10 @@ void *a0;
 }
 
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern u8 D_801851C4[];
 extern u8 D_8019A5A8[];
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80183CA0(arg0)
 s32 arg0;

@@ -2510,7 +2510,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3930,7 +3930,7 @@ extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);        /* §183 SIGNATURE-adopted-TU */
 extern void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2); /* §183 SIGNATURE-adopted-TU */
 extern void func_8001C97C(void *a0);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 guess_AllocSpriteObjectHigh(void);
 extern void guess_InitObjectKind6(int, void *);
 extern void StoreImage(void *a0, void *a1);
@@ -4247,7 +4247,7 @@ void func_8017F330(s32 param_1) {
     extern s32 rand(void);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern s32 guess_TickWaitTimer(s32 a0);
-    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
     extern s32 func_80180FE0(s32 a0, s32 a1);
     extern void func_80181170(int arg0);
     extern s32 func_801812AC(s32 a0);
@@ -4687,7 +4687,7 @@ extern void * func_80185C6C(s32 a0, s32 a1); /* TU idiom: calls go through a (s3
 #define CALL_80185C6C ((void *(*)(s32, s32))func_80185C6C)
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80013478(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern u8 D_80126B5C;
 extern void (*D_80190218[])(void);
 extern s32 D_801DDB2C[5];
@@ -4760,7 +4760,7 @@ void func_80180198(s32 a0) {
  * The 8-byte `volatile` pad reproduces the 0x30 frame (0x10 argsave + 8 dead + six
  * 4-byte saves at 0x18..0x2C); nothing in the body touches the stack. */
 extern s32 guess_TickWaitTimer(s32 a0);
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_801804C8(s32 a0);
 extern void func_801856A4(s32 *a0, s32 a1);
 extern s32  rand(void);
@@ -5602,9 +5602,9 @@ void func_80181848(int param_1)
 
 
 extern s32 D_80190780;
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8001D0E8(s32 a0, s32 a1, s32 a2);
-extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_80181D94(s32 a0);
 extern void func_80182334(s32 a0);
 extern Vec3s D_80190448;
@@ -5800,7 +5800,7 @@ extern void * func_80185C6C(s32 a0, s32 a1); /* TU idiom: calls go through a (s3
 extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern s32  rsin(s32 a0);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
-extern s32  guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_801856A4(s32 *a0, s32 a1);
 extern void func_801856C0(s32 *a0);
 extern void func_80182388(s32 a0, s32 a1);
@@ -6066,7 +6066,7 @@ void func_801825D8(s32 arg0, s32 arg1)
     extern s32 D_801DFDB4[];
     extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
     extern s32 func_8012C51C(void *a0, s32 a1);
-    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
     extern void func_801859F4(void *a0, s32 a1, s32 a2, s32 a3, s32 a4,
                               s32 a5, s32 a6, s32 a7, s32 a8);
 
@@ -8824,7 +8824,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 extern s32 D_801DFF6C;

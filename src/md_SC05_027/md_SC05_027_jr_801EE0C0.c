@@ -268,7 +268,7 @@ extern s32 D_801F5998;
 extern s32 guess_GetStoryProgress(void);
 extern s32 guess_AllocModelObject(void);
 extern void guess_InitModelObject(s32, s32);
-extern void guess_StartActorSequence(s32, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *, s32);
 extern void guess_FreeActorDuringSpawn(void *);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void func_80178B18(s32, s32);

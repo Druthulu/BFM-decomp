@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern int func_80178970(void);
 extern void func_80178D18(void);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 void func_80182AF8(void *a0) {
     extern s16 D_801E7020;
     extern s16 D_801E7022;

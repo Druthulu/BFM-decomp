@@ -311,7 +311,7 @@ extern void func_80142C9C(s32 * arg0);
 extern void func_80142B2C(void *arg0);
 extern void func_80142DC4(int param_1);
 extern void func_80142E38(int param_1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80142EC0(s32 param_1);
 extern void func_80142FFC(s32 *a0);
 extern void func_8014305C(int param_1);
@@ -335,7 +335,7 @@ extern s32 rand(void);
 extern void func_80143640(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_801437D8(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_80143970(s32 a0);
-extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 func_80143994(s32 a0, s32 a1);
 extern s32 func_801439C0(u8 *a0);
 extern s32 func_80134510(s32 arg);
@@ -345,7 +345,7 @@ extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxH
 extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern void func_801439FC(s32 a0);
 extern void func_80143B30(void *a0);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 guess_SpawnActorType1C(s32 arg0, s32 arg1);
 extern s32 func_80143BDC(u16 *a0);
 extern void func_80143C38(void *a0);

@@ -10,8 +10,8 @@ void func_801E4C64(Unkstruct_80126B58 *a0) {
 
 
 void func_801E4CA0(s32 a0) {
-    extern s32 guess_InitActorModel(s32 arg0, s32 arg1);
-    extern void guess_StartActorSequence(s32 arg0, void *arg1);
+    extern s32 guess_InitActorModel(Unkstruct_801202A0 *arg0, s32 arg1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *arg0, void *arg1);
     extern s32 func_80143994(s32 arg0, s32 arg1);
     extern s32 D_80196BBC;
     extern void D_801E5DB4;
@@ -30,7 +30,7 @@ void func_801E4CA0(s32 a0) {
 
 
 void func_801E4D14(s32 a0) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern u8 D_8019702C[];
@@ -49,7 +49,7 @@ void func_801E4D7C(s32 *a0) {
     extern void func_801E53E0(s32);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern void D_801E5DB4;
 
@@ -65,7 +65,7 @@ void func_801E4D7C(s32 *a0) {
 
 void func_801E4DF0(Unkstruct_800B5CB8 *a0) {
     extern s32 guess_OpenTextWindow(s32);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern u8 D_801970B0[];
     extern u8 D_801E60D4[];
@@ -135,7 +135,7 @@ void func_801E4F6C(Unkstruct_801818B8_2 *a0) {
 
 
 void func_801E4FC8(s32 a0) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern u8 D_801971DC[];
@@ -167,7 +167,7 @@ void func_801E5030(s32 *a0) {
 
 void func_801E5094(s32 a0) {
     extern void func_801E53E0(s32);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern u8 D_801E5FFC[];
 
@@ -182,7 +182,7 @@ void func_801E5094(s32 a0) {
 void func_801E50F0(s32 a0) {
     s32 s0 = a0;
     extern void func_801E53E0(s32);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern void D_801E626C;
 
@@ -197,7 +197,7 @@ void func_801E50F0(s32 a0) {
 void func_801E514C(s32 a0) {
     extern void func_801E53E0(s32);
     extern void func_8017E424(void);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern u8 D_80197480[];
@@ -217,7 +217,7 @@ void func_801E51C0(s32 a0) {
     extern void func_801E53E0(s32);
     extern s32 guess_GetTextWindowResult(s32);
     extern void guess_CloseTextWindow(s32);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern void func_8017E454(void);
     extern s32 guess_OpenTextWindow(s32);
     extern u8 D_801E5FFC[];
@@ -235,7 +235,7 @@ void func_801E51C0(s32 a0) {
 
 
 void func_801E5240(s32 a0) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_GetTextWindowResult(s32);
     extern void guess_CloseTextWindow(s32);
     extern void D_801E5DB4;
@@ -252,7 +252,7 @@ void func_801E5240(s32 a0) {
 
 
 void func_801E52BC(s32 a0) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern void D_801E5DB4;
 
@@ -309,7 +309,7 @@ void func_801E53A8(void *a0) {
 }
 
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
 extern void D_801E5DB4;
 extern void D_801E5E0C;
 extern void D_801E5F04;
@@ -343,10 +343,10 @@ void func_801E548C(s32 a0) {
     extern s32 D_801E63C4;
     extern s32 D_80196BBC;
     extern s32 D_801F3D3C;
-    extern s32 guess_InitActorModel(s32 arg0, s32 arg1);
+    extern s32 guess_InitActorModel(Unkstruct_801202A0 *arg0, s32 arg1);
     extern void func_8001C1E4(void *arg0, s32 arg1);
-    extern void guess_StartActorSequence(s32 arg0, void *arg1);
-    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *arg0, void *arg1);
+    extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
     s32 v0;
     s32 p;
 
@@ -363,7 +363,7 @@ void func_801E548C(s32 a0) {
 
 
 void func_801E5518(s32 a0) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern void (*D_80197080[])(void);
@@ -382,7 +382,7 @@ void func_801E5580(s32 *a0) {
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern s32 D_801E63C4;
 
@@ -398,7 +398,7 @@ void func_801E5580(s32 *a0) {
 
 void func_801E55F4(s32 a0) {
     extern void func_801E590C(void *a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern u8 D_8019729C[];
@@ -418,7 +418,7 @@ void func_801E5664(s32 *a0) {
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern s32 D_801E63C4;
 
@@ -434,7 +434,7 @@ void func_801E5664(s32 *a0) {
 
 void func_801E56D8(s32 a0) {
     extern void func_801E590C(void *a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 guess_OpenTextWindow(s32);
     extern s32 D_801270C8;
     extern u8 D_80197418[];
@@ -454,7 +454,7 @@ void func_801E5748(s32 *a0) {
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern s32 D_801270C8;
     extern s32 D_801E63C4;
 
@@ -470,7 +470,7 @@ void func_801E5748(s32 *a0) {
 
 
 extern s32 MoveImage(void *a0, s32 a1, s32 a2);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
 extern u8 D_801E65E4[];
 
 void func_801E57C4(s32 a0) {

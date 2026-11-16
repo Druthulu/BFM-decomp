@@ -3,7 +3,7 @@
 void SHARED_FN(s32 *a0)
 {
     extern void guess_UpdateActorModelMatrix(s32 a0);
-    extern void guess_ClearVelocityAndSetGravity(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
     s32 ptr;
 

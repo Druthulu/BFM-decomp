@@ -2511,7 +2511,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3414,7 +3414,7 @@ void func_8017F380(int param_1)
 {
     extern s32 guess_AllocModelObject(void);
     extern void guess_InitModelObject(int, int);
-    extern void guess_StartActorSequence(int, void *);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 func_80143994(int, int);
     extern s32 D_8019E198;
     extern s32 D_8019F034;

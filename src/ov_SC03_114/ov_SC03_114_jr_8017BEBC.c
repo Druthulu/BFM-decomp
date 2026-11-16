@@ -2518,7 +2518,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2832,7 +2832,7 @@ extern s32 guess_AllocModelObject(void);
 extern void func_8001CA88(s32 a0, void *a1);
 extern void func_8001C2C4(s32 a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_80143994(s32 a0, s32 a1);
 
 void func_8017D110(s32 param_1)
@@ -3058,7 +3058,7 @@ extern void (*D_80183228[])(void);
 
 
 extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
-extern void guess_StartActorSequence(s32, void*);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 #define SHARED_FN func_8017D740
 #include "../shared/ov/cls_c1eea362678d.h"
@@ -3119,7 +3119,7 @@ void func_8017D920(void) {
 extern u8 D_801824A8[];
 extern u8 D_80182640[];
 extern u8 D_80182778[];
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_8017D928(s32 p)
 {
@@ -3163,7 +3163,7 @@ void func_8017D928(s32 p)
 void func_8017DA28(void) {
 }
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern s32 rand(void);
 extern void func_8017D740(void *arg0);
@@ -3216,7 +3216,7 @@ e58_chk:
 }
 
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8017D740(void *arg0);
 extern void (*D_80182F88[])(void);
 extern void (*D_80183050[])(void);

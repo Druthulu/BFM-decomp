@@ -1,6 +1,6 @@
 /* guess_SpawnActorType1C — shared body (overlay slot 0x80128158, h_exact 0911480d). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 /* guess_SpawnActorType1C: spawns an actor of type 0x1C with argument a1 next to parent a0; for a1 == 0 copies the parent model's +0x12 rotation word
  * Confidence medium, xref chain: guess_SpawnActor(0x1C, a1, a0); if spawned, a0 has a model and a1 == 0: child +0xFC = *(u16 *)(model + 0x12)
  * Names ledger: config/names.tsv guess_SpawnActorType1C */

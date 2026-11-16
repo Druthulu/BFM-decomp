@@ -4,8 +4,8 @@
 void func_8017F950(s32 arg0)
 {
     extern void guess_StartPadVibration(void *a0);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
-    extern void guess_ClearVelocityAndSetGravity(s32 a0);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+    extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
     extern void guess_UpdateActorModelMatrix(s32 a0);
     extern void func_8012E9C0(s32 a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);

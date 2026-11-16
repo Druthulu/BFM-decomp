@@ -6,7 +6,7 @@ extern u8 D_801A7604;
 extern u8 D_801A766C;
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80142414(s32 a0, s16 a1);
 void func_80188134(s32 a0) {
     s32 s0 = a0;

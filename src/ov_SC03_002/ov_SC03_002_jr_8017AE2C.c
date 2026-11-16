@@ -2516,7 +2516,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3573,7 +3573,7 @@ void func_8017C490(s32 param_1)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32, void*);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8012B260(u8 *a0);
 
 
@@ -3642,7 +3642,7 @@ void func_8017C594(s32 a0)
 extern s32  guess_GetStoryProgress(void);          /* TU line 29   */
 extern s32  guess_TestGameFlag(s32 arg);       /* TU line 63   */
 extern u8   guess_g_PlayerRecord[];                 /* TU line 390  */ // Names ledger: config/names.tsv guess_g_PlayerRecord
-extern void guess_StartActorSequence(s32 a0, void * a1); /* TU line 3444 */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1); /* TU line 3444 */
 extern s16  D_801CB908;                   /* TU line 3405 -- s16 in the TU; the 32-bit store
                                              below therefore goes through a cast at the USE
                                              SITE, never a redeclaration. */
@@ -3650,7 +3650,7 @@ extern s16  D_801CB908;                   /* TU line 3405 -- s16 in the TU; the 
 /* --- project-canonical engine-core prototypes (src/shared/engine_core.h); NOT declared
        anywhere in this TU, so no conflict. --- */
 extern void guess_FreeActorDuringSpawn(void *a0);
-extern s32  guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern s32  func_80143970(s32 a0);
 
 /* --- overlay-local data; none of these are declared anywhere in the TU. --- */
@@ -3711,7 +3711,7 @@ void func_8017C61C(void *a0) {
 /* func_8017C7B8 -- ov_SC03_002 / ov_SC03_002_jr_8017AE2C */
 
 /* --- forms taken VERBATIM from the TU (src/ov_SC03_002/ov_SC03_002_jr_8017AE2C.c) --- */
-extern void guess_StartActorSequence(s32 a0, void *a1);                                        /* TU line 3653 */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);                                        /* TU line 3653 */
 extern void (*D_80189030[])(void);                                                  /* TU line 4029 */
 extern s32  rand(void);                                                             /* TU line 956  */
 extern s16  D_801CB908;                                                             /* TU line 3947 */
@@ -3820,7 +3820,7 @@ void func_8017C7B8(s32 a0) {
 extern s32  guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6); /* TU 142  */
 extern s32  guess_GetPlayerControlScript(void);                                                     /* TU 349  */
 extern void  func_80178B70(s32 param_1, s32 param_2);                                 /* TU 2538 */
-extern void guess_StartActorSequence(s32 a0, void * a1);                                        /* TU 3444 */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);                                        /* TU 3444 */
 extern u8   D_80188FA8[];                                                            /* TU 3736 */
 extern s32  D_801CB914;                                                              /* TU 3948 */
 
@@ -4020,7 +4020,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);                                 
 extern s32  guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);/* TU line 142  */
 extern int  func_80178970(void);                                                    /* TU line 2538 */
 extern void guess_ApplyAccelAndVelocity(s32 a0);                                                  /* TU line 2621 */
-extern void guess_StartActorSequence(s32 a0, void * a1);                                       /* TU line 3444 */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);                                       /* TU line 3444 */
 extern s32  func_8012E778(s32 param_1, s32 param_2);                                /* TU line 3665 */
 /* The TU declares func_801439C0 BELOW this splice point (line 3667) as s32(s32); the
    engine-core form is void(u8*).  cc1 reported `conflicting types for func_801439C0`.
@@ -4222,9 +4222,9 @@ void func_8017CFE0(s16 *a0) {
 
 
 extern int func_80178970(void);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void * a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern u8 D_80189098[];
 
@@ -4264,7 +4264,7 @@ void func_8017D2D0(s32 a0) {
 extern int func_80178970(void);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void (*D_80189030[])(void);
@@ -4329,7 +4329,7 @@ void func_8017D474(s32 a0)
 
 extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_8012E778(s32 param_1, s32 param_2);
-extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32 func_801439C0(s32 a0);
 extern void guess_FreeActor(s32 a0);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord

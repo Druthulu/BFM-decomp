@@ -2505,7 +2505,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2720,8 +2720,8 @@ extern void func_8017E6A0(s32 param_1);
 /* func_8017E6EC — ov_SC03_117 six-way state-machine dispatcher */
 extern void func_8013C9C4(void *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
-extern void guess_StartActorSequence(s32 a0, s32 a1);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8017EB34(s32);
 extern void func_8017ECC4(s32 arg0, u16 arg1);
@@ -4286,8 +4286,8 @@ void func_80180CF0(void *a0) {
 
 
 extern s32 rand(void);
-extern s32 guess_InitActorModel(s32 *a0, s32 a1);
-extern void guess_StartActorSequence(s32, s32);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_80143994(s32 *a0, s32 a1);
 
 
@@ -4591,7 +4591,7 @@ void func_801815B8(s32 a0) {
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012E778(s32 a0, s32 a1);
 extern void guess_ShowObjectModel(s32 a0);
-extern void guess_StartActorSequence(s32, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80181754(void *arg0) {
 
@@ -4646,7 +4646,7 @@ void func_80181810(void *arg0) {
 }
 
 
-extern void guess_StartActorSequence(s32 a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_801C348C;
     void func_8018189C(void * arg0) {
         ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;

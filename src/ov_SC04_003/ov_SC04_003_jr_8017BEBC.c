@@ -2516,7 +2516,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2974,8 +2974,8 @@ void func_8017D578(void *a0) {
  * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
  * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32, void*);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern s32 func_8017D698(s32 a0);
@@ -3259,7 +3259,7 @@ extern void func_8017E2E8(void);            /* stub in this TU, not yet declared
 extern void guess_FreeActorDuringSpawn(void *a0);        /* already declared this way in this TU */
 extern void guess_ZeroMemory(void *a0, s32 a1);/* already declared this way in this TU */
 extern void func_8001C2C4(s32 a0);          /* canonical def: src/800.c:5718 void func_8001C2C4(s32 a0) */
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2); /* already declared this way in this TU */
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2); /* already declared this way in this TU */
 extern void guess_BuildCircle12Points(void *, unsigned short);       /* already declared this way in this TU */
 extern s32 func_8012AD50(s32);             /* already declared this way in this TU */
 
@@ -4028,7 +4028,7 @@ extern M2C_UNK D_801976F4;
 extern s32 D_8019776C;
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017F150(void *arg0) {
     void *s0 = arg0;
@@ -4059,7 +4059,7 @@ void func_8017F1AC(void *a0) {
 
 extern s32 D_80197764;
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017F218(void *arg0, s16 a1) {
     ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk20 = D_80197764;
@@ -4077,7 +4077,7 @@ extern void func_8002D59C(s32 a0, u16 a1, s32 a2);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 guess_TickWaitTimer(s32 arg);
 extern void guess_FreeActor(void *a0);
@@ -4198,7 +4198,7 @@ void func_8017F510(void *arg0)
 extern s32 rand(void);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8017F470(void *a0);
 extern s32 func_8017FB48(void *a0, void *a1);
 extern void func_8017FF18(s32 a0, u16 *a1, s32 a2);
@@ -4362,7 +4362,7 @@ extern M2C_UNK D_80197B6C;
 extern void func_8002AC00(s32 arg0);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void func_80130088(void *a0);
 extern void func_80131B14(u8 *a0v);
@@ -4428,7 +4428,7 @@ extern void guess_StartActorSequence_2(u8*, s32);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8012ADE4(u8 *a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_8012CBA4(s32);
 
@@ -4613,7 +4613,7 @@ extern M2C_UNK D_8019760C;
 extern M2C_UNK D_80197EEC;
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017FE90(void *arg0) {
     ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0x8A10;
@@ -4773,7 +4773,7 @@ extern s32 func_80132EF4(s32 a0, s32 a1);
 extern u8 D_8019321C[0x20];
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
@@ -4834,7 +4834,7 @@ void func_80180394(void *a0) {
 
 void func_801803D0(void *param_1)
 {
-    extern s32 guess_InitActorModel(s32 a0, s32 a1);
+    extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
     extern s32 func_80143970(s32 a0);
     extern s32 guess_SnapActorToGround(u8 *a0);
     extern s32 rand(void);
@@ -4936,7 +4936,7 @@ extern s32 func_8017FA94(s32 a0, s32 a1, s32 *a2);
 extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 arg);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 func_8017FD38(s32 a0);
 extern void func_8017F218(void *arg0, s16 a1);
@@ -4972,7 +4972,7 @@ extern s32 func_8017FA94(s32 a0, s32 a1, s32 *a2);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_8012ADE4(u8 *a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8017FF9C(void *a0);
 
 void func_801806E8(s32 a0) {
@@ -5010,7 +5010,7 @@ void func_801806E8(s32 a0) {
 extern M2C_UNK D_8019760C;
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_801807F4(s32 a0) {
     if (((Unkstruct_800B5CB8 *)a0)->unk98 == 0) {
@@ -5028,7 +5028,7 @@ extern s32 D_8019776C;
 extern s32 func_8017FB48(void *a0, void *a1);
 extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8018084C(void *arg0) {
     void *s0 = arg0;
@@ -5153,7 +5153,7 @@ void func_80180A78(s32 param_1) {
 }
 
 
-extern void guess_ClearVelocityAndSetGravity(s32 arg);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
     extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80180B10(s32 param_1) {
         guess_ClearVelocityAndSetGravity(param_1);
@@ -5593,7 +5593,7 @@ extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_RequestSound(s32, s32);
-extern void guess_StartActorSequence(s32, void *);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8012B77C(void *, s32, void *);
 extern void guess_UpdateActorModelMatrix(s32);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
@@ -5715,7 +5715,7 @@ void func_80181708(s32 param_1) {
 // @unstuck(P36): none — MATCH (71 ins). Tail schedule: read out.c into an explicit temp BEFORE the 0x5a/1 const stores so gcc hoists its lhu early (load-delay filled by li 0x5a) and stores out.c last from a held reg; without the temp gcc instead deferred out.b's store. in/out are two separate SV3{s16 a,b,c} stack slots (sp+0x10, sp+0x18) for ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(a0,&in,&out). 0x34 compare reads u16 (lhu, not lh).
 
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 extern void guess_ApplyAccelAndVelocity(s32 a0);
@@ -5799,12 +5799,12 @@ void func_80181960(void *a0) {
 /* Declarations conform VERBATIM to the ones already present in
  * src/ov_SC03_014/ov_SC03_014_jr_801848E4.c (lines 58, 2524, 2527, 3139,
  * 3222, 3244, 3245).  Type mismatches are resolved by casting AT THE USE. */
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_TestGameFlag(s32 arg);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_FreeActorDuringSpawn(void *a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 /* not declared anywhere in the TU */
 extern s32 func_80182048(s32 arg0);
 
@@ -6049,8 +6049,8 @@ void func_80181E54(void *a0) {
 
 
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80181E90(void *a0) {
 
@@ -6084,7 +6084,7 @@ void func_80181E90(void *a0) {
 
 
 extern void guess_FreeActor(void *a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80181F18(void *a0) {
@@ -6125,7 +6125,7 @@ void func_80181F18(void *a0) {
  * the widths: `lh` at 0x98/0xFE, `sh` at 0x02.
  */
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80181FD8(void *a0) {
 

@@ -2511,7 +2511,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2732,14 +2732,14 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012AE00(s32 a0);
 extern s32 guess_DistSqToPlayer(s32 a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 guess_TurnStepToTarget(s32 arg0, s32 arg1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80142414(s32 a0, s16 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_8017F5A0(s32 a0);
 extern void func_8017F5E4(s32 a0);
@@ -3232,7 +3232,7 @@ void func_8017EA84(s32 a0)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected; simple param-survives-call store sequence
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern char D_801A668C[];
 
 void func_8017F5A0(int param_1)
@@ -3248,7 +3248,7 @@ void func_8017F5A0(int param_1)
 // @class: plumbing
 // @unstuck(P36): none — MATCH expected; param_1 survives call in $s0 naturally (single global allocno)
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 D_801A72C4;
 
 void func_8017F5E4(s32 param_1) {
@@ -3281,7 +3281,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 guess_TurnStepToTarget(s32 arg0, s32 arg1);
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8018A660(s32 a0, s32 a1);
 
 extern u16 D_8018E66C[];

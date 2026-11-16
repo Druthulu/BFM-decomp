@@ -2508,7 +2508,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2926,7 +2926,7 @@ extern s32 D_801270C8;
 extern u8 D_80195AFA[];
 extern u8 D_8019103C;
 extern void func_8018A1D8(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8013C9C4(void *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern s32 func_801873FC(s32 a0);
@@ -3008,7 +3008,7 @@ extern void func_801862F0(void * arg0);
     }
 
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_801822B4(s32 arg0) {
     guess_ClearVelocityAndSetGravity(arg0);
@@ -3026,7 +3026,7 @@ extern u8 D_80195B2C[];
 extern void guess_StartPadVibration(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80183B0C(void);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80186C0C(void *a0);
@@ -3104,7 +3104,7 @@ void func_801822EC(u8 *arg0) {
 
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8018A3B4(void *a0);
@@ -3321,7 +3321,7 @@ void func_80182918(s32 a0) {
 
 #include "common.h"
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80184C20(s32 a0);
@@ -3377,7 +3377,7 @@ extern void func_801856E4(void);
 extern void func_8018415C(void *a0);
 extern void func_80182810(void *a0);
 extern void func_801828D8(void *arg0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186F14(void *a0);
 extern void func_80186C0C(void *a0);
@@ -3506,7 +3506,7 @@ void func_80182A8C(s32 s0) {
 
 
 extern void func_80186178(s32 *a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 
@@ -3529,7 +3529,7 @@ void func_80182DCC(void *a0) {
 
 #include "common.h"
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8013C9C4(void *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8018A1D8(s32 a0);
@@ -3560,7 +3560,7 @@ void func_80182E78(void *a0) {
 
 #include "common.h"
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void func_80186F14(void *a0);
@@ -3603,7 +3603,7 @@ void func_80182EB0(void *a0r) {
 }
 
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_80182F78(s32 arg0)
 {
@@ -3613,7 +3613,7 @@ void func_80182F78(s32 arg0)
 }
 
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern s16 D_801E43A8;
 extern s16 D_801E43AC;
 extern s16 D_801E43B0;
@@ -3733,7 +3733,7 @@ void func_801831A4(void *a0)
 
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8018415C(void *a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80186F58(void *a0);
 extern void func_80184C20(s32 a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -3906,7 +3906,7 @@ extern s32 D_80195B1C[];
 
 extern s32 func_8012CBF4(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -4002,7 +4002,7 @@ extern void func_801827A8(void *a0);
 extern void func_80182810(void *a0);
 extern void func_801828D8(void *arg0);
 extern void func_8012AD44(s32 *a0, s16 a1);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80186304(void * param_1, s32 param_2, int param_3);
 extern void func_80186F14(void *a0);
 
@@ -4913,7 +4913,7 @@ void func_80184C20(s32 a0) {
 
 #include "common.h"
 
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern u8 D_80196414[];
 

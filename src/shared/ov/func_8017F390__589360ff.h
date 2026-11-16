@@ -7,7 +7,7 @@ extern s32 D_801E8008;
 extern char D_801A6534[];
 extern char D_801A7054[];
 extern char D_8018E6B0[];
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32  guess_TickWaitTimer(s32 a0);
 extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);

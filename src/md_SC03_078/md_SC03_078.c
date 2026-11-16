@@ -308,7 +308,7 @@ void func_801EFD40(void *a0) {
     extern s32 func_8018727C(void *a0, void *a1);
     extern u8 D_801EFE9C[];
     extern u8 D_801C3FC8[];
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void *a1);
     extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
     extern u8 D_801EFE94[];
     extern void (*D_801EFF1C[])(void);

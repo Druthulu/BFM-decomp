@@ -1,6 +1,6 @@
 /* func_801847FC — shared body (overlay slot 0x80128158, h_exact e1e6f7cb). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void guess_StartActorSequence(void *a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_801C573C;
     void func_801847FC(void *arg0) {
         ((void (*)(s32, s32))guess_StartActorSequence)(M2C_FIELD(arg0, s32 *, 0xD0), &D_801C573C);

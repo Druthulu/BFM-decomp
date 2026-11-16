@@ -51,7 +51,7 @@ void func_80178D40(s32 arg0, s32 arg1)
     extern void func_8017B940(void *);
     extern void func_8017BA3C(void *, s32);
     extern void func_8017BB34(void *, s32);
-    extern void guess_StartActorSequence(void *, s32);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 func_8012B8A4(void *);
     extern void guess_ShowObjectModel(void *);
     extern void guess_HideObjectModel(void *);

@@ -2519,7 +2519,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -2706,7 +2706,7 @@ extern void func_8017FD54(u8 *param_1);
 extern s32 D_801D55A0;
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void func_80180354(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_FreeActor(void *a0);
 extern s32 func_80180384(s32 param_1);
 extern s32 func_801805C8(s32 param_1);
@@ -2745,8 +2745,8 @@ extern void func_8018F694(void);
 
 extern s32 func_8012BE54(s32);
 extern void guess_InitModelObject(s32, void *);
-extern void guess_StartActorSequence(s32, void *);
-extern s32 guess_SpawnActor(s32, s32, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8018D40C(s32);
 extern void guess_UpdateActorModelMatrix(s32);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
@@ -3103,7 +3103,7 @@ L80191000:
    and is never moved), yet the fleet-dominant spelling is `void guess_ClearVelocityAndSetGravity(s32 a0)`.  The
    K&R form (34 fleet uses) is the only one that both permits the 0-arg call AND stays
    COMPATIBLE with the prototyped form if this TU ever gains one. */
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
 extern s32 rand(void);
 extern void SetRotMatrix(void *a0);

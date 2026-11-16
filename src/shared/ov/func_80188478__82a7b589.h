@@ -1,7 +1,7 @@
 /* func_80188478 — shared body (overlay slot 0x80128158, h_exact 82a7b589). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_8012BD14(s32 a0);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 rsin(s32 a0);
 extern s32 rcos(s32 a0);
 extern s32 func_8012BA10(s32 a0, s32 a1);

@@ -2,9 +2,9 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32  func_8012CBCC(s32 a0);                  /* host TU L3291 */
 extern s32  func_8012BA10(s32 a0, s32 a1);          /* host TU L3071 */
-extern void guess_StartActorSequence(s32 a0, void *a1);        /* host TU L2930/L3074 */
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);        /* host TU L2930/L3074 */
 extern void guess_RequestSound(s32 a0, s32 a1);          /* host TU L52    */
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2); /* host TU L2524 */
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2); /* host TU L2524 */
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);  /* host TU L323   */
 extern s32  rsin(s32 a0);                  /* host TU L2198 */
 extern s32  rcos(s32 a0);                  /* host TU L2197 */

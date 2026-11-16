@@ -1,6 +1,6 @@
 /* func_8018A1B4 — shared body (overlay slot 0x80128158, h_exact 27abf959). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern u8 D_801E3980[];
 extern u8 D_801E3760[];
 void func_8018A1B4(void *a0) {

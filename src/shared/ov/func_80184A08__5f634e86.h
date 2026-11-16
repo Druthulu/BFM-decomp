@@ -4,7 +4,7 @@ extern s32 D_801E8754;
 extern void func_80036D58(s16 arg0);
 extern void func_8018623C(u16 arg0, u16 arg1);
 extern void func_80185E00(void);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern u8 D_8018EDDC[];
 extern s32 D_801E8820;
 extern void func_80181934(void);

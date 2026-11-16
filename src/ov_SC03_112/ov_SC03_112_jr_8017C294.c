@@ -2514,7 +2514,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3550,7 +3550,7 @@ void func_8017E9A0(void *arg)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8001C2C4(s32 a0);
 extern void func_8001C1E4(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *arg0);
@@ -4022,8 +4022,8 @@ extern void (*D_80189708[])(void);
  * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
  * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32*, s32);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern s32 func_8017F4D8(void * a0);
@@ -4303,7 +4303,7 @@ void func_8017FA44(s32 a0) {
 }
 
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_80143970(s32 a0);
 extern M2C_UNK D_801A2E04;
 extern M2C_UNK D_801A2E38;
@@ -4323,7 +4323,7 @@ void func_8017FAD0(s32 param_1) {
 
 
 
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801A7AAC;
     void func_8017FB4C(short *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x2;
@@ -4335,7 +4335,7 @@ extern void guess_StartActorSequence(s32 *a0, s32 a1);
 
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern void func_8001C924(s32 a0, void *a1);
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 
@@ -4386,7 +4386,7 @@ void func_8017FB7C(s32 a0) {
 
 
 extern u8 D_801A7C94[];
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_8017FC4C(s32 a0) {
     *(s16 *)(a0 + 2) = 4;
@@ -4408,8 +4408,8 @@ extern s32 guess_TickWaitTimer(s32 arg);
 
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern void (*D_801A7D84[])(void *);
-extern void guess_StartActorSequence(s32*, s32);
-extern void guess_ClearVelocityAndSetGravity(s32 a0);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
+extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017FCF4(a0)
 void *a0;
@@ -4494,7 +4494,7 @@ void func_8017FE90(s32 arg0) {
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80180C1C(s32 a0);
 
 void func_8017FF70(s32 a0)
@@ -4568,7 +4568,7 @@ void func_8017FFB8(s32 a0) {
  * the jal delay slot.
  */
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern s32 rand(void);
 
@@ -4889,7 +4889,7 @@ void func_8018063C(s32 param_1) {
 extern u8 D_801A6518;
 extern u8 D_801A817C;
 extern void func_8001C924(s32 a0, void *a1);
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80180724(s32 param_1) {
     ((Unkstruct_8017E71C *)param_1)->unk1C = 0x37;
@@ -4940,7 +4940,7 @@ void func_80180780(s32 a0) {
 //   Ghidra's `< 0x9000`: 0x9000 does not fit the signed 16-bit `slti` immediate, so gcc
 //   materialises the bound with `ori $v1,$zero,0x8FFF` and emits the operand-reversed
 //   `slt $v1,$v1,$v0` + `bnez` over the 0x51F assignment (write the constant as 0x8FFF).
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8001C924(s32 a0, void *a1);
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -5317,7 +5317,7 @@ L_end:
  *   : not declared in this TU; typed by the majority project-wide spelling.
  */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
 extern void guess_InitObjectKind6(int, void *);
 extern s32 guess_AllocSpriteObjectHigh(void);
 extern s32 func_80143994(s32 a0, s32 a1);
@@ -5391,7 +5391,7 @@ void func_8018128C(s32 param_1)
     extern s32 guess_TickWaitTimer(s32 a0);
     extern void func_8012ADE4(u8 *a0);
     extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
-    extern void guess_ClearVelocityAndSetGravity(s32 a0);
+    extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
     extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 

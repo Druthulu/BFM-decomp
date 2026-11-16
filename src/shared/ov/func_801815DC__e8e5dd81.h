@@ -3,7 +3,7 @@
 extern s16 D_801B99A8;
 extern u8 D_801B662C[];
 extern void guess_ShowObjectModel(s32 a0);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80184C90(s32 a0);
 extern void func_80184ED4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_80181998(void);

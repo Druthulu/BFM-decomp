@@ -2510,7 +2510,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3763,7 +3763,7 @@ void func_8017FA14(s32 a0)
     extern s32 guess_AllocModelObject(void);
     extern void guess_InitModelObject(s32 a0, s32 a1);
     extern u8 D_801AAEDC[];
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern u8 D_801E9088[];
     extern s32 func_80143994(s32 a0, s32 a1);
     extern s32 func_8017EFC4(s32 a0);
@@ -3857,7 +3857,7 @@ extern s32 D_801E90E0;
 extern s32 D_801E9968;
 extern s32 func_801789AC(s32 arg0);
 extern void func_80178CBC(s32 arg0, s32 arg1);
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_8017FC44(s32 a0) {
     if (func_801789AC(a0) != 0) {
@@ -3908,7 +3908,7 @@ s32 param_1;
 
 extern s32 func_8017F2A0(s32 a0);
 extern u8 D_801E9088[];
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
     void func_8017FD58(s32 a0) {
         s32 v0;
@@ -3922,7 +3922,7 @@ extern void guess_StartActorSequence(s32 a0, void *a1);
 
 
 void func_8017FDAC(s32 param_1) {
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_801E90E0;
     extern u8 D_801E99D8[];
 
@@ -3939,7 +3939,7 @@ void func_8017FDAC(s32 param_1) {
 
 extern s32 func_8017F2A0(s32 a0);
 extern u8 D_801E9088[];
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern u8 D_801E9178[];
 
@@ -4043,7 +4043,7 @@ s32 func_8017FFD0(s32 param_1)
     extern void guess_FreeActorDuringSpawn(void *a0);
     extern s32 guess_AllocModelObject(void);
     extern void guess_InitModelObject(s32 a0, s32 a1);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern void func_8001C1E4(void *a0, s32 a1);
     /* law 2: the TU (func_8017FA14) declares this void; it returns a value here, so go
      * through a cast function pointer exactly as that neighbour does for guess_AllocModelObject. */
@@ -4213,7 +4213,7 @@ STORE:
 void func_801803E4(s32 param_1) {
     extern s32 guess_AllocRenderWorkRecord(s32 a0);
     extern s32 rand(void);
-    extern void guess_StartActorSequence(s32 a0, void *a1);
+    extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
     extern void (*D_801EFF04)();
     extern u8 D_801F0154[];

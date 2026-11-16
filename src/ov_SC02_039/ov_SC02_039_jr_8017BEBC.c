@@ -2520,7 +2520,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3222,7 +3222,7 @@ void func_8017DDB0(int param_1)
 }
 
 
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern u16 D_8019B538[];
 
 void func_8017DE00(a0p)
@@ -3265,7 +3265,7 @@ s32 a0p;
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8001C2C4(s32 a0);
 extern void func_8001C1E4(s32 a0, s32 a1);
 extern s32 func_8012AD50(void *arg0);
@@ -3628,7 +3628,7 @@ void func_8017E500(s32 a0)
 #include "common.h"
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8017E794(void *a0);
 extern u8 D_8019B594[];
 extern u8 D_8019B595[];
@@ -3944,7 +3944,7 @@ void func_8017EA20(s32 param_1) {
 extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CC40(s32 arg0, s32 arg1);
 extern void guess_FreeActor(void *a0);
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32  func_80132EF4(s32 a0, s32 a1);
 extern void func_8012E32C(void);
 extern s32  RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);

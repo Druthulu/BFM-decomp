@@ -2505,7 +2505,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3471,7 +3471,7 @@ void func_8017C1CC(s32 param_1)
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void func_8001C810(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8012B260(u8 *a0);
 
 
@@ -4458,7 +4458,7 @@ void func_8017DD2C(s32 param_1)
 
 
 extern void guess_ShowObjectModel(u8 *a0);
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_80181240(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_801788B8(s32 a0, s32 a1);
 extern s32 func_8017E038(void *s0);
@@ -4647,7 +4647,7 @@ extern void func_80180FFC(s32);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_UpdateActorModelMatrix(s32);
 extern void guess_ShowObjectModel(u8 *);
-extern void guess_StartActorSequence(s32 *, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern Blk16_956C D_801C30A4[];
 extern s16 D_80188324;
 extern s32 D_801C384C[];
@@ -5468,7 +5468,7 @@ extern s32 D_801C8B78;
 extern void func_800290E0(void);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 extern void func_8017ED00(void);
-extern s32 guess_SpawnActor(s32 a0, s32 a1, s32 a2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void func_8017E9B0(void);
 
 void func_8017F748(s32 param_1) {
@@ -5606,7 +5606,7 @@ extern void func_80181240(s32, s32, s32, s32);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_UpdateActorModelMatrix(s32);
 extern void guess_ShowObjectModel(u8 *);
-extern void guess_StartActorSequence(s32 *, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8017FB40(void *);
 
 extern void *D_801C0DB0[];
@@ -5752,7 +5752,7 @@ extern void func_80181240(s32, s32, s32, s32);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_UpdateActorModelMatrix(s32);
 extern void guess_ShowObjectModel(u8 *);
-extern void guess_StartActorSequence(s32 *, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_8017FE08(void *);
 
 extern u8 D_801BC84C[];
@@ -5899,7 +5899,7 @@ extern void func_80181240(s32, s32, s32, s32);
 extern void guess_SetObjectPosAndYaw(s32, s32);
 extern void guess_UpdateActorModelMatrix(s32);
 extern void guess_ShowObjectModel(u8 *);
-extern void guess_StartActorSequence(s32 *, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 extern u8 D_801BEA50[];
 extern void (*D_80188A80[])(void);
@@ -6004,8 +6004,8 @@ void func_80180170(void *a0) {
  * giving a 6-instruction ADDRESSING/cse diff.  Moved above the call; both stores
  * now retire off $s0 and the sh lands in the jal delay slot, as in the target. */
 
-extern s32 guess_InitActorModel(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32*, s32);
+extern s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
 
 extern s32 func_80180290(void * a0);
@@ -6540,7 +6540,7 @@ s32 func_80180B28(void *a0, void *a1) {
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_80180BC4
 #include "../shared/ov/cls_0960520aba0d.h"
 #undef SHARED_FN
@@ -6562,7 +6562,7 @@ extern void guess_StartActorSequence(s32*, s32);
 
 
 
-extern void guess_StartActorSequence(s32 *a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_80180BF0
 #include "../shared/ov/cls_8d58b29c1fa1.h"
 #undef SHARED_FN
@@ -6584,7 +6584,7 @@ extern void guess_StartActorSequence(s32 *a0, s32 a1);
 
 
 
-extern void guess_StartActorSequence(s32*, s32);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 #define SHARED_FN func_80180C1C
 #include "../shared/ov/cls_06bf59fdb7af.h"
 #undef SHARED_FN

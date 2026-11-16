@@ -389,7 +389,7 @@ void func_801E838C(void *a0) {
 extern s32 guess_AllocModelObject(void);
 extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
-extern void guess_StartActorSequence(s32 a0, s32 a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, s32 a1);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern s32 func_80178B18(s32 a0, s32 a1);
 

@@ -4,12 +4,12 @@ extern void func_8012AAAC(void *arg0);
 /* guess_StartActorSequence: points an object's sequence at a1 (+0x90), resets its index (+0x94) and return link (+0x9C, +0x9A), then steps it
  * Confidence medium, code inference: sets +0x90 = a1, clears +0x94/+0x9C/+0x9A and bits 0x600 of +0x72, then calls the 8-byte-entry list stepper func_8012AAAC
  * Names ledger: config/names.tsv guess_StartActorSequence */
-void guess_StartActorSequence(s32 a0, void * a1)
+void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1)
 {
     *(s32 *)((u8 *)a0 + 0x90) = a1;
     *(s32 *)((u8 *)a0 + 0x94) = 0;
-    *(s32 *)((u8 *)a0 + 0x9C) = 0;
-    *(s16 *)((u8 *)a0 + 0x9A) = 0;
-    *(u16 *)((u8 *)a0 + 0x72) = *(u16 *)((u8 *)a0 + 0x72) & 0xF9FF;
+    a0->unk9C = 0;
+    a0->unk9A = 0;
+    a0->unk72 = a0->unk72 & 0xF9FF;
     KR_AS(void, func_8012AAAC)();
 }

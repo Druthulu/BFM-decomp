@@ -2508,7 +2508,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern s32 guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern s32 func_801788B8(s32 arg0, s32 arg1);
@@ -3157,7 +3157,7 @@ void func_80182BD0(Obj1CDC *obj) {
 }
 
 
-extern void guess_StartActorSequence(s32 a0, void *a1);
+extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80182CA0(s32 p)
@@ -3218,7 +3218,7 @@ void func_80182CA0(s32 p)
 extern s32 func_8012CBCC(s32 a0);
 extern void guess_FreeActor(void *a0);
 extern s32 func_8017ECE4(s32 a0);
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32  rsin(s32 a0);
 extern s32  rcos(s32 a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -3381,7 +3381,7 @@ void func_80183238(void *a0) {
 
 
 extern void guess_FreeActor(void *a0);
-extern s32  guess_SpawnActor(s32 arg0, s32 arg1, s32 arg2);
+extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern s32  rsin(s32 a0);
 extern s32  rcos(s32 a0);
 extern s32 func_80143C74(s32 a0, s32 a1);
