@@ -2522,7 +2522,7 @@ extern s32 D_801976A8;
 extern short D_80197D4C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -4539,7 +4539,7 @@ void func_80181580(s32 arg0) {
 void func_80181618(s32 arg0) {
     extern u8 D_80197B60[];
     extern void guess_SetWaitTimer(s32 *a0, s32 a1);
-    extern void func_80181864(void *a0, s32 *a1);
+    extern void func_80181864(Unkstruct_801202A0 *a0, s32 *a1);
     extern s32 func_801818DC(s32 a0);
 
     func_80181864(arg0, D_80197B60 + (((Unkstruct_800B5CB8 *)arg0)->unk70 << 6));
@@ -4554,7 +4554,7 @@ void func_80181674(void *a0)
 {
     extern u8 D_80197B60[];
     extern s32 guess_TickWaitTimer(s32 a0);
-    extern void func_80181864(void *a0, s32 *a1);
+    extern void func_80181864(Unkstruct_801202A0 *a0, s32 *a1);
 
     s16 idx;
     u8 *ptr;
@@ -4632,7 +4632,7 @@ void func_801817D8(void *a0) {
 }
 
 
-extern void func_80181864(void *a0, s32 *a1);
+extern void func_80181864(Unkstruct_801202A0 *a0, s32 *a1);
     void func_80181844(s32 *a0) {
         ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
         KR_AS(void, func_80181864)();
@@ -4664,10 +4664,10 @@ extern void func_80181864(void *a0, s32 *a1);
 
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 
-void func_80181864(void *a0, s32 *a1)
+void func_80181864(Unkstruct_801202A0 *a0, s32 *a1)
 {
     s32 v1;
-    v1 = (s16)((Unkstruct_801202A0 *)a0)->unkFC.u;
+    v1 = (s16)a0->unkFC.u;
     if (guess_g_FrameCounter & 1) {
         v1 -= 4;
     }
@@ -4678,7 +4678,7 @@ void func_80181864(void *a0, s32 *a1)
     }
     a1[0] = v1;
     a1[1] = 0;
-    ((Unkstruct_801202A0 *)a0)->unkFC.u = ((Unkstruct_801202A0 *)a0)->unkFC.u + 4;
+    a0->unkFC.u = a0->unkFC.u + 4;
 }
 
 extern s32 func_801818DC(s32 a0);

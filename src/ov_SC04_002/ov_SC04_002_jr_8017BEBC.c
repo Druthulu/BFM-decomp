@@ -2511,7 +2511,7 @@ extern s32 D_801C08C0;
 extern short D_801C1734;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -5502,7 +5502,7 @@ void func_80180B40(int param_1)
 
     extern unsigned char D_801C100C[];
     int iVar3;
-    int iVar3b;
+    Unkstruct_800B5BD8 *iVar3b;
     int iVar5;
     short sVar2;
 
@@ -5528,8 +5528,8 @@ void func_80180B40(int param_1)
                 ((Unkstruct_8017DA20 *)param_1)->unk1A = -((Unkstruct_8017DA20 *)param_1)->unk1A;
             }
         } else {
-            ((Unkstruct_800B5BD8 *)iVar3b)->unk1A.s = 0x4000;
-            ((Unkstruct_800B5BD8 *)iVar3b)->unk18.s = 0x4000;
+            iVar3b->unk1A.s = 0x4000;
+            iVar3b->unk18.s = 0x4000;
         }
         ((Unkstruct_8017DA20 *)param_1)->unk2 = ((Unkstruct_8017DA20 *)param_1)->unk2 + 1;
     } else {
