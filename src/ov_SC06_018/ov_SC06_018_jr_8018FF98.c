@@ -2513,7 +2513,7 @@ extern s32 D_801D4A60;
 extern short D_801D5B9C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3024,7 +3024,7 @@ extern void func_80017254(void *a0);
 extern SVEC_8018F060 D_801D1228[];
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
-extern void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+extern void func_8018F060(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4);
 extern void func_8018F694(void);
 
 #include "common.h"

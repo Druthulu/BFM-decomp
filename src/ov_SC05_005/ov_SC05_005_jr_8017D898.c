@@ -2530,7 +2530,7 @@ extern s32 D_801B1780;
 extern short D_801B202C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3453,7 +3453,7 @@ extern s32  guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);            /* canonical void; $v0 used -> cast at use site */
 extern void func_8012ADE4(u8 *a0);
-extern void func_80180F60(u8 *arg);            /* same-TU INCLUDE_ASM neighbour */
+extern void func_80180F60(Unkstruct_801202A0 *arg);            /* same-TU INCLUDE_ASM neighbour */
 extern s32  guess_TurnStepToTarget(s32 arg0, s32 arg1);
 extern s32  guess_TickWaitTimer(s32 a0);
 extern s32  rand(void);
@@ -3706,7 +3706,7 @@ extern s32  guess_EaseToward(s32 a0, s32 a1, s32 a2);
 extern void func_80180F3C(void*);
 
 extern s32 func_801809F0(s32 a0, s32 a1, s32 a2, s32 a3);
-extern s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2);
+extern s32 func_80180D4C(Unkstruct_801202A0 *a0, u8 *a1, s32 a2);
 
 extern void func_8012B21C(void *a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
@@ -3993,7 +3993,7 @@ void func_801806A0(s32 param_1) {
 
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_80132EF4(s32 a0, s32 a1);
-extern s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2);
+extern s32 func_80180D4C(Unkstruct_801202A0 *a0, u8 *a1, s32 a2);
 extern void func_80180F3C(void*);
 extern void func_8012E8C4(s32 a0);
 extern void func_80130D48(s32 a0);
@@ -4214,17 +4214,17 @@ extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 #undef SHARED_FN
 
 
-s32 func_80180D4C(u8 *a0, u8 *a1, s32 a2) {
+s32 func_80180D4C(Unkstruct_801202A0 *a0, u8 *a1, s32 a2) {
     u16 sp10[3];
     u16 sp18[4];
 
-    sp10[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    sp10[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    sp10[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    sp10[0] = a0->unk4.i.hi;
+    sp10[1] = a0->unk8.i.hi;
+    sp10[2] = a0->unkC.i.hi;
 
-    sp18[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    sp18[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    sp18[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    sp18[0] = a0->unk4.i.hi;
+    sp18[1] = a0->unk8.i.hi;
+    sp18[2] = a0->unkC.i.hi;
 
     sp18[0] += *(u16 *)(a1 + 0x0);
     sp18[1] += *(u16 *)(a1 + 0x2);
@@ -4257,7 +4257,7 @@ extern void ApplyMatrixSV(void*, void*, void*);
     }
 
 
-void func_80180F60(u8 *arg) {
+void func_80180F60(Unkstruct_801202A0 *arg) {
     u16 sp10[4];
     u16 sp18[4];
     s32 sp20;
@@ -4266,25 +4266,25 @@ void func_80180F60(u8 *arg) {
     s32 v0;
     s32 v1;
 
-    sp10[1] = ((Unkstruct_801202A0 *)arg)->unk8.i.hi;
-    s1 = ((Unkstruct_80180F60_2 *)*(s32 *)(arg + 0x20))->unk12;
+    sp10[1] = arg->unk8.i.hi;
+    s1 = ((Unkstruct_80180F60_2 *)*(s32 *)((u8 *)arg + 0x20))->unk12;
     for (s2 = 0; s2 < 0x20; s2++) {
         func_8012B0B4(&sp20, s1, 0x10);
         v1 = sp20;
-        sp10[0] = sp18[0] = ((Unkstruct_801202A0 *)arg)->unk4.i.hi + v1;
-        sp10[2] = sp18[2] = ((Unkstruct_801202A0 *)arg)->unkC.i.hi + (v1 >> 16);
-        sp18[1] = ((Unkstruct_801202A0 *)arg)->unk8.i.hi + 8;
+        sp10[0] = sp18[0] = arg->unk4.i.hi + v1;
+        sp10[2] = sp18[2] = arg->unkC.i.hi + (v1 >> 16);
+        sp18[1] = arg->unk8.i.hi + 8;
         if (func_80133784(1, sp10, sp18) & 0x2000) {
-            ((Unkstruct_801202A0 *)arg)->unk4.i.hi = sp18[0];
-            ((Unkstruct_801202A0 *)arg)->unk8.i.hi = sp18[1];
-            ((Unkstruct_801202A0 *)arg)->unkC.i.hi = sp18[2];
-            ((Unkstruct_801202A0 *)arg)->extC.kSC05_003_80180E58.unkE0 = s1;
-            ((Unkstruct_80180F60_2 *)*(s32 *)(arg + 0x20))->unk12 = s1;
+            arg->unk4.i.hi = sp18[0];
+            arg->unk8.i.hi = sp18[1];
+            arg->unkC.i.hi = sp18[2];
+            arg->extC.kSC05_003_80180E58.unkE0 = s1;
+            ((Unkstruct_80180F60_2 *)*(s32 *)((u8 *)arg + 0x20))->unk12 = s1;
             break;
         }
         s1 += 0x80;
     }
-    ((Unkstruct_801202A0 *)arg)->extC.kSC05_003_80180E58.unkE8 = 0;
+    arg->extC.kSC05_003_80180E58.unkE8 = 0;
 }
 
 

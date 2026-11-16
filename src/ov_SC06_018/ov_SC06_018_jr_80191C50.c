@@ -2526,7 +2526,7 @@ extern s32 D_801D4A60;
 extern short D_801D5B9C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3589,7 +3589,7 @@ void func_80192B60(void *arg) {
 
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+extern void func_8018F060(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4);
 extern s32 rsin(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);

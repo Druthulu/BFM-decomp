@@ -2516,7 +2516,7 @@ extern s32 D_801E1AE0;
 extern short D_801E226C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2800,7 +2800,7 @@ extern s32 func_8012B77C(void *out, s32 from, void *to);
 extern void func_80180F30(s32 target, u16 *cur, s32 step);   /* DEFINED in TU L4503 */
 extern void func_80180FB4(s32 a0);
 extern void func_801810C0(s32 a0);
-extern void func_80180EE0(s32 a0);
+extern void func_80180EE0(Unkstruct_801202A0 *a0);
 extern void func_801809F4(s32 p);
 extern void func_80180CB0(s32 arg0);
 
@@ -2902,19 +2902,19 @@ void func_80180EA4(void *a0) {
 }
 
 
-void func_80180EE0(s32 a0) {
+void func_80180EE0(Unkstruct_801202A0 *a0) {
     extern u8 D_801AD394[];
     extern u8 D_801AD39C[];
     s16 t;
     s32 v1;
 
-    t = ((Unkstruct_801202A0 *)a0)->unk70.s;
-    v1 = ((Unkstruct_801202A0 *)a0)->extB.kSC06_022_80180EE0.unkCC;
+    t = a0->unk70.s;
+    v1 = a0->extB.kSC06_022_80180EE0.unkCC;
     if (t >= 2) {
         if (*(s16 *)(v1 + 0x100) != 0) {
-            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AD39C;
+            *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AD39C;
         } else {
-            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AD394;
+            *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AD394;
         }
     }
 }

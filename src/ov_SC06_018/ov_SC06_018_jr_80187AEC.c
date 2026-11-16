@@ -2513,7 +2513,7 @@ extern s32 D_801D4A60;
 extern short D_801D5B9C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -7905,7 +7905,7 @@ extern u8 D_800AE610[];
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 
-void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
+void func_8018F060(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */
     SVECTOR_8018F060 scratch;      /* 0x30 */
     Unkstruct_8013B83C out[6];   /* 0x38 */
@@ -7919,8 +7919,8 @@ void func_8018F060(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *a;
 
-    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(param_1->unk20 + 0x34));
+    SetTransMatrix((void *)(param_1->unk20 + 0x34));
 
     src = &D_801D1228[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

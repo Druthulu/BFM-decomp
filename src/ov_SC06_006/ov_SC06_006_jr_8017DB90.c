@@ -2524,7 +2524,7 @@ extern s32 D_801F7BB8;
 extern short D_801F8B64;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -4209,7 +4209,7 @@ extern void guess_UpdateCamera(void);
 extern void guess_HideObjectModel(u8 *);
 extern void guess_ShowObjectModel(u8 *);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
-extern void func_801802A0(s32, s32, s32, s32);
+extern void func_801802A0(Unkstruct_801202A0 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
 extern void *D_801F8118;
 extern s32 D_801861F0[];
@@ -4281,21 +4281,21 @@ void func_801800B8(void *a0) {
 }
 
 
-void func_801802A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void func_801802A0(Unkstruct_801202A0 *arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 count = 0;
 
-    ((Unkstruct_801202A0 *)arg0)->unk90 = (s32)arg1;
-    ((Unkstruct_801202A0 *)arg0)->unk94.s = 0;
-    ((Unkstruct_801202A0 *)arg0)->unk9A = arg2;
-    ((Unkstruct_801202A0 *)arg0)->unk9C = arg3;
-    ((Unkstruct_801202A0 *)arg0)->unk98 = 0;
+    arg0->unk90 = (s32)arg1;
+    arg0->unk94.s = 0;
+    arg0->unk9A = arg2;
+    arg0->unk9C = arg3;
+    arg0->unk98 = 0;
 
     while (*(s16 *)(arg1 + 4) > 0) {
         arg1 += 8;
         count++;
     }
-    ((Unkstruct_801202A0 *)arg0)->unkFC.s = count;
+    arg0->unkFC.s = count;
 }
 
 
