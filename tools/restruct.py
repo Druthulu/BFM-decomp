@@ -666,7 +666,11 @@ def type_visible(tu, tname):
     if VISIBLE_OVERRIDE:
         return True
     f = d[0]["file"]
-    return tu == f or f in headers_of(tu)
+    if tu == f or f in headers_of(tu):
+        return True
+    # T16.c8: a header that includes no type file (src/shared/ov bodies) sees what every one of its includers sees
+    tus = recipes()[2].get(tu) if tu.endswith(".h") else None
+    return bool(tus) and all(t == f or f in headers_of(t) for t in tus)
 
 
 PARAM_DECL = re.compile(r"^\s*((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*)\s*(\**)\s*([A-Za-z_]\w*)\s*$")
