@@ -247,7 +247,7 @@ void func_800CB3CC(void *arg0) {
     extern void RotMatrixYXZ(void *arg0, s32 arg1);
     extern void ApplyMatrixSV();
     extern void func_800D1FC8(void *arg0, int arg1);
-    extern S800D21C4 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);
+    extern Unkstruct_800B5BD8 * func_800D21C4(s32 arg0, s32 arg1, s32 arg2);
     extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern s32 guess_FreeSmallObject(u8 *a0);
     extern u8 D_800CB8FC[];

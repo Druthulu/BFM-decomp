@@ -1649,7 +1649,7 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_80190200[])(void);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3391,11 +3391,11 @@ void func_80185878(s32 a0) {
     extern s32 func_801858D8(s32 a0, s32 a1);
 
     if (func_801858D8(a0, 2) == 0) {
-        ((Unkstruct_80185878 *)a0)->unkE8 += 0x40;
+        ((Unkstruct_801202A0 *)a0)->extC.kSC06_032_80182588.unkE8 += 0x40;
     } else {
-        ((Unkstruct_80185878 *)a0)->unkE8 -= 0x40;
+        ((Unkstruct_801202A0 *)a0)->extC.kSC06_032_80182588.unkE8 -= 0x40;
     }
-    ((Unkstruct_80185878 *)a0)->unkE0 |= 0x40;
+    ((Unkstruct_801202A0 *)a0)->extC.kSC06_032_80182588.unkE0 |= 0x40;
 }
 
 
@@ -7940,12 +7940,12 @@ extern void func_8018BBBC(s32 a0);
 void func_8018CA44(a0)
 s32 a0;
 {
-    if (((Unkstruct_8017FDDC *)a0)->unk76 < 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76 < 0) {
         func_80131E00(a0, 6);
     } else {
-        ((Unkstruct_8017FDDC *)a0)->unk2 = 1;
-        ((Unkstruct_8017FDDC *)a0)->unk100 = 0x3C;
-        ((Unkstruct_8017FDDC *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC06_018_8017FBE8.unk100.s = 0x3C;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         KR_AS(void, func_8018BBBC)();
     }
 }

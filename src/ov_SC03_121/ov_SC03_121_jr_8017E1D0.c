@@ -1656,7 +1656,7 @@ extern void (*D_8018506C[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3549,7 +3549,7 @@ void func_8017F998(s32 param_1) {
     if (D_801151FC == s0) {
         D_801151FC = 0;
     }
-    val = ((Unkstruct_8017F998 *)s0)->unk5E;
+    val = ((Unkstruct_801202A0 *)s0)->unk5E;
     if (val != 8) {
         if (val < 9) {
             v0 = 5;
@@ -3558,14 +3558,14 @@ void func_8017F998(s32 param_1) {
         } else {
             v0 = 0x26;
         }
-        if (val != v0 && ((Unkstruct_8017F998 *)s0)->unk2 != 2 &&
-            (((Unkstruct_8017F998 *)s0)->unk76 >= 0x371 || val == 0x1D)) {
+        if (val != v0 && ((Unkstruct_801202A0 *)s0)->unk2.u != 2 &&
+            (((Unkstruct_801202A0 *)s0)->unk76 >= 0x371 || val == 0x1D)) {
             goto TARGET2;
         }
     }
 TARGET1:
     func_80131E00((struct S80131E00 *)s0, 3);
-    ((Unkstruct_8017F998 *)s0)->unk76 = 0x3E8;
+    ((Unkstruct_801202A0 *)s0)->unk76 = 0x3E8;
     return;
 TARGET2:
     func_80131B14(s0);

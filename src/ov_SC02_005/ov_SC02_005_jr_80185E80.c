@@ -1246,20 +1246,20 @@ void func_80187768(void *a0) {
 
     guess_ClearVelocityAndSetGravity(s0);
 
-    ((Unkstruct_80187768 *)s0)->unkE8 |= 1;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80187768.unkE8 |= 1;
     func_80186304((u8*)s0, 0, 0);
 
-    temp = ((Unkstruct_80187768 *)s0)->unkE8;
+    temp = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80187768.unkE8;
     if (temp & 0x2000) {
-        ((Unkstruct_80187768 *)s0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x10;
     } else {
-        ((Unkstruct_80187768 *)s0)->unk1C = 0x20;
+        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x20;
     }
 
     v0_val = (s32)D_80195B2C | 0x40000000;
-    ((Unkstruct_80187768 *)s0)->unk58 = v0_val;
-    ((Unkstruct_80187768 *)s0)->unk5C = 0;
-    ((Unkstruct_80187768 *)s0)->unkAE = -1;
+    ((Unkstruct_801202A0 *)s0)->unk58.u = v0_val;
+    ((Unkstruct_801202A0 *)s0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)s0)->extB.kSC02_005_80187768.unkAE = -1;
 
     func_8012AD44((s32*)s0, 1);
     func_80186F14((void*)s0);
@@ -1718,8 +1718,8 @@ extern s32 D_80062BC0;
 void func_801881F4(s32 a0) {
     s32 s0 = a0;
 
-    if (((Unkstruct_801881F4 *)s0)->unk1C == 0x68) {
-        ((Unkstruct_801881F4 *)s0)->unkE8 |= 0x8000;
+    if (((Unkstruct_801202A0 *)s0)->unk1C.s == 0x68) {
+        ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801881F4.unkE8 |= 0x8000;
         func_80186178((s32 *)s0);
         if (D_801E43A4 != 0) {
             guess_FreeActor((void *)D_801E43A4);
@@ -1730,7 +1730,7 @@ void func_801881F4(s32 a0) {
 
     if (guess_TickWaitTimer(s0) != 0) {
         func_80183160((void *)s0);
-    } else if ((((Unkstruct_801881F4 *)s0)->unk1C & 7) == 0) {
+    } else if ((((Unkstruct_801202A0 *)s0)->unk1C.s & 7) == 0) {
         guess_StartPadVibration(&D_80062BC0);
     }
 }
@@ -2101,8 +2101,8 @@ void *func_80188A10(void *a0) {
 
     r = (void *)((s32 (*)(s32, s32))func_80143994)((s32)a0, 0x7FFF);
     if (r != 0) {
-        v1 = ((Unkstruct_80186178_2 *)r)->unkCC;
-        ((Unkstruct_80186178_2 *)r)->unk0 = 0x69;
+        v1 = ((Unkstruct_801202A0 *)r)->extB.kSC02_005_80188A10.unkCC;
+        ((Unkstruct_801202A0 *)r)->unk0 = 0x69;
         if (v1 != 0) {
             ((Unkstruct_80188A10 *)v1)->unk26 = 0xC8;
             ((Unkstruct_80188A10 *)v1)->unk25 = 0xC8;

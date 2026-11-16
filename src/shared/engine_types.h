@@ -3031,10 +3031,6 @@ typedef struct {
     u8 pad20[0xDC];/* 0x20 */
     u16 unkFC;     /* 0xFC */
 } Struct_8018A078;
-typedef struct Sub8017EBC4 {
-    /* 0x00 */ u8 pad000[0x12];
-    /* 0x12 */ s16 unk_012;
-} Sub8017EBC4;
 typedef struct Sub83178 {
     char pad0[0x10];
     s16 unk10;
@@ -3435,7 +3431,7 @@ typedef struct {
     /* 0x00A */ u16 unk_00A;
     /* 0x00C */ u8 pad00C[0x10];
     /* 0x01C */ s32 unk_01C;
-    /* 0x020 */ Sub8017EBC4 *unk_020;
+    /* 0x020 */ Unkstruct_8001C9D0 *unk_020;
     /* 0x024 */ u8 pad024[0x52];
     /* 0x076 */ s16 unk_076;
     /* 0x078 */ u8 pad078[0x84];
@@ -3858,12 +3854,6 @@ typedef struct {
     /* 0x00dc */ s16 unkDC;
     /* 0x00de */ s16 unkDE;
 } Obj801805BC; /* size = 0xe0 */
-typedef struct {
-    u8  pad_0[0x1C];
-    s32 unk1C;      /* 0x1C */
-    u8  pad_20[0x14];
-    u16 unk34;      /* 0x34 */
-} Obj8018098C;
 typedef Unkstruct_80181E08 Obj80180D84;
 typedef struct {
     u32 tag;            /* 0x00 */

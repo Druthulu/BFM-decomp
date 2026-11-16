@@ -1654,7 +1654,7 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_8018E8C0[])(void);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3604,11 +3604,11 @@ void func_80186A88(s32 a0) {
     s0 = a02;
     v0 = ((s32 (*)(s32))func_8012CBCC)(a02);
     if ((v0 & 0x8000) != 0) {
-        ((Unkstruct_80186A88 *)s0)->unk2 = 0x11;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 0x11;
         guess_StartActorSequence(s0, D_801AE46C);
         guess_RequestSound(0x640, 0);
-    } else if (((((Unkstruct_80186A88 *)s0)->unk72) & 0x4000) != 0) {
-        ((Unkstruct_80186A88 *)s0)->unk2 = 0x10;
+    } else if (((((Unkstruct_801202A0 *)s0)->unk72) & 0x4000) != 0) {
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 0x10;
         guess_StartActorSequence(s0, ((u8 *)D_801AE874));
     }
 }

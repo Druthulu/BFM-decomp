@@ -1924,7 +1924,7 @@ extern void func_801662F4(void *a0);
 extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
@@ -3383,7 +3383,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D23D0(void *a0);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
@@ -3545,10 +3545,10 @@ void func_8016DF5C(s32 param_1)
         D_801A7804 = 0;
         ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
-        ((Unkstruct_8016DF5C_5 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
-        ((Unkstruct_8016DF5C_5 *)iNew)->unk1A = 0;
-        ((Unkstruct_8016DF5C_5 *)iNew)->unk18 = 0;
-        ((Unkstruct_8016DF5C_5 *)iNew)->unk4 = ((Unkstruct_8016DF5C_5 *)iNew)->unk4 | 0x50000000;
+        ((Unkstruct_800B5BD8 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
+        ((Unkstruct_800B5BD8 *)iNew)->unk1A.s = 0;
+        ((Unkstruct_800B5BD8 *)iNew)->unk18.s = 0;
+        ((Unkstruct_800B5BD8 *)iNew)->unk4.u = ((Unkstruct_800B5BD8 *)iNew)->unk4.u | 0x50000000;
         ((void (*)(void *))func_8016E3CC)(((void *)param_1));
         {
             s32 t10;

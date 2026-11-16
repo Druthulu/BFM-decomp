@@ -1663,7 +1663,7 @@ extern void (*D_80185074[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4409,11 +4409,11 @@ void func_8017F9D4(s32 a0) {
     } else if (s1 != 0x2000) {
         func_8012ADE4((u8 *)s0);
     }
-    v0 = ((Unkstruct_8017F9D4 *)s0)->unk98;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk98;
     if (v0 != 0) {
         return;
     }
-    v0 = ((Unkstruct_8017F9D4 *)s0)->unk76;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk76;
     if (v0 <= 0) {
         func_80131E00(s0, 6);
     } else {
@@ -5440,11 +5440,11 @@ void func_80181184(s32 p)
         RotMatrixY(i, &m);
         SetRotMatrix(&m);
         RotTransSV(&D_80190E7C, lv, &sv);
-        ((Unkstruct_80181184 *)s0)->unk6 = lv[0];
-        ((Unkstruct_80181184 *)s0)->unkA = lv[1];
-        ((Unkstruct_80181184 *)s0)->unkE = lv[2];
+        ((Unkstruct_8011DB30 *)s0)->unk6.s = lv[0];
+        ((Unkstruct_8011DB30 *)s0)->unkA.s = lv[1];
+        ((Unkstruct_8011DB30 *)s0)->unkE.s = lv[2];
         ApplyRotMatrixLV(&D_80190E84, (void *)(p + 0x10));
-        ((Unkstruct_80181184 *)s0)->unk34 = 0x4000;
+        ((Unkstruct_8011DB30 *)s0)->unk34.s = 0x4000;
     }
 }
 

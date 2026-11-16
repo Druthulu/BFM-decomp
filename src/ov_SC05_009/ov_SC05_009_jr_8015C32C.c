@@ -4166,7 +4166,7 @@ extern void (*D_80181BA4[])(void);
 // @unstuck(P36): none — MATCH (expected; simple straight-line + single branch, one call-crossing local in $s0)
 
 extern void func_800D1FC8(s32 a0, s32 a1);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern s32 guess_FreeSmallObject(u8 *a0);
 

@@ -1657,7 +1657,7 @@ extern void (*D_80187B7C[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4051,15 +4051,15 @@ void func_8018098C(void *arg0) {
     extern s16 D_801B1708;
     extern s16 D_801B170C;
 
-    Obj8018098C *p = (Obj8018098C *)arg0;
+    Unkstruct_801202A0 *p = (Unkstruct_801202A0 *)arg0;
 
-    switch (p->unk34) {
+    switch (p->unk34.u) {
     case 0:
         func_80180B7C((s32)p);
         if (guess_TickWaitTimer((s32)p) != 0) {
             guess_StartActorSequence((s32)p, &D_801A0FBC);
-            p->unk1C = 0x3C;
-            p->unk34 += 1;
+            p->unk1C.s = 0x3C;
+            p->unk34.u += 1;
             D_801B1B54 = guess_OpenTextWindowWithFlags((s32)D_801897FC, 0, 0xC0);
         }
         break;
@@ -4069,7 +4069,7 @@ void func_8018098C(void *arg0) {
         if (guess_TickWaitTimer((s32)p) != 0) {
             if (guess_GetTextWindowResult(D_801B1B54) != 0) {
                 guess_CloseTextWindowIfOpen_2(D_801B1B54);
-                p->unk34 += 1;
+                p->unk34.u += 1;
             }
         }
         break;
@@ -4077,8 +4077,8 @@ void func_8018098C(void *arg0) {
     case 2:
         func_80181700(p);
         if (D_801B170C == D_801B1708) {
-            p->unk1C = 0x1E;
-            p->unk34 += 1;
+            p->unk1C.s = 0x1E;
+            p->unk34.u += 1;
             /* §3-F: a plain scalar store at a FIXED address loses its dependence on
              * the varying /s p->unk34 store and hoists above it (sched.c:817).  The
              * COMPONENT_REF spelling -- this TU's own idiom, see func_80180950 --
@@ -4092,22 +4092,22 @@ void func_8018098C(void *arg0) {
         if (guess_TickWaitTimer((s32)p) != 0) {
             func_8016F374();
             guess_StartActorSequence((s32)p, &D_801A249C);
-            p->unk1C = 0x78;
-            p->unk34 += 1;
+            p->unk1C.s = 0x78;
+            p->unk34.u += 1;
         }
         break;
 
     case 4:
         func_80181700(p);
-        p->unk1C -= 1;
-        if (p->unk1C == 0x6C) {
+        p->unk1C.s -= 1;
+        if (p->unk1C.s == 0x6C) {
             guess_RequestSound(0x9DB, 0);
             func_80181668();
         }
-        if (p->unk1C == 0x3C) {
+        if (p->unk1C.s == 0x3C) {
             func_801822F0();
         }
-        if (p->unk1C <= 0) {
+        if (p->unk1C.s <= 0) {
             guess_RequestSound(4, 0x9DB);
             func_80180D28(p);
         }
@@ -6389,8 +6389,8 @@ void func_80183A2C(int param_1)
         *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
         if (((Unkstruct_8017DA20 *)param_1)->unk2C != 0) {
             sVar2 = (rand() & 3) * 0x800 + 0x1000;
-            ((Unkstruct_8017DA20_2 *)iVar3)->unk1A = sVar2;
-            ((Unkstruct_8017DA20_2 *)iVar3)->unk18 = sVar2;
+            ((Unkstruct_800B5BD8 *)iVar3)->unk1A.s = sVar2;
+            ((Unkstruct_800B5BD8 *)iVar3)->unk18.s = sVar2;
             *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
             if ((rand() & 1) != 0) {
                 ((Unkstruct_8017DA20 *)param_1)->unk12 = -((Unkstruct_8017DA20 *)param_1)->unk12;
@@ -6400,8 +6400,8 @@ void func_80183A2C(int param_1)
                 ((Unkstruct_8017DA20 *)param_1)->unk1A = -((Unkstruct_8017DA20 *)param_1)->unk1A;
             }
         } else {
-            ((Unkstruct_8017DA20_2 *)iVar3b)->unk1A = 0x4000;
-            ((Unkstruct_8017DA20_2 *)iVar3b)->unk18 = 0x4000;
+            ((Unkstruct_800B5BD8 *)iVar3b)->unk1A.s = 0x4000;
+            ((Unkstruct_800B5BD8 *)iVar3b)->unk18.s = 0x4000;
         }
         ((Unkstruct_8017DA20 *)param_1)->unk2 = ((Unkstruct_8017DA20 *)param_1)->unk2 + 1;
     } else {

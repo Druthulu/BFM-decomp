@@ -5,7 +5,7 @@ void func_80166054(s32 param_1) {
     extern s32 rsin(s32 a0);
     extern s32 rcos(s32 a0);
     extern void func_800D1FC8(s32 a0, s32 a1);
-    extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+    extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
     extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
     extern void func_801661CC(s32 a0);
     extern s32 guess_FreeSmallObject(u8 *a0);

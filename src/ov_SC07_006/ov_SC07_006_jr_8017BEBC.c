@@ -2408,7 +2408,7 @@ extern void func_801662F4(void *a0);
 extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
@@ -4183,11 +4183,11 @@ void *a1;
     extern Morph_8017DC1C *D_801BF55C;
 
     morph_lerp(D_801BF554, D_801C1E40, D_801C1E50, t);
-    x = rsin(((Unkstruct_801805D4_2 *)a1)->unkFC);
-    x += rsin(((Unkstruct_801805D4_2 *)a1)->unkFE + 0x100) >> 4;
+    x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE + 0x100) >> 4;
     morph_lerp(D_801BF558, D_801C1E44, D_801C1E54, x);
-    x = rsin(((Unkstruct_801805D4_2 *)a1)->unkFC);
-    x += rsin(((Unkstruct_801805D4_2 *)a1)->unkFE + 0x200) >> 4;
+    x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE + 0x200) >> 4;
     morph_lerp(D_801BF55C, D_801C1E48, D_801C1E58, x);
 }
 
@@ -4408,10 +4408,10 @@ void func_80181924(s32 t, void *a1)
     extern Morph_8017DC1C *D_801BF5BC;
 
     morph_lerp(D_801BF5B4, D_801C1E80, D_801C1E90, t);
-    x = rsin(((Unkstruct_80181924 *)a1)->unkFC);
+    x = rsin(((Unkstruct_80181924 *)a1)->unkFC.s);
     x += rsin(((Unkstruct_80181924 *)a1)->unkFE + 0x100) >> 4;
     morph_lerp(D_801BF5B8, D_801C1E84, D_801C1E94, x);
-    x = rsin(((Unkstruct_80181924 *)a1)->unkFC);
+    x = rsin(((Unkstruct_80181924 *)a1)->unkFC.s);
     x += rsin(((Unkstruct_80181924 *)a1)->unkFE + 0x200) >> 4;
     morph_lerp(D_801BF5BC, D_801C1E88, D_801C1E98, x);
 }

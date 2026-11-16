@@ -95,12 +95,12 @@ extern s32 guess_SpawnObject(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s
 extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 
 void func_800CB068(void *a0) {
-    u16 bits = ((Unkstruct_800CB068 *)a0)->unkB8;
+    u16 bits = ((Unkstruct_80126B58 *)a0)->unkB8;
     if (bits & 0x4000) {
-        guess_SpawnObject(10, (s32)a0, 0, 0, 0, ((Unkstruct_800CB068 *)a0)->unkBE, 0, 0);
+        guess_SpawnObject(10, (s32)a0, 0, 0, 0, ((Unkstruct_80126B58 *)a0)->unkBE, 0, 0);
         guess_PlaySoundUnlessSkipped(0x649);
     } else if (bits & 0x8000) {
-        ((Unkstruct_800CB068 *)a0)->unk197 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk197 += 1;
     }
 }
 

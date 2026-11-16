@@ -1491,10 +1491,10 @@ void func_801845A0(void *arg0) {
     extern s32 D_801A2750;
 
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801A2750);
-    ((Unkstruct_801845A0 *)arg0)->unk2 = 0x2;
-    ((Unkstruct_801845A0 *)arg0)->unk1C = 0x1E;
-    ((Unkstruct_801845A0 *)arg0)->unk34 = 0;
-    ((Unkstruct_801845A0 *)arg0)->unkFC = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x2;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)arg0)->unk34.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.s = 1;
 }
 
 

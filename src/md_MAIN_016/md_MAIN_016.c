@@ -89,7 +89,7 @@ void func_800CAF84(arg0) void *arg0; {
     u8 *p;
     s16 i;
 
-    sv.vx = sv.vy = sv.vz = ((Unkstruct_800CAF84 *)arg0)->unk28;
+    sv.vx = sv.vy = sv.vz = ((Unkstruct_8011D030 *)arg0)->unk28;
     func_80017DC4(&sv, &m1);
 
     sv.vx = sv.vz = 0;
@@ -101,7 +101,7 @@ void func_800CAF84(arg0) void *arg0; {
 
     prim.v[1].vx = prim.v[1].vy = prim.v[1].vz = 0;
     prim.v[0].vz = prim.v[2].vz = prim.v[3].vz = 0;
-    prim.c[1].b = ((s16)((Unkstruct_800CAF84 *)arg0)->unk28 >> 6) + 0x70;
+    prim.c[1].b = ((s16)((Unkstruct_8011D030 *)arg0)->unk28 >> 6) + 0x70;
     prim.c[1].r = prim.c[1].g = 0;
     prim.c[0].r = prim.c[0].g = prim.c[0].b = 0;
     prim.c[2].r = prim.c[2].g = prim.c[2].b = 0;
@@ -134,17 +134,17 @@ void func_800CB158(s32 arg0) {
 
     s32 cnt;
 
-    a0 = ((Unkstruct_800CAF84 *)arg0)->unk34;
+    a0 = ((Unkstruct_8011D030 *)arg0)->unk34;
 
-    if ((((Unkstruct_800CAF84 *)arg0)->unk2C & 0x8000) == 0) {
-        cnt = ((Unkstruct_800CAF84 *)arg0)->unk1C;
-        ((Unkstruct_800CAF84 *)arg0)->unk1C = cnt + 1;
+    if ((((Unkstruct_8011D030 *)arg0)->unk2C & 0x8000) == 0) {
+        cnt = ((Unkstruct_8011D030 *)arg0)->unk1C;
+        ((Unkstruct_8011D030 *)arg0)->unk1C = cnt + 1;
 
         if (cnt < 8) {
-            ((Unkstruct_800CAF84 *)arg0)->unk28 += 0x120;
+            ((Unkstruct_8011D030 *)arg0)->unk28 += 0x120;
         } else {
-            ((Unkstruct_800CAF84 *)arg0)->unk1C = 0;
-            ((Unkstruct_800CAF84 *)arg0)->unk2 = 4;
+            ((Unkstruct_8011D030 *)arg0)->unk1C = 0;
+            ((Unkstruct_8011D030 *)arg0)->unk2 = 4;
         }
 
         v0 = *(s32 *)(a0 + 0x20);
@@ -153,7 +153,7 @@ void func_800CB158(s32 arg0) {
 
         func_800CAF84(arg0);
     } else {
-        ((Unkstruct_800CAF84 *)arg0)->unk2 += 1;
+        ((Unkstruct_8011D030 *)arg0)->unk2 += 1;
     }
 }
 

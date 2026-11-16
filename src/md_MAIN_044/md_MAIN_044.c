@@ -564,7 +564,7 @@ void func_800CD948(void *a0) {
 }
 
 
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
 extern s32 guess_FreeSmallObject(void *a0);
 extern s32 D_800CE240;

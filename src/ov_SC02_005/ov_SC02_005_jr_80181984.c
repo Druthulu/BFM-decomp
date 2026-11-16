@@ -1659,7 +1659,7 @@ extern void (*D_801937C8[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -2939,29 +2939,29 @@ void func_80181BE8(void *a0) {
     s16 v0;
     s32 v1;
 
-    if ((((Unkstruct_80181BE8 *)s0)->unkE8 & 0x60000) != 0) {
+    if ((((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8 & 0x60000) != 0) {
         func_80182998(a0);
     } else {
-        state = ((Unkstruct_80181BE8 *)s0)->unk34;
+        state = ((Unkstruct_801202A0 *)s0)->unk34.u;
         switch (state) {
         case 0:
-            v0 = ((Unkstruct_80181BE8 *)s0)->unk98;
+            v0 = ((Unkstruct_801202A0 *)s0)->unk98;
             if (v0 == 0) {
                 {
                     u16 ns = state + 1;
-                    ((Unkstruct_80181BE8 *)s0)->unk34 = ns;
+                    ((Unkstruct_801202A0 *)s0)->unk34.u = ns;
                 }
                 func_80187070(s0);
                 {
-                    u32 e8 = ((Unkstruct_80181BE8 *)s0)->unkE8;
-                    ((Unkstruct_80181BE8 *)s0)->unkE8 = e8 & ~1;
+                    u32 e8 = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8;
+                    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8 = e8 & ~1;
                     if (e8 & 0x2000) {
-                        ((Unkstruct_80181BE8 *)s0)->unk1C = 0x80;
+                        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x80;
                     } else {
-                        ((Unkstruct_80181BE8 *)s0)->unk1C = 0x90;
+                        ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x90;
                     }
                 }
-            } else if (((Unkstruct_80181BE8 *)s0)->unk94 == 8 && v0 == 1) {
+            } else if (((Unkstruct_801202A0 *)s0)->unk94 == 8 && v0 == 1) {
                 guess_RequestSound(0x4FD, 0);
             }
             break;
@@ -2969,12 +2969,12 @@ void func_80181BE8(void *a0) {
             if (guess_TickWaitTimer(s0) != 0) {
                 s32 a0r;
                 a0r = (s32)s0;
-                ((Unkstruct_80181BE8 *)s0)->unk34 += 1;
+                ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
                 func_80186304((u8 *)s0, 0xF, 2);
             }
             break;
         case 2:
-            if (((Unkstruct_80181BE8 *)s0)->unk98 == 0) {
+            if (((Unkstruct_801202A0 *)s0)->unk98 == 0) {
                 func_801838A8(s0);
             }
             break;

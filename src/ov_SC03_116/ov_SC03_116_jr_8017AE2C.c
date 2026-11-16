@@ -1662,7 +1662,7 @@ extern void (*D_80185798[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4667,7 +4667,7 @@ extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_Frame
 void func_80181864(void *a0, s32 *a1)
 {
     s32 v1;
-    v1 = (s16)((Unkstruct_80181864_3 *)a0)->unkFC;
+    v1 = (s16)((Unkstruct_801202A0 *)a0)->unkFC.u;
     if (guess_g_FrameCounter & 1) {
         v1 -= 4;
     }
@@ -4678,7 +4678,7 @@ void func_80181864(void *a0, s32 *a1)
     }
     a1[0] = v1;
     a1[1] = 0;
-    ((Unkstruct_80181864_3 *)a0)->unkFC = ((Unkstruct_80181864_3 *)a0)->unkFC + 4;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = ((Unkstruct_801202A0 *)a0)->unkFC.u + 4;
 }
 
 extern s32 func_801818DC(s32 a0);

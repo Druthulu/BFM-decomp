@@ -1647,7 +1647,7 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_801926D8[])(void);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3573,11 +3573,11 @@ void func_801831A8(s32 s0)
     guess_InitModelObject(a0, a1);
 
     v1 = ((Unkstruct_801831A8 *)s0)->unk20;
-    ((Unkstruct_801831A8_2 *)v1)->unk2C = ((Unkstruct_801831A8_2 *)v1)->unk2C | 0x90;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u = ((Unkstruct_8001C9D0 *)v1)->unk2C.u | 0x90;
     v1 = ((Unkstruct_801831A8 *)s0)->unk20;
-    ((Unkstruct_801831A8_2 *)v1)->unk80 = (s32)D_801AC4D8;
+    ((Unkstruct_8001C9D0 *)v1)->unk80 = (s32)D_801AC4D8;
     v1 = ((Unkstruct_801831A8 *)s0)->unk20;
-    ((Unkstruct_801831A8_2 *)v1)->unk18 = 0x1040;
+    ((Unkstruct_8001C9D0 *)v1)->unk18.u = 0x1040;
 
     switch (((Unkstruct_801831A8 *)s0)->unk70) {
     case 0:
@@ -3599,8 +3599,8 @@ void func_801831A8(s32 s0)
         break;
     case 2:
     case 3:
-        ((Unkstruct_801831A8_2 *)*(s32 *)(s0 + 0x20))->unk18 = 0x1300;
-        ((Unkstruct_801831A8_2 *)*(s32 *)(s0 + 0x20))->unk1A = 0x1300;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk18.u = 0x1300;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk1A = 0x1300;
         ((Unkstruct_801831A8 *)s0)->unkCC = ((Unkstruct_801831A8 *)s0)->unk64;
         ((Unkstruct_801831A8 *)s0)->unkE = ((Unkstruct_801831A8 *)s0)->unkE - 0x20;
         if (((Unkstruct_801831A8 *)s0)->unk6C != 0) {

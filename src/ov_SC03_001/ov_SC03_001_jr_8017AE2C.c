@@ -1654,7 +1654,7 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_801903F4[])(void);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -7299,7 +7299,7 @@ void func_80182400(void * arg0) {
     extern short D_80191CA4;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_80182400 *)arg0)->unk2 = 5;
+        ((Unkstruct_80182400 *)arg0)->unk2.s = 5;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_80191CA4);
     }
 }
@@ -8337,7 +8337,7 @@ void func_8018386C(void * arg0) {
     extern short D_80191E38;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_80182400 *)arg0)->unk2 = 5;
+        ((Unkstruct_80182400 *)arg0)->unk2.s = 5;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_80191E38);
     }
 }

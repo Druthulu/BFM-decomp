@@ -1648,7 +1648,7 @@ extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void (*D_8019471C[])(void);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4521,9 +4521,9 @@ void func_80190574(s32 a0) {
     if (((Unkstruct_80190574 *)a0)->unk76 < 0) {
         func_80131E00(a0, 6);
     } else {
-        ((Unkstruct_80190574 *)a0)->unk2 = 1;
-        ((Unkstruct_80190574 *)a0)->unk100 = 0x3C;
-        ((Unkstruct_80190574 *)a0)->unk34 = 0;
+        ((Unkstruct_80190574 *)a0)->unk2.u = 1;
+        ((Unkstruct_80190574 *)a0)->extD.kSC06_018_8017FBE8.unk100.u = 0x3C;
+        ((Unkstruct_80190574 *)a0)->unk34.u = 0;
         KR_AS(void, func_8018F6EC)();
     }
 }

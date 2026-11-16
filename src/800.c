@@ -8505,7 +8505,7 @@ void func_8001C9D0(s32 a0v) {
     v = 0x1000;
     ((Unkstruct_8001C9D0 *)a0v)->unk1C = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk1A = v;
-    ((Unkstruct_8001C9D0 *)a0v)->unk18 = v;
+    ((Unkstruct_8001C9D0 *)a0v)->unk18.s = v;
     v = 0xC8;
     ((Unkstruct_8001C9D0 *)a0v)->unk14 = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk12 = 0;
@@ -8517,7 +8517,7 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->unk20 = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk28 = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk2A = v;
-    ((Unkstruct_8001C9D0 *)a0v)->unk2C = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk2C.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk2E = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk80 = 0;
 }

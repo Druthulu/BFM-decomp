@@ -1662,7 +1662,7 @@ extern void (*D_80193314[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3486,7 +3486,7 @@ void func_8017EE14(void *a0) {
 
 #include "common.h"
 
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_8017F2A8(s32 *a0);
 extern void func_8017F2C4(s32 *a0);
 extern void guess_SetWaitTimer_2(s32 *a0, s32 a1);
@@ -15786,7 +15786,7 @@ int func_8018F658(short *pos, int a1, int a2) {
     int ret;
     ret = func_8018F68C(pos, a1, a2);
     if (ret != 0) {
-        ((Unkstruct_8017E070 *)ret)->unk32 = 1;
+        ((Unkstruct_8011DB30 *)ret)->unk32.s = 1;
     }
     return ret;
 }

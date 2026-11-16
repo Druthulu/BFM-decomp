@@ -366,9 +366,9 @@ void func_800CB5DC(void *arg0) {
         CAST_ALIAS(s32, (u8 *)s1, 4) |= 0x50000000;
 
         v1 = *(u16 *)(*(void **)((u8 *)s3 + 0x20) + 0x12);
-        ((Unkstruct_800CB5DC_2 *)s1)->unk10 = 0x400;
-        ((Unkstruct_800CB5DC_2 *)s1)->unk34 = (s32)((u8 *)arg0 + 0x38);
-        ((Unkstruct_800CB5DC_2 *)s1)->unk12 = v1;
+        ((Unkstruct_800B5BD8 *)s1)->unk10.s = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->unk34 = (s32)((u8 *)arg0 + 0x38);
+        ((Unkstruct_800B5BD8 *)s1)->unk12.s = v1;
 
         ((Unkstruct_800CB5DC *)arg0)->unk2 = ((Unkstruct_800CB5DC *)arg0)->unk2 + 1;
     } else {

@@ -1650,7 +1650,7 @@ extern void func_801663A4(void *a0);
 extern void (*D_801883E4[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -2859,33 +2859,33 @@ void func_801815AC(void *a0) {
     case 0:
         if (func_8018418C(1) != 0) {
             func_80183480(s0, (s32)&D_801A4288, 0, 0x40);
-            ((Unkstruct_801815AC *)s0)->unk34 = 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.s = 1;
         }
         return;
     case 1:
         func_8018418C(1);
         if (func_80183550(s0) != 0) {
             func_80183480(s0, (s32)&D_801A4294, 1, 0x40);
-            ((Unkstruct_801815AC *)s0)->unk34 = 2;
-            *(s16 *)(((Unkstruct_801815AC *)s0)->unkCC + 0x108) = 0;
-            *(s32 *)(((Unkstruct_801815AC *)s0)->unkCC + 0xB0) = 2;
+            ((Unkstruct_801202A0 *)s0)->unk34.s = 2;
+            *(s16 *)(((Unkstruct_801202A0 *)s0)->extB.kSC03_002_801815AC.unkCC + 0x108) = 0;
+            *(s32 *)(((Unkstruct_801202A0 *)s0)->extB.kSC03_002_801815AC.unkCC + 0xB0) = 2;
         }
         return;
     case 2:
         if (func_80183550(s0) != 0) {
-            ((Unkstruct_801815AC *)s0)->unk34 = 3;
+            ((Unkstruct_801202A0 *)s0)->unk34.s = 3;
         }
         return;
     case 3:
         if (func_8018418C(1) != 0) {
-            ((Unkstruct_801815AC *)s0)->unk34 = 4;
+            ((Unkstruct_801202A0 *)s0)->unk34.s = 4;
             func_80183480(s0, (s32)&D_801A4288, 1, 0x40);
         }
         return;
     case 4:
         func_8018418C(1);
         if (func_80183550(s0) != 0) {
-            ((Unkstruct_801815AC *)s0)->unk2 = 2;
+            ((Unkstruct_801202A0 *)s0)->unk2.s = 2;
             func_80183264((void *)s0, (s32)&D_80189928);
         }
         return;

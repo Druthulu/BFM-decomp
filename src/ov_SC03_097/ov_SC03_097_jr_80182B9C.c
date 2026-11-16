@@ -1655,7 +1655,7 @@ extern void (*D_80188D7C[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4055,13 +4055,13 @@ void func_80184FB0(s16 *a0, s32 a1) {
     v0 = func_801290DC(0x44, (u8 *)a0);
     if (v0 != NULL) {
         sub = *(u8 **)((s32)v0 + 0x20);
-        ((Unkstruct_80184FB0 *)sub)->unk20 = (u32)&D_8019EAD4;
-        ((Unkstruct_80184FB0 *)sub)->unk28 = 0x290;
-        ((Unkstruct_80184FB0 *)sub)->unk2A = 0x1A0;
+        ((Unkstruct_80184FB0 *)sub)->unk20.u = (u32)&D_8019EAD4;
+        ((Unkstruct_80184FB0 *)sub)->unk28.u = 0x290;
+        ((Unkstruct_80184FB0 *)sub)->unk2A.u = 0x1A0;
         ((Unkstruct_80184FB0 *)sub)->unk27 = 0x70;
-        ((Unkstruct_80184FB0 *)sub)->unk1A = 1;
-        ((Unkstruct_80184FB0 *)sub)->unk18 = 1;
-        ((Unkstruct_80184FB0 *)sub)->unk4 |= 0x50000000;
+        ((Unkstruct_80184FB0 *)sub)->unk1A.u = 1;
+        ((Unkstruct_80184FB0 *)sub)->unk18.u = 1;
+        ((Unkstruct_80184FB0 *)sub)->unk4.u |= 0x50000000;
         ((Unkstruct_80184FB0_2 *)v0)->unk1C = 1;
         ((Unkstruct_80184FB0_2 *)v0)->unk2C = a1;
         c = a1;

@@ -7033,14 +7033,14 @@ void func_801AA9D4(s32 a0, s32 a1) {
     work = (s32)func_8012913C(0x71);
 
     if (a0 != 0) {
-        ((Unkstruct_801AA9D4 *)work)->unk6 = ((Unkstruct_8017C218_2 *)a0)->unk6;
-        ((Unkstruct_801AA9D4 *)work)->unkA = ((Unkstruct_8017C218_2 *)a0)->unkA;
-        ((Unkstruct_801AA9D4 *)work)->unkE = ((Unkstruct_8017C218_2 *)a0)->unkE;
-        ptr = ((Unkstruct_801AA9D4 *)work)->unk20;
+        ((Unkstruct_8011DB30 *)work)->unk6.u = ((Unkstruct_8017C218_2 *)a0)->unk6;
+        ((Unkstruct_8011DB30 *)work)->unkA.u = ((Unkstruct_8017C218_2 *)a0)->unkA;
+        ((Unkstruct_8011DB30 *)work)->unkE.u = ((Unkstruct_8017C218_2 *)a0)->unkE;
+        ptr = ((Unkstruct_8011DB30 *)work)->unk20;
         CAST_WIDTH(Unkstruct_801343C4, ptr, 0x10) = *(Unkstruct_801343C4 *)a1;
-        ((Unkstruct_801AA9D4 *)work)->unk30 = 5;
-        ((Unkstruct_801AA9D4 *)work)->unk32 = 1;
-        ((Unkstruct_801AA9D4 *)work)->unk34 = 0x180F0F0;
+        ((Unkstruct_8011DB30 *)work)->unk30 = 5;
+        ((Unkstruct_8011DB30 *)work)->unk32.u = 1;
+        ((Unkstruct_8011DB30 *)work)->unk34.u = 0x180F0F0;
     }
 }
 
@@ -8859,12 +8859,12 @@ void func_801AD068(void *arg0) {
            (`lw %lo(D_801F8D58)($v0)`) and the store re-materialises its own base ($a1). */
         p = &D_801F8D18;
         t = *p;
-        t -= ((Obj_801AD068 *)arg0)->dE0;
+        t -= ((Unkstruct_801202A0 *)arg0)->extC.kSC07_004_801AD068.unkE0;
         *(Align1W_801AD068 *)p = *(Align1W_801AD068 *)&t;
         func_801AD220(arg0, CAST_SIGN(void *, (u8 *)arg0, 0xCC));
 
         t = D_801F8D58;
-        t -= ((Obj_801AD068 *)arg0)->dE4;
+        t -= ((Unkstruct_801202A0 *)arg0)->extC.kSC07_004_801AD068.unkE4;
         *(Align1W_801AD068 *)&D_801F8D58 = *(Align1W_801AD068 *)&t;
         func_801AD220(arg0, CAST_SIGN(void *, (u8 *)arg0, 0xD0));
     }
@@ -10520,7 +10520,7 @@ int func_801AF994(short *pos, int a1, int a2) {
     int ret;
     ret = func_801AF9C8(pos, a1, a2);
     if (ret != 0) {
-        ((Unkstruct_8017E070 *)ret)->unk32 = 1;
+        ((Unkstruct_8011DB30 *)ret)->unk32.s = 1;
     }
     return ret;
 }

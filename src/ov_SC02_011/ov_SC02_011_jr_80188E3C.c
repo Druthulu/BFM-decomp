@@ -351,13 +351,13 @@ void func_8018951C(s32 param_1) {
     param_12 = param_1;
 
     s0 = param_12;
-    if ((((Unkstruct_8018951C *)s0)->unk72 & 0x4000) != 0) {
-        ((Unkstruct_8018951C *)s0)->unk100 = 3;
+    if ((((Unkstruct_801202A0 *)s0)->unk72 & 0x4000) != 0) {
+        ((Unkstruct_801202A0 *)s0)->extD.kSC02_011_8018951C.unk100 = 3;
         if (func_8012BD3C(s0, 0x400, 0x40000) != 0) {
             func_80188DF4(s0, 4, 0x1E, &D_801D4494);
         } else {
-            ((Unkstruct_8018951C *)s0)->unk2 = 2;
-            ((Unkstruct_8018951C *)s0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)s0)->unk2.u = 2;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
             guess_StartActorSequence(s0, &D_801D3B74);
         }
     }

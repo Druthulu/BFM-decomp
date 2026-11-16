@@ -1899,7 +1899,7 @@ extern void func_801662F4(void *a0);
 extern void func_8016634C(void *a0);
 extern void func_801663A4(void *a0);
 extern void func_801663FC(void *a0);
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void func_801665B4(s32 *a0);
 extern s32 guess_FreeSmallObject(u8 *a0);
@@ -4797,21 +4797,21 @@ void func_8017EC6C(s32 arg0)
 {
     void (*pfn)(void *);
 
-    switch (((Unkstruct_8017EC6C_2 *)arg0)->unkFC) {
+    switch (((Unkstruct_801202A0 *)arg0)->unkFC.s) {
     case 0:
-        pfn = D_80185DE4[((Unkstruct_8017EC6C_2 *)arg0)->unk2];
+        pfn = D_80185DE4[((Unkstruct_801202A0 *)arg0)->unk2.u];
         break;
     case 1:
-        pfn = D_80185DF0[((Unkstruct_8017EC6C_2 *)arg0)->unk2];
+        pfn = D_80185DF0[((Unkstruct_801202A0 *)arg0)->unk2.u];
         break;
     case 2:
-        pfn = D_80185DFC[((Unkstruct_8017EC6C_2 *)arg0)->unk2];
+        pfn = D_80185DFC[((Unkstruct_801202A0 *)arg0)->unk2.u];
         break;
     case 3:
-        pfn = D_80185E08[((Unkstruct_8017EC6C_2 *)arg0)->unk2];
+        pfn = D_80185E08[((Unkstruct_801202A0 *)arg0)->unk2.u];
         break;
     case 4:
-        pfn = D_80185E1C[((Unkstruct_8017EC6C_2 *)arg0)->unk2];
+        pfn = D_80185E1C[((Unkstruct_801202A0 *)arg0)->unk2.u];
         break;
     default:
         return;

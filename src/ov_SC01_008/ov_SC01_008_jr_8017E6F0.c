@@ -1659,7 +1659,7 @@ extern void (*D_80182678[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3327,12 +3327,12 @@ extern u8 D_8019F498[];
 void func_8017F190(a0)
 s32 a0;
 {
-    if (((Unkstruct_8017F190 *)a0)->unk1C != 0) {
-        ((Unkstruct_8017F190 *)a0)->unk1C -= 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;
     } else {
         if (guess_GetPlayerControlScript() == 0) {
             func_80178B18(a0, &D_8019F498);
-            ((Unkstruct_8017F190 *)a0)->unk2 += 1;
+            ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
         }
     }
 }
@@ -3438,12 +3438,12 @@ void func_8017F380(int param_1)
 extern u8 D_8019F204[];
 
 void func_8017F404(s32 a0) {
-    if (((Unkstruct_8017F404 *)a0)->unk1C != 0) {
-        ((Unkstruct_8017F404 *)a0)->unk1C -= 1;
+    if (((Unkstruct_8017F404 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_8017F404 *)a0)->unk1C.s -= 1;
     } else {
         if (guess_GetPlayerControlScript() == 0) {
             func_80178B18(a0, &D_8019F204);
-            ((Unkstruct_8017F404 *)a0)->unk2 += 1;
+            ((Unkstruct_8017F404 *)a0)->unk2.u += 1;
         }
     }
 }

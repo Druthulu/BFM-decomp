@@ -248,10 +248,10 @@ void func_800CB378(s32 arg0) {
             return;
         }
         func_8001CD50(s0, (s32)&D_800CB558);
-        ((Unkstruct_8016DF5C_5 *)s0)->unk34 = arg0 + 0x38;
-        ((Unkstruct_8016DF5C_5 *)s0)->unk1A = 0;
-        ((Unkstruct_8016DF5C_5 *)s0)->unk18 = 0;
-        ((Unkstruct_8016DF5C_5 *)s0)->unk4 = ((Unkstruct_8016DF5C_5 *)s0)->unk4 | 0x50000000;
+        ((Unkstruct_800B5BD8 *)s0)->unk34 = arg0 + 0x38;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.s = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.s = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk4.u = ((Unkstruct_800B5BD8 *)s0)->unk4.u | 0x50000000;
         ten = 0x10;
         ((Unkstruct_800CB378 *)arg0)->unk20 = s0;
         ((Unkstruct_800CB378 *)arg0)->unk1C = ten;

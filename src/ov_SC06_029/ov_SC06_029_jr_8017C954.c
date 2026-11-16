@@ -1657,7 +1657,7 @@ extern void (*D_8018F450[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -3942,11 +3942,11 @@ void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
     Obj8017EBC4_SC06_029_8017C954 *ent2;
     u8 *p;
     s32 *q;
-    Sub8017EBC4 *sp;
+    Unkstruct_8001C9D0 *sp;
     s16 t;
     s32 i;
 
-    sp = (Sub8017EBC4 *)guess_AllocModelObject();
+    sp = (Unkstruct_8001C9D0 *)guess_AllocModelObject();
     a0->unk_020 = sp;
     if (sp == NULL) {
         guess_FreeActorDuringSpawn(a0);
@@ -3963,7 +3963,7 @@ void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
         D_801DDB2C[i] = (s32)ent;
         ent->unk_00A -= i << 8;
         ent2 = (Obj8017EBC4_SC06_029_8017C954 *)D_801DDB2C[i];
-        ent2->unk_020->unk_012 = t;
+        ent2->unk_020->unk12 = t;
         ent2->unk_0FC = t;
         D_801DFD38[i] = 0;
     }

@@ -1659,7 +1659,7 @@ extern void (*D_801937C8[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4851,14 +4851,14 @@ void func_80180610(void *a0) {
     extern Row_801944F4 D_801944F4[];
     s32 v1;
 
-    ((Unkstruct_80180610 *)a0)->unkAA &= 0x90;
-    ((Unkstruct_80180610 *)a0)->unkAE = 0x8080;
-    ((Unkstruct_80180610 *)a0)->unkAC &= 0x90;
-    if (((Unkstruct_80180610 *)a0)->unk0 != 0xD) {
+    ((Unkstruct_80126B58 *)a0)->unkAA &= 0x90;
+    ((Unkstruct_80126B58 *)a0)->unkAE = 0x8080;
+    ((Unkstruct_80126B58 *)a0)->unkAC &= 0x90;
+    if (((Unkstruct_80126B58 *)a0)->unk0 != 0xD) {
         func_80175454();
-        ((Unkstruct_80180610 *)a0)->unk1F8 |= 0x1000000;
+        ((Unkstruct_80126B58 *)a0)->unk1F8 |= 0x1000000;
         func_8017E664();
-        v1 = D_801944F4[((Unkstruct_80180610 *)a0)->unk20C].f6;
+        v1 = D_801944F4[((Unkstruct_80126B58 *)a0)->unk20C].f6;
         __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched-load-delay-fill
         guess_g_MainCameraRefOffsetTargetX = -0x60;
         *(s16 *)&D_80126970 = -0x60;
@@ -4868,7 +4868,7 @@ void func_80180610(void *a0) {
         guess_g_MainCameraYawTarget = v1;
         *(Blk8 *)&D_801E4C50 = *(Blk8 *)&D_801944F4[CAST_ALIAS(s16, (s32)a0, 0x20C)].f0;
         func_8014C6C0();
-        ((Unkstruct_80180610 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
     }
 }
 

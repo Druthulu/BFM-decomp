@@ -1666,7 +1666,7 @@ extern void (*D_80184150[])(void);
 extern void func_801663FC(void *a0);
 extern u8 D_800D387C[];
 extern u8 D_800D3888[];
-extern S800D21C4 *func_800D21C4(s32 a0, void *a1, s32 a2);
+extern Unkstruct_800B5BD8 *func_800D21C4(s32 a0, void *a1, s32 a2);
 extern void func_800D1FC8(s32 a0, s32 a1);
 extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 extern void func_801665B4(s32 *a0);
@@ -4443,15 +4443,15 @@ void func_8017F584(s32 a0) {
         func_8017EB88(this);
         if ((D_801A2270 & 0xFFFF) == 2 && guess_TickWaitTimer(this) != 0) {
             func_8017ECD4(this);
-            ((Unkstruct_8017F584 *)this)->unk1C = 0x10;
+            ((Unkstruct_801202A0 *)this)->unk1C.s = 0x10;
             func_8012AD50((void *)this);
             guess_StartPadVibration(&D_80062BE8);
         } else {
-            if (((Unkstruct_8017F584 *)this)->unk104 != 0) {
-                ((Unkstruct_8017F584 *)this)->unk104--;
+            if (((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104 != 0) {
+                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104--;
             } else {
                 guess_StartPadVibration(&D_80062BC0);
-                ((Unkstruct_8017F584 *)this)->unk104 = (rand() & 3) + 8;
+                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104 = (rand() & 3) + 8;
             }
         }
     }

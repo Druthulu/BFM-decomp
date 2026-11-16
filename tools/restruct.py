@@ -4327,6 +4327,22 @@ def _fold_flow_parents(names):
     return out
 
 
+FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* [su]; )+)\} " + FOLD_N + "$")
+
+
+def _fold_sign_members(tmpl):
+    """(T16.c5, pure) {sign: member decl} of a field template that is a committed sign union (`union { u16 u; s16 s; } N`), else None."""
+    m = FOLD_SIGN_U.match(tmpl or "")
+    if not m:
+        return None
+    out = {}
+    for d in m.group(1).split("; "):
+        d = d.strip().rstrip(";")
+        if d:
+            out[d.rsplit(" ", 1)[1]] = d
+    return out
+
+
 FOLD_GAP_RAW = re.compile(r"^(?:u8|unsigned char) raw\[(0x[0-9A-Fa-f]+|\d+)\]$")
 
 
@@ -4367,12 +4383,13 @@ def _fold_gaps(res, tdef, tF):
                 return f"{x['cite']}: gap union {x['name']}.{vn}: {len(tm)} templates for {len(fs)} fields"
             vf, off = [], 0
             for f, tmpl in zip(fs, tm):
-                L = None if f.get("nested") else res.layout(f["type"], f["stars"], f["dims"])
+                sg = _fold_sign_members(tmpl) if f.get("nested") else None   # a sign union inside the variant
+                L = res.layout_of_fields(f["nested"]["fields"], "union") if sg else None if f.get("nested") else res.layout(f["type"], f["stars"], f["dims"])
                 if not L:
                     return f"{x['cite']}: gap union {x['name']}.{vn}: field `{f['name']}` has no layout"
                 off = (off + L[1] - 1) // L[1] * L[1]
                 if not _fold_is_pad(dict(name=f["name"], tmpl=tmpl)):
-                    vf.append([off, f["name"], tmpl.replace(FOLD_N, f["name"]), L[0], L[1], tuple(sorted(set(L[2])))])
+                    vf.append([off, f["name"], tmpl.replace(FOLD_N, f["name"]), L[0], L[1], tuple(sorted(set(L[2]))), sg, False, []])
                 off += L[0]
             g["variants"][vn] = vf
             g["order"].append(vn)
@@ -4387,10 +4404,10 @@ def _fold_gap_decl(name, g):
     parts, al = list(g["members"]), 1
     for vn in g["order"]:
         body, vc, val = [], 0, 1
-        for rel, _, decl, sz, fal, _ in sorted(g["variants"][vn]):
+        for rel, fn, decl, sz, fal, _, sg, _, _ in sorted(g["variants"][vn], key=lambda f_: f_[0]):
             if rel > vc:
                 body.append(f"u8 pad{vc:X}[{rel - vc:#x}];")
-            body.append(decl + ";")
+            body.append((f"union {{ {'; '.join(sg.values())}; }} {fn}" if sg else decl) + ";")
             vc, val = rel + sz, max(val, fal)
         if (vc + val - 1) // val * val > g["hi"] - g["lo"]:
             return None
@@ -4649,6 +4666,22 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
             names_top.setdefault(nm, []).append(lo)
             for e in C:
                 paths[keys[e[0]]][e[1]["name"]] = nm
+            continue
+        tgt = next((e for e in C if e[0] == 0), None)
+        su = _fold_sign_members(tgt[1]["tmpl"]) if tgt else None
+        if su and all(e is tgt or (e[2] == lo and e[1]["size"] == tgt[1]["size"] and scalar_tmpl(e[1]) and len(e[1]["leaves"]) == 1
+                                   and e[1]["leaves"][0][2] in ("s", "u")) for e in C):
+            # T16.c5: a scalar joins the target's committed sign union (`union { u16 u; s16 s; } unk2;`) by its sign
+            uname, mem = tgt[1]["name"], dict(su)
+            for e in C:
+                if e is tgt:
+                    paths[keys[0]][uname] = uname
+                    continue
+                vn = e[1]["leaves"][0][2]
+                mem.setdefault(vn, resub(e[1]["tmpl"]).replace(FOLD_N, vn))
+                paths[keys[e[0]]][e[1]["name"]] = f"{uname}.{vn}"
+            items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], tgt[1]["size"], tgt[1]["al"]))
+            names_top.setdefault(uname, []).append(lo)
             continue
         un = unify(C) if len({e[0] for e in C}) > 1 else None
         if un is not None:                                        # T7.c15: one spelling (the host's), no union
@@ -4924,16 +4957,31 @@ def fold_plan(keys):
             g["variants"][vn] = []
             g["order"].append(vn)
         vf, rel = g["variants"][vn], a - g["lo"]
-        same = next((f_ for f_ in vf if f_[0] == rel and f_[3] == x["size"] and f_[5] == x["leaves"]), None)
+        same = next((f_ for f_ in vf if f_[0] == rel and f_[3] == x["size"] and f_[5] == x["leaves"] and not f_[6]), None)
         if same:
             paths[m["key"]][x["name"]] = f"{gn}.{vn}.{same[1]}"
+            same[8].append((m["key"], x["name"]))
             continue
         hit = next((f_ for f_ in vf if f_[0] < rel + x["size"] and rel < f_[0] + f_[3]), None)
+        xs = x["leaves"][0][2] if len(x["leaves"]) == 1 and x["leaves"][0][:2] == (0, x["size"]) and x["leaves"][0][2] in ("s", "u") \
+            and not x["tmpl"].split(FOLD_N)[1].strip() else None
+        if hit and xs and hit[0] == rel and hit[3] == x["size"] and (hit[6] or (hit[7] and len(hit[5]) == 1 and hit[5][0][2] in ("s", "u"))):
+            # T16.c5: one width, two signs inside a variant: a sign union there (one placed by this call opens it, its paths follow)
+            if not hit[6]:
+                hs = hit[5][0][2]
+                hit[6] = {hs: hit[2].rsplit(" ", 1)[0] + " " + hs}
+                for k_, f0 in hit[8]:
+                    paths[k_][f0] = f"{gn}.{vn}.{hit[1]}.{hs}"
+            hit[6].setdefault(xs, resub(x["tmpl"]).replace(FOLD_N, xs))
+            hit[5] = tuple(sorted(set(hit[5]) | set(x["leaves"])))
+            paths[m["key"]][x["name"]] = f"{gn}.{vn}.{hit[1]}.{xs}"
+            gap_changed = True
+            continue
         if hit:
             return refuse(f"{m['key']}: `{x['name']}` ({x['cite']}) at {a:#x} conflicts with {tsp}.{gn}.{vn}.{hit[1]} (+{hit[0]:#x}, "
                           f"{hit[3]:#x} bytes) inside the variant")
         nm = f"unk{a:X}"
-        vf.append([rel, nm, resub(x["tmpl"]).replace(FOLD_N, nm), x["size"], x["al"], x["leaves"]])
+        vf.append([rel, nm, resub(x["tmpl"]).replace(FOLD_N, nm), x["size"], x["al"], x["leaves"], None, True, [(m["key"], x["name"])]])
         paths[m["key"]][x["name"]] = f"{gn}.{vn}.{nm}"
         gap_changed = True
     for gn in sorted({e[3] for e in gents}):
@@ -4958,7 +5006,7 @@ def fold_plan(keys):
     # the rendered target (unchanged when every member field agrees with a target field and the size holds)
     changed = gap_changed or nsize != tsize or any(it[1] == "union" for it in items) or any(
         it[1] == "plain" and not any(e[0] == 0 for C in clusters for e in C if e[2] == it[0]) for it in items) or len(srcs[0][1]) != len(tF)
-    fsig = lambda d_: [(f["name"], f["type"], f["stars"], f["dims"]) for f in d_["fields"]]
+    fsig = lambda d_: [(f["name"], f["type"], f["stars"], f["dims"], repr(f.get("nested"))) for f in d_["fields"]]   # (T16.c5: union members too)
     if changed:
         raw_t, msk_t = _fold_view(tdef["file"], cache)[:2]
         notes = [ln.strip()[2:-2].strip() for ln, ml in zip(raw_t[tspan[1] + 1:tspan[2]].split("\n"), msk_t[tspan[1] + 1:tspan[2]].split("\n"))
@@ -5954,6 +6002,19 @@ def fold_selftest(ok):
         fold_write(P)
         rc, err = _fold_cc1(root, "src/a.c")
         ok("gap union: compiles under cc1", rc == 0, err)
+        root = _fold_fixture("gapsign", "typedef struct {\n    /* 0x0000 */ union { u16 u; } unk0;\n    /* 0x0002 */ union { u8 raw[0x6]; } extA;\n"
+                             "} Fx_P; /* size = 0x8 */\ntypedef struct { s16 a; s16 b; } Fx_M;\ntypedef struct { s16 a; u16 b; } Fx_N;\n",
+                             {"src/a.c": '#include "struct_types.h"\ns32 gm(Fx_M *m) { return m->a + m->b; }\ns32 gn(Fx_N *n) { return n->b; }\n'},
+                             [("Fx_M", "absorb", "Fx_P", "variant", "+0x0 member:extA.kM src/a.c:2", "-"),
+                              ("Fx_N", "absorb", "Fx_P", "variant", "+0x0 member:extA.kM src/a.c:3", "-")])
+        P = fold_plan(["Fx_M", "Fx_N"])
+        mg, tx = P["merged"] or "", P["texts"].get("src/a.c", "")
+        ok("sign unions (T16.c5): a scalar joins the target's committed sign union; two signs in one variant open one there",
+           not P["refusals"] and re.search(r"union \{\s+u16 u;\s+s16 s;\s+\} unk0;", mg) and "struct { union { s16 s; u16 u; } unk2; } kM; } extA;" in mg
+           and "return m->unk0.s + m->extA.kM.unk2.s;" in tx and "return n->extA.kM.unk2.u;" in tx, f"{P['refusals']} {mg} {tx}")
+        fold_write(P)
+        rc, err = _fold_cc1(root, "src/a.c")
+        ok("sign unions (T16.c5): compiles under cc1", rc == 0, err)
         _fold_fixture("offconf", "typedef struct { s32 f0; s32 f4; } Fx_P;\ntypedef struct { s16 a; s16 b; } Fx_M;\n",
                       {"src/a.c": '#include "struct_types.h"\ns32 fg(Fx_M *m, Fx_P *p) { return m->a + p->f0; }\n'},
                       [("Fx_M", "absorb", "Fx_P", "offset", "+0x0 src/a.c:2", "-")])

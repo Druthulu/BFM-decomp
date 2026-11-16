@@ -1213,13 +1213,13 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
  */
 
 extern void *func_801465C0(void) __asm__("func_801465C0");  /* the slot overlay's guess_AllocSpriteObject; resident keeps the placeholder (T9 B1: symbols.resident.txt is stacked by every overlay) */
-extern void func_8001CC3C(S800D21C4 *arg0, s32 arg1, s32 arg2, s32 arg3);
+extern void func_8001CC3C(Unkstruct_800B5BD8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
-S800D21C4 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
-    S800D21C4 *s0 = (S800D21C4 *)KR_AS(void *, func_801465C0)(arg0);
+Unkstruct_800B5BD8 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
+    Unkstruct_800B5BD8 *s0 = (Unkstruct_800B5BD8 *)KR_AS(void *, func_801465C0)(arg0);
     if (s0 != 0) {
         func_8001CC3C(s0, arg1, 0, 0);
-        s0->f27 = arg2;
+        s0->unk27 = arg2;
         return s0;
     }
     return 0;
