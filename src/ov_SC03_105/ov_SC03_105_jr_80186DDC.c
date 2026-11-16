@@ -2528,7 +2528,7 @@ extern s32 D_801B9188;
 extern short D_801BCD1C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2922,7 +2922,7 @@ void func_80186DDC(void *arg0)
      * into its own local `t2` instead of reusing `tbl`; that alone gives the
      * target's save order (sw s1 BEFORE sw ra/s0) and register choice. */
     s32 ent;
-    u8 *tbl;
+    Unkstruct_80186DDC_2 *tbl;
     u8 *t2;
     /* dead-local frame pads (§162i1): 8+64 bytes -> vars=72 => frame 0x48 */
     s32 pad[2];
@@ -2944,7 +2944,7 @@ void func_80186DDC(void *arg0)
         break;
     case 2:
         func_801874D0((void *)ent);
-        if ((u32)((Unkstruct_80186DDC *)ent)->unk94 < 0x35 && (((Unkstruct_80186DDC_2 *)tbl)->unkA3AA & 3) == 0) {
+        if ((u32)((Unkstruct_80186DDC *)ent)->unk94 < 0x35 && (tbl->unkA3AA & 3) == 0) {
             func_8013C9C4(D_8018EDF4);
             func_801871C0((void *)ent, 2, 2);
         }

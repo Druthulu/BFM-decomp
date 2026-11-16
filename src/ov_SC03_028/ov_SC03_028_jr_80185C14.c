@@ -2521,7 +2521,7 @@ extern s32 D_801EB030;
 extern short D_801EC604;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3596,7 +3596,7 @@ extern u8 D_801AE46C[];
 extern s32 D_801AE874[];
 
 void func_80186A88(s32 a0) {
-    s32 s0;
+    Unkstruct_801202A0 *s0;
     s32 v0;
     s32 a02;
     a02 = a0;
@@ -3604,11 +3604,11 @@ void func_80186A88(s32 a0) {
     s0 = a02;
     v0 = ((s32 (*)(s32))func_8012CBCC)(a02);
     if ((v0 & 0x8000) != 0) {
-        ((Unkstruct_801202A0 *)s0)->unk2.s = 0x11;
+        s0->unk2.s = 0x11;
         guess_StartActorSequence(s0, D_801AE46C);
         guess_RequestSound(0x640, 0);
-    } else if (((((Unkstruct_801202A0 *)s0)->unk72) & 0x4000) != 0) {
-        ((Unkstruct_801202A0 *)s0)->unk2.s = 0x10;
+    } else if (((s0->unk72) & 0x4000) != 0) {
+        s0->unk2.s = 0x10;
         guess_StartActorSequence(s0, ((u8 *)D_801AE874));
     }
 }

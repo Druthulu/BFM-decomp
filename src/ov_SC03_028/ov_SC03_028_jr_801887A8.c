@@ -2521,7 +2521,7 @@ extern s32 D_801EB030;
 extern short D_801EC604;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -4746,7 +4746,7 @@ void func_8018AF9C(void *a0) {
     extern CVECTOR D_80190E14;
     extern CVECTOR D_80190E18;
     void *s0;
-    void *s1;
+    Unkstruct_800B5BD8 *s1;
 
     s1 = ((void *(*)(void))guess_AllocSpriteObject)();
     if (s1 != 0) {
@@ -4757,8 +4757,8 @@ void func_8018AF9C(void *a0) {
         idx = ((Unkstruct_8018AF9C *)a0)->unk2C;
         func_8001CBDC((s32)s1, (s32)D_80190D18, D_80190CB4[idx][0], D_80190CB4[idx][1]);
         uVar1 = D_80190CE0[((Unkstruct_8018AF9C *)a0)->unk2C];
-        ((Unkstruct_800B5BD8 *)s1)->unk2C.s = 3;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
+        s1->unk2C.s = 3;
+        s1->unk27 = uVar1;
         ((Unkstruct_8018AF9C *)a0)->unk6 = 0;
         ((Unkstruct_8018AF9C *)a0)->unkA = 0x50;
 

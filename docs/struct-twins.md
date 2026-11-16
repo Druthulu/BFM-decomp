@@ -1603,9 +1603,9 @@ cause: 2 names (224 B, all members placeholders) bound to 2 distinct objects, no
 
 ### 8d605044e3bf
 names: Tbl8_801AFF3C, Unkstruct_801343C4
-cause: 2 names (8 B, all members placeholders) bound to 114 distinct objects, none bound to two names: 0x800599B8(arg0), 0x801850D8(arg4), 0x80185EB0, 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E …; full list: tools/struct_twins.py --show 8d605044e3bf
+cause: 2 names (8 B, all members placeholders) bound to 113 distinct objects, none bound to two names: 0x800599B8(arg0), 0x801850D8(arg4), 0x80185EB0, 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E …; full list: tools/struct_twins.py --show 8d605044e3bf
 - `Tbl8_801AFF3C`: 2 obj — 0x801AFF3C, ov_SC06_025/0x8017EA74:tbl
-- `Unkstruct_801343C4`: 112 obj — 0x800599B8(arg0), 0x801850D8(arg4), 0x80185EB0, 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E (+104)
+- `Unkstruct_801343C4`: 111 obj — 0x800599B8(arg0), 0x801850D8(arg4), 0x80185EB0, 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E (+103)
 
 ### 927525df50d4
 names: E_13BD74, E_13C08C_8013C08C

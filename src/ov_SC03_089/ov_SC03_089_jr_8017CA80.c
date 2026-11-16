@@ -2522,7 +2522,7 @@ extern s32 D_801C62B8;
 extern short D_801C691C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -5792,7 +5792,7 @@ void func_80184D7C(s32 param_1)
 
 extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void func_80185144(s32 param_1);
-extern void func_801851A8(s32 param_1);
+extern void func_801851A8(Unkstruct_801202A0 *param_1);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_80184E54(void *a0)
@@ -5945,7 +5945,7 @@ extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern SV_801851A8 D_801A3BB0;
 
-void func_801851A8(s32 param_1)
+void func_801851A8(Unkstruct_801202A0 *param_1)
 {
     SV_801851A8 out;
     SV_801851A8 buf;
@@ -5961,8 +5961,8 @@ void func_801851A8(s32 param_1)
     s32 p;
     s32 mp;
 
-    if (((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC != 0) {
-        p = (s32)(*(u32 *)(((Unkstruct_801851A8_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x20) & 0xfeffffff);
+    if (param_1->extB.kSC03_089_801851A8.unkCC != 0) {
+        p = (s32)(*(u32 *)(((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 0x20) & 0xfeffffff);
         mp = (s32)&m1;
         buf.vx = *(s16 *)(p + 6);
         w = *(u32 *)p;
@@ -5974,7 +5974,7 @@ void func_801851A8(s32 param_1)
         m1.t[2] = *(s8 *)(p + 5);
 
         /* gte_SetRotMatrix(M) */
-        M = ((Unkstruct_801851A8_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 0x34;
         gte_SetRotMatrix(M);
 
         /* column 0 */
@@ -5995,7 +5995,7 @@ void func_801851A8(s32 param_1)
         gte_stclmv(c);
 
         /* gte_SetTransMatrix(M) */
-        M = ((Unkstruct_801851A8_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 0x34;
         gte_SetTransMatrix(M);
 
         /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
@@ -6006,16 +6006,16 @@ void func_801851A8(s32 param_1)
 
         ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)(dp, (s32)&D_801A3BB0, (s32)&out);
 
-        dst = ((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC;
+        dst = param_1->extB.kSC03_089_801851A8.unkCC;
         *(Unkstruct_8013B83C *)(dst + 8) = *(Unkstruct_8013B83C *)&out;
 
         mk = 0x80000000;
-        if (*(s32 *)(((Unkstruct_801851A8_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 4) < 0) {
-            *(u32 *)(((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC + 4) =
-                *(u32 *)(((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC + 4) | mk;
+        if (*(s32 *)(((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 4) < 0) {
+            *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) =
+                *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) | mk;
         } else {
-            *(u32 *)(((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC + 4) =
-                *(u32 *)(((Unkstruct_801202A0 *)param_1)->extB.kSC03_089_801851A8.unkCC + 4) & 0x7FFFFFFF;
+            *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) =
+                *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) & 0x7FFFFFFF;
         }
     }
 }
