@@ -3644,6 +3644,17 @@ def fold_report(heads):
 # `member:extX.<variant>` tokens (class variant); a token per gap names that gap's variant, and the first token's variant serves
 # every gap the view touches that no token names (one token suffices); a token naming no gap union is the T6 variant path. An
 # absorb with no token touching a gap refuses (needs class variant).
+# T16.c7: the per-source absorb (a --fold-batch line `VIEW<TAB>PARENT<TAB>EVIDENCE<TAB>SOURCES`, fold_plan(keys, src)). SOURCES `*`:
+# the row's own type-level absorb (its target must be PARENT) with the multi-parent guard waived, for a view whose remaining sources
+# are all the judged group. SOURCES a file (beside the batch) of T14 source keys, one per line, optional `<TAB>member:extX.<v>` (that
+# source's gap variants) and `<TAB>lines=A-B` (only its casts on those lines): only the view's casts on those sources move, `((V *)X)->f`
+# -> `((PARENT *)X)-><parent path>`, a bare `(V *)X` -> `(PARENT *)X`, a typed copy `V *x = <init holding the cast>;` (x's one
+# assignment) retyped with its `x->f` accesses (_fold_src_scan; the key of a cast is T14's, _fold_src_key). Only the moved sources'
+# accessed fields merge into the parent (same merge, leaf maps and gap variants; a source group per member-token text is one
+# pseudo-member); the parent never grows; the view's definition, its other uses, the stores and the restruct ledger stay. A source
+# whose cast result is indexed / in arithmetic / dereferenced (or whose copy is) is unsafe and not moved (its size would count).
+# Every absorb refuses a view's typed pointer onto a parent `void *` field (C0626: adopting it scales the field's byte arithmetic).
+# The batch writes <FILE>[.write].srcs.tsv: per source key moved / unsafe (cite) / unmatched. Bytes: scratch_cmp after --write.
 # ----------------------------------------------------------------------------------------------------------------------
 FOLD_ROOT = None                    # the selftest's synthetic tree (laid out like the repo); None = REPO
 FOLD_FLOWS = ".run/3.45/t14/types.tsv"       # T14's fragment table: candidates `<parent> 0x<off> flow …` (absorb's multi-parent guard)
@@ -4328,6 +4339,142 @@ def _fold_flow_parents(names):
     return out
 
 
+FOLD_UNSAFE_NEXT = re.compile(r"\s*(?:\[|\+|-(?!>))")   # (T16.c7) a cast result indexed / in pointer arithmetic: its size counts
+
+
+def _fold_operand(msk, i):
+    """(T16.c7, pure) the end of the unary expression (a cast's operand) starting at msk[i]: prefix `&`/`*`, nested casts, a primary
+    (identifier or parenthesised group), postfix `->f` `.f` `[…]` `(…)`; -1 when unreadable."""
+    n = len(msk)
+
+    def ws(j):
+        while j < n and msk[j] in " \t\n":
+            j += 1
+        return j
+    j = ws(i)
+    while j < n and msk[j] in "&*" and msk[j:j + 2] != "&&":
+        j = ws(j + 1)
+    if j < n and msk[j] == "(":
+        c = _match_close(msk, j)
+        if c < 0:
+            return -1
+        mt = re.fullmatch(r"\s*((?:(?:const|volatile|unsigned|signed|struct|union)\s+)*[A-Za-z_]\w*)\s*(\**)\s*", msk[j + 1:c])
+        if mt and (mt.group(2) or _t_is_type(sl._norm_type(mt.group(1)))):
+            return _fold_operand(msk, c + 1)                       # a nested cast: its own operand follows
+        j = c + 1
+    else:
+        mi = re.match(r"[A-Za-z_]\w*|0[xX][0-9A-Fa-f]+|\d+", msk[j:])
+        if not mi:
+            return -1
+        j += mi.end()
+    while True:
+        k = ws(j)
+        if msk[k:k + 2] == "->" or (msk[k:k + 1] == "." and msk[k + 1:k + 2] != "."):
+            mi = re.match(r"\s*[A-Za-z_]\w*", msk[k + (2 if msk[k] == "-" else 1):])
+            if not mi:
+                return j
+            j = k + (2 if msk[k] == "-" else 1) + mi.end()
+        elif msk[k:k + 1] in ("[", "("):
+            c = _match_close(msk, k)
+            if c < 0:
+                return -1
+            j = c + 1
+        else:
+            return j
+
+
+def _fold_src_key(rel, fn, x, binary):
+    """(T16.c7, pure) the T14 source keys (struct_twins.sources_build) a cast operand text may carry: `tu:fn:base` (param / local),
+    `base@bin` (a global or a local copy of one), `&name@bin`, `tu:fn:<text>` (a field / arith base)."""
+    x = " ".join(x.split())
+    while x.startswith("(") and _match_close(x, 0) == len(x) - 1:
+        x = x[1:-1].strip()
+    out = {f"{rel}:{fn}:{x}"}
+    if re.fullmatch(r"[A-Za-z_]\w*", x):
+        out.add(f"{x}@{binary}")
+    m = re.fullmatch(r"&\s*([A-Za-z_]\w*)", x)
+    if m:
+        out.add(f"&{m.group(1)}@{binary}")
+    return out
+
+
+def _fold_src_scan(rel, cache, names, tag, want):
+    """(T16.c7) one file's casts to a member type on the sources `want` {source key: (lo line, hi line) or None}: dict(src {key: dict(
+    ren [(a, b)] type-token spans, acc [(start, end, field)], casts n, copies [name])}, unsafe {key: cite}). A cast `((V *)X)->f` is an
+    access (f respelled); a bare `(V *)X` is renamed only; a local `V *x = <init holding the cast>;` (its one assignment) is a typed copy:
+    its declaration token renamed, its `x->f` accesses respelled. A cast result indexed or in arithmetic, a dereferenced cast, a copy
+    indexed / dereferenced / in arithmetic / assigned again: the source is unsafe (its size would count) and is not moved."""
+    import struct_twins as st
+    raw, msk, ls, fns, _, _ = _fold_view(rel, cache)
+    alts = [re.escape(n) for n in names] + ([r"(?:struct|union)\s+" + re.escape(tag)] if tag else [])
+    if not alts:
+        return dict(src={}, unsafe={})
+    crx = re.compile(r"\(\s*(" + "|".join(alts) + r")\s*\*\s*\)")
+    defs = [r for r in sc.scan_text(raw, rel, shared_defs=None) if r["form"] == "def"]
+    binary = st.binary_of(rel)
+    src, unsafe = {}, {}
+
+    def ws(j):
+        while j < len(msk) and msk[j] in " \t\n":
+            j += 1
+        return j
+
+    def back(j):                                               # the last non-blank index before j
+        j -= 1
+        while j >= 0 and msk[j] in " \t\n":
+            j -= 1
+        return j
+    for lo, hi in fns:
+        for m in crx.finditer(msk, lo, hi):
+            line = bisect.bisect_right(ls, m.start())
+            fn = next((d["name"] for d in defs if d["line"] <= line <= d["end"]), None)
+            o_end = _fold_operand(msk, m.end())
+            if fn is None or o_end < 0:
+                continue
+            keys = _fold_src_key(rel, fn, raw[m.end():o_end], binary) & set(want)
+            keys = {k for k in keys if want[k] is None or want[k][0] <= line <= want[k][1]}
+            if not keys:
+                continue
+            k = sorted(keys)[0]
+            e = src.setdefault(k, dict(ren=[], acc=[], casts=0, copies=[]))
+            cite = f"{rel}:{line}"
+            p = back(m.start())
+            wrapped = p >= 0 and msk[p] == "(" and _match_close(msk, p) == ws(o_end)
+            e_lo, e_hi = (p, ws(o_end) + 1) if wrapped else (m.start(), o_end)
+            if wrapped and msk[ws(e_hi):ws(e_hi) + 2] == "->":
+                mf = re.match(r"\s*([A-Za-z_]\w*)", msk[ws(e_hi) + 2:])
+                if mf:
+                    fs = ws(e_hi) + 2 + mf.start(1)
+                    e["acc"].append((fs, fs + len(mf.group(1)), mf.group(1)))
+            elif FOLD_UNSAFE_NEXT.match(msk, e_hi):
+                unsafe.setdefault(k, f"{cite}: the cast result is indexed or in arithmetic")
+            pb = back(e_lo)
+            if pb >= 0 and (msk[pb] in "*" and not re.search(r"&\s*\(\s*\*\s*$", msk[max(0, pb - 8):pb + 1])
+                            or re.search(r"(?:sizeof|\+\+|--)\s*$", msk[max(0, pb - 8):pb + 1])):
+                unsafe.setdefault(k, f"{cite}: the cast is dereferenced / sized")
+            e["ren"].append((m.start(1), m.end(1)))
+            e["casts"] += 1
+            # a typed copy: `V *x = <init holding this cast>;`, x's one assignment in the function
+            s0 = max(msk.rfind(";", lo, m.start()), msk.rfind("{", lo, m.start()), msk.rfind("}", lo, m.start())) + 1
+            md = re.match(r"\s*(?:const\s+)?(" + "|".join(alts) + r")\s*\*\s*([A-Za-z_]\w*)\s*=(?!=)", msk[s0:m.start()])
+            if md:
+                x = md.group(2)
+                d_ = next(d for d in defs if d["name"] == fn)
+                b0, b1 = ls[d_["line"] - 1], (ls[d_["end"]] if d_["end"] < len(ls) else len(msk))
+                body = msk[b0:b1]
+                dpos = s0 + md.start(2) - b0                       # the declarator itself (`V *x`) is no dereference
+                if (len(re.findall(r"(?<![\w.>=!<])" + re.escape(x) + r"\s*=(?!=)", body)) != 1
+                        or re.search(r"(?<![\w.>])" + re.escape(x) + FOLD_UNSAFE_NEXT.pattern, body)
+                        or any(mu.end() - len(x) != dpos for mu in re.finditer(r"(?:\*|sizeof\s*\(?)\s*" + re.escape(x) + r"\b(?!\s*->)", body))):
+                    unsafe.setdefault(k, f"{cite}: the typed copy `{x}` is assigned again, indexed, dereferenced or in arithmetic")
+                else:
+                    e["ren"].append((s0 + md.start(1), s0 + md.end(1)))
+                    e["copies"].append(x)
+                    for ma in re.finditer(r"(?<![\w.>])" + re.escape(x) + r"\s*->\s*([A-Za-z_]\w*)", body):
+                        e["acc"].append((b0 + ma.start(1), b0 + ma.end(1), ma.group(1)))
+    return dict(src=src, unsafe=unsafe)
+
+
 FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* [su]; )+)\} " + FOLD_N + "$")
 _FOLD_FIX_SLOT = r"((?:union \{ (?:[A-Za-z_][\w ]* [su]; )+\} )|(?:[A-Za-z_][\w ]* ))"
 FOLD_FIX_U = re.compile(r"^union \{ " + _FOLD_FIX_SLOT + r"val; struct \{ " + _FOLD_FIX_SLOT + r"lo; " + _FOLD_FIX_SLOT + r"hi; \} i; \} "
@@ -4688,6 +4835,10 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
     def base1(x):
         return re.sub(r"\s+", " ", resub(x["tmpl"].split(FOLD_N)[0])).strip()
 
+    def vtrap(e, tgt, lo):                                        # (T16.c7, C0626) an absorb never adopts a view's typed pointer
+        return (f"a typed pointer `{e[1]['name']}` ({e[1]['cite']}) onto the parent's `void *` `{tgt[1]['name']}` ({tgt[1]['cite']}) at {lo:#x}: "
+                f"the parent keeps `void *` (C0626: adopting it scales the byte arithmetic on the field); retype the field first")
+
     def leafmap(C):
         """(T16.c6, absorb) one 4-byte parent leaf the views spell otherwise: ([item], {entry index: path}), a str cause, or None.
         A parent pointer takes same-width s/u view scalars (respelled as the pointer member; the byte gate judges each object). A
@@ -4704,6 +4855,8 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         if t["size"] != 4 or lo % 4 or not oth:
             return None
         if ptr1(t) is not None:
+            if absorb and ptr1(t) and any(ptr1(e[1]) is False for _, e in oth):
+                return vtrap(next(e for _, e in oth if ptr1(e[1]) is False), tgt, lo)
             if not all(e[2] == lo and e[1]["size"] == 4 and (sc1(e[1]) or (ptr1(e[1]) is not None and agree(e[1], t))) for _, e in oth) \
                     or not any(sc1(e[1]) for _, e in oth):
                 return None
@@ -4762,6 +4915,8 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         first = C[0]
         if all(e[2] == first[2] and agree(e[1], first[1]) for e in C):
             tgt = next((e for e in C if e[0] == 0), None)
+            if absorb and tgt and ptr1(tgt[1]) and any(e[0] != 0 and ptr1(e[1]) is False for e in C):
+                return None, None, None, vtrap(next(e for e in C if e[0] != 0 and ptr1(e[1]) is False), tgt, lo)
             nm = tgt[1]["name"] if tgt else f"unk{lo:X}"
             items.append((lo, "plain", resub(typed(tgt or first, C)[1]["tmpl"]).replace(FOLD_N, nm), first[1]["size"], first[1]["al"]))
             names_top.setdefault(nm, []).append(lo)
@@ -4909,14 +5064,18 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
     return items, paths, names_top, None
 
 
-def fold_plan(keys):
+def fold_plan(keys, src=None):
     """The fold of ledger rows `keys` into their one target, NOTHING written: dict(keys, disp, target_key, target, classes, merged
     (text or None = the target unchanged), size_old, size_new, map{type key: {field: path}}, texts{rel: new text}, counts{rel: n},
-    stores{rel: (new text, n)}, dispo (new text, rekeys, retargets), ledger_rows, refusals[cause], notes[])."""
+    stores{rel: (new text, n)}, dispo (new text, rekeys, retargets), ledger_rows, refusals[cause], notes[]).
+    T16.c7 src: "*" = the row's type-level absorb with the multi-parent guard waived (the remaining sources are the judged group);
+    dict(target, evidence, keys {source key: (member tokens text, (lo, hi) lines or None)}) = the per-source absorb of ONE view
+    (see the engine header); P["srcs"] = dict(moved [key], unmatched [key], unsafe {key: cite}, casts, accesses, copies)."""
     import struct_twins as st
     root = _froot()
+    per = isinstance(src, dict)
     P = dict(keys=list(keys), disp=None, target_key=None, target=None, classes=[], merged=None, size_old=None, size_new=None, map={},
-             texts={}, counts={}, stores={}, dispo=None, ledger_rows=0, refusals=[], notes=[], lb={})
+             texts={}, counts={}, stores={}, dispo=None, ledger_rows=0, refusals=[], notes=[], lb={}, srcs=None)
 
     def refuse(c):
         P["refusals"].append(c)
@@ -4927,6 +5086,11 @@ def fold_plan(keys):
         e = have.get(k)
         if not e:
             return refuse(f"{k}: no row in {FOLD_DISPO}")
+        if per:                                                   # T16.c7: the per-source absorb names its parent and evidence
+            if len(keys) != 1:
+                return refuse("a per-source absorb moves the sources of one view")
+            e = dict(e, disposition="absorb", target=src["target"], evidence=src["evidence"],
+                     **{"class": "variant" if "member:" in src["evidence"] else "offset"})
         if e["disposition"] not in ("fold", "absorb"):
             return refuse(f"{k}: disposition {e['disposition']} (the engine applies fold and absorb rows)")
         if st.APPLIED_RX.search(e.get("reason") or ""):
@@ -4972,7 +5136,13 @@ def fold_plan(keys):
     tsize = res.layout_of_fields(tdef["fields"], tdef["kind"])[0]
     # names: a member's names must mean its canonical definition everywhere (no other definition of them in the tree)
     mnames = [n for m in M for n in _fold_names(m["d"])]
-    for rel in _fold_files(mnames):
+    sfiles = None
+    if per:                                                       # T16.c7: the files the sources live in (a key's TU; a global's spellers)
+        tus = {k.split(":", 1)[0] for k in src["keys"] if "@" not in k.split(":", 1)[0]}
+        gl = {re.sub(r"^&", "", k.split("@")[0]) for k in src["keys"] if "@" in k.split(":", 1)[0]}
+        gf = set(_fold_files(sorted(gl))) if gl else set()
+        sfiles = [r for r in _fold_files(mnames + _fold_aliases(mnames, cache)) if r in tus or r in gf]
+    for rel in (_fold_files(mnames) if sfiles is None else sfiles):
         for d2 in tc.walk_file(_fold_view(rel, cache)[0], rel)["definitions"]:
             if set(_fold_names(d2)) & set(mnames) and not any(d2["file"] == m["d"]["file"] and d2["line"] == m["d"]["line"] for m in M):
                 refuse(f"{rel}:{d2['line']}: another definition of {sorted(set(_fold_names(d2)) & set(mnames))}")
@@ -4993,7 +5163,50 @@ def fold_plan(keys):
                     m["gpath"].append(pth)
                 elif m["path"] is None:
                     m["path"] = pth
-    if disp == "absorb":
+    if per:
+        # T16.c7: the per-source absorb: the view's casts on the named sources (and their typed copies), one pseudo-member per
+        # source group of one member-token text (each its own gap variants); the view itself, its other uses and its stores stay
+        m0, want = M[0], {k: v[1] for k, v in src["keys"].items()}
+        found, unsafe = collections.defaultdict(list), {}
+        for rel in sfiles:
+            r_ = _fold_src_scan(rel, cache, m0["d"]["names"] + _fold_aliases(_fold_names(m0["d"]), cache), m0["d"]["tag"], want)
+            for k, c_ in r_["unsafe"].items():
+                unsafe.setdefault(k, c_)
+            for k, e_ in r_["src"].items():
+                found[k].append((rel, e_))
+        moved = sorted(k for k in found if k not in unsafe)
+        P["srcs"] = dict(moved=moved, unmatched=sorted(set(want) - set(found)), unsafe=unsafe,
+                         casts=sum(e_["casts"] for k in moved for _, e_ in found[k]),
+                         accesses=sum(len(e_["acc"]) for k in moved for _, e_ in found[k]),
+                         copies=sum(len(e_["copies"]) for k in moved for _, e_ in found[k]))
+        if not moved:
+            return refuse(f"{m0['key']}: none of the {len(want)} sources has a movable cast to it (unmatched {len(P['srcs']['unmatched'])}, "
+                          f"unsafe {len(unsafe)})")
+        grp = collections.defaultdict(list)
+        for k in moved:
+            grp[src["keys"][k][0] or ""].append(k)
+        M = []
+        for tok, ks in sorted(grp.items()):
+            m = dict(m0, key=m0["key"] if len(grp) == 1 else f"{m0['key']}[{tok or '-'}]", acc=collections.defaultdict(list),
+                     ren=collections.defaultdict(list))
+            if tok:
+                m["path"], m["gpath"] = None, []
+                for mp in st.MEMBER_RX.finditer(tok):
+                    pth = mp.group(0).strip()[len("member:"):].split(".")
+                    if pth[0] in gaps and len(pth) == 2:
+                        m["gpath"].append(pth)
+                    elif m["path"] is None:
+                        m["path"] = pth
+            for k in ks:
+                for rel, e_ in found[k]:
+                    m["acc"][rel] += e_["acc"]
+                    m["ren"][rel] += e_["ren"]
+            m["acc"], m["ren"] = dict(m["acc"]), dict(m["ren"])
+            M.append(m)
+    if disp == "absorb" and src is not None:
+        P["notes"].append("the multi-parent guard waived: " + ("the remaining sources are the judged group (*)" if src == "*"
+                                                               else "a per-source absorb moves the judged sources only"))
+    elif disp == "absorb":
         fl = _fold_flow_parents(set(mnames))
         if fl is None:
             P["notes"].append(f"{FOLD_FLOWS} absent: the multi-parent guard was not run")
@@ -5011,15 +5224,23 @@ def fold_plan(keys):
     tacc = None                                                  # computed when a target field is respelled (a union)
     for m in M:
         m["aliases"] = _fold_aliases(_fold_names(m["d"]), cache)
-        m["acc"] = _fold_accesses(m["d"], m["F"], m["aliases"], cache, why)
+        if not per:
+            m["acc"] = _fold_accesses(m["d"], m["F"], m["aliases"], cache, why)
         m["used"] = {f for es in m["acc"].values() for (_, _, f) in es}
     if why:
         return refuse(why[0])
     psyq = (inv[tkey]["klass"] == "PsyQ") if tkey in inv else tdef["file"].startswith("include/psyq/")   # a PsyQ target keeps every field
-    tacc = {} if psyq else _fold_accesses(tdef, tF, talias, cache, why)    # T7.c15: a PsyQ target is never re-rendered (refused below)
-    if why:
-        return refuse(why[0])
-    tused = {f for es in tacc.values() for (_, _, f) in es}
+    if per:                                                       # T16.c7: the target's accesses are walked only when one is respelled
+        pads = [x["name"] for x in tF if _fold_is_pad(x)]
+        tf_set = set(_fold_files(_fold_names(tdef) + talias)) - {tdef["file"]} if pads and not psyq else set()
+        tused = {n for n in pads if any(re.search(r"(?:->|\.)\s*" + re.escape(n) + r"\b", _fold_view(r_, cache)[1])
+                                       for r_ in _fold_files([n]) if r_ in tf_set)}
+        tacc = {}
+    else:
+        tacc = {} if psyq else _fold_accesses(tdef, tF, talias, cache, why)    # T7.c15: a PsyQ target is never re-rendered (refused below)
+        if why:
+            return refuse(why[0])
+        tused = {f for es in tacc.values() for (_, _, f) in es}
     member_rx = re.compile(r"(?:struct|union)\s+(?:" + "|".join(re.escape(m["d"]["tag"]) for m in M if m["d"]["tag"]) + r")\b"
                            if any(m["d"]["tag"] for m in M) else r"(?!x)x")
     name_rx = re.compile(r"\b(?:" + "|".join(re.escape(n) for m in M for n in m["d"]["names"]) + r")\b" if any(m["d"]["names"] for m in M) else r"(?!x)x")
@@ -5062,6 +5283,10 @@ def fold_plan(keys):
                                                  disp == "absorb" and any(m["path"] is None for m in M), tsp, absorb=disp == "absorb")
     if why_m:
         return refuse(why_m)
+    if per and not psyq and any(p_ != f_ for f_, p_ in paths.get("target", {}).items()):
+        tacc = _fold_accesses(tdef, tF, talias, cache, why)      # T16.c7: a target field respelled (a union opened): its accesses follow
+        if why:
+            return refuse(why[0])
     for m, x, a, gn, vn in gents:                                 # T16.c5: the gap variants (joined by name, padded to the offsets)
         g = gaps[gn]
         if vn not in g["variants"]:
@@ -5110,6 +5335,8 @@ def fold_plan(keys):
     end = max([it[0] + (it[3] if it[1] == "plain" else it[4]) for it in items] + [0])
     nsize = max(tsize, (end + maxal - 1) // maxal * maxal)
     P.update(size_old=tsize, size_new=nsize, map={k: {f: p for f, p in v.items() if f != p} for k, v in paths.items()})
+    if per and nsize != tsize:
+        return refuse(f"{M[0]['key']}: the sources' fields would grow {tsp} {tsize:#x} -> {nsize:#x} (a per-source absorb keeps the parent's size)")
     for m in M:
         if m["off"]:
             refuse(f"{m['key']}: absorb at +{m['off']:#x}: its pointer sources address {tsp}+{m['off']:#x}; retyping them to the parent "
@@ -5156,7 +5383,7 @@ def fold_plan(keys):
         P["lb"][tsp] = lb
         if lb:
             return refuse(f"target {tsp} grows {tsize:#x} -> {nsize:#x} and its size is load-bearing: {'; '.join(lb[:3])}")
-    for m in M:
+    for m in ([] if per else M):                                  # (T16.c7: a per-source absorb keeps the view; its size never changes)
         if m["size"] != nsize:
             lb = _fold_lb(m["d"], m["aliases"], cache)
             P["lb"][m["key"]] = lb
@@ -5185,7 +5412,7 @@ def fold_plan(keys):
     # T7.c11: the merged definition sits at the EARLIEST definition of the component (target or member) in include order
     # (include/struct_types.h, reached through common.h, before src/shared/engine_types.h), so every member token that the fold
     # respells already sees it; its own field types must be defined before that point.
-    place = min([(_fold_order(tf_, tspan[0]), None)] + [(_fold_order(m["d"]["file"], m["span"][0]), i) for i, m in enumerate(M)],
+    place = min([(_fold_order(tf_, tspan[0]), None)] + [(_fold_order(m["d"]["file"], m["span"][0]), i) for i, m in enumerate([] if per else M)],
                 key=lambda x: x[0])
     pm = M[place[1]] if place[1] is not None else None
     P["placed"] = None
@@ -5216,7 +5443,7 @@ def fold_plan(keys):
         skip[pm["d"]["file"]].append((pa, pb))
         P["placed"] = (pm["d"]["file"], pm["d"]["line"])
         P["notes"].append(f"target {tsp} moves to {pm['d']['file']}:{pm['d']['line']} (the earliest definition in include order)")
-    for m in M:
+    for m in ([] if per else M):                                  # (T16.c7: a per-source absorb keeps the view's definition)
         if m is pm:
             continue
         a, b = line_span(m["d"]["file"], m["span"][0], m["span"][3])
@@ -5224,7 +5451,14 @@ def fold_plan(keys):
         skip[m["d"]["file"]].append((a, b))
     ret_rx = re.compile(r"((?:struct|union)\s+(?:" + "|".join(re.escape(m["d"]["tag"]) for m in M if m["d"]["tag"]) + r")\b(\s*;)?)"
                         if any(m["d"]["tag"] for m in M) else r"((?!x)x)()")
-    for rel in _fold_files(mnames):
+    for m in (M if per else []):                                  # T16.c7: only the sources' cast and typed-copy tokens are retyped
+        for rel, sp in m["ren"].items():
+            ls = _fold_view(rel, cache)[2]
+            for a, b in sp:
+                if _fold_order(rel, a) < place[0]:
+                    return refuse(f"{rel}:{bisect.bisect_right(ls, a)}: a source's cast before the target's definition ({tf_}:{tdef['line']})")
+                edits[rel].append((a, b, tsp))
+    for rel in ([] if per else _fold_files(mnames)):
         _, msk, ls, *_ = _fold_view(rel, cache)
         sk = list(skip.get(rel, []))                              # deleted/re-rendered spans, then each `struct Tag` already taken
         for rx in (ret_rx, name_rx):
@@ -5271,7 +5505,7 @@ def fold_plan(keys):
     olds = [n for m in M for n in m["d"]["names"]] or [m["d"]["tag"] for m in M if m["d"]["tag"]]
     tname = tdef["names"][0] if tdef["names"] else tdef["tag"]
     srx = re.compile(r"\b(?:" + "|".join(map(re.escape, olds)) + r")\b")
-    for rel in FOLD_STORES:
+    for rel in ([] if per else FOLD_STORES):                      # (T16.c7: the view keeps its spelling: no store follows)
         p = root / rel
         if not p.exists():
             continue
@@ -5324,14 +5558,14 @@ def fold_plan(keys):
                 c[2] = nfl
         data.append(c)
     for c in data:
-        if len(c) > 5 and c[5] in keys:
+        if len(c) > 5 and c[5] in keys and not per:
             c[5] = rekeys.get(tkey, tkey); retarget += 1
         elif len(c) > 5 and c[5] in rekeys:
             c[5] = rekeys[c[5]]
     data.sort(key=lambda c: c[0])
     P["dispo"] = ("\n".join(head + ["\t".join(c) for c in data]) + "\n", rekeys, retarget)
     lp = root / FOLD_LEDGER
-    if lp.exists():
+    if lp.exists() and not per:                                   # (T16.c7: the view's name stays; the restruct ledger is not renamed)
         r = subprocess.run(["grep", "-cwE", "|".join(olds), str(lp)], capture_output=True, text=True)
         P["ledger_rows"] = int((r.stdout or "0").strip() or 0)
     P["olds"], P["tname"] = olds, tname
@@ -5411,21 +5645,50 @@ def fold_batch(path, write):
     lines (keys, then target or cause) and a total; rc 0, 2 when the tree is dirty."""
     import time
     root = _froot()
-    comps = [[k for k in ln.strip().split(",") if k] for ln in pathlib.Path(path).read_text().splitlines() if ln.strip() and not ln.startswith("#")]
+    comps = []
+    for ln in pathlib.Path(path).read_text().splitlines():
+        if not ln.strip() or ln.startswith("#"):
+            continue
+        if "\t" not in ln:
+            comps.append(([k for k in ln.strip().split(",") if k], None, None))
+            continue
+        c = ln.split("\t")                                       # T16.c7: VIEW <tab> PARENT <tab> EVIDENCE <tab> * | SOURCES-FILE
+        if c[3].strip() == "*":
+            comps.append(([c[0]], "*", c[1]))
+            continue
+        sk = {}
+        for kl in (pathlib.Path(path).parent / c[3].strip()).read_text().splitlines():
+            if not kl.strip() or kl.startswith("#"):
+                continue
+            kc = kl.split("\t")
+            rng = next((tuple(int(x) for x in v[6:].split("-")) for v in kc[1:] if v.startswith("lines=")), None)
+            sk[kc[0].strip()] = (" ".join(v for v in kc[1:] if not v.startswith("lines=")).strip(), rng)
+        comps.append(([c[0]], dict(target=c[1], evidence=c[2], keys=sk), c[1]))
+    rep_rows = []
     if write and FOLD_ROOT is None:
         r = subprocess.run(["git", "status", "--porcelain", "--", "src", "include", "config"], cwd=REPO, capture_output=True, text=True)
         if r.stdout.strip():
             print(f"restruct --fold-batch --write: refused, uncommitted changes under src/ include/ config/ ({r.stdout.split()[1:3]})")
             return 2
     applied, skipped, subs, t0 = [], [], [], time.time()
-    for keys in comps:
+    for keys, src, par in comps:
         t1 = time.time()
         try:
-            P = fold_plan(keys)
+            P = fold_plan(keys, src)
         except Exception as ex:                                   # a crashing component is listed, never fatal to the batch
             skipped.append((keys, f"crash {type(ex).__name__}: {ex}"))
             print(f"SKIPPED {','.join(keys)}: crash {type(ex).__name__}: {ex}", flush=True)
             continue
+        if src == "*" and not P["refusals"] and P["target_key"] != par:
+            P["refusals"].append(f"{keys[0]}: the row's target {P['target_key']} is not the line's parent {par}")
+        S_ = P.get("srcs")
+        if S_:
+            tag = f"{keys[0]}>{par}"
+            rep_rows += [f"{tag}\t{k}\t{'moved' if not P['refusals'] else 'refused'}\t-" for k in S_["moved"]]
+            rep_rows += [f"{tag}\t{k}\tunsafe\t{v}" for k, v in sorted(S_["unsafe"].items())]
+            rep_rows += [f"{tag}\t{k}\tunmatched\t-" for k in S_["unmatched"]]
+            print(f"  sources {keys[0]} -> {par}: moved {len(S_['moved'])} · unsafe {len(S_['unsafe'])} · unmatched {len(S_['unmatched'])}"
+                  f" · casts {S_['casts']} · accesses {S_['accesses']} · typed copies {S_['copies']}", flush=True)
         if P["refusals"]:
             skipped.append((keys, P["refusals"][0]))
             print(f"SKIPPED {','.join(keys)}: {P['refusals'][0]}", flush=True)
@@ -5448,6 +5711,8 @@ def fold_batch(path, write):
         applied.append((keys, P["target"]))
         print(f"APPLIED {','.join(keys)}: -> {P['target']} · files {len(P['counts'])} · edits {sum(P['counts'].values())}"
               + (f" · placed {P['placed'][0]}:{P['placed'][1]}" if P.get("placed") else "") + f" · {time.time() - t1:.0f}s", flush=True)
+    if rep_rows:                                                  # T16.c7: the per-source outcome, one row per source key
+        pathlib.Path(str(path) + (".write" if write else "") + ".srcs.tsv").write_text("line\tsource\toutcome\tcite\n" + "\n".join(rep_rows) + "\n")
     n, lp = 0, root / FOLD_LEDGER
     if write and subs and lp.exists():
         anyrx = re.compile("|".join(rx.pattern for rx, _ in subs))
@@ -6174,6 +6439,42 @@ def fold_selftest(ok):
         P = fold_plan(["Fx_M"])
         ok("absorb multi-parent: a type whose sources name two parents is refused (split per source first)",
            len(P["refusals"]) == 1 and "split per source first" in P["refusals"][0] and "Fx_Q" in P["refusals"][0], str(P["refusals"]))
+        P = fold_plan(["Fx_M"], "*")
+        ok("absorb `*` (T16.c7): the remaining sources are the judged group: the multi-parent guard is waived",
+           not P["refusals"] and "src/a.c" in P["texts"] and any("guard waived" in n_ for n_ in P["notes"]), str(P["refusals"]))
+        # T16.c7: per-source absorb (casts, a bare cast, a typed copy, an unsafe source, a source left on the view; gap variant)
+        root = _fold_fixture("persrc", "typedef struct { s32 q; } Fx_S;\n"
+                             "typedef struct { u16 a0; u8 pad2[2]; s32 f4; void *p8; union { u8 raw[4]; } extA; } Fx_P;\n"
+                             "typedef struct { u16 a; u16 b; s32 c; Fx_S *e; s32 g; } Fx_V;\nextern Fx_P D_g;\n",
+                             {"src/a.c": '#include "struct_types.h"\nvoid h(void *);\n'
+                                         'void f1(void *a0) { ((Fx_V *)a0)->c = 1; ((Fx_V *)a0)->b = 2; h((Fx_V *)a0); }\n'
+                                         'void f2(void *a1) { ((Fx_V *)a1)->e->q = 2; }\n'
+                                         'void f3(void) { Fx_V *pv = &(*(Fx_V*)&D_g); pv->c = 3; }\n'
+                                         'void f4(void *a2) { ((Fx_V *)a2)[1].c = 4; }\n'
+                                         'void f5(void *a3) { ((Fx_V *)a3)->g = 5; }\n'},
+                             [("Fx_V", "apart", "-", "own", "-", "-")])
+        (root / "b.srcs").write_text("src/a.c:f1:a0\n&D_g@main\nsrc/a.c:f4:a2\nsrc/a.c:f5:a3\tmember:extA.kF5\nsrc/a.c:f9:zz\n")
+        P = fold_plan(["Fx_V"], dict(target="Fx_P", evidence="+0x0", keys={"src/a.c:f1:a0": ("", None), "&D_g@main": ("", None),
+                                                                            "src/a.c:f4:a2": ("", None), "src/a.c:f5:a3": ("member:extA.kF5", None),
+                                                                            "src/a.c:f9:zz": ("", None)}))
+        tx, mg, S_ = P["texts"].get("src/a.c", ""), P["merged"] or "", P["srcs"] or {}
+        ok("per-source absorb (T16.c7): the sources' casts, bare casts and typed copy move to the parent; a gap source gets its variant",
+           not P["refusals"] and "((Fx_P *)a0)->f4 = 1; ((Fx_P *)a0)->unk2 = 2; h((Fx_P *)a0);" in tx
+           and "Fx_P *pv = &(*(Fx_P*)&D_g); pv->f4 = 3;" in tx and "((Fx_P *)a3)->extA.kF5.unkC = 5;" in tx
+           and "/* 0x0002 */ u16 unk2;" in mg and "kF5" in mg, f"{P['refusals']} {mg} {tx}")
+        ok("per-source absorb (T16.c7): the view, its other sources and an unsafe source stay; unmatched keys listed",
+           "((Fx_V *)a1)->e->q = 2;" in tx and "((Fx_V *)a2)[1].c = 4;" in tx and "include/struct_types.h" in P["texts"]
+           and "} Fx_V;" in P["texts"]["include/struct_types.h"] and list(S_.get("unsafe", {})) == ["src/a.c:f4:a2"]
+           and S_.get("unmatched") == ["src/a.c:f9:zz"] and S_.get("copies") == 1 and not P["stores"], f"{S_} {tx}")
+        (root / "b.txt").write_text("Fx_V\tFx_P\t+0x0\tb.srcs\n")
+        rc = fold_batch(root / "b.txt", True)
+        rc2, err = _fold_cc1(root, "src/a.c")
+        ok("per-source absorb (T16.c7): --fold-batch line form writes, the sources table lists each key, compiles under cc1",
+           rc == 0 and rc2 == 0 and "((Fx_P *)a0)->f4" in (root / "src/a.c").read_text()
+           and "\tsrc/a.c:f4:a2\tunsafe\t" in (root / "b.txt.write.srcs.tsv").read_text(), err)
+        P = fold_plan(["Fx_V"], dict(target="Fx_P", evidence="+0x0", keys={"src/a.c:f2:a1": ("", None)}))
+        ok("absorb (T16.c7, C0626): a view's typed pointer onto the parent's `void *` is refused (the parent keeps void *)",
+           len(P["refusals"]) == 1 and "the parent keeps `void *`" in P["refusals"][0], str(P["refusals"]))
     finally:
         import shutil
         FOLD_ROOT = None
@@ -10509,7 +10810,9 @@ def main():
     ap.add_argument("--fold-row", metavar="KEY[,KEY…]", help="P3.45 T6: fold struct_dispositions.tsv rows (fold link|twin|value, absorb offset|variant) "
                     "into their one target: dry run prints the merged definition, per-file edits, store edits, refusals; --write writes")
     ap.add_argument("--fold-batch", metavar="FILE", help="P3.45 T7.c11: one component's keys per line (comma-joined); --write applies them in "
-                    "sequence on one tree (refused/crashing components skipped and listed; the restruct ledger rewritten once); dry run plans each")
+                    "sequence on one tree (refused/crashing components skipped and listed; the restruct ledger rewritten once); dry run plans each. "
+                    "T16.c7: a line `VIEW<TAB>PARENT<TAB>EVIDENCE<TAB>* | SOURCES-FILE` is a per-source absorb (`*`: the row's absorb, "
+                    "multi-parent guard waived; a file: T14 source keys, optional <TAB>member:extX.<v> and <TAB>lines=A-B); writes FILE[.write].srcs.tsv")
     ap.add_argument("--fold-collapse", nargs="*", metavar="TYPE", help="P3.45 T7.c15: the fold engine's variant unions in the canonical headers "
                     "whose variants spell one type -> plain fields, accesses `.unkN.vK.f` respelled (all types, or these); --write writes")
     ap.add_argument("--type-source", metavar="KEY[,KEY…]", help="P3.45 T15 rung T: type pointer sources (T14 keys `tu:fn:base`, kinds param / "
