@@ -5891,7 +5891,7 @@ void func_80180A30(s32 a0) {
     extern void func_80181248(s32 a0, s32 a1);
     extern void func_8012ADE4(u8 *a0);
     extern void func_801319E0(s32 a0);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     extern void func_80131C78(s32 a0);
     s32 s0 = a0;
     s32 s1;

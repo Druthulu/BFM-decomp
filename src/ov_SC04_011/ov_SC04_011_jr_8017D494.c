@@ -4577,7 +4577,7 @@ s32 func_801807CC(void *param)
     if ((x < -0x200 && -0x201 < y) || (-0x200 < x && y < -0x1FF)) {
         guess_RequestSound(0x9C3, 0);
     }
-    func_80185960(0, (u16 *)(((Unkstruct_801807CC *)obj)->unk20 + 0x14), 0xFFC0);
+    func_80185960(0, (u16 *)(((Unkstruct_801202A0 *)obj)->unk20 + 0x14), 0xFFC0);
     if (((s32 (*)(s32))guess_TickWaitTimer)((s32)self) != 0) {
         return !((Unkstruct_801807CC_2 *)*(s32 *)(obj + 0x20))->unk14;
     }

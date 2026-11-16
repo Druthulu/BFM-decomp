@@ -1,7 +1,7 @@
 /* func_8012F5F4 — shared body (overlay slot 0x80128158, h_exact 98a010f2). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void func_80131B14(u8 *a0v);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int);
 void func_8012F5F4(s32 arg0) {
@@ -12,7 +12,7 @@ void func_8012F5F4(s32 arg0) {
     }
     ((void (*)(s32))func_80131B14)(arg0);
     if (*(s16 *)(arg0 + 0x76) < 1) {
-        func_80131E00((struct S80131E00 *)arg0, 0xC);
+        func_80131E00((Unkstruct_801202A0 *)arg0, 0xC);
         return;
     }
     if (guess_StartActorSequenceById(arg0, 4) != 0) {

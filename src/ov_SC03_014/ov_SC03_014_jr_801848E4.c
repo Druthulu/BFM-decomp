@@ -4777,7 +4777,7 @@ void func_80188168(s32 a0) {
 
 void func_801881CC(void *a0) {
     extern void func_80131B14(u8 *a0v);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     extern s32 guess_StartActorSequenceById(s32 a0, s32 a1);
     extern void func_80182D04(s32 a0, s32 a1, s32 a2);
     extern u16 D_80190490[];

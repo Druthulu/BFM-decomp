@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_80131B14(u8 *a0v);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern int  guess_StartActorSequenceById(int a0, int a1);
 extern s32 guess_CallActorEventHandler(int);
 void func_80130AF0(int param_1) {

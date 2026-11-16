@@ -4481,7 +4481,7 @@ void func_8018A61C(s32 arg0)
 
 
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 #define SHARED_FN func_8018A698
 #include "../shared/ov/cls_0ac0e5e6754a.h"
 #undef SHARED_FN

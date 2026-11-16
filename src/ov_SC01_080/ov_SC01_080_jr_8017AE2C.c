@@ -7610,7 +7610,7 @@ void func_80182EF8(u8 *a0) {
 
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x14) {
             if (((Unkstruct_801202A0 *)p)->unk76 < 3) {
-                D_801C7550[((Unkstruct_801202A0 *)p)->unk70 & 3] = 0;
+                D_801C7550[((Unkstruct_801202A0 *)p)->unk70.u & 3] = 0;
             }
         }
     }

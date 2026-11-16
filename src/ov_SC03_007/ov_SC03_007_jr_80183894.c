@@ -2776,7 +2776,7 @@ extern s32 func_8012E778(s32 a0, s32 a1);
 extern void func_8017E3C0(void *a0);
 extern void func_8017E4C8(s32 param_1);
 extern void func_8017E56C(s32 *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8017E57C(s32 param_1);
 extern u8 D_801BB2BC[];
 extern s32 guess_DistSqToPlayer(s32 a0);

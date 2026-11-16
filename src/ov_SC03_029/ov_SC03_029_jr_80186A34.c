@@ -2771,7 +2771,7 @@ extern void func_801801AC(s32 a0);
 extern void func_80180250(void *arg0);
 extern void func_801802C4(s32 arg0);
 extern s32 func_8012CBCC(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern void func_801803B0(s32 param_1);
 extern void func_80180410(void *a0);
@@ -3019,7 +3019,7 @@ extern u16  D_80126CB8;
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 extern Mtx32_80184008 D_800AE620;
 extern s32 func_8012CC1C(s32 arg0, s32 arg1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_801439C0(s32 a0);
 extern void func_80184344(s32 a0);
@@ -3201,7 +3201,7 @@ extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8013240C(s32 a0);
 extern void func_80186D90(s32 a0);
 
@@ -3341,7 +3341,7 @@ void func_80186D90(s32 a0) {
 #include "common.h"
 
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8012ADE4(s32 a0);
 

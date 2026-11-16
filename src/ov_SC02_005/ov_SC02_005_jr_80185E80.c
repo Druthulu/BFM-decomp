@@ -640,8 +640,8 @@ void func_80186A04(s32 arg0) {
 extern s32 D_801961B8;
     extern s32 D_801961E0;
     void func_80186ADC(s32 arg0) {
-        *(s32 *)(((Unkstruct_80186ADC *)arg0)->unk20 + 0x80) = &D_801961B8;
-        *(s32 *)(*(s32 *)(((Unkstruct_80186ADC *)arg0)->unkCC + 0x20) + 0x80) = &D_801961E0;
+        *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20 + 0x80) = &D_801961B8;
+        *(s32 *)(*(s32 *)(((Unkstruct_801202A0 *)arg0)->extB.kSC02_005_80186ADC.unkCC + 0x20) + 0x80) = &D_801961E0;
     }
 
 

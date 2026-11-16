@@ -2908,13 +2908,13 @@ void func_80180EE0(s32 a0) {
     s16 t;
     s32 v1;
 
-    t = ((Unkstruct_80180EE0_2 *)a0)->unk70;
-    v1 = ((Unkstruct_80180EE0_2 *)a0)->unkCC;
+    t = ((Unkstruct_801202A0 *)a0)->unk70.s;
+    v1 = ((Unkstruct_801202A0 *)a0)->extB.kSC06_022_80180EE0.unkCC;
     if (t >= 2) {
         if (*(s16 *)(v1 + 0x100) != 0) {
-            *(s32 *)(((Unkstruct_80180EE0_2 *)a0)->unk20 + 0x80) = (s32)D_801AD39C;
+            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AD39C;
         } else {
-            *(s32 *)(((Unkstruct_80180EE0_2 *)a0)->unk20 + 0x80) = (s32)D_801AD394;
+            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AD394;
         }
     }
 }

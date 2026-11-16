@@ -4635,7 +4635,7 @@ s32 func_8018049C_def(s32 arg0) {
 
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_80194FE0, (s32)buf1);
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_80194FE0 + 8, (s32)buf2);
-    if (func_80135888(((Unkstruct_8018001C *)arg0)->unk20, ((Unkstruct_8018001C *)arg0)->unk58, (s32)buf1, (s32)buf2) != 0) {
+    if (func_80135888(((Unkstruct_801202A0 *)arg0)->unk20, ((Unkstruct_801202A0 *)arg0)->unk58.s, (s32)buf1, (s32)buf2) != 0) {
         guess_SetPlayerHit(1, 1, ((Unkstruct_8018001C_2 *)*(s32 *)(arg0 + 0x20))->unk12, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }

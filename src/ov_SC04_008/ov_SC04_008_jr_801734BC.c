@@ -2947,7 +2947,7 @@ void guess_ShowEneLabelAndValue(u16 *arg0) {
 // @stuck: sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
 
 extern void guess_StartPadVibration(void *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 
 #include "../shared/ov/func_80178840__9f65edc8.h"

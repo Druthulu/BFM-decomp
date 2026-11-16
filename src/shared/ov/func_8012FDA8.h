@@ -4,7 +4,7 @@ void func_8012FDA8(int param_1)
 {
     extern s32 func_8012CBF4(s32 a0);
     extern s32 guess_CallActorEventHandler(int);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     int iVar1;
     unsigned int uVar2;
     if ((*(unsigned int *)(param_1 + 0xb4) & 0x100) != 0) {

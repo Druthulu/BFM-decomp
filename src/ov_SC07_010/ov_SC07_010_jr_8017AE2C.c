@@ -2616,7 +2616,7 @@ extern s32 D_801274E0;
 extern void func_80178608(void);
 extern void func_80178744(s32 a0, s32 a1);
 extern void func_80178840(int param_1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80178840(int param_1);
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);

@@ -4220,7 +4220,7 @@ void func_80180728(s32 param_1) {
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);            /* canonical void */
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
@@ -4257,7 +4257,7 @@ void func_80180828(s32 a0)
     guess_SetForwardVelocity(s0, D_80188618);
     v1 = ((s32 (*)(s32))func_8012CBA4)(s0);
     if (v1 & 0x1000) {
-        func_80131E00((struct S80131E00 *)s0, 0x12);
+        func_80131E00((Unkstruct_801202A0 *)s0, 0x12);
     } else if (v1 != 0x2000) {
         func_8012ADE4((u8 *)s0);
     }
@@ -4384,7 +4384,7 @@ extern void guess_StartActorSequence(s32, s32);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern s32  guess_DistSqToPlayer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32  func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -4461,7 +4461,7 @@ void func_80180BD8(s32 a0)
 
         flags = ((s32 (*)(s32))func_8012CBA4)(a0);
         if ((flags & 0x1000) != 0) {
-            func_80131E00((struct S80131E00 *)a0, 0x12);
+            func_80131E00((Unkstruct_801202A0 *)a0, 0x12);
         } else if (flags != 0x2000) {
             func_8012ADE4((u8 *)a0);
         }

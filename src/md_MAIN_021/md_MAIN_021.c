@@ -81,12 +81,12 @@ void func_800CAF94(s32 arg0) {
     s16 t;
     void *q;
 
-    node = ((Unkstruct_800CAF94 *)arg0)->unk20;
+    node = ((Unkstruct_8011D030 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
         t = ((Unkstruct_800CAF94_2 *)node)->unk1A + 0xC0;
         ((Unkstruct_800CAF94_2 *)node)->unk1A = t;
         ((Unkstruct_800CAF94_2 *)node)->unk18 = t;
-        ent = ((Unkstruct_800CAF94 *)arg0)->unk34;
+        ent = ((Unkstruct_8011D030 *)arg0)->unk34;
         sv[2] = 0x1000;
         sv[1] = 0x1000;
         sv[0] = 0x1000;
@@ -100,7 +100,7 @@ void func_800CAF94(s32 arg0) {
         q = sv;
         CAST_ALIAS(s16, arg0, 6)   = ((u16 *)q)[0];
         CAST_ALIAS(s16, arg0, 0xA) = ((u16 *)q)[1];
-        ((Unkstruct_800CAF94 *)arg0)->unkE = ((u16 *)q)[2];
+        ((Unkstruct_8011D030 *)arg0)->unkE = ((u16 *)q)[2];
         q = rot;
         func_800D23D0(q);
         q = mtx;
@@ -109,10 +109,10 @@ void func_800CAF94(s32 arg0) {
         q = (void *)(arg0 + 0x38);
         func_80048D9C(q, mtx);
 
-        v = ((Unkstruct_800CAF94 *)arg0)->unk1C - 1;
-        ((Unkstruct_800CAF94 *)arg0)->unk1C = v;
+        v = ((Unkstruct_8011D030 *)arg0)->unk1C - 1;
+        ((Unkstruct_8011D030 *)arg0)->unk1C = v;
         if (v == -1) {
-            ((Unkstruct_800CAF94 *)arg0)->unk2 = CAST_SIGN(u16, arg0, 2) + 1;
+            ((Unkstruct_8011D030 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
         }
         return;
     }

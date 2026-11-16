@@ -2732,7 +2732,7 @@ extern s32 guess_RespawnSmallObjectType1E(s32);
 extern void guess_StartPadVibration(void *);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8017F940(int param_1);
 extern s32 guess_InitActorModel(s32 a0, s32 a1);
 extern void func_800599B8();
@@ -2847,7 +2847,7 @@ extern s32  func_8012CBA4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_801888E8(s32 arg0, u16 arg1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 
 extern u8 D_801C758C[];
@@ -3142,7 +3142,7 @@ extern s32  func_8012CBA4(s32 a0);
 extern s32  func_8012CBF4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80131C78(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_801888E8(s32 arg0, u16 arg1);
 
 
@@ -3322,9 +3322,9 @@ void func_80185808(s32 a0, s32 a1)
     ((Unkstruct_80185808 *)a0)->unk3A = sp18.unk0.v1.unk0;
     ((Unkstruct_80185808 *)a0)->unk3E = sp18.unk0.v1.unk2;
     ((Unkstruct_80185808 *)a0)->unk42 = sp18.unk0.v1.unk4;
-    ((Unkstruct_80185808 *)a0)->unk6 = sp18.unk0.v1.unk0;
-    ((Unkstruct_80185808 *)a0)->unkA = sp18.unk0.v1.unk2;
-    ((Unkstruct_80185808 *)a0)->unkE = sp18.unk0.v1.unk4;
+    ((Unkstruct_80185808 *)a0)->unk4.i.hi = sp18.unk0.v1.unk0;
+    ((Unkstruct_80185808 *)a0)->unk8.i.hi = sp18.unk0.v1.unk2;
+    ((Unkstruct_80185808 *)a0)->unkC.i.hi = sp18.unk0.v1.unk4;
 }
 
 

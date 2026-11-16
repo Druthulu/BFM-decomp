@@ -2718,7 +2718,7 @@ extern void func_801800E0(void *a0);
 extern void func_8018026C(s32 arg0);
 extern void func_80180588(s32 param_1);
 extern void func_8018062C(s32 *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8018063C(s32 param_1);
 extern void func_80180808(s32 param_1);
 extern void func_80180BE0(s32 arg0);
@@ -2741,7 +2741,7 @@ void func_80181F74(s32 param_1)
     extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern void func_80131C78(s32 a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     extern s32 D_801A8340;
 
     s32 iVar1;
@@ -2913,7 +2913,7 @@ void func_80182384(s32 param_1) {
     extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern void func_80131C78(s32 a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     extern s32 D_801A8340;
 
     u8 bVar1;

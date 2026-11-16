@@ -4497,7 +4497,7 @@ void func_8017E4C8(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_8017E57C(s32 param_1) {
     s32 a;
@@ -4858,29 +4858,29 @@ s32 a1;
         }
         /* fallthrough */
     case 1:
-        ((Unkstruct_8017EC90 *)p)->unkDC = func_8017EEA4(p);
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = func_8017EEA4(p);
         goto join;
     case 2:
         d = rand() % 80;
-        angle = ((Unkstruct_8017EC90 *)p)->unkDC;
+        angle = ((Unkstruct_801202A0 *)p)->unkDC.i.lo;
         if ((rand() & 1) == 0) {
             s32 t = angle + 0x800;
-            ((Unkstruct_8017EC90 *)p)->unkDC = t - d;
+            ((Unkstruct_801202A0 *)p)->unkDC.i.lo = t - d;
         } else {
             s32 t = angle + 0x800;
-            ((Unkstruct_8017EC90 *)p)->unkDC = t + d;
+            ((Unkstruct_801202A0 *)p)->unkDC.i.lo = t + d;
         }
         break;
     case 3:
-        ((Unkstruct_8017EC90 *)p)->unkDC = rand() % 4096;
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = rand() % 4096;
         break;
     case 4:
-        ((Unkstruct_8017EC90 *)p)->unkDC = (func_8017EEA4(p) + 0x800) & 0xFFF;
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = (func_8017EEA4(p) + 0x800) & 0xFFF;
         break;
     }
 join:
     m = D_800AE620;
-    RotMatrixY(((Unkstruct_8017EC90 *)p)->unkDC, &m);
+    RotMatrixY(((Unkstruct_801202A0 *)p)->unkDC.i.lo, &m);
     ApplyMatrixLV((s32)&m, (s32)&vec, p + 0x10);
 }
 
@@ -5487,7 +5487,7 @@ void func_8017F99C(s32 param_1) {
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012CC64(s32 a0, s32 a1);
 extern u8 D_8018BF48[];
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_8017FA84(void *a0) {
     s32 p;

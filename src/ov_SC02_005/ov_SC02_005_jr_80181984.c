@@ -2961,7 +2961,7 @@ void func_80181BE8(void *a0) {
                         ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x90;
                     }
                 }
-            } else if (((Unkstruct_801202A0 *)s0)->unk94 == 8 && v0 == 1) {
+            } else if (((Unkstruct_801202A0 *)s0)->unk94.s == 8 && v0 == 1) {
                 guess_RequestSound(0x4FD, 0);
             }
             break;

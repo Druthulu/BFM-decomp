@@ -401,7 +401,7 @@ extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
 extern void func_80131B14(u8 *a0v);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
 extern void func_8012F5F4(s32 arg0);
@@ -474,7 +474,7 @@ extern void func_80130AF0(int param_1);
 extern void func_80130D0C(s32 a0);
 extern void func_80131170(s32 p, s32 b, s32 c);
 extern void func_801312D0(s32 param_1, void *param_2);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 D_8018F078;
 extern s32 D_8018F07C;
 extern s32 func_8002A04C(s32 a0);
@@ -4888,7 +4888,7 @@ void guess_ShowEneLabelAndValue(u16 *arg0) {
 // @unstuck(P36): sll $v0,$s1,2 must be recomputed AFTER the call (target nops the delay slot)
 
 extern void guess_StartPadVibration(void *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 
 void func_80178840(int param_1)

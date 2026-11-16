@@ -2,13 +2,13 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_CallActorEventHandler(int);
 extern void func_80131170(s32 a0, s32 a1, s32 a2);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 void func_80130278(s32 arg0) {
     s32 flag;
     flag = 0;
     *(u8 *)(arg0 + 0xC1) = 0xB;
     if (*(s32 *)(arg0 + 0xC4) & 1) {
-        func_80131E00((struct S80131E00 *)arg0, 0xE);
+        func_80131E00((Unkstruct_801202A0 *)arg0, 0xE);
         return;
     }
     if (*(s32 *)(arg0 + 0xB4) & 0x800) {
@@ -19,6 +19,6 @@ void func_80130278(s32 arg0) {
         flag = 1;
     }
     if (flag == 0) {
-        func_80131E00((struct S80131E00 *)arg0, 6);
+        func_80131E00((Unkstruct_801202A0 *)arg0, 6);
     }
 }

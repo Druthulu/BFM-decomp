@@ -4184,24 +4184,24 @@ void func_8017E228(void *a0) {
         return;
     }
     if (func_801842F8(9, 4, 0x12, 0) != 0) {
-        ((Unkstruct_8017E228 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 3;
         guess_SetObjectPosAndYaw((s32)s0, (s32)&D_8018E960);
         guess_ShowObjectModel((s32)s0);
         func_80183F80(s0);
         func_801843B8((s32)s0);
     } else {
-        ((Unkstruct_8017E228 *)s0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
         func_801843E0(s0, (s32)&D_8018E958);
     }
     {
         void *pv0;
         s32 pv1;
-        pv0 = ((Unkstruct_8017E228 *)s0)->unk68;
+        pv0 = ((Unkstruct_801202A0 *)s0)->unk68;
         pv1 = 0x7FFF;
         *(s16 *)((char *)pv0 + 0xC) = (s16)pv1;
     }
     v0 = func_801788B8((s32)s0, (s32)func_8017E5C4);
-    ((Unkstruct_8017E228 *)s0)->unkD4 = v0;
+    ((Unkstruct_801202A0 *)s0)->unkD4 = v0;
     guess_SetObjectPosAndYaw(v0, (s32)&D_8018E958);
 }
 

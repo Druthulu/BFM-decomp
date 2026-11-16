@@ -1190,7 +1190,7 @@ void func_8012F274(s32 a0, s32 a1) {
 
 
 
-struct S80131E00;
+
 #include "../shared/ov/func_8012F68C.h"
 
 
@@ -1265,7 +1265,7 @@ void func_8012F8C8(u8* arg0) {
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
 extern s32 guess_CallActorEventHandler(int);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131B14(u8 *a0v);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
@@ -1306,7 +1306,7 @@ void func_8012FCC4(int param_1) {
 // @class: other
 // @unstuck(P36): clean control-flow fn; expecting MATCH from direct structural reconstruction
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CBF4(s32 a0);
 void func_801319E0(int);
 void func_80131C78(int);
@@ -1315,7 +1315,7 @@ extern s32 guess_CallActorEventHandler(int);
 #include "../shared/ov/func_8012FDA8.h"
 
 
-struct S80131E00;
+
 #include "../shared/ov/func_8012FE70.h"
 
 #include "../shared/ov/func_8012FF00.h"
@@ -1339,7 +1339,7 @@ struct S80131E00;
 
 
 
-struct S80131E00;
+
 
 #include "../shared/ov/func_80130278.h"
 
@@ -1716,7 +1716,7 @@ extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 guess_CallActorEventHandler(int);
 
@@ -2103,20 +2103,20 @@ extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 #include "../shared/ov/func_80131CF4.h"
 
 
-struct S80131E00;
+
 #include "../shared/ov/func_80131D68.h"
 
 
-extern void (*D_80186FEC[])(struct S80131E00 *a0);
+extern void (*D_80186FEC[])(Unkstruct_801202A0 *a0);
 
-void func_80131E00(struct S80131E00 *a0, s32 a1) {
-    a0->field_B0 = a1;
+void func_80131E00(Unkstruct_801202A0 *a0, s32 a1) {
+    a0->extB.kSC01_000_80131E00.unkB0 = a1;
     D_80186FEC[a1](a0);
 }
 
 #include "../shared/ov/func_80131E38.h"
 
-struct S80131E00;
+
 #include "../shared/ov/func_80131E7C.h"
 
 #include "../shared/ov/func_80131EE4.h"

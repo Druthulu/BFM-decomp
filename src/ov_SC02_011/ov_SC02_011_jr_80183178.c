@@ -3807,7 +3807,7 @@ extern void Square0(s32 *a0, s32 *a1);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);            /* canonical void */
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012C098(void *param_1);
@@ -3848,7 +3848,7 @@ void func_80188654(s32 a0)
     guess_SetForwardVelocity(s0, D_80196098);
     v1 = ((s32 (*)(s32))func_8012CBA4)(s0);
     if (v1 & 0x1000) {
-        func_80131E00((struct S80131E00 *)s0, 0x12);
+        func_80131E00((Unkstruct_801202A0 *)s0, 0x12);
         v0 = 0;
     } else if (v1 == 0x2000) {
         v0 = 1;
@@ -3989,7 +3989,7 @@ extern s32  guess_TickWaitTimer(s32 a0);
 extern void guess_StartActorSequence(s32 a0, void *a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_80188250(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
@@ -4040,7 +4040,7 @@ void func_80188A10(s32 a0) {
         guess_SetForwardVelocity(a0, D_8019609C);
         v1 = ((s32 (*)(s32))func_8012CBA4)(a0);
         if (v1 & 0x1000) {
-            func_80131E00((struct S80131E00 *)a0, 0x12);
+            func_80131E00((Unkstruct_801202A0 *)a0, 0x12);
             v0 = 0;
         } else if (v1 == 0x2000) {
             v0 = 1;

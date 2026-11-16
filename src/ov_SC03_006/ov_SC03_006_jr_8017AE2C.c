@@ -8173,7 +8173,7 @@ void func_80183E3C(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_80183EF0(s32 param_1) {
     s32 a;
@@ -8314,7 +8314,7 @@ void func_801840E0(void *a0) {
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 
 /* func_8018450C lives in the same TU (later INCLUDE_ASM), no prior decl exists
@@ -9204,7 +9204,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 D_801C5B64;
 
@@ -9624,7 +9624,7 @@ extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 s32 func_80185BD4(s32 a0, s32 a1) {
     extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
@@ -11162,7 +11162,7 @@ void func_80187E24(s32 a0) {
 extern s32 func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8013240C(s32 a0);
 
 extern s32 D_801CA0E8[];
@@ -11271,7 +11271,7 @@ extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8013240C(s32 a0);
 extern void func_8018876C(s32 a0);
 
@@ -11484,7 +11484,7 @@ extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8018876C(s32 a0);
 extern void func_8013240C(s32 a0);
 
@@ -11623,7 +11623,7 @@ void func_8018876C(s32 a0) {
 
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 
 s32 func_801887B0(s32 a0) {
@@ -12389,7 +12389,7 @@ void func_80189744(s32 param_1) {
 //  fall-through arms (Ghidra's seed for this address was a different function entirely).
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_801897F8(s32 param_1) {
     s32 a;
@@ -12642,7 +12642,7 @@ void func_80189E1C(s32 a0) {
 
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
@@ -12943,7 +12943,7 @@ void func_8018A598(void* arg0)
 
 
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 
 s32 func_8018A5C4_impl(s32 a0) __asm__("func_8018A5C4");
@@ -13423,7 +13423,7 @@ void func_8018AED4(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_8018AF88(s32 param_1) {
     s32 a;

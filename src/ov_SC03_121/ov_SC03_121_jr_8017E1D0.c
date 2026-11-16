@@ -3525,16 +3525,16 @@ void func_8017F91C(s32 param_1) {
 }
 
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 #define SHARED_FN func_8017F978
 #include "../shared/ov/cls_53ccaf0755a5.h"
 #undef SHARED_FN
 
 
-struct S80131E00;
+
 
 extern s32 D_801151FC;
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131B14(u8 *a0v);
 extern void guess_StartActorSequence(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -3564,7 +3564,7 @@ void func_8017F998(s32 param_1) {
         }
     }
 TARGET1:
-    func_80131E00((struct S80131E00 *)s0, 3);
+    func_80131E00((Unkstruct_801202A0 *)s0, 3);
     ((Unkstruct_801202A0 *)s0)->unk76 = 0x3E8;
     return;
 TARGET2:
@@ -3590,7 +3590,7 @@ TARGET2:
 
 
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 void func_8017FA64(void)
 {
   int new_var2;

@@ -1648,7 +1648,7 @@ void func_8012F8C8(int param_1)
 //   blocks reorg from sharing a downstream constant into a branch delay slot.)
 
 extern s32 guess_CallActorEventHandler(int);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131B14(u8 *a0v);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);

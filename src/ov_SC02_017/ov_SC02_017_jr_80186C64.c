@@ -3112,7 +3112,7 @@ extern void func_80185494(s32 a0);
 extern void func_80185574(s32 arg0);
 extern void func_801855CC(s32 param_1);
 extern void func_80185670(s32 *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80185680(s32 param_1);
 extern u8 D_801D4358;
 extern u8 D_801D5FBC;
@@ -3160,7 +3160,7 @@ extern s16 D_801E11DC;
 extern s16 D_801E1264;
 extern void func_80142414(s32 a0, s16 a1);
 extern s32 func_8012CBA4(s32);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_80186C38(s32 a0, s32 a1);
 extern void func_80186B08(s32 param_1);
@@ -3183,7 +3183,7 @@ extern s32  guess_TurnStepToTarget(s32 a0, s32 a1);
 extern s32  func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);   /* TU spelling (§376); calls are fn-ptr cast */
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);   /* TU spelling (§376); calls are fn-ptr cast */
 extern void func_8012ADE4(u8*);
 extern s32 func_80185F88(s32 a0);   /* TU spelling (§376); call is fn-ptr cast */
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
@@ -3776,7 +3776,7 @@ void func_80187940(s32 arg0) {
 
 extern void func_80186124(u8 *);
 extern s32 func_8012CBF4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_801862B8(s32 a0);
 
 void func_801879A4(s32 a0) {
@@ -4133,7 +4133,7 @@ void func_80188050(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_80188104(s32 param_1) {
     s32 a;

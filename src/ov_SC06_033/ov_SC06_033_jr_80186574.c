@@ -2733,7 +2733,7 @@ extern s32 guess_RespawnSmallObjectType1E(s32);
 extern void guess_StartPadVibration(void *);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8017F940(int param_1);
 extern s32 guess_InitActorModel(s32 a0, s32 a1);
 extern void func_800599B8();
@@ -2834,7 +2834,7 @@ extern s32  func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32  func_8012CBF4(s32 a0);
 extern s32  func_8012CBA4(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern u8 D_801C758C[];
 extern void func_80184CF8(s32 a0);
@@ -5912,8 +5912,8 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *mb2;
 
-    SetRotMatrix((void *)(((Unkstruct_8018AD9C_3 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_8018AD9C_3 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
 
     src = &D_801C8374[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

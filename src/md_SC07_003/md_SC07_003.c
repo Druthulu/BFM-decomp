@@ -2805,7 +2805,7 @@ s32 func_801A3BCC(void *a0)
     MATRIX *r;
     s32 *g;
 
-    obj = ((Unkstruct_801A3BCC_3 *)a0)->unk64;
+    obj = ((Unkstruct_801202A0 *)a0)->unk64;
     g = &guess_g_PlayerActor;
     rot.vx = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk10;
     rot.vy = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk12;

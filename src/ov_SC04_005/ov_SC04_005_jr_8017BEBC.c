@@ -3737,7 +3737,7 @@ void func_8017DCB0(s32 a0) {
 
     s0_ptr = *(s32 **)(a0 + 0xDC);
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8017D994 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         return;
     }
@@ -3745,18 +3745,18 @@ void func_8017DCB0(s32 a0) {
     guess_InitModelObject(v0, s0_ptr[1]);
     ((void (*)(s32, void *))guess_StartActorSequence)(a0, (void *)s0_ptr[2]);
 
-    ((Unkstruct_8017D994 *)a0)->unk5C = 0;
-    ((Unkstruct_8017D994 *)a0)->unk58 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk58.s = 0;
 
-    sp[0] = ((Unkstruct_8017D994 *)a0)->unk6;
-    sp[1] = ((Unkstruct_8017D994 *)a0)->unkA;
-    sp[2] = ((Unkstruct_8017D994 *)a0)->unkE;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
 
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);
 
     ((Unkstruct_8017D994_3 *)*(s32 *)(a0 + 0x20))->unk12 = sp[5] + 0x800;
-    ((Unkstruct_8017D994 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
 

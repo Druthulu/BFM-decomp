@@ -4144,36 +4144,36 @@ void func_801807DC(int param_1)
 
     sub = ((Unkstruct_801807DC *)param_1)->unk64;
     if (((s32 (*)(void *a0))func_8018096C)(param_1) != 1) {
-        if (((Unkstruct_801807DC_2 *)sub)->unk2 == 2) {
+        if (((Unkstruct_801202A0 *)sub)->unk2.u == 2) {
             *(Blk8_801807DC *)(((Unkstruct_801807DC *)param_1)->unk20 + 0x10) =
-                *(Blk8_801807DC *)(((Unkstruct_801807DC_2 *)sub)->unk20 + 0x10);
-            ((Unkstruct_801807DC *)param_1)->unk4 = ((Unkstruct_801807DC_2 *)sub)->unk4;
-            ((Unkstruct_801807DC *)param_1)->unk8 = ((Unkstruct_801807DC_2 *)sub)->unk8;
+                *(Blk8_801807DC *)(((Unkstruct_801202A0 *)sub)->unk20 + 0x10);
+            ((Unkstruct_801807DC *)param_1)->unk4 = ((Unkstruct_801202A0 *)sub)->unk4.val;
+            ((Unkstruct_801807DC *)param_1)->unk8 = ((Unkstruct_801202A0 *)sub)->unk8.val;
             {
-                s32 t = ((Unkstruct_801807DC_2 *)sub)->unkC;
+                s32 t = ((Unkstruct_801202A0 *)sub)->unkC.val;
                 ((Unkstruct_801807DC *)param_1)->unk34 = 2;
                 ((Unkstruct_801807DC *)param_1)->unkC = t;
             }
         }
-        if (((Unkstruct_801807DC_2 *)sub)->unk2 == 3) {
+        if (((Unkstruct_801202A0 *)sub)->unk2.u == 3) {
             *(Blk8_801807DC *)(((Unkstruct_801807DC *)param_1)->unk20 + 0x10) =
-                *(Blk8_801807DC *)(((Unkstruct_801807DC_2 *)sub)->unk20 + 0x10);
-            ((Unkstruct_801807DC *)param_1)->unk4 = ((Unkstruct_801807DC_2 *)sub)->unk4;
-            ((Unkstruct_801807DC *)param_1)->unk8 = ((Unkstruct_801807DC_2 *)sub)->unk8;
+                *(Blk8_801807DC *)(((Unkstruct_801202A0 *)sub)->unk20 + 0x10);
+            ((Unkstruct_801807DC *)param_1)->unk4 = ((Unkstruct_801202A0 *)sub)->unk4.val;
+            ((Unkstruct_801807DC *)param_1)->unk8 = ((Unkstruct_801202A0 *)sub)->unk8.val;
 
             idx = (((Unkstruct_801807DC *)param_1)->unk70) & 0xF;
             entry = ((u8 *)D_8018E344) + idx * 12;
 
-            ((Unkstruct_801807DC *)param_1)->unkC = ((Unkstruct_801807DC_2 *)sub)->unkC;
+            ((Unkstruct_801807DC *)param_1)->unkC = ((Unkstruct_801202A0 *)sub)->unkC.val;
 
             ((Unkstruct_801807DC *)param_1)->unkFC =
-                *(u16 *)(entry + 0) + ((Unkstruct_801807DC_2 *)*(s32 *)(param_1 + 0x64))->unkFC;
+                *(u16 *)(entry + 0) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFC.u;
             ((Unkstruct_801807DC *)param_1)->unkFE =
-                *(u16 *)(entry + 2) + ((Unkstruct_801807DC_2 *)*(s32 *)(param_1 + 0x64))->unkFE;
+                *(u16 *)(entry + 2) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFE;
             {
                 s32 self = param_1;
                 ((Unkstruct_801807DC *)self)->unk100 =
-                    *(u16 *)(entry + 4) + ((Unkstruct_801807DC_2 *)*(s32 *)(param_1 + 0x64))->unk100;
+                    *(u16 *)(entry + 4) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->extD.kSC02_017_8017DF34.unk100;
                 guess_UpdateActorModelMatrix(self);
             }
         }
@@ -7524,7 +7524,7 @@ void func_801855CC(s32 param_1) {
 //  fall-through arms (Ghidra's seed for this address was a different function entirely).
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_80185680(s32 param_1) {
     s32 a;
@@ -7780,7 +7780,7 @@ void func_80185CA4(s32 a0) {
 
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135A4C(s32 a0, s32 a1, s32 *a2, s32 a3);
 
@@ -8060,7 +8060,7 @@ extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
 extern void func_801866C8(s32 a0);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_80185F88(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
@@ -8218,7 +8218,7 @@ extern void func_80142414(s32 a0, s16 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_80185F88(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void func_80186C38(s32 a0, s32 a1);

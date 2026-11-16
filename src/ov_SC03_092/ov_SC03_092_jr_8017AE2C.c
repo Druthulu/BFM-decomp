@@ -5594,7 +5594,7 @@ void func_8017FC44(void *a0)
     ((Unkstruct_80126B58 *)a0)->unk58 = (s32)&D_80188F10 | 0x40000000;
     CAST_WIDTH(u16, (s32)a0, 0x5C) = 0x800;
     D_801B2E70 = 0;
-    ((TC_8017FC44 *)((T68_8017FC44 *)a0)->f68)->f0C = 0x7FFF;
+    ((TC_8017FC44 *)((Unkstruct_801202A0 *)a0)->unk68)->f0C = 0x7FFF;
 
     t = func_801788B8((s32)a0, (s32)func_80180150);
     CAST_WIDTH(s32, (s32)a0, 0xD4) = t;

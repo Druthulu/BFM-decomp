@@ -3,7 +3,7 @@
 void SHARED_FN(void *a0)
 {
     extern void func_8002AC00(s32 arg0);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
     func_8002AC00(0x16);
     func_80131E00(a0, 0x11);

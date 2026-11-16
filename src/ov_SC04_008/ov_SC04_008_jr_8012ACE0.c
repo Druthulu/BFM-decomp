@@ -1037,7 +1037,7 @@ extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32 func_8012CBA4(s32 a0);
 extern s32 func_8012CBF4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern s32 guess_CallActorEventHandler(int);
 
@@ -1371,7 +1371,7 @@ extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 #include "../shared/ov/func_80131D68.h"
 
 
-extern void (*D_8017EF94[])(struct S80131E00 *a0);
+extern void (*D_8017EF94[])(Unkstruct_801202A0 *a0);
 
 #include "../shared/ov/func_80131E00__d95aba8f.h"
 

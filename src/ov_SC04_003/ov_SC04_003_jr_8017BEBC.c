@@ -4389,7 +4389,7 @@ extern void func_801319E0(s32 a0);
 extern s32 func_8017FC18(s32 a0);
 extern void func_801801EC(s32 a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 
 void func_8017F9D4(s32 a0) {

@@ -4094,7 +4094,7 @@ void func_8017EDF4(s32 param_1) {
 
 
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 func_8012AF0C(s32 a0, s32 a1);
 extern void func_8017F354(s32 a0, void* _arg1, s32 _arg2, s32 _arg3);

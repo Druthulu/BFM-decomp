@@ -4285,17 +4285,17 @@ void func_801802A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     s32 count = 0;
 
-    ((Unkstruct_801802A0 *)arg0)->unk90 = (s32)arg1;
-    ((Unkstruct_801802A0 *)arg0)->unk94 = 0;
-    ((Unkstruct_801802A0 *)arg0)->unk9A = arg2;
-    ((Unkstruct_801802A0 *)arg0)->unk9C = arg3;
-    ((Unkstruct_801802A0 *)arg0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk90 = (s32)arg1;
+    ((Unkstruct_801202A0 *)arg0)->unk94.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk9A = arg2;
+    ((Unkstruct_801202A0 *)arg0)->unk9C = arg3;
+    ((Unkstruct_801202A0 *)arg0)->unk98 = 0;
 
     while (*(s16 *)(arg1 + 4) > 0) {
         arg1 += 8;
         count++;
     }
-    ((Unkstruct_801802A0 *)arg0)->unkFC = count;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.s = count;
 }
 
 

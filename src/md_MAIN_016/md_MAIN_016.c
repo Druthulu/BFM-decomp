@@ -144,7 +144,7 @@ void func_800CB158(s32 arg0) {
             ((Unkstruct_8011D030 *)arg0)->unk28 += 0x120;
         } else {
             ((Unkstruct_8011D030 *)arg0)->unk1C = 0;
-            ((Unkstruct_8011D030 *)arg0)->unk2 = 4;
+            ((Unkstruct_8011D030 *)arg0)->unk2.u = 4;
         }
 
         v0 = *(s32 *)(a0 + 0x20);
@@ -153,7 +153,7 @@ void func_800CB158(s32 arg0) {
 
         func_800CAF84(arg0);
     } else {
-        ((Unkstruct_8011D030 *)arg0)->unk2 += 1;
+        ((Unkstruct_8011D030 *)arg0)->unk2.u += 1;
     }
 }
 

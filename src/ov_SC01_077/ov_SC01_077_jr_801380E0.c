@@ -32,7 +32,7 @@ extern void func_801758FC(void);                          /* derive-decl, arity 
 /* ==== end canonical-sig layer ==================================================== */
       /* 8-byte element, cmd @ +4 */
     /* list ptr @ +0x90 */
-struct S80131E00;
+
    /* size 8, alignment 1 -> unaligned copy */
 extern void func_80128288(void);
 extern void func_80128158(void);
@@ -492,7 +492,7 @@ extern u16 D_80126B94;
 extern u16 D_80126B96;
 extern void guess_SetPlayerHit(s32 param_1, s32 param_2, s32 param_3, s32 param_4, s32 param_5, s32 param_6);
 extern void func_80131B14(u8 *a0v);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 guess_StartActorSequenceById(s32, s32);
 extern s32 guess_CallActorEventHandler(int a0);
 extern void func_8012F5F4(s32 arg0);
@@ -581,7 +581,7 @@ extern void func_801312D0(s32 param_1, void *param_2);
 extern s32 func_8002A04C(s32 a0);
 extern void func_801319E0(s32 arg0);
 extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
-extern void (*D_80186FEC[])(struct S80131E00 *a0);
+extern void (*D_80186FEC[])(Unkstruct_801202A0 *a0);
 extern void func_80131E38(u8 *a0);
 extern void func_80131E7C(s32 a0);
 extern void func_80131EE4(void);

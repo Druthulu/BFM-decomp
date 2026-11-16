@@ -4723,7 +4723,7 @@ void func_8017EDD4(s32 a0) {
 extern Unkstruct_801343C4 D_801E076C;
 extern s32 func_8012CBCC(s32 a0);
 extern void func_8017F0E8(u8 *a0, u8 *a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012B21C(void *a0);
 extern void guess_SetWaitTimer(s32 *a0, s32 a1);
 extern s32 func_8012AD50(void *a0);
@@ -4744,7 +4744,7 @@ void func_8017EEE0(s32 a0)
     if ((func_8012CBCC(a0) & 0x6000) != 0) {
         func_8017F0E8((u8 *)a0, (u8 *)&local_20);
         func_8017F0E8((u8 *)a0, (u8 *)&local_18);
-        func_80131E00((struct S80131E00 *)a0, 0x12);
+        func_80131E00((Unkstruct_801202A0 *)a0, 0x12);
         func_8012B21C((void *)a0);
         guess_SetWaitTimer((s32 *)a0, 0x20);
         func_8012AD50((void *)a0);
@@ -6107,7 +6107,7 @@ extern void func_80181708(void *a0);
 void func_801813BC(void *a0) {
     if (func_80181C08(a0) != 1) {
         func_80181708(a0);
-        if (((Unkstruct_801813BC_2 *)*(u32 *)((s32)a0 + 0x64))->unk2 == 1) {
+        if (((Unkstruct_801202A0 *)*(u32 *)((s32)a0 + 0x64))->unk2.u == 1) {
             ((Unkstruct_801813BC *)a0)->unk2 = 2;
         }
     }
@@ -6139,7 +6139,7 @@ void func_8018141C(void *a0) {
             ((Unkstruct_801813BC *)a0)->unk102 = dir ^ 1;
         }
         func_80181708(a0);
-        if (((Unkstruct_801813BC_2 *)*(u32 *)((s32)a0 + 0x64))->unk2 == 2) {
+        if (((Unkstruct_801202A0 *)*(u32 *)((s32)a0 + 0x64))->unk2.u == 2) {
             ((Unkstruct_801813BC *)a0)->unk1C = 0x14;
             ((Unkstruct_801813BC *)a0)->unk2 = 3;
             ((Unkstruct_801813BC *)a0)->unk34 = 0;
@@ -6272,7 +6272,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
     s32 mp;
 
     ent = CAST_SIGN(s32, param_1, 0x64);
-    p = *(u32 *)((((Unkstruct_801813BC_2 *)ent)->unk94 * 8) + ((Unkstruct_801813BC_2 *)ent)->unk90);
+    p = *(u32 *)((((Unkstruct_801202A0 *)ent)->unk94.u * 8) + ((Unkstruct_801202A0 *)ent)->unk90);
     if (p == 0) {
         return 0;
     }
@@ -6289,7 +6289,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
     m1.t[2] = *(s8 *)(p + 5);
 
     /* gte_SetRotMatrix(M) */
-    M = ((Unkstruct_801813BC_2 *)ent)->unk20 + 0x34;
+    M = ((Unkstruct_801202A0 *)ent)->unk20 + 0x34;
     gte_SetRotMatrix(M);
 
     /* column 0 */
@@ -6309,7 +6309,7 @@ s32 func_80181824(s32 param_1, s32 param_2)
     gte_stclmv(c);
 
     /* gte_SetTransMatrix(M) */
-    M = ((Unkstruct_801813BC_2 *)ent)->unk20 + 0x34;
+    M = ((Unkstruct_801202A0 *)ent)->unk20 + 0x34;
     gte_SetTransMatrix(M);
 
     /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(dst->t) */

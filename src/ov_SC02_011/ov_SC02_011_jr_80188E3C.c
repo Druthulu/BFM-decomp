@@ -470,7 +470,7 @@ void func_8018974C(s32 a0) {
 extern s32 func_8002A04C(s32 a0);
 extern s32 func_8012CBF4(s32);
 extern s32 func_8012C098(void *param_1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80188554(s32 a0);
 
 void func_801897A4(s32 a0) {
@@ -489,7 +489,7 @@ void func_801897A4(s32 a0) {
         result = ((s32 (*)(s32))func_8012CBF4)(a0);
         if ((result & 0x2000) != 0) {
             if ((result & 0x1000) != 0) {
-                func_80131E00((struct S80131E00 *)a0, 0x12);
+                func_80131E00((Unkstruct_801202A0 *)a0, 0x12);
             } else {
                 func_80188554(a0);
             }
@@ -2313,7 +2313,7 @@ void func_8018BC10(s32 param_1) {
 
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_8018BCC4(s32 param_1) {
     s32 a;
@@ -3448,7 +3448,7 @@ void func_8018D288(s32 param_1) {
 extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 
@@ -3839,7 +3839,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
 extern s32 func_8012CC1C(s32 arg0, s32 arg1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 s32 func_8018DAA8(s32 a0, s32 a1) {
     extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable

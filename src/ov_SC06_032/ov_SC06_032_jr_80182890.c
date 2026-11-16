@@ -2749,7 +2749,7 @@ extern s32  func_8012CBF4(s32 a0);
 extern s32  func_8012CBA4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 extern u8 D_801BE1F8[];
 extern void func_80181014(s32 a0);
@@ -6562,7 +6562,7 @@ extern void guess_StartPadVibration(void *a0);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
 extern void guess_RequestSound(s32 a0, s32 a1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8016AA50(s32 param_1, s32 param_2);
 
 void func_80188BF8(int param_1)
@@ -7294,7 +7294,7 @@ extern s32 guess_RespawnSmallObjectType1E(s32);
 extern void guess_StartPadVibration(void *);
 extern void func_8002A520(int);
 extern void func_8002A790(int);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_80189D44(int param_1)
 {
@@ -8945,7 +8945,7 @@ extern void func_8018BA4C(s32);
     }
 
 
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8018BA4C(s32);
 
 void func_8018C8D4(s32 a0)
@@ -8973,12 +8973,12 @@ void func_8018C920(s32 a0)
     if (((Unkstruct_8017FC34_2 *)a0)->unk0 != 0) {
         s0 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
         if (s0 != 0) {
-            ((Unkstruct_8017FC34 *)s0)->unk6 = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_8017FC34 *)s0)->unkA = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
-            ((Unkstruct_8017FC34 *)s0)->unkE = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_8017FC34 *)s0)->unk10 = -((Unkstruct_8017FC34_2 *)a0)->unk10;
-            ((Unkstruct_8017FC34 *)s0)->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
-            ((Unkstruct_8017FC34 *)s0)->unk18 = -((Unkstruct_8017FC34_2 *)a0)->unk18;
+            ((Unkstruct_801202A0 *)s0)->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
+            ((Unkstruct_801202A0 *)s0)->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
+            ((Unkstruct_801202A0 *)s0)->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
+            ((Unkstruct_801202A0 *)s0)->unk10 = -((Unkstruct_8017FC34_2 *)a0)->unk10;
+            ((Unkstruct_801202A0 *)s0)->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
+            ((Unkstruct_801202A0 *)s0)->unk18 = -((Unkstruct_8017FC34_2 *)a0)->unk18;
             ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk18 = 0x800;
             ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk1A = 0x800;
         }
@@ -9008,7 +9008,7 @@ extern void func_8018B878(void *param_1);
 
 extern void func_801319E0(s32 a0);
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32  func_8012CBF4(s32 a0);
 extern void func_80131C78(s32 a0);
 extern void func_8018B878(void *param_1);
@@ -10601,8 +10601,8 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *a;
 
-    SetRotMatrix((void *)(((Unkstruct_8018EDB0_2 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_8018EDB0_2 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
 
     src = &D_801CC7FC[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

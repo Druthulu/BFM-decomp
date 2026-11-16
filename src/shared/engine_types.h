@@ -37,7 +37,7 @@
 
 
 struct Vec;
-struct S80131E00;
+
 struct obj;
 struct S8013A250;
 struct Inner8013A4C4;
@@ -75,11 +75,6 @@ union word_bytes;
 struct Actor;
 
 
-
-struct S80131E00 {
-    char pad[0xB0];
-    s32 field_B0;
-};
 
 struct obj {
     u8 pad0[0x4];
@@ -3148,10 +3143,6 @@ typedef M8_801312D0 Sxy_8017DC24;
 typedef M8_801312D0 Sxy_8017F6A8;
 typedef M8_801312D0 Sxy_8018012C;
 typedef M8_801312D0 Sxy_80185C0C;
-typedef struct {
-    s8 pad00[0x68];
-    s32 f68;    /* 0x68 */
-} T68_8017FC44;
 typedef struct {
     s8 pad00[0xC];
     s16 f0C;    /* 0x0C */

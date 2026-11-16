@@ -2763,7 +2763,7 @@ extern s32  func_8012CBA4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_80184C04(s32 arg0, u16 arg1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 
 extern u8 D_801BE1F8[];
@@ -3059,7 +3059,7 @@ extern s32  func_8012CBA4(s32 a0);
 extern s32  func_8012CBF4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern void func_80131C78(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_80184C04(s32 arg0, u16 arg1);
 
 
@@ -3224,9 +3224,9 @@ void func_80181B24(s32 a0, s32 a1)
     V8_80181B24 sp18;
     V8_80181B24 sp20;
 
-    sp10.unk0.v1.unk0 = ((Unkstruct_80181B24 *)a0)->unk3A;
-    sp10.unk0.v1.unk2 = ((Unkstruct_80181B24 *)a0)->unk3E;
-    sp10.unk0.v1.unk4 = ((Unkstruct_80181B24 *)a0)->unk42;
+    sp10.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
+    sp10.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
+    sp10.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
     sp18 = sp10;
     sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
@@ -3236,12 +3236,12 @@ void func_80181B24(s32 a0, s32 a1)
     sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
     sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_80181B24 *)a0)->unk3A = sp18.unk0.v1.unk0;
-    ((Unkstruct_80181B24 *)a0)->unk3E = sp18.unk0.v1.unk2;
-    ((Unkstruct_80181B24 *)a0)->unk42 = sp18.unk0.v1.unk4;
-    ((Unkstruct_80181B24 *)a0)->unk6 = sp18.unk0.v1.unk0;
-    ((Unkstruct_80181B24 *)a0)->unkA = sp18.unk0.v1.unk2;
-    ((Unkstruct_80181B24 *)a0)->unkE = sp18.unk0.v1.unk4;
+    ((Unkstruct_801202A0 *)a0)->unk3A = sp18.unk0.v1.unk0;
+    ((Unkstruct_801202A0 *)a0)->unk3E = sp18.unk0.v1.unk2;
+    ((Unkstruct_801202A0 *)a0)->unk42 = sp18.unk0.v1.unk4;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sp18.unk0.v1.unk0;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sp18.unk0.v1.unk2;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sp18.unk0.v1.unk4;
 }
 
 

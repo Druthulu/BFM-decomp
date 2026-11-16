@@ -2766,7 +2766,7 @@ extern void func_80180728(s32 param_1);
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);            /* canonical void */
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8 *a0);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
@@ -2808,7 +2808,7 @@ extern s32  guess_TurnStepToTarget(s32 a0, s32 a1);
 extern s32  func_8012D5E4(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetForwardVelocity(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8012ADE4(u8*);
 extern s32 func_8018035C(void*);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
@@ -3474,7 +3474,7 @@ void func_80181FB8(s32 a0) {
 
 
 extern s32 func_8012CBF4(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_801804F8(int);
 extern void func_80180728(s32 a0);
 

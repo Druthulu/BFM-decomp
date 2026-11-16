@@ -874,7 +874,7 @@ extern void func_8002AC00(s32 arg0);
 extern s32 func_8012C098(void*);
 extern s32 func_8012CBF4(s32 a0);
 extern void func_8017F8F8(void *param_1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_80180298(s32 a0) {
     u8 val;
@@ -897,7 +897,7 @@ void func_80180298(s32 a0) {
         result = ((s32 (*)(s32))func_8012CBF4)(a0);
         if ((result & 0x2000) != 0) {
             if ((result & 0x1000) != 0) {
-                func_80131E00((struct S80131E00 *)a0, 0x12);
+                func_80131E00((Unkstruct_801202A0 *)a0, 0x12);
             } else {
                 func_8017F8F8(a0);
             }

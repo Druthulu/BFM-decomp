@@ -8,14 +8,14 @@ void SHARED_FN(s32 arg0) {
     s32 v;
     u32 *bp;
 
-    if (((Unkstruct_8017E7D0 *)arg0)->unkAA <= 0) {
+    if (((Unkstruct_801202A0 *)arg0)->extB.kSC05_007_8017E7D0.unkAA <= 0) {
         for (i = 0; i < 20; i++) {
             bp = buf;
             func_8012B0B4(bp, rand() % 4096, 64);
             v = *(s32 *)buf;
-            sp10[0] = ((Unkstruct_8017E7D0 *)arg0)->unk6 + v;
-            sp10[1] = ((Unkstruct_8017E7D0 *)arg0)->unkA - 0x60;
-            sp10[2] = ((Unkstruct_8017E7D0 *)arg0)->unkE + (v >> 16);
+            sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi + v;
+            sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi - 0x60;
+            sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi + (v >> 16);
             q = func_80143BDC(sp10);
             if (q != 0) {
                 ((Unkstruct_8017EF48 *)*(s32 *)(q + 0xCC))->unk27 = 0x5B;

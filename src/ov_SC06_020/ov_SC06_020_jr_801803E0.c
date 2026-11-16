@@ -2739,7 +2739,7 @@ extern s32  func_8012CBA4(s32 a0);
 extern void guess_ClearVelocityAndSetGravity(s32 a0);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_80183FD0(s32 arg0, u16 arg1);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_80131C78(s32 a0);
 
 extern u8 D_801B6598[];

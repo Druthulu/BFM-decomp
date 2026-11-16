@@ -4847,7 +4847,7 @@ void func_80180588(s32 param_1) {
 //  fall-through arms (Ghidra's seed for this address was a different function entirely).
 
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
 void func_8018063C(s32 param_1) {
     s32 a;
@@ -5137,7 +5137,7 @@ extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_Objec
 s32 func_80180C88(s32 param_1)
 {
     extern s32  func_8012CBA4(s32 a0);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
     extern void func_80180FC0(void *a0);
     extern void func_8012ADE4(u8 *a0);
     extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
@@ -5393,7 +5393,7 @@ void func_8018128C(s32 param_1)
     extern s32 func_8012BD3C(s32 a0, s32 a1, s32 a2);
     extern void guess_ClearVelocityAndSetGravity(s32 a0);
     extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
-    extern void func_80131E00(struct S80131E00 *a0, s32 a1);
+    extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 
     s32 sVar1;
     s32 iVar1;
