@@ -4629,6 +4629,8 @@ def _fold_types_before(fields, resub, tsp, at, cache):
             T = mm.group(0)
             if T in FOLD_C_WORDS or T == tsp or (re.search(r"\b(?:struct|union)\s+$", t[:mm.start()]) and "*" in t[mm.end():]):
                 continue
+            if t[:mm.start()].count("{") > t[:mm.start()].count("}") and re.match(r"\s*(?:\[[^\]]*\]\s*)*[;,:]", t[mm.end():]):
+                continue                                          # (T17.c12) a member declarator inside an inline body (`union { s16 s; u16 u; }`)
             dp = _fold_defpos(T, cache, memo)
             if dp and dp[:2] >= at:
                 return f"field `{x['name']}` ({x['cite']}) needs `{T}`, defined at {dp[2]}:{dp[3]}, after that point"

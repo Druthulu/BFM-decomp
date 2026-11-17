@@ -4919,10 +4919,10 @@ void func_8018B390(void *a0) {
 
     func_80149020((s32 *)a0);
 
-    s0->unk20->unk12 = (s0->unk20->unk12 + 0x5B) & 0xFFF;
-    s0->unk20->unk10 = (*(u16 *)&s0->unk20->unk10 - 0x16) & 0xFFF;
-    if (s0->unk20->unk10 < 0xC00) {
-        s0->unk20->unk10 = -0x400;
+    ((SubEnt8018B390 *)s0->unk20)->unk12 = (((SubEnt8018B390 *)s0->unk20)->unk12 + 0x5B) & 0xFFF;
+    ((SubEnt8018B390 *)s0->unk20)->unk10 = (*(u16 *)&((SubEnt8018B390 *)s0->unk20)->unk10 - 0x16) & 0xFFF;
+    if (((SubEnt8018B390 *)s0->unk20)->unk10 < 0xC00) {
+        ((SubEnt8018B390 *)s0->unk20)->unk10 = -0x400;
     }
 
     guess_AddVertSpeed((s32)s0, 0x10000);

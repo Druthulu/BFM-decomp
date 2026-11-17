@@ -4249,8 +4249,8 @@ s32 a0;
 
     s0 = ((Unkstruct_80181430 *)a0)->unk20;
     v0 = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
-    ((Unkstruct_80180C28_2 *)s0)->unk1C.u = v0;
-    ((Unkstruct_80180C28_2 *)s0)->unk1A.u = v0;
+    ((Unkstruct_80180C28_2 *)s0)->unk1C = v0;
+    ((Unkstruct_80180C28_2 *)s0)->unk1A = v0;
     ((Unkstruct_80180C28_2 *)s0)->unk18.u = v0;
     v0 = ((Unkstruct_80181430 *)a0)->unk1C + 1;
     ((Unkstruct_80181430 *)a0)->unk1C = v0;

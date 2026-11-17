@@ -6370,7 +6370,7 @@ void func_801811C8(s32 arg0) {
 
 
 void func_80181204(A801593E4 *a0) {
-    S801593E4 *v1 = a0->p20;
+    S801593E4 *v1 = (S801593E4 *)a0->p20;
     v1->field12 = (v1->field12 + 0x44) & 0xFFF;
 }
 

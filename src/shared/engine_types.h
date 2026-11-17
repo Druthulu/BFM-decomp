@@ -39,7 +39,6 @@
 struct Vec;
 
 struct obj;
-struct S8013A250;
 struct Inner8013A4C4;
 struct S8013A4C4;
 
@@ -309,7 +308,7 @@ typedef struct {
 
 typedef struct {
     u8 pad[0x20];
-    S801593E4 *p20;
+    s32 p20;
 } A801593E4;
 
 
@@ -3034,7 +3033,7 @@ typedef struct SubEnt8018B390 {
 } SubEnt8018B390;
 typedef struct Ent8018B390 {
     u8  pad0[0x20];
-    SubEnt8018B390 *unk20;   /* +0x20 */
+    s32 unk20;               /* +0x20 SubEnt8018B390 * (T17.c12: the player's scalar unk20) */
     u8  pad24[0x34 - 0x24];
     s32 unk34;                /* +0x34 */
     u8  pad38[0xB8 - 0x38];

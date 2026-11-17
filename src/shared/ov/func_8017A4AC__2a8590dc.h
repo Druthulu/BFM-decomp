@@ -49,7 +49,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_8018F508[D_8018F908]; D_8018F908 = (D_8018F908 + 1) & 0x1FF;
-        { s32 t = w->p20->field12 + arg;
+        { s32 t = ((S801593E4 *)w->p20)->field12 + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

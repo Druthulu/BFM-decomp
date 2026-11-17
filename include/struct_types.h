@@ -5001,8 +5001,8 @@ typedef struct {
     /* Unkstruct_e08330e3: P3.40 T17 drift rank 23; 49 TNC sites in 13 bodies; struct map 51 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ union {
-        s16 s;
         u16 u;
+        s16 s;
     } unk2;
     /* 0x0004 */ u8 pad4[0x26];
     /* 0x002a */ u16 unk2A;
@@ -23386,14 +23386,8 @@ typedef struct {
         s16 s;
         u16 u;
     } unk18;
-    /* 0x001a */ union {
-        s16 s;
-        u16 u;
-    } unk1A;
-    /* 0x001c */ union {
-        s16 s;
-        u16 u;
-    } unk1C;
+    /* 0x001a */ s16 unk1A;
+    /* 0x001c */ s16 unk1C;
     /* 0x001e */ u8 pad1E[0x2];
 } Unkstruct_80180C28_2; /* size = 0x20 */
 
