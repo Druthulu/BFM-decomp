@@ -1818,17 +1818,6 @@ typedef struct Rec801806C8_s Rec80182744;
 typedef Blk16_8018A8B8 B16_8017CDE4;
 typedef Blk16_8018A8B8 B16_8018FC38;
 typedef H16 Ctr34;
-struct EntF2_80181F0C {
-    /* 0x00 */ u8  pad00[0xF2];
-    /* 0xF2 */ s16 unkF2;
-};
-struct Ent_80180B24 {
-    /* 0x00 */ u8  pad00[0x34];
-    /* 0x34 */ u16 unk34;
-    /* 0x36 */ u8  pad36[0xBC];
-    /* 0xF2 */ u16 unkF2;
-    /* 0xF4 */ u16 unkF4;
-};
 struct Ent_80181B30 {
     /* 0x00 */ u8  pad00[0x1C];
     /* 0x1C */ s32 unk1C;

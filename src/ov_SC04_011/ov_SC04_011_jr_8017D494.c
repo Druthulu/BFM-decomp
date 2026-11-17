@@ -4721,7 +4721,7 @@ void func_80180B24(s32 s0)
      * prototype into the global (different_binding_level) and the definition then errors
      * `conflicting types for func_80183BD0` -- measured on a spliced-TU cc1 run. */
     extern void func_80183BD0(s32 a0);
-    struct Ent_80180B24 *p;
+    Unkstruct_801202A0 *p;
     s32 a;
     s32 s1;
     s32 s3;
@@ -4729,7 +4729,7 @@ void func_80180B24(s32 s0)
     s16 y;
     s16 buf[3];
 
-    p = (struct Ent_80180B24 *)s0;
+    p = (Unkstruct_801202A0 *)s0;
     s3 = (s32)&aB58_80180B24[0];
     if (((Unkstruct_800B5CB8 *)s0)->unk34 == 4) {
         s1 = aFC4C[D_801EFD20];
@@ -4763,18 +4763,18 @@ void func_80180B24(s32 s0)
              * field's HImode value, so sched1's birthing_insn_p (sched.c:2477-2490) gives the
              * adds no LAUNCH_PRIORITY boost and the target's load*3 / add*3 / store*3 order
              * falls out (was two zero-byte asm re-ties). */
-            p->unkF4++;
-            p->unkF2++;
-            p->unk34++;
+            p->extC.kSC04_011_801832DC.unkF4++;
+            p->extC.kSC04_011_801832DC.unkF2.u++;
+            p->unk34.u++;
             guess_RequestSound(0x992, 0);
             break;
         case 1:
             /* struct-member spelling (MEM_IN_STRUCT_P) on the s0 fields defeats the false
              * alias against the D_801EFD40 store; unk34++ as a post-increment (no asm). */
             D_801EFD40 = D_801EFD40 & 0xFFFE;
-            a = p->unkF4 + 1;
-            p->unkF4 = a + (p->unkF2 & 1);
-            p->unk34++;
+            a = p->extC.kSC04_011_801832DC.unkF4 + 1;
+            p->extC.kSC04_011_801832DC.unkF4 = a + (p->extC.kSC04_011_801832DC.unkF2.u & 1);
+            p->unk34.u++;
             break;
         case 2:
             if (((Unkstruct_800B5CB8 *)s0)->unk76 == 0) {
@@ -5623,10 +5623,10 @@ void func_80181F0C(s32 a0) {
         break;
     case 3:
         if (((s32 (*)(s32))guess_TickWaitTimer)(a0) != 0) {
-            struct EntF2_80181F0C *e = (struct EntF2_80181F0C *)a0;
+            Unkstruct_801202A0 *e = (Unkstruct_801202A0 *)a0;
             D_801EFD40 = D_801EFD40 & 0xFFFE;
-            if (e->unkF2 != 0) {
-                e->unkF2 = e->unkF2 - 1;
+            if (e->extC.kSC04_011_801832DC.unkF2.s != 0) {
+                e->extC.kSC04_011_801832DC.unkF2.s = e->extC.kSC04_011_801832DC.unkF2.s - 1;
                 ((Unkstruct_800B5CB8 *)a0)->unk1C = 3;
                 ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
             } else {
