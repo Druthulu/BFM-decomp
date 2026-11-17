@@ -8153,8 +8153,8 @@ void guess_InitModelObject(s32 a0, s32 a1)
     s32 sp10[8];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C9D0 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C9D0 *)a0)->unk2 = 0;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 0;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     CAST_WIDTH(s32, a0, 0x24) = a1;
@@ -8182,8 +8182,8 @@ void func_8001C2C4(s32 a0) {
 
     s1 = (s32 *)(a0 + 0x30);
 
-    ((Unkstruct_8001C9D0 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C9D0 *)a0)->unk2 = 0;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 0;
     GsInitCoordinate2(0, s1);
 
     GsGetLw((s32)s1, (s32)stack_buf);
@@ -8212,12 +8212,12 @@ void func_8001C320(s32 a0, s32 a1)
     u16 c2;
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C5B8 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C5B8 *)a0)->unk2 = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.u = 1;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     work = (s32)guess_g_RenderWork;
-    ((Unkstruct_8001C5B8 *)a0)->unk24 = a1;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = a1;
     if (a1 != 0) {
         CAST_ALIAS(s32, a0, 0x20) = (s32)D_80063548;
         next = (s32)D_800AF7C8;
@@ -8253,13 +8253,13 @@ void func_8001C448(s32 a0) {
     func_8001C9D0(a0);
 
     s1_val = s0_val + 0x30;
-    ((Unkstruct_8001C744 *)s0_val)->unk0 = 1;
-    ((Unkstruct_8001C744 *)s0_val)->unk2 = 1;
+    ((Unkstruct_8001C9D0 *)s0_val)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)s0_val)->unk2.s = 1;
 
     GsInitCoordinate2(0, (void *)s1_val);
     GsGetLw(s1_val, (s32)&local_10[0]);
 
-    ((Unkstruct_8001C744 *)s0_val)->unk24 = 0;
+    ((Unkstruct_8001C9D0 *)s0_val)->unk24 = 0;
 }
 
 void func_8001C4A4(s32 a0, u32 *a1)
@@ -8273,13 +8273,13 @@ void func_8001C4A4(s32 a0, u32 *a1)
     s32 sp10[8];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C4A4 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C4A4 *)a0)->unk2 = 7;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.u = 7;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)&sp10[0]);
-    ((Unkstruct_8001C4A4 *)a0)->unk24 = (s32)a1;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = (s32)a1;
     if (a1 != 0) {
-        ((Unkstruct_8001C4A4 *)a0)->unk20 = (s32)D_80063548;
+        ((Unkstruct_8001C9D0 *)a0)->unk20 = (s32)D_80063548;
         if (*a1 != 0) {
             do {
                 GsMapModelingData((u32 *)((*a1 & 0x80FFFFFF) + 4));
@@ -8298,11 +8298,11 @@ void func_8001C558(s32 a0) {
     u8 local_var[32];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C744 *)a0)->unk2 = 7;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 7;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw((s32)(a0 + 0x30), (s32)&local_var[0]);
-    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = 0;
 }
 
 void func_8001C5B8(s32 a0, s32 a1)
@@ -8326,12 +8326,12 @@ void func_8001C5B8(s32 a0, s32 a1)
     u16 c2;
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C5B8 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C5B8 *)a0)->unk2 = 8;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.u = 8;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)&sp10[0]);
     work = (s32)guess_g_RenderWork;
-    ((Unkstruct_8001C5B8 *)a0)->unk24 = a1;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = a1;
     if (a1 != 0) {
         CAST_ALIAS(s32, a0, 0x20) = (s32)D_80063548;
         next = (s32)D_800AF7C8;
@@ -8364,13 +8364,13 @@ void func_8001C6E4(void *a0) {
 
     func_8001C9D0((s32)a0);
 
-    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C744 *)a0)->unk2 = 8;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 8;
 
     GsInitCoordinate2(0, (void *)((s32)a0 + 0x30));
     GsGetLw((s32)a0 + 0x30, (s32)sp_buf);
 
-    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = 0;
 }
 
 
@@ -8383,13 +8383,13 @@ void func_8001C744(s32 a0, s32 a1) {
 
     func_8001C9D0(a0);
 
-    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C744 *)a0)->unk2 = 2;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 2;
 
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)(&local_buf[0]));
 
-    ((Unkstruct_8001C744 *)a0)->unk24 = a1;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = a1;
 }
 
 
@@ -8405,14 +8405,14 @@ void func_8001C7B0(void *arg0) {
 
     local_s1 = (s32)((char *)arg0 + 0x30);
 
-    ((Unkstruct_8001C744 *)arg0)->unk0 = 1;
-    ((Unkstruct_8001C744 *)arg0)->unk2 = 2;
+    ((Unkstruct_8001C9D0 *)arg0)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)arg0)->unk2.s = 2;
 
     GsInitCoordinate2(0, (void *)local_s1);
 
     GsGetLw(local_s1, (s32)local_array);
 
-    ((Unkstruct_8001C744 *)arg0)->unk24 = 0;
+    ((Unkstruct_8001C9D0 *)arg0)->unk24 = 0;
 }
 
 extern void func_8001C9D0(s32 a0v);
@@ -8428,8 +8428,8 @@ void func_8001C810(s32 a0, s32 *a1) {
     func_8001C9D0(a0);
 
     base = a0 + 0x30;
-    ((Unkstruct_8001C9D0 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C9D0 *)a0)->unk2 = 5;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.u = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 5;
     GsInitCoordinate2(0, (void *)base);
     GsGetLw(base, (s32)local_buf);
 
@@ -8455,11 +8455,11 @@ void func_8001C8C4(s32 a0) {
     s32 local_20[4];
 
     func_8001C9D0(a0);
-    ((Unkstruct_8001C744 *)a0)->unk0 = 1;
-    ((Unkstruct_8001C744 *)a0)->unk2 = 5;
+    ((Unkstruct_8001C9D0 *)a0)->unk0.s = 1;
+    ((Unkstruct_8001C9D0 *)a0)->unk2.s = 5;
     GsInitCoordinate2(0, (void *)(a0 + 0x30));
     GsGetLw(a0 + 0x30, (s32)local_10);
-    ((Unkstruct_8001C744 *)a0)->unk24 = 0;
+    ((Unkstruct_8001C9D0 *)a0)->unk24 = 0;
 }
 
 
@@ -8503,7 +8503,7 @@ void func_8001C9D0(s32 a0v) {
     s32 v;
 
     v = 0x1000;
-    ((Unkstruct_8001C9D0 *)a0v)->unk1C = v;
+    ((Unkstruct_8001C9D0 *)a0v)->unk1C.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk1A.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk18.s = v;
     v = 0xC8;
@@ -8513,7 +8513,7 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->unkC = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unkA = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk8 = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unk4 = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk4.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk20 = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk28 = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk2A = v;

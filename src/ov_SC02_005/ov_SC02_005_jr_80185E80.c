@@ -4180,10 +4180,10 @@ void func_8018BB9C(s32 param_1)
     s32 v1;
 
     // *(u32*)(*(s32*)(param_1 + 0x20) + 0x20) = (u32)&D_80196768;
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_80196768;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20.s = (u32)&D_80196768;
 
     // *(u32*)(*(s32*)(param_1 + 0x20) + 4) |= 0x50000000;
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4.s |= 0x50000000;
 
     // *(u8*)(*(s32*)(param_1 + 0x20) + 0x27) = 0x90;
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;

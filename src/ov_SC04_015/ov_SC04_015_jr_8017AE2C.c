@@ -4778,8 +4778,8 @@ void func_8017E520(s32 a0) {
         ((Unkstruct_8017E520 *)a0)->unk4 = p;
         func_8001CB00(p, D_801885C8, 0x340, 0x100);
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk27 = 0x2F;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk4 |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk2C = 2;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk4.s |= 0x50000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk2C.u = 2;
         guess_StartPairSequence(((Unkstruct_8017E520 *)a0)->unk4, a0 + 8, (s32)D_801885D4);
         ((Unkstruct_8017E520 *)a0)->unk14 = -0x5C;
         ((Unkstruct_8017E520 *)a0)->unk10 = (((Unkstruct_8017E520 *)a0)->unk18 - 4) * 24 + 0x18;
@@ -4853,8 +4853,8 @@ void func_8017E520(s32 a0) {
     }
 
     guess_StepPairSequence(((Unkstruct_8017E520 *)a0)->unk4, (s32 *)(a0 + 8));
-    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk8 = CAST_SIGN(u16, a0, 0x10) + CAST_SIGN(u16, a0, 0x12);
-    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unkA = CAST_SIGN(u16, a0, 0x14) + CAST_SIGN(u16, a0, 0x16);
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk8.u = CAST_SIGN(u16, a0, 0x10) + CAST_SIGN(u16, a0, 0x12);
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unkA.u = CAST_SIGN(u16, a0, 0x14) + CAST_SIGN(u16, a0, 0x16);
     func_8017E830(a0);
 }
 

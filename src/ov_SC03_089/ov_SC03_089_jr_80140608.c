@@ -2010,7 +2010,7 @@ void func_8014358C(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8018AE70;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20.s = (u32)&D_8018AE70;
 
     p = ((Unkstruct_80143458 *)param_1)->unk20;
     if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {

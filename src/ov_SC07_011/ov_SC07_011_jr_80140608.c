@@ -1917,7 +1917,7 @@ void func_80143458(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20.s = (u32)&D_800D387C;
 
     p = ((Unkstruct_80143458_3 *)param_1)->unk20;
     if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {
@@ -1962,7 +1962,7 @@ void func_8014358C(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8017FE8C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20.s = (u32)&D_8017FE8C;
 
     p = ((Unkstruct_80143458 *)param_1)->unk20;
     if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {

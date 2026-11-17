@@ -3600,7 +3600,7 @@ void func_801831A8(s32 s0)
     case 2:
     case 3:
         ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk18.u = 0x1300;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk1A = 0x1300;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk1A.s = 0x1300;
         ((Unkstruct_801831A8 *)s0)->unkCC = ((Unkstruct_801831A8 *)s0)->unk64;
         ((Unkstruct_801831A8 *)s0)->unkE = ((Unkstruct_801831A8 *)s0)->unkE - 0x20;
         if (((Unkstruct_801831A8 *)s0)->unk6C != 0) {

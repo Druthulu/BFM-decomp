@@ -9227,30 +9227,30 @@ void func_8018CF48(s32 param_1)
         {
             s32 v1 = ((Unkstruct_8018CF48 *)param_1)->unk64;
             s32 t = ((Unkstruct_8018CF48_3 *)v1)->unk20;
-            s32 r = rcos(((Unkstruct_8018CF48_2 *)t)->unk12);
+            s32 r = rcos(((Unkstruct_8001C9D0 *)t)->unk12);
             ((Unkstruct_8018CF48 *)param_1)->unkC = ((Unkstruct_8018CF48 *)param_1)->unkC + (r << 8);
         }
         {
             s32 v1 = ((Unkstruct_8018CF48 *)param_1)->unk64;
             s32 t = ((Unkstruct_8018CF48_3 *)v1)->unk20;
-            s32 r = rsin(((Unkstruct_8018CF48_2 *)t)->unk12);
+            s32 r = rsin(((Unkstruct_8001C9D0 *)t)->unk12);
             ((Unkstruct_8018CF48 *)param_1)->unk4 = ((Unkstruct_8018CF48 *)param_1)->unk4 + (r << 8);
         }
         {
             s32 t = ((Unkstruct_8018CF48 *)param_1)->unk20;
-            ((Unkstruct_8018CF48_2 *)t)->unk2C = ((Unkstruct_8018CF48_2 *)t)->unk2C | 0x10;
+            ((Unkstruct_8001C9D0 *)t)->unk2C.u = ((Unkstruct_8001C9D0 *)t)->unk2C.u | 0x10;
         }
         {
             s32 t = ((Unkstruct_8018CF48 *)param_1)->unk20;
-            ((Unkstruct_8018CF48_2 *)t)->unk18 = 0x1800;
+            ((Unkstruct_8001C9D0 *)t)->unk18.s = 0x1800;
         }
         {
             s32 t = ((Unkstruct_8018CF48 *)param_1)->unk20;
-            ((Unkstruct_8018CF48_2 *)t)->unk1A = 0x1800;
+            ((Unkstruct_8001C9D0 *)t)->unk1A.s = 0x1800;
         }
         {
             s32 t = ((Unkstruct_8018CF48 *)param_1)->unk20;
-            ((Unkstruct_8018CF48_2 *)t)->unk1C = 0x1800;
+            ((Unkstruct_8001C9D0 *)t)->unk1C.s = 0x1800;
         }
 
         ((Unkstruct_8018CF48 *)param_1)->unkAC = 2;

@@ -2967,12 +2967,12 @@ void func_8017DD78(int param_1) {
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_8018C4A8;
-        ((Unkstruct_8017D364 *)iVar1)->unk4 = ((Unkstruct_8017D364 *)iVar1)->unk4 | 0x50000000;
-        ((Unkstruct_8017D364 *)iVar1)->unk2C = ((Unkstruct_8017D364 *)iVar1)->unk2C | 0xb0;
+        ((Unkstruct_8001C9D0 *)iVar1)->unk4.u = ((Unkstruct_8001C9D0 *)iVar1)->unk4.u | 0x50000000;
+        ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u | 0xb0;
         ((Unkstruct_8017D364_2 *)param_1)->unk58 = (s32)&D_8018C504[((Unkstruct_8017D364_2 *)param_1)->unk50 * 2];
-        ((Unkstruct_8017D364 *)iVar1)->unk1C = 0;
-        ((Unkstruct_8017D364 *)iVar1)->unk1A = 0;
-        ((Unkstruct_8017D364 *)iVar1)->unk18 = 0;
+        ((Unkstruct_8001C9D0 *)iVar1)->unk1C.u = 0;
+        ((Unkstruct_8001C9D0 *)iVar1)->unk1A.u = 0;
+        ((Unkstruct_8001C9D0 *)iVar1)->unk18.u = 0;
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {
         ((void (*)(s32))guess_ClearObjectAndSubObject)(param_1);

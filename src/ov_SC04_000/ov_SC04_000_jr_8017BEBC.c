@@ -5667,12 +5667,12 @@ void func_801810B0(s32 arg0)
 
     ((Unkstruct_801810B0 *)arg0)->unk2.s = 2;
     ((Unkstruct_801810B0 *)arg0)->unk1C = 0x10;
-    ((Unkstruct_801AE624_2 *)*(s32 *)(arg0 + 0x20))->unk4 &= 0x7FFFFFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk4.s &= 0x7FFFFFFF;
 
-    ((Unkstruct_801AE624_2 *)*(s32 *)(arg0 + 0x20))->unk2C |= 0x10;
-    ((Unkstruct_801AE624_2 *)*(s32 *)(arg0 + 0x20))->unk18 =
-    ((Unkstruct_801AE624_2 *)*(s32 *)(arg0 + 0x20))->unk1A =
-    ((Unkstruct_801AE624_2 *)*(s32 *)(arg0 + 0x20))->unk1C = 1;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk2C.s |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk18.s =
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk1A.s =
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk1C.s = 1;
 
     v = ((s32 (*)(s32))func_80143970)(arg0);
     p = (u16 *)((Unkstruct_801810B0 *)arg0)->unk78;

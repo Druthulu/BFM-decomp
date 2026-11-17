@@ -4270,7 +4270,7 @@ void func_801647A4(int param_1) {
 void func_80164930(s32 param_1) {
     int iVar3 = *(int *)(((int)param_1) + 0x20);
     if (*(int *)(((int)param_1) + 0x50) == 0) {
-        short sVar1 = ((Unkstruct_80164930 *)iVar3)->unk1C + 0x100;
+        short sVar1 = ((Unkstruct_8001C9D0 *)iVar3)->unk1C.u + 0x100;
         short nv;
         CAST_ALIAS(short, iVar3, 0x1c) = sVar1;
         CAST_ALIAS(short, iVar3, 0x18) = sVar1;
@@ -4293,16 +4293,16 @@ void func_80164930(s32 param_1) {
             ((void(*)(int))func_80164ACC)(((int)param_1));
         }
     } else {
-        short sVar1 = ((Unkstruct_80164930 *)iVar3)->unk1C + 0x40;
+        short sVar1 = ((Unkstruct_8001C9D0 *)iVar3)->unk1C.u + 0x40;
         u16 uVar2;
-        ((Unkstruct_80164930 *)iVar3)->unk1C = sVar1;
-        ((Unkstruct_80164930 *)iVar3)->unk18 = sVar1;
-        uVar2 = ((Unkstruct_80164930 *)iVar3)->unk1A - 0x200;
-        ((Unkstruct_80164930 *)iVar3)->unk1A = uVar2;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk1C.u = sVar1;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk18.s = sVar1;
+        uVar2 = ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u - 0x200;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u = uVar2;
         if ((int)((unsigned)uVar2 << 0x10) < 0) {
-            ((Unkstruct_80164930 *)iVar3)->unk1A = 0;
+            ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u = 0;
         }
-        ((Unkstruct_80164930 *)iVar3)->unk12 = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk12 = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
     }
 }
 
