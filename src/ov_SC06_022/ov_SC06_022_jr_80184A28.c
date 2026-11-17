@@ -7963,9 +7963,9 @@ void func_8018CA90(s32 a0)
     if (((Unkstruct_8017FC34_2 *)a0)->unk0 != 0) {
         s0 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
         if (s0 != 0) {
-            s0->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
-            s0->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
-            s0->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
+            s0->unk4.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
+            s0->unk8.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
+            s0->unkC.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
             s0->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
             s0->unk14.val = -((Unkstruct_8017FC34_2 *)a0)->unk14;
             s0->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;

@@ -4140,9 +4140,9 @@ void func_801821DC(int param_1)
             guess_RequestSound(0x6E9, 0);
         }
         if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_089_80181F60.unk100 != 0) {
-            sVar1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi + 6;
+            sVar1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + 6;
         } else {
-            sVar1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi - 6;
+            sVar1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 6;
         }
         ((Unkstruct_801202A0 *)param_1)->unk4.i.hi = sVar1;
     }

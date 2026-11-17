@@ -13,10 +13,10 @@ void SHARED_FN(s32 a0) {
     temp = ((Unkstruct_800B5CB8 *)s1)->unk10 + 0x71;
     ((Unkstruct_800B5CB8 *)s1)->unk10 = temp;
     v0 = rsin(temp);
-    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = ((Unkstruct_801202A0 *)a0)->unk10.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk10.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
 
     v0 = rcos(CAST_SIGN(s16, s1, 0x10));
-    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = ((Unkstruct_801202A0 *)a0)->unk18.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk18.i.hi + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
 
     ((Unkstruct_801202A0 *)a0)->unk14.val += 0xFFFF4000;
     CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_801202A0 *)a0)->unk14.val;

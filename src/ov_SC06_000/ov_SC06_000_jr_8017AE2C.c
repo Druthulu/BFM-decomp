@@ -7872,9 +7872,9 @@ extern void (*D_8018C744[])(void *);
 void func_80183674(void *a0) {
     s32 a1 = *(s32 *)&D_801AECB4;
     if (a1 != 0) {
-        *(u16 *)((s32)a0 + 0) = ((Unkstruct_801202A0 *)a1)->unk4.i.hi;
-        *(u16 *)((s32)a0 + 4) = ((Unkstruct_801202A0 *)a1)->unkC.i.hi;
-        *(u16 *)((s32)a0 + 2) = ((Unkstruct_801202A0 *)a1)->unk8.i.hi
+        *(u16 *)((s32)a0 + 0) = ((Unkstruct_801202A0 *)a1)->unk4.i.hi.u;
+        *(u16 *)((s32)a0 + 4) = ((Unkstruct_801202A0 *)a1)->unkC.i.hi.u;
+        *(u16 *)((s32)a0 + 2) = ((Unkstruct_801202A0 *)a1)->unk8.i.hi.u
             + *(u16 *)((s32)D_8018C744 + (((Unkstruct_801202A0 *)a1)->unk70.s << 4)) - 8;
     } else {
         *(u16 *)((s32)a0 + 4) = 0;

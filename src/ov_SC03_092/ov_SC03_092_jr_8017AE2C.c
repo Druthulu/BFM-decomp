@@ -4768,9 +4768,9 @@ void func_8017EAA0(s32 a0) {
         break;
     case 2:
         if (CAST_SIGN(s16, a0, 0xFC) < *(s16 *)(((u8 *)D_80188B66) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8)) {
-            ((Unkstruct_801202A0 *)a0)->unk4.i.hi = ((Unkstruct_801202A0 *)a0)->unk4.i.hi + *(u16 *)(((u8 *)D_80188B60) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
-            ((Unkstruct_801202A0 *)a0)->unk8.i.hi = ((Unkstruct_801202A0 *)a0)->unk8.i.hi + *(u16 *)(((u8 *)D_80188B62) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
-            ((Unkstruct_801202A0 *)a0)->unkC.i.hi = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + *(u16 *)(((u8 *)D_80188B64) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
+            ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + *(u16 *)(((u8 *)D_80188B60) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
+            ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + *(u16 *)(((u8 *)D_80188B62) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
+            ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + *(u16 *)(((u8 *)D_80188B64) + ((Unkstruct_801202A0 *)a0)->unk70.s * 8);
             ((Unkstruct_801202A0 *)a0)->unkFC.u = ((Unkstruct_801202A0 *)a0)->unkFC.u + 1;
             ((Unkstruct_801202A0 *)a0)->unk52.u ^= 3;
             break;

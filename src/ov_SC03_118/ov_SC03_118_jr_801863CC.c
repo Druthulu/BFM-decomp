@@ -4135,13 +4135,13 @@ void func_801884E8(void *a0)
             *(u16 *)(q + 0x12) = t;
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801202A0 *)p)->unk4.i.hi - 0x40;
-                ((Unkstruct_801202A0 *)p)->unk4.i.hi = xx + rr;
+                s32 xx = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u - 0x40;
+                ((Unkstruct_801202A0 *)p)->unk4.i.hi.u = xx + rr;
             }
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801202A0 *)p)->unkC.i.hi - 0x40;
-                ((Unkstruct_801202A0 *)p)->unkC.i.hi = xx + rr;
+                s32 xx = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u - 0x40;
+                ((Unkstruct_801202A0 *)p)->unkC.i.hi.u = xx + rr;
             }
         }
     }

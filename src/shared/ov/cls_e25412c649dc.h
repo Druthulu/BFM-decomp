@@ -13,9 +13,9 @@ void SHARED_FN(s32 arg0) {
             bp = buf;
             func_8012B0B4(bp, rand() % 4096, 64);
             v = *(s32 *)buf;
-            sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi + v;
-            sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi - 0x60;
-            sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi + (v >> 16);
+            sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u + v;
+            sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0x60;
+            sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u + (v >> 16);
             q = func_80143BDC(sp10);
             if (q != 0) {
                 ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0xCC))->unk27 = 0x5B;

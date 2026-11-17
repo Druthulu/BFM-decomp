@@ -3453,11 +3453,11 @@ void func_80187FA0(u8 *a0, u8 *a1) {
     u16 v1_load;
     u8 *result;
 
-    v1_load = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    v1_load = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     temp[0] = v1_load;
 
-    temp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    temp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    temp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    temp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
     temp[0] += ((Rec8_8018A390_8018523C *)a1)->x;
     temp[1] += ((Rec8_8018A390_8018523C *)a1)->y;

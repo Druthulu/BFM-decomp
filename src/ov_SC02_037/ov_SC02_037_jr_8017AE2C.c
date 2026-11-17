@@ -7260,17 +7260,17 @@ void func_80180CF0(void *a0) {
     u16 a2;
     u16 tmp0;
 
-    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     v0 = tmp0;
     *(u16 *)(&buf[0]) = v0;
     *(u16 *)(&buf[4]) = v0;
 
-    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     v0 = v1 - 8;
     *(u16 *)(&buf[1]) = v1;
     *(u16 *)(&buf[5]) = v1;
 
-    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     *(u16 *)(&buf[1]) = v0;
     *(u16 *)(&buf[5]) = (v1 + 8);
     *(u16 *)(&buf[2]) = a2;
@@ -7285,9 +7285,9 @@ void func_80180CF0(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801A3B50;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_801A39E8 | 0x40000000 | 0x20000000;
-        ((Unkstruct_801202A0 *)a0)->unk88.s = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-        ((Unkstruct_801202A0 *)a0)->unk8A.s = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-        ((Unkstruct_801202A0 *)a0)->unk8C.s = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+        ((Unkstruct_801202A0 *)a0)->unk88.s = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_801202A0 *)a0)->unk8A.s = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ((Unkstruct_801202A0 *)a0)->unk8C.s = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 }
 
@@ -7343,17 +7343,17 @@ void func_80180DD8(void *a0) {
     u16 a2;
     u16 tmp0;
 
-    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     v0 = tmp0;
     buf[0] = v0;
     buf[4] = v0;
 
-    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     v0 = v1 - 8;
     buf[1] = v1;
     buf[5] = v1;
 
-    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     buf[1] = v0;
     buf[5] = (v1 + 8);
     buf[2] = a2;
@@ -7471,17 +7471,17 @@ void func_80181150(void *a0) {
     u16 a2;
     u16 tmp0;
 
-    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+    tmp0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     v0 = tmp0;
     *(u16 *)(&buf[0]) = v0;
     *(u16 *)(&buf[4]) = v0;
 
-    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     v0 = v1 - 8;
     *(u16 *)(&buf[1]) = v1;
     *(u16 *)(&buf[5]) = v1;
 
-    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    a2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     *(u16 *)(&buf[1]) = v0;
     *(u16 *)(&buf[5]) = (v1 + 8);
     *(u16 *)(&buf[2]) = a2;

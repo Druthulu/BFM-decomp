@@ -6,9 +6,9 @@ void SHARED_FN(s32 a0) {
 
     guess_ApplyAccelAndVelocity(a0);
     obj = ((Unkstruct_801202A0 *)a0)->unkCC.val;
-    ((Unkstruct_800B5CB8 *)obj)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    ((Unkstruct_800B5CB8 *)obj)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    ((Unkstruct_800B5CB8 *)obj)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5CB8 *)obj)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     if ((CAST_SIGN(u32, a0, 0x1C) & 7) == 0) {
         guess_StepPairSequence(owner, (s32 *)(a0 + 0xD0));
     }

@@ -4979,13 +4979,13 @@ s32 func_80180C44(Unkstruct_801202A0 *a0, void *a1, s32 a2) {
     struct SV3_8012CC88_tag sp18;
     s32 v0;
 
-    sp10.vx = a0->unk4.i.hi;
-    sp10.vy = a0->unk8.i.hi;
-    sp10.vz = a0->unkC.i.hi;
+    sp10.vx = a0->unk4.i.hi.u;
+    sp10.vy = a0->unk8.i.hi.u;
+    sp10.vz = a0->unkC.i.hi.u;
 
-    sp18.vx = a0->unk4.i.hi;
-    sp18.vy = a0->unk8.i.hi;
-    sp18.vz = a0->unkC.i.hi;
+    sp18.vx = a0->unk4.i.hi.u;
+    sp18.vy = a0->unk8.i.hi.u;
+    sp18.vz = a0->unkC.i.hi.u;
     sp18.vx += *(u16 *)(a1 + 0);
     sp18.vy += *(u16 *)(a1 + 2);
     sp18.vz += *(u16 *)(a1 + 4);
@@ -5041,16 +5041,16 @@ void func_80180E58(Unkstruct_801202A0 *a0) {
     s32 va;
     s32 vb;
 
-    arr[1] = a0->unk8.i.hi;
+    arr[1] = a0->unk8.i.hi.u;
     base = *(s16 *)(a0->unk20 + 0x12);
     for (i = 0; i < 0x20; i++) {
         func_8012B0B4((u32 *)obj, base, 0x10);
         t = obj[0];
-        va = a0->unk4.i.hi + t;
+        va = a0->unk4.i.hi.u + t;
         arr[0] = arr[4] = va;
-        vb = a0->unkC.i.hi + (t >> 16);
+        vb = a0->unkC.i.hi.u + (t >> 16);
         arr[2] = arr[6] = vb;
-        arr[5] = a0->unk8.i.hi + 8;
+        arr[5] = a0->unk8.i.hi.u + 8;
         if (func_80133784(1, arr, &arr[4]) & 0x2000) {
             a0->unk4.i.hi = arr[4];
             a0->unk8.i.hi = arr[5];

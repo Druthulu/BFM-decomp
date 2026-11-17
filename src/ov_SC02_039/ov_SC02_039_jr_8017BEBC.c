@@ -3172,7 +3172,7 @@ void func_8017DC7C(s32 a0)
     s16 temp;
     s16 vol;
 
-    t = ((Unkstruct_801202A0 *)a0)->unk4.i.hi - D_80126CAC;
+    t = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - D_80126CAC;
     if (t < 0) {
         t = -t;
     }

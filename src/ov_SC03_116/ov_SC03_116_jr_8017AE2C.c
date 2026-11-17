@@ -4899,9 +4899,9 @@ s32 func_80181E28(void *arg0)
     if (((Unkstruct_801202A0 *)arg0)->unkFE.s == -1) {
         return 0;
     }
-    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
-    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
-    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     ((void (*)(s32, s32))guess_WorldToScreenFlag)((s32)sp10, (s32)sp18);
     sp18[2] = 0;
     sp20[0] = guess_g_PlayerPosX;

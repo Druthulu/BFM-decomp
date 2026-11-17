@@ -11079,7 +11079,7 @@ void func_80189410(void *a0)
 
     func_8001C924(((Unkstruct_801202A0 *)a0)->unk20, (void *)&D_801E793C);
 
-    ((Unkstruct_801202A0 *)a0)->unk8.i.hi += 2;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u += 2;
 
     if (((Unkstruct_801202A0 *)a0)->unkCC.val != 0) {
         guess_FreeActor(CAST_SIGN(void *, (s32)a0, 0xCC));

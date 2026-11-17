@@ -7336,9 +7336,9 @@ s32 func_801AAF34(s32 a0, s32 a1, s16 a2)
 {
     s16 sv[3];
 
-    sv[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi + ((Unkstruct_801202A0 *)a0)->unk50;
-    sv[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi + ((Unkstruct_801202A0 *)a0)->unk52.u;
-    sv[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + ((Unkstruct_801202A0 *)a0)->unk54;
+    sv[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk50;
+    sv[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk52.u;
+    sv[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk54;
     return func_801AAF8C(sv, a1, a2);
 }
 

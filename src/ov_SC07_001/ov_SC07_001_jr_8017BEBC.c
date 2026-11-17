@@ -3859,7 +3859,7 @@ void func_8017F4E4(Unkstruct_801202A0 *a0)
         arr2[2] = ((Unkstruct_8017F4E4 *)work)->unkE + vec.z;
         if (func_80135004(1, arr1, arr2) != 0) {
             a0->unk4.i.hi = arr2[0];
-            a0->unk8.i.hi = arr2[1] - 0x80;
+            a0->unk8.i.hi.u = arr2[1] - 0x80;
             a0->unkC.i.hi = arr2[2];
             return;
         }

@@ -5226,7 +5226,7 @@ void func_8017F710(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->extC.kSC01_080_8017F500.unkE0 = 0x30;
         ((Unkstruct_801202A0 *)arg0)->extC.kSC01_080_8017F500.unkE4 = 0x40;
         func_8017E448(arg0);
-        cnt = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
+        cnt = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
         D_80126ADE = -0x130;
         D_80126ADA = cnt;
         D_80126AE2 = CAST_ALIAS(u16, arg0, 0xE);
@@ -6059,10 +6059,10 @@ void func_801809E4(s32 param_1) {
             if (p != 0) {
                 ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                 ((Unkstruct_80129010 *)p)->unk2C = 0;
-                ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                 }
             }
             i = i + 1;
@@ -6075,10 +6075,10 @@ void func_801809E4(s32 param_1) {
                 if (p != 0) {
                     ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                     ((Unkstruct_80129010 *)p)->unk2C = mask;
-                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                     }
                 }
                 i = i + 1;
@@ -6092,10 +6092,10 @@ void func_801809E4(s32 param_1) {
                 if (p != 0) {
                     ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                     ((Unkstruct_80129010 *)p)->unk2C = mask;
-                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                     }
                 }
                 i = i + 1;
@@ -6109,10 +6109,10 @@ void func_801809E4(s32 param_1) {
                 if (p != 0) {
                     ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                     ((Unkstruct_80129010 *)p)->unk2C = mask;
-                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                     }
                 }
                 i = i + 1;
@@ -6127,10 +6127,10 @@ void func_801809E4(s32 param_1) {
                 if (p != 0) {
                     ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                     ((Unkstruct_80129010 *)p)->unk2C = mask;
-                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                     }
                 }
                 i = i + 1;
@@ -6146,10 +6146,10 @@ void func_801809E4(s32 param_1) {
                 if (p != 0) {
                     ((Unkstruct_80129010 *)p)->unk0 = 0x19;
                     ((Unkstruct_80129010 *)p)->unk2C = mask;
-                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo << 5);
-                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo + 1;
-                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo >= 0xC0) {
-                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo = 0;
+                    ((Unkstruct_80129010 *)p)->unk34 = (s32)&D_801C5D40 + (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s << 5);
+                    ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s + 1;
+                    if (((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s >= 0xC0) {
+                        ((Unkstruct_801202A0 *)param_1)->unkDC.i.lo.s = 0;
                     }
                 }
                 i = i + 1;

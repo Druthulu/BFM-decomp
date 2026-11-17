@@ -5039,9 +5039,9 @@ void func_8017F6E0(int param_1)
             if (((Unkstruct_8017F6E0_2 *)rec)->unk6 != 0xFF) {
                 fld = rec + 8;
                 do {
-                    temp[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi;
-                    temp[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi;
-                    temp[2] = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi;
+                    temp[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+                    temp[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
+                    temp[2] = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
                     temp[0] += ((Unkstruct_8017F6E0_2 *)rec)->unk0;
                     temp[1] += *(u16 *)(fld - 6);
                     temp[2] += *(u16 *)(fld - 4);

@@ -3136,21 +3136,21 @@ void func_80180200(void *a0) {
     s32 i;
     s32 ret;
 
-    var_s1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi + D_80186764[((Unkstruct_801202A0 *)a0)->unk70.s];
+    var_s1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + D_80186764[((Unkstruct_801202A0 *)a0)->unk70.s];
     i = 0;
     while (i < 3) {
         ret = rand();
-        sp.x = (((Unkstruct_801202A0 *)a0)->unk4.i.hi - 0x80) - (ret & 0x1F);
+        sp.x = (((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x80) - (ret & 0x1F);
         sp.y = var_s1;
         if (((Unkstruct_801202A0 *)a0)->extD.kSC07_000_80180200.unk102 == 1) {
-            sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + 0x80;
+            sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0x80;
         } else {
-            sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + 0xC0;
+            sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0xC0;
         }
         KR_AS(void, func_801803F0)(a0, &sp);
         ret = rand();
         i++;
-        sp.x = (((Unkstruct_801202A0 *)a0)->unk4.i.hi + 0x80) + (ret & 0x1F);
+        sp.x = (((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 0x80) + (ret & 0x1F);
         KR_AS(void, func_801803F0)(a0, &sp);
         var_s1 += 0x20;
     }

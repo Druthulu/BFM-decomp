@@ -3893,9 +3893,9 @@ void func_8017E558(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk58.s = 0;
 
-    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);

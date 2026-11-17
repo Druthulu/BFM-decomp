@@ -3249,7 +3249,7 @@ void func_8017DB30(s32 param_1)
     case 0:
         if (((Unkstruct_801202A0 *)s0)->unk74 != 0 && (func_8014CB2C() & 0x7FFFFFFF) == 2) {
             ((Unkstruct_801202A0 *)s0)->unk34.u = 1;
-            ((Unkstruct_801202A0 *)s0)->unk8.i.hi = ((Unkstruct_801202A0 *)s0)->unk8.i.hi + 0x20;
+            ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u + 0x20;
         }
         break;
     case 1:
@@ -3277,7 +3277,7 @@ void func_8017DB30(s32 param_1)
             ((Unkstruct_801202A0 *)s0)->unk1C.s = ((Unkstruct_801202A0 *)s0)->unk1C.s - 1;
         } else {
             ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
-            ((Unkstruct_801202A0 *)s0)->unk8.i.hi = ((Unkstruct_801202A0 *)s0)->unk8.i.hi - 0x20;
+            ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u - 0x20;
             func_8012DFD4(s0);
         }
         break;

@@ -4,8 +4,8 @@ void SHARED_FN(s32 a0) {
     extern u16 guess_g_PlayerPosX; // Names ledger: config/names.tsv guess_g_PlayerPosX
     extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
-    if ((u16)(((Unkstruct_801202A0 *)a0)->unk4.i.hi - guess_g_PlayerPosX + 0x80) < 0x101 &&
-        (u16)(((Unkstruct_801202A0 *)a0)->unkC.i.hi - guess_g_PlayerPosZ + 0x80) < 0x101) {
+    if ((u16)(((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - guess_g_PlayerPosX + 0x80) < 0x101 &&
+        (u16)(((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - guess_g_PlayerPosZ + 0x80) < 0x101) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
         guess_ClearVelocityAndSetGravity(a0);
     }

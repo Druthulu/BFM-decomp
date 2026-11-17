@@ -4011,7 +4011,7 @@ s32 param_1;
     idx = (((Unkstruct_801202A0 *)param_1)->unkFC.u >> 1) % 6;
     guess_AllocRenderWorkRecord((s32)D_80186460[idx]);
 
-    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi + -8;
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + -8;
     if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
     }
@@ -4121,7 +4121,7 @@ s32 param_1;
     idx = (((Unkstruct_801202A0 *)param_1)->unkFC.u >> 1) % 6;
     guess_AllocRenderWorkRecord((s32)D_801864C4[idx]);
 
-    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi + -8;
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + -8;
     if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
     }
@@ -4228,7 +4228,7 @@ s32 param_1;
     idx = (((Unkstruct_801202A0 *)param_1)->unkFC.u >> 1) % 6;
     guess_AllocRenderWorkRecord((s32)D_80186528[idx]);
 
-    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi + 8;
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + 8;
     if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
     }
@@ -4335,7 +4335,7 @@ void func_80180C00(s32 param_1)
     idx = (((Unkstruct_80180C00 *)param_1)->unkFC.u >> 1) % 6;
     guess_AllocRenderWorkRecord((s32)D_8018658C[idx]);
 
-    ((Unkstruct_80180C00 *)param_1)->unk4.i.hi = ((Unkstruct_80180C00 *)param_1)->unk4.i.hi + 8;
+    ((Unkstruct_80180C00 *)param_1)->unk4.i.hi.u = ((Unkstruct_80180C00 *)param_1)->unk4.i.hi.u + 8;
     if (--((Unkstruct_80180C00 *)param_1)->unk1C.s == 0) {
         ((Unkstruct_80180C00 *)param_1)->unk2.u = 2;
     }

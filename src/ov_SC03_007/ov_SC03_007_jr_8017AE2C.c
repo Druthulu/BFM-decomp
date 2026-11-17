@@ -4858,29 +4858,29 @@ s32 a1;
         }
         /* fallthrough */
     case 1:
-        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = func_8017EEA4(p);
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s = func_8017EEA4(p);
         goto join;
     case 2:
         d = rand() % 80;
-        angle = ((Unkstruct_801202A0 *)p)->unkDC.i.lo;
+        angle = ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s;
         if ((rand() & 1) == 0) {
             s32 t = angle + 0x800;
-            ((Unkstruct_801202A0 *)p)->unkDC.i.lo = t - d;
+            ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s = t - d;
         } else {
             s32 t = angle + 0x800;
-            ((Unkstruct_801202A0 *)p)->unkDC.i.lo = t + d;
+            ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s = t + d;
         }
         break;
     case 3:
-        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = rand() % 4096;
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s = rand() % 4096;
         break;
     case 4:
-        ((Unkstruct_801202A0 *)p)->unkDC.i.lo = (func_8017EEA4(p) + 0x800) & 0xFFF;
+        ((Unkstruct_801202A0 *)p)->unkDC.i.lo.s = (func_8017EEA4(p) + 0x800) & 0xFFF;
         break;
     }
 join:
     m = D_800AE620;
-    RotMatrixY(((Unkstruct_801202A0 *)p)->unkDC.i.lo, &m);
+    RotMatrixY(((Unkstruct_801202A0 *)p)->unkDC.i.lo.s, &m);
     ApplyMatrixLV((s32)&m, (s32)&vec, p + 0x10);
 }
 

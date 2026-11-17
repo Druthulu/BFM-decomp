@@ -4684,8 +4684,8 @@ void func_8018036C(s32 param_1)
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
-        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi -= 4;
-        var = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi - 2;
+        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u -= 4;
+        var = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u - 2;
         ((Unkstruct_801202A0 *)param_1)->unk8.i.hi = var;
         if (var < -0x4E1) {
             ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;

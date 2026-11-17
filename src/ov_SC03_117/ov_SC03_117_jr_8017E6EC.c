@@ -2901,9 +2901,9 @@ void func_8017EA1C(s32 a0) {
         ((Unkstruct_800B5BD8 *)s1)->unk10.s = 0xC00;
         ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0xC040;
         ((Unkstruct_800B5BD8 *)s1)->unk4.s |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)s1)->unk8.s = ((Unkstruct_801202A0 *)s2)->unk4.i.hi;
-        ((Unkstruct_800B5BD8 *)s1)->unkA.s = ((Unkstruct_801202A0 *)s2)->unk8.i.hi - 0x30;
-        ((Unkstruct_800B5BD8 *)s1)->unkC.s = ((Unkstruct_801202A0 *)s2)->unkC.i.hi;
+        ((Unkstruct_800B5BD8 *)s1)->unk8.s = ((Unkstruct_801202A0 *)s2)->unk4.i.hi.u;
+        ((Unkstruct_800B5BD8 *)s1)->unkA.s = ((Unkstruct_801202A0 *)s2)->unk8.i.hi.u - 0x30;
+        ((Unkstruct_800B5BD8 *)s1)->unkC.s = ((Unkstruct_801202A0 *)s2)->unkC.i.hi.u;
         ((Unkstruct_801202A0 *)s2)->extC.kSC03_117_8017E9BC.unkE0 = 0;
     }
     if ((guess_TestGameFlag(0xBB) & 0xFF) != 0) {

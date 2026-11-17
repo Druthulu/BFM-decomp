@@ -8,5 +8,5 @@ void SHARED_FN(void *a0) {
         *(unsigned char *)((char *)a0 + 0xfe) = 2;
         *(unsigned char *)((char *)a0 + 0xfd) = 0;
         *(unsigned char *)((char *)a0 + 0xff) = 4;
-        ((Unkstruct_801202A0 *)a0)->unkDC.i.lo = 0;
+        ((Unkstruct_801202A0 *)a0)->unkDC.i.lo.s = 0;
     }

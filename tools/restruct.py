@@ -4479,7 +4479,7 @@ def _fold_src_scan(rel, cache, names, tag, want):
     return dict(src=src, unsafe=unsafe)
 
 
-FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* [su]; )+)\} " + FOLD_N + "$")
+FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* (?:[su]|b|sb); )+)\} " + FOLD_N + "$")   # T17.c20: + byte member b/sb
 _FOLD_FIX_SLOT = r"((?:union \{ (?:[A-Za-z_][\w ]* [su]; )+\} )|(?:[A-Za-z_][\w ]* ))"
 FOLD_FIX_U = re.compile(r"^union \{ " + _FOLD_FIX_SLOT + r"val; struct \{ " + _FOLD_FIX_SLOT + r"lo; " + _FOLD_FIX_SLOT + r"hi; \} i; \} "
                         + FOLD_N + "$")
@@ -4931,15 +4931,16 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
             continue
         tgt = next((e for e in C if e[0] == 0), None)
         su = _fold_sign_members(tgt[1]["tmpl"]) if tgt else None
-        if su and all(e is tgt or (e[2] == lo and e[1]["size"] == tgt[1]["size"] and scalar_tmpl(e[1]) and len(e[1]["leaves"]) == 1
-                                   and e[1]["leaves"][0][2] in ("s", "u")) for e in C):
-            # T16.c5: a scalar joins the target's committed sign union (`union { u16 u; s16 s; } unk2;`) by its sign
+        if su and all(e is tgt or (e[2] == lo and (e[1]["size"] == tgt[1]["size"] or (e[1]["size"] == 1 < tgt[1]["size"]))
+                                   and scalar_tmpl(e[1]) and len(e[1]["leaves"]) == 1 and e[1]["leaves"][0][2] in ("s", "u")) for e in C):
+            # T16.c5: a scalar joins the target's committed sign union (`union { u16 u; s16 s; } unk2;`) by its sign;
+            # T17.c20: a byte read joins it as the byte member (`union { u8 b; u16 u; s16 s; } unk5E;`: u8 `b`, s8 `sb`; byte-neutral)
             uname, mem = tgt[1]["name"], dict(su)
             for e in C:
                 if e is tgt:
                     paths[keys[0]][uname] = uname
                     continue
-                vn = e[1]["leaves"][0][2]
+                vn = e[1]["leaves"][0][2] if e[1]["size"] == tgt[1]["size"] else {"u": "b", "s": "sb"}[e[1]["leaves"][0][2]]
                 mem.setdefault(vn, resub(e[1]["tmpl"]).replace(FOLD_N, vn))
                 paths[keys[e[0]]][e[1]["name"]] = f"{uname}.{vn}"
             items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], tgt[1]["size"], tgt[1]["al"]))

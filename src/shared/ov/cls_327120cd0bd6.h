@@ -4,8 +4,8 @@ void SHARED_FN(s32 arg0) {
     s32 v1;
     v1 = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
     if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
-        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi - 0x19;
-        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+        ((Unkstruct_800B5CB8 *)v1)->unk8 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_800B5CB8 *)v1)->unkA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0x19;
+        ((Unkstruct_800B5CB8 *)v1)->unkC = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     }
 }

@@ -3596,9 +3596,9 @@ void func_8017D994(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk58.s = 0;
 
-    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);
@@ -7290,10 +7290,10 @@ void func_80183C24(s32 a0) {
 
     if (((Unkstruct_801202A0 *)a0)->unkC2 < 3) {
         if (((Unkstruct_801202A0 *)a0)->unk84.s == 0) {
-            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-            t = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+            t = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
             sp10.unk2 = t - 0x10;
-            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
             sp18.unk0 = sp10.unk0;
             sp18.unk2 = t + 0x10;
             sp18.unk4 = sp10.unk4;

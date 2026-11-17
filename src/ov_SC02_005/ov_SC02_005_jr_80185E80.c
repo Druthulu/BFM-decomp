@@ -4381,7 +4381,7 @@ void func_8018C008(s32 arg0) {
     s32 self = arg0;
     s32 i;
 
-    ((Unkstruct_801202A0 *)self)->unkC.i.hi -= 0x14;
+    ((Unkstruct_801202A0 *)self)->unkC.i.hi.u -= 0x14;
     ((Unkstruct_801202A0 *)self)->extD.kSC02_005_8018C08C.unk100.u = 0;
 
     for (i = 0; i < 8; i++) {

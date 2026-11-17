@@ -3784,7 +3784,7 @@ void func_8017EA2C(void *a0) {
 void func_8017EADC(s32 a0) {
     s16 v0;
 
-    v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi - 4;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 4;
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi = v0;
     if (v0 < -0x5FF) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 3;

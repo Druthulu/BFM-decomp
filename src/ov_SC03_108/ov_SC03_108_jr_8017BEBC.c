@@ -2981,7 +2981,7 @@ void func_8017D764(s32 a0) {
     s16 d;
     s16 vol;
 
-    dist = ((Unkstruct_801202A0 *)a0)->unk4.i.hi - D_80126CAC;
+    dist = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - D_80126CAC;
     if (dist < 0) {
         dist = -dist;
     }

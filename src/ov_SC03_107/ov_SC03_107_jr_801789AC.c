@@ -8858,13 +8858,13 @@ void func_80181058(void *a0)
             ((Unkstruct_80181058_2 *)q)->unk12 = t;
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801202A0 *)p)->unk4.i.hi - 0x40;
-                ((Unkstruct_801202A0 *)p)->unk4.i.hi = xx + rr;
+                s32 xx = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u - 0x40;
+                ((Unkstruct_801202A0 *)p)->unk4.i.hi.u = xx + rr;
             }
             {
                 s32 rr = rand() & 0x7F;
-                s32 xx = ((Unkstruct_801202A0 *)p)->unkC.i.hi - 0x40;
-                ((Unkstruct_801202A0 *)p)->unkC.i.hi = xx + rr;
+                s32 xx = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u - 0x40;
+                ((Unkstruct_801202A0 *)p)->unkC.i.hi.u = xx + rr;
             }
         }
     }

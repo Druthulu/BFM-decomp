@@ -7474,11 +7474,11 @@ void func_80182ED4(s32 arg0) {
         tmp = (s16)t;
         u = tmp;
         if (t == 0) {
-            x = ((Unkstruct_80182ED4 *)arg0)->unk4.i.hi;
+            x = ((Unkstruct_80182ED4 *)arg0)->unk4.i.hi.u;
             sp10[0] = x;
-            y = ((Unkstruct_80182ED4 *)arg0)->unk8.i.hi;
+            y = ((Unkstruct_80182ED4 *)arg0)->unk8.i.hi.u;
             sp10[1] = y - 0x10;
-            z = ((Unkstruct_80182ED4 *)arg0)->unkC.i.hi;
+            z = ((Unkstruct_80182ED4 *)arg0)->unkC.i.hi.u;
             sp10[4] = x;
             sp10[5] = y + 0x10;
             sp10[2] = z;

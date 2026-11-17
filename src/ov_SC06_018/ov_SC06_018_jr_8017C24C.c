@@ -3083,8 +3083,8 @@ s32 func_8017DCC0(s32 arg0)
 
     switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
-        w = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi - 8;
-        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi = w;
+        w = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 8;
+        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = w;
         if ((s16)w < -0x5F) {
             ((Unkstruct_801202A0 *)arg0)->unk34.u = ((Unkstruct_801202A0 *)arg0)->unk34.u + 1;
             guess_RequestSound(0xB02, 0);
@@ -3093,7 +3093,7 @@ s32 func_8017DCC0(s32 arg0)
     case 1:
         w = ((Unkstruct_801202A0 *)arg0)->unkFC.u + 0x40;
         ((Unkstruct_801202A0 *)arg0)->unkFC.u = w;
-        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi = -0x60 - (rsin((s16)w) >> 5);
+        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = -0x60 - (rsin((s16)w) >> 5);
         if (CAST_SIGN(s16, arg0, 0xFC) < 0x400) {
             break;
         }
@@ -4459,9 +4459,9 @@ void func_8017FC34(s32 a0)
     if (((Unkstruct_8017FC34_2 *)a0)->unk0 != 0) {
         s0 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
         if (s0 != 0) {
-            s0->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
-            s0->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
-            s0->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
+            s0->unk4.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
+            s0->unk8.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
+            s0->unkC.i.hi.u = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
             s0->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
             s0->unk14.val = -((Unkstruct_8017FC34_2 *)a0)->unk14;
             s0->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;

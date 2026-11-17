@@ -13,9 +13,9 @@ void SHARED_FN(s32 a0) {
             if (q != 0) {
                 func_8012B0B4(buf, rand() % 4096, rand() % 64);
                 v = *(s32 *)buf;
-                ((Unkstruct_801202A0 *)q)->unk4.i.hi += v;
-                ((Unkstruct_801202A0 *)q)->unk8.i.hi -= 0x60;
-                ((Unkstruct_801202A0 *)q)->unkC.i.hi += v >> 16;
+                ((Unkstruct_801202A0 *)q)->unk4.i.hi.u += v;
+                ((Unkstruct_801202A0 *)q)->unk8.i.hi.u -= 0x60;
+                ((Unkstruct_801202A0 *)q)->unkC.i.hi.u += v >> 16;
                 r3 = rand();
                 ((Unkstruct_801202A0 *)q)->unk34.u = (r3 % 3) * 0x1000 + 0x3000;
             }

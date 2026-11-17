@@ -14,9 +14,9 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
 
     guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
 
-    sp18.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-    sp18.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
-    sp18.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+    sp18.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp18.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    sp18.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     sp18.vx += *(u16*)(a1 + 0);
     sp18.vy += *(u16*)(a1 + 2);
     sp18.vz += *(u16*)(a1 + 4);

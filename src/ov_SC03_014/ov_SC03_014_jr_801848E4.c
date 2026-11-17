@@ -3168,19 +3168,19 @@ void func_80185380(s32 param_1) {
             u16 *p10;
 
             o = ((Unkstruct_80185380 *)param_1)->unk6C;
-            v6 = ((Unkstruct_801202A0 *)o)->unk4.i.hi;
+            v6 = ((Unkstruct_801202A0 *)o)->unk4.i.hi.u;
             __asm__ __volatile__("" : "=r"(v6) : "0"(v6) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
             p10 = &D_80190048;
             __asm__ __volatile__("" : "=r"(p10) : "0"(p10) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
             *p10 = v6;
 
             o = ((Unkstruct_80185380 *)param_1)->unk6C;
-            D_8019004A = ((Unkstruct_801202A0 *)o)->unk8.i.hi - 0x40;
+            D_8019004A = ((Unkstruct_801202A0 *)o)->unk8.i.hi.u - 0x40;
 
             o = CAST_ALIAS(s32, param_1, 0x6C);
             {
                 u16 g5e = guess_g_PlayerPosX;
-                D_8019004C = ((Unkstruct_801202A0 *)o)->unkC.i.hi;
+                D_8019004C = ((Unkstruct_801202A0 *)o)->unkC.i.hi.u;
                 *(u16 *)((u8 *)p10 + 0x10) = g5e;
             }
         }

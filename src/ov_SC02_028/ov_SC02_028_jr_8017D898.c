@@ -5424,9 +5424,9 @@ void func_8018248C(s32 a0, s32 a1) {
     ApplyMatrixSV(&m, &vec, &vec);
 
     if (a0 != 0 && ((Unkstruct_801202A0 *)a0)->unk0 != 0) {
-        msg.f0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
-        msg.f2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
-        msg.f4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
+        msg.f0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
+        msg.f2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
+        msg.f4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
     } else {
         msg.f4 = 0;
         msg.f2 = 0;

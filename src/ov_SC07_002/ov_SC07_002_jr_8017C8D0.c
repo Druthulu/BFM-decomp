@@ -5675,11 +5675,11 @@ void func_8018247C(s32 a0)
     u16 v1;
     a1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
     if (a1 != 0) {
-        ((Unkstruct_8018247C_2 *)a1)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
-        v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+        ((Unkstruct_8018247C_2 *)a1)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
         v1 = ((Unkstruct_801202A0 *)a0)->unk52.u;
         ((Unkstruct_8018247C_2 *)a1)->unkA = v0 + v1;
-        ((Unkstruct_8018247C_2 *)a1)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+        ((Unkstruct_8018247C_2 *)a1)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         ((Unkstruct_8018247C_2 *)a1)->unk10 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk10;
         ((Unkstruct_8018247C_2 *)a1)->unk12 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12;
         ((Unkstruct_8018247C_2 *)a1)->unk14 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk14;

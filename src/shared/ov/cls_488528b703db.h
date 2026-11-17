@@ -24,9 +24,9 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
     ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     guess_RequestSound(0x526, 0);
-    r6 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
-    rA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
-    rE = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+    r6 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    rA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    rE = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     ((Unkstruct_801202A0 *)arg0)->unk7C = r6;
     ((Unkstruct_801202A0 *)arg0)->unk7E = rA;
     ((Unkstruct_801202A0 *)arg0)->unk80 = rE;

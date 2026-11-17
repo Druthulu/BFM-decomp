@@ -4218,13 +4218,13 @@ s32 func_80180D4C(Unkstruct_801202A0 *a0, u8 *a1, s32 a2) {
     u16 sp10[3];
     u16 sp18[4];
 
-    sp10[0] = a0->unk4.i.hi;
-    sp10[1] = a0->unk8.i.hi;
-    sp10[2] = a0->unkC.i.hi;
+    sp10[0] = a0->unk4.i.hi.u;
+    sp10[1] = a0->unk8.i.hi.u;
+    sp10[2] = a0->unkC.i.hi.u;
 
-    sp18[0] = a0->unk4.i.hi;
-    sp18[1] = a0->unk8.i.hi;
-    sp18[2] = a0->unkC.i.hi;
+    sp18[0] = a0->unk4.i.hi.u;
+    sp18[1] = a0->unk8.i.hi.u;
+    sp18[2] = a0->unkC.i.hi.u;
 
     sp18[0] += *(u16 *)(a1 + 0x0);
     sp18[1] += *(u16 *)(a1 + 0x2);
@@ -4266,14 +4266,14 @@ void func_80180F60(Unkstruct_801202A0 *arg) {
     s32 v0;
     s32 v1;
 
-    sp10[1] = arg->unk8.i.hi;
+    sp10[1] = arg->unk8.i.hi.u;
     s1 = ((Unkstruct_80180F60_2 *)*(s32 *)((u8 *)arg + 0x20))->unk12;
     for (s2 = 0; s2 < 0x20; s2++) {
         func_8012B0B4(&sp20, s1, 0x10);
         v1 = sp20;
-        sp10[0] = sp18[0] = arg->unk4.i.hi + v1;
-        sp10[2] = sp18[2] = arg->unkC.i.hi + (v1 >> 16);
-        sp18[1] = arg->unk8.i.hi + 8;
+        sp10[0] = sp18[0] = arg->unk4.i.hi.u + v1;
+        sp10[2] = sp18[2] = arg->unkC.i.hi.u + (v1 >> 16);
+        sp18[1] = arg->unk8.i.hi.u + 8;
         if (func_80133784(1, sp10, sp18) & 0x2000) {
             arg->unk4.i.hi = sp18[0];
             arg->unk8.i.hi = sp18[1];

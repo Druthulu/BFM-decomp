@@ -14,9 +14,9 @@ s32 SHARED_FN(void *arg0) {
     pointA[1] = guess_g_PlayerPosY;
     pointA[2] = guess_g_PlayerPosZ;
 
-    pointB[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
-    pointB[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
-    pointB[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+    pointB[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    pointB[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    pointB[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     pointA[1] = guess_g_PlayerPosY - 0x2A;
 
     addr = (((Unkstruct_801202A0 *)arg0)->unk58.s & 0xFFFFFFF) | 0x80000000;

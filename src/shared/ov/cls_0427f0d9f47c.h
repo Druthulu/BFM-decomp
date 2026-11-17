@@ -11,6 +11,6 @@ void SHARED_FN() {
     if (v1 != 0) {
         CAST_ALIAS(s16, v1, 6) = -0x180;
         CAST_ALIAS(s16, v1, 10) = -0x380;
-        ((Unkstruct_801202A0 *)v1)->unkC.i.hi = 0x6A0;
+        ((Unkstruct_801202A0 *)v1)->unkC.i.hi.u = 0x6A0;
     }
 }

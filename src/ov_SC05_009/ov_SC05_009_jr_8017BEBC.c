@@ -3149,7 +3149,7 @@ void func_8017D914(s32 param_1)
     u16 v1;
 
     guess_PlaySoundUnlessSkipped(0x9D2);
-    v1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi;
+    v1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
     ((Unkstruct_801202A0 *)param_1)->unkDC.val = 0x200000;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = v1;
 }
@@ -3173,11 +3173,11 @@ s32 func_8017D950(void *a0)
     }
 
     CAST_ALIAS(u16, s0, 6) = ((Unkstruct_801202A0 *)s0)->unkFC.u;
-    sum = ((Unkstruct_801202A0 *)s0)->unkFC.u + ((Unkstruct_801202A0 *)s0)->unkDC.i.hi;
+    sum = ((Unkstruct_801202A0 *)s0)->unkFC.u + ((Unkstruct_801202A0 *)s0)->unkDC.i.hi.u;
     CAST_ALIAS(u16, s0, 0xFC) = sum;
     arr[0] = sum;
     arr[1] = guess_g_PlayerPosY;
-    arr[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi;
+    arr[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;
     arr[3] = 0xC00;
     func_80172310((u8 *)arr);
 

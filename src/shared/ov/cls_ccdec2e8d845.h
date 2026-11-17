@@ -7,9 +7,9 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_801202A0 *)arg0)->unkB4 |= 1;
     ((Unkstruct_801202A0 *)arg0)->unkC4 &= ~2;
     if (((Unkstruct_801202A0 *)arg0)->unk60 != 0) {
-        ((Unkstruct_801202A0 *)arg0)->unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
-        ((Unkstruct_801202A0 *)arg0)->unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
-        ((Unkstruct_801202A0 *)arg0)->unk80 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
+        ((Unkstruct_801202A0 *)arg0)->unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_801202A0 *)arg0)->unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+        ((Unkstruct_801202A0 *)arg0)->unk80 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
         func_8016AA50(arg0, ((Unkstruct_801202A0 *)arg0)->unk60);
     }
     diff = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);

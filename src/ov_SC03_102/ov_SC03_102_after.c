@@ -1514,8 +1514,8 @@ a0v = a0;
   {
     goto fail;
   }
-  ex = ent->unk4.i.hi - (*((u16 *) (a0v + 6)));
-  ez = ent->unkC.i.hi - (*((u16 *) (a0v + 0xE)));
+  ex = ent->unk4.i.hi.u - (*((u16 *) (a0v + 6)));
+  ez = ent->unkC.i.hi.u - (*((u16 *) (a0v + 0xE)));
   r1 = (s16) ratan2((s16) dz, new_var3);
   r2 = (s16) ratan2((s16) ez, (s16) ex);
   r3 = (s16) func_80012A60(r1, r2);
@@ -1526,11 +1526,11 @@ a0v = a0;
   desc.f20 = 0;
   desc.f1C = 0;
   desc.f18 = 0;
-  x0 = ent->unk4.i.hi;
+  x0 = ent->unk4.i.hi.u;
   pos.unk0 = x0;
-  y0 = ent->unk8.i.hi;
+  y0 = ent->unk8.i.hi.u;
   pos.unk2 = y0;
-  z0 = ent->unkC.i.hi;
+  z0 = ent->unkC.i.hi.u;
   tx = x0 + desc.x;
   pos.unk4 = z0;
   tz = z0 + desc.z;
@@ -1605,9 +1605,9 @@ a0v = a0;
   r = func_80133784(0, &pos, (s32) (&desc));
   if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
-    ent->unk4.i.hi = desc.x - desc.f18;
+    ent->unk4.i.hi.u = desc.x - desc.f18;
     ent->unk8.i.hi = desc.y;
-    ent->unkC.i.hi = desc.z - desc.f20;
+    ent->unkC.i.hi.u = desc.z - desc.f20;
     desc.x -= pos.unk0;
     desc.y -= pos.unk2;
     desc.z -= pos.unk4;
