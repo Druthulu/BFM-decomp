@@ -85,4 +85,5 @@ p345-t2-struct-merge-evidence.md | 3.45 T2 — the merge-evidence census: joins,
 p345-struct-merge-report.md | 3.45 T2 — merge-evidence report (generated, struct_twins.py --links --report): counts per policy, largest components, hubs and hub types, conflicts, naming scope, fold batches | 644
 p345-t14-source-census.md | 3.45 T14 — the source census (struct_twins.py --sources): casts by pointer source, flows, verdicts, candidate parents, families, cast-view metric | 78
 p345-t15-typing-engine.md | 3.45 T15 — rung T, the typing engine (restruct.py --type-source / --type-batch / --type-check): keys, kinds, type decision, respell and non-cast rules, second attempt, ledger row, check mode | 96
+p345-t16-pilot.md | 3.45 T16 — the tracing pilot: sample judging, the actor parent model, absorption and rung T results, five before/after functions, wave projection (membership p345-t16-waves.tsv) | 118
 sig-evidence.md | sig-evidence — the asm signature census and its gate (3.44 T3-T9) | 341

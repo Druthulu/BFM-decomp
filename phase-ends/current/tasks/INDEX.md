@@ -9,3 +9,4 @@ T6 | done | the fold engine: generated blocks retired, folds and absorptions, th
 T7 | done | fold the linked components, the exact twins and the value shapes | - | tasks/T7.md | logs/T7.md | -
 T8 | done | the consolidation gate and DECL-PARAM | - | tasks/T8.md | logs/T8.md | -
 T15 | done | the typing engine: pointers typed at their source, casts spelled as member accesses | - | tasks/T15.md | logs/T15.md | R3.45-012,R3.45-006,R3.45-008,R3.45-010
+T16 | review | the tracing pilot: the largest family's model and the wave projection | - | tasks/T16.md | logs/T16.md | R3.45-013,R3.45-007,R3.45-008,R3.45-010,R3.45-011

@@ -1077,3 +1077,4 @@ C0624 | Find a view's real parent by its object pool, not the placeholder's addr
 C0625 | Absorb views into one parent in sequence: gap-union variants, sign-union joins, fold-batch traps | struct,absorb,variant,union,fold-batch,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16.c5
 C0626 | Absorb leaf mapping: pointer vs s32, fixed-point halves, typed-pointer adoption trap | struct,absorb,fixed-point,union,pointer,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16.c6
 C0627 | Per-source absorb: split a placeholder across parents by pointer source (fold-batch keys files) | struct,absorb,per-source,split,fold-batch,t16 | 2026-11-16 | 3.45/T16 | P3.45 T16.c7
+C0628 | Rung T at fleet scale: global keys, shared-header bodies, missed declarations | restruct,rung-T,typing,global,shared-body,sig_evidence,t16 | 2026-11-16 | 3.45/T16 | P3.45 T16.c8-c9
