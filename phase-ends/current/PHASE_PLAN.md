@@ -171,3 +171,4 @@ Approved: 2026-11-13   Planner: claude-opus-5-5/medium   Plan-hash: a694de413642
 - 2026-11-15 router: T15 next -> done
 - 2026-11-16 router: T16 review: parent model approved (gen3-standards rule 4); waves A1-A5 = docs/ops/p345-t16-waves.tsv (A1 462 actor family + pool views + 800B5CB8 per-source split, A2 621 ov_SC03, A3 525 SC02/06/04, A4 659 SC05/01/07+md/shared/main/ovMAIN, A5 555 no cast source)
 - 2026-11-16 router: T16 review: B borders kept in plan order; T28 = ov_SC03_001-096, T29 = ov_SC03_097-126 (by casts at T16)
+- 2026-11-16 router: T16 review: T22 first step: rung T judges a file's keys together (bisect on DIFFERS) and files in parallel, measured vs T16.c9 (~40 s per typed key); each B wave repeats rung T passes until a pass types nothing new
