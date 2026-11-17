@@ -1049,15 +1049,7 @@ typedef struct Ent80183F28 {
     /* 0xE8 */ s16 unkE8;
     /* 0xEA */ s16 unkEA;
 } Ent80183F28;
-typedef struct {
-        u8 pad0[6];
-        u16 x;
-        u8 pad8[6];
-        u16 z;
-        u8 pad10[0xB1];
-        u8 state;
-        u8 padC2[0x4A];
-    } Ent_801202A0;
+/* T17.c20: Ent_801202A0 (x +0x6, z +0xE, state +0xC1 of the actor slot) folded into Unkstruct_801202A0 (func_8014A738.h). */
 typedef struct Ent_8017BFE0_80180544 {
     u8  pad00[2];   /* 0x00 */
     u16 f02;        /* 0x02 */
