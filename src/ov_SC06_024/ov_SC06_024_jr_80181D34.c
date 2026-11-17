@@ -3657,7 +3657,7 @@ extern u8 D_801AC4D8[];
 extern u8 D_801AC4E0[];
 
 void func_801833B8(Unkstruct_801202A0 *a0) {
-    s32 p = a0->extB.kSC06_022_80180EE0.unkCC;
+    s32 p = a0->unkCC.val;
     if (a0->unk70.s >= 2) {
         if (*(s16 *)(p + 0x100) != 0) {
             *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AC4E0;

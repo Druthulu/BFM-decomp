@@ -2,7 +2,7 @@
 void SHARED_FN(void *arg0) {
     void *s0 = arg0;
 
-    if ((((Unkstruct_801202A0 *)s0)->unk5E == 0x33) && (((Unkstruct_801202A0 *)s0)->unk70.s == 3)) {
+    if ((((Unkstruct_801202A0 *)s0)->unk5E.b == 0x33) && (((Unkstruct_801202A0 *)s0)->unk70.s == 3)) {
         func_80165988();
     }
     if (((Unkstruct_801202A0 *)s0)->unk78 != 0) {

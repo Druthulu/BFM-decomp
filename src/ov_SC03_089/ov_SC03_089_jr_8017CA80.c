@@ -5961,7 +5961,7 @@ void func_801851A8(Unkstruct_801202A0 *param_1)
     s32 p;
     s32 mp;
 
-    if (param_1->extB.kSC03_089_801851A8.unkCC != 0) {
+    if (param_1->unkCC.val != 0) {
         p = (s32)(*(u32 *)(((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 0x20) & 0xfeffffff);
         mp = (s32)&m1;
         buf.vx = *(s16 *)(p + 6);
@@ -6006,16 +6006,16 @@ void func_801851A8(Unkstruct_801202A0 *param_1)
 
         ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)(dp, (s32)&D_801A3BB0, (s32)&out);
 
-        dst = param_1->extB.kSC03_089_801851A8.unkCC;
+        dst = param_1->unkCC.val;
         *(Unkstruct_8013B83C *)(dst + 8) = *(Unkstruct_8013B83C *)&out;
 
         mk = 0x80000000;
         if (*(s32 *)(((Unkstruct_801851A8_2 *)*(s32 *)((u8 *)param_1 + 0x64))->unk20 + 4) < 0) {
-            *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) =
-                *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) | mk;
+            *(u32 *)(param_1->unkCC.val + 4) =
+                *(u32 *)(param_1->unkCC.val + 4) | mk;
         } else {
-            *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) =
-                *(u32 *)(param_1->extB.kSC03_089_801851A8.unkCC + 4) & 0x7FFFFFFF;
+            *(u32 *)(param_1->unkCC.val + 4) =
+                *(u32 *)(param_1->unkCC.val + 4) & 0x7FFFFFFF;
         }
     }
 }

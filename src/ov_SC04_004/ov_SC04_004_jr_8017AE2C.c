@@ -5911,7 +5911,7 @@ void func_80180A30(s32 a0) {
         func_8012ADE4((u8 *)s0);
     }
 
-    if (((Unkstruct_801202A0 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
             func_80131E00(s0, 6);
         } else {

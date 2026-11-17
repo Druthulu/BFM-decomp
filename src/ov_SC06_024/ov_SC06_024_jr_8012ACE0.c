@@ -1808,7 +1808,7 @@ extern s32 guess_LookupIdValue(s32 *a0, s32 a1);
 extern void (*D_8018FCC0[])(Unkstruct_801202A0 *a0);
 
 void func_80131E00(Unkstruct_801202A0 *a0, s32 a1) {
-    a0->extB.kSC01_000_80131E00.unkB0 = a1;
+    a0->extE.kSC01_000_80131E00.unkB0 = a1;
     D_8018FCC0[a1](a0);
 }
 

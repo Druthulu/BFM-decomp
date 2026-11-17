@@ -2,10 +2,10 @@
 void SHARED_FN(void *a0, s32 a1, s32 a2) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a1);
     if (v1 != 0) {
-        s32 v0 = ((Unkstruct_801202A0 *)v1)->extB.kcls_a3be4b9d8ed8.unkCC;
+        s32 v0 = ((Unkstruct_801202A0 *)v1)->unkCC.val;
         if (v0 == 0) {
-            ((Unkstruct_801202A0 *)v1)->extB.kcls_a3be4b9d8ed8.unkCC = a2;
-            ((Unkstruct_801202A0 *)v1)->extB.kcls_a3be4b9d8ed8.unkD0 = (s32)a0;
+            ((Unkstruct_801202A0 *)v1)->unkCC.val = a2;
+            ((Unkstruct_801202A0 *)v1)->unkD0.val = (s32)a0;
         }
     }
 }

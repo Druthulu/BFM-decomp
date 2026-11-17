@@ -4169,7 +4169,7 @@ void func_801807DC(int param_1)
             ((Unkstruct_801807DC *)param_1)->unkFC =
                 *(u16 *)(entry + 0) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFC.u;
             ((Unkstruct_801807DC *)param_1)->unkFE =
-                *(u16 *)(entry + 2) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFE;
+                *(u16 *)(entry + 2) + ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFE.s;
             {
                 s32 self = param_1;
                 ((Unkstruct_801807DC *)self)->unk100 =

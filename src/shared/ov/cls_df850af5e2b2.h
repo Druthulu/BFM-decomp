@@ -2,7 +2,7 @@
 void SHARED_FN(void *param_1) {
     (CAST_SIGN(u16, (char *)param_1, 0xFC))++;
     guess_ApplyAccelAndVelocity(param_1);
-    if (((Unkstruct_801202A0 *)param_1)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk98.s == 0) {
         guess_FreeActor(param_1);
     }
 }

@@ -17383,7 +17383,7 @@ s32 func_8002A4FC(s32 a0) {
 extern s32 func_8002A544(s32);
 
 void func_8002A520(s32 arg0) {
-    func_8002A544(((Unkstruct_801202A0 *)arg0)->extB.kMAIN_func_8002A520.unkC8);
+    func_8002A544(((Unkstruct_801202A0 *)arg0)->extF.kMAIN_func_8002A520.unkC8);
 }
 
 extern s32 func_8002A5C4(s32 a0);

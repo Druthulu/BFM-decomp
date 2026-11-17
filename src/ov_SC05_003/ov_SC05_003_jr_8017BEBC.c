@@ -5130,7 +5130,7 @@ void func_8018111C(s32 param_1)
     s32 w;
 
     vec = ((Unkstruct_801202A0 *)param_1)->unk20;
-    if (((Unkstruct_801202A0 *)param_1)->unkFE != ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk36 ||
+    if (((Unkstruct_801202A0 *)param_1)->unkFE.s != ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk36 ||
         ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk90 == (s32)&D_801A9850) {
         ((Unkstruct_801202A0 *)param_1)->unk48 = 0xC000;
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 3;

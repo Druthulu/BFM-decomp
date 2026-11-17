@@ -7,7 +7,7 @@ void SHARED_FN(s32 param_1)
 
     val_fe = CAST_SIGN(u16, param_1, 0xFE);
     val_fe = val_fe + 1;
-    ((Unkstruct_801202A0 *)param_1)->unkFE = val_fe;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = val_fe;
     if ((val_fe & 7) == 0) {
         result = func_80132EF4(param_1, 0x22);
         if (result != 0) {

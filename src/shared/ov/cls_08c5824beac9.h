@@ -2,10 +2,10 @@
  * exemplar src/ov_SC03_095/ov_SC03_095_jr_8017BEBC.c:3290 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 void SHARED_FN(void *a0) {
     s16 t;
-    if (((Unkstruct_801202A0 *)a0)->unkFE != 0) {
-        func_80016224(((Unkstruct_801202A0 *)a0)->unkFE & 0xFF, 4);
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s != 0) {
+        func_80016224(((Unkstruct_801202A0 *)a0)->unkFE.s & 0xFF, 4);
         CAST_ALIAS(s16, (s32)a0, 0x2A) = -2;
-        t = 0x80 - ((Unkstruct_801202A0 *)a0)->unkFE * 3;
+        t = 0x80 - ((Unkstruct_801202A0 *)a0)->unkFE.s * 3;
         ((Unkstruct_801202A0 *)a0)->extA.kcls_08c5824beac9.unk28 = t;
         CAST_WIDTH(s16, (s32)a0, 0x26) = t;
         CAST_WIDTH(s16, (s32)a0, 0x24) = t;

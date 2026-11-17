@@ -4,8 +4,8 @@ void SHARED_FN(s32 arg0) {
     u16 diff;
     s32 p;
 
-    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkB4 |= 1;
-    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkC4 &= ~2;
+    ((Unkstruct_801202A0 *)arg0)->unkB4 |= 1;
+    ((Unkstruct_801202A0 *)arg0)->unkC4 &= ~2;
     if (((Unkstruct_801202A0 *)arg0)->unk60 != 0) {
         ((Unkstruct_801202A0 *)arg0)->unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
         ((Unkstruct_801202A0 *)arg0)->unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
@@ -22,8 +22,8 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
-    ((Unkstruct_801202A0 *)arg0)->extB.kcls_ccdec2e8d845.unkC2 = 1;
-    ((Unkstruct_801202A0 *)arg0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkC2 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x3C;
     guess_RequestSound(0x526, 0);
 }

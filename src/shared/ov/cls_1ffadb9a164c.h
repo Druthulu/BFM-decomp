@@ -7,6 +7,6 @@ void SHARED_FN(s32 a0) {
         return;
     }
     if (CAST_SIGN(u16, (char *)p, 0x2) == 0x4) {
-        ((Unkstruct_801202A0 *)p)->extB.kcls_1ffadb9a164c.unkB0 = 0x2;
+        ((Unkstruct_801202A0 *)p)->extE.kcls_1ffadb9a164c.unkB0 = 0x2;
     }
 }

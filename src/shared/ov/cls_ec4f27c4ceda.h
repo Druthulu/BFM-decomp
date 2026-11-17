@@ -5,7 +5,7 @@ void SHARED_FN(void *arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 9;
         func_8012B21C(arg0);
         guess_ShowObjectModel((s32)arg0);
-        ((Unkstruct_801202A0 *)arg0)->extB.kcls_ec4f27c4ceda.unkCC =
+        ((Unkstruct_801202A0 *)arg0)->unkCC.val =
             ((s32 (*)(s32 *, s32))func_80143994)(arg0, 0x1000);
     }
 }

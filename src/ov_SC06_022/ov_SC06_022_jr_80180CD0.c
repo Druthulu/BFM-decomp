@@ -2909,7 +2909,7 @@ void func_80180EE0(Unkstruct_801202A0 *a0) {
     s32 v1;
 
     t = a0->unk70.s;
-    v1 = a0->extB.kSC06_022_80180EE0.unkCC;
+    v1 = a0->unkCC.val;
     if (t >= 2) {
         if (*(s16 *)(v1 + 0x100) != 0) {
             *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AD39C;

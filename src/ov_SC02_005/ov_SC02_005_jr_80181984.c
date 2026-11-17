@@ -2939,13 +2939,13 @@ void func_80181BE8(void *a0) {
     s16 v0;
     s32 v1;
 
-    if ((((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8 & 0x60000) != 0) {
+    if ((((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801831A4.unkE8.u & 0x60000) != 0) {
         func_80182998(a0);
     } else {
         state = ((Unkstruct_801202A0 *)s0)->unk34.u;
         switch (state) {
         case 0:
-            v0 = ((Unkstruct_801202A0 *)s0)->unk98;
+            v0 = ((Unkstruct_801202A0 *)s0)->unk98.s;
             if (v0 == 0) {
                 {
                     u16 ns = state + 1;
@@ -2953,8 +2953,8 @@ void func_80181BE8(void *a0) {
                 }
                 func_80187070(s0);
                 {
-                    u32 e8 = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8;
-                    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_80181BE8.unkE8 = e8 & ~1;
+                    u32 e8 = ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801831A4.unkE8.u;
+                    ((Unkstruct_801202A0 *)s0)->extC.kSC02_005_801831A4.unkE8.u = e8 & ~1;
                     if (e8 & 0x2000) {
                         ((Unkstruct_801202A0 *)s0)->unk1C.u = 0x80;
                     } else {
@@ -2974,7 +2974,7 @@ void func_80181BE8(void *a0) {
             }
             break;
         case 2:
-            if (((Unkstruct_801202A0 *)s0)->unk98 == 0) {
+            if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
                 func_801838A8(s0);
             }
             break;

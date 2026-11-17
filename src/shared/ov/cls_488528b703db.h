@@ -10,7 +10,7 @@ void SHARED_FN(s32 arg0) {
     s32 rE;
 
     cst = 0x1800;
-    ((Unkstruct_801202A0 *)arg0)->extB.kcls_488528b703db.unkAA = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkAA = 0;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
     *(s16 *)((((Unkstruct_801202A0 *)arg0)->unk20) + 0x18) = cst;
     base = ((Unkstruct_801202A0 *)arg0)->unk20;
@@ -22,7 +22,7 @@ void SHARED_FN(s32 arg0) {
     *(u16 *)(b2 + 0x2C) |= 0x10;
     ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
-    ((Unkstruct_801202A0 *)arg0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     guess_RequestSound(0x526, 0);
     r6 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
     rA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;

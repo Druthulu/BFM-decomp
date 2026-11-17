@@ -15,6 +15,6 @@ void SHARED_FN(s32 arg0)
     func_8012B200((u8 *)rec);
     n = rand();
     ((Unkstruct_801202A0 *)rec)->unk1C.s = n % 60 + 0x78;
-    ((Unkstruct_801202A0 *)rec)->unkFE = (s16)r % 32 + 0xA;
+    ((Unkstruct_801202A0 *)rec)->unkFE.s = (s16)r % 32 + 0xA;
     ((Unkstruct_801202A0 *)rec)->unk2.s = 2;
 }

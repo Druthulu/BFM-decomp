@@ -4184,10 +4184,10 @@ void *a1;
 
     morph_lerp(D_801BF554, D_801C1E40, D_801C1E50, t);
     x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
-    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE + 0x100) >> 4;
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE.s + 0x100) >> 4;
     morph_lerp(D_801BF558, D_801C1E44, D_801C1E54, x);
     x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
-    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE + 0x200) >> 4;
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE.s + 0x200) >> 4;
     morph_lerp(D_801BF55C, D_801C1E48, D_801C1E58, x);
 }
 
@@ -4409,10 +4409,10 @@ void func_80181924(s32 t, void *a1)
 
     morph_lerp(D_801BF5B4, D_801C1E80, D_801C1E90, t);
     x = rsin(((Unkstruct_80181924 *)a1)->unkFC.s);
-    x += rsin(((Unkstruct_80181924 *)a1)->unkFE + 0x100) >> 4;
+    x += rsin(((Unkstruct_80181924 *)a1)->unkFE.s + 0x100) >> 4;
     morph_lerp(D_801BF5B8, D_801C1E84, D_801C1E94, x);
     x = rsin(((Unkstruct_80181924 *)a1)->unkFC.s);
-    x += rsin(((Unkstruct_80181924 *)a1)->unkFE + 0x200) >> 4;
+    x += rsin(((Unkstruct_80181924 *)a1)->unkFE.s + 0x200) >> 4;
     morph_lerp(D_801BF5BC, D_801C1E88, D_801C1E98, x);
 }
 

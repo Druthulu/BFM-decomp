@@ -8,7 +8,7 @@ void SHARED_FN(s32 arg0) {
     s32 v;
     u32 *bp;
 
-    if (((Unkstruct_801202A0 *)arg0)->extB.kSC05_007_8017E7D0.unkAA <= 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unkAA <= 0) {
         for (i = 0; i < 20; i++) {
             bp = buf;
             func_8012B0B4(bp, rand() % 4096, 64);

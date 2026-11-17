@@ -8,7 +8,7 @@ void SHARED_FN(s32 a0)
 
     if (((Unkstruct_801202A0 *)a0)->unkFC.s >= 0x400) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
-        ((Unkstruct_801202A0 *)a0)->unkFE = 4;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 4;
         func_8012E688(a0, 0x98F, 0);
     }
 }

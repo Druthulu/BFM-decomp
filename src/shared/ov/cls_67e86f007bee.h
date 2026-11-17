@@ -2,7 +2,7 @@
 void SHARED_FN(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->extD.kcls_67e86f007bee.unk100 = 1;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A = 0x100;
-    ((Unkstruct_801202A0 *)a0)->unkFE = 1;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
     guess_SpawnActor(0x156, ((Unkstruct_801202A0 *)a0)->unk70.s, (s32)a0);
     func_8012AD44((s32 *)a0, 2);
 }

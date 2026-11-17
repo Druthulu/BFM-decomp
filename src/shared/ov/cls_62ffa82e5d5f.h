@@ -10,7 +10,7 @@ void SHARED_FN(s32 a0)
     v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
     if (v0 != 0) {
         ((Unkstruct_801202A0 *)s0)->unkFC.s = -CAST_SIGN(u16, s0, 0xFC);
-        ((Unkstruct_801202A0 *)s0)->unkFE = -CAST_SIGN(u16, s0, 0xFE);
+        ((Unkstruct_801202A0 *)s0)->unkFE.s = -CAST_SIGN(u16, s0, 0xFE);
         ((Unkstruct_801202A0 *)s0)->extD.kcls_62ffa82e5d5f.unk100 = -CAST_SIGN(u16, s0, 0x100);
         if (v0 & 0x8000) {
             CAST_WIDTH(s32, s0, 0x10) = -CAST_WIDTH(s32, s0, 0x10);

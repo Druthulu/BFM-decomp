@@ -2867,8 +2867,8 @@ void func_801815AC(void *a0) {
         if (func_80183550(s0) != 0) {
             func_80183480(s0, (s32)&D_801A4294, 1, 0x40);
             ((Unkstruct_801202A0 *)s0)->unk34.s = 2;
-            *(s16 *)(((Unkstruct_801202A0 *)s0)->extB.kSC03_002_801815AC.unkCC + 0x108) = 0;
-            *(s32 *)(((Unkstruct_801202A0 *)s0)->extB.kSC03_002_801815AC.unkCC + 0xB0) = 2;
+            *(s16 *)(((Unkstruct_801202A0 *)s0)->unkCC.val + 0x108) = 0;
+            *(s32 *)(((Unkstruct_801202A0 *)s0)->unkCC.val + 0xB0) = 2;
         }
         return;
     case 2:

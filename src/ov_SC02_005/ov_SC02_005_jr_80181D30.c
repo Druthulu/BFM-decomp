@@ -3287,8 +3287,8 @@ void func_801828D8(void *arg0) {
     Unkstruct_801202A0 *s0 = (s32)arg0;
     u32 v;
 
-    v = s0->extC.kSC02_005_801828D8.unkE8;
-    s0->extC.kSC02_005_801828D8.unkE8 = v | 1;
+    v = s0->extC.kSC02_005_801831A4.unkE8.u;
+    s0->extC.kSC02_005_801831A4.unkE8.u = v | 1;
     func_8012AD44((s32 *)s0, 2);
     func_80186F14((void *)s0);
 }

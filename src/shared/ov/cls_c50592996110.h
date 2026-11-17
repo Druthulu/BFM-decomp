@@ -2,8 +2,8 @@
 void SHARED_FN(s32 a0, s32 a1) {
     s32 v1 = func_8012E57C(0x61, (s32)(s16)a0);
     if (v1 != 0) {
-        if (((Unkstruct_801202A0 *)v1)->unk10A < a1) {
-            ((Unkstruct_801202A0 *)v1)->unk10A = a1;
+        if (((Unkstruct_801202A0 *)v1)->unk10A.s < a1) {
+            ((Unkstruct_801202A0 *)v1)->unk10A.s = a1;
         }
     }
 }

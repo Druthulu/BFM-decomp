@@ -3437,7 +3437,7 @@ void func_80183CC0(s32 p)
 
 extern void func_801850CC(s32 a0);
     void func_80183E3C(s32 arg0) {
-        if (((Unkstruct_80183E3C *)arg0)->unk98 == 0) {
+        if (((Unkstruct_80183E3C *)arg0)->unk98.s == 0) {
             ((void (*)(void))func_801850CC)();
         }
     }

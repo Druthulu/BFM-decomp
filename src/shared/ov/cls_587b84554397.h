@@ -6,7 +6,7 @@ void SHARED_FN(s32 arg0) {
     s32 p;
 
     p = ((Unkstruct_801202A0 *)arg0)->unk64;
-    if (CAST_SIGN(s16, p, 0x36) == ((Unkstruct_801202A0 *)arg0)->unk10A) {
+    if (CAST_SIGN(s16, p, 0x36) == ((Unkstruct_801202A0 *)arg0)->unk10A.s) {
         func_8012EC04(p, ((Unkstruct_801202A0 *)arg0)->unkFC.s, buf);
         ((void (*)(s32 *, s32, u16 *))guess_RotTransSVWithMatrix)(buf, arg0 + 0x88, out);
         ((Unkstruct_801202A0 *)arg0)->unk4.i.hi = out[0];

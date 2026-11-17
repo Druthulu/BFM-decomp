@@ -4409,7 +4409,7 @@ void func_8017F9D4(s32 a0) {
     } else if (s1 != 0x2000) {
         func_8012ADE4((u8 *)s0);
     }
-    v0 = ((Unkstruct_801202A0 *)s0)->unk98;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk98.s;
     if (v0 != 0) {
         return;
     }

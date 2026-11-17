@@ -3549,7 +3549,7 @@ void func_8017F998(s32 param_1) {
     if (D_801151FC == s0) {
         D_801151FC = 0;
     }
-    val = ((Unkstruct_801202A0 *)s0)->unk5E;
+    val = ((Unkstruct_801202A0 *)s0)->unk5E.b;
     if (val != 8) {
         if (val < 9) {
             v0 = 5;

@@ -5,7 +5,7 @@ void SHARED_FN(void *arg0) {
     sp0 = arg0;
     func_80182334((s32)arg0);
     if (func_80182478() + 0x23 == ((Unkstruct_801202A0 *)sp0)->unkDC.val) {
-        ((Unkstruct_801202A0 *)sp0)->unkFE = 0;
+        ((Unkstruct_801202A0 *)sp0)->unkFE.s = 0;
         guess_RequestSound(0x891, 0);
         func_8012AD50(sp0);
     }

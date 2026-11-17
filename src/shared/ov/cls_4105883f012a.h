@@ -2,7 +2,7 @@
 void SHARED_FN(void *a0) {
     u16 v = CAST_SIGN(u16, (s32)a0, 0x70);
     ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
-    ((Unkstruct_801202A0 *)a0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
     if ((s8)(v >> 8) == 5) {
         ((Unkstruct_801202A0 *)a0)->unk70.s = (v & 0xFF) | 0x100;

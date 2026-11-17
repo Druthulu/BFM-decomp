@@ -5111,7 +5111,7 @@ void func_801809D0(s32 p)
 
 extern void func_80181DDC(s32 a0);
     void func_80180B4C(s32 arg0) {
-        if (((Unkstruct_801202A0 *)arg0)->unk98 == 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             ((void (*)(void))func_80181DDC)();
         }
     }

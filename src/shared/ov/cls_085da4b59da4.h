@@ -6,7 +6,7 @@ void SHARED_FN(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_ShowObjectModel((u8 *)a0);
         {
-            s32 t = ((Unkstruct_801202A0 *)a0)->extB.kcls_085da4b59da4.unkCC;
+            s32 t = ((Unkstruct_801202A0 *)a0)->unkCC.val;
             if (t != 0) {
                 ((Unkstruct_801202A0 *)t)->unkFC.s = 0;
             }

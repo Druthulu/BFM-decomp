@@ -4512,7 +4512,7 @@ void func_8017FD9C(s32 p)
 
 extern void func_801811A8(s32 a0);
     void func_8017FF18(s32 arg0) {
-        if (((Unkstruct_801202A0 *)arg0)->unk98 == 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             func_801811A8(arg0);
         }
     }
