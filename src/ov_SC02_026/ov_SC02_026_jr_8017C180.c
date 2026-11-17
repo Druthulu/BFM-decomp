@@ -5602,8 +5602,8 @@ void func_80181A4C(s32 a0)
 
     s0 = ((Unkstruct_80181A4C *)a0)->unk20;
     v0 = rsin(((Unkstruct_80181A4C *)a0)->unk1C << 6);
-    ((Unkstruct_80181A4C_3 *)s0)->unk1C = v0;
-    ((Unkstruct_80181A4C_3 *)s0)->unk1A = v0;
+    ((Unkstruct_80181A4C_3 *)s0)->unk1C.s = v0;
+    ((Unkstruct_80181A4C_3 *)s0)->unk1A.s = v0;
     ((Unkstruct_80181A4C_3 *)s0)->unk18.u = v0;
     v0 = ((Unkstruct_80181A4C *)a0)->unk1C + 1;
     ((Unkstruct_80181A4C *)a0)->unk1C = v0;

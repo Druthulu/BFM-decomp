@@ -22333,18 +22333,6 @@ typedef struct {
 typedef Unkstruct_8018234C_3 Unkstruct_8018EBCC_3; /* size = 0x4 */
 
 typedef struct {
-    /* Unkstruct_2e989e5b: P3.40 T3 band rank 4992; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x18];
-    /* 0x0018 */ union {
-        s16 s;
-        u16 u;
-    } unk18;
-    /* 0x001a */ s16 unk1A;
-    /* 0x001c */ s16 unk1C;
-    /* 0x001e */ u8 pad1E[0x2];
-} Unkstruct_80180C28_2; /* size = 0x20 */
-
-typedef struct {
     /* Unkstruct_2f276706: P3.40 T3 band rank 4994; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x6];
     /* 0x0006 */ s16 unk6;
@@ -22462,7 +22450,7 @@ typedef struct {
 
 typedef Unkstruct_8017F510 Unkstruct_8017E930_2; /* size = 0xe0 */
 
-typedef Unkstruct_80180C28_2 Unkstruct_80181A4C_3; /* size = 0x20 */
+typedef Unkstruct_8001C9D0 Unkstruct_80181A4C_3; /* size = 0x20 */
 
 typedef struct {
     /* Unkstruct_3a779219: P3.40 T3 band rank 5034; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */

@@ -5034,9 +5034,9 @@ void func_80180C28(s32 param_1)
 
     s0 = ((Unkstruct_80181430 *)param_1)->unk20;
     ret = rsin(((Unkstruct_80181430 *)param_1)->unk1C << 6);
-    ((Unkstruct_80180C28_2 *)s0)->unk1C = ret;
-    ((Unkstruct_80180C28_2 *)s0)->unk1A = ret;
-    ((Unkstruct_80180C28_2 *)s0)->unk18.s = ret;
+    ((Unkstruct_8001C9D0 *)s0)->unk1C.s = ret;
+    ((Unkstruct_8001C9D0 *)s0)->unk1A.s = ret;
+    ((Unkstruct_8001C9D0 *)s0)->unk18.s = ret;
     ((Unkstruct_80181430 *)param_1)->unk1C += 1;
     if (((Unkstruct_80181430 *)param_1)->unk1C >= 0x11) {
         ((Unkstruct_80181430 *)param_1)->unk2.s = 1;
