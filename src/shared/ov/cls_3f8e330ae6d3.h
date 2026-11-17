@@ -2,11 +2,11 @@
  * exemplar src/ov_SC03_007/ov_SC03_007_jr_8017AE2C.c:6180 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC03_006/ov_SC03_006_jr_8017AE2C.c:10079 rejected by type_census --check */
 void SHARED_FN(void *a0) {
-        ((Unkstruct_801809E4 *)a0)->unk2 = 1;
-        ((Unkstruct_801809E4 *)a0)->unk1C = 2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 2;
         *(unsigned char *)((char *)a0 + 0xfc) = 1;
         *(unsigned char *)((char *)a0 + 0xfe) = 2;
         *(unsigned char *)((char *)a0 + 0xfd) = 0;
         *(unsigned char *)((char *)a0 + 0xff) = 4;
-        ((Unkstruct_801809E4 *)a0)->unkDC = 0;
+        ((Unkstruct_801202A0 *)a0)->unkDC.i.lo = 0;
     }

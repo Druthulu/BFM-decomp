@@ -4564,9 +4564,9 @@ void func_80189148(void *arg0) {
 extern void (*D_801922EC[])(void);
 
 void func_801891D0(void *a0) {
-    D_801922EC[((Unkstruct_801891D0 *)a0)->unk2]();
-    if (((Unkstruct_801891D0 *)a0)->unk0 != 0) {
-        ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 + *(u16 *)(((Unkstruct_801891D0 *)a0)->unkDC + 0x6);
+    D_801922EC[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 + *(u16 *)(((Unkstruct_801202A0 *)a0)->unkDC.val + 0x6);
     }
 }
 

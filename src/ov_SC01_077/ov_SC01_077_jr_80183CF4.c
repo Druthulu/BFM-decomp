@@ -3761,15 +3761,15 @@ void func_80184CCC(int param_1)
     short uVar1;
 
     iVar2 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80182D04 *)param_1)->unk20 = iVar2;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = iVar2;
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        guess_InitModelObject(iVar2, D_8018AFA8[((Unkstruct_80182D04 *)param_1)->unk70]);
+        guess_InitModelObject(iVar2, D_8018AFA8[((Unkstruct_801202A0 *)param_1)->unk70.s]);
         uVar1 = ((Unkstruct_80182D04_2 *)*(int *)(param_1 + 100))->unk36;
-        ((Unkstruct_80182D04 *)param_1)->unk2 = 1;
-        ((Unkstruct_80182D04 *)param_1)->unkFE = 0x7fff;
-        ((Unkstruct_80182D04 *)param_1)->unkFC = uVar1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.s = 0x7fff;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.s = uVar1;
     }
     return;
 }

@@ -2984,8 +2984,8 @@ void func_801815A4(s32 *a0) {
     s32 s0 = a0;
     u16 var;
     KR_AS(void, func_80131B14)();
-    var = ((Unkstruct_801815A4 *)s0)->unk70;
-    ((Unkstruct_801815A4 *)s0)->unk52 = -0x30;
+    var = ((Unkstruct_801202A0 *)s0)->unk70.u;
+    ((Unkstruct_801202A0 *)s0)->unk52.s = -0x30;
     guess_StartActorSequence(s0, (void *)D_801A66AC[var & 0xF]);
 }
 

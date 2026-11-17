@@ -4,12 +4,12 @@
 void SHARED_FN(arg0)
 void *arg0;
 {
-    ((Unkstruct_8017DECC *)arg0)->unk98 = 1;
-    ((Unkstruct_8017DECC *)arg0)->unk1C = 1;
-    ((Unkstruct_8017DECC *)arg0)->unk5C = 0x8810;
-    ((Unkstruct_8017DECC *)arg0)->unkB4 &= ~1;
-    ((Unkstruct_8017DECC *)arg0)->unkC4 |= 2;
-    if (((Unkstruct_8017DECC *)arg0)->unk76 < 0x370) {
-        ((Unkstruct_8017DECC *)arg0)->unk76 = 0x2BC;
+    ((Unkstruct_801202A0 *)arg0)->unk98.s = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8810;
+    ((Unkstruct_801202A0 *)arg0)->unkB4 &= ~1;
+    ((Unkstruct_801202A0 *)arg0)->unkC4 |= 2;
+    if (((Unkstruct_801202A0 *)arg0)->unk76 < 0x370) {
+        ((Unkstruct_801202A0 *)arg0)->unk76 = 0x2BC;
     }
 }

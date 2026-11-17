@@ -4545,7 +4545,7 @@ void func_801905C0(s32 a0)
             s0->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
             s0->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
             s0->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
-            s0->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
+            s0->unk14.val = -((Unkstruct_8017FC34_2 *)a0)->unk14;
             s0->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;
             ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk18 = 0x800;
             ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk1A = 0x800;
@@ -4567,8 +4567,8 @@ extern void func_8018F518(void *param_1);
     void func_801906E0(s32 a0) {
         s32 v0;
         v0 = 0xC;
-        ((Unkstruct_8018CA40 *)a0)->unkC1 = v0;
-        ((Unkstruct_8018CA40 *)a0)->unk1C = 0x3C;
+        ((Unkstruct_801202A0 *)a0)->unkC1.s = v0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3C;
         ((void (*)(void))func_8018F518)();
     }
 

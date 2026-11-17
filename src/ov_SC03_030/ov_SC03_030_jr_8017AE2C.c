@@ -5022,7 +5022,7 @@ void func_8017F6E0(int param_1)
     u8 *hit;
     u8 *m;
 
-    rec = (u8 *)D_80186464[((Unkstruct_80182FD0 *)param_1)->unkFC];
+    rec = (u8 *)D_80186464[((Unkstruct_801202A0 *)param_1)->unkFC.s];
     m = guess_g_CameraWsMatrix;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -5035,13 +5035,13 @@ void func_8017F6E0(int param_1)
 
     if ((-(s32)guess_g_ScreenHeight / 2 < sxy[1]) && (sxy[1] < (s32)(((u32)guess_g_ScreenHeight >> 1) + 0x20)) && (flag[0] >= 0)) {
         u16 temp[4];   /* sp+0x20 */
-        if (((Unkstruct_80182FD0 *)param_1)->unk1C == 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
             if (((Unkstruct_8017F6E0_2 *)rec)->unk6 != 0xFF) {
                 fld = rec + 8;
                 do {
-                    temp[0] = ((Unkstruct_80182FD0 *)param_1)->unk6;
-                    temp[1] = ((Unkstruct_80182FD0 *)param_1)->unkA;
-                    temp[2] = ((Unkstruct_80182FD0 *)param_1)->unkE;
+                    temp[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi;
+                    temp[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi;
+                    temp[2] = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi;
                     temp[0] += ((Unkstruct_8017F6E0_2 *)rec)->unk0;
                     temp[1] += *(u16 *)(fld - 6);
                     temp[2] += *(u16 *)(fld - 4);
@@ -5053,9 +5053,9 @@ void func_8017F6E0(int param_1)
                     rec += 8;
                 } while (*(s16 *)(fld - 2) != 0xFF);
             }
-            ((Unkstruct_80182FD0 *)param_1)->unk1C = ((Unkstruct_80182FD0 *)param_1)->unkDC;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unkDC.val;
         }
-        ((Unkstruct_80182FD0 *)param_1)->unk1C = ((Unkstruct_80182FD0 *)param_1)->unk1C - 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 1;
     }
 }
 
@@ -5726,19 +5726,19 @@ extern s32 func_80143994(s32 a0, s32 a1);
 void func_801808F0(s32 arg0) {
     s32 s0 = arg0;
 
-    if (((Unkstruct_801808F0 *)s0)->unk70 & 1) {
-        ((Unkstruct_801808F0 *)s0)->unk2 = 5;
+    if (((Unkstruct_801202A0 *)s0)->unk70.u & 1) {
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 5;
     } else {
-        ((Unkstruct_801808F0 *)s0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 4;
     }
 
-    ((Unkstruct_801808F0 *)s0)->unkCC = ((s32 (*)(s32, s32))func_80143994)(s0, 1);
-    ((Unkstruct_801808F0 *)s0)->unk18 = 0;
-    ((Unkstruct_801808F0 *)s0)->unk14 = 0;
-    ((Unkstruct_801808F0 *)s0)->unk10 = 0;
-    ((Unkstruct_801808F0 *)s0)->unk4C = 0;
-    ((Unkstruct_801808F0 *)s0)->unk44 = 0;
-    ((Unkstruct_801808F0 *)s0)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)s0)->unkCC.val = ((s32 (*)(s32, s32))func_80143994)(s0, 1);
+    ((Unkstruct_801202A0 *)s0)->unk18.val = 0;
+    ((Unkstruct_801202A0 *)s0)->unk14.val = 0;
+    ((Unkstruct_801202A0 *)s0)->unk10.val = 0;
+    ((Unkstruct_801202A0 *)s0)->unk4C = 0;
+    ((Unkstruct_801202A0 *)s0)->unk44 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk48 = 0x18000;
 }
 
 

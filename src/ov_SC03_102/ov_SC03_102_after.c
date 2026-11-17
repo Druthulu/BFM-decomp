@@ -1462,8 +1462,8 @@ s32 func_8014D820(s32 a0, u16 *a1, u16 *a2)
   V4 out[3];
   V4 pos;
   Desc desc;
-  Ent_SC03_102_8014D820 *ent;
-  Ent_SC03_102_8014D820 *p;
+  Unkstruct_801202A0 *ent;
+  Unkstruct_801202A0 *p;
   s32 dx;
   s32 dz;
   s32 ex;
@@ -1497,25 +1497,25 @@ a0v = a0;
   desc.x = dx;
   desc.y = a2[1] - a1[1];
   desc.z = a2[2] - a1[2];
-  ent = *((Ent_SC03_102_8014D820 **) (a0v + 0x170));
-  if (ent->f0 == 0)
+  ent = *((Unkstruct_801202A0 **) (a0v + 0x170));
+  if (ent->unk0 == 0)
   {
     goto fail;
   }
-  if ((ent->f5C & 0x1000) == 0)
+  if ((ent->unk5C.u & 0x1000) == 0)
   {
     goto fail;
   }
-  if (ent->f58 == 0)
+  if (ent->unk58.s == 0)
   {
     goto fail;
   }
-  if (func_80135A4C(ent->f20, ent->f58, (s32 *) a1, (s32) a2) == 0)
+  if (func_80135A4C(ent->unk20, ent->unk58.s, (s32 *) a1, (s32) a2) == 0)
   {
     goto fail;
   }
-  ex = ent->x - (*((u16 *) (a0v + 6)));
-  ez = ent->z - (*((u16 *) (a0v + 0xE)));
+  ex = ent->unk4.i.hi - (*((u16 *) (a0v + 6)));
+  ez = ent->unkC.i.hi - (*((u16 *) (a0v + 0xE)));
   r1 = (s16) ratan2((s16) dz, new_var3);
   r2 = (s16) ratan2((s16) ez, (s16) ex);
   r3 = (s16) func_80012A60(r1, r2);
@@ -1526,11 +1526,11 @@ a0v = a0;
   desc.f20 = 0;
   desc.f1C = 0;
   desc.f18 = 0;
-  x0 = ent->x;
+  x0 = ent->unk4.i.hi;
   pos.unk0 = x0;
-  y0 = ent->y;
+  y0 = ent->unk8.i.hi;
   pos.unk2 = y0;
-  z0 = ent->z;
+  z0 = ent->unkC.i.hi;
   tx = x0 + desc.x;
   pos.unk4 = z0;
   tz = z0 + desc.z;
@@ -1540,25 +1540,25 @@ a0v = a0;
   desc.y = ty;
   if (currentLocationId != 0x3008)
   {
-    for (p = (Ent_SC03_102_8014D820 *) guess_g_ObjectTable; p < (Ent_SC03_102_8014D820 *) (guess_g_ObjectTable + 0x6480); p++)
+    for (p = (Unkstruct_801202A0 *) guess_g_ObjectTable; p < (Unkstruct_801202A0 *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
         continue;
       }
-      if (p->f0 == 0)
+      if (p->unk0 == 0)
       {
         continue;
       }
-      if (p->f5C == 0)
+      if (p->unk5C.u == 0)
       {
         continue;
       }
-      if (p->f58 == 0)
+      if (p->unk58.s == 0)
       {
         continue;
       }
-      func_80135888(p->f20, p->f58, (s32) (&pos), (s32) (&desc));
+      func_80135888(p->unk20, p->unk58.s, (s32) (&pos), (s32) (&desc));
     }
 
   }
@@ -1577,21 +1577,21 @@ a0v = a0;
     out[2].unk0 += pos.unk0;
     out[2].unk2 = pos.unk2;
     out[2].unk4 += pos.unk4;
-    for (p = (Ent_SC03_102_8014D820 *) guess_g_ObjectTable; p < (Ent_SC03_102_8014D820 *) (guess_g_ObjectTable + 0x6480); p++)
+    for (p = (Unkstruct_801202A0 *) guess_g_ObjectTable; p < (Unkstruct_801202A0 *) (guess_g_ObjectTable + 0x6480); p++)
     {
       if (p == ent)
       {
         continue;
       }
-      if (p->f0 == 0)
+      if (p->unk0 == 0)
       {
         continue;
       }
-      if (p->f5C == 0)
+      if (p->unk5C.u == 0)
       {
         continue;
       }
-      if (p->f58 == 0)
+      if (p->unk58.s == 0)
       {
         continue;
       }
@@ -1605,9 +1605,9 @@ a0v = a0;
   r = func_80133784(0, &pos, (s32) (&desc));
   if ((r == 0) || ((r == 0x2000) && (((*(u16 *) guess_g_BoxHitNormalX) | ((u16) guess_g_BoxHitNormalZ)) == 0)))
   {
-    ent->x = desc.x - desc.f18;
-    ent->y = desc.y;
-    ent->z = desc.z - desc.f20;
+    ent->unk4.i.hi = desc.x - desc.f18;
+    ent->unk8.i.hi = desc.y;
+    ent->unkC.i.hi = desc.z - desc.f20;
     desc.x -= pos.unk0;
     desc.y -= pos.unk2;
     desc.z -= pos.unk4;
@@ -1912,24 +1912,24 @@ void func_801506A4(s32 arg0, s32 arg1) {
 
     int mode;
 
-    mode = ((struct Ent_801506A4 *)arg1)->unk0;
-    ((struct Ent_801506A4 *)arg1)->unk5C |= 1;
+    mode = ((Unkstruct_801202A0 *)arg1)->unk0;
+    ((Unkstruct_801202A0 *)arg1)->unk5C.u |= 1;
     switch (mode) {
     case 0x31:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
-        ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_80187DE0[((struct Ent_801506A4 *)arg1)->unk70]);
-        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_80187DE0[((struct Ent_801506A4 *)arg1)->unk70]);
+        ((void(*)(int, unsigned))func_8014ADA8)(((int)arg0), D_80187DE0[((Unkstruct_801202A0 *)arg1)->unk70.s]);
+        ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 3, D_80187DE0[((Unkstruct_801202A0 *)arg1)->unk70.s]);
         break;
     case 0x32:
         if ((*(unsigned short*)&g_PlayerHp) != 0) {
             ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
-            ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80187DE8[((struct Ent_801506A4 *)arg1)->unk70], 1);
-            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_80187DE8[((struct Ent_801506A4 *)arg1)->unk70]);
+            ((void(*)(int, unsigned, int))func_8014BB24)(((int)arg0), D_80187DE8[((Unkstruct_801202A0 *)arg1)->unk70.s], 1);
+            ((void(*)(int, int, unsigned))guess_SpawnSmallObjectType1DAbove)(((int)arg0), 2, D_80187DE8[((Unkstruct_801202A0 *)arg1)->unk70.s]);
         }
         break;
     case 0x33:
         ((void(*)(int))guess_PlaySoundUnlessSkipped)(0x452);
-        func_80150820(((int)arg0), D_80187DF0[((struct Ent_801506A4 *)arg1)->unk70]);
+        func_80150820(((int)arg0), D_80187DF0[((Unkstruct_801202A0 *)arg1)->unk70.s]);
         break;
     case 0xC5:
     case 0x27B:

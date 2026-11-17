@@ -5,15 +5,15 @@ s32 func_8014A738(void *arg0) {
     extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
     Vec_8014A738 d;
     u32 i;
-    Ent_801202A0 *base;
+    Unkstruct_801202A0 *base;
     if ((guess_TestGameFlag(0x83) & 0xFF) == 0) {
         return 0;
     }
-    base = (Ent_801202A0 *)guess_g_ObjectTable;
+    base = (Unkstruct_801202A0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
-        if (base[i].state == 7) {
-            d.vx = ((Unkstruct_80126B58 *)arg0)->unk6.u - base[i].x;
-            d.vz = ((Unkstruct_80126B58 *)arg0)->unkE.u - base[i].z;
+        if (base[i].unkC1.u == 7) {
+            d.vx = ((Unkstruct_80126B58 *)arg0)->unk6.u - base[i].unk4.i.hi;
+            d.vz = ((Unkstruct_80126B58 *)arg0)->unkE.u - base[i].unkC.i.hi;
             if (d.vx >= 0) {
                 if (d.vx < 0x40) {
                     goto zcheck;

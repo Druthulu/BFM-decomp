@@ -1700,8 +1700,8 @@ void func_80142A10(int param_1)
 
     extern void (*D_80187590[])();
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80187590[((Unkstruct_80142A10 *)param_1)->unk2]();
-        if (((Unkstruct_80142A10 *)param_1)->unkFC != 0) {
+        D_80187590[((Unkstruct_801202A0 *)param_1)->unk2.u]();
+        if (((Unkstruct_801202A0 *)param_1)->unkFC.s != 0) {
             ((void (*)(int))func_80142A80)(param_1);
         }
     }
@@ -1769,14 +1769,14 @@ void func_80142DC4(int param_1)
 {
     int v0;
 
-    ((Unkstruct_80142DC4_2 *)param_1)->unk20 = v0 = ((int (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_801202A0 *)param_1)->unk20 = v0 = ((int (*)(void))guess_AllocModelObject)();
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, s32))guess_InitModelObjectKind3)(v0, (s32)&D_801872D0);
         ((Unkstruct_80142DC4 *)v0)->unk1A = 0x1800;
         ((Unkstruct_80142DC4 *)v0)->unk18 = 0x1800;
-        ((Unkstruct_80142DC4_2 *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
         ((void (*)(int))func_80142B2C)(param_1);
     }
 }
@@ -1799,7 +1799,7 @@ void func_80142E38(int param_1)
     short sVar1;
     int iVar2;
 
-    ((Unkstruct_80142E38 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_801202A0 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -1807,7 +1807,7 @@ void func_80142E38(int param_1)
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0x1200;
         ((Unkstruct_80142E38_2 *)iVar2)->unk1A = sVar1;
         ((Unkstruct_80142E38_2 *)iVar2)->unk18 = sVar1;
-        ((Unkstruct_80142E38 *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
         ((void (*)(int))func_80142B2C)(param_1);
     }
 }

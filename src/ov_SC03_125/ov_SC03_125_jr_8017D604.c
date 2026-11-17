@@ -4724,15 +4724,15 @@ void *arg0;
     if ((guess_GetGameVarByte(0x40) & 0xFF) == 1) {
         func_800291A0(0x40, 0x2);
     }
-    if (((Unkstruct_8017FBF8 *)arg0)->unk10A == 0) {
-        ((Unkstruct_8017FBF8 *)arg0)->unk10A = 1;
-        ((Unkstruct_8017FBF8 *)arg0)->unk58 = (s32)&D_8018835C | 0x40000000;
+    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == 0) {
+        ((Unkstruct_801202A0 *)arg0)->unk10A.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk58.s = (s32)&D_8018835C | 0x40000000;
         a1 = (s32)&D_801883A8;
     } else {
         a1 = (s32)&D_80188420;
     }
     func_80178CBC((s32)arg0, a1);
-    ((Unkstruct_8017FBF8 *)arg0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u += 1;
 }
 
 
@@ -6130,13 +6130,13 @@ void *func_80182A9C(void *a0) {
     if (currentLocationId == 0x3069) {
         return 0;
     }
-    if (((Unkstruct_80181FD8 *)a0)->unk2 != 2) {
+    if (((Unkstruct_801202A0 *)a0)->unk2.u != 2) {
         return 0;
     }
-    if (((Unkstruct_80181FD8 *)a0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
         return 0;
     }
-    if (((Unkstruct_80181FD8 *)a0)->unk10A != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk10A.s != 0) {
         return 0;
     }
     if (func_80182B40(a0) == 0) {
@@ -6145,7 +6145,7 @@ void *func_80182A9C(void *a0) {
     if (func_801830D8(a0) != 0) {
         return 0;
     }
-    ((Unkstruct_80181FD8 *)a0)->unk34 = 1;
+    ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
     func_80178BF8();
     return (void *)func_80172710;
 }

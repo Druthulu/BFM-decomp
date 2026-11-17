@@ -2881,9 +2881,9 @@ TAIL:
 void func_8017FF64(param_1)
 s32 param_1;
 {
-    ((Unkstruct_8017FBD8 *)param_1)->unk48 = 0x4000;
-    ((Unkstruct_8017FBD8 *)param_1)->unk2 = 7;
-    ((Unkstruct_8017FBD8 *)param_1)->unk1C = 0x50;
+    ((Unkstruct_801202A0 *)param_1)->unk48 = 0x4000;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 7;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x50;
     ((Unkstruct_8017FBD8_2 *)*(s32 *)(param_1 + 0x20))->unk14 = rand() % 0x1000;
 }
 

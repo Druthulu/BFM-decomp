@@ -4682,13 +4682,13 @@ void func_8018036C(s32 param_1)
     s16 var;
     s16 *p;
 
-    switch (((Unkstruct_8018036C *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
-        ((Unkstruct_8018036C *)param_1)->unk6 -= 4;
-        var = ((Unkstruct_8018036C *)param_1)->unkA - 2;
-        ((Unkstruct_8018036C *)param_1)->unkA = var;
+        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi -= 4;
+        var = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi - 2;
+        ((Unkstruct_801202A0 *)param_1)->unk8.i.hi = var;
         if (var < -0x4E1) {
-            ((Unkstruct_8018036C *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
         return;
     case 1:
@@ -4696,7 +4696,7 @@ void func_8018036C(s32 param_1)
             if ((u16)(guess_g_PlayerPosZ + 0x114) >= 0xE9) {
                 aD80126B5E = -0x29E;
             } else {
-                ((Unkstruct_8018036C *)param_1)->unk34 = 2;
+                ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
             }
         }
         return;
@@ -4713,14 +4713,14 @@ void func_8018036C(s32 param_1)
                 aD80126B5E = -0x38B;
             }
         } else {
-            ((Unkstruct_8018036C *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
         if (p[3] < -0x2DE) {
-            ((Unkstruct_8018036C *)param_1)->unk34 = 3;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 3;
         }
-        if (((Unkstruct_8018036C *)param_1)->unk74 != 0) {
-            ((Unkstruct_8018036C *)param_1)->unk2 = 3;
-            ((Unkstruct_8018036C *)param_1)->unk34 = 0;
+        if (((Unkstruct_801202A0 *)param_1)->unk74 != 0) {
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 3;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
             guess_RequestSound(0xB26, 0);
         }
         return;
@@ -4737,9 +4737,9 @@ void func_8018036C(s32 param_1)
         if (aD80126B5E < -0x38B) {
             aD80126B5E = -0x38B;
         }
-        if (((Unkstruct_8018036C *)param_1)->unk74 != 0) {
-            ((Unkstruct_8018036C *)param_1)->unk2 = 3;
-            ((Unkstruct_8018036C *)param_1)->unk34 = 0;
+        if (((Unkstruct_801202A0 *)param_1)->unk74 != 0) {
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 3;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
             guess_RequestSound(0xB26, 0);
         }
         return;

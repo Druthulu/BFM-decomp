@@ -2,11 +2,11 @@
 void SHARED_FN(int param_1) {
     int v1;
 
-    if (((Unkstruct_8017E7B4 *)param_1)->unkFE != 0) {
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x18) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1a) += 0x40;
-        *(unsigned short *)(((Unkstruct_8017E7B4 *)param_1)->unk20 + 0x1c) += 0x40;
-        v1 = ((Unkstruct_8017E7B4 *)param_1)->unk20;
+    if (((Unkstruct_801202A0 *)param_1)->unkFE.s != 0) {
+        *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x18) += 0x40;
+        *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x1a) += 0x40;
+        *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x1c) += 0x40;
+        v1 = ((Unkstruct_801202A0 *)param_1)->unk20;
         if (((Unkstruct_8017E7B4_2 *)v1)->unk18 >= 0x1800) {
             ((Unkstruct_8017E7B4_2 *)v1)->unk1C = 0x1800;
             ((Unkstruct_8017E7B4_2 *)v1)->unk1A = 0x1800;

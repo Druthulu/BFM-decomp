@@ -3982,11 +3982,11 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 void func_8017F874(s32 a0) {
     s32 s0 = a0;
 
-    if (((Unkstruct_8017F874_2 *)s0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk34.u != 0) {
         if (guess_TickWaitTimer(s0) != 0) {
-            ((Unkstruct_8017F874_2 *)s0)->unk2 = 5;
-            ((Unkstruct_8017F874_2 *)s0)->unk48 = 0x2000;
-            ((Unkstruct_8017F874_2 *)s0)->unk1C = 0x40;
+            ((Unkstruct_801202A0 *)s0)->unk2.u = 5;
+            ((Unkstruct_801202A0 *)s0)->unk48 = 0x2000;
+            ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x40;
             guess_RequestSound(0x770, 0);
         }
     }

@@ -5198,9 +5198,9 @@ void func_8017F5BC(int param_1)
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 
 void func_8017F694(void *arg0) {
-    ((Unkstruct_8017F694_2 *)arg0)->unk2 = 3;
-    M2C_FIELD(((Unkstruct_8017F694_2 *)arg0)->unk20, s16 *, 0x10) = 0x400;
-    ((Unkstruct_8017F694_2 *)arg0)->unk5C = (u16) (((Unkstruct_8017F694_2 *)arg0)->unk5C | 0xCC00);
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
+    M2C_FIELD(((Unkstruct_801202A0 *)arg0)->unk20, s16 *, 0x10) = 0x400;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = (u16) (((Unkstruct_801202A0 *)arg0)->unk5C.u | 0xCC00);
     guess_SpawnActorNoArg(0x25, 0);
 }
 

@@ -3158,14 +3158,14 @@ void func_80183B58(s32 a0)
        shape. The duplicated arm bodies are tail-merged by cross_jump into
        the single physical blocks .L80183B98 / .L80183BB0 (law 22 / §193-C). */
     if (v1 == 6) {
-        v0 = ((Unkstruct_80183B58 *)s0)->unk70 & 1;
+        v0 = ((Unkstruct_801202A0 *)s0)->unk70.u & 1;
     } else if (v1 == 0xC) {
-        v0 = ((Unkstruct_80183B58 *)s0)->unk70 & 2;
+        v0 = ((Unkstruct_801202A0 *)s0)->unk70.u & 2;
         v0 = v0 != 0;
     } else if (v1 == 7) {
-        v0 = ((Unkstruct_80183B58 *)s0)->unk70 & 1;
+        v0 = ((Unkstruct_801202A0 *)s0)->unk70.u & 1;
     } else if (v1 == 0xD) {
-        v0 = ((Unkstruct_80183B58 *)s0)->unk70 & 2;
+        v0 = ((Unkstruct_801202A0 *)s0)->unk70.u & 2;
         v0 = v0 != 0;
     } else {
         v0 = 0;
@@ -3176,7 +3176,7 @@ void func_80183B58(s32 a0)
         return;
     }
 
-    field70 = ((Unkstruct_80183B58 *)s0)->unk70;
+    field70 = ((Unkstruct_801202A0 *)s0)->unk70.u;
     idx1 = (field70 & 0xF00u) >> 8;
     /* prod1 is its own named statement so the 5-insn 104-multiply chain
        expands HERE, i.e. before the `if` below emits idx2's andi/sltu.
@@ -3197,14 +3197,14 @@ void func_80183B58(s32 a0)
         return;
     }
 
-    ((Unkstruct_80183B58 *)s0)->unkC0 = 1;
-    ((Unkstruct_80183B58 *)s0)->unkB4 = -1;
-    ((Unkstruct_80183B58 *)s0)->unkC1 = 0;
-    ((Unkstruct_80183B58 *)s0)->unkBC = (s32)D_8018C4CC;
+    ((Unkstruct_801202A0 *)s0)->unkC0.s = 1;
+    ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_8018C4CC;
     func_80143970(s0);
     guess_SnapActorToGround((u8 *)s0);
-    ((Unkstruct_80183B58 *)s0)->unk86 = 1;
-    ((Unkstruct_80183B58 *)s0)->unk2 = 1;
+    ((Unkstruct_801202A0 *)s0)->unk86.s = 1;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
 }
 
 
@@ -3300,16 +3300,16 @@ extern u8 D_801E3B88[];
 void func_80183E18(void *a0) {
     s32 s0 = (s32)a0;
 
-    ((Unkstruct_8017F394 *)a0)->unk2 = 2;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
     guess_UpdateActorModelMatrix(s0);
     guess_ClearVelocityAndSetGravity(s0);
     guess_SetForwardVelocity(s0, D_8018C510);
-    if ((((Unkstruct_8017F394 *)s0)->unk70 & 0x200) != 0) {
+    if ((((Unkstruct_801202A0 *)s0)->unk70.u & 0x200) != 0) {
         guess_StartActorSequence(s0, (void *)D_801E4B08);
     } else {
         guess_StartActorSequence(s0, (void *)D_801E3B88);
     }
-    ((Unkstruct_8017F394 *)s0)->unk1C = 0x88;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x88;
 }
 
 

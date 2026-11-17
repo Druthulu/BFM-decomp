@@ -17,7 +17,7 @@ void SHARED_FN(s32 a0)
             CAST_WIDTH(s32, s0, 0x18) = -CAST_WIDTH(s32, s0, 0x18);
         }
         if (v0 & 0x6000) {
-            ((Unkstruct_801202A0 *)s0)->unk14 = -8;
+            ((Unkstruct_801202A0 *)s0)->unk14.val = -8;
         }
     }
 

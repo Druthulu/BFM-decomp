@@ -3172,7 +3172,7 @@ void func_8017DC7C(s32 a0)
     s16 temp;
     s16 vol;
 
-    t = ((Unkstruct_8017D764 *)a0)->unk6 - D_80126CAC;
+    t = ((Unkstruct_801202A0 *)a0)->unk4.i.hi - D_80126CAC;
     if (t < 0) {
         t = -t;
     }
@@ -3194,13 +3194,13 @@ void func_8017DC7C(s32 a0)
     }
 
     if (vol == 0) {
-        if (((Unkstruct_8017D764 *)a0)->unk84 != 0) {
-            func_8002D59C(4, 0x6DD, ((Unkstruct_8017D764 *)a0)->unk70);
-            ((Unkstruct_8017D764 *)a0)->unk84 = 0;
+        if (((Unkstruct_801202A0 *)a0)->unk84.s != 0) {
+            func_8002D59C(4, 0x6DD, ((Unkstruct_801202A0 *)a0)->unk70.u);
+            ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
         }
     } else {
-        func_8002D59C(0x6DD, (vol | 0x1000) & 0xFFFF, ((Unkstruct_8017D764 *)a0)->unk70);
-        ((Unkstruct_8017D764 *)a0)->unk84 = 1;
+        func_8002D59C(0x6DD, (vol | 0x1000) & 0xFFFF, ((Unkstruct_801202A0 *)a0)->unk70.u);
+        ((Unkstruct_801202A0 *)a0)->unk84.s = 1;
     }
 }
 
@@ -3447,7 +3447,7 @@ void func_8017E024(s32 a0)
             func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32 *)&vin, (s32 *)&res);
             if (*(u8 *)(a0 + 0x102) == 0) {
                 owner = *(s32 *)(a0 + 0x64);
-                ((Unkstruct_8017E024 *)owner)->unkE0 += res.a >> 2;
+                ((Unkstruct_8017E024 *)owner)->extC.kSC02_039_8017DDB0.unkE0 += res.a >> 2;
             }
         }
         func_80132784(a0, *(s32 *)(a0 + 0x64), 0);

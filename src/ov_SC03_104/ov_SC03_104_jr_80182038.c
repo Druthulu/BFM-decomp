@@ -3967,7 +3967,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80183BCC(void *a0) {
-        ((Unkstruct_80180450 *)a0)->unk1C = 0x20;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
         ((void (*)(s32, s32))func_8012AD44)((s32)a0, 4);
     }
 
@@ -4094,10 +4094,10 @@ void func_80183DEC(s32 a0, s32 a1) {
     RotMatrixY(((Unkstruct_80180450_5 *)*(s32 *)(a0 + 0x20))->unk12, &m);
     ApplyMatrixSV(&m, &vec, &vec);
 
-    if (a0 != 0 && ((Unkstruct_80180450 *)a0)->unk0 != 0) {
-        msg.f0 = ((Unkstruct_80180450 *)a0)->unk6 + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
-        msg.f2 = ((Unkstruct_80180450 *)a0)->unkA + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
-        msg.f4 = ((Unkstruct_80180450 *)a0)->unkE + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
+    if (a0 != 0 && ((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        msg.f0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 0);
+        msg.f2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 2);
+        msg.f4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi + CAST_NONSTRUCT(u16, (u8 *)&vec, 4);
     } else {
         msg.f4 = 0;
         msg.f2 = 0;
@@ -4108,7 +4108,7 @@ void func_80183DEC(s32 a0, s32 a1) {
     msg.f8 = (s16)a1;
     msg.fA = 0;
     msg.fE = 0;
-    msg.f10 = ((Unkstruct_80180450 *)a0)->unkDC;
+    msg.f10 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
     msg.fC = 0x7FFF;
 
     func_8012C51C(&msg, a0);
@@ -4158,15 +4158,15 @@ void func_80183FE8(void *arg0) {
     void *s1;
     u8 *p;
 
-    v = ((Unkstruct_80180450 *)arg0)->unkFC;
-    s1 = ((Unkstruct_80180450 *)arg0)->unkCC;
+    v = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
+    s1 = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
 
     if (v < 0x10) {
         func_80185568(v, 1);
-        ((Unkstruct_80180450 *)arg0)->unkFC = CAST_SIGN(u16, (u8 *)arg0, 0xFC) + 1;
+        ((Unkstruct_801202A0 *)arg0)->unkFC.s = CAST_SIGN(u16, (u8 *)arg0, 0xFC) + 1;
     }
 
-    if (((Unkstruct_80180450 *)arg0)->unkFC >= 9) {
+    if (((Unkstruct_801202A0 *)arg0)->unkFC.s >= 9) {
         if (s1 != NULL) {
             s16 h = ((Unkstruct_8018064C *)s1)->unk18;
             if (h > 0) {
@@ -4252,9 +4252,9 @@ void func_80184200(u8 * a0)
 
 
 void func_80184240(void *a0) {
-    if (((Unkstruct_80180450 *)a0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
         func_80183DEC(a0, 0);
-        ((Unkstruct_80180450 *)a0)->unk34 = ((Unkstruct_80180450 *)a0)->unk34 - 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u - 1;
     }
 }
 

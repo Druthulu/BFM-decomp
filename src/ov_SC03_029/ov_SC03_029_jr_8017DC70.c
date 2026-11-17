@@ -3658,14 +3658,14 @@ void func_8017FC50(void *param_1) {
     extern void func_8017FF7C(s32 a0in);
     extern void func_801800D0(s32 a0);
 
-    if (((Unkstruct_8017FC50 *)param_1)->unk5C & 1) {
+    if (((Unkstruct_801202A0 *)param_1)->unk5C.u & 1) {
         KR_AS(void, func_8017FF7C)();
     }
     func_801800D0(param_1);
-    if (((Unkstruct_8017FC50 *)param_1)->unk34 == 0) {
-        D_8018B754[((Unkstruct_8017FC50 *)param_1)->unk2](param_1);
+    if (((Unkstruct_801202A0 *)param_1)->unk34.u == 0) {
+        D_8018B754[((Unkstruct_801202A0 *)param_1)->unk2.u](param_1);
     } else {
-        D_8018B768[((Unkstruct_8017FC50 *)param_1)->unk34](param_1);
+        D_8018B768[((Unkstruct_801202A0 *)param_1)->unk34.u](param_1);
     }
 }
 
@@ -3727,8 +3727,8 @@ extern s32 D_801D9740;
 void func_8017FE08(s32 a0) {
     CAST_ALIAS(s16, a0, 0x2) = 4;
     func_80132288(&D_801D9740, &D_8018B6E8, D_801ADB78);
-    ((Unkstruct_8017E0D8 *)a0)->unk1C = 0x1E;
-    ((Unkstruct_8017E0D8 *)a0)->unkDC = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
 }
 
 

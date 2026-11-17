@@ -417,18 +417,18 @@ void func_8018592C(u8 *arg0) {
     register s32 flags __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
 
     a2 = arg0;
-    flags = ((Unkstruct_8018592C *)a2)->unkE8;
+    flags = ((Unkstruct_801202A0 *)a2)->extC.kSC02_005_801831A4.unkE8.s;
     idx = D_801E4BBC;
-    ((Unkstruct_8018592C *)a2)->unk102 = 0;
+    ((Unkstruct_801202A0 *)a2)->extD.kSC02_005_801831A4.unk102 = 0;
     flags &= ~8;
-    ((Unkstruct_8018592C *)a2)->unkE8 = flags;
+    ((Unkstruct_801202A0 *)a2)->extC.kSC02_005_801831A4.unkE8.s = flags;
 
     if (idx < 2) {
         D_801E4BBC++;
     }
 
     val = D_80195B24[D_801E4BBC];
-    ((Unkstruct_8018592C *)a2)->unk76 = val;
+    ((Unkstruct_801202A0 *)a2)->unk76 = val;
     D_801E439C = val;
     D_801E4398 = val;
 

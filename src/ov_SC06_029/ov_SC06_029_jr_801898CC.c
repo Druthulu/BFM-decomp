@@ -3833,10 +3833,10 @@ void func_8018A6A4(s32 p) {
     s32 pad[3];
 
     (void)&pad;
-    o = ((Unkstruct_8018A6A4_2 *)p)->unk20;
-    if (((Unkstruct_8018A6A4_2 *)p)->unk34 == 0) {
+    o = ((Unkstruct_801202A0 *)p)->unk20;
+    if (((Unkstruct_801202A0 *)p)->unk34.u == 0) {
         t1 = CAST_SIGN(u16, o, 0x1C) + 0x800;
-        tbl = ((Unkstruct_8018A6A4_2 *)p)->unkDC;
+        tbl = ((Unkstruct_801202A0 *)p)->unkDC.val;
         ((Unkstruct_8017E7B4_2 *)o)->unk1C = t1;
         ((Unkstruct_8017E7B4_2 *)o)->unk18 = t1;
         lim1 = ((Unkstruct_801312D0 *)tbl)->unk0;
@@ -3851,8 +3851,8 @@ void func_8018A6A4(s32 p) {
         lv2 = lim2;
         if (lim2 < t2) {
             ((Unkstruct_8017E7B4_2 *)o)->unk1A = lv2;
-            ((Unkstruct_8018A6A4_2 *)p)->unk1C = ((Unkstruct_801312D0 *)tbl)->unk4;
-            ((Unkstruct_8018A6A4_2 *)p)->unk34 += 1;
+            ((Unkstruct_801202A0 *)p)->unk1C.s = ((Unkstruct_801312D0 *)tbl)->unk4;
+            ((Unkstruct_801202A0 *)p)->unk34.u += 1;
         }
     } else if (((s32 (*)(void))guess_TickWaitTimer)() != 0) {
         t1 = CAST_SIGN(u16, o, 0x1C) + 0x400;

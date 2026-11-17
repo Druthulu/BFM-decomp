@@ -3790,9 +3790,9 @@ s32 func_80180614(s32 a0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 s32 func_80180674(s32 a0) {
-    s16 v = ((Unkstruct_80180674 *)a0)->unk104;
+    s16 v = ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk104;
     if (v != 0) {
-        ((Unkstruct_80180674 *)a0)->unk104 = 0;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk104 = 0;
         guess_RequestSound(0x45F, 0);
     }
     return v;
@@ -4117,11 +4117,11 @@ void func_80180C98(s32 param_1) {
 extern u8 D_801BC6C8[];
 
 void func_80180D10(void *a0) {
-    if (((Unkstruct_80180D10 *)a0)->unk1C != 0) {
-        ((Unkstruct_80180D10 *)a0)->unk1C = ((Unkstruct_80180D10 *)a0)->unk1C - 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     } else {
-        ((Unkstruct_80180D10 *)a0)->unkCC = D_801BC6C8;
-        ((Unkstruct_80180D10 *)a0)->unk2 = ((Unkstruct_80180D10 *)a0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)a0)->unkCC.val = D_801BC6C8;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
     }
 }
 

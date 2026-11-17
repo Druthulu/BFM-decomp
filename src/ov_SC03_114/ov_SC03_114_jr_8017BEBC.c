@@ -3227,21 +3227,21 @@ void func_8017DB74(s32 a0) {
     s32 *s0 = (s32 *)a0;
     s32 val;
 
-    if ((u32)s0[0x90 / 4] == (u32)D_80182F88 && ((Unkstruct_8017DB74 *)s0)->unk98 == 0) {
+    if ((u32)s0[0x90 / 4] == (u32)D_80182F88 && ((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         guess_StartActorSequence((s32)s0, D_80183050);
-        ((Unkstruct_8017DB74 *)s0)->unkF8 = 0;
+        ((Unkstruct_801202A0 *)s0)->unkF8.val.u = 0;
     }
 
-    if (((Unkstruct_8017DB74 *)s0)->unk1C == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk1C.s == 0) {
         guess_AllocRenderWorkRecord((s32)&D_801A5EFC);
         val = (rand() & 0x1F) + 0x14;
     } else {
-        if (((Unkstruct_8017DB74 *)s0)->unk1C == 2) {
+        if (((Unkstruct_801202A0 *)s0)->unk1C.s == 2) {
             guess_AllocRenderWorkRecord((s32)&D_801A614C);
         }
-        val = ((Unkstruct_8017DB74 *)s0)->unk1C - 1;
+        val = ((Unkstruct_801202A0 *)s0)->unk1C.s - 1;
     }
-    ((Unkstruct_8017DB74 *)s0)->unk1C = val;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = val;
 
     func_8017D740((s32)s0);
 }

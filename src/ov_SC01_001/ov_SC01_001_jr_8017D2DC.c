@@ -4302,122 +4302,122 @@ void func_8017F328(s32 arg0)
     case 1:
         guess_StartActorSequence(s0, (s32)&D_80187898);
         func_80182B60((s32 *)s0, (s32)&D_801D78C4);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 2:
         guess_StartActorSequence(s0, (s32)&D_80187940);
         func_80182B60((s32 *)s0, (s32)&D_801D8B88);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 3:
         guess_StartActorSequence(s0, (s32)&D_80187898);
         func_80182B60((s32 *)s0, (s32)&D_801D8EAC);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 4:
         guess_StartActorSequence(s0, (s32)&D_801879B8);
         func_80182B60((s32 *)s0, (s32)&D_801D9CD8);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 5:
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 6:
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 7:
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 8:
         guess_StartActorSequence(s0, (s32)&D_80187B18);
         func_80182B60((s32 *)s0, (s32)&D_801D9DD4);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 9:
         guess_StartActorSequence(s0, (s32)&D_80187A60);
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 10:
         guess_StartActorSequence(s0, (s32)&D_80187AD0);
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x3333:
         guess_StartActorSequence(s0, (s32)&D_80187898);
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x30B:
         guess_StartActorSequence(s0, (s32)&D_80187898);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3131:
         guess_StartActorSequence(s0, (s32)&D_80187E60);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3737:
         guess_StartActorSequence(s0, (s32)&D_80187898);
         func_80182B60((s32 *)s0, (s32)&D_801DAB54);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x37B:
         guess_StartActorSequence(s0, (s32)&D_80187B18);
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x38A:
         guess_StartActorSequence(s0, (s32)&D_80187D90);
         func_80182B60((s32 *)s0, (s32)&D_801DB140);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38B:
         func_80182B60((s32 *)s0, (s32)&D_801DB504);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3939:
         func_80182B60((s32 *)s0, (s32)&D_801DB518);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4242:
         func_80182B60((s32 *)s0, (s32)&D_801DB554);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 12:
         guess_StartActorSequence(s0, (s32)&D_80187898);
-        ((Unkstruct_8017F328 *)s0)->unk2 = ((Unkstruct_8017F328 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x5555:
         func_80182B60((s32 *)s0, (s32)&D_801DB5E0);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5656:
         guess_StartActorSequence(s0, (s32)&D_80187898);
         func_80182B60((s32 *)s0, (s32)&D_801DB68C);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57A:
         func_80182B60((s32 *)s0, (s32)&D_801DB960);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57B:
         func_80182B60((s32 *)s0, (s32)&D_801DBAAC);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5858:
         func_80182B60((s32 *)s0, (s32)&D_801DBAC0);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5959:
         guess_StartActorSequence(s0, (s32)&D_80187BC0);
         func_80182B60((s32 *)s0, (s32)&D_801DBAD4);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x6060:
         guess_StartActorSequence(s0, (s32)&D_80187C48);
         func_80182B60((s32 *)s0, (s32)&D_801DBB40);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 14:
         guess_StartActorSequence(s0, (s32)&D_80187898);
         func_80182B60((s32 *)s0, (s32)&D_801D9360);
-        ((Unkstruct_8017F328 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     }
 
@@ -4534,109 +4534,109 @@ void func_8017F950(s32 arg0)
     case 1:
         guess_StartActorSequence(s0, (s32)&D_80187FE8);
         func_80182B60((s32 *)s0, (s32)&D_801DBEAC);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 2:
-        ((Unkstruct_8017F950 *)s0)->unk2 = ((Unkstruct_8017F950 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 3:
-        ((Unkstruct_8017F950 *)s0)->unk2 = ((Unkstruct_8017F950 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 4:
         guess_StartActorSequence(s0, (s32)&D_80187FE8);
         func_80182B60((s32 *)s0, (s32)&D_801DD170);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 5:
         guess_StartActorSequence(s0, (s32)&D_80187F90);
         func_80182B60((s32 *)s0, (s32)&D_801DD64C);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x2424:
         guess_StartActorSequence(s0, (s32)&D_80188298);
-        ((Unkstruct_8017F950 *)s0)->unk2 = ((Unkstruct_8017F950 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x3737:
         func_80182B60((s32 *)s0, (s32)&D_801DD6C8);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38A:
         func_80182B60((s32 *)s0, (s32)&D_801DDCB4);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38B:
         func_80182B60((s32 *)s0, (s32)&D_801DDCC8);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3939:
         func_80182B60((s32 *)s0, (s32)&D_801DDCDC);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4040:
         func_80182B60((s32 *)s0, (s32)&D_801DDCF0);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4141:
         func_80182B60((s32 *)s0, (s32)&D_801DE224);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5050:
         func_80182B60((s32 *)s0, (s32)&D_801DEA28);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5151:
         func_80182B60((s32 *)s0, (s32)&D_801DF1F4);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5151B:
         guess_StartActorSequence(s0, (s32)&D_80188148);
-        ((Unkstruct_8017F950 *)s0)->unk2 = ((Unkstruct_8017F950 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x5151C:
         guess_StartActorSequence(s0, (s32)&D_801881D0);
-        ((Unkstruct_8017F950 *)s0)->unk2 = ((Unkstruct_8017F950 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x5252:
         guess_StartActorSequence(s0, (s32)&D_801881D0);
         func_80182B60((s32 *)s0, (s32)&D_801DFBF8);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53A:
         func_80182B60((s32 *)s0, (s32)&D_801DFF1C);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53B:
         func_80182B60((s32 *)s0, (s32)&D_801E00B8);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5454:
         func_80182B60((s32 *)s0, (s32)&D_801E00CC);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5555:
         func_80182B60((s32 *)s0, (s32)&D_801E00E0);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5656:
         func_80182B60((s32 *)s0, (s32)&D_801E00F4);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57A:
         func_80182B60((s32 *)s0, (s32)&D_801E03C8);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57B:
         func_80182B60((s32 *)s0, (s32)&D_801E03DC);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5858:
         func_80182B60((s32 *)s0, (s32)&D_801E0868);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 8:
         guess_StartActorSequence(s0, (s32)&D_80187FE8);
         func_80182B60((s32 *)s0, (s32)&D_801DD624);
-        ((Unkstruct_8017F950 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     }
 
@@ -4778,113 +4778,113 @@ void func_8017FEE0(s32 arg0)
     case 1:
         guess_StartActorSequence(s0, (s32)&D_80188500);
         func_80182B60((s32 *)s0, (s32)&D_801E6A44);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 3:
         guess_StartActorSequence(s0, (s32)&D_80188500);
         func_80182B60((s32 *)s0, (s32)&D_801E7D08);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 4:
         guess_StartActorSequence(s0, (s32)&D_801884A8);
         func_80182B60((s32 *)s0, (s32)&D_801E81E4);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3031:
         func_80182B60((s32 *)s0, (s32)&D_801E8260);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x30B:
         guess_StartActorSequence(s0, (s32)&D_80188568);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = ((Unkstruct_8017FEE0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x3737:
         func_80182B60((s32 *)s0, (s32)&D_801E8BC4);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38A:
         func_80182B60((s32 *)s0, (s32)&D_801E8BD8);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38B:
         func_80182B60((s32 *)s0, (s32)&D_801E8F9C);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3939:
         func_80182B60((s32 *)s0, (s32)&D_801E8FB0);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4040:
         func_80182B60((s32 *)s0, (s32)&D_801E8FC4);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4141:
         func_80182B60((s32 *)s0, (s32)&D_801E94F8);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4242:
         func_80182B60((s32 *)s0, (s32)&D_801E9CFC);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5050:
         func_80182B60((s32 *)s0, (s32)&D_801E9D10);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5151:
         func_80182B60((s32 *)s0, (s32)&D_801EA42C);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5252:
         func_80182B60((s32 *)s0, (s32)&D_801EA440);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53A:
         func_80182B60((s32 *)s0, (s32)&D_801EA454);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53B:
         func_80182B60((s32 *)s0, (s32)&D_801EA468);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5454:
         func_80182B60((s32 *)s0, (s32)&D_801EA47C);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5555:
         func_80182B60((s32 *)s0, (s32)&D_801EA490);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5656:
         func_80182B60((s32 *)s0, (s32)&D_801EA4A4);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57A:
         func_80182B60((s32 *)s0, (s32)&D_801EA4B8);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57B:
         func_80182B60((s32 *)s0, (s32)&D_801EA4CC);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5858:
         func_80182B60((s32 *)s0, (s32)&D_801EA7F8);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x6060:
         func_80182B60((s32 *)s0, (s32)&D_801EA80C);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 7:
         guess_StartActorSequence(s0, (s32)&D_80188500);
         func_80182B60((s32 *)s0, (s32)&D_801E81BC);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x100:
         guess_StartActorSequence(s0, (s32)&D_801884A8);
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = ((Unkstruct_8017FEE0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 2:
-        ((Unkstruct_8017FEE0 *)s0)->unk2 = ((Unkstruct_8017FEE0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     }
 
@@ -4997,95 +4997,95 @@ void func_80180514(s32 arg0) {
     case 0:
         break;
     case 1:
-        ((Unkstruct_80180514 *)s0)->unk2 = ((Unkstruct_80180514 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 2:
         guess_StartActorSequence(s0, (s32)&D_80188720);
         func_80182B60((s32 *)s0, (s32)&D_801E4A54);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 3:
         guess_StartActorSequence(s0, (s32)&D_80188630);
         func_80182B60((s32 *)s0, (s32)&D_801E4F44);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3737:
         func_80182B60((s32 *)s0, (s32)&D_801E4FC0);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38A:
         func_80182B60((s32 *)s0, (s32)&D_801E4FD4);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38B:
         func_80182B60((s32 *)s0, (s32)&D_801E4FE8);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3939:
         func_80182B60((s32 *)s0, (s32)&D_801E4FFC);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4040:
         func_80182B60((s32 *)s0, (s32)&D_801E5010);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4141:
         func_80182B60((s32 *)s0, (s32)&D_801E5024);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5050:
         func_80182B60((s32 *)s0, (s32)&D_801E5038);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5151:
         func_80182B60((s32 *)s0, (s32)&D_801E5804);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5252:
         func_80182B60((s32 *)s0, (s32)&D_801E6208);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53A:
         func_80182B60((s32 *)s0, (s32)&D_801E652C);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53B:
         func_80182B60((s32 *)s0, (s32)&D_801E6540);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5454:
         func_80182B60((s32 *)s0, (s32)&D_801E6554);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5555:
         func_80182B60((s32 *)s0, (s32)&D_801E6568);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5656:
         func_80182B60((s32 *)s0, (s32)&D_801E657C);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57A:
         func_80182B60((s32 *)s0, (s32)&D_801E6590);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57B:
         func_80182B60((s32 *)s0, (s32)&D_801E65A4);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5858:
         func_80182B60((s32 *)s0, (s32)&D_801E6A30);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 6:
         guess_StartActorSequence(s0, (s32)&D_80188630);
         func_80182B60((s32 *)s0, (s32)&D_801E4A68);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 7:
         guess_StartActorSequence(s0, (s32)&D_80188630);
         func_80182B60((s32 *)s0, (s32)&D_801E4F1C);
-        ((Unkstruct_80180514 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     }
 
@@ -5201,111 +5201,111 @@ void func_801809B0(s32 arg0) {
     case 0:
         break;
     case 1:
-        ((Unkstruct_801809B0 *)s0)->unk2 = ((Unkstruct_801809B0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 2:
         guess_StartActorSequence(s0, (s32)&D_801888F8);
         func_80182B60((s32 *)s0, (s32)&D_801E087C);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 3:
         guess_StartActorSequence(s0, (s32)&D_801887E8);
         func_80182B60((s32 *)s0, (s32)&D_801E08CC);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3031:
         func_80182B60((s32 *)s0, (s32)&D_801E0948);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x30B:
         guess_StartActorSequence(s0, (s32)&D_801889C8);
-        ((Unkstruct_801809B0 *)s0)->unk2 = ((Unkstruct_801809B0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     case 0x3737:
         func_80182B60((s32 *)s0, (s32)&D_801E12AC);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38A:
         func_80182B60((s32 *)s0, (s32)&D_801E1898);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x38B:
         func_80182B60((s32 *)s0, (s32)&D_801E18AC);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x3939:
         func_80182B60((s32 *)s0, (s32)&D_801E18C0);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4040:
         func_80182B60((s32 *)s0, (s32)&D_801E18D4);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4141:
         func_80182B60((s32 *)s0, (s32)&D_801E18E8);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x4747:
         func_80182B60((s32 *)s0, (s32)&D_801E18FC);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5050:
         func_80182B60((s32 *)s0, (s32)&D_801E3048);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5151:
         func_80182B60((s32 *)s0, (s32)&D_801E3814);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5252:
         func_80182B60((s32 *)s0, (s32)&D_801E4218);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53A:
         func_80182B60((s32 *)s0, (s32)&D_801E453C);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x53B:
         func_80182B60((s32 *)s0, (s32)&D_801E4550);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5454:
         func_80182B60((s32 *)s0, (s32)&D_801E4564);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5555:
         func_80182B60((s32 *)s0, (s32)&D_801E4578);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5656:
         func_80182B60((s32 *)s0, (s32)&D_801E458C);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57A:
         func_80182B60((s32 *)s0, (s32)&D_801E45A0);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x57B:
         func_80182B60((s32 *)s0, (s32)&D_801E45B4);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x5858:
         func_80182B60((s32 *)s0, (s32)&D_801E4A40);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 6:
         guess_StartActorSequence(s0, (s32)&D_801887E8);
         func_80182B60((s32 *)s0, (s32)&D_801E0890);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 7:
         guess_StartActorSequence(s0, (s32)&D_801887E8);
         func_80182B60((s32 *)s0, (s32)&D_801E08A4);
-        ((Unkstruct_801809B0 *)s0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = 3;
         break;
     case 0x100:
         guess_StartActorSequence(s0, (s32)&D_801888F8);
-        ((Unkstruct_801809B0 *)s0)->unk2 = ((Unkstruct_801809B0 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.u = ((Unkstruct_801202A0 *)s0)->unk2.u + 1;
         break;
     }
 
@@ -5588,8 +5588,8 @@ void func_801810A4(s32 arg0)
 extern s32 D_801EDA08;
 void func_8018150C(s32 a0)
 {
-    if (((Unkstruct_8018150C *)a0)->unk98 == 0 || D_801EDA08 != 0) {
-        ((Unkstruct_8018150C *)a0)->unk2 = 2;
+    if (((Unkstruct_801202A0 *)a0)->unk98.s == 0 || D_801EDA08 != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     }
 }
 

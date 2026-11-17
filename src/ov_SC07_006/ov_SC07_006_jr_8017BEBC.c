@@ -4279,11 +4279,11 @@ void *a1;
     extern Morph_8017DC1C *D_801BF578;
 
     morph_lerp(D_801BF56C, D_801C1E80, D_801C1E90, t);
-    x = rsin(((Unkstruct_80180CFC *)a1)->unkFC);
-    x += rsin(((Unkstruct_80180CFC *)a1)->unkFE + 0x100) >> 4;
+    x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE.s + 0x100) >> 4;
     morph_lerp(D_801BF570, D_801C1E84, D_801C1E94, x);
-    x = rsin(((Unkstruct_80180CFC *)a1)->unkFC);
-    x += rsin(((Unkstruct_80180CFC *)a1)->unkFE + 0x200) >> 4;
+    x = rsin(((Unkstruct_801202A0 *)a1)->unkFC.s);
+    x += rsin(((Unkstruct_801202A0 *)a1)->unkFE.s + 0x200) >> 4;
     morph_lerp(D_801BF574, D_801C1E88, D_801C1E98, x);
     morph_lerp(D_801BF578, D_801C1E8C, D_801C1E8C, t);
 }

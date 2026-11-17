@@ -4,11 +4,11 @@ void SHARED_FN(s32 a0)
     s32 v1;
 
     if ((((s32 (*)(s32))func_8012CBCC)(a0) & 0x2000) != 0) {
-        ((Unkstruct_80181B14 *)a0)->unk2 = 2;
-        ((Unkstruct_80181B14 *)a0)->unk1C = 0x3C;
-        ((Unkstruct_80181B14 *)a0)->unk98 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3C;
+        ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
 
-        v1 = ((Unkstruct_80181B14 *)a0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
 
         ((Unkstruct_8001C9D0 *)*(s32*)(a0 + 0x20))->unk4.s |= 0x8000000;

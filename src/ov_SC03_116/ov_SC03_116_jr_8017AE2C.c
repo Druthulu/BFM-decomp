@@ -4624,9 +4624,9 @@ void func_801817D8(void *a0) {
     s32 t;
     u8 *s0;
 
-    v1 = ((Unkstruct_801817D8_2 *)a0)->unkFC + 0x5B;
-    s0 = D_80197B60 + (((Unkstruct_801817D8_2 *)a0)->unk70 << 6);
-    ((Unkstruct_801817D8_2 *)a0)->unkFC = v1;
+    v1 = ((Unkstruct_801202A0 *)a0)->unkFC.u + 0x5B;
+    s0 = D_80197B60 + (((Unkstruct_801202A0 *)a0)->unk70.s << 6);
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = v1;
     t = rsin((s16)v1);
     *(s32 *)s0 = t * 63 / 4096 + 0xC0;
 }
@@ -4756,8 +4756,8 @@ extern s32 func_80181E28(void *arg0);
 
 void func_801819F4(void *arg0)
 {
-    D_801864BC[((Unkstruct_801819F4 *)arg0)->unk2]();
-    if (((Unkstruct_801819F4 *)arg0)->unk0 != 0) {
+    D_801864BC[((Unkstruct_801202A0 *)arg0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)arg0)->unk0 != 0) {
         func_80181E28(arg0);
         func_80181C4C((s32)arg0);
     }
@@ -4896,12 +4896,12 @@ s32 func_80181E28(void *arg0)
     s32 var;
 
     x = 0x7F;
-    if (((Unkstruct_801819F4 *)arg0)->unkFE == -1) {
+    if (((Unkstruct_801202A0 *)arg0)->unkFE.s == -1) {
         return 0;
     }
-    sp10[0] = ((Unkstruct_801819F4 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_801819F4 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_801819F4 *)arg0)->unkE;
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi;
     ((void (*)(s32, s32))guess_WorldToScreenFlag)((s32)sp10, (s32)sp18);
     sp18[2] = 0;
     sp20[0] = guess_g_PlayerPosX;
@@ -4911,12 +4911,12 @@ s32 func_80181E28(void *arg0)
     sp28[2] = 0;
     if ((var = func_800132BC((s32)sp18, (s32)sp28) - 0x400) > 0) {
         if (var < 0x6E40) {
-            ((Unkstruct_801819F4 *)arg0)->unkFE = 1;
+            ((Unkstruct_801202A0 *)arg0)->unkFE.s = 1;
             x -= var * 111 / 28224;
         } else {
-            if (((Unkstruct_801819F4 *)arg0)->unkFE != 0) {
+            if (((Unkstruct_801202A0 *)arg0)->unkFE.s != 0) {
                 guess_RequestSound(4, 0xA2C);
-                ((Unkstruct_801819F4 *)arg0)->unkFE = 0;
+                ((Unkstruct_801202A0 *)arg0)->unkFE.s = 0;
             }
             return 0;
         }

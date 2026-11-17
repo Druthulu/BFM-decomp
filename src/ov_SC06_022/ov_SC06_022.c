@@ -683,9 +683,9 @@ extern M2C_UNK D_8018D644;
 
 void func_8012ACA0(void *arg0) {
     M2C_FIELD(arg0, M2C_UNK **, 0x90) = &D_8018D644;
-    ((Unkstruct_8012ACA0 *)arg0)->unk94 = 0;
-    ((Unkstruct_8012ACA0 *)arg0)->unk9C = 0;
-    ((Unkstruct_8012ACA0 *)arg0)->unk9A = 0;
-    ((Unkstruct_8012ACA0 *)arg0)->unk72 = (u16) (((Unkstruct_8012ACA0 *)arg0)->unk72 & 0xF9FF);
+    ((Unkstruct_801202A0 *)arg0)->unk94.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk9C = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk9A = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk72 = (u16) (((Unkstruct_801202A0 *)arg0)->unk72 & 0xF9FF);
     ((void (*)(void))func_8012AAAC)();
 }

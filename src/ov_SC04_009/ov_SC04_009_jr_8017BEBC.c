@@ -3059,14 +3059,14 @@ void func_8017D768(s32 arg0) {
     extern void func_80178D18(void);
     extern s16 D_8018259C[];
 
-    u16 v1 = ((Unkstruct_8017D768 *)arg0)->unk34;
+    u16 v1 = ((Unkstruct_801202A0 *)arg0)->unk34.u;
 
     switch (v1) {
     case 0:
-        if (((Unkstruct_8017D768 *)arg0)->unkFE == 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unkFE.s == 0) {
             guess_SetGameFlag(0xDD, 1);
             func_80178B18(arg0, (s32)D_8018259C);
-            ((Unkstruct_8017D768 *)arg0)->unk34 = ((Unkstruct_8017D768 *)arg0)->unk34 + 1;
+            ((Unkstruct_801202A0 *)arg0)->unk34.u = ((Unkstruct_801202A0 *)arg0)->unk34.u + 1;
         }
         break;
     case 1:
@@ -3510,7 +3510,7 @@ void func_8017E0C4(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_8017E0C4 *)arg0)->unkDC;
+    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
@@ -3531,11 +3531,11 @@ void func_8017E0C4(void *arg0) {
                 func_8002AC00(0x26);
             }
 
-            ((Unkstruct_8017E0C4 *)arg0)->unk70 &= 0x8000;
-            guess_FreeActor(((Unkstruct_8017E0C4 *)arg0)->unkCC);
+            ((Unkstruct_801202A0 *)arg0)->unk70.u &= 0x8000;
+            guess_FreeActor(((Unkstruct_801202A0 *)arg0)->unkCC.val);
         }
 
-        ((Unkstruct_8017E0C4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.u = 2;
     }
 }
 

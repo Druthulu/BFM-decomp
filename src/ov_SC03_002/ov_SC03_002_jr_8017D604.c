@@ -3958,15 +3958,15 @@ void *arg0;
     if ((guess_GetGameVarByte(0x40) & 0xFF) == 1) {
         func_800291A0(0x40, 0x2);
     }
-    if (((Unkstruct_8017FBF8 *)arg0)->unk10A == 0) {
-        ((Unkstruct_8017FBF8 *)arg0)->unk10A = 1;
-        ((Unkstruct_8017FBF8 *)arg0)->unk58 = (s32)&D_80189550 | 0x40000000;
+    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == 0) {
+        ((Unkstruct_801202A0 *)arg0)->unk10A.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk58.s = (s32)&D_80189550 | 0x40000000;
         a1 = (s32)&D_8018959C;
     } else {
         a1 = (s32)&D_80189614;
     }
     func_80178CBC((s32)arg0, a1);
-    ((Unkstruct_8017FBF8 *)arg0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u += 1;
 }
 
 

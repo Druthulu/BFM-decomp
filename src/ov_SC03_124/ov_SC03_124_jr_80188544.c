@@ -4430,9 +4430,9 @@ void func_8018A4B8(s32 arg0) {
 
 void func_8018A594(s32 arg0)
 {
-    ((Unkstruct_8018A594 *)arg0)->unk5C = 0x8E10;
-    if (((Unkstruct_8018A594 *)arg0)->unk76 < 0x320) {
-        ((Unkstruct_8018A594 *)arg0)->unk76 = 0x384;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8E10;
+    if (((Unkstruct_801202A0 *)arg0)->unk76 < 0x320) {
+        ((Unkstruct_801202A0 *)arg0)->unk76 = 0x384;
     }
 }
 

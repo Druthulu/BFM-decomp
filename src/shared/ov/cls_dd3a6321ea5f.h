@@ -3,9 +3,9 @@ void SHARED_FN(s32 a0) {
     s32 var_s0;
 
     var_s0 = 0x10000;
-    ((Unkstruct_8017EBB8 *)a0)->unk5C = 0;
-    ((Unkstruct_8017EBB8 *)a0)->unk1C = 0x1E;
-    if ((((Unkstruct_8017EBB8 *)a0)->unk70 & 1) == 0) {
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
+    if ((((Unkstruct_801202A0 *)a0)->unk70.u & 1) == 0) {
         var_s0 = 0x6400;
     }
     if (func_8012BD14(a0) < var_s0) {

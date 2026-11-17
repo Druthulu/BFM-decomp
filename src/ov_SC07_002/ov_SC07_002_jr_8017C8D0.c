@@ -5673,19 +5673,19 @@ void func_8018247C(s32 a0)
     s32 a1;
     u16 v0;
     u16 v1;
-    a1 = ((Unkstruct_8018247C *)a0)->unkD0;
+    a1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
     if (a1 != 0) {
-        ((Unkstruct_8018247C_2 *)a1)->unk8 = ((Unkstruct_8018247C *)a0)->unk6;
-        v0 = ((Unkstruct_8018247C *)a0)->unkA;
-        v1 = ((Unkstruct_8018247C *)a0)->unk52;
+        ((Unkstruct_8018247C_2 *)a1)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi;
+        v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk52.u;
         ((Unkstruct_8018247C_2 *)a1)->unkA = v0 + v1;
-        ((Unkstruct_8018247C_2 *)a1)->unkC = ((Unkstruct_8018247C *)a0)->unkE;
-        ((Unkstruct_8018247C_2 *)a1)->unk10 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk10;
-        ((Unkstruct_8018247C_2 *)a1)->unk12 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk12;
-        ((Unkstruct_8018247C_2 *)a1)->unk14 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk14;
-        ((Unkstruct_8018247C_2 *)a1)->unk18 = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk18;
-        ((Unkstruct_8018247C_2 *)a1)->unk1A = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk1A;
-        ((Unkstruct_8018247C_2 *)a1)->unk1C = ((Unkstruct_8018247C_3 *)((Unkstruct_8018247C *)a0)->unk20)->unk1C;
+        ((Unkstruct_8018247C_2 *)a1)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi;
+        ((Unkstruct_8018247C_2 *)a1)->unk10 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk10;
+        ((Unkstruct_8018247C_2 *)a1)->unk12 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12;
+        ((Unkstruct_8018247C_2 *)a1)->unk14 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk14;
+        ((Unkstruct_8018247C_2 *)a1)->unk18 = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk18;
+        ((Unkstruct_8018247C_2 *)a1)->unk1A = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk1A;
+        ((Unkstruct_8018247C_2 *)a1)->unk1C = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20)->unk1C;
     }
 }
 
@@ -5882,11 +5882,11 @@ void func_801829F0(s32* a0)
     s32 out[2];
     s32 p;
 
-    p = ((Unkstruct_801829F0 *)a0)->unkCC;
+    p = ((Unkstruct_801202A0 *)a0)->unkCC.val;
     if (p != 0) {
         sv.f0 = 0;
-        sv.f2 = ((Unkstruct_801829F0 *)a0)->unk100;
-        sv.f4 = ((Unkstruct_801829F0 *)a0)->unk102;
+        sv.f2 = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk100.u;
+        sv.f4 = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk102.u;
 
         RotMatrixZYX((s32)&sv, (s32)buf);
 
@@ -5895,17 +5895,17 @@ void func_801829F0(s32* a0)
         ((Unkstruct_8017BF50 *)buf)->unk1C = ((Unkstruct_8016E7C8 *)p)->unkE;
 
         sv.f0 = 0;
-        sv.f2 = ((Unkstruct_801829F0 *)a0)->unkFE;
-        sv.f4 = -((Unkstruct_801829F0 *)a0)->unkE0;
+        sv.f2 = ((Unkstruct_801202A0 *)a0)->unkFE.u;
+        sv.f4 = -((Unkstruct_801202A0 *)a0)->extC.kSC07_002_80182228.unkE0;
 
         SetRotMatrix(buf);
         SetTransMatrix(buf);
 
         RotTransSV(&sv, &sv, out);
 
-        ((Unkstruct_801829F0 *)a0)->unk6 = sv.f0;
-        ((Unkstruct_801829F0 *)a0)->unkA = sv.f2;
-        ((Unkstruct_801829F0 *)a0)->unkE = sv.f4;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sv.f0;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sv.f2;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sv.f4;
     }
 }
 

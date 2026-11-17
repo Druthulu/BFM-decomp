@@ -4144,15 +4144,15 @@ void func_8017DF1C(s32 a0) {
 
 
 void func_8017DFA0(s32 a0) {
-    ((Unkstruct_8017DFA0 *)a0)->unkAA = 0;
-    ((Unkstruct_8017DFA0 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unkAA = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
     ((Unkstruct_8017E654_2 *)*(s32 *)(a0 + 0x20))->unk18 = 0x1800;
     ((Unkstruct_8017E654_2 *)*(s32 *)(a0 + 0x20))->unk1C = 0x1800;
     ((Unkstruct_8017E654_2 *)*(s32 *)(a0 + 0x20))->unk1A = 0x100;
     ((Unkstruct_8017E654_2 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
-    ((Unkstruct_8017DFA0 *)a0)->unk34 = 0;
-    ((Unkstruct_8017DFA0 *)a0)->unk1C = 0x1E;
-    ((Unkstruct_8017DFA0 *)a0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_RequestSound(0x526, 0);
 }
 

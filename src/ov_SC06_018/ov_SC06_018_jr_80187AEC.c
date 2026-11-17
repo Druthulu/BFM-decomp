@@ -4879,8 +4879,8 @@ s32 func_8018A86C(s32 param_1)
     if (0x24000 < ((s32 (*)(s32))func_8012BE54)(param_1)) {
         goto reset;
     }
-    diff = (((Unkstruct_8018A86C *)param_1)->unk106 & 0xFFF) -
-           (*(u16 *)(((Unkstruct_8018A86C *)param_1)->unk20 + 0x12) & 0xFFF);
+    diff = (((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018A61C.unk106.u & 0xFFF) -
+           (*(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12) & 0xFFF);
     sdiff = diff;
     if (diff << 16 < 0) {
         sdiff = -sdiff;
@@ -4890,12 +4890,12 @@ s32 func_8018A86C(s32 param_1)
     }
 
 reset:
-    ((Unkstruct_8018A86C *)param_1)->unk108 = 0;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018A61C.unk108 = 0;
     return 0;
 
 main_body:
-    SetRotMatrix((void *)(((Unkstruct_8018A86C *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_8018A86C *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
     RotTransSV(D_801CD458, &buf1, &buf2);
     color = 0x202080;
     if ((D_800B99D8 & 1) != 0) {
@@ -4905,8 +4905,8 @@ main_body:
     if (CAST_SIGN(s16, param_1, 0x108) == 0) {
         guess_RequestSound(0xAE3, 0);
     }
-    cnt = ((Unkstruct_8018A86C *)param_1)->unk108 + 1;
-    ((Unkstruct_8018A86C *)param_1)->unk108 = cnt;
+    cnt = ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018A61C.unk108 + 1;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018A61C.unk108 = cnt;
     return 0x270000 < (s32)((u32)cnt << 16);
 }
 

@@ -3264,11 +3264,11 @@ extern s32 func_8012CBCC(s32 a0);
 
 void func_801884B8(s32 arg0) {
     if (((s32 (*)(void))func_8012CBCC)() != 0) {
-        ((Unkstruct_801884B8 *)arg0)->unk4C = 0;
-        ((Unkstruct_801884B8 *)arg0)->unk48 = 0;
-        ((Unkstruct_801884B8 *)arg0)->unk44 = 0;
-        ((Unkstruct_801884B8 *)arg0)->unk14 = 0;
-        ((Unkstruct_801884B8 *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk4C = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk48 = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk44 = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk14.val = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     }
 }
 

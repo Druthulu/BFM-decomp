@@ -4772,22 +4772,22 @@ void func_8017FD30(s32 param_1)
     s32 iVar2;
     s16 sVar3;
 
-    if (((Unkstruct_8017FD30 *)param_1)->unk1C == 0) {
-        if (((Unkstruct_8017FD30 *)param_1)->unk84 == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unk84.s == 0) {
             guess_RequestSound(0x54F, 0);
-            ((Unkstruct_8017FD30 *)param_1)->unk84 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk84.s = 1;
         }
         ((Unkstruct_8017FD30_2 *)*(s32 *)(param_1 + 0x20))->unk10 =
-             *(u16 *)(((Unkstruct_8017FD30 *)param_1)->unk20 + 0x10) & 0xFFF;
+             *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x10) & 0xFFF;
         sVar1 = ((Unkstruct_8017FD30_2 *)*(s32 *)(param_1 + 0x20))->unk10;
         if ((sVar1 != 0) && (sVar1 < 0xC01)) {
-            ((Unkstruct_8017FD30 *)param_1)->unk2 = 1;
-            ((Unkstruct_8017FD30 *)param_1)->unk84 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk84.s = 0;
         } else {
             if (((Unkstruct_8017FD30_2 *)*(s32 *)(param_1 + 0x20))->unk10 == 0xF70) {
-                ((Unkstruct_8017FD30 *)param_1)->unk1C = 0xA;
+                ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0xA;
             }
-            iVar2 = ((Unkstruct_8017FD30 *)param_1)->unk20;
+            iVar2 = ((Unkstruct_801202A0 *)param_1)->unk20;
             sVar1 = ((Unkstruct_8017FD30_2 *)iVar2)->unk10;
             sVar3 = sVar1;
             if (sVar1 < 0xF81) {
@@ -4797,7 +4797,7 @@ void func_8017FD30(s32 param_1)
             }
         }
     } else {
-        ((Unkstruct_8017FD30 *)param_1)->unk1C = ((Unkstruct_8017FD30 *)param_1)->unk1C + -1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s + -1;
         ((Unkstruct_8017FD30_2 *)*(s32 *)(param_1 + 0x20))->unk10 =
             ((Unkstruct_8017FD30_2 *)*(s32 *)(param_1 + 0x20))->unk10 + 4;
     }

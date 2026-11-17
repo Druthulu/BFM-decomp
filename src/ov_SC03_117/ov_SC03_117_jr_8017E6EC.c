@@ -2889,7 +2889,7 @@ void func_8017EA1C(s32 a0) {
 
     s2 = (s32 *)a0;
     s1 = (s32 *)((s32 (*)(void))guess_AllocSpriteObjectHigh)();
-    ((Unkstruct_8017EA1C_2 *)s2)->unkD0 = s1;
+    ((Unkstruct_801202A0 *)s2)->unkD0.val = s1;
     if (s1 != 0) {
         s0 = (u8 *)&D_801CE398;
         func_8001CD50(s1, (s32 *)s0);
@@ -2901,10 +2901,10 @@ void func_8017EA1C(s32 a0) {
         ((Unkstruct_800B5BD8 *)s1)->unk10.s = 0xC00;
         ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0xC040;
         ((Unkstruct_800B5BD8 *)s1)->unk4.s |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)s1)->unk8.s = ((Unkstruct_8017EA1C_2 *)s2)->unk6;
-        ((Unkstruct_800B5BD8 *)s1)->unkA.s = ((Unkstruct_8017EA1C_2 *)s2)->unkA - 0x30;
-        ((Unkstruct_800B5BD8 *)s1)->unkC.s = ((Unkstruct_8017EA1C_2 *)s2)->unkE;
-        ((Unkstruct_8017EA1C_2 *)s2)->unkE0 = 0;
+        ((Unkstruct_800B5BD8 *)s1)->unk8.s = ((Unkstruct_801202A0 *)s2)->unk4.i.hi;
+        ((Unkstruct_800B5BD8 *)s1)->unkA.s = ((Unkstruct_801202A0 *)s2)->unk8.i.hi - 0x30;
+        ((Unkstruct_800B5BD8 *)s1)->unkC.s = ((Unkstruct_801202A0 *)s2)->unkC.i.hi;
+        ((Unkstruct_801202A0 *)s2)->extC.kSC03_117_8017E9BC.unkE0 = 0;
     }
     if ((guess_TestGameFlag(0xBB) & 0xFF) != 0) {
         *(u8 *)&D_801CE398 = 0xFF;
@@ -4159,12 +4159,12 @@ extern s32 D_801C4F44;
 void func_801809C8(s32 a0) {
     u16 t;
 
-    t = ((Unkstruct_8018094C *)a0)->unkFC;
+    t = ((Unkstruct_801202A0 *)a0)->unkFC.u;
     ((Unkstruct_8018094C_4 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x86;
     ((Unkstruct_8018094C_3 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x87;
     guess_AllocRenderWorkRecord((s32)&D_801C4F44 + (((u8 *)D_80188B20)[(s16)t] << 4));
     guess_AllocRenderWorkRecord((s32)&D_801C4F44 + 0x100 + (((u8 *)D_80188B20)[(s16)t] << 4));
-    ((Unkstruct_8018094C *)a0)->unkFC = (t + 1) & 0x1F;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = (t + 1) & 0x1F;
 }
 
 

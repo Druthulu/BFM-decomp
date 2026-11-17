@@ -1036,8 +1036,8 @@ void func_80142A10(int param_1)
     extern u16 D_801270C0;
     extern void (*D_801836BC[])();
     if (*(s16 *)&D_801270C0 != 3) {
-        D_801836BC[((Unkstruct_80142A10_2 *)param_1)->unk2]();
-        if (((Unkstruct_80142A10_2 *)param_1)->unkFC != 0) {
+        D_801836BC[((Unkstruct_80142A10_2 *)param_1)->unk2.u]();
+        if (((Unkstruct_80142A10_2 *)param_1)->unkFC.s != 0) {
             ((void (*)(int))func_80142A80)(param_1);
         }
     }
@@ -1120,7 +1120,7 @@ void func_80142DC4(int param_1)
         ((void (*)(s32, s32))guess_InitModelObjectKind3)(v0, (s32)&D_801833FC);
         ((Unkstruct_80142DC4_3 *)v0)->unk1A = 0x1800;
         ((Unkstruct_80142DC4_3 *)v0)->unk18 = 0x1800;
-        ((Unkstruct_80142DC4_4 *)param_1)->unkFC = 0;
+        ((Unkstruct_80142DC4_4 *)param_1)->unkFC.s = 0;
         ((void (*)(int))func_80142B2C)(param_1);
     }
 }
@@ -1151,7 +1151,7 @@ void func_80142E38(int param_1)
         sVar1 = (*(unsigned short *)(param_1 + 0x70) & 0xf) * 0x600 + 0x1200;
         ((Unkstruct_80142E38_3 *)iVar2)->unk1A = sVar1;
         ((Unkstruct_80142E38_3 *)iVar2)->unk18 = sVar1;
-        ((Unkstruct_80142E38_4 *)param_1)->unkFC = 0;
+        ((Unkstruct_80142E38_4 *)param_1)->unkFC.s = 0;
         ((void (*)(int))func_80142B2C)(param_1);
     }
 }

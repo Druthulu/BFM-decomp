@@ -3652,8 +3652,8 @@ extern s16 D_80184D2C[];
 
 void func_8017EF34(s32 a0) {
     func_8017E6F4(a0);
-    if (((Unkstruct_8017EF34_2 *)a0)->unk104 != 0 && ((Unkstruct_8017EF34_2 *)a0)->unk102 == 0) {
-        func_8002D59C(4, D_80184D2C[((Unkstruct_8017EF34_2 *)a0)->unk70], CAST_SIGN(u16, a0, 0x70));
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC03_013_8017E9CC.unk104 != 0 && ((Unkstruct_801202A0 *)a0)->extD.kSC03_013_8017E9CC.unk102 == 0) {
+        func_8002D59C(4, D_80184D2C[((Unkstruct_801202A0 *)a0)->unk70.s], CAST_SIGN(u16, a0, 0x70));
     }
 }
 

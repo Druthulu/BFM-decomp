@@ -2967,12 +2967,12 @@ void func_80180F84(s32 arg0)
 extern void (*D_80192854[])(void);
 
 void func_801813F4(s32 arg0) {
-    D_80192854[((Unkstruct_801813F4 *)arg0)->unk2]();
-    if (((Unkstruct_801813F4 *)arg0)->unk0 != 0) {
+    D_80192854[((Unkstruct_801202A0 *)arg0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)arg0)->unk0 != 0) {
         CAST_SIGN(u16, arg0, 0xFC) &= 0xFFF;
-        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0x1000 - (rcos(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3);
-        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk1A = (rcos(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3) + 0x1000;
-        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk1C = (rcos(((Unkstruct_801813F4 *)arg0)->unkFC) >> 3) + 0x1000;
+        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0x1000 - (rcos(((Unkstruct_801202A0 *)arg0)->unkFC.s) >> 3);
+        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk1A = (rcos(((Unkstruct_801202A0 *)arg0)->unkFC.s) >> 3) + 0x1000;
+        ((Unkstruct_8017E7B4_2 *)*(s32 *)(arg0 + 0x20))->unk1C = (rcos(((Unkstruct_801202A0 *)arg0)->unkFC.s) >> 3) + 0x1000;
     }
 }
 

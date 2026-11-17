@@ -3262,20 +3262,20 @@ void func_801817D8(s32 a0) {
     s16 tmp;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801817D8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(a0);
     } else {
         ((void (*)(s32, s32))guess_InitModelObjectKind3)(v0, (s32)&D_801AD438);
 
-        obj = ((Unkstruct_801817D8 *)a0)->unk20;
+        obj = ((Unkstruct_801202A0 *)a0)->unk20;
         *(u32 *)(obj + 4) |= 0x50000000;
 
         /* facing-direction delta -> RotMatrixY angle: (angle-3)*7, then *32,
          * narrowed to s16 as ONE expression (matches the target's fused
          * sll21/sra16 shift pair — see the wave-P31V index_gap note). */
-        tmp = ((((Unkstruct_801817D8 *)a0)->unk70 - 3) * 7) << 5;
-        objData = ((Unkstruct_801817D8 *)a0)->unk64;
+        tmp = ((((Unkstruct_801202A0 *)a0)->unk70.s - 3) * 7) << 5;
+        objData = ((Unkstruct_801202A0 *)a0)->unk64;
         matSrc = ((Unkstruct_801817D8_3 *)objData)->unk20;
         m = *(MATRIX *)(matSrc + 0x54);
         RotMatrixY(tmp, &m);
@@ -3286,7 +3286,7 @@ void func_801817D8(s32 a0) {
         vec.vz = 0xFFF60000;
         ApplyMatrixLV((s32)&m, (s32)&vec, a0 + 0x10);
 
-        ((Unkstruct_801817D8 *)a0)->unk1C = 0x80;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x80;
         ((void (*)(void *))func_8012AD50)((void *)a0);
     }
 }

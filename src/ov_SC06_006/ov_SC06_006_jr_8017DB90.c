@@ -4316,11 +4316,11 @@ void func_801802E0(s32 *arg0) {
         p++;
         i++;
         guess_HideObjectModel(obj);
-        ((Unkstruct_801802E0_2 *)obj)->unk98 = 0;
-        ((Unkstruct_801802E0_2 *)obj)->unk34 = 0;
-        ((Unkstruct_801802E0_2 *)obj)->unk4 = 0;
-        ((Unkstruct_801802E0_2 *)obj)->unk8 = 0;
-        ((Unkstruct_801802E0_2 *)obj)->unkC = 0;
+        ((Unkstruct_801202A0 *)obj)->unk98.s = 0;
+        ((Unkstruct_801202A0 *)obj)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)obj)->unk4.val = 0;
+        ((Unkstruct_801202A0 *)obj)->unk8.val = 0;
+        ((Unkstruct_801202A0 *)obj)->unkC.val = 0;
     } while (i < 0x1B);
 }
 

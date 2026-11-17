@@ -3002,8 +3002,8 @@ extern s32 D_801BD174[];
 void func_80184894(s32 *a0) {
     s32 s0 = a0;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_80184894 *)s0)->unk52 = -0x30;
-    guess_StartActorSequence(s0, D_801BD174[((Unkstruct_80184894 *)s0)->unk70 & 0xF]);
+    ((Unkstruct_801202A0 *)s0)->unk52.s = -0x30;
+    guess_StartActorSequence(s0, D_801BD174[((Unkstruct_801202A0 *)s0)->unk70.u & 0xF]);
 }
 
 
@@ -3025,10 +3025,10 @@ extern void func_80187094(s32 a0, s32 a1);
 
 void func_80184928(s32 *a0) {
     s32 s0 = a0;
-    ((Unkstruct_80184928 *)s0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
     guess_HideObjectModel((u8 *)s0);
-    ((Unkstruct_80184928 *)s0)->unk1C = 0xA;
-    func_80187094(s0, (((Unkstruct_80184928 *)s0)->unk70 & 0xF) + 2);
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xA;
+    func_80187094(s0, (((Unkstruct_801202A0 *)s0)->unk70.u & 0xF) + 2);
 }
 
 

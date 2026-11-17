@@ -3508,10 +3508,10 @@ void func_8017EDEC(s32 param_1) {
     volatile s32 pad2;
     u8 t;
 
-    t = (((Unkstruct_8017EDEC *)param_1)->unkC2 + 2) & 0xF;
-    ((Unkstruct_8017EDEC *)param_1)->unkC2 = t;
+    t = (((Unkstruct_801202A0 *)param_1)->unkC2 + 2) & 0xF;
+    ((Unkstruct_801202A0 *)param_1)->unkC2 = t;
     func_800599B8(D_80192480, D_801C39FC[t]);
-    func_800599B8(D_80192480 + 8, D_801C3A00[((Unkstruct_8017EDEC *)param_1)->unkC2]);
+    func_800599B8(D_80192480 + 8, D_801C3A00[((Unkstruct_801202A0 *)param_1)->unkC2]);
 }
 
 
@@ -4342,44 +4342,44 @@ extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerP
 
 void func_80180450(s32 arg0) {
     s32 t; /* pinned to $v1 */
-    u16 state = ((Unkstruct_80180450_2 *)arg0)->unk34;
+    u16 state = ((Unkstruct_801202A0 *)arg0)->unk34.u;
     s16 cnt;
     struct { s32 d0, d1; } dead; /* reserved-at-expand slot -> frame 0x20 */
 
     switch (state) {
     case 0:
-        ((Unkstruct_80180450_2 *)arg0)->unk1C += 0x80;
-        t = rsin(((Unkstruct_80180450_2 *)arg0)->unk1C) >> 5;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s += 0x80;
+        t = rsin(((Unkstruct_801202A0 *)arg0)->unk1C.s) >> 5;
         t += 0x1000;
         ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = (s16)t;
         ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = (s16)t;
-        if (((Unkstruct_80180450_2 *)arg0)->unk1C >= 0x800) {
-            ((Unkstruct_80180450_2 *)arg0)->unk1C &= 0x7FF;
-            cnt = ((Unkstruct_80180450_2 *)arg0)->unkFC - 1;
-            ((Unkstruct_80180450_2 *)arg0)->unkFC = cnt;
+        if (((Unkstruct_801202A0 *)arg0)->unk1C.s >= 0x800) {
+            ((Unkstruct_801202A0 *)arg0)->unk1C.s &= 0x7FF;
+            cnt = ((Unkstruct_801202A0 *)arg0)->unkFC.u - 1;
+            ((Unkstruct_801202A0 *)arg0)->unkFC.u = cnt;
             if (cnt == 0) {
-                ((Unkstruct_80180450_2 *)arg0)->unk34 += 1;
-                if (*(u8 *)(((Unkstruct_80180450_2 *)arg0)->unk6C + 0x74) != 0) {
+                ((Unkstruct_801202A0 *)arg0)->unk34.u += 1;
+                if (*(u8 *)(((Unkstruct_801202A0 *)arg0)->unk6C + 0x74) != 0) {
                     guess_RequestSound(0x904, 0);
-                    ((Unkstruct_80180450_2 *)arg0)->unkFC = guess_g_PlayerPosY;
+                    ((Unkstruct_801202A0 *)arg0)->unkFC.u = guess_g_PlayerPosY;
                 }
             }
         }
         break;
 
     case 1:
-        ((Unkstruct_80180450_2 *)arg0)->unk1C += 0x80;
-        t = rsin(((Unkstruct_80180450_2 *)arg0)->unk1C) >> 2;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s += 0x80;
+        t = rsin(((Unkstruct_801202A0 *)arg0)->unk1C.s) >> 2;
         t += 0x1000;
         ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = (s16)t;
         ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = (s16)t;
-        if (((Unkstruct_80180450_2 *)arg0)->unk1C >= 0x800) {
+        if (((Unkstruct_801202A0 *)arg0)->unk1C.s >= 0x800) {
             ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = 0x1000;
             ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = 0x1000;
-            ((Unkstruct_80180450_2 *)arg0)->unk2 = 1;
+            ((Unkstruct_801202A0 *)arg0)->unk2.u = 1;
         }
-        if (M2C_FIELD(arg0, s16 *, 0xFC) != 0 && ((Unkstruct_80180450_2 *)arg0)->unk1C < 0x401) {
-            guess_g_PlayerPosY = ((Unkstruct_80180450_2 *)arg0)->unkFC - (rsin(((Unkstruct_80180450_2 *)arg0)->unk1C) >> 5);
+        if (M2C_FIELD(arg0, s16 *, 0xFC) != 0 && ((Unkstruct_801202A0 *)arg0)->unk1C.s < 0x401) {
+            guess_g_PlayerPosY = ((Unkstruct_801202A0 *)arg0)->unkFC.u - (rsin(((Unkstruct_801202A0 *)arg0)->unk1C.s) >> 5);
         }
         break;
     }

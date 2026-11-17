@@ -3830,7 +3830,7 @@ void func_8017E930(void *arg0) {
     best = 0x7FFFFFFF;
     for (i = 0; i < 0x60; i++) {
         p = &guess_g_ObjectTable[i * 0x10C];
-        if ((((Unkstruct_8017E930_2 *)p)->unk0 != 0) && ((((Unkstruct_8017E930_2 *)p)->unk5C & 0x80) != 0)) {
+        if ((((Unkstruct_8017E930_2 *)p)->unk0 != 0) && ((((Unkstruct_8017E930_2 *)p)->unk5C.u & 0x80) != 0)) {
             t = (s16)func_80013328((s32)arg0 + 4, (s32)p + 4);
             if (t < best) {
                 best = t;
@@ -3839,7 +3839,7 @@ void func_8017E930(void *arg0) {
         }
     }
     if (found != 0) {
-        func_800D1724(((Unkstruct_8017E930_2 *)found)->unkDC);
+        func_800D1724(((Unkstruct_8017E930_2 *)found)->unkDC.val);
     }
     func_80171928(arg0);
 }

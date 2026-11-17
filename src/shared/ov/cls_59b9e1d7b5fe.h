@@ -12,13 +12,13 @@ void SHARED_FN(s32 p) {
     g10[0] = 0;
     g20[0] = 0x10;
     v = *(u16 *)(((Unkstruct_80188B00_2 *)*(s32 *)(p + 0x64))->unk20 + 0x12) +
-        ((Unkstruct_80188B00 *)p)->unkFC;
+        ((Unkstruct_801202A0 *)p)->unkFC.u;
     g20[1] = v;
-    ((Unkstruct_80188B00 *)p)->unkFE = v;
+    ((Unkstruct_801202A0 *)p)->unkFE.u = v;
     g20[2] = 0;
     ((void (*)(void *, void *))RotMatrixZYX)(g20, buf28);
     ((void (*)(void *, void *, s32))ApplyMatrixLV)(buf28, g10, p + 0x10);
-    ((Unkstruct_80188B00 *)p)->unk2 = 8;
-    ((Unkstruct_80188B00 *)p)->unk1C = 0x40;
+    ((Unkstruct_801202A0 *)p)->unk2.u = 8;
+    ((Unkstruct_801202A0 *)p)->unk1C.s = 0x40;
     ((void (*)(s32))func_8012B260)(p);
 }

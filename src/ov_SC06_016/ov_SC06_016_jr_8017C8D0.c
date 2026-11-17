@@ -3539,9 +3539,9 @@ extern void func_8017EE78(void);
 extern s16 D_8019F720;
 
 void func_8017EC50(void *a0) {
-    D_80188CF4[((Unkstruct_8017EC50 *)a0)->unk2]();
-    if (((Unkstruct_8017EC50 *)a0)->unk0 != 0) {
-        if (((Unkstruct_8017EC50 *)a0)->unkDC == 1) {
+    D_80188CF4[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        if (((Unkstruct_801202A0 *)a0)->unkDC.val == 1) {
             func_8017EE78();
             if (D_8019F720 != 0) {
                 D_8019F720 = D_8019F720 - 1;

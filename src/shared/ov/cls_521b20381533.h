@@ -2,7 +2,7 @@
 void SHARED_FN(void *a0)
 {
     ((void (*)(void *))guess_HideObjectModel)(a0);
-    ((Unkstruct_80182EC4 *)a0)->unk1C = 0xA;
-    ((Unkstruct_80182EC4 *)a0)->unk5C = 0;
-    ((Unkstruct_80182EC4 *)a0)->unk2 = 0xA;
+    ((Unkstruct_801202A0 *)a0)->unk1C.u = 0xA;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 0xA;
 }

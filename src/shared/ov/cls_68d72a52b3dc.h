@@ -2,7 +2,7 @@
 void SHARED_FN(s32 a0) {
     guess_ClearVelocityAndSetGravity(a0);
     CAST_WIDTH(s32, a0, 0x10) = ((rand() & 0x7F) - 0x40) << 11;
-    ((Unkstruct_801202A0 *)a0)->unk14 = -((rand() & 0x7F) << 13);
+    ((Unkstruct_801202A0 *)a0)->unk14.val = -((rand() & 0x7F) << 13);
     CAST_WIDTH(s32, a0, 0x18) = (rand() & 0x7F) << 13;
     ((Unkstruct_801202A0 *)a0)->extD.kcls_68d72a52b3dc.unk106 = rand() & 0x1F0;
     ((Unkstruct_801202A0 *)a0)->extD.kcls_68d72a52b3dc.unk108 = rand() & 0x1F0;

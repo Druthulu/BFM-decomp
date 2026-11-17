@@ -2923,10 +2923,10 @@ TAIL:
 
 void func_80181B7C(s32 param_1)
 {
-    ((Unkstruct_8017FBD8 *)param_1)->unk48 = 0x4000;
-    ((Unkstruct_8017FBD8 *)param_1)->unk2 = 7;
-    ((Unkstruct_8017FBD8 *)param_1)->unk1C = 0x50;
-    *(s16 *)(((Unkstruct_8017FBD8 *)param_1)->unk20 + 0x14) = rand() % 0x1000;
+    ((Unkstruct_801202A0 *)param_1)->unk48 = 0x4000;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 7;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x50;
+    *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x14) = rand() % 0x1000;
 }
 
 

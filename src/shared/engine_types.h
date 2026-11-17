@@ -404,13 +404,6 @@ typedef P_TAG P_TAG_80137DD4;
 /* --- lift_types.py fleet lift --- */
 
 /* --- lift_types.py fleet lift --- */
-struct Ent_801506A4 {
-    unsigned short unk0;    /* 0x0 */
-    char pad[0x5A];
-    unsigned short unk5C;   /* 0x5C */
-    char pad_5E[0x12];
-    short unk70;            /* 0x70 */
-};
 typedef struct Entry_8016E95C Entry_tag;
 struct In { s32 w0; s16 lo; s16 hi; s32 w2; };
 typedef struct packed_word PW8017E6D8;
@@ -3733,24 +3726,6 @@ typedef struct {
     /* 0x0008 */ s32 w1;
     /* 0x000c */ s32 w2;
 } Ent_801DFBF8; /* size = 0x10 */
-typedef struct
-{
-  u16 f0;
-  u16 f2;
-  u16 f4;
-  u16 x;
-  u16 f8;
-  u16 y;
-  u16 fC;
-  u16 z;
-  u8 p10[0x10];
-  s32 f20;
-  u8 p24[0x34];
-  s32 f58;
-  u16 f5C;
-  u16 f5E;
-  u8 p60[0x10C - 0x60];
-} Ent_SC03_102_8014D820;
 typedef OtBlk_80180894 Env_8017DD28;
 typedef OtBlk_80180894 Env_8017E804_80188F14;
 typedef OtBlk_80180894 Env_8018C960;

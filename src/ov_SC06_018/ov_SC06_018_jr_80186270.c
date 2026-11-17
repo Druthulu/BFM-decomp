@@ -3459,35 +3459,35 @@ void func_80187038(s32 e) {
     extern s32 D_801B520C[];
     s32 flags;
 
-    flags = ((Unkstruct_80187038 *)e)->unkE0;
+    flags = ((Unkstruct_801202A0 *)e)->extC.kSC06_018_80183A00.unkE0;
     if (flags & 4) {
         goto L_bit4;
     }
     if (flags & 0x800) {
-        ((Unkstruct_80187038 *)e)->unk2 = 0xE;
+        ((Unkstruct_801202A0 *)e)->unk2.u = 0xE;
         guess_StartActorSequence(e, D_801CCEC0);
         return;
     }
     if (flags & 1) {
         goto L_tbl;
     }
-    if (((Unkstruct_80187038 *)e)->unkD0 == 0) {
+    if (((Unkstruct_801202A0 *)e)->unkD0.val == 0) {
         goto L_tbl;
     }
-    ((Unkstruct_80187038 *)e)->unk2 = 0xE;
-    ((Unkstruct_80187038 *)e)->unk34 = 2;
-    ((Unkstruct_80187038 *)e)->unk1C = 0x200;
+    ((Unkstruct_801202A0 *)e)->unk2.u = 0xE;
+    ((Unkstruct_801202A0 *)e)->unk34.u = 2;
+    ((Unkstruct_801202A0 *)e)->unk1C.s = 0x200;
     guess_StartActorSequence(e, D_801CC1E8);
     return;
 
 L_tbl:
-    ((Unkstruct_80187038 *)e)->unk2 = D_801B51FC[((Unkstruct_80187038 *)e)->unk70 & 0xF];
+    ((Unkstruct_801202A0 *)e)->unk2.u = D_801B51FC[((Unkstruct_801202A0 *)e)->unk70.u & 0xF];
     return;
 
 L_bit4:
-    ((Unkstruct_80187038 *)e)->unk2 = D_801B520C[((Unkstruct_80187038 *)e)->unk70 & 0xF];
+    ((Unkstruct_801202A0 *)e)->unk2.u = D_801B520C[((Unkstruct_801202A0 *)e)->unk70.u & 0xF];
     guess_StartActorSequence(e, D_801CCEC0);
-    ((Unkstruct_80187038 *)e)->unk1C = 0x200;
+    ((Unkstruct_801202A0 *)e)->unk1C.s = 0x200;
 }
 
 

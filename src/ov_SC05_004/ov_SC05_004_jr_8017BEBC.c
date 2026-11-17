@@ -4247,11 +4247,11 @@ void func_8017E91C(s32 a0)
 {
     u16 v1;
 
-    if (((Unkstruct_8017E91C_2 *)a0)->unk70 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
         return;
     }
 
-    v1 = ((Unkstruct_8017E91C_2 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
     switch (v1) {
     case 0:
         if ((u8)guess_TestGameFlag(0xBA) == 0) {
@@ -4271,7 +4271,7 @@ void func_8017E91C(s32 a0)
         return;
     }
 
-    ((Unkstruct_8017E91C_2 *)a0)->unk34 = ((Unkstruct_8017E91C_2 *)a0)->unk34 + 1;
+    ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
 }
 
 

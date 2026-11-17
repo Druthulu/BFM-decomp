@@ -3579,8 +3579,8 @@ extern u16 D_80183C68[];
 void func_8017E848(int param_1)
 {
     func_8017E3B8();
-    if (((Unkstruct_8017E848 *)param_1)->unk102 != 0 && ((Unkstruct_8017E848 *)param_1)->unk100 == 0) {
-        func_8002D59C(4, D_80183C68[((Unkstruct_8017E848 *)param_1)->unk70], CAST_SIGN(u16, param_1, 0x70));
+    if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_010_8017E660.unk102 != 0 && ((Unkstruct_801202A0 *)param_1)->extD.kSC03_010_8017E660.unk100 == 0) {
+        func_8002D59C(4, D_80183C68[((Unkstruct_801202A0 *)param_1)->unk70.s], CAST_SIGN(u16, param_1, 0x70));
     }
 }
 
@@ -3735,8 +3735,8 @@ void func_8017ECE8(s32 param_1)
     u16 w;
 
     if (func_8016F1C4() == 0) {
-        w = ((Unkstruct_8017ECE8 *)param_1)->unkFC - 1;
-        ((Unkstruct_8017ECE8 *)param_1)->unkFC = w;
+        w = ((Unkstruct_801202A0 *)param_1)->unkFC.u - 1;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.u = w;
         if ((s16)w != -1) {
             func_800242D0((s16)(((s16)w + 29) / 30), &D_801A0048, 2);
         } else {

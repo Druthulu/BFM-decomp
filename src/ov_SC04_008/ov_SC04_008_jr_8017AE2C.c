@@ -4385,14 +4385,14 @@ extern s32 rand(void);
 void func_8017E9D8(s32 a0) {
     s32 r;
 
-    if (((Unkstruct_8017E9D8_3 *)a0)->unk1C != 0) {
-        (((Unkstruct_8017E9D8_3 *)a0)->unk1C)--;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        (((Unkstruct_801202A0 *)a0)->unk1C.s)--;
         return;
     }
-    r = (((Unkstruct_8017E9D8_3 *)a0)->unkFC + 1) & 7;
-    ((Unkstruct_8017E9D8_3 *)a0)->unkFC = r;
+    r = (((Unkstruct_801202A0 *)a0)->unkFC.u + 1) & 7;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = r;
     if (r == 0) {
-        ((Unkstruct_8017E9D8_3 *)a0)->unk1C = (rand() & 0x1F) + 10;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = (rand() & 0x1F) + 10;
         func_800599B8(D_8018EE58, D_8018ED58);
     } else {
         MoveImage(&D_8018EE58[r * 8], 0x2F0, 0x120);

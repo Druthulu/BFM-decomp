@@ -6451,10 +6451,10 @@ void func_80180EC8(s32 param_1)
 {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_80180EC8 *)param_1)->unkFC;
-    ((Unkstruct_80180EC8 *)param_1)->unkFC = temp_v0 + 1;
+    temp_v0 = ((Unkstruct_801202A0 *)param_1)->unkFC.u;
+    ((Unkstruct_801202A0 *)param_1)->unkFC.u = temp_v0 + 1;
     if (D_801886C8[(temp_v0 << 16) >> 16] == 0) {
-        ((Unkstruct_80180EC8 *)param_1)->unkFC = 1;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.u = 1;
         guess_AllocRenderWorkRecord(D_801886C8[0]);
     } else {
         guess_AllocRenderWorkRecord(D_801886C8[(temp_v0 << 16) >> 16]);

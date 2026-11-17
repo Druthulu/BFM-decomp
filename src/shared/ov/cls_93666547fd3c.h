@@ -2,8 +2,8 @@
  * exemplar src/ov_SC01_077/ov_SC01_077_jr_80182268.c:3324 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_80180394__93666547.h rejected by type_census --check */
 void SHARED_FN(void *a0) {
-    ((Unkstruct_8018294C *)a0)->unk2 = 7;
-    ((Unkstruct_8018294C *)a0)->unk98 = 0;
-    ((Unkstruct_8018294C *)a0)->unk1C = 0x1E;
-    ((Unkstruct_8018294C *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 7;
+    ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
 }

@@ -3481,28 +3481,28 @@ void func_8018568C(s32 a0) {
 
 
 void func_80185744(s32 a0) {
-    switch (((Unkstruct_80185744 *)a0)->unk10A) {
+    switch (((Unkstruct_801202A0 *)a0)->unk10A.s) {
     case 0:
         break;
     case 1:
-        ((Unkstruct_80185744 *)a0)->unk2 = 2;
-        ((Unkstruct_80185744 *)a0)->unk1C = 0xF;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xF;
         break;
     case 2:
-        ((Unkstruct_80185744 *)a0)->unk2 = 3;
-        ((Unkstruct_80185744 *)a0)->unk34 = 0;
-        ((Unkstruct_80185744 *)a0)->unk1C = 0;
-        ((Unkstruct_80185744 *)a0)->unkFC = 3;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = 3;
         guess_RequestSound(0x903, 0);
         break;
     case 3:
-        ((Unkstruct_80185744 *)a0)->unk2 = 4;
-        ((Unkstruct_80185744 *)a0)->unk34 = 0;
-        ((Unkstruct_80185744 *)a0)->unk1C = 0;
-        ((Unkstruct_80185744 *)a0)->unkFC = 3;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = 3;
         break;
     }
-    ((Unkstruct_80185744 *)a0)->unk10A = 0;
+    ((Unkstruct_801202A0 *)a0)->unk10A.s = 0;
 }
 
 

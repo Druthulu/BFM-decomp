@@ -7698,18 +7698,18 @@ void func_80183130(void *param_1)
     void *cur = param_1;
     s32 mask;
 
-    func_8001C924(((Unkstruct_80183130 *)cur)->unk20,
-                  D_8018C628[((Unkstruct_80183130 *)cur)->unk70]);
+    func_8001C924(((Unkstruct_801202A0 *)cur)->unk20,
+                  D_8018C628[((Unkstruct_801202A0 *)cur)->unk70.s]);
     mask = 0xFFFF7FFF;
     ((Unkstruct_80183130_2 *)*(s32 *)((s32)cur + 0x20))->unk4 &= mask;
 
-    cur = ((Unkstruct_80183130 *)cur)->unkCC;
+    cur = ((Unkstruct_801202A0 *)cur)->unkCC.val;
     {
         s32 **tbl = D_8018C628;
 
         if (cur != 0) {
-            func_8001C924(((Unkstruct_80183130 *)cur)->unk20,
-                          tbl[((Unkstruct_80183130 *)cur)->unk70]);
+            func_8001C924(((Unkstruct_801202A0 *)cur)->unk20,
+                          tbl[((Unkstruct_801202A0 *)cur)->unk70.s]);
             ((Unkstruct_80183130_2 *)*(s32 *)((s32)cur + 0x20))->unk4 &= mask;
         }
     }
@@ -7872,10 +7872,10 @@ extern void (*D_8018C744[])(void *);
 void func_80183674(void *a0) {
     s32 a1 = *(s32 *)&D_801AECB4;
     if (a1 != 0) {
-        *(u16 *)((s32)a0 + 0) = ((Unkstruct_80183674 *)a1)->unk6;
-        *(u16 *)((s32)a0 + 4) = ((Unkstruct_80183674 *)a1)->unkE;
-        *(u16 *)((s32)a0 + 2) = ((Unkstruct_80183674 *)a1)->unkA
-            + *(u16 *)((s32)D_8018C744 + (((Unkstruct_80183674 *)a1)->unk70 << 4)) - 8;
+        *(u16 *)((s32)a0 + 0) = ((Unkstruct_801202A0 *)a1)->unk4.i.hi;
+        *(u16 *)((s32)a0 + 4) = ((Unkstruct_801202A0 *)a1)->unkC.i.hi;
+        *(u16 *)((s32)a0 + 2) = ((Unkstruct_801202A0 *)a1)->unk8.i.hi
+            + *(u16 *)((s32)D_8018C744 + (((Unkstruct_801202A0 *)a1)->unk70.s << 4)) - 8;
     } else {
         *(u16 *)((s32)a0 + 4) = 0;
         *(u16 *)((s32)a0 + 2) = 0;
@@ -9595,8 +9595,8 @@ extern s16 D_800B9AB8[];
 
 void func_80185EB4(void *a0) {
     u16 var;
-    var = ((Unkstruct_80185EB4 *)a0)->unkFC;
-    ((Unkstruct_80185EB4 *)a0)->unkFC = var + 1;
+    var = ((Unkstruct_801202A0 *)a0)->unkFC.u;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = var + 1;
     *(u16 *)&D_800B9AB8[0] += var;
 }
 

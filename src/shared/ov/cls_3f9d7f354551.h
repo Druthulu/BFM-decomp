@@ -30,7 +30,7 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sp18.vz;
 
     if (v0 & 0x6000) {
-        ((Unkstruct_801202A0 *)a0)->unk14 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk14.val = 0;
     }
     return v0;
 }

@@ -3628,9 +3628,9 @@ void func_8017FAC8(s32 param_1) {
 
     s0 = param_1;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_8017FAC8 *)s0)->unk5C = 0;
-    ((Unkstruct_8017FAC8 *)s0)->unkC2 = 0;
-    ((Unkstruct_8017FAC8 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     guess_StartActorSequence(s0, (s32)D_8018DF04);
     guess_SetLocalVelocity(s0, (s32)&D_80185CB4);
     guess_RequestSound(0x714, 0);

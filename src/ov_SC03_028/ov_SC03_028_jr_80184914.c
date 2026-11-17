@@ -3596,8 +3596,8 @@ void func_8018568C(s32 arg0) {
 extern void (*D_801907E4[])(void);
 
 void func_801857AC(void *a0) {
-    ((Unkstruct_801857AC *)a0)->unkFC = (((Unkstruct_801857AC *)a0)->unkFC + 1) & 0xFFF;
-    D_801907E4[((Unkstruct_801857AC *)a0)->unk2]();
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = (((Unkstruct_801202A0 *)a0)->unkFC.u + 1) & 0xFFF;
+    D_801907E4[((Unkstruct_801202A0 *)a0)->unk2.u]();
 }
 
 

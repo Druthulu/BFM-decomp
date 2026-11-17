@@ -3358,11 +3358,11 @@ void func_80184540(s32 a0) {
     if (v0 == 1) {
         ((void (*)(s32))func_80178D18)(s0);
         func_8012A568(&func_80181A64);
-        guess_FreeActor((void *)((Unkstruct_80184540 *)s0)->unkCC);
-        guess_FreeActor((void *)((Unkstruct_80184540 *)s0)->unkD0);
+        guess_FreeActor((void *)((Unkstruct_801202A0 *)s0)->unkCC.val);
+        guess_FreeActor((void *)((Unkstruct_801202A0 *)s0)->unkD0.val);
         func_800D0C48(1);
-        ((Unkstruct_80184540 *)s0)->unk1C = 0x1F;
-        ((Unkstruct_80184540 *)s0)->unk2 = ((Unkstruct_80184540 *)s0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x1F;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = ((Unkstruct_801202A0 *)s0)->unk2.s + 1;
         func_8002AC00(0x1B);
     }
 }
@@ -3614,12 +3614,12 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80184B18(u8 *a0)
 {
-    ((Unkstruct_80184B18 *)a0)->unk2 = 3;
-    ((Unkstruct_80184B18 *)a0)->unkCC = (s32)((u8 *)&D_8018EF54
-        + ((((Unkstruct_80184B18 *)a0)->unkE0 & 0xF) << 4)
-        + ((((Unkstruct_80184B18 *)a0)->unk70 & 0xF) << 3));
-    ((Unkstruct_80184B18 *)a0)->unkE0 &= ~0xF;
-    ((void (*)(void *, void *))guess_StartActorSequence)(a0, D_8018EF4C[((Unkstruct_80184B18 *)a0)->unk70 & 0xF]);
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 3;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = (s32)((u8 *)&D_8018EF54
+        + ((((Unkstruct_801202A0 *)a0)->extC.kSC03_118_80184940.unkE0 & 0xF) << 4)
+        + ((((Unkstruct_801202A0 *)a0)->unk70.u & 0xF) << 3));
+    ((Unkstruct_801202A0 *)a0)->extC.kSC03_118_80184940.unkE0 &= ~0xF;
+    ((void (*)(void *, void *))guess_StartActorSequence)(a0, D_8018EF4C[((Unkstruct_801202A0 *)a0)->unk70.u & 0xF]);
 }
 
 
@@ -3723,17 +3723,17 @@ void func_80184E78(s32 *param_1)
     if (D_80078EB1 - 7U < 0xC) {
         sp18 = 0x40;
     }
-    col = func_800130D0(((Unkstruct_80184E78 *)param_1)->unkFE, sp18, 1);
+    col = func_800130D0(((Unkstruct_801202A0 *)param_1)->unkFE.s, sp18, 1);
     w = col << 16;
     ec = w >> 16;
     t1 = ec << 16;
     packed = t1 | ec << 8;
-    cnt = ((Unkstruct_80184E78 *)param_1)->unkFC;
-    ((Unkstruct_80184E78 *)param_1)->unkFE = col;
-    ((Unkstruct_80184E78 *)param_1)->unkFC = cnt + 1;
+    cnt = ((Unkstruct_801202A0 *)param_1)->unkFC.u;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = col;
+    ((Unkstruct_801202A0 *)param_1)->unkFC.u = cnt + 1;
     ec = ec | packed;
     if ((s16)(cnt + 1) >= 0x7F) {
-        ((Unkstruct_80184E78 *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.u = 0;
     }
     p = param_1;
     func_80184F18(p, ec,

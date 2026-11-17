@@ -3458,7 +3458,7 @@ void func_80180B3C(s32 a0)
     if ((*(u16 *)&D_801D0B7C) == 4) {
         ((void (*)())func_8017F098)();
     }
-    *(u16 *)(((Unkstruct_8017F464 *)a0)->unk20 + 0x12) = func_8012B8A4((s16 *)a0);
+    *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12) = func_8012B8A4((s16 *)a0);
     func_8017F464(a0);
 }
 

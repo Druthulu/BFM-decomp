@@ -21,7 +21,7 @@ void SHARED_FN(s32 a0, s32 a1, s32 a2, s32 a3) {
             t = *(u16 *)(a1 + 4);
             ((Unkstruct_801202A0 *)s0)->unkC.i.hi = (t + (r % (d2 << 1))) - d2;
             CAST_WIDTH(s32, s0, 0x10) = *(s32 *)(a3 + 0);
-            ((Unkstruct_801202A0 *)s0)->unk14 = *(s32 *)(a3 + 4);
+            ((Unkstruct_801202A0 *)s0)->unk14.val = *(s32 *)(a3 + 4);
             CAST_WIDTH(s32, s0, 0x18) = *(s32 *)(a3 + 8);
             ((Unkstruct_801202A0 *)s0)->unk34.u = *(u16 *)(a1 + 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC010;

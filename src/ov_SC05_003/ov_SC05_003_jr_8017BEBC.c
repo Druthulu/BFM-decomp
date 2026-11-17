@@ -3399,14 +3399,14 @@ extern void func_8017F4FC(void *a0);
 void func_8017E728(void *a0) {
     s32 s0 = (s32)a0;
 
-    D_8019EAD4[((Unkstruct_801838FC *)s0)->unk2](a0);
-    if (((Unkstruct_801838FC *)s0)->unk0 != 0) {
-        void *ptr = ((Unkstruct_801838FC *)s0)->unk20;
+    D_8019EAD4[((Unkstruct_801202A0 *)s0)->unk2.u](a0);
+    if (((Unkstruct_801202A0 *)s0)->unk0 != 0) {
+        void *ptr = ((Unkstruct_801202A0 *)s0)->unk20;
         *(u16 *)((s32)ptr + 0x2C) |= 0x10;
-        if (!(((Unkstruct_801838FC *)s0)->unk70 & 0x800)) {
+        if (!(((Unkstruct_801202A0 *)s0)->unk70.u & 0x800)) {
             s32 ret = func_8012C044(s0);
             if (ret == 1) {
-                ((Unkstruct_801838FC *)s0)->unkE4 = ret;
+                ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801838FC.unkE4 = ret;
                 func_8017F4FC((void *)s0);
             }
         }

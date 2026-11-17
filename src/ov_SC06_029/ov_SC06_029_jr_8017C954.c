@@ -4958,28 +4958,28 @@ void func_801808C4(s32 a0) {
         }
     }
 
-    ((Unkstruct_801808C4 *)a0)->unk2 = 0xD;
-    ((Unkstruct_801808C4 *)a0)->unk1C = 0x40;
-    ((Unkstruct_801808C4 *)a0)->unkE0 |= 0x2000;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0xD;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
+    ((Unkstruct_801202A0 *)a0)->extC.kSC06_029_80182D74.unkE0 |= 0x2000;
 
-    t1 = ((Unkstruct_801808C4 *)a0)->unkCC;
+    t1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
     if (t1 != 0) {
         *(s32 *)(t1 + 0xE0) = 1;
     }
 
-    t2 = ((Unkstruct_801808C4 *)a0)->unkD0;
+    t2 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
     if (t2 != 0) {
         *(s32 *)(t2 + 0xE0) = 1;
     }
 
-    t3 = ((Unkstruct_801808C4 *)a0)->unkD4;
+    t3 = ((Unkstruct_801202A0 *)a0)->unkD4;
     if (t3 != 0) {
         *(s32 *)(t3 + 0xE0) = 1;
     }
 
-    a0 = ((Unkstruct_801808C4 *)a0)->unkD8;
+    a0 = ((Unkstruct_801202A0 *)a0)->unkD8;
     if (a0 != 0) {
-        ((Unkstruct_801808C4 *)a0)->unkE0 = 1;
+        ((Unkstruct_801202A0 *)a0)->extC.kSC06_029_80182D74.unkE0 = 1;
     }
 
     KR_AS(void, func_8018615C)();

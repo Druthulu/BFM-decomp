@@ -4441,9 +4441,9 @@ void func_8017EAE4(s32 arg0) {
         color[2] = D_800A5E96;
         col = 0x40;
     }
-    ((Unkstruct_8017EAE4 *)arg0)->unkCC = col;
-    ((Unkstruct_8017EAE4 *)arg0)->unkCE = col;
-    ((Unkstruct_8017EAE4 *)arg0)->unkD0 = col;
+    ((Unkstruct_801202A0 *)arg0)->unkCC.i.lo = col;
+    ((Unkstruct_801202A0 *)arg0)->unkCC.i.hi = col;
+    ((Unkstruct_801202A0 *)arg0)->unkD0.i.lo = col;
     D_801A1164 = color[0];
     D_801A1165 = color[1];
     D_801A1166 = color[2];

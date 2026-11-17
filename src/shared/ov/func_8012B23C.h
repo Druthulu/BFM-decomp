@@ -5,7 +5,7 @@
  * Names ledger: config/names.tsv guess_ClearVelocityAndSetGravity */
 void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0) {
     *(s32 *)((u8 *)a0 + 0x18) = 0;
-    a0->unk14 = 0;
+    a0->unk14.val = 0;
     *(s32 *)((u8 *)a0 + 0x10) = 0;
     a0->unk4C = 0;
     a0->unk44 = 0;

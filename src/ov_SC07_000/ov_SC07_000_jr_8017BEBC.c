@@ -3822,17 +3822,17 @@ void func_8017EAD8(s32 arg0) {
     s32 var_s0;
     s16* base;
 
-    var_s0 = ((Unkstruct_8017EAD8 *)arg0)->unk70 * 0x40 + (s32)D_801D05A0;
-    if (((Unkstruct_8017EAD8 *)arg0)->unk70 == 0) {
-        ((Unkstruct_8017EAD8 *)arg0)->unkFE -= 0x40;
-        func_800234E4(var_s0, 0x100, (u16)((Unkstruct_8017EAD8 *)arg0)->unkFE);
-        ((Unkstruct_8017EAD8_4 *)var_s0)->unk2 = (rsin(((Unkstruct_8017EAD8 *)arg0)->unkFE) >> 8) + 0x10;
+    var_s0 = ((Unkstruct_801202A0 *)arg0)->unk70.s * 0x40 + (s32)D_801D05A0;
+    if (((Unkstruct_801202A0 *)arg0)->unk70.s == 0) {
+        ((Unkstruct_801202A0 *)arg0)->unkFE.s -= 0x40;
+        func_800234E4(var_s0, 0x100, (u16)((Unkstruct_801202A0 *)arg0)->unkFE.s);
+        ((Unkstruct_8017EAD8_4 *)var_s0)->unk2 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 8) + 0x10;
     } else {
-        ((Unkstruct_8017EAD8 *)arg0)->unkFE += 0x40;
-        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk18 = (rsin(((Unkstruct_8017EAD8 *)arg0)->unkFE) >> 3) + 0x1000;
-        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk1A = (rsin(((Unkstruct_8017EAD8 *)arg0)->unkFE + 0x400) >> 3) + 0x1600;
-        func_800234E4(var_s0, 0x100, (u16)((Unkstruct_8017EAD8 *)arg0)->unkFE);
-        ((Unkstruct_8017EAD8_4 *)var_s0)->unk1 = (rsin(((Unkstruct_8017EAD8 *)arg0)->unkFE + 0x400) >> 8) + 0x10;
+        ((Unkstruct_801202A0 *)arg0)->unkFE.s += 0x40;
+        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk18 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 3) + 0x1000;
+        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk1A = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 3) + 0x1600;
+        func_800234E4(var_s0, 0x100, (u16)((Unkstruct_801202A0 *)arg0)->unkFE.s);
+        ((Unkstruct_8017EAD8_4 *)var_s0)->unk1 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 8) + 0x10;
     }
 }
 

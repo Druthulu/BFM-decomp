@@ -1438,18 +1438,18 @@ void func_801A1D94(void *arg0) {
     s32 s0 = (s32)arg0;
 
     ((void (*)(void *))func_801A28AC)(arg0);
-    if (((Unkstruct_801A1D94 *)s0)->unkE0 & 1) {
+    if (((Unkstruct_801202A0 *)s0)->extC.kSC07_003_801A01D4.unkE0.u & 1) {
         guess_StartActorSequence(s0, D_801F0798);
-        ((Unkstruct_801A1D94 *)s0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
     } else {
         guess_StartActorSequence(s0, D_801F0840);
-        ((Unkstruct_801A1D94 *)s0)->unk34 = 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = 1;
         guess_SetForwardVelocity(s0, 0x30000);
     }
-    ((Unkstruct_801A1D94 *)s0)->unk2 = 0x16;
-    ((Unkstruct_801A1D94 *)s0)->unkE4 = 0x30;
-    ((Unkstruct_801A1D94 *)s0)->unkE0 = ((Unkstruct_801A1D94 *)s0)->unkE0 | 0x40;
-    ((Unkstruct_801A1D94 *)s0)->unk1C = 0x10;
+    ((Unkstruct_801202A0 *)s0)->unk2.u = 0x16;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC07_003_801A01D4.unkE4 = 0x30;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC07_003_801A01D4.unkE0.u = ((Unkstruct_801202A0 *)s0)->extC.kSC07_003_801A01D4.unkE0.u | 0x40;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x10;
 }
 
 
@@ -1526,11 +1526,11 @@ void func_801A1F38(s32 arg0) {
 
     func_80178B18((s32)s0, (s32)&D_801A6AE4);
 
-    ((Unkstruct_801A1F38 *)s0)->unk2 = 0x18;
-    ((Unkstruct_801A1F38 *)s0)->unk34 = 0;
-    ((Unkstruct_801A1F38 *)s0)->unk98 = 0;
-    ((Unkstruct_801A1F38 *)s0)->unk1C = 0;
-    ((Unkstruct_801A1F38 *)s0)->unkE4 = 0x10000;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 0x18;
+    ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC07_003_801A01D4.unkE4 = 0x10000;
     func_8017C068();
 
     guess_StartActorSequence((s32)s0, D_801F1A58);

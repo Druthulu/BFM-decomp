@@ -3498,11 +3498,11 @@ s32 func_8017F488(s32 arg0) {
 extern s32 guess_GetGameVarByte(s32 arg);
 
 s32 func_8017F4D0(void *a0) {
-    ((Unkstruct_8017F4D0 *)a0)->unk104 = 4;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC01_009_8017F360.unk104 = 4;
     if ((guess_GetGameVarByte(0x45) & 0xFF) != 0) {
         return 0;
     }
-    ((Unkstruct_8017F4D0 *)a0)->unk104 -= 1;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC01_009_8017F360.unk104 -= 1;
     return 1;
 }
 
@@ -3803,24 +3803,24 @@ void func_8017FAFC(s32 param_1) {
     s32 v0;
     s16 h;
 
-    v0 = ((Unkstruct_8017FAFC *)param_1)->unk1C;
+    v0 = ((Unkstruct_801202A0 *)param_1)->unk1C.s;
     if (v0 != 0) {
-        ((Unkstruct_8017FAFC *)param_1)->unk1C = v0 - 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = v0 - 1;
         return;
     }
     if (guess_GetPlayerControlScript() != 0) {
-        h = ((Unkstruct_8017FAFC *)param_1)->unk102;
+        h = ((Unkstruct_801202A0 *)param_1)->extD.kSC01_009_8017F360.unk102;
         if (h == 0) {
             return;
         }
     }
-    h = ((Unkstruct_8017FAFC *)param_1)->unk102;
+    h = ((Unkstruct_801202A0 *)param_1)->extD.kSC01_009_8017F360.unk102;
     if (h == 0) {
         func_80178B18(param_1, (s32)&D_801E91A8);
     } else {
         func_80178B18(param_1, (s32)&D_801E9528);
     }
-    ((Unkstruct_8017FAFC *)param_1)->unk2 += 1;
+    ((Unkstruct_801202A0 *)param_1)->unk2.u += 1;
 }
 
 

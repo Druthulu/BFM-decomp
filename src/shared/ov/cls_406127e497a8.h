@@ -3,8 +3,8 @@
  * rank 2 src/ov_SC03_103/ov_SC03_103_jr_8017C294.c:6539 rejected by type_census --check */
 void SHARED_FN(s32 a0)
 {
-    if (((((Unkstruct_801819DC *)a0)->unk72 & 0x4000) != 0) || (((Unkstruct_801819DC *)a0)->unk98 == 0)) {
-        ((Unkstruct_801819DC *)a0)->unk2 = ((Unkstruct_801819DC *)a0)->unk34;
-        ((void (*)(s32, s32))guess_StartActorSequence)(a0, ((Unkstruct_801819DC *)a0)->unkCC);
+    if (((((Unkstruct_801202A0 *)a0)->unk72 & 0x4000) != 0) || (((Unkstruct_801202A0 *)a0)->unk98.s == 0)) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = ((Unkstruct_801202A0 *)a0)->unk34.u;
+        ((void (*)(s32, s32))guess_StartActorSequence)(a0, ((Unkstruct_801202A0 *)a0)->unkCC.val);
     }
 }
