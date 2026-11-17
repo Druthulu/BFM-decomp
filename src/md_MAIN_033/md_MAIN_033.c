@@ -367,7 +367,7 @@ void func_800CB5DC(void *arg0) {
 
         v1 = *(u16 *)(*(void **)((u8 *)s3 + 0x20) + 0x12);
         ((Unkstruct_800B5BD8 *)s1)->unk10.s = 0x400;
-        ((Unkstruct_800B5BD8 *)s1)->unk34 = (s32)((u8 *)arg0 + 0x38);
+        ((Unkstruct_800B5BD8 *)s1)->unk34.s = (s32)((u8 *)arg0 + 0x38);
         ((Unkstruct_800B5BD8 *)s1)->unk12.s = v1;
 
         ((Unkstruct_800CB5DC *)arg0)->unk2 = ((Unkstruct_800CB5DC *)arg0)->unk2 + 1;
@@ -418,12 +418,12 @@ void func_800CB76C(void *arg0) {
     s0 = ((Unkstruct_800CB76C_2 *)s2)->unk20;
     s1 = ((Unkstruct_801819B4_2 *)s3)->unk20;
     if (s0 != 0) {
-        ((Unkstruct_800CB76C *)s0)->unk12 = *(u16 *)(s1 + 0x12);
-        RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800CB76C *)s0)->unk34);
+        ((Unkstruct_800B5BD8 *)s0)->unk12.u = *(u16 *)(s1 + 0x12);
+        RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800B5BD8 *)s0)->unk34.s);
         v = *(s16 *)(s1 + 0x1A);
         q = (v * 180) / 100;
-        ((Unkstruct_800CB76C *)s0)->unk1A = q;
-        ((Unkstruct_800CB76C *)s0)->unk18 = q;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.s = q;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.s = q;
         func_800139C8(CAST_SIGN(s16, s0, 0x12), D_800CB8FC, (s32)&sp10[0]);
         ((Unkstruct_800CB76C_2 *)s2)->unk6 = ((Unkstruct_801819B4_2 *)s3)->unk6 + sp10[0];
         ((Unkstruct_800CB76C_2 *)s2)->unkA = ((Unkstruct_801819B4_2 *)s3)->unkA + sp10[1];

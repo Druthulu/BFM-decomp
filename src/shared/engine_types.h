@@ -82,11 +82,19 @@ struct obj {
     s32 unk8;
 };
 
-struct S8013A250 {
-    u8 pad_0[8];
-    s32 unk8;      /* 0x8 */
-    u8 unkC;       /* 0xC */
-};
+struct S8013A0A4 {
+    /* 0x0000 */ u8 pad0[0x4];
+    /* 0x0004 */ s16 field_4;
+    /* 0x0006 */ u8 pad6[0x2];
+    /* 0x0008 */ s32 field_8;
+    /* 0x000c */ u8 unkC;
+    /* 0x000d */ u8 padD[0x9];
+    /* 0x0016 */ u16 field_16;
+    /* 0x0018 */ u8 pad18[0x6];
+    /* 0x001e */ u8 field_1E;
+    /* 0x001f */ u8 pad1F[0xf];
+    /* 0x002e */ s16 field_2E;
+}; /* size = 0x30 */
 
 struct Inner8013A4C4 {
     u8 pad_0[0x28];
@@ -195,19 +203,6 @@ typedef ElemK S8_80172894;
 struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
 
 typedef Unkstruct_80126948 BigCopy;
-
-struct S8013A0A4 {
-    u8 pad0[4];
-    s16 field_4;
-    u8 pad6[2];
-    s32 field_8;
-    u8 pad_C[10];
-    u16 field_16;
-    u8 pad18[6];
-    u8 field_1E;
-    u8 pad1F[15];
-    s16 field_2E;
-};
 
 struct S8013A164 {
     char pad0[0x4];
@@ -514,12 +509,6 @@ typedef struct { u32 w[23]; } DrawEnv_8013DD68;
 typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;
 typedef SVECTOR Elem;
 typedef struct { u8 _pad[0x34]; } Elem52_801B5094;
-typedef struct {
-    u16 f0;
-    u8 pad_2[0x4e];
-    int f50;
-    u8 pad_54[0x14];
-} Ent_80164930_80164930;
 typedef Ent_80164930_80164930 Ent_80164930;
 typedef Unkstruct_800B5CB8 Entry_8012DDA4;
 typedef Box_80133784 Foo_80134510;

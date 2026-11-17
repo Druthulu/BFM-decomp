@@ -3297,20 +3297,20 @@ void func_8014358C(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_80188328;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_80188328;
 
     p = ((Unkstruct_80143458 *)param_1)->unk20;
-    if (((Unkstruct_8014358C_2 *)p)->unk4 == 0) {
-        ((Unkstruct_8014358C_2 *)p)->unk4 = 0x50000000;
+    if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {
+        ((Unkstruct_800B5BD8 *)p)->unk4.s = 0x50000000;
     }
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
 
     v = ((Unkstruct_80143458 *)param_1)->unk34 & 0x7fff;
     if (v != 0) {
         p = ((Unkstruct_80143458 *)param_1)->unk20;
-        ((Unkstruct_8014358C_2 *)p)->unk1A = v;
-        ((Unkstruct_8014358C_2 *)p)->unk18 = v;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
     }
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24,

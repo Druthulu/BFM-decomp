@@ -4248,7 +4248,7 @@ void func_801647A4(int param_1) {
     s32 iVar1;
 
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_801647A4_2 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_80189418;
@@ -4258,8 +4258,8 @@ void func_801647A4(int param_1) {
         D_8018944A = 0x80;
         D_80189448 = 0x80;
         CAST_ALIAS(u16, iVar1, 0x1a) = 0;
-        ((Unkstruct_801647A4_2 *)param_1)->unk60 = 0;
-        ((Unkstruct_801647A4_2 *)param_1)->unk62 = 0x200;
+        ((Ent_80164930_80164930 *)param_1)->unk60 = 0;
+        ((Ent_80164930_80164930 *)param_1)->unk62 = 0x200;
         ((s32 (*)(s32))func_80164A74)(param_1);
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {

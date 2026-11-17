@@ -4752,7 +4752,7 @@ void func_80164930(s32 param_1) {
     extern s16 D_80184BBE;
     extern u16 D_80184BC0;
     int iVar3 = ((Unkstruct_801647A4_5 *)param_1)->unk20;
-    if (((Unkstruct_801647A4_5 *)param_1)->unk50 == 0) {
+    if (((Unkstruct_801647A4_5 *)param_1)->f50 == 0) {
         short sVar1 = ((Unkstruct_80164930_2 *)iVar3)->unk1C + 0x100;
         short nv;
         CAST_ALIAS(short, iVar3, 0x1c) = sVar1;
@@ -6095,10 +6095,10 @@ void func_8016829C(s32 a0) {
     if ((*(s32 *)(((Unkstruct_8016829C *)a0)->unk34 + 0x44) & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_8016829C *)a0)->unk2A - 1;
-        ((Unkstruct_8016829C *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_8016829C *)a0)->unk2A.u - 1;
+        ((Unkstruct_8016829C *)a0)->unk2A.u = v0;
         if (v0 == 0) {
-            ((s32 (*)(s32, s32, s32, s32))func_80166994)(a0, 0, ((Unkstruct_8016829C *)a0)->unk2C, 0);
+            ((s32 (*)(s32, s32, s32, s32))func_80166994)(a0, 0, ((Unkstruct_8016829C *)a0)->unk2C.i.lo, 0);
             ((Unkstruct_8016829C *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
@@ -6140,14 +6140,14 @@ void func_80168430(s32 param_1) {
 extern s32 guess_FreeSmallObject(u8*);
 extern s32 func_80166994(s32 param_1, int param_2, int param_3, int param_4);
 void func_801684B4(s32 a0) {
-    if ((*(s32 *)(((Unkstruct_80166994_3 *)a0)->unk34 + 0x44) & 0x2) == 0) {
+    if ((*(s32 *)(((Unkstruct_8011D030 *)a0)->unk34 + 0x44) & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_8011D030 *)a0)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)a0)->unk2A.u = v0;
         if (v0 == 0) {
             ((s32 (*)(s32, s32, s32, s32))func_80166994)(a0, 0, 2, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_8011D030 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
 }

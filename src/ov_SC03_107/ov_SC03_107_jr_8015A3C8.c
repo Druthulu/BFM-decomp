@@ -723,7 +723,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];
@@ -6546,7 +6546,7 @@ void func_80164930(s32 param_1) {
     extern s16 D_801850A6;
     extern u16 D_801850A8;
     int iVar3 = ((Unkstruct_801647A4_5 *)param_1)->unk20;
-    if (((Unkstruct_801647A4_5 *)param_1)->unk50 == 0) {
+    if (((Unkstruct_801647A4_5 *)param_1)->f50 == 0) {
         short sVar1 = ((Unkstruct_80164930_2 *)iVar3)->unk1C + 0x100;
         short nv;
         CAST_ALIAS(short, iVar3, 0x1c) = sVar1;
@@ -7932,11 +7932,11 @@ void func_8016829C(s32 param_1)
     if ((((Unkstruct_80165FA4 *)*(s32 *)(param_1 + 0x34))->unk44 & 2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        v0 = ((Unkstruct_80166994_3 *)param_1)->unk2A - 1;
-        ((Unkstruct_80166994_3 *)param_1)->unk2A = v0;
+        v0 = ((Unkstruct_8011D030 *)param_1)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)param_1)->unk2A.u = v0;
         if (v0 == 0) {
-            func_80166994(param_1, 0, ((Unkstruct_80166994_3 *)param_1)->unk2C, 0);
-            ((Unkstruct_80166994_3 *)param_1)->unk2.u = ((Unkstruct_80166994_3 *)param_1)->unk2.u + 1;
+            func_80166994(param_1, 0, ((Unkstruct_8011D030 *)param_1)->unk2C.i.lo, 0);
+            ((Unkstruct_8011D030 *)param_1)->unk2.u = ((Unkstruct_8011D030 *)param_1)->unk2.u + 1;
         }
     }
 }
@@ -7974,11 +7974,11 @@ void func_801684B4(s32 a0) {
     if ((((Unkstruct_80165FA4 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_8011D030 *)a0)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)a0)->unk2A.u = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, 2, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2.u = ((Unkstruct_80166994_3 *)a0)->unk2.u + 1;
+            ((Unkstruct_8011D030 *)a0)->unk2.u = ((Unkstruct_8011D030 *)a0)->unk2.u + 1;
         }
     }
 }

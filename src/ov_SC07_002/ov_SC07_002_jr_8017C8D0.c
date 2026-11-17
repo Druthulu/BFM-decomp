@@ -6166,14 +6166,14 @@ void func_80182FE4(s32 param_1) {
 
     func_8001CC3C(((Unkstruct_80182FE4 *)param_1)->unk20, (s32)D_8018A494, 0x240, 0xE0);
 
-    ((Unkstruct_8017F200 *)*(s32 *)(param_1 + 0x20))->unk4 = ((Unkstruct_8017F200 *)*(s32 *)(param_1 + 0x20))->unk4 | 0x58000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4 = ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4 | 0x58000000;
 
     t = (rand() & 0x3F0) + 0x600;
     q = ((Unkstruct_80182FE4 *)param_1)->unk20;
-    ((Unkstruct_8017F200 *)q)->unk1A = t;
-    ((Unkstruct_8017F200 *)q)->unk18 = t;
+    ((Unkstruct_800B5BD8 *)q)->unk1A.u = t;
+    ((Unkstruct_800B5BD8 *)q)->unk18.u = t;
 
-    ((Unkstruct_8017F200 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x79;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x79;
 
     ((Unkstruct_80182FE4 *)param_1)->unk14 = 0x80000;
     ((Unkstruct_80182FE4 *)param_1)->unk1C = 0xC;

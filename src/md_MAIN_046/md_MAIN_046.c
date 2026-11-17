@@ -734,7 +734,7 @@ void func_800CDBF4(s32 s0) {
     s32 t;
 
     outer = *(s32 **)(s0 + 0x4C);
-    ((Unkstruct_800CDBF4 *)s0)->unk62 = (((Unkstruct_800CDBF4 *)s0)->unk62 + ((Unkstruct_800CDBF4 *)s0)->unk66) & 0xFFF;
+    ((Ent_80164930_80164930 *)s0)->unk62 = (((Ent_80164930_80164930 *)s0)->unk62 + ((Ent_80164930_80164930 *)s0)->unk66) & 0xFFF;
     RotMatrixZYX(s0 + 0x60, sp18);
     ApplyMatrixSV(sp18, D_800CE0B8, sp10);
     inner = *(s32 **)((s32)outer + 0x20);

@@ -261,17 +261,17 @@ void func_800CB300(s32 arg0) {
         goto L6A8;
     }
     func_80013F3C(&mat);
-    func_800126C4((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk10);
-    func_800123F0((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk14);
-    func_80012558((s32)&mat, ((Unkstruct_800CB300 *)s0)->unk12);
+    func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk10);
+    func_800123F0((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk14);
+    func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk12);
     *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
     *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];
-    ((Unkstruct_800CB300 *)s0)->unk2C = ((Unkstruct_800CB300 *)s0)->unk2C | 1;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 1;
     func_80163194(s1, -(((((Unkstruct_800CB300_2 *)s1)->unk50 - 0x28) << 14) / 40), 0, 0, (s32)&mat);
     guess_AddVelocityToPos_2((s32 *)s1);
     func_80163950(s1);
-    hv = ((Unkstruct_800CB300 *)s0)->unk1A + 0x200;
-    ((Unkstruct_800CB300 *)s0)->unk18 = ((Unkstruct_800CB300 *)s0)->unk1A = hv;
+    hv = ((Unkstruct_8001C9D0 *)s0)->unk1A.u + 0x200;
+    ((Unkstruct_8001C9D0 *)s0)->unk18.u = ((Unkstruct_8001C9D0 *)s0)->unk1A.u = hv;
     if ((s16)hv > 0x2000) {
         ((Unkstruct_800CB300 *)s0)->unk1A = 0x2000;
         ((Unkstruct_800CB300 *)s0)->unk18 = 0x2000;
@@ -443,8 +443,8 @@ void func_800CB8A4(void *a0) {
     if (s0) {
         ((Unkstruct_800CB8A4_3 *)s1)->unk20 = s0;
         func_8001CEC0(s0, D_800CBECC);
-        ((Unkstruct_800CB8A4_4 *)s0)->unk2C = 1;
-        ((Unkstruct_800CB8A4_4 *)s0)->unk4 |= 0x80000000;
+        ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
+        ((Unkstruct_800B5BD8 *)s0)->unk4.s |= 0x80000000;
         ((Unkstruct_800CB8A4_3 *)s1)->unk6 = -0x28;
         ((Unkstruct_800CB8A4_3 *)s1)->unkA = -0x40;
         s0 = ((s32 (*)(void))func_80146578)();
@@ -452,7 +452,7 @@ void func_800CB8A4(void *a0) {
             ((Unkstruct_800CB8A4_3 *)s1)->unk10 = s0;
             func_8001CB00(s0, D_800CBF20, 0x1A0, 0x170);
             func_800CBB50(s0);
-            ((Unkstruct_800CB8A4_4 *)s0)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0;
             guess_SetWaitTimer_2(s1, 6);
             guess_NextStep(s1);
         }

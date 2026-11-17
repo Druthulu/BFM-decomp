@@ -119,10 +119,10 @@ void func_800CAFE0(s32 param_1) {
     func_8001CC3C(node, D_800D387C,
                   *(s16 *)((s32)&D_800CB5F4 + (sext >> 15)),
                   *(s16 *)((s32)&D_800CB5F6 + (sext >> 15)));
-    ((Unkstruct_8017F200 *)node)->unk1A = 0x2000;
-    ((Unkstruct_8017F200 *)node)->unk18 = 0x2000;
-    ((Unkstruct_8017F200 *)node)->unk27 = (sext >> 17) + 0x19;
-    ((Unkstruct_8017F200 *)node)->unk4 |= 0xC0000000;
+    ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)node)->unk18.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)node)->unk27 = (sext >> 17) + 0x19;
+    ((Unkstruct_800B5BD8 *)node)->unk4.u |= 0xC0000000;
     save = *(u16 *)(param_1 + 0x30);
     *(s32 *)(param_1 + 0x20) = node;
     *(u16 *)(param_1 + 2) = 2;
@@ -134,11 +134,11 @@ void func_800CAFE0(s32 param_1) {
     }
     *(s32 *)(param_1 + 0x34) = node2;
     guess_InitObjectKind6(node2, D_800CB860);
-    ((Unkstruct_800CAFE0 *)node2)->unk2C = 0xC001;
-    ((Unkstruct_800CAFE0 *)node2)->unk4 |= 0xD0000000;
-    ((Unkstruct_800CAFE0 *)node2)->unk8 = *(u16 *)(param_1 + 6);
-    ((Unkstruct_800CAFE0 *)node2)->unkA = *(u16 *)(param_1 + 0xA);
-    ((Unkstruct_800CAFE0 *)node2)->unkC = *(u16 *)(param_1 + 0xE);
+    ((Unkstruct_800B5BD8 *)node2)->unk2C.u = 0xC001;
+    ((Unkstruct_800B5BD8 *)node2)->unk4.u |= 0xD0000000;
+    ((Unkstruct_800B5BD8 *)node2)->unk8.u = *(u16 *)(param_1 + 6);
+    ((Unkstruct_800B5BD8 *)node2)->unkA.u = *(u16 *)(param_1 + 0xA);
+    ((Unkstruct_800B5BD8 *)node2)->unkC.u = *(u16 *)(param_1 + 0xE);
 }
 
 
@@ -175,8 +175,8 @@ void func_800CB168(void *arg0) {
 
 L1B0:
         r = rand();
-        ((Unkstruct_800CB168 *)obj)->unk1A = r & 0xFFF;
-        ((Unkstruct_800CB168 *)obj)->unk2A = (r & 1) + 2;
+        ((Unkstruct_8011D030 *)obj)->unk1A = r & 0xFFF;
+        ((Unkstruct_8011D030 *)obj)->unk2A.u = (r & 1) + 2;
         CAST_ALIAS(s32, obj, 12) = CAST_ALIAS(s32, obj, 12) + 1;
         goto L288;
 
@@ -185,14 +185,14 @@ L1DC:
             goto L288;
         }
         ret = func_80146AB4(0x23, (s32)arg0, 0, 0, 0,
-                            ((Unkstruct_800CB168 *)obj)->unk12,
+                            ((Unkstruct_8011D030 *)obj)->unk12.s,
                             CAST_SIGN(s16, (s32)obj, 0x1A) |
-                                (((((Unkstruct_800CB168 *)obj)->unk28)++ & 7) << 16));
+                                (((((Unkstruct_8011D030 *)obj)->unk28)++ & 7) << 16));
         if (ret == 0) {
-            ((Unkstruct_800CB168 *)obj)->unk2A = 0;
+            ((Unkstruct_8011D030 *)obj)->unk2A.u = 0;
         }
-        v2a = ((Unkstruct_800CB168 *)obj)->unk2A - 1;
-        ((Unkstruct_800CB168 *)obj)->unk2A = v2a;
+        v2a = ((Unkstruct_8011D030 *)obj)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)obj)->unk2A.u = v2a;
         if ((s16)v2a > 0) {
             goto L288;
         }

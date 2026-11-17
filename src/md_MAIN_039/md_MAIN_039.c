@@ -604,22 +604,22 @@ void func_800CBD90(void *arg0) {
 
     q = *(s32 *)((s32)arg0 + 0x20);
 
-    a = ((Unkstruct_800CBD90 *)q)->unk24 - 0x20;
-    ((Unkstruct_800CBD90 *)q)->unk24 = a;
+    a = ((Unkstruct_800B5BD8 *)q)->unk24 - 0x20;
+    ((Unkstruct_800B5BD8 *)q)->unk24 = a;
     if (a < 0x80) {
-        ((Unkstruct_800CBD90 *)q)->unk24 = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->unk24 = 0x80;
     }
 
-    b = ((Unkstruct_800CBD90 *)q)->unk25 + 0x20;
-    ((Unkstruct_800CBD90 *)q)->unk25 = b;
+    b = ((Unkstruct_800B5BD8 *)q)->unk25 + 0x20;
+    ((Unkstruct_800B5BD8 *)q)->unk25 = b;
     if (b > 0x80) {
-        ((Unkstruct_800CBD90 *)q)->unk25 = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->unk25 = 0x80;
     }
 
-    h = ((Unkstruct_800CBD90 *)q)->unk1A + 0x400;
-    ((Unkstruct_800CBD90 *)q)->unk26 = ((Unkstruct_800CBD90 *)q)->unk25;
-    ((Unkstruct_800CBD90 *)q)->unk1A = h;
-    ((Unkstruct_800CBD90 *)q)->unk18 = h;
+    h = ((Unkstruct_800B5BD8 *)q)->unk1A.u + 0x400;
+    ((Unkstruct_800B5BD8 *)q)->unk26 = ((Unkstruct_800B5BD8 *)q)->unk25;
+    ((Unkstruct_800B5BD8 *)q)->unk1A.u = h;
+    ((Unkstruct_800B5BD8 *)q)->unk18.u = h;
 
     if (guess_StepPairSequence(q, (s32 *)((s32)arg0 + 0x24)) != 0) {
         ((void (*)(void *))guess_FreeSmallObject)(arg0);

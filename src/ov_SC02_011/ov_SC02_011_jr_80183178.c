@@ -985,8 +985,8 @@ void func_80184964(s32 a0) {
     hit = func_80143BDC(pos);
     if (hit != 0) {
         ptr = CAST_SIGN(u32, hit, 0xCC);
-        ((Unkstruct_8017EF48 *)ptr)->unk1A = 0x6000;
-        ((Unkstruct_8017EF48 *)ptr)->unk18 = 0x6000;
+        ((Unkstruct_800B5BD8 *)ptr)->unk1A.s = 0x6000;
+        ((Unkstruct_800B5BD8 *)ptr)->unk18.s = 0x6000;
     }
 }
 

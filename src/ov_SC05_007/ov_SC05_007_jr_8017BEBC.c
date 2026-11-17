@@ -3085,11 +3085,11 @@ void func_8017D7A0(void *param_1)
     *(CVECTOR *)p_buf = *(CVECTOR *)&D_8019BA08;
     *(CVECTOR *)(p_buf + 4) = *(CVECTOR *)&D_8019BA0C;
     ((void (*)(int, void *))guess_InitObjectKind6)(s1, p_buf);
-    ((Unkstruct_800CAFE0 *)s1)->unk2C = 0xC010;
-    ((Unkstruct_800CAFE0 *)s1)->unk4 |= 0x50000000;
-    ((Unkstruct_800CAFE0 *)s1)->unk8 = ((Unkstruct_801819B4_2 *)param_1)->unk6;
-    ((Unkstruct_800CAFE0 *)s1)->unkA = ((Unkstruct_801819B4_2 *)param_1)->unkA - 0x10;
-    ((Unkstruct_800CAFE0 *)s1)->unkC = ((Unkstruct_801819B4_2 *)param_1)->unkE - 0x10;
+    ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0xC010;
+    ((Unkstruct_800B5BD8 *)s1)->unk4.u |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)s1)->unk8.u = ((Unkstruct_801819B4_2 *)param_1)->unk6;
+    ((Unkstruct_800B5BD8 *)s1)->unkA.u = ((Unkstruct_801819B4_2 *)param_1)->unkA - 0x10;
+    ((Unkstruct_800B5BD8 *)s1)->unkC.u = ((Unkstruct_801819B4_2 *)param_1)->unkE - 0x10;
 label:
     ((void (*)(void *))func_8012AD50)(param_1);
 }

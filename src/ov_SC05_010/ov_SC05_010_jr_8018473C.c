@@ -4777,15 +4777,15 @@ void func_801877A8(s32 arg0)
     s32 r;
 
     func_8001CB6C(*(u8 **)(arg0 + 0x20), D_801942C0, 0x234, 0x1C0);
-    ((Unkstruct_800CBD90 *)*(u32 *)(arg0 + 0x20))->unk27 = 0x26;
+    ((Unkstruct_800B5BD8 *)*(u32 *)(arg0 + 0x20))->unk27 = 0x26;
     ((Unkstruct_801877A8 *)arg0)->unk30 = rand() & 0x1FF;
     ((Unkstruct_801877A8 *)arg0)->unk32 = rand() & 0x1F;
     ((Unkstruct_801877A8 *)arg0)->unk34 = rand() & 0x7F;
     q = rand();
     work = *(u8 **)(arg0 + 0x20);
     r = q % 0x1000 + 0x800;
-    ((Unkstruct_800CBD90 *)work)->unk1A = r;
-    ((Unkstruct_800CBD90 *)work)->unk18 = r;
+    ((Unkstruct_800B5BD8 *)work)->unk1A.u = r;
+    ((Unkstruct_800B5BD8 *)work)->unk18.u = r;
     ((Unkstruct_801877A8 *)arg0)->unk2 = ((Unkstruct_801877A8 *)arg0)->unk2 + 1;
 }
 

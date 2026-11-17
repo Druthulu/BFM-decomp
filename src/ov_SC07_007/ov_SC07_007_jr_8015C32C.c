@@ -644,7 +644,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];
@@ -5331,7 +5331,7 @@ void func_80164930(s32 param_1) {
     extern s16 D_80185B2E;
     extern u16 D_80185B30;
     int iVar3 = ((Unkstruct_801647A4_5 *)param_1)->unk20;
-    if (((Unkstruct_801647A4_5 *)param_1)->unk50 == 0) {
+    if (((Unkstruct_801647A4_5 *)param_1)->f50 == 0) {
         short sVar1 = ((Unkstruct_80164930_2 *)iVar3)->unk1C + 0x100;
         short nv;
         CAST_ALIAS(short, iVar3, 0x1c) = sVar1;
@@ -6094,7 +6094,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_801C6828)[param_3];
-    s32 uVar6 = ((Unkstruct_80166994_3 *)param_1)->unk34;
+    s32 uVar6 = ((Unkstruct_8011D030 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];
@@ -6711,11 +6711,11 @@ void func_8016829C(s32 a0) {
     if ((((Unkstruct_80165FA4_2 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_8011D030 *)a0)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)a0)->unk2A.u = v0;
         if (v0 == 0) {
-            func_80166994(a0, 0, ((Unkstruct_80166994_3 *)a0)->unk2C, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
+            func_80166994(a0, 0, ((Unkstruct_8011D030 *)a0)->unk2C.i.lo, 0);
+            ((Unkstruct_8011D030 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
     (void)s0;
@@ -6759,11 +6759,11 @@ void func_801684B4(s32 a0) {
     if ((((Unkstruct_80165FA4_2 *)*(s32 *)(a0 + 0x34))->unk44 & 0x2) == 0) {
         ((void (*)(void))guess_FreeSmallObject)();
     } else {
-        s16 v0 = ((Unkstruct_80166994_3 *)a0)->unk2A - 1;
-        ((Unkstruct_80166994_3 *)a0)->unk2A = v0;
+        s16 v0 = ((Unkstruct_8011D030 *)a0)->unk2A.u - 1;
+        ((Unkstruct_8011D030 *)a0)->unk2A.u = v0;
         if (v0 == 0) {
             func_80166994(a0, 0, 2, 0);
-            ((Unkstruct_80166994_3 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
+            ((Unkstruct_8011D030 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
         }
     }
 }

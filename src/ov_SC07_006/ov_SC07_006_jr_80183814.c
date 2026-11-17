@@ -645,7 +645,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];
@@ -6052,7 +6052,7 @@ void func_80189FDC(s32 param_1)
     s0 = ((Unkstruct_8017DE80_2 *)param_1)->unk20;
     switch (((Unkstruct_8017DE80_2 *)param_1)->unk2C) {
     case 0:
-        ((Unkstruct_80189FDC *)s0)->unk12 = 0x400;
+        ((Unkstruct_800B5BD8 *)s0)->unk12.s = 0x400;
         CAST_ALIAS(s32, (s32)s0, 4) |= 0x60000000;
         D_801F6180 = 0;
         D_801F6184 = 0;
@@ -6063,7 +6063,7 @@ void func_80189FDC(s32 param_1)
         ((Unkstruct_8017DE80_2 *)s1)->unk1C = 0x3C;
         break;
     case 1:
-        ((Unkstruct_80189FDC *)s0)->unk12 = 0x400;
+        ((Unkstruct_800B5BD8 *)s0)->unk12.s = 0x400;
         CAST_ALIAS(s32, (s32)s0, 4) |= 0x50000000;
         D_801F6140 = 0xC0;
         D_801F6144 = 0;
@@ -6074,10 +6074,10 @@ void func_80189FDC(s32 param_1)
         ((Unkstruct_8017DE80_2 *)s1)->unk1C = 0x3C;
         break;
     case 2:
-        ((Unkstruct_80189FDC *)s0)->unk1E = 0xC00;
-        ((Unkstruct_80189FDC *)s0)->unk4 |= 0x60000000;
-        ((Unkstruct_80189FDC *)s0)->unk10 = rand();
-        ((Unkstruct_80189FDC *)s0)->unk12 = rand();
+        ((Unkstruct_800B5BD8 *)s0)->unk1E.s = 0xC00;
+        ((Unkstruct_800B5BD8 *)s0)->unk4.s |= 0x60000000;
+        ((Unkstruct_800B5BD8 *)s0)->unk10.s = rand();
+        ((Unkstruct_800B5BD8 *)s0)->unk12.s = rand();
         break;
     }
     ((Unkstruct_8017DE80_2 *)s1)->unk2 += 1;

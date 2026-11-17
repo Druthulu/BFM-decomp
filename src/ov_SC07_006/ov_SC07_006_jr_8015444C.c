@@ -633,7 +633,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];

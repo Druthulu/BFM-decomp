@@ -644,7 +644,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];
@@ -4096,7 +4096,7 @@ void func_8016DF5C(s32 param_1)
         D_8018FE9C = 0;
         ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
-        ((Unkstruct_800B5BD8 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
+        ((Unkstruct_800B5BD8 *)iNew)->unk34.s = (s32)((u8 *)((void *)param_1) + 0x38);
         ((Unkstruct_800B5BD8 *)iNew)->unk1A.s = 0;
         ((Unkstruct_800B5BD8 *)iNew)->unk18.s = 0;
         ((Unkstruct_800B5BD8 *)iNew)->unk4.u = ((Unkstruct_800B5BD8 *)iNew)->unk4.u | 0x50000000;

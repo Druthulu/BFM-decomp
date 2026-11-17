@@ -4791,11 +4791,11 @@ void func_801813D0(int param_1)
 
     p = ((Unkstruct_801813D0 *)param_1)->unk20;
     *(u8 **)(p + 0x20) = D_800D387C;
-    ((Unkstruct_801813D0_2 *)p)->unk27 = 0x9c;
-    ((Unkstruct_801813D0_2 *)p)->unk26 = 0x40;
-    ((Unkstruct_801813D0_2 *)p)->unk25 = 0x40;
-    ((Unkstruct_801813D0_2 *)p)->unk24 = 0x40;
-    ((Unkstruct_801813D0_2 *)p)->unk4 = ((Unkstruct_801813D0_2 *)p)->unk4 | 0x60000000;
+    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9c;
+    ((Unkstruct_800B5BD8 *)p)->unk26 = 0x40;
+    ((Unkstruct_800B5BD8 *)p)->unk25 = 0x40;
+    ((Unkstruct_800B5BD8 *)p)->unk24 = 0x40;
+    ((Unkstruct_800B5BD8 *)p)->unk4.u = ((Unkstruct_800B5BD8 *)p)->unk4.u | 0x60000000;
 
     guess_StartPairSequence(((Unkstruct_801813D0 *)param_1)->unk20, param_1 + 0x24, (s32)D_800D3888);
 
@@ -4810,11 +4810,11 @@ void func_801813D0(int param_1)
     v = (r1 & 3) * 1024;
     v += (r2 & 3) * 250;
     v += (r3 & 3) * 68;
-    ((Unkstruct_801813D0_2 *)p)->unk10 = v;
+    ((Unkstruct_800B5BD8 *)p)->unk10.s = v;
     r4 = rand();
     v2 = (r4 & 3) * 2048 + 0x1000;
-    ((Unkstruct_801813D0_2 *)p)->unk1A = v2;
-    ((Unkstruct_801813D0_2 *)p)->unk18 = v2;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.s = v2;
+    ((Unkstruct_800B5BD8 *)p)->unk18.s = v2;
     r5 = rand();
     ((Unkstruct_801813D0 *)param_1)->unk2E = (r5 & 3) + 1;
     ((Unkstruct_801813D0 *)param_1)->unk2 = ((Unkstruct_801813D0 *)param_1)->unk2 + 1;

@@ -7,19 +7,19 @@ void SHARED_FN(s32 param_1) {
     extern u8 D_800D3888[];
     s32 t;
 
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
 
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
     t = ((Unkstruct_80184178 *)param_1)->unk20;
-    ((Unkstruct_80184178_2 *)t)->unk1A = 0x2000;
-    ((Unkstruct_80184178_2 *)t)->unk18 = 0x2000;
+    ((Unkstruct_800B5BD8 *)t)->unk1A.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)t)->unk18.u = 0x2000;
 
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk24 = 0xff;
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk25 = 0;
-    ((Unkstruct_80184178_2 *)*(s32 *)(param_1 + 0x20))->unk26 = 0;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk24 = 0xff;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk25 = 0;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk26 = 0;
 
     guess_StartPairSequence(((Unkstruct_80184178 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
 

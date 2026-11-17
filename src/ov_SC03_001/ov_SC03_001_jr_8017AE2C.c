@@ -3401,11 +3401,11 @@ void func_8017C100(s32 param_1)
     } else {
         func_8001CC3C(s0, (s32)D_80190EF8, 0x3c0, 0xa0);
     }
-    ((Unkstruct_8017C100_2 *)s0)->unk27 = 0xfc;
-    ((Unkstruct_8017C100_2 *)s0)->unk1A = 0x3c00;
-    ((Unkstruct_8017C100_2 *)s0)->unk18 = 0x3c00;
-    ((Unkstruct_8017C100_2 *)s0)->unk4 |= 0x01000000;
-    ((Unkstruct_8017C100_2 *)s0)->unk34 = ((Unkstruct_8017C100_3 *)param_1)->unk30;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0xfc;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3c00;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3c00;
+    ((Unkstruct_800B5BD8 *)s0)->unk4.u |= 0x01000000;
+    ((Unkstruct_800B5BD8 *)s0)->unk34.u = ((Unkstruct_8017C100_3 *)param_1)->unk30;
     (((Unkstruct_8017C100_3 *)param_1)->unk2)++;
 }
 

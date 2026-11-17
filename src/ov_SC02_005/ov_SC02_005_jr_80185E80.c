@@ -4180,27 +4180,27 @@ void func_8018BB9C(s32 param_1)
     s32 v1;
 
     // *(u32*)(*(s32*)(param_1 + 0x20) + 0x20) = (u32)&D_80196768;
-    ((Unkstruct_8018BB9C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_80196768;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_80196768;
 
     // *(u32*)(*(s32*)(param_1 + 0x20) + 4) |= 0x50000000;
-    ((Unkstruct_8018BB9C_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
 
     // *(u8*)(*(s32*)(param_1 + 0x20) + 0x27) = 0x90;
-    ((Unkstruct_8018BB9C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
 
     // v0 = *(u16*)(param_1 + 0x34) & 0x7FFF;
     v0 = ((Unkstruct_80143458 *)param_1)->unk34 & 0x7FFF;
 
     if (v0) {
         v1 = ((Unkstruct_80143458 *)param_1)->unk20;
-        ((Unkstruct_8018BB9C_2 *)v1)->unk1A = v0;
+        ((Unkstruct_800B5BD8 *)v1)->unk1A.s = v0;
     } else {
         v1 = ((Unkstruct_80143458 *)param_1)->unk20;
         v0 = 0x3000;
-        ((Unkstruct_8018BB9C_2 *)v1)->unk1A = v0;
+        ((Unkstruct_800B5BD8 *)v1)->unk1A.s = v0;
     }
 
-    ((Unkstruct_8018BB9C_2 *)v1)->unk18 = v0;
+    ((Unkstruct_800B5BD8 *)v1)->unk18.s = v0;
 
     // guess_StartPairSequence(*(u32*)(param_1 + 0x20), param_1 + 0x24, (s32)&D_80196774);
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196774);

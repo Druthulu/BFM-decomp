@@ -3545,7 +3545,7 @@ void func_8016DF5C(s32 param_1)
         D_801A7804 = 0;
         ((void(*)(void *, unsigned short))guess_BuildCircle12Points)((void *)base, 0x40);
         func_8001CD50(iNew, base);
-        ((Unkstruct_800B5BD8 *)iNew)->unk34 = (s32)((u8 *)((void *)param_1) + 0x38);
+        ((Unkstruct_800B5BD8 *)iNew)->unk34.s = (s32)((u8 *)((void *)param_1) + 0x38);
         ((Unkstruct_800B5BD8 *)iNew)->unk1A.s = 0;
         ((Unkstruct_800B5BD8 *)iNew)->unk18.s = 0;
         ((Unkstruct_800B5BD8 *)iNew)->unk4.u = ((Unkstruct_800B5BD8 *)iNew)->unk4.u | 0x50000000;

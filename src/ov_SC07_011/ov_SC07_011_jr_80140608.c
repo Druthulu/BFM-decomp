@@ -629,7 +629,7 @@ extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
 extern void func_8013A164(struct S8013A164 *a0);
 extern void func_8013A1E8(s32 a0);
-extern void func_8013A250(struct S8013A250 *a0);
+extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
 extern void func_8013A378(void);
 extern u8 D_8011DA80[];
@@ -1917,20 +1917,20 @@ void func_80143458(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_800D387C;
 
     p = ((Unkstruct_80143458_3 *)param_1)->unk20;
-    if (((Unkstruct_8014358C_2 *)p)->unk4 == 0) {
-        ((Unkstruct_8014358C_2 *)p)->unk4 = 0x50000000;
+    if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {
+        ((Unkstruct_800B5BD8 *)p)->unk4.s = 0x50000000;
     }
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
     v = ((Unkstruct_80143458_3 *)param_1)->unk34 & 0x7fff;
     if (v != 0) {
         p = ((Unkstruct_80143458_3 *)param_1)->unk20;
-        ((Unkstruct_8014358C_2 *)p)->unk1A = v;
-        ((Unkstruct_8014358C_2 *)p)->unk18 = v;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
     }
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24,
@@ -1962,20 +1962,20 @@ void func_8014358C(s32 param_1)
     s32 p;
     u16 v;
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8017FE8C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8017FE8C;
 
     p = ((Unkstruct_80143458 *)param_1)->unk20;
-    if (((Unkstruct_8014358C_2 *)p)->unk4 == 0) {
-        ((Unkstruct_8014358C_2 *)p)->unk4 = 0x50000000;
+    if (((Unkstruct_800B5BD8 *)p)->unk4.s == 0) {
+        ((Unkstruct_800B5BD8 *)p)->unk4.s = 0x50000000;
     }
 
-    ((Unkstruct_8014358C_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
 
     v = ((Unkstruct_80143458 *)param_1)->unk34 & 0x7fff;
     if (v != 0) {
         p = ((Unkstruct_80143458 *)param_1)->unk20;
-        ((Unkstruct_8014358C_2 *)p)->unk1A = v;
-        ((Unkstruct_8014358C_2 *)p)->unk18 = v;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
     }
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24,

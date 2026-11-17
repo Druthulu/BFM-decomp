@@ -6129,11 +6129,11 @@ void func_80182B80(void *a0)
     s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
     p = D_801A5A80 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
     func_8001CD50(s1, (s32)p);
-    ((Unkstruct_8017DE80 *)s1)->unk1E = 0xCCC;
-    ((Unkstruct_8017DE80 *)s1)->unk10 = 0x400;
-    ((Unkstruct_8017DE80 *)s1)->unk1A = 0;
-    ((Unkstruct_8017DE80 *)s1)->unk18 = 0;
-    ((Unkstruct_8017DE80 *)s1)->unk4 = ((Unkstruct_8017DE80 *)s1)->unk4 | 0x50000000;
+    ((Unkstruct_800B5BD8 *)s1)->unk1E.s = 0xCCC;
+    ((Unkstruct_800B5BD8 *)s1)->unk10.s = 0x400;
+    ((Unkstruct_800B5BD8 *)s1)->unk1A.s = 0;
+    ((Unkstruct_800B5BD8 *)s1)->unk18.s = 0;
+    ((Unkstruct_800B5BD8 *)s1)->unk4.s = ((Unkstruct_800B5BD8 *)s1)->unk4.s | 0x50000000;
     guess_BuildCircle12Points(p, 0x80);
     p[2] = 0xFF;
     p[1] = 0xFF;

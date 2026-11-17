@@ -80,28 +80,28 @@ void func_800CAFA0(void *a0) {
     s32 *s3 = *(s32 **)((s32)a0 + 0x20);
 
     if (D_80078EC1 != 0x11) {
-        guess_SpawnSmallObject(3, a0, ((Unkstruct_800CAFA0 *)a0)->unk6, ((Unkstruct_800CAFA0 *)a0)->unkA, ((Unkstruct_800CAFA0 *)a0)->unkE, 0xAAAFFFA, 0xE000B400);
+        guess_SpawnSmallObject(3, a0, ((Unkstruct_8011D030 *)a0)->unk6, ((Unkstruct_8011D030 *)a0)->unkA, ((Unkstruct_8011D030 *)a0)->unkE, 0xAAAFFFA, 0xE000B400);
         guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
-        RotMatrixY((((Unkstruct_800CAFA0 *)a0)->unk1C << 5) + ((Unkstruct_800CAFA0 *)a0)->unk2C, &m);
+        RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val, &m);
         m.w[5] = ((Unkstruct_8016E7C8 *)s2)->unk6;
         m.w[6] = ((Unkstruct_8016E7C8 *)s2)->unkA;
         m.w[7] = ((Unkstruct_8016E7C8 *)s2)->unkE;
         sv.x = 0;
-        sv.y = (rcos(((((Unkstruct_800CAFA0 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_800CAFA0 *)a0)->unk2C) >> 9) - 0x14;
+        sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val) >> 9) - 0x14;
         sv.z = -0x40;
         guess_RotTransSVWithMatrix((s32)&m, (s32)&sv, (s32)&sv);
-        if (((Unkstruct_800CAFA0 *)a0)->unk1C == 0) {
+        if (((Unkstruct_8011D030 *)a0)->unk1C == 0) {
             guess_SpawnSmallObject(3, a0, sv.x, sv.y, sv.z, 0xAAAFFFA, 0xE000B800);
         } else {
             *(s32 *)((s32)s3 + 4) &= 0x7FFFFFFF;
-            ((Unkstruct_800CAFA0 *)a0)->unk6 = sv.x;
-            ((Unkstruct_800CAFA0 *)a0)->unkA = sv.y;
-            ((Unkstruct_800CAFA0 *)a0)->unkE = sv.z;
+            ((Unkstruct_8011D030 *)a0)->unk6 = sv.x;
+            ((Unkstruct_8011D030 *)a0)->unkA = sv.y;
+            ((Unkstruct_8011D030 *)a0)->unkE = sv.z;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
-        (((Unkstruct_800CAFA0 *)a0)->unk1C)++;
+        (((Unkstruct_8011D030 *)a0)->unk1C)++;
     }
 }
 

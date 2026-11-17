@@ -6612,13 +6612,13 @@ void func_801816E4(void *a0)
     func_8001CD50((s32)s1, (s32)&D_801C5CC0);
 
     v0 = -0x7800;
-    ((Unkstruct_801816E4_2 *)s1)->unk1E = v0;
+    ((Unkstruct_800B5BD8 *)s1)->unk1E.u = v0;
     v0 = 0x400;
-    ((Unkstruct_801816E4_2 *)s1)->unk10 = v0;
-    v0 = ((Unkstruct_801816E4_2 *)s1)->unk4;
+    ((Unkstruct_800B5BD8 *)s1)->unk10.u = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s1)->unk4.s;
     v1 = 0x50000000;
     v0 |= v1;
-    ((Unkstruct_801816E4_2 *)s1)->unk4 = v0;
+    ((Unkstruct_800B5BD8 *)s1)->unk4.s = v0;
 
     v0 = ((Unkstruct_80180FA8 *)s0)->unk2;
     v1 = 0x1F;
@@ -6778,21 +6778,21 @@ void func_80181A70(void *a0)
     func_8001CD50((s32)s0, (s32)D_801C5D00);
     if (*(s16 *)((s32)a0 + 0x2C) == 0) {
         *(u16 *)((s32)a0 + 6) = 0;
-        ((Unkstruct_80181A70 *)s0)->unk12 = -0x200;
+        ((Unkstruct_800B5BD8 *)s0)->unk12.s = -0x200;
     } else {
         *(s16 *)((s32)a0 + 6) = -0x60;
-        ((Unkstruct_80181A70 *)s0)->unk12 = 0x1A0;
+        ((Unkstruct_800B5BD8 *)s0)->unk12.s = 0x1A0;
     }
-    ((Unkstruct_80181A70 *)s0)->unk10 = -0x100;
-    ((Unkstruct_80181A70 *)s0)->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)s0)->unk10.s = -0x100;
+    ((Unkstruct_800B5BD8 *)s0)->unk4.s |= 0x50000000;
     s0 = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (s0 != 0) {
         func_8001CB6C((u8 *)s0, (s32)D_8018A220, 0x280, 0x180);
-        ((Unkstruct_80181A70 *)s0)->unk27 = 0x4D;
-        ((Unkstruct_80181A70 *)s0)->unk8 = *(u16 *)((s32)a0 + 6);
-        ((Unkstruct_80181A70 *)s0)->unkA = *(u16 *)((s32)a0 + 0xA);
-        ((Unkstruct_80181A70 *)s0)->unkC = *(u16 *)((s32)a0 + 0xE);
-        ((Unkstruct_80181A70 *)s0)->unk4 |= 0x50000000;
+        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x4D;
+        ((Unkstruct_800B5BD8 *)s0)->unk8.u = *(u16 *)((s32)a0 + 6);
+        ((Unkstruct_800B5BD8 *)s0)->unkA.u = *(u16 *)((s32)a0 + 0xA);
+        ((Unkstruct_800B5BD8 *)s0)->unkC.u = *(u16 *)((s32)a0 + 0xE);
+        ((Unkstruct_800B5BD8 *)s0)->unk4.s |= 0x50000000;
         *(s32 *)((s32)a0 + 0x34) = s0;
     }
     *(s32 *)((s32)a0 + 0x2C) = 0x4000;
