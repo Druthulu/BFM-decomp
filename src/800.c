@@ -4052,11 +4052,11 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
-        gte_ldv3(&arg0->v[0], &arg0->v[1], &arg0->v[2]);
+        gte_ldv3(&arg0->unk0.v0.v[0], &arg0->unk0.v0.v[1], &arg0->unk0.v0.v[2]);
         gte_rtpt();
         gte_stflg(&flag1);
         gte_stsxy3(&p->x0, &p->x1, &p->x2);
-        gte_ldv0(&arg0->v[3]);
+        gte_ldv0(&arg0->unk0.v0.v[3]);
         gte_rtps();
         gte_stflg(&flag2);
         flag1 |= flag2;
@@ -4064,12 +4064,12 @@ void func_80017930(Src_80017930 *arg0, s32 arg1, s32 arg2)
         gte_avsz4();
         gte_stotz(&otz);
     } else {
-        *(u32 *)&p->x0 = *(u32 *)&arg0->v[0];
-        *(u32 *)&p->x1 = *(u32 *)&arg0->v[1];
-        *(u32 *)&p->x2 = *(u32 *)&arg0->v[2];
-        *(u32 *)&p->x3 = *(u32 *)&arg0->v[3];
+        *(u32 *)&p->x0 = *(u32 *)&arg0->unk0.v0.v[0];
+        *(u32 *)&p->x1 = *(u32 *)&arg0->unk0.v0.v[1];
+        *(u32 *)&p->x2 = *(u32 *)&arg0->unk0.v0.v[2];
+        *(u32 *)&p->x3 = *(u32 *)&arg0->unk0.v0.v[3];
         flag1 = 0;
-        otz = arg0->v[0].vz;
+        otz = arg0->unk0.v0.v[0].vz;
     }
 
     w = arg0->uv[0];
@@ -4267,16 +4267,16 @@ void func_80017B98(void *arg0)
 #undef SHARED_FN
 
 
-void func_80017DC4(u16 *a0, Dst17DC4 *a1) {
-    a1->unk00 = a0[0];
-    a1->unk02 = 0;
-    a1->unk04 = 0;
-    a1->unk06 = 0;
-    a1->unk08 = a0[1];
-    a1->unk0A = 0;
-    a1->unk0C = 0;
-    a1->unk0E = 0;
-    a1->unk10 = a0[2];
+void func_80017DC4(u16 *a0, MATRIX *a1) {
+    a1->m[0][0] = a0[0];
+    a1->m[0][1] = 0;
+    a1->m[0][2] = 0;
+    a1->m[1][0] = 0;
+    a1->m[1][1] = a0[1];
+    a1->m[1][2] = 0;
+    a1->m[2][0] = 0;
+    a1->m[2][1] = 0;
+    a1->m[2][2] = a0[2];
 }
 
 

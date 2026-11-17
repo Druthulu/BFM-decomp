@@ -3446,8 +3446,8 @@ void func_8017D288(void) {
     extern s16 guess_g_MainCameraRefOffsetTargetX; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX
     extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetY
     extern s16 guess_g_MainCameraRefOffsetTargetZ; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetZ
-    extern Blk8_801867AC D_801274F0;
-    extern Blk8_801867AC D_801869C0;
+    extern SVECTOR D_801274F0;
+    extern SVECTOR D_801869C0;
 
     D_80126954 = 0x190;
     D_8012695C = 0x15E;
@@ -4243,13 +4243,13 @@ void func_8017E5D8(s32 arg0) {
 void func_8017E608(s32 arg0) {
     s16 t;
 
-    t = ((Unkstruct_8017E608_2 *)arg0)->unk4;
-    ((Unkstruct_8017E608_2 *)arg0)->unk10 = -1;
-    ((Unkstruct_8017E608_2 *)arg0)->unk8 = 0;
-    ((Unkstruct_8017E608_2 *)arg0)->unkA = -1;
-    ((Unkstruct_8017E608_2 *)arg0)->unkC = 0;
-    ((Unkstruct_8017E608_2 *)arg0)->unk6 = 0;
-    ((Unkstruct_8017E608_2 *)arg0)->unk4 = t + 1;
+    t = ((Unkstruct_8017E634 *)arg0)->unk4;
+    ((Unkstruct_8017E634 *)arg0)->unk10 = -1;
+    ((Unkstruct_8017E634 *)arg0)->unk8 = 0;
+    ((Unkstruct_8017E634 *)arg0)->unkA.s = -1;
+    ((Unkstruct_8017E634 *)arg0)->unkC = 0;
+    ((Unkstruct_8017E634 *)arg0)->unk6 = 0;
+    ((Unkstruct_8017E634 *)arg0)->unk4 = t + 1;
 }
 
 
@@ -4263,7 +4263,7 @@ void func_8017E634(void *arg0) {
 
     if (func_80181334(0, 7) != 0) {
         ((Unkstruct_8017E634 *)arg0)->unk8 = 0;
-        ((Unkstruct_8017E634 *)arg0)->unkA = 0;
+        ((Unkstruct_8017E634 *)arg0)->unkA.u = 0;
         ((Unkstruct_8017E634 *)arg0)->unkC = 0;
         ((Unkstruct_8017E634 *)arg0)->unk10 += 1;
     }
@@ -4277,14 +4277,14 @@ void func_8017E634(void *arg0) {
             CAST_ALIAS(s16, arg0, 10) = -1;
         } else {
             KR_AS(void, func_80181120)(0, *(s32 *)entry);
-            ((Unkstruct_8017E634 *)arg0)->unkA += 1;
+            ((Unkstruct_8017E634 *)arg0)->unkA.u += 1;
         }
         break;
 
     case 1:
         ((Unkstruct_8017E634 *)arg0)->unkE -= 1;
         if (((Unkstruct_8017E634 *)arg0)->unkE == 0) {
-            ((Unkstruct_8017E634 *)arg0)->unkA = 0;
+            ((Unkstruct_8017E634 *)arg0)->unkA.u = 0;
             ((Unkstruct_8017E634 *)arg0)->unk8 += 1;
         }
         break;

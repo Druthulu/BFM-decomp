@@ -4153,9 +4153,9 @@ void func_80187190(s32 a0) {
         p = ((Unkstruct_800B5CB8 *)a0)->unkCC;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = *(u16 *)(p + 6);
         guess_RotTransSVWithMatrix(*(s32 *)(obj + 0x20) + 0x34, p, (s32)&sv);
-        CAST_ALIAS(u16, a0, 6) = *(u16 *)&sv.unk0.v0.c[0];
-        CAST_ALIAS(u16, a0, 0xA) = *(u16 *)&sv.unk0.v0.c[2];
-        ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)&sv.unk0.v0.c[4];
+        CAST_ALIAS(u16, a0, 6) = *(u16 *)&sv.vx;
+        CAST_ALIAS(u16, a0, 0xA) = *(u16 *)&sv.vy;
+        ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)&sv.vz;
         p += 8;
         if (*(s16 *)(p + 6) == 0x7FFF) {
             ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x1E;
@@ -4183,8 +4183,8 @@ void func_80187190(s32 a0) {
             *(u16 *)(q + 0x18) = w;
         }
         sv = D_801A9A70;
-        *(s16 *)&sv.unk0.v0.c[2] =
-            (*(s16 *)&sv.unk0.v0.c[2] * *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A)) >> 12;
+        sv.vy =
+            (sv.vy * *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1A)) >> 12;
         r = ((s32 (*)(s32, s32))func_8012CC1C)(a0, (s32)&sv);
         if ((r & 0x2000) == 0) {
             c = guess_TickWaitTimer(a0);

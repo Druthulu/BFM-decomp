@@ -1631,6 +1631,12 @@ cause: 2 names (260 B, all members placeholders) bound to 2 distinct objects, no
 - `Unkstruct_801808D0`: 1 obj — ov_SC02_028/0x801808D0:s0
 - `Unkstruct_8018339C`: 1 obj — ov_SC02_027/0x8018339C:s0
 
+### c80fac242f04
+names: Mat801A8E34, Quad_td
+cause: 2 names (32 B, all members placeholders) bound to 3 distinct objects, none bound to two names: md_SC07_004/0x801A8E34:buf, ov_SC06_000/0x80183C9C:mat, ov_SC07_010/0x8017FA94:quad; full list: tools/struct_twins.py --show c80fac242f04
+- `Mat801A8E34`: 2 obj — md_SC07_004/0x801A8E34:buf, ov_SC06_000/0x80183C9C:mat
+- `Quad_td`: 1 obj — ov_SC07_010/0x8017FA94:quad
+
 ### c856f347db1b
 names: Unkstruct_80180878, Unkstruct_801819D0
 cause: 2 names (56 B, all members placeholders) bound to 11 distinct objects, none bound to two names: ov_SC01_077/0x80182E30:param_1, ov_SC02_000/0x80180878:param_1, ov_SC03_001/0x80188124:a0, ov_SC03_002/0x80183C10:a0, ov_SC03_124/0x80184D8C:a0, ov_SC03_125/0x80182494:a0, ov_SC04_015/0x801819D0:a0, ov_SC04_018/0x80185664:a0 …; full list: tools/struct_twins.py --show c856f347db1b

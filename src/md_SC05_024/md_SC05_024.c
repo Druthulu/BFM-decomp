@@ -85,7 +85,7 @@ extern void func_80175414(s32 _arg0);
 INCLUDE_RODATA("asm/md_SC05_024/nonmatchings/md_SC05_024", D_801ED988);
 
 
-const Blk8_md_SC03_076 D_801ED98C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801ED98C = {0, -130, 176, 0};
 
 extern int func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
@@ -130,7 +130,7 @@ extern void func_80171A1C(void*);
 #undef SHARED_FN
 
 
-const Blk8_md_SC03_076 D_801ED994 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801ED994 = {-43, -130, -267, 0};
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void*);
 

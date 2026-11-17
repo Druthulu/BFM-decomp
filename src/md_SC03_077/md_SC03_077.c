@@ -109,7 +109,7 @@ INCLUDE_RODATA("asm/md_SC03_077/nonmatchings/md_SC03_077", D_801EF468);
 #include "common.h"
 
 
-const Blk8_md_SC03_076 D_801EF46C = {{0x00, 0x00, 0x7E, 0xFF, 0xB0, 0x00, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801EF46C = {0, -130, 176, 0};
 
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void *);
@@ -158,7 +158,7 @@ extern void func_80171A1C(void*);
 
 
 
-const Blk8_md_SC03_076 D_801EF474 = {{0xD5, 0xFF, 0x7E, 0xFF, 0xF5, 0xFE, 0x00, 0x00}};
+const Blk8_md_SC03_076 D_801EF474 = {-43, -130, -267, 0};
 
 extern s32 func_80171D78(u32, void *);
 extern void func_80171A1C(void *);

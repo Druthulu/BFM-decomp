@@ -315,7 +315,7 @@ void func_800CB300(s32 arg0) {
     if (!(flags & 0x2000)) {
         return;
     }
-    st = work[1].unk0.v0.c[6];
+    st = (u8)work[1].pad;
     if (st == 0x19) {
         if (D_801151D8 != 0) {
             if (func_800CB7B0(s1) == 0) {

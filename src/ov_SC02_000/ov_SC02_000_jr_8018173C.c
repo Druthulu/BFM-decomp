@@ -5432,7 +5432,7 @@ void func_80186AE4(s32 self)
     s32 iVar1;
     Ent_80186AE4 *p;
 
-    *(Blk254_80186AE4 *)&D_801E801C = *(Blk254_80186AE4 *)&guess_g_PlayerActor;
+    *(Unkstruct_80126B58 *)&D_801E801C = *(Unkstruct_80126B58 *)&guess_g_PlayerActor;
 
     iVar1 = func_8012BD14(self);
     if (iVar1 < 0xC41) {
