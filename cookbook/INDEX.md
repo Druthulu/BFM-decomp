@@ -1082,3 +1082,4 @@ C0629 | Tell a view's pool without tracing spawns: overlay header tables, sprite
 C0630 | Name an actor variant by its kind: trace a function to its actor-table entry | struct,variant,actor,kind,handler,absorb,t17 | 2026-11-16 | 3.45/T17 | P3.45 T17 judges c6-c7
 C0631 | Map call args to params: struct-by-value returns shift args; KR_AS() and pooled shared-body traps | tracing,calls,abi,struct-return,parent,absorb,t17 | 2026-11-16 | 3.45/T17 | P3.45 T17.c16
 C0632 | Applying absorbs at fleet scale: walker misses, survivor cites, typed-pointer hand-folds vs the gate | struct,absorb,fold-batch,gate,survivor,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c12
+C0633 | Value folds and field retypes after absorption: VECTOR is 12 bytes, stamp-chain gates, hub-field retypes | struct,fold,psyq,rung-T,field,gate,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c18
