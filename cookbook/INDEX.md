@@ -1078,3 +1078,7 @@ C0625 | Absorb views into one parent in sequence: gap-union variants, sign-union
 C0626 | Absorb leaf mapping: pointer vs s32, fixed-point halves, typed-pointer adoption trap | struct,absorb,fixed-point,union,pointer,t16 | 2026-11-15 | 3.45/T16 | P3.45 T16.c6
 C0627 | Per-source absorb: split a placeholder across parents by pointer source (fold-batch keys files) | struct,absorb,per-source,split,fold-batch,t16 | 2026-11-16 | 3.45/T16 | P3.45 T16.c7
 C0628 | Rung T at fleet scale: global keys, shared-header bodies, missed declarations | restruct,rung-T,typing,global,shared-body,sig_evidence,t16 | 2026-11-16 | 3.45/T16 | P3.45 T16.c8-c9
+C0629 | Tell a view's pool without tracing spawns: overlay header tables, sprite vs model test | struct,parent,pool,actor,sprite,model,absorb,t17 | 2026-11-16 | 3.45/T17 | P3.45 T17 judges c2-c4
+C0630 | Name an actor variant by its kind: trace a function to its actor-table entry | struct,variant,actor,kind,handler,absorb,t17 | 2026-11-16 | 3.45/T17 | P3.45 T17 judges c6-c7
+C0631 | Map call args to params: struct-by-value returns shift args; KR_AS() and pooled shared-body traps | tracing,calls,abi,struct-return,parent,absorb,t17 | 2026-11-16 | 3.45/T17 | P3.45 T17.c16
+C0632 | Applying absorbs at fleet scale: walker misses, survivor cites, typed-pointer hand-folds vs the gate | struct,absorb,fold-batch,gate,survivor,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c12
