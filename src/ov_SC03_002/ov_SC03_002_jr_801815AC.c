@@ -3104,7 +3104,7 @@ void func_80181B24(s32 a0)
     if (func_80183550(a0) != 0) {
         func_80183480(a0, (s32)&D_801A4304, 1, 0x70);
     }
-    if (func_8012BD14(((Unkstruct_800B5CB8 *)a0)->unk64) < 0x4001) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) < 0x4001) {
         func_8014CB68();
     }
 }

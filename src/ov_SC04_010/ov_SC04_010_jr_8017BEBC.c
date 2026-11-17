@@ -2988,12 +2988,12 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern u8 D_80181D00[];
 
 void func_8017D560(s32 a0) {
-    ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     CAST_WIDTH(s16, a0, 0x5E) = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
     guess_SetGameFlag(0xBC, 1);
-    if (((Unkstruct_800B5CB8 *)a0)->unkCC != 0) {
-        guess_ZeroMemory((void *)((Unkstruct_800B5CB8 *)a0)->unkCC, 0x38);
+    if (((Unkstruct_801202A0 *)a0)->unkCC.val != 0) {
+        guess_ZeroMemory((void *)((Unkstruct_801202A0 *)a0)->unkCC.val, 0x38);
     }
     func_80178B18(a0, (s32)D_80181D00);
     func_8012AD44((s32 *)a0, 2);
@@ -3044,7 +3044,7 @@ s32 func_8017D5DC(void* param_1)
 
 void func_8017D6C4(void *a0)
 {
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 0;
     }
 
 
@@ -3108,34 +3108,34 @@ void func_8017D844(void *a0) {
     s32 v0;
 
     v0 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
     guess_InitModelObject(v0, (s32)D_8018CBA8);
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x880;
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = 0x1330;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = 0x1330;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x10;
-    *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) |= 0x70000000;
+    *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 4) |= 0x70000000;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 = 0;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A = 0;
-    *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x1C) = 0;
+    *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x1C) = 0;
     guess_RequestSound(0x90F, 0);
     func_8012AD50(a0);
 }
 
 
 void func_8017D904(void *a0) {
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
         ((Unkstruct_800B5CB8 *)*(u32 *)((u8 *)a0 + 0x20))->unk18 += 0x400;
         ((Unkstruct_800B5CB8 *)*(u32 *)((u8 *)a0 + 0x20))->unk1A += 0x333;
         CAST_WIDTH(u16, *(u32 *)((u8 *)a0 + 0x20), 0x1C) += 0x400;
         if (CAST_SIGN(s16, *(u32 *)((u8 *)a0 + 0x20), 0x18) >= 0x1400) {
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x60;
-            ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x60;
+            ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
         }
         break;
     case 1:
@@ -3169,20 +3169,20 @@ void func_8017DA58(s32 a0) {
     s32 v0;
 
     v0 = guess_SpawnActorNoArg(0x288, a0);
-    ((Unkstruct_800B5CB8 *)a0)->unkD0 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = v0;
     if ((u32)guess_GetStoryProgress() >= 900) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         if (guess_InitActorModel(a0, (s32)D_80181CBC) != 0) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0x400;
-            ((Unkstruct_800B5CB8 *)a0)->unkC0 = 1;
-            ((Unkstruct_800B5CB8 *)a0)->unkBC = (s32)D_80181C9C;
-            ((Unkstruct_800B5CB8 *)a0)->unkAE = -4;
-            ((Unkstruct_800B5CB8 *)a0)->unkC4 |= 2;
-            ((Unkstruct_800B5CB8 *)a0)->unkB4 = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unk75 = 0x14;
-            ((Unkstruct_800B5CB8 *)a0)->unkCC = func_8017D5DC(a0);
+            ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
+            ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_80181C9C;
+            ((Unkstruct_801202A0 *)a0)->extE.kcls_7edb30ee0251.unkAE = -4;
+            ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
+            ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+            ((Unkstruct_801202A0 *)a0)->unk75 = 0x14;
+            ((Unkstruct_801202A0 *)a0)->unkCC.val = func_8017D5DC(a0);
             func_8017D6C4(a0);
             func_8012AD50(a0);
         }
@@ -3218,15 +3218,15 @@ void func_8017DB9C(int param_1)
     int v0;
 
     v0 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)param_1);
     } else {
         guess_InitModelObject(v0, &D_8018C568);
-        *(u32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) |= 0x40;
+        *(u32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) |= 0x40;
         CAST_ALIAS(s16, param_1, 0xA) = -0x7E0;
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = 0;
-        ((Unkstruct_800B5CB8 *)param_1)->unkE = 0x129C;
+        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = 0x129C;
         func_8012AD50(param_1);
     }
 }
@@ -3363,7 +3363,7 @@ void func_8017DDEC(void *a0) {
     default:
         p = guess_g_ObjectTable;
         for (i = 0; i < 0x60; i++) {
-            if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
+            if (((Unkstruct_801202A0 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }

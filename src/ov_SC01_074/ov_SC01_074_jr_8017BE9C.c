@@ -3285,7 +3285,7 @@ void func_8017D2F8(void *a0, s32 a1) {
         CAST_WIDTH(s32, v0, 4) = *(s32 *)((s32)a0 + 4);
         CAST_WIDTH(s32, v0, 8) = *(s32 *)((s32)a0 + 8) - 0x400000;
         t = *(u32 *)((s32)a0 + 0xC);
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = (s16)a1;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = (s16)a1;
         CAST_WIDTH(s32, v0, 0xC) = t;
     }
 }
@@ -3525,7 +3525,7 @@ void func_8017D918(s32 a0)
 
     v0 = func_8012E544(0x19C);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 0;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 0;
     }
     v0 = func_8012E544(0x29A);
     if (v0 != 0) {
@@ -3572,7 +3572,7 @@ void func_8017D98C(void *a0, s32 a1, s32 a2, s32 a3) {
         CAST_WIDTH(s32, v1, 4) = *(s32 *)((s32)a0 + 4);
         CAST_WIDTH(s32, v1, 8) = *(s32 *)((s32)a0 + 8);
         CAST_WIDTH(s32, v1, 0xC) = *(s32 *)((s32)a0 + 0xC);
-        ((Unkstruct_800B5CB8 *)v1)->unkFC = (s16)a1;
+        ((Unkstruct_801202A0 *)v1)->unkFC.s = (s16)a1;
     }
 
     v1 = func_8012E544(0x285);
@@ -3910,7 +3910,7 @@ extern void (*D_80195D14[])(unsigned char *);
 
 void func_8017E504(void *a0) {
     s32 v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 != 0) {
         guess_InitModelObject(v0, (s32)D_80195D14);
         func_8012AD50(a0);

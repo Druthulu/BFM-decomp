@@ -3292,13 +3292,13 @@ s32 func_80185FA8(void *a0) {
     p = guess_g_ObjectTable;
     end = p + 0x6480;
     for (; p != end; p += 0x10C) {
-        tag = ((Unkstruct_800B5CB8 *)p)->unk0;
+        tag = ((Unkstruct_801202A0 *)p)->unk0;
         if (tag != 0 && tag != 0x61 && func_801860B4((s32)p) != 0) {
-            t = ((Unkstruct_800B5CB8 *)p)->unk20;
+            t = ((Unkstruct_801202A0 *)p)->unk20;
             if (t != 0 && CAST_WIDTH(s32, t, 0x24) != 0 && CAST_WIDTH(s32, t, 0x4) >= 0) {
-                in[0] = ((Unkstruct_800B5CB8 *)p)->unk6;
-                in[1] = ((Unkstruct_800B5CB8 *)p)->unkA;
-                in[2] = ((Unkstruct_800B5CB8 *)p)->unkE;
+                in[0] = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
+                in[1] = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
+                in[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
                 func_8012F2E8((s32)a0, (s32)in, (s32)out);
                 if (func_8012CB64((s32)out, -0xA0, 0x80, -0xC0, 0x80) != 0) {
                     return 1;
@@ -3323,7 +3323,7 @@ s32 func_801860B4(s32 a0) {
     p = D_801B8A00;
     v = *p;
     if (*p != -1) {
-        x = ((Unkstruct_800B5CB8 *)a0)->unk0;
+        x = ((Unkstruct_801202A0 *)a0)->unk0;
         do {
             if (x == v) {
                 return 1;

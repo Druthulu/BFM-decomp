@@ -3612,10 +3612,10 @@ void func_8017D7E0(s32 param_1) {
     s32 obj;
     void (*tbl)(void);
 
-    tbl = D_80181D7C[((Unkstruct_800B5CB8 *)param_1)->unk70];
+    tbl = D_80181D7C[((Unkstruct_801202A0 *)param_1)->unk70.s];
     obj = guess_AllocSpriteObjectHigh();
     if (obj != 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk20 = obj;
+        ((Unkstruct_801202A0 *)param_1)->unk20 = obj;
         func_8001CEC0(obj, (s32)tbl);
         ((Unkstruct_800B5CB8 *)obj)->unk2E = 0;
         CAST_WIDTH(u16, obj, 0x30) = 0;
@@ -3997,7 +3997,7 @@ void *arg0;
 
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
         guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_80181DBC);
         guess_StartActorSequence((s32)arg0, (s32)&D_8018B074);
     }
@@ -4021,15 +4021,15 @@ void func_8017E148(s32 param) {
         guess_FreeActorDuringSpawn((void *)param);
         return;
     }
-    ((Unkstruct_800B5CB8 *)param)->unk20 = guess_AllocModelObject();
-    if (((Unkstruct_800B5CB8 *)param)->unk20 == 0) {
+    ((Unkstruct_801202A0 *)param)->unk20 = guess_AllocModelObject();
+    if (((Unkstruct_801202A0 *)param)->unk20 == 0) {
         guess_FreeActorDuringSpawn((void *)param);
     }
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)param)->unk20, (s32)D_8018D924);
-    ((Unkstruct_800B5CB8 *)param)->unk2 = 1;
+    guess_InitModelObject(((Unkstruct_801202A0 *)param)->unk20, (s32)D_8018D924);
+    ((Unkstruct_801202A0 *)param)->unk2.s = 1;
     guess_SetObjectPosAndYaw(param, (s32)D_80181DBC);
     guess_StartActorSequence(param, (void *)D_8018B074);
-    *(u16 *)(((Unkstruct_800B5CB8 *)param)->unk68 + 0xC) = 0x7FFF;
+    *(u16 *)(((Unkstruct_801202A0 *)param)->unk68 + 0xC) = 0x7FFF;
 }
 
 

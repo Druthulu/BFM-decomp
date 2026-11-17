@@ -3967,13 +3967,13 @@ void func_8017DBCC(s32 param_1) {
     s32 v0;
 
     v0 = ((s32 (*)(void))guess_AllocSpriteObjectHigh)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
     if (v0 != 0) {
         func_8001CB6C((u8 *)v0, (s32)D_801819F4, 0x1E8, 0x190);
         ((Unkstruct_800B5CB8 *)v0)->unk27 = 0x3C;
         ((Unkstruct_800B5CB8 *)v0)->unk1A = 0x2000;
         ((Unkstruct_800B5CB8 *)v0)->unk18 = 0x2000;
-        ((Unkstruct_800B5CB8 *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
         func_8012AD50((void *)param_1);
     }
 }

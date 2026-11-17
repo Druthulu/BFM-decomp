@@ -2716,7 +2716,7 @@ void func_8017ECFC(void *a0) {
     s32 t;
     s32 v;
 
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     t = guess_GetStoryProgress();
     v = 0;
     if (t >= 0xF0) {
@@ -2767,7 +2767,7 @@ void func_8017EDE8(void *a0) {
 extern void func_80178CBC(s32 a0, s32 a1);
     extern short D_80183884;
     void func_8017EE24(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         func_80178CBC((int)arg0, (int)&D_80183884);
     }
 
@@ -2877,7 +2877,7 @@ void *arg0;
 
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
         guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_801835A4);
         guess_StartActorSequence((s32)arg0, (s32)&D_8018DC00);
     }
@@ -2908,15 +2908,15 @@ chk:
         guess_FreeActorDuringSpawn((void *)param);
         return;
     }
-    ((Unkstruct_800B5CB8 *)param)->unk20 = guess_AllocModelObject();
-    if (((Unkstruct_800B5CB8 *)param)->unk20 == 0) {
+    ((Unkstruct_801202A0 *)param)->unk20 = guess_AllocModelObject();
+    if (((Unkstruct_801202A0 *)param)->unk20 == 0) {
         guess_FreeActorDuringSpawn((void *)param);
     }
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)param)->unk20, (s32)&D_801902A0);
-    ((Unkstruct_800B5CB8 *)param)->unk2 = 1;
+    guess_InitModelObject(((Unkstruct_801202A0 *)param)->unk20, (s32)&D_801902A0);
+    ((Unkstruct_801202A0 *)param)->unk2.s = 1;
     guess_SetObjectPosAndYaw(param, (s32)&D_801835A4);
     guess_StartActorSequence(param, (void *)&D_8018DC00);
-    *(u16 *)(((Unkstruct_800B5CB8 *)param)->unk68 + 0xC) = 0x7FFF;
+    *(u16 *)(((Unkstruct_801202A0 *)param)->unk68 + 0xC) = 0x7FFF;
 }
 
 
@@ -2971,11 +2971,11 @@ void func_8017F264(s32 a0)
     s32 s2;
     s32 s0;
 
-    idx = ((Unkstruct_800B5CB8 *)a0)->unk70;
+    idx = ((Unkstruct_801202A0 *)a0)->unk70.s;
     s2 = D_80183938[idx];
     s0 = guess_AllocSpriteObjectHigh();
     if (s0 != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk20 = s0;
+        ((Unkstruct_801202A0 *)a0)->unk20 = s0;
         func_8001CEC0(s0, s2);
         ((Unkstruct_800B5CB8 *)s0)->unk2E = 0;
         CAST_WIDTH(s16, s0, 0x30) = 0;

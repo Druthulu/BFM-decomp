@@ -3688,8 +3688,8 @@ void func_8017FCE0(void *a0) {
     } else if (guess_InitActorModel((s32)a0, (s32)D_8018B720) != 0) {
         func_80143970((s32)a0);
         guess_StartActorSequence((s32)a0, D_80187B3C);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
     }
 }
 
@@ -3749,9 +3749,9 @@ void func_8017FE60(s32 a0) {
     s32 tbl2;
     s32 i;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unkAA == 0) {
-        if (((Unkstruct_800B5CB8 *)a0)->unk1C < 0xB) {
-            if (((Unkstruct_800B5CB8 *)a0)->unkDC == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unkAA == 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk1C.s < 0xB) {
+            if (((Unkstruct_801202A0 *)a0)->unkDC.val == 0) {
                 i = 0;
                 base = (s32)&D_8018B774;
                 tbl2 = base + 8;
@@ -3761,20 +3761,20 @@ void func_8017FE60(s32 a0) {
                     tbl2 += 0x10;
                     tbl += 0x10;
                 }
-                ((Unkstruct_800B5CB8 *)a0)->unkDC ^= 1;
+                ((Unkstruct_801202A0 *)a0)->unkDC.val ^= 1;
             }
         }
     }
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C == 0xC) {
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s == 0xC) {
         guess_RequestSound(0xAD3, 0);
     }
     if (guess_TickWaitTimer(a0) != 0) {
         v1 = guess_DistSqToPlayer(a0);
         if (v1 < 0x7001) {
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x1E;
-            ((Unkstruct_800B5CB8 *)a0)->unkDC = 0;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
+            ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
         } else {
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
             return;
         }
     }

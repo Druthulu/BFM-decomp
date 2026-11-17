@@ -98,7 +98,7 @@ void func_801EF6D8(s32 a0) {
     s32 t3b;
     s16 *p;
 
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
         if (func_801789AC(a0)) {
             t0 = func_800D0F8C(0xD)    ? 0xD
@@ -110,18 +110,18 @@ void func_801EF6D8(s32 a0) {
             if (t0) {
                 if (u0) {
                     func_80178CBC(a0, (s32)&D_801F1300);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 3;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
                 } else {
                     func_80178CBC(a0, (s32)&D_801F12E0);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 }
             } else {
                 if (u0) {
                     func_80178CBC(a0, (s32)&D_801F12C0);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 } else {
                     func_80178CBC(a0, (s32)&D_801F12A8);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 }
             }
         }
@@ -137,18 +137,18 @@ void func_801EF6D8(s32 a0) {
             if (t1) {
                 if (u1) {
                     func_80178CBC(a0, (s32)&D_801F1300);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 3;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
                 } else {
                     func_80178CBC(a0, (s32)&D_801F12E0);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 }
             } else {
                 if (u1) {
                     func_80178CBC(a0, (s32)&D_801F12C0);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 } else {
                     func_80178CBC(a0, (s32)&D_801F12A8);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 }
             }
         }
@@ -165,10 +165,10 @@ void func_801EF6D8(s32 a0) {
         if (t3) {
             if (t3 == 2) {
                 func_80178CBC(a0, (s32)&D_801F1310);
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
             } else {
                 func_80178CBC(a0, (s32)&D_801F1338);
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 5;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 5;
                 if (func_800D0F8C(0xD)) {
                     t3b = 0xD;
                 } else if (func_800D0F8C(0xE)) {
@@ -194,13 +194,13 @@ void func_801EF6D8(s32 a0) {
                 guess_SetGameFlag(0xE4, 1);
                 guess_SetGameFlag(0xE5, 0);
                 func_80178CBC(a0, (s32)&D_801F13C8);
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
             } else {
                 func_80029514(0x32);
                 guess_SetGameFlag(0xE4, 0);
                 guess_SetGameFlag(0xE5, 1);
                 func_80178CBC(a0, (s32)&D_801F13F8);
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
             }
         }
         break;
@@ -238,7 +238,7 @@ void func_801EF6D8(s32 a0) {
             break;
         }
         if (func_801789AC(a0)) {
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 7;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 7;
         }
         break;
     case 7:
@@ -276,7 +276,7 @@ void func_801EF6D8(s32 a0) {
         }
         if (D_801F1480 == 3) {
             func_80178CBC(a0, (s32)&D_801F11D0);
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 8;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 8;
         }
         break;
     case 8:
@@ -348,7 +348,7 @@ void func_801EF6D8(s32 a0) {
             break;
         }
         D_801F1480 = 4;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0xA;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0xA;
         break;
     case 10:
         p = &D_801F1480;
@@ -384,7 +384,7 @@ void func_801EF6D8(s32 a0) {
             break;
         }
         if (D_801F1480 == 6) {
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 0xB;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 0xB;
         }
         break;
     case 11:
@@ -426,7 +426,7 @@ void func_801EF6D8(s32 a0) {
                 guess_RequestSound(0x13, 0);
                 func_80029514(0x46);
                 guess_SetGameFlag(0xE7, 1);
-                guess_FreeActor(((Unkstruct_800B5CB8 *)a0)->unkD4);
+                guess_FreeActor(((Unkstruct_801202A0 *)a0)->unkD4);
                 guess_FreeActor(a0);
             }
         }
@@ -446,7 +446,7 @@ void func_801F0048(s32 a0) {
 
     guess_SpawnActorNoArg(0x8D, a0);
 
-    v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk20;
     v0 = (s32)&D_801EB318;
     CAST_WIDTH(s32, v1, 0x24) = v0;
 
@@ -461,7 +461,7 @@ extern s32 func_8012E544(s32 a0);
 void func_801F0098(void) {
     s32 v0 = func_8012E544(0x11A);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 1;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 1;
     }
 }
 
@@ -472,7 +472,7 @@ extern void func_800291A0(s32 a0, s32 a1);
 void func_801F00C8(void) {
     s32 v0 = func_8012E544(0x11A);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 2;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 2;
         func_800291A0(0xCC, 0x1);
     }
 }
@@ -485,7 +485,7 @@ extern s32 func_8012E544(s32 a0);
 void func_801F0104(void) {
     s32 v0 = func_8012E544(0x11A);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 3;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 3;
     }
 }
 

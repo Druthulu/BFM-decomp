@@ -17,7 +17,7 @@ s32 a1;
     in[1] = 0;
     in[2] = CAST_SIGN(s16, (s32)a0, 0xE) - *(s16 *)&guess_g_PlayerPosZ;
     Square0(in, out);
-    d = guess_g_PlayerPosY - ((Unkstruct_800B5CB8 *)a0)->unkA;
+    d = guess_g_PlayerPosY - ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     if (d < 0) {
         d = -d;
     }

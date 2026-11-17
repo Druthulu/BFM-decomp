@@ -2794,7 +2794,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = (s32)(D_801ACE60 + ((Unkstruct_800B5CB8 *)e)->unkFC * 8);
         o = guess_SpawnActor(0x1EA, 1, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
         }
         return;
 
@@ -2818,7 +2818,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = cc;
         o = guess_SpawnActor(0x1EA, 2, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
         }
         return;
 
@@ -2866,7 +2866,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = (s32)(D_801ACE60 + sv * 8);
         o = guess_SpawnActor(0x1EA, 8, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
         }
         return;
 
@@ -2890,7 +2890,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = cc;
         o = guess_SpawnActor(0x1EA, 9, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
         }
         ((Unkstruct_800B5CB8 *)e)->unk106 = (rand() & 0x1F) + 0x20;
         ((Unkstruct_800B5CB8 *)e)->unk100 = (rand() & 0x1F) + 0x20;
@@ -2965,7 +2965,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = (s32)(D_801ACE60 + ((Unkstruct_800B5CB8 *)e)->unkFC * 8);
         o = guess_SpawnActor(0x1EA, 0x11, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
             ((Unkstruct_800B5CB8 *)e)->unk6C = o;
         }
         ((Unkstruct_800B5CB8 *)e)->unkFC = 0xA;
@@ -2997,7 +2997,7 @@ void func_80182BF8(void *a0v)
         ((Unkstruct_800B5CB8 *)e)->unkCC = cc;
         o = guess_SpawnActor(0x1EA, 0x12, e);
         if (o != 0) {
-            ((Unkstruct_800B5CB8 *)o)->unkFE = ((Unkstruct_800B5CB8 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_800B5CB8 *)e)->unk36;
             ((Unkstruct_800B5CB8 *)e)->unk6C = o;
         }
         ((Unkstruct_800B5CB8 *)e)->unk106 = (rand() & 0x1F) + 0x20;
@@ -3222,13 +3222,13 @@ void func_801839AC(s32 a0)
         s16 *p2 = pos2;
         s32 x, y, z;
 
-        x = ((Unkstruct_800B5CB8 *)a0)->unk6;
+        x = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
         p2[0] = x;
         p1[0] = x;
         y = CAST_ALIAS(u16, a0, 0xA);
         p2[1] = y;
         p1[1] = y;
-        z = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         p2[1] = y + 0x40;
         p2[2] = z;
         p1[2] = z;
@@ -3240,19 +3240,19 @@ void func_801839AC(s32 a0)
             s1 = guess_DistSqToPlayer(a0);
             if (s1 < 0x4001) {
                 if (func_8012BDBC(a0, 0x200) == 1) {
-                    ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
-                    ((Unkstruct_800B5CB8 *)a0)->unkFC = 0;
-                    ((Unkstruct_800B5CB8 *)a0)->unk100 = ((Unkstruct_800B5CB8 *)a0)->unkA;
+                    ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
+                    ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
+                    ((Unkstruct_801202A0 *)a0)->extD.kSC03_107_80180428.unk100 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
                 }
             }
         }
     }
     if (s1 > 0x40000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 
     if ((((s32 (*)(s32, s32))func_8012CC40)(a0, (s32)&D_801A8B5C) & 0x1000) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x12;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x12;
     }
 }
 

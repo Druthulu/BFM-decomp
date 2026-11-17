@@ -2735,19 +2735,19 @@ void func_8017F03C(int param_1)
     extern s32 D_801A1AA0;
     s16 var;
 
-    if (((Unkstruct_800B5CB8 *)param_1)->unk90 == (s32)&D_8018458C && ((Unkstruct_800B5CB8 *)param_1)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk90 == (s32)&D_8018458C && ((Unkstruct_801202A0 *)param_1)->unk98.s == 0) {
         guess_StartActorSequence(param_1, &D_8018445C);
     }
-    if (((Unkstruct_800B5CB8 *)param_1)->unkDC == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unkDC.val == 0) {
         func_8017DD18(param_1);
     } else {
         func_8017DDA0(param_1);
     }
-    var = ((Unkstruct_800B5CB8 *)param_1)->unk108;
-    ((Unkstruct_800B5CB8 *)param_1)->unk108 = var - 1;
+    var = ((Unkstruct_801202A0 *)param_1)->extD.kSC04_016_8017DCDC.unk108;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC04_016_8017DCDC.unk108 = var - 1;
     switch (var) {
     case 0:
-        ((Unkstruct_800B5CB8 *)param_1)->unk108 = (rand() & 0x3F) + 0x28;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC04_016_8017DCDC.unk108 = (rand() & 0x3F) + 0x28;
         return;
     case 1:
         guess_AllocRenderWorkRecord((s32)&D_801A1280);
@@ -2795,17 +2795,17 @@ void func_8017F1C4(int param_1)
     in[1] = -0x222;
     in[2] = 0x60;
     func_800D20C0(in, out, 6);
-    ((Unkstruct_800B5CB8 *)param_1)->unk6 = in[0];
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = in[1];
-    temp = ((Unkstruct_800B5CB8 *)param_1)->unk1C - 1;
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = in[0];
+    ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = in[1];
+    temp = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 1;
     c = in[2];
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = temp;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE = c;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = temp;
+    ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = c;
     if (temp != 0) {
         D_801A6B00 = D_801A6B02 = D_801A6B02 - 2;
         D_801A6B01 = D_801A6B01 - 2;
         CAST_SIGN(short, *(int *)(param_1 + 0x20), 0x18) -= 0x99;
-        *(short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x1A) -= 0xCC;
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x1A) -= 0xCC;
     } else {
         guess_FreeActor((void *)param_1);
     }
@@ -2819,8 +2819,8 @@ void func_8017F2AC(int param_1)
 {
     s32 count;
 
-    count = ((Unkstruct_800B5CB8 *)param_1)->unk1C;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = count + 1;
+    count = ((Unkstruct_801202A0 *)param_1)->unk1C.s;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = count + 1;
     if (count < 0x78) {
         if (func_8017E6E0((void *)param_1) == 0) {
             func_8017DF8C((void *)param_1);
@@ -2853,13 +2853,13 @@ void func_8017F35C(s32 s1)
     s32 s0;
 
     s0 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
+    ((Unkstruct_801202A0 *)s1)->unk20 = s0;
 
     if (s0 != 0) {
-        guess_InitModelObject(s0, D_801A35B4[((Unkstruct_800B5CB8 *)s1)->unk70]);
+        guess_InitModelObject(s0, D_801A35B4[((Unkstruct_801202A0 *)s1)->unk70.s]);
         func_8001D0E8(s0, 0x7FFF, 0x7FFF);
-        ((Unkstruct_800B5CB8 *)s1)->unkFC = 0;
-        ((Unkstruct_800B5CB8 *)s1)->unk14 = CAST_WIDTH(s32, (char *)s1, 0x8);
+        ((Unkstruct_801202A0 *)s1)->unkFC.s = 0;
+        ((Unkstruct_801202A0 *)s1)->unk14.val = CAST_WIDTH(s32, (char *)s1, 0x8);
         func_8012AD50((void *)s1);
         return;
     }
@@ -2900,7 +2900,7 @@ void func_8017F4A0(void *a0) {
     v0 = guess_AllocSpriteObjectHigh();
     __asm__ volatile("addu %0,%1,$0" : "=r"(s0) : "r"(v0));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
     s2 = (s32)&D_801AC130;
-    ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
+    ((Unkstruct_801202A0 *)s1)->unk20 = s0;
 
     if (s0 != 0) {
         guess_InitObjectKind6(s0, (void *)s2);
@@ -2916,7 +2916,7 @@ void func_8017F4A0(void *a0) {
 
         func_8017F5D0((void *)s1, (void *)s2);
 
-        ((Unkstruct_800B5CB8 *)s1)->unk100 = 0;
+        ((Unkstruct_801202A0 *)s1)->extD.kSC04_016_8017F4A0.unk100 = 0;
         func_8012AD50((void *)s1);
     } else {
         func_8012C098((void *)s1);
@@ -2948,7 +2948,7 @@ void func_8017F5D0(void *a0, void *a1)
     s32 ret;
 
     tmp = CAST_SIGN(u16, (s32)a0, 0xFC) + 0x2D;
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = tmp;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = tmp;
     ret = rsin(tmp);
     *(s32 *)a1 = ((ret / 64) + 0x80) << 8;
     *(s32 *)((s32)a1 + 4) = 0;

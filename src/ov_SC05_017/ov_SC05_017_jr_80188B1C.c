@@ -5230,7 +5230,7 @@ extern void func_801849B8(s32 *a0, s32 a1);
             v1 = (v0 != 0) ? 2 : 0;
         }
         if (v1 != 2) {
-            ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
+            ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
             func_801849B8(s0, (s32)&D_801E6884);
         }
     }
@@ -5292,13 +5292,13 @@ void func_8018BE14(void *arg0) {
         goto tail;
     }
 
-    ((Unkstruct_800B5CB8 *)s0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = v0;
     func_801849B8((s32 *)s0, (s32)&D_801E6884);
 
 tail:
     ptr = CAST_SIGN(void *, (char *)s0, 0x68);
     *(short *)((char *)ptr + 0xC) = 0x7FFF;
-    ((Unkstruct_800B5CB8 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8018BEE0);
+    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8018BEE0);
 }
 
 
@@ -5348,11 +5348,11 @@ void func_8018BF78(void *arg0) {
     s32 v1;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(s0);
     }
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)s0)->unk20, 0);
+    guess_InitModelObject(((Unkstruct_801202A0 *)s0)->unk20, 0);
 
     v1 = guess_GetStoryProgress();
     if (v1 < 0xC8) {
@@ -5380,12 +5380,12 @@ void func_8018BF78(void *arg0) {
         v0 = 1;
     }
 
-    do { ((Unkstruct_800B5CB8 *)s0)->unk2 = (s16)v0; } while (0);
+    do { ((Unkstruct_801202A0 *)s0)->unk2.s = (s16)v0; } while (0);
     func_801849B8((s32 *)s0, (s32)&D_801E6968);
 
-    v1 = ((Unkstruct_800B5CB8 *)s0)->unk68;
+    v1 = ((Unkstruct_801202A0 *)s0)->unk68;
     *(s16 *)((u8 *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_800B5CB8 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C0F0);
+    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C0F0);
 }
 
 
@@ -5401,7 +5401,7 @@ void func_8018C068(void *a0) {
 extern void func_80178CBC(s32 a0, s32 a1);
     extern short D_801E69CC;
     void func_8018C0A4(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         func_80178CBC((int)arg0, (int)&D_801E69CC);
     }
 

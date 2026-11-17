@@ -17118,7 +17118,7 @@ s32 func_80029FE4(void) {
 extern s32 func_8002A088(s32);
 
 s32 func_8002A04C(s32 a0) {
-    s32 v0 = ((Unkstruct_800B5CB8 *)a0)->unk78;
+    s32 v0 = ((Unkstruct_801202A0 *)a0)->unk78;
 
     if (v0) {
         return func_8002A088(*(s16 *)(v0 + 0x2E));

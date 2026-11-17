@@ -3083,27 +3083,27 @@ void func_80181BE4(s32 p)
     s32 t;
     s32 c;
 
-    switch (((Unkstruct_800B5CB8 *)p)->unk34) {
+    switch (((Unkstruct_801202A0 *)p)->unk34.u) {
     case 0:
-        if (((Unkstruct_800B5CB8 *)p)->unk1C == 7) {
+        if (((Unkstruct_801202A0 *)p)->unk1C.s == 7) {
             s32 base = (s32)&D_8018AAD4;
             func_8012D5E4(p, base, base + 8, 0xB);
         }
         break;
     case 2:
-        if (((Unkstruct_800B5CB8 *)p)->unk1C == 10) {
+        if (((Unkstruct_801202A0 *)p)->unk1C.s == 10) {
             s32 base = (s32)&D_8018AAD4;
             func_8012D5E4(p, base, base + 8, 0xB);
         }
         break;
     case 3: {
         s32 s1c;
-        if (((Unkstruct_800B5CB8 *)p)->unk1C >= 0x19) {
+        if (((Unkstruct_801202A0 *)p)->unk1C.s >= 0x19) {
             s32 r = guess_TurnStepToTarget(p, 4);
-            s32 o = ((Unkstruct_800B5CB8 *)p)->unk20;
+            s32 o = ((Unkstruct_801202A0 *)p)->unk20;
             ((Unkstruct_800B5CB8 *)o)->unk12 = ((Unkstruct_800B5CB8 *)o)->unk12 + r;
         }
-        s1c = ((Unkstruct_800B5CB8 *)p)->unk1C;
+        s1c = ((Unkstruct_801202A0 *)p)->unk1C.s;
         if (s1c == 0xC) {
             struct S80190C84 sp;
             s16 buf[4];
@@ -3134,38 +3134,38 @@ void func_80181BE4(s32 p)
         return;
     }
 
-    switch (((Unkstruct_800B5CB8 *)p)->unk34) {
+    switch (((Unkstruct_801202A0 *)p)->unk34.u) {
     case 0:
         t = ((s32)(CAST_SIGN(u16, p, 0x70) << 16)) >> 24;
         if (t == 0 || (u32)(t - 3) < 2) {
             if (guess_DistSqToPlayer(p) < 0x4001) {
-                ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
-                ((Unkstruct_800B5CB8 *)p)->unk34 = 1;
+                ((Unkstruct_801202A0 *)p)->unk2.s = 2;
+                ((Unkstruct_801202A0 *)p)->unk34.u = 1;
                 guess_StartActorSequence(p, D_801AFD28);
-                ((Unkstruct_800B5CB8 *)p)->unk1C = 0xA;
+                ((Unkstruct_801202A0 *)p)->unk1C.s = 0xA;
                 return;
             }
         }
         goto reset;
     case 1:
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
-        ((Unkstruct_800B5CB8 *)p)->unk34 = 2;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)p)->unk34.u = 2;
         guess_StartActorSequence(p, D_801B01E0);
-        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x18;
+        ((Unkstruct_801202A0 *)p)->unk1C.s = 0x18;
         return;
     case 3:
         c = CAST_WIDTH(u8, p, 0x102) + 1;
         CAST_WIDTH(u8, p, 0x102) = c;
         if ((u32)(c & 0xFF) >= 3) {
             CAST_WIDTH(u8, p, 0x102) = 0;
-            ((Unkstruct_800B5CB8 *)p)->unk34 = ((Unkstruct_800B5CB8 *)p)->unk34 + 1;
+            ((Unkstruct_801202A0 *)p)->unk34.u = ((Unkstruct_801202A0 *)p)->unk34.u + 1;
             guess_StartActorSequence(p, D_801B0E48);
         } else {
-            ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
-            ((Unkstruct_800B5CB8 *)p)->unk34 = 3;
+            ((Unkstruct_801202A0 *)p)->unk2.s = 2;
+            ((Unkstruct_801202A0 *)p)->unk34.u = 3;
             guess_StartActorSequence(p, (void *)&D_801B0D50);
         }
-        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
+        ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
         return;
     case 4:
         if (guess_TickWaitTimer(p) == 0) {
@@ -3174,21 +3174,21 @@ void func_80181BE4(s32 p)
         if (guess_DistSqToPlayer(p) > 0x40000) {
             goto reset;
         }
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
-        ((Unkstruct_800B5CB8 *)p)->unk34 = 3;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)p)->unk34.u = 3;
         guess_StartActorSequence(p, (void *)&D_801B0D50);
-        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
+        ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
         /* fallthrough */
     case 2:
     default:
     reset:
-        ((Unkstruct_800B5CB8 *)p)->unk5C = 0xAA10;
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 1;
-        ((Unkstruct_800B5CB8 *)p)->unk34 = 2;
+        ((Unkstruct_801202A0 *)p)->unk5C.u = 0xAA10;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)p)->unk34.u = 2;
         CAST_WIDTH(s16, p, 0x5E) = 0;
-        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
+        ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
         guess_StartActorSequence(p, D_801AFFC0);
-        ((Unkstruct_800B5CB8 *)p)->unkFC = 0;
+        ((Unkstruct_801202A0 *)p)->unkFC.s = 0;
         return;
     }
 }

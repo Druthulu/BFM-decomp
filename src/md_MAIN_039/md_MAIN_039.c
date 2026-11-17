@@ -285,7 +285,7 @@ s32 func_800CB4D4(s32 a0) {
     best = 0x7FFFFFFF;
     p = guess_g_ObjectTable;
     while (p < guess_g_ObjectTable + 0x6480) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 != 0x282) {
+        if (((Unkstruct_801202A0 *)p)->unk0 != 0x282) {
             q = p + 4;
             guess_CopyVec3HighHalves((s32)q, buf);
             if (func_8012E778((s32)p, 0x8C00B4) == 1) {

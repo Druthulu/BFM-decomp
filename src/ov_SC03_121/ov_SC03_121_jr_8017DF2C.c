@@ -2727,12 +2727,12 @@ void func_8017DF2C(s32 a0) {
 
     s0 = a0;
 
-    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
+    switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
     case 0:
-        if ((((Unkstruct_800B5CB8 *)s0)->unk72 & 0x4000) != 0) {
+        if ((((Unkstruct_801202A0 *)s0)->unk72 & 0x4000) != 0) {
             guess_StartActorSequence((s32)s0, (s32)D_8018D9F4);
         }
-        if ((((Unkstruct_800B5CB8 *)s0)->unk94 == 0) || (((Unkstruct_800B5CB8 *)s0)->unk94 == 0x17)) {
+        if ((((Unkstruct_801202A0 *)s0)->unk94.s == 0) || (((Unkstruct_801202A0 *)s0)->unk94.s == 0x17)) {
             guess_RequestSound(0x70A, 0);
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += guess_TurnStepToTarget((s32)s0, 0x10);
@@ -2747,47 +2747,47 @@ void func_8017DF2C(s32 a0) {
         guess_SetVelocityXZFromLocal((s32)s0, (s32)arr);
         if (t < 0x1001 && func_8012BDBC((s32)s0, 0x100) == 1) {
             guess_StartActorSequence((s32)s0, (s32)D_8018E58C);
-            ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
             guess_RequestSound(0x713, 0);
         }
-        if (((Unkstruct_800B5CB8 *)s0)->unk10A == 2) {
-            ((Unkstruct_800B5CB8 *)s0)->unk2 = 4;
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
+        if (((Unkstruct_801202A0 *)s0)->unk10A.s == 2) {
+            ((Unkstruct_801202A0 *)s0)->unk2.s = 4;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
         }
         break;
     case 1:
-        if (((Unkstruct_800B5CB8 *)s0)->unk94 == 0x16) {
+        if (((Unkstruct_801202A0 *)s0)->unk94.s == 0x16) {
             if (func_8012DEB8((s32)s0, (s32)D_80185DBC, (s32)D_80185DC4) == 1) {
                 D_80126B96 = 0x4010;
                 D_80126B98 = 0;
                 st = CAST_ALIAS(u16, s0, 0x34);
                 D_80127078 = s0;
-                ((Unkstruct_800B5CB8 *)s0)->unk34 = st + 2;
+                ((Unkstruct_801202A0 *)s0)->unk34.u = st + 2;
             } else {
-                ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
+                ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
             }
         }
         break;
     case 2:
-        if ((((Unkstruct_800B5CB8 *)s0)->unk72 & 0x4000) != 0) {
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
+        if ((((Unkstruct_801202A0 *)s0)->unk72 & 0x4000) != 0) {
+            ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
             guess_StartActorSequence((s32)s0, (s32)D_8018D9F4);
         }
         break;
     case 3:
         if (D_801151FC != s0) {
-            ((Unkstruct_800B5CB8 *)s0)->unk34 -= 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u -= 1;
         } else {
             guess_StartActorSequence((s32)s0, (s32)D_8018E684);
-            ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
         }
         break;
     case 4:
         if (D_801151FC != s0) {
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
             guess_StartActorSequence((s32)s0, (s32)D_8018D9F4);
         }
-        if (((Unkstruct_800B5CB8 *)s0)->unk94 == 0xD) {
+        if (((Unkstruct_801202A0 *)s0)->unk94.s == 0xD) {
             func_8012DEB8((s32)s0, (s32)D_80185DBC, (s32)D_80185DC4);
         }
         break;

@@ -3147,15 +3147,15 @@ void func_80182D9C(s32 param_1) {
 
     if (CAST_SIGN(u16, param_1, 2) == 0) {
         iVar1 = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
+        ((Unkstruct_801202A0 *)param_1)->unk20 = iVar1;
         if (iVar1 == 0) {
             guess_FreeActorDuringSpawn((void *)param_1);
         } else {
             func_8001C2C4(iVar1);
-            ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0x40;
-            ((Unkstruct_800B5CB8 *)param_1)->unk75 = 4;
-            ((Unkstruct_800B5CB8 *)param_1)->unk2 = CAST_SIGN(u16, param_1, 2) + 1;
-            ((Unkstruct_800B5CB8 *)param_1)->unk58 = (s32)&D_80190758 + (((Unkstruct_800B5CB8 *)param_1)->unk70 * 0x10);
+            ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0x40;
+            ((Unkstruct_801202A0 *)param_1)->unk75 = 4;
+            ((Unkstruct_801202A0 *)param_1)->unk2.s = CAST_SIGN(u16, param_1, 2) + 1;
+            ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)&D_80190758 + (((Unkstruct_801202A0 *)param_1)->unk70.s * 0x10);
         }
     }
 }

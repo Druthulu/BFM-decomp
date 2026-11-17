@@ -3580,40 +3580,40 @@ void func_8017D4CC(s32 param_1) {
     if (iVar2 == 0) {
         return;
     }
-    sVar4 = ((Unkstruct_800B5CB8 *)param_1)->unk70;
+    sVar4 = ((Unkstruct_801202A0 *)param_1)->unk70.s;
     if (sVar4 == 1) goto CASE1;
     if (sVar4 < 2) goto SKIP;
     if (sVar4 == 2) goto CASE2;
     if (sVar4 == 3) goto CASE3;
     goto SKIP;
 CASE1:
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)D_8018F198);
-    ((Unkstruct_800B5CB8 *)param_1)->unk58 = (u32)D_8018222C | 0x40000000 | 0x20000000;
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F198);
+    ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018222C | 0x40000000 | 0x20000000;
     goto SKIP;
 CASE2:
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)D_8018F210);
-    ((Unkstruct_800B5CB8 *)param_1)->unk58 = (u32)D_8018223C | 0x40000000 | 0x20000000;
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F210);
+    ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018223C | 0x40000000 | 0x20000000;
     goto SKIP;
 CASE3:
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)D_8018F288);
-    ((Unkstruct_800B5CB8 *)param_1)->unk58 = (u32)D_8018223C | 0x40000000 | 0x20000000;
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F288);
+    ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018223C | 0x40000000 | 0x20000000;
 SKIP:
-    ((Unkstruct_800B5CB8 *)param_1)->unkC0 = 1;
-    ((Unkstruct_800B5CB8 *)param_1)->unk75 = 2;
-    ((Unkstruct_800B5CB8 *)param_1)->unkAE = -1;
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
+    ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
+    ((Unkstruct_801202A0 *)param_1)->unk75 = 2;
+    ((Unkstruct_801202A0 *)param_1)->extE.kSC04_012_8017D698.unkAE = -1;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     uVar5 = guess_GetStoryProgress();
     if (uVar5 >= 0x2f0) {
-        if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0xd00;
         }
-        if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk70.s == 1) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0xd00;
         }
-        if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 2) {
+        if (((Unkstruct_801202A0 *)param_1)->unk70.s == 2) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0x300;
         }
-        if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 3) {
+        if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0x300;
         }
     } else {
@@ -3624,12 +3624,12 @@ SKIP:
             if ((s16)uVar6 == 2) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0x100;
             }
-            if (((Unkstruct_800B5CB8 *)param_1)->unk70 == 3) {
+            if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0x100;
             }
             sVar4 = 3;
         }
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = sVar4;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = sVar4;
     }
 }
 
@@ -3824,7 +3824,7 @@ void func_8017D99C(s32 a0) {
     D_801930CC = (s32)(D_80182298 + ((s16 *)a0)[0x70 / 2] * 8);
 
     guess_CopyVec3HighHalves((s32)&D_80126B5C, (s32 *)buf);
-    buf[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
 
     p = &D_80191CBF;
     for (i = 0x4F; i >= 0; i--) {
@@ -4201,7 +4201,7 @@ void func_8017E250(void *a0) {
     default:
         p = guess_g_ObjectTable;
         for (i = 0; i < 0x60; i++) {
-            if (((Unkstruct_800B5CB8 *)p)->unk0 == *(s16 *)(r + 6)) {
+            if (((Unkstruct_801202A0 *)p)->unk0 == *(s16 *)(r + 6)) {
                 ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(p, r, out);
                 func_801290DC(0x56, (u8 *)out);
             }

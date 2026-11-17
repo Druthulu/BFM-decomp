@@ -2,6 +2,6 @@
  * exemplar src/ov_SC02_028/ov_SC02_028_jr_8017D898.c:4056 · rank 2/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 1 src/ov_SC01_077/ov_SC01_077_jr_8017AE2C.c:4735 rejected by ov_SC02_027 */
     void SHARED_FN(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;
         ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x1);
     }

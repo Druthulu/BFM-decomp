@@ -2931,10 +2931,10 @@ void func_8018A564(void *a0)
 
     extern Blk16_8018A8B8 D_800A5E88;
 
-    s32 v1 = ((Unkstruct_800B5CB8 *)a0)->unkFC;
+    s32 v1 = ((Unkstruct_801202A0 *)a0)->unkFC.s;
     LBlk16 *s0;
 
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = 0;
 
     switch (v1) {
     case 0:
@@ -3107,21 +3107,21 @@ void func_8018AA50(void *a0) {
 
     if ((res1 & 0xFF) == 0) {
         res2 = func_801788B8((s32)a0, (s32)func_8018B0FC);
-        ((Unkstruct_800B5CB8 *)a0)->unkCC = res2;
+        ((Unkstruct_801202A0 *)a0)->unkCC.val = res2;
     } else {
-        val = ((Unkstruct_800B5CB8 *)a0)->unk70;
+        val = ((Unkstruct_801202A0 *)a0)->unk70.s;
         val |= 0x4000;
-        ((Unkstruct_800B5CB8 *)a0)->unk70 = val;
+        ((Unkstruct_801202A0 *)a0)->unk70.s = val;
     }
 
-    res2 = guess_SpawnActor(0x8F, ((Unkstruct_800B5CB8 *)a0)->unk70, (s32)a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk6C = res2;
+    res2 = guess_SpawnActor(0x8F, ((Unkstruct_801202A0 *)a0)->unk70.s, (s32)a0);
+    ((Unkstruct_801202A0 *)a0)->unk6C = res2;
 
     if (res2 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         ((void (*)(s32, void *))guess_StartActorSequence)((s32)a0, D_8018B56C);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 }
 
@@ -3342,7 +3342,7 @@ void func_8018AF44(void *a0) {
         return;
     }
 
-    ptr = ((Unkstruct_800B5CB8 *)a0)->unk64;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
     v1 = *(unsigned short *)(ptr + 0x36);
     v0 = *(unsigned short *)((s32)a0 + 0x70);
     *(unsigned short *)((s32)a0 + 0xFC) = v1;

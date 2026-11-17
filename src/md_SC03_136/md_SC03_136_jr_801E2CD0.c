@@ -285,18 +285,18 @@ void func_801E3124(void *a0) {
     s32 ptr;
 
     v0 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801EA574);
-        ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
+        ptr = ((Unkstruct_801202A0 *)a0)->unk68;
         *(s32 *)&D_801EA5A8 = 0;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801BF4F0);
         guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801E3280);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         func_80178B18((s32)a0, (s32)&D_801E32B0);
         v0 = guess_GetStoryProgress();
         *(s32 *)&D_801EA5A4 = v0;

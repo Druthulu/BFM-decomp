@@ -4,7 +4,7 @@ void SHARED_FN(void *a0) {
     s32 ret;
 
     ret = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = ret;
+    ((Unkstruct_801202A0 *)a0)->unk20 = ret;
     if (ret != 0) {
         func_8018227C(a0, &D_80199608);
         func_8012AD50(a0);

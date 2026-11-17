@@ -9,5 +9,5 @@ void *param_1;
     if (guess_DistSqXZToPoint((s32)param_1, (u16 *)&D_80126CB4) > 0x240000) {
         return;
     }
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0xC;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 0xC;
 }

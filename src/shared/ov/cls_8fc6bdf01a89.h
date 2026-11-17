@@ -4,12 +4,12 @@ void SHARED_FN(s32 a0) {
     s32 v1;
 
     if (guess_TickWaitTimer(a0) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk20;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         CAST_WIDTH(u16, v1, 0x1C) = 0x400;
         ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x400;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         ((Unkstruct_800B5CB8 *)v1)->unk1A = 0x3000;
     }
 }

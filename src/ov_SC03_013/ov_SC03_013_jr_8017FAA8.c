@@ -2971,14 +2971,14 @@ void func_8017FE88(s32 arg0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)arg0)->unkC0 = 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
     func_80143970(arg0);
     guess_StartActorSequence(arg0, &D_801A45A8);
     (CAST_SIGN(u16, (s32)arg0, 0x2))++;
     guess_ClearVelocityAndSetGravity(arg0);
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x1E;
-    ((Unkstruct_800B5CB8 *)arg0)->unkD4 = (s32)arg0;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)arg0)->unkD4 = (s32)arg0;
 }
 
 

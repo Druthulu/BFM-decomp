@@ -317,10 +317,10 @@ void func_801EFD40(void *a0) {
     s32 s0 = (s32)a0;
 
     if (func_8018727C(a0, D_801EFE9C)) {
-        ((Unkstruct_800B5CB8 *)s0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
         guess_StartActorSequence(s0, D_801C3FC8);
         guess_SetObjectPosAndYaw(s0, (s32)D_801EFE94);
-        ((Unkstruct_800B5CB8 *)s0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
         func_80178B18(s0, (s32)D_801EFF1C);
     }
 }

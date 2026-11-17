@@ -334,10 +334,10 @@ void func_801EE2C8(void *param_1) {
     extern s32 D_801EE474;
 
     if (func_801844BC(param_1, &D_801EE3F4) != 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
         guess_StartActorSequence((s32)param_1, &D_801BA244);
         guess_SetObjectPosAndYaw((s32)param_1, (s32)&D_801EE3EC);
-        ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
         func_80178B18((s32)param_1, (s32)&D_801EE474);
     }
 }

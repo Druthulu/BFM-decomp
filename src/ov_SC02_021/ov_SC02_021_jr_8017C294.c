@@ -2931,7 +2931,7 @@ void func_8017D81C(void *a0)
     register s32 z asm("a0");  // !FAKE: pin a0 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
 
     v = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v;
     if (v == 0) {
         guess_FreeActorDuringSpawn((void *)a0);
         return;
@@ -2971,7 +2971,7 @@ void func_8017D81C(void *a0)
         s1++;
         p += 0x40;
     } while (s1 < 0x20);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 2) + 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 2) + 1;
 }
 
 

@@ -5391,11 +5391,11 @@ void func_8018C278(void *a0) {
     void *v1p;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(s0);
     }
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)s0)->unk20, 0);
+    guess_InitModelObject(((Unkstruct_801202A0 *)s0)->unk20, 0);
 
     v1 = guess_GetStoryProgress();
     if (v1 < 0xC8) {
@@ -5423,12 +5423,12 @@ void func_8018C278(void *a0) {
         v0 = 1;
     }
 
-    do { ((Unkstruct_800B5CB8 *)s0)->unk2 = (s16)v0; } while (0);
+    do { ((Unkstruct_801202A0 *)s0)->unk2.s = (s16)v0; } while (0);
     func_80184CB8((s32 *)s0, (s32)&D_801E06A8);
 
     v1p = CAST_SIGN(void *, (u8 *)s0, 0x68);
     *(s16 *)((u8 *)v1p + 0xC) = 0x7FFF;
-    ((Unkstruct_800B5CB8 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C3F0);
+    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C3F0);
 }
 
 

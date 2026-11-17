@@ -2901,9 +2901,9 @@ void func_8017D25C(s32 arg0) {
     s32 s3;
     s32 s4;
 
-    if ((((Unkstruct_800B5CB8 *)arg0)->unk70 & 0x8000) != 0) {
+    if ((((Unkstruct_801202A0 *)arg0)->unk70.s & 0x8000) != 0) {
         var = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_800B5CB8 *)arg0)->unk20 = var;
+        ((Unkstruct_801202A0 *)arg0)->unk20 = var;
         if (var != 0) {
             func_8001C2C4(var);
             sp10.f6 = 0x385;
@@ -2912,33 +2912,33 @@ void func_8017D25C(s32 arg0) {
             sp10.fE = 0;
             sp10.f10 = 0;
             sp10.f2 = -0x202;
-            if (((Unkstruct_800B5CB8 *)arg0)->unkCC == 0) {
+            if (((Unkstruct_801202A0 *)arg0)->unkCC.val == 0) {
                 sp10.f8 = 0;
                 sp10.f0 = 0;
                 sp10.f4 = -0x140;
-                ((Unkstruct_800B5CB8 *)arg0)->unkCC = func_8012C51C(&sp10, arg0);
+                ((Unkstruct_801202A0 *)arg0)->unkCC.val = func_8012C51C(&sp10, arg0);
             }
-            if (((Unkstruct_800B5CB8 *)arg0)->unkD0 == 0) {
+            if (((Unkstruct_801202A0 *)arg0)->unkD0.val == 0) {
                 sp10.f8 = 1;
                 sp10.f0 = 0x40;
                 sp10.f4 = -0x60;
-                ((Unkstruct_800B5CB8 *)arg0)->unkD0 = func_8012C51C(&sp10, arg0);
+                ((Unkstruct_801202A0 *)arg0)->unkD0.val = func_8012C51C(&sp10, arg0);
             }
-            if (((Unkstruct_800B5CB8 *)arg0)->unkD4 == 0) {
+            if (((Unkstruct_801202A0 *)arg0)->unkD4 == 0) {
                 sp10.f8 = 2;
                 sp10.f0 = -0x40;
                 sp10.f4 = -0x60;
-                ((Unkstruct_800B5CB8 *)arg0)->unkD4 = func_8012C51C(&sp10, arg0);
+                ((Unkstruct_801202A0 *)arg0)->unkD4 = func_8012C51C(&sp10, arg0);
             }
-            if ((((Unkstruct_800B5CB8 *)arg0)->unkCC != 0) && (((Unkstruct_800B5CB8 *)arg0)->unkD0 != 0) && (((Unkstruct_800B5CB8 *)arg0)->unkD4 != 0)) {
-                ((Unkstruct_800B5CB8 *)arg0)->unk2 = CAST_SIGN(u16, arg0, 2) + 1;
+            if ((((Unkstruct_801202A0 *)arg0)->unkCC.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD0.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD4 != 0)) {
+                ((Unkstruct_801202A0 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
             }
         }
     } else {
         var = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_800B5CB8 *)arg0)->unk20 = var;
+        ((Unkstruct_801202A0 *)arg0)->unk20 = var;
         if (var != 0) {
-            switch (((Unkstruct_800B5CB8 *)arg0)->unk70) {
+            switch (((Unkstruct_801202A0 *)arg0)->unk70.s) {
             case 0:
                 s1 = (s32)&D_8018C384;
                 s2 = (s32)&D_80181780;
@@ -2958,12 +2958,12 @@ void func_8017D25C(s32 arg0) {
                 s3 = 7;
                 break;
             }
-            guess_InitModelObject(((Unkstruct_800B5CB8 *)arg0)->unk20, s1);
-            func_8001D0E8(((Unkstruct_800B5CB8 *)arg0)->unk20, 0x7FFF, 0x7FFF);
+            guess_InitModelObject(((Unkstruct_801202A0 *)arg0)->unk20, s1);
+            func_8001D0E8(((Unkstruct_801202A0 *)arg0)->unk20, 0x7FFF, 0x7FFF);
             guess_StartActorSequence((void *)arg0, (void *)s2);
             func_80143994(arg0, 0x3000);
             ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = s4;
-            ((Unkstruct_800B5CB8 *)arg0)->unk2 = s3;
+            ((Unkstruct_801202A0 *)arg0)->unk2.s = s3;
         }
     }
 }
@@ -2986,13 +2986,13 @@ extern u8 D_801922F0[];
 extern s32 jtbl_8019BCE8[];
 
 void func_8017D4A4(void *arg0) {
-    if (((Unkstruct_800B5CB8 *)arg0)->unk90 == (s32)&D_80181928) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_80181928) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             guess_StartActorSequence(arg0, D_80181970);
         }
     }
-    if (((Unkstruct_800B5CB8 *)arg0)->unk90 == (s32)&D_80181B48) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_80181B48) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             guess_StartActorSequence(arg0, D_80181C18);
         }
     }
@@ -3004,9 +3004,9 @@ void func_8017D4A4(void *arg0) {
         guess_SetGameFlag(0x129, 0);
         guess_StartActorSequence(arg0, &D_801819F0);
     }
-    switch ((s16)(((Unkstruct_800B5CB8 *)arg0)->unk108)--) {
+    switch ((s16)(((Unkstruct_801202A0 *)arg0)->extD.kSC05_011_8017D4A4.unk108)--) {
     case 0:
-        ((Unkstruct_800B5CB8 *)arg0)->unk108 = (rand() & 0x3F) + 0x28;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC05_011_8017D4A4.unk108 = (rand() & 0x3F) + 0x28;
         break;
     case 1:
         guess_AllocRenderWorkRecord((s32)D_801920E0);
@@ -3045,18 +3045,18 @@ extern u8 D_8019A34C[];
 extern s32 jtbl_8019BD08[];
 
 void func_8017D610(void *arg0) {
-    if (((Unkstruct_800B5CB8 *)arg0)->unk90 == (s32)&D_80181DE8) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_80181DE8) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             guess_StartActorSequence(arg0, D_80181E40);
         }
     }
-    if (((Unkstruct_800B5CB8 *)arg0)->unk90 == (s32)&D_80181FB8) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_80181FB8) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             guess_StartActorSequence(arg0, &D_801820B0);
         }
     }
-    if (((Unkstruct_800B5CB8 *)arg0)->unk90 == (s32)&D_80182138) {
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_80182138) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             guess_StartActorSequence(arg0, &D_801820B0);
         }
     }
@@ -3072,9 +3072,9 @@ void func_8017D610(void *arg0) {
         guess_SetGameFlag(0x12C, 0);
         guess_StartActorSequence(arg0, &D_80182138);
     }
-    switch ((s16)(((Unkstruct_800B5CB8 *)arg0)->unk108)--) {
+    switch ((s16)(((Unkstruct_801202A0 *)arg0)->extD.kSC05_011_8017D610.unk108)--) {
     case 0:
-        ((Unkstruct_800B5CB8 *)arg0)->unk108 = (rand() & 0x3F) + 0x3C;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC05_011_8017D610.unk108 = (rand() & 0x3F) + 0x3C;
         break;
     case 1:
         guess_AllocRenderWorkRecord((s32)D_8019A07C);

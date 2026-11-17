@@ -4,7 +4,7 @@ void SHARED_FN(param_1)
 s32 param_1;
 {
     guess_ClearVelocityAndSetGravity((void *)param_1);
-    ((Unkstruct_800B5CB8 *)param_1)->unk14 = 0xFFD80000;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x10;
+    ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFD80000;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x10;
     func_8012AD44((s32 *)param_1, 4);
 }

@@ -3936,7 +3936,7 @@ extern void func_8017E6A0(s32);
 
 void func_8017E498(s32 a0) {
     u16 *mode = (u16 *)&guess_g_PlayerActor;   /* §20: address force_reg'd into $s1 at entry */
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
         if (func_8012BE54(a0) < 0x1900) {
             if ((u32)(*mode - 2) >= 2) {
@@ -3945,10 +3945,10 @@ void func_8017E498(s32 a0) {
                     /* LOAD-BEARING (§5a cross-jump barrier, zero bytes): without it
                        jump2 tail-merges the two identical [set $a0][jal] arms into one
                        shared call site and the function comes out 2 instructions short. */
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
                 } else {
                     func_80178B18(a0, (s32)D_8018866C);
-                    ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+                    ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
                 }
             }
         }
@@ -3956,9 +3956,9 @@ void func_8017E498(s32 a0) {
     case 1:
         if (((s32 (*)(s32))func_80178970)(a0) != 0) {
             ((void (*)(s32))func_80178D18)(a0);
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 3;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
             if ((guess_TestGameFlag(0x8C) & 0xFF) == 0) {
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
             }
         }
         break;
@@ -3968,8 +3968,8 @@ void func_8017E498(s32 a0) {
                 if (func_8014CB58() == 4) {
                     func_8014B598(4, (s32)D_80188350);
                     if (func_8017CF24() != 0) {
-                        ((Unkstruct_800B5CB8 *)a0)->unk84 = 0x5A;
-                        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+                        ((Unkstruct_801202A0 *)a0)->unk84.s = 0x5A;
+                        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
                     }
                 }
             }
@@ -3979,20 +3979,20 @@ void func_8017E498(s32 a0) {
         /* §167-10 — the guard read and the arm's re-read of this ONE signed-narrow
            lvalue are what mint the `addu $v1,$v0,$zero` copy AND the orphan 8 bytes of
            frame (0x28, not 0x20). Hoisting it into a local deletes both. */
-        if (((Unkstruct_800B5CB8 *)a0)->unk84 != 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk84 = ((Unkstruct_800B5CB8 *)a0)->unk84 - 1;
-            if (((Unkstruct_800B5CB8 *)a0)->unk84 == 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk84.s != 0) {
+            ((Unkstruct_801202A0 *)a0)->unk84.s = ((Unkstruct_801202A0 *)a0)->unk84.s - 1;
+            if (((Unkstruct_801202A0 *)a0)->unk84.s == 0) {
                 func_800D0C48(0);
             }
         }
         if (((s32 (*)(void))func_8017CF40)() != 0) {
-            s32 obj = ((Unkstruct_800B5CB8 *)a0)->unkCC;
+            s32 obj = ((Unkstruct_801202A0 *)a0)->unkCC.val;
             if (obj != 0) {
                 func_80180A70(obj);
-                ((Unkstruct_800B5CB8 *)a0)->unkCC = 0;
+                ((Unkstruct_801202A0 *)a0)->unkCC.val = 0;
                 func_8017EA1C(a0);
             }
-            ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+            ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
         }
         break;
     }
@@ -4012,7 +4012,7 @@ extern void func_8012AD44(s32 *param_1, s16 param_2);
 extern void (*D_8018868C)(void *);
 
 void func_8017E6A0(s32 param_1) {
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x40;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x40;
     KR_AS(void, func_8017EBCC)();
     func_80178B18(param_1, &D_8018868C);
     func_8012AD44((s32 *)param_1, 2);

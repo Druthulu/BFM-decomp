@@ -4,10 +4,10 @@ void SHARED_FN(s32 a0) {
     s32 v;
 
     guess_ApplyAccelAndVelocity(a0);
-    v = ((Unkstruct_800B5CB8 *)a0)->unk14;
+    v = ((Unkstruct_801202A0 *)a0)->unk14.val;
     if (v > 0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = -0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk48 = -0x1400;
     } else if (v < -0x14000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk48 = 0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk48 = 0x1400;
     }
 }

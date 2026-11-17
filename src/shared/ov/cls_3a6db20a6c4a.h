@@ -3,10 +3,10 @@
 void SHARED_FN(p)
 s32 p;
 {
-    if (((Unkstruct_800B5CB8 *)p)->unk1C == 0xF) {
+    if (((Unkstruct_801202A0 *)p)->unk1C.s == 0xF) {
         func_80142414(p, -0x90);
     }
     if (guess_TickWaitTimer(p) != 0) {
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 2;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 2;
     }
 }

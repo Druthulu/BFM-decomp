@@ -3337,7 +3337,7 @@ extern void guess_FreeActor(void *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80187928(void *a0) {
-    func_80187A30(a0, ((Unkstruct_800B5CB8 *)a0)->unkFE, CAST_SIGN(s16, (s32)a0, 0x100));
+    func_80187A30(a0, ((Unkstruct_801202A0 *)a0)->unkFE.s, CAST_SIGN(s16, (s32)a0, 0x100));
 
     switch (CAST_WIDTH(u16, (s32)a0, 0x34)) {
     case 0:
@@ -3348,15 +3348,15 @@ void func_80187928(void *a0) {
         break;
     case 1: {
         ((Unkstruct_80126B58 *)a0)->unk1C = 0x40;
-        CAST_WIDTH(u16, (s32)a0, 0x34) = (((Unkstruct_800B5CB8 *)a0)->unk34) + 1;
+        CAST_WIDTH(u16, (s32)a0, 0x34) = (((Unkstruct_801202A0 *)a0)->unk34.u) + 1;
         break;
     }
     case 2:
         if (guess_TickWaitTimer((s32)a0) == 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, (s32)a0, 0xFE) + 8;
+            ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, (s32)a0, 0xFE) + 8;
             ((Unkstruct_80126B58 *)a0)->unk100 = ((Unkstruct_80126B58 *)a0)->unk100 + 8;
         } else {
-            if (((Unkstruct_80126B58 *)((Unkstruct_800B5CB8 *)a0)->unk64)->unk2 == 9) {
+            if (((Unkstruct_80126B58 *)((Unkstruct_801202A0 *)a0)->unk64)->unk2 == 9) {
                 guess_RequestSound(4, 0x775);
             }
             guess_FreeActor(a0);
@@ -4006,17 +4006,17 @@ void func_801889D4(s32 arg0)
     u16 out[4];
     s16 *ptr;
 
-    if (((Unkstruct_800B5CB8 *)arg0)->unk100 != 0) {
+    if (((Unkstruct_801202A0 *)arg0)->extD.kSC03_105_8018868C.unk100 != 0) {
         func_80188B64(arg0);
         return;
     }
-    func_8012EC04(((Unkstruct_800B5CB8 *)arg0)->unk64, 6, buf);
+    func_8012EC04(((Unkstruct_801202A0 *)arg0)->unk64, 6, buf);
     guess_RotTransSVWithMatrix((s32)buf, (s32)&D_8018F254, (s32)out);
-    ((Unkstruct_800B5CB8 *)arg0)->unk6 = out[0];
-    ((Unkstruct_800B5CB8 *)arg0)->unkA = out[1];
-    ((Unkstruct_800B5CB8 *)arg0)->unkE = out[2];
+    ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u = out[0];
+    ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = out[1];
+    ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = out[2];
     func_80188A94(arg0);
-    if ((((Unkstruct_800B5CB8 *)arg0)->unk5C & 1) == 0) {
+    if ((((Unkstruct_801202A0 *)arg0)->unk5C.u & 1) == 0) {
         return;
     }
     guess_RequestSound(0xBC1, 0);
@@ -4386,7 +4386,7 @@ extern void (*D_8018F314[])(void);
 
 
 s32 func_80189308(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_800B5CB8 *)a0)->unkDC;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -4439,7 +4439,7 @@ extern s32 guess_GetStoryProgress(void);
 void func_801893BC(void *a0) {
     if (guess_GetStoryProgress() == 0x258) {
         if ((guess_TestGameFlag(0x132) & 0xFF) == 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unkDC = func_80189308(a0, &D_8018F2F4);
+            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_80189308(a0, &D_8018F2F4);
         }
     }
 }

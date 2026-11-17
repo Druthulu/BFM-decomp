@@ -2,8 +2,8 @@
 void SHARED_FN(u8 *a0) {
     u8 *p = CAST_SIGN(u8 *, a0, 0x20);
     u16 v = CAST_SIGN(u16, a0, 0xFC);
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x50;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x50;
     ((Unkstruct_800B5CB8 *)p)->unk12 = v;
     guess_UpdateActorModelMatrix((s32)a0);
     func_8012B200(a0);

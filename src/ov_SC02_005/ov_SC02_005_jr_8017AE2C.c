@@ -3342,9 +3342,9 @@ void func_8017BF9C(s32 a0, s32 a1) {
 
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
-            ((Unkstruct_800B5CB8 *)p)->unkD4 = a0;
-            ((Unkstruct_800B5CB8 *)p)->unkD8 = a1;
+        if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
+            ((Unkstruct_801202A0 *)p)->unkD4 = a0;
+            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
             return;
         }
         p += 0x10C;
@@ -3361,10 +3361,10 @@ void func_8017BFF0(s32 a0, s32 a1, s32 a2) {
 
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
-            ((Unkstruct_800B5CB8 *)p)->unk70 = a2;
-            ((Unkstruct_800B5CB8 *)p)->unkD4 = a0;
-            ((Unkstruct_800B5CB8 *)p)->unkD8 = a1;
+        if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
+            ((Unkstruct_801202A0 *)p)->unk70.s = a2;
+            ((Unkstruct_801202A0 *)p)->unkD4 = a0;
+            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
             return;
         }
         p += 0x10C;
@@ -3383,11 +3383,11 @@ void func_8017C048(void) {
 
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x6B) {
-            if (((Unkstruct_800B5CB8 *)p)->unkCC != 0) {
+        if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
+            if (((Unkstruct_801202A0 *)p)->unkCC.val != 0) {
                 guess_ZeroMemory(CAST_SIGN(void *, p, 0xCC), 0x38);
             }
-            if (((Unkstruct_800B5CB8 *)p)->unkD0 != 0) {
+            if (((Unkstruct_801202A0 *)p)->unkD0.val != 0) {
                 guess_ZeroMemory(CAST_SIGN(void *, p, 0xD0), 0x38);
             }
             guess_FreeActor(p);

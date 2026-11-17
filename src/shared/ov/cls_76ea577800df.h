@@ -2,6 +2,6 @@
     void SHARED_FN(void) {
         s32 p = func_8012E544(0x224);
         if (p != 0) {
-            ((Unkstruct_800B5CB8 *)p)->unk34 += 1;
+            ((Unkstruct_801202A0 *)p)->unk34.u += 1;
         }
     }

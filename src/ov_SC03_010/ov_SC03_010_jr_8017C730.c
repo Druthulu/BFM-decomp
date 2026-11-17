@@ -3550,26 +3550,26 @@ void func_8017E744(s32 a0)
     } st;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)a0);
         return;
     }
     func_8001C2C4(v0);
-    v1 = D_80183C0C[((Unkstruct_800B5CB8 *)a0)->unk70];
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = (v1 & 0xF000) >> 12;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = v1 & 0xF;
+    v1 = D_80183C0C[((Unkstruct_801202A0 *)a0)->unk70.s];
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = (v1 & 0xF000) >> 12;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = v1 & 0xF;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = v1 & 0xFF0;
-    if (((Unkstruct_800B5CB8 *)a0)->unkFE == 2) {
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s == 2) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0x100;
     }
     guess_UpdateActorModelMatrix(a0);
     st.f1 = 0;
     st.f0 = 0;
-    st.f2 = *(u32 *)((s32)&D_80183C5C + (((Unkstruct_800B5CB8 *)a0)->unkFE << 2));
+    st.f2 = *(u32 *)((s32)&D_80183C5C + (((Unkstruct_801202A0 *)a0)->unkFE.s << 2));
     guess_SetLocalVelocity(a0, (s32)&st);
-    ((Unkstruct_800B5CB8 *)a0)->unk58 = ((((Unkstruct_800B5CB8 *)a0)->unkFE << 4) + (s32)&D_80183C2C) | 0x40000000;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = ((Unkstruct_800B5CB8 *)a0)->unk70;
+    ((Unkstruct_801202A0 *)a0)->unk58.s = ((((Unkstruct_801202A0 *)a0)->unkFE.s << 4) + (s32)&D_80183C2C) | 0x40000000;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk70.s;
     func_8012AD50((void *)a0);
 }
 
@@ -3755,7 +3755,7 @@ extern s32 func_8012E544(s32 a0);
 void func_8017EDA8(void) {
     s32 v0 = func_8012E544(0xc7);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)v0)->unk2.s = 1;
     }
 }
 
@@ -3766,7 +3766,7 @@ void func_8017EDD8(void) {
     s32 var = guess_GetGameVarByte(0xce);
     s32 ptr = func_8012E544(0xc7);
     if (ptr != 0) {
-        ((Unkstruct_800B5CB8 *)ptr)->unkFC = D_80183CF4[var & 0xFF];
+        ((Unkstruct_801202A0 *)ptr)->unkFC.s = D_80183CF4[var & 0xFF];
     }
 }
 
@@ -3777,13 +3777,13 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 void func_8017EE30(void) {
     s32 v0 = func_8012E544(0xC7);
     if (v0 != 0) {
-        if (((Unkstruct_800B5CB8 *)v0)->unkDC != 0) {
-            guess_ZeroMemory((void *)((Unkstruct_800B5CB8 *)v0)->unkDC, 0x38);
+        if (((Unkstruct_801202A0 *)v0)->unkDC.val != 0) {
+            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->unkDC.val, 0x38);
         }
-        if (((Unkstruct_800B5CB8 *)v0)->unkE0 != 0) {
-            guess_ZeroMemory((void *)((Unkstruct_800B5CB8 *)v0)->unkE0, 0x38);
+        if (((Unkstruct_801202A0 *)v0)->extC.kSC03_010_8017EE30.unkE0 != 0) {
+            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->extC.kSC03_010_8017EE30.unkE0, 0x38);
         }
-        ((Unkstruct_800B5CB8 *)v0)->unk2 = 0;
+        ((Unkstruct_801202A0 *)v0)->unk2.s = 0;
     }
 }
 

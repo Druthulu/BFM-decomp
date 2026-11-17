@@ -23,7 +23,7 @@ void func_801E4CA0(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)ptr - 4) != 0) {
         guess_StartActorSequence(a0, &D_801E5DB4);
-        ((Unkstruct_800B5CB8 *)a0)->unkCC = func_80143994(a0, 0x4000);
+        ((Unkstruct_801202A0 *)a0)->unkCC.val = func_80143994(a0, 0x4000);
         CAST_SIGN(u16, a0, 0x2) += 1;
     }
 }
@@ -37,7 +37,7 @@ void func_801E4D14(s32 a0) {
     extern void D_801E5E0C;
 
     if (D_801270C8 == 3) {
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_8019702C);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0 = guess_OpenTextWindow((s32)D_8019702C);
         guess_StartActorSequence(a0, &D_801E5E0C);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
@@ -142,7 +142,7 @@ void func_801E4FC8(s32 a0) {
     extern u8 D_801E5F04[];
 
     if (D_801270C8 == 9) {
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_801971DC);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0 = guess_OpenTextWindow((s32)D_801971DC);
         guess_StartActorSequence(a0, D_801E5F04);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
@@ -207,7 +207,7 @@ void func_801E514C(s32 a0) {
     if (D_801270C8 == 16) {
         func_8017E424();
         guess_StartActorSequence(a0, D_801E60D4);
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_80197480);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0 = guess_OpenTextWindow((s32)D_80197480);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
 }
@@ -224,11 +224,11 @@ void func_801E51C0(s32 a0) {
     extern u8 D_801974DC[];
 
     func_801E53E0(a0);
-    if (guess_GetTextWindowResult(((Unkstruct_800B5CB8 *)a0)->unkB0) != 0) {
-        guess_CloseTextWindow(((Unkstruct_800B5CB8 *)a0)->unkB0);
+    if (guess_GetTextWindowResult(((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0) != 0) {
+        guess_CloseTextWindow(((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0);
         guess_StartActorSequence(a0, D_801E5FFC);
         func_8017E454();
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_801974DC);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0 = guess_OpenTextWindow((s32)D_801974DC);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
 }
@@ -240,12 +240,12 @@ void func_801E5240(s32 a0) {
     extern void guess_CloseTextWindow(s32);
     extern void D_801E5DB4;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk94 >= 0x19) {
+    if (((Unkstruct_801202A0 *)a0)->unk94.s >= 0x19) {
         guess_StartActorSequence(a0, &D_801E5DB4);
     }
-    if (guess_GetTextWindowResult(((Unkstruct_800B5CB8 *)a0)->unkB0) != 0) {
-        guess_CloseTextWindow(((Unkstruct_800B5CB8 *)a0)->unkB0);
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x18;
+    if (guess_GetTextWindowResult(((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0) != 0) {
+        guess_CloseTextWindow(((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E4C64.unkB0);
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x18;
         CAST_SIGN(u16, a0, 2) += 1;
     }
 }
@@ -256,13 +256,13 @@ void func_801E52BC(s32 a0) {
     extern s32 D_801270C8;
     extern void D_801E5DB4;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk94 >= 0x19) {
+    if (((Unkstruct_801202A0 *)a0)->unk94.s >= 0x19) {
         guess_StartActorSequence(a0, &D_801E5DB4);
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s == -1) {
         D_801270C8 = 0x11;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 8;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 8;
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
 }
@@ -317,7 +317,7 @@ extern void D_801E6314;
 
 void func_801E53E0(s32 arg0)
 {
-    if ((((Unkstruct_800B5CB8 *)arg0)->unk72 & 0x4000) && (CAST_SIGN(void *, (s32)arg0, 0x90) != &D_801E5DB4)) {
+    if ((((Unkstruct_801202A0 *)arg0)->unk72 & 0x4000) && (CAST_SIGN(void *, (s32)arg0, 0x90) != &D_801E5DB4)) {
         void *a1 = &D_801E5DB4;
         void *ptr = CAST_SIGN(void *, (s32)arg0, 0x90);
 
@@ -353,11 +353,11 @@ void func_801E548C(s32 a0) {
     p = (s32)&D_80196BBC;
     *(s32 *)p = (s32)&D_801F3D3C;
     if (guess_InitActorModel(a0, p - 4) != 0) {
-        v0 = ((Unkstruct_800B5CB8 *)a0)->unk64;
-        func_8001C1E4((void *)((Unkstruct_800B5CB8 *)a0)->unk20, *(s32 *)(v0 + 0x20));
+        v0 = ((Unkstruct_801202A0 *)a0)->unk64;
+        func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20, *(s32 *)(v0 + 0x20));
         guess_StartActorSequence(a0, (void *)&D_801E63C4);
-        ((Unkstruct_800B5CB8 *)a0)->unkCC = guess_SpawnActor(0x3D4, 0x4000, a0);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, a0, 0x2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unkCC.val = guess_SpawnActor(0x3D4, 0x4000, a0);
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
     }
 }
 
@@ -370,7 +370,7 @@ void func_801E5518(s32 a0) {
     extern u8 D_801E644C[];
 
     if (D_801270C8 == 4) {
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_80197080);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E5450.unkB0 = guess_OpenTextWindow((s32)D_80197080);
         guess_StartActorSequence(a0, D_801E644C);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
@@ -406,7 +406,7 @@ void func_801E55F4(s32 a0) {
 
     func_801E590C(a0);
     if (D_801270C8 == 11) {
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_8019729C);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E5450.unkB0 = guess_OpenTextWindow((s32)D_8019729C);
         guess_StartActorSequence(a0, D_801E644C);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
@@ -442,7 +442,7 @@ void func_801E56D8(s32 a0) {
 
     func_801E590C(a0);
     if (D_801270C8 == 14) {
-        ((Unkstruct_800B5CB8 *)a0)->unkB0 = guess_OpenTextWindow((s32)D_80197418);
+        ((Unkstruct_801202A0 *)a0)->extE.kSC02_009_801E5450.unkB0 = guess_OpenTextWindow((s32)D_80197418);
         guess_StartActorSequence(a0, D_801E644C);
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }

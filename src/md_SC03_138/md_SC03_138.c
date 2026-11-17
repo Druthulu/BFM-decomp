@@ -341,26 +341,26 @@ void func_801E2EC4(s32 a0) {
     s32 flag;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)a0);
         return;
     }
     guess_InitModelObject(v0, 0);
-    ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk68;
     *(s16 *)(ptr + 0xC) = 0x7FFF;
     flag = 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = flag;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = flag;
     guess_SetObjectPosAndYaw(a0, (s32)&D_801E33A4);
     if (guess_GetStoryProgress() < 0x140) {
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         func_80178B18(a0, (s32)&D_801E33DC);
     } else {
         if ((guess_TestGameFlag(0xFF) & 0xFF) != 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = flag;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = flag;
             func_80178B18(a0, (s32)&D_801E342C);
         } else {
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = flag;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = flag;
             func_80178B18(a0, (s32)&D_801E33F4);
         }
     }
@@ -527,17 +527,17 @@ void func_801E3258(void *a0) {
     s32 ptr;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801EB4C0);
-        ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
+        ptr = ((Unkstruct_801202A0 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801EC26C);
         guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801E346C);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         func_80178B18((s32)a0, (s32)&D_801E349C);
     }
 }

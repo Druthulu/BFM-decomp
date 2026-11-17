@@ -2900,10 +2900,10 @@ void func_801873D8(void *a0)
 
     extern Blk16_8018A8B8 D_800A5E88;
 
-    s32 v1 = ((Unkstruct_800B5CB8 *)a0)->unkFC;
+    s32 v1 = ((Unkstruct_801202A0 *)a0)->unkFC.s;
     LBlk16 *s0;
 
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = 0;
 
     switch (v1) {
     case 0:

@@ -2,7 +2,7 @@
 void SHARED_FN(s32 arg0) {
     s32 s0 = arg0;
     do { ((void (*)(s32))func_80165988)(arg0); } while (0);
-    if (((Unkstruct_800B5CB8 *)s0)->unk78 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk78 != 0) {
         func_8002A04C(s0);
     }
     guess_FreeActor((void *)s0);

@@ -7,7 +7,7 @@ void SHARED_FN(s32 *a0) {
     s32 ptr_at_20;
 
     val_at_64 = ((Unkstruct_801202A0 *)a0)->unk64;
-    deref = ((Unkstruct_800B5CB8 *)val_at_64)->unk20;
+    deref = ((Unkstruct_801202A0 *)val_at_64)->unk20;
     val1 = ((Unkstruct_800B5CB8 *)deref)->unk12;
     val2 = CAST_SIGN(u16, (char *)a0, 0x70);
     ptr_at_20 = ((Unkstruct_801202A0 *)a0)->unk20;

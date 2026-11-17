@@ -2868,48 +2868,48 @@ void func_80181984(s32 arg0) {
     u16 chk;
 
     s2 = (s32)&guess_g_PlayerActor;
-    s1 = ((Unkstruct_800B5CB8 *)arg0)->unkD0;
+    s1 = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
     if (CAST_SIGN(u32, arg0, 0xE8) & 0x60000) {
         func_80182998((void *)arg0);
         return;
     }
-    switch (((Unkstruct_800B5CB8 *)arg0)->unk34) {
+    switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
         if (CAST_WIDTH(s16, arg0, 0xE0) >= 0) {
             func_80185D84((void *)arg0);
         }
-        if (((Unkstruct_800B5CB8 *)arg0)->unk94 == 4 && ((Unkstruct_800B5CB8 *)arg0)->unk98 == 1) {
+        if (((Unkstruct_801202A0 *)arg0)->unk94.s == 4 && ((Unkstruct_801202A0 *)arg0)->unk98.s == 1) {
             guess_RequestSound(0x4F8, 0);
         }
         if (guess_TickWaitTimer(arg0) != 0) {
-            (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
+            (((Unkstruct_801202A0 *)arg0)->unk34.u)++;
             func_80186304((u8 *)arg0, 8, 2);
             CAST_SIGN(u32, arg0, 0xE8) &= ~1;
             func_80186F58((void *)arg0);
         }
         break;
     case 1:
-        if (((Unkstruct_800B5CB8 *)arg0)->unk94 == 3 && ((Unkstruct_800B5CB8 *)arg0)->unk98 == 1) {
-            (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
+        if (((Unkstruct_801202A0 *)arg0)->unk94.s == 3 && ((Unkstruct_801202A0 *)arg0)->unk98.s == 1) {
+            (((Unkstruct_801202A0 *)arg0)->unk34.u)++;
             func_801846CC((void *)s1);
         }
         break;
     case 2:
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             func_80186F9C(arg0, 0x1C);
             guess_RequestSound(0x4F0, 0);
-            (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
+            (((Unkstruct_801202A0 *)arg0)->unk34.u)++;
         }
         /* fallthrough */
     case 3:
         if (CAST_SIGN(u16, s1, 2) == 4) {
             if (CAST_SIGN(u32, arg0, 0xE8) & 0x2000) {
-                ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x20;
+                ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x20;
             } else {
-                ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x40;
+                ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x40;
             }
             chk = D_801E4BBC;
-            ((Unkstruct_800B5CB8 *)arg0)->unk34 = 4;
+            ((Unkstruct_801202A0 *)arg0)->unk34.u = 4;
             if (chk == 0 && (CAST_SIGN(u32, arg0, 0xE8) & 0x80) == 0 &&
                 (u16)(CAST_SIGN(u16, s2, 6) + 0xBF) < 0x8F) {
                 guess_SpawnActorNoArg(0x5E, 0);
@@ -2919,13 +2919,13 @@ void func_80181984(s32 arg0) {
         break;
     case 4:
         if (guess_TickWaitTimer(arg0) != 0) {
-            (((Unkstruct_800B5CB8 *)arg0)->unk34)++;
+            (((Unkstruct_801202A0 *)arg0)->unk34.u)++;
             func_80186304((u8 *)arg0, 9, 2);
             func_80184A34(s1);
         }
         break;
     case 5:
-        if (((Unkstruct_800B5CB8 *)arg0)->unk98 == 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
             func_801838A8((u8 *)arg0);
         }
         break;

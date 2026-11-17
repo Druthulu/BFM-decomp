@@ -270,7 +270,7 @@ extern s32 func_8012E544(s32 a0);
 void func_801EF9AC(void) {
     s32 v0 = func_8012E544(0x157);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 1;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 1;
     }
 }
 
@@ -282,7 +282,7 @@ extern s32 func_8012E544(s32 a0);
 void func_801EF9DC(void) {
     s32 v0 = func_8012E544(0x157);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 2;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 2;
     }
 }
 
@@ -294,7 +294,7 @@ extern s32 func_8012E544(s32 a0);
 void func_801EFA0C(void) {
     s32 v0 = func_8012E544(0x157);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unkFC = 3;
+        ((Unkstruct_801202A0 *)v0)->unkFC.s = 3;
     }
 }
 

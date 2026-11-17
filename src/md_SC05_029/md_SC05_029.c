@@ -391,17 +391,17 @@ void func_801EE3C4(void *a0) {
     s32 ptr;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801F6564);
-        ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
+        ptr = ((Unkstruct_801202A0 *)a0)->unk68;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801F7310);
         guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801EE510);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         func_80178B18((s32)a0, (s32)&D_801EE540);
     }
 }

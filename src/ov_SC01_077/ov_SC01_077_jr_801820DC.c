@@ -3087,15 +3087,15 @@ void func_801820DC(int arg0)
     s32 frame_pad[2];
     (void)&frame_pad;
 
-    switch (((Unkstruct_800B5CB8 *)arg0)->unk34) {
+    switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
         func_8012CBCC(arg0);
         if (guess_TickWaitTimer(arg0) != 0) {
             CAST_WIDTH(u16, arg0, 0x5e) = 0;
-            ((Unkstruct_800B5CB8 *)arg0)->unkC1 = 0;
-            ((Unkstruct_800B5CB8 *)arg0)->unk2  = 1;
-            ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
-            ((Unkstruct_800B5CB8 *)arg0)->unk1C = (rand() & 0x1f) + 0x46;
+            ((Unkstruct_801202A0 *)arg0)->unkC1.s = 0;
+            ((Unkstruct_801202A0 *)arg0)->unk2.s  = 1;
+            ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
+            ((Unkstruct_801202A0 *)arg0)->unk1C.s = (rand() & 0x1f) + 0x46;
             CAST_WIDTH(u16, arg0, 0xe0) = 0;
             *(u16 *)(arg0 + 0xe2) = ((Unkstruct_800B5CB8 *)*(int *)(arg0 + 0x20))->unk12;
             idx = (int)((u32)CAST_SIGN(u16, arg0, 0x70) << 16) >> 24;
@@ -3119,7 +3119,7 @@ void func_801820DC(int arg0)
             }
             CAST_WIDTH(u16, arg0, 0xe4) = 0x1e;
             CAST_WIDTH(u16, arg0, 0x5e) = 0;
-            ((Unkstruct_800B5CB8 *)arg0)->unk5C = 0xaa10;
+            ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0xaa10;
             guess_UpdateActorModelMatrix(arg0);
             guess_ClearVelocityAndSetGravity(arg0);
             ((void (*)(int, void *))guess_SetLocalVelocity)(arg0, &(*(char *)D_8018AA8C));
@@ -3128,7 +3128,7 @@ void func_801820DC(int arg0)
         break;
     case 1:
         func_8012CBF4(arg0);
-        if (((Unkstruct_800B5CB8 *)arg0)->unk1C == 0x1e || ((Unkstruct_800B5CB8 *)arg0)->unk1C == 0xd) {
+        if (((Unkstruct_801202A0 *)arg0)->unk1C.s == 0x1e || ((Unkstruct_801202A0 *)arg0)->unk1C.s == 0xd) {
             ((void (*)(int, int))guess_SpawnActorType1C)(arg0, 0);
         }
         if (guess_TickWaitTimer(arg0) != 0) {

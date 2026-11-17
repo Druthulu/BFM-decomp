@@ -4936,7 +4936,7 @@ void func_8017EF54(s32 param_1)
         ((Unkstruct_80126B58 *)param_1)->unk2 += 1;
         *(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x18) = 0x2000;
         *(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x1A) = 0x2000;
-        ((Unkstruct_800B5CB8 *)param_1)->unk94 = rand() & 0xF;
+        ((Unkstruct_801202A0 *)param_1)->unk94.s = rand() & 0xF;
         *(u32 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 4) |= 0x50000000;
         *(u16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x2C) |= 0x10;
     }
@@ -5267,7 +5267,7 @@ void func_8017F600(s32 arg0)
                     func_8017F49C((void *)arg0);
 
                     ((Unkstruct_80126B58 *)arg0)->unk1C = 0x30;
-                    ((Unkstruct_800B5CB8 *)arg0)->unk84 = 0x30;
+                    ((Unkstruct_801202A0 *)arg0)->unk84.s = 0x30;
                     func_80178B18(arg0, (s32)&D_80188EB8);
                 }
             }
@@ -5298,18 +5298,18 @@ void func_8017F704(s32 arg0)
     func_8018074C(arg0, arg0 + 0x24);
     if (((Unkstruct_80126B58 *)arg0)->unk70 == 0) {
         if (guess_TickWaitTimer(arg0) != 0) {
-            ((Unkstruct_800B5CB8 *)arg0)->unkFE = CAST_SIGN(u16, arg0, 0xFE) + 4;
+            ((Unkstruct_801202A0 *)arg0)->unkFE.s = CAST_SIGN(u16, arg0, 0xFE) + 4;
             ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk100 - CAST_SIGN(u16, arg0, 0xFE);
-            if (((Unkstruct_800B5CB8 *)arg0)->unkFE >= 0x90) {
+            if (((Unkstruct_801202A0 *)arg0)->unkFE.s >= 0x90) {
                 func_8017F4BC(arg0);
             } else {
                 ((Unkstruct_80126B58 *)arg0)->unk1C = 3;
             }
         }
-        v1 = ((Unkstruct_800B5CB8 *)arg0)->unk84;
+        v1 = ((Unkstruct_801202A0 *)arg0)->unk84.s;
         if (v1 != 0) {
             cnt = v1 - 1;
-            ((Unkstruct_800B5CB8 *)arg0)->unk84 = cnt;
+            ((Unkstruct_801202A0 *)arg0)->unk84.s = cnt;
             if (cnt == 0) {
                 guess_RequestSound(0x757, 0);
             }
@@ -5615,7 +5615,7 @@ void func_8017FE04(s32 a0)
 {
     ((Unkstruct_80126B58 *)a0)->unk2 = 4;
     guess_HideObjectModel((u8 *)a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     CAST_WIDTH(u16, a0, 0x5C) = 0;
     guess_SetObjectPosAndYaw(a0, (s32)&D_80188EF8);
 }

@@ -348,19 +348,19 @@ void func_801EFE5C(void *a0) {
     s32 ptr;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
         guess_InitModelObject(v0, (s32)&D_801F5EE4);
-        ptr = ((Unkstruct_800B5CB8 *)a0)->unk68;
+        ptr = ((Unkstruct_801202A0 *)a0)->unk68;
         CAST_ALIAS(u16, (s32)a0, 0x6) = D_801EFFEC;
         CAST_ALIAS(u16, (s32)a0, 0xA) = D_801EFFEE;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = D_801EFFF0;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = D_801EFFF0;
         *(s16 *)(ptr + 0xC) = 0x7FFF;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_StartActorSequence((s32)a0, (s32)&D_801C3890);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         func_80178B18((s32)a0, (s32)&D_801F001C);
     }
 }

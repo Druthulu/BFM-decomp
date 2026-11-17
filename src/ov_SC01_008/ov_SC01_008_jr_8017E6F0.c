@@ -3421,15 +3421,15 @@ void func_8017F380(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
     if (v0 != 0) {
         guess_InitModelObject(v0, (int)&D_8019E198);
         guess_StartActorSequence(param_1, &D_8019F034);
         func_80143994(param_1, 0x3000);
         *(unsigned short *)(param_1 + 2) += 1;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 4;
         if ((u32)guess_GetStoryProgress() < 5) {
-            ((Unkstruct_800B5CB8 *)param_1)->unk70 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk70.s = 1;
         }
     }
 }

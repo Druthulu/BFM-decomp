@@ -424,10 +424,10 @@ void func_800CB794(s32 arg0) {
                     guess_CopyVec3HighHalves((s32)(p + 4), (s32 *)buf);
                     buf[3] = 0;
                     if (func_8014C3D0((void *)arg0, (s32)p, 0x33, (s32)buf) != 0) {
-                        if (((Unkstruct_800B5CB8 *)p)->unk0 == 0x219) {
-                            ptr = ((Unkstruct_800B5CB8 *)p)->unk78;
+                        if (((Unkstruct_801202A0 *)p)->unk0 == 0x219) {
+                            ptr = ((Unkstruct_801202A0 *)p)->unk78;
                             if (ptr != 0) {
-                                ((Unkstruct_800B5CB8 *)p)->unk60 = ((Unkstruct_800B5CB8 *)p)->unk76 * 0x1000 /
+                                ((Unkstruct_801202A0 *)p)->unk60 = ((Unkstruct_801202A0 *)p)->unk76 * 0x1000 /
                                                     *(s16 *)(ptr + 0x30) + 1;
                             }
                         }

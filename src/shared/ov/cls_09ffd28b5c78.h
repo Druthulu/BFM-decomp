@@ -8,8 +8,8 @@ void SHARED_FN(s32 self)
     s32 target;
     s32 i;
 
-    SetRotMatrix((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
-    SetTransMatrix((void *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x54));
+    SetRotMatrix((void *)(((Unkstruct_801202A0 *)self)->unk20 + 0x54));
+    SetTransMatrix((void *)(((Unkstruct_801202A0 *)self)->unk20 + 0x54));
 
     sv[1] = 0;
     sv[0] = 0;
