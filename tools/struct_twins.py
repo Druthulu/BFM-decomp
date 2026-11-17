@@ -89,13 +89,13 @@ se = None   # sig_evidence (3.45 T2 --links: the .d / ELF / placement join), imp
 CENSUS_DEFAULT = tc.OUT_DIR_DEFAULT   # 3.41 T2: the gate dir, read from type_census (was a stale ".run/P38/census" literal)
 TWINS_DOC = REPO / "docs" / "struct-twins.md"
 MAX_CITES = 8
-# Sony PsyQ (libgte / libgpu / libetc / libcd / libspu / libsnd / libapi) struct typedef names
+# Sony PsyQ (libgte / libgpu / libetc / libcd / libspu / libsnd / libapi / libgs) struct typedef names
 PSYQ = set("""SVECTOR VECTOR CVECTOR DVECTOR MATRIX RECT RECT32 SPOL POL3 POL4 TMESH QMESH
 DR_ENV DR_MODE DR_TPAGE DR_AREA DR_OFFSET DR_TWIN DR_STP DR_MOVE DR_LOAD DR_PRIO P_TAG P_CODE
 POLY_F3 POLY_F4 POLY_FT3 POLY_FT4 POLY_G3 POLY_G4 POLY_GT3 POLY_GT4 LINE_F2 LINE_F3 LINE_F4 LINE_G2 LINE_G3 LINE_G4
 SPRT SPRT_8 SPRT_16 TILE TILE_1 TILE_8 TILE_16 DISPENV DRAWENV TIM_IMAGE KANJIFONT
 CdlLOC CdlFILE CdlATV CdlFILTER SpuVolume SpuVoiceAttr SpuCommonAttr SpuReverbAttr SpuExtAttr SpuEnv SpuLVoiceAttr
-SndVolume SndVolume2 SndRegisterAttr VabHdr ProgAtr VagAtr DIRENTRY EXEC XF_HDR""".split())
+SndVolume SndVolume2 SndRegisterAttr VabHdr ProgAtr VagAtr DIRENTRY EXEC XF_HDR GsF_LIGHT""".split())
 
 TOK = re.compile(r"[A-Za-z_]\w*|0x[0-9A-Fa-f]+|\d+|\S")
 COMMENT = re.compile(r"/\*.*?\*/|//[^\n]*|\"(?:\\.|[^\"\\\n])*\"|'(?:\\.|[^'\\\n])*'", re.S)

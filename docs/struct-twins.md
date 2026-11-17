@@ -1719,3 +1719,4 @@ cause: 2 names (228 B, all members placeholders) bound to 2 distinct objects, no
 - LineF2_8018F694 — used only inside a multi-line macro body in ov_SC06_018/032/033 (census cannot see it); deleting it broke cc1 (`undeclared`), T5.1.c3b
 - actor4c — tag of Actor4C, named only by its own self-pointer member `unk20`; the self-reference needs the tag
 - Unkstruct_8001CD50 — T17.c12: its one source (src/800.c func_8001CD50:s0) moved per source to the sprite record Unkstruct_800B5BD8; definition kept for its ledger row until a fold-row deletes it
+- GsF_LIGHT — T17.c18 setup: PsyQ libgs flat light (declared for the Blk16 per-source line); in use from the batch F2 write

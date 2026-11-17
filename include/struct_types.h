@@ -117,6 +117,57 @@ typedef struct {
 } Unkstruct_800B5CB8; /* size = 0x10c */
 
 typedef struct {
+    /* Unkstruct_ea207b39: P3.40 T3 band rank 1119; 16 TNC sites in 1 bodies; struct map 16 sites; restruct.py --decide-band */
+    /* 0x0000 */ union {
+        u16 u;
+        s16 s;
+    } unk0;
+    /* 0x0002 */ union {
+        s16 s;
+        u16 u;
+    } unk2;
+    /* 0x0004 */ union {
+        s32 s;
+        u32 u;
+    } unk4;
+    /* 0x0008 */ s16 unk8;
+    /* 0x000a */ s16 unkA;
+    /* 0x000c */ s16 unkC;
+    /* 0x000e */ u8 padE[0x2];
+    /* 0x0010 */ s16 unk10;
+    /* 0x0012 */ s16 unk12;
+    /* 0x0014 */ s16 unk14;
+    /* 0x0016 */ u8 pad16[0x2];
+    /* 0x0018 */ union {
+        s16 s;
+        u16 u;
+    } unk18;
+    /* 0x001a */ union {
+        s16 s;
+        u16 u;
+    } unk1A;
+    /* 0x001c */ union {
+        s16 s;
+        u16 u;
+    } unk1C;
+    /* 0x001e */ u8 pad1E[0x2];
+    /* 0x0020 */ s32 unk20;
+    /* 0x0024 */ s32 unk24;
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ s16 unk2A;
+    /* 0x002c */ union {
+        s16 s;
+        u16 u;
+    } unk2C;
+    /* 0x002e */ s16 unk2E;
+    /* 0x0030 */ s32 unk30;
+    /* 0x0034 */ u8 pad34[0x44];
+    /* 0x0078 */ s32 unk78;
+    /* 0x007c */ u8 pad7C[0x4];
+    /* 0x0080 */ s32 unk80;
+} Unkstruct_8001C9D0; /* size = 0x84 */
+
+typedef struct {
     /* P37 struct map: 65397 sites in 17047 bodies; evidence {'PV': 1050, 'L': 1271, 'AT': 1, 'P': 1050, 'PTR': 1, 'FLD': 14}; at guess_g_PlayerActor; resolved by tools/head_types.py (max-site split); decisions: docs/struct-map-decisions.md */
     /* T16.c5: 0x254 bytes: guess_ZeroMemory(&guess_g_PlayerActor, 0x254) (src/shared/ov/func_80145CEC__05c7cfc4.h:51) */
     /* 0x0000 */ u16 unk0;
@@ -719,6 +770,7 @@ typedef struct { char b[4]; } W_8016BFD0;
 typedef W_8016BFD0 W;
 typedef void (*code)(unsigned short *);
 typedef struct { short m[3][3]; long t[3]; } MATRIX;
+typedef struct { long vx, vy, vz; unsigned char r, g, b; } GsF_LIGHT; /* PsyQ libgs.h */
 struct S80190C84 {
     s16 f0, f2, f4, f6, f8, fA, fC, fE;
     s32 f10;
@@ -3196,57 +3248,6 @@ typedef struct {
     /* 0x0248 */ u16 unk248;
     /* 0x024a */ u16 unk24A;
 } Unkstruct_8015F448; /* size = 0x24c */
-
-typedef struct {
-    /* Unkstruct_ea207b39: P3.40 T3 band rank 1119; 16 TNC sites in 1 bodies; struct map 16 sites; restruct.py --decide-band */
-    /* 0x0000 */ union {
-        u16 u;
-        s16 s;
-    } unk0;
-    /* 0x0002 */ union {
-        s16 s;
-        u16 u;
-    } unk2;
-    /* 0x0004 */ union {
-        s32 s;
-        u32 u;
-    } unk4;
-    /* 0x0008 */ s16 unk8;
-    /* 0x000a */ s16 unkA;
-    /* 0x000c */ s16 unkC;
-    /* 0x000e */ u8 padE[0x2];
-    /* 0x0010 */ s16 unk10;
-    /* 0x0012 */ s16 unk12;
-    /* 0x0014 */ s16 unk14;
-    /* 0x0016 */ u8 pad16[0x2];
-    /* 0x0018 */ union {
-        s16 s;
-        u16 u;
-    } unk18;
-    /* 0x001a */ union {
-        s16 s;
-        u16 u;
-    } unk1A;
-    /* 0x001c */ union {
-        s16 s;
-        u16 u;
-    } unk1C;
-    /* 0x001e */ u8 pad1E[0x2];
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ s32 unk24;
-    /* 0x0028 */ s16 unk28;
-    /* 0x002a */ s16 unk2A;
-    /* 0x002c */ union {
-        s16 s;
-        u16 u;
-    } unk2C;
-    /* 0x002e */ s16 unk2E;
-    /* 0x0030 */ s32 unk30;
-    /* 0x0034 */ u8 pad34[0x44];
-    /* 0x0078 */ s32 unk78;
-    /* 0x007c */ u8 pad7C[0x4];
-    /* 0x0080 */ s32 unk80;
-} Unkstruct_8001C9D0; /* size = 0x84 */
 
 typedef struct {
     /* Unkstruct_6d3f3f5d: P37 struct map 889 sites in 127 bodies; evidence {'L': 2}; type_folds.tsv evidence single-fn; P3.40 T2 */
