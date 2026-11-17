@@ -176,7 +176,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -753,7 +753,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2269,7 +2269,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -3203,7 +3203,7 @@ void func_8017DF54(s32 a0)
     ((void (*)(s32))func_801511E0)(a0);
     ((void (*)(s32, s32))guess_SetAnimScript)(a0, (s32)D_80197120);
     ((void (*)(s32))func_80149020)(a0);
-    ((Unkstruct_80126B58 *)a0)->unkDE = 0xA;
+    ((Unkstruct_80126B58 *)a0)->unkDE.s = 0xA;
     ((Unkstruct_80126B58 *)a0)->unkDF = 0;
     func_8017E188();
     guess_NextStep((void *)a0);
@@ -3244,7 +3244,7 @@ void func_8017DFD8(s32 param_1)
     }
 
     cnt = CAST_SIGN(u8, param_1, 0xde);
-    ((Unkstruct_80126B58 *)param_1)->unkDE = cnt + 0xff;
+    ((Unkstruct_80126B58 *)param_1)->unkDE.s = cnt + 0xff;
     if (cnt == 0) {
         func_8017E134(param_1);
         func_80159B3C((void *)param_1);
@@ -8256,7 +8256,7 @@ void func_8018598C(s32 param_1) {
     u8  auStack_38[8];
     s16 sp20[3];
     u8  auStack_28[8];
-    StructB58 *b58 = &(*(StructB58 *)&guess_g_PlayerActor);   /* $s4 */
+    Unkstruct_80126B58 *b58 = &(*(Unkstruct_80126B58 *)&guess_g_PlayerActor);   /* $s4 */
     short *psVar7 = (short *)(param_1 + 0xec);
     s32 sVar1;
     s32 r_b608;
@@ -8282,9 +8282,9 @@ void func_8018598C(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->unk6 + tmp;
-        psVar7[1] = b58->unkA;
-        psVar7[2] = b58->unkE + (tmp >> 16);
+        psVar7[0] = b58->unk6.u + tmp;
+        psVar7[1] = b58->unkA.u;
+        psVar7[2] = b58->unkE.u + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x80;

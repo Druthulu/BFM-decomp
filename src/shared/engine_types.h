@@ -43,21 +43,21 @@ struct Inner8013A4C4;
 struct S8013A4C4;
 
 
-struct S;
+
 struct S8014C010;
 struct UnalignedPair;
 struct Packed8;
 struct SubE6F8;
 struct SubF24C;
 struct S8014FDF4;
-struct S80151ECC;
+
 struct S80153150;
 
 
 struct S8016380C;
 
 
-struct S801730FC;
+
 struct S80126B38;
 struct S8013A0A4;
 struct S8013A164;
@@ -103,11 +103,6 @@ struct S8013A4C4 {
 };
 
 typedef struct Vec VecA;
-
-struct S {
-    u8  pad0[0x7E]; /* 0x0..0x7D */
-    u16 f7E;        /* 0x7E */
-};
 
 struct S8014C010 {
     s16 h0;
@@ -181,13 +176,6 @@ struct S8014FDF4 {
 };
 
 
-struct S80151ECC {
-    u8 pad0[0x64];
-    s16 f64;        /* 0x64 */
-    u8 padr[0x78];
-    u8 fDE;         /* 0xDE */
-};
-
 struct S80153150 {
     u8 pad0[0x60];
     s16 f60;   /* 0x60 */
@@ -203,11 +191,6 @@ struct S8016380C {
 };
 
 typedef ElemK S8_80172894;
-
-struct S801730FC {
-    u8 pad[0xB8];
-    u16 unkB8;     /* 0xB8 */
-};
 
 struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
 
@@ -308,7 +291,7 @@ typedef struct {
 
 typedef struct {
     u8 pad[0x20];
-    s32 p20;
+    S801593E4 *p20;
 } A801593E4;
 
 
@@ -3033,7 +3016,7 @@ typedef struct SubEnt8018B390 {
 } SubEnt8018B390;
 typedef struct Ent8018B390 {
     u8  pad0[0x20];
-    s32 unk20;               /* +0x20 SubEnt8018B390 * (T17.c12: the player's scalar unk20) */
+    SubEnt8018B390 *unk20;   /* +0x20 */
     u8  pad24[0x34 - 0x24];
     s32 unk34;                /* +0x34 */
     u8  pad38[0xB8 - 0x38];

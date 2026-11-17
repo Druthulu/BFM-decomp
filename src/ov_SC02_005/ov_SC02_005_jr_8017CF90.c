@@ -170,7 +170,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -748,7 +748,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2269,7 +2269,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -4137,14 +4137,14 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 
 void func_8017F5B0(s32 param_1) {
     s32 s0 = param_1;
-    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8018016C *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         CAST_ALIAS(s32, s0, 0x204) = 0x20;
         guess_g_MainCameraPitchTarget = 0xE3;
         guess_g_MainCameraYawTarget = -0x71C;
         guess_g_MainCameraRefOffsetTargetX = -0x20;
         guess_g_MainCameraRefOffsetTargetY = -0x60;
-        ((Unkstruct_8018016C *)s0)->unk214 = ((Unkstruct_8018016C *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4153,12 +4153,12 @@ extern s32 D_801270C8[];
 
 void func_8017F63C(void *a0) {
     s32 temp;
-    temp = ((Unkstruct_8017F63C *)a0)->unk204;
+    temp = ((Unkstruct_80126B58 *)a0)->unk204;
     temp -= 1;
-    ((Unkstruct_8017F63C *)a0)->unk204 = temp;
+    ((Unkstruct_80126B58 *)a0)->unk204 = temp;
     if (temp == -1) {
         D_801270C8[0] = 3;
-        ((Unkstruct_8017F63C *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
     }
 }
 
@@ -4191,10 +4191,10 @@ void func_8017F6E8(s32 param_1)
     extern void guess_CloseTextWindow(s32 a0);
     extern s32 D_801270C8[0];
 
-    if (guess_GetTextWindowResult(((Unkstruct_8017F6E8 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017F6E8 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         D_801270C8[0] = 7;
-        ((Unkstruct_8017F6E8 *)param_1)->unk214 = ((Unkstruct_8017F6E8 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
     }
 }
 
@@ -4232,15 +4232,15 @@ void func_8017F7CC(s32 param_1)
     s32 iVar2;
 
     *(M8_SC02_005_8017F7CC *)((u8 *)loc16 + 8) = D_801E2DD8;
-    iVar2 = ((Unkstruct_8017F7CC *)param_1)->unk204 - 1;
-    ((Unkstruct_8017F7CC *)param_1)->unk204 = iVar2;
+    iVar2 = ((Unkstruct_80126B58 *)param_1)->unk204 - 1;
+    ((Unkstruct_80126B58 *)param_1)->unk204 = iVar2;
     if (iVar2 == -1) {
         *(M8_SC02_005_8017F7CC *)&D_801E4C50 = *(M8_SC02_005_8017F7CC *)((u8 *)loc16 + 8);
         func_8017E5CC();
         func_8017E0B4();
         guess_RequestSound(0x510, 0x103F);
         D_801270C8[0] = 9;
-        ((Unkstruct_8017F7CC *)param_1)->unk214 += 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214 += 1;
     }
 }
 
@@ -4267,8 +4267,8 @@ void func_8017F898(s32 arg0) {
         guess_RequestSound(0x510, 0x107F);
         guess_SetAnimScript((s32 *)s0, (s32)&D_800D5C6C);
         func_8014706C((void *)s0);
-        ((Unkstruct_8017F898 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197244);
-        ((Unkstruct_8017F898 *)s0)->unk214 = ((Unkstruct_8017F898 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197244);
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4282,11 +4282,11 @@ extern s32 D_8019727C;
 
 void func_8017F924(s32 arg0) {
     s32 s0 = arg0;
-    if (guess_GetTextWindowResult(((Unkstruct_8017F924 *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017F924 *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         guess_SetAnimScript((s32 *)s0, (s32)D_801943B0);
-        ((Unkstruct_8017F924 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_8019727C);
-        ((Unkstruct_8017F924 *)s0)->unk214 = ((Unkstruct_8017F924 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_8019727C);
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4299,12 +4299,12 @@ extern s32 D_801270C8[0];
 
 void func_8017F998(s32 param_1)
 {
-    if (guess_GetTextWindowResult(((Unkstruct_8017F998_2 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017F998_2 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         func_8017E26C();
         guess_RequestSound(0x510, 0x103F);
         D_801270C8[0] = 0xB;
-        ((Unkstruct_8017F998_2 *)param_1)->unk214 = ((Unkstruct_8017F998_2 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
     }
 }
 
@@ -4345,13 +4345,13 @@ extern s32 D_80197300;
 
 void func_8017FA94(s32 arg0) {
     s32 s0 = arg0;
-    if (guess_GetTextWindowResult(((Unkstruct_8017FA94 *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017FA94 *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         ((void (*)(void))func_80175414)();
         func_8012A100(0);
         guess_RequestSound(0x510, 0x102F);
-        ((Unkstruct_8017FA94 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197300);
-        ((Unkstruct_8017FA94 *)s0)->unk214 = ((Unkstruct_8017FA94 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197300);
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4446,15 +4446,15 @@ void func_8017FCFC(s32 arg0) {
 
     r = func_80012B04(((Unkstruct_8017FCFC_3 *)*(s32 *)(s0 + 0x20))->unk12, 0x800, 4);
     if ((r << 16) == 0) {
-        if (guess_GetTextWindowResult(((Unkstruct_8017FCFC_2 *)s0)->unk198) != 0) {
+        if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
             func_80147060((u8 *)s0);
-            guess_CloseTextWindow(((Unkstruct_8017FCFC_2 *)s0)->unk198);
+            guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
             func_8017E26C();
             D_801270C8[0] = 0xE;
-            ((Unkstruct_8017FCFC_2 *)s0)->unk214 += 1;
+            ((Unkstruct_80126B58 *)s0)->unk214 += 1;
         }
     }
-    v1 = ((Unkstruct_8017FCFC_2 *)s0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)s0)->unk20;
     ((Unkstruct_8017FCFC_3 *)v1)->unk12 = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
 }
 
@@ -4500,13 +4500,13 @@ void func_8017FEA0(s32 arg0) {
     extern u8 D_800D5C6C[];
     s32 s0 = arg0;
 
-    if (guess_GetTextWindowResult(((Unkstruct_8017FEA0 *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017FEA0 *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         D_801270C8[0] = 0x12;
-        ((Unkstruct_8017FEA0 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197570);
+        ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197570);
         guess_SetAnimScript((s32 *)s0, (s32)D_800D5C6C);
         func_8014706C((void *)s0);
-        ((Unkstruct_8017FEA0 *)s0)->unk214 = ((Unkstruct_8017FEA0 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4517,11 +4517,11 @@ extern void func_80147060(u8 *a0);
 
 void func_8017FF2C(s32 param_1) {
     s32 s0 = param_1;
-    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8018016C *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         func_80147060((u8 *)s0);
-        ((Unkstruct_8018016C *)s0)->unk204 = 0x20;
-        ++((Unkstruct_8018016C *)s0)->unk214;
+        ((Unkstruct_80126B58 *)s0)->unk204 = 0x20;
+        ++((Unkstruct_80126B58 *)s0)->unk214;
     }
 }
 
@@ -4532,13 +4532,13 @@ extern s16 guess_g_MainCameraRefOffsetTargetY; // Names ledger: config/names.tsv
 extern s32 D_801270C8[0];
 
 void func_8017FF8C(void *a0) {
-    if (--((Unkstruct_8017FF8C *)a0)->unk204 == -1) {
-        ((Unkstruct_8017FF8C *)a0)->unk204 = 0x40;
+    if (--((Unkstruct_80126B58 *)a0)->unk204 == -1) {
+        ((Unkstruct_80126B58 *)a0)->unk204 = 0x40;
         D_8012695C = 0x190;
         guess_g_MainCameraPitchTarget = -0x155;
         guess_g_MainCameraRefOffsetTargetY = 0x20;
         D_801270C8[0] = 0x13;
-        ((Unkstruct_8017FF8C *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
     }
 }
 
@@ -4550,10 +4550,10 @@ void func_8017FFF0(s32 arg0) {
     Unkstruct_8013B83C buffer;
 
     buffer = D_801E2DE8;
-    if (--((Unkstruct_8017FFF0 *)arg0)->unk204 == -1) {
+    if (--((Unkstruct_80126B58 *)arg0)->unk204 == -1) {
         D_801270C8[0] = 0x14;
-        ((Unkstruct_8017FFF0 *)arg0)->unk204 = 0x40;
-        ((Unkstruct_8017FFF0 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x40;
+        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
     }
 }
 
@@ -4589,21 +4589,21 @@ void func_801800CC(s32 s0)
 {
     s32 v0;
 
-    if ((((Unkstruct_8018016C *)s0)->unk204) != 0) {
+    if ((((Unkstruct_80126B58 *)s0)->unk204) != 0) {
         if (func_8001A9D8() == 0) {
             s32 c14;
             c14 = 0xE;
-            v0 = ((Unkstruct_8018016C *)s0)->unk204;
+            v0 = ((Unkstruct_80126B58 *)s0)->unk204;
             v0 -= 1;
-            ((Unkstruct_8018016C *)s0)->unk204 = v0;
+            ((Unkstruct_80126B58 *)s0)->unk204 = v0;
             if (v0 == c14) {
-                ((Unkstruct_8018016C *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801975AC);
+                ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801975AC);
                 guess_RequestSound(0x50E, 0);
             }
         }
     } else {
         if (((s32 (*)(s32))func_8001AAA0)(0x14) != 0) {
-            ((Unkstruct_8018016C *)s0)->unk214 += 1;
+            ((Unkstruct_80126B58 *)s0)->unk214 += 1;
         }
     }
 }
@@ -4617,13 +4617,13 @@ extern void func_8017E4F8(void);
 
 void func_8018016C(s32 a0) {
     s32 s0 = a0;
-    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8018016C *)s0)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         func_80147060((u8 *)s0);
         func_801903DC(0);
         func_8017E4F8();
-        ((Unkstruct_8018016C *)s0)->unk204 = 0xA0;
-        ((Unkstruct_8018016C *)s0)->unk214 = ((Unkstruct_8018016C *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk204 = 0xA0;
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4667,10 +4667,10 @@ extern void guess_CloseTextWindow(s32 a0);
 extern void func_8017DE5C(void);
 
 void func_801802CC(s32 param_1) {
-    if (guess_GetTextWindowResult(((Unkstruct_801802CC_2 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_801802CC_2 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         func_8017DE5C();
-        ((Unkstruct_801802CC_2 *)param_1)->unk214 = ((Unkstruct_801802CC_2 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
     }
 }
 
@@ -4770,15 +4770,15 @@ void func_80180510(void *a0) {
     s32 *state = D_801270C8;
     if (*state == 0x16) {
         *state = 0x17;
-        ((Unkstruct_80180510 *)a0)->unk20C = 0;
+        ((Unkstruct_80126B58 *)a0)->unk20C = 0;
     } else if (*state == 0x17) {
         *state = 0x18;
-        ((Unkstruct_80180510 *)a0)->unk20C = 1;
+        ((Unkstruct_80126B58 *)a0)->unk20C = 1;
     } else if (*state >= 0x18) {
         *state = 0x1E;
-        ((Unkstruct_80180510 *)a0)->unk20C = 2;
+        ((Unkstruct_80126B58 *)a0)->unk20C = 2;
     }
-    ((Unkstruct_80180510 *)a0)->unk214 += 1;
+    ((Unkstruct_80126B58 *)a0)->unk214 += 1;
 }
 
 
@@ -4791,12 +4791,12 @@ void func_80180574(u8 *a0)
     s32 v1;
 
     r = func_80012B04(((Unkstruct_80180574_2 *)*(s32 *)((s8 *)a0 + 0x20))->unk12,
-                      D_801944F0[((Unkstruct_80180574 *)a0)->unk20C][0], 4);
+                      D_801944F0[((Unkstruct_80126B58 *)a0)->unk20C][0], 4);
     if ((r << 16) == 0) {
-        ((Unkstruct_80180574 *)a0)->unk1F8 &= ~0x1000000;
-        (((Unkstruct_80180574 *)a0)->unk214)++;
+        ((Unkstruct_80126B58 *)a0)->unk1F8 &= ~0x1000000;
+        (((Unkstruct_80126B58 *)a0)->unk214)++;
     }
-    v1 = ((Unkstruct_80180574 *)a0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk20;
     ((Unkstruct_80180574_2 *)v1)->unk12 = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
 }
 
@@ -5061,9 +5061,9 @@ void func_80180B90(u8 *a0)
 
     r = func_80012B04(((Unkstruct_80180B90_2 *)*(s32 *)((s8 *)a0 + 0x20))->unk12, 0x400, 4);
     if ((r << 16) == 0) {
-        (((Unkstruct_80180B90 *)a0)->unk214)++;
+        (((Unkstruct_80126B58 *)a0)->unk214)++;
     }
-    v1 = ((Unkstruct_80180B90 *)a0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk20;
     ((Unkstruct_80180B90_2 *)v1)->unk12 = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
 }
 
@@ -5073,7 +5073,7 @@ extern void func_8016F0E4(u8 *);
 extern void func_80165770(void);
 void func_80180C04(void *a0) {
     ((void (*)(void *))func_8014C6AC)(a0);
-    ((s32 (*)(struct S *))func_8016F0E4)((struct S *)a0);
+    ((s32 (*)(Unkstruct_80126B58 *))func_8016F0E4)((Unkstruct_80126B58 *)a0);
     ((void (*)(void *))func_80165770)(a0);
 }
 
@@ -5130,8 +5130,8 @@ void func_80180D18(s32 a0) {
         guess_g_MainCameraPitchTarget = 0x31C;
         D_80126962 = 0x400;
         guess_g_MainCameraYawTarget = 0x400;
-        ((Unkstruct_80180D18 *)s0)->unk204 = 0x20;
-        ((Unkstruct_80180D18 *)s0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)s0)->unk204 = 0x20;
+        ((Unkstruct_80126B58 *)s0)->unk214 += 1;
     }
 }
 
@@ -5141,12 +5141,12 @@ extern void func_800D0C48(s32 a0);
 void func_80180DB8(void *a0) {
     s32 v0;
     s32 v1 = -1;
-    v0 = ((Unkstruct_80180DB8 *)a0)->unk204;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk204;
     v0 += -1;
-    ((Unkstruct_80180DB8 *)a0)->unk204 = v0;
+    ((Unkstruct_80126B58 *)a0)->unk204 = v0;
     if (v0 == v1) {
         func_800D0C48(2);
-        ((Unkstruct_80180DB8 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
     }
 }
 
@@ -5244,10 +5244,10 @@ void func_80181060(s32 param_1)
     extern u16 D_80126970;
     extern s16 guess_g_MainCameraRefOffsetTargetX; // Names ledger: config/names.tsv guess_g_MainCameraRefOffsetTargetX
 
-    if (guess_GetTextWindowResult(((Unkstruct_80181060 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_80181060 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         func_8017E898();
-        ((Unkstruct_80181060 *)param_1)->unk204 = 0x30;
+        ((Unkstruct_80126B58 *)param_1)->unk204 = 0x30;
         func_80181270(param_1);
         D_80126970 = 0;
         guess_g_MainCameraRefOffsetTargetX = 0;
@@ -5354,12 +5354,12 @@ void func_801812DC(void *a0) {
 
 void func_80181330(void *a0) {
     s32 v0;
-    v0 = ((Unkstruct_80181330 *)a0)->unk204 - 1;
-    ((Unkstruct_80181330 *)a0)->unk204 = v0;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)a0)->unk204 = v0;
     if (v0 == -1) {
         guess_RequestSound(0x10B, 0);
-        ((Unkstruct_80181330 *)a0)->unk204 = 0x10;
-        ((Unkstruct_80181330 *)a0)->unk214 = ((Unkstruct_80181330 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk204 = 0x10;
+        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
     }
 }
 
@@ -5371,13 +5371,13 @@ extern s32 D_80197628;
 void func_80181388(s32 arg0) {
     s32 iVar1;
 
-    iVar1 = ((Unkstruct_80181388 *)arg0)->unk204 - 1;
-    ((Unkstruct_80181388 *)arg0)->unk204 = iVar1;
+    iVar1 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204 = iVar1;
     if (iVar1 == -1) {
         func_8017E8E4();
-        ((Unkstruct_80181388 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_80197628);
-        ((Unkstruct_80181388 *)arg0)->unk200 = 0xDC;
-        ((Unkstruct_80181388 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_80197628);
+        ((Unkstruct_80126B58 *)arg0)->unk200 = 0xDC;
+        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
     }
 }
 
@@ -5385,11 +5385,11 @@ void func_80181388(s32 arg0) {
 void func_801813F0(void *a0) {
     s32 v0;
     s32 v1 = -1;
-    v0 = ((Unkstruct_801813F0 *)a0)->unk200;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk200;
     v0 += -1;
-    ((Unkstruct_801813F0 *)a0)->unk200 = v0;
+    ((Unkstruct_80126B58 *)a0)->unk200 = v0;
     if (v0 == v1) {
-        ((Unkstruct_801813F0 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
     }
 }
 

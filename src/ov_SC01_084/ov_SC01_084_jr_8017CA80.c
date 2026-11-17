@@ -177,7 +177,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -756,7 +756,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2277,7 +2277,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -3146,9 +3146,9 @@ extern u16 D_80126980;
 
 void func_8017E334(void *arg0) {
     if (D_80126980 & 0x8000) {
-        ((Unkstruct_8017E334 *)arg0)->unk20C = 0;
-        ((Unkstruct_8017E334 *)arg0)->unk198 = guess_OpenTextWindow(((Unkstruct_8017E334 *)arg0)->unk198);
-        (((Unkstruct_8017E334 *)arg0)->unk214)++;
+        ((Unkstruct_80126B58 *)arg0)->unk20C = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(((Unkstruct_80126B58 *)arg0)->unk198);
+        (((Unkstruct_80126B58 *)arg0)->unk214)++;
     }
 }
 
@@ -3263,15 +3263,15 @@ void func_8017E608(u8 *a0) {
     s32 v0;
     s32 s1;
     s32 t;
-    v0 = ((Unkstruct_8017E608_3 *)a0)->unk20;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk20;
     s1 = func_80012B04(CAST_SIGN(s16, v0, 0x12), 0xB1C, 4);
     if ((s16)s1 == 0) {
         guess_SpawnSmallObjectAtOrigin(25, (s32)a0, 0x4BB04BC, 0);
         func_8017DB44();
-        ((Unkstruct_8017E608_3 *)a0)->unk214 += 1;
-        ((Unkstruct_8017E608_3 *)a0)->unk4D += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk4D += 1;
     }
-    t = ((Unkstruct_8017E608_3 *)a0)->unk20;
+    t = ((Unkstruct_80126B58 *)a0)->unk20;
     ((Unkstruct_8017E608_4 *)t)->unk12 = (((Unkstruct_8017E608_4 *)t)->unk12 + s1) & 0xFFF;
 }
 
@@ -3350,10 +3350,10 @@ extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E890(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8018016C *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8018016C *)a0)->unk198);
-        ((Unkstruct_8018016C *)a0)->unk204 = 0x40;
-        ((Unkstruct_8018016C *)a0)->unk214 = ((Unkstruct_8018016C *)a0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk204 = 0x40;
+        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
     }
 }
 
@@ -3363,13 +3363,13 @@ extern s16 D_801A3288;
 void func_8017E8E8(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E8E8 *)arg0)->unk204 - 1;
-    ((Unkstruct_8017E8E8 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_8017E8E8 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801A3288);
-        ((Unkstruct_8017E8E8 *)arg0)->unk204 = 0;
-        ((Unkstruct_8017E8E8 *)arg0)->unk20C = 0x5A;
-        ((Unkstruct_8017E8E8 *)arg0)->unk214 = ((Unkstruct_8017E8E8 *)arg0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801A3288);
+        ((Unkstruct_80126B58 *)arg0)->unk204 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk20C = 0x5A;
+        ((Unkstruct_80126B58 *)arg0)->unk214 = ((Unkstruct_80126B58 *)arg0)->unk214 + 1;
     }
 }
 
@@ -3402,9 +3402,9 @@ extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E9F8(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E668 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E668 *)a0)->unk198);
-        ((Unkstruct_8017E668 *)a0)->unk214 = ((Unkstruct_8017E668 *)a0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
     }
 }
 

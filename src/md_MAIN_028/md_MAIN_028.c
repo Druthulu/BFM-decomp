@@ -224,7 +224,7 @@ void func_800CB620(s32 arg0) {
     CAST_WIDTH(u16, arg0, 0x14) = CAST_SIGN(u16, arg0, 0xE);
     v = rand() & 0x1F;
     v <<= 7;
-    ((Unkstruct_80126B58 *)arg0)->unk64 = v;
+    ((Unkstruct_80126B58 *)arg0)->unk64.u = v;
     ((Unkstruct_80126B58 *)arg0)->unk66 = v;
     func_800CB684(arg0, 0x200);
     func_800CB6D4(arg0);
@@ -285,9 +285,9 @@ s32 func_800CB6D4(s32 a0) {
 
     {
         s32 f50 = ((Unkstruct_80126B58 *)a0)->unk50;
-        sum = ((Unkstruct_80126B58 *)a0)->unk64 + f50;
+        sum = ((Unkstruct_80126B58 *)a0)->unk64.u + f50;
     }
-    ((Unkstruct_80126B58 *)a0)->unk64 = sum;
+    ((Unkstruct_80126B58 *)a0)->unk64.u = sum;
     if (((Unkstruct_80126B58 *)a0)->unk50 >= 0) {
         diff = sum - ((Unkstruct_80126B58 *)a0)->unk66;
     } else {
@@ -297,7 +297,7 @@ s32 func_800CB6D4(s32 a0) {
     if (diff < 0x1001) {
         return 0;
     }
-    ((Unkstruct_80126B58 *)a0)->unk64 = ((Unkstruct_80126B58 *)a0)->unk66;
+    ((Unkstruct_80126B58 *)a0)->unk64.u = ((Unkstruct_80126B58 *)a0)->unk66;
     return 1;
 }
 

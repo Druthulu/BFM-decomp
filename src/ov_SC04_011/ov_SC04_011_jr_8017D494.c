@@ -175,7 +175,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -753,7 +753,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2272,7 +2272,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -3368,7 +3368,7 @@ void func_8017EB10(s32 *a0)
                 }
             }
     temp = CAST_SIGN(u8, (char *)a0, 0xDE);
-    ((Unkstruct_80126B58 *)a0)->unkDE = temp + 0xFF;
+    ((Unkstruct_80126B58 *)a0)->unkDE.s = temp + 0xFF;
     if (temp == 0) {
         func_8017EBE8((s32)a0);
         func_80159B3C(a0);
@@ -3433,7 +3433,7 @@ void func_8017ECD8(s32 a0)
     guess_PlaySoundUnlessSkipped(0x451);
     func_801511E0(s0);
     guess_SetAnimScript((s32 *)s0, (s32)&D_80193F30);
-    ((Unkstruct_80126B58 *)s0)->unkDE = 0x5A;
+    ((Unkstruct_80126B58 *)s0)->unkDE.s = 0x5A;
     guess_PlaySoundUnlessSkipped(0x7EB);
 
     a2 = 0;
@@ -3455,7 +3455,7 @@ void func_8017ED60(s32 *a0)
     u8 temp;
     func_80149020(a0);
     temp = CAST_SIGN(u8, (char *)a0, 0xDE);
-    ((Unkstruct_80126B58 *)a0)->unkDE = temp + 0xFF;
+    ((Unkstruct_80126B58 *)a0)->unkDE.s = temp + 0xFF;
     if (temp == 0) {
         func_8017EDC4((s32)a0);
         func_80159B3C(a0);
@@ -4012,7 +4012,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_801942C8[])(void);
 
 void func_8017FC4C(void *a0) {
-    D_801942C8[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_801942C8[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 
@@ -4051,7 +4051,7 @@ void func_8017FD04(void) {
 extern void (*D_801942E4[])(void);
 
 void func_8017FD2C(void *a0) {
-    D_801942E4[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_801942E4[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 
@@ -14518,7 +14518,7 @@ void func_8018DE0C(s32 a0) {
 
         if (((Unkstruct_800B5CB8 *)s0)->unkFC == 0) {
             func_8014708C((void *)s1);
-            func_801472C8((struct S *)s1);
+            func_801472C8((Unkstruct_80126B58 *)s1);
         } else {
             guess_ClearHideRequest221((s32 *)s1);
             func_801472B4((void *)s1);

@@ -169,7 +169,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -750,7 +750,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -1153,7 +1153,7 @@ void func_801588CC(int param_1) {
 
 
 extern void guess_NextStep(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void func_801474D8(s32 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
@@ -1237,20 +1237,20 @@ void func_80158FA4(s32 param_1)
     s32 v0;
     s16 sVar1;
 
-    v0 = ((Unkstruct_80158FA4 *)param_1)->unk20;
+    v0 = ((Unkstruct_80126B58 *)param_1)->unk20;
     ((Unkstruct_80158FA4_2 *)v0)->unk12 = (((Unkstruct_80158FA4_2 *)v0)->unk12 + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_80199990 = 1;
     }
-    if (guess_GetTextWindowResult(((Unkstruct_80158FA4 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_80158FA4 *)param_1)->unk198);
-        ((Unkstruct_80158FA4 *)param_1)->unk198 = 0;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = 0;
         sVar1 = ((s32 (*)(s32))func_80159464)(param_1);
         if (sVar1 != 0) {
             func_801594E8(param_1, sVar1);
             ((void (*)(s32, s32))guess_SetStep)(param_1, 0xc);
         } else {
-            ((Unkstruct_80158FA4 *)param_1)->unk198 = ((s32 (*)(u8 *))guess_OpenTextWindow)(&(*(u8 *)&guess_g_StartPromptText));
+            ((Unkstruct_80126B58 *)param_1)->unk198 = ((s32 (*)(u8 *))guess_OpenTextWindow)(&(*(u8 *)&guess_g_StartPromptText));
             ((void (*)(s32))guess_NextStep)(param_1);
         }
     }

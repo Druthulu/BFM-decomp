@@ -1096,13 +1096,13 @@ s32 func_80149FB0(s32 a0) {
         } while (v != 0);
     }
 
-    if ((((Unkstruct_80149FB0 *)a0)->unk44 & 0x400) != 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unk44 & 0x400) != 0) {
         return 0;
     }
-    if (((Unkstruct_80149FB0 *)a0)->unk1C8 != 0) {
+    if (((Unkstruct_80126B58 *)a0)->unk1C8.s != 0) {
         return 0;
     }
-    if ((((Unkstruct_80149FB0 *)a0)->unkAC & 0x100) == 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unkAC & 0x100) == 0) {
     ret0:
         return 0;
     }
@@ -2840,7 +2840,7 @@ extern void guess_StartPadVibration(void *a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
@@ -2856,7 +2856,7 @@ void func_801520DC(s32 arg0)
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     func_801472C8(arg0);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     guess_SetMoveVector(arg0, &D_80188850);
     guess_SetVertSpeed(arg0, 0x40000);
     guess_ClearStoodOnActor(arg0);
@@ -2983,7 +2983,7 @@ void func_801528B0(s32 arg0)
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
     guess_PlaySoundUnlessSkipped(0x451);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     guess_SetMoveVector(arg0, &D_80188898);
     guess_SetVertSpeed(arg0, 0xFFF00000);
     guess_ClearStoodOnActor(arg0);
@@ -3044,7 +3044,7 @@ void func_80152DA8(s32 arg0)
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
     guess_PlaySoundUnlessSkipped(0x451);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     ((Unkstruct_80126B58 *)arg0)->unkDF = 8;
     guess_SetMoveVector(arg0, &D_801888C8);
     guess_SetVertSpeed(arg0, 0xFFE40000);
@@ -3091,7 +3091,7 @@ void func_80153320(void *a0)
 
 extern void guess_StartPadVibration(void *a0);
 extern void func_80149020(s32 *a0);
-struct S;
+
 #include "../shared/ov/func_801533A4.h"
 
 #include "../shared/ov/func_80153410.h"
@@ -3188,8 +3188,8 @@ void func_80153D7C(s32 param_1)
     CAST_ALIAS(u16, param_1, 0x244) = CAST_SIGN(u16, param_1, 6);
     ((Unkstruct_80126B58 *)param_1)->unk246 = CAST_SIGN(u16, param_1, 10);
     CAST_ALIAS(u16, param_1, 0x248) = CAST_SIGN(u16, param_1, 0xe);
-    if (currentLocationId == 0x3075) ((Unkstruct_80126B58 *)param_1)->unkDE = 0x14;
-    else ((Unkstruct_80126B58 *)param_1)->unkDE = 10;
+    if (currentLocationId == 0x3075) ((Unkstruct_80126B58 *)param_1)->unkDE.s = 0x14;
+    else ((Unkstruct_80126B58 *)param_1)->unkDE.s = 10;
     ((Unkstruct_80126B58 *)param_1)->unkDF = 0;
     guess_NextStep((void *)param_1);
 }

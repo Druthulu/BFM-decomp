@@ -119,8 +119,8 @@ void func_800CB0E4(void *a0) {
             p += 0x34;
         } while (p < end);
     }
-    ((Unkstruct_800CB0E4 *)a0)->unkB8 = ((Unkstruct_800CB0E4 *)a0)->unkBA;
-    ((Unkstruct_800CB0E4 *)a0)->unk197 += 1;
+    ((Unkstruct_80126B58 *)a0)->unkB8 = ((Unkstruct_80126B58 *)a0)->unkBA;
+    ((Unkstruct_80126B58 *)a0)->unk197 += 1;
 }
 
 

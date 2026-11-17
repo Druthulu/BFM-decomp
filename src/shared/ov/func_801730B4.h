@@ -3,7 +3,7 @@
 extern void func_8014706C(void *arg0);
 extern void func_801542A4(s32 *a0, s32 a1);
 extern void func_80171A1C(u8 *a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern s32 D_80127508;
 void func_801730B4(s32 a0) {
     func_8014706C((void *)a0);

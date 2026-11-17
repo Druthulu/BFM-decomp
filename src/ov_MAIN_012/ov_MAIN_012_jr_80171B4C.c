@@ -1210,7 +1210,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -1798,7 +1798,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_80152058(void *a0);
@@ -3248,7 +3248,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 s32 func_801727D0(void *a0)
 {
     extern void (*D_80181900[])(void);
-    D_80181900[((Unkstruct_801727D0 *)a0)->unk214]();
+    D_80181900[((Unkstruct_80126B58 *)a0)->unk214]();
 }
 
 
@@ -3305,7 +3305,7 @@ void func_80172B0C(void) {
 s32 func_80172B44(void *a0) {
 
     extern void (*D_80181928[])(void);
-    D_80181928[((Unkstruct_801727D0 *)a0)->unk214]();
+    D_80181928[((Unkstruct_80126B58 *)a0)->unk214]();
 }
 
 
@@ -3387,7 +3387,7 @@ void func_80172E8C(void) {
 s32 func_80173078(void *a0)
 {
     extern void (*D_8018194C[])(void);
-    D_8018194C[((Unkstruct_801727D0 *)a0)->unk214]();
+    D_8018194C[((Unkstruct_80126B58 *)a0)->unk214]();
 }
 
 
@@ -3550,7 +3550,7 @@ void func_801738D4(void) {
 s32 func_8017390C(void *a0) {
 
     extern void (*D_80181990[])(void);
-    D_80181990[((Unkstruct_801727D0 *)a0)->unk214]();
+    D_80181990[((Unkstruct_80126B58 *)a0)->unk214]();
 }
 
 

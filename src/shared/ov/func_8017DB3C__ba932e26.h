@@ -5,6 +5,6 @@ extern void func_80171A1C(u8*);
 extern void func_8017DB74(u8*);
 void func_8017DB3C(void *a0) {
     ((void (*)(void *))func_80147060)(a0);
-    ((s32 (*)(struct S *))func_80171A1C)((struct S *)a0);
+    ((s32 (*)(Unkstruct_80126B58 *))func_80171A1C)((Unkstruct_80126B58 *)a0);
     ((void (*)(void *))func_8017DB74)(a0);
 }

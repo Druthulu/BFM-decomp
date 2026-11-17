@@ -2092,18 +2092,18 @@ void func_800D31FC(u8 *arg0) {
 extern void (*D_800D3A98[])();
 
 void func_800D3238(void *arg0) {
-    D_800D3A98[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_800D3A98[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 extern s32 func_8013767C(s32);
 
 void func_800D3274(u8 *arg0) {
-    s32 w = ((Unkstruct_800D3274 *)arg0)->unk198;
+    s32 w = ((Unkstruct_80126B58 *)arg0)->unk198;
     if (w != 0) {
-        ((Unkstruct_800D3274 *)arg0)->unk198 = func_8013767C(w);
-        ((Unkstruct_800D3274 *)arg0)->unk214 = ((Unkstruct_800D3274 *)arg0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)arg0)->unk198 = func_8013767C(w);
+        ((Unkstruct_80126B58 *)arg0)->unk214 = ((Unkstruct_80126B58 *)arg0)->unk214 + 1;
     } else {
-        ((Unkstruct_800D3274 *)arg0)->unk214 = ((Unkstruct_800D3274 *)arg0)->unk214 + 2;
+        ((Unkstruct_80126B58 *)arg0)->unk214 = ((Unkstruct_80126B58 *)arg0)->unk214 + 2;
     }
 }
 
@@ -2111,9 +2111,9 @@ extern s32 func_801399F0(s32);
 extern void func_80139914(s32);
 
 void func_800D32D4(void *arg0) {
-    if (func_801399F0(((Unkstruct_8017E668 *)arg0)->unk198) != 0) {
-        func_80139914(((Unkstruct_8017E668 *)arg0)->unk198);
-        ((Unkstruct_8017E668 *)arg0)->unk214 += 1;
+    if (func_801399F0(((Unkstruct_80126B58 *)arg0)->unk198) != 0) {
+        func_80139914(((Unkstruct_80126B58 *)arg0)->unk198);
+        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
     }
 }
 

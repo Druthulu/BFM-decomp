@@ -38,7 +38,7 @@ void func_8017CF44(void *a0)
     } else {
         if (*(s32 *)((s32)a0 + 0x30) == 0) {
             func_8014708C(obj);
-            func_801472C8((struct S *)obj);
+            func_801472C8((Unkstruct_80126B58 *)obj);
         } else {
             *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
         }

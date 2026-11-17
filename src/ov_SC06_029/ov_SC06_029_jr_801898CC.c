@@ -174,7 +174,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -753,7 +753,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2271,7 +2271,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -4355,7 +4355,7 @@ void func_8018B2F8(s32 p)
     ((void (*)(s32))func_801511E0)(p);
     ((void (*)(s32, s32))guess_SetAnimScript)(p, (s32)D_801D729C);
     ((void (*)(s32))func_80149020)(p);
-    ((Unkstruct_80126B58 *)p)->unkDE = 0x1E;
+    ((Unkstruct_80126B58 *)p)->unkDE.s = 0x1E;
     ((Unkstruct_80126B58 *)p)->unkDF = 0;
     func_8018B50C();
     ((void (*)(s32))func_80172630)(p);
@@ -4467,7 +4467,7 @@ void func_8018B364(s32 param_1)
     } while (i < 3);
 
     cnt = CAST_SIGN(u8, param_1, 0xde);
-    ((Unkstruct_80126B58 *)param_1)->unkDE = cnt + 0xff;
+    ((Unkstruct_80126B58 *)param_1)->unkDE.s = cnt + 0xff;
     if (cnt == 0) {
         func_8018B4B8(param_1);
         func_80159B3C((void *)param_1);

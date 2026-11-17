@@ -30,7 +30,7 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern void func_80175820(void);                          /* derive-decl, arity 0 */
 extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-struct S;
+
 
    /* 12-byte sub-table record (stride 0xC) */
  /* 0x20 bytes */
@@ -205,7 +205,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -790,7 +790,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2397,7 +2397,7 @@ extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
 extern s32 (*D_8018A0E8[])(void *);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -4235,7 +4235,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018A740[])();
 
 void func_8017DE84(void *arg0) {
-    D_8018A740[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_8018A740[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 extern void func_8016F398(void);
@@ -4338,7 +4338,7 @@ extern void func_80175414(s32 _arg0);
 extern void (*D_8018A754[])();
 
 void func_8017E0EC(void *arg0) {
-    D_8018A754[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_8018A754[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 // @class: plumbing
@@ -4377,7 +4377,7 @@ extern void func_8016F0E4(u8 *);
 extern void (*D_8018A760[])();
 
 void func_8017E1D4(void *arg0) {
-    D_8018A760[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_8018A760[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 s32 func_8017E210(u8 *a0) {
@@ -4472,11 +4472,11 @@ extern s32 D_8012695C;
 
 void func_8017E3EC(s32 param_1)
 {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E3EC_2 *)param_1)->unk198) != 0) {
-        ((s32 (*)(s32))guess_CloseTextWindow)(((Unkstruct_8017E3EC_2 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        ((s32 (*)(s32))guess_CloseTextWindow)(((Unkstruct_80126B58 *)param_1)->unk198);
         ((s32 (*)(s32, s32))guess_SetAnimScript)(param_1, (s32)&D_8018A5E4);
-        D_8012695C = ((Unkstruct_8017E3EC_2 *)param_1)->unk208;
-        ((Unkstruct_8017E3EC_2 *)param_1)->unk204 = 0x20;
+        D_8012695C = ((Unkstruct_80126B58 *)param_1)->unk208;
+        ((Unkstruct_80126B58 *)param_1)->unk204 = 0x20;
         *(unsigned char *)(param_1 + 0x214) = *(unsigned char *)(param_1 + 0x214) + 1;
     }
 }
@@ -4486,12 +4486,12 @@ void func_8017F240();                            /* extern */
 void func_8017E460(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E460 *)arg0)->unk204 - 1;
-    ((Unkstruct_8017E460 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
     if (temp_v0 == -1) {
         func_8017F240();
-        ((Unkstruct_8017E460 *)arg0)->unk204 = 0x40;
-        ((Unkstruct_8017E460 *)arg0)->unk214 = (u8) (((Unkstruct_8017E460 *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x40;
+        ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
     }
 }
 
@@ -4501,13 +4501,13 @@ extern M2C_UNK D_801B17F0;
 void func_8017E4B4(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8018016C *)arg0)->unk204 - 1;
-    ((Unkstruct_8018016C *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_8018016C *)arg0)->unk4D = (u8) (((Unkstruct_8018016C *)arg0)->unk4D - 1);
-        ((Unkstruct_8018016C *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
-        ((Unkstruct_8018016C *)arg0)->unk204 = 0x20;
-        ((Unkstruct_8018016C *)arg0)->unk214 = (u8) (((Unkstruct_8018016C *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk4D = (u8) (((Unkstruct_80126B58 *)arg0)->unk4D - 1);
+        ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
+        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x20;
+        ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
     }
 }
 
@@ -4547,10 +4547,10 @@ extern u8 D_801B1848;
 
 void func_8017E604(s32 a0) {
     s32 s0 = a0;
-    if (guess_GetTextWindowResult(((Unkstruct_8017E604 *)s0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E604 *)s0)->unk198);
-        ((Unkstruct_8017E604 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801B1848);
-        ((Unkstruct_8017E604 *)s0)->unk214 = ((Unkstruct_8017E604 *)s0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
+        ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801B1848);
+        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
     }
 }
 
@@ -4558,9 +4558,9 @@ extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E668(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E668 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E668 *)a0)->unk198);
-        ((Unkstruct_8017E668 *)a0)->unk214 = ((Unkstruct_8017E668 *)a0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
     }
 }
 
@@ -4595,7 +4595,7 @@ void func_8017E6F4(s32 param_1) {
 extern void (*D_8018A790[])();
 
 void func_8017E748(void *arg0) {
-    D_8018A790[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_8018A790[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 extern s32 guess_OpenTextWindow(s32 a0);
@@ -4608,17 +4608,17 @@ void func_8017E784(void *arg0) {
     KR_AS(void, func_8017D8DC)();
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetZ = 0;
-    ((Unkstruct_8017E784_2 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B19C0);
-    ((Unkstruct_8017E784_2 *)arg0)->unk214 = (u8) (((Unkstruct_8017E784_2 *)arg0)->unk214 + 1);
+    ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B19C0);
+    ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
 }
 
 extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 
 void func_8017E7DC(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E668 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E668 *)a0)->unk198);
-        ((Unkstruct_8017E668 *)a0)->unk214 = ((Unkstruct_8017E668 *)a0)->unk214 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
     }
 }
 
@@ -4635,7 +4635,7 @@ extern void func_80165770(void);
 extern void (*D_8018A79C[])();
 
 void func_8017E868(void *arg0) {
-    D_8018A79C[((Unkstruct_800D3238 *)arg0)->unk214](arg0);
+    D_8018A79C[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
 }
 
 // @class: schedule
@@ -4690,10 +4690,10 @@ extern s32 func_80172664(s32 *a0);
 void func_8017E974(s32 param_1)
 {
     if (((s32 (*)(void))func_80172664)() != 0) {
-        ((Unkstruct_8017E974 *)param_1)->unkAC = 0xc040;
-        ((Unkstruct_8017E974 *)param_1)->unkAA = 0xc040;
+        ((Unkstruct_80126B58 *)param_1)->unkAC = 0xc040;
+        ((Unkstruct_80126B58 *)param_1)->unkAA = 0xc040;
     } else {
-        ((Unkstruct_8017E974 *)param_1)->unk214 = ((Unkstruct_8017E974 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
     }
 }
 

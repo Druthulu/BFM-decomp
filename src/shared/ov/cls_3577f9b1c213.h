@@ -4,8 +4,8 @@
 void SHARED_FN(arg0)
 s32 arg0;
 {
-    s32 t = ((Unkstruct_8017D6C4 *)arg0)->unk204 - 1;
-    ((Unkstruct_8017D6C4 *)arg0)->unk204 = t;
+    s32 t = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204 = t;
     if (t == -1)
-        (((Unkstruct_8017D6C4 *)arg0)->unk214)++;
+        (((Unkstruct_80126B58 *)arg0)->unk214)++;
 }

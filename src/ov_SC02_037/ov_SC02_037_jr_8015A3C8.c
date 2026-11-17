@@ -1209,7 +1209,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -1803,7 +1803,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_80152058(void *a0);
@@ -2769,7 +2769,7 @@ s32 arg0;
         if (t != 0) {
             func_800CCB78(t);
         }
-        if ((((Unkstruct_80126B58 *)arg0)->unk1C8 & 0x1F) == 0) {
+        if ((((Unkstruct_80126B58 *)arg0)->unk1C8.u & 0x1F) == 0) {
             ((void (*)(s32, s32, s32, s32))guess_SpawnSmallObjectAtOrigin)(0x3C, arg0, 0, 0);
         }
     }

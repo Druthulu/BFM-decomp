@@ -23,7 +23,7 @@ extern void func_80159B3C(void *a0);
 void func_800CCB78(void *a0) {
     func_8014B5C4((s32 *)a0, 3, 0);
     guess_SpawnObject(7, (s32)a0, 0, 0, 0, 0, 0, 0);
-    ((Unkstruct_80126B58 *)a0)->unk1C8 = 0xFF;
+    ((Unkstruct_80126B58 *)a0)->unk1C8.u = 0xFF;
     func_801599A4(a0);
     func_80159B3C(a0);
 }
@@ -184,7 +184,7 @@ void func_800CCF68(s32 param_1)
     if (ptr != 0) {
         *(u16 *)(ptr + 0x60) = 1;
     }
-    ((Unkstruct_80126B58 *)param_1)->unk1C8 = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk1C8.u = 0;
     guess_SpawnSmallObject(0x39, (void *)param_1, 0, 0, 0, 0, 0);
 }
 
@@ -296,7 +296,7 @@ void func_800CD1D4(s32 *s1) {
         *(V8_md_MAIN_044 *)((s32)s0 + 0x10) = *(V8_md_MAIN_044 *)((s32)v0 + 0x10);
         ((Unkstruct_80126B58 *)s1)->unk60 = *(u16 *)((s32)s2 + 0x100);
         ((Unkstruct_80126B58 *)s1)->unk62 = *(u16 *)((s32)s2 + 0x102);
-        ((Unkstruct_80126B58 *)s1)->unk64 = *(u16 *)((s32)s2 + 0x104);
+        ((Unkstruct_80126B58 *)s1)->unk64.u = *(u16 *)((s32)s2 + 0x104);
         func_800CD834(s1);
         guess_SetMoveVector(s1, D_800CE230);
         ((void (*)(void *, s32))guess_SetWaitTimer_2)(s1, 0x20);

@@ -173,7 +173,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -746,7 +746,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2261,7 +2261,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -3862,7 +3862,7 @@ extern void func_8017E22C(int);
 
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8014708C(void *arg0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void func_8017E22C(int);
 
 #include "../shared/ov/func_8017E078__cffa370f.h"
@@ -4130,7 +4130,7 @@ void func_8017EB34(s32 a0)
     guess_PlaySoundUnlessSkipped(0x451);
     func_801511E0(s0);
     guess_SetAnimScript((s32 *)s0, (s32)&D_8018C020);
-    ((Unkstruct_80126B58 *)s0)->unkDE = 0x5A;
+    ((Unkstruct_80126B58 *)s0)->unkDE.s = 0x5A;
     guess_PlaySoundUnlessSkipped(0x7EB);
 
     a2 = 0;
@@ -4153,7 +4153,7 @@ void func_8017EBBC(s32 param_1)
 
     func_80149020((s32 *)param_1);
     cnt = CAST_SIGN(u8, param_1, 0xde);
-    ((Unkstruct_80126B58 *)param_1)->unkDE = cnt + 0xff;
+    ((Unkstruct_80126B58 *)param_1)->unkDE.s = cnt + 0xff;
     if (cnt == 0) {
         func_8017EC20(param_1);
         func_80159B3C((void *)param_1);
@@ -5375,7 +5375,7 @@ void func_801808F4(s32 param_1)
     } while (i < 3);
 
     cnt = CAST_SIGN(u8, param_1, 0xde);
-    ((Unkstruct_80126B58 *)param_1)->unkDE = cnt + 0xff;
+    ((Unkstruct_80126B58 *)param_1)->unkDE.s = cnt + 0xff;
     if (cnt == 0) {
         func_80180A48(param_1);
         func_80159B3C((void *)param_1);

@@ -29,7 +29,7 @@ void func_800CCB78(void *a0) {
     guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 0, 0, 0);
     guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 1, 0, 0);
     guess_SpawnObject(0x11, (s32)a0, 0, 0, 0, 2, 0, 0);
-    ((Unkstruct_80126B58 *)a0)->unk1C8 = 0xFF;
+    ((Unkstruct_80126B58 *)a0)->unk1C8.u = 0xFF;
     func_801599A4(a0);
     func_80159B3C(a0);
 }
@@ -363,7 +363,7 @@ void func_800CD390(s32 param_1) {
         *(u16 *)(s0 + 0x14) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x14);
         ((Unkstruct_80126B58 *)param_1)->unk60 = ((Unkstruct_80126B58 *)s2)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)s2)->unk102;
-        ((Unkstruct_80126B58 *)param_1)->unk64 = ((Unkstruct_80126B58 *)s2)->unk104;
+        ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)s2)->unk104;
         *(u16 *)(s0 + 0x1A) = 0x1000;
         *(u16 *)(s0 + 0x18) = 0x1000;
         func_80146DE8((s32 *)param_1, 0, 0, 0xFFE80000);
@@ -396,8 +396,8 @@ void func_800CD4BC(s32 arg0) {
         guess_NextStep((void *)arg0);
         return;
     }
-    *(u16 *)(temp_s1 + 0x28) = D_800CD690[(((Unkstruct_80126B58 *)temp_s2)->unk1C8 & 7) * 2];
-    *(u16 *)(temp_s1 + 0x2A) = D_800CD692[(((Unkstruct_80126B58 *)temp_s2)->unk1C8 & 7) * 2];
+    *(u16 *)(temp_s1 + 0x28) = D_800CD690[(((Unkstruct_80126B58 *)temp_s2)->unk1C8.u & 7) * 2];
+    *(u16 *)(temp_s1 + 0x2A) = D_800CD692[(((Unkstruct_80126B58 *)temp_s2)->unk1C8.u & 7) * 2];
     func_800CD5DC(arg0, sp18);
     func_80163194(arg0, 0, -0x10000, 0, (s32)sp18);
     guess_AddVelocityToPos_2((s32 *)arg0);

@@ -56,14 +56,14 @@ void func_800CAF68(void *arg0) {
     extern void func_800CB098(void *a0);
     u8 *p = guess_g_PlayerRecord;
 
-    if (func_8014C088((s32)arg0, 0xB) == 0 || ((Unkstruct_800CAF68 *)arg0)->unkBE != 0) {
+    if (func_8014C088((s32)arg0, 0xB) == 0 || ((Unkstruct_80126B58 *)arg0)->unkBE != 0) {
         func_800CB098(arg0);
     }
     if (*(s32 *)(p + 0x50) == 0) {
         guess_SpawnObject(0xB, (s32)arg0, 0, 0, 0, 1, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7DE);
-        ((Unkstruct_800CAF68 *)arg0)->unkBE = 0;
-        ((Unkstruct_800CAF68 *)arg0)->unk197 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unkBE = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk197 += 1;
     }
 }
 

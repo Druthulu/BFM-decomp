@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8014708C(void *arg0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void func_8017D030(int);
 void func_8017CE7C(void *a0)
 {
@@ -41,7 +41,7 @@ void func_8017CE7C(void *a0)
     } else {
         if (*(s32 *)((s32)a0 + 0x30) == 0) {
             func_8014708C(obj);
-            func_801472C8((struct S *)obj);
+            func_801472C8((Unkstruct_80126B58 *)obj);
         } else {
             *(s32 *)(*(s32 *)((s32)obj + 0x20) + 0x4) |= 0x80000000;
         }

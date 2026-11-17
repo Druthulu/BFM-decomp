@@ -3,12 +3,12 @@
 extern void func_80149020(s32 *a0);
 extern void guess_NextStep(void *a0);
 extern s32 func_80172630(u8 *a0);
-void func_80151ECC(struct S80151ECC *a0) {
+void func_80151ECC(Unkstruct_80126B58 *a0) {
     func_80149020((s32 *)a0);
-    a0->f64 = a0->f64 + (a0->fDE << 6);
-    a0->fDE = a0->fDE + 5;
-    if (a0->f64 >= 0x1556) {
-        a0->fDE = 0x10;
+    a0->unk64.s = a0->unk64.s + (a0->unkDE.u << 6);
+    a0->unkDE.u = a0->unkDE.u + 5;
+    if (a0->unk64.s >= 0x1556) {
+        a0->unkDE.u = 0x10;
         guess_NextStep(a0);
     }
     func_80172630((u8 *)a0);

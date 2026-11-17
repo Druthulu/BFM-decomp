@@ -175,7 +175,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -751,7 +751,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2265,7 +2265,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -4238,13 +4238,13 @@ extern s32  func_80171990(u8 *a0);
 extern void func_8018061C(s32 a0);
 
 void func_801802F4(s32 arg0) {
-    if (--((Unkstruct_801802F4 *)arg0)->unk200 != -1) {
+    if (--((Unkstruct_80126B58 *)arg0)->unk200 != -1) {
         guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, -0x8000);
         guess_ApplyVelocity((s32 *)arg0);
     } else {
-        ((Unkstruct_801802F4 *)arg0)->unk200 = 6;
-        ((Unkstruct_801802F4 *)arg0)->unk20C = 0;
-        ((Unkstruct_801802F4 *)arg0)->unk28 = 0xA0000;
+        ((Unkstruct_80126B58 *)arg0)->unk200 = 6;
+        ((Unkstruct_80126B58 *)arg0)->unk20C = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk28 = 0xA0000;
         guess_SetVelocityFromMoveVector(arg0);
         func_80171990((u8 *)arg0);
     }
@@ -4377,13 +4377,13 @@ int param_1;
     u64 vec;
     u32 out;
 
-    func_800139C8(*(s16 *)(((Unkstruct_801802F4 *)param_1)->unk20 + 0x12), D_80189838, &vec);
+    func_800139C8(*(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12), D_80189838, &vec);
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {
-        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_801802F4 *)param_1)->unk6,
-                      (s16)(((Unkstruct_801802F4 *)param_1)->unkA - 0x40),
-                      ((Unkstruct_801802F4 *)param_1)->unkE, out, 0);
+        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_80126B58 *)param_1)->unk6.s,
+                      (s16)(((Unkstruct_80126B58 *)param_1)->unkA.u - 0x40),
+                      ((Unkstruct_80126B58 *)param_1)->unkE.s, out, 0);
     }
 }
 
@@ -4392,7 +4392,7 @@ int param_1;
 extern void (*D_80189840[])(void);
 
 void func_801806B4(void *a0) {
-    D_80189840[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_80189840[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 

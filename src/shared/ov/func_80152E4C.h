@@ -6,7 +6,7 @@ extern void guess_SetVelocityFromMoveVector(s32 arg0);
 extern void guess_ApplyVelocity(s32 *a0);
 extern void guess_AddVertSpeed(s32 a0, s32 a1);
 extern void guess_ApplyVertSpeed(s32 a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void func_801470B4(s32 a0);
 extern void func_8015369C(s32 a0);
 extern void guess_NextStep(void *a0);

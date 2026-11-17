@@ -174,7 +174,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -752,7 +752,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2271,7 +2271,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -5709,7 +5709,7 @@ void func_8017FFB0(Ent_8017BFE0_8017FFB0 *param_1)
 
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void func_8014708C(void *arg0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void func_801801E8(int param_1);
 
 void func_80180034(void *a0)
@@ -5750,7 +5750,7 @@ void func_80180034(void *a0)
     } else {
         if (*(s32 *)((s32)a0 + 0x30) == 0) {
             func_8014708C(obj);
-            func_801472C8((struct S *)obj);
+            func_801472C8((Unkstruct_80126B58 *)obj);
         } else {
             *(s32 *)(((Unkstruct_800B5CB8 *)obj)->unk20 + 0x4) |= 0x80000000;
         }
@@ -6301,7 +6301,7 @@ extern u8 D_800B9A10;
 extern void (*D_8018C070[])(void);
 
 void func_80180D5C(void *a0) {
-    D_8018C070[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_8018C070[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 
@@ -6441,11 +6441,11 @@ void func_80180FC8(void *a0)
 
 
 extern void func_8014708C(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern s32 func_80171990(u8*);
 void func_8018103C(void *a0) {
     func_8014708C(a0);
-    func_801472C8((struct S *)a0);
+    func_801472C8((Unkstruct_80126B58 *)a0);
     ((void (*)(void *))func_80171990)(a0);
 }
 
@@ -6531,7 +6531,7 @@ void func_80181204(s32 a0) {
 
 extern void func_8014706C(void*);
 extern void func_8014708C(void*);
-extern s32 func_801472C8(struct S*);
+extern s32 func_801472C8(Unkstruct_80126B58*);
 extern s32 func_80171990(u8*);
 void func_8018127C(s32 a0) {
     ((void (*)(s32))func_8014706C)(a0);

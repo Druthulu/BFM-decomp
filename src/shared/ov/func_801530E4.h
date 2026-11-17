@@ -2,7 +2,7 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern void guess_StartPadVibration(void *a0);
 extern void guess_NextStep(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void func_80149020(s32 *a0);
 extern void guess_ClearStoodOnActor(void *a0);

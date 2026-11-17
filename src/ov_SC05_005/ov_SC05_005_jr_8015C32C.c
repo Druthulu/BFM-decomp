@@ -167,7 +167,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -743,7 +743,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -4563,20 +4563,20 @@ void func_801654A8(s32 arg0)
 {
     u8 *s1 = guess_g_PlayerRecord;
 
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x16) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x16) {
         return;
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 != 0x1A) {
-        if ((((Unkstruct_801654A8 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 != 0x1A) {
+        if ((((Unkstruct_80126B58 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
             if (func_80165658(arg0, D_80078EC1) & 0x80) {
                 ((void (*)(s32))D_801850A4[D_80078EC1 & 0x7F])(arg0);
             }
         }
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x16) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x16) {
         return;
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x1A) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x1A) {
         return;
     }
     if (s1[0x49] == 0x19) {
@@ -4691,7 +4691,7 @@ u8 func_80165700(s32 a0, s32 a1) {
 s32 func_801659DC(u8 *a0) {
 
     extern void (*D_8018521C[])(void);
-    D_8018521C[((Unkstruct_801659DC *)a0)->unk1A0]();
+    D_8018521C[((Unkstruct_80126B58 *)a0)->unk1A0]();
 }
 
 
@@ -4724,8 +4724,8 @@ void func_80165AC8(void) {
 extern void (*D_80185314[])(void);
 
 void func_80165B28(void *a0) {
-    ((Unkstruct_80165B28 *)a0)->unk44 |= 8;
-    D_80185314[((Unkstruct_80165B28 *)a0)->unk197]();
+    ((Unkstruct_80126B58 *)a0)->unk44 |= 8;
+    D_80185314[((Unkstruct_80126B58 *)a0)->unk197]();
 }
 
 

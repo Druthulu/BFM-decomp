@@ -174,7 +174,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -753,7 +753,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2269,7 +2269,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -2673,7 +2673,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_801B1B78[D_801B1F78]; D_801B1F78 = (D_801B1F78 + 1) & 0x1FF;
-        { s32 t = ((S801593E4 *)w->p20)->field12 + arg;
+        { s32 t = w->p20->field12 + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:
@@ -4280,7 +4280,7 @@ void func_8017D748(s32 a0)
     ((void (*)(s32))func_801511E0)(a0);
     ((void (*)(s32, s32))guess_SetAnimScript)(a0, (s32)D_8018A3E4);
     ((void (*)(s32))func_80149020)(a0);
-    ((Unkstruct_80126B58 *)a0)->unkDE = 0xA;
+    ((Unkstruct_80126B58 *)a0)->unkDE.s = 0xA;
     ((Unkstruct_80126B58 *)a0)->unkDF = 0;
     func_8017D97C();
     guess_NextStep((void *)a0);
@@ -4356,7 +4356,7 @@ void func_8017D7CC(s32 param_1)
     }
 
     cnt = CAST_SIGN(u8, param_1, 0xde);
-    ((Unkstruct_80126B58 *)param_1)->unkDE = cnt + 0xff;
+    ((Unkstruct_80126B58 *)param_1)->unkDE.s = cnt + 0xff;
     if (cnt == 0) {
         func_8017D928(param_1);
         func_80159B3C((void *)param_1);

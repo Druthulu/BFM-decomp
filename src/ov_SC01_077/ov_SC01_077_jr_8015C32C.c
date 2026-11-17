@@ -30,7 +30,7 @@ extern s32 func_801759D8(void);                          /* derive-decl, arity 0
 extern void func_80175820(void);                          /* derive-decl, arity 0 */
 extern void func_801758FC(void);                          /* derive-decl, arity 0 */
 /* ==== end canonical-sig layer ==================================================== */
-struct S;
+
 
 extern void func_801458E0(void);
 extern s32 D_800AE6AC;
@@ -199,7 +199,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -782,7 +782,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -4822,20 +4822,20 @@ void func_801654A8(s32 arg0)
 {
     u8 *s1 = guess_g_PlayerRecord;
 
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x16) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x16) {
         return;
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 != 0x1A) {
-        if ((((Unkstruct_801654A8 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 != 0x1A) {
+        if ((((Unkstruct_80126B58 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
             if (func_80165658(arg0, D_80078EC1) & 0x80) {
                 ((void (*)(s32))D_80189780[D_80078EC1 & 0x7F])(arg0);
             }
         }
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x16) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x16) {
         return;
     }
-    if (((Unkstruct_801654A8 *)arg0)->unk0 == 0x1A) {
+    if (((Unkstruct_80126B58 *)arg0)->unk0 == 0x1A) {
         return;
     }
     if (s1[0x49] == 0x19) {
@@ -4966,8 +4966,8 @@ void func_80165AC8(void) {
 extern void (*D_801899F0[])(void);
 
 void func_80165B28(void *a0) {
-    ((Unkstruct_80165B28 *)a0)->unk44 |= 8;
-    D_801899F0[((Unkstruct_80165B28 *)a0)->unk197]();
+    ((Unkstruct_80126B58 *)a0)->unk44 |= 8;
+    D_801899F0[((Unkstruct_80126B58 *)a0)->unk197]();
 }
 
 #include "../shared/ov/func_80165B6C.h"

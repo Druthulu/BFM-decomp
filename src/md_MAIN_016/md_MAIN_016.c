@@ -34,8 +34,8 @@ s32 func_800CAE8C(s32 arg0)
         func_801655E4(arg0);
     }
     guess_SpawnSmallObject(0x4B, arg0, 0, 0, 0, 0, 0);
-    v = ((Unkstruct_800CAE8C *)arg0)->unk197 + 1;
-    ((Unkstruct_800CAE8C *)arg0)->unk197 = v;
+    v = ((Unkstruct_80126B58 *)arg0)->unk197 + 1;
+    ((Unkstruct_80126B58 *)arg0)->unk197 = v;
     return v;
 }
 

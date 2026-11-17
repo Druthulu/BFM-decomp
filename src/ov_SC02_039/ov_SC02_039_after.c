@@ -603,20 +603,20 @@ int func_80148AFC(void *a0) {
     extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s32 (*D_80180BF4[])(void *, s32);
     s32 p = (s32)a0;
-    s32 iVar5 = ((Unkstruct_80148AFC *)p)->unk20;
+    s32 iVar5 = ((Unkstruct_80126B58 *)p)->unk20;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
                       ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
 
-    switch (((Unkstruct_80148AFC *)p)->unkA9) {
+    switch (((Unkstruct_80126B58 *)p)->unkA9) {
     case 0x41:
-        return D_80180BF4[((Unkstruct_80148AFC *)p)->unkAA >> 12](a0, tmp) & 0xFF;
+        return D_80180BF4[((Unkstruct_80126B58 *)p)->unkAA >> 12](a0, tmp) & 0xFF;
     case 0x53:
     case 0x73:
-        if ((((Unkstruct_80148AFC *)p)->unkAE & 0xFF) == 0x80 && (((Unkstruct_80148AFC *)p)->unkAE >> 8) == 0x80) {
+        if ((((Unkstruct_80126B58 *)p)->unkAE & 0xFF) == 0x80 && (((Unkstruct_80126B58 *)p)->unkAE >> 8) == 0x80) {
             return 0;
         }
-        tmp = ratan2((((Unkstruct_80148AFC *)p)->unkAE & 0xFF) - 0x80, 0x80 - (((Unkstruct_80148AFC *)p)->unkAE >> 8));
+        tmp = ratan2((((Unkstruct_80126B58 *)p)->unkAE & 0xFF) - 0x80, 0x80 - (((Unkstruct_80126B58 *)p)->unkAE >> 8));
         *(u16 *)(iVar5 + 0x12) = (ang + tmp) & 0xFFF;
         return 1;
     }
@@ -914,13 +914,13 @@ s32 func_80149FB0(s32 a0) {
         } while (v != 0);
     }
 
-    if ((((Unkstruct_80149FB0 *)a0)->unk44 & 0x400) != 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unk44 & 0x400) != 0) {
         return 0;
     }
-    if (((Unkstruct_80149FB0 *)a0)->unk1C8 != 0) {
+    if (((Unkstruct_80126B58 *)a0)->unk1C8.s != 0) {
         return 0;
     }
-    if ((((Unkstruct_80149FB0 *)a0)->unkAC & 0x100) == 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unkAC & 0x100) == 0) {
     ret0:
         return 0;
     }
@@ -2019,13 +2019,13 @@ void func_80150B28(int param_1) {
     u32 sub;
 
     if ((guess_g_CurrentEvent & 0x80FFFFFF) == 0) {
-        idx = ((Unkstruct_80150B28 *)param_1)->unk16C;
+        idx = ((Unkstruct_80126B58 *)param_1)->unk16C;
         if (idx != 0 && idx < 0x26) {
             sub = idx - 1;
             D_80180D78[sub]();
         }
     }
-    ((Unkstruct_80150B28 *)param_1)->unk16C = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk16C = 0;
 }
 
 
@@ -2209,7 +2209,7 @@ extern void guess_StartPadVibration(void *a0);
 extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 extern void guess_NextStep(void *a0);
 extern void guess_SetMoveVector(s32 *a0, s32 *a1);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern void guess_ClearTiltVectors(s32 *a0);
 extern void guess_SetVertSpeed(s32 *a0, s32 a1);
@@ -2225,7 +2225,7 @@ void func_801520DC(s32 arg0)
     func_80151204(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
     func_80149020(arg0);
     func_801472C8(arg0);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     guess_SetMoveVector(arg0, &D_80180E30);
     guess_SetVertSpeed(arg0, 0x40000);
     guess_ClearStoodOnActor(arg0);
@@ -2357,7 +2357,7 @@ void func_801528B0(s32 arg0)
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
     guess_PlaySoundUnlessSkipped(0x451);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     guess_SetMoveVector(arg0, &D_80180E78);
     guess_SetVertSpeed(arg0, 0xFFF00000);
     guess_ClearStoodOnActor(arg0);
@@ -2422,7 +2422,7 @@ void func_80152DA8(s32 arg0)
     func_80149020(arg0);
     guess_SetAnimScript(arg0, &D_800D5880);
     guess_PlaySoundUnlessSkipped(0x451);
-    ((Unkstruct_80126B58 *)arg0)->unkDE = 0x10;
+    ((Unkstruct_80126B58 *)arg0)->unkDE.s = 0x10;
     ((Unkstruct_80126B58 *)arg0)->unkDF = 8;
     guess_SetMoveVector(arg0, &D_80180EA8);
     guess_SetVertSpeed(arg0, 0xFFE40000);
@@ -2552,8 +2552,8 @@ void func_80153D7C(s32 param_1)
     CAST_ALIAS(u16, param_1, 0x244) = CAST_SIGN(u16, param_1, 6);
     ((Unkstruct_80126B58 *)param_1)->unk246 = CAST_SIGN(u16, param_1, 10);
     CAST_ALIAS(u16, param_1, 0x248) = CAST_SIGN(u16, param_1, 0xe);
-    if (currentLocationId == 0x3075) ((Unkstruct_80126B58 *)param_1)->unkDE = 0x14;
-    else ((Unkstruct_80126B58 *)param_1)->unkDE = 10;
+    if (currentLocationId == 0x3075) ((Unkstruct_80126B58 *)param_1)->unkDE.s = 0x14;
+    else ((Unkstruct_80126B58 *)param_1)->unkDE.s = 10;
     ((Unkstruct_80126B58 *)param_1)->unkDF = 0;
     guess_NextStep((void *)param_1);
 }

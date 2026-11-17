@@ -169,7 +169,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -750,7 +750,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -1031,7 +1031,7 @@ void func_80156044(int param_1, int param_2) {
         puVar4 = &D_8018291C + (((u32)param_2) & 0xffff) * 0x14;
     }
     uVar1 = func_8015616C(((s32)param_1), *(u16 *)puVar4) & 0xffff;
-    if (((Unkstruct_80156044 *)param_1)->unk1A8 != 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk1A8 != 0) {
         func_80156670(((s32)param_1), *(s32 *)puVar4, uVar1, *(s32 *)(puVar4 + 4),
                       *(u8 *)(puVar4 + 0xA), *(u16 *)(puVar4 + 0x12));
         if (*(u8 *)(puVar4 + 0x10) != 0) {
@@ -1040,7 +1040,7 @@ void func_80156044(int param_1, int param_2) {
         func_80156848(((s32)param_1), (s32)puVar4, uVar1);
         func_80156A88(((s32)param_1), (s32)puVar4);
         if (func_801565C0(((s32)param_1)) != 0) {
-            ((Unkstruct_80156044 *)param_1)->unk1C0 = 1;
+            ((Unkstruct_80126B58 *)param_1)->unk1C0 = 1;
         }
     }
 }

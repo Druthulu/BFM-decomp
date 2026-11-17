@@ -230,7 +230,7 @@ void func_800CB2CC(s32 arg0) {
         ((Unkstruct_80126B58 *)arg0)->unk58 = (u32)&D_800CC150[0];
         ((Unkstruct_80126B58 *)arg0)->unk60 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk62 = 0;
-        ((Unkstruct_80126B58 *)arg0)->unk64 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk64.u = 0;
         func_801466B4(0x28, arg0, 0, 0, 1);
         func_801466B4(0x28, arg0, 1, 0, 1);
         memcpy(&D_800CC298[0], (void *)(s2 + 0x154), 8);

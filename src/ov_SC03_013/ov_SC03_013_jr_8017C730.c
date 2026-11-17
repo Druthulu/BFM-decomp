@@ -170,7 +170,7 @@ extern s16 D_80126BBC;
 extern void func_80147264(s32 a0);
 extern void func_80147290(void);
 extern void func_801472B4(void *a0);
-extern s32 func_801472C8(struct S *a0);
+extern s32 func_801472C8(Unkstruct_80126B58 *a0);
 extern void *D_8012707C;
 extern void func_801472DC(void);
 extern void func_801472F0(void *a0);
@@ -750,7 +750,7 @@ extern s32 func_80172630(u8 *a0);
 extern s32 D_80062C14;
 extern void func_80151DB0(s32 param_1);
 extern void func_80151E78(s32 *a0);
-extern void func_80151ECC(struct S80151ECC *a0);
+extern void func_80151ECC(Unkstruct_80126B58 *a0);
 extern void func_80151FB4(s32 a0);
 extern void func_80151F38(s32 *a0);
 extern void func_801553C0(s32 a0);
@@ -2270,7 +2270,7 @@ extern u8 D_800D5C6C[];
 extern void func_80172FEC(void);
 extern s32 func_80173078(void *a0);
 extern void func_8017303C(void * a0);
-extern void func_801730FC(struct S801730FC *a0);
+extern void func_801730FC(Unkstruct_80126B58 *a0);
 extern void func_801730B4(s32 a0);
 extern void func_8017316C(void);
 extern s32 func_8017319C(void *a0);
@@ -2834,7 +2834,7 @@ extern s32 func_80171CC4(void *a0, void *a1);
 extern void func_80171928(void *a0);
 
 void func_8017DAD4(s32 arg0) {
-    if (func_80171CC4((void *)arg0, &D_80184C18[((Unkstruct_8017DAD4 *)arg0)->unk218]) != 0) {
+    if (func_80171CC4((void *)arg0, &D_80184C18[((Unkstruct_80126B58 *)arg0)->unk218]) != 0) {
         func_80171928((void *)arg0);
     }
 }
@@ -2843,7 +2843,7 @@ void func_8017DAD4(s32 arg0) {
 extern u8 D_80184C59[];
 
 void func_8017DB20(s32 *arg) {
-    if ((u32)(guess_GetGameVarByte(0xCE) & 0xFF) < D_80184C59[((Unkstruct_80171A04 *)arg)->unk218]) {
+    if ((u32)(guess_GetGameVarByte(0xCE) & 0xFF) < D_80184C59[((Unkstruct_80126B58 *)arg)->unk218]) {
         func_80171A04(arg);
     } else {
         func_80171A10(arg);
@@ -2927,7 +2927,7 @@ void func_8017DCDC(s32 arg0)
 extern void (*D_80184C64[])(void);
 
 void func_8017DD5C(void *a0) {
-    D_80184C64[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_80184C64[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 
@@ -2987,7 +2987,7 @@ void func_8017DEC0(s32 *s0) {
     u8 idx, hi, vv;
 
     v = guess_GetGameVarByte(0xCE);
-    idx = ((Unkstruct_80171A04 *)s0)->unk218;
+    idx = ((Unkstruct_80126B58 *)s0)->unk218;
     hi = D_80184C59[idx];
     vv = v & 0xFF;
     if (vv < hi && vv >= D_80184C58[idx]) {
@@ -3039,7 +3039,7 @@ void func_8017DFB8(void *arg0) {
 extern void (*D_80184C6C[])(void);
 
 void func_8017E014(void *a0) {
-    D_80184C6C[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_80184C6C[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 
@@ -3135,7 +3135,7 @@ void func_8017E1EC(void) {
 extern void (*D_80184C9C[])(void);
 
 void func_8017E214(void *a0) {
-    D_80184C9C[((Unkstruct_8016F6E0 *)a0)->unk216]();
+    D_80184C9C[((Unkstruct_80126B58 *)a0)->unk216]();
 }
 
 

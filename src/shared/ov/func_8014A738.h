@@ -12,8 +12,8 @@ s32 func_8014A738(void *arg0) {
     base = (Ent_801202A0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
         if (base[i].state == 7) {
-            d.vx = ((Ent_801202A0 *)arg0)->x - base[i].x;
-            d.vz = ((Ent_801202A0 *)arg0)->z - base[i].z;
+            d.vx = ((Unkstruct_80126B58 *)arg0)->unk6.u - base[i].x;
+            d.vz = ((Unkstruct_80126B58 *)arg0)->unkE.u - base[i].z;
             if (d.vx >= 0) {
                 if (d.vx < 0x40) {
                     goto zcheck;
