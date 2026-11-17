@@ -4129,11 +4129,11 @@ extern void (*D_80182AC4[])(void);
 extern void (*D_80182ADC[])(void);
 
 void func_8017DF1C(s32 a0) {
-    u16 tag = ((Unkstruct_80181668_3 *)a0)->unk2;
+    u16 tag = ((Unkstruct_801202A0 *)a0)->unk2.u;
 
     if (tag != 0) {
-        if (((Unkstruct_80181668_3 *)a0)->unk76 < 0x3d4) {
-            D_80182ADC[((Unkstruct_80181668_3 *)a0)->unk102]();
+        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x3d4) {
+            D_80182ADC[((Unkstruct_801202A0 *)a0)->extD.kSC03_023_8017DF1C.unk102]();
         } else {
             D_80182AC4[tag]();
         }

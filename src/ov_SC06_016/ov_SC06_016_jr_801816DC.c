@@ -2938,9 +2938,9 @@ void func_80181840(void *s0) {
 
     i = 0;
     do {
-        src.unk0 = ((Unkstruct_8017C218_2 *)s0)->unk6 + D_80189118[i];
-        src.unk2 = ((Unkstruct_8017C218_2 *)s0)->unkA + 0x40;
-        src.unk4 = ((Unkstruct_8017C218_2 *)s0)->unkE + D_80189124[i];
+        src.unk0 = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u + D_80189118[i];
+        src.unk2 = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u + 0x40;
+        src.unk4 = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u + D_80189124[i];
 
         dst = src;
         dst.unk2 -= 0x100;

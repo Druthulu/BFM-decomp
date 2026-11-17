@@ -291,7 +291,7 @@ void func_800CB300(s32 arg0) {
         s0 = func_801632E0(s1);
         if (s0 != 0) {
             if (func_800CB7B0(s1) == 0) {
-                if (((Unkstruct_800CB300 *)s0)->unk0 == 0x151) {
+                if (((Unkstruct_801202A0 *)s0)->unk0 == 0x151) {
                     func_800CB760((void *)s1, 0x7B3);
                 } else {
                     func_800CB760((void *)s1, 0x648);

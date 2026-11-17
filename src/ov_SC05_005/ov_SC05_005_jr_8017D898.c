@@ -4351,13 +4351,13 @@ extern s32 D_801AB374;
 extern s32 D_801AB2EC;
 
 void func_80181224(void *a0) {
-    s32 a2 = ((Unkstruct_80181164 *)a0)->unk64;
-    s32 v1 = ((Unkstruct_80181164 *)a0)->unkFE;
-    s32 a1 = ((Unkstruct_80181164 *)a0)->unk20;
+    s32 a2 = ((Unkstruct_801202A0 *)a0)->unk64;
+    s32 v1 = ((Unkstruct_801202A0 *)a0)->unkFE.s;
+    s32 a1 = ((Unkstruct_801202A0 *)a0)->unk20;
 
     if (v1 != *(s16 *)((u8 *)a2 + 0x36) || *(s32 *)((u8 *)a2 + 0x90) == &D_801AB374) {
-        ((Unkstruct_80181164 *)a0)->unk48 = 0xC000;
-        ((Unkstruct_80181164 *)a0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)a0)->unk48 = 0xC000;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
     } else {
         u16 m18 = ((Unkstruct_80181224 *)a1)->unk18;
         u16 t1a = ((Unkstruct_80181224 *)a1)->unk1A;
@@ -4369,9 +4369,9 @@ void func_80181224(void *a0) {
             ((Unkstruct_80181224 *)a1)->unk18 = 0x1800;
         }
 
-        a1 = ((Unkstruct_80181164 *)a0)->unk64;
+        a1 = ((Unkstruct_801202A0 *)a0)->unk64;
         if (((Unkstruct_801202A0 *)a1)->unk90 == &D_801AB2EC && ((Unkstruct_801202A0 *)a1)->unk94.s == 9) {
-            ((Unkstruct_80181164 *)a0)->unk2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         }
         func_801815E0(a0, 2);
     }
@@ -4531,11 +4531,11 @@ void func_801815E0(s32 arg0, s32 arg1) {
     s32 buf[8];
     u16 out[4];
 
-    func_8012EC04(((Unkstruct_80181164 *)arg0)->unk64, arg1, buf);
+    func_8012EC04(((Unkstruct_801202A0 *)arg0)->unk64, arg1, buf);
     guess_RotTransSVWithMatrix(buf, D_801A62B8, out);
-    ((Unkstruct_80181164 *)arg0)->unk6 = out[0];
-    ((Unkstruct_80181164 *)arg0)->unkA = out[1];
-    ((Unkstruct_80181164 *)arg0)->unkE = out[2];
+    ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u = out[0];
+    ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = out[1];
+    ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = out[2];
 }
 
 

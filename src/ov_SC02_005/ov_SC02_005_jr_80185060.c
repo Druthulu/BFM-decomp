@@ -565,7 +565,7 @@ void func_80185B38(s32 a0)
 extern s32 D_801270CC;
 
 s32 func_80185D6C() {
-    return ((MainStruct *)D_801270CC)->f_E8 & 4;
+    return ((Unkstruct_801202A0 *)D_801270CC)->extC.kSC02_005_801816FC.unkE8 & 4;
 }
 
 

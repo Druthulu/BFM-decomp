@@ -5224,13 +5224,13 @@ extern void func_8012E138(s32);
 void func_80182674(s32 *arg0) {
     s32 v1;
 
-    D_801AB604[((Unkstruct_8018520C *)arg0)->unk2]();
+    D_801AB604[((Unkstruct_801202A0 *)arg0)->unk2.u]();
     ((s32 (*)(s32))func_8012E138)((s32)arg0);
-    v1 = ((Unkstruct_8018520C *)arg0)->unkCC;
+    v1 = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
     if (v1 != 0) {
-        ((Unkstruct_8018653C *)v1)->unk8 = ((Unkstruct_8018520C *)arg0)->unk6;
-        ((Unkstruct_8018653C *)v1)->unkA = ((Unkstruct_8018520C *)arg0)->unkA;
-        ((Unkstruct_8018653C *)v1)->unkC = ((Unkstruct_8018520C *)arg0)->unkE - 0x27E;
+        ((Unkstruct_8018653C *)v1)->unk8 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_8018653C *)v1)->unkA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+        ((Unkstruct_8018653C *)v1)->unkC = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - 0x27E;
     }
 }
 
@@ -7997,9 +7997,9 @@ s32 a1;
     sp10[3] = w;
     t = D_801AFBE8[a1 * 5];
     do { sp10[4] = t; } while (0);  // !FAKE: do-while
-    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_8017C218_2 *)obj)->unk6;
+    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u;
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + CAST_ALIAS(u16, obj, 0xA);
-    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_8017C218_2 *)obj)->unkE;
+    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     func_8012C51C(sp10, obj);
 }
 

@@ -7023,22 +7023,22 @@ void func_80185DFC(void *a0) {
     u8 *s0 = (u8 *)a0;
     s32 v1;
 
-    ((Unkstruct_80185DFC *)s0)->unk2 = 4;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 4;
     func_80186ECC((s32)s0, 1);
 
     do { v1 = (rand() & 1) ? 1 : -1; } while (0);
 
-    ((Unkstruct_80185DFC *)s0)->unkE0 = v1;
-    if (((Unkstruct_80185DFC *)s0)->unkEA != 0) {
+    ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE0 = v1;
+    if (((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkEA != 0) {
         CAST_ALIAS(s32, s0, 0x1C) = (rand() % 31) + 30;
         func_80132288(&D_801D98C8, D_801C9124, D_801CA0A0);
     } else {
         CAST_ALIAS(s32, s0, 0x1C) = (rand() % 31) + 15;
         func_80132288(&D_801D98C8, &D_801C913C, D_801CA0A0);
         if (func_8018723C(s0) == 1) {
-            ((Unkstruct_80185DFC *)s0)->unkE8 = 0;
+            ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE8 = 0;
         } else {
-            ((Unkstruct_80185DFC *)s0)->unkE8 = 1;
+            ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE8 = 1;
         }
     }
 }
@@ -7093,21 +7093,21 @@ void func_80185FE8(void *a0) {
     s32 v0;
     s32 *ptr;
 
-    ((Unkstruct_80185DFC *)s0)->unk2 = 6;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 6;
     do { guess_ClearVelocityAndSetGravity(s0); } while (0);
     guess_SetForwardVelocity(s0, (s32)0xFFFE0000);
     v0 = rand();
-    ((Unkstruct_80185DFC *)s0)->unk1C = v0 % 61 + 90;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = v0 % 61 + 90;
     func_80186ECC((s32)s0, 1);
     ptr = &D_801D98C8;
-    ((Unkstruct_80185DFC *)s0)->unkE4 = 0;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE4 = 0;
     if (*ptr != (s32)&D_801C913C) {
         func_80132288(ptr, &D_801C913C, D_801CA0A0);
     }
     if (func_8018723C(s0) == 1) {
-        ((Unkstruct_80185DFC *)s0)->unkE8 = 0;
+        ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE8 = 0;
     } else {
-        ((Unkstruct_80185DFC *)s0)->unkE8 = 1;
+        ((Unkstruct_801202A0 *)s0)->extC.kSC03_006_801875B4.unkE8 = 1;
     }
 }
 

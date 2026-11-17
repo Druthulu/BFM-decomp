@@ -3722,7 +3722,7 @@ void func_80184FA0(s32 a0) {
     }
 
     p = &D_801C1418;
-    ((Unkstruct_8017C5F0 *)a0)->unkD0 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = v0;
     func_8001CD50(v0, (s32)p);
 
     D_801C1419 = 0xFF;
@@ -3733,9 +3733,9 @@ void func_80184FA0(s32 a0) {
     D_801C141C = 0;
     guess_BuildCircle12Points(p, 0x100);
 
-    sp[0] = ((Unkstruct_8017C5F0 *)a0)->unk6;
-    sp[1] = ((Unkstruct_8017C5F0 *)a0)->unkA - 0x38;
-    sp[2] = ((Unkstruct_8017C5F0 *)a0)->unkE;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x38;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     func_800D20C0(&sp[0], &sp[4], 5);
 
     D_801C14D8[0] = sp[0];
@@ -3748,7 +3748,7 @@ void func_80184FA0(s32 a0) {
     ((Unkstruct_8017C5F0_2 *)v0)->unk1A = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk18 = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk4 |= 0x50000000;
-    ((Unkstruct_8017C5F0 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
 
@@ -3827,7 +3827,7 @@ void func_8018520C(s32 a0) {
     }
 
     p = &D_801C13D8;
-    ((Unkstruct_8018520C *)a0)->unkCC = v;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = v;
     func_8001CD50(v, (s32)p);
 
     D_801C13DA = 0x80;
@@ -3839,9 +3839,9 @@ void func_8018520C(s32 a0) {
     guess_BuildCircle12Points(p, 0x38);
 
     ((Unkstruct_8018520C_2 *)v)->unk10 = 0x400;
-    ((Unkstruct_8018520C_2 *)v)->unk8 = ((Unkstruct_8018520C *)a0)->unk6;
-    ((Unkstruct_8018520C_2 *)v)->unkA = ((Unkstruct_8018520C *)a0)->unkA;
-    CAST_ALIAS(u16, v, 0xC) = ((Unkstruct_8018520C *)a0)->unkE;
+    ((Unkstruct_8018520C_2 *)v)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_8018520C_2 *)v)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    CAST_ALIAS(u16, v, 0xC) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     ((Unkstruct_8018520C_2 *)v)->unk4 |= 0x50000000;
     D_801C13D6 = 0xFF;
     D_801C13E4 = 0xFF;
@@ -3852,7 +3852,7 @@ void func_8018520C(s32 a0) {
     D_801C13D5 = 0x80;
     D_801C13C5 = 0x80;
     D_801C13B5 = 0x80;
-    ((Unkstruct_8018520C *)a0)->unk2 = 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
 }
 
 

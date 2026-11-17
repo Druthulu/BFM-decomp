@@ -3376,10 +3376,10 @@ void func_8017DE80(s32 param_1, s16 param_2)
     s32 t;
 
     func_800139C8(param_2, D_80184C6C, pos);
-    pos[0] = pos[0] + ((Unkstruct_8017DE80_3 *)param_1)->unk6;
+    pos[0] = pos[0] + ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
     t = rand();
-    pos[1] = pos[1] + (((Unkstruct_8017DE80_3 *)param_1)->unkA - ((t & 0xF) + 0x38));
-    pos[2] = pos[2] + ((Unkstruct_8017DE80_3 *)param_1)->unkE;
+    pos[1] = pos[1] + (((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u - ((t & 0xF) + 0x38));
+    pos[2] = pos[2] + ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
     pos[3] = 5;
     func_8001382C(param_2, D_80184C74, buf);
     buf[3] = D_80184C80;

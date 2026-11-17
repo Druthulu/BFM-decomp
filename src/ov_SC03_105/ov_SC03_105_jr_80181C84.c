@@ -3796,15 +3796,15 @@ s32 func_8018388C(void *a0, s32 a1) {
     s16 *box1;
 
     box0 = (s16 *)(((s32)D_80126B90 & 0xFFFFFFF) | 0x80000000);
-    box1 = (s16 *)((((Unkstruct_8018388C *)a0)->unk58 & 0xFFFFFFF) | 0x80000000);
+    box1 = (s16 *)((((Unkstruct_801202A0 *)a0)->unk58.s & 0xFFFFFFF) | 0x80000000);
 
     s.x = guess_g_PlayerPosX;
     s.y = guess_g_PlayerPosY;
     s.z = guess_g_PlayerPosZ;
 
-    s1.x = ((Unkstruct_8018388C *)a0)->unk6;
-    s1.y = ((Unkstruct_8018388C *)a0)->unkA;
-    s1.z = ((Unkstruct_8018388C *)a0)->unkE;
+    s1.x = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    s1.y = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    s1.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
     if (func_8013361C(box0, box1, &s, &s1) != 0) {
         diff.x = s.x - s1.x;
@@ -4008,9 +4008,9 @@ extern s32 func_8012C51C(void *a0, s32 a1);
 s32 func_80183D38(void *a0, s16 a1, s32 a2) {
     Local_8017EE34 local;
 
-    local.f0 = ((Unkstruct_8017C218_2 *)a0)->unk6;
-    local.f1 = ((Unkstruct_8017C218_2 *)a0)->unkA;
-    local.f2 = ((Unkstruct_8017C218_2 *)a0)->unkE;
+    local.f0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    local.f1 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    local.f2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     local.f3 = 0x170;
     local.f4 = a1;
     local.f5 = 0;

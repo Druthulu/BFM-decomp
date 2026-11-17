@@ -3896,16 +3896,16 @@ void func_8017EB30(s32 param_1) {
     s16 t;
 
     v = rsin(0x400 - (D_80126CE0 * 8));
-    if (((Unkstruct_8017E470 *)param_1)->unkAA == 0) {
-        m = ((Unkstruct_8017E470 *)param_1)->unk100;
+    if (((Unkstruct_801202A0 *)param_1)->unkAA == 0) {
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100;
     } else {
-        m = ((Unkstruct_8017E470 *)param_1)->unk104;
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk104;
     }
-    p = ((Unkstruct_8017E470 *)param_1)->unk20;
+    p = ((Unkstruct_801202A0 *)param_1)->unk20;
     t = (v * m) / 0x1000;
     ((Unkstruct_8017E470_2 *)p)->unk1C = t;
     ((Unkstruct_8017E470_2 *)p)->unk18 = t;
-    q = ((Unkstruct_8017E470 *)param_1)->unk20;
+    q = ((Unkstruct_801202A0 *)param_1)->unk20;
     if (((Unkstruct_8017E470_2 *)q)->unk18 <= 0) {
         ((Unkstruct_8017E470_2 *)q)->unk1C = 1;
         ((Unkstruct_8017E470_2 *)q)->unk18 = 1;

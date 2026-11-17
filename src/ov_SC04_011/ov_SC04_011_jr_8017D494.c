@@ -6885,18 +6885,18 @@ s32 func_801836D4(void *a0, void *a1) {
     s16 t16;
     s16 xr;
 
-    if (((Unkstruct_801836D4 *)a0)->unkEA != 0) {
-        ((Unkstruct_801836D4 *)a0)->unkEA = ((Unkstruct_801836D4 *)a0)->unkEA - 1;
+    if (((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEA != 0) {
+        ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEA = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEA - 1;
     }
 
-    v1 = ((Unkstruct_801836D4 *)a0)->unkE2;
+    v1 = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkE2;
     switch (v1) {
     case 0: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE4 - ((Unkstruct_8017C218_2 *)a1)->unk6;
+        diff = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkE4 - ((Unkstruct_8017C218_2 *)a1)->unk6;
         buf[0] = diff;
-        tw = ((Unkstruct_801836D4 *)a0)->unkEC;
+        tw = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEC;
         t16 = tw;
         if (tw == 0) {
             return 1;
@@ -6906,9 +6906,9 @@ s32 func_801836D4(void *a0, void *a1) {
     case 1: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE6 - ((Unkstruct_8017C218_2 *)a1)->unkA;
+        diff = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkE6 - ((Unkstruct_8017C218_2 *)a1)->unkA;
         buf[1] = diff;
-        tw = ((Unkstruct_801836D4 *)a0)->unkEE;
+        tw = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEE;
         t16 = tw;
         if (tw == 0) {
             return 1;
@@ -6918,9 +6918,9 @@ s32 func_801836D4(void *a0, void *a1) {
     case 2: {
         s32 tw;
 
-        diff = ((Unkstruct_801836D4 *)a0)->unkE8 - ((Unkstruct_8017C218_2 *)a1)->unkE;
+        diff = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkE8 - ((Unkstruct_8017C218_2 *)a1)->unkE;
         buf[2] = diff;
-        tw = ((Unkstruct_801836D4 *)a0)->unkF0;
+        tw = ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkF0;
         t16 = tw;
         if (tw == 0) {
             return 1;
@@ -6938,7 +6938,7 @@ ret1:
     return 1;
 
 default_case:
-    return ((Unkstruct_801836D4 *)a0)->unkEA == 0;
+    return ((Unkstruct_801202A0 *)a0)->extC.kSC04_011_801832DC.unkEA == 0;
 }
 
 
@@ -7144,13 +7144,13 @@ void impl_80183BF0(s32 a0)
     s16 sVar1;
 
     if (D_801EFD40 & 0x40) {
-        sVar1 = ((Unkstruct_801836D4 *)a0)->unk102 + ((Unkstruct_801836D4 *)a0)->unk104;
-        ((Unkstruct_801836D4 *)a0)->unk102 = sVar1;
+        sVar1 = ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk102 + ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk104;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk102 = sVar1;
         if (sVar1 < -0x17F) {
-            ((Unkstruct_801836D4 *)a0)->unk104 = 0x20;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk104 = 0x20;
         }
-        if (((Unkstruct_801836D4 *)a0)->unk102 >= 0x180) {
-            ((Unkstruct_801836D4 *)a0)->unk104 = -0x20;
+        if (((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk102 >= 0x180) {
+            ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_801832DC.unk104 = -0x20;
         }
     } else {
         func_80185960(0, (u16 *)(a0 + 0x102), 0x20);
@@ -7487,7 +7487,7 @@ void func_8018445C(s32 a0) {
     s32 v0_idx;
 
     // Load u16 from offset 0x2, multiply by 4 for array index
-    v0_idx = ((Unkstruct_8018445C *)s0)->unk2;
+    v0_idx = ((Unkstruct_801202A0 *)s0)->unk2.u;
     ((void (*)(void))D_801947D8[v0_idx])();
 
     // Check if D_801EFD40 bit 0x8 is set - if yes, jump to set_bit
@@ -7496,7 +7496,7 @@ void func_8018445C(s32 a0) {
     }
 
     // Check if *(u16*)(s0+0x86) bit 0x10 is set
-    if ((((Unkstruct_8018445C *)s0)->unk86 & 0x10) == 0) {
+    if ((((Unkstruct_801202A0 *)s0)->unk86.u & 0x10) == 0) {
         goto clear_bit;
     }
 
@@ -10423,7 +10423,7 @@ void func_801882F8(s32 a0)
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A + 0x400;
         }
-        guess_AddVelocityToPos((S800D22E4 *)a0);
+        guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
         t = ((Unkstruct_800B5CB8 *)a0)->unk1C;
         if (t != 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk1C = t - 1;
@@ -13110,7 +13110,7 @@ void func_8018C07C(s32 arg0) {
     s16 v;
     u8 *p;
 
-    guess_AddVelocityToPos((S800D22E4 *)arg0);
+    guess_AddVelocityToPos((Unkstruct_801202A0 *)arg0);
     v = *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x18);
     if (v >= 0x400) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk18 = v - 0x400;

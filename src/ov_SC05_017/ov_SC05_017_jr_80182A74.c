@@ -3216,7 +3216,7 @@ s32 func_801831C8(void *a0)
     u16 st;
 
     p = ((Unkstruct_801831C8_3 *)a0)->unk64;
-    st = ((Unkstruct_80182AC0 *)p)->unk2;
+    st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
@@ -3228,12 +3228,12 @@ s32 func_801831C8(void *a0)
         }
         goto hit;
     case 5:
-        if (((Unkstruct_80182AC0 *)p)->unk34 != 1) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 1) {
             goto ret0;
         }
         goto check;
     case 0xB:
-        if (((Unkstruct_80182AC0 *)p)->unk34 != 0) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 0) {
             goto ret0;
         }
         goto check;
@@ -3251,9 +3251,9 @@ s32 func_801831C8(void *a0)
 hit:
     {
         void *p2 = ((Unkstruct_801831C8_3 *)a0)->unk64;
-        u16 v = ((Unkstruct_80182AC0 *)p2)->unk2;
+        u16 v = ((Unkstruct_801202A0 *)p2)->unk2.u;
         v = v + 1;
-        ((Unkstruct_80182AC0 *)p2)->unk2 = v;
+        ((Unkstruct_801202A0 *)p2)->unk2.u = v;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -3949,7 +3949,7 @@ s32 func_801840DC(void *a0)
     u16 st;
 
     p = ((Unkstruct_801840DC *)a0)->unk64;
-    st = ((Unkstruct_80182AC0 *)p)->unk2;
+    st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
@@ -3965,7 +3965,7 @@ s32 func_801840DC(void *a0)
         if (D_801ED7FC != 0) {
             return 0;
         }
-        if (((Unkstruct_80182AC0 *)p)->unk34 != 2) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 2) {
             return 0;
         }
         if (func_8012BD14((s32)p) >= 0x4001) {

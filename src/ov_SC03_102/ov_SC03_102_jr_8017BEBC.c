@@ -4199,7 +4199,7 @@ void func_80181030(s32 a0)
         sv1.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
         sv1.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
         ((Unkstruct_800B5CB8 *)a0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 + 0x18000;
-        guess_AddVelocityToPos((S800D22E4 *)a0);
+        guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
         sv2.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
         sv2.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;

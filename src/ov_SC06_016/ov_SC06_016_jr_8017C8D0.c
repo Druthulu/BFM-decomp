@@ -3913,7 +3913,7 @@ void func_8017F3B8(s32 a0)
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A + 0x400;
         }
-        guess_AddVelocityToPos((S800D22E4 *)a0);
+        guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
         t = ((Unkstruct_800B5CB8 *)a0)->unk1C;
         if (t != 0) {
             ((Unkstruct_800B5CB8 *)a0)->unk1C = t - 1;
@@ -5201,9 +5201,9 @@ void func_80181290(void *a0)
 
     dist = func_8012B8A4((s16 *)a0);
 
-    localA.unk0 = ((Unkstruct_8017C218_2 *)a0)->unk6;
-    localA.unk2 = ((Unkstruct_8017C218_2 *)a0)->unkA;
-    localA.unk4 = ((Unkstruct_8017C218_2 *)a0)->unkE;
+    localA.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    localA.unk2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    localA.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
     localB.unk0 = guess_g_PlayerPosX;
     localB.unk2 = guess_g_PlayerPosY;
@@ -5214,8 +5214,8 @@ void func_80181290(void *a0)
         guess_SetPlayerHit(1, 0x4201, dist, 0x5A, &localB, guess_g_BoxHitNormalX);
         D_80126B9A = dist;
         func_8012B0B4((unsigned int *)&outVal, dist, 0x9E);
-        guess_g_PlayerPosX = ((Unkstruct_8017C218_2 *)a0)->unk6 - (u16)outVal;
-        guess_g_PlayerPosZ = ((Unkstruct_8017C218_2 *)a0)->unkE - (s16)(outVal >> 16);
+        guess_g_PlayerPosX = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - (u16)outVal;
+        guess_g_PlayerPosZ = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - (s16)(outVal >> 16);
     }
 }
 

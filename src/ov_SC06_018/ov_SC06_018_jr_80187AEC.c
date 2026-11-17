@@ -4506,9 +4506,9 @@ s32 func_80189E60(s32 arg0, u16 arg1) {
     s32 base;
 
     base = (s32)&guess_g_PlayerActor;
-    sp10[0] = ((Unkstruct_8017C218_2 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_8017C218_2 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_8017C218_2 *)arg0)->unkE;
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     ((void (*)(s32, s32))guess_WorldToScreenFlag)((s32)sp10, (s32)sp18);
     x = 0x7F;
     q = sp18[0];
@@ -5114,12 +5114,12 @@ void func_8018AC58(s32 arg0)
     s32 s0 = arg0;
     u16 sp10[4];
 
-    sp10[0] = ((Unkstruct_8017DE80_3 *)s0)->unk6;
-    sp10[1] = ((Unkstruct_8017DE80_3 *)s0)->unkA - 0x60;
-    sp10[2] = ((Unkstruct_8017DE80_3 *)s0)->unkE;
+    sp10[0] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u - 0x60;
+    sp10[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;
     sp10[3] = 0x3800;
     func_801437D8(s0 + 0x100, (s32)sp10, (s32)D_801CD460, 0);
-    if ((((Unkstruct_8017DE80_3 *)s0)->unk100 & 3) == 0) {
+    if ((((Unkstruct_801202A0 *)s0)->extD.kSC06_018_8018A61C.unk100 & 3) == 0) {
         guess_RequestSound(0xA9F, 0);
     }
 }

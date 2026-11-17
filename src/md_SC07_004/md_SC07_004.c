@@ -7933,14 +7933,14 @@ void func_801ABC8C(void *a0)
         local[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
 
         if (CAST_SIGN(s16, (s32)a0, 0x2C) == 0) {
-            guess_AddVelocityToPos((S800D22E4 *)a0);
+            guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
         } else {
             void *s1 = CAST_WIDTH(void *, (s32)a0, 0x34);
 
             ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk2E;
             ((Unkstruct_800B5CB8 *)a0)->unkA = CAST_WIDTH(u16, (s32)a0, 0x30);
             ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)((s32)a0 + 0x32);
-            guess_AddVelocityToPos((S800D22E4 *)a0);
+            guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
             ((Unkstruct_800B5CB8 *)a0)->unk2E = ((Unkstruct_800B5CB8 *)a0)->unk6;
             CAST_WIDTH(u16, (s32)a0, 0x30) = ((Unkstruct_800B5CB8 *)a0)->unkA;

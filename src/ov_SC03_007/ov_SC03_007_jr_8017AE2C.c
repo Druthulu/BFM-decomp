@@ -4474,16 +4474,16 @@ void func_8017E4C8(s32 param_1) {
     s16 t;
 
     v = rsin(0x400 - (D_80126CE0 * 8));
-    if (((Unkstruct_8017E4C8_2 *)param_1)->unkAA == 0) {
-        m = ((Unkstruct_8017E4C8_2 *)param_1)->unk100;
+    if (((Unkstruct_801202A0 *)param_1)->unkAA == 0) {
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_8017E0B4.unk100;
     } else {
-        m = ((Unkstruct_8017E4C8_2 *)param_1)->unk102;
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_8017E0B4.unk102;
     }
-    p = ((Unkstruct_8017E4C8_2 *)param_1)->unk20;
+    p = ((Unkstruct_801202A0 *)param_1)->unk20;
     t = (v * m) / 0x1000;
     ((Unkstruct_8017E4C8 *)p)->unk1C = t;
     ((Unkstruct_8017E4C8 *)p)->unk18 = t;
-    q = ((Unkstruct_8017E4C8_2 *)param_1)->unk20;
+    q = ((Unkstruct_801202A0 *)param_1)->unk20;
     if (((Unkstruct_8017E4C8 *)q)->unk18 <= 0) {
         ((Unkstruct_8017E4C8 *)q)->unk1C = 1;
         ((Unkstruct_8017E4C8 *)q)->unk18 = 1;
@@ -6709,11 +6709,11 @@ extern void (*D_8018C08C[])(void);
 extern void (*D_8018C074[])(void);
 
 void func_80181668(s32 a0) {
-    u16 tag = ((Unkstruct_80181668_3 *)a0)->unk2;
+    u16 tag = ((Unkstruct_801202A0 *)a0)->unk2.u;
 
     if (tag != 0) {
-        if (((Unkstruct_80181668_3 *)a0)->unk76 < 0x320) {
-            D_8018C08C[((Unkstruct_80181668_3 *)a0)->unk102]();
+        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
+            D_8018C08C[((Unkstruct_801202A0 *)a0)->extD.kSC03_007_80181668.unk102]();
         } else {
             D_8018C074[tag]();
         }

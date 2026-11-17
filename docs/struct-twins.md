@@ -1391,8 +1391,8 @@ cause: 2 names (48 B, all members placeholders) bound to 2 distinct objects, non
 
 ### 7e5cdb66875c
 names: MainStruct, Unkstruct_80186178
-cause: 2 names (236 B, all members placeholders) bound to 7 distinct objects, none bound to two names: 0x801270CC, 0x8018622C(arg0), 0x801E43A4, ov_SC02_005/0x80186178:a1, ov_SC02_005/0x8018622C:a0_reg, ov_SC02_005/0x8018622C:a1, ov_SC02_005/0x8018622C:v0; full list: tools/struct_twins.py --show 7e5cdb66875c
-- `MainStruct`: 6 obj — 0x801270CC, 0x8018622C(arg0), 0x801E43A4, ov_SC02_005/0x8018622C:a0_reg, ov_SC02_005/0x8018622C:a1, ov_SC02_005/0x8018622C:v0
+cause: 2 names (236 B, all members placeholders) bound to 6 distinct objects, none bound to two names: 0x8018622C(arg0), 0x801E43A4, ov_SC02_005/0x80186178:a1, ov_SC02_005/0x8018622C:a0_reg, ov_SC02_005/0x8018622C:a1, ov_SC02_005/0x8018622C:v0; full list: tools/struct_twins.py --show 7e5cdb66875c
+- `MainStruct`: 5 obj — 0x8018622C(arg0), 0x801E43A4, ov_SC02_005/0x8018622C:a0_reg, ov_SC02_005/0x8018622C:a1, ov_SC02_005/0x8018622C:v0
 - `Unkstruct_80186178`: 1 obj — ov_SC02_005/0x80186178:a1
 
 ### 83fb1e081de5

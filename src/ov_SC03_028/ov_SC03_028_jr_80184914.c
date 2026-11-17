@@ -3529,15 +3529,15 @@ extern s32 D_801907B0[];
 void func_8018561C(s32 arg0) {
     u16 var;
 
-    var = ((Unkstruct_8018561C *)arg0)->unkFC;
+    var = ((Unkstruct_801202A0 *)arg0)->unkFC.u;
     var = var + 1;
-    ((Unkstruct_8018561C *)arg0)->unkFC = var;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.u = var;
     if ((s16)var < 9) {
         guess_AllocRenderWorkRecord(D_801907B0[(s16)var >> 1]);
     } else {
-        ((Unkstruct_8018561C *)arg0)->unk2 = 2;
-        ((Unkstruct_8018561C *)arg0)->unkC1 = 0;
-        ((Unkstruct_8018561C *)arg0)->unk5C = 0x8000;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)arg0)->unkC1.u = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8000;
     }
 }
 
@@ -3607,15 +3607,15 @@ extern s32 D_80190884[];
 void func_801857F4(s32 arg0) {
     u16 var;
 
-    var = ((Unkstruct_8018561C *)arg0)->unkFC;
+    var = ((Unkstruct_801202A0 *)arg0)->unkFC.u;
     var = var + 1;
-    ((Unkstruct_8018561C *)arg0)->unkFC = var;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.u = var;
     if ((s16)var < 9) {
         guess_AllocRenderWorkRecord(D_80190884[(s16)var >> 1]);
     } else {
-        ((Unkstruct_8018561C *)arg0)->unk2 = 2;
-        ((Unkstruct_8018561C *)arg0)->unkC1 = 0;
-        ((Unkstruct_8018561C *)arg0)->unk5C = 0x8000;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)arg0)->unkC1.u = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8000;
     }
 }
 

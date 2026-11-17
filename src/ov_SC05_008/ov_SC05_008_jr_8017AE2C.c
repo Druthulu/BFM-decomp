@@ -3896,29 +3896,29 @@ void func_8017DC50(s32 arg0, s32 arg1) {
 
     for (i = 0; i < 0x60; i++) {
         q = &guess_g_ObjectTable[i * 0x10C];
-        c = ((Unkstruct_8017DC50 *)q)->unk0;
+        c = ((Unkstruct_801202A0 *)q)->unk0;
         if ((u16)c == 0x209 || c - 0x21AU < 2 || c - 0x2C2U < 2 ||
             c - 0x2C4U < 2 || c - 0x20BU < 2 || c - 0x20DU < 2 ||
             (u16)c == 0x20F || (u16)c == 0x21C || (u16)c == 0x2AA || (u16)c == 0x2B2 ||
             c - 0x212U < 2 || c - 0x2ABU < 2 || c - 0x2ADU < 2 ||
             (u16)c == 0x2AF || c - 0x2E1U < 2) {
-            d = ((Unkstruct_8017DC50 *)q)->unkDC - ((Unkstruct_8017DC50_2 *)t0)->unk38;
-            ((Unkstruct_8017DC50 *)q)->unkDC = d;
+            d = ((Unkstruct_801202A0 *)q)->unkDC.val - ((Unkstruct_8017DC50_2 *)t0)->unk38;
+            ((Unkstruct_801202A0 *)q)->unkDC.val = d;
             if (d < 0) {
-                ((Unkstruct_8017DC50 *)q)->unkDC = 0;
+                ((Unkstruct_801202A0 *)q)->unkDC.val = 0;
             }
-            ((Unkstruct_8017DC50 *)q)->unk6 += delta[0];
-            ((Unkstruct_8017DC50 *)q)->unkA += delta[1];
-            ((Unkstruct_8017DC50 *)q)->unkE += delta[2];
+            ((Unkstruct_801202A0 *)q)->unk4.i.hi.u += delta[0];
+            ((Unkstruct_801202A0 *)q)->unk8.i.hi.u += delta[1];
+            ((Unkstruct_801202A0 *)q)->unkC.i.hi.u += delta[2];
         }
     }
 
     for (i = 0; i < 0x80; i++) {
         q = &D_8011DB30[i * 0x38];
-        if (((Unkstruct_8017DC50 *)q)->unk0 == 0x4B) {
-            ((Unkstruct_8017DC50 *)q)->unk6 += delta[0];
-            ((Unkstruct_8017DC50 *)q)->unkA += delta[1];
-            ((Unkstruct_8017DC50 *)q)->unkE += delta[2];
+        if (((Unkstruct_801202A0 *)q)->unk0 == 0x4B) {
+            ((Unkstruct_801202A0 *)q)->unk4.i.hi.u += delta[0];
+            ((Unkstruct_801202A0 *)q)->unk8.i.hi.u += delta[1];
+            ((Unkstruct_801202A0 *)q)->unkC.i.hi.u += delta[2];
         }
     }
 

@@ -5645,9 +5645,9 @@ void func_80187480(s32 arg0)
     i = 0;
 
     do {
-        spr.f0 = ((Unkstruct_8017C218_2 *)s2)->unk6 + (acc & 0x1F) - 0x10;
-        spr.f2 = ((Unkstruct_8017C218_2 *)s2)->unkA + ((acc & 0x1F0) >> 4) - 0x10;
-        spr.f4 = ((Unkstruct_8017C218_2 *)s2)->unkE;
+        spr.f0 = ((Unkstruct_801202A0 *)s2)->unk4.i.hi.u + (acc & 0x1F) - 0x10;
+        spr.f2 = ((Unkstruct_801202A0 *)s2)->unk8.i.hi.u + ((acc & 0x1F0) >> 4) - 0x10;
+        spr.f4 = ((Unkstruct_801202A0 *)s2)->unkC.i.hi.u;
         spr.f6 = 0x48;
         if (i >= 4) {
             spr.f8 = 0;

@@ -4738,17 +4738,17 @@ void func_801812C4(s32 param_1)
     cnt = &D_801C1280;
     *cnt = cond ? 0xC0 : 0xB0;
     if ((((Unkstruct_80010178 *)m)->unkA3AA & 3) == 0) {
-        sp10[1] = ((Unkstruct_8017C218_2 *)param_1)->unkA;
+        sp10[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
         for (i = 0; i < 2; i++) {
             r = rand();
             {
-                s32 t = ((Unkstruct_8017C218_2 *)param_1)->unk6 - 0x10;
+                s32 t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 0x10;
                 sp10[0] = t + (r & 0x1F);
             }
             r = rand();
             cond = r & 0x1F;
             {
-                s32 u = ((Unkstruct_8017C218_2 *)param_1)->unkE - 0x10;
+                s32 u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u - 0x10;
                 sp10[2] = u + cond;
             }
             func_801290DC(0x65, (u8 *)sp10);
@@ -5658,10 +5658,10 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 
 
 void func_801826B4(void *a0) {
-        s32 v1 = ((Unkstruct_801826B4 *)a0)->unkCC;
-        ((Unkstruct_801914A0 *)v1)->unk8 = ((Unkstruct_801826B4 *)a0)->unk6;
-        ((Unkstruct_801914A0 *)v1)->unkA = ((Unkstruct_801826B4 *)a0)->unkA - 0xe4;
-        ((Unkstruct_801914A0 *)v1)->unkC = ((Unkstruct_801826B4 *)a0)->unkE + 0x8;
+        s32 v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
+        ((Unkstruct_801914A0 *)v1)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_801914A0 *)v1)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xe4;
+        ((Unkstruct_801914A0 *)v1)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0x8;
     }
 
 

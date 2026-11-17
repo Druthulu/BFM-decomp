@@ -4648,7 +4648,7 @@ void func_8017D9B0(s32 a0) {
     }
 
     p = &D_801B9678;
-    ((Unkstruct_8017C5F0 *)a0)->unkD0 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = v0;
     func_8001CD50(v0, (s32)p);
 
     D_801B9679 = 0xFF;
@@ -4659,9 +4659,9 @@ void func_8017D9B0(s32 a0) {
     D_801B967D = 0x18;
     guess_BuildCircle12Points(p, 0x100);
 
-    sp[0] = ((Unkstruct_8017C5F0 *)a0)->unk6;
-    sp[1] = ((Unkstruct_8017C5F0 *)a0)->unkA - 0x38;
-    sp[2] = ((Unkstruct_8017C5F0 *)a0)->unkE;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x38;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     func_800D20C0(&sp[0], &sp[4], 5);
 
     D_801B987C[0] = sp[0];
@@ -4674,7 +4674,7 @@ void func_8017D9B0(s32 a0) {
     ((Unkstruct_8017C5F0_2 *)v0)->unk1A = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk18 = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk4 |= 0x50000000;
-    ((Unkstruct_8017C5F0 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
 
@@ -5110,9 +5110,9 @@ void func_8017E3F0(int param_1)
     }
 
     prim.tag = 0x50000000;
-    rot.vx = ((Unkstruct_8017E3F0 *)obj)->unk6;
-    rot.vy = ((Unkstruct_8017E3F0 *)obj)->unkA - 8;
-    rot.vz = ((Unkstruct_8017E3F0 *)obj)->unkE;
+    rot.vx = ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u;
+    rot.vy = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u - 8;
+    rot.vz = ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     func_80017E68(&rot, &mtx);
 
     p = D_80188768;
@@ -5349,17 +5349,17 @@ void func_8017E9D8(void *a0)
     p = (s32)a0;
     obj = ((Unkstruct_8017E9D8 *)p)->unk34;
     r = rand();
-    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_8017C218_2 *)obj)->unk6 + ((r & 0x3F) - 0x20);
+    ((Unkstruct_8017E9D8 *)p)->unk6 = ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u + ((r & 0x3F) - 0x20);
     if (((Unkstruct_8017E9D8 *)p)->unk2C != 0) {
-        t = ((Unkstruct_8017C218_2 *)obj)->unkA;
+        t = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u;
         ((Unkstruct_8017E9D8 *)p)->unk16 = 0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t - 0x140;
     } else {
-        t2 = ((Unkstruct_8017C218_2 *)obj)->unkA;
+        t2 = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u;
         ((Unkstruct_8017E9D8 *)p)->unk16 = -0x20;
         ((Unkstruct_8017E9D8 *)p)->unkA = t2;
     }
-    e = ((Unkstruct_8017C218_2 *)obj)->unkE;
+    e = ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     c = ((Unkstruct_8017E9D8 *)p)->unk2;
     ((Unkstruct_8017E9D8 *)p)->unk30 = (r >> 12) & 3;
     d = ((r >> 6) & 0x3F) - 0x20;

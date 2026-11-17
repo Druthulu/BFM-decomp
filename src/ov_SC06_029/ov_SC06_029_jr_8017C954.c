@@ -4781,7 +4781,7 @@ void func_801801D8(s32 param_1)
     s32 i;
     s32 k;
 
-    switch (((Unkstruct_801801D8 *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
         p = D_801DDB50;
         for (i = 0, f = p + 6; i < 0x14;) {
@@ -4798,8 +4798,8 @@ void func_801801D8(s32 param_1)
             }
             q++;
         }
-        ((Unkstruct_801801D8 *)param_1)->unk1C = (rand() % 64) + 0x80;
-        ((Unkstruct_801801D8 *)param_1)->unk34 = ((Unkstruct_801801D8 *)param_1)->unk34 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = (rand() % 64) + 0x80;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 1:
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) == 0) {
@@ -4813,19 +4813,19 @@ void func_801801D8(s32 param_1)
         for (i = 0; i < 5; i++) {
             *(s32 *)(D_801DDB2C[i] + 0xE0) &= ~0x200;
         }
-        ((Unkstruct_801801D8 *)param_1)->unk1C = 0x40;
-        ((Unkstruct_801801D8 *)param_1)->unk34 = ((Unkstruct_801801D8 *)param_1)->unk34 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x40;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 2:
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) == 0) {
             return;
         }
-        ((Unkstruct_801801D8 *)param_1)->unk34 = ((Unkstruct_801801D8 *)param_1)->unk34 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 3:
         func_801804C8(param_1);
-        ((Unkstruct_801801D8 *)param_1)->unk1C = 0xC0;
-        ((Unkstruct_801801D8 *)param_1)->unk34 = ((Unkstruct_801801D8 *)param_1)->unk34 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0xC0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 4:
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) == 0) {
@@ -4841,16 +4841,16 @@ void func_801801D8(s32 param_1)
             *(s32 *)(D_801DDB2C[i] + 0xE0) &= ~0x400;
             *(s32 *)(D_801DDB2C[i] + 0xE0) |= 4;
         }
-        ((Unkstruct_801801D8 *)param_1)->unk1C = 0x40;
-        ((Unkstruct_801801D8 *)param_1)->unk34 = ((Unkstruct_801801D8 *)param_1)->unk34 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x40;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 5:
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1)) {
-            if (((Unkstruct_801801D8 *)param_1)->unkFE >= 3) {
-                ((Unkstruct_801801D8 *)param_1)->unk2 = 4;
-                ((Unkstruct_801801D8 *)param_1)->unkE0 &= ~0x800;
+            if (((Unkstruct_801202A0 *)param_1)->unkFE.s >= 3) {
+                ((Unkstruct_801202A0 *)param_1)->unk2.s = 4;
+                ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_8017EB24.unkE0 &= ~0x800;
             } else {
-                ((Unkstruct_801801D8 *)param_1)->unk2 = D_8019071C[((Unkstruct_801801D8 *)param_1)->unk102];
+                ((Unkstruct_801202A0 *)param_1)->unk2.s = D_8019071C[((Unkstruct_801202A0 *)param_1)->extD.kSC06_029_8017EB24.unk102];
             }
         }
         break;
@@ -4891,7 +4891,7 @@ void func_801804C8(s32 a0) {
         }
     }
 
-    for (i = 0; i < (u8)(D_80190728[((Unkstruct_801801D8 *)a0)->unk100] / 5) * 5; i++) {
+    for (i = 0; i < (u8)(D_80190728[((Unkstruct_801202A0 *)a0)->extD.kSC06_029_8017EB24.unk100] / 5) * 5; i++) {
         n = tbl[i][0];
         for (j = rand() % n + 1; j < 4; j++) {
             tbl[i][j] = tbl[i][j + 1];
@@ -4900,7 +4900,7 @@ void func_801804C8(s32 a0) {
     }
 
     left = 5;
-    for (i = 0; i < (u8)(D_80190728[((Unkstruct_801801D8 *)a0)->unk100] % 5); i++) {
+    for (i = 0; i < (u8)(D_80190728[((Unkstruct_801202A0 *)a0)->extD.kSC06_029_8017EB24.unk100] % 5); i++) {
         k = ord[rand() % left];
         n = tbl[k][0];
         for (j = rand() % n + 1; j < 4; j++) {

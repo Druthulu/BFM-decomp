@@ -11,7 +11,7 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     sp10.vy += *(u16*)(a1 + 2);
     sp10.vz += *(u16*)(a1 + 4);
 
-    guess_AddVelocityToPos((S800D22E4 *)a0);
+    guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
     sp18.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     sp18.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;

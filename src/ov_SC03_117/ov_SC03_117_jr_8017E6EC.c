@@ -4023,16 +4023,16 @@ void func_80180558(s32 param_1)
     s32 r;
 
     if ((guess_g_FrameCounter & 3) == 0) {
-        sp10[1] = ((Unkstruct_8017C218_2 *)param_1)->unkA;
+        sp10[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
         for (i = 0; i < 2; i++) {
             r = rand();
             {
-                s32 t = ((Unkstruct_8017C218_2 *)param_1)->unk6 - 0x20;
+                s32 t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 0x20;
                 sp10[0] = t + (r & 0x3F);
             }
             r = rand();
             {
-                s32 u = ((Unkstruct_8017C218_2 *)param_1)->unkE - 0x20;
+                s32 u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u - 0x20;
                 sp10[2] = u + (r & 0x3F);
             }
             func_801290DC(0x66, (u8 *)sp10);

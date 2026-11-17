@@ -4978,7 +4978,7 @@ void func_80180ABC(s32 a0)
         if (guess_TickWaitTimer(s1) != 0) {
             ((void (*)(void *))func_80183F0C)((void *)s1);
             D_801BA6B0 = 0;
-            ((Unkstruct_8018388C *)s1)->unkE0 &= ~2;
+            ((Unkstruct_801202A0 *)s1)->extC.kSC03_105_80180100.unkE0 &= ~2;
             ((void (*)(void *, void *))func_800599B8)(D_8018E7E0, D_8018E7C0);
         }
         break;

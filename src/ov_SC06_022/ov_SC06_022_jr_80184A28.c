@@ -4960,9 +4960,9 @@ s32 func_80187EF4(s32 arg0, u16 arg1) {
     s32 base;
 
     base = (s32)&guess_g_PlayerActor;
-    sp10[0] = ((Unkstruct_8017C218_2 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_8017C218_2 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_8017C218_2 *)arg0)->unkE;
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     ((void (*)(s32, s32))guess_WorldToScreenFlag)((s32)sp10, (s32)sp18);
     x = 0x7F;
     q = sp18[0];
@@ -5066,8 +5066,8 @@ s32 func_80188234(s32 param_1) {
         ((void (*)(s32))guess_FreeActor)(param_1);
     }
     ((void(*)(s32, void *))guess_StartActorSequence)(param_1, &(*(s32 *)&D_8018D644));
-    iVar5 = ((Unkstruct_80180384 *)param_1)->unk20;
-    ((Unkstruct_80180384 *)param_1)->unk70 = 0x80;
+    iVar5 = ((Unkstruct_801202A0 *)param_1)->unk20;
+    ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
     ((Unkstruct_80180384_2 *)iVar5)->unk4 |= 0x50000040;
     ((Unkstruct_80180384_2 *)iVar5)->unk2C |= 1;
     iVar8 = ((Unkstruct_80180384_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
@@ -5106,7 +5106,7 @@ s32 func_80188234(s32 param_1) {
         ((void(*)(void *, void *))RotMatrixYXZ)(&(*(s32 *)&guess_g_BoxHitNormalX), m);
         ((void (*)(void *, s32))func_80017E68)(&s50, (s32)m);
     }
-    ((Unkstruct_80180384 *)param_1)->unk2 = ((Unkstruct_80180384 *)param_1)->unk2 + 1;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = ((Unkstruct_801202A0 *)param_1)->unk2.s + 1;
 }
 
 

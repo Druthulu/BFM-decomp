@@ -4318,9 +4318,9 @@ void func_801876C4(void *a0, s32 a1) {
         t = D_801A9A88[a1 * 5];
         sp10[4] = t;
     } while (0);
-    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_801876C4 *)obj)->unk6;
+    ((u16 *)sp10)[0] = ((u16 *)sp10)[0] + ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u;
     ((u16 *)sp10)[1] = ((u16 *)sp10)[1] + CAST_ALIAS(u16, obj, 0xA);
-    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_801876C4 *)obj)->unkE;
+    ((u16 *)sp10)[2] = ((u16 *)sp10)[2] + ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     func_8012C51C(sp10, obj);
 }
 

@@ -3704,9 +3704,9 @@ s32 arg0;
     for (; i < 5; i++) {
         func_8012B0B4(bp, rand() % 4096, rand() % 64);
         x = *(s32 *)buf;
-        s.f0 = ((Unkstruct_8017C218_2 *)arg0)->unk6 + x;
-        s.f2 = ((Unkstruct_8017C218_2 *)arg0)->unkA - 0x60;
-        s.f4 = ((Unkstruct_8017C218_2 *)arg0)->unkE + (x >> 16);
+        s.f0 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u + x;
+        s.f2 = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0x60;
+        s.f4 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u + (x >> 16);
         func_8012C51C(&s, arg0);
     }
 }

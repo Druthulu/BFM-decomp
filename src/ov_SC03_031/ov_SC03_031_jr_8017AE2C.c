@@ -3819,7 +3819,7 @@ void func_8017C8B4(s32 a0) {
     }
 
     p = &D_801C5F28;
-    ((Unkstruct_8017C5F0 *)a0)->unkD0 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = v0;
     func_8001CD50(v0, (s32)p);
 
     D_801C5F29 = 0xFF;
@@ -3830,9 +3830,9 @@ void func_8017C8B4(s32 a0) {
     D_801C5F2D = 0x18;
     guess_BuildCircle12Points(p, 0x100);
 
-    sp[0] = ((Unkstruct_8017C5F0 *)a0)->unk6;
-    sp[1] = ((Unkstruct_8017C5F0 *)a0)->unkA - 0x38;
-    sp[2] = ((Unkstruct_8017C5F0 *)a0)->unkE;
+    sp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    sp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x38;
+    sp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     func_800D20C0(&sp[0], &sp[4], 5);
 
     D_801C612C[0] = sp[0];
@@ -3845,7 +3845,7 @@ void func_8017C8B4(s32 a0) {
     ((Unkstruct_8017C5F0_2 *)v0)->unk1A = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk18 = 0;
     ((Unkstruct_8017C5F0_2 *)v0)->unk4 |= 0x50000000;
-    ((Unkstruct_8017C5F0 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
 
@@ -4138,9 +4138,9 @@ void func_8017D2F4(int param_1)
     }
 
     prim.tag = 0x50000000;
-    rot.vx = ((Unkstruct_8017D2F4 *)obj)->unk6;
-    rot.vy = ((Unkstruct_8017D2F4 *)obj)->unkA - 8;
-    rot.vz = ((Unkstruct_8017D2F4 *)obj)->unkE;
+    rot.vx = ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u;
+    rot.vy = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u - 8;
+    rot.vz = ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     func_80017E68(&rot, &mtx);
 
     p = D_80185EA4;
