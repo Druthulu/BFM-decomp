@@ -91,6 +91,23 @@ failure modes are different:
    attempts). `apart`, `no-evidence` and `undisposed` are pending, not finishes. Why: 3.40 gave each union-find cluster of
    raw-cast bases its own definition, so one real type split into many wherever no edge joined its uses (4,112
    placeholders at 3.45 T1, against SOTN's ~1,280 types for a larger game); a reader and a modder need the one object.
+   **Worked example: the actor (3.45 T16, the parent model for variant data).** The game keeps its objects in typed pools:
+   each slot holds its type at +0x0 (`u16`, the index into the overlay's handler table: the pool walker
+   src/shared/ov/func_8017849C.h:15-35 calls `D_8011DB08[slot->unk0] (slot)`) and a per-type state at +0x2. The actor
+   slot is `Unkstruct_801202A0` (0x10C; `guess_g_ObjectTable` 0x801202A0 x 96; spawn scan src/shared/ov/func_8012C658.h:8-48).
+   Its **common fields are flat**: what the spawn init (src/shared/ov/func_8012C890__1bddfa15.h) and the shared helpers
+   (func_8012A828.h, func_8012B23C.h, func_8012C354.h) write: type, state, s32 position (a fixed-point union, `.val` and
+   `.i.hi`, because the shipped code reads the word and its integer half), velocity, the render pointer at +0x20, parent at
+   +0x64, flags, sequence. The **per-kind data does not form one tail** (unlike SOTN's `Entity.ext`): it sits in four gaps
+   between common fields (0x24-0x34, 0xA0-0xD4, 0xE0-0xF8, 0x100-0x10A), so each gap is a **named union of per-kind variant
+   structs** (`extA`..`extD`; cc1 has no anonymous unions), one variant per kind, named by its owning handler
+   (`kSC05_007_8017E7D0`), a copied body in several overlays sharing one variant; a view reading common fields only absorbs
+   at +0x0 with no variant. Access: `a0->extC.kSC02_005_80181BE8.unkE8`. A width or sign the kinds disagree on at a
+   common offset is a named union there (`unk2.u`/`.s`). Other pools follow the same shape (sprite record
+   `Unkstruct_800B5BD8` 0x38 at RenderWork+0x65A8, model record `Unkstruct_8001C9D0` 0x84, fx `Unkstruct_8011DB30`, small
+   object `Unkstruct_8011D030`); the player (`Unkstruct_80126B58`, 0x254 at 0x80126B58) is its own root object sharing only
+   the 0x0-0x24 prefix layout. A placeholder named after an address is checked against the pools first: `Unkstruct_800B5CB8`
+   was named after sprite record #4 and merged the actor, sprite and model records (C0624); it is split per source.
 5. **Every raw cast goes, or names its cause.** (Phase 39 T2, 2026-10-01.) A `*(T *)(p + k)` is a member access the drafter
    could not spell; finished code spells it as the member. Where the byte gate refuses the member (cookbook §458: `/s` moves
    the scheduler), the cast is kept through ONE of the kept-cast macros in `include/common.h`, each expanding to the identical

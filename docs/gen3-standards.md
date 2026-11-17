@@ -93,7 +93,7 @@ failure modes are different:
    placeholders at 3.45 T1, against SOTN's ~1,280 types for a larger game); a reader and a modder need the one object.
    **Worked example: the actor (3.45 T16, the parent model for variant data).** The game keeps its objects in typed pools:
    each slot holds its type at +0x0 (`u16`, the index into the overlay's handler table: the pool walker
-   src/shared/ov/func_8017849C.h:15-35 calls `D_8011DB08[slot->unk0](slot)`) and a per-type state at +0x2. The actor
+   src/shared/ov/func_8017849C.h:15-35 calls `D_8011DB08[slot->unk0] (slot)`) and a per-type state at +0x2. The actor
    slot is `Unkstruct_801202A0` (0x10C; `guess_g_ObjectTable` 0x801202A0 x 96; spawn scan src/shared/ov/func_8012C658.h:8-48).
    Its **common fields are flat**: what the spawn init (src/shared/ov/func_8012C890__1bddfa15.h) and the shared helpers
    (func_8012A828.h, func_8012B23C.h, func_8012C354.h) write: type, state, s32 position (a fixed-point union, `.val` and
