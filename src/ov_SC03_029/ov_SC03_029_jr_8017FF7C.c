@@ -4654,15 +4654,15 @@ void func_80182D70(s32 arg) {
     s32 vec[3];
     s32 out[3];
 
-    vec[0] = ((Unkstruct_80182D70 *)s1)->unkE0 * rcos(((Unkstruct_80182D70 *)s1)->unk1C << 7);
-    vec[1] = ((Unkstruct_80182D70 *)s1)->unkE0 * rsin(((Unkstruct_80182D70 *)s1)->unk1C << 7);
+    vec[0] = ((Unkstruct_801202A0 *)s1)->extC.kSC03_029_80182B90.unkE0 * rcos(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
+    vec[1] = ((Unkstruct_801202A0 *)s1)->extC.kSC03_029_80182B90.unkE0 * rsin(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
     vec[2] = 0;
     m = D_800AE620;
-    RotMatrixY(((Unkstruct_80182D70 *)s1)->unkFC, &m);
+    RotMatrixY(((Unkstruct_801202A0 *)s1)->unkFC.s, &m);
     ApplyMatrixLV((s32)&m, (s32)vec, (s32)out);
-    ((Unkstruct_80182D70 *)s1)->unk6 = ((Unkstruct_80182D70 *)s1)->unk88 + (out[0] >> 12);
-    ((Unkstruct_80182D70 *)s1)->unkA = ((Unkstruct_80182D70 *)s1)->unk8A + (out[1] >> 12);
-    ((Unkstruct_80182D70 *)s1)->unkE = ((Unkstruct_80182D70 *)s1)->unk8C + (out[2] >> 12);
+    ((Unkstruct_801202A0 *)s1)->unk4.i.hi.s = ((Unkstruct_801202A0 *)s1)->unk88.u + (out[0] >> 12);
+    ((Unkstruct_801202A0 *)s1)->unk8.i.hi.s = ((Unkstruct_801202A0 *)s1)->unk8A.u + (out[1] >> 12);
+    ((Unkstruct_801202A0 *)s1)->unkC.i.hi.s = ((Unkstruct_801202A0 *)s1)->unk8C.u + (out[2] >> 12);
 }
 
 
@@ -7377,11 +7377,11 @@ void func_801866CC(s32 param_1) {
     s32 s0 = param_1;
     s32 v1;
 
-    ((Unkstruct_801866CC *)s0)->unkC2 = 0;
-    ((Unkstruct_801866CC *)s0)->unkC3 = 0;
-    ((Unkstruct_801866CC *)s0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
     func_80186F9C(s0, (s32)&D_801C9234, 0);
-    v1 = ((Unkstruct_801866CC *)s0)->unk5E;
+    v1 = ((Unkstruct_801202A0 *)s0)->unk5E.u;
     if (v1 == 9 || v1 == 0x1C) {
         guess_SetLocalVelocity(s0, (s32)D_801C93E0);
     } else {

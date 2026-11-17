@@ -3843,31 +3843,31 @@ void func_80186FA4(void *a0) {
     a02 = a0;
 
     s0 = (s32)a02;
-    if (((Unkstruct_80186FA4 *)s0)->unk94 == 6) {
-        ((Unkstruct_80186FA4 *)s0)->unk98 = 0;
+    if (((Unkstruct_801202A0 *)s0)->unk94.s == 6) {
+        ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
     }
 
     thresh = 0xE100;
-    dz = ((Unkstruct_80186FA4 *)s0)->unkE - 0x3C0;
+    dz = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s - 0x3C0;
     dzsq = dz * dz;
-    dy = (s16)((Unkstruct_80186FA4 *)s0)->unk6;
+    dy = (s16)((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
     if (dzsq < 0x1901) {
         dzsq += 0x4000;
     }
     dzsq += dy * dy;
     if (dzsq < thresh) goto skip_escape;
 
-    ((Unkstruct_80186FA4 *)s0)->unk10 = 0;
-    ((Unkstruct_80186FA4 *)s0)->unk18 = 0;
-    ((Unkstruct_80186FA4 *)s0)->unk6 -= dy >> 5;
+    ((Unkstruct_801202A0 *)s0)->unk10.val = 0;
+    ((Unkstruct_801202A0 *)s0)->unk18.val = 0;
+    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u -= dy >> 5;
     CAST_SIGN(u16, s0, 0xE) -= dz >> 5;
 skip_escape:;
 
     if ((((s32 (*)(s32))func_8012CBCC)(s0) & 0x2000) != 0) {
         guess_RequestSound(0x560, 0);
-        ((Unkstruct_80186FA4 *)s0)->unk2 = 5;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 5;
         guess_StartActorSequence(s0, D_801ADC24);
-        ((Unkstruct_80186FA4 *)s0)->unk1C = 1;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 1;
     }
 }
 

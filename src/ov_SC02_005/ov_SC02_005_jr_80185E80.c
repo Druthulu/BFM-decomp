@@ -497,25 +497,25 @@ extern s32 D_80195AD2[];
 
 s32 func_8018687C(s32 a0)
 {
-    if (((Unkstruct_8018687C *)a0)->unkE8 & 0x800) {
+    if (((Unkstruct_801202A0 *)a0)->extC.kSC02_005_801831A4.unkE8.u & 0x800) {
         return 0;
     }
 
-    if (((Unkstruct_8018687C *)a0)->unk10 > 0) {
-        if (*(s16 *)(D_80195AD2 + D_801E4BBC) < ((Unkstruct_8018687C *)a0)->unk6) {
-            ((Unkstruct_8018687C *)a0)->unk6 = *(s16 *)(D_80195AD2 + D_801E4BBC);
+    if (((Unkstruct_801202A0 *)a0)->unk10.val > 0) {
+        if (*(s16 *)(D_80195AD2 + D_801E4BBC) < ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s) {
+            ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = *(s16 *)(D_80195AD2 + D_801E4BBC);
             return 1;
         }
     }
 
-    if (((Unkstruct_8018687C *)a0)->unk10 >= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk10.val >= 0) {
         return 0;
     }
 
-    if (((Unkstruct_8018687C *)a0)->unk6 >= *(s16 *)(D_80195AD0 + D_801E4BBC)) {
+    if (((Unkstruct_801202A0 *)a0)->unk4.i.hi.s >= *(s16 *)(D_80195AD0 + D_801E4BBC)) {
         return 0;
     }
-    ((Unkstruct_8018687C *)a0)->unk6 = *(s16 *)(D_80195AD0 + D_801E4BBC);
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = *(s16 *)(D_80195AD0 + D_801E4BBC);
     return 1;
 }
 

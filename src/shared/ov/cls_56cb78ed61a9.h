@@ -3,8 +3,8 @@ void SHARED_FN(s32 a0)
 {
     s32 v0;
 
-    if (((Unkstruct_801812E8 *)a0)->unk5E == 0x23) {
-        ((Unkstruct_801812E8 *)a0)->unk100 |= 0x4000;
+    if (((Unkstruct_801202A0 *)a0)->unk5E.b == 0x23) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_80181E98.unk100.u |= 0x4000;
     }
     v0 = func_80153BD8(a0);
     if (v0 != 0) {

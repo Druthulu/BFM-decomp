@@ -4341,17 +4341,17 @@ void func_8017D4CC(s32 a0)
     u8 *v1 = guess_g_PlayerRecord;
     s32 v0;
 
-    if (((Unkstruct_8017D4CC *)s0)->unk100 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->extD.kSC03_002_8017CF30.unk100 != 0) {
         goto L_8017D524;
     }
 
-    if (((Unkstruct_8017D4CC *)s0)->unk5E == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk5E.u == 0) {
         goto L_8017D524;
     }
 
     func_80178B18(s0, (s32)&D_8018924C);
-    ((Unkstruct_8017D4CC *)s0)->unk100 = 1;
-    ((Unkstruct_8017D4CC *)s0)->unk2 = 8;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC03_002_8017CF30.unk100 = 1;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 8;
     return;
 
 L_8017D524:
@@ -4366,28 +4366,28 @@ L_8017D524:
         goto L_8017D57C;
     }
 
-    if (guess_SpawnActor(0x1F8, ((Unkstruct_8017D4CC *)s0)->unk70, s0) == 0) {
+    if (guess_SpawnActor(0x1F8, ((Unkstruct_801202A0 *)s0)->unk70.s, s0) == 0) {
         return;
     }
 
-    func_801439C0(((Unkstruct_8017D4CC *)s0)->unkCC);
+    func_801439C0(((Unkstruct_801202A0 *)s0)->unkCC.val);
     guess_FreeActor(s0);
 
 L_8017D57C:
-    if (((Unkstruct_8017D4CC *)s0)->unk5E == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk5E.u == 0) {
         return;
     }
 
-    v0 = ((Unkstruct_8017D4CC *)s0)->unk1C;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk1C.s;
     v0 = v0 + 1;
-    ((Unkstruct_8017D4CC *)s0)->unk1C = v0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = v0;
 
     if (v0 < 0x10) {
         return;
     }
 
-    ((Unkstruct_8017D4CC *)s0)->unk5E = 0;
-    ((Unkstruct_8017D4CC *)s0)->unk1C = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
 }
 
 

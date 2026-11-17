@@ -3161,15 +3161,15 @@ extern u16 guess_g_PlayerPosY; // Names ledger: config/names.tsv guess_g_PlayerP
 void func_801802E4(void *a0) {
     struct { s16 x; s16 y; s16 z; } sp;
 
-    sp.x = (((Unkstruct_801802E4 *)a0)->unk6 - 0x100) - (rand() & 0x1F);
+    sp.x = (((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x100) - (rand() & 0x1F);
     sp.y = guess_g_PlayerPosY + 0xB0;
-    if ((s16)(guess_g_PlayerPosY + 0xB0) < ((Unkstruct_801802E4 *)a0)->unkA) {
-        sp.y = ((Unkstruct_801802E4 *)a0)->unkA;
+    if ((s16)(guess_g_PlayerPosY + 0xB0) < ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s) {
+        sp.y = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
     }
-    if (((Unkstruct_801802E4 *)a0)->unk102 == 1) {
-        sp.z = ((Unkstruct_801802E4 *)a0)->unkE + (rand() % 0xC0) - 0x60;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC07_000_801801C4.unk102 == 1) {
+        sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (rand() % 0xC0) - 0x60;
     } else {
-        sp.z = ((Unkstruct_801802E4 *)a0)->unkE + (rand() % 0x140) - 0xA0;
+        sp.z = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (rand() % 0x140) - 0xA0;
     }
     KR_AS(void, func_801803F0)(a0, &sp);
 }
@@ -3362,9 +3362,9 @@ void func_8018091C(void *a0, void *a1) {
 
 
 void func_8018096C(void *a0) {
-    ((Unkstruct_8018096C *)a0)->unk10 = ((Unkstruct_8018096C *)a0)->unk6 << 13;
-    ((Unkstruct_8018096C *)a0)->unk14 = (((Unkstruct_8018096C *)a0)->unkA + 0x400) << 13;
-    ((Unkstruct_8018096C *)a0)->unk18 = (((Unkstruct_8018096C *)a0)->unkE - 0x180) * 3 << 13;
+    ((Unkstruct_801202A0 *)a0)->unk10.val = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s << 13;
+    ((Unkstruct_801202A0 *)a0)->unk14.val = (((Unkstruct_801202A0 *)a0)->unk8.i.hi.s + 0x400) << 13;
+    ((Unkstruct_801202A0 *)a0)->unk18.val = (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s - 0x180) * 3 << 13;
 }
 
 

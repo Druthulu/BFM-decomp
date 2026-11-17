@@ -9270,17 +9270,17 @@ void func_801819C8(s32 a0) {
     extern u8 D_80198B60;
     extern void (*D_80198BF8[])(void *);
 
-    if (((Unkstruct_801819C8 *)a1)->unkFC != 0) {
-        s32 ptr = ((Unkstruct_801819C8 *)a1)->unk20;
-        ((Unkstruct_801819C8 *)a1)->unkFC -= 1;
+    if (((Unkstruct_801202A0 *)a1)->unkFC.s != 0) {
+        s32 ptr = ((Unkstruct_801202A0 *)a1)->unk20;
+        ((Unkstruct_801202A0 *)a1)->unkFC.s -= 1;
         *(s32 *)(ptr + 4) ^= 0x80000000;
     }
-    if (guess_g_PlayerPosY < (s32)((Unkstruct_801819C8 *)a1)->unkA - 0x30) {
-        ((Unkstruct_801819C8 *)a1)->unk58 = (u32)&D_80198B60 | 0x40000000 | 0x20000000;
+    if (guess_g_PlayerPosY < (s32)((Unkstruct_801202A0 *)a1)->unk8.i.hi.s - 0x30) {
+        ((Unkstruct_801202A0 *)a1)->unk58.s = (u32)&D_80198B60 | 0x40000000 | 0x20000000;
     } else {
-        ((Unkstruct_801819C8 *)a1)->unk58 = (u32)&D_80198B50 | 0x40000000 | 0x20000000;
+        ((Unkstruct_801202A0 *)a1)->unk58.s = (u32)&D_80198B50 | 0x40000000 | 0x20000000;
     }
-    D_80198BF8[((Unkstruct_801819C8 *)a1)->unk2]((void *)a1);
+    D_80198BF8[((Unkstruct_801202A0 *)a1)->unk2.u]((void *)a1);
 }
 
 

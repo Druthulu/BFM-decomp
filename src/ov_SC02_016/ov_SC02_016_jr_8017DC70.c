@@ -4302,10 +4302,10 @@ void func_8018099C(s32 param_1)
     void *s1_ptr;
     s32 tmp0;
 
-    if ((CAST_SIGN(u16, param_1, 0x34) == 0) && ((((Unkstruct_8018099C *)param_1)->unk72 & 0x4000) != 0)) {
-        d.a = ((Unkstruct_8018099C *)param_1)->unk6 - ((Unkstruct_8018099C *)param_1)->unk88;
+    if ((CAST_SIGN(u16, param_1, 0x34) == 0) && ((((Unkstruct_801202A0 *)param_1)->unk72 & 0x4000) != 0)) {
+        d.a = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.s - ((Unkstruct_801202A0 *)param_1)->unk88.s;
         d.b = 0;
-        d.c = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
+        d.c = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s - ((Unkstruct_801202A0 *)param_1)->unk8C.s;
         Square0(&d.a, &d.a);
 
         if (d.a + d.c > 0x8FFFF) {
@@ -4317,25 +4317,25 @@ void func_8018099C(s32 param_1)
             return;
         }
 
-        ((Unkstruct_8018099C *)param_1)->unk2 = v0;
-        ((Unkstruct_8018099C *)param_1)->unk34 = 0;
-        ((Unkstruct_8018099C *)param_1)->unk5C = 0xAA10;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = v0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0xAA10;
         r = rand();
         p = &d;
         r = r & 0x1F;
-        dx = ((Unkstruct_8018099C *)param_1)->unk6;
+        dx = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.s;
         tmp0 = param_1 + 0x88;
         dz = *(s16 *)tmp0;
-        ((Unkstruct_8018099C *)param_1)->unk1C = r + 0x28;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = r + 0x28;
 
         p->b = 0;
         p->a = dx - dz;
-        p->c = ((Unkstruct_8018099C *)param_1)->unkE - ((Unkstruct_8018099C *)param_1)->unk8C;
+        p->c = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s - ((Unkstruct_801202A0 *)param_1)->unk8C.s;
         Square0(&p->a, &p->a);
 
         s1_ptr = (void *)(param_1 + 0x88);
         if (d.a + d.c > 0x8FFFF) {
-            ((Unkstruct_8018099C *)param_1)->unkFC = guess_YawToPoint((void *)(param_1 + 4), s1_ptr);
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = guess_YawToPoint((void *)(param_1 + 4), s1_ptr);
         } else {
             v0 = rand() & 0x3FF;
             v1 = v0 - 0x200;
@@ -4344,8 +4344,8 @@ void func_8018099C(s32 param_1)
             } else {
                 v1 = v0 - 0x500;
             }
-            v0 = *(u16 *)(((Unkstruct_8018099C *)param_1)->unk20 + 0x12);
-            ((Unkstruct_8018099C *)param_1)->unkFC = (v0 + v1) & 0xFFF;
+            v0 = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12);
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = (v0 + v1) & 0xFFF;
         }
 
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, D_801AFB14);
@@ -4359,21 +4359,21 @@ extern s16 D_801B04DC;
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_80180B30(s32 a0) {
-    ((Unkstruct_8018099C *)a0)->unk2 = 3;
-    if (((Unkstruct_8018099C *)a0)->unk86 & 2) {
-        ((Unkstruct_8018099C *)a0)->unk34 = 1;
-        ((Unkstruct_8018099C *)a0)->unk1C = 0x28;
-        if (((Unkstruct_8018099C *)a0)->unk70 & 0x200) {
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
+    if (((Unkstruct_801202A0 *)a0)->unk86.u & 2) {
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x28;
+        if (((Unkstruct_801202A0 *)a0)->unk70.u & 0x200) {
             ((void (*)(s32, void *))guess_StartActorSequence)(a0, &D_801B04DC);
         } else {
             ((void (*)(s32, void *))guess_StartActorSequence)(a0, &D_801AFBBC);
         }
-        ((Unkstruct_8018099C *)a0)->unkFE = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 0;
     } else {
-        ((Unkstruct_8018099C *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, &D_801AFC44);
-        ((Unkstruct_8018099C *)a0)->unk1C = 0x19;
-        ((Unkstruct_8018099C *)a0)->unk86 |= 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x19;
+        ((Unkstruct_801202A0 *)a0)->unk86.u |= 2;
     }
 }
 

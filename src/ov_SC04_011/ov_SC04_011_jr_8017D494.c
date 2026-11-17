@@ -8615,12 +8615,12 @@ void func_80185D9C(void *a0)
 {
     u16 n;
 
-    n = ((Unkstruct_80185D9C *)a0)->unk70;
+    n = ((Unkstruct_801202A0 *)a0)->unk70.u;
     if ((u32)(n - 6) < 13) {
-        ((Unkstruct_80185D9C *)a0)->unk84 = n * 8;
-        ((Unkstruct_80185D9C *)a0)->unkFE = 0x30;
-        ((Unkstruct_80185D9C *)a0)->unk100 = 0x40;
-        ((Unkstruct_80185D9C *)a0)->unk86 |= 3;
+        ((Unkstruct_801202A0 *)a0)->unk84.u = n * 8;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 0x30;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC04_011_8018445C.unk100.u = 0x40;
+        ((Unkstruct_801202A0 *)a0)->unk86.u |= 3;
     }
 }
 

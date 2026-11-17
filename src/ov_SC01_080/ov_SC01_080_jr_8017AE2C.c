@@ -5140,19 +5140,19 @@ void func_8017F53C(s32 arg0)
 
     do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     handle = ret;
-    ((Unkstruct_8017F53C *)param_1)->unk20 = ret;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = ret;
     if (ret == 0) {
         guess_FreeActorDuringSpawn((void *)param_1);
     } else {
         guess_InitModelObject(handle, (s32)&D_801A37A4);
         func_8001D0E8(handle, 0x7FFF, 0x7FFF);
         guess_StartActorSequence(param_1, &D_801899C4);
-        ((Unkstruct_8017F53C *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.b = 0;
         b1.v = 0xB;
         b1.z1 = 0;
         b1.z2 = 0;
         func_8012C51C(&b1, (s32)param_1);
-        ((Unkstruct_8017F53C *)param_1)->unkF0 = 0x1C0;
+        ((Unkstruct_801202A0 *)param_1)->extC.kSC01_080_8017F500.unkF0 = 0x1C0;
         b2.v = 0x28;
         b2.z1 = 0;
         b2.z2 = 0;
@@ -5161,11 +5161,11 @@ void func_8017F53C(s32 arg0)
         bx.z1 = 0;
         bx.z2 = 0;
         func_8012C51C(&bx, (s32)param_1);
-        ((Unkstruct_8017F53C *)param_1)->unk100 = 0x90;
-        cnt = ((Unkstruct_8017F53C *)param_1)->unk2;
-        ((Unkstruct_8017F53C *)param_1)->unkFE = 0;
-        ((Unkstruct_8017F53C *)param_1)->unk102 = 0xFF;
-        ((Unkstruct_8017F53C *)param_1)->unk2 = cnt + 1;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC01_080_8017F500.unk100 = 0x90;
+        cnt = ((Unkstruct_801202A0 *)param_1)->unk2.u;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.s = 0;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC01_080_8017F500.unk102 = 0xFF;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u = cnt + 1;
     }
 }
 

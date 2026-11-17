@@ -2968,8 +2968,8 @@ extern s32 func_8012DFD4(void *a0);
 void func_8017DEC4(void *a0) {
 
     extern void (*D_801889F4[])(void);
-    D_801889F4[((Unkstruct_8017DC60 *)a0)->unk2]();
-    if (((Unkstruct_8017DC60 *)a0)->unk0 != 0) {
+    D_801889F4[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         func_8012DFD4(a0);
     }
 }
@@ -3519,12 +3519,12 @@ void func_8017EBB8(void *a0)
     s32 v0 = 0x800;
     func_8002A04C(s0);
     func_8017EEFC(s0, 0x10, 0, (s32)&D_80196974);
-    ((Unkstruct_8017EBB8_2 *)s0)->unk1C = 0;
-    ((Unkstruct_8017EBB8_2 *)s0)->unk34 = 0;
-    ((Unkstruct_8017EBB8_2 *)s0)->unk5E = 0;
-    ((Unkstruct_8017EBB8_2 *)s0)->unkC1 = 0;
-    ((Unkstruct_8017EBB8_2 *)s0)->unk76 = 0;
-    ((Unkstruct_8017EBB8_2 *)s0)->unk5C = v0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5E.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5C.s = v0;
     guess_RequestSound(0xA96, 0);
     func_80029514(0x578);
     func_800D0C48(1);

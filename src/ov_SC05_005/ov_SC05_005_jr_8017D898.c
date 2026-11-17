@@ -4081,27 +4081,27 @@ void func_801808A4(s32 param_1)
     s32 ptr;
     u16 flags;
 
-    ptr = ((Unkstruct_801808A4 *)param_1)->unk78;
-    flags = ((Unkstruct_801808A4 *)param_1)->unk70;
-    ((Unkstruct_801808A4 *)param_1)->unkC1 = 0;
-    ((Unkstruct_801808A4 *)param_1)->unk5E = 0;
-    ((Unkstruct_801808A4 *)param_1)->unk5C = *(u16 *)(ptr + 2);
+    ptr = ((Unkstruct_801202A0 *)param_1)->unk78;
+    flags = ((Unkstruct_801202A0 *)param_1)->unk70.u;
+    ((Unkstruct_801202A0 *)param_1)->unkC1.u = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.u = *(u16 *)(ptr + 2);
     if (flags & 1) {
         if (flags & 0x8000) {
-            ((Unkstruct_801808A4 *)param_1)->unk2 = 6;
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 6;
             return;
         }
         if (flags & 0x4000) {
-            ((Unkstruct_801808A4 *)param_1)->unk2 = 8;
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 8;
             return;
         }
         if (flags & 0x2000) {
-            ((Unkstruct_801808A4 *)param_1)->unk2 = 0xA;
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 0xA;
             return;
         }
-        ((Unkstruct_801808A4 *)param_1)->unk2 = 3;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u = 3;
     } else {
-        ((Unkstruct_801808A4 *)param_1)->unk2 = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u = 1;
     }
 }
 
@@ -4545,8 +4545,8 @@ extern s32 func_80181828(void *a0);  /* S79 #6: the body (twin of ov_SC05_003:fu
 void func_80181648(void *a0) {
 
     extern void (*D_801A62CC[])(void);
-    D_801A62CC[((Unkstruct_8017DC60 *)a0)->unk2]();
-    if (((Unkstruct_8017DC60 *)a0)->unk0 != 0) {
+    D_801A62CC[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         func_80181828(a0);
     }
 }
@@ -4665,9 +4665,9 @@ s32 func_80181828(void *arg0) {
 
     h = ((Unkstruct_80181720_4 *)*(s32 *)((s32)arg0 + 0x20))->unk18;
     r = (s16)h >> 7;
-    raw[0] = ((Unkstruct_8017DC60 *)arg0)->unk6;
+    raw[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     raw[1] = CAST_SIGN(u16, (s32)arg0, 0xA);
-    raw[2] = ((Unkstruct_8017DC60 *)arg0)->unkE;
+    raw[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     v.vx = (s16)guess_g_PlayerPosX - raw[0];
     v.vy = 0;
     v.vz = (s16)guess_g_PlayerPosZ - raw[2];
@@ -4679,9 +4679,9 @@ s32 func_80181828(void *arg0) {
         return 0;
     }
 
-    d = (s16)guess_g_PlayerPosY - ((Unkstruct_8017DC60 *)arg0)->unkA;
+    d = (s16)guess_g_PlayerPosY - ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s;
     if (d < 0) {
-        if (9 < ((Unkstruct_8017DC60 *)arg0)->unkA - (s16)guess_g_PlayerPosY) {
+        if (9 < ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s - (s16)guess_g_PlayerPosY) {
             goto ret0;
         }
     } else if (9 < d) {

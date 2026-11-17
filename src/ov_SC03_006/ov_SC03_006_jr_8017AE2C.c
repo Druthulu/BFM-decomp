@@ -11235,12 +11235,12 @@ extern M2C_UNK D_801CA030;
 void func_801880A8(s32 param_1) {
     s32 s0 = param_1;
 
-    ((Unkstruct_801866CC *)s0)->unkC2 = 0;
-    ((Unkstruct_801866CC *)s0)->unkC3 = 0;
-    ((Unkstruct_801866CC *)s0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
     func_80188978(s0, (s32)&D_801C9FFC, 0);
 
-    if (((Unkstruct_801866CC *)s0)->unk5E == 9 || ((Unkstruct_801866CC *)s0)->unk5E == 0x1C) {
+    if (((Unkstruct_801202A0 *)s0)->unk5E.u == 9 || ((Unkstruct_801202A0 *)s0)->unk5E.u == 0x1C) {
         guess_SetLocalVelocity(s0, (s32)D_801CA1A8);
     } else {
         guess_SetLocalVelocity(s0, (s32)D_801CA1B4);

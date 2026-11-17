@@ -4845,7 +4845,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80181138(void *arg0) {
     extern void *D_8019AAC8[];
-    D_8019AAC8[0] = (void *)(((Unkstruct_80181138 *)arg0)->unk6 | (((Unkstruct_80181138 *)arg0)->unkE << 16));
+    D_8019AAC8[0] = (void *)(((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u | (((Unkstruct_801202A0 *)arg0)->unkC.i.hi.s << 16));
     ((void (*)(s32, s32))func_80178B18)((s32)arg0, (s32)&D_8019AAC8[-1]);
     ((void (*)(s32, s32))func_8012AD44)((s32)arg0, 0x2);
 }

@@ -3668,8 +3668,8 @@ extern s32 func_8012DFD4(void *a0);
 void func_8017E290(void *a0) {
 
     extern void (*D_8018884C[])(void);
-    D_8018884C[((Unkstruct_8017DC60 *)a0)->unk2]();
-    if (((Unkstruct_8017DC60 *)a0)->unk0 != 0) {
+    D_8018884C[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         func_8012DFD4(a0);
     }
 }

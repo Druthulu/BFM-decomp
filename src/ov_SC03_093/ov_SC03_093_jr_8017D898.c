@@ -4846,11 +4846,11 @@ s32 func_80182164(s32 a0) {
 
     r = ((s32 (*)(s32))func_8012CBF4)(a0);
     if (guess_g_FrameCounter % 24 == 0) {
-        sp10[0] = ((Unkstruct_80182164 *)a0)->unk6;
-        sp10[1] = ((Unkstruct_80182164 *)a0)->unkA;
-        sp10[2] = ((Unkstruct_80182164 *)a0)->unkE;
+        sp10[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        sp10[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        sp10[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         sp10[1] = sp10[1] + 0x38;
-        func_80182288(sp10, ((Unkstruct_80182164 *)a0)->unkDE);
+        func_80182288(sp10, ((Unkstruct_801202A0 *)a0)->unkDC.i.hi.s);
     }
     return r == 0;
 }

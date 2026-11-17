@@ -4851,11 +4851,11 @@ void func_801805E4(s32 a0) {
 
 void func_8018079C(s32 a0) {
     u16 flags;
-    ((Unkstruct_8018079C *)a0)->unkC1 = 0;
-    ((Unkstruct_8018079C *)a0)->unk5E = 0;
-    ((Unkstruct_8018079C *)a0)->unk5C = *(u16 *)(((Unkstruct_8018079C *)a0)->unk78 + 2);
-    flags = ((Unkstruct_8018079C *)a0)->unk70;
-    ((Unkstruct_8018079C *)a0)->unk2 = (flags & 1)
+    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5E.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 2);
+    flags = ((Unkstruct_801202A0 *)a0)->unk70.u;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = (flags & 1)
         ? ((flags & 0x8000) ? 6 : ((flags & 0x4000) ? 8 : ((flags & 0x2000) ? 10 : 3)))
         : 1;
 }
@@ -5442,9 +5442,9 @@ s32 func_80181720(void *arg0) {
 
     h = ((Unkstruct_80181720_4 *)*(s32 *)((s32)arg0 + 0x20))->unk18;
     r = (s16)h >> 7;
-    raw[0] = ((Unkstruct_8017DC60 *)arg0)->unk6;
+    raw[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     raw[1] = CAST_SIGN(u16, (s32)arg0, 0xA);
-    raw[2] = ((Unkstruct_8017DC60 *)arg0)->unkE;
+    raw[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     v.vx = (s16)guess_g_PlayerPosX - raw[0];
     v.vy = 0;
     v.vz = (s16)guess_g_PlayerPosZ - raw[2];
@@ -5456,9 +5456,9 @@ s32 func_80181720(void *arg0) {
         return 0;
     }
 
-    d = (s16)guess_g_PlayerPosY - ((Unkstruct_8017DC60 *)arg0)->unkA;
+    d = (s16)guess_g_PlayerPosY - ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s;
     if (d < 0) {
-        if (9 < ((Unkstruct_8017DC60 *)arg0)->unkA - (s16)guess_g_PlayerPosY) {
+        if (9 < ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s - (s16)guess_g_PlayerPosY) {
             goto ret0;
         }
     } else if (9 < d) {

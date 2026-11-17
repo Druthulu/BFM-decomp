@@ -5348,7 +5348,7 @@ void func_8017F10C(s32 a0, s32 a1)
     if (L.flag >= 0 && (u32)((L.sxy[0] + 0xEF) & 0xFFFF) < 0x1DF
                     && (u32)((L.sxy[1] + 0xB3) & 0xFFFF) < 0x167) {
         s32 x = (s16)L.sxy[0];
-        s32 t = ((Unkstruct_8017F10C *)a0)->unkE - 0x680;
+        s32 t = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s - 0x680;
         s32 d = *(s16 *)&guess_g_PlayerPosZ - t;
 
         if ((u32)d < 0x901) {
@@ -5977,8 +5977,8 @@ extern void func_8017F278(void *a0);
 void func_80180450(void *a0) {
 
     extern void (*D_8018B10C[])(void);
-    D_8018B10C[((Unkstruct_8017DC60 *)a0)->unk2]();
-    if (((Unkstruct_8017DC60 *)a0)->unk0 != 0) {
+    D_8018B10C[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         func_8017F278(a0);
     }
 }

@@ -5494,18 +5494,18 @@ void func_8017FA84(void *a0) {
 
     func_8012DBD0((s32)a0, 0xA, ((Unkstruct_8017FA84_3 *)*(s32 *)((s32)a0 + 0x20))->unk12 + 0x800, 0x1D);
 
-    p = ((Unkstruct_8017FA84 *)a0)->unk20;
-    ((Unkstruct_8017FA84_3 *)p)->unk10 = ((Unkstruct_8017FA84_3 *)p)->unk10 - ((Unkstruct_8017FA84 *)a0)->unkDE;
+    p = ((Unkstruct_801202A0 *)a0)->unk20;
+    ((Unkstruct_8017FA84_3 *)p)->unk10 = ((Unkstruct_8017FA84_3 *)p)->unk10 - ((Unkstruct_801202A0 *)a0)->unkDC.i.hi.u;
 
-    ((Unkstruct_8017FA84 *)a0)->unk1C += 1;
-    if (((Unkstruct_8017FA84 *)a0)->unk1C >= 0x29) {
+    ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x29) {
         func_80131E00(a0, 0xD);
     } else if ((((s32 (*)(s32, s32))func_8012CC64)((s32)a0, (s32)&D_8018BF48) & 0x2000) != 0) {
-        ((Unkstruct_8017FA84 *)a0)->unkC1 = 0;
-        ((Unkstruct_8017FA84 *)a0)->unk5E = 0;
+        ((Unkstruct_801202A0 *)a0)->unkC1.u = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
         ((Unkstruct_8017FA84_3 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0;
-        ((Unkstruct_8017FA84 *)a0)->unk2 = 2;
-        ((Unkstruct_8017FA84 *)a0)->unkE0 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
+        ((Unkstruct_801202A0 *)a0)->extC.kSC03_007_8017EF98.unkE0 = 1;
     }
 }
 
@@ -5578,18 +5578,18 @@ void func_8017FC6C(s32 s2)
     SVECTOR sv1;   /* sp+0x18 */
     s32 flag;       /* sp+0x20 */
 
-    gte_SetRotMatrix(((Unkstruct_8017FC6C *)s2)->unk20 + 0x34);
-    gte_SetTransMatrix(((Unkstruct_8017FC6C *)s2)->unk20 + 0x34);
+    gte_SetRotMatrix(((Unkstruct_801202A0 *)s2)->unk20 + 0x34);
+    gte_SetTransMatrix(((Unkstruct_801202A0 *)s2)->unk20 + 0x34);
 
     RotTransSV((void *)D_8018BE48, &sv0, &flag);
     RotTransSV((void *)D_8018BE50, &sv1, &flag);
 
-    func_8017FD6C(*(s16 *)(((Unkstruct_8017FC6C *)s2)->unk20 + 0x12), (s32)&sv0, CAST_SIGN(s16, (char *)s2, 0xDC));
-    func_8017FD6C(*(s16 *)(((Unkstruct_8017FC6C *)s2)->unk20 + 0x12), (s32)&sv1, CAST_SIGN(s16, (char *)s2, 0xDC));
+    func_8017FD6C(*(s16 *)(((Unkstruct_801202A0 *)s2)->unk20 + 0x12), (s32)&sv0, CAST_SIGN(s16, (char *)s2, 0xDC));
+    func_8017FD6C(*(s16 *)(((Unkstruct_801202A0 *)s2)->unk20 + 0x12), (s32)&sv1, CAST_SIGN(s16, (char *)s2, 0xDC));
 
-    ((Unkstruct_8017FC6C *)s2)->unkDC = ((Unkstruct_8017FC6C *)s2)->unkDC + 1;
-    if ((s16)((Unkstruct_8017FC6C *)s2)->unkDC >= 3) {
-        ((Unkstruct_8017FC6C *)s2)->unkDC = 2;
+    ((Unkstruct_801202A0 *)s2)->unkDC.i.lo.u = ((Unkstruct_801202A0 *)s2)->unkDC.i.lo.u + 1;
+    if ((s16)((Unkstruct_801202A0 *)s2)->unkDC.i.lo.u >= 3) {
+        ((Unkstruct_801202A0 *)s2)->unkDC.i.lo.u = 2;
     }
 }
 

@@ -3464,12 +3464,12 @@ void func_8017EB08(s32 param_1) {
     s32 ang;
     s32 t;
 
-    ang = ((Unkstruct_8017EB08 *)param_1)->unk100 + 0x40;
-    ((Unkstruct_8017EB08 *)param_1)->unk100 = ang;
-    func_8012B0B4((unsigned int *)sp10, (s16)ang, ((Unkstruct_8017EB08 *)param_1)->unkFC);
+    ang = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_105_8017E794.unk100.u + 0x40;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC03_105_8017E794.unk100.u = ang;
+    func_8012B0B4((unsigned int *)sp10, (s16)ang, ((Unkstruct_801202A0 *)param_1)->unkFC.s);
     t = sp10[0];
-    ((Unkstruct_8017EB08 *)param_1)->unk6 = ((Unkstruct_8017EB08 *)param_1)->unk88 + t;
-    ((Unkstruct_8017EB08 *)param_1)->unkE = ((Unkstruct_8017EB08 *)param_1)->unk8C + (t >> 16);
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.s = ((Unkstruct_801202A0 *)param_1)->unk88.u + t;
+    ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s = ((Unkstruct_801202A0 *)param_1)->unk8C.u + (t >> 16);
     if (func_8012D5E4(param_1, (s32)D_8018E038, (s32)D_8018E038 + 8, 10) == 1) {
         u16 *flagp = &D_80126B96;
         *flagp |= 0x4200;

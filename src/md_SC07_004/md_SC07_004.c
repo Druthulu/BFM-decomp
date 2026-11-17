@@ -1959,11 +1959,11 @@ void func_801A30C8(s32 a0)
     u16 v0;
 
     s0 = a0;
-    v0 = ((Unkstruct_801A30C8 *)s0)->unk5C;
-    ((Unkstruct_801A30C8 *)s0)->unkC1 = 0;
-    ((Unkstruct_801A30C8 *)s0)->unk5E = 0;
-    ((Unkstruct_801A30C8 *)s0)->unk10A = 0;
-    ((Unkstruct_801A30C8 *)s0)->unk5C = v0 & 0xDFFF;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk5C.u;
+    ((Unkstruct_801202A0 *)s0)->unkC1.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk10A.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5C.u = v0 & 0xDFFF;
     func_801A46B8(s0);
     func_8012AD44((s32 *)s0, 8);
 }
@@ -1979,14 +1979,14 @@ void func_801A3114(s32 *a0)
     s32 *s0 = a0;
     u16 v0;
 
-    v0 = ((Unkstruct_801A3114 *)s0)->unk5C;
-    ((Unkstruct_801A3114 *)s0)->unk5E = 0;
-    ((Unkstruct_801A3114 *)s0)->unkC1 = 0;
-    ((Unkstruct_801A3114 *)s0)->unk5C = v0 & 0xDFFE;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk5C.u;
+    ((Unkstruct_801202A0 *)s0)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC1.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk5C.u = v0 & 0xDFFE;
     func_801A36F0((void *)s0);
     func_8012AD44(s0, 12);
-    if (((Unkstruct_801A3114 *)s0)->unkE6 < 0) {
-        ((Unkstruct_801A3114 *)s0)->unk34 = 2;
+    if (((Unkstruct_801202A0 *)s0)->extC.kSC07_004_801A2D78.unkE6 < 0) {
+        ((Unkstruct_801202A0 *)s0)->unk34.u = 2;
         func_8012A860((void *)s0, (int)&D_801EF9A8);
     }
 }
@@ -8390,13 +8390,13 @@ void func_801AC6C0(s32 arg0) {
     s32 s1;
 
     s0 = arg0;
-    s1 = (((Unkstruct_801AC6C0 *)s0)->unk6) * (((Unkstruct_801AC6C0 *)s0)->unk6)
-       + (((Unkstruct_801AC6C0 *)s0)->unkE) * (((Unkstruct_801AC6C0 *)s0)->unkE);
+    s1 = (((Unkstruct_801202A0 *)s0)->unk4.i.hi.s) * (((Unkstruct_801202A0 *)s0)->unk4.i.hi.s)
+       + (((Unkstruct_801202A0 *)s0)->unkC.i.hi.s) * (((Unkstruct_801202A0 *)s0)->unkC.i.hi.s);
     if (guess_TickWaitTimer(s0) != 0 || s1 > 0x100000) {
         guess_FreeActor((void *)s0);
     } else {
         func_801A3624((s32)(s16)func_8012B8A4((s16 *)s0),
-                      (u16 *)(((Unkstruct_801AC6C0 *)s0)->unk20 + 0x12), 0x10);
+                      (u16 *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x12), 0x10);
         func_801AA0B4(s0);
         func_801AA160(s0, guess_g_FrameCounter & 1);
         func_801AA3CC(s0);
