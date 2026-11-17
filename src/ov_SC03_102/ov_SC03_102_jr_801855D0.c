@@ -2867,7 +2867,7 @@ void func_801855D0(void *a0)
         break;
     case 2:
         func_8002850C(D_801B6E54, D_801B6E56, D_801B6E58);
-        s0 = &(*(LBlk16 *)&D_801B6E5C);
+        s0 = &(*(GsF_LIGHT *)&D_801B6E5C);
         func_8012AD44((s32 *)a0, 3);
         break;
     case 3:
@@ -2877,7 +2877,7 @@ void func_801855D0(void *a0)
         break;
     case 4:
         func_8002850C(D_801B6E8C, D_801B6E8E, D_801B6E90);
-        s0 = &(*(LBlk16 *)&D_801B6E94);
+        s0 = &(*(GsF_LIGHT *)&D_801B6E94);
         func_8012AD44((s32 *)a0, 5);
         break;
     }
