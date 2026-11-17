@@ -4315,7 +4315,7 @@ void func_80164930(s32 param_1) {
         if ((int)((unsigned)uVar2 << 0x10) < 0) {
             ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u = 0;
         }
-        ((Unkstruct_8001C9D0 *)iVar3)->unk12 = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk12.s = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
     }
 }
 
@@ -5829,8 +5829,8 @@ void func_80169BBC(s32 arg0) {
         CAST_WIDTH(s32, s2, 0x34) = (s32)D_801D9900;
         RotMatrixYXZ(rot, D_801D9900);
         func_80048D9C(D_801D9900, mtx);
-        ((Unkstruct_800B5CB8 *)s2)->unk18 = 0x5000;
-        ((Unkstruct_800B5CB8 *)s2)->unk1A = 0x2000;
+        ((Unkstruct_800B5BD8 *)s2)->unk18.u = 0x5000;
+        ((Unkstruct_800B5BD8 *)s2)->unk1A.u = 0x2000;
         CAST_WIDTH(s32, s2, 4) = CAST_WIDTH(s32, s2, 4) | 0xC000140;
         guess_StartPairSequence(s2, arg0 + 0x24, (s32)D_8018A8AC);
         *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
@@ -5870,11 +5870,11 @@ void func_80169F3C(int param_1)
     iVar1 = func_800D21C4(param_1, D_8018A8A0, 0x16);
     if (iVar1 != 0) {
         *(int *)(param_1 + 0x20) = iVar1;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x2000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x2000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk26 = 0x60;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0x60;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk24 = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0x60;
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50000000;
         ((void (*)(int, int, void *))guess_StartPairSequence)(iVar1, param_1 + 0x24, D_8018A860);
         *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;

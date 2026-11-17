@@ -10,9 +10,9 @@ void SHARED_FN(s32 arg0)
     ((Unkstruct_800B5CB8 *)arg0)->unk14 += ((Unkstruct_800B5CB8 *)arg0)->unk30;
     CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);
     guess_AddVelocityToPos((S800D22E4 *)arg0);
-    v = ((Unkstruct_800B5CB8 *)obj)->unk1A - 0x100;
-    ((Unkstruct_800B5CB8 *)obj)->unk1A = v;
-    ((Unkstruct_800B5CB8 *)obj)->unk18 = v;
+    v = ((Unkstruct_800B5BD8 *)obj)->unk1A.u - 0x100;
+    ((Unkstruct_800B5BD8 *)obj)->unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)obj)->unk18.u = v;
     if (guess_StepPairSequence(obj, (s32 *)(arg0 + 0x24)) != 0) {
         func_801292C8((u8 *)arg0);
     } else {

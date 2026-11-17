@@ -3266,7 +3266,7 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
         s32 temp_v1;
         temp_v1 = ((Unkstruct_801202A0 *)arg0)->unk20;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
-        ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = 0x600;
+        ((Unkstruct_8001C9D0 *)temp_v1)->unk12.u = 0x600;
         guess_UpdateActorModelMatrix((s32)arg0);
     }
 
@@ -3508,7 +3508,7 @@ void func_80182C88(void *a0) {
     {
         u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20;
 
-        ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x20;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + 0x20;
         if (((s32 (*)(void))guess_TickWaitTimer)()) {
             func_80182850(a0);
         }
@@ -4275,10 +4275,10 @@ void func_80183DE8(u8 *arg0)
         }
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
         func_8001CC3C(s0, 0, 0, 0);
-        ((Unkstruct_800B5CB8 *)s0)->unk20 = (s32)D_800D387C;
-        ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x9C;
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x3000;
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x3000;
+        ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)D_800D387C;
+        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3000;
         CAST_WIDTH(u32, s0, 4) = CAST_WIDTH(u32, s0, 4) | 0x50000000;
         guess_StartPairSequence(s0, (s32)(param_1 + 0xD0), (s32)D_800D3888);
     }

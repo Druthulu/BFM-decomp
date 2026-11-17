@@ -271,7 +271,7 @@ void func_80182E14(s32 a0) {
         guess_ClearVelocityAndSetGravity(s0);
         p = ((Unkstruct_801202A0 *)s0)->unk20;
         ((Unkstruct_801202A0 *)s0)->unk14.val = 0xFFF00000;
-        ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
+        ((Unkstruct_8001C9D0 *)p)->unk10.u = 0;
         ((Unkstruct_801202A0 *)s0)->unk34.u = 1;
         return;
     }
@@ -284,7 +284,7 @@ void func_80182E14(s32 a0) {
         guess_ClearVelocityAndSetGravity(s0);
         p = ((Unkstruct_801202A0 *)s0)->unk20;
         ((Unkstruct_801202A0 *)s0)->unk34.u = 2;
-        ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
+        ((Unkstruct_8001C9D0 *)p)->unk10.u = 0;
         ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xA;
         return;
     }
@@ -311,7 +311,7 @@ void func_80182F90(s32 a0)
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xAA00;
     CAST_WIDTH(u16, a0, 0x5E) = 0;
     CAST_WIDTH(u16, v1, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)v1)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)v1)->unk10.u = 0;
     guess_ClearVelocityAndSetGravity(a0);
 }
 
@@ -332,7 +332,7 @@ void func_80182FEC(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0xAA00;
     CAST_WIDTH(u16, param_1, 0x5E) = 0;
     CAST_WIDTH(u16, v1, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)v1)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)v1)->unk10.u = 0;
     guess_ClearVelocityAndSetGravity(param_1);
     guess_StartActorSequence(param_1, D_801A2848);
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1E;
@@ -405,7 +405,7 @@ void func_80183068(void *a0)
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xAA00;
             CAST_WIDTH(u16, (s32)a0, 0x5E) = 0;
             CAST_WIDTH(u16, p20, 0x14) = 0;
-            ((Unkstruct_800B5CB8 *)p20)->unk10 = 0;
+            ((Unkstruct_8001C9D0 *)p20)->unk10.u = 0;
             guess_ClearVelocityAndSetGravity((s32)a0);
             guess_StartActorSequence((s32)a0, D_801A2848);
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
@@ -2043,7 +2043,7 @@ void func_80185150(s32 param_1) {
 
     guess_ApplyAccelAndVelocity(param_1);
     v1 = ((Unkstruct_801202A0 *)param_1)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk10 = ((Unkstruct_800B5CB8 *)v1)->unk10 - 0x100;
+    ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u - 0x100;
     if (guess_TickWaitTimer(param_1) != 0) {
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 2) {
             D_801270E4 -= 1;

@@ -3695,8 +3695,8 @@ void func_8017FEA0(s32 s1)
                 guess_BuildCircle12Points((void *)s0, 0x80);
                 *(CVECTOR *)s0 = *(CVECTOR *)&D_801A94BC;
                 *(CVECTOR *)&D_801AAAE4 = *(CVECTOR *)&D_801A94C0;
-                ((Unkstruct_800B5CB8 *)s2)->unk18 = 0x800;
-                ((Unkstruct_800B5CB8 *)s2)->unk1A = 0x800;
+                ((Unkstruct_800B5BD8 *)s2)->unk18.u = 0x800;
+                ((Unkstruct_800B5BD8 *)s2)->unk1A.u = 0x800;
                 CAST_WIDTH(u32, s2, 4) |= 0x50000000;
             }
             KR_AS(void, func_801818DC)();
@@ -4190,19 +4190,19 @@ void func_80180980(void *a0)
         p = D_8019AFB8 + idx * 8;
         func_8001CB6C((u8 *)s1, D_8019AFC8[idx], *(s16 *)(p + 0), *(s16 *)(p + 2));
         b = *(u16 *)(p + 4);
-        ((Unkstruct_800B5CB8 *)s1)->unk10 = 0x400;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = 0x2000;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = 0x2000;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = b;
+        ((Unkstruct_800B5BD8 *)s1)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = b;
     } else {
         func_8001CF00(s1);
-        ((Unkstruct_800B5CB8 *)s1)->unk20 = (s32)D_801AAB20;
-        ((Unkstruct_800B5CB8 *)s1)->unk28 = 0x300;
-        ((Unkstruct_800B5CB8 *)s1)->unk2A = 0x110;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = 0x78;
-        ((Unkstruct_800B5CB8 *)s1)->unk10 = 0x400;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = 0x800;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = 0x800;
+        ((Unkstruct_800B5BD8 *)s1)->unk20.s = (s32)D_801AAB20;
+        ((Unkstruct_800B5BD8 *)s1)->unk28.s = 0x300;
+        ((Unkstruct_800B5BD8 *)s1)->unk2A.u = 0x110;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = 0x78;
+        ((Unkstruct_800B5BD8 *)s1)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x800;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x800;
 
         if ((CAST_SIGN(u16, s2, 0x70) & 3) == 0) {
             guess_BuildCircle12Points(D_801AAB20, 0x80);
@@ -4236,8 +4236,8 @@ void func_80180980(void *a0)
     shared_tail:
         *(u16 *)(D_8019AF52 + ((CAST_SIGN(u16, s2, 0x70)) & 3) * 12) = 0x20;
         if ((CAST_SIGN(u16, s2, 0x70) & 0x4000) != 0) {
-            ((Unkstruct_800B5CB8 *)s1)->unk1A = 0;
-            ((Unkstruct_800B5CB8 *)s1)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0;
+            ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0;
         }
     }
 
@@ -4354,8 +4354,8 @@ void func_80180E64(void *a0)
 
     v0 = CAST_SIGN(s16, s1, 0x18);
     if (v0 < 0x800) {
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = v0 + 0x40;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = ((Unkstruct_800B5CB8 *)s1)->unk1A + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = v0 + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = ((Unkstruct_800B5BD8 *)s1)->unk1A.u + 0x40;
     } else if ((CAST_SIGN(u16, (s32)a0, 0x70) & 1) == 0) {
         if (func_80180D54(a0, 0x30) != 0) {
             func_80180BD8(a0);

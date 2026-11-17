@@ -3731,8 +3731,8 @@ void func_80181090(void *a0) {
     guess_InitModelObject(r, (s32)D_801B0D1C);
 
     v1 = *(s32 *)D_80184C4C;
-    ((Unkstruct_800B5CB8 *)r)->unk12 = 0x800;
-    ((Unkstruct_800B5CB8 *)r)->unk20 = v1;
+    ((Unkstruct_8001C9D0 *)r)->unk12.u = 0x800;
+    ((Unkstruct_8001C9D0 *)r)->unk20 = v1;
     guess_StartActorSequence((s32)a0, D_80184C4C);
 
     ((Unkstruct_801202A0 *)a0)->unk2.s = 1;

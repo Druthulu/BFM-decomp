@@ -2793,10 +2793,10 @@ void func_8017F7A4(s32 arg0) {
 
     s0 = *(s32 *)(arg0 + 0x20);
     func_8001CB6C((u8 *)s0, (s32)&D_8018A8A8, 0x2E0, 0);
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x9E;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x4000;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x4000;
-    ((Unkstruct_800B5CB8 *)s0)->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x9E;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x4000;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x4000;
+    ((Unkstruct_800B5BD8 *)s0)->unk10.u = 0x400;
     CAST_WIDTH(u32, s0, 4) = CAST_WIDTH(u32, s0, 4) | 0x50000000;
     guess_StartPairSequence(s0, arg0 + 0x24, (s32)&D_8018A8B4);
     *(u16 *)(arg0 + 0x2) += 1;
@@ -3732,7 +3732,7 @@ void func_80180CBC(s32 param_1) {
     CAST_ALIAS(s32, param_1, 0xE0) = D_8018A9D2;
     CAST_ALIAS(s32, param_1, 0xE4) = 0;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0x18;
-    ((Unkstruct_800B5CB8 *)ptr)->unk10 = (s16)(((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4);
+    ((Unkstruct_8001C9D0 *)ptr)->unk10.u = (s16)(((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4);
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x12C;
     D_801C774C = 1;
 }
@@ -3770,7 +3770,7 @@ void func_80180D38(s32 param_1) {
     a0v = ((Unkstruct_801202A0 *)param_1)->unk20;
     v0 = v0 + v1;
     ((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4 = v0;
-    ((Unkstruct_800B5CB8 *)a0v)->unk10 = (s16)v0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk10.u = (s16)v0;
 
     if (((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4 <= 0) {
         if (dir == 1) goto tail;
@@ -3792,7 +3792,7 @@ void func_80180D38(s32 param_1) {
     CAST_ALIAS(s32, param_1, 0xE4) = 0;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0x18;
     a0v = ((Unkstruct_801202A0 *)param_1)->unk20;
-    ((Unkstruct_800B5CB8 *)a0v)->unk10 = (s16)((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4;
+    ((Unkstruct_8001C9D0 *)a0v)->unk10.u = (s16)((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE4;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x12C;
     D_801C774C = 1;
 

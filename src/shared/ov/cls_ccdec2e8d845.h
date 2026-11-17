@@ -19,7 +19,7 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
     p = ((Unkstruct_801202A0 *)arg0)->unk20;
     CAST_WIDTH(u16, p, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)p)->unk10.u = 0;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
     ((Unkstruct_801202A0 *)arg0)->unkC2 = 1;

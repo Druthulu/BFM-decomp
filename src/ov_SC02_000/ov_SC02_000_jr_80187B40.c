@@ -3427,8 +3427,8 @@ void func_801888F4(void *arg0)
 
     p = *(void **)((s32)a0 + 0x20);
     func_8001CC3C((s32)p, (s32)&D_8018F560[rand() & 3], 0x3F0, 0x100);
-    ((Unkstruct_800B5CB8 *)p)->unk27 = 0x9D;
-    ((Unkstruct_800B5CB8 *)p)->unk1A = 0x1000;
+    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9D;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x1000;
     CAST_WIDTH(s16, (s32)p, 0x18) = 0x1000;
 
     *(s32 *)((s32)a0 + 0x10) = 0;

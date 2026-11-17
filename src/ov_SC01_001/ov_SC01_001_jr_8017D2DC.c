@@ -5415,9 +5415,9 @@ void func_80181000(s32 a0)
     s0 = a0;
     p = ((Unkstruct_801202A0 *)s0)->unk20;
     g = D_801EDA34[0];
-    tmp = ((Unkstruct_800B5CB8 *)p)->unk12 + g;
+    tmp = ((Unkstruct_8001C9D0 *)p)->unk12.u + g;
     flag = D_801EDA38;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = tmp;
+    ((Unkstruct_8001C9D0 *)p)->unk12.u = tmp;
     if (flag == 0)
         return;
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = 0;
@@ -5780,13 +5780,13 @@ s32 func_8018183C(void) {
                 D_801ED9C4 = 0;
             }
             if (D_801ED9C0 == 0) {
-                ((Unkstruct_800B5CB8 *)D_801EDA24)->unk0 = 0;
+                ((Unkstruct_800B5BD8 *)D_801EDA24)->unk0 = 0;
                 return 1;
             }
         } else {
             D_801ED9BC--;
         }
-        ((Unkstruct_800B5CB8 *)D_801EDA24)->unkA = ((Unkstruct_800B5CB8 *)D_801EDA24)->unkA - 6;
+        ((Unkstruct_800B5BD8 *)D_801EDA24)->unkA.u = ((Unkstruct_800B5BD8 *)D_801EDA24)->unkA.u - 6;
         break;
     }
     return 0;

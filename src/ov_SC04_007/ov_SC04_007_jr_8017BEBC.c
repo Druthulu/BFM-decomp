@@ -6412,8 +6412,8 @@ s32 func_801821DC(s32 a0) {
             v0 = 0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         }
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
-        do { ((Unkstruct_800B5CB8 *)v1)->unk18 = v0; } while (0);
+        ((Unkstruct_800B5BD8 *)v1)->unk1A.u = v0;
+        do { ((Unkstruct_800B5BD8 *)v1)->unk18.u = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -7161,7 +7161,7 @@ void func_801838EC(s32 a0) {
 
     ret = func_8012B864(a0);
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = (u16)ret;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = (u16)ret;
 
     guess_SetVelocityXZFromLocal(a0, sp10);
 

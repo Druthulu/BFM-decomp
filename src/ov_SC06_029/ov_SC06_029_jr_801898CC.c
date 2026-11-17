@@ -3361,7 +3361,7 @@ void func_80189CEC(void *a0)
     guess_InitModelObject(v0, (s32)&D_801BF2BC);
     guess_StartActorSequence((s32)a0, &D_801C2994);
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = 0x600;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = 0x600;
     guess_HideObjectModel((u8 *)a0);
     RotMatrixY(-0x200, &blk);
     arr[0] = 0x00280000;
@@ -3517,11 +3517,11 @@ void func_8018A084(void *a0) {
     func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20, 0x7FFF, 0x7FFF);
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
     CAST_WIDTH(u16, v1, 0x1C) = 1;
-    ((Unkstruct_800B5CB8 *)v1)->unk1A = 1;
-    ((Unkstruct_800B5CB8 *)v1)->unk18 = 1;
+    ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 1;
+    ((Unkstruct_8001C9D0 *)v1)->unk18.u = 1;
     guess_StartActorSequence((s32)a0, &D_801B23E8);
     guess_HideObjectModel((u8 *)a0);
 
@@ -4219,8 +4219,8 @@ void func_8018AF48(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_801D7178, D_801D7114[idx][0], D_801D7114[idx][1]);
         uVar1 = D_801D7140[*(s32 *)((s32)a0 + 0x2C)];
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = 3;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 
@@ -4873,7 +4873,7 @@ void func_8018BA5C(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
     f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
     mask = f->unk0.v1.unk6 & r;
-    if (((Unkstruct_800B5CB8 *)a)->unk12 & 1)
+    if (((Unkstruct_8011D030 *)a)->unk12.u & 1)
         f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
         f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;

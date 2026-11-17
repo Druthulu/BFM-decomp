@@ -4489,8 +4489,8 @@ void func_80189454(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_8018F380, D_8018F31C[idx][0], D_8018F31C[idx][1]);
         uVar1 = D_8018F348[*(s32 *)((s32)a0 + 0x2C)];
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = 3;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

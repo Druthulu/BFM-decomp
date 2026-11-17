@@ -4735,12 +4735,12 @@ void func_8018AB34(void *a0)
 
     p = ((Unkstruct_801202A0 *)a0)->unk20;
     if (p != 0) {
-        v = ((Unkstruct_800B5CB8 *)p)->unk1A - 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = v;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = v;
+        v = ((Unkstruct_800B5BD8 *)p)->unk1A.u - 0x100;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
         if (CAST_SIGN(s16, p, 0x1A) < 0) {
-            ((Unkstruct_800B5CB8 *)p)->unk1A = 0;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0;
+            ((Unkstruct_800B5BD8 *)p)->unk18.u = 0;
         }
     }
     if (((Unkstruct_801202A0 *)a0)->unkFE.s >= 0x6000) {

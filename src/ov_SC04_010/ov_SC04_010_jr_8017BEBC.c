@@ -3029,13 +3029,13 @@ s32 func_8017D5DC(void* param_1)
 
     guess_InitObjectKind6(s1, s0);
 
-    ((Unkstruct_800B5CB8 *)s1)->unk2C = 0xC008;
+    ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0xC008;
     CAST_WIDTH(u32, s1, 4) |= 0x50000000;
 
-    ((Unkstruct_800B5CB8 *)s1)->unk8 = *(u16 *)(param_1 + 6);
-    ((Unkstruct_800B5CB8 *)s1)->unkA = *(u16 *)(param_1 + 0xA);
+    ((Unkstruct_800B5BD8 *)s1)->unk8.u = *(u16 *)(param_1 + 6);
+    ((Unkstruct_800B5BD8 *)s1)->unkA.u = *(u16 *)(param_1 + 0xA);
     ret = *(u16 *)(param_1 + 0xE);
-    ((Unkstruct_800B5CB8 *)s1)->unkC = ret;
+    ((Unkstruct_800B5BD8 *)s1)->unkC.u = ret;
     return ret;
 }
 

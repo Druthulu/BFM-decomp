@@ -3336,8 +3336,8 @@ void func_8017BEF8(void *a0) {
     node = func_800D21C4((s32)a0, D_80195220, 0x26);
     ((Unkstruct_80126B58 *)a0)->unk20 = node;
     if (node != 0) {
-        ((Unkstruct_800B5CB8 *)node)->unk28 = 0x234;
-        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x1C0;
+        ((Unkstruct_800B5BD8 *)node)->unk28.s = 0x234;
+        ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x1C0;
         CAST_WIDTH(u32, node, 4) |= 0x8000000;
         r1 = rand();
         r2 = rand();

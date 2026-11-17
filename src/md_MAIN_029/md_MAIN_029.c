@@ -92,7 +92,7 @@ void func_800CAF90(s32 a0) {
     }
     angle = t << 16;
     func_8001CC3C(prim, D_800D387C, *(s16 *)(D_800CB4A8 + (angle >> 15)), *(s16 *)(D_800CB4AA + (angle >> 15)));
-    ((Unkstruct_800B5CB8 *)prim)->unk27 = (angle >> 17) + 0x19;
+    ((Unkstruct_800B5BD8 *)prim)->unk27 = (angle >> 17) + 0x19;
     CAST_WIDTH(s32, prim, 4) |= 0x50000000;
     *(u32 *)(a0 + 0x30) = *(u16 *)(a0 + 0x30);
     *(s32 *)(a0 + 0x20) = prim;

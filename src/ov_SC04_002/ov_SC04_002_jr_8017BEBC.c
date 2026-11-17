@@ -8401,12 +8401,12 @@ void func_80184B30(s32 param_1) {
     }
     ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
     func_8001CB6C((u8 *)s0, D_801A960C, 0x2E0, 0x100);
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x37;
-    ((Unkstruct_800B5CB8 *)s0)->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x37;
+    ((Unkstruct_800B5BD8 *)s0)->unk10.u = 0x400;
     CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
     tmp = CAST_SIGN(u16, param_1, 0xFC);
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x1800;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
     CAST_WIDTH(u16, s0, 0x14) = tmp;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     func_80143994(param_1, 0x1000);
@@ -9734,8 +9734,8 @@ s32 func_801867A0(s32 a0) {
             v0 = 0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         }
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
-        do { ((Unkstruct_800B5CB8 *)v1)->unk18 = v0; } while (0);
+        ((Unkstruct_800B5BD8 *)v1)->unk1A.u = v0;
+        do { ((Unkstruct_800B5BD8 *)v1)->unk18.u = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2

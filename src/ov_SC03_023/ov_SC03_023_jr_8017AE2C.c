@@ -4465,7 +4465,7 @@ void func_8017E834(s32 a0) {
     ret = func_8012BA10(a0, 4);
     s0 = a0;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = ((Unkstruct_800B5CB8 *)v1)->unk12 + ret;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = ((Unkstruct_8001C9D0 *)v1)->unk12.u + ret;
 
     ret2 = ((Unkstruct_801202A0 *)s0)->unk1C.s - 1;
     ((Unkstruct_801202A0 *)s0)->unk1C.s = ret2;
@@ -4585,8 +4585,8 @@ void func_8017EB2C(s32 a0) {
 
     s0 = a0;
     p = ((Unkstruct_801202A0 *)s0)->unk20;
-    flag = ((Unkstruct_800B5CB8 *)p)->unk12;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = (flag & 0x800) ? (flag + 0x80) : (flag - 0x80);
+    flag = ((Unkstruct_8001C9D0 *)p)->unk12.u;
+    ((Unkstruct_8001C9D0 *)p)->unk12.u = (flag & 0x800) ? (flag + 0x80) : (flag - 0x80);
 
     guess_SetVelocityXZFromLocal(s0, (s32)D_80182AB8);
     a0 = func_8012CBCC(s0);

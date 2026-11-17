@@ -4563,9 +4563,9 @@ void func_8017FE0C(s32 a0) {
     }
     ((Unkstruct_801202A0 *)a0)->unkCC.val = s0;
     guess_InitModelObject(s0, (s32)D_801AC878);
-    t = ((Unkstruct_800B5CB8 *)s0)->unk2C | 0x10;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = *(s32 *)D_80193900;
-    ((Unkstruct_800B5CB8 *)s0)->unk2C = t;
+    t = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 0x10;
+    ((Unkstruct_8001C9D0 *)s0)->unk20 = *(s32 *)D_80193900;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u = t;
 
     s0 = ((s32 (*)(void))guess_AllocModelObject)();
     if (s0 == 0) {
@@ -4576,9 +4576,9 @@ fail:
     }
     ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
     guess_InitModelObject(s0, (s32)D_801ACB50);
-    t = ((Unkstruct_800B5CB8 *)s0)->unk2C | 0x10;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = *(s32 *)D_80193900;
-    ((Unkstruct_800B5CB8 *)s0)->unk2C = t;
+    t = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 0x10;
+    ((Unkstruct_8001C9D0 *)s0)->unk20 = *(s32 *)D_80193900;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u = t;
     ((Unkstruct_801202A0 *)a0)->extD.kSC06_008_8017F9FC.unk100 = 0x3C;
     ((Unkstruct_801202A0 *)a0)->unkDC.val = 0xFFFC0000;
 }

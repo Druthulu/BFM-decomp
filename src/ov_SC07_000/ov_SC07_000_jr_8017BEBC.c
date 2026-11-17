@@ -3866,13 +3866,13 @@ void func_8017EC00(s32 a0) {
         func_8001D0E8(((Unkstruct_801202A0 *)s0)->unk20, 0x280, 0x1E0);
         guess_StartActorSequence(s0, &D_801B0A20);
         v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-        v0 = ((Unkstruct_800B5CB8 *)v1)->unk2C;
+        v0 = ((Unkstruct_8001C9D0 *)v1)->unk2C.u;
         (*(s16 *)&D_801D0BB8) = 0;
-        ((Unkstruct_800B5CB8 *)v1)->unk2C = v0 | 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->unk2C.u = v0 | 0x10;
         v1 = ((Unkstruct_801202A0 *)s0)->unk20;
         CAST_WIDTH(u16, v1, 0x1C) = 0x1C00;
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = 0x1C00;
-        ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x1C00;
+        ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 0x1C00;
+        ((Unkstruct_8001C9D0 *)v1)->unk18.u = 0x1C00;
         func_80180440(s0);
         ((void (*)(s32))func_8017DFFC)(s0);
     }

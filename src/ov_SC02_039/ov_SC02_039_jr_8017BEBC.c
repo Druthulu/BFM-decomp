@@ -3862,8 +3862,8 @@ void func_8017EA20(s32 param_1) {
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_800B5CB8 *)param_1)->unk20;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
-        ((Unkstruct_800B5CB8 *)o)->unk1A = h + r;
-        ((Unkstruct_800B5CB8 *)o)->unk18 = h + r;
+        ((Unkstruct_8001C9D0 *)o)->unk1A.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->unk18.u = h + r;
     }
 
     ((Unkstruct_800B5CB8 *)param_1)->unk48 = 0x18000;

@@ -4489,13 +4489,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:

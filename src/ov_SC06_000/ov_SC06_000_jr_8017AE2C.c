@@ -3601,8 +3601,8 @@ void func_8017C6A0(void *a0) {
         s1 = (s32)a0 + 4;
         guess_TransformPosByObjMatrix(s0, s1);
 
-        ((Unkstruct_800B5CB8 *)s3)->unk10 = func_8012A68C();
-        ((Unkstruct_800B5CB8 *)s3)->unk12 = func_8012A758();
+        ((Unkstruct_800B5BD8 *)s3)->unk10.u = func_8012A68C();
+        ((Unkstruct_800B5BD8 *)s3)->unk12.u = func_8012A758();
         func_8004978C((s16 *)(s3 + 0x10), mat);
 
         ApplyMatrixSV(mat, D_8018BD98, vecOut);
@@ -3617,11 +3617,11 @@ void func_8017C6A0(void *a0) {
 
         func_8001CB00((s32)s3, D_8018BD74, 0x280, 0x100);
 
-        ((Unkstruct_800B5CB8 *)s3)->unk27 = 0x80;
+        ((Unkstruct_800B5BD8 *)s3)->unk27 = 0x80;
 
-        ((Unkstruct_800B5CB8 *)s3)->unk2C = CAST_SIGN(u16, a0, 0xE);
-        ((Unkstruct_800B5CB8 *)s3)->unk1A = 0;
-        ((Unkstruct_800B5CB8 *)s3)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)s3)->unk2C.u = CAST_SIGN(u16, a0, 0xE);
+        ((Unkstruct_800B5BD8 *)s3)->unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)s3)->unk18.u = 0;
 
         ((Unkstruct_80126B58 *)a0)->unk10 = 0;
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
@@ -4530,14 +4530,14 @@ void func_8017DFC0(s32 param_1) {
         *(s32 *)(param_1 + 0x20) = node;
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
-        ((Unkstruct_800B5CB8 *)node)->unk18 = 0x4000;
-        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x200;
+        ((Unkstruct_800B5BD8 *)node)->unk18.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
-        ((Unkstruct_800B5CB8 *)node)->unk28 = 0x240;
-        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x180;
-        ((Unkstruct_800B5CB8 *)node)->unk10 = w.vx;
-        ((Unkstruct_800B5CB8 *)node)->unk12 = w.vy;
+        ((Unkstruct_800B5BD8 *)node)->unk28.s = 0x240;
+        ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->unk10.u = w.vx;
+        ((Unkstruct_800B5BD8 *)node)->unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
@@ -4597,11 +4597,11 @@ void func_8017E254(s32 a0) {
         *(s32 *)(a0 + 0x20) = r;
         CAST_WIDTH(u32, r, 4) = CAST_WIDTH(u32, r, 4) | 0x5C000140;
         func_8001CF30((void *)r);
-        ((Unkstruct_800B5CB8 *)r)->unk10 = 0x400;
-        ((Unkstruct_800B5CB8 *)r)->unk18 = 0x3000;
-        ((Unkstruct_800B5CB8 *)r)->unk1A = 0x3000;
-        ((Unkstruct_800B5CB8 *)r)->unk28 = 0x248;
-        ((Unkstruct_800B5CB8 *)r)->unk2A = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)r)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)r)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)r)->unk28.s = 0x248;
+        ((Unkstruct_800B5BD8 *)r)->unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
@@ -10975,7 +10975,7 @@ s32 func_80187798(s16 id, void *rec, s16 x, s16 y, u8 p)
         obj = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (obj != 0) {
             func_8001CB00(obj, rec, x, y);
-            ((Unkstruct_800B5CB8 *)obj)->unk27 = p;
+            ((Unkstruct_800B5BD8 *)obj)->unk27 = p;
             CAST_WIDTH(u32, obj, 4) |= 0xD0000000;
             *(s32 *)(D_801B2164 + i) = obj;
             *(s16 *)((u8 *)D_801B2164 + i * 2 - 0x10) = id;

@@ -3275,7 +3275,7 @@ void func_8017DCB0(s32 arg0) {
     s32 a1;
 
     a1 = ((Unkstruct_801202A0 *)arg0)->unk20;
-    ((Unkstruct_800B5CB8 *)a1)->unk10 = ((Unkstruct_800B5CB8 *)a1)->unk10 + (CAST_SIGN(u16, arg0, 0xFC));
+    ((Unkstruct_8001C9D0 *)a1)->unk10.u = ((Unkstruct_8001C9D0 *)a1)->unk10.u + (CAST_SIGN(u16, arg0, 0xFC));
 
     CAST_WIDTH(u16, a1, 0x14) = CAST_WIDTH(u16, a1, 0x14) + CAST_SIGN(u16, arg0, 0xFE);
 
@@ -3419,12 +3419,12 @@ void func_8017DF5C(s32 a0)
                     {
                         /* re-read 0x20 per store-separated run (§193-H) */
                         s32 vp = ((Unkstruct_801202A0 *)s0)->unk20;
-                        s32 t2 = ((Unkstruct_800B5CB8 *)vp)->unk18 - 0x10;
-                        ((Unkstruct_800B5CB8 *)vp)->unk18 = t2;
+                        s32 t2 = ((Unkstruct_8001C9D0 *)vp)->unk18.u - 0x10;
+                        ((Unkstruct_8001C9D0 *)vp)->unk18.u = t2;
                     }
                     {
                         s32 vp = ((Unkstruct_801202A0 *)s0)->unk20;
-                        s32 t3 = ((Unkstruct_800B5CB8 *)vp)->unk18;
+                        s32 t3 = ((Unkstruct_8001C9D0 *)vp)->unk18.u;
                         CAST_WIDTH(u16, (u8 *)vp, 0x1C) = t3;
                     }
                 }
@@ -3613,11 +3613,11 @@ void func_8017E3AC(void *a0)
 
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
     }
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk18 = CAST_SIGN(u16, (s32)a0, 0x70);
+        ((Unkstruct_8001C9D0 *)v1)->unk18.u = CAST_SIGN(u16, (s32)a0, 0x70);
     }
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;

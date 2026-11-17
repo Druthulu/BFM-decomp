@@ -3490,12 +3490,12 @@ void func_8017C150(void *a0) {
         bank = D_801EB4E8;
         guess_SjisToGlyphCodes(*(void **)((s32)a0 + 0xDC), bank);
         func_8001CE28((void *)obj, bank);
-        ((Unkstruct_800B5CB8 *)obj)->unk8 = *(u16 *)((s32)a0 + 0x6) + 6;
+        ((Unkstruct_800B5BD8 *)obj)->unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
-            ((Unkstruct_800B5CB8 *)obj)->unk2C = 3;
-            ((Unkstruct_800B5CB8 *)obj)->unk27 = 1;
-            ((Unkstruct_800B5CB8 *)obj)->unkA = y + 9;
+            ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 3;
+            ((Unkstruct_800B5BD8 *)obj)->unk27 = 1;
+            ((Unkstruct_800B5BD8 *)obj)->unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
     }
@@ -3962,13 +3962,13 @@ void func_8017CC70(s32 a0) {
                                   *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), 8);
             s32 p = ((Unkstruct_801202A0 *)a0)->unk20;
             s32 ang0;
-            ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + r;
+            ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + r;
             ang0 = -3 - CAST_SIGN(u16, a0, 0x104);
             func_8017D220(a0, ang0, 0);
         } else {
             s32 q = ((Unkstruct_801202A0 *)a0)->unk20;
             s32 ang1;
-            ((Unkstruct_800B5CB8 *)q)->unk12 = ((Unkstruct_800B5CB8 *)q)->unk12 + ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk106;
+            ((Unkstruct_8001C9D0 *)q)->unk12.u = ((Unkstruct_8001C9D0 *)q)->unk12.u + ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk106;
             ang1 = -3 - CAST_SIGN(u16, a0, 0x104);
             func_8017D220(a0, ang1, 0);
         }

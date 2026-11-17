@@ -3751,7 +3751,7 @@ void func_8017F140(void *a0) {
         func_8017ECD0((s32)a0);
     } else {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk10 = ((Unkstruct_800B5CB8 *)v1)->unk10 + 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x80;
     }
 }
 
@@ -3798,7 +3798,7 @@ void func_8017F288(void *a0) {
         func_8012AD44((s32 *)a0, 1);
     } else {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk10 = ((Unkstruct_800B5CB8 *)v1)->unk10 + 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x80;
     }
 }
 
@@ -3840,9 +3840,9 @@ void func_8017F324(s32 arg0) {
         func_8001CE28((void *)h, (void *)&D_801AD328);
         bc = &guess_g_ScreenWidth;
         CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x10;
-        ((Unkstruct_800B5CB8 *)h)->unkA = -guess_g_ScreenHeight / 2 + 0x18;
+        ((Unkstruct_800B5BD8 *)h)->unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
         CAST_ALIAS(s16, h, 0x2C) = 1;
-        ((Unkstruct_800B5CB8 *)h)->unk27 = 1;
+        ((Unkstruct_800B5BD8 *)h)->unk27 = 1;
         h = guess_AllocSpriteObjectHigh();
         if (h != 0) {
             q = (s16)((s16)*(u16 *)(arg0 + 0xFC) / 30);
@@ -3850,8 +3850,8 @@ void func_8017F324(s32 arg0) {
             func_800242D0(q, (void *)&D_801AD350, 2);
             func_8001CE68((void *)h, (void *)&D_801AD350);
             CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x18;
-            ((Unkstruct_800B5CB8 *)h)->unkA = -guess_g_ScreenHeight / 2 + 0x20;
-            ((Unkstruct_800B5CB8 *)h)->unk2C = 1;
+            ((Unkstruct_800B5BD8 *)h)->unkA.u = -guess_g_ScreenHeight / 2 + 0x20;
+            ((Unkstruct_800B5BD8 *)h)->unk2C.u = 1;
             *(u16 *)(arg0 + 2) += 1;
         }
     }
@@ -3953,11 +3953,11 @@ void func_8017F6C8(s32 param_1) {
     if (s0 != 0) {
         ((Unkstruct_801202A0 *)s1)->unk20 = s0;
         func_8001CEC0(s0, D_80184EE0);
-        ((Unkstruct_800B5CB8 *)s0)->unk2E = 0xA0;
+        ((Unkstruct_800B5BD8 *)s0)->unk2E = 0xA0;
         CAST_WIDTH(u16, s0, 0x30) = 0x70;
-        ((Unkstruct_800B5CB8 *)s0)->unk8 = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unkA = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unk2C = 1;
+        ((Unkstruct_800B5BD8 *)s0)->unk8.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unkA.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
         guess_SetWaitTimer((s32 *)s1, 0x40);
         func_8012AD50((void *)s1);
     }
@@ -4032,8 +4032,8 @@ void func_8017F85C(void *a0)
 
         v0 = ((Unkstruct_801202A0 *)a0)->unk68;
         v1 = *(u16 *)(v0 + 0xC);
-        ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x3C;
-        ((Unkstruct_800B5CB8 *)s0)->unk12 = v1;
+        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x3C;
+        ((Unkstruct_800B5BD8 *)s0)->unk12.u = v1;
 
         switch (((Unkstruct_801202A0 *)a0)->unkFC.s) {
         case 1:

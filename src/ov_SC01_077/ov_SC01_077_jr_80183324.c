@@ -3365,7 +3365,7 @@ void func_80183834(s32 param_1) {
         if (CAST_SIGN(s16, param_1, 0x6) > 0x180) {
             obj = ((Unkstruct_801202A0 *)param_1)->unk20;
             ang = CAST_SIGN(s16, obj, 0x12);
-            ((Unkstruct_800B5CB8 *)obj)->unk12 = (rand() & 1) ? ang - 0x400 : ang + 0x400;
+            ((Unkstruct_8001C9D0 *)obj)->unk12.u = (rand() & 1) ? ang - 0x400 : ang + 0x400;
         }
         guess_UpdateActorModelMatrix(param_1);
         guess_ClearVelocityAndSetGravity(param_1);

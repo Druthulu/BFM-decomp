@@ -4420,9 +4420,9 @@ void func_801812B0(s32 a0) {
             p1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
             func_8001C810(p1, (s32)D_801B91B4);
             func_8001C1E4(p1, ((Unkstruct_801202A0 *)a0)->unk20);
-            ((Unkstruct_800B5CB8 *)p1)->unk2C |= 0x10;
+            ((Unkstruct_8001C9D0 *)p1)->unk2C.u |= 0x10;
             CAST_WIDTH(u32, p1, 0x4) |= 0x70000000;
-            ((Unkstruct_800B5CB8 *)p1)->unkA = 0;
+            ((Unkstruct_8001C9D0 *)p1)->unkA.u = 0;
             CAST_ALIAS(s16, p1, 0xC) = -8;
         }
         if (((Unkstruct_801202A0 *)a0)->unkD4 == 0) {
@@ -4435,7 +4435,7 @@ void func_801812B0(s32 a0) {
             func_8001C1E4(p0, ((Unkstruct_801202A0 *)a0)->unk20);
             ((Unkstruct_800B5CB8 *)p0)->unk2C |= 0x10;
             CAST_WIDTH(u32, p0, 0x4) |= 0x8040;
-            ((Unkstruct_800B5CB8 *)p1)->unkA = 0;
+            ((Unkstruct_8001C9D0 *)p1)->unkA.u = 0;
             CAST_ALIAS(s16, p0, 0xC) = -4;
         }
         ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_80182000.unk102 = 0;
@@ -4443,9 +4443,9 @@ void func_801812B0(s32 a0) {
     } else {
         s32 g = ((Unkstruct_801202A0 *)a0)->unk20;
         ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_80182000.unk102 = D_801C3930[((Unkstruct_801202A0 *)a0)->unk70.s];
-        ((Unkstruct_800B5CB8 *)g)->unk18 = 0x1800;
+        ((Unkstruct_8001C9D0 *)g)->unk18.u = 0x1800;
         CAST_WIDTH(s16, g, 0x1C) = 0x1800;
-        ((Unkstruct_800B5CB8 *)g)->unk1A = 0x1800;
+        ((Unkstruct_8001C9D0 *)g)->unk1A.u = 0x1800;
     }
 
     c = D_801C3A04[((Unkstruct_801202A0 *)a0)->unk70.s];
@@ -4544,13 +4544,13 @@ void func_80181784(s32 a0)
         __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
         if (iVar2 < 0) {
             tmp += 0x80;
-            ((Unkstruct_800B5CB8 *)iVar1)->unk10 = (s16)tmp;
+            ((Unkstruct_8001C9D0 *)iVar1)->unk10.u = (s16)tmp;
             if (0 < tmp * 0x10000) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0;
             }
         } else {
             tmp -= 0x80;
-            ((Unkstruct_800B5CB8 *)iVar1)->unk10 = (s16)tmp;
+            ((Unkstruct_8001C9D0 *)iVar1)->unk10.u = (s16)tmp;
             if (tmp * 0x10000 < 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0;
             }
@@ -4564,13 +4564,13 @@ void func_80181784(s32 a0)
         __asm__ __volatile__("" : "=r"(tmp) : "0"(tmp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
         if (iVar2 < 0) {
             tmp += 0x80;
-            ((Unkstruct_800B5CB8 *)iVar1)->unk12 = (s16)tmp;
+            ((Unkstruct_8001C9D0 *)iVar1)->unk12.u = (s16)tmp;
             if (tmp * 0x10000 < 1) {
                 goto skip2;
             }
         } else {
             tmp -= 0x80;
-            ((Unkstruct_800B5CB8 *)iVar1)->unk12 = (s16)tmp;
+            ((Unkstruct_8001C9D0 *)iVar1)->unk12.u = (s16)tmp;
             if (-1 < tmp * 0x10000) {
                 goto skip2;
             }
@@ -4779,7 +4779,7 @@ void func_80181B00(s32 a0) {
 
     {
         s32 p = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = CAST_WIDTH(s16, p, 0x1C) = ((Unkstruct_800B5CB8 *)p)->unk18;
+        ((Unkstruct_8001C9D0 *)p)->unk1A.u = CAST_WIDTH(s16, p, 0x1C) = ((Unkstruct_8001C9D0 *)p)->unk18.u;
     }
     RotMatrixYXZ((void *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x10), (void *)m);
     func_8004974C((void *)m, (void *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x34));

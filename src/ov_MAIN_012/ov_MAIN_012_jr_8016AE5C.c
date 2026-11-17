@@ -3929,8 +3929,8 @@ void func_8016D1D8(int param_1)
             *(int *)(param_1 + 0x14) = sv[1] << 12;
             sVar4 = (uVar3 & 0x3F0) + 0x200;
             *(int *)(param_1 + 0x18) = sv[2] << 12;
-            ((Unkstruct_800B5CB8 *)iVar2)->unk1A = sVar4;
-            ((Unkstruct_800B5CB8 *)iVar2)->unk18 = sVar4;
+            ((Unkstruct_800B5BD8 *)iVar2)->unk1A.u = sVar4;
+            ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = sVar4;
             *(int *)(param_1 + 0x1c) = 0x10;
             *(short *)(param_1 + 2) = 2;
         }
@@ -4096,9 +4096,9 @@ void func_8016DA7C(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80181620, 0x250, 0x100);
-        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x90;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x3000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x4000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x4000;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
         guess_StartPairSequence(iVar1, param_1 + 0x24, (s32)&D_8018162C);
         *(s32 *)(param_1 + 0x10) = 0;
@@ -4194,9 +4194,9 @@ ddb0:
         D_80184EF4 = *(u16 *)(obj + 0xE);
         func_800D1FC8(param_1, 7);
         *(s32 *)(param_1 + 0x20) = node;
-        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x3000;
-        ((Unkstruct_800B5CB8 *)node)->unk18 = 0x3000;
-        ((Unkstruct_800B5CB8 *)node)->unk26 = 0xFF;
+        ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)node)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)node)->unk26 = 0xFF;
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x50000000;
         guess_StartPairSequence(node, param_1 + 0x24, (s32)&D_80181690);
         ((s32 (*)(void *, void *))guess_StepPairSequence)(node, param_1 + 0x24);

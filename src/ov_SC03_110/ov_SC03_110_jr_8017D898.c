@@ -3241,7 +3241,7 @@ void func_8017F4CC(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)&D_8019BF40)) {
         v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x30;
+        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x30;
         v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         CAST_WIDTH(void *, v1, 0x80) = &D_8019BF74;
         ((Unkstruct_801202A0 *)a0)->extC.kSC03_108_8017F0B0.unkE8 = 0x40;
@@ -3249,8 +3249,8 @@ void func_8017F4CC(s32 a0) {
         if (s0 != 0) {
             ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
             guess_InitObjectKind6((int)s0, (void *)&D_8019BFBC);
-            ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x555;
-            ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x555;
             CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
         }
 
@@ -3358,7 +3358,7 @@ void func_8017F674(s32 param_1)
         s32 d = 0x1000 - sVar1;
         s32 arg1;
 
-        ((Unkstruct_800B5CB8 *)ptr)->unk12 = ((Unkstruct_800B5CB8 *)ptr)->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)ptr)->unk12.u = ((Unkstruct_8001C9D0 *)ptr)->unk12.u + ret;
         if (d >= 0) {
             arg1 = -(d << 4) - 0x4000;
         } else {
@@ -3389,7 +3389,7 @@ void func_8017F674(s32 param_1)
             ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
         }
         ptr = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-        ((Unkstruct_800B5CB8 *)ptr)->unk12 = ((Unkstruct_800B5CB8 *)ptr)->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)ptr)->unk12.u = ((Unkstruct_8001C9D0 *)ptr)->unk12.u + ret;
         break;
     }
 
@@ -3467,8 +3467,8 @@ void func_8017F9CC(s32 param_1)
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20;
-        s32 v = ((Unkstruct_800B5CB8 *)ptr)->unk12 + iVar1;
-        ((Unkstruct_800B5CB8 *)ptr)->unk12 = v;
+        s32 v = ((Unkstruct_8001C9D0 *)ptr)->unk12.u + iVar1;
+        ((Unkstruct_8001C9D0 *)ptr)->unk12.u = v;
         if (0x1000 - angle >= 0) {
             a1 = 0xFFFF0000 - ((0x1000 - angle) << 7);
         } else {

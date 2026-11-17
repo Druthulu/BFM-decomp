@@ -6964,8 +6964,8 @@ void func_8017E328(s32 a0) {
         v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         if (CAST_SIGN(s16, v1, 0x18) >= 0x1800) {
             CAST_WIDTH(u16, v1, 0x1C) = 0x1800;
-            ((Unkstruct_800B5CB8 *)v1)->unk1A = 0x1800;
-            ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x1800;
+            ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 0x1800;
+            ((Unkstruct_8001C9D0 *)v1)->unk18.u = 0x1800;
         }
     }
 
@@ -7116,13 +7116,13 @@ void func_8017E524(s32 param_1) {
         if (((Unkstruct_801202A0 *)param_1)->unkDC.val & 0x80) {
             p = ((Unkstruct_801202A0 *)param_1)->unk20;
             CAST_WIDTH(s16, p, 0x1C) = 0x1000;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = 0x1000;
+            ((Unkstruct_8001C9D0 *)p)->unk18.u = 0x1000;
             ((Unkstruct_801202A0 *)param_1)->unkDC.val &= ~0x80;
         } else {
             p = ((Unkstruct_801202A0 *)param_1)->unk20;
             h = CAST_SIGN(u16, param_1, 0x100);
             CAST_WIDTH(s16, p, 0x1C) = h;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = h;
+            ((Unkstruct_8001C9D0 *)p)->unk18.u = h;
         }
         a = param_1;
         *(s16 *)(a + 0x5C) |= 1;

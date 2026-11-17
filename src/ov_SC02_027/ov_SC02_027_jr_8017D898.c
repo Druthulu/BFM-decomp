@@ -4005,10 +4005,10 @@ s32 func_80180770(void *a0)
 
     sub = *(u8 **)(obj + 0x20);
     func_8001CB6C(sub, (s32)&D_8018F120, 0x320, 0x100);
-    ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x4E;
-    ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x1800;
-    ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x3800;
-    ((Unkstruct_800B5CB8 *)sub)->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x4E;
+    ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1800;
+    ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x3800;
+    ((Unkstruct_800B5BD8 *)sub)->unk10.u = 0x400;
 
     v0 = *(u16 *)(*(s32 *)((s32)a0 + 0x68) + 0xC);
     CAST_WIDTH(u16, sub, 0x14) = v0;
@@ -6634,13 +6634,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -7187,13 +7187,13 @@ void func_8018582C(void *a0) {
 
         if ((CAST_SIGN(u16, (s32)a0, 0x70)) & 1) {
             sub = ((Unkstruct_801202A0 *)a0)->unk20;
-            ((Unkstruct_800B5CB8 *)sub)->unk2C |= 0x10;
+            ((Unkstruct_8001C9D0 *)sub)->unk2C.u |= 0x10;
 
             sub = ((Unkstruct_801202A0 *)a0)->unk20;
             v = 0x1666;
             CAST_WIDTH(s16, sub, 0x1C) = v;
-            ((Unkstruct_800B5CB8 *)sub)->unk1A = v;
-            ((Unkstruct_800B5CB8 *)sub)->unk18 = v;
+            ((Unkstruct_8001C9D0 *)sub)->unk1A.u = v;
+            ((Unkstruct_8001C9D0 *)sub)->unk18.u = v;
         } else {
             v = 0x1000;
         }
@@ -10487,7 +10487,7 @@ void func_8018A090(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk20 = iVar2;
     if (iVar2 != 0) {
         func_8001CD50(iVar2, (s32)puVar3);
-        ((Unkstruct_800B5CB8 *)iVar2)->unk10 = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk10.u = 0x400;
         CAST_WIDTH(u32, iVar2, 4) = CAST_WIDTH(u32, iVar2, 4) | 0x60000000;
         guess_BuildCircle12Points(puVar3, 0x40);
         puVar3[0] = 0x808080;

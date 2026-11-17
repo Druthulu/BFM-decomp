@@ -2908,7 +2908,7 @@ void func_8017F4A0(void *a0) {
         a0r = s2;
         a1r = 0x80;
         __asm__ volatile("addiu %0,$0,0x3000" : "=r"(v0));  // !FAKE: instruction addiu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = v0;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
         v0 = CAST_WIDTH(s32, s0, 4);
         v0 |= 0x50000000;
         CAST_WIDTH(s32, s0, 4) = v0;

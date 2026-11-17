@@ -3453,13 +3453,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -4946,8 +4946,8 @@ void func_801813C4(void *a0)
 
     v0 = CAST_SIGN(s16, s1, 0x18);
     if (v0 < 0x800) {
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = v0 + 0x40;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = ((Unkstruct_800B5CB8 *)s1)->unk1A + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = v0 + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = ((Unkstruct_800B5BD8 *)s1)->unk1A.u + 0x40;
     } else if ((CAST_SIGN(u16, (s32)a0, 0x70) & 1) == 0) {
         if (func_801812B4(a0, 0x30) != 0) {
             func_80181138(a0);
@@ -6344,12 +6344,12 @@ void func_80182FB8(void *a0)
 
     p = ((Unkstruct_801202A0 *)a0)->unk20;
     if (p != 0) {
-        v = ((Unkstruct_800B5CB8 *)p)->unk1A - 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = v;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = v;
+        v = ((Unkstruct_800B5BD8 *)p)->unk1A.u - 0x100;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
         if (CAST_SIGN(s16, p, 0x1A) < 0) {
-            ((Unkstruct_800B5CB8 *)p)->unk1A = 0;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0;
+            ((Unkstruct_800B5BD8 *)p)->unk18.u = 0;
         }
     }
     if (((Unkstruct_801202A0 *)a0)->unkFE.s >= 0x6000) {

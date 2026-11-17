@@ -5623,8 +5623,8 @@ void func_801890FC(void *a0) {
         m = rand() & 0xFF;
         p = ((Unkstruct_800B5CB8 *)a0)->unk20;
         m = m | 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = m;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = m;
+        ((Unkstruct_8001C9D0 *)p)->unk1A.u = m;
+        ((Unkstruct_8001C9D0 *)p)->unk18.u = m;
         break;
     }
     case 5: {
@@ -5644,8 +5644,8 @@ void func_801890FC(void *a0) {
         CAST_WIDTH(s32, (s32)a0, 0x18) = rcos(s2) * s1 * 0x10;
         ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk6 - 0x28;
         q = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)q)->unk1A = 0x1999;
-        ((Unkstruct_800B5CB8 *)q)->unk18 = 0x1999;
+        ((Unkstruct_8001C9D0 *)q)->unk1A.u = 0x1999;
+        ((Unkstruct_8001C9D0 *)q)->unk18.u = 0x1999;
         break;
     }
     case 6:
@@ -5657,8 +5657,8 @@ void func_801890FC(void *a0) {
             m = rand();
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
             m = (m & 0x1FF) | 0x200;
-            ((Unkstruct_800B5CB8 *)p)->unk1A = m;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = m;
+            ((Unkstruct_8001C9D0 *)p)->unk1A.u = m;
+            ((Unkstruct_8001C9D0 *)p)->unk18.u = m;
         } else {
             s32 m;
             s32 p;
@@ -5670,8 +5670,8 @@ void func_801890FC(void *a0) {
             m = rand();
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
             m = (m & 0x3FF) + 0x600;
-            ((Unkstruct_800B5CB8 *)p)->unk1A = m;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = m;
+            ((Unkstruct_8001C9D0 *)p)->unk1A.u = m;
+            ((Unkstruct_8001C9D0 *)p)->unk18.u = m;
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x10;
         guess_ClearVelocityAndSetGravity((s32)a0);

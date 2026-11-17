@@ -2962,13 +2962,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -3511,13 +3511,13 @@ void func_80186210(void *a0) {
 
         if ((CAST_SIGN(u16, (s32)a0, 0x70)) & 1) {
             sub = ((Unkstruct_801202A0 *)a0)->unk20;
-            ((Unkstruct_800B5CB8 *)sub)->unk2C |= 0x10;
+            ((Unkstruct_8001C9D0 *)sub)->unk2C.u |= 0x10;
 
             sub = ((Unkstruct_801202A0 *)a0)->unk20;
             v = 0x1666;
             CAST_WIDTH(s16, sub, 0x1C) = v;
-            ((Unkstruct_800B5CB8 *)sub)->unk1A = v;
-            ((Unkstruct_800B5CB8 *)sub)->unk18 = v;
+            ((Unkstruct_8001C9D0 *)sub)->unk1A.u = v;
+            ((Unkstruct_8001C9D0 *)sub)->unk18.u = v;
         } else {
             v = 0x1000;
         }

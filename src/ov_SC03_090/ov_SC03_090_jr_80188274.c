@@ -4750,8 +4750,8 @@ void func_8018AAD8(void *a0)
 
     v0 = CAST_SIGN(s16, s1, 0x18);
     if (v0 < 0x800) {
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = v0 + 0x40;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = ((Unkstruct_800B5CB8 *)s1)->unk1A + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = v0 + 0x40;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = ((Unkstruct_800B5BD8 *)s1)->unk1A.u + 0x40;
     } else if ((CAST_SIGN(u16, (s32)a0, 0x70) & 1) == 0) {
         if (func_8018A9C8(a0, 0x30) != 0) {
             func_8018A84C(a0);

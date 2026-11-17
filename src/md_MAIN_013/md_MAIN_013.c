@@ -215,8 +215,8 @@ void func_800CB138(s32 arg0) {
             MulMatrix0(m, &blk, arg0 + 0x38);
             *(s32 *)(arg0 + 0x20) = (s32)p;
             CAST_WIDTH(s32, p, 0x34) = arg0 + 0x38;
-            ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2000;
-            ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2000;
+            ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x2000;
+            ((Unkstruct_800B5BD8 *)p)->unk18.u = 0x2000;
             guess_StartPairSequence(p, arg0 + 0x24, D_800CB88C);
             *(s16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
         } else {
@@ -272,8 +272,8 @@ void func_800CB3CC(void *arg0) {
     p = func_800D21C4(arg0, D_800CB8FC, 0x19);
     if (p != 0) {
         *(s32 *)((s32)arg0 + 0x20) = p;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = 0x3000;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = 0x3000;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = 0x3000;
         CAST_WIDTH(s32, p, 4) |= 0x50000000;
         guess_StartPairSequence(p, (s32)arg0 + 0x24, D_800CB8BC);
         *(u16 *)((s32)arg0 + 2) = *(u16 *)((s32)arg0 + 2) + 1;

@@ -147,7 +147,7 @@ void func_800CCE80(void *arg0) {
     s0 = (void *)((u8 *)s1 + 0x34);
     ((Unkstruct_800CCDD8_2 *)arg0)->unkE = ((Unkstruct_80136A94 *)p)->unk50;
     func_80013F3C(s0);
-    RotMatrixY(((Unkstruct_8001C9D0 *)s1)->unk12, s0);
+    RotMatrixY(((Unkstruct_8001C9D0 *)s1)->unk12.s, s0);
     func_80048D9C(s0, (void *)((u8 *)((Unkstruct_800CCE80_2 *)s2)->unk20 + 0x34));
     func_80020F34((s32)s0, (s32)((u8 *)s1 + 0x18));
     ((Unkstruct_8001C9D0 *)s1)->unk2C.u |= 1;
@@ -214,12 +214,12 @@ void func_800CD010(s32 param_1)
     *(s32 *)(p1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CC3C(iVar1, (s32)&D_800CD66C, 0x220, 0x168);
-        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x24;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk24 = 0xFF;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0x40;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk26 = 0x40;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x24;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0xFF;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x40;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x40;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk10 = *(s32 *)(p1 + 0x50) << 10;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk10.u = *(s32 *)(p1 + 0x50) << 10;
         *(s16 *)(p1 + 0x60) = *(s32 *)(p1 + 0x50) << 10;
         ((void (*)(s32))func_800CD204)(p1);
         ((void (*)(void *))guess_NextStep)((void *)p1);

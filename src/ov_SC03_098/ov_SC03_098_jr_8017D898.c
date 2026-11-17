@@ -4402,8 +4402,8 @@ void func_801814FC(s32 ent) {
         t = rsin(((Unkstruct_801202A0 *)ent)->unk1C.s << 7);
         v = (t * 0x1c00 >> 12) + 0x400;
         CAST_WIDTH(s16, sub, 0x1C) = v;
-        ((Unkstruct_800B5CB8 *)sub)->unk18 = v;
-        ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x3000 - (t * 0x2800 >> 12);
+        ((Unkstruct_8001C9D0 *)sub)->unk18.u = v;
+        ((Unkstruct_8001C9D0 *)sub)->unk1A.u = 0x3000 - (t * 0x2800 >> 12);
         cnt = ((Unkstruct_801202A0 *)ent)->unk1C.s + 1;
         ((Unkstruct_801202A0 *)ent)->unk1C.s = cnt;
         if (cnt < 9) {
@@ -4422,8 +4422,8 @@ void func_801814FC(s32 ent) {
         t = rsin(((Unkstruct_801202A0 *)ent)->unk1C.s << 7);
         v = 0x2000 - ((t << 12) >> 12);
         CAST_WIDTH(s16, sub, 0x1C) = v;
-        ((Unkstruct_800B5CB8 *)sub)->unk18 = v;
-        ((Unkstruct_800B5CB8 *)sub)->unk1A = (t * 0x800 >> 12) + 0x800;
+        ((Unkstruct_8001C9D0 *)sub)->unk18.u = v;
+        ((Unkstruct_8001C9D0 *)sub)->unk1A.u = (t * 0x800 >> 12) + 0x800;
         cnt = ((Unkstruct_801202A0 *)ent)->unk1C.s + 1;
         ((Unkstruct_801202A0 *)ent)->unk1C.s = cnt;
         if (8 < cnt) {

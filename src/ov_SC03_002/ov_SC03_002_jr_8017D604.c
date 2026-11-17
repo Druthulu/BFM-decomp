@@ -3202,7 +3202,7 @@ void func_8017E8B0(void *a0) {
     CAST_WIDTH(s32, (s32)a0, 4) = *(s32 *)&D_80126B5C;
     CAST_WIDTH(s32, (s32)a0, 8) = D_80126B60;
     CAST_WIDTH(s32, (s32)a0, 0xC) = D_80126B64;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = 0xF00;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = 0xF00;
     guess_UpdateActorModelMatrix((s32)a0);
     guess_SetVelocityXZFromLocal((s32)a0, (s32)&D_801892FC);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 6;

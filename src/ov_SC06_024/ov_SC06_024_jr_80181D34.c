@@ -3771,12 +3771,12 @@ void func_8018367C(s32 param_1) {
     guess_InitModelObject(v0, D_801AC598[D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 7]);
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C = ((Unkstruct_800B5CB8 *)v1)->unk2C | 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u = ((Unkstruct_8001C9D0 *)v1)->unk2C.u | 0x10;
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     mask = D_801AC5B2[((Unkstruct_800B5CB8 *)param_1)->unk70].unk0 & 0xFFF0;
-    ((Unkstruct_800B5CB8 *)v1)->unk1A = mask;
-    ((Unkstruct_800B5CB8 *)v1)->unk18 = mask;
+    ((Unkstruct_8001C9D0 *)v1)->unk1A.u = mask;
+    ((Unkstruct_8001C9D0 *)v1)->unk18.u = mask;
 
     v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
     CAST_WIDTH(u16, v1, 0x1C) = 0x400;

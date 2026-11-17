@@ -2888,7 +2888,7 @@ void func_80181C78(void *a0) {
     {
         u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20;
 
-        ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x20;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + 0x20;
         if (((s32 (*)(void))guess_TickWaitTimer)()) {
             func_80181840(a0);
         }
@@ -4001,9 +4001,9 @@ void func_80183454(u8 *arg0)
     }
     {
         s32 obj = ((Unkstruct_801202A0 *)param_1)->unkCC.val;
-        ((Unkstruct_800B5CB8 *)obj)->unk8 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
-        ((Unkstruct_800B5CB8 *)obj)->unkA = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
-        ((Unkstruct_800B5CB8 *)obj)->unkC = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->unk8.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->unkA.u = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->unkC.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
     }
     raw = ((Unkstruct_801202A0 *)param_1)->unk70.s;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x5A;

@@ -3892,8 +3892,8 @@ void func_8017CE90(void *a0)
         *(s32 *)((u8 *)a0 + 0x10) = 0;
         if (*(s32 *)((u8 *)a0 + 0x30) & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
-            ((Unkstruct_800B5CB8 *)s1)->unk1A = 0x80;
-            ((Unkstruct_800B5CB8 *)s1)->unk18 = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x80;
             *(s32 *)((u8 *)a0 + 0x14) = 0x80;
         } else {
             *s2 = D_8018D380[*(s32 *)((u8 *)a0 + 0x2C)];
@@ -3905,7 +3905,7 @@ void func_8017CE90(void *a0)
         D_801D422E = 0;
 
         *(s32 *)((u8 *)a0 + 0x30) = *(s32 *)((u8 *)a0 + 0x30) & 0x7F;
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
         *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
@@ -5328,13 +5328,13 @@ void func_8017EFA8(s32 param_1) {
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
         CAST_WIDTH(s16, node, 0x18) = 0x4000;
-        ((Unkstruct_800B5CB8 *)node)->unk1A = 0x200;
+        ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
         CAST_WIDTH(s16, node, 0x28) = 0x240;
-        ((Unkstruct_800B5CB8 *)node)->unk2A = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x180;
         CAST_WIDTH(s16, node, 0x10) = w.vx;
-        ((Unkstruct_800B5CB8 *)node)->unk12 = w.vy;
+        ((Unkstruct_800B5BD8 *)node)->unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
@@ -5396,9 +5396,9 @@ void func_8017F23C(s32 a0) {
         func_8001CF30((void *)r);
         CAST_WIDTH(s16, r, 0x10) = 0x400;
         CAST_WIDTH(s16, r, 0x18) = 0x3000;
-        ((Unkstruct_800B5CB8 *)r)->unk1A = 0x3000;
+        ((Unkstruct_800B5BD8 *)r)->unk1A.u = 0x3000;
         CAST_WIDTH(s16, r, 0x28) = 0x248;
-        ((Unkstruct_800B5CB8 *)r)->unk2A = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);

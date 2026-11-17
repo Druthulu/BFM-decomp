@@ -3535,7 +3535,7 @@ extern void guess_UpdateActorModelMatrix(s32 arg);
     void func_80186438(void *a0) {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 0x4;
-        ((Unkstruct_800B5CB8 *)v1)->unk12 = 0x600;
+        ((Unkstruct_8001C9D0 *)v1)->unk12.u = 0x600;
         guess_UpdateActorModelMatrix((s32)a0);
     }
 
@@ -3779,7 +3779,7 @@ void func_80186870(void *a0) {
     {
         u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20;
 
-        ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + 0x20;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + 0x20;
         if (((s32 (*)(void))guess_TickWaitTimer)()) {
             func_80186438(a0);
         }

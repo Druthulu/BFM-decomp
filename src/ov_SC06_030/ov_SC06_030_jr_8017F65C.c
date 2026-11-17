@@ -3324,7 +3324,7 @@ void func_80180508(void *a0) {
         } else {
             ((Unkstruct_801202A0 *)a0)->unkCC.val = s1;
             guess_InitModelObject(s1, (s32)D_8018E4E4);
-            ((Unkstruct_800B5CB8 *)s1)->unk20 = *(s32 *)D_80182184;
+            ((Unkstruct_8001C9D0 *)s1)->unk20 = *(s32 *)D_80182184;
             CAST_WIDTH(s32, s1, 4) |= 0x80000000;
             ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
             ((Unkstruct_801202A0 *)a0)->unkC4 = 3;
@@ -3535,7 +3535,7 @@ void func_80180B50(s32 a0) {
     s32 v0;
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk10 = ((Unkstruct_800B5CB8 *)v1)->unk10 + 0x300;
+    ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x300;
     if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
         guess_FreeActor(a0);
     }

@@ -3237,13 +3237,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -4410,8 +4410,8 @@ void func_8017FF08(void *arg0) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x80;
             ((Unkstruct_801202A0 *)s0)->unk76 = *(u16 *)p;
             q = ((Unkstruct_801202A0 *)s0)->unk20;
-            ((Unkstruct_800B5CB8 *)q)->unk1A = 0x2000;
-            ((Unkstruct_800B5CB8 *)q)->unk18 = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk1A.u = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk18.u = 0x2000;
             a = ((Unkstruct_801202A0 *)s0)->unkD4;
             h1 = ((Unkstruct_801202A0 *)s0)->unk88.u;
             h2 = ((Unkstruct_801202A0 *)s0)->unk8A.u;
@@ -4535,9 +4535,9 @@ s32 func_80180208(s32 a0)
         return 0;
     }
     func_8001CB6C((u8 *)s0, (s32)&D_80193940, 0x298, 0x1B0);
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x68;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x1800;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
     return s0;
 }
 
@@ -4655,8 +4655,8 @@ void func_80180474(s32 a0) {
         q = rsin(*(s32 *)(a0 + 0x1C) << 6) * 3;
         q += q >> 31;
         q >>= 1;
-        ((Unkstruct_800B5CB8 *)prim)->unk18 = q;
-        ((Unkstruct_800B5CB8 *)prim)->unk1A = q;
+        ((Unkstruct_800B5BD8 *)prim)->unk18.u = q;
+        ((Unkstruct_800B5BD8 *)prim)->unk1A.u = q;
         *(s32 *)(a0 + 0x1C) += 1;
         if (*(s32 *)(a0 + 0x1C) >= 0x10) {
             *(u16 *)(a0 + 2) += 1;
@@ -4668,11 +4668,11 @@ void func_80180474(s32 a0) {
         q = sn * 3;
         q += q >> 31;
         q >>= 1;
-        ((Unkstruct_800B5CB8 *)prim)->unk18 = q;
-        ((Unkstruct_800B5CB8 *)prim)->unk1A = q;
-        ((Unkstruct_800B5CB8 *)prim)->unk24 = prod >> 12;
-        ((Unkstruct_800B5CB8 *)prim)->unk25 = prod >> 12;
-        ((Unkstruct_800B5CB8 *)prim)->unk26 = prod >> 12;
+        ((Unkstruct_800B5BD8 *)prim)->unk18.u = q;
+        ((Unkstruct_800B5BD8 *)prim)->unk1A.u = q;
+        ((Unkstruct_800B5BD8 *)prim)->unk24 = prod >> 12;
+        ((Unkstruct_800B5BD8 *)prim)->unk25 = prod >> 12;
+        ((Unkstruct_800B5BD8 *)prim)->unk26 = prod >> 12;
         *(s32 *)(a0 + 0x1C) -= 1;
         if (*(s32 *)(a0 + 0x1C) == 0) {
             func_801292C8((u8 *)a0);

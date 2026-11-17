@@ -4325,7 +4325,7 @@ void func_80183FCC(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
     if (s0 != 0) {
         guess_InitObjectKind6(s0, s2);
-        ((Unkstruct_800B5CB8 *)s0)->unk2C = 0xC010;
+        ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 0xC010;
         CAST_WIDTH(u32, s0, 4) |= 0xD0000000;
     }
 }

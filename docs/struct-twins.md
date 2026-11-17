@@ -976,8 +976,8 @@ cause: 5 names (208 B, all members placeholders) bound to 7 distinct objects, no
 
 ### 042b3b868d1c
 names: MatEntry, Unkstruct_8001D8C4, Unkstruct_8002374C_2, Unkstruct_8017E0C4_2
-cause: 4 names (12 B, all members placeholders) bound to 168 distinct objects, none bound to two names: 0x8017EC5C, 0x8017F638, 0x8017F674, 0x8017F700, 0x8017F930, 0x8017FAA4, 0x8017FAF8, 0x8017FBA0 …; full list: tools/struct_twins.py --show 042b3b868d1c
-- `MatEntry`: 137 obj — 0x8017EC5C, 0x8017F638, 0x8017F674, 0x8017F700, 0x8017F930, 0x8017FAA4, 0x8017FAF8, 0x8017FBA0 (+129)
+cause: 4 names (12 B, all members placeholders) bound to 169 distinct objects, none bound to two names: 0x8017EC5C, 0x8017F638, 0x8017F674, 0x8017F700, 0x8017F930, 0x8017FAA4, 0x8017FAF8, 0x8017FBA0 …; full list: tools/struct_twins.py --show 042b3b868d1c
+- `MatEntry`: 138 obj — 0x8017EC5C, 0x8017F638, 0x8017F674, 0x8017F700, 0x8017F930, 0x8017FAA4, 0x8017FAF8, 0x8017FBA0 (+130)
 - `Unkstruct_8001D8C4`: 1 obj — main/0x8001D8C4:a1
 - `Unkstruct_8002374C_2`: 1 obj — main/0x8002374C:src
 - `Unkstruct_8017E0C4_2`: 29 obj — ov_SC02_011/0x8018EF34:ptr, ov_SC02_016/0x80183544:ptr, ov_SC02_017/0x80188E00:ptr, ov_SC02_026/0x80185B7C:ptr, ov_SC02_027/0x8018ACA0:ptr, ov_SC02_031/0x80184640:ptr, ov_SC02_041/0x801815B0:ptr, ov_SC03_006/0x80187060:ptr (+21)

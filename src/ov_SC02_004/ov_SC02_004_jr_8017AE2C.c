@@ -3987,9 +3987,9 @@ void func_8017DA30(s32 a0) {
     sub = *(s32 *)((u8 *)ent + 0x20);
     if (*(s16 *)((u8 *)ent + 0x2E) != 0) {
         func_8001CC3C(sub, (s32)D_800D387C, 0, 0);
-        ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x9C;
-        ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x4000;
-        ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x4000;
+        ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x4000;
         CAST_WIDTH(s32, (u8 *)sub, 4) |= 0x50000040;
         guess_StartPairSequence(sub, (s32)((u8 *)ent + 0x24), (s32)D_800D3888);
         hw = 0x2C;
@@ -4002,7 +4002,7 @@ void func_8017DA30(s32 a0) {
         p = (s32)((u8 *)ent + 0x24);
         e = (s32)D_801817B0;
         __asm__ __volatile__("" : "=r"(q), "=r"(p), "=r"(e) : "0"(q), "1"(p), "2"(e));  // !FAKE: launder — REFUSED launder with 3 outputs (P36 rung B t8_tus2) wall:sched1-argcopy-hoist
-        ((Unkstruct_800B5CB8 *)q)->unk27 = 0x33;
+        ((Unkstruct_800B5BD8 *)q)->unk27 = 0x33;
         guess_StartPairSequence(q, p, e);
         hw = 0x1C;
     }

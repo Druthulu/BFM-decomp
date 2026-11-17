@@ -140,9 +140,9 @@ void func_800CB1CC(void *arg0) {
             return;
         }
         func_8001CC3C(obj, D_800CB324, 0, 0);
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1C00;
-        ((Unkstruct_800B5CB8 *)obj)->unk27 = 0x19;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1C00;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1C00;
+        ((Unkstruct_800B5BD8 *)obj)->unk27 = 0x19;
         CAST_WIDTH(s32, obj, 4) |= 0xC0000000;
         guess_StartPairSequence(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
         result = 2;

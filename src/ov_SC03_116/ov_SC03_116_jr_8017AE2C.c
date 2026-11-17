@@ -4529,7 +4529,7 @@ void func_80181580(s32 arg0) {
     func_8001CD50(var_s2, (s32) ptr);
     guess_BuildCircle12Points(ptr, 0x80);
     KR_AS(void, func_80181844)(arg0, ptr);
-    ((Unkstruct_800B5CB8 *)var_s2)->unk2C = 0xC040;
+    ((Unkstruct_800B5BD8 *)var_s2)->unk2C.u = 0xC040;
     CAST_WIDTH(s32, var_s2, 4) |= 0x50000000;
     func_801818B8(arg0);
     func_8012AD50(arg0);
@@ -4607,7 +4607,7 @@ void func_8018172C(s32 arg0)
     KR_AS(void, func_80181844)(arg0, ptr);
     *(s32 *)(ptr + 0) = 0xF0;
     *(s32 *)(ptr + 4) = 0;
-    ((Unkstruct_800B5CB8 *)var_s2)->unk2C = 0x8040;
+    ((Unkstruct_800B5BD8 *)var_s2)->unk2C.u = 0x8040;
     CAST_WIDTH(s32, var_s2, 4) |= 0x50000000;
     ((Unkstruct_801202A0 *)arg0)->unkFC.s = 0;
     func_8012AD50(arg0);
@@ -4697,14 +4697,14 @@ s32 func_801818DC(s32 a0) {
 
     a1 = ((Unkstruct_801202A0 *)a0)->unk20;
     v0 = CAST_SIGN(u16, a0, 0xFE);
-    ((Unkstruct_800B5CB8 *)a1)->unk18 = v0;
+    ((Unkstruct_800B5BD8 *)a1)->unk18.u = v0;
     if (v0 < 0x4000) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) + 0x80;
     } else {
-        ((Unkstruct_800B5CB8 *)a1)->unk18 = 0x4000;
+        ((Unkstruct_800B5BD8 *)a1)->unk18.u = 0x4000;
     }
     if (CAST_SIGN(s16, a1, 0x1A) < CAST_SIGN(s16, a1, 0x18)) {
-        ((Unkstruct_800B5CB8 *)a1)->unk1A = CAST_SIGN(s16, a1, 0x18);
+        ((Unkstruct_800B5BD8 *)a1)->unk1A.u = CAST_SIGN(s16, a1, 0x18);
     }
     return CAST_SIGN(s16, a1, 0x18) == 0x4000;
 }
@@ -4787,10 +4787,10 @@ void func_80181A5C(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk20 = s0;
     guess_InitModelObjectKind3(s0, (s32)D_80186364);
     CAST_WIDTH(u16, s0, 0x1C) = 0x4000;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x4000;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x4000;
+    ((Unkstruct_8001C9D0 *)s0)->unk1A.u = 0x4000;
+    ((Unkstruct_8001C9D0 *)s0)->unk18.u = 0x4000;
     CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
-    ((Unkstruct_800B5CB8 *)s0)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x10;
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_801864AC | 0x40000000 | 0x20000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
     CAST_SIGN(u16, a0, 2) += 1;

@@ -6043,8 +6043,8 @@ void func_80182F04(s32 *a0)
         return;
     }
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    ((Unkstruct_800B5CB8 *)p)->unk24 = ((Unkstruct_800B5CB8 *)p)->unk25 = ((Unkstruct_800B5CB8 *)p)->unk26 =
-        ((Unkstruct_800B5CB8 *)p)->unk26 - 2;
+    ((Unkstruct_800B5BD8 *)p)->unk24 = ((Unkstruct_800B5BD8 *)p)->unk25 = ((Unkstruct_800B5BD8 *)p)->unk26 =
+        ((Unkstruct_800B5BD8 *)p)->unk26 - 2;
 }
 
 

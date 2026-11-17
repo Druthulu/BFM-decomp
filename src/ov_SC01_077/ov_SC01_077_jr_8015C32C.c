@@ -4573,7 +4573,7 @@ void func_80164930(s32 param_1) {
         if ((int)((unsigned)uVar2 << 0x10) < 0) {
             ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u = 0;
         }
-        ((Unkstruct_8001C9D0 *)iVar3)->unk12 = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
+        ((Unkstruct_8001C9D0 *)iVar3)->unk12.s = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
     }
 }
 
@@ -6147,10 +6147,10 @@ void func_80169F3C(int param_1)
     iVar1 = func_800D21C4(param_1, D_80189BAC, 0x16);
     if (iVar1 != 0) {
         *(int *)(param_1 + 0x20) = iVar1;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x2000;
         CAST_WIDTH(short, iVar1, 0x18) = 0x2000;
         CAST_WIDTH(char, iVar1, 0x26) = 0x60;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x60;
         CAST_WIDTH(char, iVar1, 0x24) = 0x60;
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50000000;
         ((void (*)(int, int, void *))guess_StartPairSequence)(iVar1, param_1 + 0x24, D_80189B6C);

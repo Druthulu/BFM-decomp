@@ -3540,9 +3540,9 @@ void func_80186894(void *a0)
     guess_StartActorSequence((s32)a0, D_801ADCEC);
 
     p = ((Unkstruct_801202A0 *)a0)->unk20;
-    t = ((Unkstruct_800B5CB8 *)p)->unk2C;
+    t = ((Unkstruct_8001C9D0 *)p)->unk2C.u;
     D_801EC448 = 0x10;
-    ((Unkstruct_800B5CB8 *)p)->unk2C = t | 0x80;
+    ((Unkstruct_8001C9D0 *)p)->unk2C.u = t | 0x80;
     *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)((u8 *)&D_8018F9FC);
     D_801EC44C = (s32)a0;
     D_801EC450 = func_8012C51C(D_8018F870, (s32)a0);
@@ -4024,7 +4024,7 @@ void func_8018726C(void *a0)
         health -= 8;
         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = (u16) health;
 
-        ((Unkstruct_800B5CB8 *)obj)->unk2C |= 0x80;
+        ((Unkstruct_8001C9D0 *)obj)->unk2C.u |= 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32) ((s32 *)&D_8018FA0C);
         *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x4) |= 0x80000000;
 

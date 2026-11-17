@@ -3172,7 +3172,7 @@ body:
     p = (p + 0x1000) * *(s16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x18);
     q = ((Unkstruct_800B5CB8 *)a0)->unk20;
     CAST_WIDTH(s16, q, 0x1C) = (u32)p >> 12;
-    ((Unkstruct_800B5CB8 *)q)->unk1A = (u32)p >> 12;
+    ((Unkstruct_8001C9D0 *)q)->unk1A.u = (u32)p >> 12;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 =
         *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x1C);
 }
@@ -4632,8 +4632,8 @@ void func_8018097C(void *arg0) {
     q = ((Unkstruct_800B5CB8 *)e)->unk20;
     t = prod >> 12;
     CAST_WIDTH(u16, q, 0x1C) = t;
-    ((Unkstruct_800B5CB8 *)q)->unk1A = t;
-    ((Unkstruct_800B5CB8 *)q)->unk18 = t;
+    ((Unkstruct_8001C9D0 *)q)->unk1A.u = t;
+    ((Unkstruct_8001C9D0 *)q)->unk18.u = t;
 
     switch ((s16)(CAST_SIGN(u16, e, 0x70) - 3)) {
     case 1:
@@ -5004,8 +5004,8 @@ void func_801811D4(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_801F5420, D_801F53BC[idx][0], D_801F53BC[idx][1]);
         uVar1 = D_801F53E8[*(s32 *)((s32)a0 + 0x2C)];
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = 3;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

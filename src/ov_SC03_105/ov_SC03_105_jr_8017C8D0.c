@@ -3218,16 +3218,16 @@ s32 func_8017E5C8(s32 param_1) {
         return 0;
     }
     s0 = ((Unkstruct_800B5CB8 *)s1)->unk20;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = (s32)&D_8018DE5C;
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x66;
+    ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)&D_8018DE5C;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x66;
     r = rand();
     q = r;
     if (r < 0) {
         q = r + 0xFFF;
     }
     sv = (s16)(r + (q >> 0xC) * -0x1000 + 0x800);
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = sv;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = sv;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = sv;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = sv;
     CAST_WIDTH(s32, s0, 4) |= 0x50000000;
     guess_StartPairSequence(s0, s1 + 0x24, (s32)&D_8018DE80);
     ((Unkstruct_800B5CB8 *)s1)->unk14 = 0xFFF80000;
@@ -3662,8 +3662,8 @@ void func_8017EF94(s32 a0)
 
     if (((Unkstruct_801202A0 *)a0)->unk34.u == 0) {
         v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        v0 = ((Unkstruct_800B5CB8 *)v1)->unk1A;
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0 + 0x300;
+        v0 = ((Unkstruct_8001C9D0 *)v1)->unk1A.u;
+        ((Unkstruct_8001C9D0 *)v1)->unk1A.u = v0 + 0x300;
         if (guess_TickWaitTimer(a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
             ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
@@ -4153,8 +4153,8 @@ void func_8017FBE8(void *arg0) {
     void *work;
 
     work = *(void **)((s8 *)arg0 + 0x20);
-    ((Unkstruct_800B5CB8 *)work)->unk20 = (u32)&D_800D387C;
-    ((Unkstruct_800B5CB8 *)work)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->unk20.s = (u32)&D_800D387C;
+    ((Unkstruct_800B5BD8 *)work)->unk27 = 0x9C;
     CAST_WIDTH(u32, (s8 *)work, 0x4) |= 0x50000000;
     guess_StartPairSequence((s32)work, (s32)arg0 + 0x24, (s32)D_800D3888);
     *(u16 *)((s8 *)arg0 + 0x2) += 1;
@@ -4703,8 +4703,8 @@ void func_801806F8(s32 a0)
     switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
     case 0:
         pA = ((Unkstruct_801202A0 *)s0)->unk20;
-        ((Unkstruct_800B5CB8 *)pA)->unk1A = 0x2000;
-        ((Unkstruct_800B5CB8 *)pA)->unk18 = 0x2000;
+        ((Unkstruct_8001C9D0 *)pA)->unk1A.u = 0x2000;
+        ((Unkstruct_8001C9D0 *)pA)->unk18.u = 0x2000;
         (CAST_ALIAS(u16, s0, 0x34))++;
         *(u16 *)((s32)sp18 + 0x2) = D_8018E81C;
         *(u16 *)((s32)sp18 + 0x6) = D_8018E81E;
@@ -4759,7 +4759,7 @@ void func_801806F8(s32 a0)
         break;
     case 4:
         pB = ((Unkstruct_801202A0 *)s0)->unk20;
-        ((Unkstruct_800B5CB8 *)pB)->unk12 = ((Unkstruct_800B5CB8 *)pB)->unk12 + D_801BA590 * 16;
+        ((Unkstruct_8001C9D0 *)pB)->unk12.u = ((Unkstruct_8001C9D0 *)pB)->unk12.u + D_801BA590 * 16;
         if (guess_TickWaitTimer(s0) != 0) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x3C;
             ((Unkstruct_801202A0 *)s0)->extC.kSC03_105_80180100.unkE0 |= 1;

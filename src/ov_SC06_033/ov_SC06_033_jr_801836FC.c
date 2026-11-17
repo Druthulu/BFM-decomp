@@ -3713,7 +3713,7 @@ void func_801849E0(s32 p) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 = (((Unkstruct_801202A0 *)p)->unk62 + 0x800) & 0xFFF;
     iVar2 = ((Unkstruct_801202A0 *)p)->unk20;
     CAST_WIDTH(s16, iVar2, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)iVar2)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)iVar2)->unk10.u = 0;
     guess_UpdateActorModelMatrix(p);
     ((s32 (*)())func_801888E8)(p, 0x9B7);
 

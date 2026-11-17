@@ -3163,7 +3163,7 @@ case1: {
     p = ((Unkstruct_801202A0 *)a0)->unk20;
     v0 = v0 + 6;
     ((Unkstruct_801202A0 *)a0)->unkFC.s = v0;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + v0;
+    ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + v0;
     if (guess_TickWaitTimer(a0) == 0) {
         goto tail;
     }
@@ -3174,7 +3174,7 @@ case1: {
 case2: {
     s32 p;
     p = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)p)->unk12 += CAST_SIGN(u16, a0, 0xFC);
+    ((Unkstruct_8001C9D0 *)p)->unk12.u += CAST_SIGN(u16, a0, 0xFC);
     if (guess_TickWaitTimer(a0) == 0) {
         goto tail;
     }
@@ -3189,7 +3189,7 @@ case3: {
     p = ((Unkstruct_801202A0 *)a0)->unk20;
     v0 = v0 - 3;
     ((Unkstruct_801202A0 *)a0)->unkFC.s = v0;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 + v0;
+    ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u + v0;
     if (((Unkstruct_801202A0 *)a0)->unkFC.s >= 9) {
         goto tail;
     }

@@ -3584,10 +3584,10 @@ void func_8018ED84(s32 arg0) {
         return;
     }
     guess_AddVelocityToPos((void *)arg0);
-    v0 = ((Unkstruct_800B5CB8 *)s0)->unk26 - 2;
-    ((Unkstruct_800B5CB8 *)s0)->unk26 = v0;
-    ((Unkstruct_800B5CB8 *)s0)->unk25 = v0;
-    ((Unkstruct_800B5CB8 *)s0)->unk24 = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s0)->unk26 - 2;
+    ((Unkstruct_800B5BD8 *)s0)->unk26 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk25 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk24 = v0;
 }
 
 
@@ -3705,16 +3705,16 @@ void func_8018EFEC(s32 param_1)
         guess_ApplyAccelAndVelocity(param_1);
         p = ((Unkstruct_801202A0 *)param_1)->unk20;
         t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
-        ((Unkstruct_800B5CB8 *)p)->unk8 = t;
-        ((Unkstruct_800B5CB8 *)p)->unk48 = (s16)t;
+        ((Unkstruct_8001C9D0 *)p)->unk8.u = t;
+        ((Unkstruct_8001C9D0 *)p)->unk48 = (s16)t;
         p = ((Unkstruct_801202A0 *)param_1)->unk20;
         t = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
-        ((Unkstruct_800B5CB8 *)p)->unkA = t;
-        ((Unkstruct_800B5CB8 *)p)->unk4C = (s16)t;
+        ((Unkstruct_8001C9D0 *)p)->unkA.u = t;
+        ((Unkstruct_8001C9D0 *)p)->unk4C = (s16)t;
         p = ((Unkstruct_801202A0 *)param_1)->unk20;
         t = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
-        ((Unkstruct_800B5CB8 *)p)->unkC = t;
-        ((Unkstruct_800B5CB8 *)p)->unk50 = (s16)t;
+        ((Unkstruct_8001C9D0 *)p)->unkC.u = t;
+        ((Unkstruct_8001C9D0 *)p)->unk50 = (s16)t;
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 1;
         ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFEE0000;
         ((Unkstruct_801202A0 *)param_1)->unk48 = 0x1C000;
@@ -4596,8 +4596,8 @@ void func_80190144(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_80196D94, D_80196D30[idx][0], D_80196D30[idx][1]);
         uVar1 = D_80196D5C[*(s32 *)((s32)a0 + 0x2C)];
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = 3;
-        ((Unkstruct_800B5CB8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
+        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

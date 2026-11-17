@@ -4807,7 +4807,7 @@ void func_80183BA4(s32 param_1) {
             } else {
                 v = base - off;
             }
-            ((Unkstruct_800B5CB8 *)o2)->unk12 = v;
+            ((Unkstruct_8001C9D0 *)o2)->unk12.u = v;
             func_8012B0B4(buf, *(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) + 0x800,
                           rand() % 0x10 + 8);
             t = buf[0];

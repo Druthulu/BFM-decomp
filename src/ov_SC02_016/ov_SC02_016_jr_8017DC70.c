@@ -3823,9 +3823,9 @@ void func_8017FCD0(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_801881A4, 0, 0);
-        ((Unkstruct_800B5CB8 *)effect)->unk27 = 0x88;
-        ((Unkstruct_800B5CB8 *)effect)->unk1A = 0x4000;
-        ((Unkstruct_800B5CB8 *)effect)->unk18 = 0x4000;
+        ((Unkstruct_800B5BD8 *)effect)->unk27 = 0x88;
+        ((Unkstruct_800B5BD8 *)effect)->unk1A.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)effect)->unk18.u = 0x4000;
         CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
 
         idx = *(s32 *)(a0 + 0x2c);
@@ -4095,7 +4095,7 @@ void func_801804F8(int param_1)
         ((Unkstruct_801202A0 *)param_1)->unk76 = val;
         prims = (int *)((Unkstruct_801202A0 *)param_1)->unk20;
         CAST_WIDTH(short, (int)prims, 0x14) = 0;
-        ((Unkstruct_800B5CB8 *)prims)->unk10 = 0;
+        ((Unkstruct_8001C9D0 *)prims)->unk10.u = 0;
         ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 =
             *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC);
         ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk2C &= ~0x10;

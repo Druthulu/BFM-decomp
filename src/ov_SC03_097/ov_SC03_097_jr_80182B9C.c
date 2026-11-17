@@ -2950,13 +2950,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -3845,8 +3845,8 @@ void func_80184AE8(void *arg0) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x80;
             ((Unkstruct_801202A0 *)s0)->unk76 = *(u16 *)p;
             q = ((Unkstruct_801202A0 *)s0)->unk20;
-            ((Unkstruct_800B5CB8 *)q)->unk1A = 0x2000;
-            ((Unkstruct_800B5CB8 *)q)->unk18 = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk1A.u = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk18.u = 0x2000;
             a = ((Unkstruct_801202A0 *)s0)->unkD4;
             h1 = ((Unkstruct_801202A0 *)s0)->unk88.u;
             h2 = ((Unkstruct_801202A0 *)s0)->unk8A.u;
@@ -4086,8 +4086,8 @@ void func_80185054(s32 a0) {
     s1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     if (CAST_SIGN(u16, a0, 2) == 0) {
         w = rsin(((Unkstruct_800B5CB8 *)a0)->unk1C << 6);
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = (w * 3 + (w * 3 >> 31)) >> 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = (w * 3 + (w * 3 >> 31)) >> 1;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = (w * 3 + (w * 3 >> 31)) >> 1;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = (w * 3 + (w * 3 >> 31)) >> 1;
         ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
         if (((Unkstruct_800B5CB8 *)a0)->unk1C < 0x10) {
             return;
@@ -4097,11 +4097,11 @@ void func_80185054(s32 a0) {
     } else {
         t = (s16)rsin(((Unkstruct_800B5CB8 *)a0)->unk1C << 5);
         q = CAST_WIDTH(s32, a0, 0x2C) * t;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk24 = q >> 12;
-        ((Unkstruct_800B5CB8 *)s1)->unk25 = q >> 12;
-        ((Unkstruct_800B5CB8 *)s1)->unk26 = q >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
+        ((Unkstruct_800B5BD8 *)s1)->unk24 = q >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk25 = q >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk26 = q >> 12;
         ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
         if (((Unkstruct_800B5CB8 *)a0)->unk1C != 0) {
             return;

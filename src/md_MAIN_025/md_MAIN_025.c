@@ -261,9 +261,9 @@ void func_800CB300(s32 arg0) {
         goto L6A8;
     }
     func_80013F3C(&mat);
-    func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk10);
+    func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk10.s);
     func_800123F0((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk14);
-    func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk12);
+    func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk12.s);
     *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
     *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];
     ((Unkstruct_8001C9D0 *)s0)->unk2C.u = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 1;
@@ -483,7 +483,7 @@ void func_800CB968(void *a0) {
         guess_NextStep(a0);
     } else {
         if (s0 != 0) {
-            ((Unkstruct_800B5CB8 *)s0)->unk18 += 0x2AA;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u += 0x2AA;
         }
     }
 }
@@ -543,9 +543,9 @@ void func_800CBAF4(void *a0)
 
 
 void func_800CBB50(void *a0) {
-    ((Unkstruct_800B5CB8 *)a0)->unk27 = 0x1A;
-    ((Unkstruct_800B5CB8 *)a0)->unk2C = 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk8 = 0;
+    ((Unkstruct_800B5BD8 *)a0)->unk27 = 0x1A;
+    ((Unkstruct_800B5BD8 *)a0)->unk2C.u = 1;
+    ((Unkstruct_800B5BD8 *)a0)->unk8.u = 0;
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x40;
 }
 

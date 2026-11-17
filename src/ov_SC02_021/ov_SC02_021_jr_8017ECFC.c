@@ -2977,9 +2977,9 @@ void func_8017F264(s32 a0)
     if (s0 != 0) {
         ((Unkstruct_801202A0 *)a0)->unk20 = s0;
         func_8001CEC0(s0, s2);
-        ((Unkstruct_800B5CB8 *)s0)->unk2E = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk2E = 0;
         CAST_WIDTH(s16, s0, 0x30) = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unk2C = 1;
+        ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
         guess_CopyVec3HighHalves(a0 + 4, (s32 *)(a0 + 0xFC));
         func_8017F2FC(a0);
         func_8012AD50((void *)a0);

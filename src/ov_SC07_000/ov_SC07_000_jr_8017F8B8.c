@@ -3396,7 +3396,7 @@ void func_801809A4(void *a0) {
     guess_InitModelObject(ret, (s32)&D_801B9C88);
 
     p = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)p)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)p)->unk2C.u |= 0x10;
     func_8017F888((s32 *)a0, (s32 *)&D_80186550);
 
     func_80143970((s32)a0);
@@ -3740,9 +3740,9 @@ void func_80181228(void *a0) {
     a1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
     v = CAST_SIGN(s16, a1, 0x18);
     if (v < 0x1000) {
-        ((Unkstruct_800B5CB8 *)a1)->unk18 = v + 0x200;
+        ((Unkstruct_800B5BD8 *)a1)->unk18.u = v + 0x200;
         v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk1A += 0x300;
+        ((Unkstruct_800B5BD8 *)v1)->unk1A.u += 0x300;
         p[0] += D_801865BC >> 3;
         p[1] += D_801865BD >> 3;
         p[2] += D_801865BE >> 3;

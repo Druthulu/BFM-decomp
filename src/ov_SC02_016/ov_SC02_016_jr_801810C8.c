@@ -3092,7 +3092,7 @@ void func_80181714(s32 a0) {
         v1 = ((v0 << 9) >> 12) + 0x1000;
         obj = ((Unkstruct_801202A0 *)a0)->unk20;
         CAST_WIDTH(s16, obj, 0x1C) = v1;
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = v1;
+        ((Unkstruct_8001C9D0 *)obj)->unk18.u = v1;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0x1000 - ((v0 << 10) >> 12);
         if (guess_TickWaitTimer(a0) == 0) {
             return;
@@ -3266,7 +3266,7 @@ void func_80181AE8(s32 param_1) {
                 ((Unkstruct_801202A0 *)param_1)->unk76 = val;
                 prims = (int *)((Unkstruct_801202A0 *)param_1)->unk20;
                 CAST_WIDTH(s16, (int)prims, 0x14) = 0;
-                ((Unkstruct_800B5CB8 *)prims)->unk10 = 0;
+                ((Unkstruct_8001C9D0 *)prims)->unk10.u = 0;
                 ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 =
                     *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC);
                 ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk2C &= ~0x10;
@@ -3456,7 +3456,7 @@ void func_80181FB8(s32 a0) {
             }
         }
         v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk12 = ((Unkstruct_800B5CB8 *)v1)->unk12 + s1;
+        ((Unkstruct_8001C9D0 *)v1)->unk12.u = ((Unkstruct_8001C9D0 *)v1)->unk12.u + s1;
         break;
     case 1:
         guess_ApplyAccelAndVelocity(a0);
@@ -4068,7 +4068,7 @@ void func_801829D8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
     f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
     mask = f->unk0.v1.unk6 & r;
-    if (((Unkstruct_800B5CB8 *)a)->unk12 & 1)
+    if (((Unkstruct_8011D030 *)a)->unk12.u & 1)
         f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
         f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;

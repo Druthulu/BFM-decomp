@@ -3114,7 +3114,7 @@ void func_801822C8(s32 param_1) {
         p = ((Unkstruct_801202A0 *)param_1)->unk20;
         do { h = CAST_SIGN(u16, param_1, 0x100); } while (0);
         CAST_WIDTH(s16, p, 0x1C) = h;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = h;
+        ((Unkstruct_8001C9D0 *)p)->unk18.u = h;
         a = param_1;
         *(s16 *)(a + 0x5C) |= 1;
         *(s16 *)(a + 0x60) = 0;

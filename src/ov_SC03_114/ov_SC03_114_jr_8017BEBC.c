@@ -3353,7 +3353,7 @@ void func_8017DEE4(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk20 = var_v0;
     if (var_v0 != 0) {
         guess_InitObjectKind6(var_v0, (void *)var_s2);
-        ((Unkstruct_800B5CB8 *)var_v0)->unk1A = 0x3000;
+        ((Unkstruct_800B5BD8 *)var_v0)->unk1A.u = 0x3000;
         CAST_WIDTH(s32, var_v0, 4) |= 0x50000000;
         guess_BuildCircle12Points((void *)var_s2, 0x80);
         func_8017E014(a0, var_s2);

@@ -122,12 +122,12 @@ void func_800CB058(s32 arg0)
     p = s2a;
     q = (s32)(s1a + 4);
     v0w = CAST_WIDTH(u32, s0a, 4);
-    ((Unkstruct_800B5CB8 *)s0a)->unk27 = 0x19;
+    ((Unkstruct_800B5BD8 *)s0a)->unk27 = 0x19;
     CAST_WIDTH(u32, s0a, 4) = (v0w | maska) & ~0x40;
     fptr = *(s32 *)(p + 0x20);
     cnt = D_800CB984++;
-    ((Unkstruct_800B5CB8 *)s0a)->unk12 = *(s16 *)(fptr + 0x12);
-    ((Unkstruct_800B5CB8 *)s0a)->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)s0a)->unk12.u = *(s16 *)(fptr + 0x12);
+    ((Unkstruct_800B5BD8 *)s0a)->unk10.u = 0x400;
     CAST_WIDTH(s32, s0a, 0x34) = (s32)D_800CB988 + ((cnt & 7) * 32);
     guess_TransformPosByObjMatrix(p, q);
     func_80146DE8(s1a, 0, 0, -0x100000);

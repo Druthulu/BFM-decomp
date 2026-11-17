@@ -318,9 +318,9 @@ void func_800CB480(s32 arg0)
     } else {
         *(s32 *)(arg0 + 0x20) = iVar1;
         func_8001CC3C(iVar1, (s32)&D_800CB648, 0x1B8, 0x100);
-        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x1A;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x2000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x1A;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x2000;
         *(s32 *)(arg0 + 0x10) = *(s32 *)((s32)&D_800CB65C + (*(s32 *)(arg0 + 0x2C)) * 0x10);
         *(s32 *)(arg0 + 0x14) = *(s32 *)((s32)&D_800CB660 + (*(s32 *)(arg0 + 0x2C)) * 0x10);
         *(s32 *)(arg0 + 0x18) = *(s32 *)((s32)&D_800CB664 + (*(s32 *)(arg0 + 0x2C)) * 0x10);

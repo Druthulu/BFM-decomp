@@ -3229,7 +3229,7 @@ void func_80186B4C(s32 a0) {
             goto timeout;
         }
         q = ((Unkstruct_801202A0 *)s0)->unk20;
-        ((Unkstruct_800B5CB8 *)q)->unk10 -= 0x100;
+        ((Unkstruct_8001C9D0 *)q)->unk10.u -= 0x100;
         s1 = ((s32 (*)(s32, s32))func_8012CC64)(s0, (s32)&D_801C92DC);
         if (s1 & 0x2000) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xF;
@@ -3263,7 +3263,7 @@ merge2:
         if (v0) {
             p = ((Unkstruct_801202A0 *)s0)->unk20;
             ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-            ((Unkstruct_800B5CB8 *)p)->unk10 = 0;
+            ((Unkstruct_8001C9D0 *)p)->unk10.u = 0;
             CAST_WIDTH(s16, s0, 0x5E) = 0;
             func_80186D90(s0);
         }

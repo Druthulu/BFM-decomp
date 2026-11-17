@@ -3338,7 +3338,7 @@ void func_8018199C(s32 arg0) {
     s16 h;
 
     a0 = ((Unkstruct_801202A0 *)arg0)->unk20;
-    ((Unkstruct_800B5CB8 *)a0)->unk10 = ((Unkstruct_800B5CB8 *)a0)->unk10 + (CAST_SIGN(u16, arg0, 0x106));
+    ((Unkstruct_8001C9D0 *)a0)->unk10.u = ((Unkstruct_8001C9D0 *)a0)->unk10.u + (CAST_SIGN(u16, arg0, 0x106));
 
     a1 = ((Unkstruct_801202A0 *)arg0)->unk20;
     val = ((Unkstruct_801202A0 *)arg0)->extD.kSC06_022_801813C8.unk108;

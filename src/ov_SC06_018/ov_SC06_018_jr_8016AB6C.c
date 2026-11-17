@@ -2373,7 +2373,7 @@ s32 func_8016BBE0(s32 param_1) {
     int temp;
 
     iVar1 = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_8011D030 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         guess_UpdateAttachedPos(((int)param_1));
@@ -2411,8 +2411,8 @@ void func_8016BCC0(void *arg0) {
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
     guess_UpdateAttachedPos((s32)arg0);
-    temp_a2 = ((Unkstruct_800B5CB8 *)arg0)->unk10 + 0x60;
-    ((Unkstruct_800B5CB8 *)arg0)->unk10 = temp_a2;
+    temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10 + 0x60;
+    ((Unkstruct_8011D030 *)arg0)->unk10 = temp_a2;
     temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
     ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = temp_v0;
     ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = temp_v0;
@@ -3249,9 +3249,9 @@ void func_8016DA7C(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_80196874, 0x250, 0x100);
-        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x90;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x3000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x4000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x4000;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
         guess_StartPairSequence(iVar1, param_1 + 0x24, (s32)&D_80196880);
         *(s32 *)(param_1 + 0x10) = 0;

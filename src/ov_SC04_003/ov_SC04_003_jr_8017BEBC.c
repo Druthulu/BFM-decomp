@@ -5479,7 +5479,7 @@ void func_801812C4(void *param_1)
 
     {
         s32 v1 = ((Unkstruct_801202A0 *)ent)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
         v1 = ((Unkstruct_801202A0 *)ent)->unk20;
         CAST_WIDTH(u32, v1, 0x4) |= 0x8040;
     }

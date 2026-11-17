@@ -8508,15 +8508,15 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->unk18.s = v;
     v = 0xC8;
     ((Unkstruct_8001C9D0 *)a0v)->unk14 = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unk12 = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unk10 = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unkC = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unkA = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unk8 = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk12.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk10.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unkC.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unkA.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk8.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk4.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk20 = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk28 = v;
-    ((Unkstruct_8001C9D0 *)a0v)->unk2A = v;
+    ((Unkstruct_8001C9D0 *)a0v)->unk2A.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk2C.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk2E = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk80 = 0;
@@ -8834,8 +8834,8 @@ ret0:
 }
 
 void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2) {
-    ((Unkstruct_800B5CB8 *)arg0)->unk28 = arg1;
-    ((Unkstruct_800B5CB8 *)arg0)->unk2A = arg2;
+    ((Unkstruct_8001C9D0 *)arg0)->unk28 = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->unk2A.u = arg2;
 }
 
 void func_8001D0F4(s32 *a0)

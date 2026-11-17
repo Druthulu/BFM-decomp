@@ -3379,7 +3379,7 @@ void func_8017E7D0(s32 a0)
     ((Unkstruct_801202A0 *)a0)->unk1C.s = (s16)D_80188A2A[0];
     ret = func_8012B8A4((s16 *)a0);
     p = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ret;
+    ((Unkstruct_8001C9D0 *)p)->unk12.u = ret;
     guess_UpdateActorModelMatrix(a0);
     func_8012B200((u8 *)a0);
     guess_SetLocalVelocity(a0, (s32)&D_80188A2A[3]);
@@ -3566,7 +3566,7 @@ void func_8017ECE0(s32 arg0) {
         }
         tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
         if (tmp != 0) {
-            ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
+            ((Unkstruct_800B5BD8 *)tmp)->unk2C.u = 0xC040;
         }
         var_s0 = i * 0x200;
         a = rsin(var_s0);
@@ -3594,7 +3594,7 @@ void func_8017EDA0(s32 arg0) {
         }
         tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
         if (tmp != 0) {
-            ((Unkstruct_800B5CB8 *)tmp)->unk2C = 0xC040;
+            ((Unkstruct_800B5BD8 *)tmp)->unk2C.u = 0xC040;
         }
         var_s0 = i * 0x80;
         a = rsin(var_s0);
@@ -4266,9 +4266,9 @@ loop:
     *pp = (void *)obj;
     if (obj != 0) {
         guess_InitObjectKind6(obj, D_8019FA10);
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = sz;
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = sz;
-        ((Unkstruct_800B5CB8 *)obj)->unk2C = 0xC060;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = sz;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = sz;
+        ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 0xC060;
         CAST_WIDTH(u32, obj, 0x4) |= 0x50000000;
     }
     i++;
@@ -4284,9 +4284,9 @@ loop:
     D_8019FAD0 = (void *)obj;
     if (obj != 0) {
         guess_InitObjectKind6(obj, D_8019FA50);
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1000;
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1000;
-        ((Unkstruct_800B5CB8 *)obj)->unk2C = 0xC060;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 0xC060;
         CAST_WIDTH(u32, obj, 0x4) |= 0x50000000;
     }
 
@@ -4298,9 +4298,9 @@ loop:
     D_8019FAD4 = (void *)obj;
     if (obj != 0) {
         guess_InitObjectKind6(obj, p);
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1000;
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1000;
-        ((Unkstruct_800B5CB8 *)obj)->unk2C = 0xC060;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 0xC060;
         CAST_WIDTH(u32, obj, 0x4) |= 0x50000000;
     }
 
@@ -5115,11 +5115,11 @@ void func_801810A4(s32 a0) {
             v = n * 3;
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;        /* obj->model */
             v = v * 128;
-            ((Unkstruct_800B5CB8 *)p)->unk1A = v;
+            ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
         } else if (n < 0x16) {
             v = 0xC00;
             p = ((Unkstruct_800B5CB8 *)a0)->unk20;
-            ((Unkstruct_800B5CB8 *)p)->unk1A = v;
+            ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
         } else if (*(s32 *)(obj + 0x1C) == 0) {
             /* Raw (unnamed) pointer for the 0x1A store, so the sh kills the cse and `p` costs its
              * own second `lw $v1,0x20($s1)` -- the target shows exactly two here (§193-E).  The
@@ -5147,7 +5147,7 @@ void func_801810A4(s32 a0) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = 0xC00;
             goto call;
         }
-        ((Unkstruct_800B5CB8 *)p)->unk18 = v;             /* the .L8018121C merge block */
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v;             /* the .L8018121C merge block */
     call:
         func_80129350(a0, obj);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C = 0xC040;

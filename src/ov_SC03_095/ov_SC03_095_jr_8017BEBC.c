@@ -3019,7 +3019,7 @@ void func_8017D618(s32 a0) {
         sp20 = ((Unkstruct_801202A0 *)a0)->unk20;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_80184A4A[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
-        ((Unkstruct_800B5CB8 *)sp20)->unk2C |= 0x80;
+        ((Unkstruct_8001C9D0 *)sp20)->unk2C.u |= 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_80184A4C;
         ((Unkstruct_801202A0 *)a0)->unkFE.s = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     }
@@ -3701,13 +3701,13 @@ low:
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g1)->unk1A = tmp * 0x300;
-        ((Unkstruct_800B5CB8 *)g1)->unk18 = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk1A.u = tmp * 0x300;
+        ((Unkstruct_8001C9D0 *)g1)->unk18.u = tmp * 0x300;
     } else {
         s32 g2;                       /* per-arm local: §5a cross-jump barrier, see header */
         g2 = ((Unkstruct_800B5CB8 *)a0)->unk20;
-        ((Unkstruct_800B5CB8 *)g2)->unk1A = (0x20 - tmp) * 0x300;
-        ((Unkstruct_800B5CB8 *)g2)->unk18 = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk1A.u = (0x20 - tmp) * 0x300;
+        ((Unkstruct_8001C9D0 *)g2)->unk18.u = (0x20 - tmp) * 0x300;
     }
 
 tail:
@@ -4709,9 +4709,9 @@ s32 func_80180688(s32 a0)
         return 0;
     }
     func_8001CB6C((u8 *)s0, (s32)&D_80194E8C, 0x298, 0x1B0);
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x68;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x1800;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1800;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
     return s0;
 }
 

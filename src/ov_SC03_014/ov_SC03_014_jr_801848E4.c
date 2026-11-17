@@ -3270,7 +3270,7 @@ void func_801855A0(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     guess_StartActorSequence(a0, D_8018B898);
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
 
     ((Unkstruct_801202A0 *)a0)->unk75 = 0;
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {

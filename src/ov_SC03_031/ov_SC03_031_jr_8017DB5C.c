@@ -3393,13 +3393,13 @@ void func_8017F28C(void *arg0)
     s32 i;
 
     v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk10 += 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk10.u += 0x10;
 
     guess_ApplyAccelAndVelocity((s32) s0);
 
     if (guess_TickWaitTimer((s32) s0) != 0) {
         v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-        ((Unkstruct_800B5CB8 *)v1)->unk10 = 0x400;
+        ((Unkstruct_8001C9D0 *)v1)->unk10.u = 0x400;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 4;
         s2 = (s16 *)(D_80186174 + ((CAST_SIGN(u16, s0, 0x70) & 0xF) << 3));
         for (i = 0; i < 5; i++) {
@@ -4681,7 +4681,7 @@ void func_801813F8(void *a0) {
     case 1:
         ret = guess_TurnStepToTarget(base, 6);
         ptr = ((Unkstruct_801202A0 *)base)->unk20;
-        ((Unkstruct_800B5CB8 *)ptr)->unk12 += ret;
+        ((Unkstruct_8001C9D0 *)ptr)->unk12.u += ret;
         break;
     case 2:
         if (((Unkstruct_801202A0 *)base)->unk1C.s == 0xA) {

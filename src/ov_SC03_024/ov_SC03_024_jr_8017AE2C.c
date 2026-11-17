@@ -3639,8 +3639,8 @@ void func_8017C6A0(void *a0) {
         s1 = (s32)a0 + 4;
         guess_TransformPosByObjMatrix(s0, s1);
 
-        ((Unkstruct_800B5CB8 *)s3)->unk10 = func_8012A68C();
-        ((Unkstruct_800B5CB8 *)s3)->unk12 = func_8012A758();
+        ((Unkstruct_800B5BD8 *)s3)->unk10.u = func_8012A68C();
+        ((Unkstruct_800B5BD8 *)s3)->unk12.u = func_8012A758();
         func_8004978C((s16 *)(s3 + 0x10), mat);
 
         ApplyMatrixSV(mat, D_8018AA1C, vecOut);
@@ -3655,11 +3655,11 @@ void func_8017C6A0(void *a0) {
 
         func_8001CB00((s32)s3, D_8018A9F8, 0x280, 0x100);
 
-        ((Unkstruct_800B5CB8 *)s3)->unk27 = 0x80;
+        ((Unkstruct_800B5BD8 *)s3)->unk27 = 0x80;
 
-        ((Unkstruct_800B5CB8 *)s3)->unk2C = CAST_SIGN(u16, a0, 0xE);
-        ((Unkstruct_800B5CB8 *)s3)->unk1A = 0;
-        ((Unkstruct_800B5CB8 *)s3)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)s3)->unk2C.u = CAST_SIGN(u16, a0, 0xE);
+        ((Unkstruct_800B5BD8 *)s3)->unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)s3)->unk18.u = 0;
 
         ((Unkstruct_80126B58 *)a0)->unk10 = 0;
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
@@ -3931,8 +3931,8 @@ void func_8017CE90(void *a0)
         *(s32 *)((u8 *)a0 + 0x10) = 0;
         if (*(s32 *)((u8 *)a0 + 0x30) & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
-            ((Unkstruct_800B5CB8 *)s1)->unk1A = 0x80;
-            ((Unkstruct_800B5CB8 *)s1)->unk18 = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x80;
             *(s32 *)((u8 *)a0 + 0x14) = 0x80;
         } else {
             *s2 = D_8018A924[*(s32 *)((u8 *)a0 + 0x2C)];
@@ -3944,7 +3944,7 @@ void func_8017CE90(void *a0)
         D_801C11B6 = 0;
 
         *(s32 *)((u8 *)a0 + 0x30) = *(s32 *)((u8 *)a0 + 0x30) & 0x7F;
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
         *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
@@ -4217,10 +4217,10 @@ void func_8017D678(void *a0)
         CAST_WIDTH(s32, (u8 *)s1, 4) |= 0x50000000;
         guess_BuildCircle12Points(s0, 0x100);
 
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = 0;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0;
         ((Unkstruct_80126B58 *)a0)->unk10 = 0x80;
-        ((Unkstruct_800B5CB8 *)s1)->unk2C = 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0x10;
 
         *(u8 *)s0 = 0xFF;
         D_801C11F1 = 0xFF;

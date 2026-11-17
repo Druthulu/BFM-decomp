@@ -5565,12 +5565,12 @@ void func_801816FC(MainStruct_SC02_005_8017CF90 *s0) {
     ((Unkstruct_801202A0 *)s0)->unkC4 = v0 | 2;
     CAST_WIDTH(s32, v1, 0x28) = a0r;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-    v0 = ((Unkstruct_800B5CB8 *)v1)->unk2C;
+    v0 = ((Unkstruct_8001C9D0 *)v1)->unk2C.u;
     D_801E4BBC = 0;
     D_801E43B4 = 0;
     D_801E43B8 = 0;
     D_801E43BC = 0;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C = v0 | 0x80;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u = v0 | 0x80;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20;
     CAST_WIDTH(s32, v1, 0x80) = (s32)&D_801961B8;
     ((Unkstruct_801202A0 *)s0)->unkFE.s = 0;

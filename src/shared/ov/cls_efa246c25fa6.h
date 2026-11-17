@@ -13,7 +13,7 @@ void SHARED_FN(s32 a0)
 
         ((Unkstruct_8001C9D0 *)*(s32*)(a0 + 0x20))->unk4.s |= 0x8000000;
 
-        ((Unkstruct_8001C9D0 *)*(s32*)(a0 + 0x20))->unk12 = 0;
+        ((Unkstruct_8001C9D0 *)*(s32*)(a0 + 0x20))->unk12.s = 0;
         guess_RequestSound(0xCB4, 0);
     }
 }

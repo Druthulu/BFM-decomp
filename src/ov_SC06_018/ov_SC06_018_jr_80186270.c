@@ -3441,7 +3441,7 @@ void func_80186F78(s32 param_1) {
     }
     iVar2 = ((Unkstruct_801202A0 *)param_1)->unk20;
     CAST_WIDTH(s16, iVar2, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)iVar2)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)iVar2)->unk10.u = 0;
     uVar1 = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk78 + 2);
     ((Unkstruct_801202A0 *)param_1)->extC.kSC06_018_80183A00.unkE0 = (CAST_SIGN(u32, param_1, 0xe0) & 0xffffffd5) | 0x400;
     CAST_WIDTH(s16, param_1, 0x5e) = 0;

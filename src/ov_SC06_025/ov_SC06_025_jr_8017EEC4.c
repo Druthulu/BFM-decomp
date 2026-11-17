@@ -4480,7 +4480,7 @@ void func_801812FC(s32 a0) {
         do { ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10; } while (0);
         base = ((Unkstruct_801202A0 *)a0)->unk20;
         flag = D_801B173C;
-        ((Unkstruct_800B5CB8 *)base)->unk18 = c;
+        ((Unkstruct_8001C9D0 *)base)->unk18.u = c;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0;
         *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x1C) = c;
         if (flag == 0) {
@@ -6653,7 +6653,7 @@ void func_80183ED8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
     f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
     mask = f->unk0.v1.unk6 & r;
-    if (((Unkstruct_800B5CB8 *)a)->unk12 & 1)
+    if (((Unkstruct_8011D030 *)a)->unk12.u & 1)
         f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
         f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;

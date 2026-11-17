@@ -3101,7 +3101,7 @@ void func_80181BE4(s32 p)
         if (((Unkstruct_801202A0 *)p)->unk1C.s >= 0x19) {
             s32 r = guess_TurnStepToTarget(p, 4);
             s32 o = ((Unkstruct_801202A0 *)p)->unk20;
-            ((Unkstruct_800B5CB8 *)o)->unk12 = ((Unkstruct_800B5CB8 *)o)->unk12 + r;
+            ((Unkstruct_8001C9D0 *)o)->unk12.u = ((Unkstruct_8001C9D0 *)o)->unk12.u + r;
         }
         s1c = ((Unkstruct_801202A0 *)p)->unk1C.s;
         if (s1c == 0xC) {

@@ -9893,7 +9893,7 @@ void func_80187854(void *a0) {
     func_8001C810(v0, (s32)&D_801BEFBC);
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
     CAST_WIDTH(u32, v1, 4) |= 0x8040;

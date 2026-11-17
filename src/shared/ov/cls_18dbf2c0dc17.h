@@ -12,7 +12,7 @@ void SHARED_FN(s32 *a0) {
     val2 = CAST_SIGN(u16, (char *)a0, 0x70);
     ptr_at_20 = ((Unkstruct_801202A0 *)a0)->unk20;
 
-    ((Unkstruct_800B5CB8 *)ptr_at_20)->unk12 = val1 + val2;
+    ((Unkstruct_8001C9D0 *)ptr_at_20)->unk12.u = val1 + val2;
 
     guess_UpdateActorModelMatrix(a0);
 }

@@ -3005,7 +3005,7 @@ void func_80182B74(s32 param_1)
             {
                 s32 src = *(s32 *)(t1 + 0x20);
                 s32 dst = ((Unkstruct_801202A0 *)param_1)->unk20;
-                ((Unkstruct_800B5CB8 *)dst)->unk2C = *(u16 *)(src + 0x2C);
+                ((Unkstruct_8001C9D0 *)dst)->unk2C.u = *(u16 *)(src + 0x2C);
             }
         }
     }
@@ -9066,9 +9066,9 @@ void func_8018CAF8(s32 a0) {
     }
     ((Unkstruct_801202A0 *)a0)->unkCC.val = s0;
     guess_InitModelObject(s0, (s32)D_801CC1D8);
-    t = ((Unkstruct_800B5CB8 *)s0)->unk2C | 0x10;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = *(s32 *)D_80193650;
-    ((Unkstruct_800B5CB8 *)s0)->unk2C = t;
+    t = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 0x10;
+    ((Unkstruct_8001C9D0 *)s0)->unk20 = *(s32 *)D_80193650;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u = t;
 
     s0 = ((s32 (*)(void))guess_AllocModelObject)();
     if (s0 == 0) {
@@ -9079,9 +9079,9 @@ fail:
     }
     ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
     guess_InitModelObject(s0, (s32)D_801CC4B0);
-    t = ((Unkstruct_800B5CB8 *)s0)->unk2C | 0x10;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = *(s32 *)D_80193650;
-    ((Unkstruct_800B5CB8 *)s0)->unk2C = t;
+    t = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 0x10;
+    ((Unkstruct_8001C9D0 *)s0)->unk20 = *(s32 *)D_80193650;
+    ((Unkstruct_8001C9D0 *)s0)->unk2C.u = t;
     ((Unkstruct_801202A0 *)a0)->extD.kSC06_008_8017F9FC.unk100 = 0x3C;
     ((Unkstruct_801202A0 *)a0)->unkDC.val = 0xFFFC0000;
 }
@@ -9227,13 +9227,13 @@ void func_8018CF48(s32 param_1)
         {
             s32 v1 = ((Unkstruct_8018CF48 *)param_1)->unk64;
             s32 t = ((Unkstruct_8018CF48_3 *)v1)->unk20;
-            s32 r = rcos(((Unkstruct_8001C9D0 *)t)->unk12);
+            s32 r = rcos(((Unkstruct_8001C9D0 *)t)->unk12.s);
             ((Unkstruct_8018CF48 *)param_1)->unkC = ((Unkstruct_8018CF48 *)param_1)->unkC + (r << 8);
         }
         {
             s32 v1 = ((Unkstruct_8018CF48 *)param_1)->unk64;
             s32 t = ((Unkstruct_8018CF48_3 *)v1)->unk20;
-            s32 r = rsin(((Unkstruct_8001C9D0 *)t)->unk12);
+            s32 r = rsin(((Unkstruct_8001C9D0 *)t)->unk12.s);
             ((Unkstruct_8018CF48 *)param_1)->unk4 = ((Unkstruct_8018CF48 *)param_1)->unk4 + (r << 8);
         }
         {

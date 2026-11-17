@@ -5692,9 +5692,9 @@ void func_80181154(s32 s0) {
 
     if (guess_TickWaitTimer(s0) != 0) {
         v1 = ((Unkstruct_801202A0 *)s0)->unk20;
-        v0 = ((Unkstruct_800B5CB8 *)v1)->unk2C;
+        v0 = ((Unkstruct_8001C9D0 *)v1)->unk2C.u;
         v0 &= 0xFFEF;
-        ((Unkstruct_800B5CB8 *)v1)->unk2C = v0;
+        ((Unkstruct_8001C9D0 *)v1)->unk2C.u = v0;
         CAST_ALIAS(s16, s0, 0x2) = 3;
         ((Unkstruct_801202A0 *)s0)->unk5C.u = D_801A12E6;
     } else {
@@ -5703,8 +5703,8 @@ void func_80181154(s32 s0) {
         v0 = rcos(a0);
         v1 = ((Unkstruct_801202A0 *)s0)->unk20;
         CAST_WIDTH(s16, v1, 0x1C) = v0;
-        ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
-        ((Unkstruct_800B5CB8 *)v1)->unk18 = v0;
+        ((Unkstruct_8001C9D0 *)v1)->unk1A.u = v0;
+        ((Unkstruct_8001C9D0 *)v1)->unk18.u = v0;
     }
 }
 
@@ -5774,8 +5774,8 @@ void func_80181310(void *a0) {
 
     
     v1_addr = ((Unkstruct_801202A0 *)s0)->unk20;
-    v0_val = ((Unkstruct_800B5CB8 *)v1_addr)->unk12;
-    ((Unkstruct_800B5CB8 *)v1_addr)->unk12 = (u16)(v0_val - 0x71);
+    v0_val = ((Unkstruct_8001C9D0 *)v1_addr)->unk12.u;
+    ((Unkstruct_8001C9D0 *)v1_addr)->unk12.u = (u16)(v0_val - 0x71);
 
     
     func_8018175C(a0);

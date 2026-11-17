@@ -3167,13 +3167,13 @@ void func_8017EEDC(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_8018F718, 0x250, 0x100);
-        ((Unkstruct_800B5CB8 *)iVar1)->unk27 = 0x90;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk18 = 0x6000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk1A = 0x7000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk25 = 0x80;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk26 = 0xFF;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x6000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x7000;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x80;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0xFF;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
-        ((Unkstruct_800B5CB8 *)iVar1)->unk24 = 0;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0;
         guess_StartPairSequence(iVar1, param_1 + 0x24, (s32)&D_8018F724);
         *(s32 *)(param_1 + 0x10) = 0;
         *(s32 *)(param_1 + 0x14) = 0xfff40000;
@@ -4910,7 +4910,7 @@ void func_80181EBC(s32 a0)
             s32 w;
             ((Unkstruct_801202A0 *)a0)->unkFE.s += 1;
             pv = ((Unkstruct_801202A0 *)a0)->unk20;
-            w = ((Unkstruct_800B5CB8 *)pv)->unk12;
+            w = ((Unkstruct_8001C9D0 *)pv)->unk12.u;
             r = w & 0xFFF;
             __asm__("addu %0, %1, $zero" : "=r"(w) : "r"(r));  // !FAKE: instruction addu — NEEDED DIFFERS (P36 rung B t8_tus2) wall:no-c-spelling
             if (r >= 0x801) {
@@ -5376,9 +5376,9 @@ void func_80182B3C(s32 a0)
     w = v;
     if (v < 0x301) {
         r = w + 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk12 = r;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = r;
     } else if (v < 0x501) {
-        ((Unkstruct_800B5CB8 *)p)->unk12 = 0x400;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = 0x400;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 0xF;
         guess_StartActorSequence(a0, D_801AE824);
         guess_SetVelocityXZFromLocal(a0, (s32)D_8018F9C0);
@@ -5386,12 +5386,12 @@ void func_80182B3C(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_8018F8E4 | 0x40000000 | 0x20000000;
     } else if (v < 0x801) {
         r = w - 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk12 = r;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = r;
     } else if (v < 0xB01) {
         r = w + 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk12 = r;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = r;
     } else if (v < 0xD01) {
-        ((Unkstruct_800B5CB8 *)p)->unk12 = 0xC00;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = 0xC00;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 0xF;
         guess_StartActorSequence(a0, D_801AE824);
         guess_SetVelocityXZFromLocal(a0, (s32)D_8018F9C0);
@@ -5399,7 +5399,7 @@ void func_80182B3C(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_8018F8E4 | 0x40000000 | 0x20000000;
     } else {
         r = w - 0x100;
-        ((Unkstruct_800B5CB8 *)p)->unk12 = r;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = r;
     }
 }
 
@@ -5609,7 +5609,7 @@ void func_80183104(s32 param_1) {
     CAST_WIDTH(s32, param_1, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xC);
     p = &D_80190078[CAST_SIGN(u16, param_1, 0x70) & 3];
     CAST_WIDTH(s16, s1, 0x14) = p->f8;
-    ((Unkstruct_800B5CB8 *)s1)->unk12 = ((Unkstruct_800B5CB8 *)s1)->unk12 + p->fa;
+    ((Unkstruct_8001C9D0 *)s1)->unk12.u = ((Unkstruct_8001C9D0 *)s1)->unk12.u + p->fa;
     sVar1 = 0x1000;
     ApplyMatrixSV((void *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34), p, (void *)(param_1 + 0x50));
     if (((Unkstruct_800B5CB8 *)param_1)->unkFE == 0) {
@@ -5624,8 +5624,8 @@ void func_80183104(s32 param_1) {
     }
     tmp = sVar1;
     CAST_WIDTH(s16, s1, 0x1c) = tmp;
-    ((Unkstruct_800B5CB8 *)s1)->unk1A = tmp;
-    ((Unkstruct_800B5CB8 *)s1)->unk18 = tmp;
+    ((Unkstruct_8001C9D0 *)s1)->unk1A.u = tmp;
+    ((Unkstruct_8001C9D0 *)s1)->unk18.u = tmp;
 }
 
 
@@ -5900,7 +5900,7 @@ void func_801838B0(s32 a0)
     ((Unkstruct_800B5CB8 *)s0)->unkE = buf1[2];
 
     v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
 }
 
 

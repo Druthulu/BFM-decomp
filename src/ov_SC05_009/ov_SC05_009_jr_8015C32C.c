@@ -4140,8 +4140,8 @@ void func_80169BBC(s32 arg0) {
         CAST_WIDTH(s32, s2, 0x34) = (s32)D_80196B00;
         RotMatrixYXZ(rot, D_80196B00);
         func_80048D9C(D_80196B00, mtx);
-        ((Unkstruct_800B5CB8 *)s2)->unk18 = 0x5000;
-        ((Unkstruct_800B5CB8 *)s2)->unk1A = 0x2000;
+        ((Unkstruct_800B5BD8 *)s2)->unk18.u = 0x5000;
+        ((Unkstruct_800B5BD8 *)s2)->unk1A.u = 0x2000;
         CAST_WIDTH(s32, s2, 4) = CAST_WIDTH(s32, s2, 4) | 0xC000140;
         guess_StartPairSequence(s2, arg0 + 0x24, (s32)D_80181B60);
         *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;
