@@ -11,7 +11,10 @@
 - 98edd6777d stamps 79 rows applied:0d99a17a50 + per-source notes; ratchet pending_types 2822 -> 2737.
 - e166d31cf5 batch R part 1 (not gated alone): sprite 26, small 4, POOL68 3, S8013A250->S8013A0A4, per-source 8001CD50, 800CB300.
 
-## In flight (uncommitted, tree = R part 2)
+## UPDATE (end of run): R part 2 committed 32457e37ec, gates green; stamps + ratchet (2694) committed. Nothing in flight,
+no patch. Next: step 4 (Batch F). The section below is the state before that commit.
+
+## In flight (was uncommitted, tree = R part 2)
 - Model line written (9 keys, .run/3.45/t17/c12/batchM2.txt; 80180C28_2 left out: conflicts at +0x18 on the line).
 - Hand-folds: 160 walker misses `((P *)*(s32 *)(x + 0x20))->F` on union fields (.run/3.45/t17/c12/fixmiss.py) + 2 manual
   (ov_SC07_002 :6169 rhs `.s`, ov_SC06_024 :3603 `unk1A.s`). R22 218/218 (log t17c12_r22_R3), sig_evidence --check rc0.
