@@ -2638,7 +2638,7 @@ extern void func_8017BEA4(void);
 extern void func_8017BEAC(void);
 extern void func_8017BEB4(void);
 extern void func_8017BEBC(s32 arg0);
-extern void func_8017CD9C(s32 a0, s16 *a1, s16 a2);
+extern void func_8017CD9C(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8017CE68(s32 a0);
 extern void (*D_80185064[])(void);
 extern void func_8017CFC4(void *a0);

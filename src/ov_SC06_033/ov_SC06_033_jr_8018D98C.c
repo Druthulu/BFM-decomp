@@ -2513,7 +2513,7 @@ extern s32 D_801D00F0;
 extern short D_801D0FEC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2643,7 +2643,7 @@ extern void (*D_8019522C[])(void);
 extern void func_8017BEBC(void *a0);
 extern void guess_NextStep_2(void *a0);
 extern void func_8017C24C(s32 arg0);
-extern void func_8017D12C(s32 a0, s16 *a1, s16 a2);
+extern void func_8017D12C(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8017D1F8(s32 a0);
 extern void (*D_80195264[])(void);
 extern void func_8017D354(void *a0);
@@ -3567,7 +3567,7 @@ void func_8018E89C(void *arg) {
 
 extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 extern void guess_UpdateActorModelMatrix(s32 a0);
-extern void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+extern void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4);
 extern s32 rsin(s32 a0);
 extern s32 func_80135260(s32 arg0, s32 arg1, s16 *arg2, s16 *arg3);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
@@ -4536,19 +4536,19 @@ extern void func_8018F6EC(s32 a0);
 
 void func_801905C0(s32 a0)
 {
-    s32 s0;
+    Unkstruct_801202A0 *s0;
 
     if (((Unkstruct_8017FC34_2 *)a0)->unk0 != 0) {
         s0 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
         if (s0 != 0) {
-            ((Unkstruct_801202A0 *)s0)->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_801202A0 *)s0)->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
-            ((Unkstruct_801202A0 *)s0)->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_801202A0 *)s0)->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
-            ((Unkstruct_801202A0 *)s0)->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
-            ((Unkstruct_801202A0 *)s0)->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;
-            ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk18 = 0x800;
-            ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk1A = 0x800;
+            s0->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
+            s0->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
+            s0->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
+            s0->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
+            s0->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
+            s0->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;
+            ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk18 = 0x800;
+            ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk1A = 0x800;
         }
         ((void (*)(s32))func_8018F6EC)(a0);
     }

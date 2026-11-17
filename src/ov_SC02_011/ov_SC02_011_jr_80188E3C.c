@@ -828,7 +828,7 @@ void func_80189F30(void *param_1) {
 #include "common.h"
 
 extern u16 D_801961CE;
-extern void func_8017C294(s32 a0, s16 *a1, s16 a2);
+extern void func_8017C294(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 
 void func_8018A084(s32 a0) {
     s16 v[3];

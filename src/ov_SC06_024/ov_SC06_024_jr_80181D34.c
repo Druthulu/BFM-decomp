@@ -2514,7 +2514,7 @@ extern s32 D_801E0C60;
 extern short D_801E1964;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3446,7 +3446,7 @@ extern s32 func_8012B77C(void *out, s32 from, void *to);
 extern void func_80183408(s32 target, u16 *cur, s32 step);   /* DEFINED in TU L4503 */
 extern void func_8018348C(s32 self);
 extern void func_80183598(s32 a0);
-extern void func_801833B8(s32 a0);
+extern void func_801833B8(Unkstruct_801202A0 *a0);
 
 /* ---- data ---- */
 extern u8  D_80126B5C;    /* canonical engine_core.h spelling; s32 view at use site */
@@ -3656,13 +3656,13 @@ void func_8018337C(void *a0) {
 extern u8 D_801AC4D8[];
 extern u8 D_801AC4E0[];
 
-void func_801833B8(s32 a0) {
-    s32 p = ((Unkstruct_801202A0 *)a0)->extB.kSC06_022_80180EE0.unkCC;
-    if (((Unkstruct_801202A0 *)a0)->unk70.s >= 2) {
+void func_801833B8(Unkstruct_801202A0 *a0) {
+    s32 p = a0->extB.kSC06_022_80180EE0.unkCC;
+    if (a0->unk70.s >= 2) {
         if (*(s16 *)(p + 0x100) != 0) {
-            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AC4E0;
+            *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AC4E0;
         } else {
-            *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)D_801AC4D8;
+            *(s32 *)(a0->unk20 + 0x80) = (s32)D_801AC4D8;
         }
     }
 }

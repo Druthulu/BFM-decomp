@@ -3380,7 +3380,7 @@ void func_8017F23C(void *a0) {
 
 extern void guess_ApplyAccelAndVelocity(s32);
 extern s32 guess_TickWaitTimer(s32);
-extern void func_8017BEBC(s32 a0, s16 *a1, s16 a2);
+extern void func_8017BEBC(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8013C9C4(void *a0);
 extern s8 D_80186174[];
 extern u8 D_80186114[];

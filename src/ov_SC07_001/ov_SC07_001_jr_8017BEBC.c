@@ -2534,7 +2534,7 @@ extern s32 D_801AA6E8;
 extern short D_801AAF0C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3803,7 +3803,7 @@ void *arg0;
 
 #include "common.h"
 
-extern void func_8017F4E4(u8 *a0);
+extern void func_8017F4E4(Unkstruct_801202A0 *a0);
 extern void func_8017F668(void *a0);
 extern void guess_FreeActor(s32 a0);
 
@@ -3829,7 +3829,7 @@ extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
 extern s32 func_80135004(s32 a0, void *a1, s32 a2);
 extern Mat32_8017F4E4 D_800AE620_8017F4E4[1] __asm__("D_800AE620");
 
-void func_8017F4E4(u8 *a0)
+void func_8017F4E4(Unkstruct_801202A0 *a0)
 {
     s16 arr1[4];
     s16 arr2[4];
@@ -3840,7 +3840,7 @@ void func_8017F4E4(u8 *a0)
     s32 j;
 
     m = D_800AE620_8017F4E4[0];
-    work = *(u8 **)(a0 + 0x64);
+    work = *(u8 **)((u8 *)a0 + 0x64);
     RotMatrixY(*(s16 *)(*(u8 **)(work + 0x20) + 0x12), &m);
     t = 0;
     vec.z = 0;
@@ -3858,9 +3858,9 @@ void func_8017F4E4(u8 *a0)
         arr2[1] = ((Unkstruct_8017F4E4 *)work)->unkA + vec.y;
         arr2[2] = ((Unkstruct_8017F4E4 *)work)->unkE + vec.z;
         if (func_80135004(1, arr1, arr2) != 0) {
-            ((Unkstruct_801202A0 *)a0)->unk4.i.hi = arr2[0];
-            ((Unkstruct_801202A0 *)a0)->unk8.i.hi = arr2[1] - 0x80;
-            ((Unkstruct_801202A0 *)a0)->unkC.i.hi = arr2[2];
+            a0->unk4.i.hi = arr2[0];
+            a0->unk8.i.hi = arr2[1] - 0x80;
+            a0->unkC.i.hi = arr2[2];
             return;
         }
         t = j;

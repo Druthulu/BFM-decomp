@@ -2627,7 +2627,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_80178B70(s32 param_1, s32 param_2);
 extern void func_80178BB8(s32 a0, s32 a1);
 extern void func_80178BF8(s32 _unused0, s32 _unused1);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
@@ -4793,25 +4793,25 @@ extern void (*D_80185DFC[])(void *);
 extern void (*D_80185E08[])(void *);
 extern void (*D_80185E1C[])(void *);
 
-void func_8017EC6C(s32 arg0)
+void func_8017EC6C(Unkstruct_801202A0 *arg0)
 {
     void (*pfn)(void *);
 
-    switch (((Unkstruct_801202A0 *)arg0)->unkFC.s) {
+    switch (arg0->unkFC.s) {
     case 0:
-        pfn = D_80185DE4[((Unkstruct_801202A0 *)arg0)->unk2.u];
+        pfn = D_80185DE4[arg0->unk2.u];
         break;
     case 1:
-        pfn = D_80185DF0[((Unkstruct_801202A0 *)arg0)->unk2.u];
+        pfn = D_80185DF0[arg0->unk2.u];
         break;
     case 2:
-        pfn = D_80185DFC[((Unkstruct_801202A0 *)arg0)->unk2.u];
+        pfn = D_80185DFC[arg0->unk2.u];
         break;
     case 3:
-        pfn = D_80185E08[((Unkstruct_801202A0 *)arg0)->unk2.u];
+        pfn = D_80185E08[arg0->unk2.u];
         break;
     case 4:
-        pfn = D_80185E1C[((Unkstruct_801202A0 *)arg0)->unk2.u];
+        pfn = D_80185E1C[arg0->unk2.u];
         break;
     default:
         return;

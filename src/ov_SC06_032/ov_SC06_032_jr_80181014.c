@@ -2505,7 +2505,7 @@ extern s32 D_801D0030;
 extern short D_801D116C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3052,7 +3052,7 @@ void func_801816CC(s32 a0) {
 
 extern void func_80181C98(s32 a0);
 extern s32  func_8012DBD0(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80181B24(s32 a0, s32 a1);
+extern void func_80181B24(Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_8012CC64(s32 a0, s32 a1);
 extern s32  guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32  func_8012CBA4(s32 a0);
@@ -3216,7 +3216,7 @@ void func_80181738(s32 a0) {
  * add / dead-copy / call / subtract / store shape, adapted to a pointer
  * parameter instead of a local. */
 
-void func_80181B24(s32 a0, s32 a1)
+void func_80181B24(Unkstruct_801202A0 *a0, s32 a1)
 {
     extern s32 func_8012CEB0(void*, void*, s32);
 
@@ -3224,9 +3224,9 @@ void func_80181B24(s32 a0, s32 a1)
     V8_80181B24 sp18;
     V8_80181B24 sp20;
 
-    sp10.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp10.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp10.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp10.unk0.v1.unk0 = a0->unk3A;
+    sp10.unk0.v1.unk2 = a0->unk3E;
+    sp10.unk0.v1.unk4 = a0->unk42;
     sp18 = sp10;
     sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
@@ -3236,12 +3236,12 @@ void func_80181B24(s32 a0, s32 a1)
     sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
     sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_801202A0 *)a0)->unk3A = sp18.unk0.v1.unk0;
-    ((Unkstruct_801202A0 *)a0)->unk3E = sp18.unk0.v1.unk2;
-    ((Unkstruct_801202A0 *)a0)->unk42 = sp18.unk0.v1.unk4;
-    ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sp18.unk0.v1.unk0;
-    ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sp18.unk0.v1.unk2;
-    ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sp18.unk0.v1.unk4;
+    a0->unk3A = sp18.unk0.v1.unk0;
+    a0->unk3E = sp18.unk0.v1.unk2;
+    a0->unk42 = sp18.unk0.v1.unk4;
+    a0->unk4.i.hi = sp18.unk0.v1.unk0;
+    a0->unk8.i.hi = sp18.unk0.v1.unk2;
+    a0->unkC.i.hi = sp18.unk0.v1.unk4;
 }
 
 

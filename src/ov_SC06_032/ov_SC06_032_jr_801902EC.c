@@ -2507,7 +2507,7 @@ extern s32 D_801D0030;
 extern short D_801D116C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2922,7 +2922,7 @@ extern SVEC_8018EDB0 D_801CC7FC[];
 extern u8 D_800A651C[];
 extern u8 D_800AE610[];
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
-extern void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+extern void func_8018EDB0(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4);
 extern void func_8018F3E4(void);
 
 /* func_801902EC — Tier 2 (codegen shaping). MATCH (673 ins, match_one, reloc-masked).

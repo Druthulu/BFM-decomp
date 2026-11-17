@@ -4618,7 +4618,7 @@ void func_80181250(void *arg0) {
 #include "common.h"
 
 extern s32 rand(void);
-extern void func_8017DC70(s32 a0, s16 *a1, s16 a2);
+extern void func_8017DC70(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern s32 func_80143BDC(u16 *a0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);

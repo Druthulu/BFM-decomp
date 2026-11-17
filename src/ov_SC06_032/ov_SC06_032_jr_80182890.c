@@ -2503,7 +2503,7 @@ extern s32 D_801D0030;
 extern short D_801D116C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -8968,19 +8968,19 @@ extern void func_8018BA4C(s32);
 
 void func_8018C920(s32 a0)
 {
-    s32 s0;
+    Unkstruct_801202A0 *s0;
 
     if (((Unkstruct_8017FC34_2 *)a0)->unk0 != 0) {
         s0 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
         if (s0 != 0) {
-            ((Unkstruct_801202A0 *)s0)->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_801202A0 *)s0)->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
-            ((Unkstruct_801202A0 *)s0)->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
-            ((Unkstruct_801202A0 *)s0)->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
-            ((Unkstruct_801202A0 *)s0)->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
-            ((Unkstruct_801202A0 *)s0)->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;
-            ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk18 = 0x800;
-            ((Unkstruct_8017FC34_3 *)*(s32 *)(s0 + 0x20))->unk1A = 0x800;
+            s0->unk4.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unk6 + (rand() & 0x3F) - 0x20;
+            s0->unk8.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkA + (rand() & 0x3F) - 0x30;
+            s0->unkC.i.hi = ((Unkstruct_8017FC34_2 *)a0)->unkE + (rand() & 0x3F) - 0x20;
+            s0->unk10.val = -((Unkstruct_8017FC34_2 *)a0)->unk10;
+            s0->unk14 = -((Unkstruct_8017FC34_2 *)a0)->unk14;
+            s0->unk18.val = -((Unkstruct_8017FC34_2 *)a0)->unk18;
+            ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk18 = 0x800;
+            ((Unkstruct_8017FC34_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk1A = 0x800;
         }
         ((void (*)(s32))func_8018BA4C)(a0);
     }
@@ -10587,7 +10587,7 @@ extern u8 D_800AE610[];
 extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_RenderWork
 
 
-void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
+void func_8018EDB0(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8      dead[0x20];   /* 0x10 : reserved, never referenced (holds the frame at 0xC8) */
     SVECTOR_8018EDB0 scratch;      /* 0x30 */
     B8_8018EDB0 out[6];   /* 0x38 */
@@ -10601,8 +10601,8 @@ void func_8018EDB0(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *a;
 
-    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(param_1->unk20 + 0x34));
+    SetTransMatrix((void *)(param_1->unk20 + 0x34));
 
     src = &D_801CC7FC[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

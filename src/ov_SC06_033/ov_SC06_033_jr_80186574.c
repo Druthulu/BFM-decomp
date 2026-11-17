@@ -2515,7 +2515,7 @@ extern s32 D_801D00F0;
 extern short D_801D0FEC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2645,7 +2645,7 @@ extern void (*D_8019522C[])(void);
 extern void func_8017BEBC(void *a0);
 extern void guess_NextStep_2(void *a0);
 extern void func_8017C24C(s32 arg0);
-extern void func_8017D12C(s32 a0, s16 *a1, s16 a2);
+extern void func_8017D12C(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8017D1F8(s32 a0);
 extern void (*D_80195264[])(void);
 extern void func_8017D354(void *a0);
@@ -5889,7 +5889,7 @@ void func_8018AAF4(void *arg) {
   /* 8 bytes, align 2 */
 
 
-void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
+void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4) {
     extern void SetRotMatrix(void *a0);
     extern void SetTransMatrix(void *a0);
     extern void RotTransSV(void *a0, void *a1, void *a2);
@@ -5912,8 +5912,8 @@ void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4) {
     u8 *mb;
     u8 *mb2;
 
-    SetRotMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
-    SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34));
+    SetRotMatrix((void *)(param_1->unk20 + 0x34));
+    SetTransMatrix((void *)(param_1->unk20 + 0x34));
 
     src = &D_801C8374[(param_2 & 1) * 3];
     for (i = 0; i < 3; i++) {

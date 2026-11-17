@@ -2514,7 +2514,7 @@ extern s32 D_801E0C60;
 extern short D_801E1964;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2874,7 +2874,7 @@ extern s32 func_8012B77C(void *out, s32 from, void *to);
 extern void func_80183408(s32 target, u16 *cur, s32 step);   /* DEFINED in TU L4503 */
 extern void func_8018348C(s32 self);
 extern void func_80183598(s32 a0);
-extern void func_801833B8(s32 a0);
+extern void func_801833B8(Unkstruct_801202A0 *a0);
 extern u8  D_80126B5C;    /* canonical engine_core.h spelling; s32 view at use site */
 extern s32 D_80126B64;
 extern u16 D_801AC558[];

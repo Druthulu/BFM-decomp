@@ -2516,7 +2516,7 @@ extern s32 D_801D00F0;
 extern short D_801D0FEC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2646,7 +2646,7 @@ extern void (*D_8019522C[])(void);
 extern void func_8017BEBC(void *a0);
 extern void guess_NextStep_2(void *a0);
 extern void func_8017C24C(s32 arg0);
-extern void func_8017D12C(s32 a0, s16 *a1, s16 a2);
+extern void func_8017D12C(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8017D1F8(s32 a0);
 extern void (*D_80195264[])(void);
 extern void func_8017D354(void *a0);
@@ -3735,7 +3735,7 @@ void func_8018CD5C(s32 a0) {
 /* $v0 at exit: result of guess_FreeActor or lwr $v0, 0x0($a1) at ov_SC06_033:0x8018D75C; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x714, ov_SC06_033 objdump */
 s32 func_8018D05C(s32 arg0) {
     extern s32 guess_AllocSpriteObjectHigh(void);
-    extern void func_8018AD9C(s32 param_1, u32 param_2, u16 *param_3, u32 param_4);
+    extern void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 param_4);
     extern u8 D_801D0C40[];
     extern u8 D_801D0E40;
     extern u8 D_801CF1A4[];

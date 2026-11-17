@@ -1,9 +1,9 @@
 /* func_8012ACE0 — shared body (overlay slot 0x80128158, h_text 7b0c0681). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
-s32 func_8012ACE0(void *o) {
+s32 func_8012ACE0(Owner_8012ACE0_8012ACE0 *o) {
     int i;
     for (i = 0; ; i++) {
-        switch (((Owner_8012ACE0_8012ACE0 *)o)->list[i].unk4) {
+        switch (o->list[i].unk4) {
             case -2:
             case -1:
             case 0:

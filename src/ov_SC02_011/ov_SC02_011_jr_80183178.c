@@ -342,7 +342,7 @@ extern u8 D_801955F4[];
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void func_8012ADE4(u8 *a0);
 extern void func_8012B260(u8 *a0);
-extern void func_8017C294(s32 a0, s16 *a1, s16 a2);
+extern void func_8017C294(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern s32 func_80183C2C(s32 param_1, s32 param_2, u32 param_3);
 
 s32 func_80183994(s32 a0, s32 a1) {

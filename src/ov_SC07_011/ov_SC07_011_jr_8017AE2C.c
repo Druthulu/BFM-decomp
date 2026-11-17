@@ -3182,7 +3182,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 extern s32 func_80178B70(s32 param_1, s32 param_2);
 extern void func_80178BB8(s32 a0, s32 a1);
 extern void func_80178BF8(s32 _unused0, s32 _unused1);
-extern void func_80178D40(s32 arg0, s32 arg1);
+extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
 extern void guess_CloseTextWindowIfOpen(s32 a0);

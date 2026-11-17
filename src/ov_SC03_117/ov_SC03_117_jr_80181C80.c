@@ -2652,7 +2652,7 @@ extern void func_8013C9C4(void * arg0);
 extern void func_8017D07C(s32 a0);
 extern void func_8017D364(int param_1);
 extern void func_8017D414(s32 p);
-extern void func_8017D5DC(s32 a0, s16 *a1, s16 a2);
+extern void func_8017D5DC(Unkstruct_801202A0 *a0, s16 *a1, s16 a2);
 extern void func_8017D6A8(s32 a0);
 extern void (*D_801883FC[])(void);
 extern void func_8017D804(void *a0);
