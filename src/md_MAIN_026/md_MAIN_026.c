@@ -101,9 +101,9 @@ void func_800CB098(s32 a0) {
     if (s0 != 0) {
         v1 = func_8014C088(a0, 1);
         if (v1 != 0 && *(u16 *)((s32)v1 + 2) != 0) {
-            ((Unkstruct_800B5CB8 *)s0)->unkCC = v1;
+            ((Unkstruct_801202A0 *)s0)->unkCC.val = v1;
         } else {
-            ((Unkstruct_800B5CB8 *)s0)->unkCC = a0;
+            ((Unkstruct_801202A0 *)s0)->unkCC.val = a0;
         }
     }
 }
@@ -116,7 +116,7 @@ void func_800CB108(s32 *arg0) {
 
     s0 = func_8014C168(arg0, 0x15C);
     if (s0 != 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unkCC = 0;
+        ((Unkstruct_801202A0 *)s0)->unkCC.val = 0;
     }
 }
 

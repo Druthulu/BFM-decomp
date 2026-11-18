@@ -9940,7 +9940,7 @@ void func_80187928(s32 param_1) {
         guess_FreeActor((void *)param_1);
         return;
     }
-    q = ((Unkstruct_800B5CB8 *)d0)->unkCC;
+    q = ((Unkstruct_801202A0 *)d0)->unkCC.val;
     v = (h << 4) + 0x5800;
     *(u16 *)(q + 0x18) = v;
     *(u16 *)(q + 0x1A) = v;

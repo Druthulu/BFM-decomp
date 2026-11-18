@@ -3931,22 +3931,22 @@ void func_801825EC(s32 a0) {
 
     for (i = 0; i < 8; i++) {
         if (CAST_WIDTH(u16, a0, 0x5E) == D_8018E10C[i]) {
-            ptr = ((Unkstruct_800B5CB8 *)a0)->unk64;
+            ptr = ((Unkstruct_801202A0 *)a0)->unk64;
             val = *(u16 *)(ptr + 0xE);
             D_801D4300 = 0;
             val = val + 1;
             *(u16 *)(ptr + 0xE) = val;
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x50;
-            ((Unkstruct_800B5CB8 *)a0)->unk102 = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = ((Unkstruct_800B5CB8 *)a0)->unkE + 1;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x50;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC03_118_801825EC.unk102 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 1;
             func_8012AD44((s32 *)a0, 2);
 
             obj = func_80132EF4(a0, 0x42);
-            ((Unkstruct_800B5CB8 *)a0)->unkD0 = obj;
+            ((Unkstruct_801202A0 *)a0)->unkD0.val = obj;
             if (obj != 0) {
-                *(u16 *)(obj + 6) = ((Unkstruct_800B5CB8 *)a0)->unk6;
-                *(u16 *)(obj + 0xA) = ((Unkstruct_800B5CB8 *)a0)->unkA;
-                val2 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+                *(u16 *)(obj + 6) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+                *(u16 *)(obj + 0xA) = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+                val2 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
                 *(s16 *)(obj + 0x2C) = -0xA0;
                 *(s32 *)(obj + 0x34) = a0;
                 *(u16 *)(obj + 0xE) = val2;
@@ -3954,8 +3954,8 @@ void func_801825EC(s32 a0) {
 
             func_80178B18(a0, (s32)D_8018E014);
 
-            ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+            ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             CAST_WIDTH(u16, a0, 0x5E) = 0;
             guess_RequestSound(0x74B, 0);
             ((s32 (*)(s32))func_8001AAA0)(0x4D);

@@ -1748,7 +1748,7 @@ s32 func_801A23FC(s32 arg0) {
     s32 p;
 
     s1 = 0;
-    v = ((Unkstruct_800B5CB8 *)arg0)->unkD0;
+    v = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
     if (v != 0) {
         s1 = v;
         ((Unkstruct_800B5CB8 *)*(s32 *)(s1 + 0x20))->unk18 += 0x266;
@@ -1764,7 +1764,7 @@ s32 func_801A23FC(s32 arg0) {
             ((Unkstruct_800B5CB8 *)p)->unk1A = 0x3000;
             ((Unkstruct_800B5CB8 *)p)->unk18 = 0x3000;
         }
-        ((Unkstruct_800B5CB8 *)arg0)->unkE0 |= 4;
+        ((Unkstruct_801202A0 *)arg0)->extC.kSC07_003_801A23FC.unkE0 |= 4;
         guess_RequestSound(0xB52, 0);
         return 1;
     }

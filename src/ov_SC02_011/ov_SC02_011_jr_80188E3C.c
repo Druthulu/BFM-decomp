@@ -4425,9 +4425,9 @@ void func_8018E5E4(s32 a0) {
     r = rand();
     h = CAST_SIGN(u16, s0, 0x70);
     p = D_801DF838;
-    ((Unkstruct_800B5CB8 *)s0)->unk48 = p[h & 0xF] + r % 1024;
-    ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x100;
-    ((Unkstruct_800B5CB8 *)s0)->unkE0 = rand();
+    ((Unkstruct_801202A0 *)s0)->unk48 = p[h & 0xF] + r % 1024;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x100;
+    ((Unkstruct_801202A0 *)s0)->extC.kSC02_011_8018E5E4.unkE0 = rand();
 }
 
 

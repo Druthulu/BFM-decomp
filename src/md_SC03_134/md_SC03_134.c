@@ -578,7 +578,7 @@ s32 a0_;
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
     a0 = D_801E9E3C;
-    do { ((Unkstruct_800B5CB8 *)p1)->unkFC = c; } while (0);
+    do { ((Unkstruct_801202A0 *)p1)->unkFC.s = c; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
 }
 
@@ -594,7 +594,7 @@ void func_801E346C(s32 a0_) {
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
     a0 = D_801E9E3C;
-    do { ((Unkstruct_800B5CB8 *)p1)->unkFC = c; } while (0);
+    do { ((Unkstruct_801202A0 *)p1)->unkFC.s = c; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
 }
 
@@ -605,8 +605,8 @@ void func_801E3490(s32 arg0) {
     s32 ptr1 = D_801E9E38;
     s32 ptr2 = D_801E9E3C;
     *(s16 *)(arg0 + 0xFC) = 0;
-    ((Unkstruct_800B5CB8 *)ptr1)->unkFC = 0;
-    ((Unkstruct_800B5CB8 *)ptr2)->unkFC = 1;
+    ((Unkstruct_801202A0 *)ptr1)->unkFC.s = 0;
+    ((Unkstruct_801202A0 *)ptr2)->unkFC.s = 1;
 }
 
 
@@ -617,8 +617,8 @@ void func_801E34B4(s32 param_1) {
     s32 ptr2 = D_801E9E3C;
 
     *(s16 *)(param_1 + 0xFC) = 0;
-    ((Unkstruct_800B5CB8 *)ptr1)->unkFC = 0;
-    ((Unkstruct_800B5CB8 *)ptr2)->unkFC = 0;
+    ((Unkstruct_801202A0 *)ptr1)->unkFC.s = 0;
+    ((Unkstruct_801202A0 *)ptr2)->unkFC.s = 0;
 }
 
 
@@ -626,7 +626,7 @@ void func_801E34D4(s32 arg0) {
     extern s32 D_801E9E38;
     extern s32 D_801E9E3C;
     Unkstruct_800B5CB8 *p = (Unkstruct_800B5CB8 *)D_801E9E38;
-    ((Unkstruct_800B5CB8 *)arg0)->unkFC = 1;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.s = 1;
     {
         Unkstruct_800B5CB8 *q = (Unkstruct_800B5CB8 *)D_801E9E3C;
         p->unkFC = 3;

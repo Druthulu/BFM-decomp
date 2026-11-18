@@ -4228,10 +4228,10 @@ extern u8 D_801C4488[];
 extern void guess_SetObjectPosAndYaw(s32 a0, s32 a1);
 
     void func_80183DA4(s32 a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_SetObjectPosAndYaw(a0, (s32)&D_801C4488);
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = 0;
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = 0x80;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = 0x80;
     }
 
 

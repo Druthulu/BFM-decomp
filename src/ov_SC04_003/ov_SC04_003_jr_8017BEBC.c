@@ -4155,10 +4155,10 @@ void func_8017F470(void *arg0) {
     s32 *s0 = (s32 *)arg0;
 
     guess_StartActorSequence_2((u8 *)arg0, (s32)D_801978CC);
-    ((Unkstruct_800B5CB8 *)s0)->unk102 = 8;
-    ((Unkstruct_800B5CB8 *)s0)->unk104 = 3;
-    ((Unkstruct_800B5CB8 *)s0)->unk106 = (rand() & 0x20) - 0x10;
-    ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x60;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk102 = 8;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk104 = 3;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk106 = (rand() & 0x20) - 0x10;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x60;
     func_8012AD44(s0, 5);
 }
 

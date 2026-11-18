@@ -4008,7 +4008,7 @@ void func_8018726C(void *a0)
             }
         }
 
-        ((Unkstruct_800B5CB8 *)D_801EC454)->unkFC = 0xA;
+        ((Unkstruct_801202A0 *)D_801EC454)->unkFC.s = 0xA;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x24) = (s32) &D_801ADBA4;
         guess_StartActorSequence((s32) a0, &D_8018BD04);
 

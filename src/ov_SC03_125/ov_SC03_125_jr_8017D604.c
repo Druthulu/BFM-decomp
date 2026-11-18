@@ -4366,7 +4366,7 @@ s32 a0;
     }
 
     s0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = s0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = s0;
     if (s0 == 0) {
         return;
     }
@@ -4374,9 +4374,9 @@ s32 a0;
     func_8001C810(s0, (s32)&D_801A128C);
     *(s32 *)(s0 + 0x28) = 0xFA00FA;
     *(s32 *)(s0 + 4) |= 0x8000;
-    ((Unkstruct_800B5CB8 *)a0)->unk75 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk58 = (u32)&D_801881FC | 0x40000000;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0xC800;
+    ((Unkstruct_801202A0 *)a0)->unk75 = 2;
+    ((Unkstruct_801202A0 *)a0)->unk58.s = (u32)&D_801881FC | 0x40000000;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xC800;
     func_8012AD50((void *)a0);
 }
 
@@ -5393,8 +5393,8 @@ void func_80181AC0(s32 a0)
 {
 
     extern s32 D_801A6778;
-    ((Unkstruct_800B5CB8 *)a0)->unk58 = (u32)&D_801A6778 | 0x40000000;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x800;
+    ((Unkstruct_801202A0 *)a0)->unk58.s = (u32)&D_801A6778 | 0x40000000;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
 }
 
 

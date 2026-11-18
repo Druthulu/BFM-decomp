@@ -3942,12 +3942,12 @@ extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017EB54(void *a0) {
     s32 s0 = (s32)a0;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x8;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x8;
     guess_ClearVelocityAndSetGravity(s0);
     func_8017EF74(s0);
     ((void (*)(s32, void *))guess_StartActorSequence)(s0, (void *)&D_8019AED4);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x23;
-    ((Unkstruct_800B5CB8 *)a0)->unkE0 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x23;
+    ((Unkstruct_801202A0 *)a0)->extC.kSC04_006_8017EB54.unkE0 = 0;
 }
 
 
@@ -3965,7 +3965,7 @@ void func_8017EBA8(void *a0) {
     u16 v0_val, v0_val2;
 
     
-    v1_addr = ((Unkstruct_800B5CB8 *)s0)->unk20;
+    v1_addr = ((Unkstruct_801202A0 *)s0)->unk20;
     v0_val = ((Unkstruct_800B5CB8 *)v1_addr)->unk12;
     ((Unkstruct_800B5CB8 *)v1_addr)->unk12 = (u16)(v0_val - 0x71);
 
@@ -3973,7 +3973,7 @@ void func_8017EBA8(void *a0) {
     func_8017EFF4(a0);
 
     
-    v0_val2 = ((Unkstruct_800B5CB8 *)s0)->unk72;
+    v0_val2 = ((Unkstruct_801202A0 *)s0)->unk72;
     if (v0_val2 & 0x4000) {
         if (func_8012E778(s0, 0x8C00B4) == 1) {
             guess_RequestSound(0x662, 0);
@@ -3992,7 +3992,7 @@ void func_8017EBA8(void *a0) {
                 func_8017EF74(s0);
             }
             
-            ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x23;
+            ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x23;
         }
     }
 }

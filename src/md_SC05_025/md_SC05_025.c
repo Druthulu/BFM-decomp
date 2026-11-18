@@ -555,8 +555,8 @@ void func_801EE814(void *a0) {
     s32 p1 = D_801F5204[0];
 
     *(s16 *)((s32)a0 + 0xFC) = 1;
-    ((Unkstruct_800B5CB8 *)p0)->unkFC = 0;
-    ((Unkstruct_800B5CB8 *)p1)->unkFC = 0;
+    ((Unkstruct_801202A0 *)p0)->unkFC.s = 0;
+    ((Unkstruct_801202A0 *)p1)->unkFC.s = 0;
 }
 
 
@@ -570,8 +570,8 @@ void func_801EE838(void *a0) {
     do { p0 = D_801F5200[0]; } while (0);
     *(s16 *)((s32)a0 + 0xFC) = 0;
     p2 = D_801F5204[0];
-    ((Unkstruct_800B5CB8 *)p0)->unkFC = 1;
-    ((Unkstruct_800B5CB8 *)p2)->unkFC = 0;
+    ((Unkstruct_801202A0 *)p0)->unkFC.s = 1;
+    ((Unkstruct_801202A0 *)p2)->unkFC.s = 0;
 }
 
 
@@ -599,8 +599,8 @@ void func_801EE880(void *a0) {
     a = D_801F5200[0];
     b = D_801F5204[0];
     *(s16 *)((s32)a0 + 0xFC) = 0;
-    ((Unkstruct_800B5CB8 *)a)->unkFC = 0;
-    ((Unkstruct_800B5CB8 *)b)->unkFC = 1;
+    ((Unkstruct_801202A0 *)a)->unkFC.s = 0;
+    ((Unkstruct_801202A0 *)b)->unkFC.s = 1;
 }
 
 
@@ -611,8 +611,8 @@ void func_801EE8A4(void *a0) {
     s32 p1 = D_801F5204[0];
 
     *(s16 *)((s32)a0 + 0xFC) = 0;
-    ((Unkstruct_800B5CB8 *)p0)->unkFC = 0;
-    ((Unkstruct_800B5CB8 *)p1)->unkFC = 0;
+    ((Unkstruct_801202A0 *)p0)->unkFC.s = 0;
+    ((Unkstruct_801202A0 *)p1)->unkFC.s = 0;
 }
 
 
@@ -622,10 +622,10 @@ void func_801EE8C4(s32 arg0) {
     s32 a = arg0;
     s32 p2;
     arg0 = D_801F5200[0];
-    ((Unkstruct_800B5CB8 *)a)->unkFC = 1;
+    ((Unkstruct_801202A0 *)a)->unkFC.s = 1;
     p2 = D_801F5204[0];
     *(s16 *)(arg0 + 0xFC) = 3;
-    ((Unkstruct_800B5CB8 *)p2)->unkFC = 3;
+    ((Unkstruct_801202A0 *)p2)->unkFC.s = 3;
 }
 
 

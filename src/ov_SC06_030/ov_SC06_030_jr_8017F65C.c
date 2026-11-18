@@ -3379,29 +3379,29 @@ void func_801805F8(s32 a0) {
 void func_801806D4(s32 a0) {
     s32 v0;
 
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = v0 - 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = v0 - 1;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 8);
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
-        switch (((Unkstruct_800B5CB8 *)a0)->unkFC) {
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
+        switch (((Unkstruct_801202A0 *)a0)->unkFC.s) {
         case 0:
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
             return;
         case 1:
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 4;
-            ((Unkstruct_800B5CB8 *)a0)->unk106 = CAST_SIGN(u16, a0, 0x76);
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_801806D4.unk106 = CAST_SIGN(u16, a0, 0x76);
             return;
         case 2:
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
             return;
         case 3:
-            if (((Unkstruct_800B5CB8 *)a0)->unk76 < ((Unkstruct_800B5CB8 *)a0)->unk106) {
-                ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
+            if (((Unkstruct_801202A0 *)a0)->unk76 < ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_801806D4.unk106) {
+                ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
             } else {
-                ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;
+                ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
             }
             return;
         }

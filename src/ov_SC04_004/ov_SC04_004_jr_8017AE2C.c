@@ -5670,9 +5670,9 @@ void func_801804CC(void *arg0) {
 
     extern M2C_UNK D_80199904;
     guess_StartActorSequence_2((u8 *)arg0, (s32)&D_80199904);
-    ((Unkstruct_800B5CB8 *)s0)->unk102 = 8;
-    ((Unkstruct_800B5CB8 *)s0)->unk104 = 3;
-    ((Unkstruct_800B5CB8 *)s0)->unk106 = (rand() & 0x20) - 0x10;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk102 = 8;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk104 = 3;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC04_002_80181F40.unk106 = (rand() & 0x20) - 0x10;
     s0[7] = 0x60;
     func_8012AD44(s0, 5);
 }
@@ -7038,7 +7038,7 @@ void func_801823F4(s32 param_1) {
         guess_FreeActor((void *)param_1);
         return;
     }
-    q = ((Unkstruct_800B5CB8 *)d0)->unkCC;
+    q = ((Unkstruct_801202A0 *)d0)->unkCC.val;
     v = (h << 4) + 0x5800;
     *(u16 *)(q + 0x18) = v;
     *(u16 *)(q + 0x1A) = v;

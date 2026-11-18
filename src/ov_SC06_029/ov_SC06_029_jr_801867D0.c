@@ -4149,9 +4149,9 @@ void func_801883FC(void)
     s32 base;
 
     base = D_801DFF7C;
-    if ((((Unkstruct_800B5CB8 *)base)->unk94 == 7 && ((Unkstruct_800B5CB8 *)base)->unk90 == (s32)&D_801B23E8) ||
-        ((((Unkstruct_800B5CB8 *)base)->unk94 == 0xA || ((Unkstruct_800B5CB8 *)base)->unk94 == 0x42) &&
-         ((Unkstruct_800B5CB8 *)base)->unk90 == (s32)&D_801B27B8))
+    if ((((Unkstruct_801202A0 *)base)->unk94.s == 7 && ((Unkstruct_801202A0 *)base)->unk90 == (s32)&D_801B23E8) ||
+        ((((Unkstruct_801202A0 *)base)->unk94.s == 0xA || ((Unkstruct_801202A0 *)base)->unk94.s == 0x42) &&
+         ((Unkstruct_801202A0 *)base)->unk90 == (s32)&D_801B27B8))
     {
         guess_RequestSound(0xBD4, 0);
     }

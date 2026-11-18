@@ -7759,16 +7759,16 @@ extern s32 guess_DistSqXZToPoint(s32, u16*);
 extern s32 D_80190D94;
 
 void func_80183668(s32 param_1) {
-    if (((Unkstruct_800B5CB8 *)param_1)->unkFC != 1) {
-        if (((Unkstruct_800B5CB8 *)param_1)->unkFC >= 2) {
+    if (((Unkstruct_801202A0 *)param_1)->unkFC.s != 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unkFC.s >= 2) {
             return;
         }
-        if (((Unkstruct_800B5CB8 *)param_1)->unkFC != 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unkFC.s != 0) {
             return;
         }
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 -= 0x3B;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C += 1;
-        if (((Unkstruct_800B5CB8 *)param_1)->unk1C < 0x1E) {
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s += 1;
+        if (((Unkstruct_801202A0 *)param_1)->unk1C.s < 0x1E) {
             return;
         }
     } else {
@@ -12838,10 +12838,10 @@ void func_8018A384(s16 *param_1)
 
     v = CAST_SIGN(u16, s0, 0xFE);
     v = v - 1;
-    ((Unkstruct_800B5CB8 *)s0)->unkFE = v;
+    ((Unkstruct_801202A0 *)s0)->unkFE.s = v;
     if ((s32)(v << 16) <= 0) {
         guess_SpawnActorType1C(param_1, 0);
-        ((Unkstruct_800B5CB8 *)s0)->unkFE = 8;
+        ((Unkstruct_801202A0 *)s0)->unkFE.s = 8;
     }
 }
 

@@ -3484,8 +3484,8 @@ void func_801A5414(s32 param_1) {
 
     CAST_WIDTH(s32, param_1, 0xF0) = -0xC0000;
     guess_SetForwardVelocity(param_1, -0xC0000);
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_800B5CB8 *)param_1)->unk100 = 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x18;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_004_801A5414.unk100 = 1;
     func_8012AD44((s32 *)param_1, 2);
     guess_RequestSound(0xABB, 0);
 }

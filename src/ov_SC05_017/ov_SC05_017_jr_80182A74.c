@@ -3378,7 +3378,7 @@ extern void func_801849B8(s32 *a0, s32 a1);
         s32 *v1;
         s32 result;
         v1 = CAST_SIGN(s32 *, (s32)a0, 0xCC);
-        ((Unkstruct_800B5CB8 *)v1)->unkB0 = 0x2;
+        ((Unkstruct_801202A0 *)v1)->extE.kSC05_017_801834F8.unkB0 = 0x2;
         result = func_801848D0(0xE, 0xF, 0x17, 0);
         if (result == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;

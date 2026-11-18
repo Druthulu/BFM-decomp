@@ -5752,7 +5752,7 @@ void func_80180960(u8 *param_1) {
     u8 *work;
     s32 snd;
 
-    if (((Unkstruct_800B5CB8 *)param_1)->unkCC != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unkCC.val != 0) {
         iVar2 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unkCC;
         *(u16 *)(iVar2 + 0x18) += 0x300;
         *(u16 *)(iVar2 + 0x1A) += 0x300;
@@ -5790,7 +5790,7 @@ void func_80180A3C(s32 param_1) {
 
     temp = ((Unkstruct_801202A0 *)param_1)->unkCC.val;
     if (temp != 0) {
-        var = ((Unkstruct_800B5CB8 *)temp)->unkCC;
+        var = ((Unkstruct_801202A0 *)temp)->unkCC.val;
         ((Unkstruct_800B5CB8 *)var)->unk18 += 0x700;
         ((Unkstruct_800B5CB8 *)var)->unk1A += 0x700;
         if (CAST_SIGN(s16, var, 0x18) >= 0x7001) {
@@ -6516,7 +6516,7 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
     extern void guess_FreeActor(void *a0);
     void func_80181DC0(s32 param_1) {
         s32 iVar1;
-        iVar1 = ((Unkstruct_800B5CB8 *)param_1)->unkCC;
+        iVar1 = ((Unkstruct_801202A0 *)param_1)->unkCC.val;
         ((void (*)(s32 *, s32))guess_ZeroMemory)((s32 *)iVar1, 0x38);
         ((void (*)(s32))guess_FreeActor)(param_1);
     }

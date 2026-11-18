@@ -4301,15 +4301,15 @@ s32 func_8017F42C(s32 a0, s32 a1) {
     sp20[0] = 0;
     sp20[2] = 0xFFF80000;
 
-    ApplyMatrixLV(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34, (s32)sp20, (s32)sp10);
+    ApplyMatrixLV(((Unkstruct_801202A0 *)a0)->unk20 + 0x34, (s32)sp20, (s32)sp10);
 
-    buf[0] = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-    buf[1] = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-    buf[2] = ((Unkstruct_800B5CB8 *)a0)->unk42;
+    buf[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
+    buf[2] = ((Unkstruct_801202A0 *)a0)->unk42;
 
-    sp10[0] = sp10[0] + ((Unkstruct_800B5CB8 *)a0)->unk44;
-    sp10[1] = sp10[1] + ((Unkstruct_800B5CB8 *)a0)->unk48;
-    sp10[2] = sp10[2] + ((Unkstruct_800B5CB8 *)a0)->unk4C;
+    sp10[0] = sp10[0] + ((Unkstruct_801202A0 *)a0)->unk44;
+    sp10[1] = sp10[1] + ((Unkstruct_801202A0 *)a0)->unk48;
+    sp10[2] = sp10[2] + ((Unkstruct_801202A0 *)a0)->unk4C;
 
     sp10[0] = sp10[0] + CAST_WIDTH(s32, a0, 0x4);
     sp10[1] = sp10[1] + CAST_WIDTH(s32, a0, 0x8);
@@ -4322,10 +4322,10 @@ s32 func_8017F42C(s32 a0, s32 a1) {
     func_8012CEB0((s32)&buf[0], (s32)&buf[4], 0);
 
     if (CAST_SIGN(s16, a0, 0xA) > *(s16 *)&buf[5]) {
-        ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0xFFF80000 - (a1 << 19);
+        ((Unkstruct_801202A0 *)a0)->extC.kSC05_007_8017F42C.unkE8 = 0xFFF80000 - (a1 << 19);
         return 1;
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0xFFFE0000 - (a1 << 17);
+        ((Unkstruct_801202A0 *)a0)->extC.kSC05_007_8017F42C.unkE8 = 0xFFFE0000 - (a1 << 17);
         return 0;
     }
 }

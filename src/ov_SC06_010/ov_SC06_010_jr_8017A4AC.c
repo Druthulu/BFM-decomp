@@ -8477,9 +8477,9 @@ void func_80183FD4(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
         ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
-        ((Unkstruct_800B5CB8 *)p)->unk2 = 3;
-        ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
-        ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 3;
+        ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
+        ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
         L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
         L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
@@ -8600,9 +8600,9 @@ L_B:
     ((Unkstruct_801202A0 *)a0)->unk2.s = state;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
-    ((Unkstruct_800B5CB8 *)p)->unk2 = state;
-    ((Unkstruct_800B5CB8 *)p)->unk1C = 0x1E;
-    ((Unkstruct_800B5CB8 *)p)->unk98 = 0;
+    ((Unkstruct_801202A0 *)p)->unk2.s = state;
+    ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
+    ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
     L.v[0] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
     L.v[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;

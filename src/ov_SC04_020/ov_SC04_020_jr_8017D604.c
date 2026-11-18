@@ -4016,16 +4016,16 @@ void func_8017FF6C(s32 a0) {
         return;
     }
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         return;
     }
     func_8001C810(v0, (s32)&D_8019BB08);
     *(s32 *)(v0 + 0x28) = 0xFA00FA;
     *(s32 *)(v0 + 4) |= 0x8000;
-    ((Unkstruct_800B5CB8 *)a0)->unk75 = 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk58 = (u32)&D_80187588 | 0x40000000;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0xC800;
+    ((Unkstruct_801202A0 *)a0)->unk75 = 2;
+    ((Unkstruct_801202A0 *)a0)->unk58.s = (u32)&D_80187588 | 0x40000000;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xC800;
     func_8012AD50((void *)a0);
 }
 

@@ -5156,8 +5156,8 @@ void func_8018029C(s32 param_1) {
     func_80178B18(param_1, (s32)D_80189B10);
     func_8016F2A8();
     func_8016F2EC();
-    ((Unkstruct_800B5CB8 *)param_1)->unkFE = 0x14;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = 0x14;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 4;
     guess_RequestSound(0x8FE, 0);
     func_8012AD44((s32 *)param_1, 2);
 }

@@ -6032,7 +6032,7 @@ void func_80182C68(s32 a0)
 
     s1 = a02;
     s0 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
+    ((Unkstruct_801202A0 *)s1)->unk20 = s0;
     if (s0 == 0) {
         ((void (*)(void *))guess_FreeActorDuringSpawn)(s1);
     } else {
@@ -6042,11 +6042,11 @@ void func_80182C68(s32 a0)
         *(u16 *)(s0 + 0x18) = 0x3000;
         *(u16 *)(s0 + 0x2c) = *(u16 *)(s0 + 0x2c) | 0x10;
         CAST_ALIAS(s16, s1, 0xa) = -0x340;
-        if (((Unkstruct_800B5CB8 *)s1)->unk70 == 0) {
+        if (((Unkstruct_801202A0 *)s1)->unk70.s == 0) {
             func_80182264(s1);
         }
         s0 = guess_AllocModelObject();
-        ((Unkstruct_800B5CB8 *)s1)->unkD0 = s0;
+        ((Unkstruct_801202A0 *)s1)->unkD0.val = s0;
         if (s0 != 0) {
             guess_InitModelObject(s0, (s32)&D_80197B04);
             *(u16 *)(s0 + 0x2c) = *(u16 *)(s0 + 0x2c) | 0x10;

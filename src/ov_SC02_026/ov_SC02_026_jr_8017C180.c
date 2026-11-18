@@ -4524,12 +4524,12 @@ void func_8017FAC0(s32 a0) {
 
     ret = func_8012BD14(a0);
     if (ret > 0x3FFFF) {
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
         func_8002D59C(4, 0x609, CAST_SIGN(u16, a0, 0x70));
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unkFE = CAST_SIGN(u16, a0, 0xFE) - 1;
-        if (((Unkstruct_800B5CB8 *)a0)->unkFE == 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unkFE = 4;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) - 1;
+        if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
+            ((Unkstruct_801202A0 *)a0)->unkFE.s = 4;
             func_8002D59C(0x609, ((0x40000 - ret) * 127) / 0x40000 | 0x1000,
                           CAST_SIGN(u16, a0, 0x70));
         }
@@ -7204,8 +7204,8 @@ void func_80183EF8(s32 a0) {
     s16 t;
     s32 y;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk94 == 0xA) {
-        ((Unkstruct_800B5CB8 *)a0)->unk98 = 0;
+    if (((Unkstruct_801202A0 *)a0)->unk94.s == 0xA) {
+        ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     }
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += guess_TurnStepToTarget(a0, 0x4);
@@ -7228,12 +7228,12 @@ void func_80183EF8(s32 a0) {
     t = CAST_SIGN(s16, a0, 0xA);
     y = *(s16 *)&guess_g_PlayerPosY;
     if (t <= y - 0xA) {
-        ((Unkstruct_800B5CB8 *)a0)->unkA = t + 0x8;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = t + 0x8;
     } else if (t >= y) {
-        ((Unkstruct_800B5CB8 *)a0)->unkA = t - 0x8;
-    } else if (((Unkstruct_800B5CB8 *)a0)->unk94 == 0xA) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xB;
-        ((Unkstruct_800B5CB8 *)a0)->unk98 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = t - 0x8;
+    } else if (((Unkstruct_801202A0 *)a0)->unk94.s == 0xA) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0xB;
+        ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
     }
 
     func_8012CBCC(a0);

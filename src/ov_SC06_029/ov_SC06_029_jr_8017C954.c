@@ -6454,7 +6454,7 @@ void func_80182ED8(s32 arg0) {
             func_801834D8((void *)arg0, 0);
             *(u16 *)(arg0 + 0x34) = *(u16 *)(arg0 + 0x34) + 1;
         }
-        if ((((Unkstruct_800B5CB8 *)D_801DDB28)->unk100 == 2) && ((guess_g_FrameCounter & 0x7F) == 0)) {
+        if ((((Unkstruct_801202A0 *)D_801DDB28)->extD.kSC06_029_801DDB28.unk100 == 2) && ((guess_g_FrameCounter & 0x7F) == 0)) {
             func_801834D8((void *)arg0, 0);
             *(u16 *)(arg0 + 0x34) = 4;
         }
@@ -6954,19 +6954,19 @@ void func_80183B1C(s32 param_1) {
         ((Unkstruct_800B5CB8 *)param_1)->unk5C = 0;
         CAST_WIDTH(u16, param_1, 0x5E) = 0;
         t76 = CAST_SIGN(u16, a2v, 0x76) - v60;
-        ((Unkstruct_800B5CB8 *)a2v)->unk76 = t76;
+        ((Unkstruct_801202A0 *)a2v)->unk76 = t76;
 
         if ((s16)t76 <= 0) {
-            ((Unkstruct_800B5CB8 *)a2v)->unk76 = 0;
-            ((Unkstruct_800B5CB8 *)a2v)->unk2 = 0xC;
-            ((Unkstruct_800B5CB8 *)a2v)->unkE0 |= 0x1000;
+            ((Unkstruct_801202A0 *)a2v)->unk76 = 0;
+            ((Unkstruct_801202A0 *)a2v)->unk2.s = 0xC;
+            ((Unkstruct_801202A0 *)a2v)->extC.kSC06_029_80183B1C.unkE0 |= 0x1000;
             for (i = 0; i < 5; i++) {
                 *(s32 *)(D_801DDB2C[i] + 0xE0) |= 0x1000;
             }
         }
 
         a2v2 = D_801DDB28;
-        ((Unkstruct_800B5CB8 *)a2v2)->unkFE = CAST_SIGN(u16, a2v2, 0xFE) + 1;
+        ((Unkstruct_801202A0 *)a2v2)->unkFE.s = CAST_SIGN(u16, a2v2, 0xFE) + 1;
         v0 = ((Unkstruct_800B5CB8 *)param_1)->unk100 + 1;
         CAST_WIDTH(s32, a2v2, 0xEC) = v0 * 100;
         ((Unkstruct_800B5CB8 *)param_1)->unk2 = CAST_SIGN(u16, param_1, 0x2) + 1;
@@ -7229,7 +7229,7 @@ void func_80184084(s32 param_1)
             ((Unkstruct_800B5CB8 *)param_1)->unkE0 = -0x180;
             r = rand();
             ((Unkstruct_800B5CB8 *)param_1)->unk1C =
-                0x80 - (((Unkstruct_800B5CB8 *)D_801DDB28)->unk100 * 32) - (r % 32);
+                0x80 - (((Unkstruct_801202A0 *)D_801DDB28)->extD.kSC06_029_801DDB28.unk100 * 32) - (r % 32);
             ((Unkstruct_800B5CB8 *)param_1)->unk34 = ((Unkstruct_800B5CB8 *)param_1)->unk34 + 1;
         }
         func_80184564(param_1);

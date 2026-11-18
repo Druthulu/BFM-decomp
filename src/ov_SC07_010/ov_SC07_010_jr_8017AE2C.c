@@ -4502,19 +4502,19 @@ void func_8017E3EC(s32 param_1) {
 
     s0 = param_12;
 
-    s1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+    s1 = ((Unkstruct_801202A0 *)s0)->unk20;
 
     v0 = CAST_SIGN(u16, s0, 0x100) - 4;
-    ((Unkstruct_800B5CB8 *)s0)->unk100 = v0;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC07_010_8017E3EC.unk100 = v0;
 
     if ((s16)v0 < 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unk100 = 0;
+        ((Unkstruct_801202A0 *)s0)->extD.kSC07_010_8017E3EC.unk100 = 0;
     }
 
     func_80016450(CAST_WIDTH(u8, s0, 0x100), 0);
     func_8017E520(s0);
 
-    ((Unkstruct_800B5CB8 *)s0)->unkDC += 0xC0000;
+    ((Unkstruct_801202A0 *)s0)->unkDC.val += 0xC0000;
 
     v0 = ((Unkstruct_800B5CB8 *)s1)->unk18 + *(u16 *)(s0 + 0xDE);
     ((Unkstruct_800B5CB8 *)s1)->unk18 = v0;

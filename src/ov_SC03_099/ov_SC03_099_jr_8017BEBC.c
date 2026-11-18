@@ -3961,15 +3961,15 @@ void func_8017F2EC(s32 a0) {
     s2 = a0;
 
     sum = CAST_SIGN(u16, s2, 0xFE) + CAST_SIGN(u16, s2, 0xFC);
-    ((Unkstruct_800B5CB8 *)s2)->unkFE = sum & 0xFFF;
+    ((Unkstruct_801202A0 *)s2)->unkFE.s = sum & 0xFFF;
     if ((sum & 0x7FF) < 0x61) {
         guess_RequestSound(0x6A5, 0);
     }
 
-    v0 = rcos(((Unkstruct_800B5CB8 *)s2)->unkFE);
-    *(s16 *)(((Unkstruct_800B5CB8 *)s2)->unk20 + 0x14) = v0 >> 3;
+    v0 = rcos(((Unkstruct_801202A0 *)s2)->unkFE.s);
+    *(s16 *)(((Unkstruct_801202A0 *)s2)->unk20 + 0x14) = v0 >> 3;
 
-    if (((Unkstruct_800B5CB8 *)s2)->unk70 != 0) {
+    if (((Unkstruct_801202A0 *)s2)->unk70.s != 0) {
         func_8012B414(s2);
     }
 

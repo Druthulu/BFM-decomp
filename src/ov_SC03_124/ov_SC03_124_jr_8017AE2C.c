@@ -4746,7 +4746,7 @@ void func_8017EDE8(void *a0)
                  * the §74 caller-saved hazard does not apply. */
                 s32 *p;
                 p = CAST_SIGN(s32 *, (s32)a0, 0xCC);
-                ((Unkstruct_800B5CB8 *)p)->unkB0 = 2;
+                ((Unkstruct_801202A0 *)p)->extE.kSC03_124_8017EDE8.unkB0 = 2;
             }
             func_801845FC((s32)a0, (s32)&D_801B95B0, 0, 0x60);
             ((Unkstruct_801202A0 *)a0)->unk34.u = 1;

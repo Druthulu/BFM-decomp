@@ -3292,7 +3292,7 @@ void func_801845A4(s32 param_1) {
         } else {
             *(s32 *)(param_1 + 0x1C) = 0x3C;
             base = D_801EC44C;
-            lvl = ((Unkstruct_800B5CB8 *)base)->unk76;
+            lvl = ((Unkstruct_801202A0 *)base)->unk76;
             if (lvl >= 0x51) {
                 s1 = (s16)*(u16 *)(param_1 + 0x102) % 3;
             } else if (lvl >= 0x29) {

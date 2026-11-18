@@ -68,9 +68,9 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_801851E0(s32 a0)
 {
-    ((Unkstruct_800B5CB8 *)a0)->unkDC = 1;
-    ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkAE = -1;
+    ((Unkstruct_801202A0 *)a0)->unkDC.val = 1;
+    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+    ((Unkstruct_801202A0 *)a0)->extE.kSC02_005_801851E0.unkAE = -1;
     func_8012AD44((s32 *)a0, 2);
 }
 

@@ -3479,7 +3479,7 @@ void func_8017EA98(s32 a0) {
     s32 off;
     s32 ang;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk5C & 1) {
+    if (((Unkstruct_801202A0 *)a0)->unk5C.u & 1) {
         KR_AS(void, func_8017ED5C)();
         return;
     }
@@ -3527,8 +3527,8 @@ void func_8017EA98(s32 a0) {
         if (sum >= 0x80) {
             func_8012B77C(&sp10[16], a0 + 4, &sp10[8]);
             tmp2 = *(s32 *)&sp10[16];
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = tmp2;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, 3);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk10 = tmp2;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), tmp2 >> 16, 3);
         }
     } else {
         s32 tmp;
@@ -3543,9 +3543,9 @@ void func_8017EA98(s32 a0) {
         sp10[1] = guess_g_PlayerPosY;
         sp10[2] = guess_g_PlayerPosZ;
         tmp = guess_g_PlayerPosY - 0xA0;
-        tmp = tmp - (((Unkstruct_800B5CB8 *)a0)->unk70 << 5);
+        tmp = tmp - (((Unkstruct_801202A0 *)a0)->unk70.s << 5);
         sp10[1] = tmp;
-        amt = (((Unkstruct_800B5CB8 *)a0)->unk70 << 2) + 6;
+        amt = (((Unkstruct_801202A0 *)a0)->unk70.s << 2) + 6;
         sp10[5] = guess_g_PlayerPosX;
         sp10[7] = tmp;
         sp10[9] = guess_g_PlayerPosZ;
@@ -3565,10 +3565,10 @@ void func_8017EA98(s32 a0) {
         if (sum >= 0x80) {
             func_8012B77C(&sp10[12], a0 + 4, &sp10[4]);
             tmp2 = *(s32 *)&sp10[12];
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 = tmp2;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), tmp2 >> 16, amt);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk10 = tmp2;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), tmp2 >> 16, amt);
         }
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
     }
 }
 
