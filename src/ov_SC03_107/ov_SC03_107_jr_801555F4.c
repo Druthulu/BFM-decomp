@@ -209,7 +209,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern MATRIX guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -2810,7 +2810,7 @@ void func_80158FA4(s32 param_1)
     s32 v0;
     s16 sVar1;
 
-    v0 = ((Unkstruct_80158FA4_3 *)param_1)->unk20;
+    v0 = ((Unkstruct_80158FA4_3 *)param_1)->unk20.val;
     ((Unkstruct_80158FA4_4 *)v0)->unk12 = (((Unkstruct_80158FA4_4 *)v0)->unk12 + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_8019A8F0 = 1;

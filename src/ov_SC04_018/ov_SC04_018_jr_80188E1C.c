@@ -4405,7 +4405,7 @@ void func_8018A990(s32 param_1) {
         step1 = CAST_WIDTH(s32, param_1, 0xe4) + CAST_WIDTH(s32, param_1, 0xe0);
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + step1;
         CAST_WIDTH(s32, param_1, 0xe4) = step1;
-        *(u16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }
@@ -4414,7 +4414,7 @@ void func_8018A990(s32 param_1) {
         break;
     case 2:
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + CAST_WIDTH(s32, param_1, 0xe4);
-        *(u16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }
@@ -4426,7 +4426,7 @@ void func_8018A990(s32 param_1) {
         step3 = CAST_WIDTH(s32, param_1, 0xe4) + CAST_WIDTH(s32, param_1, 0xe0);
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + step3;
         CAST_WIDTH(s32, param_1, 0xe4) = step3;
-        *(u16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12) = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }
@@ -4790,14 +4790,14 @@ void func_8018B448(s32 a0) {
         guess_FreeActorDuringSpawn((void *)a0);
         return;
     }
-    ((Unkstruct_80126B58 *)a0)->unk20 = v0 = ((s32 (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_80126B58 *)a0)->unk20.val = v0 = ((s32 (*)(void))guess_AllocModelObject)();
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)a0);
         return;
     }
     func_8001C810(v0, (s32)D_801B60B0);
-    *(s32 *)(((Unkstruct_80126B58 *)a0)->unk20 + 4) |= 0x8000;
-    func_8001D0E8(((Unkstruct_80126B58 *)a0)->unk20, 0x7FFF, 0x7FFF);
+    ((Unkstruct_80126B58 *)a0)->unk20.m->unk4.s |= 0x8000;
+    func_8001D0E8(((Unkstruct_80126B58 *)a0)->unk20.val, 0x7FFF, 0x7FFF);
     guess_SetObjectPosAndYaw(a0, (s32)D_801E053C);
     ((Unkstruct_80126B58 *)a0)->unk2 = 1;
     return;
@@ -4812,11 +4812,11 @@ void func_8018B4EC(void *a0) {
     extern u8 D_801B65B0[];
     extern s16 D_801E054C;
 
-    ((Unkstruct_80126B58 *)a0)->unk20 = ((s32 (*)(void))guess_AllocModelObject)();
-    if (((Unkstruct_80126B58 *)a0)->unk20 == 0) {
+    ((Unkstruct_80126B58 *)a0)->unk20.val = ((s32 (*)(void))guess_AllocModelObject)();
+    if (((Unkstruct_80126B58 *)a0)->unk20.val == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
-        guess_InitModelObject(((Unkstruct_80126B58 *)a0)->unk20, (s32)&D_801B65B0[0]);
+        guess_InitModelObject(((Unkstruct_80126B58 *)a0)->unk20.val, (s32)&D_801B65B0[0]);
         guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801E054C);
         ((Unkstruct_80126B58 *)a0)->unk2 = 1;
         CAST_WIDTH(s16, (char *)a0, 0x34) = 0;
@@ -5687,7 +5687,7 @@ void func_8018C7F0(s32 a0) {
     }
 L840:
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = v0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = v0;
     if (v0 != 0) goto L860;
 L850:
     guess_FreeActorDuringSpawn((void *)a0);
@@ -5721,7 +5721,7 @@ extern void guess_UpdateActorModelMatrix(s32 arg);
 
 extern void guess_UpdateActorModelMatrix(s32 arg);
     void func_8018C93C(void *a0) {
-        s32 v1 = ((Unkstruct_80126B58 *)a0)->unk20;
+        s32 v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
         ((Unkstruct_80126B58 *)a0)->unk2 = 0x4;
         *(s16 *)(v1 + 0x12) = 0x600;
         guess_UpdateActorModelMatrix((s32)a0);
@@ -5750,7 +5750,7 @@ void func_8018C96C(void *arg0) {
     s32 *p;
 
     v0 = ((s32 (*)(void *))guess_AllocModelObject)(arg0);
-    ((Unkstruct_80126B58 *)arg0)->unk20 = v0;
+    ((Unkstruct_80126B58 *)arg0)->unk20.val = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(arg0);
     } else {

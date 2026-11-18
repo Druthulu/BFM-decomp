@@ -68,7 +68,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_801851E0(s32 a0)
 {
-    ((Unkstruct_801202A0 *)a0)->unkDC.val = 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 1;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->extE.kSC02_005_801851E0.unkAE = -1;
     func_8012AD44((s32 *)a0, 2);
@@ -417,11 +417,11 @@ void func_8018592C(u8 *arg0) {
     register s32 flags __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-copy-merge
 
     a2 = arg0;
-    flags = ((Unkstruct_801202A0 *)a2)->extC.kSC02_005_801831A4.unkE8.s;
+    flags = ((Unkstruct_801202A0 *)a2)->blkDC.f.extC.kSC02_005_801831A4.unkE8.s;
     idx = D_801E4BBC;
     ((Unkstruct_801202A0 *)a2)->extD.kSC02_005_801831A4.unk102 = 0;
     flags &= ~8;
-    ((Unkstruct_801202A0 *)a2)->extC.kSC02_005_801831A4.unkE8.s = flags;
+    ((Unkstruct_801202A0 *)a2)->blkDC.f.extC.kSC02_005_801831A4.unkE8.s = flags;
 
     if (idx < 2) {
         D_801E4BBC++;
@@ -511,9 +511,9 @@ void func_80185B38(s32 a0)
     s16 n6;
     s16 nE;
 
-    if (((Unkstruct_801202A0 *)a0)->extC.kSC02_005_801831A4.unkE0 < 0) {
-        if (((Unkstruct_801202A0 *)a0)->unkDC.i.lo.s != 1) {
-            if (((Unkstruct_801202A0 *)a0)->extC.kSC02_005_801831A4.unkE8.s & 0x800) {
+    if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0 < 0) {
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s != 1) {
+            if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE8.s & 0x800) {
                 q = ((s16)(D_80126CB4 - ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s) + 0x2A) / 0x54;
                 d = D_80126CB8 - D_80195ACC;
                 if (q >= 4) {
@@ -552,8 +552,8 @@ void func_80185B38(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = nE;
         }
     } else {
-        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = D_80195AF4[((Unkstruct_801202A0 *)a0)->extC.kSC02_005_801831A4.unkE0].unk0;
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = D_80195AF6[((Unkstruct_801202A0 *)a0)->extC.kSC02_005_801831A4.unkE0].unk0;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = D_80195AF4[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].unk0;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = D_80195AF6[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].unk0;
     }
 }
 
@@ -565,7 +565,7 @@ void func_80185B38(s32 a0)
 extern s32 D_801270CC;
 
 s32 func_80185D6C() {
-    return ((Unkstruct_801202A0 *)D_801270CC)->extC.kSC02_005_801816FC.unkE8 & 4;
+    return ((Unkstruct_801202A0 *)D_801270CC)->blkDC.f.extC.kSC02_005_801816FC.unkE8 & 4;
 }
 
 

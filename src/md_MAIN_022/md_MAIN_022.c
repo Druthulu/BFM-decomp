@@ -360,7 +360,7 @@ void func_800CB5E4(void *a0) {
     s32 v1;
 
     v0 = ((Unkstruct_80126B58 *)a0)->unk1C << 9;
-    v1 = ((Unkstruct_80126B58 *)a0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(u16 *)(v1 + 0x1A) = v0;
     *(u16 *)(v1 + 0x18) = v0;
     if (guess_TickWaitTimer_2((s32)a0) != 0) {

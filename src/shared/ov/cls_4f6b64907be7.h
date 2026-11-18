@@ -4,9 +4,9 @@
         s32 p;
         s32 q;
         ((Unkstruct_80126B58 *)arg0)->unk208 += 0x1c000;
-        p = ((Unkstruct_80126B58 *)arg0)->unk20;
+        p = ((Unkstruct_80126B58 *)arg0)->unk20.val;
         *(u16 *)((u8 *)p + 0x10) = (*(u16 *)((u8 *)p + 0x10) - *(u16 *)((u8 *)arg0 + 0x20A)) & 0xfff;
-        q = ((Unkstruct_80126B58 *)arg0)->unk20;
+        q = ((Unkstruct_80126B58 *)arg0)->unk20.val;
         if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
             *(u16 *)((u8 *)q + 0x10) = 0xc00;
             ((Unkstruct_80126B58 *)arg0)->unkB8 = 1;

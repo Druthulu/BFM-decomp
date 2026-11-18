@@ -5053,7 +5053,7 @@ void func_8017F6E0(int param_1)
                     rec += 8;
                 } while (*(s16 *)(fld - 2) != 0xFF);
             }
-            ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unkDC.val;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 1;
     }
@@ -5737,8 +5737,8 @@ void func_801808F0(s32 arg0) {
     ((Unkstruct_801202A0 *)s0)->unk14.val = 0;
     ((Unkstruct_801202A0 *)s0)->unk10.val = 0;
     ((Unkstruct_801202A0 *)s0)->unk4C = 0;
-    ((Unkstruct_801202A0 *)s0)->unk44 = 0;
-    ((Unkstruct_801202A0 *)s0)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)s0)->unk44.w.unk44 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk44.w.unk48 = 0x18000;
 }
 
 

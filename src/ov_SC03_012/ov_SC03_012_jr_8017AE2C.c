@@ -3945,7 +3945,7 @@ void func_8017D8CC(void *a0) {
         func_8012C51C(buf, a0);
         CAST_WIDTH(s16, (char *)a0, 0xE4) = 3;
         *(s16 *)((char *)a0 + 0xE6) = 4;
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
         CAST_WIDTH(s16, (char *)a0, 0xE0) = 0;
         CAST_WIDTH(s16, (char *)a0, 0xE8) = 0x40;
         guess_RequestSound(0x556, 0);
@@ -4136,7 +4136,7 @@ void func_8017DCB4(s32 a0) {
                 }
                 val2c = (s16)((adj >> 2) + 3);
             store_vals:
-                do { ((Unkstruct_8011DB30 *)result)->unk2C = val2c; } while (0);
+                do { ((Unkstruct_8011DB30 *)result)->unk2C.i.lo.u = val2c; } while (0);
                 ptr = ((Unkstruct_8011DB30 *)result)->unk20;
                 magv = magw;
                 CAST_WIDTH(u16, ptr, 0x1C) = magv;

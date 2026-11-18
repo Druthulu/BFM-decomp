@@ -1280,7 +1280,7 @@ void func_8015C32C(s32 arg0) {
         vin[0] = 0;
         vin[1] = 0;
         vin[2] = -0x4000;
-        func_8001382C((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12), vin, vout);
+        func_8001382C((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s, vin, vout);
         ((Unkstruct_80126B58 *)arg0)->unk234 += vout[0];
         ((Unkstruct_80126B58 *)arg0)->unk238 += vout[1];
         ((Unkstruct_80126B58 *)arg0)->unk23C += vout[2];
@@ -1730,12 +1730,12 @@ void func_8015D1B8(s32 *a0)
     s32 dummy[2]; /* L1: dead, but its stack slot is what makes the frame 0x38 */
 
     ((void (*)(void))func_80149FB0)();
-    obj = ((Unkstruct_80126B58 *)a0)->unk20;
+    obj = ((Unkstruct_80126B58 *)a0)->unk20.val;
     sum = ((Unkstruct_800B5CB8 *)obj)->unk10 + *(u16 *)((u8 *)a0 + 0x236);
     ((Unkstruct_800B5CB8 *)obj)->unk10 = sum & 0xFFF;
     keep = sum; /* L2: AFTER the store — this is what keeps the $s0 copy alive */
 
-    cur = *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10);
+    cur = ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.s;
     prev = CAST_SIGN(s16, (u8 *)a0, 0x244);
     if (cur - prev >= 0) {
         d = cur - prev;

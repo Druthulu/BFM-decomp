@@ -3399,7 +3399,7 @@ void func_80180AA4(void *a0) {
 
 
 s32 func_80180AE0(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -3449,11 +3449,11 @@ void func_80180B28(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
 
     if (s1 >= 0x384) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_80180AE0(a0, D_801894F8);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_80180AE0(a0, D_801894F8);
     } else if (s1 >= 0x258) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_80180AE0(a0, D_801894E8);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_80180AE0(a0, D_801894E8);
     } else if (s1 >= 0xC8) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_80180AE0(a0, D_801894D8);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_80180AE0(a0, D_801894D8);
     }
 }
 
@@ -3492,7 +3492,7 @@ void func_80180BFC(s32 a0)
     }
 
     if ((guess_TestGameFlag((s32)D_801AC610[((Unkstruct_801202A0 *)a0)->unk70.s]) & 0xFF) != 0) {
-        s0 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+        s0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
         if (s0 != 0) {
             s32 a1 = *(s32 *)(s0 + 0x4);
             if (a1 != 0) {
@@ -3504,7 +3504,7 @@ void func_80180BFC(s32 a0)
         }
         func_8012AD50((void *)a0);
     } else {
-        s0 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+        s0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
         if (s0 != 0) {
             s32 a1 = *(s32 *)s0;
             if (a1 != 0) {
@@ -3639,7 +3639,7 @@ void func_80180F08(void *a0)
         return;
     }
 
-    s1 = ((Unkstruct_801202A0 *)a0)->unk64->unkDC.val;
+    s1 = ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.unkDC.val;
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
@@ -3683,7 +3683,7 @@ void func_80180F08(void *a0)
     if (v0 != 0) {
         ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_8011DB30 *)v0)->unk14 = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14.val = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;

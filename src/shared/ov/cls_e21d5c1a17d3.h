@@ -6,9 +6,9 @@ void SHARED_FN(s32 a0) {
 
     h0 = CAST_SIGN(u16, a0, 0xFC);
     h1 = CAST_SIGN(u16, a0, 0x70);
-    ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
-    ((Unkstruct_801202A0 *)a0)->extC.kcls_e21d5c1a17d3.unkE0 = 0;
-    ((Unkstruct_801202A0 *)a0)->extC.kcls_e21d5c1a17d3.unkE4 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_e21d5c1a17d3.unkE0 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_e21d5c1a17d3.unkE4 = 0;
     ((Unkstruct_801202A0 *)a0)->extD.kcls_e21d5c1a17d3.unk100 = h0;
     ((Unkstruct_801202A0 *)a0)->extD.kcls_e21d5c1a17d3.unk102 = h1;
     ((Unkstruct_801202A0 *)a0)->unkFE.s = (rand() & 0x1F) + (rand() & 0x1F) + 0x3C;

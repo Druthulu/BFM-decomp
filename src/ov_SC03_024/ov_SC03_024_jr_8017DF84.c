@@ -3798,7 +3798,7 @@ void func_8017FDDC(s32 a0) {
         sp10[2] = 0x70000;
         guess_SetLocalVelocity(a0, (s32)sp10);
 
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x10000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x10000;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk108 = 0;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
@@ -4181,8 +4181,8 @@ void func_80180580(s32 *a0)
     if (((Unkstruct_80126B58 *)a0)->unkA.s > -0x83) {
         i = 0;
         func_80183094();
-        *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = 0;
-        *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10) = 0xC00;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->unk12.s = 0;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.s = 0xC00;
         func_8014706C(a0);
         guess_SetAnimScript(a0, (s32)&D_800D5904);
         guess_SetTexAnim((s32)a0, 0x20);
@@ -4904,7 +4904,7 @@ extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 
 void func_801817A8(s32 a0) {
-    ((Unkstruct_8011DB30 *)a0)->unk14 -= 0x2000;
+    ((Unkstruct_8011DB30 *)a0)->unk14.val -= 0x2000;
     guess_AddVelocityToPos((S800D22E4 *)a0);
 
     if ((((Unkstruct_8011DB30 *)a0)->unk1C & 3) == 0) {
@@ -5383,7 +5383,7 @@ void func_80182108(s32 arg0)
                 v = -(v << 7);
             }
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = v + 0x1000;
-            ((Unkstruct_8011DB30 *)e)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
             CAST_WIDTH(s32, e, 0x18) = 0x30000;
         }
     }
@@ -5645,7 +5645,7 @@ end:
 
 
 void func_8018264C(void *a0) {
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x1400;
         ((Unkstruct_801202A0 *)a0)->unk14.val = 0;
     }
 

@@ -3325,7 +3325,7 @@ void func_8017BEF8(s32 param_1)
 
     v0 = ((s32 (*)(void))guess_AllocSpriteObject)();
     s0 = v0;
-    ((Unkstruct_80126B58 *)param_1)->unk20 = v0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = v0;
 
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);

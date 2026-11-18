@@ -200,7 +200,7 @@ extern s16 D_801152C2;
 extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern void func_8012A418(void);
-extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern MATRIX guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -1849,7 +1849,7 @@ int func_80148AFC(void *a0) {
     extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s32 (*D_80183FA0[])(void *, s32);
     s32 p = (s32)a0;
-    s32 iVar5 = ((Unkstruct_80126B58 *)p)->unk20;
+    s32 iVar5 = ((Unkstruct_80126B58 *)p)->unk20.val;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
                       ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
@@ -3860,7 +3860,7 @@ void func_801523F4(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
-    if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {

@@ -4314,9 +4314,9 @@ extern void SetTransMatrix(void *);
 
 void func_80017E8C(s32 arg0)
 {
-    Blk20_8016DF5C m;
+    MATRIX m;
 
-    m = *(Blk20_8016DF5C *)arg0;
+    m = *(MATRIX *)arg0;
     CompMatrix(&guess_g_CameraWsMatrix, &m, &m);
     SetRotMatrix(&m);
     SetTransMatrix(&m);
@@ -8507,7 +8507,7 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->unk1A.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk18.s = v;
     v = 0xC8;
-    ((Unkstruct_8001C9D0 *)a0v)->unk14 = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk14.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk12.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk10.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unkC.s = 0;

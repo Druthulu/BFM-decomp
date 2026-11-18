@@ -510,7 +510,7 @@ void func_800CBC14(void *arg0) {
     s32 v0;
 
     v0 = ((s32 (*)(void))func_80146578)();
-    ((Unkstruct_80126B58 *)arg0)->unk20 = v0;
+    ((Unkstruct_80126B58 *)arg0)->unk20.val = v0;
     if (v0 != 0) {
         func_8001CB00(v0,
             (void *)((s32)&D_800CC00C + (((Unkstruct_80126B58 *)arg0)->unk50) * 12),

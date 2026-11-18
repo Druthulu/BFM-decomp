@@ -2915,7 +2915,7 @@ void func_801523F4(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
-    if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {

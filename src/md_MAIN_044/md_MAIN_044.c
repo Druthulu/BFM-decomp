@@ -387,7 +387,7 @@ void func_800CD494(void *arg0) {
     u16 acc;
 
     idx = *(s16 *)((s32)arg0 + 0x5E);
-    a1 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    a1 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     tv = D_800CE210[idx * 2];
     if (tv != 0) {
         *(s16 *)((s32)arg0 + 0x5E) = idx + 1;
@@ -462,7 +462,7 @@ void func_800CD63C(s32 a0, s32 a1)
 {
     s16 sp10[3];
     s32 sp18[2];
-    Blk20_8016DF5C sp20;
+    MATRIX sp20;
     s32 t;
     s32 r;
 
@@ -473,7 +473,7 @@ void func_800CD63C(s32 a0, s32 a1)
     sp10[1] = ((((t << 17) >> 16) * r) / 4096);
     sp10[2] = 0;
 
-    sp20 = *(Blk20_8016DF5C *)a1;
+    sp20 = *(MATRIX *)a1;
 
     func_80015A2C(a0 + 0x58, (s32)&sp20 + 0x14);
     guess_RotTransSVWithMatrix((s32)&sp20, (s32)sp10, (s32)sp18);
@@ -508,7 +508,7 @@ extern void func_800123F0(s32 a0, s32 a1);
 
 
 void func_800CD834(void *a0) {
-    s32 v0 = ((Unkstruct_80126B58 *)a0)->unk20;
+    s32 v0 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(s16 *)(v0 + 0x18) = *(s16 *)(v0 + 0x1A) = 0;
 }
 
@@ -516,9 +516,9 @@ void func_800CD834(void *a0) {
 extern s32 func_80012F74(s32, s32, s32, s32);
 
 void func_800CD848(s32 param_1) {
-    *(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x18) =
-        *(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x1A) =
-        func_80012F74(*(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x1A), 0x1000, 4, 1);
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk18.s =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk1A.s =
+        func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20.m->unk1A.s, 0x1000, 4, 1);
 }
 
 
@@ -575,7 +575,7 @@ void func_800CD984(s32 a0) {
     a2 = func_800D21C4(a0, (s32)&D_800CE240, 0x21);
     if (a2 != 0) {
         *(s32 *)(a2 + 4) |= 0x40000000;
-        ((Unkstruct_80126B58 *)a0)->unk20 = a2;
+        ((Unkstruct_80126B58 *)a0)->unk20.val = a2;
         *(s16 *)(a2 + 0x28) = 0x230;
         *(s16 *)(a2 + 0x2A) = 0x1C0;
         guess_SetWaitTimer_2((s32 *)a0, 2);
@@ -620,7 +620,7 @@ void func_800CDA80(int param_1)
 
     base = (int)D_800CEBF4 + ((Unkstruct_80126B58 *)param_1)->unk2C * 0x40;
     ptr = func_800D2294(param_1, base);
-    ((Unkstruct_80126B58 *)param_1)->unk20 = ptr;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m = ptr;
     if (ptr != 0) {
         r = rand();
         guess_BuildCircle12Points(base, (r & 0x1F) | 0x20);

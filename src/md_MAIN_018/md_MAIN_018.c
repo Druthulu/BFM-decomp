@@ -187,7 +187,7 @@ L1DC:
         ret = func_80146AB4(0x23, (s32)arg0, 0, 0, 0,
                             ((Unkstruct_8011D030 *)obj)->unk12.s,
                             CAST_SIGN(s16, (s32)obj, 0x1A) |
-                                (((((Unkstruct_8011D030 *)obj)->unk28)++ & 7) << 16));
+                                (((((Unkstruct_8011D030 *)obj)->unk28.u)++ & 7) << 16));
         if (ret == 0) {
             ((Unkstruct_8011D030 *)obj)->unk2A.u = 0;
         }

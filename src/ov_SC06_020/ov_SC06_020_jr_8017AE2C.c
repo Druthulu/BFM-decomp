@@ -3334,7 +3334,7 @@ void func_8017BEF8(void *a0) {
     s16 ang;
 
     node = func_800D21C4((s32)a0, D_80188A48, 0x26);
-    ((Unkstruct_80126B58 *)a0)->unk20 = node;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = node;
     if (node != 0) {
         ((Unkstruct_800B5BD8 *)node)->unk28.s = 0x234;
         ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x1C0;
@@ -3399,7 +3399,7 @@ void func_8017C120(s32 param_1) {
     u16 vec[3];
     s32 val2;
 
-    node = ((Unkstruct_80126B58 *)param_1)->unk20;
+    node = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     ((Unkstruct_80126B58 *)param_1)->unk2C += 0xE3;
     val = rsin(((Unkstruct_80126B58 *)param_1)->unk2C);
     p = &D_80188A7C;

@@ -189,13 +189,13 @@ void func_800CB23C(void *a0) {
 
     s1 = *(s32 *)((s32)a0 + 0x4C);
     v0 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = v0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = v0;
     if (v0 != 0) {
         guess_InitModelObjectKind3((void *)v0, D_800CBE98);
         guess_TransformPosByObjMatrix(s1, (s32)a0 + 4);
-        *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10) = ((Unkstruct_80126B58 *)s1)->unk100;
-        *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x14) = ((Unkstruct_80126B58 *)s1)->unk104;
-        *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x12);
+        ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.u = ((Unkstruct_80126B58 *)s1)->unk100;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->unk14.u = ((Unkstruct_80126B58 *)s1)->unk104;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->unk12.u = ((Unkstruct_80126B58 *)s1)->unk20.m->unk12.u;
         func_80146DE8((s32 *)a0, 0, 0x80000, 0xFFF00000);
         guess_SetWaitTimer_2((s32 *)a0, 0x60);
         func_800CB758(a0);
@@ -262,7 +262,7 @@ void func_800CB300(s32 arg0) {
     }
     func_80013F3C(&mat);
     func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk10.s);
-    func_800123F0((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk14);
+    func_800123F0((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk14.s);
     func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk12.s);
     *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
     *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];

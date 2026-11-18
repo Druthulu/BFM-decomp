@@ -3566,7 +3566,7 @@ void func_8017E300(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
@@ -3947,7 +3947,7 @@ void func_8017EB54(void *a0) {
     func_8017EF74(s0);
     ((void (*)(s32, void *))guess_StartActorSequence)(s0, (void *)&D_8019AED4);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x23;
-    ((Unkstruct_801202A0 *)a0)->extC.kSC04_006_8017EB54.unkE0 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_006_8017EB54.unkE0 = 0;
 }
 
 
@@ -4262,7 +4262,7 @@ void func_8017F354(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
 
     ((Unkstruct_801202A0 *)s0)->unk76 = 0;
 
-    if (((Unkstruct_801202A0 *)s0)->extC.kSC04_006_8017F354.unkE4 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_006_8017F354.unkE4 == 0) {
         p20a = ((Unkstruct_801202A0 *)s0)->unk20;
         ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;

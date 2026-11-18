@@ -3441,7 +3441,7 @@ void func_8017F068(void *a0, void *a1, s16 a2, s16 a3)
                 ((Unkstruct_8011DB30 *)ent)->unkA.u = *(s16 *)((s8 *)a0 + 2) + rot[1];
                 ((Unkstruct_8011DB30 *)ent)->unkE.u = *(s16 *)((s8 *)a0 + 4) + rot[2];
                 CAST_WIDTH(s32, ent, 0x10) = (s32)rot[0] << 12;
-                ((Unkstruct_8011DB30 *)ent)->unk14 = (s32)rot[1] << 12;
+                ((Unkstruct_8011DB30 *)ent)->unk14.val = (s32)rot[1] << 12;
                 CAST_WIDTH(s32, ent, 0x18) = (s32)rot[2] << 12;
             }
             i = i + 1;
@@ -3476,9 +3476,9 @@ void func_8017F290(s32 *a0) {
     s32 p;
     s32 v;
 
-    v = ((Unkstruct_8011DB30 *)a0)->unk2C - 1;
+    v = ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u - 1;
     p = a0[0x20 / 4];
-    ((Unkstruct_8011DB30 *)a0)->unk2C = v;
+    ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u = v;
     if ((s16)v == -1) {
         func_801292C8((u8 *)a0);
         return;
@@ -3567,7 +3567,7 @@ s32 *a0;
     s32 p;
 
     p = ((Unkstruct_8011DB30 *)a0)->unk20;
-    if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C == -1) {
+    if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u == -1) {
         func_801292C8((u8 *)a0);
         return;
     }
@@ -4377,7 +4377,7 @@ int param_1;
     u64 vec;
     u32 out;
 
-    func_800139C8(*(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12), D_80189838, &vec);
+    func_800139C8(((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s, D_80189838, &vec);
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {

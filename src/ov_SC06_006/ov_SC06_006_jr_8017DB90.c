@@ -4273,7 +4273,7 @@ void func_801800B8(void *a0) {
             ((Unkstruct_801202A0 *)obj)->unk34.u = 2;
             break;
         case 3:
-            ((Unkstruct_801202A0 *)obj)->unkDC.val = p->c;
+            ((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.val = p->c;
             break;
         }
         p++;
@@ -4628,7 +4628,7 @@ void func_8018097C(void *arg0) {
         func_8017DD64(arg0);
     }
 
-    prod = D_801F8090 * ((Unkstruct_801202A0 *)e)->unkDC.val;
+    prod = D_801F8090 * ((Unkstruct_801202A0 *)e)->blkDC.f.unkDC.val;
     q = ((Unkstruct_801202A0 *)e)->unk20;
     t = prod >> 12;
     CAST_WIDTH(u16, q, 0x1C) = t;
@@ -5122,7 +5122,7 @@ void func_801814DC(void *a0) {
         return;
     }
 
-    ((Unkstruct_8011DB30 *)a0)->unk14 += CAST_WIDTH(s32, (s32)a0, 0x34);
+    ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk8 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unkA = ((Unkstruct_8011DB30 *)a0)->unkA.u;

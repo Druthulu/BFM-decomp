@@ -3141,12 +3141,12 @@ void func_80180F90(void *a0) {
     u16 state;
 
     state = ((Unkstruct_801202A0 *)a0)->unk34.u;
-    ((Unkstruct_801202A0 *)a0)->unkDC.val += 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val += 1;
     cnt = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = cnt;
     switch (state) {
     case 0:
-        if (((Unkstruct_801202A0 *)a0)->unkDC.val == 0xE6) {
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val == 0xE6) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = state + 1;
         }
         break;

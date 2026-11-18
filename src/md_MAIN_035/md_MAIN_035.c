@@ -188,7 +188,7 @@ void func_800CB1F8(void *a0) {
         guess_CopyVec3HighHalves(iVar1 + 4, (s32 *)buf);
         buf[3] = 0;
         uVar2 = guess_RollActorEventValue(0x29);
-        guess_PostActorEvent(iVar1, 0x29, uVar2, buf, *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12));
+        guess_PostActorEvent(iVar1, 0x29, uVar2, buf, ((Unkstruct_80126B58 *)a0)->unk20.m->unk12.s);
         ((Unkstruct_80126B58 *)a0)->unk178 = 0;
     }
 }

@@ -3990,10 +3990,10 @@ void func_80180A38(s32 param_1)
         pos = *(ElemK *)(param_1 + 0x88);
 
         func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
-        pos.e[0] += 0x28;
+        pos.vx += 0x28;
 
         func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
-        pos.e[0] += -0x50;
+        pos.vx += -0x50;
 
         func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
 
@@ -4101,7 +4101,7 @@ void func_80180C38(void *a0)
             ((Unkstruct_8011DB30 *)a0)->unkA.u = sv_b.vy;
             ((Unkstruct_8011DB30 *)a0)->unkE.u = sv_b.vz;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
-            ((Unkstruct_8011DB30 *)a0)->unk14 = 0;
+            ((Unkstruct_8011DB30 *)a0)->unk14.val = 0;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
 
             /* (1) above: the `p = ...` statement is the to_rtx, the `base = ...`
@@ -4125,9 +4125,9 @@ void func_80180C38(void *a0)
     }
 
     m = D_800AE620;
-    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.t[0] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.t[1] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.t[2] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14), &m);
     gte_SetRotMatrix(&m);
@@ -4198,7 +4198,7 @@ void func_80181030(s32 a0)
         sv1.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
         sv1.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
         sv1.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
-        ((Unkstruct_8011DB30 *)a0)->unk14 = ((Unkstruct_8011DB30 *)a0)->unk14 + 0x18000;
+        ((Unkstruct_8011DB30 *)a0)->unk14.val = ((Unkstruct_8011DB30 *)a0)->unk14.val + 0x18000;
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
         sv2.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
@@ -4338,7 +4338,7 @@ s32 func_80181260(s32 param_1, s16 param_2)
     ApplyMatrixLV((s32)&mtx, (s32)D_80189C20, (s32)out);
 
     CAST_WIDTH(s32, obj, 0x10) = out[0];
-    ((Unkstruct_8011DB30 *)obj)->unk14 = out[1];
+    ((Unkstruct_8011DB30 *)obj)->unk14.val = out[1];
     CAST_WIDTH(s32, obj, 0x18) = out[2];
     ((Unkstruct_8011DB30 *)obj)->unk1C = 0x5A;
 

@@ -5654,10 +5654,10 @@ void func_8018047C(int param_1)
 
     if ((CAST_WIDTH(char, param_1, 0x70) == 4) || (iVar1 = ((int (*)(void))guess_TickWaitTimer)(), iVar1 != 0)) {
         int sum;
-        sum = ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_8017F6D8.unkE0;
-        sum += ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_8017F6D8.unkE4;
-        ((Unkstruct_801202A0 *)param_1)->unkDC.val += sum;
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_8017F6D8.unkE0 = sum;
+        sum = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_8017F6D8.unkE0;
+        sum += ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_8017F6D8.unkE4;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val += sum;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_8017F6D8.unkE0 = sum;
         ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk10 = *(unsigned short *)(param_1 + 0xde);
         if (0x3ff < *(short *)(param_1 + 0xde)) {
             if (*(unsigned short *)(param_1 + 0x34) == 0 &&
@@ -5670,9 +5670,9 @@ void func_8018047C(int param_1)
                 if (*(unsigned short *)(param_1 + 0x34) == 0) {
                     guess_RequestSound(0x487, 0);
                 }
-                ((Unkstruct_801202A0 *)param_1)->unkDC.val = 0x4000000;
+                ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 0x4000000;
                 *(unsigned short *)(param_1 + 0x5c) = *(unsigned short *)(param_1 + 0x5c) | 0xcc00;
-                ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_8017F6D8.unkE0 = -(((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_8017F6D8.unkE0 >> 1);
+                ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_8017F6D8.unkE0 = -(((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_8017F6D8.unkE0 >> 1);
                 (*(unsigned short *)(param_1 + 0x34))++;
             }
         }

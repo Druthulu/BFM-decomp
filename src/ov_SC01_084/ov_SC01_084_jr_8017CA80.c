@@ -3263,7 +3263,7 @@ void func_8017E608(u8 *a0) {
     s32 v0;
     s32 s1;
     s32 t;
-    v0 = ((Unkstruct_80126B58 *)a0)->unk20;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     s1 = func_80012B04(CAST_SIGN(s16, v0, 0x12), 0xB1C, 4);
     if ((s16)s1 == 0) {
         guess_SpawnSmallObjectAtOrigin(25, (s32)a0, 0x4BB04BC, 0);
@@ -3271,7 +3271,7 @@ void func_8017E608(u8 *a0) {
         ((Unkstruct_80126B58 *)a0)->unk214 += 1;
         ((Unkstruct_80126B58 *)a0)->unk4D += 1;
     }
-    t = ((Unkstruct_80126B58 *)a0)->unk20;
+    t = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_8017E608_4 *)t)->unk12 = (((Unkstruct_8017E608_4 *)t)->unk12 + s1) & 0xFFF;
 }
 
@@ -3993,7 +3993,7 @@ void func_8017F5E4(s32 param_1)
         CAST_ALIAS(s16, param_1, 0xE) = 0;
         CAST_ALIAS(s16, param_1, 6) = 0;
         CAST_ALIAS(s16, param_1, 0xA) = -0x3AA;
-        ((Unkstruct_801202A0 *)param_1)->unkDC.val = D_801270D8;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = D_801270D8;
         guess_StartActorSequence(param_1, &D_8018A838);
         func_8012AD50(param_1);
     }

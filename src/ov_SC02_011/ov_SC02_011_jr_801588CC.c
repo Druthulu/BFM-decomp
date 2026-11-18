@@ -1240,7 +1240,7 @@ void func_80158FA4(s32 param_1)
     s32 v0;
     s16 sVar1;
 
-    v0 = ((Unkstruct_80126B58 *)param_1)->unk20;
+    v0 = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     ((Unkstruct_80158FA4_2 *)v0)->unk12 = (((Unkstruct_80158FA4_2 *)v0)->unk12 + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_801EA058 = 1;

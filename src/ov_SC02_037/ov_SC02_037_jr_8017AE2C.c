@@ -209,7 +209,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern MATRIX guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -4527,7 +4527,7 @@ void func_8017BFEC(s32 a0) {
 
     i = 5;
     tbl2 = D_801C9798;
-    ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)&tbl2[(s16)D_801152BA];
+    ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)&tbl2[(s16)D_801152BA];
 
     while (i < 0x28) {
         if ((guess_GetGameVarByte(i + 0x3B) & 0xFF) != 0) {
@@ -6185,7 +6185,7 @@ void func_8017F734(s32 param_1) {
         guess_StartActorSequence(param_1, (void *)D_80183F38);
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
         ((Unkstruct_801202A0 *)param_1)->unk75 = 0;
-        ((Unkstruct_801202A0 *)param_1)->unkDC.val = CAST_WIDTH(s32, param_1, 8);
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = CAST_WIDTH(s32, param_1, 8);
         guess_UpdateActorModelMatrix(param_1);
     }
 }
@@ -6213,7 +6213,7 @@ void func_8017F798(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
         }
         v1 = ((Unkstruct_801202A0 *)a0)->unk8.val;
-        v0 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+        v0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
         if (v1 < v0) {
             return;
         }

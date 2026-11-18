@@ -3767,10 +3767,10 @@ void func_801830C0(s32 param_1) {
     }
 
     if (((Unkstruct_80126B58 *)pv)->unk1C >= 8) {
-        s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_80126B58 *)pv)->unk20 + 0x12),
+        s32 r = guess_GetAngleStepToward(((Unkstruct_80126B58 *)pv)->unk20.m->unk12.s,
                                ((Unkstruct_80126B58 *)pv)->unkFC, 8);
-        *(u16 *)(((Unkstruct_80126B58 *)pv)->unk20 + 0x12) =
-            *(u16 *)(((Unkstruct_80126B58 *)pv)->unk20 + 0x12) + r;
+        ((Unkstruct_80126B58 *)pv)->unk20.m->unk12.u =
+            ((Unkstruct_80126B58 *)pv)->unk20.m->unk12.u + r;
     }
 
     guess_SetForwardVelocity(pv, D_8018C50C);
@@ -3815,7 +3815,7 @@ void func_801830C0(s32 param_1) {
             }
 
             {
-                s32 v1 = *(u16 *)(((Unkstruct_80126B58 *)pv)->unk20 + 0x12);
+                s32 v1 = ((Unkstruct_80126B58 *)pv)->unk20.m->unk12.u;
                 v1 = (v1 + off) & 0xFFF;
                 ((Unkstruct_80126B58 *)pv)->unkFC = v1;
             }

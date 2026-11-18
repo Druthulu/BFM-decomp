@@ -3581,7 +3581,7 @@ void func_8017DA90(s32 a0) {
 
     i = 5;
     tbl2 = D_8018FE20;
-    ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)&tbl2[(s16)D_801152BA];
+    ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)&tbl2[(s16)D_801152BA];
 
     while (i < 0x28) {
         if ((guess_GetGameVarByte(i + 0x3B) & 0xFF) != 0) {
@@ -3908,7 +3908,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 void func_8017E60C(s32 a0) {
     s32 ptr1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
     ((Unkstruct_8018064C *)ptr1)->unk1A = val;
@@ -4350,7 +4350,7 @@ void func_8017EFA4(void *a0)
     *(u16 *)((s32)a0 + 0xE2) = (rand() & 0x1C) + 0x18;
 
     ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFE80000;
-    ((Unkstruct_801202A0 *)a0)->unk48 = 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x8000;
     CAST_WIDTH(s32, (s32)a0, 0x18) = 0x50000;
 
     ((Unkstruct_801202A0 *)a0)->extD.kSC05_006_8017F130.unk106 = rand() & 0xF0;
@@ -4459,7 +4459,7 @@ void func_8017F354(void *a0)
     extern void func_8017F16C(void *a0);
 
     CAST_WIDTH(s32, (s32)a0, 0x8) += ((Unkstruct_801202A0 *)a0)->unk14.val;
-    ((Unkstruct_801202A0 *)a0)->unk14.val += ((Unkstruct_801202A0 *)a0)->unk48;
+    ((Unkstruct_801202A0 *)a0)->unk14.val += ((Unkstruct_801202A0 *)a0)->unk44.w.unk48;
 
     if (((Unkstruct_801202A0 *)a0)->unk14.val > (s32)0xFFFE0000) {
         guess_FreeActor(a0);
@@ -4479,7 +4479,7 @@ void func_8017F354(void *a0)
         CAST_WIDTH(u16, p, 0x14) += ((Unkstruct_801202A0 *)a0)->extD.kSC03_024_80186BE4.unk108;
     }
 
-    ((Unkstruct_801202A0 *)a0)->extC.kSC03_024_80186BE4.unkE0 += CAST_WIDTH(s32, (s32)a0, 0x18);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_024_80186BE4.unkE0 += CAST_WIDTH(s32, (s32)a0, 0x18);
     func_8017F16C(a0);
 }
 

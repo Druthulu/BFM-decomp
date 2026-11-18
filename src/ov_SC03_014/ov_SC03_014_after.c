@@ -603,7 +603,7 @@ int func_80148AFC(void *a0) {
     extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     extern s32 (*D_8018D064[])(void *, s32);
     s32 p = (s32)a0;
-    s32 iVar5 = ((Unkstruct_80126B58 *)p)->unk20;
+    s32 iVar5 = ((Unkstruct_80126B58 *)p)->unk20.val;
     s32 tmp = (ratan2(((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk44 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk50,
                       ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk48 - ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk3C) - 0x400) & 0xFFF;
     s32 ang = tmp;
@@ -2290,7 +2290,7 @@ void func_801523F4(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
-    if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {

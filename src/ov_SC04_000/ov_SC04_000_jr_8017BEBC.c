@@ -3303,7 +3303,7 @@ void func_8017CECC(s32 a0) {
 
     i = 5;
     tbl2 = D_801A9B18;
-    ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)&tbl2[(s16)D_801152BA];
+    ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)&tbl2[(s16)D_801152BA];
 
     while (i < 0x28) {
         if ((guess_GetGameVarByte(i + 0x3B) & 0xFF) != 0) {
@@ -3630,7 +3630,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 void func_8017DA48(s32 a0) {
     s32 ptr1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
     ((Unkstruct_8018064C *)ptr1)->unk1A = val;
@@ -4925,7 +4925,7 @@ void func_80180020(s32 a0) {
         }
         {
         u8 *q = &D_801A9D68;
-        ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)p;
+        ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)p;
         *(u16 *)(p + 0x6) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 0x68;
         *(u16 *)(p + 0xA) = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x20;
         *(u16 *)(p + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - 0x28;
@@ -5376,7 +5376,7 @@ void func_80180A68(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
@@ -5755,7 +5755,7 @@ void func_801812BC(void *a0) {
     func_801816DC(s0);
     ((void (*)(s32, void *))guess_StartActorSequence)(s0, (void *)&D_801A6A90);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x23;
-    ((Unkstruct_801202A0 *)a0)->extC.kSC04_000_80180FBC.unkE0 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_000_80180FBC.unkE0 = 0;
 }
 
 

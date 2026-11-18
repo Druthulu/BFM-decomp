@@ -21,7 +21,7 @@ void SHARED_FN(int param_1)
     int wid;
     int col;
 
-    p = ((Unkstruct_80126B58 *)param_1)->unk20;
+    p = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     ang = *(unsigned short *)(param_1 + 0x2c) + 0x40;
     *(unsigned short *)(param_1 + 0x2c) = ang;
     v.unk0.v1.unk4 = rsin(ang) / 256;

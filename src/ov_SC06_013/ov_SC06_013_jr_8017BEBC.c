@@ -3839,7 +3839,7 @@ void func_8017E930(void *arg0) {
         }
     }
     if (found != 0) {
-        func_800D1724(((Unkstruct_8017E930_2 *)found)->unkDC.val);
+        func_800D1724(((Unkstruct_8017E930_2 *)found)->blkDC.f.unkDC.val);
     }
     func_80171928(arg0);
 }

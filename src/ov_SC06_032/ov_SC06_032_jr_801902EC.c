@@ -3071,7 +3071,7 @@ void func_801902EC(s32 param_1)
             return;
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s + 1;
-        ((Unkstruct_801202A0 *)param_1)->unkD8 = eNew;
+        ((Unkstruct_801202A0 *)param_1)->unkD8.val = eNew;
         ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         /* fallthrough */
     case 1:

@@ -3890,7 +3890,7 @@ void func_80181BDC(void *arg0)
         ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_80199E1C;
-        ((Unkstruct_801202A0 *)arg0)->extC.kSC03_089_80183FF0.unkE0 = -((rand() % 8 + 8) << 16);
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_089_80183FF0.unkE0 = -((rand() % 8 + 8) << 16);
         guess_StartActorSequence((s32)arg0, D_8019C84C);
         ((Unkstruct_801202A0 *)arg0)->unkCC.val =
             guess_SpawnActor(0x178, ((Unkstruct_801202A0 *)arg0)->unk70.s, (s32)arg0);
@@ -3974,7 +3974,7 @@ void func_80181D58(s32 a0)
                        ((Unkstruct_801202A0 *)a0)->unkFE.s);
     ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 =
         ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 + r;
-    guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->extC.kSC03_089_80183FF0.unkE0);
+    guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE0);
     func_8012CBF4(a0);
     if (guess_TickWaitTimer(a0)) {
         if (KR_AS(s32, func_80182898)(a0) != 1) {
@@ -4048,7 +4048,7 @@ void func_80181F54(s32 a0)
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = u >> 16;
     func_8012B200((void *)a0);
     guess_UpdateActorModelMatrix(a0);
-    guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->extC.kSC03_089_80183FF0.unkE0 + 0xFFFE0000);
+    guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE0 + 0xFFFE0000);
     ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
     ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
 }

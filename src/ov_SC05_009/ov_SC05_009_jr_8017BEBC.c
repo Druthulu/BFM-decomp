@@ -3150,7 +3150,7 @@ void func_8017D914(s32 param_1)
 
     guess_PlaySoundUnlessSkipped(0x9D2);
     v1 = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
-    ((Unkstruct_801202A0 *)param_1)->unkDC.val = 0x200000;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 0x200000;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = v1;
 }
 
@@ -3173,7 +3173,7 @@ s32 func_8017D950(void *a0)
     }
 
     CAST_ALIAS(u16, s0, 6) = ((Unkstruct_801202A0 *)s0)->unkFC.u;
-    sum = ((Unkstruct_801202A0 *)s0)->unkFC.u + ((Unkstruct_801202A0 *)s0)->unkDC.i.hi.u;
+    sum = ((Unkstruct_801202A0 *)s0)->unkFC.u + ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.i.hi.u;
     CAST_ALIAS(u16, s0, 0xFC) = sum;
     arr[0] = sum;
     arr[1] = guess_g_PlayerPosY;
@@ -3560,7 +3560,7 @@ void func_8017E0F4(void *a0)
     *(u16 *)((s32)a0 + 0xE2) = (rand() & 0x1C) + 0x18;
 
     ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFE80000;
-    ((Unkstruct_801202A0 *)a0)->unk48 = 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x8000;
     CAST_WIDTH(s32, (s32)a0, 0x18) = 0x50000;
 
     ((Unkstruct_801202A0 *)a0)->extD.kcls_8d77555e2e34.unk106 = rand() & 0xF0;
@@ -3647,7 +3647,7 @@ extern void func_8017E2BC(void *a0);
 void func_8017E4A4(s32 a0) {
     CAST_WIDTH(s32, a0, 8) += ((Unkstruct_801202A0 *)a0)->unk14.val;
 
-    if ((s32)0xFFFE0000 < (((Unkstruct_801202A0 *)a0)->unk14.val += ((Unkstruct_801202A0 *)a0)->unk48)) {
+    if ((s32)0xFFFE0000 < (((Unkstruct_801202A0 *)a0)->unk14.val += ((Unkstruct_801202A0 *)a0)->unk44.w.unk48)) {
         guess_FreeActor((void *)a0);
         return;
     }
@@ -3656,7 +3656,7 @@ void func_8017E4A4(s32 a0) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += CAST_SIGN(u16, a0, 0x106);
     *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x14) += ((Unkstruct_801202A0 *)a0)->extD.kcls_8d77555e2e34.unk108;
 
-    ((Unkstruct_801202A0 *)a0)->extC.kcls_8d77555e2e34.unkE0 += CAST_WIDTH(s32, a0, 0x18);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_8d77555e2e34.unkE0 += CAST_WIDTH(s32, a0, 0x18);
     func_8017E2BC((void *)a0);
 }
 

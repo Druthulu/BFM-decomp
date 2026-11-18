@@ -4195,7 +4195,7 @@ void func_8017D2D0(s32 a0) {
         sp10[2] = 0x70000;
         guess_SetLocalVelocity(a0, (s32)sp10);
 
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x10000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x10000;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk108 = 0;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;

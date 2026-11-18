@@ -3953,7 +3953,7 @@ void func_80180450(s32 a0, s32 a1) {
     msg.f8 = (s16)a1;
     msg.fA = 0;
     msg.fE = 0;
-    msg.f10 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    msg.f10 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     msg.fC = 0x7FFF;
 
     func_8012C51C(&msg, a0);
@@ -4134,7 +4134,7 @@ void func_801808F0(s32 arg0) {
     ((Unkstruct_801202A0 *)s0)->unk58.s = 0x40000000 | (u32)&D_8019AF34;
     ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x800;
     ((Unkstruct_801202A0 *)s0)->unk72 |= 0x1000;
-    D_8019AEE8 = ((Unkstruct_801202A0 *)s0)->unkDC.val;
+    D_8019AEE8 = ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val;
     func_8012AD50((void *)s0);
 }
 

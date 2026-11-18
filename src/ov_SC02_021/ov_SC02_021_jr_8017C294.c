@@ -3527,7 +3527,7 @@ void func_8017E824(s32 arg0) {
             if (diff < 0) {
                 diff = -diff;
             }
-            ((Unkstruct_8011DB30 *)ptr)->unk2C = diff;
+            ((Unkstruct_8011DB30 *)ptr)->unk2C.i.lo.u = diff;
         }
     }
 }

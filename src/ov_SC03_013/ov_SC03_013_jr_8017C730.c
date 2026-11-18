@@ -3913,11 +3913,11 @@ extern void guess_ZeroMemory(void *a0, s32 a1);
 void func_8017F5FC() {
     s32 v0 = func_8012E544(0x1EF);
     if (v0 != 0) {
-        if (((Unkstruct_801202A0 *)v0)->unkDC.val != 0) {
-            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->unkDC.val, 0x38);
+        if (((Unkstruct_801202A0 *)v0)->blkDC.f.unkDC.val != 0) {
+            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->blkDC.f.unkDC.val, 0x38);
         }
-        if (((Unkstruct_801202A0 *)v0)->extC.kSC03_013_8017F5FC.unkE0 != 0) {
-            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->extC.kSC03_013_8017F5FC.unkE0, 0x38);
+        if (((Unkstruct_801202A0 *)v0)->blkDC.f.extC.kSC03_013_8017F5FC.unkE0 != 0) {
+            guess_ZeroMemory((void *)((Unkstruct_801202A0 *)v0)->blkDC.f.extC.kSC03_013_8017F5FC.unkE0, 0x38);
         }
         ((Unkstruct_801202A0 *)v0)->unk2.s = 0;
     }

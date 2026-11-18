@@ -3302,7 +3302,7 @@ void func_8017D364(int param_1)
     u64 vec;
     u32 out;
 
-    func_800139C8(*(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12), D_801821C8, &vec);
+    func_800139C8(((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s, D_801821C8, &vec);
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {

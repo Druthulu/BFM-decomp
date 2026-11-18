@@ -2875,7 +2875,7 @@ void func_80183508(s32 param_1)
             cond = CAST_SIGN(s16, param_1, 0xa) > ((Unkstruct_801202A0 *)param_1)->unkFE.s;
         }
         if (cond) {
-            ((Unkstruct_801202A0 *)param_1)->unk48 = 0x18000;
+            ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
             ((Unkstruct_801202A0 *)param_1)->unk34.u += 1;
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s += 1;
@@ -2974,7 +2974,7 @@ extern s32 rand(void);
 void func_801838A4(s32 arg0) {
     s32 t;
 
-    ((Unkstruct_801202A0 *)arg0)->unk48 = 0x4000;
+    ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0x4000;
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 7;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x50;
     t = rand();
@@ -2997,7 +2997,7 @@ void func_80183908(s32 arg0)
     u16 x;
 
     var = ((Unkstruct_801202A0 *)arg0)->unk20;
-    r = rsin((((Unkstruct_801202A0 *)arg0)->extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
+    r = rsin((((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
     x = (r >> 3) + 0xE00;
     CAST_WIDTH(u16, var, 0x1C) = x;
     ((Unkstruct_8001C9D0 *)var)->unk18.u = x;
@@ -3010,7 +3010,7 @@ void func_80183908(s32 arg0)
     if (guess_TickWaitTimer(arg0)) {
         func_80184634(arg0);
     } else {
-        ((Unkstruct_801202A0 *)arg0)->extC.kSC03_108_8017F0B0.unkE4 += 1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 += 1;
     }
 }
 
@@ -3050,7 +3050,7 @@ void func_80183A30(s32 param_1)
     s16 t;
 
     sp20 = ((Unkstruct_801202A0 *)param_1)->unk20;
-    ret = rsin((((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
+    ret = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
     ((Unkstruct_8001C9D0 *)sp20)->unk18.u = CAST_WIDTH(s16, sp20, 0x1C) = (ret >> 3) + 0xE00;
     ((Unkstruct_8001C9D0 *)sp20)->unk1A.u = (ret >> 1) + 0x800;
 
@@ -3084,7 +3084,7 @@ void func_80183A30(s32 param_1)
         }
     }
 
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 += 1;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 += 1;
 }
 
 
@@ -4185,7 +4185,7 @@ void func_801854C8(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);

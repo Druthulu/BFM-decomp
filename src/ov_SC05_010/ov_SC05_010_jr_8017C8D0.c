@@ -2819,7 +2819,7 @@ void func_8017D9C4(s32 a0) {
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObject(iVar2, (s32)&D_80191BA8);
         *(u16 *)(iVar2 + 0x10) = 0x800;
@@ -2855,7 +2855,7 @@ void func_8017DA90(s32 a0) {
     s16 sVar1;
 
     iVar1 = *(s32 *)(a0 + 0x4c);
-    iVar2 = ((Unkstruct_80126B58 *)a0)->unk20;
+    iVar2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     func_8016325C(a0, 0, 0x20000, 0);
     guess_AddVelocityToPos_2((s32 *)a0);
     if ((CAST_SIGN(s16, a0, 0x60) == 0) && (0 < ((Unkstruct_80126B58 *)a0)->unk28)) {
@@ -4399,11 +4399,11 @@ extern void (*D_801925B0[])(s32);
 
 void func_8018060C(s32 param_1)
 {
-    if (((Unkstruct_801202A0 *)param_1)->extC.kSC05_010_8018060C.unkE0 != 0) {
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC05_010_8018060C.unkE0 -= 1;
+    if (((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC05_010_8018060C.unkE0 != 0) {
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC05_010_8018060C.unkE0 -= 1;
     } else {
-        if ((((Unkstruct_801202A0 *)param_1)->unkDC.val < 0x20) && (guess_SpawnActorNoArg(0x2B5, param_1) != 0)) {
-            ((Unkstruct_801202A0 *)param_1)->unkDC.val += 1;
+        if ((((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val < 0x20) && (guess_SpawnActorNoArg(0x2B5, param_1) != 0)) {
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val += 1;
         }
     }
     D_801925B0[CAST_SIGN(u16, param_1, 2)](param_1);

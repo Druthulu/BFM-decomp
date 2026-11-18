@@ -1713,8 +1713,8 @@ void func_801849E4(s32 param_1) {
     guess_StartActorSequence(param_1, D_80186B78);
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x14;
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC01_084_801814E8.unkE0 = 0;
-    ((Unkstruct_801202A0 *)param_1)->unkDC.val = 0;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_084_801814E8.unkE0 = 0;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 0;
     guess_UpdateActorModelMatrix(param_1);
     ((Unkstruct_801202A0 *)param_1)->unkCC.val = guess_SpawnActorNoArg(0x17, 0);
     func_8005C2C8((s32)&D_801C7748, 0xC);
@@ -2454,7 +2454,7 @@ void func_8018599C(s32 param_1)
     guess_CopyVec3HighHalves(param_1 + 4, (s32 *)in);
 
     for (i = 0; i < 4; i++) {
-        if (((Unkstruct_801202A0 *)param_1)->unkDC.val != 0) {
+        if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val != 0) {
             /* jitter X: +/- ((rand&0xF)<<6 + (rand&0xF)<<2) */
             r0 = rand();
             r1 = rand();

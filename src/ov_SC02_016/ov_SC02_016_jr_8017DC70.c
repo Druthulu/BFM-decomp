@@ -3559,10 +3559,10 @@ void func_8017F6A4(s32 param_1) {
     v1 = func_80132EF4(param_1, 0x2A);
     *(s32 *)(param_1 + 0xCC) = v1;
     if (v1 != 0) {
-        ((Unkstruct_8011DB30 *)v1)->unk2C = *(u8 *)(param_1 + 0x70);
+        ((Unkstruct_8011DB30 *)v1)->unk2C.i.lo.u = *(u8 *)(param_1 + 0x70);
         t = *(u16 *)(param_1 + 0x36);
         ((Unkstruct_8011DB30 *)v1)->unk30.val = param_1;
-        ((Unkstruct_8011DB30 *)v1)->unk2E = t;
+        ((Unkstruct_8011DB30 *)v1)->unk2C.i.hi = t;
     }
     if (*(s16 *)(param_1 + 0x70) & 0x8000) {
         ((void (*)(s32))func_8017F190)(param_1);
@@ -3948,7 +3948,7 @@ void func_80180154(s32 param_1)
                 func_801802C8(param_1, rec);
                 rec += 8;
             }
-            ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unkDC.val;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s -= 1;
     }

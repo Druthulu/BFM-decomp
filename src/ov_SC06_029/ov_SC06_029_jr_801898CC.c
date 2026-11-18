@@ -3775,7 +3775,7 @@ void func_8018A56C(void *a0) {
     guess_HideObjectModel((u8 *)a0);
 
     ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (u8 *)a0, 2) + 1;
-    ((Unkstruct_801202A0 *)a0)->unk48 = 0xC000;
+    ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0xC000;
 }
 
 
@@ -3818,7 +3818,7 @@ void func_8018A5F0(s32 a0)
 
     sub = CAST_SIGN(u16, s1, 2);
     sub = sub + 1;
-    ((Unkstruct_801202A0 *)s1)->unkDC.val = (((Unkstruct_801202A0 *)s1)->unk70.s * 8) + (s32)&D_801922CC;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.val = (((Unkstruct_801202A0 *)s1)->unk70.s * 8) + (s32)&D_801922CC;
     ((Unkstruct_801202A0 *)s1)->unk2.s = sub;
 }
 
@@ -3836,7 +3836,7 @@ void func_8018A6A4(s32 p) {
     o = ((Unkstruct_801202A0 *)p)->unk20;
     if (((Unkstruct_801202A0 *)p)->unk34.u == 0) {
         t1 = CAST_SIGN(u16, o, 0x1C) + 0x800;
-        tbl = ((Unkstruct_801202A0 *)p)->unkDC.val;
+        tbl = ((Unkstruct_801202A0 *)p)->blkDC.f.unkDC.val;
         ((Unkstruct_8017E7B4_2 *)o)->unk1C = t1;
         ((Unkstruct_8017E7B4_2 *)o)->unk18 = t1;
         lim1 = ((Unkstruct_801312D0 *)tbl)->unk0;
@@ -3955,10 +3955,10 @@ void func_8018A8D4(s32 param_1)
         if ((*(u16 *)&D_801DFFDC) != 3) {
             return;
         }
-        iVar3 = ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_80189B38.unkE0 + 1;
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_80189B38.unkE0 = iVar3;
+        iVar3 = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_029_80189B38.unkE0 + 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_029_80189B38.unkE0 = iVar3;
         if (iVar3 >= 10) {
-            ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_80189B38.unkE0 = 10;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_029_80189B38.unkE0 = 10;
             ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         }
         break;
@@ -3968,8 +3968,8 @@ void func_8018A8D4(s32 param_1)
         }
         break;
     case 2:
-        iVar3 = ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_80189B38.unkE0 - 1;
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC06_029_80189B38.unkE0 = iVar3;
+        iVar3 = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_029_80189B38.unkE0 - 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_029_80189B38.unkE0 = iVar3;
         if (iVar3 < 1) {
             guess_FreeActor((void *)param_1);
             return;
@@ -4966,7 +4966,7 @@ void func_8018BE68(s32 param_1)
     func_80149020((s32 *)param_1);
     guess_PlaySoundUnlessSkipped(0x451);
     func_801511E0(param_1);
-    ret = func_80012A60(*(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12), ((Unkstruct_80126B58 *)param_1)->unkF4);
+    ret = func_80012A60(((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s, ((Unkstruct_80126B58 *)param_1)->unkF4);
     if (ret > 0x400) {
         guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5880);
     } else {

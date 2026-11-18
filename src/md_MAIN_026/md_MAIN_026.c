@@ -192,7 +192,7 @@ void func_800CB278(s32 param_1)
     if (((s32 (*)(void))guess_TickWaitTimer_2)() == 0) {
         return;
     }
-    ((Unkstruct_80126B58 *)param_1)->unk20 = (iVar1 = ((s32 (*)(void))func_80146578)());
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = (iVar1 = ((s32 (*)(void))func_80146578)());
     ivar3 = iVar1;
     if (iVar1 != 0) {
         guess_InitObjectKind6(iVar1, (void *)base);

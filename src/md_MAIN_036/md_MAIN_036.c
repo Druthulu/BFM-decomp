@@ -95,7 +95,7 @@ void func_800CB030(s32 param_1) {
 
     obj = *(s32 *)(param_1 + 0x4C);
     p = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = p;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = p;
 
     if (p != 0) {
         guess_InitModelObjectKind3((void *)p, (void *)((s32)&D_800CBFA0 + ((Unkstruct_80126B58 *)param_1)->unk50 * 12));
@@ -157,7 +157,7 @@ void func_800CB11C(u8 *arg0) {
 extern void guess_NextStep(void *a0);
 
 void func_800CB1CC(void *arg0) {
-    s32 v1 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s32 v1 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     s16 v = *(u16 *)(v1 + 0x1A) + 0x100;
     *(u16 *)(v1 + 0x1A) = v;
     if (v >= 0x1000) {
@@ -348,7 +348,7 @@ void func_800CB634(void *a0) {
     s32 vz;
 
     s1 = (void *)((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = (s32)s1;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = (s32)s1;
 
     if (s1 != NULL) {
         guess_InitModelObjectKind3(s1, &D_800CBFA0[((Unkstruct_80126B58 *)a0)->unk50]);
@@ -505,7 +505,7 @@ void func_800CB910(s32 param_1) {
     obj = ((Unkstruct_80126B58 *)param_1)->unk34;
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
     p2 = p;
-    ((Unkstruct_80126B58 *)param_1)->unk20 = p;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = p;
 
     if (p != 0) {
         func_8001CF00(p);
@@ -658,7 +658,7 @@ void func_800CBEB0(s32 a0) {
     CAST_WIDTH(s32, a0, 0x4) += ((Unkstruct_80126B58 *)a0)->unk10;
     CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_80126B58 *)a0)->unk14;
     CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18;
-    p = ((Unkstruct_80126B58 *)a0)->unk20;
+    p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(u16 *)(p + 0x10) += *(s32 *)(a0 + 0x4C);
     *(u16 *)(p + 0x12) += ((Unkstruct_80126B58 *)a0)->unk50;
     *(u16 *)(p + 0x14) += ((Unkstruct_80126B58 *)a0)->unk54;

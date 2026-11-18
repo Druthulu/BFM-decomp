@@ -2738,7 +2738,7 @@ void func_8017F03C(int param_1)
     if (((Unkstruct_801202A0 *)param_1)->unk90 == (s32)&D_8018458C && ((Unkstruct_801202A0 *)param_1)->unk98.s == 0) {
         guess_StartActorSequence(param_1, &D_8018445C);
     }
-    if (((Unkstruct_801202A0 *)param_1)->unkDC.val == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val == 0) {
         func_8017DD18(param_1);
     } else {
         func_8017DDA0(param_1);
@@ -3019,7 +3019,7 @@ void func_8017F72C(void *a0) {
         return;
     }
 
-    ((Unkstruct_8011DB30 *)a0)->unk14 += CAST_WIDTH(s32, (s32)a0, 0x34);
+    ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk8 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unkA = ((Unkstruct_8011DB30 *)a0)->unkA.u;

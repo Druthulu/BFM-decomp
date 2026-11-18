@@ -3314,7 +3314,7 @@ void func_80186DA0(void) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF70 + 0x20))->unk12 = guess_YawToPoint((void *)(D_801DFF70 + 4), &D_80191234);
     guess_UpdateActorModelMatrix(D_801DFF70);
     guess_SetForwardVelocity(D_801DFF70, -0x100000);
-    ((Unkstruct_801202A0 *)D_801DFF70)->unk48 = 0xC000;
+    ((Unkstruct_801202A0 *)D_801DFF70)->unk44.w.unk48 = 0xC000;
     ((Unkstruct_801202A0 *)D_801DFF70)->unk34.u = 0;
     guess_StartActorSequence(D_801DFF70, &D_801C2AA4);
 }
@@ -3908,7 +3908,7 @@ void func_80187C2C(void) {
     ang[1] = -0x300000;
     guess_SetLocalVelocity(D_801DFF88, (s32)ang);
 
-    ((Unkstruct_801202A0 *)D_801DFF88)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)D_801DFF88)->unk44.w.unk48 = 0x18000;
     ((Unkstruct_800B5CB8 *)*(s32 *)(D_801DFF88 + 0x20))->unk10 = 0x800;
 }
 
@@ -4566,7 +4566,7 @@ extern void (*D_801922EC[])(void);
 void func_801891D0(void *a0) {
     D_801922EC[((Unkstruct_801202A0 *)a0)->unk2.u]();
     if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
-        ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 + *(u16 *)(((Unkstruct_801202A0 *)a0)->unkDC.val + 0x6);
+        ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 + *(u16 *)(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val + 0x6);
     }
 }
 
@@ -4678,7 +4678,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
     v[0].vx = x - *(u16 *)&v[0x35].vy;
     v[1].vx = *(u16 *)&v[0x35].vy + x;
 
-    col = ((Unkstruct_801202A0 *)arg0)->extC.kSC06_029_80189B38.unkE0;
+    col = ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80189B38.unkE0;
     m = *(MTX *)&D_800AE620;
     ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     RotMatrixZ(v[0x35].vx, &m);
@@ -4763,7 +4763,7 @@ void func_80189440(s32 arg0, SV_189440 *v)
          * delay with it; the target issues `addiu $t1,$t1,1` first and leaves a
          * real `nop` in the load-delay slot (the -1 instruction). */
         i++;
-        col += ((Unkstruct_801202A0 *)arg0)->extC.kSC06_029_80189B38.unkE0;
+        col += ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80189B38.unkE0;
         p += 2;
     }
 }

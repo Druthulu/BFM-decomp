@@ -133,10 +133,10 @@ void func_800CB09C(s32 a0) {
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObjectKind3(iVar2, (s32)&D_800CB61C);
-        uVar1 = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x12);
+        uVar1 = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk12.u;
         *(u16 *)(iVar2 + 0x12) = uVar1;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFF40000, 0xFFE80000);
@@ -192,9 +192,9 @@ void func_800CB150(void *a0) {
     goto tail;
 alloc:
     guess_ZeroMemory(CAST_SIGN(s8 *, (s32)a0, 0x20), 0x84);
-    ((Unkstruct_80126B58 *)a0)->unk20 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = 0;
     t = ((s32 (*)(void))func_80146578)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = t;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = t;
     if (t != 0) {
         func_8001CB6C((u8 *)t, (s32)D_800CB628, 0x1A0, 0x100);
         *(u8 *)((s32)t + 0x27) = 0x1B;
@@ -221,7 +221,7 @@ void func_800CB2A8(s32 a0) {
     s32 v1;
     u16 v0;
 
-    v1 = ((Unkstruct_80126B58 *)a0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     v0 = *(u16 *)(v1 + 0x1A);
     v0 = v0 + 0x80;
     *(u16 *)(v1 + 0x1A) = v0;

@@ -3904,7 +3904,7 @@ void func_8017CECC(s32 a0) {
 
     i = 5;
     tbl2 = D_801B3890;
-    ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)&tbl2[(s16)D_801152BA];
+    ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)&tbl2[(s16)D_801152BA];
 
     while (i < 0x28) {
         if ((guess_GetGameVarByte(i + 0x3B) & 0xFF) != 0) {
@@ -4231,7 +4231,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 void func_8017DA48(s32 a0) {
     s32 ptr1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
     ((Unkstruct_8018064C *)ptr1)->unk1A = val;
@@ -4937,7 +4937,7 @@ void func_8017F16C(s32 a0) {
     s32 pad[12];
 
     a1 = func_800D21C4(a0, (s32)&D_80188384, 0x2B);
-    ((Unkstruct_80126B58 *)a0)->unk20 = a1;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = a1;
 
     if (a1 != 0) {
         *(s16 *)(a1 + 0x28) = 0x224;
@@ -4984,7 +4984,7 @@ void func_8017F228(s32 param_1) {
     s32 iVar3;
     void *puVar2;
 
-    iVar3 = ((Unkstruct_80126B58 *)param_1)->unk20;
+    iVar3 = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     func_8017F5E0((s32 *)param_1);
     if (((Unkstruct_80126B58 *)param_1)->unk30 == 0) {
         puVar2 = D_801883C0[((Unkstruct_80126B58 *)param_1)->unk2C];
@@ -5108,7 +5108,7 @@ void func_8017F65C(s32 param_1) {
 
     obj = ((Unkstruct_80126B58 *)param_1)->unk34;
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = p;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = p;
 
     if (p != 0) {
         func_8001CF00(p);
@@ -5769,7 +5769,7 @@ void func_8018070C(void *arg0) {
 
 s32 func_80180750(s32 a0)
 {
-    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
+    extern MATRIX aD800AE620 __asm__("D_800AE620");
     extern void RotMatrixY(s32 a0, void *a1);
     extern void func_80020F34(s32 a0, s32 a1);
     extern void SetRotMatrix(void *a0);
@@ -5780,7 +5780,7 @@ s32 func_80180750(s32 a0)
     s16 *s1;
     s16 rv[4];
     s16 vec[4];
-    Blk20_8016DF5C m;
+    MATRIX m;
     s16 out[4];
 
     s1 = (s16 *)guess_SpawnActorNoArg(0x239, a0);
@@ -6700,12 +6700,12 @@ extern void func_8012B21C(void *a0);
 
 void func_80181BD4(s32 a0)
 {
-    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
+    extern MATRIX aD800AE620 __asm__("D_800AE620");
     extern void RotMatrixY(s32 a0, void *a1);
     extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
     extern void guess_RequestSound(s32 a0, s32 a1);
     extern void func_8012AD44(s32 *a0, s16 a1);
-    Blk20_8016DF5C m;
+    MATRIX m;
     s32 vel[3];
 
     m = aD800AE620;
@@ -6935,7 +6935,7 @@ void func_80182014(s32 arg0, s32 arg1) {
 
 void func_801821E0(s32 param_1)
 {
-    extern Blk20_8016DF5C aD800AE620 __asm__("D_800AE620");
+    extern MATRIX aD800AE620 __asm__("D_800AE620");
     extern u8 D_80192EB4[];
     extern u8 D_80192EBC[];
     extern void ApplyRotMatrixLV(void *a0, void *a1);
@@ -6945,15 +6945,15 @@ void func_801821E0(s32 param_1)
     extern void RotTransSV(void *a0, void *a1, void *a2);
     extern void RotMatrixY(s32 a0, void *a1);
 
-    Blk20_8016DF5C m;   /* sp+0x10 */
+    MATRIX m;   /* sp+0x10 */
     SVECTOR v;      /* sp+0x30 */
     SVECTOR out;    /* sp+0x38 */
     s32 s0;
     s16 s2;
 
-    m.w[5] = CAST_SIGN(s16, param_1, 0x6);
-    m.w[6] = CAST_SIGN(s16, param_1, 0xA);
-    m.w[7] = CAST_SIGN(s16, param_1, 0xE);
+    m.t[0] = CAST_SIGN(s16, param_1, 0x6);
+    m.t[1] = CAST_SIGN(s16, param_1, 0xA);
+    m.t[2] = CAST_SIGN(s16, param_1, 0xE);
 
     SetTransMatrix(&m);
 

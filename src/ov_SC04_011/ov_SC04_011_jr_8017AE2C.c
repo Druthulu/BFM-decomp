@@ -3607,7 +3607,7 @@ void func_8017CB80(s32 a0, s32 a1) {
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
             ((Unkstruct_801202A0 *)p)->unkD4 = a0;
-            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
+            ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }
         p += 0x10C;
@@ -3627,7 +3627,7 @@ void func_8017CBD4(s32 a0, s32 a1, s32 a2) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
             ((Unkstruct_801202A0 *)p)->unk70.s = a2;
             ((Unkstruct_801202A0 *)p)->unkD4 = a0;
-            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
+            ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }
         p += 0x10C;

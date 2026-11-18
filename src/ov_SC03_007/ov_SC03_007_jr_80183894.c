@@ -4994,7 +4994,7 @@ void func_80186074(void *a0) {
         sp10[1] = 0xFFFC0000;
         sp10[2] = 0x30000;
         guess_SetLocalVelocity((s32)a0, sp10);
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x12000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x12000;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_007_80185898.unk108 = 0;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 8;
@@ -5115,7 +5115,7 @@ void func_80186310(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     } else {
         ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFB80000;
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x38000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x38000;
         guess_SpawnSmallObject(2, (void *)a0, 0, 0, 0, 3, 0x30000000);
         guess_ApplyAccelAndVelocity(a0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
@@ -5221,7 +5221,7 @@ void func_80186584(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     } else {
         ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFB80000;
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x38000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x38000;
         guess_SpawnSmallObject(2, (void *)a0, 0, 0, 0, 3, 0x30000000);
         guess_ApplyAccelAndVelocity(a0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
@@ -5597,7 +5597,7 @@ void func_80186DF0(s32 arg0) {
                 ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
                 ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                 t2 = rand();
-                ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 3) << 16);
+                ((Unkstruct_8011DB30 *)q)->unk14.val = -0x40000 - ((t2 % 3) << 16);
                 t3 = rand();
                 t4 = rand();
                 ((Unkstruct_8011DB30 *)q)->unk34.i.lo = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
@@ -5667,7 +5667,7 @@ void func_80187080(s32 arg0) {
                     ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
                     ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                     t2 = rand();
-                    ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 4) << 16);
+                    ((Unkstruct_8011DB30 *)q)->unk14.val = -0x40000 - ((t2 % 4) << 16);
                     ((Unkstruct_8011DB30 *)q)->unk34.i.lo = rand() % 0x1800 + 0x2000;
                     ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
                 }

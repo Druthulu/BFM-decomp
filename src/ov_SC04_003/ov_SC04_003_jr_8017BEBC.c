@@ -3474,7 +3474,7 @@ void func_8017E07C(void *a0, s32 a1) {
     sp.fE = 0;
     sp.fA = 0;
     sp.f8 = 0;
-    sp.f10 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    sp.f10 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     sp.fC = a1;
     func_8012C51C(&sp, (s32)a0);
 }
@@ -5168,7 +5168,7 @@ extern void func_8012AD44(s32*, s16);
 #undef SHARED_FN
 
 
-extern Blk20_8016DF5C aAE620_80180B78[1] __asm__("D_800AE620");
+extern MATRIX aAE620_80180B78[1] __asm__("D_800AE620");
 extern void RotMatrixY(s32 a0, void *a1);
 extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
 extern void guess_RequestSound(s32 a0, s32 a1);
@@ -5176,7 +5176,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80180B78(s32 arg0)
 {
-    Blk20_8016DF5C m;
+    MATRIX m;
     s32 vel[3];
 
     m = aAE620_80180B78[0];
@@ -5260,7 +5260,7 @@ s32 func_80180D50(s32 arg0) {
             }
             break;
         case 0x239:
-            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + *(s16 *)(((Unkstruct_80126B58 *)pe)->unk20 + 0x18)) >> 6;
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + ((Unkstruct_80126B58 *)pe)->unk20.m->unk18.s) >> 6;
             if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
                 return (s32)pe;
             }
@@ -5282,7 +5282,7 @@ s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
 
 
 
-extern Blk20_8016DF5C aAE620_80180E8C[1] __asm__("D_800AE620");
+extern MATRIX aAE620_80180E8C[1] __asm__("D_800AE620");
 extern s32 func_8012B8A4(void *a0);
 extern void RotMatrixY(s32 a0, void *a1);
 extern void ApplyMatrixSV(void *a0, void *a1, void *a2);
@@ -5293,7 +5293,7 @@ void func_80180E8C(u8 *a0)
 {
     Vec_80180E8C out;
     Vec_80180E8C sv;
-    Blk20_8016DF5C m;
+    MATRIX m;
     s16 r;
     s32 ang;
     s32 t;
@@ -5426,9 +5426,9 @@ void func_80181184(s32 p)
     s32 s0;
     s16 i;
 
-    m.w[5] = CAST_SIGN(s16, p, 6);
-    m.w[6] = CAST_SIGN(s16, p, 0xA);
-    m.w[7] = CAST_SIGN(s16, p, 0xE);
+    m.t[0] = CAST_SIGN(s16, p, 6);
+    m.t[1] = CAST_SIGN(s16, p, 0xA);
+    m.t[2] = CAST_SIGN(s16, p, 0xE);
     SetTransMatrix(&m);
 
     for (i = 0; i < 0x1000; i += 0x200) {
@@ -5941,7 +5941,7 @@ void func_80181BEC(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);

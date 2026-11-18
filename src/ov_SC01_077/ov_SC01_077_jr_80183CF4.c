@@ -4506,7 +4506,7 @@ void func_80185E68(s32 arg0) {
     }
 
     func_8012B21C((void *)arg0);
-    ((Unkstruct_801202A0 *)arg0)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0x18000;
     v = rand() << 4;
     if ((rand() & 1) == 0) {
         v = -v;
@@ -4563,8 +4563,8 @@ void func_80186078(s32 arg0) {
     ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     base = *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk90);
     idx = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
-    CAST_WIDTH(s32, arg0, 0x10) += ((Unkstruct_801202A0 *)arg0)->unk44;
-    ((Unkstruct_801202A0 *)arg0)->unk14.val += ((Unkstruct_801202A0 *)arg0)->unk48;
+    CAST_WIDTH(s32, arg0, 0x10) += ((Unkstruct_801202A0 *)arg0)->unk44.w.unk44;
+    ((Unkstruct_801202A0 *)arg0)->unk14.val += ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48;
     CAST_WIDTH(s32, arg0, 0x18) += ((Unkstruct_801202A0 *)arg0)->unk4C;
 
     p1 = &D_801DA988;
@@ -4657,8 +4657,8 @@ void func_801863B4(int param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1e;
     uVar1 = *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12);
     CAST_WIDTH(short, param_1, 0xe8) = 0;
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_80186574.unkE0 = 0x400000;
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_80186574.unkE4 = 0;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_80186574.unkE0 = 0x400000;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_80186574.unkE4 = 0;
     *(short *)(param_1 + 0xea) = uVar1;
     guess_RequestSound(0x49e, 0);
     guess_RequestSound(0x4a2, 0);
@@ -4786,7 +4786,7 @@ void func_801865EC(s32 arg0) {
         guess_StartActorSequence(arg0, D_80186E48);
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
         func_8012B21C((void *)arg0);
-        ((Unkstruct_801202A0 *)arg0)->unk48 = 0x18000;
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0x18000;
         v = rand() << 4;
         if ((rand() & 1) == 0) {
             v = -v;

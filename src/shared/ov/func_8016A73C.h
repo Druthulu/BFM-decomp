@@ -22,12 +22,12 @@ s32 func_8016A73C(s32 arg0) {
 
     tmp = ((Obj_8016A73C *)arg0)->unk6 + v[0];
     ((Obj_8016A73C *)arg0)->unk6 = tmp;
-    ((Obj_8016A73C *)arg0)->mat.w[5] = tmp;
+    ((Obj_8016A73C *)arg0)->mat.t[0] = tmp;
     tmp = ((Obj_8016A73C *)arg0)->unkA + v[1];
     ((Obj_8016A73C *)arg0)->unkA = tmp;
-    ((Obj_8016A73C *)arg0)->mat.w[6] = tmp;
+    ((Obj_8016A73C *)arg0)->mat.t[1] = tmp;
     tmp = ((Obj_8016A73C *)arg0)->unkE + v[2];
     ((Obj_8016A73C *)arg0)->unkE = tmp;
     ((Obj_8016A73C *)arg0)->unk2 = ((Obj_8016A73C *)arg0)->unk2 + 1;
-    ((Obj_8016A73C *)arg0)->mat.w[7] = tmp;
+    ((Obj_8016A73C *)arg0)->mat.t[2] = tmp;
 }

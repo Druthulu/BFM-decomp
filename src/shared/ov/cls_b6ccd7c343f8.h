@@ -9,5 +9,5 @@ void SHARED_FN(s32 param_1)
     guess_SetForwardVelocity(param_1, 0xFFFD8000);
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
     ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
-    ((Unkstruct_801202A0 *)param_1)->extC.kcls_b6ccd7c343f8.unkE4 = 0x20;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kcls_b6ccd7c343f8.unkE4 = 0x20;
 }

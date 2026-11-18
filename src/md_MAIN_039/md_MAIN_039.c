@@ -127,17 +127,17 @@ void func_800CB0B4(s32 param_1) {
     s32 obj;
 
     obj = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = obj;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = obj;
     if (obj != 0) {
         guess_InitModelObject(obj, (s32)&D_800CC444);
-        *(u16 *)(obj + 0x10) = *(u16 *)(((Unkstruct_80126B58 *)iVar2)->unk20 + 0x10);
+        *(u16 *)(obj + 0x10) = ((Unkstruct_80126B58 *)iVar2)->unk20.m->unk10.u;
         {
             s32 prod;
             prod = (((Unkstruct_80126B58 *)param_1)->unk50 - 1) * 0x155;
             *(u16 *)(obj + 0x12) =
-                (*(u16 *)(((Unkstruct_80126B58 *)iVar2)->unk20 + 0x12) + prod) & 0xFFF;
+                (((Unkstruct_80126B58 *)iVar2)->unk20.m->unk12.u + prod) & 0xFFF;
         }
-        *(u16 *)(obj + 0x14) = *(u16 *)(((Unkstruct_80126B58 *)iVar2)->unk20 + 0x14);
+        *(u16 *)(obj + 0x14) = ((Unkstruct_80126B58 *)iVar2)->unk20.m->unk14.u;
         CAST_WIDTH(u16, param_1, 0x58) = ((Unkstruct_80126B58 *)iVar2)->unk100;
         *(u16 *)(param_1 + 0x5A) = ((Unkstruct_80126B58 *)iVar2)->unk102;
         CAST_WIDTH(u16, param_1, 0x5C) = ((Unkstruct_80126B58 *)iVar2)->unk104;
@@ -145,8 +145,8 @@ void func_800CB0B4(s32 param_1) {
         {
             s32 dstp;
             s32 srcp;
-            dstp = ((Unkstruct_80126B58 *)param_1)->unk20;
-            srcp = ((Unkstruct_80126B58 *)iVar2)->unk20;
+            dstp = ((Unkstruct_80126B58 *)param_1)->unk20.val;
+            srcp = ((Unkstruct_80126B58 *)iVar2)->unk20.val;
             *(Blk16_956C *)(dstp + 0x34) = *(Blk16_956C *)(srcp + 0x34);
             *(Blk16_956C *)(dstp + 0x44) = *(Blk16_956C *)(srcp + 0x44);
         }
@@ -320,7 +320,7 @@ void func_800CB61C(s32 a0, s32 a1)
     extern s32 func_8014C59C(void *, void *);
     extern s32 func_80012DBC(s32, s32, s32, s32);
 
-    s32 s2 = ((Unkstruct_80126B58 *)a0)->unk20;
+    s32 s2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     Blk8 buf;
     s32 r1, r2, x, y;
 
@@ -419,7 +419,7 @@ void func_800CB860(s32 param_1) {
 
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
     pb = p;
-    ((Unkstruct_80126B58 *)param_1)->unk20 = p;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = p;
 
     if (p != 0) {
         ((void (*)(s32, void *, s32, s32))func_8001CC3C)(p, D_800CBE50, 0, 0);
@@ -469,7 +469,7 @@ void func_800CBAAC(s32 param_1)
 {
     s32 s0;
 
-    s0 = ((Unkstruct_80126B58 *)param_1)->unk20;
+    s0 = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     guess_StepPairSequence(s0, (s32 *)(param_1 + 0x24));
     *(s8 *)(s0 + 0x27) = CAST_WIDTH(u8, param_1, 0x28) - 0x70;
     guess_AddVelocityToPos_5(param_1);

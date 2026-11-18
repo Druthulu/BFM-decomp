@@ -9,7 +9,7 @@ void SHARED_FN(s32 p) {
     s32 pad[3];
 
     (void)&pad;
-    o = ((Unkstruct_80126B58 *)p)->unk20;
+    o = ((Unkstruct_80126B58 *)p)->unk20.val;
     t1 = *(u16 *)(o + 0x1C) + 0x800;
     *(s16 *)(o + 0x1C) = t1;
     *(s16 *)(o + 0x18) = t1;

@@ -3597,7 +3597,7 @@ void func_801807D0(s32 a0) {
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObject(iVar2, (s32)&D_801CEE20);
         *(u16 *)(iVar2 + 0x10) = 0x800;
@@ -3633,7 +3633,7 @@ void func_8018089C(s32 a0) {
     s16 sVar1;
 
     iVar1 = *(s32 *)(a0 + 0x4c);
-    iVar2 = ((Unkstruct_80126B58 *)a0)->unk20;
+    iVar2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     func_8016325C(a0, 0, 0x20000, 0);
     guess_AddVelocityToPos_2((s32 *)a0);
     if ((CAST_SIGN(s16, a0, 0x60) == 0) && (0 < ((Unkstruct_80126B58 *)a0)->unk28)) {
@@ -4165,7 +4165,7 @@ void func_80181304(s32 a0) {
 
     i = 5;
     tbl2 = D_801EA9A8;
-    ((Unkstruct_801202A0 *)a0)->unkD8 = (s32)&tbl2[(s16)D_801152BA];
+    ((Unkstruct_801202A0 *)a0)->unkD8.val = (s32)&tbl2[(s16)D_801152BA];
 
     while (i < 0x28) {
         if ((guess_GetGameVarByte(i + 0x3B) & 0xFF) != 0) {
@@ -4536,7 +4536,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 void func_80181E80(s32 a0) {
     s32 ptr1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 ptr2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     s16 val = ((Unkstruct_8018064C *)ptr1)->unk1A - 0xC0;
 
     ((Unkstruct_8018064C *)ptr1)->unk1A = val;
@@ -5168,7 +5168,7 @@ void func_80182CB0(s32 a0, s32 a1) {
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
             ((Unkstruct_801202A0 *)p)->unkD4 = a0;
-            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
+            ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }
         p += 0x10C;
@@ -5188,7 +5188,7 @@ void func_80182D04(s32 a0, s32 a1, s32 a2) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
             ((Unkstruct_801202A0 *)p)->unk70.s = a2;
             ((Unkstruct_801202A0 *)p)->unkD4 = a0;
-            ((Unkstruct_801202A0 *)p)->unkD8 = a1;
+            ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }
         p += 0x10C;

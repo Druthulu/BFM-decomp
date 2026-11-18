@@ -3447,7 +3447,7 @@ void func_8017E024(s32 a0)
             func_8012F0BC((s32 *)(*(s32 *)(a0 + 0x20) + 0x34), (s32 *)&vin, (s32 *)&res);
             if (*(u8 *)(a0 + 0x102) == 0) {
                 owner = *(s32 *)(a0 + 0x64);
-                ((Unkstruct_8017E024 *)owner)->extC.kSC02_039_8017DDB0.unkE0 += res.a >> 2;
+                ((Unkstruct_8017E024 *)owner)->blkDC.f.extC.kSC02_039_8017DDB0.unkE0 += res.a >> 2;
             }
         }
         func_80132784(a0, *(s32 *)(a0 + 0x64), 0);
@@ -3663,7 +3663,7 @@ void func_8017E640(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = v1;
 
         if ((u16)(CAST_SIGN(u16, (s32)a0, 0x100) + 0xFF) < 0x1FF) {
-            if (((Unkstruct_801202A0 *)a0)->extC.kSC02_039_8017E758.unkE0 < 0x150) {
+            if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_039_8017E758.unkE0 < 0x150) {
                 guess_SpawnActor(0x1A9, a1, (s32)a0);
             }
         }
@@ -3722,7 +3722,7 @@ void func_8017E794(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk84.s = counter;
 
     if (min_abs < 0xA0) {
-        if (((Unkstruct_801202A0 *)best)->extC.kSC02_039_8017E794.unkE0 < 0x150) {
+        if (((Unkstruct_801202A0 *)best)->blkDC.f.extC.kSC02_039_8017E794.unkE0 < 0x150) {
             if ((counter & 3) == 0) {
                 s32 quotient;
                 s32 qc;
@@ -3790,9 +3790,9 @@ void func_8017E910(void *a0)
 
     m = D_800AE620;
 
-    m.w[5] = CAST_SIGN(s16, (s32)a0, 0x6);
-    m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
-    m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
+    m.t[0] = CAST_SIGN(s16, (s32)a0, 0x6);
+    m.t[1] = CAST_SIGN(s16, (s32)a0, 0xA);
+    m.t[2] = CAST_SIGN(s16, (s32)a0, 0xE);
 
     RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), &m);
 
@@ -3803,7 +3803,7 @@ void func_8017E910(void *a0)
 
     func_8012E32C();
 
-    ((Unkstruct_801202A0 *)a0)->extC.kSC02_039_8017E910.unkE0 = RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_039_8017E910.unkE0 = RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
 
     {
         u16 xy0 = out.xy[0];

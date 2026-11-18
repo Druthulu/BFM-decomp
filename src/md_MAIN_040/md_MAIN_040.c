@@ -106,10 +106,10 @@ void func_800CB038(void *a0) {
 
     void *s2 = *(void **)((s32)a0 + 0x4C);
     s32 s1 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = s1;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = s1;
     if (s1 != 0) {
         guess_InitModelObject(s1, (s32)&D_800CBD74);
-        *(u16 *)(s1 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
+        *(u16 *)(s1 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->unk12.u;
         guess_TransformPosByObjMatrix((s32)s2, (s32)a0 + 4);
         func_80146DE8((s32 *)a0, 0, -0xC0000, -0x100000);
         guess_SetWaitTimer_2((s32 *)a0, 100);
@@ -215,7 +215,7 @@ void func_800CB304(void *a0) {
     s32 i;
 
     if (pad == NULL) {}
-    var_s2 = ((Unkstruct_80126B58 *)a0)->unk20;
+    var_s2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     for (i = 0; i < 6; i++) {
         guess_SpawnSmallObject(0x4D, a0, ((Unkstruct_80126B58 *)a0)->unk6.s, ((Unkstruct_80126B58 *)a0)->unkA.s,
                       ((Unkstruct_80126B58 *)a0)->unkE.s, i, 1);
@@ -312,9 +312,9 @@ void func_800CB4E4(s32 param_1) {
     s32 node;
 
     obj = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = obj;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = obj;
 
-    if (((Unkstruct_80126B58 *)param_1)->unk20 != 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk20.val != 0) {
         func_8001CC3C(obj, D_800CB8EC, 0, 0);
         node = obj;
         *(u8 *)(node + 0x27) = 0x90;
@@ -358,7 +358,7 @@ extern void guess_SetWaitTimer_2(s32 *param_1, s32 param_2);
 void func_800CB710(s32 param_1) {
     s32 node;
 
-    node = ((Unkstruct_80126B58 *)param_1)->unk20;
+    node = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     guess_StepPairSequence(node, (s32 *)(param_1 + 0x24));
     *(u8 *)(node + 0x27) = CAST_WIDTH(u8, param_1, 0x28) - 0x70;
     guess_AddVelocityToPos_6(param_1);

@@ -16,15 +16,15 @@ void SHARED_FN(s32 a0) {
         }
     }
 
-    if (((Unkstruct_801202A0 *)a0)->unkDC.val != 0) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = ((Unkstruct_801202A0 *)a0)->unkDC.val - 0x8000;
+    if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val != 0) {
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val - 0x8000;
         w = CAST_SIGN(u16, a0, 0xFC) + 0x200;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = w;
         v = rsin((s16)w);
         if (v < 0) {
             v = -v;
         }
-        *(s16 *)(a0 + 0x52) = -(s16)(v * ((Unkstruct_801202A0 *)a0)->unkDC.val >> 0x1C);
+        *(s16 *)(a0 + 0x52) = -(s16)(v * ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val >> 0x1C);
     }
 
     if (((Unkstruct_801202A0 *)a0)->unk98.s == 0) {

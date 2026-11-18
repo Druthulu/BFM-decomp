@@ -119,7 +119,7 @@ void func_800CB3AC(s32 a0) {
 
     s2 = *(s32 *)(a0 + 0x4C);
     s1 = ((s32 (*)(void))func_80146578)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = s1;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = s1;
     if (s1 != 0) {
         if (((Unkstruct_80126B58 *)a0)->unk54 == 0) {
             func_8001CC3C(s1, D_800CBEA0, 0x1A8, 0x100);
@@ -192,7 +192,7 @@ void func_800CB59C(s32 a0) {
     s32 v;
 
     v = guess_g_FrameCounter & 1;
-    ptr = ((Unkstruct_80126B58 *)a0)->unk20;
+    ptr = ((Unkstruct_80126B58 *)a0)->unk20.val;
     if (v == 0) {
         v = 0x160;
     } else {
@@ -253,7 +253,7 @@ s32 func_800CB6D4(s32 a0) {
     s32 sum;
     s16 diff;
 
-    s1 = ((Unkstruct_80126B58 *)a0)->unk20;
+    s1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
 
     v0 = rcos(CAST_SIGN(s16, a0, 0x64));
     v1 = CAST_SIGN(s16, a0, 0x60);

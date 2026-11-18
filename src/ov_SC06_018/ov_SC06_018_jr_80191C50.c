@@ -3614,7 +3614,7 @@ void func_80192F64(s32 arg0) {
         if (e != 0) {
             ((Unkstruct_801202A0 *)arg0)->unk34.u = (CAST_SIGN(u16, arg0, 0xFC) & 1) + 1;
             *(u16 *)(*(s32 *)(e + 0x20) + 0x12) = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 + 0x800;
-            *(s32 *)(e + 4) = *(s32 *)(e + 4) - ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+            *(s32 *)(e + 4) = *(s32 *)(e + 4) - ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
             ((Unkstruct_801202A0 *)arg0)->unkCC.val = e;
             *(u16 *)(e + 0xFC) = ((Unkstruct_801202A0 *)arg0)->unk36.u;
         }

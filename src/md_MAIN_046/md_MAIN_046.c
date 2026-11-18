@@ -320,7 +320,7 @@ void func_800CD288(Unkstruct_80126B58 *arg0) {
     s32 a0;
     (void)&pad00; (void)&pad04; (void)&pad08; (void)&pad0C;
     (void)&pad10; (void)&pad14; (void)&pad18; (void)&pad1C;
-    s1 = (u8 *) arg0->unk20;
+    s1 = (u8 *) arg0->unk20.m;
     if (KR_AS(s32, guess_IsDirectionHeld)() != 0) {
         guess_ClearMoveVector(arg0);
         *(s16 *) (s1 + 0x12) = func_80148D44(arg0);
@@ -414,7 +414,7 @@ s32 func_800CD494(void *a0) {
     u16 v1;
 
     s0 = (s32)a0;
-    s1 = ((Unkstruct_80126B58 *)s0)->unk20;
+    s1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     CAST_SIGN(s32, s0, 0x44) |= 2;
     v0 = guess_GetPadPressed((s32 *)a0);
     if (v0 & 0x90) {
@@ -555,7 +555,7 @@ void func_800CD7D8(s32 a0) {
     s32 s2;
     s2 = *(s32 *)(a0 + 0x4C);
     s0 = func_8014659C();
-    ((Unkstruct_80126B58 *)a0)->unk20 = s0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = s0;
     if (s0 != 0) {
         guess_InitModelObject(s0, (s32)&D_800CE8CC);
         *(s32 *)(s0 + 4) |= 0x50000000;
@@ -563,7 +563,7 @@ void func_800CD7D8(s32 a0) {
         *(s16 *)(s0 + 0x1A) = 0;
         *(s16 *)(s0 + 0x18) = 0;
         func_800CD96C(a0);
-        D_800CE8D4 = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
+        D_800CE8D4 = ((Unkstruct_80126B58 *)s2)->unk20.m->unk12.u;
         guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))guess_FreeObjectAndSubObject_26)(a0);
@@ -579,7 +579,7 @@ void func_800CD884(void *arg0) {
     u16 w;
     u16 t2;
 
-    s0 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s0 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     if (CAST_SIGN(s16, (s32)arg0, 0x60) != 0) {
         w = *(u16 *)(s0 + 0x18) + 0x100;
         *(u16 *)(s0 + 0x18) = w;
@@ -625,14 +625,14 @@ void func_800CD96C(s32 param_1) {
     s32 model;
 
     work = *(s32 *)(param_1 + 0x4C);
-    hdr = ((Unkstruct_80126B58 *)work)->unk20;
-    model = ((Unkstruct_80126B58 *)param_1)->unk20;
+    hdr = ((Unkstruct_80126B58 *)work)->unk20.val;
+    model = ((Unkstruct_80126B58 *)param_1)->unk20.val;
     ((Unkstruct_80126B58 *)param_1)->unk6.s = *(s32 *)(hdr + 0x48);
     ((Unkstruct_80126B58 *)param_1)->unkA.s = *(s32 *)(hdr + 0x4C) - 0x20;
     ((Unkstruct_80126B58 *)param_1)->unkE.s = *(s32 *)(hdr + 0x50);
     func_80013F3C((void *)(model + 0x34));
     RotMatrixY(*(s16 *)(model + 0x12), (void *)(model + 0x34));
-    func_80048D9C((void *)(model + 0x34), (void *)(((Unkstruct_80126B58 *)work)->unk20 + 0x34));
+    func_80048D9C((void *)(model + 0x34), (void *)(((Unkstruct_80126B58 *)work)->unk20.val + 0x34));
     func_80020F34(model + 0x34, model + 0x18);
     *(u16 *)(model + 0x2C) |= 1;
 }
@@ -686,7 +686,7 @@ void func_800CDAB4(s32 *param_1) {
     s32 v0;
 
     s0 = func_80146578();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = s0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = s0;
     if (s0 != 0) {
         func_8001CC3C(s0, D_800CE068, 0x234, 0x1C0);
         *(u8 *)((s32)s0 + 0x27) = 0x26;
@@ -801,17 +801,17 @@ void func_800CDD9C(s32 param_1) {
 
     iVar1 = *(s32 *)(param_1 + 0x4C);
     iVar2 = func_80146578();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = iVar2;
     if (iVar2 != 0) {
         func_8001CC3C(iVar2, D_800CE068, 0x200, 0x100);
         *(u8 *)(iVar2 + 0x27) = 8;
         *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
         guess_TransformPosByObjMatrix(iVar1, param_1 + 4);
         d = D_800CE8D4;
-        x = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x10);
+        x = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk10.u;
         *(u16 *)(iVar2 + 0x12) = d;
         *(u16 *)(iVar2 + 0x10) = x;
-        *(u16 *)(iVar2 + 0x14) = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x14);
+        *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk14.u;
         ((Unkstruct_80126B58 *)param_1)->unk60 = ((Unkstruct_80126B58 *)iVar1)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)iVar1)->unk102;
         ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)iVar1)->unk104;

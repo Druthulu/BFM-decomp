@@ -4312,7 +4312,7 @@ void func_8017D75C(s32 param) {
     s32 *s1;
 
     a0 = ((Unkstruct_80126B58 *)param)->unk1C & 0x3F;
-    s1 = (s32 *)(((Unkstruct_80126B58 *)param)->unk20);
+    s1 = (s32 *)(((Unkstruct_80126B58 *)param)->unk20.m);
     v0 = rsin(a0 << 6);
 
     v1 = ((Unkstruct_80126B58 *)param)->unk10;

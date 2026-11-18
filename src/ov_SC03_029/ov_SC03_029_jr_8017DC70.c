@@ -3728,7 +3728,7 @@ void func_8017FE08(s32 a0) {
     CAST_ALIAS(s16, a0, 0x2) = 4;
     func_80132288(&D_801D9740, &D_8018B6E8, D_801ADB78);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
-    ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
 }
 
 
@@ -3751,7 +3751,7 @@ void func_8017FE60(s32 a0) {
 
     if (((Unkstruct_801202A0 *)a0)->unkAA == 0) {
         if (((Unkstruct_801202A0 *)a0)->unk1C.s < 0xB) {
-            if (((Unkstruct_801202A0 *)a0)->unkDC.val == 0) {
+            if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val == 0) {
                 i = 0;
                 base = (s32)&D_8018B774;
                 tbl2 = base + 8;
@@ -3761,7 +3761,7 @@ void func_8017FE60(s32 a0) {
                     tbl2 += 0x10;
                     tbl += 0x10;
                 }
-                ((Unkstruct_801202A0 *)a0)->unkDC.val ^= 1;
+                ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val ^= 1;
             }
         }
     }
@@ -3772,7 +3772,7 @@ void func_8017FE60(s32 a0) {
         v1 = guess_DistSqToPlayer(a0);
         if (v1 < 0x7001) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
         } else {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
             return;

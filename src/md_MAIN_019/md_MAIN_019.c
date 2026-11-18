@@ -86,9 +86,9 @@ void func_800CB0C8(void *a0) {
     s32 v0;
     s32 p;
 
-    p = ((Unkstruct_80126B58 *)a0)->unk20;
+    p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(u16 *)(p + 0x2C) |= 0x20;
-    p = ((Unkstruct_80126B58 *)a0)->unk20;
+    p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(s32 *)(p + 0x80) = (s32)&D_800CC580;
     func_800CB1A0();
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
@@ -196,11 +196,11 @@ void func_800CB324(s32 a0) {
 
     iVar2 = *(s32 *)(a0 + 0x4C);
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar1;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar1;
     if (iVar1 != 0) {
         func_8001C2C4(iVar1);
         *(u32 *)(iVar1 + 4) |= 0x80000000;
-        iVar4 = ((Unkstruct_80126B58 *)iVar2)->unk20;
+        iVar4 = ((Unkstruct_80126B58 *)iVar2)->unk20.val;
         *(Blk16 *)(iVar1 + 0x34) = *(Blk16 *)(iVar4 + 0x34);
         *(Blk16 *)(iVar1 + 0x44) = *(Blk16 *)(iVar4 + 0x44);
         func_800CB4C8((void *)a0);
@@ -223,7 +223,7 @@ extern void func_800CBC0C(void *a0);
 
 void func_800CB3FC(void *arg0)
 {
-    Blk20_8016DF5C view; /* unused: reserves the extra 0x20 frame bytes the target has */
+    MATRIX view; /* unused: reserves the extra 0x20 frame bytes the target has */
     CAST_WIDTH(u16, (s32)arg0, 0x14) -= 6;
     func_800CB578(arg0);
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
@@ -305,7 +305,7 @@ void func_800CB578(void *arg0) {
     u8 *p;
     s32 i;
 
-    obj = ((Unkstruct_80126B58 *)arg0)->unk20;
+    obj = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     func_80013F3C(&mat);
     RotMatrixZ(CAST_SIGN(s16, (u8 *)arg0, 0x64), &mat);
     gte_SetRotMatrix(obj + 0x34);
@@ -486,7 +486,7 @@ void func_800CBD68(s32 a0) {
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_80146578)();
     ptr = &D_800CC830;
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitObjectKind6(iVar2, (s32)ptr);
         guess_BuildCircle12Points(ptr, 0x60);
@@ -513,7 +513,7 @@ void func_800CBE38(u8 *arg0)
     s16 w;
     s32 s2;
 
-    s2 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s2 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     func_800CBF80(arg0);
     w = *(u16 *)(s2 + 0x18) - 0x600;
     if (w < 0x1000) {
@@ -538,7 +538,7 @@ void func_800CBEC0(u8 *arg0)
     s32 w;
     s16 r;
 
-    s1 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s1 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     if (guess_TickWaitTimer_2((s32)arg0) != 0) {
         KR_AS(void, guess_FreeObjectAndSubObject_17)(arg0);
         return;

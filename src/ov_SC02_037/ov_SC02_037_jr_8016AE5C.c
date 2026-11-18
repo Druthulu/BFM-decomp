@@ -208,7 +208,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern MATRIX guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -3666,7 +3666,7 @@ void func_8016C998(s32 param_1)
             return;
         }
         D_801C8BC8[i].f0 = 1;
-        *(Blk20_8016DF5C *)(r + 0x38) = *(Blk20_8016DF5C *)(param_1 + 0x38);
+        *(MATRIX *)(r + 0x38) = *(MATRIX *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
         *(s16 *)(r + 6) = ((Unkstruct_8016C998_2 *)param_1)->unk6;
         *(s16 *)(r + 0xa) = ((Unkstruct_8016C998_2 *)param_1)->unkA;
@@ -3928,7 +3928,7 @@ void func_8016D1D8(int param_1) {
     unsigned int uVar3;
     short sVar4;
     SVEC_L1 sv;
-    Blk20_8016DF5C mtx;
+    MATRIX mtx;
 
     iVar5 = *(int *)(param_1 + 0x34);
     if (*(int *)(param_1 + 0x2c) == 0) {
@@ -4363,20 +4363,20 @@ void func_8016DF5C(s32 param_1)
         ((Unkstruct_8016DF5C_4 *)param_1)->unk2 = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
     } else {
         short asStack_60[20];
-        Blk20_8016DF5C localMatrix;
+        MATRIX localMatrix;
         s32 uVar2;
 
         asStack_60[0] = 0;
         asStack_60[1] = 0;
         asStack_60[2] = 0x20;
-        localMatrix = (*(Blk20_8016DF5C*)&aD800AE620);
+        localMatrix = (*(MATRIX*)&aD800AE620);
         uVar2 = ((s32(*)())rand)();
         RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
         ((Unkstruct_8016DF5C_4 *)param_1)->unk6 = guess_g_PlayerPosX + asStack_60[0];
         ((Unkstruct_8016DF5C_4 *)param_1)->unkA = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
         ((Unkstruct_8016DF5C_4 *)param_1)->unkE = guess_g_PlayerPosZ + asStack_60[2];
-        *(Blk20_8016DF5C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_8016DF5C *)((u8 *)iVar8 + 0x38);
+        *(MATRIX *)((u8 *)((void *)param_1) + 0x38) = *(MATRIX *)((u8 *)iVar8 + 0x38);
         ((Unkstruct_8016DF5C_4 *)param_1)->unk2C = 0x1000;
         ((Unkstruct_8016DF5C_4 *)param_1)->unk30 = 0xff;
         ((Unkstruct_8016DF5C_4 *)param_1)->unk1C = 0x10;

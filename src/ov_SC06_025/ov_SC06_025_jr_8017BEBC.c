@@ -3536,7 +3536,7 @@ extern void func_80171A1C(u8 *a0);
 void func_8017DF50(void *arg0) {
     s32 b;
     s32 a;
-    a = ((Unkstruct_80126B58 *)arg0)->unk20;
+    a = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     func_8017E100();
     *(s16 *)(a + 0x12) = func_8014C568((s16 *)arg0, (s16 *)D_801B12E4);
     if (guess_TickWaitTimer_2(arg0) != 0) {

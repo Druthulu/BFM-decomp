@@ -10,7 +10,7 @@ void SHARED_FN(s32 param_1) {
         return;
     }
     guess_CopyVec3HighHalves(param_1 + 4, (s32 *)delta);
-    if (((Unkstruct_801202A0 *)param_1)->unkDC.val != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val != 0) {
         t = rand() % 352;
         d = t;
         if (t & 1) {
@@ -30,5 +30,5 @@ void SHARED_FN(s32 param_1) {
         return;
     }
     guess_SetWaitTimer((s32 *)param_1, (rand() & 0x7F) + 0x60);
-    ((Unkstruct_8011DB30 *)obj)->unk2E = CAST_SIGN(u16, param_1, 0xFC);
+    ((Unkstruct_8011DB30 *)obj)->unk2C.i.hi = CAST_SIGN(u16, param_1, 0xFC);
 }

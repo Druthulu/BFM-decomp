@@ -2982,7 +2982,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_801847CC(s32 *a0) {
     guess_StartActorSequence((s32)a0, D_801BD2B4[CAST_SIGN(u16, (s32)a0, 0x70) & 0xF]);
-    ((Unkstruct_801202A0 *)a0)->extC.kSC06_018_80183A00.unkE4 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_018_80183A00.unkE4 = 0;
 }
 
 

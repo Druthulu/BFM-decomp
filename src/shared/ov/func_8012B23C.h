@@ -8,6 +8,6 @@ void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0) {
     a0->unk14.val = 0;
     *(s32 *)((u8 *)a0 + 0x10) = 0;
     a0->unk4C = 0;
-    a0->unk44 = 0;
-    a0->unk48 = 0x18000;
+    a0->unk44.w.unk44 = 0;
+    a0->unk44.w.unk48 = 0x18000;
 }

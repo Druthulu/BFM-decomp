@@ -3832,7 +3832,7 @@ void func_8017E65C(s32 a0) {
             buf[5] = one;                /* 0x1A(sp) */
             buf[4] = one;                /* 0x18(sp) */
 
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
             func_8012C51C(buf, a0);
 
             if (((guess_GetGameVarByte(0xCE)) & 0xFF) == 9) {
@@ -4369,7 +4369,7 @@ extern VECTOR *ApplyMatrixLV(s32 a0, s32 a1, s32 a2);
  /* 0x0C */
 
 void func_8017F370(s32 arg0) {
-    Blk20_8016DF5C m;    /* sp+0x10 */
+    MATRIX m;    /* sp+0x10 */
     VECTOR v;  /* sp+0x30 */
 
     v.vx = 0;
@@ -4942,7 +4942,7 @@ extern void (*D_80185568[])(void);
 
 
 s32 func_801801E0(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -5000,18 +5000,18 @@ void func_80180228(void *a0) {
     case 0:
     default:
         if (s1 >= 0x384) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_801801E0(a0, D_80185538);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_801801E0(a0, D_80185538);
         } else if (s1 >= 0x258) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_801801E0(a0, D_80185528);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_801801E0(a0, D_80185528);
         } else if (s1 >= 0xC8) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_801801E0(a0, D_80185518);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_801801E0(a0, D_80185518);
         }
         break;
     case 1:
         if ((u32)(s1 - 0x3B6) >= 0x32) {
             return;
         }
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_801801E0(a0, D_80185548);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_801801E0(a0, D_80185548);
         break;
     }
 }
@@ -5455,7 +5455,7 @@ success:
     guess_StartActorSequence((s32)a0, &D_80185A14);
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_80185B68);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x17C;
-    ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk68 + 0xC) = 0x7FFF;
 }
 

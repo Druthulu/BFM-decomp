@@ -4786,7 +4786,7 @@ void func_80188E00(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
@@ -5523,7 +5523,7 @@ void func_80189EEC(s32 arg0) {
                 ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
                 ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                 t2 = rand();
-                ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 3) << 16);
+                ((Unkstruct_8011DB30 *)q)->unk14.val = -0x40000 - ((t2 % 3) << 16);
                 t3 = rand();
                 t4 = rand();
                 ((Unkstruct_8011DB30 *)q)->unk34.i.lo = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
@@ -5593,7 +5593,7 @@ void func_8018A17C(s32 arg0) {
                     ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
                     ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                     t2 = rand();
-                    ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 4) << 16);
+                    ((Unkstruct_8011DB30 *)q)->unk14.val = -0x40000 - ((t2 % 4) << 16);
                     ((Unkstruct_8011DB30 *)q)->unk34.i.lo = rand() % 0x1800 + 0x2000;
                     ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
                 }

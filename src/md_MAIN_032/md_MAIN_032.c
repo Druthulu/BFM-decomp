@@ -112,14 +112,14 @@ void func_800CB0B0(void *arg0) {
 
     s2 = *(s32 *)((s32)arg0 + 0x4C);
     s0 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)arg0)->unk20 = s0;
+    ((Unkstruct_80126B58 *)arg0)->unk20.val = s0;
     if (s0 != 0) {
         func_8001C810(s0, (s32)&D_800CC3C4);
         flag = *(s32 *)(s0 + 4);
         flag |= 0x50000000;
         *(s32 *)(s0 + 4) = flag;
         guess_TransformPosByObjMatrix(s2, (s32)arg0 + 4);
-        src = ((Unkstruct_80126B58 *)s2)->unk20;
+        src = ((Unkstruct_80126B58 *)s2)->unk20.val;
         *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)(src + 0x34);
         *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)(src + 0x44);
         guess_NextStep(arg0);

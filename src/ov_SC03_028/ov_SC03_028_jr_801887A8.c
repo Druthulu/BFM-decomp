@@ -4387,9 +4387,9 @@ void func_8018A800(void *a0)
 
     val = CAST_SIGN(s16, (s32)a0, 0x2C);
     if (val < 0x700) {
-        ((Unkstruct_8011DB30 *)a0)->unk2C = val + 0x30;
+        ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u = val + 0x30;
         func_801860F8(&D_801EC45C, -4);
-        guess_BuildCircle12Points(&D_801EC45C - 4, ((Unkstruct_8011DB30 *)a0)->unk2C);
+        guess_BuildCircle12Points(&D_801EC45C - 4, ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u);
     } else {
         func_801292C8(a0);
     }
@@ -4654,7 +4654,7 @@ void func_8018AE14(void *a0) {
 
 
 s32 func_8018AE50(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -4707,7 +4707,7 @@ extern s32 D_80190C8C;
 void func_8018AF04(void *a0) {
     if (guess_GetStoryProgress() == 0xC8) {
         if ((guess_TestGameFlag(0x118) & 0xFF) == 0) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_8018AE50(a0, &D_80190C8C);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_8018AE50(a0, &D_80190C8C);
         }
     }
 }
@@ -4967,7 +4967,7 @@ void func_8018B540(s32 a0)
     s32 s0 = a0;
 
     func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
-    *(u16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = 0;
+    ((Unkstruct_80126B58 *)s0)->unk20.m->unk10.u = 0;
     ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }
@@ -5109,7 +5109,7 @@ void func_8018B87C(s32 a0)
 {
     s32 s0 = a0;
     func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
-    *(u16 *)(((Unkstruct_80126B58 *)s0)->unk20 + 0x10) = 0;
+    ((Unkstruct_80126B58 *)s0)->unk20.m->unk10.u = 0;
     ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }

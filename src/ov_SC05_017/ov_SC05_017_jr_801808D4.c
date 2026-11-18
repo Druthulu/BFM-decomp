@@ -3125,7 +3125,7 @@ dispatch:
     newEnt = (void *)func_801788B8((s32)s0, (s32)func_80180F3C);
     ((Unkstruct_801202A0 *)s0)->unkD4 = (s32)newEnt;
     guess_SetObjectPosAndYaw((s32)newEnt, (s32)&D_80191530);
-    ((Unkstruct_801202A0 *)s0)->unkD8 = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
+    ((Unkstruct_801202A0 *)s0)->unkD8.val = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
 }
 
 

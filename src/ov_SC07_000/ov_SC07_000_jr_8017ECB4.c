@@ -3080,7 +3080,7 @@ void func_8017F3FC(s32 arg0)
     if (obj != 0) {
         CAST_WIDTH(s32, obj, 0x34) = 0x2000;
         CAST_WIDTH(s32, obj, 0x10) = -(*(s32 *)(arg0 + 0x10) >> 2);
-        ((Unkstruct_8011DB30 *)obj)->unk14 = -0x4000;
+        ((Unkstruct_8011DB30 *)obj)->unk14.val = -0x4000;
         CAST_WIDTH(s32, obj, 0x18) = -(*(s32 *)(arg0 + 0x18) >> 2);
     }
 }

@@ -5967,7 +5967,7 @@ void func_80180A08(void *arg0) {
     *(s16 *)((u8 *)ptr + 0xC) = 0x7FFF;
 
     ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_80180CC0);
-    ((Unkstruct_801202A0 *)s0)->unkD8 = func_801788B8((s32)s0, (s32)&func_80180D38);
+    ((Unkstruct_801202A0 *)s0)->unkD8.val = func_801788B8((s32)s0, (s32)&func_80180D38);
 
     dd = ((s32 (*)(void))func_80184DD0)();
     sel = guess_GetStoryProgress();
@@ -7103,7 +7103,7 @@ void func_801821D4(void *a0)
         *(s16 *)((char *)ptr + 0xC) = 0x7FFF;
         ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80182544);
         guess_SetObjectPosAndYaw(((Unkstruct_801202A0 *)a0)->unkD4, (s32)&D_80191C08);
-        ((Unkstruct_801202A0 *)a0)->unkD8 = func_801788B8((s32)a0, (s32)&func_801825BC);
+        ((Unkstruct_801202A0 *)a0)->unkD8.val = func_801788B8((s32)a0, (s32)&func_801825BC);
     }
 }
 
@@ -7969,7 +7969,7 @@ void func_80183338(void *param_1)
         v1 = CAST_SIGN(void *, (char *)s0, 0x68);
         *(short *)((char *)v1 + 0xC) = 0x7FFF;
         ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_80183578);
-        ((Unkstruct_801202A0 *)s0)->unkD8 = func_801788B8((s32)s0, (s32)&func_80183604);
+        ((Unkstruct_801202A0 *)s0)->unkD8.val = func_801788B8((s32)s0, (s32)&func_80183604);
     }
 }
 

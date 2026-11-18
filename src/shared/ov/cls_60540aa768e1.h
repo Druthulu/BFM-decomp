@@ -7,7 +7,7 @@ void SHARED_FN(s32 arg0)
 
     obj = ((Unkstruct_8011DB30 *)arg0)->unk20;
     CAST_WIDTH(s32, arg0, 0x10) += CAST_WIDTH(s32, arg0, 0x2C);
-    ((Unkstruct_8011DB30 *)arg0)->unk14 += ((Unkstruct_8011DB30 *)arg0)->unk30.val;
+    ((Unkstruct_8011DB30 *)arg0)->unk14.val += ((Unkstruct_8011DB30 *)arg0)->unk30.val;
     CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);
     guess_AddVelocityToPos((S800D22E4 *)arg0);
     v = ((Unkstruct_800B5BD8 *)obj)->unk1A.u - 0x100;

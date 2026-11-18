@@ -2948,8 +2948,8 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
     if (sy < 0x100 && sy + 0x28 >= 0x100) {
         n = 0xFF - sy;
         if (n > 0) {
-            q->x = sx;
-            D_801B1B58.y = sy;
+            q->x.s = sx;
+            D_801B1B58.y.s = sy;
             D_801B1B58.w = w;
             D_801B1B58.h = n;
             D_801B1B58.v[0].d.vx = out[0].vx;
@@ -2964,8 +2964,8 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
         }
         {
         Quad_8017EF94 *d2 = q;
-        d2->x = sx;
-        D_801B1B58.y = 0x100;
+        d2->x.s = sx;
+        D_801B1B58.y.s = 0x100;
         D_801B1B58.w = w;
         hh = h - n;
         D_801B1B58.h = hh;
@@ -2981,8 +2981,8 @@ void func_8017EF94(V_8017EEC4 *arg0, s32 arg1) {
         }
     } else {
         Quad_8017EF94 *d1 = q;
-        d1->x = sx;
-        d1->y = sy;
+        d1->x.s = sx;
+        d1->y.s = sy;
         d1->w = w;
         d1->h = h;
         d1->v[0].w32 = *(s32 *)&out[0];
@@ -4157,8 +4157,8 @@ void func_80180B7C(s32 a0) {
         CAST_WIDTH(s32, a0, 0x10) = vx;
         ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFE98000;
         CAST_WIDTH(s32, a0, 0x18) = vz;
-        ((Unkstruct_801202A0 *)a0)->unk44 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x24000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk44 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x24000;
         ((Unkstruct_801202A0 *)a0)->unk4C = 0;
         guess_ApplyAccelAndVelocity(a0);
         if (CAST_SIGN(s16, a0, 0xA) >= -0x1ED) {
@@ -4429,7 +4429,7 @@ void func_80181148(void *a0)
         ((Unkstruct_801202A0 *)a0)->unk75 = 2;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
 
-        ((Unkstruct_801202A0 *)a0)->extC.kSC06_025_80181260.unkE8 = 0;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 = 0;
         ((Unkstruct_801202A0 *)a0)->unk58.s = ((s32)&D_80189104[((Unkstruct_801202A0 *)a0)->unk70.s * 16] | 0x40000000);
         guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801890E4[((Unkstruct_801202A0 *)a0)->unk70.s * 8]);
 
@@ -5972,13 +5972,13 @@ void func_80183490(s32 arg0) {
     register s32 a1 __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
     s32 h;
 
-    v0 = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
     v1 = -0x80000;
     v0 = v0 + v1;
     v1 = -0x2800000;
-    ((Unkstruct_801202A0 *)arg0)->unkDC.val = v0;
+    ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = v0;
     if (v0 < v1) {
-        ((Unkstruct_801202A0 *)arg0)->unkDC.val = v1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = v1;
     }
 
     v0 = ((Unkstruct_801202A0 *)arg0)->unk20;
@@ -6732,7 +6732,7 @@ extern void guess_NextStep(void *a0);
 
 void func_801842C0(s32 a0) {
     guess_StartPadVibration(&D_80062C14);
-    *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x12) = 0x800;
+    ((Unkstruct_80126B58 *)a0)->unk20.m->unk12.s = 0x800;
     guess_SetAnimScript((s32 *)a0, (s32)&D_801ADA84);
     func_80146DE8((s32 *)a0, 0, 0, 0x180000);
     guess_SetVertSpeed((s32 *)a0, 0);
@@ -6941,7 +6941,7 @@ void func_801846F4(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);

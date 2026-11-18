@@ -3009,7 +3009,7 @@ void func_8017D8E0(void *a0)
     if (!v0) {
         guess_FreeActorDuringSpawn(s0);
     } else {
-        guess_InitModelObject(v0, ((Unkstruct_801202A0 *)s0)->unkDC.val);
+        guess_InitModelObject(v0, ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val);
         *(s32 *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x28) = 0x1800180;
         v1 = ((Unkstruct_801202A0 *)s0)->unk70.s;
         ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)&D_80181E54 | 0x40000000;

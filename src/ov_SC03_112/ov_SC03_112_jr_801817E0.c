@@ -2827,7 +2827,7 @@ void func_801817E0(s32 param_1)
             cond = CAST_SIGN(s16, param_1, 0xa) > ((Unkstruct_801202A0 *)param_1)->unkFE.s;
         }
         if (cond) {
-            ((Unkstruct_801202A0 *)param_1)->unk48 = 0x18000;
+            ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
             ((Unkstruct_801202A0 *)param_1)->unk34.u += 1;
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s += 1;
@@ -2923,7 +2923,7 @@ TAIL:
 
 void func_80181B7C(s32 param_1)
 {
-    ((Unkstruct_801202A0 *)param_1)->unk48 = 0x4000;
+    ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x4000;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 7;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x50;
     *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x14) = rand() % 0x1000;
@@ -2942,7 +2942,7 @@ void func_80181BE0(s32 param_1)
     s32 ret;
 
     sp20 = ((Unkstruct_801202A0 *)param_1)->unk20;
-    ret = rsin((((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
+    ret = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
     ((Unkstruct_8001C9D0 *)sp20)->unk18.u = CAST_WIDTH(s16, sp20, 0x1C) = (ret >> 3) + 0xE00;
     ((Unkstruct_8001C9D0 *)sp20)->unk1A.u = (ret >> 1) + 0x800;
     guess_ApplyAccelAndVelocity(param_1);
@@ -2953,7 +2953,7 @@ void func_80181BE0(s32 param_1)
     if (guess_TickWaitTimer(param_1) != 0) {
         func_8018290C(param_1);
     } else {
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 += 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 += 1;
     }
 }
 
@@ -2993,7 +2993,7 @@ void func_80181D08(s32 param_1)
     s16 t;
 
     sp20 = ((Unkstruct_801202A0 *)param_1)->unk20;
-    ret = rsin((((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
+    ret = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7C0);
     ((Unkstruct_8001C9D0 *)sp20)->unk18.u = CAST_WIDTH(s16, sp20, 0x1C) = (ret >> 3) + 0xE00;
     ((Unkstruct_8001C9D0 *)sp20)->unk1A.u = (ret >> 1) + 0x800;
 
@@ -3027,7 +3027,7 @@ void func_80181D08(s32 param_1)
         }
     }
 
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC03_108_8017F0B0.unkE4 += 1;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 += 1;
 }
 
 

@@ -3601,7 +3601,7 @@ void func_8017E4B0(void *a0) {
 
 
 s32 func_8017E4EC(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -3643,7 +3643,7 @@ void func_8017E534(void *a0) {
         g = D_801ABBF4;
         CAST_SIGN(u16, (s32)a0, 0x2) += 1;
         if (g == 0) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_8017E4EC(a0, (s32 *)&D_80184268);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_8017E4EC(a0, (s32 *)&D_80184268);
         }
     }
 }

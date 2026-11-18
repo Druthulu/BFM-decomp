@@ -212,7 +212,7 @@ void func_800CCF50(void *a0) {
     s2 = *(s32 *)(a0 + 0x4C);
     s0 = (s32)((void *(*)(void))func_80146578)();
     s3 = (s32)&D_800CD704;
-    ((Unkstruct_80126B58 *)a0)->unk20 = s0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = s0;
 
     if (s0 != 0) {
         func_8001CD50(s0, s3);
@@ -222,7 +222,7 @@ void func_800CCF50(void *a0) {
         guess_TransformPosByObjMatrix(s2, a0 + 4);
         *(u16 *)(s0 + 0x10) = ((Unkstruct_80126B58 *)s2)->unk100;
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk104;
-        *(u16 *)(s0 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
+        *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->unk12.u;
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;
@@ -255,7 +255,7 @@ void func_800CD054(void *a0) {
     s32 v0;
     s32 v1;
 
-    s1 = ((Unkstruct_80126B58 *)a0)->unk20;
+    s1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     dp = D_800CD704;
     func_800CD258(a0, dp);
     func_800CD27C((s32)a0);
@@ -348,7 +348,7 @@ void func_800CD27C(s32 a0) {
     MtxBuf_800CD27C buf;
     s32 obj;
 
-    obj = ((Unkstruct_80126B58 *)a0)->unk20;
+    obj = ((Unkstruct_80126B58 *)a0)->unk20.val;
     func_80013F3C((s32)&buf);
     func_800126C4((s32)&buf, *(s16 *)(obj + 0x10));
     func_800123F0((s32)&buf, *(s16 *)(obj + 0x14));
@@ -423,7 +423,7 @@ void func_800CD404(void *a0) {
     }
     func_8013C9C4(&D_800D3428);
     s0 = (s32)((void *(*)(void))func_80146578)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = s0;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = s0;
 
     if (s0 != 0) {
         func_8001CD50(s0, s3);
@@ -436,9 +436,9 @@ void func_800CD404(void *a0) {
             s32 srcp;
             dstp = (((Unkstruct_80126B58 *)a0)->unk50 << 5) + (s32)&D_800CD964;
             *(s32 *)(s0 + 0x34) = dstp;
-            srcp = ((Unkstruct_80126B58 *)*(s32 *)(a0 + 0x4C))->unk20;
+            srcp = ((Unkstruct_80126B58 *)*(s32 *)(a0 + 0x4C))->unk20.val;
             srcp = *(s32 *)(srcp + 0x34);
-            *(Blk20_8016DF5C *)dstp = *(Blk20_8016DF5C *)srcp;
+            *(MATRIX *)dstp = *(MATRIX *)srcp;
         }
         ((Unkstruct_80126B58 *)a0)->unk6.s = CAST_SIGN(u16, s2, 6);
         v = CAST_SIGN(u16, s2, 0xA);
@@ -468,7 +468,7 @@ void func_800CD57C(void *arg0) {
     s32 v0;
     s32 t;
 
-    s0 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s0 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
     ((void (*)(void *, void *))func_800CD6D4)(
         arg0,
         (void *)(D_800CD764 + (((Unkstruct_80126B58 *)arg0)->unk50 << 6)));

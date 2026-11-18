@@ -177,7 +177,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 void func_800CB234(void *a0) {
-    *(u16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10) = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.u = 0;
     func_801553C0((s32)a0);
     guess_SetTexAnim((s32)a0, 0x11);
 }
@@ -216,10 +216,10 @@ void func_800CB2CC(s32 arg0) {
 
     s2 = *(s32 *)(arg0 + 0x4C);
     s0 = func_8014659C();
-    ((Unkstruct_80126B58 *)arg0)->unk20 = s0;
+    ((Unkstruct_80126B58 *)arg0)->unk20.val = s0;
     if (s0 != 0) {
         func_8001C2C4(s0);
-        v = ((Unkstruct_80126B58 *)s2)->unk20;
+        v = ((Unkstruct_80126B58 *)s2)->unk20.val;
         h = *(u16 *)(v + 0x12);
         *(u16 *)(s0 + 0x1A) = 0;
         *(u16 *)(s0 + 0x18) = 0;
@@ -670,7 +670,7 @@ void func_800CBF28(s32 p1)
     base = (s32)&D_800CC250;
     v0 = ((s32 (*)(void))func_80146578)();
     r = v0;
-    ((Unkstruct_80126B58 *)p1)->unk20 = v0;
+    ((Unkstruct_80126B58 *)p1)->unk20.val = v0;
     if (v0 != 0) {
         func_8001CD04(v0, base);
         if (((Unkstruct_80126B58 *)p1)->unk50 == 0) {

@@ -4103,7 +4103,7 @@ s32 func_8017FFD0(s32 param_1)
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0x28) {
             guess_StartActorSequence(param_1, D_801ECCDC);
             ((Unkstruct_801202A0 *)param_1)->unkCC.val = (s32)&D_801EE880;
-            ((Unkstruct_801202A0 *)param_1)->unkD8 = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
+            ((Unkstruct_801202A0 *)param_1)->unkD8.val = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
             ret = 7;
             goto STORE;
         }
@@ -4111,7 +4111,7 @@ s32 func_8017FFD0(s32 param_1)
             D_801F32D4 = 0;
             guess_StartActorSequence(param_1, D_801EB39C);
             ((Unkstruct_801202A0 *)param_1)->unkCC.val = (s32)&D_801EE8D8;
-            ((Unkstruct_801202A0 *)param_1)->unkD8 = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
+            ((Unkstruct_801202A0 *)param_1)->unkD8.val = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x3000);
             ret = 0xA;
             goto STORE;
         }
@@ -4127,14 +4127,14 @@ s32 func_8017FFD0(s32 param_1)
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0x2B) {
             guess_StartActorSequence(param_1, D_801ED25C);
             ((Unkstruct_801202A0 *)param_1)->unkCC.val = D_801EED54[((Unkstruct_801202A0 *)param_1)->unkFC.s];
-            ((Unkstruct_801202A0 *)param_1)->unkD8 = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x2000);
+            ((Unkstruct_801202A0 *)param_1)->unkD8.val = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x2000);
             ret = 0x19;
             goto STORE;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0x2C) {
             guess_StartActorSequence(param_1, &D_80182CA4[0]);
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x5A;
-            ((Unkstruct_801202A0 *)param_1)->unkD8 = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x1800);
+            ((Unkstruct_801202A0 *)param_1)->unkD8.val = ((s32 (*)(s32, s32))func_80143994)(param_1, 0x1800);
             ret = 0x1C;
             goto STORE;
         }

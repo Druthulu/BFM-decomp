@@ -3108,7 +3108,7 @@ s32 param_1;
         }
         ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u -= 0x10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = 0x900;
-        ((Unkstruct_801202A0 *)param_1)->unkD8 = s0;
+        ((Unkstruct_801202A0 *)param_1)->unkD8.val = s0;
         ((Unkstruct_801202A0 *)param_1)->unk34.u += 1;
         func_80178B18(param_1, (s32)&D_80190078);
         break;
@@ -5006,7 +5006,7 @@ void func_801889B4(s32 arg0)
                 v = -(v << 7);
             }
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = v + 0x1000;
-            ((Unkstruct_8011DB30 *)e)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
             CAST_WIDTH(s32, e, 0x18) = 0xFFFD0000;
         }
     }
@@ -5677,7 +5677,7 @@ void func_80189970(void *a0) {
 
 
 s32 func_801899AC(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -5735,7 +5735,7 @@ void func_80189A60(void *a0) {
     if (guess_GetStoryProgress() == 0x2DA) {
         if ((guess_TestGameFlag(0x11F) & 0xFF) == 0) {
             guess_SetGameFlag(0x11F, 1);
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = func_801899AC(a0, (s32 *)&D_80191BEC);
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_801899AC(a0, (s32 *)&D_80191BEC);
         }
     }
 }
@@ -5908,7 +5908,7 @@ void func_80189DC8(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_80189DC8 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_80189DC8 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);

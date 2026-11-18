@@ -10,7 +10,7 @@ s32 param_2;
     ((Unkstruct_801202A0 *)param_1)->extD.kcls_0b021a360555.unk106 =
         CAST_SIGN(u16, param_1, 0x106) +
         guess_GetAngleStepToward(((Unkstruct_801202A0 *)param_1)->extD.kcls_0b021a360555.unk106, func_8012B864(param_1),
-                      ((Unkstruct_801202A0 *)param_1)->extC.kcls_0b021a360555.unkE8);
+                      ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kcls_0b021a360555.unkE8);
     sp30[1] = 0;
     sp30[0] = 0;
     sp30[2] = param_2;

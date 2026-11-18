@@ -3353,7 +3353,7 @@ void func_8017E120(s32 a0) {
 
     case 4:
         CAST_WIDTH(s32, a0, 8) = CAST_WIDTH(s32, a0, 8) + ((Unkstruct_801202A0 *)a0)->unk14.val;
-        ((Unkstruct_801202A0 *)a0)->unk14.val = ((Unkstruct_801202A0 *)a0)->unk14.val + ((Unkstruct_801202A0 *)a0)->unk48;
+        ((Unkstruct_801202A0 *)a0)->unk14.val = ((Unkstruct_801202A0 *)a0)->unk14.val + ((Unkstruct_801202A0 *)a0)->unk44.w.unk48;
         if (CAST_SIGN(s16, a0, 0xA) < -0x3FF) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 5;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x8E;
@@ -3725,14 +3725,14 @@ void func_8017F268(s32 a0) {
             rcos(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12)) * t * 4;
         ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
-        ((Unkstruct_801202A0 *)a0)->unk44 = CAST_WIDTH(s32, a0, 0x10) >> 4;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk44 = CAST_WIDTH(s32, a0, 0x10) >> 4;
         ((Unkstruct_801202A0 *)a0)->unk4C = CAST_WIDTH(s32, a0, 0x18) >> 4;
         guess_RequestSound(0xC65, 0);
         break;
 
     case 3:
         CAST_WIDTH(s32, a0, 0x04) = CAST_WIDTH(s32, a0, 0x04) - CAST_WIDTH(s32, a0, 0x10);
-        CAST_WIDTH(s32, a0, 0x10) = CAST_WIDTH(s32, a0, 0x10) - ((Unkstruct_801202A0 *)a0)->unk44;
+        CAST_WIDTH(s32, a0, 0x10) = CAST_WIDTH(s32, a0, 0x10) - ((Unkstruct_801202A0 *)a0)->unk44.w.unk44;
         CAST_WIDTH(s32, a0, 0x0C) = CAST_WIDTH(s32, a0, 0x0C) - CAST_WIDTH(s32, a0, 0x18);
         CAST_WIDTH(s32, a0, 0x18) = CAST_WIDTH(s32, a0, 0x18) - ((Unkstruct_801202A0 *)a0)->unk4C;
         t = func_80143C74(a0, 0);

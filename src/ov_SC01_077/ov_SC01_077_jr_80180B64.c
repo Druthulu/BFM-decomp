@@ -3209,10 +3209,10 @@ s32 func_80180F10(s32 param_1, s32 param_2) {
             if ((((u32)iVar2 - 0x400U) & 0xfff) - 0x381 < 0xff && 0x2df < (*(s16 *)&guess_g_PlayerPosX) &&
                 0x3c100 < iVar1) { return 1; }
         }
-        if (local_20[param_2] < iVar1 && ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_80183834.unkE8 < iVar1) {
-            ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_80183834.unkE8 = iVar1; return 1;
+        if (local_20[param_2] < iVar1 && ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_80183834.unkE8 < iVar1) {
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_80183834.unkE8 = iVar1; return 1;
         }
-        ((Unkstruct_801202A0 *)param_1)->extC.kSC01_077_80183834.unkE8 = iVar1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_077_80183834.unkE8 = iVar1;
     }
     return 0;
 }

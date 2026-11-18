@@ -3016,7 +3016,7 @@ extern s32 D_801BC3F8[];
 
 void func_80186CA4(s32 param_1) {
     guess_StartActorSequence(param_1, (void *)D_801BC3F8[CAST_SIGN(u16, param_1, 0x70) & 0xF]);
-    ((Unkstruct_801202A0 *)param_1)->extC.kSC06_018_80183A00.unkE4 = 0;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_018_80183A00.unkE4 = 0;
 }
 
 

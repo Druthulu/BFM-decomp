@@ -3483,28 +3483,28 @@ void func_8017D67C(s32 arg0) {
         p = ((Unkstruct_801202A0 *)e)->unk64;
         if (*(u16 *)p != 0) {
             func_8012EC04(p, ((Unkstruct_801202A0 *)e)->unkFC.s, buf);
-            guess_RotTransSVWithMatrix((s32)buf, ((Unkstruct_801202A0 *)e)->unkDC.val, (s32)out);
+            guess_RotTransSVWithMatrix((s32)buf, ((Unkstruct_801202A0 *)e)->blkDC.f.unkDC.val, (s32)out);
             ((Unkstruct_801202A0 *)e)->unk4.i.hi.u = out[0];
             ((Unkstruct_801202A0 *)e)->unk8.i.hi.u = out[1];
             ((Unkstruct_801202A0 *)e)->unkC.i.hi.u = out[2];
         }
-        ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4 += ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE8;
-        if (((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4 >= ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE0) {
-            ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4 = ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE0;
+        ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4 += ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE8;
+        if (((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4 >= ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE0) {
+            ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4 = ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE0;
             ((Unkstruct_801202A0 *)e)->unk34.u += 1;
         }
         break;
     case 1:
         out[2] = 0;
         out[0] = 0;
-        out[1] = ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4;
+        out[1] = ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4;
         if (((s32 (*)(s32, u16 *))func_8012CC40)(e, out) & 0x2000) {
             ((Unkstruct_801202A0 *)e)->unk34.u += 1;
         }
         break;
     case 2:
         CAST_WIDTH(s32, e, 0xEC) += 0x10;
-        if (CAST_WIDTH(s32, e, 0xEC) >= ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4) {
+        if (CAST_WIDTH(s32, e, 0xEC) >= ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4) {
             guess_FreeActor((void *)e);
             return;
         }
@@ -3520,10 +3520,10 @@ void func_8017D67C(s32 arg0) {
     prim.col[0] = 0x808080;
     prim.col[1] = 0x101010;
     if (st < 2) {
-        prim.v[0].vy = ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4;
+        prim.v[0].vy = ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4;
         prim.v[1].vy = 0;
     } else {
-        prim.v[0].vy = ((Unkstruct_801202A0 *)e)->extC.kcls_86815c334e35.unkE4;
+        prim.v[0].vy = ((Unkstruct_801202A0 *)e)->blkDC.f.extC.kcls_86815c334e35.unkE4;
         prim.v[1].vy = CAST_WIDTH(s32, e, 0xEC);
     }
     func_80016A5C(&prim, ((Unkstruct_801202A0 *)e)->unk20 + 0x34);

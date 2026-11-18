@@ -6,8 +6,8 @@ void SHARED_FN(s32 a0) {
     guess_ApplyAccelAndVelocity(a0);
     v = ((Unkstruct_801202A0 *)a0)->unk14.val;
     if (v > 0x14000) {
-        ((Unkstruct_801202A0 *)a0)->unk48 = -0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = -0x1400;
     } else if (v < -0x14000) {
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x1400;
     }
 }

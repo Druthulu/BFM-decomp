@@ -3501,8 +3501,8 @@ void func_80186210(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unkB4 = -0x20EF;
 
         ((Unkstruct_801202A0 *)a0)->unkC4 |= 3;
-        if (((Unkstruct_801202A0 *)a0)->unkDC.val == 0) {
-            ((Unkstruct_801202A0 *)a0)->unkDC.val = 0x40000;
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val == 0) {
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0x40000;
         }
 
         if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
@@ -3570,8 +3570,8 @@ void func_801863C0(s32 a0) {
     s32 ang2;
     s32 negbase;
 
-    if ((((Unkstruct_801202A0 *)a0)->extC.kSC02_026_8017E130.unkE0 & 1) == 0) {
-        if (func_8012BD3C(a0, 0x400, ((Unkstruct_801202A0 *)a0)->unkDC.val) == 0) {
+    if ((((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_026_8017E130.unkE0 & 1) == 0) {
+        if (func_8012BD3C(a0, 0x400, ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val) == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         } else {
             guess_StartActorSequence(a0, (s32)D_801AE220);
@@ -4159,7 +4159,7 @@ void func_80187190(s32 a0) {
         p += 8;
         if (*(s16 *)(p + 6) == 0x7FFF) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
-            ((Unkstruct_801202A0 *)a0)->unk48 = 0x18000;
+            ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x18000;
             ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017EEB0.unk102 = 0;
             ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C =
@@ -4522,7 +4522,7 @@ void func_801879E8(S800D22E4 *arg0) {
     if (CAST_SIGN(u16, (s32)arg0, 2) == 0) {
         guess_AddVelocityToPos(arg0);
         if (((Unkstruct_8011DB30 *)arg0)->unk1C < 0x23) {
-            ((Unkstruct_8011DB30 *)arg0)->unk14 += 0x10000;
+            ((Unkstruct_8011DB30 *)arg0)->unk14.val += 0x10000;
         }
         if (--((Unkstruct_8011DB30 *)arg0)->unk1C == 0) {
             func_801292C8((u8 *)arg0);
@@ -4535,7 +4535,7 @@ void func_801879E8(S800D22E4 *arg0) {
             ((Unkstruct_8011DB30 *)arg0)->unk28 = t;
             if (t != 0) {
                 ((Unkstruct_8011DB30 *)arg0)->unk1C = 10;
-                ((Unkstruct_8011DB30 *)arg0)->unk14 += (s32)0xFFFF0000;
+                ((Unkstruct_8011DB30 *)arg0)->unk14.val += (s32)0xFFFF0000;
                 ((Unkstruct_8011DB30 *)arg0)->unk6.u = CAST_WIDTH(s32, (s32)arg0, 0x2C);
                 ((Unkstruct_8011DB30 *)arg0)->unkA.u = ((Unkstruct_8011DB30 *)arg0)->unk30.val;
                 ((Unkstruct_8011DB30 *)arg0)->unkE.u = CAST_WIDTH(s32, (s32)arg0, 0x34);

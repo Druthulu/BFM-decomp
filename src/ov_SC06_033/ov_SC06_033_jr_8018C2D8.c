@@ -3050,7 +3050,7 @@ void func_8018C2D8(void *arg)
         ((Unkstruct_801202A0 *)s1)->unk1C.s = ((Unkstruct_801202A0 *)s1)->unk1C.s - 1;
         t = (u8 *)guess_SpawnActor(0x318, 9, (s32)s1);
         if (t == 0) return;
-        ((Unkstruct_801202A0 *)s1)->unkD8 = (s32)t;
+        ((Unkstruct_801202A0 *)s1)->unkD8.val = (s32)t;
         ((Unkstruct_801202A0 *)s1)->unk34.u = 1;
         ((Unkstruct_801202A0 *)s1)->unk1C.s = ((Unkstruct_801202A0 *)s1)->unk1C.s + 1;
         /* fallthrough */

@@ -4451,7 +4451,7 @@ void func_8017E2D4(s32 param_1)
     *(u32 *)(s0 + 4) |= 0x40;
     *(u16 *)(s0 + 0x2C) |= 0x10;
     *(u16 *)(s0 + 0x18) = 0;
-    ((Unkstruct_801202A0 *)s1)->unkDC.val = 0;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.val = 0;
     ((Unkstruct_801202A0 *)s1)->unkFC.s = 0;
     ((Unkstruct_801202A0 *)s1)->unkFE.s = 4;
     func_8012AD50((void *)s1);
@@ -4514,7 +4514,7 @@ void func_8017E3EC(s32 param_1) {
     func_80016450(CAST_WIDTH(u8, s0, 0x100), 0);
     func_8017E520(s0);
 
-    ((Unkstruct_801202A0 *)s0)->unkDC.val += 0xC0000;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val += 0xC0000;
 
     v0 = ((Unkstruct_800B5CB8 *)s1)->unk18 + *(u16 *)(s0 + 0xDE);
     ((Unkstruct_800B5CB8 *)s1)->unk18 = v0;
@@ -4702,7 +4702,7 @@ void func_8017E99C(s32 param_1) {
     guess_InitModelObject(s0, D_8019F064);
     func_8001D0E8(s0, 0x7FFF, 0x7FFF);
     *(u32 *)(s0 + 4) |= 0x40;
-    v1 = ((Unkstruct_801202A0 *)param_1)->unkDC.val;
+    v1 = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
     if (v1 != 0) {
         if (v1 != 1) {
             goto label;

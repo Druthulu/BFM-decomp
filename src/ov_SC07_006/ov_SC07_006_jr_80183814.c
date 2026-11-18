@@ -5570,7 +5570,7 @@ void func_801890FC(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 3;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
-        ((Unkstruct_801202A0 *)a0)->unk48 = ((Unkstruct_801202A0 *)a0)->unk48 >> 2;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 >> 2;
         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xAA;
         break;
     case 2:
@@ -5836,9 +5836,9 @@ void func_80189B40(void *a0) {
     } else {
         guess_InitModelObject(((Unkstruct_801202A0 *)a0)->unk20, 0);
         tmp = rand();
-        ((Unkstruct_801202A0 *)a0)->extC.kcls_86815c334e35.unkE0 = tmp % 64 + 0x20;
-        ((Unkstruct_801202A0 *)a0)->extC.kcls_86815c334e35.unkE8 = rand() % 5 + 4;
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0xC000;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_86815c334e35.unkE0 = tmp % 64 + 0x20;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_86815c334e35.unkE8 = rand() % 5 + 4;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0xC000;
         *(unsigned short *)((s32)a0 + 2) += 1;
     }
 }

@@ -5150,11 +5150,11 @@ void func_8017F63C(void *s1) {
         delta = D_8018FBC4;
         h = CAST_SIGN(u16, (s32)s1, 2);
         CAST_WIDTH(s32, (s32)s1, 0x2C) = 0x8000000;
-        f = ((Unkstruct_8011DB30 *)s1)->unk14;
+        f = ((Unkstruct_8011DB30 *)s1)->unk14.val;
         ((Unkstruct_8011DB30 *)s1)->unk1C = 0;
         h = h + 1;
         g = f + delta;
-        ((Unkstruct_8011DB30 *)s1)->unk14 = g;
+        ((Unkstruct_8011DB30 *)s1)->unk14.val = g;
         ((Unkstruct_8011DB30 *)s1)->unk2.s = h;
         guess_StepPairSequence(node, (s32 *)base);
     } else {
@@ -6447,7 +6447,7 @@ void func_801810E4(void *a0)
             t = func_80132EF4((s32)a0, 0x22);
             if (t != 0) {
                 ((Unkstruct_8011DB30 *)t)->unk34.i.lo = 0x5001;
-                ((Unkstruct_8011DB30 *)t)->unk14 = 0xFFFA0000;
+                ((Unkstruct_8011DB30 *)t)->unk14.val = 0xFFFA0000;
             }
         }
         if (guess_TickWaitTimer((s32)a0) != 0) {

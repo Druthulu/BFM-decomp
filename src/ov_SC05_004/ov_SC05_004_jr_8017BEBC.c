@@ -3763,7 +3763,7 @@ void func_8017DD14(s32 a0) {
         sp10[2] = 0x70000;
         guess_SetLocalVelocity(a0, (s32)sp10);
 
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x10000;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x10000;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk108 = 0;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
@@ -4501,7 +4501,7 @@ void func_8017EE14(void *a0)
     if (!v0) {
         guess_FreeActorDuringSpawn(s0);
     } else {
-        guess_InitModelObject(v0, ((Unkstruct_801202A0 *)s0)->unkDC.val);
+        guess_InitModelObject(v0, ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val);
         *(s32 *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x28) = 0x1800180;
         v1 = ((Unkstruct_801202A0 *)s0)->unk70.s;
         ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)&D_801986E8 | 0x40000000;

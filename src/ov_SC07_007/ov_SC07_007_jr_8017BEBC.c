@@ -6741,7 +6741,7 @@ void func_80181494(s32 a0, u16 *arg1, void *a2)
 
 
 void func_80181524(s32 *a0, s32 a1) {
-    ((Unkstruct_801202A0 *)a0)->extC.kSC07_007_801802BC.unkF4 = a1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_007_801802BC.unkF4 = a1;
 }
 
 

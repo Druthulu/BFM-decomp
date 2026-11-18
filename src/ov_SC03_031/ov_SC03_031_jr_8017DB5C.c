@@ -3474,7 +3474,7 @@ void func_8017F428(s32 self) {
     s32 v;
     s32 i;
 
-    ((Unkstruct_801202A0 *)self)->unkDC.val += 0x40000;
+    ((Unkstruct_801202A0 *)self)->blkDC.f.unkDC.val += 0x40000;
     temp = CAST_SIGN(s32 *, self, 0x20);
     w = CAST_SIGN(u16, temp, 4) + *(u16 *)(self + 0xDE);
     CAST_ALIAS(u16, temp, 4) = w;
@@ -3488,7 +3488,7 @@ void func_8017F428(s32 self) {
             guess_SetPlayerHit(1, 0x4002, 0, 0xA, (s32)&sp20, (s32)guess_g_BoxHitNormalX);
         }
         CAST_ALIAS(u16, temp, 4) = 0x500;
-        ((Unkstruct_801202A0 *)self)->unkDC.val = -(((Unkstruct_801202A0 *)self)->unkDC.val >> 2);
+        ((Unkstruct_801202A0 *)self)->blkDC.f.unkDC.val = -(((Unkstruct_801202A0 *)self)->blkDC.f.unkDC.val >> 2);
         guess_RotTransSVWithObjMatrix(self, (s32)D_80186184, (s32)&sp18);
         sp20 = sp18;
         for (i = 0; i < 5; i++) {
@@ -3931,22 +3931,22 @@ extern void guess_FreeActor(void *a0);
 void func_80180204(void *arg0) {
     switch (((Unkstruct_801202A0 *)arg0)->unkF8.val.s) {
     case 1:
-        ((Unkstruct_801202A0 *)arg0)->unkDC.val ^= 1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val ^= 1;
         break;
     case 2:
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE0 ^= 1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE0 ^= 1;
         break;
     case 3:
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE4 ^= 1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE4 ^= 1;
         break;
     case 4:
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE8 ^= 1;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE8 ^= 1;
         break;
     case 5:
-        ((Unkstruct_801202A0 *)arg0)->unkDC.val = 2;
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE0 = 2;
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE4 = 2;
-        ((Unkstruct_801202A0 *)arg0)->extC.kcls_9e05b01e804c.unkE8 = 2;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = 2;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE0 = 2;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE4 = 2;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kcls_9e05b01e804c.unkE8 = 2;
         break;
     }
     ((Unkstruct_801202A0 *)arg0)->unkF8.val.s = 0;
@@ -5121,7 +5121,7 @@ void func_80181DC8(void *arg0) {
     extern void func_8002AC00(s32 arg0); /* not declared anywhere in the TU */
     s32 ptr;
 
-    ptr = ((Unkstruct_801202A0 *)arg0)->unkDC.val;
+    ptr = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
 
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);

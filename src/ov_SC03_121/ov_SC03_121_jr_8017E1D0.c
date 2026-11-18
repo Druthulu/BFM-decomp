@@ -4500,12 +4500,12 @@ void func_80181218(s32 arg0) {
         spin = (rand() & 0x1F) - 0x10;
         ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = spin;
 
-        ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
         spin = (rand() & 0x1F) - 0x10;
         *(s16 *)(arg0 + 0x16) = spin;
 
-        ((Unkstruct_801202A0 *)arg0)->unk48 = -(((Unkstruct_801202A0 *)arg0)->unk14.val >> 4);
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = -(((Unkstruct_801202A0 *)arg0)->unk14.val >> 4);
 
         spin = (rand() & 0x1F) - 0x10;
         ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = spin;
@@ -4518,7 +4518,7 @@ void func_80181218(s32 arg0) {
         t = t >> 8;
         ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = t;
 
-        ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
         obj = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unk20;
         t = -rcos(*(u16 *)(obj + 0x12) & 0xFFF);

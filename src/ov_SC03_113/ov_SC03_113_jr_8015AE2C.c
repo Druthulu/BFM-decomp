@@ -1835,12 +1835,12 @@ s32 func_8015C128(s32 param_1) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = -0x4000;
-        ((void(*)(int, int *, int *))func_8001382C)(*(short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12), sp10, sp20);
+        ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s, sp10, sp20);
         ((Unkstruct_80126B58 *)param_1)->unk234 += sp20[0];
         ((Unkstruct_80126B58 *)param_1)->unk238 += sp20[1];
         ((Unkstruct_80126B58 *)param_1)->unk23C += sp20[2];
     }
-    ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(((Unkstruct_80126B58 *)param_1)->unk20 + 0x12)),
+    ((void(*)(int, int *, int *))func_8001382C)((short)(-((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u),
                   (int *)(((int)param_1) + 0x234), sp20);
     ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
     guess_SetVelocityFromMoveVector(((int)param_1));

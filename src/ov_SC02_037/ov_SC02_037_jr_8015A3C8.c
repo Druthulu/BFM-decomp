@@ -208,7 +208,7 @@ extern void func_8012A304(s32 a0, s32 a1);
 extern s32 func_80012F74(s32, s32, s32, s32);
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern void func_8012A418(void);
-extern Blk20_8016DF5C guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
+extern MATRIX guess_g_StoredViewPointX; // Names ledger: config/names.tsv guess_g_StoredViewPointX
 extern void func_8012A464(void);
 extern void guess_BlendToPresetCamera(void);
 extern void func_8012A598(void *a0);
@@ -3174,7 +3174,7 @@ s32 func_8015C128(s32 param_1) {
         ((Unkstruct_8015C128_3 *)param_1)->unk238 += sp20[1];
         ((Unkstruct_8015C128_3 *)param_1)->unk23C += sp20[2];
     }
-    ((void(*)(int, int *, int *))func_8001382C)((short)(-*(unsigned short *)(((Unkstruct_8015C128_3 *)param_1)->unk20 + 0x12)),
+    ((void(*)(int, int *, int *))func_8001382C)((short)(-((Unkstruct_8015C128_3 *)param_1)->unk20.m->unk12.u),
                   (int *)(((int)param_1) + 0x234), sp20);
     ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
     guess_SetVelocityFromMoveVector(((int)param_1));
@@ -3289,7 +3289,7 @@ void func_8015C32C(s32 arg0) {
         vin[0] = 0;
         vin[1] = 0;
         vin[2] = -0x4000;
-        func_8001382C((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12), vin, vout);
+        func_8001382C((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s, vin, vout);
         ((Unkstruct_80126B58 *)arg0)->unk234 += vout[0];
         ((Unkstruct_80126B58 *)arg0)->unk238 += vout[1];
         ((Unkstruct_80126B58 *)arg0)->unk23C += vout[2];
@@ -3781,12 +3781,12 @@ void func_8015D1B8(s32 *a0)
     s32 dummy[2]; /* L1: dead, but its stack slot is what makes the frame 0x38 */
 
     ((void (*)(void))func_80149FB0)();
-    obj = ((Unkstruct_80126B58 *)a0)->unk20;
+    obj = ((Unkstruct_80126B58 *)a0)->unk20.val;
     sum = ((Unkstruct_800B5CB8 *)obj)->unk10 + *(u16 *)((u8 *)a0 + 0x236);
     ((Unkstruct_800B5CB8 *)obj)->unk10 = sum & 0xFFF;
     keep = sum; /* L2: AFTER the store — this is what keeps the $s0 copy alive */
 
-    cur = *(s16 *)(((Unkstruct_80126B58 *)a0)->unk20 + 0x10);
+    cur = ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.s;
     prev = CAST_SIGN(s16, (u8 *)a0, 0x244);
     if (cur - prev >= 0) {
         d = cur - prev;

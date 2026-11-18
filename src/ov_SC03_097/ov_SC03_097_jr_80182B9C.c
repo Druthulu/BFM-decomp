@@ -3452,7 +3452,7 @@ extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_80184108(s32 *arg0) {
     D_8019EAA0[CAST_SIGN(u16, (s32)arg0, 2)]();
-    if (((Unkstruct_801202A0 *)arg0)->extC.kSC03_093_801813E0.unkE4 != 0) {
+    if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_093_801813E0.unkE4 != 0) {
         func_80184D28((s32)arg0);
     }
     if (((Unkstruct_801202A0 *)arg0)->unk0 != 0) {
@@ -3536,10 +3536,10 @@ void func_80184198(s32 a0) {
     if (func_8012E504(a0, 0x1A2) != 0) {
         return;
     }
-    ((Unkstruct_801202A0 *)a0)->extC.kSC03_093_801813E0.unkE4 = 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_093_801813E0.unkE4 = 1;
     ((Unkstruct_801202A0 *)a0)->unkD0.val = (s32)D_8019E9B8;
     ((Unkstruct_801202A0 *)a0)->unkCC.val = (s32)D_8019E9B8;
-    ((Unkstruct_801202A0 *)a0)->extC.kSC03_093_801813E0.unkE0 = *(s32 *)D_8019E9B8;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_093_801813E0.unkE0 = *(s32 *)D_8019E9B8;
 }
 
 
@@ -3604,7 +3604,7 @@ void func_80184444(s32 a0) {
     } else {
         if (CAST_WIDTH(u8, a0, 0x1C) == 0) {
             s32 r = rand();
-            ((Unkstruct_801202A0 *)a0)->extC.kSC03_093_801813E0.unkE8 = (r % 64) + 0x40;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_093_801813E0.unkE8 = (r % 64) + 0x40;
         }
         if (func_8014CB0C() == 0) {
             func_80184CB0(a0, 0xFFFD8000);
@@ -3707,7 +3707,7 @@ void func_801848B4(void *arg0) {
     void *temp_a0;
     temp_a0 = ((Unkstruct_801202A0 *)arg0)->unkD4;
     ((void (*)(void *, s32))func_80184DB4)(temp_a0, 1);
-    ((Unkstruct_801202A0 *)arg0)->unk48 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0;
 }
 
 
@@ -3822,7 +3822,7 @@ void func_80184AE8(void *arg0) {
     func_8002A04C((s32)arg0);
     s0 = (s32)arg0;
 
-    if (((Unkstruct_801202A0 *)s0)->extC.kSC03_093_801813E0.unkE4 == 0 && (CAST_SIGN(u16, s0, 0x70) & 0x800) == 0) {
+    if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC03_093_801813E0.unkE4 == 0 && (CAST_SIGN(u16, s0, 0x70) & 0x800) == 0) {
         guess_ZeroMemory(CAST_SIGN(void *, s0, 0xD4), 0x38);
         func_8012C098((void *)s0);
     } else {

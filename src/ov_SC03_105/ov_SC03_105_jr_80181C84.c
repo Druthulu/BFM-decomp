@@ -5079,7 +5079,7 @@ s32 func_80185480(void *a0, void *a1)
     do {
         guess_RotTransSVWithMatrix((s32)&mtx, (s32)&va, (s32)&c);
         guess_RotTransSVWithMatrix((s32)&mtx, (s32)&vb, (s32)&d);
-        if (func_80135888(((Unkstruct_80126B58 *)b58)->unk20, ((Unkstruct_80126B58 *)b58)->unk38,
+        if (func_80135888(((Unkstruct_80126B58 *)b58)->unk20.val, ((Unkstruct_80126B58 *)b58)->unk38,
                           (s32)&c, (s32)&d) == 0) {
             va = vb;
             vb.vx = *(u16 *)(s4p + 0x14) + *((u16 *)&w0 + 1);

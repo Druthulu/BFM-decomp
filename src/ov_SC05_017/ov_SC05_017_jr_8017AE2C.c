@@ -5222,7 +5222,7 @@ void func_8017F848(void *arg0) {
     *(s16 *)((u8 *)ptr + 0xC) = 0x7FFF;
 
     ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8017FA98);
-    ((Unkstruct_801202A0 *)s0)->unkD8 = func_801788B8((s32)s0, (s32)func_8017FB10);
+    ((Unkstruct_801202A0 *)s0)->unkD8.val = func_801788B8((s32)s0, (s32)func_8017FB10);
 
     v0 = ((s32 (*)(void))func_80184B44)();
 

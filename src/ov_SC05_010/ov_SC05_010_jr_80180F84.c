@@ -3102,11 +3102,11 @@ void func_80181670(void *a0)
         sc = D_80192870;
         ot = *(s32 *)((s8 *)&D_800A651C + ((u16)guess_g_DoubleBufferIndex * 0x14)) + ret * 4;
         CAST_SIGN(u16, (s32)a0, 0xDE) += 0x100;
-        e = (rsin(((Unkstruct_801202A0 *)a0)->unkDC.i.hi.s) * 3 / 8) - 0x800;
+        e = (rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3 / 8) - 0x800;
         if (e < 0) {
-            e = 0x800 - (rsin(((Unkstruct_801202A0 *)a0)->unkDC.i.hi.s) * 3 / 8);
+            e = 0x800 - (rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3 / 8);
         } else {
-            e = (rsin(((Unkstruct_801202A0 *)a0)->unkDC.i.hi.s) * 3 / 8) - 0x800;
+            e = (rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3 / 8) - 0x800;
         }
         p = e * sc;
         q = p >> 12;

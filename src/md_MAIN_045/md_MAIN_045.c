@@ -76,7 +76,7 @@ void func_800CCD2C(s32 s1) {
 
     s2 = *(s32 *)(s1 + 0x4C);
     s0 = ((s32 (*)())func_8014659C)();
-    ((Unkstruct_80126B58 *)s1)->unk20 = s0;
+    ((Unkstruct_80126B58 *)s1)->unk20.val = s0;
     if (s0 != 0) {
         func_8001C810(s0, &D_800CE048);
         *(u32 *)(s0 + 4) |= 0x50020000;
@@ -84,7 +84,7 @@ void func_800CCD2C(s32 s1) {
         *(u16 *)(s0 + 0x1A) = 0;
         *(u16 *)(s0 + 0x18) = 0;
         ((void (*)(s32))func_800CCE80)(s1);
-        D_800CE050 = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x12);
+        D_800CE050 = ((Unkstruct_80126B58 *)s2)->unk20.m->unk12.u;
         guess_NextStep((void *)s1);
     } else {
         ((void (*)(s32))guess_FreeObjectAndSubObject_20)(s1);
@@ -348,7 +348,7 @@ void func_800CD390(s32 param_1) {
     u16 temp;
     s2 = *(s32 *)(param_1 + 0x4C);
     s0 = ((s32 (*)(void))func_80146578)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = s0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = s0;
     if (s0 != 0) {
         ((s32 (*)(s32, void *, s32, s32))func_8001CC3C)(s0, ((u8 *)&D_800CD66C), 0x220, 0x168);
         *(u8 *)(s0 + 0x27) = 0x24;
@@ -357,10 +357,10 @@ void func_800CD390(s32 param_1) {
         *(u8 *)(s0 + 0x26) = 0x40;
         *(u32 *)(s0 + 4) |= 0x50000000;
         guess_TransformPosByObjMatrix(s2, param_1 + 4);
-        temp = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x10);
+        temp = ((Unkstruct_80126B58 *)s2)->unk20.m->unk10.u;
         *(s16 *)(s0 + 0x12) = D_800CE050;
         *(u16 *)(s0 + 0x10) = temp;
-        *(u16 *)(s0 + 0x14) = *(u16 *)(((Unkstruct_80126B58 *)s2)->unk20 + 0x14);
+        *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk20.m->unk14.u;
         ((Unkstruct_80126B58 *)param_1)->unk60 = ((Unkstruct_80126B58 *)s2)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)s2)->unk102;
         ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)s2)->unk104;
@@ -390,7 +390,7 @@ extern u16 D_800CD692[];
 void func_800CD4BC(s32 arg0) {
     s32 sp18[8];
     s32 temp_s2 = *(s32 *)(arg0 + 0x4C);
-    s32 temp_s1 = ((Unkstruct_80126B58 *)arg0)->unk20;
+    s32 temp_s1 = ((Unkstruct_80126B58 *)arg0)->unk20.val;
 
     if (guess_TickWaitTimer_2(arg0) != 0) {
         guess_NextStep((void *)arg0);

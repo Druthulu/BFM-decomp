@@ -310,7 +310,7 @@ void *arg0;
         }
     }
     if (found != 0) {
-        func_800D1724(((Unkstruct_801202A0 *)found)->unkDC.val);
+        func_800D1724(((Unkstruct_801202A0 *)found)->blkDC.f.unkDC.val);
     }
     func_80171928(arg0);
 }

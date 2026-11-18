@@ -2374,7 +2374,7 @@ s32 func_8016BBE0(s32 param_1) {
     int temp;
 
     iVar1 = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_80126B58 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_80126B58 *)param_1)->unk20.val = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         guess_UpdateAttachedPos(((int)param_1));
@@ -2827,7 +2827,7 @@ void func_8016C998(s32 param_1)
             return;
         }
         D_80199CB0[i].f0 = 1;
-        *(Blk20_8016DF5C *)(r + 0x38) = *(Blk20_8016DF5C *)(param_1 + 0x38);
+        *(MATRIX *)(r + 0x38) = *(MATRIX *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
         *(s16 *)(r + 6) = ((Unkstruct_8016C998 *)param_1)->unk6;
         *(s16 *)(r + 0xa) = ((Unkstruct_8016C998 *)param_1)->unkA;
@@ -3088,7 +3088,7 @@ void func_8016D1D8(int param_1) {
     unsigned int uVar3;
     short sVar4;
     SVEC_L1 sv;
-    Blk20_8016DF5C mtx;
+    MATRIX mtx;
 
     iVar5 = ((Unkstruct_8016D1D8 *)param_1)->unk34;
     if (((Unkstruct_8016D1D8 *)param_1)->unk2C == 0) {
@@ -3442,20 +3442,20 @@ void func_8016DF5C(s32 param_1)
         ((Unkstruct_8016DF5C *)param_1)->unk2.s = (*(u16 *)((u8 *)((void *)param_1) + 2) + 1);
     } else {
         short asStack_60[20];
-        Blk20_8016DF5C localMatrix;
+        MATRIX localMatrix;
         s32 uVar2;
 
         asStack_60[0] = 0;
         asStack_60[1] = 0;
         asStack_60[2] = 0x20;
-        localMatrix = (*(Blk20_8016DF5C*)&D_800AE620);
+        localMatrix = (*(MATRIX*)&D_800AE620);
         uVar2 = ((s32(*)())rand)();
         RotMatrixY((uVar2 & 0x7f00) >> 3, &localMatrix);
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
         *(s16 *)((u8 *)((void *)param_1) + 6) = guess_g_PlayerPosX + asStack_60[0];
         ((Unkstruct_8016DF5C *)param_1)->unkA = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
         ((Unkstruct_8016DF5C *)param_1)->unkE = guess_g_PlayerPosZ + asStack_60[2];
-        *(Blk20_8016DF5C *)((u8 *)((void *)param_1) + 0x38) = *(Blk20_8016DF5C *)((u8 *)iVar8 + 0x38);
+        *(MATRIX *)((u8 *)((void *)param_1) + 0x38) = *(MATRIX *)((u8 *)iVar8 + 0x38);
         ((Unkstruct_8016DF5C *)param_1)->unk2C = 0x1000;
         ((Unkstruct_8016DF5C *)param_1)->unk30 = 0xff;
         *(s32 *)((u8 *)((void *)param_1) + 0x1c) = 0x10;

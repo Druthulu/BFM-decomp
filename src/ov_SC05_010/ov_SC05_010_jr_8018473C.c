@@ -3137,7 +3137,7 @@ void func_80184E4C(s32 a0) {
     CAST_WIDTH(s32, ent, 0x18) = m;
 
     /* vel Y = (-12 - rand() % 9) << 16   (0x38E38E39 magic /9) */
-    ((Unkstruct_8011DB30 *)ent)->unk14 = -0xC0000 - ((rand() % 9) << 16);
+    ((Unkstruct_8011DB30 *)ent)->unk14.val = -0xC0000 - ((rand() % 9) << 16);
     CAST_WIDTH(s32, ent, 0x2C) = a0;                     /* owner backref */
 }
 
@@ -3214,7 +3214,7 @@ void func_8018505C(void *a0) {
         *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += ((Unkstruct_8011DB30 *)a0)->unk34.i.lo;
 
         if (d.vx + d.vz > 0x9000) {
-            ((Unkstruct_8011DB30 *)a0)->unk14 = 0x18000;
+            ((Unkstruct_8011DB30 *)a0)->unk14.val = 0x18000;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
             ((Unkstruct_8011DB30 *)a0)->unk34.i.hi += 1;
@@ -3229,7 +3229,7 @@ void func_8018505C(void *a0) {
              * seats it in $a0 instead of $v0 (§186c). */
             s32 t = rand();
             ((Unkstruct_8011DB30 *)a0)->unk34.i.hi = 0;
-            ((Unkstruct_8011DB30 *)a0)->unk14 = -0x100000 - ((t % 9) << 16);
+            ((Unkstruct_8011DB30 *)a0)->unk14.val = -0x100000 - ((t % 9) << 16);
         }
     }
 
@@ -4398,9 +4398,9 @@ void func_80186E1C(void *param_1)
     v0 = CAST_SIGN(s16, (s32)param_1, 0x2C);
     v1 = v0;
     if (v0 < 0x700) {
-        ((Unkstruct_8011DB30 *)param_1)->unk2C = v1 + 0x30;
+        ((Unkstruct_8011DB30 *)param_1)->unk2C.i.lo.u = v1 + 0x30;
         func_80184100((u8 *)&D_801C7E80, -4);
-        guess_BuildCircle12Points((void *)((s32)&D_801C7E80 - 4), ((Unkstruct_8011DB30 *)param_1)->unk2C);
+        guess_BuildCircle12Points((void *)((s32)&D_801C7E80 - 4), ((Unkstruct_8011DB30 *)param_1)->unk2C.i.lo.u);
     } else {
         func_801292C8((u8 *)param_1);
     }
@@ -5117,13 +5117,13 @@ void func_80187FCC(s32 arg0)
 
     func_80149020((s32 *)arg0);
 
-    v1 = ((Unkstruct_80126B58 *)s0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     *(u16 *)(v1 + 0x12) = (*(u16 *)(v1 + 0x12) + 0x5B) & 0xFFF;
 
-    v1 = ((Unkstruct_80126B58 *)s0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     *(u16 *)(v1 + 0x10) = (*(u16 *)(v1 + 0x10) - 0x16) & 0xFFF;
 
-    v1 = ((Unkstruct_80126B58 *)s0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     if (*(s16 *)(v1 + 0x10) < 0xC00) {
         v0 = -0x400;
         *(u16 *)(v1 + 0x10) = v0;
@@ -5243,7 +5243,7 @@ void func_80188234(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0x12);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     func_801511E0(arg0);
-    if ((s16)func_80012A60((s32)*(s16 *)(((Unkstruct_80126B58 *)arg0)->unk20 + 0x12),
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {
@@ -5358,7 +5358,7 @@ void func_8018852C(s32 a0)
     func_80149020((s32 *)s1);
     guess_PlaySoundUnlessSkipped(0x451);
     func_801511E0(s1);
-    if ((s16)func_80012A60(*(s16 *)(((Unkstruct_80126B58 *)s1)->unk20 + 0x12), ((Unkstruct_80126B58 *)s1)->unkF4) >= 0x401) {
+    if ((s16)func_80012A60(((Unkstruct_80126B58 *)s1)->unk20.m->unk12.s, ((Unkstruct_80126B58 *)s1)->unkF4) >= 0x401) {
         guess_SetAnimScript((s32 *)s1, (s32)&D_800D5880);
     } else {
         guess_SetAnimScript((s32 *)s1, (s32)&D_800D58AC);

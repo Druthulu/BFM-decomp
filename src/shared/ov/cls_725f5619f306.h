@@ -7,6 +7,6 @@ void *a0;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
     ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
-    ((Unkstruct_801202A0 *)a0)->extC.kcls_725f5619f306.unkE4 = 0;
-    ((Unkstruct_801202A0 *)a0)->extC.kcls_725f5619f306.unkE8 = 0x40;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_725f5619f306.unkE4 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_725f5619f306.unkE8 = 0x40;
 }

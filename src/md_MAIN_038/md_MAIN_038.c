@@ -70,7 +70,7 @@ extern u8 D_800CBB84[];
 extern u8 D_800CBB64[];
 
 void func_800CAFAC(void *a0) {
-    s32 temp = ((Unkstruct_80126B58 *)a0)->unk20;
+    s32 temp = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
     if (KR_AS(s32, func_80161208)() == 0) {
         switch (((Unkstruct_80126B58 *)a0)->unkA9) {
@@ -155,14 +155,14 @@ void func_800CB270(s32 a0) {
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObjectKind3(iVar2, (s32)&D_800CBBBC);
         *(s32 *)(iVar2 + 4) |= 0x58000000;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         ((Unkstruct_80126B58 *)a0)->unk60 = ((Unkstruct_80126B58 *)iVar1)->unk100;
         ((Unkstruct_80126B58 *)a0)->unk62 = ((Unkstruct_80126B58 *)iVar1)->unk104;
-        uVar1 = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x12);
+        uVar1 = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk12.u;
         ((Unkstruct_80126B58 *)a0)->unk64.u = (uVar1 + ((Unkstruct_80126B58 *)a0)->unk50 * 0xAA - 0xAA) & 0xFFF;
         func_80146DE8((s32 *)a0, 0, 0, 0xFFC00000);
         guess_SetWaitTimer_2((s32 *)a0, 0x10);

@@ -3708,7 +3708,7 @@ void func_8018219C(s32 arg0)
                 d3 = -(d2 << 7);
             }
             ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = d3 + 0x1000;
-            ((Unkstruct_8011DB30 *)obj)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)obj)->unk14.val = 0xFFFE0000;
             CAST_WIDTH(s32, obj, 0x10) = 0xFFFD0000;
         }
         i += 0x18;

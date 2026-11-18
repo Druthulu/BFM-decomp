@@ -3365,7 +3365,7 @@ void func_8017D6D0(void *a0) {
 
 
 s32 func_8017D70C(void *a0, s32 *p) {
-    s32 cur = ((Unkstruct_801202A0 *)a0)->unkDC.val;
+    s32 cur = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
 
     if (p[0] != cur) {
         p += 2;
@@ -3413,11 +3413,11 @@ void func_8017D754(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk2.s = v0;
 
     if (s1 >= 0x384) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_8017D70C(a0, D_80181DF0);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_8017D70C(a0, D_80181DF0);
     } else if (s1 >= 0x258) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_8017D70C(a0, D_80181DE0);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_8017D70C(a0, D_80181DE0);
     } else if (s1 >= 0xC8) {
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = func_8017D70C(a0, D_80181DD0);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = func_8017D70C(a0, D_80181DD0);
     }
 }
 

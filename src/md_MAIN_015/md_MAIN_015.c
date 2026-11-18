@@ -75,7 +75,7 @@ void func_800CAF9C(s32 a0) {
     u8 v1;
     s16 value;
 
-    p = ((Unkstruct_80126B58 *)a0)->unk20;
+    p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
     if (KR_AS(s32, func_80161208)() != 0) {
         return;
@@ -160,14 +160,14 @@ void func_800CB21C(s32 a0) {
 
     iVar1 = *(s32 *)(a0 + 0x4C);
     iVar2 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_80126B58 *)a0)->unk20 = iVar2;
+    ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         func_8001C2C4(iVar2);
         *(u32 *)(iVar2 + 4) |= 0x80000000;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         *(u16 *)(iVar2 + 0x10) = ((Unkstruct_80126B58 *)iVar1)->unk100;
         *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk104;
-        *(u16 *)(iVar2 + 0x12) = *(u16 *)(((Unkstruct_80126B58 *)iVar1)->unk20 + 0x12);
+        *(u16 *)(iVar2 + 0x12) = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk12.u;
         func_80146DE8((s32 *)a0, 0, 0, (s32)0xFFC00000);
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
         guess_NextStep((void *)a0);

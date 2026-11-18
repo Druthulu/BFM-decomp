@@ -156,7 +156,7 @@ void func_800CB138(s32 arg0) {
     s16   mtx[16];
     u16   vec[4];
     s16   sv2[4];
-    Blk20 blk;
+    Blk20_8016DF5C blk;
 
     s32 ent;
     u8 *p;
@@ -179,7 +179,7 @@ void func_800CB138(s32 arg0) {
             *(s16 *)(arg0 + 0x10) = rand() & 0xFFF;
             m = *(s32 *)(arg0 + 0x34);
             __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-            { register Blk20 *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+            { register Blk20_8016DF5C *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
               t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
               blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
@@ -201,7 +201,7 @@ void func_800CB138(s32 arg0) {
             __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
             *(s16 *)(arg0 + 0xE) = vec[2];
             __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-            { register Blk20 *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+            { register Blk20_8016DF5C *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               s32 t0, t1; register s32 t2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
               __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
               t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
@@ -313,7 +313,7 @@ void func_800CB56C(s32 arg0) {
     extern s32 guess_FreeSmallObject(u8 *a0);
 
     u16   vec[8];
-    Blk20 blk;
+    Blk20_8016DF5C blk;
 
     s32 ent;
     s32 obj;
@@ -324,7 +324,7 @@ void func_800CB56C(s32 arg0) {
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     ent = ((Unkstruct_800CB56C *)arg0)->unk34;
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-    { register Blk20 *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+    { register Blk20_8016DF5C *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
       t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];
       blk.w[0] = t0; blk.w[1] = t1; blk.w[2] = t2;
@@ -346,7 +346,7 @@ void func_800CB56C(s32 arg0) {
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     ((Unkstruct_800CB56C *)arg0)->unkE = vec[2];
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-    { register Blk20 *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
+    { register Blk20_8016DF5C *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       s32 t0, t1; register s32 t2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
       t0 = s->w[0]; t1 = s->w[1]; t2 = s->w[2];

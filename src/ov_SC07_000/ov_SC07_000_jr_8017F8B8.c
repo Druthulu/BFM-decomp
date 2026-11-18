@@ -2988,7 +2988,7 @@ void func_8017FE5C(void *a0) {
 
     obj = func_80132EF4((void *)s0, 0x77);
     if (obj != 0) {
-        ((Unkstruct_8011DB30 *)obj)->unk2C = 1;
+        ((Unkstruct_8011DB30 *)obj)->unk2C.i.lo.u = 1;
         CAST_WIDTH(s32, obj, 0x34) = s0;
     }
 }
@@ -3005,7 +3005,7 @@ void func_8017FE9C(void *a0) {
     sp.z = *(u16 *)((u8 *)a0 + 0xE);
     rec = func_801290DC(0x77, &sp);
     if (rec != NULL) {
-        ((Unkstruct_8011DB30 *)rec)->unk2C = 2;
+        ((Unkstruct_8011DB30 *)rec)->unk2C.i.lo.u = 2;
     }
 }
 

@@ -2349,7 +2349,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 guess_Vec3sDotAdd(Vec3s *a0, Vec3s *a1, s32 a2);
     extern s32 guess_PlaneDistBelowLimit(s16 *a0, s16 *a1, s32 a2, s16 *a3);
 
-    s16 *s3 = ((ElemK *)base)[cmd[1]].e;
+    s16 *s3 = &((ElemK *)base)[cmd[1]].vx;
     s32 s6 = arr[cmd[2]];
     s32 s0var, s1var;
     s32 s2a;
@@ -2371,15 +2371,15 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         pb4[0] = pac[0] + neg * pb8[0] / s0var;
         pb4[1] = pac[1] + neg * pb8[1] / s0var;
         pb4[2] = pac[2] + neg * pb8[2] / s0var;
-        if (guess_PlaneDistBelowLimit(((ElemK *)base)[cmd[3]].e, pb4, arr[cmd[4]], s3))
+        if (guess_PlaneDistBelowLimit(&((ElemK *)base)[cmd[3]].vx, pb4, arr[cmd[4]], s3))
             return 0;
     }
-    if (guess_PlaneDistBelowLimit(((ElemK *)base)[cmd[5]].e, D_80185CC0, arr[cmd[6]], s3))
+    if (guess_PlaneDistBelowLimit(&((ElemK *)base)[cmd[5]].vx, D_80185CC0, arr[cmd[6]], s3))
         return 0;
-    if (guess_PlaneDistBelowLimit(((ElemK *)base)[cmd[7]].e, D_80185CC0, arr[cmd[8]], s3))
+    if (guess_PlaneDistBelowLimit(&((ElemK *)base)[cmd[7]].vx, D_80185CC0, arr[cmd[8]], s3))
         return 0;
     if (arg0 < 0) {
-        if (guess_PlaneDistBelowLimit(((ElemK *)base)[cmd[9]].e, D_80185CC0, arr[cmd[10]], s3))
+        if (guess_PlaneDistBelowLimit(&((ElemK *)base)[cmd[9]].vx, D_80185CC0, arr[cmd[10]], s3))
             return 0;
     }
     if (arg0 & 0x10) {

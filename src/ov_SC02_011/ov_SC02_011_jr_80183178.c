@@ -156,7 +156,7 @@ void func_801834EC(void *a0) {
     guess_SetLocalVelocity(s0, (s32)D_80195114);
     guess_StartActorSequence(s0, (void *)D_801F404C);
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xA;
-    ((Unkstruct_801202A0 *)s0)->unkDC.val &= ~1;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val &= ~1;
     func_80182380();
 }
 
@@ -294,7 +294,7 @@ void func_80183630(s32 a0) {
         if (((s32 (*)(s32, s32))func_8012CC1C)(a0, (s32)&D_80195144) & 0x8000) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
             func_8018452C(a0);
-            ((Unkstruct_801202A0 *)a0)->unkDC.val &= ~0x10;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val &= ~0x10;
         }
         return;
     case 8:
@@ -317,7 +317,7 @@ void func_80183630(s32 a0) {
         func_8012B260((u8 *)a0);
         ((Unkstruct_801202A0 *)a0)->unk34.u = 0xB;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
-        ((Unkstruct_801202A0 *)a0)->unkDC.val = (((Unkstruct_801202A0 *)a0)->unkDC.val & ~0x20) | 0x48;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val & ~0x20) | 0x48;
         return;
     }
 }
@@ -372,7 +372,7 @@ s32 func_80183994(s32 a0, s32 a1) {
                 if (func_80183C2C(a0, p, 4) != 1) {
                     return t;
                 }
-                ((Unkstruct_801202A0 *)a0)->unkDC.val |= 0x10;
+                ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val |= 0x10;
                 return 1;
             }
         }
@@ -383,10 +383,10 @@ s32 func_80183994(s32 a0, s32 a1) {
     if (((Unkstruct_801202A0 *)a0)->unk98.s == 0) {
         guess_StartActorSequence(a0, D_801F3EFC);
     }
-    t = ((Unkstruct_801202A0 *)a0)->extC.kSC02_011_80182D60.unkE8 - 1;
-    ((Unkstruct_801202A0 *)a0)->extC.kSC02_011_80182D60.unkE8 = t;
+    t = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_80182D60.unkE8 - 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_80182D60.unkE8 = t;
     if (t <= 0) {
-        ((Unkstruct_801202A0 *)a0)->extC.kSC02_011_80182D60.unkE8 = 0x2D;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_80182D60.unkE8 = 0x2D;
         if (rand() % 3 != 0) {
             goto ret0;
         }
@@ -964,8 +964,8 @@ extern void func_800D0C48(s32 a0);
 void func_80184918(s32 arg0, s32 arg1) {
     func_800D0C48(1);
     ((Unkstruct_801202A0 *)arg0)->extD.kSC02_011_80182D60.unk104 = 1;
-    ((Unkstruct_801202A0 *)arg0)->extC.kSC02_011_80182D60.unkE4 = 0x1E;
-    ((Unkstruct_801202A0 *)arg0)->extC.kSC02_011_80182D60.unkE0 = arg1;
+    ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_011_80182D60.unkE4 = 0x1E;
+    ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_011_80182D60.unkE0 = arg1;
 }
 
 
@@ -1368,7 +1368,7 @@ void func_8018515C(void *param_1)
         }
     }
 
-    ((Unkstruct_801202A0 *)param_1)->unkDC.val = 1;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 1;
     guess_StartActorSequence((s32)param_1, D_801958A8);
     ((Unkstruct_801202A0 *)param_1)->unk75 = 0;
 
@@ -1385,13 +1385,13 @@ void func_80185268(short *a0)
     ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
 
     if ((((Unkstruct_801202A0 *)a0)->unk70.u & 0x800) != 0) {
-        if (((Unkstruct_801202A0 *)a0)->unkDC.val != 0) {
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val != 0) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x96;
         } else {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x4B;
         }
     } else {
-        if (((Unkstruct_801202A0 *)a0)->unkDC.val != 0) {
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val != 0) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x4B;
         } else {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xB4;
@@ -1433,13 +1433,13 @@ void func_801852B0(s32 a0)
     p = (u8 *)s0;
 
     if (((Unkstruct_801202A0 *)s0)->unkFC.s != 0) {
-        v = ((Unkstruct_801202A0 *)s0)->unkDC.val;
+        v = ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val;
         if (v == 0) {
             ((Unkstruct_801202A0 *)s0)->unk2.s = 5;
             return;
         }
     } else {
-        v = ((Unkstruct_801202A0 *)s0)->unkDC.val;
+        v = ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val;
     }
 
     /* cookbook-index L22 / §5a + the §34 zero-byte fence toolkit: reorg's eager
@@ -1449,7 +1449,7 @@ void func_801852B0(s32 a0)
      * unfilled `nop` (idx 18) survives. Emits nothing. */
     __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:dbr-delay-fill
     v ^= 1;
-    ((Unkstruct_801202A0 *)s0)->unkDC.val = v;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val = v;
     func_8012B200(p);
     ((Unkstruct_801202A0 *)s0)->unk5C.u |= 0x400;
 
@@ -1460,7 +1460,7 @@ void func_801852B0(s32 a0)
      * pins place the copies, and the zero-byte re-tie on the $a1 pin (ADD-8 ->
      * §245 addendum, "the re-tie barrier pins call-arg setup to source order")
      * stops the constant from being rematerialised down at the call. */
-    if (((Unkstruct_801202A0 *)s0)->unkDC.val == 0) {
+    if (((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val == 0) {
         register s32 q __asm__("$4") = s0;  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-copy-merge
         s32 r = 0xFFF80000;
         __asm__ __volatile__("" : "=r"(r) : "0"(r));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:dbr-delay-fill
@@ -2089,7 +2089,7 @@ void func_80185FA0(s32 param_1)
                 sVar1 = (s16)(-((iVar4 >> 16) << 7));
             }
             ((Unkstruct_8011DB30 *)q)->unk34.i.lo = sVar1 + 0x1000;
-            ((Unkstruct_8011DB30 *)q)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)q)->unk14.val = 0xFFFE0000;
             CAST_WIDTH(s32, q, 0x18) = 0xFFFD0000;
         }
         iVar5 += 0x18;
@@ -2353,7 +2353,7 @@ end:
 
 
 void func_80186548(s32 *a0) {
-        ((Unkstruct_801202A0 *)a0)->unk48 = 0x1400;
+        ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0x1400;
         ((Unkstruct_801202A0 *)a0)->unk14.val = 0;
     }
 
@@ -3432,7 +3432,7 @@ void func_80187E08(s32 param_1)
                             rec = (s32 *)((s8 *)rec + 8);
                             first = ((Unkstruct_80187E08_2 *)rec)->unk6;
                         }
-                        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unkDC.val;
+                        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
                         v = *(volatile s32 *)((s8 *)param_1 + 0x1C);
                     }
                     ((Unkstruct_801202A0 *)param_1)->unk1C.s = v - 1;

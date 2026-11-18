@@ -2841,7 +2841,7 @@ void func_8019059C(s32 _arg0) {
         if (r == 0) {
             return;
         }
-        ((Unkstruct_801202A0 *)arg0)->unkD8 = r;
+        ((Unkstruct_801202A0 *)arg0)->unkD8.val = r;
         ((Unkstruct_801202A0 *)arg0)->unk34.u = 1;
         ((Unkstruct_801202A0 *)arg0)->unk1C.s = ((Unkstruct_801202A0 *)arg0)->unk1C.s + 1;
         /* fallthrough */
