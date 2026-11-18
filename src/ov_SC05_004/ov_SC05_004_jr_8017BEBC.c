@@ -3689,7 +3689,7 @@ void func_8017DB00(s32 a0) {
     s16 arg;
     s32 d;
 
-    *(s16 *)(in + 0) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk10.i.hi;
+    *(s16 *)(in + 0) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u;
     *(s16 *)(in + 2) = CAST_ALIAS(u16, a0, 0xA) + 8;
     *(s16 *)(in + 4) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + CAST_ALIAS(u16, a0, 0x1A);
     *(s16 *)(out + 0) = CAST_ALIAS(u16, a0, 0x6);
@@ -3712,7 +3712,7 @@ void func_8017DB00(s32 a0) {
         *(s16 *)(in + 4) = CAST_ALIAS(u16, a0, 0xE);
         m = D_800AE620;
         RotMatrixY(arg, &m);
-        *(s16 *)(out + 0) = ((Unkstruct_801202A0 *)a0)->unk10.i.hi;
+        *(s16 *)(out + 0) = ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u;
         *(s16 *)(out + 2) = *(u16 *)(a0 + 0x16);
         *(s16 *)(out + 4) = CAST_ALIAS(u16, a0, 0x1A);
         ApplyMatrixSV(&m, &out[0], &out[0]);

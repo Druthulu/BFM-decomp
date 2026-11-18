@@ -7017,15 +7017,15 @@ void func_80181FAC(s32 arg0) {
         }
         if (((Unkstruct_801202A0 *)arg0)->unkDC.val == 0) {
             if (dist < 700) {
-                func_8002D59C(id, (u16)(vol | 0x5000), ((Unkstruct_801202A0 *)arg0)->unk36);
+                func_8002D59C(id, (u16)(vol | 0x5000), ((Unkstruct_801202A0 *)arg0)->unk36.u);
                 ((Unkstruct_801202A0 *)arg0)->unkDC.val = 1;
             }
         } else {
             if (dist < 700) {
-                func_8002D59C(id, (u16)(vol | 0x5000), ((Unkstruct_801202A0 *)arg0)->unk36);
+                func_8002D59C(id, (u16)(vol | 0x5000), ((Unkstruct_801202A0 *)arg0)->unk36.u);
                 ((Unkstruct_801202A0 *)arg0)->unkDC.val = 1;
             } else {
-                func_8002D59C(4, id, ((Unkstruct_801202A0 *)arg0)->unk36);
+                func_8002D59C(4, id, ((Unkstruct_801202A0 *)arg0)->unk36.u);
                 ((Unkstruct_801202A0 *)arg0)->unkDC.val = 0;
             }
         }
@@ -7316,7 +7316,7 @@ void func_801826E8(s32 arg0)
             if (((Unkstruct_801202A0 *)arg0)->unk70.s == 2) {
                 id = 0x4A5;
             }
-            func_8002D59C(4, id, ((Unkstruct_801202A0 *)arg0)->unk36);
+            func_8002D59C(4, id, ((Unkstruct_801202A0 *)arg0)->unk36.u);
         }
         guess_FreeActor((void *)arg0);
     }

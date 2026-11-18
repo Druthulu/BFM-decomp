@@ -4226,7 +4226,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = (s32)(D_801B9898 + ((Unkstruct_801202A0 *)e)->unkFC.s * 8);
         o = guess_SpawnActor(0x1EA, 1, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
         }
         return;
 
@@ -4250,7 +4250,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;
         o = guess_SpawnActor(0x1EA, 2, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
         }
         return;
 
@@ -4298,7 +4298,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = (s32)(D_801B9898 + sv * 8);
         o = guess_SpawnActor(0x1EA, 8, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
         }
         return;
 
@@ -4322,7 +4322,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;
         o = guess_SpawnActor(0x1EA, 9, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
         }
         ((Unkstruct_801202A0 *)e)->extD.kSC03_107_80180428.unk106 = (rand() & 0x1F) + 0x20;
         ((Unkstruct_801202A0 *)e)->extD.kSC03_107_80180428.unk100 = (rand() & 0x1F) + 0x20;
@@ -4397,7 +4397,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = (s32)(D_801B9898 + ((Unkstruct_801202A0 *)e)->unkFC.s * 8);
         o = guess_SpawnActor(0x1EA, 0x11, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
             ((Unkstruct_801202A0 *)e)->unk6C = o;
         }
         ((Unkstruct_801202A0 *)e)->unkFC.s = 0xA;
@@ -4429,7 +4429,7 @@ void func_80181CE4(void *a0v)
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;
         o = guess_SpawnActor(0x1EA, 0x12, e);
         if (o != 0) {
-            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36;
+            ((Unkstruct_801202A0 *)o)->unkFE.s = ((Unkstruct_801202A0 *)e)->unk36.u;
             ((Unkstruct_801202A0 *)e)->unk6C = o;
         }
         ((Unkstruct_801202A0 *)e)->extD.kSC03_107_80180428.unk106 = (rand() & 0x1F) + 0x20;

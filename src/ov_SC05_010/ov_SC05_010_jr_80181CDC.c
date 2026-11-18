@@ -3177,7 +3177,7 @@ void func_80182CA0(s32 p)
         guess_InitModelObjectKind3(((Unkstruct_80126B58 *)p)->unk20, D_80192A30);
         guess_StartActorSequence(p, D_80192A9C);
         ((Unkstruct_80126B58 *)p)->unk6.s = 0x25B;
-        ((Unkstruct_801202A0 *)p)->unk10.i.hi = 0x5B;
+        ((Unkstruct_801202A0 *)p)->unk10.i.hi.u = 0x5B;
         *(s16 *)(p + 0x16) = -0x70;
         ((Unkstruct_80126B58 *)p)->unkA.s = -0x70;
         ((Unkstruct_80126B58 *)p)->unk2 = 1;

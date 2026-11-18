@@ -3649,7 +3649,7 @@ void func_80186EC8(s32 param_1)
             if (param_1 != 0) {
                 *(s16 *)(param_1 + 0x16) = -4;
                 v0 = rand();
-                ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = (v0 & 7) - 4;
+                ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
                 ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (v0 & 7) - 4;
                 v0 = rand();

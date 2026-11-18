@@ -4126,7 +4126,7 @@ void func_8017F274(s32 a0) {
             tmp[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
             tmp[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
             tmp[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
-            func_8002D59C(0x7E5, 0, ((Unkstruct_801202A0 *)a0)->unk36);
+            func_8002D59C(0x7E5, 0, ((Unkstruct_801202A0 *)a0)->unk36.u);
         }
         func_801800D4(a0, 0);
         break;
@@ -4140,7 +4140,7 @@ void func_8017F274(s32 a0) {
         func_801800D4(a0, 2);
         if (s1 != 0) {
             func_8017F4D4((void *)a0);
-            func_8002D59C(4, 0x7E5, ((Unkstruct_801202A0 *)a0)->unk36);
+            func_8002D59C(4, 0x7E5, ((Unkstruct_801202A0 *)a0)->unk36.u);
         }
         break;
     }

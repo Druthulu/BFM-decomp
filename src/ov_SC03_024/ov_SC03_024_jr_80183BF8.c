@@ -3064,7 +3064,7 @@ void func_80184040(s32 arg0) {
         s16 spin;
 
         spin = (rand() & 0x1F) - 0x10;
-        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi = spin;
+        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = spin;
 
         ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
@@ -3082,7 +3082,7 @@ void func_80184040(s32 arg0) {
         obj = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unk20;
         t = -rsin(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
-        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi = t;
+        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = t;
 
         ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
@@ -4156,7 +4156,7 @@ void func_80185730(void *a0)
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += sv.z;
     guess_ClearVelocityAndSetGravity((s32)a0);
 
-    ((Unkstruct_801202A0 *)a0)->unk10.i.hi = (s16)sv.x >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
     ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
 

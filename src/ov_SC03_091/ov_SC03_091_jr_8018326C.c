@@ -3222,7 +3222,7 @@ void func_801843BC(s32 a0) {
         guess_StartActorSequence(a0, (s32)D_8018CC5C);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_801A3FB0[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A3FB0[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_801A3FB2[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A3FB4[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_801A3FB6[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];

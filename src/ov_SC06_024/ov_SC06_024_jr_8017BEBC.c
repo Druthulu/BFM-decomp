@@ -4962,7 +4962,7 @@ void func_80180AA8(void *a0) {
         for (i = 0; i < 0x60; i++) {
             if (((Unkstruct_801202A0 *)p)->unk0 == 0x390) {
                 *(void **)((s32)a0 + 0x6C) = p;
-                t = ((Unkstruct_801202A0 *)p)->unk36;
+                t = ((Unkstruct_801202A0 *)p)->unk36.u;
                 *(u16 *)((s32)a0 + 0x34) = 1;
                 *(u16 *)((s32)a0 + 0xFE) = t;
             }

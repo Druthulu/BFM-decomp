@@ -3393,7 +3393,7 @@ void func_8017F578(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = (rand() & 0xFF) - 0x80;
     ((Unkstruct_801202A0 *)param_1)->unkFE.s = (rand() & 0xFF) - 0x80;
     ((Unkstruct_801202A0 *)param_1)->extD.kcls_719635c74644.unk100 = (rand() & 0xFF) - 0x80;
-    ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = (rand() & 0xF) - 0x8;
+    ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (rand() & 0xF) - 0x8;
     *(s16 *)(param_1 + 0x16) = -(rand() & 0x1F);
     ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (rand() & 0xF) - 0x8;
 
@@ -3817,7 +3817,7 @@ void func_8017FF8C(s32 param_1)
         CAST_ALIAS(s16, param_1, 0x12) = -4;
     } else {
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0xC00;
-        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = 4;
     }
 }
 
@@ -4498,7 +4498,7 @@ void func_80181218(s32 arg0) {
         s16 spin;
 
         spin = (rand() & 0x1F) - 0x10;
-        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi = spin;
+        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = spin;
 
         ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
@@ -4516,7 +4516,7 @@ void func_80181218(s32 arg0) {
         obj = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unk20;
         t = -rsin(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
-        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi = t;
+        ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = t;
 
         ((Unkstruct_801202A0 *)arg0)->unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 

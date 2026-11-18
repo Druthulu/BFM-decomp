@@ -7947,7 +7947,7 @@ void func_8018B02C(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
@@ -8095,7 +8095,7 @@ void func_8018B370(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
@@ -8250,7 +8250,7 @@ void func_8018B660(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }

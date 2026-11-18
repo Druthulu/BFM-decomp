@@ -4558,7 +4558,7 @@ void func_8018ABC4(void *a0)
     t = rand();
     ((Unkstruct_801202A0 *)s0)->extD.kSC03_028_80186754.unk100 = (t & 0xFF) - 0x80;
     t = rand();
-    ((Unkstruct_801202A0 *)s0)->unk10.i.hi = (t & 0xF) - 8;
+    ((Unkstruct_801202A0 *)s0)->unk10.i.hi.u = (t & 0xF) - 8;
     t = rand();
     ((Unkstruct_801202A0 *)s0)->unk18.i.hi = (t & 0xF) - 8;
 

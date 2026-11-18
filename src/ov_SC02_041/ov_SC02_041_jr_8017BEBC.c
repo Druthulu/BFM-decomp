@@ -5594,7 +5594,7 @@ void func_80180ED4(void *arg0)
         if (new != 0) {
             *(s16 *)(new + 0x16) = -8;
             ((Unkstruct_801202A0 *)new)->unk8.i.hi.u = ((Unkstruct_801202A0 *)new)->unk8.i.hi.u - 0x20;
-            ((Unkstruct_801202A0 *)new)->unk10.i.hi = (rand() & 7) - 4;
+            ((Unkstruct_801202A0 *)new)->unk10.i.hi.u = (rand() & 7) - 4;
             ((Unkstruct_801202A0 *)new)->unk18.i.hi = (rand() & 7) - 4;
         }
     }

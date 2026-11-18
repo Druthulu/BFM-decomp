@@ -4445,7 +4445,8 @@ def _fold_src_scan(rel, cache, names, tag, want):
             p = back(m.start())
             wrapped = p >= 0 and msk[p] == "(" and _match_close(msk, p) == ws(o_end)
             e_lo, e_hi = (p, ws(o_end) + 1) if wrapped else (m.start(), o_end)
-            if wrapped and msk[ws(e_hi):ws(e_hi) + 2] == "->":
+            member = wrapped and msk[ws(e_hi):ws(e_hi) + 2] == "->"   # T17.c22: `--((V *)x)->f`, `k * ((V *)x)->f` act on f, not the cast
+            if member:
                 mf = re.match(r"\s*([A-Za-z_]\w*)", msk[ws(e_hi) + 2:])
                 if mf:
                     fs = ws(e_hi) + 2 + mf.start(1)
@@ -4453,7 +4454,7 @@ def _fold_src_scan(rel, cache, names, tag, want):
             elif FOLD_UNSAFE_NEXT.match(msk, e_hi):
                 unsafe.setdefault(k, f"{cite}: the cast result is indexed or in arithmetic")
             pb = back(e_lo)
-            if pb >= 0 and (msk[pb] in "*" and not re.search(r"&\s*\(\s*\*\s*$", msk[max(0, pb - 8):pb + 1])
+            if pb >= 0 and not member and (msk[pb] in "*" and not re.search(r"&\s*\(\s*\*\s*$", msk[max(0, pb - 8):pb + 1])
                             or re.search(r"(?:sizeof|\+\+|--)\s*$", msk[max(0, pb - 8):pb + 1])):
                 unsafe.setdefault(k, f"{cite}: the cast is dereferenced / sized")
             e["ren"].append((m.start(1), m.end(1)))

@@ -3660,7 +3660,7 @@ void func_80186BAC(s32 param_1)
         guess_StartActorSequence(param_1, D_801AE99C);
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 0x1B;
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
-        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = -CAST_SIGN(s16, param_1, 6) >> 6;
+        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = -CAST_SIGN(s16, param_1, 6) >> 6;
         *(s16 *)(param_1 + 0x16) = -0x10;
         ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (0x3C0 - CAST_SIGN(s16, param_1, 0xE)) >> 6;
         ((Unkstruct_801202A0 *)param_1)->unkFC.s = (-CAST_SIGN(s16, param_1, 0xA) - 0x40) / 5;
@@ -4871,7 +4871,7 @@ void func_80188600(s32 param_1)
         guess_InitModelObjectKind3(v0, (s32)&D_80190414);
         guess_StartActorSequence(param_1, &D_80190420);
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 5;
-        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = 4;
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1e;
         func_80143970(param_1);
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk18 = 0x2000;

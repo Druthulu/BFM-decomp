@@ -3298,14 +3298,14 @@ void func_80192768(s32 arg0) {
             }
             p = guess_SpawnActor(0x33, 2, arg0);
             if (p != 0) {
-                ((Unkstruct_801202A0 *)p)->unk10.i.hi = 3;
+                ((Unkstruct_801202A0 *)p)->unk10.i.hi.u = 3;
                 *(s16 *)(p + 0x16) = -0x10;
                 CAST_ALIAS(s16, p, 0x1A) = -4;
                 ((Unkstruct_801202A0 *)p)->unk4.i.hi.u = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u - 0x140;
             }
             p = guess_SpawnActor(0x32, 2, arg0);
             if (p != 0) {
-                ((Unkstruct_801202A0 *)p)->unk10.i.hi = 0;
+                ((Unkstruct_801202A0 *)p)->unk10.i.hi.u = 0;
                 *(s16 *)(p + 0x16) = -0x10;
                 CAST_ALIAS(s16, p, 0x1A) = -4;
                 ((Unkstruct_801202A0 *)p)->unk4.i.hi.u = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u - 0x140;
@@ -3478,14 +3478,14 @@ void func_80192B60(void *arg) {
             }
             e = guess_SpawnActor(0x33, 2, (s32)p);
             if (e != 0) {
-                ((Unkstruct_801202A0 *)e)->unk10.i.hi = 3;
+                ((Unkstruct_801202A0 *)e)->unk10.i.hi.u = 3;
                 *(s16 *)(e + 0x16) = -0x10;
                 CAST_ALIAS(s16, e, 0x1A) = -4;
                 ((Unkstruct_801202A0 *)e)->unk4.i.hi.u = ((Unkstruct_801202A0 *)e)->unk4.i.hi.u + 0x140;
             }
             e = guess_SpawnActor(0x32, 2, (s32)p);
             if (e != 0) {
-                ((Unkstruct_801202A0 *)e)->unk10.i.hi = 0;
+                ((Unkstruct_801202A0 *)e)->unk10.i.hi.u = 0;
                 *(s16 *)(e + 0x16) = -0x10;
                 CAST_ALIAS(s16, e, 0x1A) = -4;
                 ((Unkstruct_801202A0 *)e)->unk4.i.hi.u = ((Unkstruct_801202A0 *)e)->unk4.i.hi.u + 0x140;
@@ -3616,7 +3616,7 @@ void func_80192F64(s32 arg0) {
             *(u16 *)(*(s32 *)(e + 0x20) + 0x12) = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 + 0x800;
             *(s32 *)(e + 4) = *(s32 *)(e + 4) - ((Unkstruct_801202A0 *)arg0)->unkDC.val;
             ((Unkstruct_801202A0 *)arg0)->unkCC.val = e;
-            *(u16 *)(e + 0xFC) = ((Unkstruct_801202A0 *)arg0)->unk36;
+            *(u16 *)(e + 0xFC) = ((Unkstruct_801202A0 *)arg0)->unk36.u;
         }
         break;
     case 1:

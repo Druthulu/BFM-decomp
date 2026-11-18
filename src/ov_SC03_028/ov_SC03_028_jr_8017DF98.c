@@ -3861,7 +3861,7 @@ void func_80180120(s32 a0) {
                 ((Unkstruct_801202A0 *)s1)->unk2.s = 0x1C;
                 *(s16 *)(s1 + 0x16) = -0x10;
                 ((Unkstruct_801202A0 *)s1)->unk1C.s = 0;
-                ((Unkstruct_801202A0 *)s1)->unk10.i.hi = -CAST_SIGN(s16, s1, 0x6) >> 6;
+                ((Unkstruct_801202A0 *)s1)->unk10.i.hi.u = -CAST_SIGN(s16, s1, 0x6) >> 6;
                 ((Unkstruct_801202A0 *)s1)->unk18.i.hi = (0x3C0 - CAST_SIGN(s16, s1, 0xE)) >> 6;
             } else {
                 if (CAST_WIDTH(u16, s1, 0x5E) == 0x1D) {
@@ -4817,7 +4817,7 @@ void func_80181D4C(s32 a0) {
         guess_StartActorSequence(a0, D_801AE99C);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 0x1B;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = -CAST_SIGN(s16, a0, 6) >> 6;
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = -CAST_SIGN(s16, a0, 6) >> 6;
         *(s16 *)(a0 + 0x16) = -0x10;
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (0x3C0 - CAST_SIGN(s16, a0, 0xE)) >> 6;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = (-CAST_SIGN(s16, a0, 0xA) - 0x40) / 5;
@@ -4945,7 +4945,7 @@ void func_80181EBC(s32 a0)
         guess_StartActorSequence(a0, D_801AE99C);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 0x1B;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = -CAST_SIGN(s16, a0, 6) >> 6;
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = -CAST_SIGN(s16, a0, 6) >> 6;
         *(s16 *)(a0 + 0x16) = -0x10;
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (0x3C0 - CAST_SIGN(s16, a0, 0xE)) >> 6;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = (-CAST_SIGN(s16, a0, 0xA) - 0x40) / 5;

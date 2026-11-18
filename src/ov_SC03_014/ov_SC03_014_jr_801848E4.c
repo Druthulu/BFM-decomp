@@ -4522,7 +4522,7 @@ void func_80187A98(s32 a0) {
         break;
     case 1:
         *(s16 *)(a0 + 0x16) = -4;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = 0x10;
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = 0x10;
         CAST_ALIAS(s16, a0, 0x1A) = -6;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0x400;
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
@@ -6241,7 +6241,7 @@ void func_8018A390(void *a0)
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += sv.z;
     guess_ClearVelocityAndSetGravity((s32)a0);
 
-    ((Unkstruct_801202A0 *)a0)->unk10.i.hi = (s16)sv.x >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
     ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
 

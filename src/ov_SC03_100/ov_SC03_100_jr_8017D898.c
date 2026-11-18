@@ -3727,7 +3727,7 @@ void func_801806A4(s32 a0) {
         ((void (*)(s32, s32))guess_StartActorSequence)(a0, (s32)D_80184C18);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_801A0464[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A0464[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_801A0466[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A0468[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_801A046A[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
@@ -5049,7 +5049,7 @@ void func_80182218(s32 param_1)
             if (param_1 != 0) {
                 *(s16 *)(param_1 + 0x16) = -4;
                 v0 = rand();
-                ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = (v0 & 7) - 4;
+                ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
                 ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (v0 & 7) - 4;
                 v0 = rand();

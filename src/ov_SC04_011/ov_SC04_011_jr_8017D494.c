@@ -15786,7 +15786,7 @@ int func_8018F658(short *pos, int a1, int a2) {
     int ret;
     ret = func_8018F68C(pos, a1, a2);
     if (ret != 0) {
-        ((Unkstruct_8011DB30 *)ret)->unk32.s = 1;
+        ((Unkstruct_8011DB30 *)ret)->unk30.i.hi.s = 1;
     }
     return ret;
 }

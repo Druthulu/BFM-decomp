@@ -3347,14 +3347,14 @@ after:
                 if (a1 < -0xCEC) goto arm2_a;
                 if (a1 < -0x87) goto arm2_m;
                 v1 = (0xF6 - a1) * 20 / 382;
-                ((Unkstruct_801202A0 *)s1)->unk10.i.hi = -v1;
+                ((Unkstruct_801202A0 *)s1)->unk10.i.hi.u = -v1;
                 goto done;
             arm2_m:
-                ((Unkstruct_801202A0 *)s1)->unk10.i.hi -= 0x14;
+                ((Unkstruct_801202A0 *)s1)->unk10.i.hi.u -= 0x14;
                 goto done;
             arm2_a:
                 v1 = (a1 + 0xE8F) * 20 / 418;
-                ((Unkstruct_801202A0 *)s1)->unk10.i.hi = -v1;
+                ((Unkstruct_801202A0 *)s1)->unk10.i.hi.u = -v1;
                 *(s16 *)(s1 + 0x16) = v1 - 0x14;
             }
         }

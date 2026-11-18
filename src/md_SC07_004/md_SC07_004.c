@@ -7038,8 +7038,8 @@ void func_801AA9D4(s32 a0, s32 a1) {
         ((Unkstruct_8011DB30 *)work)->unkE.u = ((Unkstruct_8017C218_2 *)a0)->unkE;
         ptr = ((Unkstruct_8011DB30 *)work)->unk20;
         CAST_WIDTH(Unkstruct_801343C4, ptr, 0x10) = *(Unkstruct_801343C4 *)a1;
-        ((Unkstruct_8011DB30 *)work)->unk30 = 5;
-        ((Unkstruct_8011DB30 *)work)->unk32.u = 1;
+        ((Unkstruct_8011DB30 *)work)->unk30.i.lo = 5;
+        ((Unkstruct_8011DB30 *)work)->unk30.i.hi.u = 1;
         ((Unkstruct_8011DB30 *)work)->unk34.val.u = 0x180F0F0;
     }
 }
@@ -10520,7 +10520,7 @@ int func_801AF994(short *pos, int a1, int a2) {
     int ret;
     ret = func_801AF9C8(pos, a1, a2);
     if (ret != 0) {
-        ((Unkstruct_8011DB30 *)ret)->unk32.s = 1;
+        ((Unkstruct_8011DB30 *)ret)->unk30.i.hi.s = 1;
     }
     return ret;
 }

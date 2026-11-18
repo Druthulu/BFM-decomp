@@ -7667,7 +7667,7 @@ void func_801840A8(s32 a0) {
             if (a0 != 0) {
                 CAST_SIGN(s16, a0, 0xA) -= 0x20;
                 *(s16 *)(a0 + 0x16) = -8;
-                ((Unkstruct_801202A0 *)a0)->unk10.i.hi = (rand() & 7) - 4;
+                ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() & 7) - 4;
                 ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (rand() & 7) - 4;
             }
         }

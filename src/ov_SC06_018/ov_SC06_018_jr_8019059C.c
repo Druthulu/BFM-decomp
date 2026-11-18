@@ -2829,7 +2829,7 @@ void func_8019059C(s32 _arg0) {
             if (r != 0) {
                 ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)r)->unk20)->unk12 = iv;
                 ((Unkstruct_801202A0 *)r)->unk1C.s = 0x18;
-                ((Unkstruct_801202A0 *)r)->unkFC.s = ((Unkstruct_801202A0 *)arg0)->unk36;
+                ((Unkstruct_801202A0 *)r)->unkFC.s = ((Unkstruct_801202A0 *)arg0)->unk36.u;
             }
             iv += 0x400;
         } while (iv < 0x1000);

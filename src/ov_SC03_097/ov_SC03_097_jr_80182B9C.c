@@ -2809,7 +2809,7 @@ void func_80182B9C(s32 a0) {
         return;
     }
     guess_ClearVelocityAndSetGravity((void *)a0);
-    ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_8019C8F8[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+    ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_8019C8F8[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     *(u16 *)(a0 + 0x16) = D_8019C8FA[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_8019C8FC[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
@@ -2873,14 +2873,14 @@ void func_80182B9C(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_801808D0.unk100 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkFE * 6;
         sVar1 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk70;
         if (sVar1 == 5) {
-            ((Unkstruct_801202A0 *)a0)->unk10.i.hi = (rand() % 0x60) - 0x30;
+            ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() % 0x60) - 0x30;
             *(s16 *)(a0 + 0x16) = (rand() % 0x60) - 0x60;
             sVar1 = (rand() % 0x60) - 0x40;
         } else {
             if (sVar1 != 6) {
                 break;
             }
-            ((Unkstruct_801202A0 *)a0)->unk10.i.hi = (rand() % 0x60) - 0x30;
+            ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() % 0x60) - 0x30;
             *(s16 *)(a0 + 0x16) = (rand() % 0x20) - 0x20;
             sVar1 = (rand() % 0x60) - 0x50;
         }
@@ -3306,7 +3306,7 @@ void func_80183CEC(s32 a0) {
         ((void (*)(s32, s32))guess_StartActorSequence)(a0, (s32)D_801861C0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_8019C9E8[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_8019C9E8[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_8019C9EA[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_8019C9EC[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_8019C9EE[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];

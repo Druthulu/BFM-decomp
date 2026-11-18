@@ -5643,7 +5643,7 @@ void func_801802D0(s32 param_1) {
             pos.x = CAST_SIGN(s16, param_1, 0x6);
             pos.y = CAST_SIGN(s16, param_1, 0xA);
             pos.z = CAST_SIGN(s16, param_1, 0xE);
-            func_8002D59C(0x7E5, 0, ((Unkstruct_801202A0 *)param_1)->unk36);
+            func_8002D59C(0x7E5, 0, ((Unkstruct_801202A0 *)param_1)->unk36.u);
         }
         func_80181130(param_1, 0);
         break;
@@ -5658,7 +5658,7 @@ void func_801802D0(s32 param_1) {
         func_80181130(param_1, 2);
         if (flag != 0) {
             func_80180530((void *)param_1);
-            func_8002D59C(4, 0x7E5, ((Unkstruct_801202A0 *)param_1)->unk36);
+            func_8002D59C(4, 0x7E5, ((Unkstruct_801202A0 *)param_1)->unk36.u);
         }
         break;
     }

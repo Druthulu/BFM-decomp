@@ -3058,7 +3058,7 @@ void func_801902EC(s32 param_1)
             if (eNew != 0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(eNew + 0x20))->unk12 = (u16)cnt;
                 ((Unkstruct_800B5CB8 *)eNew)->unk1C = 0x18;
-                ((Unkstruct_800B5CB8 *)eNew)->unkFC = ((Unkstruct_801202A0 *)param_1)->unk36;
+                ((Unkstruct_800B5CB8 *)eNew)->unkFC = ((Unkstruct_801202A0 *)param_1)->unk36.u;
             }
         }
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x32;

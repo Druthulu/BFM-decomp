@@ -3993,7 +3993,7 @@ void func_8017F9B4(s32 param_1)
                     *(s16 *)(ent + 0x16) = -0x10;
                     ((Unkstruct_801202A0 *)ent)->unk8.i.hi.u = fld + -0x70 + (r & 0x1F);
                     r = rand();
-                    ((Unkstruct_801202A0 *)ent)->unk10.i.hi = (r & 7) - 4;
+                    ((Unkstruct_801202A0 *)ent)->unk10.i.hi.u = (r & 7) - 4;
                     r = rand();
                     ((Unkstruct_801202A0 *)ent)->unk18.i.hi = -4 - (r & 7);
                 }

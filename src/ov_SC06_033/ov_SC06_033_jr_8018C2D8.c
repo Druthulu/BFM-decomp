@@ -3036,7 +3036,7 @@ void func_8018C2D8(void *arg)
             if (t != 0) {
                 *(u16 *)(*(s32 *)(t + 0x20) + 0x12) = (u16)s0;
                 *(s32 *)(t + 0x1C) = 0x18;
-                *(u16 *)(t + 0xFC) = ((Unkstruct_801202A0 *)s1)->unk36;
+                *(u16 *)(t + 0xFC) = ((Unkstruct_801202A0 *)s1)->unk36.u;
             }
             s0 += 0x400;
         } while (s0 < 0x1000);

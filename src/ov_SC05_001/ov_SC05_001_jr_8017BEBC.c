@@ -4773,7 +4773,7 @@ void func_8017FA18(s32 param_1)
 
     if ((row[0] | row[1] | row[2]) != 0) {
         guess_ClearVelocityAndSetGravity(param_1);
-        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi = row[0];
+        ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = row[0];
         *(u16 *)(param_1 + 0x16) = row[1];
         ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = row[2];
         ((Unkstruct_801202A0 *)param_1)->extD.kSC05_001_8017FAC8.unk100 = 1;

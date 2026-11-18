@@ -2985,13 +2985,13 @@ void func_8017D73C(s32 a0) {
     ret = func_8012BD14(a0);
     if (ret > 0x3FFFF) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
-        func_8002D59C(4, 0x609, ((Unkstruct_801202A0 *)a0)->unk36);
+        func_8002D59C(4, 0x609, ((Unkstruct_801202A0 *)a0)->unk36.u);
     } else {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) - 1;
         if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
             ((Unkstruct_801202A0 *)a0)->unkFE.s = 4;
             func_8002D59C(0x609, ((0x40000 - ret) * 127) / 0x40000 | 0x1000,
-                          ((Unkstruct_801202A0 *)a0)->unk36);
+                          ((Unkstruct_801202A0 *)a0)->unk36.u);
         }
     }
 }
@@ -6635,7 +6635,7 @@ void func_801834E0(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
@@ -6784,7 +6784,7 @@ void func_80183824(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
@@ -6932,7 +6932,7 @@ void func_80183B14(s32 a0)
             s32 obj = guess_SpawnActorNoArg(0x281, a0);
             if (obj != 0) {
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
-                ((Unkstruct_801202A0 *)obj)->unk10.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
                 ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }

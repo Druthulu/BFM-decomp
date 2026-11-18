@@ -446,7 +446,7 @@ typedef struct Unkstruct_801202A0 {
     } unkC;
     /* 0x0010 */ union {
         s32 val;
-        struct { u16 lo; u16 hi; } i;
+        struct { u16 lo; union { u16 u; s16 s; } hi; } i;   /* T17.c22: hi sign union (s16 reads through ->unk64) */
     } unk10;
     /* 0x0014 */ union {
         s32 val;
@@ -466,7 +466,7 @@ typedef struct Unkstruct_801202A0 {
         u16 u;
         s16 s;
     } unk34;
-    /* 0x0036 */ u16 unk36;
+    /* 0x0036 */ union { u16 u; s16 s; } unk36;   /* T17.c22: was u16; s16 reads through ->unk64 */
     /* 0x0038 */ u8 pad38[0x2];
     /* 0x003a */ u16 unk3A;
     /* 0x003c */ u8 pad3C[0x2];
@@ -653,8 +653,7 @@ typedef struct {
     /* 0x002a */ u16 unk2A;
     /* 0x002c */ u16 unk2C;
     /* 0x002e */ u16 unk2E;
-    /* 0x0030 */ u16 unk30;
-    /* 0x0032 */ union { s16 s; u16 u; } unk32;
+    /* 0x0030 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk30;   /* T17.c22: was u16 unk30 + union unk32 (s32 view reads at 0x30) */
     /* 0x0034 */ union {
         union { s32 s; u32 u; } val;
         struct { u16 lo; u16 hi; } i;

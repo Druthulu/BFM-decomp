@@ -3851,7 +3851,7 @@ void func_8017EAEC(s32 a0) {
         guess_StartActorSequence(a0, (s32)D_80187C00);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_8018B6B4[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_8018B6B4[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_8018B6B6[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_8018B6B8[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_8018B6BA[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
@@ -4597,7 +4597,7 @@ void func_8018020C(s32 a0) {
         guess_StartActorSequence(a0, (s32)D_80187C00);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
-        ((Unkstruct_801202A0 *)a0)->unk10.i.hi = D_801A6D04[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A6D04[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_801A6D06[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A6D08[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_801A6D0A[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
@@ -7366,7 +7366,7 @@ void func_801849B4(s32 a0) {
             } else {
                 if (((Unkstruct_801202A0 *)a0)->unkFC.s == 4) {
                     ((Unkstruct_801202A0 *)a0)->unkFC.s = 3;
-                    ((Unkstruct_801202A0 *)a0)->unk10.i.hi = 4;
+                    ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = 4;
                     ((Unkstruct_801202A0 *)a0)->unk44 = 0x4000;
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unkFC.s = 4;
@@ -7398,11 +7398,11 @@ void func_801849B4(s32 a0) {
                     d = 40000;
                 }
                 func_8002D59C(0x6F0, (0x7F - (d * 127) / 40000) | 0x1000,
-                              ((Unkstruct_801202A0 *)a0)->unk36);
+                              ((Unkstruct_801202A0 *)a0)->unk36.u);
             } else {
                 if (((Unkstruct_801202A0 *)a0)->unk84.s != 0) {
                     ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
-                    func_8002D59C(4, 0x6F0, ((Unkstruct_801202A0 *)a0)->unk36);
+                    func_8002D59C(4, 0x6F0, ((Unkstruct_801202A0 *)a0)->unk36.u);
                 }
             }
         }
