@@ -1510,7 +1510,7 @@ a0v = a0;
   {
     goto fail;
   }
-  if (func_80135A4C(ent->unk20, ent->unk58.s, (s32 *) a1, (s32) a2) == 0)
+  if (func_80135A4C(ent->unk20.p, ent->unk58.s, (s32 *) a1, (s32) a2) == 0)
   {
     goto fail;
   }
@@ -1558,7 +1558,7 @@ a0v = a0;
       {
         continue;
       }
-      func_80135888(p->unk20, p->unk58.s, (s32) (&pos), (s32) (&desc));
+      func_80135888(p->unk20.p, p->unk58.s, (s32) (&pos), (s32) (&desc));
     }
 
   }

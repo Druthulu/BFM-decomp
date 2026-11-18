@@ -1098,7 +1098,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_80190B10;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80180BEC[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1511,7 +1511,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2528,7 +2528,7 @@ extern s32 D_801917B8;
 extern short D_8019323C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3587,15 +3587,15 @@ void func_8017D4CC(s32 param_1) {
     if (sVar4 == 3) goto CASE3;
     goto SKIP;
 CASE1:
-    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F198);
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, (s32)D_8018F198);
     ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018222C | 0x40000000 | 0x20000000;
     goto SKIP;
 CASE2:
-    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F210);
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, (s32)D_8018F210);
     ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018223C | 0x40000000 | 0x20000000;
     goto SKIP;
 CASE3:
-    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)D_8018F288);
+    guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, (s32)D_8018F288);
     ((Unkstruct_801202A0 *)param_1)->unk58.s = (u32)D_8018223C | 0x40000000 | 0x20000000;
 SKIP:
     ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
@@ -4043,11 +4043,11 @@ void func_8017DED4(s32 param_1)
         v.vz = lim + v.vz;
     }
 
-    ((Unkstruct_80129010 *)param_1)->unk6 += v.vx;
-    ((Unkstruct_80129010 *)param_1)->unkA += v.vy;
-    ((Unkstruct_80129010 *)param_1)->unkE += v.vz;
+    ((Unkstruct_8011DB30 *)param_1)->unk6.u += v.vx;
+    ((Unkstruct_8011DB30 *)param_1)->unkA.u += v.vy;
+    ((Unkstruct_8011DB30 *)param_1)->unkE.u += v.vz;
 
-    ((Unkstruct_80129010 *)param_1)->unk16 = (rand() & 7) + 8;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi = (rand() & 7) + 8;
 }
 
 

@@ -17,7 +17,7 @@ void SHARED_FN(void *a0)
     m = *(Mat32_8017E2BC *)&D_800AE620;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), mp);
 
     m.t[0] = ((Unkstruct_801202A0 *)a0)->unkFE.s;
     m.t[1] = CAST_SIGN(s16, (s32)a0, 0xA);

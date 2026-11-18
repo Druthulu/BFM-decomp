@@ -1111,7 +1111,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801A45B8;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern Pair_8013AD38 D_80180FE0[];
 extern void (*D_801811F4[])(void);
 extern void func_80159698(void *a0);
@@ -1324,7 +1324,7 @@ after_b4c:
         }
     }
 
-    if (((Unkstruct_80126B58 *)p)->unkB4 == (s32)&D_800D49F4) {
+    if (((Unkstruct_80126B58 *)p)->unkB4.val == (s32)&D_800D49F4) {
         ((void(*)(s32))guess_SetVelocityFromMoveVector)((s32)((u8 *)p));
         guess_ApplyVelocity((s32 *)((u8 *)p));
         if ((guess_g_FrameCounter & 3) == 0) {

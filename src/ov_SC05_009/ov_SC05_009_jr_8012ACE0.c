@@ -1084,7 +1084,7 @@ void func_80131340(s32 a0)
             var_a1 = 0x50;
         }
         func_8012DBD0(a0, var_a1,
-                      *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12) + 0x800, 0x1D);
+                      *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
     switch (((Unkstruct_801202A0 *)a0)->unkC2) {

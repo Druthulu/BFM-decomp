@@ -2233,7 +2233,7 @@ void func_80142608(s32 param_1)
     } else {
         iVar1 = func_8012C1DC(((Unkstruct_801202A0 *)param_1)->unk64);
     }
-    ((Unkstruct_801202A0 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = iVar1;
     if (iVar1 != 0) {
         guess_InitModelObjectKind3(iVar1, (s32)&D_801838C0);
         *(short *)(iVar1 + 0x1a) = 0x200;
@@ -2439,7 +2439,7 @@ void func_80142DC4(int param_1)
     extern int D_801838E4;
     int v0;
 
-    ((Unkstruct_80142DC4_4 *)param_1)->unk20 = v0 = ((int (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_80142DC4_4 *)param_1)->unk20.p = v0 = ((int (*)(void))guess_AllocModelObject)();
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -2469,7 +2469,7 @@ void func_80142E38(int param_1)
     short sVar1;
     int iVar2;
 
-    ((Unkstruct_80142E38_4 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_80142E38_4 *)param_1)->unk20.p = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -2546,7 +2546,7 @@ void func_8014305C(int param_1)
     short sVar1;
     int iVar2;
 
-    ((Unkstruct_801202A0 *)param_1)->unk20 = iVar2 = ((int (*)(void))guess_AllocModelObject)();
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = iVar2 = ((int (*)(void))guess_AllocModelObject)();
     if (iVar2 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -2777,14 +2777,14 @@ void func_80143D28(s32 param_1) {
     s32 iVar2 = ((Unkstruct_801202A0 *)param_1)->unk64; /* $s1 */
     MatEntry *p = &D_80183E04[((Unkstruct_801202A0 *)param_1)->unk70.s];
     u16 uVar5 = p->f8;
-    s32 iVar3 = ((Unkstruct_801202A0 *)param_1)->unk20;
+    s32 iVar3 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     s32 sVar4;
     s32 iVar1;
 
     CAST_WIDTH(s16, iVar3, 0x14) = uVar5;
     ((Unkstruct_8001C9D0 *)iVar3)->unk12.u = ((Unkstruct_8001C9D0 *)iVar3)->unk12.u + p->fa;
     sVar4 = 0x1000;
-    ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x34), p, (void *)(param_1 + 0x50));
+    ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x34), p, (void *)(param_1 + 0x50));
 
     if (((Unkstruct_801202A0 *)param_1)->unkFE.s == 0 &&
         (iVar2 == 0 || *(s16 *)(iVar2 + 0x36) != ((Unkstruct_801202A0 *)param_1)->unkFC.s ||
@@ -3039,7 +3039,7 @@ void func_8014477C(void *param_1) {
     s32 fv;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(param_1);
         return;

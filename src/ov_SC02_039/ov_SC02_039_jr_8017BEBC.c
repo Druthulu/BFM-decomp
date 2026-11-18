@@ -1105,7 +1105,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_8019FB28;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_801816E8[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1518,7 +1518,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2535,7 +2535,7 @@ extern s32 D_801A07D0;
 extern short D_801A0DFC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3279,7 +3279,7 @@ void func_8017DE84(void *a0)
     void *s0 = a0;
     s32 v0 = ((s32 (*)(void))guess_AllocModelObject)();
 
-    ((Unkstruct_801202A0 *)s0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk20.p = v0;
 
     if (!v0) {
         guess_FreeActorDuringSpawn(s0);
@@ -3308,16 +3308,16 @@ void func_8017DE84(void *a0)
         goto case23;
 
     case0:
-        func_8001C810(((Unkstruct_801202A0 *)s0)->unk20, (s32)D_8019CDBC);
+        func_8001C810(((Unkstruct_801202A0 *)s0)->unk20.p, (s32)D_8019CDBC);
         callarg0 = 0x199;
-        e = ((Unkstruct_801202A0 *)s0)->unk20;
+        e = ((Unkstruct_801202A0 *)s0)->unk20.p;
         argmode = 2;
         goto shared;
 
     case1:
-        func_8001C810(((Unkstruct_801202A0 *)s0)->unk20, (s32)D_8019D81C);
+        func_8001C810(((Unkstruct_801202A0 *)s0)->unk20.p, (s32)D_8019D81C);
         callarg0 = 0x199;
-        e = ((Unkstruct_801202A0 *)s0)->unk20;
+        e = ((Unkstruct_801202A0 *)s0)->unk20.p;
         __asm__("" : "=r"(e) : "0"(e));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus10) wall:cse-const-fold
         argmode = 3;
 
@@ -3331,9 +3331,9 @@ void func_8017DE84(void *a0)
         goto tail;
 
     case23:
-        func_8001C2C4(((Unkstruct_801202A0 *)s0)->unk20);
+        func_8001C2C4(((Unkstruct_801202A0 *)s0)->unk20.p);
         v0 = ((Unkstruct_801202A0 *)s0)->unk64;
-        func_8001C1E4(((Unkstruct_801202A0 *)s0)->unk20, *(s32 *)(v0 + 0x20));
+        func_8001C1E4(((Unkstruct_801202A0 *)s0)->unk20.p, *(s32 *)(v0 + 0x20));
         ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = 0x90;
         ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)D_8019B57C | 0x40000000;
         ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x4400;
@@ -3344,7 +3344,7 @@ void func_8017DE84(void *a0)
     tail:
         v0 = CAST_SIGN(u16, (u8 *)s0, 0x70) & 0xFF0;
         ((Unkstruct_801202A0 *)s0)->extD.kSC02_039_8017DFE8.unk100 = v0;
-        e = ((Unkstruct_801202A0 *)s0)->unk20;
+        e = ((Unkstruct_801202A0 *)s0)->unk20.p;
         v0 = CAST_WIDTH(s32, e, 4) | 0x8000;
         CAST_WIDTH(s32, e, 4) = v0;
         func_8012AD50(s0);
@@ -3421,7 +3421,7 @@ void func_8017E024(s32 a0)
 
     /* 32-byte aligned block move: 8x lw/sw in two groups of four (MAX_MOVE_REGS == 4).
      * The pseudo holding &m survives as $s1 and is reused for the three uses below. */
-    m = *(Mtx_8017E024 *)(((Unkstruct_8017E024 *)*(s32 *)(a0 + 0x64))->unk20 + 0x34);
+    m = *(Mtx_8017E024 *)(((Unkstruct_8017E024 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x34);
     g = &guess_g_PlayerActor;
 
     if (*(u16 *)(a0 + 0xFE) < 2) {
@@ -3563,17 +3563,17 @@ void func_8017E428(s32 param_1) {
     /* §194-F: separate statements keep ONE pseudo in $v0 all the way down to
      * the func_8001C810 argument copy (`addu $a0,$v0,$zero` in the jal slot). */
     obj = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801202A0 *)param_1)->unk20 = obj;
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = obj;
     if (obj == 0) {
         guess_FreeActorDuringSpawn((void *)param_1);
         return;
     }
 
     func_8001C810(obj, (s32)&D_8019CA6C);
-    *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) =
-        *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) | 0x8040;
+    *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 4) =
+        *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 4) | 0x8040;
     /* the store killed the base (§193-E): this statement reloads 0x20($s1) */
-    *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x28) = 0x1800180;
+    *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x28) = 0x1800180;
 
     obj2 = ((s32 (*)(void))guess_AllocModelObject)();
     if (obj2 != 0) {
@@ -3611,7 +3611,7 @@ void func_8017E500(s32 a0)
             ((Unkstruct_8017E25C *)*(s32 *)(a0 + 0x20))->unk4 &= 0x7FFFFFFF;
             func_8017E024(a0);
         }
-    } else if (*(s32 *)(((Unkstruct_8017E024 *)*(s32 *)(a0 + 0x64))->unk20 + 4) < 0) {
+    } else if (*(s32 *)(((Unkstruct_8017E024 *)*(s32 *)(a0 + 0x64))->unk20.p + 4) < 0) {
         *(s16 *)(a0 + 0x5C) = 0;
     } else {
         *(u16 *)(a0 + 0x5C) |= 0x4400;
@@ -3794,7 +3794,7 @@ void func_8017E910(void *a0)
     m.t[1] = CAST_SIGN(s16, (s32)a0, 0xA);
     m.t[2] = CAST_SIGN(s16, (s32)a0, 0xE);
 
-    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), &m);
 
     SetRotMatrix(&m);
     SetTransMatrix(&m);
@@ -4128,7 +4128,7 @@ void func_8017F050(void *a0)
     s32 p;
     s0 = a0;
 
-    ((Unkstruct_801202A0 *)s0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk20.p = v0;
 
     if (!v0) {
         guess_FreeActorDuringSpawn(s0);

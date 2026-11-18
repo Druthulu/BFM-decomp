@@ -12,13 +12,13 @@ void SHARED_FN(s32 arg0) {
     cst = 0x1800;
     ((Unkstruct_801202A0 *)arg0)->unkAA = 0;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
-    *(s16 *)((((Unkstruct_801202A0 *)arg0)->unk20) + 0x18) = cst;
-    base = ((Unkstruct_801202A0 *)arg0)->unk20;
+    *(s16 *)((((Unkstruct_801202A0 *)arg0)->unk20.p) + 0x18) = cst;
+    base = ((Unkstruct_801202A0 *)arg0)->unk20.p;
     *(s16 *)(base + 0x1C) = cst;
-    b2 = ((Unkstruct_801202A0 *)arg0)->unk20;
+    b2 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
     c2 = 0x100;
     *(s16 *)(b2 + 0x1A) = c2;
-    b2 = ((Unkstruct_801202A0 *)arg0)->unk20;
+    b2 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
     *(u16 *)(b2 + 0x2C) |= 0x10;
     ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;

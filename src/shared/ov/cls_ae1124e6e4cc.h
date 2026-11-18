@@ -8,7 +8,7 @@ void SHARED_FN(s32 a0) {
 
     ((Unkstruct_801202A0 *)a0)->extA.kcls_ae1124e6e4cc.unk2C += ((Unkstruct_801202A0 *)a0)->extA.kcls_ae1124e6e4cc.unk2E;
 
-    s1 = ((Unkstruct_801202A0 *)a0)->unk20;
+    s1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
 
     temp = ((Unkstruct_800B5BD8 *)s1)->unk10.u + 0x71;
     ((Unkstruct_800B5BD8 *)s1)->unk10.u = temp;
@@ -25,7 +25,7 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_800B5BD8 *)s1)->unk18.u = ((Unkstruct_800B5BD8 *)s1)->unk1A.u;
 
     if ((((Unkstruct_801202A0 *)a0)->unk1C.s & 3) == 0) {
-        guess_StepPairSequence(((Unkstruct_801202A0 *)a0)->unk20, (s32 *)(a0 + 0x24));
+        guess_StepPairSequence(((Unkstruct_801202A0 *)a0)->unk20.p, (s32 *)(a0 + 0x24));
     }
 
     ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;

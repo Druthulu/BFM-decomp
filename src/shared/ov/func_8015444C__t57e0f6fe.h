@@ -1,11 +1,11 @@
 /* func_8015444C — shared body (overlay slot 0x80128158, h_text 57e0f6fe). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
-    Actor4C *arg0 = a0v;
+    Unkstruct_80126B58 *arg0 = a0v;
     s32 *arg1 = arg1x;
     s32 *arg2 = arg2x;
     s32 *arg3 = arg3x;
-    Actor4C *p = arg0->unk20;
+    Unkstruct_8001C9D0 *p = arg0->unk20.m;
     u8 t;
     s32 t2;
     u32 op;
@@ -25,7 +25,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
             t2 = (u16)arg0->unkB8 - 1;
             arg0->unkB8 = t2;
             if (!(t2 & 0xFF)) {
-                op = arg0->unkB4[arg0->unkBC];
+                op = arg0->unkB4.p[arg0->unkBC];
                 switch (op) {
                 case 0:
                     arg0->unkB8 = 0;
@@ -48,23 +48,23 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     *arg2 |= 0x8000;
                     break;
                 case 3:
-                    temp = arg0->unkB4[arg0->unkBC + 1];
+                    temp = arg0->unkB4.p[arg0->unkBC + 1];
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     arg0->unkBA = temp;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 5:
-                    nb4 = arg0->unkB4[arg0->unkBC + 1];
-                    nbc = arg0->unkB4[arg0->unkBC + 2];
+                    nb4 = arg0->unkB4.p[arg0->unkBC + 1];
+                    nbc = arg0->unkB4.p[arg0->unkBC + 2];
                     arg0->unkB8 = 1;
                     arg0->unkDC = 0;
                     arg0->unkBC = nbc;
-                    arg0->unkB4 = (s32 *)nb4;
+                    arg0->unkB4.p = (s32 *)nb4;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 6:
-                    arg0->unkBC = arg0->unkB4[arg0->unkBC + 1];
+                    arg0->unkBC = arg0->unkB4.p[arg0->unkBC + 1];
                     arg0->unkB8 = 1;
                     arg0->unkDC = ((s32 (*)(s32))func_801549F8)((s32)arg0);
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -104,7 +104,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 14:
                     if (*arg3 == 0) {
-                        guess_SetTexAnimScript((u8 *)arg0, arg0->unkB4[arg0->unkBC + 1]);
+                        guess_SetTexAnimScript((u8 *)arg0, arg0->unkB4.p[arg0->unkBC + 1]);
                     }
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 2;
@@ -112,7 +112,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 15:
                     if (*arg3 == 0) {
-                        guess_SetTexAnim((s32)arg0, arg0->unkB4[arg0->unkBC + 1]);
+                        guess_SetTexAnim((s32)arg0, arg0->unkB4.p[arg0->unkBC + 1]);
                     }
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 2;
@@ -165,7 +165,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 21:
                     if (*arg3 == 0) {
-                        w = arg0->unkB4[arg0->unkBC + 1];
+                        w = arg0->unkB4.p[arg0->unkBC + 1];
                         img = &D_80126738;
                         StoreImage(w, img);
                     }
@@ -175,7 +175,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 22:
                     if (*arg3 == 0) {
-                        w = arg0->unkB4[arg0->unkBC + 1];
+                        w = arg0->unkB4.p[arg0->unkBC + 1];
                         img = &D_80126838;
                         StoreImage(w, img);
                     }
@@ -192,7 +192,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 23:
                     if (*arg3 == 0) {
-                        p->unk20 = (Actor4C *)&D_80126748;
+                        p->unk20 = (s32)&D_80126748;
                     }
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -201,7 +201,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 24:
                     if (*arg3 == 0) {
-                        p->unk20 = (Actor4C *)&D_80126848;
+                        p->unk20 = (s32)&D_80126848;
                     }
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -227,7 +227,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 default:
-                    p->unk20 = (Actor4C *)(op + 0x10);
+                    p->unk20 = (s32)(op + 0x10);
                     arg0->unkB8 = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;

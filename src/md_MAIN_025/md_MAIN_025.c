@@ -273,8 +273,8 @@ void func_800CB300(s32 arg0) {
     hv = ((Unkstruct_8001C9D0 *)s0)->unk1A.u + 0x200;
     ((Unkstruct_8001C9D0 *)s0)->unk18.u = ((Unkstruct_8001C9D0 *)s0)->unk1A.u = hv;
     if ((s16)hv > 0x2000) {
-        ((Unkstruct_800CB300 *)s0)->unk1A = 0x2000;
-        ((Unkstruct_800CB300 *)s0)->unk18 = 0x2000;
+        ((Unkstruct_8001C9D0 *)s0)->unk1A.u = 0x2000;
+        ((Unkstruct_8001C9D0 *)s0)->unk18.u = 0x2000;
     }
     bit = guess_g_FrameCounter & 1;
     D_800CBEA0 = bit - 0x10;

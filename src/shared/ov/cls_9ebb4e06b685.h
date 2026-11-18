@@ -5,7 +5,7 @@ void SHARED_FN(s32 param_1) {
     s32 v1;
 
     if (((Unkstruct_801202A0 *)param_1)->unkFE.s == 0) {
-        a0 = ((Unkstruct_801202A0 *)param_1)->unk20;
+        a0 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         v1 = ((Unkstruct_801202A0 *)param_1)->unk64;
         ((Unkstruct_8017DC54_2 *)a0)->unk12 = ((Unkstruct_8017DC54_2 *)a0)->unk12 + ((Unkstruct_801202A0 *)v1)->unkFC.u;
         func_8012DFD4((u8 *)param_1);

@@ -3,10 +3,10 @@
 extern void guess_CopyVec3HighHalves(s32 a0, s32 *a1);
 extern s32 func_80133784(s32 a0, void *a1, s32 a2);
 extern void func_80015954(s32 a0, s32 a1);
-s32 func_8016380C(struct S8016380C *a0, s32 a1) {
+s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1) {
     Unkstruct_8013B83C local;
     s32 ret;
-    local = a0->m;
+    local = a0->unk44.m;
     guess_CopyVec3HighHalves((s32)((u8 *)a0 + 4), (s32 *)a1);
     ret = func_80133784(1, &local, a1);
     if (ret != 0) {

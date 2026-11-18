@@ -1467,7 +1467,7 @@ void func_80131340(s32 a0)
             var_a1 = 0x50;
         }
         func_8012DBD0(a0, var_a1,
-                      *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12) + 0x800, 0x1D);
+                      *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
     switch (((Unkstruct_801202A0 *)a0)->unkC2) {
@@ -1726,10 +1726,10 @@ void func_80131B14(u8 *a0v) {
     if (((Unkstruct_801202A0 *)p)->unk76.s <= 0) ((Unkstruct_801202A0 *)p)->unk5C.u = 0;
 
     {
-        s32 r = ((Unkstruct_801202A0 *)p)->unk20;
+        s32 r = ((Unkstruct_801202A0 *)p)->unk20.p;
         ((Unkstruct_8001C9D0 *)r)->unk12.u = (((Unkstruct_801202A0 *)p)->unk62 + 0x800) & 0xFFF;
         {
-            s32 r2 = ((Unkstruct_801202A0 *)p)->unk20;
+            s32 r2 = ((Unkstruct_801202A0 *)p)->unk20.p;
             CAST_WIDTH(s16, r2, 0x14) = 0;
             ((Unkstruct_8001C9D0 *)r2)->unk10.u = 0;
         }

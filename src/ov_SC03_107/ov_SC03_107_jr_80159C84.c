@@ -2128,7 +2128,7 @@ extern u8 guess_g_StartPromptText[]; // Names ledger: config/names.tsv guess_g_S
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
 extern void func_80174B6C(void);
@@ -2361,7 +2361,7 @@ after_b4c:
         }
     }
 
-    if (((Unkstruct_80126B58 *)p)->unkB4 == (s32)&D_800D49F4) {
+    if (((Unkstruct_80126B58 *)p)->unkB4.val == (s32)&D_800D49F4) {
         guess_SetVelocityFromMoveVector((s32)p);
         guess_ApplyVelocity((s32 *)p);
         if ((guess_g_FrameCounter & 3) == 0) {

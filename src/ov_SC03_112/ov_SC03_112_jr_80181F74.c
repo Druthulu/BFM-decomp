@@ -1094,7 +1094,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801ABCF0;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80187D14[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1507,7 +1507,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2523,7 +2523,7 @@ extern s32 D_801AC998;
 extern short D_801AD14C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2753,7 +2753,7 @@ void func_80181F74(s32 param_1)
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20)->unk10 -= 0x100;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk10 -= 0x100;
         iVar1 = func_8012CC64(param_1, &D_801A8340);
         if ((iVar1 & 0xff) == 0x1a) {
             goto EXIT;
@@ -2761,13 +2761,13 @@ void func_80181F74(s32 param_1)
         if ((iVar1 & 0x2000) != 0) {
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
             ((Unkstruct_801202A0 *)param_1)->unk34.u += 1;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20)->unk10 = 0;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk10 = 0;
             goto TAIL;
         }
         if ((iVar1 & 0x4000) != 0) {
             ((Unkstruct_801202A0 *)param_1)->unk34.u = 4;
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20)->unk10 = 0;
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk10 = 0;
             guess_ClearVelocityAndSetGravity(param_1);
             goto TAIL;
         }
@@ -2927,7 +2927,7 @@ void func_80182384(s32 param_1) {
 
     if ((CAST_WIDTH(s32, param_1, 0x10) != 0) || (CAST_WIDTH(s32, param_1, 0x18) != 0)) {
         func_8012DBD0(param_1, 0x50,
-                      *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12) + 0x800, 0x1D);
+                      *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
     bVar1 = ((Unkstruct_801202A0 *)param_1)->unkC2;
@@ -3178,7 +3178,7 @@ void func_80182944(void *arg0) {
         guess_RotTransSVWithObjMatrix((s32)arg0, (s32)&D_801A8338, (s32)&out);
         CAST_WIDTH(SVECTOR, s0, 8) = out;
 
-        if (*(u32 *)(((Unkstruct_801202A0 *)s1)->unk20 + 4) & 0x80000000) {
+        if (*(u32 *)(((Unkstruct_801202A0 *)s1)->unk20.p + 4) & 0x80000000) {
             CAST_WIDTH(s32, s0, 4) |= 0x80000000;
         } else {
             CAST_WIDTH(s32, s0, 4) &= 0x7FFFFFFF;

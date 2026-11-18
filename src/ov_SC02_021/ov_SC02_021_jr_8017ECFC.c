@@ -1095,7 +1095,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_80191B80;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_801820B4[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1508,7 +1508,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2516,7 +2516,7 @@ extern s32 D_80192828;
 extern short D_8019389C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2908,11 +2908,11 @@ chk:
         guess_FreeActorDuringSpawn((void *)param);
         return;
     }
-    ((Unkstruct_801202A0 *)param)->unk20 = guess_AllocModelObject();
-    if (((Unkstruct_801202A0 *)param)->unk20 == 0) {
+    ((Unkstruct_801202A0 *)param)->unk20.p = guess_AllocModelObject();
+    if (((Unkstruct_801202A0 *)param)->unk20.p == 0) {
         guess_FreeActorDuringSpawn((void *)param);
     }
-    guess_InitModelObject(((Unkstruct_801202A0 *)param)->unk20, (s32)&D_801902A0);
+    guess_InitModelObject(((Unkstruct_801202A0 *)param)->unk20.p, (s32)&D_801902A0);
     ((Unkstruct_801202A0 *)param)->unk2.s = 1;
     guess_SetObjectPosAndYaw(param, (s32)&D_801835A4);
     guess_StartActorSequence(param, (void *)&D_8018DC00);
@@ -2975,7 +2975,7 @@ void func_8017F264(s32 a0)
     s2 = D_80183938[idx];
     s0 = guess_AllocSpriteObjectHigh();
     if (s0 != 0) {
-        ((Unkstruct_801202A0 *)a0)->unk20 = s0;
+        ((Unkstruct_801202A0 *)a0)->unk20.p = s0;
         func_8001CEC0(s0, s2);
         ((Unkstruct_800B5BD8 *)s0)->unk2E = 0;
         CAST_WIDTH(s16, s0, 0x30) = 0;

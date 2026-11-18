@@ -1103,7 +1103,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_8019BF08;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80180304[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1516,7 +1516,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2533,7 +2533,7 @@ extern s32 D_8019CBB0;
 extern short D_8019D1DC;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2903,7 +2903,7 @@ void func_8017D25C(s32 arg0) {
 
     if ((((Unkstruct_801202A0 *)arg0)->unk70.s & 0x8000) != 0) {
         var = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_801202A0 *)arg0)->unk20 = var;
+        ((Unkstruct_801202A0 *)arg0)->unk20.p = var;
         if (var != 0) {
             func_8001C2C4(var);
             sp10.f6 = 0x385;
@@ -2936,7 +2936,7 @@ void func_8017D25C(s32 arg0) {
         }
     } else {
         var = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_801202A0 *)arg0)->unk20 = var;
+        ((Unkstruct_801202A0 *)arg0)->unk20.p = var;
         if (var != 0) {
             switch (((Unkstruct_801202A0 *)arg0)->unk70.s) {
             case 0:
@@ -2958,8 +2958,8 @@ void func_8017D25C(s32 arg0) {
                 s3 = 7;
                 break;
             }
-            guess_InitModelObject(((Unkstruct_801202A0 *)arg0)->unk20, s1);
-            func_8001D0E8(((Unkstruct_801202A0 *)arg0)->unk20, 0x7FFF, 0x7FFF);
+            guess_InitModelObject(((Unkstruct_801202A0 *)arg0)->unk20.p, s1);
+            func_8001D0E8(((Unkstruct_801202A0 *)arg0)->unk20.p, 0x7FFF, 0x7FFF);
             guess_StartActorSequence((void *)arg0, (void *)s2);
             func_80143994(arg0, 0x3000);
             ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = s4;

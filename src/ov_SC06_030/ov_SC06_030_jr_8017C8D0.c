@@ -1104,7 +1104,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801B8CD8;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80184444[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1517,7 +1517,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2532,7 +2532,7 @@ extern s32 D_801B9980;
 extern short D_801BA084;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3247,9 +3247,9 @@ void func_8017E120(s32 a0) {
         break;
 
     case 2:
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 =
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12
-            + guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12),
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12
+            + guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12),
                             ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_8017E120.unk100, 0x10);
         ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) - 0x40;
         if (((Unkstruct_801202A0 *)a0)->unkFE.s <= 0) {
@@ -3293,7 +3293,7 @@ void func_8017E120(s32 a0) {
     case 3:
         ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) + 0x20;
         ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_8017E120.unk100 = CAST_SIGN(u16, a0, 0x100) + 0x20;
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 = CAST_SIGN(u16, a0, 0x100);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 = CAST_SIGN(u16, a0, 0x100);
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u =
             (u32)(rsin(((Unkstruct_801202A0 *)a0)->extD.kSC06_030_8017E120.unk100) * 0x160) >> 12;
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u =
@@ -3435,8 +3435,8 @@ void func_8017E120(s32 a0) {
         break;
 
     case 6:
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 =
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 + func_8012BA10(a0, 8);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 + func_8012BA10(a0, 8);
         ((Unkstruct_801202A0 *)a0)->unkFE.s = CAST_SIGN(u16, a0, 0xFE) + 0x20;
         *(s32 *)(p + 0x20) = D_8019F89C[((Unkstruct_801202A0 *)a0)->unk94.s * 2];
         if (((Unkstruct_801202A0 *)a0)->unk84.s != 0) {
@@ -3492,9 +3492,9 @@ void func_8017E120(s32 a0) {
     *(s16 *)(p + 0xA) = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     *(s16 *)(p + 0xC) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     *(s16 *)(p + 0xA) = *(u16 *)(p + 0xA) + 0x10;
-    *(s16 *)(p + 0x10) = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk10;
-    *(s16 *)(p + 0x12) = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12;
-    *(s16 *)(p + 0x14) = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x14);
+    *(s16 *)(p + 0x10) = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10;
+    *(s16 *)(p + 0x12) = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12;
+    *(s16 *)(p + 0x14) = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14);
     t = (s16)(CAST_SIGN(u16, a0, 0x104) + 0x20);
     t = t - (t / 160) * 160;
     ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_8017E120.unk104 = t;
@@ -3706,8 +3706,8 @@ void func_8017F268(s32 a0) {
 
     case 2:
         if (((Unkstruct_801202A0 *)a0)->unk94.s < 0x31) {
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 =
-                ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20)->unk12 + func_8012BA10(a0, 2);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 =
+                ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 + func_8012BA10(a0, 2);
             break;
         }
         t = func_8012BD14(a0);
@@ -3720,9 +3720,9 @@ void func_8017F268(s32 a0) {
             t = 0;
         }
         CAST_WIDTH(s32, a0, 0x10) =
-            rsin(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12)) * t * 4;
+            rsin(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12)) * t * 4;
         CAST_WIDTH(s32, a0, 0x18) =
-            rcos(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12)) * t * 4;
+            rcos(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12)) * t * 4;
         ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
         ((Unkstruct_801202A0 *)a0)->unk44.w.unk44 = CAST_WIDTH(s32, a0, 0x10) >> 4;

@@ -446,7 +446,7 @@ void func_801F0048(s32 a0) {
 
     guess_SpawnActorNoArg(0x8D, a0);
 
-    v1 = ((Unkstruct_801202A0 *)a0)->unk20;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
     v0 = (s32)&D_801EB318;
     CAST_WIDTH(s32, v1, 0x24) = v0;
 

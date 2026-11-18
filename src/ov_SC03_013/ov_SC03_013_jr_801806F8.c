@@ -1097,7 +1097,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801AC160;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_8018351C[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1510,7 +1510,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2526,7 +2526,7 @@ extern s32 D_801ACE08;
 extern short D_801AD554;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2987,7 +2987,7 @@ void func_80180958(s32 a0) {
     CAST_ALIAS(s16, a0, 0x5C) = D_801A52E6;
     if (D_801A52E8 != 0) {
         v0 = ((s32 (*)(void))guess_AllocModelObject)();
-        ((Unkstruct_801202A0 *)a0)->unk20 = v0;
+        ((Unkstruct_801202A0 *)a0)->unk20.p = v0;
         if (v0 == 0) {
             guess_FreeActorDuringSpawn((void *)a0);
             return;
@@ -2998,7 +2998,7 @@ void func_80180958(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk58.s = D_801A52EC | 0x60000000;
     }
 
-    addr = ((Unkstruct_801202A0 *)a0)->unk20;
+    addr = ((Unkstruct_801202A0 *)a0)->unk20.p;
     *(s32 *)(addr + 0x4) |= 0x8040;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xCC00;
     guess_StartActorSequence(a0, (void *)&D_801A5CF8);

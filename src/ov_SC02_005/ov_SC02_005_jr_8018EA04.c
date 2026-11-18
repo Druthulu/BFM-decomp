@@ -1094,7 +1094,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801E3170;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80192ECC[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1509,7 +1509,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2517,7 +2517,7 @@ extern s32 D_801E3E18;
 extern short D_801E4C4C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2822,7 +2822,7 @@ extern void func_801828D8(void *arg0);
 extern void func_80182A8C(s32 s0);
 extern void func_80186178(s32 *a0);
 extern void func_80182D80(s32 arg0);
-extern void func_8018622C(MainStruct *a0);
+extern void func_8018622C(Unkstruct_801202A0 *a0);
 extern void func_80182DCC(void *a0);
 extern void func_80182E04(s32 arg0);
 extern u16 D_801E4398;
@@ -3000,8 +3000,8 @@ extern u16 func_80185E54(s32 arg0);
 extern s32 func_80132E6C(s16 *a0);
 extern s32 func_801860F4(s16 *arg0);
 extern Unkstruct_8017C8B0 D_80195AF8[];
-extern MainStruct *D_801E43A4;
-extern void func_8018622C(MainStruct *a0);
+extern Unkstruct_801202A0 *D_801E43A4;
+extern void func_8018622C(Unkstruct_801202A0 *a0);
 extern void *D_801959EC[];
 extern void *D_801959F0[];
 extern void func_80132EC4(void *a0, s16 a1);
@@ -3703,15 +3703,15 @@ void func_8018EFEC(s32 param_1)
         sp10[2] = ((rand() & 0xF) + 0x58) * 0x10000;
         guess_SetLocalVelocity(param_1, sp10);
         guess_ApplyAccelAndVelocity(param_1);
-        p = ((Unkstruct_801202A0 *)param_1)->unk20;
+        p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
         ((Unkstruct_8001C9D0 *)p)->unk8.u = t;
         ((Unkstruct_8001C9D0 *)p)->unk48 = (s16)t;
-        p = ((Unkstruct_801202A0 *)param_1)->unk20;
+        p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         t = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
         ((Unkstruct_8001C9D0 *)p)->unkA.u = t;
         ((Unkstruct_8001C9D0 *)p)->unk4C = (s16)t;
-        p = ((Unkstruct_801202A0 *)param_1)->unk20;
+        p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         t = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
         ((Unkstruct_8001C9D0 *)p)->unkC.u = t;
         ((Unkstruct_8001C9D0 *)p)->unk50 = (s16)t;
@@ -3771,7 +3771,7 @@ void func_8018F230(void *param_1)
     s32 v0;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = v0;
     if (v0 != 0) {
         func_8001C2C4(v0);
         ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)D_80196C24 | 0x10000000;
@@ -4023,7 +4023,7 @@ void func_8018F72C(void *a0)
     s32 s2v;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20.p = v0;
 
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
@@ -4031,7 +4031,7 @@ void func_8018F72C(void *a0)
     }
 
     ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
-    *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x4) |= 0x80000000;
+    *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x80000000;
 
     s0 = &D_800A5E88;
     s0[0] = 0;

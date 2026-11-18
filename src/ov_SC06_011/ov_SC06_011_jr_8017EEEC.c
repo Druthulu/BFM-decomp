@@ -98,7 +98,7 @@ void func_8017F114(void *a0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = 0xE00;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xE00;
-        *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x1C) = 0xE00;
+        *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) = 0xE00;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = 0x300;
         ((Unkstruct_801202A0 *)a0)->unk75 = 8;
     }
@@ -123,7 +123,7 @@ s32 arg0;
         ((Unkstruct_801202A0 *)s0)->unk2.s = CAST_SIGN(u16, s0, 2) + 1;
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C | 0x10;
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 = 0xAAA;
-        *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x1C) = 0xAAA;
+        *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x1C) = 0xAAA;
     }
 }
 
@@ -547,7 +547,7 @@ void func_8017FAB4(s32 a0)
     switch (st) {
     case 0:
         v = guess_TurnStepToTarget(s0, 4);
-        p = (unsigned short *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x12);
+        p = (unsigned short *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x12);
         *p = *p + v;
 
         if (((Unkstruct_801202A0 *)s0)->unk1C.s == 0xF) {
@@ -573,7 +573,7 @@ void func_8017FAB4(s32 a0)
     case 1:
         if (((Unkstruct_801202A0 *)s0)->unk1C.s >= 0x16) {
             v = guess_TurnStepToTarget(s0, 6);
-            p = (unsigned short *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x12);
+            p = (unsigned short *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x12);
             *p = *p + v;
         }
 
@@ -639,7 +639,7 @@ void func_8017FCC0(void *a0) {
         break;
     case 1:
         ret = guess_TurnStepToTarget(base, 6);
-        ptr = ((Unkstruct_801202A0 *)base)->unk20;
+        ptr = ((Unkstruct_801202A0 *)base)->unk20.p;
         *(u16 *)(ptr + 0x12) += ret;
         break;
     case 2:
@@ -774,7 +774,7 @@ void func_8017FFF0(s32 a0) {
     s32 v0;
 
     if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 4) {
-        v0 = ((Unkstruct_801202A0 *)a0)->unk20;
+        v0 = ((Unkstruct_801202A0 *)a0)->unk20.p;
         ret = guess_GetAngleStepToward(CAST_SIGN(s16, v0, 0x12), ((Unkstruct_801202A0 *)a0)->unkFC.s, 8);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += ret;
     }

@@ -1101,7 +1101,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_8018F1D0;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80180830[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1248,7 +1248,7 @@ s32 arg0;
     if (((s32 (*)(s32))func_80161B18)(arg0) != 0) {
         return;
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D5428) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D5428) {
         if (func_8014A048(arg0) != 0) {
             D_801808E0[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
             ((void (*)(s32))func_8014A218)(arg0);

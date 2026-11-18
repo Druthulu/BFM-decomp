@@ -1961,7 +1961,7 @@ extern u8 guess_g_StartPromptText[]; // Names ledger: config/names.tsv guess_g_S
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern s32 guess_GetGameVarByte(s32);
 extern void func_80029274(void);
 extern void func_80029044(void);

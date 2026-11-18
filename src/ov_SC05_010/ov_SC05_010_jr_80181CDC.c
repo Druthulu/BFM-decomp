@@ -1094,7 +1094,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801C5D80;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_8018AF8C[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1507,7 +1507,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2523,7 +2523,7 @@ extern s32 D_801C6A28;
 extern short D_801C802C;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -2784,9 +2784,9 @@ extern u8  *D_801C7E54;
  * live_length and lose the global-alloc priority race the target's temps win. */
 #define AIM(dst, tx, ty, tz)                                                  \
     {                                                                         \
-        s32 dx = (tx) - obj->x;                                               \
-        s32 dy = (ty) - obj->y;                                               \
-        s32 dz = (tz) - obj->z;                                               \
+        s32 dx = (tx) - obj->unk4.i.hi.s;                                               \
+        s32 dy = (ty) - obj->unk8.i.hi.s;                                               \
+        s32 dz = (tz) - obj->unkC.i.hi.s;                                               \
         s32 ang = (ratan2(-dz, dx) - 0x400) & 0xFFF;                          \
         dst.b = ang;                                                          \
         dz = (dz * rcos(ang) + dx * rsin(ang)) >> 12;       \
@@ -2794,7 +2794,7 @@ extern u8  *D_801C7E54;
         w = dst;                                                              \
     }
 
-void func_80181CDC(Obj1CDC *obj) {
+void func_80181CDC(Unkstruct_801202A0 *obj) {
     SVec1CDC pos;
     SVec1CDC tgt;
     LVec1CDC d;
@@ -2806,7 +2806,7 @@ void func_80181CDC(Obj1CDC *obj) {
     Rot1CDC  ta, tb;
     s32  sum;
 
-    switch (obj->unk10A) {
+    switch (obj->unk10A.s) {
     case 0:
         break;
 
@@ -2817,41 +2817,41 @@ void func_80181CDC(Obj1CDC *obj) {
             ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(
                 ((Unkstruct_80126B58 *)D_801C7E54)->unk20.val + 0x34, D_8019292C, &pos);
 
-            d.a = obj->x - pos.vx;
-            d.b = obj->y - pos.vy;
-            d.c = obj->z - pos.vz;
+            d.a = obj->unk4.i.hi.s - pos.vx;
+            d.b = obj->unk8.i.hi.s - pos.vy;
+            d.c = obj->unkC.i.hi.s - pos.vz;
             Square0(&d.a, &d.a);
             sum = d.a + d.b + d.c;
 
-            d.a = obj->x - (s16)guess_g_PlayerPosX;
-            d.b = obj->y - (s16)guess_g_PlayerPosY;
-            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            d.a = obj->unk4.i.hi.s - (s16)guess_g_PlayerPosX;
+            d.b = obj->unk8.i.hi.s - (s16)guess_g_PlayerPosY;
+            d.c = obj->unkC.i.hi.s - (s16)guess_g_PlayerPosZ;
             Square0(&d.a, &d.a);
             sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
-                    obj->unkFC += 0x20;
+                    obj->unkFC.s += 0x20;
                 } else {
-                    obj->unkFC += sum / 0x200;
-                    obj->unk102 -= 1;
+                    obj->unkFC.s += sum / 0x200;
+                    obj->extD.kSC05_010_801828E0.unk102 -= 1;
                 }
-                if ((s16)obj->unkFC > 0x400) {
-                    obj->unkFC = 0x400;
+                if ((s16)obj->unkFC.s > 0x400) {
+                    obj->unkFC.s = 0x400;
                 }
             } else {
                 if (sum < 0) {
                     if (sum < -0x4000) {
-                        obj->unkFC -= 0x20;
+                        obj->unkFC.s -= 0x20;
                     } else {
-                        obj->unkFC += sum / 0x200;
-                        obj->unk102 -= 1;
+                        obj->unkFC.s += sum / 0x200;
+                        obj->extD.kSC05_010_801828E0.unk102 -= 1;
                     }
-                    if ((s16)obj->unkFC < -0x400) {
-                        obj->unkFC = -0x400;
+                    if ((s16)obj->unkFC.s < -0x400) {
+                        obj->unkFC.s = -0x400;
                     }
                 }
-                obj->unk102 -= 4;
+                obj->extD.kSC05_010_801828E0.unk102 -= 4;
             }
 
             tgt.vx = guess_g_PlayerPosX;
@@ -2864,24 +2864,24 @@ void func_80181CDC(Obj1CDC *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20->unk14 += guess_GetAngleStepToward(tb.a, ta.a, 4);
-            obj->unk100 += guess_GetAngleStepToward((s16)obj->unk100,
-                                         (s16)obj->unk20->unk14, 4);
-            obj->unkFE += guess_GetAngleStepToward(tb.b, ta.b, 8);
+            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
+                                         (s16)obj->unk20.m->unk14.u, 4);
+            obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 8);
 
-            if ((s16)obj->unk102 <= 0) {
-                obj->unk10A = 2;
-                obj->unk102 = 0xF;
+            if ((s16)obj->extD.kSC05_010_801828E0.unk102 <= 0) {
+                obj->unk10A.s = 2;
+                obj->extD.kSC05_010_801828E0.unk102 = 0xF;
             }
         }
         break;
 
     case 2:
-        obj->unk102 -= 1;
-        if (obj->unk102 != 0) {
-            obj->unkFE += 0x18;
+        obj->extD.kSC05_010_801828E0.unk102 -= 1;
+        if (obj->extD.kSC05_010_801828E0.unk102 != 0) {
+            obj->unkFE.s += 0x18;
         } else {
-            obj->unk10A = 3;
+            obj->unk10A.s = 3;
             guess_RequestSound(0x89A, 0);
         }
         break;
@@ -2894,41 +2894,41 @@ void func_80181CDC(Obj1CDC *obj) {
                 ((Unkstruct_80126B58 *)D_801C7E54)->unk20.val + 0x34, D_8019292C, &pos);
 
             if (pos.vz > 0) {
-                if (obj->unk64->unk34 < 4) {
-                    obj->unk10A = 1;
-                    obj->unk64->unk100 = 0;
+                if (obj->unk64->unk34.u < 4) {
+                    obj->unk10A.s = 1;
+                    obj->unk64->extD.kSC05_010_80180108.unk100 = 0;
                 }
             }
 
-            d.a = obj->x - pos.vx;
-            d.b = obj->y - pos.vy;
-            d.c = obj->z - pos.vz;
+            d.a = obj->unk4.i.hi.s - pos.vx;
+            d.b = obj->unk8.i.hi.s - pos.vy;
+            d.c = obj->unkC.i.hi.s - pos.vz;
             Square0(&d.a, &d.a);
             sum = d.a + d.b + d.c;
 
-            d.a = obj->x - (s16)guess_g_PlayerPosX;
-            d.b = obj->y + 0xC0;
-            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            d.a = obj->unk4.i.hi.s - (s16)guess_g_PlayerPosX;
+            d.b = obj->unk8.i.hi.s + 0xC0;
+            d.c = obj->unkC.i.hi.s - (s16)guess_g_PlayerPosZ;
             Square0(&d.a, &d.a);
             sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
-                    obj->unkFC += 0x20;
+                    obj->unkFC.s += 0x20;
                 } else {
-                    obj->unkFC += sum / 0x200;
+                    obj->unkFC.s += sum / 0x200;
                 }
-                if ((s16)obj->unkFC > 0x400) {
-                    obj->unkFC = 0x400;
+                if ((s16)obj->unkFC.s > 0x400) {
+                    obj->unkFC.s = 0x400;
                 }
             } else if (sum < 0) {
                 if (sum < -0x4000) {
-                    obj->unkFC -= 0x20;
+                    obj->unkFC.s -= 0x20;
                 } else {
-                    obj->unkFC += sum / 0x200;
+                    obj->unkFC.s += sum / 0x200;
                 }
-                if ((s16)obj->unkFC < -0x400) {
-                    obj->unkFC = -0x400;
+                if ((s16)obj->unkFC.s < -0x400) {
+                    obj->unkFC.s = -0x400;
                 }
             }
 
@@ -2942,18 +2942,18 @@ void func_80181CDC(Obj1CDC *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20->unk14 += guess_GetAngleStepToward(tb.a, ta.a, 4);
-            obj->unk100 += guess_GetAngleStepToward((s16)obj->unk100,
-                                         (s16)obj->unk20->unk14, 4);
-            obj->unkFE += guess_GetAngleStepToward(tb.b, ta.b, 8);
+            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
+                                         (s16)obj->unk20.m->unk14.u, 4);
+            obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 8);
         }
         break;
 
     case 4:
-        obj->unk20->unk14 += guess_GetAngleStepToward((s16)obj->unk20->unk14, 0x180, 0x10);
-        obj->unkFC += guess_GetAngleStepToward((s16)obj->unkFC, 0, 0x10);
-        obj->unkFE += guess_GetAngleStepToward((s16)obj->unkFE, 0x400, 0x10);
-        obj->unk100 += guess_GetAngleStepToward((s16)obj->unk100, 0, 0x10);
+        obj->unk20.m->unk14.u += guess_GetAngleStepToward((s16)obj->unk20.m->unk14.u, 0x180, 0x10);
+        obj->unkFC.s += guess_GetAngleStepToward((s16)obj->unkFC.s, 0, 0x10);
+        obj->unkFE.s += guess_GetAngleStepToward((s16)obj->unkFE.s, 0x400, 0x10);
+        obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100, 0, 0x10);
         break;
 
     case 5:
@@ -2964,41 +2964,41 @@ void func_80181CDC(Obj1CDC *obj) {
                 ((Unkstruct_80126B58 *)D_801C7E54)->unk20.val + 0x34, D_8019292C, &pos);
 
             if (pos.vz > 0) {
-                if (obj->unk64->unk34 < 4) {
-                    obj->unk10A = 1;
-                    obj->unk64->unk100 = 0;
+                if (obj->unk64->unk34.u < 4) {
+                    obj->unk10A.s = 1;
+                    obj->unk64->extD.kSC05_010_80180108.unk100 = 0;
                 }
             }
 
-            d.a = obj->x - pos.vx;
-            d.b = obj->y - pos.vy;
-            d.c = obj->z - pos.vz;
+            d.a = obj->unk4.i.hi.s - pos.vx;
+            d.b = obj->unk8.i.hi.s - pos.vy;
+            d.c = obj->unkC.i.hi.s - pos.vz;
             Square0(&d.a, &d.a);
             sum = d.a + d.b + d.c;
 
-            d.a = obj->x - (s16)guess_g_PlayerPosX;
-            d.b = obj->y + 0xC0;
-            d.c = obj->z - (s16)guess_g_PlayerPosZ;
+            d.a = obj->unk4.i.hi.s - (s16)guess_g_PlayerPosX;
+            d.b = obj->unk8.i.hi.s + 0xC0;
+            d.c = obj->unkC.i.hi.s - (s16)guess_g_PlayerPosZ;
             Square0(&d.a, &d.a);
             sum -= d.a + d.b + d.c;
 
             if (sum > 0) {
                 if (sum > 0x4000) {
-                    obj->unkFC += 0x40;
+                    obj->unkFC.s += 0x40;
                 } else {
-                    obj->unkFC += sum / 0x100;
+                    obj->unkFC.s += sum / 0x100;
                 }
-                if ((s16)obj->unkFC > 0x400) {
-                    obj->unkFC = 0x400;
+                if ((s16)obj->unkFC.s > 0x400) {
+                    obj->unkFC.s = 0x400;
                 }
             } else if (sum < 0) {
                 if (sum < -0x4000) {
-                    obj->unkFC -= 0x40;
+                    obj->unkFC.s -= 0x40;
                 } else {
-                    obj->unkFC += sum / 0x100;
+                    obj->unkFC.s += sum / 0x100;
                 }
-                if ((s16)obj->unkFC < -0x400) {
-                    obj->unkFC = -0x400;
+                if ((s16)obj->unkFC.s < -0x400) {
+                    obj->unkFC.s = -0x400;
                 }
             }
 
@@ -3012,10 +3012,10 @@ void func_80181CDC(Obj1CDC *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20->unk14 += guess_GetAngleStepToward(tb.a, ta.a, 4);
-            obj->unk100 += guess_GetAngleStepToward((s16)obj->unk100,
-                                         (s16)obj->unk20->unk14, 4);
-            obj->unkFE += guess_GetAngleStepToward(tb.b, ta.b, 4);
+            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
+                                         (s16)obj->unk20.m->unk14.u, 4);
+            obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 4);
         }
         break;
     }
@@ -3132,7 +3132,7 @@ extern u8 D_80192924[];
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void func_8012B370(int a0);
 
-void func_80182BD0(Obj1CDC *obj) {
+void func_80182BD0(Unkstruct_801202A0 *obj) {
     u16 out[3];
 
     D_80192A28[((Unkstruct_80126B58 *)obj)->unk2]();
@@ -3141,17 +3141,17 @@ void func_80182BD0(Obj1CDC *obj) {
         u16 fc = M2C_FIELD(obj->unk64, u16 *, 0xFC);
         fc -= 0x400;
 
-        M2C_FIELD(obj->unk20, u16 *, 0x12) =
+        M2C_FIELD(obj->unk20.p, u16 *, 0x12) =
             *(u16 *)(M2C_FIELD(obj->unk64, s32 *, 0x20) + 0x12) - fc;
 
         guess_RotTransSVWithMatrix(M2C_FIELD(obj->unk64, s32 *, 0x20) + 0x34,
                       (s32)D_80192924, (s32)out);
 
-        obj->x = out[0];
-        obj->y = out[1];
-        obj->z = out[2];
+        obj->unk4.i.hi.s = out[0];
+        obj->unk8.i.hi.s = out[1];
+        obj->unkC.i.hi.s = out[2];
 
-        obj->unk20->unk14 = obj->unk64->unk100;
+        obj->unk20.m->unk14.u = obj->unk64->extD.kSC05_010_80182AC0.unk100;
         func_8012B370((int)obj);
     }
 }

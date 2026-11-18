@@ -394,7 +394,7 @@ void func_801E303C(void *a0) {
     }
 
     v0 = guess_AllocModelObject();
-    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20.p = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
     } else {
@@ -450,7 +450,7 @@ void func_801E30EC(void *param_1) {
         break;
     }
     case 2: {
-        s32 v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12), 0x600, 8);
+        s32 v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), 0x600, 8);
         s32 cur;
         s32 target;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 =
@@ -516,7 +516,7 @@ void func_801E3290(void *a0) {
     }
 
     v0 = guess_AllocModelObject();
-    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20.p = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;

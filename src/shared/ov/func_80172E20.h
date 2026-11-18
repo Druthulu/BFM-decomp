@@ -6,11 +6,11 @@ extern void func_80171A1C(u8 *a0);
 extern s32 func_80174650(s32);
 void func_80172E20(u8 * a0)
 {
-    Unkstruct_8017C218_2 *p = (Unkstruct_8017C218_2 *)D_80127508;
+    Unkstruct_801202A0 *p = (Unkstruct_801202A0 *)D_80127508;
     u16 sp10[3];
-    sp10[0] = p->unk6;
-    sp10[1] = p->unkA;
-    sp10[2] = p->unkE;
+    sp10[0] = p->unk4.i.hi.u;
+    sp10[1] = p->unk8.i.hi.u;
+    sp10[2] = p->unkC.i.hi.u;
     if (func_80171AB0(a0, sp10) == 0) {
         func_80171A1C((u8 *)a0);
         func_80174650(a0);

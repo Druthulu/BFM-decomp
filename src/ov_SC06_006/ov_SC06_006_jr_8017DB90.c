@@ -1097,7 +1097,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801F6F10;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_80184398[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1510,7 +1510,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2524,7 +2524,7 @@ extern s32 D_801F7BB8;
 extern short D_801F8B64;
 extern void func_80178CBC(s32 arg0, s32 arg1);
 extern void func_80178D18(void);
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 extern void guess_CloseTextWindowIfOpen(s32 a0);
 extern void func_80179B74(u16 *p);
 extern void func_80179D30(u16 *a0);
@@ -3164,17 +3164,17 @@ void func_8017E734(void* a0)
         goto body;
     }
 copy:
-    *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x18) =
-        *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x18);
+    *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x18) =
+        *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x18);
     return;
 body:
     p = d * D_80185F7A;
-    p = (p + 0x1000) * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x18);
-    q = ((Unkstruct_801202A0 *)a0)->unk20;
+    p = (p + 0x1000) * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x18);
+    q = ((Unkstruct_801202A0 *)a0)->unk20.p;
     CAST_WIDTH(s16, q, 0x1C) = (u32)p >> 12;
     ((Unkstruct_8001C9D0 *)q)->unk1A.u = (u32)p >> 12;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 =
-        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x1C);
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x1C);
 }
 
 
@@ -4629,7 +4629,7 @@ void func_8018097C(void *arg0) {
     }
 
     prod = D_801F8090 * ((Unkstruct_801202A0 *)e)->blkDC.f.unkDC.val;
-    q = ((Unkstruct_801202A0 *)e)->unk20;
+    q = ((Unkstruct_801202A0 *)e)->unk20.p;
     t = prod >> 12;
     CAST_WIDTH(u16, q, 0x1C) = t;
     ((Unkstruct_8001C9D0 *)q)->unk1A.u = t;

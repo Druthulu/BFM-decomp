@@ -5,10 +5,10 @@ void SHARED_FN(s32 param_1) {
     s32 obj2;
     u16 w;
 
-    obj = ((Unkstruct_801202A0 *)param_1)->unk20;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x18;
     ((Unkstruct_8001C9D0 *)obj)->unk10.u = 0x80;
-    obj2 = ((Unkstruct_801202A0 *)param_1)->unk20;
+    obj2 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     w = *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x12);
     ((Unkstruct_8001C9D0 *)obj2)->unk12.u = w;
     guess_UpdateActorModelMatrix(param_1);

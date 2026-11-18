@@ -1960,7 +1960,7 @@ extern u8 guess_g_StartPromptText[]; // Names ledger: config/names.tsv guess_g_S
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern s32 guess_GetGameVarByte(s32);
 extern void func_80029274(void);
 extern void func_80029044(void);
@@ -2104,7 +2104,7 @@ s32 arg0;
     if (((s32 (*)(s32))func_80161B18)(arg0) != 0) {
         return;
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D5428) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D5428) {
         if (func_8014A048(arg0) != 0) {
             D_801855CC[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
             ((void (*)(s32))func_8014A218)(arg0);
@@ -2430,16 +2430,16 @@ s32 arg0;
         case 1:
         case 2:
         case 6:
-            if (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&(*(s32 *)&D_800D4BE0)) {
+            if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&(*(s32 *)&D_800D4BE0)) {
                 if (func_80149C08(arg0) != 0) {
                     D_801855CC[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
                     ((void (*)(s32))func_801577C8)(arg0);
                     return;
                 }
             }
-            if ((((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&D_800D4E94) &&
-                (((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&D_800D4ED4) &&
-                (((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&(*(s32 *)&D_800D4F8C))) {
+            if ((((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&D_800D4E94) &&
+                (((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&D_800D4ED4) &&
+                (((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&(*(s32 *)&D_800D4F8C))) {
                 if (func_8015B6F4(arg0) == 0) {
                     ((void (*)(s32))func_8015B7B4)(arg0);
                 }
@@ -2475,10 +2475,10 @@ s32 arg0;
         if ((((Unkstruct_80126B58 *)arg0)->unk240 == 0) && (((s32 (*)(s32))func_8015B858)(arg0) != 0)) {
             ((Unkstruct_80126B58 *)arg0)->unk240 += 1;
         }
-        if ((((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&(*(s32 *)&D_800D4BE0)) && (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000)) {
+        if ((((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&(*(s32 *)&D_800D4BE0)) && (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000)) {
             ((void (*)(s32))func_8015B8F8)(arg0);
-        } else if ((((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D4A9C) ||
-                   (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D4B48)) {
+        } else if ((((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D4A9C) ||
+                   (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D4B48)) {
             if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000) {
                 if (((Unkstruct_80126B58 *)arg0)->unk34 >= 0) {
                     ((Unkstruct_80126B58 *)arg0)->unkB8 += 1;
@@ -2493,9 +2493,9 @@ s32 arg0;
             guess_AddVertSpeed(arg0, 0x1A000);
         }
         lim = 0x40000;
-        if ((((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&D_800D4E94) &&
-            (((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&D_800D4ED4) &&
-            (((Unkstruct_80126B58 *)arg0)->unkB4 != (s32)&(*(s32 *)&D_800D4F8C))) {
+        if ((((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&D_800D4E94) &&
+            (((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&D_800D4ED4) &&
+            (((Unkstruct_80126B58 *)arg0)->unkB4.val != (s32)&(*(s32 *)&D_800D4F8C))) {
             lim = 0xC0000;
         }
         if (((Unkstruct_80126B58 *)arg0)->unk34 < -lim) {
@@ -2637,7 +2637,7 @@ s32 arg0;
     r = ((s32 (*)(s32))func_80161488)(arg0);
     if (r & 5) {
         ((Unkstruct_80126B58 *)arg0)->unk44 &= ~2;
-        if (((Unkstruct_80126B58 *)arg0)->unkB4 == (s32)&D_800D4A9C) {
+        if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D4A9C) {
             guess_SetAnim(arg0, 0xE);
         } else {
             guess_SetAnim(arg0, 0x10);

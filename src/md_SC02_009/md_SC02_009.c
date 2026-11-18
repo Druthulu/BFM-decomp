@@ -98,7 +98,7 @@ void func_801E4E58(void *a0) {
 void func_801E4EC0(void *a0) {
     extern void func_801E53E0(void *a0);
     extern s32 D_801270C8;
-    u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20;
+    u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20.p;
 
     func_801E53E0(a0);
     if (D_801270C8 != 7) {
@@ -354,7 +354,7 @@ void func_801E548C(s32 a0) {
     *(s32 *)p = (s32)&D_801F3D3C;
     if (guess_InitActorModel(a0, p - 4) != 0) {
         v0 = ((Unkstruct_801202A0 *)a0)->unk64;
-        func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20, *(s32 *)(v0 + 0x20));
+        func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20.p, *(s32 *)(v0 + 0x20));
         guess_StartActorSequence(a0, (void *)&D_801E63C4);
         ((Unkstruct_801202A0 *)a0)->unkCC.val = guess_SpawnActor(0x3D4, 0x4000, a0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;

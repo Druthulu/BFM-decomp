@@ -2108,7 +2108,7 @@ extern u8 guess_g_StartPromptText[]; // Names ledger: config/names.tsv guess_g_S
 extern void func_80159120(s32 a0);
 extern void func_801592CC(s32 *a0);
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
 extern void func_80174B6C(void);
@@ -2527,7 +2527,7 @@ extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6,
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
 extern s32 func_80163764(s32 a0);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
 extern void func_80163A58(void *a0);
@@ -3632,7 +3632,7 @@ void func_80178BF8(s32 _unused0, s32 _unused1)
 }
 
 
-extern void func_80178D40(Actor_80178D40 *arg0, s32 arg1);
+extern void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1);
 
 void func_80178CBC(s32 arg0, s32 arg1) {
 
@@ -3750,7 +3750,7 @@ extern void func_80175454(void);
 
 
 
-void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
+void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
 {
 
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
@@ -3849,10 +3849,10 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         (*(s16*)D_80185C7C) = 1;
         break;
     case 0x45:
-        ((void (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0));
+        ((void (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Unkstruct_801202A0 *)arg0));
         if (D_80185B20 != 0) {
             guess_CloseTextWindowIfOpen(D_80185350);
-            D_80185350 = ((s32 (*)(s32, s32, s32))guess_OpenTextWindowWithFlags)(arg0->unkDC[1], D_80185354, D_80185358 ? 0x48 : 0x40);
+            D_80185350 = ((s32 (*)(s32, s32, s32))guess_OpenTextWindowWithFlags)(arg0->blkDC.w[1], D_80185354, D_80185358 ? 0x48 : 0x40);
             (*(s16*)D_80185C7C) = 1;
         } else {
             (*(s16*)D_80185C7C) = 3;
@@ -3860,7 +3860,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         break;
     case 0x32:
         guess_CloseTextWindowIfOpen(D_80185350);
-        D_80185350 = ((s32 (*)(s32, s32, s32))guess_OpenTextWindowWithFlags)(arg0->unkDC[((Cmd_80178D40 *)arg1)->a.w], D_80185354,
+        D_80185350 = ((s32 (*)(s32, s32, s32))guess_OpenTextWindowWithFlags)(arg0->blkDC.w[((Cmd_80178D40 *)arg1)->a.w], D_80185354,
                                    D_80185358 ? 0x48 : 0x40);
         (*(s16*)D_80185C7C) = 1;
         break;
@@ -3889,7 +3889,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Actor_80178D40 *)arg0), &v10, &v18);
+        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Unkstruct_801202A0 *)arg0), &v10, &v18);
         ((void (*)(void *))func_80179D30)(&v18);
         (*(s16*)D_80185C7C) = 3;
         break;
@@ -3901,7 +3901,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         v10.vx = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk0;
         v10.vy = 0;
         v10.vz = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk4;
-        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Actor_80178D40 *)arg0), &v10, &v18);
+        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Unkstruct_801202A0 *)arg0), &v10, &v18);
         v18.pad = ((Unkstruct_801343C4 *)((Cmd_80178D40 *)arg1)->a.p)->unk6;
         ((void (*)(void *))func_80179D78)(&v18);
         (*(s16*)D_80185C7C) = 3;
@@ -3934,17 +3934,17 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0xA:
-        v10.vx = arg0->unk6;
-        v10.vy = arg0->unkA;
-        v10.vz = arg0->unkE;
+        v10.vx = arg0->unk4.i.hi.u;
+        v10.vy = arg0->unk8.i.hi.u;
+        v10.vz = arg0->unkC.i.hi.u;
         ((void (*)(void *))func_80179EA0)(&v10);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x16: {
-        Actor_80178D40 *p = arg0->unkD4;
-        v10.vx = p->unk6;
-        v10.vy = p->unkA;
-        v10.vz = p->unkE;
+        Unkstruct_801202A0 *p = arg0->unkD4;
+        v10.vx = p->unk4.i.hi.u;
+        v10.vy = p->unk8.i.hi.u;
+        v10.vz = p->unkC.i.hi.u;
         ((void (*)(void *))func_80179EA0)(&v10);
         (*(s16*)D_80185C7C) = 3;
         break;
@@ -4048,20 +4048,20 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         (*(s16*)D_80185C7C) = 5;
         break;
     case 0x23:
-        ((void (*)(void *, s32))guess_StartActorSequence)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x31:
-        ((void (*)(void *, s32))guess_StartActorSequence)(((Actor_80178D40 *)arg0), arg0->unkDC[((Cmd_80178D40 *)arg1)->a.w]);
+        ((void (*)(void *, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0), arg0->blkDC.w[((Cmd_80178D40 *)arg1)->a.w]);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x24:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unk20->unk12 = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk20.m->unk12.u = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x25:
         g[0] = 1;
-        g[2] = arg0->unk20->unk12 + ((Cmd_80178D40 *)arg1)->a.uh[0];
+        g[2] = arg0->unk20.m->unk12.u + ((Cmd_80178D40 *)arg1)->a.uh[0];
         g[1] = 0x1E;
         (*(s16*)D_80185C7C) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
@@ -4075,13 +4075,13 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         break;
     case 0x26:
         g[0] = 1;
-        g[2] = ((s32 (*)(void *))func_8012B8A4)(((Actor_80178D40 *)arg0));
+        g[2] = ((s32 (*)(void *))func_8012B8A4)(((Unkstruct_801202A0 *)arg0));
         g[1] = 0x1E;
         (*(s16*)D_80185C7C) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x3D:
-        ((void(*)(void *, s32))guess_SetObjectPosAndYaw)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void(*)(void *, s32))guess_SetObjectPosAndYaw)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x27:
@@ -4095,7 +4095,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         g[0] = 3;
         g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
         (*(s16*)D_80185C7C) = 3;
-        g[7] = arg0->unkA;
+        g[7] = arg0->unk8.i.hi.u;
         g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         g[1] = 0x10;
         g[3] = 4;
@@ -4105,16 +4105,16 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         g[0] = 3;
         g[6] = ((Cmd_80178D40 *)arg1)->a.uh[0];
         (*(s16*)D_80185C7C) = 3;
-        g[7] = arg0->unkA;
+        g[7] = arg0->unk8.i.hi.u;
         g[8] = ((Cmd_80178D40 *)arg1)->a.uh[1];
         g[1] = 0x10;
         g[3] = 4;
         break;
     case 0x29:
         v20.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
-        v20.vy = arg0->unkA;
+        v20.vy = arg0->unk8.i.hi.u;
         v20.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Actor_80178D40 *)arg0), &v20, &v28);
+        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Unkstruct_801202A0 *)arg0), &v20, &v28);
         g[5] = 0;
         g[0] = 3;
         *(SV3_80178D40 *)(g + 6) = v28;
@@ -4124,9 +4124,9 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         break;
     case 0x50:
         v30.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
-        v30.vy = arg0->unkA;
+        v30.vy = arg0->unk8.i.hi.u;
         v30.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Actor_80178D40 *)arg0), &v30, &v38);
+        ((void (*)(void *, void *, void *))guess_RotTransSVWithObjMatrix)(((Unkstruct_801202A0 *)arg0), &v30, &v38);
         g[5] = 1;
         g[0] = 3;
         *(SV3_80178D40 *)(g + 6) = v38;
@@ -4140,40 +4140,40 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         g[1] = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x1E:
-        ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B238)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x21:
-        ((void (*)(void *, s32))func_8017BA3C)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), (s32)&D_8018536C);
+        ((void (*)(void *, s32))func_8017BA3C)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B238)(((Unkstruct_801202A0 *)arg0), (s32)&D_8018536C);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x54:
-        ((void (*)(void *, s32))func_8017BB34)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        ((void (*)(void *, s32))func_8017B238)(((Actor_80178D40 *)arg0), (s32)&D_8018536C);
+        ((void (*)(void *, s32))func_8017BB34)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B238)(((Unkstruct_801202A0 *)arg0), (s32)&D_8018536C);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x1F:
-        ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B614)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x22:
-        ((void (*)(void *, s32))func_8017BA3C)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), (s32)&D_8018536C);
+        ((void (*)(void *, s32))func_8017BA3C)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B614)(((Unkstruct_801202A0 *)arg0), (s32)&D_8018536C);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x55:
-        ((void (*)(void *, s32))func_8017BB34)(((Actor_80178D40 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
-        ((void (*)(void *, s32))func_8017B614)(((Actor_80178D40 *)arg0), (s32)&D_8018536C);
+        ((void (*)(void *, s32))func_8017BB34)(((Unkstruct_801202A0 *)arg0), ((Cmd_80178D40 *)arg1)->a.w);
+        ((void (*)(void *, s32))func_8017B614)(((Unkstruct_801202A0 *)arg0), (s32)&D_8018536C);
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x20:
-        func_8017B7A8(((Actor_80178D40 *)arg0));
+        func_8017B7A8(((Unkstruct_801202A0 *)arg0));
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x4E:
         D_80185390 = ((Cmd_80178D40 *)arg1)->a.w;
-        func_8017B940(((Actor_80178D40 *)arg0));
+        func_8017B940(((Unkstruct_801202A0 *)arg0));
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x57:
@@ -4186,23 +4186,23 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         break;
     case 0x2B:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unk2 = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk2.s = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2C:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unk34 = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk34.s = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2D:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unkD8 = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unkD8.val = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2F:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unk10A = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk10A.s = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x2E:
         (*(s16*)D_80185C7C) = 3;
-        arg0->unkF8 = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unkF8.val.s = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x11:
         func_8017A298();
@@ -4221,18 +4221,18 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x33: {
-        void (*f)(Actor_80178D40 *) = (void (*)(Actor_80178D40 *))((Cmd_80178D40 *)arg1)->a.w;
+        void (*f)(Unkstruct_801202A0 *) = (void (*)(Unkstruct_801202A0 *))((Cmd_80178D40 *)arg1)->a.w;
         D_80185C04 = (s32)&((Cmd_80178D40 *)arg1)[1];
-        f(((Actor_80178D40 *)arg0));
+        f(((Unkstruct_801202A0 *)arg0));
         (*(s16*)D_80185C7C) = 3;
         break;
     }
     case 0x30:
         if (((Cmd_80178D40 *)arg1)->a.w == 0) {
-            ((void (*)(void *))guess_HideObjectModel)(((Actor_80178D40 *)arg0));
+            ((void (*)(void *))guess_HideObjectModel)(((Unkstruct_801202A0 *)arg0));
             (*(s16*)D_80185C7C) = 3;
         } else {
-            ((void (*)(void *))guess_ShowObjectModel)(((Actor_80178D40 *)arg0));
+            ((void (*)(void *))guess_ShowObjectModel)(((Unkstruct_801202A0 *)arg0));
             (*(s16*)D_80185C7C) = 3;
         }
         break;
@@ -4256,7 +4256,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
     case 0x36:
         (*(s16*)D_80185C7C) = 3;
         D_80184F38 += 8;
-        if (((s32 (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Actor_80178D40 *)arg0)) == 0) {
+        if (((s32 (*)(s32))((Cmd_80178D40 *)arg1)->a.w)(((Unkstruct_801202A0 *)arg0)) == 0) {
             break;
         }
         D_80184F38 = *(s32 *)(D_80184F38 + 4);
@@ -4273,9 +4273,9 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
         break;
     case 0x39: {
         s32 w1, w2;
-        v40.vx = arg0->unk6;
-        v40.vy = arg0->unkA;
-        v40.vz = arg0->unkE;
+        v40.vx = arg0->unk4.i.hi.u;
+        v40.vy = arg0->unk8.i.hi.u;
+        v40.vz = arg0->unkC.i.hi.u;
         v48.vx = pv->unk6.u;
         v48.vy = pv->unkA.u;
         v48.vz = pv->unkE.u;
@@ -4290,9 +4290,9 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
     }
     case 0x3A: {
         s32 w1, w2;
-        v58.vx = arg0->unk6;
-        v58.vy = arg0->unkA;
-        v58.vz = arg0->unkE;
+        v58.vx = arg0->unk4.i.hi.u;
+        v58.vy = arg0->unk8.i.hi.u;
+        v58.vz = arg0->unkC.i.hi.u;
         v60.vx = pv->unk6.u;
         v60.vy = pv->unkA.u;
         v60.vz = pv->unkE.u;
@@ -4334,7 +4334,7 @@ void func_80178D40(Actor_80178D40 *arg0, s32 arg1)
     L5B_found:
         fp5b = ((Cmd_80178D40 *)arg1)->a.w;
         *q5b = fp5b;
-        ((void (*)(Actor_80178D40 *))fp5b)(((Actor_80178D40 *)arg0));
+        ((void (*)(Unkstruct_801202A0 *))fp5b)(((Unkstruct_801202A0 *)arg0));
         (*(s16*)D_80185C7C) = 3;
         break;
     case 0x5B:
@@ -4772,7 +4772,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_80184F40[D_80185340]; D_80185340 = (D_80185340 + 1) & 0x1FF;
-        { s32 t = w->p20->field12 + arg;
+        { s32 t = w->unk20.m->unk12.u + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

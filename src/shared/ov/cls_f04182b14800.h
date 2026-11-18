@@ -6,7 +6,7 @@ void SHARED_FN(s32 arg0) {
     }
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk18 -= 0x100;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk1A -= 0x100;
-    if (*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20 + 0x1A) < 0x81) {
+    if (*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x1A) < 0x81) {
         if (((Unkstruct_801202A0 *)arg0)->unk70.s == 1) {
             /* LOAD-BEARING: hoisting the argument load into its own local
              * emits `lw $a0,0xCC($s0)` ABOVE the guard branch and leaves the

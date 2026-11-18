@@ -1110,7 +1110,7 @@ extern void func_801592CC(s32 *a0);
 extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventSubStep
 extern s32 D_801E6EA8;
 extern void func_8015934C(void *arg0);
-extern void func_801593E4(A801593E4 *a0);
+extern void func_801593E4(Unkstruct_80126B58 *a0);
 extern void (*D_8018D1E8[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);
@@ -1521,7 +1521,7 @@ extern void func_801634D8(s32 param_1, u16 param_2, u16 param_3, s32 param_4, u1
 extern s32 func_80157158(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern s32 func_80163664(s32 a0, u16 a1, u16 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9, u16 a10, s32 a11, s32 a12);
 extern void func_801636D0(s32 a0, s32 a1);
-extern s32 func_8016380C(struct S8016380C *a0, s32 a1);
+extern s32 func_8016380C(struct Unkstruct_801202A0 *a0, s32 a1);
 extern void *memcpy(void *dst, void *src, s32 n);
 extern s32 func_801638A0(u8 *a0, s32 a1);
 extern s32 func_80163950(s32 a0);
@@ -2833,7 +2833,7 @@ void func_8017FF18(int param_1)
     s32 uVar3;
     s32 uVar4;
 
-    func_8012DBD0(param_1, 0x50, *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12) + 0x800, 0x1D);
+    func_8012DBD0(param_1, 0x50, *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12) + 0x800, 0x1D);
     bVar1 = ((Unkstruct_801202A0 *)param_1)->unkC2;
     switch (bVar1) {
     case 0:
@@ -2973,7 +2973,7 @@ void func_80180264(int param_1)
         uVar2 = rand();
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = (uVar2 & 0x1f) + 0x46;
         CAST_WIDTH(short, param_1, 0xe0) = 0;
-        *(short *)(param_1 + 0xe2) = *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12);
+        *(short *)(param_1 + 0xe2) = *(short *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12);
         switch ((int)((unsigned int)*(unsigned short *)(param_1 + 0x70) << 0x10) >> 0x18) {
         case 0:
         case 1:
@@ -3141,10 +3141,10 @@ lab_ab0:
             sp.f0 = buf[0];
             sp.f2 = buf[1];
             sp.f4 = buf[2];
-            sp.fC = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)arg0)->unk20)->unk12;
+            sp.fC = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk12;
             tv0 = func_8012C51C(&sp, arg0);
             if (tv0 != 0) {
-                ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)tv0)->unk20)->unk12 = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)arg0)->unk20)->unk12;
+                ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)tv0)->unk20.p)->unk12 = ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk12;
                 guess_UpdateActorModelMatrix(tv0);
             }
         } else if (s1c == 0xf) {
@@ -3203,8 +3203,8 @@ void func_801806E4(int p)
         ((Unkstruct_801202A0 *)p)->unk1C.s = 4;
         return;
     case 2:
-        *(unsigned short *)(((Unkstruct_801202A0 *)p)->unk20 + 0x12) =
-            *(unsigned short *)(((Unkstruct_801202A0 *)p)->unk20 + 0x12) - 0x200;
+        *(unsigned short *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12) =
+            *(unsigned short *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12) - 0x200;
         if (guess_TickWaitTimer(p) == 0) return;
         ((Unkstruct_801202A0 *)p)->unk1C.s = 0x3c;
         *(unsigned short *)(p + 0x34) = 3;
