@@ -3,7 +3,7 @@
 s32 func_8012ACE0(void *o) {
     int i;
     for (i = 0; ; i++) {
-        switch (((Owner_8012ACE0 *)o)->list[i].unk4) {
+        switch (((Unkstruct_801202A0 *)o)->unk90[i].unk4) {
             case -2:
             case -1:
             case 0:

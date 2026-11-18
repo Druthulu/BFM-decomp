@@ -3838,25 +3838,25 @@ void func_8017F3D4(s32 arg0, s32 arg1) {
     extern u16 D_8018E33C;
     extern void func_8017D8A4(s32 a0, void *a1, void *a2, s32 a3, s32 a4);
 
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90),
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0,
                   (u8 *)&D_8018E33C, (u8 *)&D_8018E33C + 0x120, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0xCC,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0xCC,
                   (u8 *)&D_8018E33C + 0x60, (u8 *)&D_8018E33C + 0xCC, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x3C,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x3C,
                   (u8 *)&D_8018E33C - 0xC0, (u8 *)&D_8018E33C - 0x90, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x48,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x48,
                   (u8 *)&D_8018E33C - 0xB4, (u8 *)&D_8018E33C - 0x84, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x54,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x54,
                   (u8 *)&D_8018E33C - 0xA8, (u8 *)&D_8018E33C - 0x78, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x60,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x60,
                   (u8 *)&D_8018E33C - 0x9C, (u8 *)&D_8018E33C - 0x6C, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x90,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x90,
                   (u8 *)&D_8018E33C - 0x60, (u8 *)&D_8018E33C - 0x30, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0x9C,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0x9C,
                   (u8 *)&D_8018E33C - 0x54, (u8 *)&D_8018E33C - 0x24, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0xA8,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0xA8,
                   (u8 *)&D_8018E33C - 0x48, (u8 *)&D_8018E33C - 0x18, arg1, 1);
-    func_8017D8A4(*(s32 *)(((Unkstruct_801202A0 *)arg0)->unk94.s * 8 + ((Unkstruct_801202A0 *)arg0)->unk90) + 0xB4,
+    func_8017D8A4(((Unkstruct_801202A0 *)arg0)->unk90[((Unkstruct_801202A0 *)arg0)->unk94.s].unk0 + 0xB4,
                   (u8 *)&D_8018E33C - 0x3C, (u8 *)&D_8018E33C - 0xC, arg1, 1);
 }
 

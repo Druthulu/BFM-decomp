@@ -6265,28 +6265,30 @@ s32 func_80181824(s32 param_1, s32 param_2)
     MTX_80181824 m1;
     SV_80181824 unused;
     u32 w;
-    u32 p;
+    u32 tag;
+    Rec_80181824 *p;
     s32 ent;
     s32 M;
     s32 c;
     s32 mp;
 
     ent = CAST_SIGN(s32, param_1, 0x64);
-    p = *(u32 *)((((Unkstruct_801202A0 *)ent)->unk94.u * 8) + ((Unkstruct_801202A0 *)ent)->unk90);
-    if (p == 0) {
+    tag = ((Unkstruct_801202A0 *)ent)->unk90[((Unkstruct_801202A0 *)ent)->unk94.u].unk0;
+    if (tag == 0) {
         return 0;
     }
-    p &= 0xfeffffff;
-    p += 0x50;
+    tag &= 0xfeffffff;
+    tag += 0x50;
+    p = (Rec_80181824 *)tag;
     mp = (s32)&m1;
-    out.vx = *(s16 *)(p + 6);
-    w = *(u32 *)p;
-    out.vy = (s16)(*(u8 *)(p + 1) | ((w & 0xf) << 8));
+    out.vx = p->unk6;
+    w = p->unk0.w;
+    out.vy = (s16)(p->unk0.b.unk1 | ((w & 0xf) << 8));
     out.vz = (s16)(((w >> 0x10) & 0xff) | ((w & 0xf0) << 4));
     func_80020DA4((s32)&out, mp);
-    m1.t[0] = *(s8 *)(p + 3);
-    m1.t[1] = *(s8 *)(p + 4);
-    m1.t[2] = *(s8 *)(p + 5);
+    m1.t[0] = p->unk0.b.unk3;
+    m1.t[1] = p->unk4;
+    m1.t[2] = p->unk5;
 
     /* gte_SetRotMatrix(M) */
     M = ((Unkstruct_801202A0 *)ent)->unk20.p + 0x34;

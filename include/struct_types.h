@@ -407,14 +407,23 @@ typedef struct {
 } Unkstruct_80126B58; /* size = 0x254 */
 
 /* T16.c6: defined ahead of Unkstruct_801202A0 (moved, byte-neutral, Unkstruct_80185680_2 from below, its alias and SubStruct
-   from src/shared/engine_types.h): the parent's absorbed views MainStruct / Owner_8012ACE0_8012ACE0 spell them. */
+   from src/shared/engine_types.h): the parent's absorbed views MainStruct / Unkstruct_801202A0 spell them. */
 typedef struct {
     /* Unkstruct_91b15ded: P3.40 T3 band rank 1770; 10 TNC sites in 1 bodies; struct map 10 sites; restruct.py --decide-band */
     /* 0x0000 */ s32 unk0;
     /* 0x0004 */ s16 unk4;
     /* 0x0006 */ s16 unk6;
 } Unkstruct_80185680_2; /* size = 0x8 */
-typedef Unkstruct_80185680_2 Elem_8012ACE0_8012ACE0;
+
+/* T17.c29: the 8-byte record at (actor unk90[i].unk0 & 0xfeffffff) + 0x50 (model data the element's tagged pointer names;
+   bit 24 is the tag). Reads: func_80181824 src/ov_SC03_030/ov_SC03_030_jr_8017AE2C.c: u32 +0 whole and u8 +1, s8 +3/+4/+5,
+   s16 +6. */
+typedef struct {
+    /* 0x0000 */ union { u32 w; struct { u8 unk0; u8 unk1; u8 unk2; s8 unk3; } b; } unk0;
+    /* 0x0004 */ s8 unk4;
+    /* 0x0005 */ s8 unk5;
+    /* 0x0006 */ s16 unk6;
+} Rec_80181824; /* size = 0x8 */
 
 /* T17.c24b: Unkstruct_8013B83C moved ahead of Unkstruct_801202A0 (byte-neutral): the actor's +0x44 union spells it. */
 typedef struct {
@@ -518,7 +527,7 @@ typedef struct Unkstruct_801202A0 {
         s16 s;
     } unk8C;
     /* 0x008e */ u8 pad8E[0x2];
-    /* 0x0090 */ void *unk90;
+    /* 0x0090 */ Unkstruct_80185680_2 *unk90;
     /* 0x0094 */ union { s32 s; u32 u; } unk94;
     /* 0x0098 */ union { s16 s; u16 u; } unk98;
     /* 0x009a */ s16 unk9A;

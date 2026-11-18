@@ -529,8 +529,6 @@ struct Entity_80167540 {
     /* 0x38 */ MATRIX mat;
 };
 typedef MATRIX Mat_8016A73C;
-typedef struct { char pad[0x90]; Elem_8012ACE0_8012ACE0 *list; } Owner_8012ACE0_8012ACE0;
-typedef Owner_8012ACE0_8012ACE0 Owner_8012ACE0;
 typedef struct { u32 addr : 24; u8 len; } PTag_8018F694;
 typedef Pair_8013AD38 Pair;
 typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part;
