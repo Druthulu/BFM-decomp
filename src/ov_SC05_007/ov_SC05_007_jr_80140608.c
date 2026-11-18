@@ -960,7 +960,7 @@ void func_801407F4(void)
     ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
 
     iVar2 = RET_AS(s32, func_80028FBC, (void))();
-    ((Unkstruct_800B5CB8 *)D_80181ABC)->unk18 = *D_80181AD0[iVar2];
+    ((Unkstruct_801407F4 *)D_80181ABC)->unk18 = *D_80181AD0[iVar2];
     iVar2 = RET_AS(s32, func_80029000, (void))();
     CAST_ALIAS(s16, D_80181AC0, 0x18) = *D_80181AD0[iVar2];
 
@@ -2244,9 +2244,9 @@ void func_80144458(void *arg0) {
             guess_ApplyAccelAndVelocity(arg0);
         }
     }
-    ((Unkstruct_800B5CB8 *)temp_s2)->unk8 = (u16) ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
-    ((Unkstruct_800B5CB8 *)temp_s2)->unkA = (u16) ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
-    ((Unkstruct_800B5CB8 *)temp_s2)->unkC = (u16) ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unk8.u = (u16) ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unkA.u = (u16) ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unkC.u = (u16) ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     if (guess_StepPairSequence(temp_s2, arg0 + 0xD0) != 0) {
         guess_ZeroMemory(temp_s2, 0x38);
         guess_FreeActor(arg0);

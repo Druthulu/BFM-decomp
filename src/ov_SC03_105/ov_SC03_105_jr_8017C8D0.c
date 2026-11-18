@@ -3183,22 +3183,22 @@ s32 func_8017E4D4(s32 arg0, s16 *arg1, s32 arg2)
         return 0;
     }
     q = CAST_SIGN(u8 *, p, 0x20);
-    ((Unkstruct_800B5CB8 *)q)->unk2 = 2;
+    ((Unkstruct_800B5BD8 *)q)->unk2.s = 2;
     *(void (**)(void))(q + 0x20) = D_8018DE68;
-    ((Unkstruct_800B5CB8 *)q)->unk27 = 0x74;
-    ((Unkstruct_800B5CB8 *)q)->unk28 = 0x3C5;
-    ((Unkstruct_800B5CB8 *)q)->unk2A = 0x1E0;
+    ((Unkstruct_800B5BD8 *)q)->unk27 = 0x74;
+    ((Unkstruct_800B5BD8 *)q)->unk28.s = 0x3C5;
+    ((Unkstruct_800B5BD8 *)q)->unk2A.u = 0x1E0;
     CAST_WIDTH(u32, q, 0x4) |= 0xC000040;
     CAST_WIDTH(u32, q, 0x34) = *(u32 *)(arg0 + 0x20) + 0x34;
-    ((Unkstruct_800B5CB8 *)q)->unk2E = arg1[0];
+    ((Unkstruct_800B5BD8 *)q)->unk2E = arg1[0];
     CAST_WIDTH(s16, q, 0x30) = arg1[1];
     *(s16 *)(q + 0x32) = arg1[2];
     if (arg2 != 0) {
-        ((Unkstruct_800B5CB8 *)q)->unk1A = 0x800;
-        ((Unkstruct_800B5CB8 *)q)->unk18 = 0x800;
+        ((Unkstruct_800B5BD8 *)q)->unk1A.u = 0x800;
+        ((Unkstruct_800B5BD8 *)q)->unk18.u = 0x800;
     } else {
         CAST_ALIAS(s16, q, 0x18) = -0x800;
-        ((Unkstruct_800B5CB8 *)q)->unk1A = 0x800;
+        ((Unkstruct_800B5BD8 *)q)->unk1A.u = 0x800;
     }
     CAST_WIDTH(s32, p, 0x2C) = arg0;
     return (s32)p;

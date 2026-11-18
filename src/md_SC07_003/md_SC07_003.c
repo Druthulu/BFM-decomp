@@ -1760,7 +1760,7 @@ s32 func_801A23FC(s32 arg0) {
         func_801A2658(arg0, (s32)D_801A68BC);
         func_801A2658(arg0, (s32)(D_801A68BC + 8));
         if (s1 != 0) {
-            p = ((Unkstruct_800B5CB8 *)s1)->unk20;
+            p = ((Unkstruct_801202A0 *)s1)->unk20.p;
             ((Unkstruct_800B5CB8 *)p)->unk1A = 0x3000;
             ((Unkstruct_800B5CB8 *)p)->unk18 = 0x3000;
         }
@@ -2961,8 +2961,8 @@ void func_801A4268(s32 self)
         sy = x >> 16;
         t1 = sy * flag;
         p = D_801F4358;
-        ((Unkstruct_800B5CB8 *)p)->unk1A = ((flag << 10) >> 12) + 0x800;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = ((flag << 10) >> 12) + 0x800;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = ((flag << 10) >> 12) + 0x800;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = ((flag << 10) >> 12) + 0x800;
         *((s8 *)&D_801F4318 + 1) = 0;
         *((s8 *)&D_801F4318 + 2) = (t0 >> 12) + sx;
         *((s8 *)&D_801F4318 + 0) = (t1 >> 12) + sy;
@@ -3540,8 +3540,8 @@ void func_801A5098(s32 a0) {
 
     v0 = CAST_SIGN(s32 *, ((u8 *)a0), 0x20);
     CAST_WIDTH(s16, ((u8 *)v0), 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk1A = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk18 = 0;
+    ((Unkstruct_8001C9D0 *)v0)->unk1A.u = 0;
+    ((Unkstruct_8001C9D0 *)v0)->unk18.u = 0;
     func_8012AD44((s32 *)a0, 1);
     guess_RequestSound(0xB58, 0);
 }
@@ -4002,9 +4002,9 @@ void func_801A5BBC(s32 arg0) {
 
     var = CAST_SIGN(s16, arg0, 0x2C);
     if (var < 0x700) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2C = var + 0x30;
+        ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u = var + 0x30;
         func_801A4FB4(D_801F4448, -4);
-        guess_BuildCircle12Points(D_801F4448 - 4, ((Unkstruct_800B5CB8 *)arg0)->unk2C);
+        guess_BuildCircle12Points(D_801F4448 - 4, ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u);
     } else {
         func_801292C8((u8 *)arg0);
     }

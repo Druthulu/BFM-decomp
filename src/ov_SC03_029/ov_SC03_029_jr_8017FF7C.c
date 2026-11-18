@@ -3635,8 +3635,8 @@ void func_801813FC(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;
@@ -5570,9 +5570,9 @@ u8 *func_80183F70(s32 a0, s32 a1, s32 a2) {
     func_8001CD50((s32)sub, (s32)((u8 *)D_801C4770 + (a2 << 6)));
 
     *(u16 *)(sub + 0x1E) = 0xC00;
-    ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk12 = val;
+    ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk12.u = val;
     CAST_WIDTH(s32, sub, 0x4) |= 0x40000000;
 
     return obj;
@@ -5989,10 +5989,10 @@ void func_80184764(void *a0) {
     }
 
     ptr_0x20 = *(void **)(s0 + 0x20);
-    ((Unkstruct_800B5CB8 *)ptr_0x20)->unk18 += 0x100;
+    ((Unkstruct_800B5BD8 *)ptr_0x20)->unk18.u += 0x100;
 
     ptr_0x20 = *(void **)(s0 + 0x20);
-    ((Unkstruct_800B5CB8 *)ptr_0x20)->unk1A += 0x100;
+    ((Unkstruct_800B5BD8 *)ptr_0x20)->unk1A.u += 0x100;
 
     guess_AddVelocityToPos((S800D22E4 *)s0);
 }
@@ -6039,9 +6039,9 @@ void *arg0;
     pointA[1] = CAST_SIGN(u16, base, 0xA);
     pointA[2] = CAST_SIGN(u16, base, 0xE);
 
-    diff[0] = pointA[0] - ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    diff[1] = pointA[1] - ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    diff[2] = pointA[2] - ((Unkstruct_800B5CB8 *)arg0)->unkE;
+    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk6.u;
+    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unkA.u;
+    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkE.u;
 
     VectorNormalSS(diff, diff);
 
@@ -6055,7 +6055,7 @@ void *arg0;
     }
 
     ptr = CAST_SIGN(void *, (u8 *)arg0, 0x20);
-    ((Unkstruct_80126B58 *)base)->unk42 = ((Unkstruct_800B5CB8 *)ptr)->unk12;
+    ((Unkstruct_80126B58 *)base)->unk42 = ((Unkstruct_800B5BD8 *)ptr)->unk12.u;
 
     return 1;
 }
@@ -6108,7 +6108,7 @@ s32 func_80184958(void *a0)
     s32  hit;
 
     cfg = (s32 *)&guess_g_PlayerActor;
-    p0 = (u8 *)((Unkstruct_800B5CB8 *)a0)->unk20;
+    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20;
 
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);

@@ -2627,7 +2627,7 @@ void func_8017AE2C(s32 param_1) {
             goto reset_both;
         }
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), g[2], 6);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
         }
@@ -2642,7 +2642,7 @@ void func_8017AE2C(s32 param_1) {
         if (g[1] != 0) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
-                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
+                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12),
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
@@ -2661,7 +2661,7 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
-                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
+                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
             }
@@ -3789,8 +3789,8 @@ void func_8017CD10(void *a0) {
         s2[1] &= 0x7FFFFFFF;
     }
 
-    v0 = (((Unkstruct_800B5CB8 *)s2)->unk12 + 0x80) & 0xFFF;
-    ((Unkstruct_800B5CB8 *)s2)->unk12 = v0;
+    v0 = (((Unkstruct_800B5BD8 *)s2)->unk12.u + 0x80) & 0xFFF;
+    ((Unkstruct_800B5BD8 *)s2)->unk12.u = v0;
 
     if (v0 == 0 || v0 == 0x800) {
         if (((Unkstruct_80126B58 *)a0)->unk24 != 0) {
@@ -3798,9 +3798,9 @@ void func_8017CD10(void *a0) {
         }
     }
 
-    v0 = ((Unkstruct_800B5CB8 *)s2)->unk1A - 0x40;
-    ((Unkstruct_800B5CB8 *)s2)->unk1A = v0;
-    ((Unkstruct_800B5CB8 *)s2)->unk18 = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s2)->unk1A.u - 0x40;
+    ((Unkstruct_800B5BD8 *)s2)->unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)s2)->unk18.u = v0;
 
     if (v0 < 0) {
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
@@ -8408,8 +8408,8 @@ void func_80184398(s32 a0) {
 
     *(u16 *)(self + 0xA) = *(u16 *)(self + 0xA) - 0xA0;
     *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) + 0x10;
-    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2C00;
-    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk18.u = 0x2C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk1A.u = 0x1C00;
     do { CAST_WIDTH(u32, obj, 4) = CAST_WIDTH(u32, obj, 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     t0 = *(s32 *)(self + 0xCC);
@@ -8422,7 +8422,7 @@ void func_80184398(s32 a0) {
     func_8012AD44((s32 *)self, 3);
 
     obj = *(s32 *)(self + 0x64);
-    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    t1 = ((Unkstruct_801202A0 *)obj)->unk20.p;
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801863F4(obj);
 
@@ -8522,11 +8522,11 @@ void func_801845CC(int a0)
     ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = guess_g_PlayerPosZ;
 
     ptr = CAST_SIGN(u8 *, s0, 0x20);
-    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    val1 = ((Unkstruct_8001C9D0 *)ptr)->unk18.u;
     CAST_WIDTH(s16, s0, 0xDC) = (val1 << 16) >> 19;
 
     ptr = CAST_SIGN(u8 *, s0, 0x20);
-    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
+    val2 = ((Unkstruct_8001C9D0 *)ptr)->unk1A.u;
     *(s16 *)(s0 + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)s0, 7);

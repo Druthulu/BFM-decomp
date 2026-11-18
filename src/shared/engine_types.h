@@ -87,7 +87,9 @@ struct S8013A0A4 {
     /* 0x0006 */ u8 pad6[0x2];
     /* 0x0008 */ s32 field_8;
     /* 0x000c */ u8 unkC;
-    /* 0x000d */ u8 padD[0x9];
+    /* 0x000d */ u8 padD[0x1];
+    /* 0x000e */ u16 unkE;
+    /* 0x0010 */ u8 pad10[0x6];
     /* 0x0016 */ u16 field_16;
     /* 0x0018 */ u8 pad18[0x6];
     /* 0x001e */ u8 field_1E;

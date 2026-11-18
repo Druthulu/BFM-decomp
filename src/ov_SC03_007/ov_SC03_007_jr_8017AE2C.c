@@ -2628,7 +2628,7 @@ void func_8017AE2C(s32 param_1) {
             goto reset_both;
         }
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), g[2], 6);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
         }
@@ -2643,7 +2643,7 @@ void func_8017AE2C(s32 param_1) {
         if (g[1] != 0) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
-                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
+                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12),
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
@@ -2662,7 +2662,7 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
-                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
+                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
             }
@@ -4784,7 +4784,7 @@ s32 func_8017EA48(s32 param_1)
     mtx = D_800AE620;
     RotMatrixY(CAST_WIDTH(s16, param_1, 0xDC), &mtx);
     gte_SetRotMatrix(&mtx);
-    gte_SetTransMatrix((void *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x34));
+    gte_SetTransMatrix((void *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x34));
 
     RotTransSV(&D_8018BD34[0], &v0, &buf);
     RotTransSV(&D_8018BD34[1], &v1, &buf);
@@ -5612,9 +5612,9 @@ u8 *func_8017FD6C(s32 a0, s32 a1, s32 a2) {
     func_8001CD50((s32)sub, (s32)((u8 *)D_8018BD88 + (a2 << 6)));
 
     *(u16 *)(sub + 0x1E) = 0xC00;
-    ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk12 = val;
+    ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk12.u = val;
     CAST_WIDTH(s32, sub, 0x4) |= 0x40000000;
 
     return obj;

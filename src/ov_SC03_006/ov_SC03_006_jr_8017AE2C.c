@@ -9470,9 +9470,9 @@ u8 *func_8018594C(s16 a0, u8 *a1, s32 a2) {
     func_8001CD50((s32)sub, (s32)((u8 *)D_801C5988 + (a2 << 6)));
 
     *(u16 *)(sub + 0x1E) = 0xC00;
-    ((Unkstruct_800B5CB8 *)sub)->unk1A = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk18 = 0x1000;
-    ((Unkstruct_800B5CB8 *)sub)->unk12 = a0;
+    ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)sub)->unk12.u = a0;
     CAST_WIDTH(s32, sub, 0x4) |= 0x40000000;
 
     return obj;

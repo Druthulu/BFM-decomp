@@ -1571,7 +1571,7 @@ void func_8015934C(void *arg0) {
         guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    ((Unkstruct_800B5CB8 *)temp_v1)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_v1)->unk12 + 0x16) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_v1)->unk12.u = (u16) ((((Unkstruct_8001C9D0 *)temp_v1)->unk12.u + 0x16) & 0xFFF);
 }
 
 

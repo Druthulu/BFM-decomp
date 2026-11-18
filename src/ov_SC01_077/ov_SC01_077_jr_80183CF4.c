@@ -4636,7 +4636,7 @@ void func_80186330(void *arg0) {
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
     ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = (u16) M2C_FIELD(arg0, u16 *, 0xDE);
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = (u16) (((Unkstruct_801202A0 *)arg0)->unk5C.u & 0x77FF);
-    ((Unkstruct_800B5CB8 *)temp_v1)->unk2C = (u16) (((Unkstruct_800B5CB8 *)temp_v1)->unk2C & 0xFFEF);
+    ((Unkstruct_8001C9D0 *)temp_v1)->unk2C.u = (u16) (((Unkstruct_8001C9D0 *)temp_v1)->unk2C.u & 0xFFEF);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;
 }
 

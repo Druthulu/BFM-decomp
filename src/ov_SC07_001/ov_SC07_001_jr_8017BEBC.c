@@ -4264,7 +4264,7 @@ s32 func_80180570(void *arg0) {
     if (D_801AAD60 == 0) {
         return 0;
     }
-    if (*(s32 *)(((Unkstruct_800B5CB8 *)D_801AAD60)->unk20 + 4) < 0) {
+    if (*(s32 *)(((Unkstruct_801202A0 *)D_801AAD60)->unk20.p + 4) < 0) {
         return 0;
     }
 

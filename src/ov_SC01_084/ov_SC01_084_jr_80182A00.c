@@ -664,7 +664,7 @@ void func_80183630(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unkE = tmp[2];
 
     ptr = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)ptr)->unk12 = ((-sum1) & 0xFFF) + 0x400;
+    ((Unkstruct_8001C9D0 *)ptr)->unk12.u = ((-sum1) & 0xFFF) + 0x400;
 
     cnt2 = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
     CAST_ALIAS(s32, a0, 0x1C) = cnt2;
@@ -728,7 +728,7 @@ void func_80183790(s32 a0) {
     ((Unkstruct_800B5CB8 *)a0)->unkE = tmp[2];
 
     ptr = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    ((Unkstruct_800B5CB8 *)ptr)->unk12 = (-sum1) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)ptr)->unk12.u = (-sum1) & 0xFFF;
 
     cnt2 = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
     CAST_ALIAS(s32, a0, 0x1C) = cnt2;
@@ -820,7 +820,7 @@ void func_8018392C(s32 param_1) {
     outVal = out;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)outVal;
 
-    v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), outVal >> 16, 6);
+    v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), outVal >> 16, 6);
 
     v1 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + v0;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)v1;
@@ -907,7 +907,7 @@ void func_80183A7C(s32 param_1) {
     outVal = out;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)outVal;
 
-    v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12), outVal >> 16, 4);
+    v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), outVal >> 16, 4);
 
     v1 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + v0;
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)v1;

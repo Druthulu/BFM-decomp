@@ -3153,7 +3153,7 @@ void func_80184230(void *arg0) {
         }
         func_80184E9C((s32)arg0, (s32)D_80190314, (s32)D_8019031C);
         prim = CAST_SIGN(void *, (s32)arg0, 0x20);
-        ((Unkstruct_800B5CB8 *)prim)->unk12 = ((Unkstruct_800B5CB8 *)prim)->unk12 + 0x200;
+        ((Unkstruct_8001C9D0 *)prim)->unk12.u = ((Unkstruct_8001C9D0 *)prim)->unk12.u + 0x200;
         D_80190370[CAST_SIGN(u16, (s32)arg0, 2)](arg0);
     } else {
         guess_FreeActor(arg0);

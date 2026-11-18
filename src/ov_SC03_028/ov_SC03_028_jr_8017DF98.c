@@ -4227,8 +4227,8 @@ void func_80180B44(s32 a0, s32 a1) {
                 *(s16 *)(*(s32 *)(s0 + 0x20) + 0x1C) = 0x7000;
                 *(s32 *)(s0 + 0x10) = rsin(s1) << 8;
                 *(s32 *)(s0 + 0x18) = rcos(s1) << 8;
-                *(s32 *)(s0 + 0x4) -= rsin(*(s16 *)(((Unkstruct_800B5CB8 *)D_801EC44C)->unk20 + 0x12)) << 10;
-                *(s32 *)(s0 + 0xC) -= rcos(*(s16 *)(((Unkstruct_800B5CB8 *)D_801EC44C)->unk20 + 0x12)) << 10;
+                *(s32 *)(s0 + 0x4) -= rsin(*(s16 *)(((Unkstruct_801202A0 *)D_801EC44C)->unk20.p + 0x12)) << 10;
+                *(s32 *)(s0 + 0xC) -= rcos(*(s16 *)(((Unkstruct_801202A0 *)D_801EC44C)->unk20.p + 0x12)) << 10;
             }
         }
         break;
@@ -5725,7 +5725,7 @@ void func_801833D8(void *a0) {
     p1 = CAST_SIGN(void *, (s32)a0, 0x64);
     p2 = CAST_SIGN(void *, (s32)p1, 0x20);
     p3 = CAST_SIGN(void *, (s32)a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p3)->unk12 = ((Unkstruct_800B5CB8 *)p2)->unk12;
+    ((Unkstruct_8001C9D0 *)p3)->unk12.u = ((Unkstruct_800B5CB8 *)p2)->unk12;
 
     if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;

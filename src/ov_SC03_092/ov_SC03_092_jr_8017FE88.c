@@ -3577,8 +3577,8 @@ void func_80180E50(s32 arg0) {
     s32 i;
 
     ptr = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-    old = ((Unkstruct_800B5CB8 *)ptr)->unk20;
-    ((Unkstruct_800B5CB8 *)ptr)->unk20 = D_801AC5D8;
+    old = ((Unkstruct_8001C9D0 *)ptr)->unk20;
+    ((Unkstruct_8001C9D0 *)ptr)->unk20 = D_801AC5D8;
     for (i = 0; i < 5; i++) {
         guess_SpawnActor(0x150, i, arg0);
     }

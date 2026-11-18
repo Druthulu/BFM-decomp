@@ -4938,8 +4938,8 @@ void func_8018232C(int param_1) {
         t = r * 3;
         t += t >> 31;
         t >>= 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = t;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = t;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = t;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = t;
         *(s32 *)(param_1 + 0x1C) += 1;
         if (*(s32 *)(param_1 + 0x1C) >= 0x10) {
             *(u16 *)(param_1 + 2) += 1;
@@ -4951,12 +4951,12 @@ void func_8018232C(int param_1) {
         t = rs * 3;
         t += t >> 31;
         t >>= 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = t;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = t;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = t;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = t;
         b = prod >> 12;
-        ((Unkstruct_800B5CB8 *)s1)->unk24 = b;
-        ((Unkstruct_800B5CB8 *)s1)->unk25 = b;
-        ((Unkstruct_800B5CB8 *)s1)->unk26 = b;
+        ((Unkstruct_800B5BD8 *)s1)->unk24 = b;
+        ((Unkstruct_800B5BD8 *)s1)->unk25 = b;
+        ((Unkstruct_800B5BD8 *)s1)->unk26 = b;
         *(s32 *)(param_1 + 0x1C) -= 1;
         if (*(s32 *)(param_1 + 0x1C) == 0) {
             func_801292C8((u8 *)param_1);

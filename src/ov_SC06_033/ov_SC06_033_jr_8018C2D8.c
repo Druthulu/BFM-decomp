@@ -3142,7 +3142,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
                 dv = (u8 *)m;
             }
@@ -3150,9 +3150,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
         func_80189250((s32)CAST_SIGN(u8 *, s1, 0xD0));
 
@@ -3172,7 +3172,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
                 dv = (u8 *)m;
             }
@@ -3180,9 +3180,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
         func_80189250((s32)CAST_SIGN(u8 *, s1, 0xD4));
 
@@ -3202,7 +3202,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
             }
             ((Unkstruct_801202A0 *)s1)->unk4.i.hi.u = buf[0];
             ((Unkstruct_801202A0 *)s1)->unk8.i.hi.u = buf[1];
@@ -3280,7 +3280,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
                 dv = (u8 *)m;
             }
@@ -3288,9 +3288,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
 
         {
@@ -3309,7 +3309,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
                 dv = (u8 *)m;
             }
@@ -3317,9 +3317,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
 
         {
@@ -3338,7 +3338,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
             }
             ((Unkstruct_801202A0 *)s1)->unk4.i.hi.u = buf[0];
             ((Unkstruct_801202A0 *)s1)->unk8.i.hi.u = buf[1];
@@ -3446,7 +3446,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD0);
                 dv = (u8 *)m;
             }
@@ -3454,9 +3454,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
 
         {
@@ -3475,7 +3475,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
                 m = (s32)CAST_SIGN(u8 *, s1, 0xD4);
                 dv = (u8 *)m;
             }
@@ -3483,9 +3483,9 @@ void func_8018C2D8(void *arg)
             *(u16 *)(dv + 0xA) = buf[1];
             *(u16 *)(dv + 0xE) = buf[2];
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x10) =
-                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk10;
+                *(u16 *)(dv + 0xFC) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk10;
             *(u16 *)(*(s32 *)(dv + 0x20) + 0x12) =
-                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)sv)->unk20)->unk12;
+                *(u16 *)(dv + 0xFE) + ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)sv)->unk20.p)->unk12;
         }
 
         {
@@ -3506,7 +3506,7 @@ void func_8018C2D8(void *arg)
                  * follows; the reassignment kills the symbol's cse equivalence class. */
                 s32 m = (s32)D_801C8344;
                 ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(
-                    ((Unkstruct_800B5CB8 *)sv)->unk20 + 0x34, m, (void *)buf);
+                    ((Unkstruct_801202A0 *)sv)->unk20.p + 0x34, m, (void *)buf);
             }
             ((Unkstruct_801202A0 *)s1)->unk4.i.hi.u = buf[0];
             ((Unkstruct_801202A0 *)s1)->unk8.i.hi.u = buf[1];
@@ -4014,7 +4014,7 @@ void func_8018D7B4(void *arg)
 
     case 3: {
         u8 *prim = CAST_SIGN(u8 *, s0, 0x20);
-        ((Unkstruct_800B5CB8 *)prim)->unk12 = ((Unkstruct_800B5CB8 *)prim)->unk12 - 0x40;
+        ((Unkstruct_8001C9D0 *)prim)->unk12.u = ((Unkstruct_8001C9D0 *)prim)->unk12.u - 0x40;
         if (CAST_SIGN(s16, *(u8 **)(s0 + 0x20), 0x12) != 0) break;
         ((Unkstruct_801202A0 *)s0)->extE.kSC06_033_8018D7B4.unkAE = 0;
         ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;

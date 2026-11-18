@@ -3654,10 +3654,10 @@ void func_80180FA8(void *a0) {
     D_801D0620[2] -= D_801865AA >> 2;
 
     ptr = CAST_SIGN(void *, s0, 0x20);
-    ((Unkstruct_800B5CB8 *)ptr)->unk18 += 0x200;
+    ((Unkstruct_800B5BD8 *)ptr)->unk18.u += 0x200;
 
     ptr = CAST_SIGN(void *, s0, 0x20);
-    ((Unkstruct_800B5CB8 *)ptr)->unk1A += 0x200;
+    ((Unkstruct_800B5BD8 *)ptr)->unk1A.u += 0x200;
 
     func_8017FB38(s0);
 }
@@ -3713,7 +3713,7 @@ void func_80181174(u8 *a1) {
     a0 = (u8*)D_801D0678 + (CAST_SIGN(s16, a1, 0x2C) << 6);
     a3 = CAST_SIGN(u8 *, a1, 0x20);
     if (CAST_SIGN(s16, a3, 0x18) != 0) {
-        ((Unkstruct_800B5CB8 *)a3)->unk18 = CAST_SIGN(s16, a3, 0x18) - 0x180;
+        ((Unkstruct_800B5BD8 *)a3)->unk18.u = CAST_SIGN(s16, a3, 0x18) - 0x180;
         ((Unkstruct_800B5CB8 *)*(u8 **)(a1 + 0x20))->unk1A = ((Unkstruct_800B5CB8 *)*(u8 **)(a1 + 0x20))->unk1A - 0x200;
         *(u8*)(a0 + 0) = *(u8*)(a0 + 0) - (D_801865B8 >> 3);
         *(u8*)(a0 + 1) = *(u8*)(a0 + 1) - (D_801865B9 >> 3);
@@ -3766,7 +3766,7 @@ void func_80181304(u8 *a1) {
     a0 = (u8*)D_801D0678 + (CAST_SIGN(s16, a1, 0x2C) << 6);
     a2 = CAST_SIGN(u8 *, a1, 0x20);
     if (CAST_SIGN(s16, a2, 0x18) < 0x1400) {
-        ((Unkstruct_800B5CB8 *)a2)->unk18 = CAST_SIGN(s16, a2, 0x18) + 0x280;
+        ((Unkstruct_800B5BD8 *)a2)->unk18.u = CAST_SIGN(s16, a2, 0x18) + 0x280;
         ((Unkstruct_800B5CB8 *)*(u8 **)(a1 + 0x20))->unk1A = ((Unkstruct_800B5CB8 *)*(u8 **)(a1 + 0x20))->unk1A + 0x3C0;
         *(u16*)(CAST_SIGN(u8 *, a1, 0x20) + 0x1E) = *(u16*)(CAST_SIGN(u8 *, a1, 0x20) + 0x1E) + 0x100;
         *(u8*)(a0 + 4) = *(u8*)(a0 + 4) - (D_801865C0 >> 3);

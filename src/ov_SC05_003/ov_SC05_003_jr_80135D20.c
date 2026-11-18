@@ -1051,10 +1051,10 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     guess_g_BoxHitNormalY = 0;
     if ((a1c & 1) != 0) {
         *(s16 *)guess_g_BoxHitNormalX = 0xFFF;
-        ((Unkstruct_800B5CB8 *)D_80182AF8)->unk0 = a2c + 2;
+        ((SVECTOR *)D_80182AF8)->vx = a2c + 2;
     } else {
         *(s16 *)guess_g_BoxHitNormalX = -0xFFF;
-        ((Unkstruct_800B5CB8 *)D_80182AF8)->unk0 = a2c - 2;
+        ((SVECTOR *)D_80182AF8)->vx = a2c - 2;
     }
     *(s16 *)guess_g_BoxHitCenterX = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 4) + M2C_FIELD(arg0, s16 *, 6)) >> 1);
     guess_g_BoxHitCenterY = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 8) + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);

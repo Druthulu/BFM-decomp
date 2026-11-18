@@ -4597,8 +4597,8 @@ void func_80180388(void *arg0) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x80;
             ((Unkstruct_801202A0 *)s0)->unk76.s = *(u16 *)p;
             q = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_800B5CB8 *)q)->unk1A = 0x2000;
-            ((Unkstruct_800B5CB8 *)q)->unk18 = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk1A.u = 0x2000;
+            ((Unkstruct_8001C9D0 *)q)->unk18.u = 0x2000;
             a = ((Unkstruct_801202A0 *)s0)->unkD4;
             h1 = ((Unkstruct_801202A0 *)s0)->unk88.u;
             h2 = ((Unkstruct_801202A0 *)s0)->unk8A.u;
@@ -4829,8 +4829,8 @@ void func_801808F4(s32 a0)
         m = rsin(*(s32 *)(a0 + 0x1C) << 6) * 3;
         m += m >> 31;
         m >>= 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = m;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = m;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = m;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = m;
         *(s32 *)(a0 + 0x1C) += 1;
         if (*(s32 *)(a0 + 0x1C) >= 0x10) {
             *(u16 *)(a0 + 2) = *(u16 *)(a0 + 2) + 1;
@@ -4842,11 +4842,11 @@ void func_801808F4(s32 a0)
         m = w * 3;
         m += m >> 31;
         m >>= 1;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = m;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = m;
-        ((Unkstruct_800B5CB8 *)s1)->unk24 = p >> 12;
-        ((Unkstruct_800B5CB8 *)s1)->unk25 = p >> 12;
-        ((Unkstruct_800B5CB8 *)s1)->unk26 = p >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = m;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = m;
+        ((Unkstruct_800B5BD8 *)s1)->unk24 = p >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk25 = p >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk26 = p >> 12;
         *(s32 *)(a0 + 0x1C) -= 1;
         if (*(s32 *)(a0 + 0x1C) == 0) {
             func_801292C8((u8 *)a0);

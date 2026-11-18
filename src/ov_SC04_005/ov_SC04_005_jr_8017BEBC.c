@@ -6865,7 +6865,7 @@ void func_80182D40(s32 a0) {
         if (func_8012DEB8(a0, (s32)&D_801A4CAC, (s32)&D_801A4CB4) == 1) {
             D_80126B96[0] = 0x4012;
             p = CAST_ALIAS(s32, a0, 0x20);
-            D_80126B9A = ((Unkstruct_800B5CB8 *)p)->unk12;
+            D_80126B9A = ((Unkstruct_8001C9D0 *)p)->unk12.u;
             v1b = CAST_ALIAS(s16, a0, 0x70);
             if (v1b == 2) {
                 goto case_eq2;
@@ -8849,8 +8849,8 @@ s32 func_80185B70(s32 a0) {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = -0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
-            ((Unkstruct_800B5CB8 *)v1)->unk1A = v0;
-            ((Unkstruct_800B5CB8 *)v1)->unk18 = v0;
+            ((Unkstruct_800B5BD8 *)v1)->unk1A.u = v0;
+            ((Unkstruct_800B5BD8 *)v1)->unk18.u = v0;
         } else {
             v1 = *(s32 *)(s2 + 0x20);
             v0 = 0x2000;

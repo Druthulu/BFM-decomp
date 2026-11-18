@@ -687,7 +687,7 @@ s32 func_801380E0(s32 arg0) {
                 if (CAST_WIDTH(s32, arg0, 8) & 0x10000) {
                     cont = 1;
                 } else {
-                    ((Unkstruct_800B5CB8 *)arg0)->unk4 = 3;
+                    ((struct S8013A0A4 *)arg0)->field_4 = 3;
                 }
                 *p += 1;
                 break;
@@ -711,7 +711,7 @@ s32 func_801380E0(s32 arg0) {
                     guess_CloseTextWindow(arg0);
                     return;
                 }
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 9;
+                ((struct S8013A0A4 *)arg0)->field_4 = 9;
                 if (*(u8 *)(base + *p) == 5) {
                     CAST_WIDTH(s32, arg0, 8) = CAST_WIDTH(s32, arg0, 8) | 0x4000;
                     *p += 1;
@@ -741,14 +741,14 @@ s32 func_801380E0(s32 arg0) {
                     cont = 1;
                     *p += 2;
                 } else {
-                    ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0xB;
+                    ((struct S8013A0A4 *)arg0)->field_4 = 0xB;
                     *(u8 *)(arg0 + 0xD) = sub;
                     CAST_WIDTH(s32, arg0, 8) = (CAST_WIDTH(s32, arg0, 8) | 0x8000) & ~0x20;
                 }
                 break;
 
             case 6:
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 4;
+                ((struct S8013A0A4 *)arg0)->field_4 = 4;
                 *p += 1;
                 break;
 
@@ -769,7 +769,7 @@ s32 func_801380E0(s32 arg0) {
                         if ((*(u8 *)(base + *p) == 2) || (CAST_WIDTH(s32, arg0, 8) & 0x40000)) {
                             cont = 1;
                         } else {
-                            ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0x10;
+                            ((struct S8013A0A4 *)arg0)->field_4 = 0x10;
                         }
                         if (((s32 (*)(void))func_8001B22C)() == 0) {
                             f = CAST_WIDTH(s32, arg0, 8);
@@ -779,7 +779,7 @@ s32 func_801380E0(s32 arg0) {
                                 CAST_WIDTH(s32, arg0, 8) = (f & ~0x10000) | 0x20020;
                                 ((void (*)(s32))func_80139788)(f);
                             }
-                            ((Unkstruct_800B5CB8 *)arg0)->unk4 = 2;
+                            ((struct S8013A0A4 *)arg0)->field_4 = 2;
                         }
                     } else {
                         cont = 1;
@@ -788,14 +788,14 @@ s32 func_801380E0(s32 arg0) {
                 break;
 
             case 12:
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 6;
+                ((struct S8013A0A4 *)arg0)->field_4 = 6;
                 *(u8 *)(arg0 + 0x21) = 2;
                 *p += 1;
                 CAST_WIDTH(s32, arg0, 8) = CAST_WIDTH(s32, arg0, 8) | 0x4300;
                 break;
 
             case 13:
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 6;
+                ((struct S8013A0A4 *)arg0)->field_4 = 6;
                 *(u8 *)(arg0 + 0x21) = 3;
                 *p += 1;
                 CAST_WIDTH(s32, arg0, 8) = CAST_WIDTH(s32, arg0, 8) | 0x4300;
@@ -808,7 +808,7 @@ s32 func_801380E0(s32 arg0) {
                 break;
 
             case 14:
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 8;
+                ((struct S8013A0A4 *)arg0)->field_4 = 8;
                 CAST_WIDTH(u16, arg0, 0x44) = 0;
                 ((void (*)(s32, s32))func_80138AB4)(arg0, cmd);
                 *p += 1;
@@ -856,15 +856,15 @@ s32 func_801380E0(s32 arg0) {
             case 20:
                 if (!(CAST_WIDTH(s32, arg0, 8) & 0x20000)) {
                     q20 = *p + base;
-                    ((Unkstruct_800B5CB8 *)arg0)->unkE = *(u8 *)(q20 + 1) + (*(u8 *)(q20 + 2) << 8);
+                    ((struct S8013A0A4 *)arg0)->unkE = *(u8 *)(q20 + 1) + (*(u8 *)(q20 + 2) << 8);
                 }
                 cont = 1;
                 *p += 3;
                 break;
 
             case 21:
-                if (((Unkstruct_800B5CB8 *)arg0)->unkE != 0) {
-                    ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0xF;
+                if (((struct S8013A0A4 *)arg0)->unkE != 0) {
+                    ((struct S8013A0A4 *)arg0)->field_4 = 0xF;
                 } else {
                     cont = 1;
                 }
@@ -886,7 +886,7 @@ s32 func_801380E0(s32 arg0) {
             case 25:
                 *p += 1;
                 if ((CAST_WIDTH(s32, arg0, 8) & 0x10000) && (D_8012752C != 0)) {
-                    ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0x10;
+                    ((struct S8013A0A4 *)arg0)->field_4 = 0x10;
                 } else {
                     cont = 1;
                 }
@@ -906,10 +906,10 @@ s32 func_801380E0(s32 arg0) {
                     *(u16 *)(arg0 + 0x4A) = idx + 1;
                 }
             } else if (f0 & 0x2000) {
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0xD;
+                ((struct S8013A0A4 *)arg0)->field_4 = 0xD;
                 return;
             } else {
-                ((Unkstruct_800B5CB8 *)arg0)->unk4 = 0xA;
+                ((struct S8013A0A4 *)arg0)->field_4 = 0xA;
                 return;
             }
         }

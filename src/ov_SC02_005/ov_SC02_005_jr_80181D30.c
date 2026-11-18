@@ -4398,8 +4398,8 @@ void func_801841E0(void *a0) {
             s16 a2arr[3];
 
             p20 = CAST_SIGN(void *, (u8 *)a0, 0x20);
-            flags = ((Unkstruct_800B5CB8 *)p20)->unk2C;
-            ((Unkstruct_800B5CB8 *)p20)->unk2C = flags & 0xFFFE;
+            flags = ((Unkstruct_8001C9D0 *)p20)->unk2C.u;
+            ((Unkstruct_8001C9D0 *)p20)->unk2C.u = flags & 0xFFFE;
 
             func_80132784((s32)a0, ((Unkstruct_801202A0 *)a0)->unk64, 0x15);
 
@@ -4838,22 +4838,22 @@ void func_80184A8C(void *a0) {
             tmp[0] = (CAST_WIDTH(s16, s0, 0xDC) - ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk48) >> 2;
 
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            tmp[1] = (*(s16 *)(s0 + 0xDE) - ((Unkstruct_800B5CB8 *)ptr)->unk4C) >> 2;
+            tmp[1] = (*(s16 *)(s0 + 0xDE) - ((Unkstruct_8001C9D0 *)ptr)->unk4C) >> 2;
 
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            tmp[2] = (CAST_WIDTH(s16, s0, 0xE0) - ((Unkstruct_800B5CB8 *)ptr)->unk50) >> 2;
-
-            timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
-            ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_800B5CB8 *)ptr)->unk48 = ((Unkstruct_800B5CB8 *)ptr)->unk48 + tmp[0] * timer;
+            tmp[2] = (CAST_WIDTH(s16, s0, 0xE0) - ((Unkstruct_8001C9D0 *)ptr)->unk50) >> 2;
 
             timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_800B5CB8 *)ptr)->unk4C = ((Unkstruct_800B5CB8 *)ptr)->unk4C + tmp[1] * timer;
+            ((Unkstruct_8001C9D0 *)ptr)->unk48 = ((Unkstruct_8001C9D0 *)ptr)->unk48 + tmp[0] * timer;
 
             timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_800B5CB8 *)ptr)->unk50 = ((Unkstruct_800B5CB8 *)ptr)->unk50 + tmp[2] * timer;
+            ((Unkstruct_8001C9D0 *)ptr)->unk4C = ((Unkstruct_8001C9D0 *)ptr)->unk4C + tmp[1] * timer;
+
+            timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
+            ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
+            ((Unkstruct_8001C9D0 *)ptr)->unk50 = ((Unkstruct_8001C9D0 *)ptr)->unk50 + tmp[2] * timer;
         } else {
             s32 cbptr;
 
@@ -4875,8 +4875,8 @@ void func_80184A8C(void *a0) {
         u16 flagval;
 
         flagptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        flagval = ((Unkstruct_800B5CB8 *)flagptr)->unk2C;
-        ((Unkstruct_800B5CB8 *)flagptr)->unk2C = flagval | 1;
+        flagval = ((Unkstruct_8001C9D0 *)flagptr)->unk2C.u;
+        ((Unkstruct_8001C9D0 *)flagptr)->unk2C.u = flagval | 1;
     }
 }
 

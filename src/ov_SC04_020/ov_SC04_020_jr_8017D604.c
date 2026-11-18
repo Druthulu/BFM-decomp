@@ -3891,10 +3891,10 @@ void func_8017FCFC(void *a0)
     s32 c;
     u8 *prim;
 
-    t = ((Unkstruct_800B5CB8 *)a0)->unk2C;
+    t = ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u;
     prim = CAST_SIGN(u8 *, (s32)a0, 0x20);
     t = t - 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk2C = t;
+    ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u = t;
     if ((s16)t == -1) {
         func_801292C8(a0);
         return;
@@ -3982,8 +3982,8 @@ s32 *a0;
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
     s32 p;
 
-    p = ((Unkstruct_800B5CB8 *)a0)->unk20;
-    if ((s16)--((Unkstruct_800B5CB8 *)a0)->unk2C == -1) {
+    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u == -1) {
         func_801292C8((u8 *)a0);
         return;
     }
@@ -5247,9 +5247,9 @@ void func_801816B0(s32 a0, s32 a1, s32 a2, s32 a3) {
     if (a2 == 0) {
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_001_80187994.unk106 = 2;
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = CAST_SIGN(u16, a1, 4);
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)a1)->unk6;
-        vals[0] = ((Unkstruct_800B5CB8 *)a1)->unk8;
-        vals[2] = ((Unkstruct_800B5CB8 *)a1)->unkA;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_80183480 *)a1)->pt[0][1];
+        vals[0] = ((Unkstruct_80183480 *)a1)->pt[1][0];
+        vals[2] = ((Unkstruct_80183480 *)a1)->pt[1][1];
     } else {
         base = idx;
         base = base * 4 + a1;

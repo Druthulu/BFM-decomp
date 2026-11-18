@@ -4157,8 +4157,8 @@ void func_80183F48(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;
@@ -4202,8 +4202,8 @@ void func_8018403C(void *a0) {
         func_801292C8((u8 *)a0);
     } else {
         v0 = rsin(v0);
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = v0;
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = v0;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
     }
 }
 

@@ -3732,7 +3732,7 @@ void func_8018F164(void *a0) {
     s32 t;
 
     guess_ApplyAccelAndVelocity((s32)a0);
-    ((Unkstruct_800B5CB8 *)p)->unk10 = ((Unkstruct_800B5CB8 *)p)->unk10 + CAST_WIDTH(u16, (s32)a0, 0xDC);
+    ((Unkstruct_8001C9D0 *)p)->unk10.u = ((Unkstruct_8001C9D0 *)p)->unk10.u + CAST_WIDTH(u16, (s32)a0, 0xDC);
 
     t = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = t;

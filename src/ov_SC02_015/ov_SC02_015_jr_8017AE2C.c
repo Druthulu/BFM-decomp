@@ -2629,7 +2629,7 @@ void func_8017AE2C(s32 param_1) {
             goto reset_both;
         }
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), g[2], 6);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
         }
@@ -2644,7 +2644,7 @@ void func_8017AE2C(s32 param_1) {
         if (g[1] != 0) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
-                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
+                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12),
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
@@ -2663,7 +2663,7 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
-                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
+                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
             }
@@ -3727,10 +3727,10 @@ void func_8017DB60(void *a0) {
     CAST_WIDTH(s32, s0, 0x10) = *(volatile s32 *)(s0 + 0x10);
     t = *(volatile s32 *)(s0 + 0x18);
     CAST_WIDTH(s32, s0, 0x18) = t;
-    ((Unkstruct_800B5CB8 *)s0)->unk14 = ((Unkstruct_800B5CB8 *)s0)->unk14 + 0xC000;
+    ((Unkstruct_8011DB30 *)s0)->unk14.val = ((Unkstruct_8011DB30 *)s0)->unk14.val + 0xC000;
     KR_AS(void, guess_AddVelocityToPos)(s0, t);
     if (CAST_SIGN(s16, s0, 0x2E) < CAST_SIGN(s16, s0, 0xA)) {
-        ((Unkstruct_800B5CB8 *)s0)->unkA = CAST_SIGN(s16, s0, 0x2E);
+        ((Unkstruct_8011DB30 *)s0)->unkA.u = CAST_SIGN(s16, s0, 0x2E);
         guess_CopyVec3HighHalves((s32)s0 + 4, &x);
         p = func_801290DC(0x28, (u8 *)&x);
         if (p != 0) {
@@ -3914,8 +3914,8 @@ void func_8017DF44(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;

@@ -3656,11 +3656,11 @@ void func_8017EEFC(s32 param_1, s32 param_2, s32 param_3, s32 param_4) {
         guess_StartActorSequence((s32 *)s0, s1);
     }
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-    ((Unkstruct_800B5CB8 *)v1)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     CAST_WIDTH(u16, v1, 0x1C) = 0x1000;
-    ((Unkstruct_800B5CB8 *)v1)->unk1A = 0x1000;
-    ((Unkstruct_800B5CB8 *)v1)->unk18 = 0x1000;
+    ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 0x1000;
+    ((Unkstruct_8001C9D0 *)v1)->unk18.u = 0x1000;
     guess_ShowObjectModel((u8 *)s0);
     if (D_80188D38[s2] != 0) {
         func_8017F124((void *)s0);
@@ -3987,8 +3987,8 @@ void func_8017F694(s32 arg0) {
         } else {
             u8 *ptr2 = (u8 *)D_8019F9FC;
             CAST_WIDTH(s32, ptr2, 0x4) &= 0x7FFFFFFF;
-            ((Unkstruct_800B5CB8 *)ptr2)->unk10 = 0;
-            ((Unkstruct_800B5CB8 *)ptr2)->unk12 = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
+            ((Unkstruct_8001C9D0 *)ptr2)->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)ptr2)->unk12.u = *(u16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
             CAST_WIDTH(s16, ptr2, 0x14) = 0;
             CAST_WIDTH(SVECTOR, ptr2, 0x8) = *(SVECTOR *)(*(s32 *)(arg0 + 0x20) + 0x8);
             CAST_WIDTH(SVECTOR, ptr2, 0x18) = *(SVECTOR *)(*(s32 *)(arg0 + 0x20) + 0x18);
@@ -4935,8 +4935,8 @@ void func_80180E24(void *a0)
         /* one shared base for the 0x1A/0x18 pair (§193-E: naming it collapses
          * the two CSE intervals into the single `lw $v1,0x20($s1)` reload) */
         p = CAST_SIGN(s32 *, (u8 *)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2800;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2800;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x2800;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = 0x2800;
 
         guess_StartPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32)s0, (s32)&D_801890C8);
 
@@ -4962,12 +4962,12 @@ void func_80180E24(void *a0)
     if (t < 4) {
         v0 = (t * 5) << 9;                     /* 0xA00 per frame ramp */
         p = CAST_SIGN(s32 *, (u8 *)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p)->unk1A = v0;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = v0;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = v0;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = v0;
     } else {
         p = CAST_SIGN(s32 *, (u8 *)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2800;
-        ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2800;
+        ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x2800;
+        ((Unkstruct_800B5BD8 *)p)->unk18.u = 0x2800;
     }
 
     guess_RotTransSVWithObjMatrix((s32)s2, (s32)&D_801890D0, (s32)out);

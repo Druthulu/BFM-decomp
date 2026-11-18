@@ -4316,10 +4316,10 @@ void func_80180584(void *a0)
         e18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (e18 < 0x1C00) {
             t18 = e18 + 0x200;
-            ((Unkstruct_800B5CB8 *)v0)->unk18 = t18;
-            t1a = ((Unkstruct_800B5CB8 *)v0)->unk1A;
+            ((Unkstruct_800B5BD8 *)v0)->unk18.u = t18;
+            t1a = ((Unkstruct_800B5BD8 *)v0)->unk1A.u;
             t1a = t1a + 0x200;
-            ((Unkstruct_800B5CB8 *)v0)->unk1A = t1a;
+            ((Unkstruct_800B5BD8 *)v0)->unk1A.u = t1a;
         }
         p18 = CAST_SIGN(s16, (u8 *)v0, 0x18);
         if (p18 >= 0x1001) {

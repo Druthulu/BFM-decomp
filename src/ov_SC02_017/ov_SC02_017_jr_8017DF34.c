@@ -6115,7 +6115,7 @@ void func_80183800(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = out.z;
 
         *(SVECTOR *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x10) =
-            *(SVECTOR *)(((Unkstruct_800B5CB8 *)D_801EF9FC)->unk20 + 0x10);
+            *(SVECTOR *)(((Unkstruct_801202A0 *)D_801EF9FC)->unk20.p + 0x10);
     }
 }
 

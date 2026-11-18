@@ -634,12 +634,12 @@ void func_801E5B3C(Unkstruct_800B5CB8 *a0) {
         CAST_WIDTH(s32, s0, 4) = CAST_WIDTH(s32, s0, 4) | 0x80000000;
         return;
     }
-    ((Unkstruct_800B5CB8 *)s0)->unk8 = sp[0];
-    ((Unkstruct_800B5CB8 *)s0)->unkA = sp[1];
+    ((Unkstruct_800B5BD8 *)s0)->unk8.u = sp[0];
+    ((Unkstruct_800B5BD8 *)s0)->unkA.u = sp[1];
     CAST_ALIAS(s16, s0, 0xC) = sp[2];
     CAST_WIDTH(s32, s0, 4) = CAST_WIDTH(s32, s0, 4) & 0x7FFFFFFF;
     CAST_ALIAS(s16, s0, 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
-    ((Unkstruct_800B5CB8 *)s0)->unk12 = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
+    ((Unkstruct_800B5BD8 *)s0)->unk12.u = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     CAST_WIDTH(s16, s0, 0x14) = *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) + 0x200;
 }
 

@@ -2996,9 +2996,9 @@ void func_80144458(void *arg0) {
             guess_ApplyAccelAndVelocity(arg0);
         }
     }
-    ((Unkstruct_800B5CB8 *)temp_s2)->unk8 = (u16) ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
-    ((Unkstruct_800B5CB8 *)temp_s2)->unkA = (u16) ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
-    ((Unkstruct_800B5CB8 *)temp_s2)->unkC = (u16) ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unk8.u = (u16) ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unkA.u = (u16) ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)temp_s2)->unkC.u = (u16) ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
     if (guess_StepPairSequence(temp_s2, arg0 + 0xD0) != 0) {
         guess_ZeroMemory(temp_s2, 0x38);
         guess_FreeActor(arg0);

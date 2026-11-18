@@ -3482,13 +3482,13 @@ void func_8017E940(s32 param_1) {
 
     s0 = (s32 *)param_12;
     if (guess_TickWaitTimer(param_12) != 0) {
-        v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         *(u16 *)((s32)v1 + 0x2C) &= ~0x10;
         CAST_ALIAS(u16, (s32)s0, 2) = 3;
         ((Unkstruct_800B5CB8 *)s0)->unk5C = D_8019EA12;
     } else {
         v0 = rcos(((Unkstruct_800B5CB8 *)s0)->unk1C << 10 >> 4);
-        v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         *(s16 *)((s32)v1 + 0x1C) = v0;
         *(s16 *)((s32)v1 + 0x1A) = v0;
         *(s16 *)((s32)v1 + 0x18) = v0;
@@ -5564,10 +5564,10 @@ void func_80181A08(s32 arg0) {
         func_801292C8((u8 *)arg0);
         return;
     }
-    var = ((Unkstruct_800B5CB8 *)arg0)->unk1C - 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = var;
+    var = ((Unkstruct_8011DB30 *)arg0)->unk1C - 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C = var;
     if (var < 0x23) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk14 += 0x10000;
+        ((Unkstruct_8011DB30 *)arg0)->unk14.val += 0x10000;
     }
 }
 

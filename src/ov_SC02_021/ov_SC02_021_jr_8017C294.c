@@ -3574,11 +3574,11 @@ void func_8017E940(s32 a0) {
         *(CVECTOR *)(s0 + 4) = D_8019196C;
 
         p1 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p1)->unk10 = 0x400;
+        ((Unkstruct_800B5BD8 *)p1)->unk10.u = 0x400;
         p2 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p2)->unk18 = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
+        ((Unkstruct_800B5BD8 *)p2)->unk18.u = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
         p3 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5CB8 *)p3)->unk1A = (CAST_SIGN(s16, (s8 *)p3, 0x18) >> 2) * 3;
+        ((Unkstruct_800B5BD8 *)p3)->unk1A.u = (CAST_SIGN(s16, (s8 *)p3, 0x18) >> 2) * 3;
         p4 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         CAST_WIDTH(s32, (s8 *)p4, 0x4) |= 0x50000000;
         p5 = CAST_SIGN(s32 *, (s32)s1, 0x20);
@@ -3596,10 +3596,10 @@ void func_8017EA5C(s32 a0) {
     s32 *p1, *p2, *p3;
 
     p1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p1)->unk18 = ((Unkstruct_800B5CB8 *)p1)->unk18 + 0x280;
+    ((Unkstruct_800B5BD8 *)p1)->unk18.u = ((Unkstruct_800B5BD8 *)p1)->unk18.u + 0x280;
     p2 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     p3 = CAST_SIGN(s32 *, (s32)p1, 0x20);
-    ((Unkstruct_800B5CB8 *)p2)->unk1A = ((Unkstruct_800B5CB8 *)p2)->unk1A + 0x280;
+    ((Unkstruct_800B5BD8 *)p2)->unk1A.u = ((Unkstruct_800B5BD8 *)p2)->unk1A.u + 0x280;
     if (*(u8 *)((s8 *)p3 + 1) >= 8) {
         *(u8 *)((s8 *)p3 + 1) = *(u8 *)((s8 *)p3 + 1) - 8;
     }

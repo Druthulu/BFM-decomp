@@ -3514,18 +3514,18 @@ void func_80182A38(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_80182D78();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val16 += 0x200;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val16;
 
     {
         s16 temp = (s16)val16;
         if (temp >= 0x1001) {
-            ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1000;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1000;
         }
     }
 
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
 
     if (CAST_SIGN(s16, s0, 0x18) == 0x1000) {
         guess_SetWaitTimer((s32 *)a0, 0x78);
@@ -3564,18 +3564,18 @@ void func_80182B20(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_80182D78();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val16 += 0x200;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val16;
 
     {
         s16 temp = (s16)val16;
         if (temp >= 0x7001) {
-            ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x7000;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x7000;
         }
     }
 
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
 
     if (CAST_SIGN(s16, s0, 0x18) == 0x7000) {
         func_80016940(0x4);
@@ -3650,12 +3650,12 @@ void func_80182C90(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_80182D78();
 
-    val = ((Unkstruct_800B5CB8 *)s0)->unk1A;
+    val = ((Unkstruct_800B5BD8 *)s0)->unk1A.u;
     val -= 0x800;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = val;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = val;
 
     if ((s16)val < 0x100) {
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x100;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x100;
     }
 
     if (CAST_SIGN(s16, s0, 0x1A) == 0x100) {
@@ -3674,12 +3674,12 @@ void func_80182D08(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_80182D78();
 
-    val = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val -= 0x800;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val;
 
     if ((s16)val < 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0;
     }
 
     if (CAST_SIGN(s16, s0, 0x18) == 0) {

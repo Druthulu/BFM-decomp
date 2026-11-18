@@ -13769,10 +13769,10 @@ void func_800242D0(s32 arg0, u16* arg1, s32 arg2) {
             a3 = v0;
             v1 = divisor;
             if (((a3 << 16) >> 16) != 0) {
-                ((Unkstruct_800B5CB8 *)arg1)->unk0 = *(u16*)((((a3 << 16) >> 16) << 1) + (s32)t2);
+                *arg1 = *(u16*)((((a3 << 16) >> 16) << 1) + (s32)t2);
                 t1 -= a3 * v1;
             } else {
-                ((Unkstruct_800B5CB8 *)arg1)->unk0 = *(u16*)t2;
+                *arg1 = *(u16*)t2;
             }
             arg1 += 1;
             if (arg2 != 0) {

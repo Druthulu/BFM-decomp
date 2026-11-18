@@ -5658,15 +5658,15 @@ void *a0;
     } else {
         *(s32 *)(self + 0x14) += -0x8000;
         *(s32 *)(self + 0x8) += *(s32 *)(self + 0x14);
-        do { ((Unkstruct_800B5CB8 *)obj)->unk18 += 0x500; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
+        do { ((Unkstruct_800B5BD8 *)obj)->unk18.u += 0x500; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
         if (*(s32 *)(self + 0x2C) == 0) {
-            ((Unkstruct_800B5CB8 *)obj)->unk1A += 0x300;
+            ((Unkstruct_800B5BD8 *)obj)->unk1A.u += 0x300;
         } else {
-            ((Unkstruct_800B5CB8 *)obj)->unk1A += 0x600;
+            ((Unkstruct_800B5BD8 *)obj)->unk1A.u += 0x600;
         }
-        ((Unkstruct_800B5CB8 *)obj)->unk26 -= 4;
-        ((Unkstruct_800B5CB8 *)obj)->unk24 = ((Unkstruct_800B5CB8 *)obj)->unk26;
-        ((Unkstruct_800B5CB8 *)obj)->unk25 -= 8;
+        ((Unkstruct_800B5BD8 *)obj)->unk26 -= 4;
+        ((Unkstruct_800B5BD8 *)obj)->unk24 = ((Unkstruct_800B5BD8 *)obj)->unk26;
+        ((Unkstruct_800B5BD8 *)obj)->unk25 -= 8;
     }
 }
 
@@ -5954,7 +5954,7 @@ void func_80181574(s32 a0) {
         owner[1] &= 0x7FFFFFFF;
     }
 
-    ((Unkstruct_800B5CB8 *)owner)->unk2C = sp10.unk4;
+    ((Unkstruct_800B5BD8 *)owner)->unk2C.u = sp10.unk4;
     func_80015954((s32)&sp10, a0 + 4);
 
     t = (guess_g_FrameCounter & 1) << 2;

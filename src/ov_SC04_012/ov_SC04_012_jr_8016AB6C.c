@@ -2413,14 +2413,14 @@ void func_8016BCC0(void *arg0) {
     guess_UpdateAttachedPos((s32)arg0);
     temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10 + 0x60;
     ((Unkstruct_8011D030 *)arg0)->unk10 = temp_a2;
-    temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = temp_v0;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = temp_v0;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_s0)->unk12 + 0x71) & 0xFFF);
+    temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->unk12.u + 0x71) & 0xFFF);
     func_8016BFA8(arg0, &D_80191074, &D_80191078, temp_s0 + 0x18);
-    if ((s16) ((Unkstruct_800B5CB8 *)temp_s0)->unk1A >= 0x1001) {
-        ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = 0x1000U;
-        ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = 0x1000U;
+    if ((s16) ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u >= 0x1001) {
+        ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = 0x1000U;
+        ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = 0x1000U;
         guess_SetWaitTimer_2(arg0, ((Unkstruct_80126B58 *)arg0)->unk30);
         ((Unkstruct_80126B58 *)arg0)->unk2 = (u16) (((Unkstruct_80126B58 *)arg0)->unk2 + 1);
     }
@@ -2459,13 +2459,13 @@ s32 func_8016BD78(s32 param_1)
     if (D_80191079 != 0) D_80191079 -= 4;
     if (D_8019107A != 0) D_8019107A -= 4;
 
-    uVar1 = ((Unkstruct_800B5CB8 *)iVar2)->unk18 - 0x80;
-    ((Unkstruct_800B5CB8 *)iVar2)->unk18 = uVar1;
+    uVar1 = ((Unkstruct_800B5BD8 *)iVar2)->unk18.u - 0x80;
+    ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = uVar1;
     if ((s32)((unsigned int)uVar1 << 0x10) < 0) {
-        ((Unkstruct_800B5CB8 *)iVar2)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = 0;
         ((Unkstruct_8011D030 *)param_1)->unk2.s = ((Unkstruct_8011D030 *)param_1)->unk2.s + 1;
     }
-    ((Unkstruct_800B5CB8 *)iVar2)->unk12 = (((Unkstruct_800B5CB8 *)iVar2)->unk12 + 0x22) & 0xfff;
+    ((Unkstruct_800B5BD8 *)iVar2)->unk12.u = (((Unkstruct_800B5BD8 *)iVar2)->unk12.u + 0x22) & 0xfff;
 
     ((void (*)(s32, u8 *, u8 *, s32))func_8016BFA8)(param_1, p1, p2, iVar2 + 0x18);
 }

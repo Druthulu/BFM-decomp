@@ -2121,8 +2121,8 @@ void func_80186070(s32 a0) {
 
     *(u16 *)(self + 0xA) = *(u16 *)(self + 0xA) - 0xA0;
     *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) - 0x10;
-    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2C00;
-    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk18.u = 0x2C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk1A.u = 0x1C00;
     do { CAST_WIDTH(u32, obj, 4) = CAST_WIDTH(u32, obj, 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     t0 = *(s32 *)(self + 0xCC);
@@ -2135,7 +2135,7 @@ void func_80186070(s32 a0) {
     func_8012AD44((s32 *)self, 3);
 
     obj = *(s32 *)(self + 0x64);
-    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    t1 = ((Unkstruct_801202A0 *)obj)->unk20.p;
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_8018FE20(obj);
 

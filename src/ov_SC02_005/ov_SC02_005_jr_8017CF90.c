@@ -5452,7 +5452,7 @@ void func_80181570(s32 a0) {
     v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     v0 = CAST_SIGN(s16, v1, 0x10);
     if (v0 < 0xC00) {
-        ((Unkstruct_800B5CB8 *)v1)->unk10 = 0xC00;
+        ((Unkstruct_8001C9D0 *)v1)->unk10.u = 0xC00;
         guess_SetAnimScript((s32 *)a0, (s32)D_800D5C00);
         guess_SetTexAnimScript((u8 *)a0, (s32)D_800D6004);
         func_800D1724((s32)&D_80194370);
@@ -5498,8 +5498,8 @@ s32 func_8018169C(s32 a0, s32 a1) {
 s32 func_801816CC(s32 a0, s32 a1) {
     s32 a2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     u16 v1 = *(u16 *)((s32)a0 + 0x20A);
-    u16 v0 = ((Unkstruct_800B5CB8 *)a2)->unk10;
-    ((Unkstruct_800B5CB8 *)a2)->unk10 = (v0 - v1) & 0xFFF;
+    u16 v0 = ((Unkstruct_8001C9D0 *)a2)->unk10.u;
+    ((Unkstruct_8001C9D0 *)a2)->unk10.u = (v0 - v1) & 0xFFF;
     return (((Unkstruct_80126B58 *)a0)->unk208 += a1);
 }
 

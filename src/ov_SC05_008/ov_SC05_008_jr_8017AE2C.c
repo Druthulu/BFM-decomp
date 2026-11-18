@@ -2629,7 +2629,7 @@ void func_8017AE2C(s32 param_1) {
             goto reset_both;
         }
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), g[2], 6);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
         }
@@ -2644,7 +2644,7 @@ void func_8017AE2C(s32 param_1) {
         if (g[1] != 0) {
             if (g[5] != 0) {
                 void *p = (void *)(pv + 4);
-                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12),
+                if ((s16)func_80012A60(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12),
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
@@ -2663,7 +2663,7 @@ void func_8017AE2C(s32 param_1) {
             }
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
-                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)pv)->unk20 + 0x12), t, g[3]);
+                s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
                     ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
             }
@@ -3453,9 +3453,9 @@ void func_8017D098(s32 param_1) {
     func_8014706C((void *)param_1);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
-    flags = ((Unkstruct_800B5CB8 *)s1)->unk2C;
+    flags = ((Unkstruct_8001C9D0 *)s1)->unk2C.u;
     CAST_WIDTH(s32, s1, 0x80) = (s32)&D_801A1158;
-    ((Unkstruct_800B5CB8 *)s1)->unk2C = flags | 0x20;
+    ((Unkstruct_8001C9D0 *)s1)->unk2C.u = flags | 0x20;
 
     D_801A1158 = D_800A5E88;
     D_801A1168 = D_800A5E98;
@@ -3659,7 +3659,7 @@ void func_8017D4E8(void *param_1) {
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
     CAST_WIDTH(s32, s1, 0x80) = (s32)&D_801A1158;
-    ((Unkstruct_800B5CB8 *)s1)->unk2C |= 0x20;
+    ((Unkstruct_8001C9D0 *)s1)->unk2C.u |= 0x20;
 
     D_801A1158 = D_800A5E88;
     D_801A1168 = D_800A5E98;
@@ -3711,7 +3711,7 @@ void func_8017D668(void *param_1) {
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
     CAST_WIDTH(s32, s1, 0x80) = (s32)&D_801A1158;
-    ((Unkstruct_800B5CB8 *)s1)->unk2C |= 0x20;
+    ((Unkstruct_8001C9D0 *)s1)->unk2C.u |= 0x20;
 
     D_801A1158 = D_800A5E88;
     D_801A1168 = D_800A5E98;
@@ -5099,7 +5099,7 @@ void func_8017FF30(s32 param_1) {
     s32 var_v0;
 
     var_v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = var_v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.p = var_v0;
     if (var_v0 != 0) {
         func_80182240((void *)param_1, &D_8019C678);
         func_8017FF80((void *)param_1);
@@ -6492,7 +6492,7 @@ void func_8018227C(void *a0, void *a1) {
     v1 = CAST_SIGN(u16 *, (s32)a0, 0xCC);
     KR_AS(void, guess_InitModelObject)(v0);
     CAST_WIDTH(s32, v0, 0x80) = (s32)a0 + 0xCC;
-    ((Unkstruct_800B5CB8 *)v0)->unk2C |= 0x80;
+    ((Unkstruct_8001C9D0 *)v0)->unk2C.u |= 0x80;
     CAST_WIDTH(s16, (s32)a0, 0xCC) = -0x50;
     *(s16 *)((s32)a0 + 0xCE) = -0x50;
     CAST_WIDTH(s16, (s32)a0, 0xD0) = 0;
@@ -6500,8 +6500,8 @@ void func_8018227C(void *a0, void *a1) {
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = v1[0];
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v1[1];
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = v1[2];
-    ((Unkstruct_800B5CB8 *)v0)->unk10 = v1[3];
-    ((Unkstruct_800B5CB8 *)v0)->unk12 = v1[4];
+    ((Unkstruct_8001C9D0 *)v0)->unk10.u = v1[3];
+    ((Unkstruct_8001C9D0 *)v0)->unk12.u = v1[4];
     CAST_WIDTH(u16, v0, 0x14) = v1[5];
 }
 
@@ -6767,16 +6767,16 @@ void func_80182794(s32 param_1, s32 param_2) {
     case 0:
     case 1:
         func_8001CC3C(obj, (s32)D_800D387C, 0, 0);
-        ((Unkstruct_800B5CB8 *)obj)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)obj)->unk27 = 0x9C;
         CAST_WIDTH(s32, obj, 4) |= 0x50000000;
         t = (rand() & 3) << 12;
         /* cookbook §205 / §167-13-ADDENDUM: the CHAINED store is a scheduling
          * dial -- it keeps the `andi/sll` at the top of the block instead of
          * letting the birthing boost sink it next to its consumer. */
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = ((Unkstruct_800B5CB8 *)obj)->unk1A = t;
-        ((Unkstruct_800B5CB8 *)obj)->unk24 = 0x40;
-        ((Unkstruct_800B5CB8 *)obj)->unk25 = 0x30;
-        ((Unkstruct_800B5CB8 *)obj)->unk26 = 0x30;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = ((Unkstruct_800B5BD8 *)obj)->unk1A.u = t;
+        ((Unkstruct_800B5BD8 *)obj)->unk24 = 0x40;
+        ((Unkstruct_800B5BD8 *)obj)->unk25 = 0x30;
+        ((Unkstruct_800B5BD8 *)obj)->unk26 = 0x30;
         guess_StartPairSequence(obj, param_1 + 0x24, (s32)D_800D3888);
         guess_StepPairSequence(obj, (s32 *)(param_1 + 0x24));
         *(s16 *)(param_1 + 2) = 1;

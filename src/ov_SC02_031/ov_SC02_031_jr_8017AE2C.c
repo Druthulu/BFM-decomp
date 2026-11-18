@@ -6993,11 +6993,11 @@ s32 func_80182AB4(s32 a0, s16 a1, s32 a2) {
         return ret;
     }
     p = CAST_SIGN(u32, s0, 0x20);
-    ((Unkstruct_800B5CB8 *)p)->unk20 = (u32)&D_800D387C;
-    ((Unkstruct_800B5CB8 *)p)->unk27 = 0x9C;
-    ((Unkstruct_800B5CB8 *)p)->unk1A = a1;
+    ((Unkstruct_800B5BD8 *)p)->unk20.s = (u32)&D_800D387C;
+    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.u = a1;
     CAST_WIDTH(u32, p, 4) = CAST_WIDTH(u32, p, 4) | 0x50000000;
-    ((Unkstruct_800B5CB8 *)p)->unk18 = a1;
+    ((Unkstruct_800B5BD8 *)p)->unk18.u = a1;
     CAST_WIDTH(u32, p, 4) = CAST_WIDTH(u32, p, 4) | 0x80000000;
     guess_StartPairSequence((s32)p, t, (s32)&D_800D3888);
     ret = s0;

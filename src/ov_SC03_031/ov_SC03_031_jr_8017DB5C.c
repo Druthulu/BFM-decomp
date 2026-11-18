@@ -3641,10 +3641,10 @@ void func_8017FAB8(void *a0) {
     s32 t;
 
     s0 = *(s32 *)((s32)a0 + 0x20);
-    ((Unkstruct_800B5CB8 *)s0)->unk28 = 0x340;
-    ((Unkstruct_800B5CB8 *)s0)->unk2A = 0x100;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = (s32)&D_80186194;
-    ((Unkstruct_800B5CB8 *)s0)->unk27 = 0x65;
+    ((Unkstruct_800B5BD8 *)s0)->unk28.s = 0x340;
+    ((Unkstruct_800B5BD8 *)s0)->unk2A.u = 0x100;
+    ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)&D_80186194;
+    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x65;
     CAST_WIDTH(s32, (s32)s0, 4) |= 0x70000000;
     if (*(s32 *)((s32)a0 + 0x2C) == 0) {
         t = 0x3000;
@@ -3652,9 +3652,9 @@ void func_8017FAB8(void *a0) {
         r = rand();
         t = (r % 4 + 2) * 0x1000;
     }
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = t;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = t;
-    ((Unkstruct_800B5CB8 *)s0)->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = t;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = t;
+    ((Unkstruct_800B5BD8 *)s0)->unk10.u = 0x400;
     guess_StartPairSequence((s32)s0, (s32)((s32)a0 + 0x24), (s32)&D_801861A0);
     *(s16 *)((s32)a0 + 2) = 1;
 }

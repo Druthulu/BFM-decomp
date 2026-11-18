@@ -5955,8 +5955,8 @@ void func_80182630(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unkD0.val = obj;
     if (obj != 0) {
         func_8018B9D4(*pp, obj);
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1400;
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1400;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1400;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1400;
     }
     func_8012AD44((s32 *)param_1, 0xC);
 }
@@ -5993,8 +5993,8 @@ void func_801826E4(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unkD0.val = obj;
     if (obj != 0) {
         func_8018B9D4(*pp, obj);
-        ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1400;
-        ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x1400;
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1400;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1400;
     }
     func_8012AD44((s32 *)param_1, 0xC);
 }
@@ -9691,8 +9691,8 @@ void func_801873F8(void *a0)
         val = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s2 + 0x20))->unk18;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s2 + 0x20))->unk1A = val;
         if (s3 != NULL) {
-            ((Unkstruct_800B5CB8 *)s3)->unk18 = val;
-            ((Unkstruct_800B5CB8 *)s3)->unk1A = val;
+            ((Unkstruct_8001C9D0 *)s3)->unk18.u = val;
+            ((Unkstruct_8001C9D0 *)s3)->unk1A.u = val;
         }
         for (i = 0; i < 4; i++) {
             register void *entry __asm__("$4") = D_801EFD70[i];  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
@@ -10626,7 +10626,7 @@ void func_801888B8(u8 *a0)
     v0 = -ratan2(out[2], out[0]);
     v0 -= 0x400;
     sub = CAST_SIGN(u8 *, a0, 0x20);
-    ((Unkstruct_800B5CB8 *)sub)->unk12 = v0 & 0xFFF;
+    ((Unkstruct_8001C9D0 *)sub)->unk12.u = v0 & 0xFFF;
 
     m = D_800AE620;
 
@@ -10636,7 +10636,7 @@ void func_801888B8(u8 *a0)
     v0 = ratan2(out[2], out[1]);
     v0 += 0x400;
     sub = CAST_SIGN(u8 *, a0, 0x20);
-    ((Unkstruct_800B5CB8 *)sub)->unk10 = v0 & 0xFFF;
+    ((Unkstruct_8001C9D0 *)sub)->unk10.u = v0 & 0xFFF;
 }
 
 
@@ -14424,15 +14424,15 @@ void func_8018DC9C(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_8018DFDC();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val16 += 0x200;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val16;
 
     if ((s16)val16 >= 0x1001) {
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x1000;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1000;
     }
 
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
 
     if (CAST_SIGN(s16, s0, 0x18) == 0x1000) {
         guess_SetWaitTimer((s32 *)a0, 0x78);
@@ -14473,18 +14473,18 @@ void func_8018DD84(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_8018DFDC();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val16 += 0x200;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val16;
 
     {
         s16 temp = (s16)val16;
         if (temp >= 0x7001) {
-            ((Unkstruct_800B5CB8 *)s0)->unk18 = 0x7000;
+            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x7000;
         }
     }
 
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
 
     if (CAST_SIGN(s16, s0, 0x18) == 0x7000) {
         func_80016940(0x4);
@@ -14562,12 +14562,12 @@ void func_8018DEF4(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_8018DFDC();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk1A;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk1A.u;
     val16 -= 0x800;
-    ((Unkstruct_800B5CB8 *)s0)->unk1A = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = val16;
 
     if ((s16)val16 < 0x100) {
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = 0x100;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x100;
     }
 
     if (CAST_SIGN(s16, s0, 0x1A) == 0x100) {
@@ -14587,12 +14587,12 @@ void func_8018DF6C(s32 a0) {
     s0 = CAST_SIGN(u8 *, a0, 0x20);
     func_8018DFDC();
 
-    val16 = ((Unkstruct_800B5CB8 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
     val16 -= 0x800;
-    ((Unkstruct_800B5CB8 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = val16;
 
     if ((s16)val16 < 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0;
     }
 
     if (CAST_SIGN(s16, s0, 0x18) == 0) {

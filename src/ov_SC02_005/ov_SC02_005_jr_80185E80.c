@@ -2028,7 +2028,7 @@ void func_80188830(s32 a0) {
         CAST_WIDTH(u16, (u8 *)v1, 0x14) += 0x300;
 
         v1 = CAST_SIGN(void *, (u8 *)a0, 0x20);
-        ((Unkstruct_800B5CB8 *)v1)->unk10 += 0x100;
+        ((Unkstruct_8001C9D0 *)v1)->unk10.u += 0x100;
 
         hw = CAST_SIGN(u16, (u8 *)a0, 0x100);
         hw++;
@@ -3178,7 +3178,7 @@ void func_8018A4C4(s32 a0)
      * live at offset 0x34+0x14/0x18/0x1c inside the object pointed to by
      * a0's field 0x20. Written as raw asm: the target's .s marks these ctc2
      * lines "handwritten instruction" (not a normal codegen mnemonic). */
-    gte_SetTransMatrix((u8 *)((Unkstruct_800B5CB8 *)a0)->unk20 + 0x34);
+    gte_SetTransMatrix((u8 *)((Unkstruct_801202A0 *)a0)->unk20.p + 0x34);
 
     for (i = 0; i < 8; i++) {
         s0 = func_8012913C(0xC);
@@ -5863,7 +5863,7 @@ void func_8018DE5C(void *a0) {
     if (D_801270C8[0] > 0x15) {
         p = CAST_SIGN(void *, (s32)a0, 0xD0);
         if (p != NULL) {
-            ((Unkstruct_800B5CB8 *)p)->unk0 = 0;
+            ((Unkstruct_8001C9D0 *)p)->unk0.u = 0;
         }
         func_801439C0((u8 *)((Unkstruct_801202A0 *)a0)->unkCC.val);
         guess_FreeActor((void *)a0);

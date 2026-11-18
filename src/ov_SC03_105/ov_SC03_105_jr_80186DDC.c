@@ -3806,8 +3806,8 @@ void func_80188510(s32 a0)
 
     v0 = CAST_SIGN(s32 *, ((u8 *)a0), 0x20);
     CAST_WIDTH(s16, ((u8 *)v0), 0x1C) = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk1A = 0;
-    ((Unkstruct_800B5CB8 *)v0)->unk18 = 0;
+    ((Unkstruct_8001C9D0 *)v0)->unk1A.u = 0;
+    ((Unkstruct_8001C9D0 *)v0)->unk18.u = 0;
     func_8012AD44((s32 *)a0, 1);
     guess_RequestSound(0x72E, 0);
 }
@@ -4054,9 +4054,9 @@ s32 func_80188A94(s32 a0) {
     q = D_801BCA48;
     p[0] = p[1] = p[2] = ((t * 128) >> 12) + 0x80;
     if (q != 0) {
-        ((Unkstruct_800B5CB8 *)q)->unk18 = ((Unkstruct_800B5CB8 *)q)->unk1A = ((t * 1024) >> 12) + 0x800;
-        ((Unkstruct_800B5CB8 *)q)->unk8 = *(u16 *)(a0 + 0x6);
-        ((Unkstruct_800B5CB8 *)q)->unkA = *(u16 *)(a0 + 0xA);
+        ((Unkstruct_800B5BD8 *)q)->unk18.u = ((Unkstruct_800B5BD8 *)q)->unk1A.u = ((t * 1024) >> 12) + 0x800;
+        ((Unkstruct_800B5BD8 *)q)->unk8.u = *(u16 *)(a0 + 0x6);
+        ((Unkstruct_800B5BD8 *)q)->unkA.u = *(u16 *)(a0 + 0xA);
         CAST_ALIAS(u16, q, 0xC) = *(u16 *)(a0 + 0xE);
         D_8018F208 = D_8018F209 = D_8018F20A = ((t * 96) >> 12) + 0x60;
     }

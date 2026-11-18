@@ -5328,12 +5328,12 @@ void func_8017F0EC(s32 a0) {
     }
     d = (*(s16 *)(a0 + 0x76) * 12288) / 100;
     p = *(s32 *)(a0 + 0xCC);
-    ((Unkstruct_800B5CB8 *)p)->unk1A = d;
-    ((Unkstruct_800B5CB8 *)p)->unk18 = d;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.u = d;
+    ((Unkstruct_800B5BD8 *)p)->unk18.u = d;
     p = *(s32 *)(a0 + 0xCC);
-    ((Unkstruct_800B5CB8 *)p)->unk8 = *(u16 *)(a0 + 0x6);
-    ((Unkstruct_800B5CB8 *)p)->unkA = *(u16 *)(a0 + 0xA);
-    ((Unkstruct_800B5CB8 *)p)->unkC = *(u16 *)(a0 + 0xE);
+    ((Unkstruct_800B5BD8 *)p)->unk8.u = *(u16 *)(a0 + 0x6);
+    ((Unkstruct_800B5BD8 *)p)->unkA.u = *(u16 *)(a0 + 0xA);
+    ((Unkstruct_800B5BD8 *)p)->unkC.u = *(u16 *)(a0 + 0xE);
     guess_StepPairSequence(p, (s32 *)(a0 + 0xD0));
 }
 
@@ -5361,14 +5361,14 @@ void func_8017F444(s32 param_1)
         s32 h = (s32)D_801888FC;
         s32 obj = *(s32 *)(param_1 + 0x20);
         s32 s0 = param_1 + 0x24;
-        ((Unkstruct_800B5CB8 *)obj)->unk20 = h;
+        ((Unkstruct_800B5BD8 *)obj)->unk20.s = h;
         CAST_WIDTH(u32, *(s32 *)(param_1 + 0x20), 4) =
             CAST_WIDTH(u32, *(s32 *)(param_1 + 0x20), 4) | 0x50000000;
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x4B;
         {
             s32 q = *(s32 *)(param_1 + 0x20);
-            ((Unkstruct_800B5CB8 *)q)->unk1A = 0x3000;
-            ((Unkstruct_800B5CB8 *)q)->unk18 = 0x3000;
+            ((Unkstruct_800B5BD8 *)q)->unk1A.u = 0x3000;
+            ((Unkstruct_800B5BD8 *)q)->unk18.u = 0x3000;
         }
         guess_StartPairSequence(*(s32 *)(param_1 + 0x20), s0, (s32)D_80188908);
         *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
@@ -6911,9 +6911,9 @@ void func_80181240(s32 a0, s32 a1, s32 a2, s32 a3) {
     if (a2 == 0) {
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_001_80187994.unk106 = 2;
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = CAST_SIGN(u16, a1, 4);
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)a1)->unk6;
-        vals[0] = ((Unkstruct_800B5CB8 *)a1)->unk8;
-        vals[2] = ((Unkstruct_800B5CB8 *)a1)->unkA;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_80183480 *)a1)->pt[0][1];
+        vals[0] = ((Unkstruct_80183480 *)a1)->pt[1][0];
+        vals[2] = ((Unkstruct_80183480 *)a1)->pt[1][1];
     } else {
         base = idx;
         base = base * 4 + a1;

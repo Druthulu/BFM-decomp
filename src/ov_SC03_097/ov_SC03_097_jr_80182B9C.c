@@ -3974,9 +3974,9 @@ s32 func_80184DE8(s32 a0) {
         return 0;
     }
     func_8001CB6C((u8 *)a0, D_8019E968, 0x298, 0x1B0);
-    ((Unkstruct_800B5CB8 *)a0)->unk27 = 0x68;
-    ((Unkstruct_800B5CB8 *)a0)->unk1A = 0x1800;
-    ((Unkstruct_800B5CB8 *)a0)->unk18 = 0x1800;
+    ((Unkstruct_800B5BD8 *)a0)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)a0)->unk1A.u = 0x1800;
+    ((Unkstruct_800B5BD8 *)a0)->unk18.u = 0x1800;
     return a0;
 }
 

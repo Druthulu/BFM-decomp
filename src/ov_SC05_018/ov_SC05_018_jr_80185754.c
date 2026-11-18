@@ -3582,7 +3582,7 @@ void func_80186468(void *arg0) {
                 s32 *q = CAST_SIGN(s32 *, (char *)arg0, 0x20);
                 ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
                 ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
-                ((Unkstruct_800B5CB8 *)q)->unk12 = 0;
+                ((Unkstruct_8001C9D0 *)q)->unk12.u = 0;
                 ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x30;
             }
         } else {
@@ -3594,7 +3594,7 @@ void func_80186468(void *arg0) {
             } else {
                 p = CAST_SIGN(s32 *, (char *)arg0, 0x20);
                 ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
-                ((Unkstruct_800B5CB8 *)p)->unk12 = 0x600;
+                ((Unkstruct_8001C9D0 *)p)->unk12.u = 0x600;
                 guess_UpdateActorModelMatrix((s32)arg0);
             }
         }
@@ -3746,7 +3746,7 @@ void func_8018673C(void *a0)
     case 4:
         ((s32 (*)(s32))func_80178970)(a0);
         p = CAST_SIGN(s32 *, (char *)a0, 0x20);
-        ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 - 0x20;
+        ((Unkstruct_8001C9D0 *)p)->unk12.u = ((Unkstruct_8001C9D0 *)p)->unk12.u - 0x20;
         t = ((Unkstruct_801202A0 *)a0)->unk1C.s + 1;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
         if (t >= 0x30) {

@@ -5151,11 +5151,11 @@ void func_80188CB4(s32 a0) {
     ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = guess_g_PlayerPosZ;
 
     ptr = CAST_SIGN(u8 *, self, 0x20);
-    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    val1 = ((Unkstruct_8001C9D0 *)ptr)->unk18.u;
     CAST_WIDTH(s16, self, 0xDC) = (val1 << 16) >> 19;
 
     ptr = CAST_SIGN(u8 *, self, 0x20);
-    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
+    val2 = ((Unkstruct_8001C9D0 *)ptr)->unk1A.u;
     *(s16 *)(self + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)self, 7);

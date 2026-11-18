@@ -1733,8 +1733,8 @@ void func_8015D1B8(s32 *a0)
 
     ((void (*)(void))func_80149FB0)();
     obj = ((Unkstruct_80126B58 *)a0)->unk20.val;
-    sum = ((Unkstruct_800B5CB8 *)obj)->unk10 + *(u16 *)((u8 *)a0 + 0x236);
-    ((Unkstruct_800B5CB8 *)obj)->unk10 = sum & 0xFFF;
+    sum = ((Unkstruct_8001C9D0 *)obj)->unk10.u + *(u16 *)((u8 *)a0 + 0x236);
+    ((Unkstruct_8001C9D0 *)obj)->unk10.u = sum & 0xFFF;
     keep = sum; /* L2: AFTER the store — this is what keeps the $s0 copy alive */
 
     cur = ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.s;

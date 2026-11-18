@@ -3950,9 +3950,9 @@ void func_8017DFE8(s32 arg0)
     s32 *p2;
 
     p1 = CAST_SIGN(s32 *, (u8 *)arg0, 0xCC);
-    ((Unkstruct_800B5CB8 *)p1)->unk12 += 0x155;
+    ((Unkstruct_8001C9D0 *)p1)->unk12.u += 0x155;
     p2 = CAST_SIGN(s32 *, (u8 *)arg0, 0xD0);
-    ((Unkstruct_800B5CB8 *)p2)->unk12 -= 0x155;
+    ((Unkstruct_8001C9D0 *)p2)->unk12.u -= 0x155;
 }
 
 

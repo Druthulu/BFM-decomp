@@ -2413,14 +2413,14 @@ void func_8016BCC0(void *arg0) {
     guess_UpdateAttachedPos((s32)arg0);
     temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10 + 0x60;
     ((Unkstruct_8011D030 *)arg0)->unk10 = temp_a2;
-    temp_v0 = ((Unkstruct_800B5CB8 *)temp_s0)->unk1A + temp_a2;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = temp_v0;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = temp_v0;
-    ((Unkstruct_800B5CB8 *)temp_s0)->unk12 = (u16) ((((Unkstruct_800B5CB8 *)temp_s0)->unk12 + 0x71) & 0xFFF);
+    temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;
+    ((Unkstruct_800B5BD8 *)temp_s0)->unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->unk12.u + 0x71) & 0xFFF);
     func_8016BFA8(arg0, &D_801B142C, &D_801B1430, temp_s0 + 0x18);
-    if ((s16) ((Unkstruct_800B5CB8 *)temp_s0)->unk1A >= 0x1001) {
-        ((Unkstruct_800B5CB8 *)temp_s0)->unk18 = 0x1000U;
-        ((Unkstruct_800B5CB8 *)temp_s0)->unk1A = 0x1000U;
+    if ((s16) ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u >= 0x1001) {
+        ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = 0x1000U;
+        ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = 0x1000U;
         guess_SetWaitTimer_2(arg0, ((Unkstruct_80126B58 *)arg0)->unk30);
         ((Unkstruct_80126B58 *)arg0)->unk2 = (u16) (((Unkstruct_80126B58 *)arg0)->unk2 + 1);
     }

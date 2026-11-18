@@ -3252,7 +3252,7 @@ void *a0;
     v0 = ((Unkstruct_801202A0 *)s0)->unk62;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     v0 = (v0 + 0x800) & 0xFFF;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = v0;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = v0;
     v0 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     *(u16 *)(v0 + 0x14) = 0;
     *(u16 *)(v0 + 0x10) = 0;
@@ -3276,10 +3276,10 @@ void func_80185028(void *a0) {
     s32 v0;
 
     p1 = CAST_SIGN(void *, (s32)a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p1)->unk12 = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)p1)->unk12.u = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
     p2 = CAST_SIGN(void *, (s32)a0, 0x20);
     CAST_WIDTH(u16, p2, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)p2)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)p2)->unk10.u = 0;
     guess_UpdateActorModelMatrix((s32)a0);
     guess_ClearVelocityAndSetGravity((s32)a0);
     guess_SetLocalVelocity((s32)a0, (s32)&D_801905D8);

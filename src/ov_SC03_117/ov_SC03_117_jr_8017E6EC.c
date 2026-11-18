@@ -3275,7 +3275,7 @@ s32 func_8017F474(void *a0) {
     }
     if (CAST_SIGN(s16, (s32)w, 0x18) < 0x4000) {
         CAST_SIGN(s16, (s32)w, 0x18) += 0x400;
-        ((Unkstruct_800B5CB8 *)w)->unk1A += 0x180;
+        ((Unkstruct_800B5BD8 *)w)->unk1A.u += 0x180;
         return 0;
     }
     return 1;
@@ -3984,8 +3984,8 @@ void func_80180454(s32 a0) {
     *(s32 *)(a0 + 0x1C) -= 1;
     if (*(s32 *)(a0 + 0x1C) != -1) {
         v0 = (0x10 - *(s32 *)(a0 + 0x1C)) << 8;
-        ((Unkstruct_800B5CB8 *)s1)->unk1A = v0;
-        ((Unkstruct_800B5CB8 *)s1)->unk18 = v0;
+        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = v0;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u = v0;
         v0 = *(s32 *)(a0 + 0x1C) << 2;
         v1[5] = v0;
         v1[4] = v0;

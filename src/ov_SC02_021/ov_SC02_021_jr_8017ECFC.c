@@ -3089,10 +3089,10 @@ void func_8017F5E4(void *a0) {
     CAST_WIDTH(s32, s0, 0x10) = *(volatile s32 *)(s0 + 0x10);
     t = *(volatile s32 *)(s0 + 0x18);
     CAST_WIDTH(s32, s0, 0x18) = t;
-    ((Unkstruct_800B5CB8 *)s0)->unk14 = ((Unkstruct_800B5CB8 *)s0)->unk14 + 0xC000;
+    ((Unkstruct_8011DB30 *)s0)->unk14.val = ((Unkstruct_8011DB30 *)s0)->unk14.val + 0xC000;
     KR_AS(void, guess_AddVelocityToPos)(s0, t);
     if (CAST_SIGN(s16, s0, 0x2E) < CAST_SIGN(s16, s0, 0xA)) {
-        ((Unkstruct_800B5CB8 *)s0)->unkA = CAST_SIGN(s16, s0, 0x2E);
+        ((Unkstruct_8011DB30 *)s0)->unkA.u = CAST_SIGN(s16, s0, 0x2E);
         guess_CopyVec3HighHalves((s32)s0 + 4, &x);
         p = func_801290DC(0x28, (u8 *)&x);
         if (p != 0) {
@@ -3275,8 +3275,8 @@ void func_8017F9C8(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;

@@ -5545,8 +5545,8 @@ void func_80183FAC(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
-        ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;
@@ -5590,8 +5590,8 @@ void func_801840A0(void *a0) {
         return;
     }
     v0 = rsin(v0);
-    ((Unkstruct_800B5CB8 *)p)->unk1A = v0;
-    ((Unkstruct_800B5CB8 *)p)->unk18 = v0;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)p)->unk18.u = v0;
 }
 
 

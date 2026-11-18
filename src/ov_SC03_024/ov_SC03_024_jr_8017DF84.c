@@ -5416,8 +5416,8 @@ void func_801821D4(s32 a0) {
 
     *(u16 *)(self + 0xA) = *(u16 *)(self + 0xA) - 0xA0;
     *(u16 *)(self + 0xE) = *(u16 *)(self + 0xE) + 0x10;
-    ((Unkstruct_800B5CB8 *)obj)->unk18 = 0x2C00;
-    ((Unkstruct_800B5CB8 *)obj)->unk1A = 0x1C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk18.u = 0x2C00;
+    ((Unkstruct_8001C9D0 *)obj)->unk1A.u = 0x1C00;
     do { CAST_WIDTH(u32, obj, 4) = CAST_WIDTH(u32, obj, 4) | 0x1000000; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
 
     t0 = *(s32 *)(self + 0xCC);
@@ -5430,7 +5430,7 @@ void func_801821D4(s32 a0) {
     func_8012AD44((s32 *)self, 3);
 
     obj = *(s32 *)(self + 0x64);
-    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    t1 = ((Unkstruct_801202A0 *)obj)->unk20.p;
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801856BC(obj, t1);
 
@@ -5530,11 +5530,11 @@ void func_80182408(int a0)
     ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = guess_g_PlayerPosZ;
 
     ptr = CAST_SIGN(u8 *, s0, 0x20);
-    val1 = ((Unkstruct_800B5CB8 *)ptr)->unk18;
+    val1 = ((Unkstruct_8001C9D0 *)ptr)->unk18.u;
     CAST_WIDTH(s16, s0, 0xDC) = (val1 << 16) >> 19;
 
     ptr = CAST_SIGN(u8 *, s0, 0x20);
-    val2 = ((Unkstruct_800B5CB8 *)ptr)->unk1A;
+    val2 = ((Unkstruct_8001C9D0 *)ptr)->unk1A.u;
     *(s16 *)(s0 + 0xDE) = (val2 << 16) >> 19;
 
     func_8012AD44((s32 *)s0, 7);
@@ -5943,13 +5943,13 @@ void func_80182C30(s32 a0) {
 
         temp = ((Unkstruct_801202A0 *)a0)->unk20.p;
         a = CAST_WIDTH(u16, a0, 0xDC);
-        b = ((Unkstruct_800B5CB8 *)temp)->unk18;
-        ((Unkstruct_800B5CB8 *)temp)->unk18 = (s16)(b - a);
+        b = ((Unkstruct_8001C9D0 *)temp)->unk18.u;
+        ((Unkstruct_8001C9D0 *)temp)->unk18.u = (s16)(b - a);
 
         temp = ((Unkstruct_801202A0 *)a0)->unk20.p;
         a = *(u16 *)(a0 + 0xDE);
-        b = ((Unkstruct_800B5CB8 *)temp)->unk1A;
-        ((Unkstruct_800B5CB8 *)temp)->unk1A = (s16)(b - a);
+        b = ((Unkstruct_8001C9D0 *)temp)->unk1A.u;
+        ((Unkstruct_8001C9D0 *)temp)->unk1A.u = (s16)(b - a);
 
         temp = ((Unkstruct_801202A0 *)a0)->unk20.p;
         val = CAST_SIGN(s16, temp, 0x18);

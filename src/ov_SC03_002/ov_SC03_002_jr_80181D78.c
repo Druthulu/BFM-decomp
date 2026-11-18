@@ -3939,9 +3939,9 @@ void func_80183480(s32 a0, s32 a1, s32 a2, s32 a3) {
     if (a2 == 0) {
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_001_80187994.unk106 = 2;
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = CAST_SIGN(u16, a1, 4);
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)a1)->unk6;
-        vals[0] = ((Unkstruct_800B5CB8 *)a1)->unk8;
-        vals[2] = ((Unkstruct_800B5CB8 *)a1)->unkA;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_80183480 *)a1)->pt[0][1];
+        vals[0] = ((Unkstruct_80183480 *)a1)->pt[1][0];
+        vals[2] = ((Unkstruct_80183480 *)a1)->pt[1][1];
     } else {
         base = idx;
         base = base * 4 + a1;

@@ -5464,19 +5464,19 @@ void func_80188848(void *a0) {
     } else {
         *(s32 *)((s32)a0 + 0x14) += -0x8000;
         *(s32 *)((s32)a0 + 0x8) += *(s32 *)((s32)a0 + 0x14);
-        ((Unkstruct_800B5CB8 *)s1)->unk18 += 0x500;
+        ((Unkstruct_800B5BD8 *)s1)->unk18.u += 0x500;
         if (*(s32 *)((s32)a0 + 0x2C) == 0) {
-            ((Unkstruct_800B5CB8 *)s1)->unk1A += 0x300;
+            ((Unkstruct_800B5BD8 *)s1)->unk1A.u += 0x300;
         } else {
-            ((Unkstruct_800B5CB8 *)s1)->unk1A += 0x600;
+            ((Unkstruct_800B5BD8 *)s1)->unk1A.u += 0x600;
         }
-        v26 = ((Unkstruct_800B5CB8 *)s1)->unk26;
-        v25 = ((Unkstruct_800B5CB8 *)s1)->unk25;
+        v26 = ((Unkstruct_800B5BD8 *)s1)->unk26;
+        v25 = ((Unkstruct_800B5BD8 *)s1)->unk25;
         v26 -= 4;
         v25 -= 8;
-        ((Unkstruct_800B5CB8 *)s1)->unk26 = v26;
-        ((Unkstruct_800B5CB8 *)s1)->unk24 = v26;
-        ((Unkstruct_800B5CB8 *)s1)->unk25 = v25;
+        ((Unkstruct_800B5BD8 *)s1)->unk26 = v26;
+        ((Unkstruct_800B5BD8 *)s1)->unk24 = v26;
+        ((Unkstruct_800B5BD8 *)s1)->unk25 = v25;
     }
 }
 

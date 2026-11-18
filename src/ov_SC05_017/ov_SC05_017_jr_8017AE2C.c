@@ -5166,7 +5166,7 @@ void func_8017F73C(void *a0) {
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
         guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_8019136C);
         v1 = CAST_SIGN(void *, (char *)arg0, 0x20);
-        ((Unkstruct_800B5CB8 *)v1)->unk12 = CAST_SIGN(short, (char *)v1, 0x12) + 0x800;
+        ((Unkstruct_8001C9D0 *)v1)->unk12.u = CAST_SIGN(short, (char *)v1, 0x12) + 0x800;
         guess_ShowObjectModel((s32)arg0);
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)arg0, (s32)&(*(short *)&D_801B9A64));
         func_80184990((s32)arg0);

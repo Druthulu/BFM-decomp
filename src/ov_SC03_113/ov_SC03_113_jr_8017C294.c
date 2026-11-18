@@ -6232,8 +6232,8 @@ void func_80182D38(void *a0) {
         func_801292C8((u8 *)a0);
     } else {
         v0 = rsin(v0);
-        ((Unkstruct_800B5CB8 *)s0)->unk1A = v0;
-        ((Unkstruct_800B5CB8 *)s0)->unk18 = v0;
+        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
+        ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
     }
 }
 

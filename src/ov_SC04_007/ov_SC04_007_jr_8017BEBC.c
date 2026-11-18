@@ -6739,7 +6739,7 @@ void func_80182BB0(s32 *s0)
         ((void (*)(s32, void*))guess_InitModelObject)(iVar2, &D_8019A7C4);
         v1 = CAST_SIGN(s32 *, (u8 *)s0, 0x20);
         uVar1 = CAST_SIGN(u16, (u8 *)s0, 0xFC);
-        ((Unkstruct_800B5CB8 *)v1)->unk12 = uVar1;
+        ((Unkstruct_8001C9D0 *)v1)->unk12.u = uVar1;
         guess_UpdateActorModelMatrix(s0);
 
         uVar2 = CAST_SIGN(u16, (u8 *)s0, 0x2);

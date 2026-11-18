@@ -3368,8 +3368,8 @@ void func_8017DCDC(s32 a0) {
     CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_80126B58 *)a0)->unk14;
     CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18;
     p = ((Unkstruct_80126B58 *)a0)->unk20.val;
-    ((Unkstruct_800B5CB8 *)p)->unk10 += *(s32 *)(a0 + 0x4C);
-    ((Unkstruct_800B5CB8 *)p)->unk12 += ((Unkstruct_80126B58 *)a0)->unk50;
+    ((Unkstruct_800B5BD8 *)p)->unk10.u += *(s32 *)(a0 + 0x4C);
+    ((Unkstruct_800B5BD8 *)p)->unk12.u += ((Unkstruct_80126B58 *)a0)->unk50;
     CAST_WIDTH(u16, p, 0x14) += ((Unkstruct_80126B58 *)a0)->unk54;
 }
 

@@ -4620,20 +4620,20 @@ void func_801803D0(s16 *param_1, s32 param_2)
     obj = func_801290DC(0x44, (u8 *)uVar2);
     if (obj != 0) {
         sub = *(s32 *)(obj + 0x20);
-        ((Unkstruct_800B5CB8 *)sub)->unk20 = (s32)D_80193AAC;
-        ((Unkstruct_800B5CB8 *)sub)->unk28 = 0x290;
-        ((Unkstruct_800B5CB8 *)sub)->unk2A = 0x1A0;
-        ((Unkstruct_800B5CB8 *)sub)->unk27 = 0x70;
-        ((Unkstruct_800B5CB8 *)sub)->unk1A = 1;
-        ((Unkstruct_800B5CB8 *)sub)->unk18 = 1;
+        ((Unkstruct_800B5BD8 *)sub)->unk20.s = (s32)D_80193AAC;
+        ((Unkstruct_800B5BD8 *)sub)->unk28.s = 0x290;
+        ((Unkstruct_800B5BD8 *)sub)->unk2A.u = 0x1A0;
+        ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x70;
+        ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 1;
+        ((Unkstruct_800B5BD8 *)sub)->unk18.u = 1;
         CAST_WIDTH(s32, (u8 *)sub, 0x4) |= 0x50000000;
         *(s32 *)(obj + 0x1C) = 1;
         w = param_2;
         *(s32 *)(obj + 0x2C) = w;
         chn = w;
-        ((Unkstruct_800B5CB8 *)sub)->unk26 = chn;
-        ((Unkstruct_800B5CB8 *)sub)->unk25 = chn;
-        ((Unkstruct_800B5CB8 *)sub)->unk24 = chn;
+        ((Unkstruct_800B5BD8 *)sub)->unk26 = chn;
+        ((Unkstruct_800B5BD8 *)sub)->unk25 = chn;
+        ((Unkstruct_800B5BD8 *)sub)->unk24 = chn;
     } else {
         rv = 0;
         __asm__ __volatile__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return

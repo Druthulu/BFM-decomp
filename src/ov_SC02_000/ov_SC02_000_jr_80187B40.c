@@ -3572,10 +3572,10 @@ s32 func_80188C0C(s32 a0, s16 a1)
         return 0;
     }
     prim = CAST_SIGN(u8 *, obj, 0x20);
-    ((Unkstruct_800B5CB8 *)prim)->unk20 = (s32)D_800D387C;
-    ((Unkstruct_800B5CB8 *)prim)->unk27 = 0x9C;
-    ((Unkstruct_800B5CB8 *)prim)->unk1A = a1;
-    ((Unkstruct_800B5CB8 *)prim)->unk18 = a1;
+    ((Unkstruct_800B5BD8 *)prim)->unk20.s = (s32)D_800D387C;
+    ((Unkstruct_800B5BD8 *)prim)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)prim)->unk1A.u = a1;
+    ((Unkstruct_800B5BD8 *)prim)->unk18.u = a1;
     CAST_WIDTH(u32, prim, 4) |= 0x50000000;
     guess_StartPairSequence((s32)prim, (s32)obj + 0x24, (s32)D_800D3888);
     return (s32)obj;

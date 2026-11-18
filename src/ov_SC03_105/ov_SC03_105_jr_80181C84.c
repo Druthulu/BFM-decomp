@@ -4090,8 +4090,8 @@ void func_80183F0C(void *a0) {
     *(u16 *)((char *)t + 0x18) = 0x1800;
     vp = CAST_SIGN(void *, (char *)a0, 0x20);
     CAST_WIDTH(u16, (char *)vp, 0x14) = 0;
-    ((Unkstruct_800B5CB8 *)vp)->unk12 = 0;
-    ((Unkstruct_800B5CB8 *)vp)->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)vp)->unk12.u = 0;
+    ((Unkstruct_8001C9D0 *)vp)->unk10.u = 0;
     func_80184604(0);
 }
 
