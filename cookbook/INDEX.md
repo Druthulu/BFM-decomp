@@ -1090,3 +1090,4 @@ C0637 | Prove header changes byte-neutral read-only: snapshot overlay + cc1 asm 
 C0638 | Third pass on unresolved pointer sources: asm callers, dispatch tables, all-predecessor traces | struct,absorb,per-source,tracing,asm,dead-code,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c25/c25b
 C0639 | Held sources with arithmetic on typed pointer fields: KEPT-base backing, site cache, RMW reschedule | struct,absorb,per-source,kept-cast,gate,cc1,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c22/c22b
 C0640 | Arithmetic through actor unk64: it is the spawner; type via the parent kind's variant | struct,actor,variant,spawn,kind,absorb,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c28
+C0641 | Union setups and refused-row absorbs: silent union stores, dry-run vs write, ratchet on newly typeable casts | struct,absorb,union,fold-batch,gate,ratchet,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c26
