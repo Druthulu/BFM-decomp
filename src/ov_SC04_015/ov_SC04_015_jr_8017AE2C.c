@@ -5528,7 +5528,7 @@ void func_8017F7E4(s32 a0) {
     *(u32 *)(s1 + 4) |= 0x50000000;
     guess_StartPairSequence(s1, a0 + 0xD0, (s32)D_80188874);
     func_8017EE80(a0);
-    ((Unkstruct_801202A0 *)a0)->unk76 = 100;
+    ((Unkstruct_801202A0 *)a0)->unk76.s = 100;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
     ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;

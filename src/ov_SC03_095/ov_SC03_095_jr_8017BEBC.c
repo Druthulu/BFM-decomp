@@ -4595,7 +4595,7 @@ void func_80180388(void *arg0) {
             p = ((Unkstruct_801202A0 *)s0)->unk78;
             ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x80;
-            ((Unkstruct_801202A0 *)s0)->unk76 = *(u16 *)p;
+            ((Unkstruct_801202A0 *)s0)->unk76.s = *(u16 *)p;
             q = ((Unkstruct_801202A0 *)s0)->unk20;
             ((Unkstruct_800B5CB8 *)q)->unk1A = 0x2000;
             ((Unkstruct_800B5CB8 *)q)->unk18 = 0x2000;

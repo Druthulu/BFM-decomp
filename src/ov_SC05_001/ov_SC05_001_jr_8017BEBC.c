@@ -4965,10 +4965,10 @@ void func_8017FE0C(s32 a0) {
      * header instead and is length-drift -2 here. */
     switch ((s16)((Unkstruct_8017FE0C *)a0)->unk34 >> 1) {
     case 0:
-        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_8017C218_2 *)p)->unk6;
-        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_8017C218_2 *)p)->unkA - 0x70;
-        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_8017C218_2 *)p)->unkE;
-        dw = ((Unkstruct_8017C218_2 *)p)->unkA - ((Unkstruct_8017FE0C *)a0)->unk36;
+        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
+        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0x70;
+        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+        dw = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - ((Unkstruct_8017FE0C *)a0)->unk36;
         n0 = dw / 32;
         if (n0 < 5) {
             /* Two-address `s2` (NOT `s2 = (n0 + 4) * 32;`): it makes the `n0 + 4`
@@ -5000,10 +5000,10 @@ void func_8017FE0C(s32 a0) {
         break;
 
     case 1:
-        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_8017C218_2 *)p)->unk6;
-        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_8017C218_2 *)p)->unkA - 0xC8;
-        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_8017C218_2 *)p)->unkE;
-        dw = ((Unkstruct_8017FE0C *)a0)->unk36 - ((Unkstruct_8017C218_2 *)p)->unkA;
+        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
+        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0xC8;
+        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+        dw = ((Unkstruct_8017FE0C *)a0)->unk36 - ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
         n = dw / 32;
         j = 5 - n;              /* hoisted above the `!= 0` test: fills its slot */
         if (dw != 0) {

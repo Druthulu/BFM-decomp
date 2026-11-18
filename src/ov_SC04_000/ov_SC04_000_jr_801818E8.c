@@ -2936,7 +2936,7 @@ void func_80181ABC(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
     s32 s0 = (s32)a0;
     s32 p20a;
 
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
 
     if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_000_80180FBC.unkE4 == 0) {
         p20a = ((Unkstruct_801202A0 *)s0)->unk20;

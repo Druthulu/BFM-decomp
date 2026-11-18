@@ -4518,7 +4518,7 @@ extern void func_8018F6EC(s32 a0);
 extern void func_8018F6EC(s32 a0);
 
 void func_80190574(s32 a0) {
-    if (((Unkstruct_80190574 *)a0)->unk76 < 0) {
+    if (((Unkstruct_80190574 *)a0)->unk76.s < 0) {
         func_80131E00(a0, 6);
     } else {
         ((Unkstruct_80190574 *)a0)->unk2.u = 1;
@@ -5170,14 +5170,14 @@ void func_801915A8(s32 param_1)
         } else {
             iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60;
         }
-        ((Unkstruct_801202A0 *)param_1)->unk76 = CAST_SIGN(u16, param_1, 0x76) - iVar1;
+        ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - iVar1;
         func_8016AA50(param_1, iVar1);
         if (CAST_SIGN(u16, param_1, 0x82) & 1) {
             guess_RespawnSmallObjectType1E(param_1);
             guess_StartPadVibration(&D_801CB388);
         }
     }
-    if (((Unkstruct_801202A0 *)param_1)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk76.s <= 0) {
         ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
     } else {

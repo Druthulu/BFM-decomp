@@ -3616,7 +3616,7 @@ void func_8017FB60(void *a0) {
     s32 s1;
     u16 idx;
 
-    ((Unkstruct_801202A0 *)a0)->unk76 = 1;
+    ((Unkstruct_801202A0 *)a0)->unk76.s = 1;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8800;
     v0 = ((s32 (*)(void *))guess_AllocModelObject)(a0);
     ((Unkstruct_801202A0 *)a0)->unk20 = v0;
@@ -3752,7 +3752,7 @@ void func_8017FE78(void *a0) {
 
     s0 = (s32)a02;
     s1 = 1;
-    ((Unkstruct_801202A0 *)s0)->unk76 = s1;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = s1;
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_801202A0 *)s0)->unk20 = v0;
 

@@ -3155,7 +3155,7 @@ void func_80185380(s32 param_1) {
     switch (state) {
     case 0:
         obj = ((Unkstruct_80185380 *)param_1)->unk6C;
-        if (((Unkstruct_801202A0 *)obj)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)obj)->unk76.s > 0) {
             return;
         }
         ((Unkstruct_80185380 *)param_1)->unk34 = state + 1;
@@ -3566,7 +3566,7 @@ void func_80185B44(s32 a0) {
         t = D_80190490[0];
         D_801EAC80 = 0;
         ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
-        ((Unkstruct_801202A0 *)a0)->unk76 = t;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = t;
         ((Unkstruct_801202A0 *)a0)->unk6C = guess_SpawnActor(0x265, 7, a0);
         break;
 
@@ -4789,9 +4789,9 @@ void func_801881CC(void *a0) {
     KR_AS(void, func_80131B14)();
 
     ((Unkstruct_801202A0 *)a0)->extE.kSC03_014_80187CA8.unkAE = -1;
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         func_80131E00(a0, 0xC);
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
         func_80182D04((s32)a0 + 0x76, (s32)D_80190490, 0x96);
     } else {
         func_80182D04((s32)a0 + 0x76, (s32)D_80190490, 0x96);

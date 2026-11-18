@@ -427,7 +427,7 @@ void func_800CB794(s32 arg0) {
                         if (((Unkstruct_801202A0 *)p)->unk0 == 0x219) {
                             ptr = ((Unkstruct_801202A0 *)p)->unk78;
                             if (ptr != 0) {
-                                ((Unkstruct_801202A0 *)p)->unk60 = ((Unkstruct_801202A0 *)p)->unk76 * 0x1000 /
+                                ((Unkstruct_801202A0 *)p)->unk60 = ((Unkstruct_801202A0 *)p)->unk76.s * 0x1000 /
                                                     *(s16 *)(ptr + 0x30) + 1;
                             }
                         }

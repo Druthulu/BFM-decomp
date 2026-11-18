@@ -5878,7 +5878,7 @@ void func_801809B0(void *a0) {
     guess_UpdateActorModelMatrix(s0);
     guess_SetForwardVelocity(s0, 0x00080000);
     guess_StartActorSequence_2((u8 *)s0, (s32)&D_80199BA4);
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         func_80130088((void *)a0);
         func_8002AC00(0x13);
     }
@@ -5912,7 +5912,7 @@ void func_80180A30(s32 a0) {
     }
 
     if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
-        if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
             func_80131E00(s0, 6);
         } else {
             func_80131C78(s0);
@@ -6087,7 +6087,7 @@ void func_80180E30(s32 param_1) {
     s32 i;
 
     if ((((Unkstruct_801202A0 *)param_1)->unk86.u & 1) == 0) {
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 0xB5) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 0xB5) {
             if (((s32 (*)(s32, s32))guess_SpawnActorNoArg)(0x22D, param_1) != 0) {
                 ((Unkstruct_801202A0 *)param_1)->unk86.u |= 1;
                 for (i = 0; i < 0x20; i += 4) {
@@ -7648,7 +7648,7 @@ extern void guess_HideObjectModel(u8 *a0);
 
 void func_801832A8(s32 arg0) {
     s32 s0 = arg0;
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
     if (((Unkstruct_801202A0 *)s0)->extD.kSC02_041_80180438.unk100 == 0) {
         func_8002A04C(s0);
     }
@@ -7915,7 +7915,7 @@ void func_80183798(void *a0) {
 
     if (func_8012C044((s32)s0)) {
         ((Unkstruct_801202A0 *)s0)->extD.kSC02_041_80180438.unk100 = 1;
-        ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
         if (((Unkstruct_801202A0 *)s0)->extD.kSC02_041_80180438.unk100 == 0) {
             func_8002A04C((s32)s0);
         }

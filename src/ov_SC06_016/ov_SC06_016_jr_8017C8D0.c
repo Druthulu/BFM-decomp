@@ -3272,7 +3272,7 @@ void func_8017E54C(s32 a0)
         dmg = 1;
     }
 
-    ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, a0, 0x76) - dmg;
+    ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - dmg;
 
     if (((Unkstruct_801202A0 *)a0)->extF.kSC06_016_8017EC50.unkC8 != 0) {
         func_8002A520((void *)a0);
@@ -3281,7 +3281,7 @@ void func_8017E54C(s32 a0)
         func_8002A790((void *)a0);
     }
 
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         /* short / "died" path */
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
         guess_UpdateActorModelMatrix(a0);
@@ -3523,7 +3523,7 @@ void func_8017EBB8(void *a0)
     ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk5E.s = 0;
     ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk5C.s = v0;
     guess_RequestSound(0xA96, 0);
     func_80029514(0x578);

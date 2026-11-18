@@ -15,7 +15,7 @@ void SHARED_FN(s32 arg0) {
     diff = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk60 = 0;
-    ((Unkstruct_801202A0 *)arg0)->unk76 = diff;
+    ((Unkstruct_801202A0 *)arg0)->unk76.s = diff;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
     p = ((Unkstruct_801202A0 *)arg0)->unk20;
     CAST_WIDTH(u16, p, 0x14) = 0;

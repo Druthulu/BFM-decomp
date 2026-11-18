@@ -2887,7 +2887,7 @@ void func_801822A0(s32 a0) {
     }
 
     ((Unkstruct_801202A0 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x2);
-    ((Unkstruct_801202A0 *)a0)->unk76 = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x0);
+    ((Unkstruct_801202A0 *)a0)->unk76.s = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x0);
     guess_ShowObjectModel((u8 *)a0);
     guess_StartActorSequence(a0, (s32)D_8019C84C);
 

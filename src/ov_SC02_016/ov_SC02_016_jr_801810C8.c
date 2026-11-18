@@ -3263,7 +3263,7 @@ void func_80181AE8(s32 param_1) {
             if (CAST_SIGN(u16, param_1, 0x70) & 1) {
                 val = *(u16 *)((Unkstruct_801202A0 *)param_1)->unk78;
                 ((Unkstruct_801202A0 *)param_1)->unk2.s = 0xF;
-                ((Unkstruct_801202A0 *)param_1)->unk76 = val;
+                ((Unkstruct_801202A0 *)param_1)->unk76.s = val;
                 prims = (int *)((Unkstruct_801202A0 *)param_1)->unk20;
                 CAST_WIDTH(s16, (int)prims, 0x14) = 0;
                 ((Unkstruct_8001C9D0 *)prims)->unk10.u = 0;

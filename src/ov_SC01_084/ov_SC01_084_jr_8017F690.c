@@ -4870,7 +4870,7 @@ void func_801826C4(s32 param_1) {
             if ((r & 0x2000) == 0) {
                 func_80182DB4(param_1);
             } else {
-                if (((Unkstruct_801202A0 *)param_1)->unk76 > 0 && CAST_SIGN(s16, param_1, 0xA) < -0x28) {
+                if (((Unkstruct_801202A0 *)param_1)->unk76.s > 0 && CAST_SIGN(s16, param_1, 0xA) < -0x28) {
                     ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
                     ((Unkstruct_801202A0 *)param_1)->unkC1.s = 0;
                     ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;

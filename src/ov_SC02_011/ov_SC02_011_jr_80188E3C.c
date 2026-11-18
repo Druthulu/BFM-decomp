@@ -3487,7 +3487,7 @@ void func_8018D370(void *a0) {
     return;
 
 L8018D410:
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         func_80131E00(s0, 6);
         return;
     }
@@ -3521,7 +3521,7 @@ L8018D470:
     return;
 
 L8018D49C:
-    if (((Unkstruct_801202A0 *)s0)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s > 0) {
         goto L8018D4C0;
     }
     func_80131E00(s0, 6);
@@ -3928,7 +3928,7 @@ void func_8018DBF4(s32 a0) {
 
         CAST_WIDTH(s16, a0, 0x5E) = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
-        ((Unkstruct_801202A0 *)a0)->unk76 = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
+        ((Unkstruct_801202A0 *)a0)->unk76.s = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
         ent = ((Unkstruct_801202A0 *)a0)->unk20;
         CAST_WIDTH(s16, ent, 0x14) = 0;
         ((Unkstruct_8001C9D0 *)ent)->unk12.u = 0;

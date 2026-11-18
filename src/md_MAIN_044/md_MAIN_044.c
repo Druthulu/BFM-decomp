@@ -675,9 +675,9 @@ void func_800CDBA8(s32 param_1) {
     v1 = ((Unkstruct_800CDBA8 *)param_1)->unk34;
     if (((Unkstruct_800CDBA8 *)param_1)->unk2C == 0) {
         s4 = 0;
-        sp20[0] = ((Unkstruct_8017C218_2 *)v1)->unk6;
-        sp20[1] = ((Unkstruct_8017C218_2 *)v1)->unkA - 0x28;
-        sp20[2] = ((Unkstruct_8017C218_2 *)v1)->unkE;
+        sp20[0] = ((Unkstruct_80126B58 *)v1)->unk6.u;
+        sp20[1] = ((Unkstruct_80126B58 *)v1)->unkA.u - 0x28;
+        sp20[2] = ((Unkstruct_80126B58 *)v1)->unkE.u;
         do {
             s0 = rand();
             sp28[0] = ((s0 & 0x7F) << 3) - 0x40;
@@ -754,9 +754,9 @@ void func_800CDE04(s32 param_1) {
 
     q = ((Unkstruct_800CE004 *)param_1)->unk34;
     if (((Unkstruct_800CE004 *)param_1)->unk2C.s == 0) {
-        sp20[0] = ((Unkstruct_8017C218_2 *)q)->unk6;
-        sp20[1] = ((Unkstruct_8017C218_2 *)q)->unkA - 0x28;
-        sp20[2] = ((Unkstruct_8017C218_2 *)q)->unkE;
+        sp20[0] = ((Unkstruct_801202A0 *)q)->unk4.i.hi.u;
+        sp20[1] = ((Unkstruct_801202A0 *)q)->unk8.i.hi.u - 0x28;
+        sp20[2] = ((Unkstruct_801202A0 *)q)->unkC.i.hi.u;
         for (i = 0; i < 0x12; i++) {
             r = rand();
             sp28[0] = ((r & 0x7F) << 3) - 0x40;

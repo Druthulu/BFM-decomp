@@ -3017,7 +3017,7 @@ void func_80180270(s32 param_1) {
             goto DEFAULT_CASE;
         }
         val = CAST_SIGN(u16, param_1, 0x76) - hp;
-        ((Unkstruct_801202A0 *)param_1)->unk76 = val;
+        ((Unkstruct_801202A0 *)param_1)->unk76.s = val;
         if (val <= 0) {
             func_80131E00(param_1, 0xE);
         }
@@ -3931,7 +3931,7 @@ void func_80181A44(void *arg0) {
             }
             ((Unkstruct_801202A0 *)arg0)->unk5C.u =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 0x2);
-            ((Unkstruct_801202A0 *)arg0)->unk76 =
+            ((Unkstruct_801202A0 *)arg0)->unk76.s =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
             ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk1A =

@@ -6954,10 +6954,10 @@ void func_80183B1C(s32 param_1) {
         ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
         CAST_WIDTH(u16, param_1, 0x5E) = 0;
         t76 = CAST_SIGN(u16, a2v, 0x76) - v60;
-        ((Unkstruct_801202A0 *)a2v)->unk76 = t76;
+        ((Unkstruct_801202A0 *)a2v)->unk76.s = t76;
 
         if ((s16)t76 <= 0) {
-            ((Unkstruct_801202A0 *)a2v)->unk76 = 0;
+            ((Unkstruct_801202A0 *)a2v)->unk76.s = 0;
             ((Unkstruct_801202A0 *)a2v)->unk2.s = 0xC;
             ((Unkstruct_801202A0 *)a2v)->blkDC.f.extC.kSC06_029_80183B1C.unkE0 |= 0x1000;
             for (i = 0; i < 5; i++) {

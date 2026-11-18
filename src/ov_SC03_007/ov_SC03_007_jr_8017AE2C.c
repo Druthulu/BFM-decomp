@@ -6261,7 +6261,7 @@ void func_80180C48(s32 a0) {
     extern s16 D_80126CB4;
     extern s16 D_80126CB6;
     extern s16 D_80126CB8;
-    D_80126CB4 = ((Unkstruct_8017C218_2 *)a0)->unk6;
+    D_80126CB4 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     D_80126CB6 = CAST_ALIAS(u16, a0, 0xa);
     D_80126CB8 = CAST_ALIAS(u16, a0, 0xe);
 }
@@ -6712,7 +6712,7 @@ void func_80181668(s32 a0) {
     u16 tag = ((Unkstruct_801202A0 *)a0)->unk2.u;
 
     if (tag != 0) {
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
             D_8018C08C[((Unkstruct_801202A0 *)a0)->extD.kSC03_007_80181668.unk102]();
         } else {
             D_8018C074[tag]();
@@ -6774,14 +6774,14 @@ void func_8018178C(s32 a0)
     case 2:
         if (func_8012CBCC(a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
-            ((Unkstruct_801202A0 *)a0)->unk76 -= 0xA;
+            ((Unkstruct_801202A0 *)a0)->unk76.s -= 0xA;
             ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8810;
             ((Unkstruct_801202A0 *)a0)->unkB4 &= ~1;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
-            if (((Unkstruct_801202A0 *)a0)->unk76 < 0x370) {
-                ((Unkstruct_801202A0 *)a0)->unk76 = 0x2BC;
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x370) {
+                ((Unkstruct_801202A0 *)a0)->unk76.s = 0x2BC;
             }
         }
         break;

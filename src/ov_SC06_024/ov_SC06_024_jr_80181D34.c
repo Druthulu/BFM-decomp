@@ -3266,14 +3266,14 @@ void func_80182824(s32 self)
         if (s1 <= 0)
             s1 = 1;
     }
-    if (((Unkstruct_801202A0 *)self)->unk76 != 0) {
+    if (((Unkstruct_801202A0 *)self)->unk76.s != 0) {
         func_8016AA50(self, s1);
         v = CAST_SIGN(u16, self, 0x76) - s1;
-        ((Unkstruct_801202A0 *)self)->unk76 = v;
+        ((Unkstruct_801202A0 *)self)->unk76.s = v;
         if ((s16)v < 0)
-            ((Unkstruct_801202A0 *)self)->unk76 = 0;
+            ((Unkstruct_801202A0 *)self)->unk76.s = 0;
         guess_RequestSound(0x9D4, 0);
-        if (((Unkstruct_801202A0 *)self)->unk76 != 0)
+        if (((Unkstruct_801202A0 *)self)->unk76.s != 0)
             return;
     }
     ((Unkstruct_801202A0 *)self)->unk5C.u = 0;
@@ -3518,7 +3518,7 @@ void func_80182ECC(s32 p) {
             ((Unkstruct_801202A0 *)p)->unk1C.s = 3;
             ((Unkstruct_801202A0 *)p)->unk34.u = ((Unkstruct_801202A0 *)p)->unk34.u + 1;
         }
-        if (((Unkstruct_801202A0 *)e)->unk76 != 0) {
+        if (((Unkstruct_801202A0 *)e)->unk76.s != 0) {
             break;
         }
         func_80183598(p);

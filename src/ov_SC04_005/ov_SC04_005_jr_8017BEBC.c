@@ -6767,7 +6767,7 @@ void func_80182B7C(s32 a0) {
     switch (v1) {
     case 3:
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801A4C64;
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0x280;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0x280;
         break;
     default:
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801A4C24;

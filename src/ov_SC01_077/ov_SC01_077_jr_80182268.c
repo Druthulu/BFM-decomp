@@ -3115,7 +3115,7 @@ extern unsigned char D_8018AB04;
 void func_80182420(int param_1)
 {
     ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
-    ((Unkstruct_801202A0 *)param_1)->unk76 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk76.s = 0;
     ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 6;
     guess_StartActorSequence(param_1, &D_801B09D0);
@@ -3223,7 +3223,7 @@ void func_801824D0(int param_1)
         func_80182FD0(param_1);
         return;
     LAB_80182760:
-        if (((Unkstruct_801202A0 *)param_1)->unk76 <= 0)
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s <= 0)
             goto LAB_80182780;
         ((void (*)(s32))func_80182E30)(param_1);
         return;

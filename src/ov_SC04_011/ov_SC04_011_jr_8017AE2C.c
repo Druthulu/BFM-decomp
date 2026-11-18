@@ -3407,9 +3407,9 @@ void func_8017C218(int param_1)
     }
 
     prim.tag = 0x50000000;
-    rot.vx = ((Unkstruct_8017C218_2 *)obj)->unk6;
-    rot.vy = ((Unkstruct_8017C218_2 *)obj)->unkA - 8;
-    rot.vz = ((Unkstruct_8017C218_2 *)obj)->unkE;
+    rot.vx = ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u;
+    rot.vy = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u - 8;
+    rot.vz = ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u;
     func_80017E68(&rot, &mtx);
 
     p = D_80193E18;

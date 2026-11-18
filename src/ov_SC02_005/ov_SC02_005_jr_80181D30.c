@@ -2973,7 +2973,7 @@ void func_801821C8(s32 *arg0) {
     if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_005_801821C8.unkE8 & 0x800) {
         goto L224;
     }
-    if (((Unkstruct_801202A0 *)arg0)->unk76 >= 0x81) {
+    if (((Unkstruct_801202A0 *)arg0)->unk76.s >= 0x81) {
         goto L224;
     }
     if (t << 16) {
@@ -3453,14 +3453,14 @@ void func_80182A8C(s32 s0) {
         break;
     case 4:
         if (guess_TickWaitTimer(s0)) {
-            if (D_801E4BBC == 0 && ((Unkstruct_801202A0 *)s0)->unk76 == D_80195B24[0]) {
+            if (D_801E4BBC == 0 && ((Unkstruct_801202A0 *)s0)->unk76.s == D_80195B24[0]) {
                 func_801856E4();
                 ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x180;
             }
         }
         a0 = CAST_SIGN(u32, s0, 0xE8);
         if ((a0 & 0x80000) == 0 &&
-            ((Unkstruct_801202A0 *)s0)->unk76 <= ((*(u16 *)&D_80195B24[D_801E4BBC] << 16) >> 17)) {
+            ((Unkstruct_801202A0 *)s0)->unk76.s <= ((*(u16 *)&D_80195B24[D_801E4BBC] << 16) >> 17)) {
             if ((a0 & 0x20000) != 0) {
                 func_80186304(s0, -0x15, 1);
             } else {
@@ -3760,18 +3760,18 @@ void func_80183218(void *arg0) {
         flags = ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC02_005_801831A4.unkE8.s;
         if (flags & 0x10) {
             t = CAST_SIGN(u16, p, 0x76) - CAST_SIGN(u16, p, 0x60);
-            ((Unkstruct_801202A0 *)p)->unk76 = t;
+            ((Unkstruct_801202A0 *)p)->unk76.s = t;
             ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC02_005_801831A4.unkE8.s = flags & ~0x10;
-            w = ((Unkstruct_801202A0 *)p)->unk76;
+            w = ((Unkstruct_801202A0 *)p)->unk76.s;
             D_801E4398 = t;
             if (w < 0) {
                 D_801E4398 = 0;
-                ((Unkstruct_801202A0 *)p)->unk76 = 0;
+                ((Unkstruct_801202A0 *)p)->unk76.s = 0;
             }
             ((Unkstruct_801202A0 *)p)->unk60 = 0;
             guess_RequestSound(0x4F3, 0);
 
-            if (((Unkstruct_801202A0 *)p)->unk76 == 0) {
+            if (((Unkstruct_801202A0 *)p)->unk76.s == 0) {
                 CAST_SIGN(u32, p, 0xE8) &= 0xFFF1FFFF;
                 func_8018415C(CAST_SIGN(void *, p, 0xD4));
 

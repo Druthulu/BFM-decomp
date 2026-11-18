@@ -4485,7 +4485,7 @@ s32 func_80181328(s32 arg0)
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((Unkstruct_801202A0 *)arg0)->unkFC.s = 0;
         ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
-        ((Unkstruct_801202A0 *)arg0)->unk76 = CAST_SIGN(u16, arg0, 0x76) - a3;
+        ((Unkstruct_801202A0 *)arg0)->unk76.s = CAST_SIGN(u16, arg0, 0x76) - a3;
         guess_SpawnActor(0x1A1, 0, arg0);
         guess_SpawnActor(0x1A1, 1, arg0);
         guess_SpawnActor(0x1A1, 2, arg0);
@@ -7393,11 +7393,11 @@ void func_80185D5C(void *a0) {
         speed = 1;
     }
 
-    ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, (u8 *)a0, 0x76) - speed;
+    ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, (u8 *)a0, 0x76) - speed;
 
     {
         ((Unkstruct_801202A0 *)a0)->unk5C.u = ((Unkstruct_801202A0 *)a0)->unk5C.u & 0xFFFE;
-        if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             func_80131E00(a0, 0xE);
         } else {

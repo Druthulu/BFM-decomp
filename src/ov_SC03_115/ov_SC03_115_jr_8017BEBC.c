@@ -4819,7 +4819,7 @@ void func_8017FAB0(void *arg0) {
             }
             ((Unkstruct_801202A0 *)arg0)->unk5C.u =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 0x2);
-            ((Unkstruct_801202A0 *)arg0)->unk76 =
+            ((Unkstruct_801202A0 *)arg0)->unk76.s =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
             ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk1A =
@@ -5031,7 +5031,7 @@ void func_8017FEC4(s32 arg0) {
     u16 w;
 
     p = ((Unkstruct_801202A0 *)arg0)->unk64;
-    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
             ((Unkstruct_801202A0 *)p)->unk60 = 0xA;

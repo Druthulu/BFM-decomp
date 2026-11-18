@@ -4431,8 +4431,8 @@ void func_8018A4B8(s32 arg0) {
 void func_8018A594(s32 arg0)
 {
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8E10;
-    if (((Unkstruct_801202A0 *)arg0)->unk76 < 0x320) {
-        ((Unkstruct_801202A0 *)arg0)->unk76 = 0x384;
+    if (((Unkstruct_801202A0 *)arg0)->unk76.s < 0x320) {
+        ((Unkstruct_801202A0 *)arg0)->unk76.s = 0x384;
     }
 }
 
@@ -4514,8 +4514,8 @@ void func_8018A6C0(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = D_801DE498;
         guess_SnapActorToGround((u8 *)a0);
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8E10;
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-            ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
         }
     }
 }

@@ -57,7 +57,7 @@ void func_80182A00(s32 a0) {
         guess_StartPadVibration(&D_80062BDC);
     }
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
-    ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, a0, 0x76) - CAST_SIGN(u16, a0, 0x60);
+    ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - CAST_SIGN(u16, a0, 0x60);
     ((Unkstruct_801202A0 *)a0)->unk5C.u = ((Unkstruct_801202A0 *)a0)->unk5C.u & 0xFFFE;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
     guess_UpdateActorModelMatrix(a0);
@@ -91,7 +91,7 @@ void func_80182A00(s32 a0) {
         guess_ClearVelocityAndSetGravity(a0);
         guess_SetLocalVelocity(a0, (s32)D_8018AA9C);
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         func_80130088((void *)a0);
         ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
@@ -105,7 +105,7 @@ void func_80182A00(s32 a0) {
         guess_ClearVelocityAndSetGravity(a0);
         guess_SetLocalVelocity(a0, (s32)D_8018AA9C);
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         func_80130088((void *)a0);
         ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
@@ -118,7 +118,7 @@ void func_80182A00(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         break;
     case 0xF:
-        if (((Unkstruct_801202A0 *)a0)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s > 0) {
             func_80182D3C(a0);
         } else {
             guess_RequestSound(0x6AA, 0);
@@ -128,7 +128,7 @@ void func_80182A00(s32 a0) {
             guess_ClearVelocityAndSetGravity(a0);
             guess_SetLocalVelocity(a0, (s32)D_8018AA9C);
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             func_80130088((void *)a0);
             ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
@@ -139,7 +139,7 @@ void func_80182A00(s32 a0) {
         }
         break;
     default:
-        if (((Unkstruct_801202A0 *)a0)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s > 0) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
             guess_StartActorSequence(a0, D_801A1DA0);
         } else {
@@ -150,7 +150,7 @@ void func_80182A00(s32 a0) {
             guess_ClearVelocityAndSetGravity(a0);
             guess_SetLocalVelocity(a0, (s32)D_8018AA9C);
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             func_80130088((void *)a0);
             ((Unkstruct_801202A0 *)a0)->unkC2 = 0;

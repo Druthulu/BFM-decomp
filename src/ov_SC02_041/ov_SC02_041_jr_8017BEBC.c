@@ -4749,7 +4749,7 @@ void func_8017FC70(s32 a0) {
         guess_ClearVelocityAndSetGravity(a0);
         if (((Unkstruct_801202A0 *)a0)->unk70.s == 3) {
             ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_8019AD2C;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 0x280;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 0x280;
         } else {
             ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_8019ACEC;
         }
@@ -4875,7 +4875,7 @@ extern s32 func_8012C098(void *param_1);
 extern void guess_HideObjectModel(u8 *a0);
 
 void func_8017FF48(void *a0) {
-    ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
     if (((Unkstruct_801202A0 *)a0)->extD.kSC02_041_80180438.unk100 == 0) {
         func_8002A04C((s32)a0);
     }
@@ -5144,7 +5144,7 @@ void func_80180438(void *a0) {
 
     if (func_8012C044((s32)s0)) {
         ((Unkstruct_801202A0 *)s0)->extD.kSC02_041_80180438.unk100 = 1;
-        ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
         if (((Unkstruct_801202A0 *)s0)->extD.kSC02_041_80180438.unk100 == 0) {
             func_8002A04C((s32)s0);
         }

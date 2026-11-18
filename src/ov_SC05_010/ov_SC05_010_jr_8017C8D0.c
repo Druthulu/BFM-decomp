@@ -3562,7 +3562,7 @@ void func_8017EE68(int param_1)
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) = *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) & 0x7fffffff;
         D_801C7E50 = guess_SpawnActorNoArg(0x28c, param_1);
         D_801C7E58 = guess_SpawnActorNoArg(0x28e, param_1);
-        ((Unkstruct_801202A0 *)param_1)->unk76 = 0x180;
+        ((Unkstruct_801202A0 *)param_1)->unk76.s = 0x180;
         D_801C7E74 = 0;
         D_801C7E78 = 0;
         D_801C7E28 = 0;

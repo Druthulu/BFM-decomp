@@ -3398,7 +3398,7 @@ void func_801806D4(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
             return;
         case 3:
-            if (((Unkstruct_801202A0 *)a0)->unk76 < ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_801806D4.unk106) {
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < ((Unkstruct_801202A0 *)a0)->extD.kSC06_030_801806D4.unk106) {
                 ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
             } else {
                 ((Unkstruct_801202A0 *)a0)->unk2.s = 3;

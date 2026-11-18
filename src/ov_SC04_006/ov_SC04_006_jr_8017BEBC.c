@@ -4260,7 +4260,7 @@ void func_8017F354(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
     s32 s0 = (s32)a0;
     s32 p20a;
 
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
 
     if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_006_8017F354.unkE4 == 0) {
         p20a = ((Unkstruct_801202A0 *)s0)->unk20;
@@ -4387,7 +4387,7 @@ void func_8017F5EC(s32 arg0) {
     u16 w;
 
     p = ((Unkstruct_801202A0 *)arg0)->unk64;
-    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
             ((Unkstruct_801202A0 *)p)->unk60 = 0xA;

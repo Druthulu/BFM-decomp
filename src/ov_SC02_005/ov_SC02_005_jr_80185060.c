@@ -206,11 +206,11 @@ void func_801853EC(s32 arg0) {
     r60 = CAST_SIGN(u16, s0, 0x60);
     cnt = r76 - r60;
     flags = ((Unkstruct_801202A0 *)s0)->unk5C.u & 0xFFFE;
-    ((Unkstruct_801202A0 *)s0)->unk76 = cnt;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = cnt;
     ((Unkstruct_801202A0 *)s0)->unk5C.u = flags;
     func_8016AA50(arg0, ((Unkstruct_801202A0 *)s0)->unk60);
 
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         CAST_WIDTH(u16, s0, 0x5E) = 0;
         func_80185060(arg0, 1);
         func_80186B08(arg0);
@@ -428,7 +428,7 @@ void func_8018592C(u8 *arg0) {
     }
 
     val = D_80195B24[D_801E4BBC];
-    ((Unkstruct_801202A0 *)a2)->unk76 = val;
+    ((Unkstruct_801202A0 *)a2)->unk76.s = val;
     D_801E439C = val;
     D_801E4398 = val;
 

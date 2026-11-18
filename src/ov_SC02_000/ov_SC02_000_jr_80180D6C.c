@@ -2770,7 +2770,7 @@ void func_80180D6C(s32 param_1) {
     guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, D_8018E960[idx]);
     ptr = &D_8018E7C0[idx * 0x34];
     ((Unkstruct_801202A0 *)param_1)->unk78 = (s32)ptr;
-    ((Unkstruct_801202A0 *)param_1)->unk76 = *(u16 *)ptr;
+    ((Unkstruct_801202A0 *)param_1)->unk76.s = *(u16 *)ptr;
     func_80143970(param_1);
     guess_SnapActorToGround((u8 *)param_1);
 

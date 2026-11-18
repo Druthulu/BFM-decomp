@@ -4777,7 +4777,7 @@ void func_80180B24(s32 s0)
             p->unk34.u++;
             break;
         case 2:
-            if (((Unkstruct_801202A0 *)s0)->unk76 == 0) {
+            if (((Unkstruct_801202A0 *)s0)->unk76.s == 0) {
                 func_80180E80((u8 *)s0);
                 return;
             }
@@ -6894,7 +6894,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 0: {
         s32 tw;
 
-        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE4 - ((Unkstruct_8017C218_2 *)a1)->unk6;
+        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE4 - ((Unkstruct_801202A0 *)a1)->unk4.i.hi.u;
         buf[0] = diff;
         tw = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkEC;
         t16 = tw;
@@ -6906,7 +6906,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 1: {
         s32 tw;
 
-        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE6 - ((Unkstruct_8017C218_2 *)a1)->unkA;
+        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE6 - ((Unkstruct_801202A0 *)a1)->unk8.i.hi.u;
         buf[1] = diff;
         tw = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkEE;
         t16 = tw;
@@ -6918,7 +6918,7 @@ s32 func_801836D4(void *a0, void *a1) {
     case 2: {
         s32 tw;
 
-        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE8 - ((Unkstruct_8017C218_2 *)a1)->unkE;
+        diff = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkE8 - ((Unkstruct_801202A0 *)a1)->unkC.i.hi.u;
         buf[2] = diff;
         tw = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_011_801832DC.unkF0;
         t16 = tw;
@@ -7512,10 +7512,10 @@ set_bit:
 clear_bit:
     {
         s32 *a0 = *(s32 **)((u8 *)s0 + 0x20);
-        s32 v0 = ((Unkstruct_8018445C *)a0)->unk4;
+        s32 v0 = ((Unkstruct_8001C9D0 *)a0)->unk4.s;
         s32 v1 = 0x7FFFFFFF;
         v0 &= v1;
-        ((Unkstruct_8018445C *)a0)->unk4 = v0;
+        ((Unkstruct_8001C9D0 *)a0)->unk4.s = v0;
     }
 }
 
@@ -9457,7 +9457,7 @@ void func_80186F44(void *a0)
     {
         void *t;
         t = s0;
-        ((Unkstruct_801202A0 *)t)->unk76 = 0x40;
+        ((Unkstruct_801202A0 *)t)->unk76.s = 0x40;
         *(s16 *)((u8 *)t + 0xF6) = 3;
     }
     (*(u16 *)&D_801EFD2C) = 0x12C;

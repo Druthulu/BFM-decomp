@@ -5315,7 +5315,7 @@ void func_80180CFC(s32 p) {
     }
 
     t = CAST_SIGN(u16, p, 0x76) - iVar1;
-    ((Unkstruct_801202A0 *)p)->unk76 = t;
+    ((Unkstruct_801202A0 *)p)->unk76.s = t;
     if ((s16)t <= 0) {
         func_80131E00(p, 0xC);
         return;

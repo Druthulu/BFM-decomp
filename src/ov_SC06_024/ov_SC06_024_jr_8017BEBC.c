@@ -3793,7 +3793,7 @@ s32 func_8017E8F8(s32 a0) {
         return 0;
     }
 
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         return 0;
     }
     if ((((Unkstruct_801202A0 *)a0)->unk5C.u & 1) == 0) {
@@ -3815,7 +3815,7 @@ s32 func_8017E8F8(s32 a0) {
 
     ((Unkstruct_801202A0 *)a0)->extD.kSC06_024_8017D804.unk106 = 8;
     CAST_WIDTH(s16, a0, 0x5E) = 0;
-    ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, a0, 0x76) - CAST_SIGN(u16, a0, 0x60);
+    ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - CAST_SIGN(u16, a0, 0x60);
     ((Unkstruct_801202A0 *)a0)->unk5C.u = ((Unkstruct_801202A0 *)a0)->unk5C.u & 0xFFFE;
 
     if (CAST_SIGN(u16, a0, 0x76) >= 0x1F && CAST_SIGN(u16, a0, 0x76) <= 0x32) {
@@ -3824,7 +3824,7 @@ s32 func_8017E8F8(s32 a0) {
     if (CAST_SIGN(u16, a0, 0x76) >= 0xB && CAST_SIGN(u16, a0, 0x76) <= 0x1E) {
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_024_8017D804.unkE4 = (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_024_8017D804.unkE4 & ~1) | 2;
     }
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
         ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
     }

@@ -4353,7 +4353,7 @@ void func_80181000(s32 a0)
     Square0(vec, vec);
 
     if (vec[0] + vec[2] < 0x400) {
-        t = ((Unkstruct_801202A0 *)a0)->unk76;
+        t = ((Unkstruct_801202A0 *)a0)->unk76.s;
         if (t > 0x50) {
             r = rand() & 3;
         } else if (t > 0x28) {
@@ -4375,7 +4375,7 @@ void func_80181000(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
             *(s16 *)(a0 + 0xDE) = 0;
             ((Unkstruct_801202A0 *)a0)->unk34.u = 5;
-            CAST_WIDTH(s16, a0, 0xDC) = 0x111 - (((Unkstruct_801202A0 *)a0)->unk76 * 0x88) / 0x78;
+            CAST_WIDTH(s16, a0, 0xDC) = 0x111 - (((Unkstruct_801202A0 *)a0)->unk76.s * 0x88) / 0x78;
             break;
         case 2:
             ((Unkstruct_801202A0 *)a0)->unk2.s = 0x16;
@@ -4408,7 +4408,7 @@ void func_80181000(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
             *(s16 *)(a0 + 0xDE) = 0;
             ((Unkstruct_801202A0 *)a0)->unk34.u = 0x16;
-            CAST_WIDTH(s16, a0, 0xDC) = 0x111 - (((Unkstruct_801202A0 *)a0)->unk76 * 0x88) / 0x78;
+            CAST_WIDTH(s16, a0, 0xDC) = 0x111 - (((Unkstruct_801202A0 *)a0)->unk76.s * 0x88) / 0x78;
             break;
         }
     }
@@ -5010,9 +5010,9 @@ void func_8018222C(s32 a0) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C &= 0xFF7F;
                 *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)((u8 *)&D_8018F9FC);
                 ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_8018F914 | 0x40000000 | 0x20000000;
-                if (((Unkstruct_801202A0 *)a0)->unk76 > 0x50) {
+                if (((Unkstruct_801202A0 *)a0)->unk76.s > 0x50) {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xD2;
-                } else if (((Unkstruct_801202A0 *)a0)->unk76 > 0x28) {
+                } else if (((Unkstruct_801202A0 *)a0)->unk76.s > 0x28) {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x96;
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x5A;
@@ -5470,9 +5470,9 @@ void func_80182C20(s32 a0) {
                 func_8017F9D8();
                 *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x80) = (s32)((u8 *)&D_8018F9FC);
                 ((Unkstruct_801202A0 *)a0)->unk5C.u |= 0x200;
-                if (((Unkstruct_801202A0 *)a0)->unk76 >= 0x51) {
+                if (((Unkstruct_801202A0 *)a0)->unk76.s >= 0x51) {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xD2;
-                } else if (((Unkstruct_801202A0 *)a0)->unk76 >= 0x29) {
+                } else if (((Unkstruct_801202A0 *)a0)->unk76.s >= 0x29) {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x96;
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x5A;

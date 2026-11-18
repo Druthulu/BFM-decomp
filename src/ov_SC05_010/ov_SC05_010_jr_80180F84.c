@@ -3194,7 +3194,7 @@ void func_80181B4C(void *a0)
         func_8001C2C4(v0);
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_801928B8 | 0x40000000 | 0x20000000;
-        ((Unkstruct_801202A0 *)a0)->unk76 = 10000;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 10000;
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->extE.kSC05_010_80181B4C.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801928C8;

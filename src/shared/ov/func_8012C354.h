@@ -15,7 +15,7 @@ s32 guess_InitActorModel(Unkstruct_801202A0 *a0, s32 a1) {
     } else {
         v = *(u16*)(a1 + 0x0);
     }
-    a0->unk76 = v;
+    a0->unk76.s = v;
     *(s16*)((u8 *)a0 + 0x5C) = *(u16*)(a1 + 0x2);
     if (*(s32*)(a1 + 0x4) != 0) {
         *(s32*)((u8 *)a0 + 0x20) = ((s32 (*)(s32, s32))func_8001CFDC)(0x26, 0x85);

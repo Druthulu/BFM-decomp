@@ -4018,7 +4018,7 @@ void func_8017F4FC(void *a0) {
     s32 s0 = (s32)a0;
     s32 p20a;
 
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
 
     if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC03_006_801838FC.unkE4 == 0) {
         p20a = ((Unkstruct_801202A0 *)s0)->unk20;
@@ -4135,17 +4135,17 @@ void func_8017F738(void *a0) {
 
         if ((flag & 0x8000) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 1;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 1;
             return;
         }
         if ((flag & 0x4000) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 8;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 1;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 1;
             return;
         }
         if ((flag & 0x2000) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 0xA;
-            ((Unkstruct_801202A0 *)a0)->unk76 = 1;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 1;
         } else {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
             guess_SnapActorToGround((u8 *)a0);
@@ -4669,11 +4669,11 @@ void func_801803B8(s32 param_1) {
     }
 
     v0 = CAST_SIGN(u16, s0, 0x76) - v1;
-    ((Unkstruct_801202A0 *)s0)->unk76 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = v0;
 
     v0 = ((Unkstruct_801202A0 *)s0)->unk5C.u & 0xFFFE;
     ((Unkstruct_801202A0 *)s0)->unk5C.u = v0;
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
     }
 
@@ -4695,7 +4695,7 @@ void func_801803B8(s32 param_1) {
 label_468:
     guess_ClearVelocityAndSetGravity(s0);
 
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         func_80131E00(s0, 0xC);
     } else {
         ret = guess_StartActorSequenceById(s0, 4);

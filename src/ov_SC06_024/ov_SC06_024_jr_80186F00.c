@@ -2913,7 +2913,7 @@ void func_80186F00(s32 a0) {
             func_80131E00(a0, 0xD);
             return;
         }
-        if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
             func_80131E00(a0, 6);
         } else {
             func_80131C78(a0);
@@ -2927,7 +2927,7 @@ void func_80186F00(s32 a0) {
             CAST_WIDTH(s32, a0, 0x10) = 0;
         }
         if (s1 & 0x2000) {
-            if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+            if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
                 func_80131E00(a0, 6);
             } else {
                 func_80131C78(a0);
@@ -5575,7 +5575,7 @@ void func_8018B240(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -6185,7 +6185,7 @@ void func_8018C074(s32 a0)
                 }
             }
 
-            if ((((Unkstruct_801202A0 *)a0)->unk76 < 5) && ((rand() & 3) == 0)) {
+            if ((((Unkstruct_801202A0 *)a0)->unk76.s < 5) && ((rand() & 3) == 0)) {
                 s32 iVar2 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
                 s32 r;
 
@@ -6318,7 +6318,7 @@ void func_8018C38C(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -6710,7 +6710,7 @@ void func_8018D020(s32 a0) {
             ((Unkstruct_80185020 *)*(s32 *)(a0 + 0x20))->unk14 =
                 *(s16 *)(((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14);
         }
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 5 && (rand() & 3) == 0 &&
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 5 && (rand() & 3) == 0 &&
             (iVar3 = func_80143C74(a0, 0)) != 0) {
             *(s32 *)(iVar3 + 0x10) = ((rand() & 0x7FF) - 0x400) << 8;
             *(s32 *)(iVar3 + 0x14) = 0xFFF00000;
@@ -8005,7 +8005,7 @@ extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8018E094(s32 a0);
 
 void func_8018EF1C(Unkstruct_801202A0 *a0) {
-    if (a0->unk76 < 0) {
+    if (a0->unk76.s < 0) {
         func_80131E00(a0, 6);
     } else {
         a0->unk2.u = 1;

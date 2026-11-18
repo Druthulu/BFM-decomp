@@ -4377,7 +4377,7 @@ void func_8017F954(void *a0) {
     guess_UpdateActorModelMatrix(s0);
     guess_SetForwardVelocity(s0, 0x00080000);
     guess_StartActorSequence_2((u8 *)s0, (s32)&D_80197B6C);
-    if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
         func_80130088((void *)a0);
         func_8002AC00(0x13);
     }
@@ -4413,7 +4413,7 @@ void func_8017F9D4(s32 a0) {
     if (v0 != 0) {
         return;
     }
-    v0 = ((Unkstruct_801202A0 *)s0)->unk76;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk76.s;
     if (v0 <= 0) {
         func_80131E00(s0, 6);
     } else {
@@ -4591,7 +4591,7 @@ void func_8017FDD4(void *param_1)
     s32 i;
 
     if ((((Unkstruct_801202A0 *)param_1)->unk86.u & 1) == 0) {
-        if (((Unkstruct_801202A0 *)param_1)->unk76 >= 0xB5) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s >= 0xB5) {
             return;
         }
         if (guess_SpawnActorNoArg(0x22D, (s32)param_1) == 0) {

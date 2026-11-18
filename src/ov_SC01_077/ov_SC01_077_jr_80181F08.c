@@ -3100,7 +3100,7 @@ void func_80181F08(s32 arg0)
     }
     ((Unkstruct_801202A0 *)arg0)->unkC1.s = 0;
     func_8012E9C0(arg0);
-    ((Unkstruct_801202A0 *)arg0)->unk76 = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
+    ((Unkstruct_801202A0 *)arg0)->unk76.s = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
     ((Unkstruct_801202A0 *)arg0)->unk5C.u &= 0xFFFE;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
     guess_UpdateActorModelMatrix(arg0);
@@ -3127,13 +3127,13 @@ void func_80181F08(s32 arg0)
         func_801822E4(arg0);
         return;
     case 15:
-        if (((Unkstruct_801202A0 *)arg0)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk76.s > 0) {
             func_801827A4(arg0);
             return;
         }
         break;
     default:
-        if (((Unkstruct_801202A0 *)arg0)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk76.s > 0) {
             ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
             ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;
             guess_StartActorSequence(arg0, D_801B02A8);

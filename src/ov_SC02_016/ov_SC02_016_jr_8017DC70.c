@@ -4092,7 +4092,7 @@ void func_801804F8(int param_1)
     if (*(unsigned short *)(param_1 + 0x70) & 1) {
         val = *(unsigned short *)((Unkstruct_801202A0 *)param_1)->unk78;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 0xF;
-        ((Unkstruct_801202A0 *)param_1)->unk76 = val;
+        ((Unkstruct_801202A0 *)param_1)->unk76.s = val;
         prims = (int *)((Unkstruct_801202A0 *)param_1)->unk20;
         CAST_WIDTH(short, (int)prims, 0x14) = 0;
         ((Unkstruct_8001C9D0 *)prims)->unk10.u = 0;

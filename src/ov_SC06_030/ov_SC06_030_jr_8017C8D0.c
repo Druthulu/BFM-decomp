@@ -2998,7 +2998,7 @@ void func_8017DF70(s32 a0) {
         } else {
             dec = ((Unkstruct_801202A0 *)a0)->unk60;
         }
-        ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, a0, 0x76) - dec;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - dec;
         func_8016AA50(a0, dec);
         if ((CAST_SIGN(u16, a0, 0x82) & 1) != 0) {
             guess_RespawnSmallObjectType1E(a0);
@@ -3015,11 +3015,11 @@ void func_8017DF70(s32 a0) {
         }
     }
 
-    if (((Unkstruct_801202A0 *)a0)->unk76 < 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s < 0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 7;
         ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         guess_RequestSound(0xA8F, 0);
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
     } else if (((Unkstruct_801202A0 *)a0)->unkC2 == 0) {
         guess_RequestSound(0xA8E, 0);
     }

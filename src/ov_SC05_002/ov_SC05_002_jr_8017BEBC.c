@@ -3671,7 +3671,7 @@ void func_8017EF24(void *arg0) {
             }
             CAST_WIDTH(s16, (char *)arg0, 0x5C) =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 0x2);
-            ((Unkstruct_801202A0 *)arg0)->unk76 =
+            ((Unkstruct_801202A0 *)arg0)->unk76.s =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
             ((Unkstruct_80126B58 *)arg0)->unk20.m->unk18.s =
                 ((Unkstruct_80126B58 *)arg0)->unk20.m->unk1A.s =

@@ -153,7 +153,7 @@ void func_801A026C(s32 arg0)
 
     ((Unkstruct_801202A0 *)arg0)->extE.kSC07_003_801A01D4.unkAE = -1;
     ((Unkstruct_801202A0 *)arg0)->unk75 = 2;
-    ((Unkstruct_801202A0 *)arg0)->unk76 = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
+    ((Unkstruct_801202A0 *)arg0)->unk76.s = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
     ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC07_003_801A01D4.unkE4 = 0x50;
     ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk2C |= 0x80;
     *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20 + 0x80) = (s32)D_801A68A8;
@@ -1375,7 +1375,7 @@ void func_801A1B28(s32 arg0) {
     }
 
     if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC07_003_801A01D4.unkE0.s & 0x21) {
-        if (((Unkstruct_801202A0 *)arg0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk76.s <= 0) {
             ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x17;
         } else {
             ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x15;

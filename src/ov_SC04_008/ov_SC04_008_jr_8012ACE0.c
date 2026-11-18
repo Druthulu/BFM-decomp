@@ -1228,7 +1228,7 @@ void func_80131340(s32 a0)
             return;
         }
         /* polarity MUST match case 4's — see the cross-jump note in the header. */
-        if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
             func_80131E00(a0, 6);
         } else {
             func_80131C78(a0);
@@ -1245,7 +1245,7 @@ void func_80131340(s32 a0)
             if (guess_HandleActorEventDefault(a0, D_80190BD8) == 1) {
                 return;
             }
-            if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+            if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
                 func_80131E00(a0, 6);
             } else {
                 func_80131C78(a0);

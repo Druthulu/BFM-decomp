@@ -8500,7 +8500,7 @@ void func_801846D0(void *a0) {
     s32 s0 = (s32)a0;
     s32 p20a;
 
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0;
 
     if (((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC03_006_801838FC.unkE4 == 0) {
         p20a = ((Unkstruct_801202A0 *)s0)->unk20;
@@ -9241,7 +9241,7 @@ void func_8018549C(void *a0) {
     return;
 
 L_lh76_a:
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         ((void (*)(s32, s32))func_80131E00)((s32)s0, 6);
         return;
     }
@@ -9275,7 +9275,7 @@ L_reentry:
     return;
 
 L_lh76_b:
-    if (((Unkstruct_801202A0 *)s0)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s > 0) {
         goto L_setmode3;
     }
     ((void (*)(s32, s32))func_80131E00)((s32)s0, 6);
@@ -9713,7 +9713,7 @@ void func_80185D20(s32 a0) {
 
         CAST_WIDTH(s16, a0, 0x5E) = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
-        ((Unkstruct_801202A0 *)a0)->unk76 = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
+        ((Unkstruct_801202A0 *)a0)->unk76.s = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
         ent = ((Unkstruct_801202A0 *)a0)->unk20;
         *(s16 *)(ent + 0x14) = 0;
         *(s16 *)(ent + 0x12) = 0;

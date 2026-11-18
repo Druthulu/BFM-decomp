@@ -71,7 +71,7 @@ s16 func_80185E80(s32 arg0) {
     case 4:
     case 5:
         if ((((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_005_80185E80.unkE8 & 0x800) == 0) {
-            if (((Unkstruct_801202A0 *)arg0)->unk76 < 0x81) {
+            if (((Unkstruct_801202A0 *)arg0)->unk76.s < 0x81) {
                 var = 0;
             }
         }

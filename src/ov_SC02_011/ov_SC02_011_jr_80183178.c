@@ -1063,7 +1063,7 @@ void func_80184B08(s32 param_1) {
     extern s32 D_80126B64;
     s32 v0;
 
-    ((Unkstruct_801202A0 *)param_1)->unk76 = 10;
+    ((Unkstruct_801202A0 *)param_1)->unk76.s = 10;
     ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0x8C00;
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_801202A0 *)param_1)->unk20 = v0;

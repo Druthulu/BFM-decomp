@@ -4605,7 +4605,7 @@ void func_80181754(void *arg0) {
             }
             ((Unkstruct_801202A0 *)arg0)->unk5C.u =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 0x2);
-            ((Unkstruct_801202A0 *)arg0)->unk76 =
+            ((Unkstruct_801202A0 *)arg0)->unk76.s =
                 *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78);
             ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk1A =

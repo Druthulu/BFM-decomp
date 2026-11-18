@@ -2900,7 +2900,7 @@ void func_8017FB38(s32 param_1)
         t = CAST_SIGN(s16, param_1, 0x2C);
         if (t < 0x60) {
             t = t + 0x20;
-            ((Unkstruct_80129010 *)param_1)->unk2C = t;
+            ((Unkstruct_8011DB30 *)param_1)->unk2C.i.lo.u = t;
             if (t >= 0x60) {
                 *(u16 *)(param_1 + 0x2E) = *(u16 *)(param_1 + 0x2E) + 1;
             }
@@ -2911,9 +2911,9 @@ void func_8017FB38(s32 param_1)
             return;
         }
         t = t - 0x10;
-        ((Unkstruct_80129010 *)param_1)->unk2C = t;
+        ((Unkstruct_8011DB30 *)param_1)->unk2C.i.lo.u = t;
         if (t < 0) {
-            ((Unkstruct_80129010 *)param_1)->unk2C = 0;
+            ((Unkstruct_8011DB30 *)param_1)->unk2C.i.lo.u = 0;
         }
     }
 
@@ -3183,7 +3183,7 @@ void func_801803F0() {
 
     rec = KR_AS(u8 *, func_801290DC)(0x22);
     if (rec != NULL) {
-        ((Unkstruct_80129010 *)rec)->unk34 = 0x4000;
+        ((Unkstruct_8011DB30 *)rec)->unk34.val.s = 0x4000;
         r = rand();
         *(s32 *)(rec + 0x14) = -((r & 0x3FF0 | 0x8000) << 4);
     }

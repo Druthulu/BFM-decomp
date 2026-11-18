@@ -1481,8 +1481,8 @@ cause: 2 names (12 B, all members placeholders) bound to 7 distinct objects, non
 
 ### a949e722e813
 names: Unkstruct_8017DCF8_2, Unkstruct_801838EC_2
-cause: 2 names (48 B, all members placeholders) bound to 12 distinct objects, none bound to two names: ov_SC01_080/0x8017DCF8:iVar1, ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b …; full list: tools/struct_twins.py --show a949e722e813
-- `Unkstruct_8017DCF8_2`: 1 obj — ov_SC01_080/0x8017DCF8:iVar1
+cause: 2 names (48 B, all members placeholders); 1 bound to no object (UNBOUND), used only by: type Unkstruct_80186434_2 (ov_SC01_077/0x80186434:iVar1); 1 T3 band def, dead until rung S; map type Unkstruct_d2e9ef24 (Unkstruct_8017DCF8_2); the other 1 bound to 11 distinct objects, none bound to two names: ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b, ov_SC03_029/0x801838EC:a1 …; full list: tools/struct_twins.py --show a949e722e813
+- `Unkstruct_8017DCF8_2`: 0 obj — T3 band def, dead until rung S; map type Unkstruct_d2e9ef24; used by type Unkstruct_80186434_2 (ov_SC01_077/0x80186434:iVar1)
 - `Unkstruct_801838EC_2`: 11 obj — ov_SC02_011/0x8018D19C:a1, ov_SC02_011/0x8018D19C:b, ov_SC02_027/0x8018633C:p, ov_SC02_028/0x80186D20:e, ov_SC03_006/0x80183A70:p, ov_SC03_006/0x801852C8:a1, ov_SC03_006/0x801852C8:b, ov_SC03_029/0x801838EC:a1 (+3)
 
 ### ae06d3e9859a

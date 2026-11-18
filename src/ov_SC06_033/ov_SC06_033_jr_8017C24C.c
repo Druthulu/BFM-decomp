@@ -4382,7 +4382,7 @@ void func_8017F940(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -4993,7 +4993,7 @@ void func_80180774(s32 a0)
                 }
             }
 
-            if ((((Unkstruct_801202A0 *)a0)->unk76 < 5) && ((rand() & 3) == 0)) {
+            if ((((Unkstruct_801202A0 *)a0)->unk76.s < 5) && ((rand() & 3) == 0)) {
                 s32 iVar2 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
                 s32 r;
 
@@ -5126,7 +5126,7 @@ void func_80180A8C(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -5519,7 +5519,7 @@ void func_80181720(s32 a0) {
             ((Unkstruct_80185020 *)*(s32 *)(a0 + 0x20))->unk14 =
                 *(s16 *)(((Unkstruct_801833D4 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14);
         }
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 5 && (rand() & 3) == 0 &&
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 5 && (rand() & 3) == 0 &&
             (iVar3 = func_80143C74(a0, 0)) != 0) {
             *(s32 *)(iVar3 + 0x10) = ((rand() & 0x7FF) - 0x400) << 8;
             *(s32 *)(iVar3 + 0x14) = 0xFFF00000;

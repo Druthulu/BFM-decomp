@@ -1017,7 +1017,7 @@ s32 func_8012FCC4(s32 param_1) {
     }
     if (((Unkstruct_801202A0 *)param_1)->unkB4 & 0x100) {
         ((void (*)(int))func_80131B14)(((int)param_1));
-        if (((Unkstruct_801202A0 *)param_1)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s <= 0) {
             ((void (*)(int, int))func_80131E00)(((int)param_1), 0xC);
             return;
         }
@@ -1291,7 +1291,7 @@ void func_80131170(s32 p, s32 b, s32 c) {
         }
     }
 tail:
-    if (((Unkstruct_801202A0 *)p)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         return;
     }
     if (((s32(*)(s32))guess_DistSqToPlayer)((s32)((u8 *)p)) <= 0x8FFF) {
@@ -1607,7 +1607,7 @@ void func_80131340(s32 a0)
             return;
         }
         /* polarity MUST match case 4's — see the cross-jump note in the header. */
-        if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
             func_80131E00(a0, 6);
         } else {
             func_80131C78(a0);
@@ -1624,7 +1624,7 @@ void func_80131340(s32 a0)
             if (guess_HandleActorEventDefault(a0, D_801CEE08) == 1) {
                 return;
             }
-            if (((Unkstruct_801202A0 *)a0)->unk76 <= 0) {
+            if (((Unkstruct_801202A0 *)a0)->unk76.s <= 0) {
                 func_80131E00(a0, 6);
             } else {
                 func_80131C78(a0);
@@ -1703,7 +1703,7 @@ void func_80131B14(u8 *a0v) {
                 dec = ((s32)((Unkstruct_801202A0 *)p)->unk60 * (s32)*(s16 *)(q + 0x30)) >> 12;
                 if (dec <= 0) dec = 1;
             }
-            ((Unkstruct_801202A0 *)p)->unk76 = CAST_SIGN(u16, p, 0x76) - dec;
+            ((Unkstruct_801202A0 *)p)->unk76.s = CAST_SIGN(u16, p, 0x76) - dec;
         }
         ((void (*)(void *))func_8016AA50)(p);
         if (CAST_SIGN(u16, p, 0x82) & 1) {
@@ -1719,7 +1719,7 @@ void func_80131B14(u8 *a0v) {
         if (((Unkstruct_801202A0 *)p)->extF.kMAIN_012_80131B14.unkC9) func_8002A790(p);
     }
 
-    if (((Unkstruct_801202A0 *)p)->unk76 <= 0) ((Unkstruct_801202A0 *)p)->unk5C.u = 0;
+    if (((Unkstruct_801202A0 *)p)->unk76.s <= 0) ((Unkstruct_801202A0 *)p)->unk5C.u = 0;
 
     {
         s32 r = ((Unkstruct_801202A0 *)p)->unk20;

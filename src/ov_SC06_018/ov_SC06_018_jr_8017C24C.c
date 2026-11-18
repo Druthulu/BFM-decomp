@@ -4436,7 +4436,7 @@ extern void func_80131E00(s32 a0, s32 a1);
 extern void func_8017ED60(s32 a0);
 
 void func_8017FBE8(s32 a0) {
-    if (((Unkstruct_801202A0 *)a0)->unk76 < 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk76.s < 0) {
         func_80131E00(a0, 6);
         return;
     }
@@ -5261,7 +5261,7 @@ void func_80180EB8(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -5872,7 +5872,7 @@ void func_80181CEC(s32 a0)
                 }
             }
 
-            if ((((Unkstruct_801202A0 *)a0)->unk76 < 5) && ((rand() & 3) == 0)) {
+            if ((((Unkstruct_801202A0 *)a0)->unk76.s < 5) && ((rand() & 3) == 0)) {
                 s32 iVar2 = ((s32 (*)(s32, s32))func_80143C74)(a0, 0);
                 s32 r;
 
@@ -6003,7 +6003,7 @@ void func_80182004(int param_1)
                 func_8002A790(param_1);
             }
         }
-        if (((Unkstruct_801202A0 *)param_1)->unk76 < 1) {
+        if (((Unkstruct_801202A0 *)param_1)->unk76.s < 1) {
             ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
             func_80131E00(param_1, 6);
         }
@@ -6400,7 +6400,7 @@ void func_80182C98(s32 a0) {
             ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk14 =
                 *(s16 *)(((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14);
         }
-        if (((Unkstruct_80182C98 *)a0)->unk76 < 5 && (rand() & 3) == 0 &&
+        if (((Unkstruct_80182C98 *)a0)->unk76.s < 5 && (rand() & 3) == 0 &&
             (iVar3 = func_80143C74(a0, 0)) != 0) {
             *(s32 *)(iVar3 + 0x10) = ((rand() & 0x7FF) - 0x400) << 8;
             *(s32 *)(iVar3 + 0x14) = 0xFFF00000;
@@ -8602,7 +8602,7 @@ void func_80185F58(s32 p) {
     }
 
     t = CAST_SIGN(u16, p, 0x76) - iVar1;
-    ((Unkstruct_801202A0 *)p)->unk76 = t;
+    ((Unkstruct_801202A0 *)p)->unk76.s = t;
     if ((s16)t <= 0) {
         func_80131E00(p, 0xC);
         return;

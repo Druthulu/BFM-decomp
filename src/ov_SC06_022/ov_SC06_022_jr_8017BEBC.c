@@ -3291,7 +3291,7 @@ void func_8017DCA4(s32 arg0) {
         CAST_WIDTH(u16, arg0, 0x5E) = 0;
         CAST_SIGN(u16, arg0, 0x76) -= CAST_SIGN(u16, arg0, 0x60);
         ((Unkstruct_801202A0 *)arg0)->unk5C.u &= ~1;
-        if (((Unkstruct_801202A0 *)arg0)->unk76 <= 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk76.s <= 0) {
             temp_v1 = func_80132EF4(arg0, 99);
             if (temp_v1 != 0) {
                 ((Unkstruct_8011DB30 *)temp_v1)->unkA.u += -0xB0;
@@ -3832,16 +3832,16 @@ void func_8017EA6C(s32 p) {
         ((Unkstruct_801202A0 *)p)->unk1C.s = 8;
         CAST_WIDTH(u16, p, 0x5E) = 0;
         ((Unkstruct_801202A0 *)p)->unk5C.u &= 0xFFFE;
-        ((Unkstruct_801202A0 *)p)->unk76 -= CAST_SIGN(u16, p, 0x60);
+        ((Unkstruct_801202A0 *)p)->unk76.s -= CAST_SIGN(u16, p, 0x60);
         guess_RequestSound(0x9D5, 0);
-        if (((Unkstruct_801202A0 *)p)->unk76 > 0) {
+        if (((Unkstruct_801202A0 *)p)->unk76.s > 0) {
             return;
         }
         x = CAST_SIGN(u16, p, 0xFE);
         ((Unkstruct_801202A0 *)p)->unkFE.s = x + 1;
         *(s32 *)(((Unkstruct_801202A0 *)p)->unk20 + 0x24) =
             D_80191030[(s16)x];
-        ((Unkstruct_801202A0 *)p)->unk76 = 5;
+        ((Unkstruct_801202A0 *)p)->unk76.s = 5;
         if (((Unkstruct_801202A0 *)p)->unkFE.s < 2) {
             return;
         }
@@ -4842,14 +4842,14 @@ s32 self;
         if (s1 <= 0)
             s1 = 1;
     }
-    if (((Unkstruct_801202A0 *)self)->unk76 != 0) {
+    if (((Unkstruct_801202A0 *)self)->unk76.s != 0) {
         func_8016AA50(self, s1);
         v = CAST_SIGN(u16, self, 0x76) - s1;
-        ((Unkstruct_801202A0 *)self)->unk76 = v;
+        ((Unkstruct_801202A0 *)self)->unk76.s = v;
         if ((s16)v < 0)
-            ((Unkstruct_801202A0 *)self)->unk76 = 0;
+            ((Unkstruct_801202A0 *)self)->unk76.s = 0;
         guess_RequestSound(0x9D4, 0);
-        if (((Unkstruct_801202A0 *)self)->unk76 != 0)
+        if (((Unkstruct_801202A0 *)self)->unk76.s != 0)
             return;
     }
     ((Unkstruct_801202A0 *)self)->unk5C.u = 0;
@@ -5108,7 +5108,7 @@ void func_801809F4(s32 p) {
             ((Unkstruct_801202A0 *)p)->unk1C.s = 3;
             ((Unkstruct_801202A0 *)p)->unk34.u = ((Unkstruct_801202A0 *)p)->unk34.u + 1;
         }
-        if (((Unkstruct_801202A0 *)e)->unk76 != 0) {
+        if (((Unkstruct_801202A0 *)e)->unk76.s != 0) {
             break;
         }
         func_801810C0(p);

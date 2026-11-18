@@ -4132,7 +4132,7 @@ void func_8017DF1C(s32 a0) {
     u16 tag = ((Unkstruct_801202A0 *)a0)->unk2.u;
 
     if (tag != 0) {
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x3d4) {
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x3d4) {
             D_80182ADC[((Unkstruct_801202A0 *)a0)->extD.kSC03_023_8017DF1C.unk102]();
         } else {
             D_80182AC4[tag]();
@@ -4194,7 +4194,7 @@ void func_8017E014(s32 a0)
     }
     case 2:
         if (func_8012CBCC(a0) != 0) {
-            ((Unkstruct_801202A0 *)a0)->unk76 = CAST_SIGN(u16, a0, 0x76) - 0xA;
+            ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - 0xA;
             ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C &= 0xFFEF;
             ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
@@ -4202,8 +4202,8 @@ void func_8017E014(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
             ((Unkstruct_801202A0 *)a0)->unkB4 &= ~1;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
-            if (((Unkstruct_801202A0 *)a0)->unk76 < 0x370) {
-                ((Unkstruct_801202A0 *)a0)->unk76 = 0x2BC;
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x370) {
+                ((Unkstruct_801202A0 *)a0)->unk76.s = 0x2BC;
             }
         }
         break;

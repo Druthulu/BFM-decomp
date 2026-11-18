@@ -3559,13 +3559,13 @@ void func_8017F998(s32 param_1) {
             v0 = 0x26;
         }
         if (val != v0 && ((Unkstruct_801202A0 *)s0)->unk2.u != 2 &&
-            (((Unkstruct_801202A0 *)s0)->unk76 >= 0x371 || val == 0x1D)) {
+            (((Unkstruct_801202A0 *)s0)->unk76.s >= 0x371 || val == 0x1D)) {
             goto TARGET2;
         }
     }
 TARGET1:
     func_80131E00((Unkstruct_801202A0 *)s0, 3);
-    ((Unkstruct_801202A0 *)s0)->unk76 = 0x3E8;
+    ((Unkstruct_801202A0 *)s0)->unk76.s = 0x3E8;
     return;
 TARGET2:
     func_80131B14(s0);
@@ -3652,7 +3652,7 @@ void func_8017FB28(s32 param_1) {
     if (((s32 (*)(s32, void *))guess_InitActorModel)(param_1, &D_80185CDC) == 0) {
         return;
     }
-    ((Unkstruct_801202A0 *)param_1)->unk76 = 1000;
+    ((Unkstruct_801202A0 *)param_1)->unk76.s = 1000;
     ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)param_1)->unkB4 = 0x40003;
     CAST_SIGN(u32, param_1, 0xC4) |= 2;

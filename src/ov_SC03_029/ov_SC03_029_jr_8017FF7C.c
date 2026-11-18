@@ -2963,8 +2963,8 @@ void func_80180410(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8A10;
 
-    if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-        ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+    if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+        ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
     }
 }
 
@@ -3048,8 +3048,8 @@ void func_801804A0(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = D_8018B8E8;
             guess_SnapActorToGround((void *)a0);
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8A10;
-            if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-                ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+                ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
             }
             func_800291C8(0xA, 0x3025);
         }
@@ -3091,8 +3091,8 @@ void func_801804A0(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = D_8018B8E8;
             guess_SnapActorToGround((void *)a0);
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8A10;
-            if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-                ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+                ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
             }
             func_800291C8(0xA, 0x3025);
         }
@@ -3218,8 +3218,8 @@ void func_801809A4(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8A10;
-            if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-                ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+            if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+                ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
             }
         }
         break;
@@ -3516,8 +3516,8 @@ void func_8018118C(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = D_8018B8E8;
         guess_SnapActorToGround(a0);
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8A10;
-        if (((Unkstruct_801202A0 *)a0)->unk76 < 0x320) {
-            ((Unkstruct_801202A0 *)a0)->unk76 = 0x384;
+        if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x320) {
+            ((Unkstruct_801202A0 *)a0)->unk76.s = 0x384;
         }
         func_800291C8(0xA, 0x3025);
     }
@@ -5331,7 +5331,7 @@ void func_80183AC0(void *a0) {
     return;
 
 L80183B60:
-    if (((Unkstruct_801202A0 *)s0)->unk76 <= 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         func_80131E00(s0, 6);
         return;
     }
@@ -5365,7 +5365,7 @@ L80183BC0:
     return;
 
 L80183BEC:
-    if (((Unkstruct_801202A0 *)s0)->unk76 > 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk76.s > 0) {
         goto L80183C10;
     }
     func_80131E00(s0, 6);
@@ -5793,7 +5793,7 @@ void func_80184344(s32 a0) {
 
         CAST_WIDTH(s16, a0, 0x5E) = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
-        ((Unkstruct_801202A0 *)a0)->unk76 = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
+        ((Unkstruct_801202A0 *)a0)->unk76.s = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78);
         ent = ((Unkstruct_801202A0 *)a0)->unk20;
         *(s16 *)(ent + 0x14) = 0;
         *(s16 *)(ent + 0x12) = 0;

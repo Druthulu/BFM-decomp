@@ -4373,13 +4373,13 @@ void func_8017F370(s32 arg0) {
     VECTOR v;  /* sp+0x30 */
 
     v.vx = 0;
-    v.vy = ((Unkstruct_8017F370 *)arg0)->unk2C;
-    v.vz = ((Unkstruct_8017F370 *)arg0)->unk30;
+    v.vy = ((Unkstruct_8011DB30 *)arg0)->unk2C.val;
+    v.vz = ((Unkstruct_8011DB30 *)arg0)->unk30.val;
 
-    *(s16 *)(((Unkstruct_8017F370 *)arg0)->unk20 + 0x12) =
-        (ratan2(-(s32)((Unkstruct_8017F370 *)arg0)->unkE, (s32)((Unkstruct_8017F370 *)arg0)->unk6) + 0x400) & 0xFFF;
+    *(s16 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x12) =
+        (ratan2(-(s32)((Unkstruct_8011DB30 *)arg0)->unkE.s, (s32)((Unkstruct_8011DB30 *)arg0)->unk6.s) + 0x400) & 0xFFF;
 
-    RotMatrixZYX(((Unkstruct_8017F370 *)arg0)->unk20 + 0x10, (s32)&m);
+    RotMatrixZYX(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x10, (s32)&m);
     ApplyMatrixLV((s32)&m, (s32)&v, arg0 + 0x10);
 }
 
