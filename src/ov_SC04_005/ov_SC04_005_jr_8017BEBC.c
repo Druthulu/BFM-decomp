@@ -9863,7 +9863,7 @@ void func_80187714(s32 a0)
             ((Unkstruct_8011DB30 *)s0)->unkA.s = sv[1];
             ((Unkstruct_8011DB30 *)s0)->unkE.s = sv[2];
             ApplyRotMatrixLV(&D_801BEE7C, (void *)(a0 + 0x10));
-            ((Unkstruct_8011DB30 *)s0)->unk34.s = 0x4000;
+            ((Unkstruct_8011DB30 *)s0)->unk34.val.s = 0x4000;
         }
         ang += 0x200;
     } while (ang < 0x1000);

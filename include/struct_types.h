@@ -638,7 +638,7 @@ typedef struct {
     /* 0x0024 */ u8 pad24[0xc];
     /* 0x0030 */ u16 unk30;
     /* 0x0032 */ union { s16 s; u16 u; } unk32;
-    /* 0x0034 */ union { s32 s; u32 u; } unk34;
+    /* 0x0034 */ union { union { s32 s; u32 u; } val; struct { u16 lo; u16 hi; } i; } unk34;
 } Unkstruct_8011DB30; /* size = 0x38 */
 
 /* Unkstruct_8011D030 — the small object (guess_g_SmallObjectPool 0x8011D030 x 30, 0x58 each; +0x0 kind -> D_80126728 handler,

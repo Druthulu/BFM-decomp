@@ -5444,7 +5444,7 @@ void func_80181184(s32 p)
         ((Unkstruct_8011DB30 *)s0)->unkA.s = lv[1];
         ((Unkstruct_8011DB30 *)s0)->unkE.s = lv[2];
         ApplyRotMatrixLV(&D_80190E84, (void *)(p + 0x10));
-        ((Unkstruct_8011DB30 *)s0)->unk34.s = 0x4000;
+        ((Unkstruct_8011DB30 *)s0)->unk34.val.s = 0x4000;
     }
 }
 

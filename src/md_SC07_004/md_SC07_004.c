@@ -7040,7 +7040,7 @@ void func_801AA9D4(s32 a0, s32 a1) {
         CAST_WIDTH(Unkstruct_801343C4, ptr, 0x10) = *(Unkstruct_801343C4 *)a1;
         ((Unkstruct_8011DB30 *)work)->unk30 = 5;
         ((Unkstruct_8011DB30 *)work)->unk32.u = 1;
-        ((Unkstruct_8011DB30 *)work)->unk34.u = 0x180F0F0;
+        ((Unkstruct_8011DB30 *)work)->unk34.val.u = 0x180F0F0;
     }
 }
 
