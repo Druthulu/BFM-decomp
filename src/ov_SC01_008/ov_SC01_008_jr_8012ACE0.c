@@ -2340,7 +2340,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_8017FD34;
     extern s32 *D_8017FD38;
     extern u16 D_801A2060;
-    extern u8  guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern SVECTOR guess_g_BoxHitNormalX; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
     extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
     extern u16 D_801152AE;
@@ -2461,12 +2461,12 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_8017FD24;
         u16 w;
-        ((H16 *)guess_g_BoxHitNormalX)->h = s3u[0];
+        guess_g_BoxHitNormalX.vx = s3u[0];
         w = s3u[1];
         bp[3] = w;
-        ((H16 *)&guess_g_BoxHitNormalY)->h = w;
-        ((H16 *)&guess_g_BoxHitNormalZ)->h = s3u[2];
-        ((H16 *)&D_801152AE)->h = s3u[3];
+        guess_g_BoxHitNormalX.vy = w;
+        guess_g_BoxHitNormalX.vz = s3u[2];
+        guess_g_BoxHitNormalX.pad = s3u[3];
     }
 ret1:
     return 1;
@@ -2700,7 +2700,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_8017FD28->f0 = D_8017FD20->f0;
     D_8017FD28->f4 = D_8017FD20->f4;
-    (*(SVECTOR*)guess_g_BoxHitNormalX) = *pElem;
+    guess_g_BoxHitNormalX = *pElem;
     D_8017FD20->f6.u = pElem->vy;
     return 1;
 }
@@ -2840,7 +2840,7 @@ s32 func_80134C20(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 block_13:
     return 0;
 block_14:
-    __builtin_memcpy(guess_g_BoxHitNormalX, (void *)temp_s4, 8);
+    __builtin_memcpy(&guess_g_BoxHitNormalX, (void *)temp_s4, 8);
     VectorNormalSS(D_8017FD2C, D_8017FD2C);
     {
         u16 *pB8 = (u16 *)D_8017FD2C;

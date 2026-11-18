@@ -3763,17 +3763,6 @@ typedef struct {
     /* 0x00de */ s16 unkDE;
 } Obj801805BC; /* size = 0xe0 */
 typedef Unkstruct_80181E08 Obj80180D84;
-typedef struct {
-    u32 tag;            /* 0x00 */
-    u32 c0;             /* 0x04 */
-    u16 x0, y0;         /* 0x08, 0x0A */
-    u32 c1;             /* 0x0C */
-    u16 x1, y1;         /* 0x10, 0x12 */
-    u32 c2;             /* 0x14 */
-    u16 x2, y2;         /* 0x18, 0x1A */
-    u32 c3;             /* 0x1C */
-    u16 x3, y3;         /* 0x20, 0x22 */
-} PG4_80189340;
 typedef PG4_8017FD50 PG4_8018C960;
 typedef PG4_8017FD50 PG4_8018C960_801895C8;
 typedef PG4_8017FD50 PG4_8018C960_80189BA0;

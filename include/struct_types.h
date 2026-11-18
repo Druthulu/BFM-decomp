@@ -2009,13 +2009,13 @@ typedef struct {                                     /* 0x1C */
 typedef struct {                                     /* 0x24 */
     u32 tag;     /* 0x00 */
     u32 rgb0;    /* 0x04 */
-    s16 x0, y0;  /* 0x08 */
+    union { s16 s; u16 u; } x0, y0; /* u: PG4_80189340 (ov_SC02_000) reads */  /* 0x08 */
     u32 rgb1;    /* 0x0C */
-    s16 x1, y1;  /* 0x10 */
+    union { s16 s; u16 u; } x1, y1; /* u: PG4_80189340 (ov_SC02_000) reads */  /* 0x10 */
     u32 rgb2;    /* 0x14 */
-    s16 x2, y2;  /* 0x18 */
+    union { s16 s; u16 u; } x2, y2; /* u: PG4_80189340 (ov_SC02_000) reads */  /* 0x18 */
     u32 rgb3;    /* 0x1C */
-    s16 x3, y3;  /* 0x20 */
+    union { s16 s; u16 u; } x3, y3; /* u: PG4_80189340 (ov_SC02_000) reads */  /* 0x20 */
 } G4P;
 typedef struct {
     u32 tag;

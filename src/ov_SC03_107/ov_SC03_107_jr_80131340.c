@@ -389,7 +389,7 @@ extern s32 func_8012DBD0(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 func_8012DDA4(void);
 extern s32 func_8012DF34(s32 a0, s32 a1, s32 a2);
 extern s16 D_80126B9A;
-extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+extern SVECTOR guess_g_BoxHitNormalX; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
 extern void func_8012DFBC(void);
 extern void func_8012DFCC(void);
 extern void func_8012E014(s32 arg0);
@@ -1577,7 +1577,7 @@ s32 func_80133CD4(arg0, cmd, base, arr)
     extern s32 *D_80182A4C;
     extern s32 *D_80182A50;
     extern u16 D_8019A788;
-    extern u8  guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern SVECTOR guess_g_BoxHitNormalX; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern s16 guess_g_BoxHitNormalY; // Names ledger: config/names.tsv guess_g_BoxHitNormalY
     extern s16 guess_g_BoxHitNormalZ; // Names ledger: config/names.tsv guess_g_BoxHitNormalZ
     extern u16 D_801152AE;
@@ -1706,12 +1706,12 @@ s32 func_80133CD4(arg0, cmd, base, arr)
         u16 *s3u = (u16 *)s3;
         u16 *bp = D_80182A3C;
         u16 w;
-        ((H16 *)guess_g_BoxHitNormalX)->h = s3u[0];
+        guess_g_BoxHitNormalX.vx = s3u[0];
         w = s3u[1];
         bp[3] = w;
-        ((H16 *)&guess_g_BoxHitNormalY)->h = w;
-        ((H16 *)&guess_g_BoxHitNormalZ)->h = s3u[2];
-        ((H16 *)&D_801152AE)->h = s3u[3];
+        guess_g_BoxHitNormalX.vy = w;
+        guess_g_BoxHitNormalX.vz = s3u[2];
+        guess_g_BoxHitNormalX.pad = s3u[3];
     }
 ret1:
     return 1;
@@ -1899,7 +1899,7 @@ s32 func_801345F8(s32 arg)
 
 s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
-    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern SVECTOR guess_g_BoxHitNormalX; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern s32 guess_Vec3sDotAdd_2(s32 a0, s32 a1, s32 a2);
     extern s16 * D_80182A3C;
     extern SVec * D_80182A38;
@@ -1945,7 +1945,7 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     D_80182A40->f0 = D_80182A38->f0;
     D_80182A40->f4 = D_80182A38->f4;
-    (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
+    guess_g_BoxHitNormalX = *pElem;
     D_80182A38->f6.u = pElem->vy;
     return 1;
 }
@@ -2019,7 +2019,7 @@ int func_80134A74(int param_1, s16 param_2, s16 param_3, int param_4)
 
 s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
-    extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
+    extern SVECTOR guess_g_BoxHitNormalX; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
     extern s32 guess_Vec3sDotAdd_3(s32 a0, s32 a1, s32 a2);
     extern void * D_80182A38;
     extern void * D_80182A3C;
@@ -2087,7 +2087,7 @@ s32 func_80134C20(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
 block_13:
     return 0;
 block_14:
-    __builtin_memcpy(guess_g_BoxHitNormalX, (void *)temp_s4, 8);
+    __builtin_memcpy(&guess_g_BoxHitNormalX, (void *)temp_s4, 8);
     VectorNormalSS(D_80182A44, D_80182A44);
     {
         u16 *pB8 = (u16 *)D_80182A44;

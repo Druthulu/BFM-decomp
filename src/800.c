@@ -15773,7 +15773,7 @@ G4P *func_80027F4C(Face3 *f, SVEC2 *verts, SVEC2 *norms, G4P *prims,
                 gte_rtps();
                 gte_stflg(&g.flag);
                 if (!(g.flag & ~0x1000)) {
-                    gte_stsxy(&prim->x3);
+                    gte_stsxy(&prim->x3.s);
                     gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
                     w = g.sz2;
                     if (g.sz3 < w) { w = g.sz3; }

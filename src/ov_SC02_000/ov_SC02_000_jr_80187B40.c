@@ -3941,35 +3941,35 @@ void func_80189340(s32 p)
                     for (j = 0; j < 4; j++) {
                         s32 c = rgb;
                         ((Unkstruct_8013B83C *)pp)->unk3 = 8;
-                        ((PG4_80189340 *)pp)->c1 = 0;
-                        ((PG4_80189340 *)pp)->c3 = 0;
-                        ((PG4_80189340 *)pp)->c0 = c;
-                        ((PG4_80189340 *)pp)->c2 = c;
+                        ((G4P *)pp)->rgb1 = 0;
+                        ((G4P *)pp)->rgb3 = 0;
+                        ((G4P *)pp)->rgb0 = c;
+                        ((G4P *)pp)->rgb2 = c;
                         ((Unkstruct_8013B83C *)pp)->unk7 = 0x3A;
-                        ((PG4_80189340 *)pp)->x0 = xy[0];
-                        ((PG4_80189340 *)pp)->x1 = xy[0];
-                        ((PG4_80189340 *)pp)->x2 = xy[2];
-                        ((PG4_80189340 *)pp)->x3 = xy[2];
-                        ((PG4_80189340 *)pp)->y0 = xy[1];
-                        ((PG4_80189340 *)pp)->y1 = xy[1];
-                        ((PG4_80189340 *)pp)->y2 = xy[3];
-                        ((PG4_80189340 *)pp)->y3 = xy[3];
+                        ((G4P *)pp)->x0.u = xy[0];
+                        ((G4P *)pp)->x1.u = xy[0];
+                        ((G4P *)pp)->x2.u = xy[2];
+                        ((G4P *)pp)->x3.u = xy[2];
+                        ((G4P *)pp)->y0.u = xy[1];
+                        ((G4P *)pp)->y1.u = xy[1];
+                        ((G4P *)pp)->y2.u = xy[3];
+                        ((G4P *)pp)->y3.u = xy[3];
                         switch (j) {
                         case 0:
-                            ((PG4_80189340 *)pp)->x1 = ((PG4_80189340 *)pp)->x1 + radius;
-                            ((PG4_80189340 *)pp)->x3 = ((PG4_80189340 *)pp)->x3 + radius;
+                            ((G4P *)pp)->x1.u = ((G4P *)pp)->x1.u + radius;
+                            ((G4P *)pp)->x3.u = ((G4P *)pp)->x3.u + radius;
                             break;
                         case 1:
-                            ((PG4_80189340 *)pp)->x1 = ((PG4_80189340 *)pp)->x1 - radius;
-                            ((PG4_80189340 *)pp)->x3 = ((PG4_80189340 *)pp)->x3 - radius;
+                            ((G4P *)pp)->x1.u = ((G4P *)pp)->x1.u - radius;
+                            ((G4P *)pp)->x3.u = ((G4P *)pp)->x3.u - radius;
                             break;
                         case 2:
-                            ((PG4_80189340 *)pp)->y1 = ((PG4_80189340 *)pp)->y1 + radius;
-                            ((PG4_80189340 *)pp)->y3 = ((PG4_80189340 *)pp)->y3 + radius;
+                            ((G4P *)pp)->y1.u = ((G4P *)pp)->y1.u + radius;
+                            ((G4P *)pp)->y3.u = ((G4P *)pp)->y3.u + radius;
                             break;
                         case 3:
-                            ((PG4_80189340 *)pp)->y1 = ((PG4_80189340 *)pp)->y1 - radius;
-                            ((PG4_80189340 *)pp)->y3 = ((PG4_80189340 *)pp)->y3 - radius;
+                            ((G4P *)pp)->y1.u = ((G4P *)pp)->y1.u - radius;
+                            ((G4P *)pp)->y3.u = ((G4P *)pp)->y3.u - radius;
                             break;
                         }
                         AddPrim(ot, pp);
