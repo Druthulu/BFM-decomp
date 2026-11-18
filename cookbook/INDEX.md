@@ -1086,3 +1086,4 @@ C0633 | Value folds and field retypes after absorption: VECTOR is 12 bytes, stam
 C0634 | Absorbing a big view set into one parent: per-key dry runs, cc1 fast check, stamp hygiene | struct,absorb,fold-batch,gate,cc1,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c20
 C0635 | Per-source split at 7k sources: chunked dry runs, union-read untypeables, padded gap variants | struct,absorb,per-source,split,fold-batch,gate,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c21
 C0636 | Second per-source classification pass: re-seed from applied casts, asm-checked a0 pass-through | struct,absorb,per-source,classify,tracing,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c23
+C0637 | Prove header changes byte-neutral read-only: snapshot overlay + cc1 asm diff over every TU | struct,absorb,union,cc1,bytes,judge,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c24/c24b
