@@ -4142,7 +4142,7 @@ s32 func_8017EE34(s32 a0) {
 walk:
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, p += 0x10C) {
-        if (*(u16 *)p != 0 && ((Unkstruct_800B5CB8 *)obj)->unk0 == *(u16 *)p && obj != (s32)p) {
+        if (*(u16 *)p != 0 && ((Unkstruct_801202A0 *)obj)->unk0 == *(u16 *)p && obj != (s32)p) {
             if (((s32 (*)(s32, s32))func_8012AF0C)(obj, (s32)p) != 0) {
                 if (state != 0) {
                     ((void (*)(s32, s32))func_8017F180)(obj, 2);

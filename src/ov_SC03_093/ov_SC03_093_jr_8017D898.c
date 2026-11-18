@@ -4798,8 +4798,8 @@ void func_8018208C(void *arg0, s32 arg1)
 {
     if (arg0 != 0) {
         u16 *p = D_801A46AC[arg1];
-        ((Unkstruct_800B5CB8 *)arg0)->unk28 = p[0];
-        ((Unkstruct_800B5CB8 *)arg0)->unk2A = p[1];
+        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_093_8018208C.unk28 = p[0];
+        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_093_8018208C.unk2A = p[1];
     }
 }
 

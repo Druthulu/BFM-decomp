@@ -3207,8 +3207,8 @@ s32 func_80186B6C(void) {
         func_8013C9C4(&D_8018CCE8);
         v0 = -0x180;
         v1 = D_801DFF6C;
-        ((Unkstruct_800B5CB8 *)v1)->unk6 = v0;
-        ((Unkstruct_800B5CB8 *)v1)->unkE = v0;
+        ((Unkstruct_801202A0 *)v1)->unk4.i.hi.u = v0;
+        ((Unkstruct_801202A0 *)v1)->unkC.i.hi.u = v0;
         guess_RequestSound(0xB96, 0);
         return 1;
     }
@@ -3421,9 +3421,9 @@ void func_8018702C(s32 a0) {
     prim = D_801DFF74;
     tbl = (s32)D_8019122C;
     v0 = *(s16 *)(a0 + 0x10A) << 3;
-    ((Unkstruct_800B5CB8 *)prim)->unk6 = *(u16 *)(tbl + v0);
-    ((Unkstruct_800B5CB8 *)prim)->unkA = *(u16 *)(tbl + v0 + 2);
-    ((Unkstruct_800B5CB8 *)prim)->unkE = *(u16 *)(tbl + v0 + 4);
+    ((Unkstruct_801202A0 *)prim)->unk4.i.hi.u = *(u16 *)(tbl + v0);
+    ((Unkstruct_801202A0 *)prim)->unk8.i.hi.u = *(u16 *)(tbl + v0 + 2);
+    ((Unkstruct_801202A0 *)prim)->unkC.i.hi.u = *(u16 *)(tbl + v0 + 4);
     ((Unkstruct_800B5CB8 *)*(s32 *)(prim + 0x20))->unk12 = *(u16 *)(tbl + v0 + 6);
     guess_UpdateActorModelMatrix(prim);
 }
@@ -3923,8 +3923,8 @@ extern void guess_HideObjectModel(u8 *a0);
 
 s32 func_80187CE4(void) {
     s32 a0 = D_801DFF7C;
-    s16 v = ((Unkstruct_800B5CB8 *)a0)->unkA + 0x14;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = v;
+    s16 v = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + 0x14;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v;
     if (v >= -130) {
         CAST_ALIAS(s16, a0, 0xA) = -130;
         func_80187D64(a0);

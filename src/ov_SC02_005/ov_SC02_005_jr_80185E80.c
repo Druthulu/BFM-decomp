@@ -1453,7 +1453,7 @@ void func_80187C14(s32 a0) {
 
     guess_ApplyAccelAndVelocity(a0);
     if (guess_TickWaitTimer(a0) == 0) {
-        temp = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+        temp = ((Unkstruct_801202A0 *)a0)->unk1C.s;
         if (temp % 3 == 1) {
             func_8018A174(a0);
         }
@@ -1653,7 +1653,7 @@ void func_801880AC(void *a0)
     CAST_SIGN(u32, (u8 *)a0, 0xE8) |= 0x4000;
     guess_ApplyAccelAndVelocity((s32)a0);
     if (CAST_SIGN(s16, (u8 *)a0, 0xA) >= 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unkA = 0;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = 0;
         func_8013C9C4(&D_8019103C);
         ((void (*)(s32))func_8018300C)((s32)a0);
     }

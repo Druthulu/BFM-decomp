@@ -3523,7 +3523,7 @@ void func_8017FCA4(s32 param_1) {
     extern s32 D_801A60D0[];
 
     if (func_8012BDBC(param_1, 0x400) == 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 4;
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x24) = D_801A60D0[CAST_SIGN(u16, param_1, 0x70) & 0xF];
     }
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =

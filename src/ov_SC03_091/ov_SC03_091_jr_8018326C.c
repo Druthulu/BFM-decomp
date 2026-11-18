@@ -3465,13 +3465,13 @@ void func_8018486C(s32 a0) {
 s32 func_80184A40(a0)
 s32 a0;
 {
-    if ((((Unkstruct_800B5CB8 *)a0)->unk0 == 0x1E8) || (((Unkstruct_800B5CB8 *)a0)->unk0 == 0x19E)) {
+    if ((((Unkstruct_801202A0 *)a0)->unk0 == 0x1E8) || (((Unkstruct_801202A0 *)a0)->unk0 == 0x19E)) {
         return 1;
     }
-    if ((((Unkstruct_800B5CB8 *)a0)->unk0 == 0x178) && (*(s32 *) (((Unkstruct_801202A0 *)a0)->unk20.p + 4) >= 0)) {
+    if ((((Unkstruct_801202A0 *)a0)->unk0 == 0x178) && (*(s32 *) (((Unkstruct_801202A0 *)a0)->unk20.p + 4) >= 0)) {
         return 1;
     }
-    return ((Unkstruct_800B5CB8 *)a0)->unk0 == 0x1AA;
+    return ((Unkstruct_801202A0 *)a0)->unk0 == 0x1AA;
 }
 
 
@@ -3480,7 +3480,7 @@ extern void func_80184B28(s32 a0, s32 a1, s32 a2);
 
 void func_80184A98(s32 a0, s32 a1)
 {
-    if ((((Unkstruct_800B5CB8 *)a0)->unk0 != 0x178) && (((Unkstruct_800B5CB8 *)a0)->unk0 != 0x1E8)) {
+    if ((((Unkstruct_801202A0 *)a0)->unk0 != 0x178) && (((Unkstruct_801202A0 *)a0)->unk0 != 0x1E8)) {
         func_80184AE4(a0 + 4, a1);
     } else {
         func_80184B28(a0 + 4, a1, 0xC0);

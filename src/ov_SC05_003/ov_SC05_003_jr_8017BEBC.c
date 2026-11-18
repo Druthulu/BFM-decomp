@@ -3485,9 +3485,9 @@ void func_8017E940(s32 param_1) {
         v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         *(u16 *)((s32)v1 + 0x2C) &= ~0x10;
         CAST_ALIAS(u16, (s32)s0, 2) = 3;
-        ((Unkstruct_800B5CB8 *)s0)->unk5C = D_8019EA12;
+        ((Unkstruct_801202A0 *)s0)->unk5C.u = D_8019EA12;
     } else {
-        v0 = rcos(((Unkstruct_800B5CB8 *)s0)->unk1C << 10 >> 4);
+        v0 = rcos(((Unkstruct_801202A0 *)s0)->unk1C.s << 10 >> 4);
         v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         *(s16 *)((s32)v1 + 0x1C) = v0;
         *(s16 *)((s32)v1 + 0x1A) = v0;

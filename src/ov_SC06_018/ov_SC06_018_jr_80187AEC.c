@@ -6870,10 +6870,10 @@ void func_8018D870(void *arg) {
         do {
             iv = ((s32 (*)(s32, void *))guess_SpawnActorNoArg)(0x281, p);
             if (iv != 0) {
-                ((Unkstruct_800B5CB8 *)iv)->unk1C = 2;
-                ((Unkstruct_800B5CB8 *)iv)->unk12 = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
+                ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                ((Unkstruct_800B5CB8 *)iv)->unk1A = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
             i++;
         } while (i < 8);
@@ -6915,31 +6915,31 @@ void func_8018D870(void *arg) {
         }
         iv = *(s32 *)(p + 0xD0);
         if (iv != 0) {
-            ((Unkstruct_800B5CB8 *)iv)->unk2 = 5;
-            ((Unkstruct_800B5CB8 *)iv)->unk34 = 0;
+            ((Unkstruct_801202A0 *)iv)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)iv)->unk34.u = 0;
             guess_ClearVelocityAndSetGravity((void *)iv);
             guess_SetVelocityXZFromLocal((void *)iv, &D_801D1200);
             *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
             ((void (*)(void *, void *))guess_StartActorSequence)((void *)iv, &D_801D11DC);
-            ((Unkstruct_800B5CB8 *)iv)->unkA = ((Unkstruct_800B5CB8 *)iv)->unkA - 0x38;
-            ((Unkstruct_800B5CB8 *)iv)->unkFC = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unkFE = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk100 = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk1C = 0x3C;
+            ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u = ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u - 0x38;
+            ((Unkstruct_801202A0 *)iv)->unkFC.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unkFE.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->extD.kSC06_018_801932EC.unk100 = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unk1C.s = 0x3C;
         }
         iv = *(s32 *)(p + 0xD4);
         if (iv != 0) {
-            ((Unkstruct_800B5CB8 *)iv)->unk2 = 5;
-            ((Unkstruct_800B5CB8 *)iv)->unk34 = 0;
+            ((Unkstruct_801202A0 *)iv)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)iv)->unk34.u = 0;
             guess_ClearVelocityAndSetGravity((void *)iv);
             guess_SetVelocityXZFromLocal((void *)iv, &D_801D1200);
             *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
             ((void (*)(void *, void *))guess_StartActorSequence)((void *)iv, &D_801D11DC);
-            ((Unkstruct_800B5CB8 *)iv)->unkA = ((Unkstruct_800B5CB8 *)iv)->unkA - 0x38;
-            ((Unkstruct_800B5CB8 *)iv)->unkFC = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unkFE = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk100 = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk1C = 0x3C;
+            ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u = ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u - 0x38;
+            ((Unkstruct_801202A0 *)iv)->unkFC.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unkFE.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->extD.kSC06_018_801932EC.unk100 = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unk1C.s = 0x3C;
         }
 
         {
@@ -6951,10 +6951,10 @@ void func_8018D870(void *arg) {
             do {
                 iv = guess_SpawnActorNoArg(0x281, d8);
                 if (iv != 0) {
-                    ((Unkstruct_800B5CB8 *)iv)->unk1C = 2;
-                    ((Unkstruct_800B5CB8 *)iv)->unk12 = (rand() & 0x1F) - 0x10;
+                    ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
+                    ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                     *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                    ((Unkstruct_800B5CB8 *)iv)->unk1A = (rand() & 0x1F) - 0x10;
+                    ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
                 }
                 i++;
             } while (i < 8);
@@ -7217,10 +7217,10 @@ void func_8018E188(void *arg) {
         do {
             iv = ((s32 (*)(s32, void *))guess_SpawnActorNoArg)(0x281, p);
             if (iv != 0) {
-                ((Unkstruct_800B5CB8 *)iv)->unk1C = 2;
-                ((Unkstruct_800B5CB8 *)iv)->unk12 = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
+                ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                ((Unkstruct_800B5CB8 *)iv)->unk1A = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
             }
             i++;
         } while (i < 8);
@@ -7262,31 +7262,31 @@ void func_8018E188(void *arg) {
         }
         iv = *(s32 *)(p + 0xD0);
         if (iv != 0) {
-            ((Unkstruct_800B5CB8 *)iv)->unk2 = 5;
-            ((Unkstruct_800B5CB8 *)iv)->unk34 = 0;
+            ((Unkstruct_801202A0 *)iv)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)iv)->unk34.u = 0;
             guess_ClearVelocityAndSetGravity((void *)iv);
             guess_SetVelocityXZFromLocal((void *)iv, &D_801D1200);
             *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
             ((void (*)(void *, void *))guess_StartActorSequence)((void *)iv, &D_801D11DC);
-            ((Unkstruct_800B5CB8 *)iv)->unkA = ((Unkstruct_800B5CB8 *)iv)->unkA - 0x38;
-            ((Unkstruct_800B5CB8 *)iv)->unkFC = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unkFE = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk100 = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk1C = 0x3C;
+            ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u = ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u - 0x38;
+            ((Unkstruct_801202A0 *)iv)->unkFC.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unkFE.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->extD.kSC06_018_801932EC.unk100 = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unk1C.s = 0x3C;
         }
         iv = *(s32 *)(p + 0xD4);
         if (iv != 0) {
-            ((Unkstruct_800B5CB8 *)iv)->unk2 = 5;
-            ((Unkstruct_800B5CB8 *)iv)->unk34 = 0;
+            ((Unkstruct_801202A0 *)iv)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)iv)->unk34.u = 0;
             guess_ClearVelocityAndSetGravity((void *)iv);
             guess_SetVelocityXZFromLocal((void *)iv, &D_801D1200);
             *(u16 *)(iv + 0x16) = (rand() & 3) - 0x1B;
             ((void (*)(void *, void *))guess_StartActorSequence)((void *)iv, &D_801D11DC);
-            ((Unkstruct_800B5CB8 *)iv)->unkA = ((Unkstruct_800B5CB8 *)iv)->unkA - 0x38;
-            ((Unkstruct_800B5CB8 *)iv)->unkFC = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unkFE = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk100 = (rand() & 0xFF) - 0x80;
-            ((Unkstruct_800B5CB8 *)iv)->unk1C = 0x3C;
+            ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u = ((Unkstruct_801202A0 *)iv)->unk8.i.hi.u - 0x38;
+            ((Unkstruct_801202A0 *)iv)->unkFC.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unkFE.s = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->extD.kSC06_018_801932EC.unk100 = (rand() & 0xFF) - 0x80;
+            ((Unkstruct_801202A0 *)iv)->unk1C.s = 0x3C;
         }
         *(s32 *)(*(s32 *)(p + 0x64) + 0xCC) = 0;
         guess_FreeActor(p);

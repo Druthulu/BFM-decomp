@@ -8733,8 +8733,8 @@ void func_8018535C(s32 a0) {
     s32 v0;
     s32 v1;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk14 == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk14 = 0x100000;
+    if (((Unkstruct_801202A0 *)a0)->unk14.val == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk14.val = 0x100000;
     }
     func_8012CBA4(a0);
     v0 = guess_DistSqToPlayer(a0);
@@ -8755,7 +8755,7 @@ void func_8018535C(s32 a0) {
             v0 = 5;
         }
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = v0;
 }
 
 
@@ -9648,13 +9648,13 @@ void func_80186638(s32 a0) {
                     v18[2] = *(u16 *)(p + 0xE);
                     v18[0] += sp20[0];
                     v18[2] += sp20[0] >> 16;
-                    v10[0] = ((Unkstruct_800B5CB8 *)a0)->unk3A;
-                    v10[1] = ((Unkstruct_800B5CB8 *)a0)->unk3E;
-                    v10[2] = ((Unkstruct_800B5CB8 *)a0)->unk42;
+                    v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
+                    v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
+                    v10[2] = ((Unkstruct_801202A0 *)a0)->unk42;
                     if (func_8012CEB0(v10, v18, 0) & 0x2000) {
-                        ((Unkstruct_800B5CB8 *)a0)->unk6 = v18[0];
-                        ((Unkstruct_800B5CB8 *)a0)->unkA = v18[1];
-                        ((Unkstruct_800B5CB8 *)a0)->unkE = v18[2];
+                        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = v18[0];
+                        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v18[1];
+                        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = v18[2];
                         return;
                     }
                     func_8012ADE4((u8 *)a0);

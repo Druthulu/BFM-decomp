@@ -6794,8 +6794,8 @@ void func_80183AC8(void *a0, s32 a1) {
     extern u16 D_801AE950[][2];
     if (a0 != 0) {
         u16 *tbl = D_801AE950[a1];
-        ((Unkstruct_800B5CB8 *)a0)->unk28 = tbl[0];
-        ((Unkstruct_800B5CB8 *)a0)->unk2A = tbl[1];
+        ((Unkstruct_801202A0 *)a0)->extA.kSC03_094_80183AC8.unk28 = tbl[0];
+        ((Unkstruct_801202A0 *)a0)->extA.kSC03_094_80183AC8.unk2A = tbl[1];
     }
 }
 

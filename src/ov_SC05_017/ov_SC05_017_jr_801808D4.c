@@ -3823,7 +3823,7 @@ s32 func_80181A4C(void *a0)
 extern void func_801849B8(s32 *a0, s32 a1);
     extern short D_801919AC;
     void func_80181B04(short *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
         func_801849B8((s32 *)a0, (s32)&D_801919AC);
     }
 

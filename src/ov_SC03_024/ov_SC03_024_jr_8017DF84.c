@@ -5434,7 +5434,7 @@ void func_801821D4(s32 a0) {
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801856BC(obj, t1);
 
-    ((Unkstruct_800B5CB8 *)obj)->unk5C = 0;
+    ((Unkstruct_801202A0 *)obj)->unk5C.u = 0;
     func_8012AD44((s32 *)obj, 2);
 
     t2 = *(s32 *)(self + 0xD0);

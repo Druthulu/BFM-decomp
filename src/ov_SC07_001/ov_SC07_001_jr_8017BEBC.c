@@ -3684,22 +3684,22 @@ s32 func_8017F15C(s32 arg)
 
     s0 = *(s32 *)(arg + 0xD8);
     guess_ApplyAccelAndVelocity(s0);
-    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
+    switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
     case 0:
         timer = *(s32 *)(arg + 0xF8) - 1;
         *(s32 *)(arg + 0xF8) = timer;
         if (timer != 0) {
             return 0;
         }
-        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x70;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x70;
         CAST_WIDTH(s32, s0, 0x18) = 0;
-        ((Unkstruct_800B5CB8 *)s0)->unk14 = 0xFFFA0000;
-        ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
+        ((Unkstruct_801202A0 *)s0)->unk14.val = 0xFFFA0000;
+        ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
         guess_RequestSound(4, 0xC04);
         return 0;
     case 1:
         guess_RequestSound(0xC04, 0);
-        ((Unkstruct_800B5CB8 *)s0)->unk34 += 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
         /* fallthrough */
     case 2:
         if (guess_TickWaitTimer(s0) == 0) {

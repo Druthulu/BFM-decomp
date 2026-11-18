@@ -3958,8 +3958,8 @@ void func_80184DB4(s32 arg0, s32 arg1) {
 
     if (arg0 != 0) {
         ptr = &D_8019EACC[arg1 * 2];
-        ((Unkstruct_800B5CB8 *)arg0)->unk28 = ptr[0];
-        ((Unkstruct_800B5CB8 *)arg0)->unk2A = ptr[1];
+        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_097_80184DB4.unk28 = ptr[0];
+        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_097_80184DB4.unk2A = ptr[1];
     }
 }
 

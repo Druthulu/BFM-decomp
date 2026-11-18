@@ -5027,7 +5027,7 @@ s32 func_80185E88(void) {
     if (v1 == 0) {
         return 0;
     }
-    ((Unkstruct_800B5CB8 *)v1)->unk2 = 4;
+    ((Unkstruct_801202A0 *)v1)->unk2.s = 4;
     return 1;
 }
 
@@ -5042,9 +5042,9 @@ void func_80185EC8(void) {
     if (ptr != 0) {
         guess_RequestSound(4, 0x4DF);
         CAST_ALIAS(s16, ptr, 0xA) = -0x1B26;
-        ((Unkstruct_800B5CB8 *)ptr)->unkE = 0x1C59;
-        ((Unkstruct_800B5CB8 *)ptr)->unk6 = 0;
-        ((Unkstruct_800B5CB8 *)ptr)->unk2 = 0xE;
+        ((Unkstruct_801202A0 *)ptr)->unkC.i.hi.u = 0x1C59;
+        ((Unkstruct_801202A0 *)ptr)->unk4.i.hi.u = 0;
+        ((Unkstruct_801202A0 *)ptr)->unk2.s = 0xE;
     }
 }
 
@@ -5057,7 +5057,7 @@ extern s32 func_8012E504(s32 a0, s32 a1);
     void func_80185F58(void) {
         s32 v1 = func_8012E504(0, 0x29);
         if (v1 != 0) {
-            ((Unkstruct_800B5CB8 *)v1)->unk2 = 0x13;
+            ((Unkstruct_801202A0 *)v1)->unk2.s = 0x13;
         }
     }
 

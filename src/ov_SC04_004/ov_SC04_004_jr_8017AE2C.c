@@ -2622,7 +2622,7 @@ void func_8017AE2C(s32 param_1) {
     case 2:
         guess_SetForwardVelocity(pv, (s32)g[4] << 8);
         guess_ApplyAccelAndVelocity(pv);
-        ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
+        ((Unkstruct_801202A0 *)pv)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)pv);
         break;
     case 3:
@@ -2637,7 +2637,7 @@ void func_8017AE2C(s32 param_1) {
                     guess_YawToPoint(p, &D_801B3BB4);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
-                ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
+                ((Unkstruct_801202A0 *)pv)->unk8.i.hi.u -= 8;
                 guess_SnapActorToGround((u8 *)pv);
                 /* &D_801B3BA8+0xC == &D_801B3BB4; distinct rtx defeats gcc's address-CSE
                    so BE98's arg rematerializes instead of sharing the store's reg (byte-gate). */
@@ -2663,7 +2663,7 @@ void func_8017AE2C(s32 param_1) {
             guess_YawToPoint((void *)(pv + 4), &D_801B3BB4);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);
-        ((Unkstruct_800B5CB8 *)pv)->unkA -= 8;
+        ((Unkstruct_801202A0 *)pv)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)pv);
         /* see note above: distinct rtx for the same address defeats address-CSE. */
         if (guess_DistSqXZToPoint(pv, (u16 *)((s32)&D_801B3BA8 + 0xC)) < 0x101) {
@@ -6272,11 +6272,11 @@ void func_801811E8(u8 *a0)
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 
 void func_80181248(s32 a0, s32 a1) {
-    if ((((Unkstruct_800B5CB8 *)a1)->unk5C & 0x8000) != 0) {
+    if ((((Unkstruct_801202A0 *)a1)->unk5C.u & 0x8000) != 0) {
         if (CAST_WIDTH(u16, a1, 0x5E) != 0x1D) {
-            ((Unkstruct_800B5CB8 *)a1)->unk5C = ((Unkstruct_800B5CB8 *)a1)->unk5C | 1;
-            ((Unkstruct_800B5CB8 *)a1)->unk60 = 0xa;
-            ((Unkstruct_800B5CB8 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
+            ((Unkstruct_801202A0 *)a1)->unk5C.u = ((Unkstruct_801202A0 *)a1)->unk5C.u | 1;
+            ((Unkstruct_801202A0 *)a1)->unk60 = 0xa;
+            ((Unkstruct_801202A0 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
             CAST_WIDTH(u16, a1, 0x5E) = 0x1D;
         }
     }

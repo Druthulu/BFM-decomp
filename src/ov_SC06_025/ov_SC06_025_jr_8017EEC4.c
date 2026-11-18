@@ -5423,8 +5423,8 @@ void func_801828A0(s32 a0) {
     s0 = a0;
     guess_ApplyAccelAndVelocity(s0);
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 += D_80188EF4;
-    sum = ((Unkstruct_800B5CB8 *)s0)->unk1C + 4;
-    x = ((Unkstruct_800B5CB8 *)s0)->unk1C = sum;
+    sum = ((Unkstruct_801202A0 *)s0)->unk1C.s + 4;
+    x = ((Unkstruct_801202A0 *)s0)->unk1C.s = sum;
     if (x >= 0x100) {
         x = 0xFF;
     }

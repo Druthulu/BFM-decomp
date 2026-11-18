@@ -5217,10 +5217,10 @@ void func_80188E00(s32 a0) {
     for (i = 0; i < 8; i++) {
         if (CAST_WIDTH(u16, a0, 0x5E) == D_80191BAC[i]) {
             ptr = ((Unkstruct_801202A0 *)a0)->unk64;
-            val = ((Unkstruct_800B5CB8 *)ptr)->unk6;
+            val = ((Unkstruct_801202A0 *)ptr)->unk4.i.hi.u;
             D_801EAC90 = 0;
             val = val + 1;
-            ((Unkstruct_800B5CB8 *)ptr)->unk6 = val;
+            ((Unkstruct_801202A0 *)ptr)->unk4.i.hi.u = val;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x50;
             ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 1;

@@ -79,7 +79,7 @@ void func_801EF58C(void *a0) {
     extern short D_801F0900;
     extern short D_801F0D84;
     s32 s0 = (s32)a0;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x15;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x15;
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801F0900);
     guess_ShowObjectModel((s32)a0);
     func_80187344((s32)a0);
@@ -132,7 +132,7 @@ extern void func_801858F8(void *a0);
 void func_801EF6B0(void *a0) {
     u16 v1;
 
-    v1 = ((Unkstruct_800B5CB8 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
 
     switch (v1) {
     case 0:
@@ -239,7 +239,7 @@ void func_801EF904(void *a0) {
     extern short D_801F0900;
     extern short D_801F0ACC;
     s32 s0 = (s32)a0;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = 0xA;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0xA;
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801F0900);
     guess_ShowObjectModel((s32)a0);
     func_80187344((s32)a0);

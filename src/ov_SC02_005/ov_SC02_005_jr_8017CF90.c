@@ -3719,8 +3719,8 @@ void func_8017EAD4(void *param_1)
 
     func_8017EFB4(param_1);
     ptr = func_8014C168(&guess_g_PlayerActor, 0x3D);
-    *(s16 *)&D_801274E8 = ((Unkstruct_800B5CB8 *)ptr)->unk6;
-    D_801274EC = ((Unkstruct_800B5CB8 *)ptr)->unkE;
+    *(s16 *)&D_801274E8 = ((Unkstruct_801202A0 *)ptr)->unk4.i.hi.u;
+    D_801274EC = ((Unkstruct_801202A0 *)ptr)->unkC.i.hi.u;
     func_8017EDF8(param_1, &D_801274E8);
 }
 
@@ -3790,8 +3790,8 @@ void func_8017ECAC(void *param_1)
     *(u16 *)((u8 *)param_1 + 0x1A) = v;
     *(u16 *)((u8 *)param_1 + 0x22) = v;
     ptr = func_8014C168(&guess_g_PlayerActor, 0x3D);
-    *(s16 *)&D_801274E8 = ((Unkstruct_800B5CB8 *)ptr)->unk6;
-    D_801274EA = ((Unkstruct_800B5CB8 *)ptr)->unkA;
+    *(s16 *)&D_801274E8 = ((Unkstruct_801202A0 *)ptr)->unk4.i.hi.u;
+    D_801274EA = ((Unkstruct_801202A0 *)ptr)->unk8.i.hi.u;
     D_801274EC = CAST_ALIAS(u16, ptr, 0xE);
     func_8017EDF8(param_1, &D_801274E8);
 }
@@ -4927,10 +4927,10 @@ void func_8018074C(s32 arg0)
     switch (t) {
     case 0:
     case 1:
-        diff = D_801944F8[t][0] - ((Unkstruct_800B5CB8 *)v)->unkE;
+        diff = D_801944F8[t][0] - ((Unkstruct_801202A0 *)v)->unkC.i.hi.u;
         break;
     case 2:
-        diff = D_8019451C - ((Unkstruct_800B5CB8 *)v)->unk6;
+        diff = D_8019451C - ((Unkstruct_801202A0 *)v)->unk4.i.hi.u;
         break;
     }
     d = diff;
@@ -5326,7 +5326,7 @@ extern s16 D_801E4C52;
 extern s16 D_801E4C54;
 void func_80181270(s32 a0) {
     s32 v0 = func_8014C168(a0, 0x42);
-    D_801E4C50 = ((Unkstruct_800B5CB8 *)v0)->unk6;
+    D_801E4C50 = ((Unkstruct_801202A0 *)v0)->unk4.i.hi.u;
     D_801E4C52 = CAST_ALIAS(u16, v0, 0xA);
     D_801E4C54 = CAST_ALIAS(u16, v0, 0xE);
 }

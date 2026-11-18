@@ -4417,7 +4417,7 @@ void func_80182858(void) {
 extern s32 func_80178B18(s32, s32);
     extern short D_8018BD1C;
     void func_80182860(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80178B18)((int)arg0, (int)&D_8018BD1C);
     }
 

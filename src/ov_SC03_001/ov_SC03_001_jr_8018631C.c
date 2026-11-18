@@ -3176,7 +3176,7 @@ extern void func_80178BF8(void);
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_801929E8;
     void func_801865E0(short *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
         func_80187778((s32 *)a0, (s32)&D_801929E8);
     }
 

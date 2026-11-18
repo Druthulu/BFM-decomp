@@ -3004,20 +3004,20 @@ void func_8017D564(void *a0) {
             return;
         }
         p = *(s32 *)(a0 + 0x6C);
-        ((Unkstruct_800B5CB8 *)p)->unkE += 6;
+        ((Unkstruct_801202A0 *)p)->unkC.i.hi.u += 6;
         r = *(s32 *)(a0 + 0x6C);
         if (CAST_SIGN(s16, r, 0xE) >= 0x201) {
-            ((Unkstruct_800B5CB8 *)r)->unkE = 0x200;
+            ((Unkstruct_801202A0 *)r)->unkC.i.hi.u = 0x200;
         } else {
             goto start_check;
         }
     } else {
         *(s16 *)(a0 + 0xFC) = 0x19;
         q = *(s32 *)(a0 + 0x6C);
-        ((Unkstruct_800B5CB8 *)q)->unkE -= 0x20;
+        ((Unkstruct_801202A0 *)q)->unkC.i.hi.u -= 0x20;
         r = *(s32 *)(a0 + 0x6C);
         if (CAST_SIGN(s16, r, 0xE) < 0x40) {
-            ((Unkstruct_800B5CB8 *)r)->unkE = 0x40;
+            ((Unkstruct_801202A0 *)r)->unkC.i.hi.u = 0x40;
         } else {
             goto start_check;
         }

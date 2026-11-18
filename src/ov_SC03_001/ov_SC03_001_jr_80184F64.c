@@ -3448,7 +3448,7 @@ extern void func_80187778(s32 *a0, s32 a1);
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_80192864;
     void func_801858CC(short *param_1) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0x12;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 0x12;
         func_80187778((s32 *)param_1, (int)&D_80192864);
     }
 
@@ -3456,7 +3456,7 @@ extern void func_80187778(s32 *a0, s32 a1);
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_80192864;
     void func_801858F8(short *param_1) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 0x17;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 0x17;
         func_80187778(param_1, &D_80192864);
     }
 
@@ -3464,7 +3464,7 @@ extern void func_80187778(s32 *a0, s32 a1);
 extern void func_80187778(s32 *a0, s32 a1);
     extern short D_80192864;
     void func_80185924(short *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x1F;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x1F;
         func_80187778((s32 *)a0, (s32)&D_80192864);
     }
 
@@ -3502,13 +3502,13 @@ void func_801859AC(void *a0)
     extern u8 D_801B9608[];
     extern u8 D_801B9614[];
 
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
         if (func_801886A0(5) == 0) {
             return;
         }
         func_80187994((s32)a0, (s32)D_801B9608, 0, 0x70);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
         return;
     case 1:
         func_801886A0(5);
@@ -3516,20 +3516,20 @@ void func_801859AC(void *a0)
             return;
         }
         func_80187994((s32)a0, (s32)D_801B9614, 1, 0x70);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unk108 = 0;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
         return;
     case 2:
         if (func_80187A64((s32)a0) != 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 3;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }
         return;
     case 3:
         if (func_801886A0(5) == 0) {
             return;
         }
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 4;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 4;
         func_80187994((s32)a0, (s32)D_801B9608, 1, 0x70);
         return;
     case 4:
@@ -3717,8 +3717,8 @@ extern void func_8014CB68(void);
 extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
 void func_80185F3C(void *arg0) {
     extern short D_8019286C;
-    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0xC;
-    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xC;
+    ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
     guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_8019286C);
     guess_ShowObjectModel((s32)arg0);
     func_80187344(arg0);

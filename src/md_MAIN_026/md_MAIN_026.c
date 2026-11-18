@@ -354,8 +354,8 @@ void func_800CB6E8(void *arg0) {
     s16 w;
     s32 pad[2];
 
-    w = ((Unkstruct_800B5CB8 *)arg0)->unk12 + 0x18;
-    ((Unkstruct_800B5CB8 *)arg0)->unk12 = w;
+    w = ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u + 0x18;
+    ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = w;
     if ((s16)w >= -7) {
         CAST_ALIAS(s16, (u8 *)arg0, 0x12) = -8;
         guess_NextStep(arg0);

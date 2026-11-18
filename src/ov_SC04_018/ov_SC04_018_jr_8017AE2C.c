@@ -7020,7 +7020,7 @@ join:
 extern void func_80184CB8(s32 *a0, s32 a1);
     extern short D_80191C08;
     void func_801821A8(short *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x5;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x5;
         func_80184CB8((s32 *)a0, (s32)&D_80191C08);
     }
 
@@ -7910,7 +7910,7 @@ void *arg0;
 extern void func_80184CB8(s32 *a0, s32 a1);
     extern short D_80192030;
     void func_8018330C(short *a0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 0x8;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x8;
         func_80184CB8((s32 *)a0, (s32)&D_80192030);
     }
 

@@ -3145,13 +3145,13 @@ void func_801902EC(s32 param_1)
             ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q1, (s32)buf10);
         }
         q1 = ((Unkstruct_801202A0 *)param_1)->unkD0.val;
-        ((Unkstruct_800B5CB8 *)q1)->unk6 = buf10[0];
-        ((Unkstruct_800B5CB8 *)q1)->unkA = buf10[1];
-        ((Unkstruct_800B5CB8 *)q1)->unkE = buf10[2];
+        ((Unkstruct_801202A0 *)q1)->unk4.i.hi.u = buf10[0];
+        ((Unkstruct_801202A0 *)q1)->unk8.i.hi.u = buf10[1];
+        ((Unkstruct_801202A0 *)q1)->unkC.i.hi.u = buf10[2];
         ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q1)->unk20)->unk10 =
-            ((Unkstruct_800B5CB8 *)q1)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+            ((Unkstruct_801202A0 *)q1)->unkFC.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
         ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q1)->unk20)->unk12 =
-            ((Unkstruct_800B5CB8 *)q1)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+            ((Unkstruct_801202A0 *)q1)->unkFE.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
         func_8018D264(((Unkstruct_801202A0 *)param_1)->unkD0.val);
 
         {
@@ -3229,13 +3229,13 @@ void func_801902EC(s32 param_1)
                 ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q3, (s32)buf10);
             }
             q3 = ((Unkstruct_801202A0 *)param_1)->unkD0.val;
-            ((Unkstruct_800B5CB8 *)q3)->unk6 = buf10[0];
-            ((Unkstruct_800B5CB8 *)q3)->unkA = buf10[1];
-            ((Unkstruct_800B5CB8 *)q3)->unkE = buf10[2];
+            ((Unkstruct_801202A0 *)q3)->unk4.i.hi.u = buf10[0];
+            ((Unkstruct_801202A0 *)q3)->unk8.i.hi.u = buf10[1];
+            ((Unkstruct_801202A0 *)q3)->unkC.i.hi.u = buf10[2];
             ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q3)->unk20)->unk10 =
-                ((Unkstruct_800B5CB8 *)q3)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+                ((Unkstruct_801202A0 *)q3)->unkFC.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
             ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q3)->unk20)->unk12 =
-                ((Unkstruct_800B5CB8 *)q3)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+                ((Unkstruct_801202A0 *)q3)->unkFE.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
             {
                 fromX = ((Unkstruct_801202A0 *)param_1)->unkD0.val;
@@ -3321,13 +3321,13 @@ void func_801902EC(s32 param_1)
         ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x34, q5, (s32)buf10);
     }
     q5 = ((Unkstruct_801202A0 *)param_1)->unkD0.val;
-    ((Unkstruct_800B5CB8 *)q5)->unk6 = buf10[0];
-    ((Unkstruct_800B5CB8 *)q5)->unkA = buf10[1];
-    ((Unkstruct_800B5CB8 *)q5)->unkE = buf10[2];
+    ((Unkstruct_801202A0 *)q5)->unk4.i.hi.u = buf10[0];
+    ((Unkstruct_801202A0 *)q5)->unk8.i.hi.u = buf10[1];
+    ((Unkstruct_801202A0 *)q5)->unkC.i.hi.u = buf10[2];
     ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q5)->unk20)->unk10 =
-        ((Unkstruct_800B5CB8 *)q5)->unkFC + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
+        ((Unkstruct_801202A0 *)q5)->unkFC.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x10);
     ((Unkstruct_800B5CB8 *)((Unkstruct_801902EC *)q5)->unk20)->unk12 =
-        ((Unkstruct_800B5CB8 *)q5)->unkFE + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
+        ((Unkstruct_801202A0 *)q5)->unkFE.s + *(s16 *)(((Unkstruct_800B5CB8 *)fromX)->unk20 + 0x12);
 
     {
         fromX = ((Unkstruct_801202A0 *)param_1)->unkD0.val;

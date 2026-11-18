@@ -3984,7 +3984,7 @@ s32 func_801840DC(void *a0)
 extern void func_801849B8(s32 *a0, s32 a1);
     extern short D_80192160;
     void func_801841B8(short *param_1) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2 = 2;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
         func_801849B8((s32 *)param_1, (s32)&D_80192160);
     }
 

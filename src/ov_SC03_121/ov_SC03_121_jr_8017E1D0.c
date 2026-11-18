@@ -3964,8 +3964,8 @@ void func_80180254(s32 param_1) {
             *(s16 *)a = -0x400;
             e = *p;
             v0 = *(u16 *)((s32)&D_8019B92C + off);
-            ((Unkstruct_800B5CB8 *)e)->unk8C = v0;
-            ((Unkstruct_800B5CB8 *)e)->unkE = v0;
+            ((Unkstruct_801202A0 *)e)->unk8C.u = v0;
+            ((Unkstruct_801202A0 *)e)->unkC.i.hi.u = v0;
             v0 = *p;
             i++;
             ((Unkstruct_800B5CB8 *)*(s32 *)(v0 + 0x20))->unk12 =

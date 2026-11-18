@@ -745,8 +745,8 @@ extern M2C_UNK D_8018A568;
 
 void func_801838F0(void *arg0) {
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_8018A568);
-    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 0x3;
-    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x3;
+    ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
 }
 
 
@@ -828,10 +828,10 @@ void func_8018392C(s32 param_1) {
 
     v1 = 0x28;
     if (v0 < 0x1000) {
-        v0 = ((Unkstruct_800B5CB8 *)param_1)->unk34;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = v1;
+        v0 = ((Unkstruct_801202A0 *)param_1)->unk34.u;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = v1;
         v0 = v0 + 1;
-        ((Unkstruct_800B5CB8 *)param_1)->unk34 = (s16)v0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = (s16)v0;
     }
 }
 
@@ -915,10 +915,10 @@ void func_80183A7C(s32 param_1) {
 
     v1 = 0x78;
     if (v0 < 0x1000) {
-        v0 = ((Unkstruct_800B5CB8 *)param_1)->unk34;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = v1;
+        v0 = ((Unkstruct_801202A0 *)param_1)->unk34.u;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = v1;
         v0 = v0 + 1;
-        ((Unkstruct_800B5CB8 *)param_1)->unk34 = (s16)v0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = (s16)v0;
     }
 }
 

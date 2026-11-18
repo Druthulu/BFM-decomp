@@ -2139,7 +2139,7 @@ void func_80186070(s32 a0) {
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_8018FE20(obj);
 
-    ((Unkstruct_800B5CB8 *)obj)->unk5C = 0;
+    ((Unkstruct_801202A0 *)obj)->unk5C.u = 0;
     func_8012AD44((s32 *)obj, 4);
 
     t2 = *(s32 *)(self + 0xD0);
@@ -2272,7 +2272,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80186394(s32 a0) {
     func_8012AD44((s32 *)a0, 8);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x40;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x40;
     guess_RequestSound(0x5EC, 0);
 }
 
@@ -4131,7 +4131,7 @@ void func_80188D80(s32 a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801D458C;
     void func_80188DC8(void * arg0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk2 = 8;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 8;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801D458C);
     }
 

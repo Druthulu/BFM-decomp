@@ -1383,7 +1383,7 @@ extern s32 D_801F871C;
 
 void func_801A2330(void) {
     if (D_801F871C != 0) {
-        ((Unkstruct_800B5CB8 *)D_801F871C)->unk34 = 6;
+        ((Unkstruct_801202A0 *)D_801F871C)->unk34.u = 6;
     }
 }
 
@@ -4130,9 +4130,9 @@ extern s32 D_801F871C;
 void func_801A64DC(s32 arg0) {
     s32 var = D_801F871C;
 
-    *(u16 *)(arg0 + 0) = ((Unkstruct_800B5CB8 *)var)->unk6 + ((D_801AFBC8 + D_801AFBCA) >> 1);
-    *(u16 *)(arg0 + 2) = *(u16 *)(var + 0x52) + (((Unkstruct_800B5CB8 *)var)->unkA + ((D_801AFBCC + D_801AFBCE) >> 1));
-    *(u16 *)(arg0 + 4) = ((Unkstruct_800B5CB8 *)var)->unkE + ((D_801AFBD0 + D_801AFBD2) >> 1);
+    *(u16 *)(arg0 + 0) = ((Unkstruct_801202A0 *)var)->unk4.i.hi.u + ((D_801AFBC8 + D_801AFBCA) >> 1);
+    *(u16 *)(arg0 + 2) = *(u16 *)(var + 0x52) + (((Unkstruct_801202A0 *)var)->unk8.i.hi.u + ((D_801AFBCC + D_801AFBCE) >> 1));
+    *(u16 *)(arg0 + 4) = ((Unkstruct_801202A0 *)var)->unkC.i.hi.u + ((D_801AFBD0 + D_801AFBD2) >> 1);
 }
 
 
