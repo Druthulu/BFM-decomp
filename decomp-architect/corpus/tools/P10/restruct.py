@@ -4445,7 +4445,8 @@ def _fold_src_scan(rel, cache, names, tag, want):
             p = back(m.start())
             wrapped = p >= 0 and msk[p] == "(" and _match_close(msk, p) == ws(o_end)
             e_lo, e_hi = (p, ws(o_end) + 1) if wrapped else (m.start(), o_end)
-            if wrapped and msk[ws(e_hi):ws(e_hi) + 2] == "->":
+            member = wrapped and msk[ws(e_hi):ws(e_hi) + 2] == "->"   # T17.c22: `--((V *)x)->f`, `k * ((V *)x)->f` act on f, not the cast
+            if member:
                 mf = re.match(r"\s*([A-Za-z_]\w*)", msk[ws(e_hi) + 2:])
                 if mf:
                     fs = ws(e_hi) + 2 + mf.start(1)
@@ -4453,7 +4454,7 @@ def _fold_src_scan(rel, cache, names, tag, want):
             elif FOLD_UNSAFE_NEXT.match(msk, e_hi):
                 unsafe.setdefault(k, f"{cite}: the cast result is indexed or in arithmetic")
             pb = back(e_lo)
-            if pb >= 0 and (msk[pb] in "*" and not re.search(r"&\s*\(\s*\*\s*$", msk[max(0, pb - 8):pb + 1])
+            if pb >= 0 and not member and (msk[pb] in "*" and not re.search(r"&\s*\(\s*\*\s*$", msk[max(0, pb - 8):pb + 1])
                             or re.search(r"(?:sizeof|\+\+|--)\s*$", msk[max(0, pb - 8):pb + 1])):
                 unsafe.setdefault(k, f"{cite}: the cast is dereferenced / sized")
             e["ren"].append((m.start(1), m.end(1)))
@@ -4479,7 +4480,7 @@ def _fold_src_scan(rel, cache, names, tag, want):
     return dict(src=src, unsafe=unsafe)
 
 
-FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* [su]; )+)\} " + FOLD_N + "$")
+FOLD_SIGN_U = re.compile(r"^union \{ ((?:[A-Za-z_][\w ]* (?:[su]|b|sb); )+)\} " + FOLD_N + "$")   # T17.c20: + byte member b/sb
 _FOLD_FIX_SLOT = r"((?:union \{ (?:[A-Za-z_][\w ]* [su]; )+\} )|(?:[A-Za-z_][\w ]* ))"
 FOLD_FIX_U = re.compile(r"^union \{ " + _FOLD_FIX_SLOT + r"val; struct \{ " + _FOLD_FIX_SLOT + r"lo; " + _FOLD_FIX_SLOT + r"hi; \} i; \} "
                         + FOLD_N + "$")
@@ -4629,6 +4630,8 @@ def _fold_types_before(fields, resub, tsp, at, cache):
             T = mm.group(0)
             if T in FOLD_C_WORDS or T == tsp or (re.search(r"\b(?:struct|union)\s+$", t[:mm.start()]) and "*" in t[mm.end():]):
                 continue
+            if t[:mm.start()].count("{") > t[:mm.start()].count("}") and re.match(r"\s*(?:\[[^\]]*\]\s*)*[;,:]", t[mm.end():]):
+                continue                                          # (T17.c12) a member declarator inside an inline body (`union { s16 s; u16 u; }`)
             dp = _fold_defpos(T, cache, memo)
             if dp and dp[:2] >= at:
                 return f"field `{x['name']}` ({x['cite']}) needs `{T}`, defined at {dp[2]}:{dp[3]}, after that point"
@@ -4929,15 +4932,16 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
             continue
         tgt = next((e for e in C if e[0] == 0), None)
         su = _fold_sign_members(tgt[1]["tmpl"]) if tgt else None
-        if su and all(e is tgt or (e[2] == lo and e[1]["size"] == tgt[1]["size"] and scalar_tmpl(e[1]) and len(e[1]["leaves"]) == 1
-                                   and e[1]["leaves"][0][2] in ("s", "u")) for e in C):
-            # T16.c5: a scalar joins the target's committed sign union (`union { u16 u; s16 s; } unk2;`) by its sign
+        if su and all(e is tgt or (e[2] == lo and (e[1]["size"] == tgt[1]["size"] or (e[1]["size"] == 1 < tgt[1]["size"]))
+                                   and scalar_tmpl(e[1]) and len(e[1]["leaves"]) == 1 and e[1]["leaves"][0][2] in ("s", "u")) for e in C):
+            # T16.c5: a scalar joins the target's committed sign union (`union { u16 u; s16 s; } unk2;`) by its sign;
+            # T17.c20: a byte read joins it as the byte member (`union { u8 b; u16 u; s16 s; } unk5E;`: u8 `b`, s8 `sb`; byte-neutral)
             uname, mem = tgt[1]["name"], dict(su)
             for e in C:
                 if e is tgt:
                     paths[keys[0]][uname] = uname
                     continue
-                vn = e[1]["leaves"][0][2]
+                vn = e[1]["leaves"][0][2] if e[1]["size"] == tgt[1]["size"] else {"u": "b", "s": "sb"}[e[1]["leaves"][0][2]]
                 mem.setdefault(vn, resub(e[1]["tmpl"]).replace(FOLD_N, vn))
                 paths[keys[e[0]]][e[1]["name"]] = f"{uname}.{vn}"
             items.append((lo, "union", uname, [(vn, decl, 0) for vn, decl in mem.items()], tgt[1]["size"], tgt[1]["al"]))
