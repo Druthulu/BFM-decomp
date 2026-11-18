@@ -3646,7 +3646,7 @@ void func_801928B0(void *arg) {
         ((void (*)(s32, void *))guess_InitModelObject)(((Unkstruct_801202A0 *)p)->unk20.p, D_801CD910);
         guess_StartActorSequence((s32)p, D_801CC7C4);
         ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 = i;
-        ((Unkstruct_800B5CB8 *)p)->unkAE = -1;
+        ((Unkstruct_801202A0 *)p)->extE.kSC06_032_8019303C.unkAE = -1;
         ((Unkstruct_801202A0 *)p)->unk34.u = ((Unkstruct_801202A0 *)p)->unk34.u + 1;
         break;
     }

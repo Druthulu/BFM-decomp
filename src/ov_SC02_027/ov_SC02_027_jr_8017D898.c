@@ -6049,12 +6049,12 @@ void func_8018371C(void *a0) {
     return;
 
 L8018377C:
-    if (((Unkstruct_800B5CB8 *)a0)->unk102 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk102 != 0) {
         goto L801837B0;
     }
     if (func_8014C088(0, 0xA) != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk102 = 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk100 = CAST_SIGN(u16, (s32)a0, 0x100) + 1;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk102 = 1;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk100 = CAST_SIGN(u16, (s32)a0, 0x100) + 1;
     }
     goto L801837DC;
 
@@ -6062,16 +6062,16 @@ L801837B0:
     if (func_8014C088(0, 0xA) != 0) {
         goto L801837DC;
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk102 = 0;
-    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_800B5CB8 *)a0)->unk106) {
-        ((Unkstruct_800B5CB8 *)a0)->unk104 = 1;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk102 = 0;
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk106) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk104 = 1;
     }
 
 L801837DC:
     if (((Unkstruct_801202A0 *)a0)->unkFC.s != 0) {
         return;
     }
-    if (((Unkstruct_800B5CB8 *)a0)->unk104 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80183938.unk104 != 0) {
         goto L8018382C;
     }
     func_8002A088(0x64);
@@ -6617,9 +6617,9 @@ void func_80184834(void *a0)
 
 low:
     cnt = CAST_SIGN(u16, (s32)a0, 0x100) - 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = cnt;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80184BE4.unk100 = cnt;
     if ((s16)cnt < 9) {
-        ((Unkstruct_800B5CB8 *)a0)->unk100 = 0x18;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80184BE4.unk100 = 0x18;
         if (*(s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x70) == 5) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = rand() % 56 - 0x1C;
             *(s16 *)((s32)a0 + 0x16) = rand() % 96 - 0x60;
@@ -6630,7 +6630,7 @@ low:
             ((Unkstruct_801202A0 *)a0)->unk18.i.hi = rand() % 128 - 0x60;
         }
     }
-    tmp = ((Unkstruct_800B5CB8 *)a0)->unk100;
+    tmp = ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80184BE4.unk100;
     if (tmp < 0x10) {
         s32 g1;                       /* per-arm local: §5a cross-jump barrier, see header */
         g1 = ((Unkstruct_801202A0 *)a0)->unk20.p;

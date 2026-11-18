@@ -2216,7 +2216,7 @@ void func_80188BF0(void *a0)
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80196578;
         ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
-        ((Unkstruct_800B5CB8 *)a0)->unkAE = -1;
+        ((Unkstruct_801202A0 *)a0)->extE.kcls_b4ff33593fa2.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
         ((Unkstruct_801202A0 *)a0)->unkC4 = flags | 2;
     }

@@ -5431,7 +5431,7 @@ void func_8018694C(void *a0)
 
     func_8001C2C4(v0);
 
-    ((Unkstruct_800B5CB8 *)s1)->unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x36);
+    ((Unkstruct_801202A0 *)s1)->extD.kSC06_032_80186CF0.unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x36);
 
     SetRotMatrix((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x20) + 0x34));
     SetTransMatrix((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x20) + 0x34));

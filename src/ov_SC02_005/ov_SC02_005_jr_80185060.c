@@ -21,8 +21,8 @@ void func_80185060(s32 a0, s32 a1)
     func_80187280(a0, t);
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk104 == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk104 = (s16)a1;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_005_8018550C.unk104 == 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_005_8018550C.unk104 = (s16)a1;
     }
 
     flag = 0;
@@ -45,12 +45,12 @@ void func_80185060(s32 a0, s32 a1)
     }
 
     if (flag) {
-        ((Unkstruct_800B5CB8 *)a0)->unk100 = 0x18;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_005_8018550C.unk100 = 0x18;
         if (a1 != 0) {
             func_801876B0(a0);
         }
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unk100 = 0x10;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_005_8018550C.unk100 = 0x10;
         if (a1 != 0) {
             func_80187664(a0);
         }
@@ -59,7 +59,7 @@ void func_80185060(s32 a0, s32 a1)
         }
     }
 
-    ((Unkstruct_800B5CB8 *)a0)->unkAE = -1;
+    ((Unkstruct_801202A0 *)a0)->extE.kSC02_005_8018550C.unkAE = -1;
     func_8012AD44((s32 *)a0, 2);
 }
 

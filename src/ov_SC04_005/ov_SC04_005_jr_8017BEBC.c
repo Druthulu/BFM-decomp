@@ -7605,7 +7605,7 @@ void func_80183E14(s32 a0) {
                             ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)e)->unk20.p)->unk12 = b + (r & 0x3FF);
                             ((Unkstruct_801202A0 *)e)->unkFC.s = (rand() & 0xFF) - 0x80;
                             ((Unkstruct_801202A0 *)e)->unkFE.s = (rand() & 0xFF) - 0x80;
-                            ((Unkstruct_800B5CB8 *)e)->unk100 = (rand() & 0xFF) - 0x80;
+                            ((Unkstruct_801202A0 *)e)->extD.kSC04_005_801840A8.unk100 = (rand() & 0xFF) - 0x80;
                             guess_UpdateActorModelMatrix(e);
                             guess_SetVelocityXZFromLocal(e, &D_801B1250);
                             *(s16 *)(e + 0x16) = -0x18;

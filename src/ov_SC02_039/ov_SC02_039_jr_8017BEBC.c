@@ -3850,11 +3850,11 @@ void func_8017EA20(s32 param_1) {
     guess_InitModelObject(obj, (s32)&D_8019E298);
 
     n = CAST_SIGN(u16, param_1, 0x70) & 0xF;
-    ((Unkstruct_800B5CB8 *)param_1)->unk102 = n;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102 = n;
     if (n != 0) {
         /* §186c: block-local => local_alloc owns it => the rand result stays in $v0 */
         s32 r = rand() & 0xFF;
-        s32 h = D_8019B5C0[((Unkstruct_800B5CB8 *)param_1)->unk102][0];
+        s32 h = D_8019B5C0[((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102][0];
         s32 o;
         /* first CSE interval: read+write of 0x2C shares one base load */
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C =
@@ -3867,20 +3867,20 @@ void func_8017EA20(s32 param_1) {
     }
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
-    ((Unkstruct_800B5CB8 *)param_1)->unk100 = 0x1000 / D_8019B5E6[((Unkstruct_800B5CB8 *)param_1)->unk102][0];
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk100 = 0x1000 / D_8019B5E6[((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102][0];
 
     {
         s32 t = *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x18);
         /* branch sense: target jumps to the (0x1400-t)>>4 arm, so THAT is the else */
         if (t >= 0x1000) {
-            ((Unkstruct_800B5CB8 *)param_1)->unk100 = 0x40;
+            ((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk100 = 0x40;
         } else {
-            ((Unkstruct_800B5CB8 *)param_1)->unk100 = (0x1400 - t) >> 4;
+            ((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk100 = (0x1400 - t) >> 4;
         }
     }
 
     /* branch sense: target `beq` jumps to the (rand&1) arm, so THAT is the else */
-    if (((Unkstruct_800B5CB8 *)param_1)->unk102 != 2) {
+    if (((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102 != 2) {
         s32 r = rand() & 0xFF;
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)param_1)->unk64->unk20.p, 0x12) + r - 0x80;
@@ -3892,7 +3892,7 @@ void func_8017EA20(s32 param_1) {
 
     guess_UpdateActorModelMatrix(param_1);
     ApplyMatrixLV(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x34,
-                  (s32)D_8019B5B4[((Unkstruct_800B5CB8 *)param_1)->unk102],
+                  (s32)D_8019B5B4[((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102],
                   param_1 + 0x10);
 
     {

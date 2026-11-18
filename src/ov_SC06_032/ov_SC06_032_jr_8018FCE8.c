@@ -3105,7 +3105,7 @@ s32 func_8018FCE8(s32 arg0) {
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)arg0)->unkAE = -1;
+    ((Unkstruct_801202A0 *)arg0)->extE.kSC06_032_8019303C.unkAE = -1;
     if (((Unkstruct_801202A0 *)arg0)->unk70.s >= 0x10) {
         bp = D_801D0DC0;
         for (i = 0x1F; i >= 0; i--, bp++) {
@@ -3145,7 +3145,7 @@ s32 func_8018FCE8(s32 arg0) {
         *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 4) =
             *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 4) | 0x80000000;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 6;
-        ((Unkstruct_800B5CB8 *)arg0)->unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0x36);
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC06_032_8019303C.unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0x36);
         ((void(*)(void *))SetRotMatrix)((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0x20) + 0x34));
         ((void(*)(void *))SetTransMatrix)((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0x20) + 0x34));
         ((void(*)(void *, void *, void *))RotTransSV)(D_801CC7F4, sv, flg);
@@ -3226,7 +3226,7 @@ s32 func_8018FCE8(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk75 = 8;
         ((Unkstruct_801202A0 *)arg0)->unkBC = (s32)D_801CC86C;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xC;
-        ((Unkstruct_800B5CB8 *)arg0)->unkAE = 0;
+        ((Unkstruct_801202A0 *)arg0)->extE.kSC06_032_8019303C.unkAE = 0;
         ((Unkstruct_801202A0 *)arg0)->unk76.s = 0x28;
         goto tail;
     case 8:
@@ -3236,7 +3236,7 @@ s32 func_8018FCE8(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk75 = 8;
         ((Unkstruct_801202A0 *)arg0)->unkBC = (s32)D_801CC87C;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xD;
-        ((Unkstruct_800B5CB8 *)arg0)->unkAE = 0;
+        ((Unkstruct_801202A0 *)arg0)->extE.kSC06_032_8019303C.unkAE = 0;
         ((Unkstruct_801202A0 *)arg0)->unk76.s = 0x28;
         goto tail;
     case 9:
@@ -3244,7 +3244,7 @@ s32 func_8018FCE8(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk58.s = (s32)D_801CC6D0 | 0x40000000 | 0x20000000;
         ((Unkstruct_801202A0 *)arg0)->unk75 = 8;
         ((Unkstruct_801202A0 *)arg0)->unkBC = (s32)D_801CC88C;
-        ((Unkstruct_800B5CB8 *)arg0)->unkAE = 0;
+        ((Unkstruct_801202A0 *)arg0)->extE.kSC06_032_8019303C.unkAE = 0;
         ((Unkstruct_801202A0 *)arg0)->unk78 = (s32)D_801CC748;
         /* fallthrough */
     default:
