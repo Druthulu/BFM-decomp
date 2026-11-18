@@ -3136,7 +3136,7 @@ void func_80185B20(void *a0)
 
 extern s32 func_80185C8C(void *a0);
 s32 func_80185C40(void *a0) {
-    a0 = ((Unkstruct_80182AC0 *)a0)->unkCC;
+    a0 = ((Unkstruct_80182AC0 *)a0)->unkCC.p;
     if (a0 == 0) {
         return 0;
     }

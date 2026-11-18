@@ -4968,7 +4968,7 @@ void func_8018396C(s32 a0) {
     }
 
     ((Unkstruct_8018396C *)s1)->unk2 += 1;
-    ((Unkstruct_8018396C *)s1)->unkCC = 0;
+    ((Unkstruct_8018396C *)s1)->unkCC.val = 0;
 }
 
 

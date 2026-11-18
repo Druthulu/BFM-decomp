@@ -6210,10 +6210,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ s16 unk2;
     /* 0x0004 */ u8 pad4[0xc8];
-    /* 0x00cc */ union {
-        struct { s32 unkCC; } v0;
-        struct { void *unk0; } v1;
-    } unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
 } Unkstruct_8017E1E4; /* size = 0xd0 */
 
 typedef struct {
@@ -7157,7 +7154,7 @@ typedef struct {
     /* 0x006c */ s32 unk6C;
     /* 0x0070 */ s16 unk70;
     /* 0x0072 */ u8 pad72[0x5a];
-    /* 0x00cc */ s32 unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
 } Unkstruct_801A4ACC; /* size = 0xd0 */
 
 typedef Unkstruct_80126B58 Unkstruct_801727D0_2; /* size = 0x218 */
@@ -9633,7 +9630,7 @@ typedef struct {
     /* 0x0020 */ u8 pad20[0x64];
     /* 0x0084 */ s16 unk84;
     /* 0x0086 */ u8 pad86[0x46];
-    /* 0x00cc */ s32 unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
     /* 0x00d0 */ s32 unkD0;
 } Unkstruct_801ABEE0; /* size = 0xd4 */
 
@@ -11890,10 +11887,7 @@ typedef struct {
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ u16 unkE;
     /* 0x0010 */ u8 pad10[0xbc];
-    /* 0x00cc */ union {
-        struct { s32 unkCC; } v0;
-        struct { void *unk0; } v1;
-    } unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
 } Unkstruct_801803FC; /* size = 0xd0 */
 
 typedef struct {
@@ -12993,7 +12987,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x70];
     /* 0x0070 */ s16 unk70;
     /* 0x0072 */ u8 pad72[0x5a];
-    /* 0x00cc */ s32 unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
     /* 0x00d0 */ u8 padD0[0x4];
     /* 0x00d4 */ s32 unkD4;
     /* 0x00d8 */ u8 padD8[0x28];
@@ -22448,7 +22442,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ u16 unk2;
     /* 0x0004 */ u8 pad4[0xc8];
-    /* 0x00cc */ u32 unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
 } Unkstruct_8018396C; /* size = 0xd0 */
 
 typedef struct {
@@ -23301,7 +23295,7 @@ typedef struct {
     /* 0x0024 */ u8 pad24[0x10];
     /* 0x0034 */ u16 unk34;
     /* 0x0036 */ u8 pad36[0x96];
-    /* 0x00cc */ void *unkCC;
+    /* 0x00cc */ union { s32 val; void *p; struct { s16 lo; s16 hi; } i; } unkCC;
 } Unkstruct_80182AC0; /* size = 0xd0 */
 
 typedef struct {

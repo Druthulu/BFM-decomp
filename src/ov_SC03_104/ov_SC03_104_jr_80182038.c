@@ -4052,7 +4052,7 @@ void func_80183D54(s32 a0) {
 /* $v0 at exit: result of func_801330E0 or entry $v0, unset; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x48, ov_SC03_104 objdump */
 s32 func_80183D98(s32 a0)
 {
-    s32 v1 = ((Unkstruct_801803FC *)a0)->unkCC.v0.unkCC;
+    s32 v1 = ((Unkstruct_801803FC *)a0)->unkCC.val;
     if (v1) {
         ((Unkstruct_8018653C *)v1)->unk8 = ((Unkstruct_801803FC *)a0)->unk6;
         ((Unkstruct_8018653C *)v1)->unkA = ((Unkstruct_801803FC *)a0)->unkA;

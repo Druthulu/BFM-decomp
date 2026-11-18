@@ -3133,7 +3133,7 @@ void func_801846E8(void *a0)
 
 extern s32 func_80184854(void *a0);
 s32 func_80184808(void *a0) {
-    a0 = ((Unkstruct_80182AC0 *)a0)->unkCC;
+    a0 = ((Unkstruct_80182AC0 *)a0)->unkCC.p;
     if (a0 == 0) {
         return 0;
     }

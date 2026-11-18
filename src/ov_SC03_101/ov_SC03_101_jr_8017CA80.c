@@ -4489,7 +4489,7 @@ extern void func_801330E0(void *arg0, s16 *arg1, s32 arg2);
 /* $v0 at exit: result of func_801330E0 or entry $v0, unset; no byte-neutral return: `return 0;` moved `beqz v1,<func_8018095C+0x48>` at +0x10, ov_SC03_101 objdump */
 s32 func_8018095C(void *a0)
 {
-    void *v1 = ((Unkstruct_801803FC *)a0)->unkCC.v1.unk0;
+    void *v1 = ((Unkstruct_801803FC *)a0)->unkCC.p;
     s16 *dest;
     if (v1 == NULL) {
         return;

@@ -5881,7 +5881,7 @@ extern void guess_FreeActor(void *a0);
     s32 func_801816D0(void * arg0)
     {
         ((Unkstruct_801816D0 *)arg0)->unk2 = 2;
-        ((void (*)(s32))guess_FreeActor)(((Unkstruct_801816D0 *)arg0)->unkCC.v0.unkCC);
+        ((void (*)(s32))guess_FreeActor)(((Unkstruct_801816D0 *)arg0)->unkCC.val);
     }
 
 

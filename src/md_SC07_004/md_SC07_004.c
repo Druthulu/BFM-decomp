@@ -3180,7 +3180,7 @@ void func_801A4ACC(void *a0)
 
     s0 = (s32 *)a0;
     v1 = ((Unkstruct_801A4ACC *)s0)->unk34;
-    s1 = ((Unkstruct_801A4ACC *)s0)->unkCC;
+    s1 = ((Unkstruct_801A4ACC *)s0)->unkCC.val;
     if ((u32)v1 >= 5) {
         goto end;
     }
@@ -3799,7 +3799,7 @@ void func_801A5C44(s32 a0) {
     s32 temp;
 
     temp = ((Unkstruct_801A5C44 *)s0)->unk100;
-    s2 = ((Unkstruct_801A5C44 *)s0)->unkCC;
+    s2 = ((Unkstruct_801A5C44 *)s0)->unkCC.val;
     s1 = ((Unkstruct_801A5C44 *)s0)->unkD4;
     temp = rsin(temp) >> 4;
     ((Unkstruct_801A5C44_2 *)s2)->unk18 = *(u16 *)(s1 + (((Unkstruct_801A5C44 *)s0)->unk70 * 4)) + temp;
@@ -8036,14 +8036,14 @@ extern void func_801AA60C(s32 param_1, s32 param_2);
 
 void func_801ABEE0(void *a0) {
     s32 r0 = (s32)a0;
-    s32 ptr1;
+    void *ptr1;
     s32 s2;
     s16 v1;
     s32 val;
     s16 orig;
     s16 dec;
 
-    ptr1 = ((Unkstruct_801ABEE0 *)r0)->unkCC;
+    ptr1 = ((Unkstruct_801ABEE0 *)r0)->unkCC.p;
     s2 = ((Unkstruct_801ABEE0 *)r0)->unkD0;
     guess_ApplyAccelAndVelocity(r0);
     ((Unkstruct_801ABEE0_2 *)ptr1)->unk8 = ((Unkstruct_801ABEE0 *)r0)->unk6;
@@ -8055,7 +8055,7 @@ void func_801ABEE0(void *a0) {
         func_801A9270((void *)r0);
     } else {
         if (s2 != 0) {
-            ptr1 = *(s32 *)(s2 + 0xCC);
+            ptr1 = *(void **)(s2 + 0xCC);
             if (ptr1 != 0) {
                 val = (v1 + 0x500) << 4;
                 ((Unkstruct_801ABEE0_2 *)ptr1)->unk1A = val;
@@ -8067,7 +8067,7 @@ void func_801ABEE0(void *a0) {
             func_801A93F4((void *)r0);
         }
     }
-    guess_StepPairSequence(((Unkstruct_801ABEE0 *)r0)->unkCC, (s32 *)(r0 + 0xF0));
+    guess_StepPairSequence(((Unkstruct_801ABEE0 *)r0)->unkCC.val, (s32 *)(r0 + 0xF0));
     func_801A9378((void *)r0);
     orig = ((Unkstruct_801ABEE0 *)r0)->unk84;
     if (orig != 0) {

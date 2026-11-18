@@ -7860,7 +7860,7 @@ void func_80184A64(void *arg0) {
 extern void guess_FreeActor(void *a0);
     void func_80184B84(s32 arg0) {
         ((Unkstruct_8017E1E4 *)arg0)->unk2 = 2;
-        guess_FreeActor(((Unkstruct_8017E1E4 *)arg0)->unkCC.v1.unk0);
+        guess_FreeActor(((Unkstruct_8017E1E4 *)arg0)->unkCC.p);
     }
 
 
