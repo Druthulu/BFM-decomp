@@ -1092,3 +1092,6 @@ C0639 | Held sources with arithmetic on typed pointer fields: KEPT-base backing,
 C0640 | Arithmetic through actor unk64: it is the spawner; type via the parent kind's variant | struct,actor,variant,spawn,kind,absorb,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c28
 C0641 | Union setups and refused-row absorbs: silent union stores, dry-run vs write, ratchet on newly typeable casts | struct,absorb,union,fold-batch,gate,ratchet,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c26
 C0642 | Union retype of a heavily used pointer field: rename probe to fixpoint, parser leaf fix, deferred keys | struct,union,pointer,respell,cc1,gate,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c26c
+C0643 | fold-batch --write drops parent member comments; a re-cast split leaves the ratchet unchanged | struct,absorb,fold-batch,comments,ratchet,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c27b
+C0644 | Inventory a split type from the text: census misses deref-operand casts; key holder-field sources | struct,per-source,census,split,holder,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c31
+C0645 | Typing a masked tagged pointer byte-identically; hand-insert new ledger rows | struct,pointer,tagged,bytes,ledger,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c29
