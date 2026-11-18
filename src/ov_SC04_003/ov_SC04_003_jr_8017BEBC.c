@@ -4504,7 +4504,7 @@ s32 func_8017FC18(s32 arg0) {
         if ((s32) pe == arg0) {
             goto next;
         }
-        state = ((Unkstruct_800B5CB8 *)pe)->unk0;
+        state = ((Unkstruct_801202A0 *)pe)->unk0;
         if (state == 0x1FC) {
             goto do_1fc;
         }
@@ -4514,16 +4514,16 @@ s32 func_8017FC18(s32 arg0) {
         goto next;
 
     do_1fc:
-        buf[0] = ((Unkstruct_800B5CB8 *)pe)->unk6;
+        buf[0] = ((Unkstruct_801202A0 *)pe)->unk4.i.hi.u;
         buf[1] = 0;
-        buf[2] = ((Unkstruct_800B5CB8 *)pe)->unkE;
+        buf[2] = ((Unkstruct_801202A0 *)pe)->unkC.i.hi.u;
         if (((s32 (*)(s32, u16 *)) guess_DistSqXZToPoint)(arg0, buf) < 0x900) {
             return (s32) pe;
         }
         goto next;
 
     do_239:
-        f20 = ((Unkstruct_800B5CB8 *)pe)->unk20;
+        f20 = ((Unkstruct_801202A0 *)pe)->unk20;
         { d = CAST_SIGN(s16, pe, 6) - *(s16 *) (arg0 + 6); }
         t = (*(s16 *) (f20 + 0x18) * 9) >> 9;
         if (d < 0) {
@@ -4786,7 +4786,7 @@ void func_8018025C(s32 param_1) {
     u16 v1;
 
     iVar1 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = iVar1;
     if (iVar1 == 0) {
         guess_FreeActorDuringSpawn((void *)param_1);
         return;
@@ -4807,15 +4807,15 @@ void func_8018025C(s32 param_1) {
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk20 = D_80197764;
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x20) + 0x12);
+        *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk64->unk20 + 0x12);
     guess_ClearVelocityAndSetGravity(param_1);
     guess_UpdateActorModelMatrix(param_1);
     guess_SetForwardVelocity(param_1, 0x00080000);
 
     v1 = CAST_SIGN(u16, param_1, 0x2) + 1;
-    ((Unkstruct_800B5CB8 *)param_1)->unk14 = 0xFFE40000;
-    ((Unkstruct_800B5CB8 *)param_1)->unkFE = ((Unkstruct_800B5CB8 *)param_1)->unkA + 0x30;
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = v1;
+    ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFE40000;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u + 0x30;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = v1;
     q = func_80132EF4(param_1, 0x23);
     if (q != 0) {
         *(u16 *)(q + 0x34) = 0x2001;
@@ -5183,7 +5183,7 @@ void func_80180B78(s32 arg0)
     vel[1] = 0;
     vel[0] = 0;
     vel[2] = 0xFFF20000;
-    RotMatrixY(*(s16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x20) + 0x12), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk64->unk20 + 0x12), &m);
     ApplyMatrixLV((s32)&m, (s32)&vel[0], arg0 + 0x10);
     guess_RequestSound(0xB3F, 0);
     func_8012AD44((s32 *)arg0, 3);
@@ -5732,7 +5732,7 @@ void func_801817E8(int param_1)
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
         ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 =
-            *(short *)(*(int *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x20) + 0x12);
+            *(short *)(((Unkstruct_801202A0 *)param_1)->unk64->unk20 + 0x12);
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_80198278);
@@ -5740,19 +5740,19 @@ void func_801817E8(int param_1)
         in.y = 0;
         in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_800B5CB8 *)param_1)->unk6 = out.x;
-        ((Unkstruct_800B5CB8 *)param_1)->unkA = out.y;
+        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = out.x;
+        ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = out.y;
         c = out.z;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x5a;
-        ((Unkstruct_800B5CB8 *)param_1)->unk34 = 1;
-        ((Unkstruct_800B5CB8 *)param_1)->unkE = c;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x5a;
+        ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
+        ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = c;
     }
     ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk10 =
-        *(short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x10) - 0x80;
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x10) - 0x80;
     ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 =
-        *(short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x12) + 4;
-    *(short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x14) =
-        *(short *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x14) + 5;
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x12) + 4;
+    *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x14) =
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x14) + 5;
     guess_ApplyAccelAndVelocity(param_1);
     if (guess_TickWaitTimer(param_1) != 0) {
         ((void (*)(int))guess_FreeActor)(param_1);
@@ -6093,23 +6093,23 @@ void func_80181F18(void *a0) {
     extern u8 D_80198E44[];
     s16 mode;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unkFC != *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x36)) {
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_801202A0 *)a0)->unk64->unk36.s) {
         ((void (*)(void))guess_FreeActor)();
         return;
     }
 
-    mode = ((Unkstruct_800B5CB8 *)a0)->unkFE;
+    mode = ((Unkstruct_801202A0 *)a0)->unkFE.s;
     if (mode == 1) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
         guess_StartActorSequence((s32)a0, D_80198D3C);
-        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         guess_RequestSound(0x5BF, 0);
     } else if (mode == 2) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
         guess_StartActorSequence((s32)a0, D_80198E44);
-        ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8C00;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8C00;
     }
 }
 

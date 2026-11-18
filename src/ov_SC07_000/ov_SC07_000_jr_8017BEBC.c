@@ -3778,38 +3778,38 @@ void func_8017E960(void *a0) {
     u8 *s0;
 
     ret = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = ret;
+    ((Unkstruct_801202A0 *)a0)->unk20 = ret;
     if (ret == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
 
-    s0 = (u8 *)&D_801D05A0 + (((Unkstruct_800B5CB8 *)a0)->unk70 << 6);
+    s0 = (u8 *)&D_801D05A0 + (((Unkstruct_801202A0 *)a0)->unk70.s << 6);
     func_8001CA88(ret, s0);
     guess_BuildCircle12Points(s0, 0x100);
 
-    *(CVECTOR *)s0 = D_80186540[((Unkstruct_800B5CB8 *)a0)->unk70];
+    *(CVECTOR *)s0 = D_80186540[((Unkstruct_801202A0 *)a0)->unk70.s];
     *(CVECTOR *)(s0 + 4) = D_801CE6E0;
 
     ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk2E = 0xC080;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk70 == 0) {
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) |= 0x50800000;
+    if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 4) |= 0x50800000;
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk18 = 0x1400;
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk1A = 0x1A00;
     } else {
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) |= 0x50800000;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 4) |= 0x50800000;
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk18 = 0x1200;
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk1A = 0x1600;
     }
 
-    func_8001C1E4((void *)((Unkstruct_800B5CB8 *)a0)->unk20,
-                  *(void **)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20));
+    func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20,
+                  *(void **)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x20));
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     CAST_ALIAS(s16, (u8 *)a0, 0xA) = -0xA8;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = 0;
-    *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x28) = 0x1000100;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = 0;
+    *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x28) = 0x1000100;
     func_8012AD50(a0);
 }
 

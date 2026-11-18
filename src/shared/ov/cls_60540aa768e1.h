@@ -5,9 +5,9 @@ void SHARED_FN(s32 arg0)
     s32 v;
     s32 timer;
 
-    obj = ((Unkstruct_800B5CB8 *)arg0)->unk20;
+    obj = ((Unkstruct_8011DB30 *)arg0)->unk20;
     CAST_WIDTH(s32, arg0, 0x10) += CAST_WIDTH(s32, arg0, 0x2C);
-    ((Unkstruct_800B5CB8 *)arg0)->unk14 += ((Unkstruct_800B5CB8 *)arg0)->unk30;
+    ((Unkstruct_8011DB30 *)arg0)->unk14 += ((Unkstruct_8011DB30 *)arg0)->unk30.val;
     CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);
     guess_AddVelocityToPos((S800D22E4 *)arg0);
     v = ((Unkstruct_800B5BD8 *)obj)->unk1A.u - 0x100;
@@ -16,10 +16,10 @@ void SHARED_FN(s32 arg0)
     if (guess_StepPairSequence(obj, (s32 *)(arg0 + 0x24)) != 0) {
         func_801292C8((u8 *)arg0);
     } else {
-        timer = ((Unkstruct_800B5CB8 *)arg0)->unk1C;
+        timer = ((Unkstruct_8011DB30 *)arg0)->unk1C;
         if (timer != 0) {
             timer--;
-            ((Unkstruct_800B5CB8 *)arg0)->unk1C = timer;
+            ((Unkstruct_8011DB30 *)arg0)->unk1C = timer;
             if (timer == 0) {
                 func_801292C8((u8 *)arg0);
             }

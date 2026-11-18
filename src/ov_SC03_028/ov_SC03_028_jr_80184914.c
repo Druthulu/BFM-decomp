@@ -3046,12 +3046,12 @@ void func_80184B28(void *a0) {
         if (t >= 0x3C1) {
             t = (t - 0x3C0) << 1;
             v0 = rcos(t);
-            ((Unkstruct_800B5CB8 *)a0)->unkA = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xA) - (v0 >> 9);
+            ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u - (v0 >> 9);
             v0 = rsin(t);
-            ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE) - (v0 >> 9);
+            ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unkC.i.hi.u - (v0 >> 9);
         } else {
-            ((Unkstruct_800B5CB8 *)a0)->unkA = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xA) - 8;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE);
+            ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u - 8;
+            ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unkC.i.hi.u;
         }
     }
 }
@@ -3305,15 +3305,15 @@ void func_8018509C(void *arg0) {
     }
 
     if (CAST_SIGN(u16, (s32)arg0, 2) < 2) {
-        *(u16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0xFC) = 0;
-        val = *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x12);
+        ((Unkstruct_801202A0 *)arg0)->unk64->unkFC.u = 0;
+        val = ((Unkstruct_801202A0 *)arg0)->unk64->unk10.i.hi.s;
         if (val < 0) {
             if (val != -4) {
-                *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x12) = -4;
+                ((Unkstruct_801202A0 *)arg0)->unk64->unk10.i.hi.s = -4;
             }
         } else {
             if (val != 4) {
-                *(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0x12) = 4;
+                ((Unkstruct_801202A0 *)arg0)->unk64->unk10.i.hi.s = 4;
             }
         }
     }

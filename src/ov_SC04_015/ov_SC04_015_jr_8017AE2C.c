@@ -5427,26 +5427,26 @@ extern void guess_FreeActor(void *arg0);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017F600(void *a0) {
-    if (*(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x2) == 1 &&
+    if (((Unkstruct_801202A0 *)a0)->unk64->unk2.u == 1 &&
         ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x64))->unk34 == 2) {
         func_80132EF4((s32)a0, 0x4E);
         guess_FreeActor(a0);
     } else {
-        switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+        switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
         case 0:
-            if ((((Unkstruct_800B5CB8 *)a0)->unk5C & 1) && CAST_WIDTH(u16, (u8 *)a0, 0x5E) == 0x23) {
+            if ((((Unkstruct_801202A0 *)a0)->unk5C.u & 1) && CAST_WIDTH(u16, (u8 *)a0, 0x5E) == 0x23) {
                 ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x64))->unk5C |= 1;
-                *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x5E) = 0x23;
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
-                ((Unkstruct_800B5CB8 *)a0)->unk1C = 3;
+                ((Unkstruct_801202A0 *)a0)->unk64->unk5E.u = 0x23;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
+                ((Unkstruct_801202A0 *)a0)->unk1C.s = 3;
                 guess_RequestSound(0x76D, 0);
             }
             break;
         case 1:
-            if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = 0;
+            if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
             }
-            ((Unkstruct_800B5CB8 *)a0)->unk5C = 0x8000;
+            ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
             break;
         }
     }

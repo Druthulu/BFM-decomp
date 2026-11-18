@@ -3923,12 +3923,12 @@ void func_8018523C(void *a0)
     s16 w;
 
     m = D_800AE620;
-    sv = D_801C5894[((Unkstruct_800B5CB8 *)a0)->unk70];
+    sv = D_801C5894[((Unkstruct_801202A0 *)a0)->unk70.s];
 
     mp = &m;
     svp = &sv;
 
-    if ((((Unkstruct_800B5CB8 *)a0)->unk20 = v0 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
+    if ((((Unkstruct_801202A0 *)a0)->unk20 = v0 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
@@ -3936,22 +3936,22 @@ void func_8018523C(void *a0)
     w = sv.w;
     guess_InitModelObject(v0, D_801C591C[w]);
 
-    RotMatrixY(*(s16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x12), mp);
 
     ApplyMatrixSV(mp, svp, svp);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 += sv.x;
-    ((Unkstruct_800B5CB8 *)a0)->unkA += sv.y;
-    ((Unkstruct_800B5CB8 *)a0)->unkE += sv.z;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u += sv.x;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u += sv.y;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += sv.z;
     guess_ClearVelocityAndSetGravity((s32)a0);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk12 = (s16)sv.x >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
-    ((Unkstruct_800B5CB8 *)a0)->unk1A = (s16)sv.z >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
 
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = (s16)((rand() & 0x7FF) - 0x400) >> w;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = (s16)((rand() & 0x7FF) - 0x400) >> w;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = (s16)((rand() & 0x7FF) - 0x400) >> w;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC03_118_8018545C.unk100 = (s16)((rand() & 0x7FF) - 0x400) >> w;
 
     func_8012AD50(a0);
 }

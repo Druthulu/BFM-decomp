@@ -6089,24 +6089,24 @@ s32 func_80180A98(s32 param_1)
     int iVar3;
     short sVar2;
 
-    iVar1 = ((Unkstruct_800B5CB8 *)param_1)->unk1C;
-    iVar3 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
+    iVar1 = ((Unkstruct_801202A0 *)param_1)->unk1C.s;
+    iVar3 = ((Unkstruct_801202A0 *)param_1)->unk20;
     if (iVar1 < 0x3c) {
         CAST_ALIAS(short, param_1, 6) =
              CAST_SIGN(short, param_1, 0x12) +
              (short)((((int)D_80185F50 - (int)CAST_SIGN(short, param_1, 0x12)) * iVar1) / 0x3c);
         CAST_ALIAS(short, param_1, 10) =
              *(short *)(param_1 + 0x16) +
-             (short)((((int)D_80185F52 - (int)*(short *)(param_1 + 0x16)) * ((Unkstruct_800B5CB8 *)param_1)->unk1C) / 0x3c);
+             (short)((((int)D_80185F52 - (int)*(short *)(param_1 + 0x16)) * ((Unkstruct_801202A0 *)param_1)->unk1C.s) / 0x3c);
         CAST_ALIAS(short, param_1, 0xe) =
              CAST_SIGN(short, param_1, 0x1a) +
-             (short)((((int)D_80185F54 - (int)CAST_SIGN(short, param_1, 0x1a)) * ((Unkstruct_800B5CB8 *)param_1)->unk1C) / 0x3c);
-        sVar2 = ((Unkstruct_800B5CB8 *)param_1)->unk100 +
-                (short)((((int)D_80185F56 - (int)((Unkstruct_800B5CB8 *)param_1)->unk100) * ((Unkstruct_800B5CB8 *)param_1)->unk1C) / 0x3c);
+             (short)((((int)D_80185F54 - (int)CAST_SIGN(short, param_1, 0x1a)) * ((Unkstruct_801202A0 *)param_1)->unk1C.s) / 0x3c);
+        sVar2 = ((Unkstruct_801202A0 *)param_1)->extD.kSC07_010_80180138.unk100 +
+                (short)((((int)D_80185F56 - (int)((Unkstruct_801202A0 *)param_1)->extD.kSC07_010_80180138.unk100) * ((Unkstruct_801202A0 *)param_1)->unk1C.s) / 0x3c);
         *(short *)(iVar3 + 0x1c) = sVar2;
         *(short *)(iVar3 + 0x1a) = sVar2;
         *(short *)(iVar3 + 0x18) = sVar2;
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = ((Unkstruct_800B5CB8 *)param_1)->unk1C + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s + 1;
         return 0;
     }
     return 1;

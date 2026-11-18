@@ -14,20 +14,20 @@ void SHARED_FN(s32 param_1)
     out.vz = -0x40;
     m = &local_38;
     angle = ((CAST_SIGN(u16, param_1, 0x70) & 3) << 10) + (rand() & 0x3F0);
-    t = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x10A) - 0x200;
+    t = ((Unkstruct_801202A0 *)param_1)->unk64->unk10A.u - 0x200;
     RotMatrixY((s16)(angle + t), m);
     ApplyMatrixSV(m, &out, &out);
 
-    ((Unkstruct_800B5CB8 *)param_1)->unk6 = ((Unkstruct_800B5CB8 *)param_1)->unk6 + (u16)out.vx;
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = ((Unkstruct_800B5CB8 *)param_1)->unkA + (u16)out.vy;
-    ((Unkstruct_800B5CB8 *)param_1)->unkE = ((Unkstruct_800B5CB8 *)param_1)->unkE + (u16)out.vz;
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + (u16)out.vx;
+    ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u + (u16)out.vy;
+    ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u + (u16)out.vz;
 
     CAST_WIDTH(s32, param_1, 0x10) = (s32)out.vx << 13;
     CAST_WIDTH(s32, param_1, 0x18) = (s32)out.vz << 13;
-    ((Unkstruct_800B5CB8 *)param_1)->unk14 = -(((rand() & 0xF) << 15) + 0x80000);
-    ((Unkstruct_800B5CB8 *)param_1)->unk106 = rand() & 0xF0;
-    ((Unkstruct_800B5CB8 *)param_1)->unk108 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)param_1)->unk14.val = -(((rand() & 0xF) << 15) + 0x80000);
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018B65C.unk106 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_8018B65C.unk108 = rand() & 0xF0;
 
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x20;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x20;
     func_8012AD44((s32 *)param_1, 3);
 }

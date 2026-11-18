@@ -6496,12 +6496,12 @@ s32 arg0;
 
     s0 = arg0;
 
-    if (((Unkstruct_800B5CB8 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         guess_StartActorSequence(s0, (s32)D_801A4400);
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = 0;
+        ((Unkstruct_801202A0 *)s0)->unkFC.s = 0;
     }
 
-    if (((Unkstruct_800B5CB8 *)s0)->unk94 == 15) {
+    if (((Unkstruct_801202A0 *)s0)->unk94.s == 15) {
         guess_SetVelocityXZFromLocal(s0, (void *)&D_80199C98);
         a0 = s0;
         a1 = (s32)&D_80199CB4;
@@ -9596,7 +9596,7 @@ void func_80187108(s32 a0)
     vel[1] = 0;
     vel[0] = 0;
     vel[2] = 0xFFF20000;
-    RotMatrixY(*(s16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x12), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x12), &m);
     ApplyMatrixLV((s32)&m, (s32)&vel[0], a0 + 0x10);
     guess_RequestSound(0xB3F, 0);
     func_8012AD44((s32 *)a0, 3);

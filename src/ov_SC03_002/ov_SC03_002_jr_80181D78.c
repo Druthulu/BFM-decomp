@@ -2847,18 +2847,18 @@ void func_80181D78(s32 a0) {
     extern u8 D_801C887C[];
     extern void (*D_80189CA8[])(void);
 
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
-        ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
-        if (D_80189CD8[0] >= ((Unkstruct_800B5CB8 *)a0)->unk1C) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
+        if (D_80189CD8[0] >= ((Unkstruct_801202A0 *)a0)->unk1C.s) {
             return;
         }
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
         break;
     case 1:
-        *(s32 *)&arr[0] = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4);
+        *(s32 *)&arr[0] = ((Unkstruct_801202A0 *)a0)->unk64->unk4.val;
         arr[1] += D_80189CDA;
-        *(s32 *)&arr[2] = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 8);
+        *(s32 *)&arr[2] = ((Unkstruct_801202A0 *)a0)->unk64->unk8.val;
         *(s32 *)&arr[4] = CAST_WIDTH(s32, *(s32 *)(a0 + 0x64), 0xC);
         arr[5] += D_80189CDC;
         r = guess_YawToPoint((void *)(a0 + 4), D_80189CEC);
@@ -2866,94 +2866,94 @@ void func_80181D78(s32 a0) {
         guess_UpdateActorModelMatrix((s32)a0);
         guess_SetForwardVelocity((s32)a0, (s32)D_80189CE4);
         guess_ApplyAccelAndVelocity((s32)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unkA -= 8;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
-        if (((Unkstruct_800B5CB8 *)a0)->unk1C < D_80189CDE[0]) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
+        if (((Unkstruct_801202A0 *)a0)->unk1C.s < D_80189CDE[0]) {
             return;
         }
         guess_SetForwardVelocity((s32)a0, (s32)D_80189CE0);
         guess_StartActorSequence((s32)a0, (s32)D_801C855C);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
         break;
     case 2:
         guess_SetForwardVelocity((s32)a0, (s32)D_80189CE0);
         guess_ApplyAccelAndVelocity((s32)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unkA -= 8;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)a0);
         CAST_ALIAS(s32, a0, 0x1C) += 1;
-        if (((Unkstruct_800B5CB8 *)a0)->unk1C < *(s16 *)D_80189CE8) {
+        if (((Unkstruct_801202A0 *)a0)->unk1C.s < *(s16 *)D_80189CE8) {
             return;
         }
         guess_StartActorSequence((s32)a0, (s32)D_80189CA8);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 5;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 5;
         break;
     case 3:
         if (guess_TickWaitTimer((s32)a0) == 0) {
             return;
         }
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
         break;
     case 4:
         if (guess_TickWaitTimer((s32)a0) != 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = (rand() & 0x1F) + 0xB4;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = (rand() & 0x1F) + 0xB4;
             guess_StartActorSequence((s32)a0, (s32)((rand() & 1) ? D_801C8634 : D_801C868C));
         }
-        if (((Unkstruct_800B5CB8 *)a0)->unk102 != 1) {
+        if (((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8018225C.unk102 != 1) {
             return;
         }
         guess_StartActorSequence((s32)a0, (s32)D_80189C00);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 6;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 6;
         break;
     case 5:
         guess_TickWaitTimer((s32)a0);
-        if (((Unkstruct_800B5CB8 *)a0)->unk1C == 1) {
+        if (((Unkstruct_801202A0 *)a0)->unk1C.s == 1) {
             guess_StartActorSequence((s32)a0, (s32)D_801C855C);
         }
         self = (s32 *)(a0 + 4);
-        r = func_8012B6D4((s16 *)self, (s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4));
-        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), r, 8);
+        r = func_8012B6D4((s16 *)self, (s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 4));
+        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), r, 8);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r2;
-        if (func_8012BC60((void *)self, (void *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4)) < 0x7900) {
+        if (func_8012BC60((void *)self, (void *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 4)) < 0x7900) {
             return;
         }
         guess_StartActorSequence((s32)a0, (s32)D_801C887C);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
         func_801821B4((s32)a0);
         return;
     case 6:
         self2 = (s32 *)(a0 + 4);
-        r = func_8012B6D4((s16 *)self2, (s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4));
-        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), r, 8);
+        r = func_8012B6D4((s16 *)self2, (s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 4));
+        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), r, 8);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r2;
         guess_SetForwardVelocity((s32)a0, (s32)0xFFFA0000);
         guess_ApplyAccelAndVelocity((s32)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unkA -= 8;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)a0);
-        if (((Unkstruct_800B5CB8 *)a0)->unk102 != 2) {
+        if (((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8018225C.unk102 != 2) {
             return;
         }
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
         break;
     case 7:
         self3 = (s32 *)(a0 + 4);
-        r = func_8012B6D4((s16 *)self3, (s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4));
-        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), r, 8);
+        r = func_8012B6D4((s16 *)self3, (s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 4));
+        r2 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), r, 8);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r2;
         guess_SetForwardVelocity((s32)a0, (s32)0xFFFA0000);
         guess_ApplyAccelAndVelocity((s32)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unkA -= 8;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u -= 8;
         guess_SnapActorToGround((u8 *)a0);
         if (guess_TickWaitTimer((s32)a0) == 0) {
             return;
         }
         guess_HideObjectModel((u8 *)a0);
-        ((Unkstruct_800B5CB8 *)a0)->unk34 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
         break;
     case 8:
         break;

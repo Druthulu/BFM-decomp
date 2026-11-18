@@ -3584,9 +3584,9 @@ void func_801825DC(void *a0) {
     CAST_WIDTH(s32, (u8 *)s0, 0xC) = 0;
     CAST_WIDTH(s32, (u8 *)s0, 0x8) = 0;
     CAST_WIDTH(s32, (u8 *)s0, 0x4) = 0;
-    func_80132784((s32)s0, ((Unkstruct_800B5CB8 *)s0)->unk64, 4);
+    func_80132784((s32)s0, ((Unkstruct_801202A0 *)s0)->unk64, 4);
 
-    if (*(u16 *)((u8 *)(((Unkstruct_800B5CB8 *)s0)->unk64) + 2) != 10) {
+    if (*(u16 *)((u8 *)(((Unkstruct_801202A0 *)s0)->unk64) + 2) != 10) {
         guess_FreeActor(s0);
     }
 }

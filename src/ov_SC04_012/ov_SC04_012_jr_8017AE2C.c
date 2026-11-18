@@ -3506,17 +3506,17 @@ extern void (*D_801821A4[])(void);
 void func_8017D3E0(s32 a0) {
     switch (CAST_SIGN(u16, a0, 2)) {
     case 0:
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x14;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, a0, 2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x14;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 2) + 1;
         break;
     case 1:
-        if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
+        if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
             if ((s16)guess_g_PlayerPosZ < 0x400) {
                 func_80178B18(a0, (s32)&D_80182154);
             } else {
                 func_80178B18(a0, (s32)&D_801821A4);
             }
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, a0, 2) + 1;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 2) + 1;
         }
         break;
     case 2:

@@ -3963,9 +3963,9 @@ void func_8017CC44(s32 a0) {
     guess_StartActorSequence(a0, (void*)&D_80188394);
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    v0 = ((Unkstruct_800B5CB8 *)v1)->unk12;
+    v0 = ((Unkstruct_8001C9D0 *)v1)->unk12.u;
     v0 = v0 + 0xB00;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = v0;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = v0;
 
     stack[0] = 0;
     stack[1] = 0;

@@ -4281,8 +4281,8 @@ void func_801843DC(void)
     p = guess_g_ObjectTable;
     limit = 0x170;
     do {
-        if (((Unkstruct_800B5CB8 *)p)->unk0 == limit) {
-            if (((Unkstruct_800B5CB8 *)p)->unk70 & 0x8000) {
+        if (((Unkstruct_801202A0 *)p)->unk0 == limit) {
+            if (((Unkstruct_801202A0 *)p)->unk70.s & 0x8000) {
                 guess_FreeActor(p);
             }
         }

@@ -3164,17 +3164,17 @@ void func_8017E734(void* a0)
         goto body;
     }
 copy:
-    *(V4_8017E734 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x18) =
-        *(V4_8017E734 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x18);
+    *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x18) =
+        *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x18);
     return;
 body:
     p = d * D_80185F7A;
-    p = (p + 0x1000) * *(s16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x18);
-    q = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    p = (p + 0x1000) * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x18);
+    q = ((Unkstruct_801202A0 *)a0)->unk20;
     CAST_WIDTH(s16, q, 0x1C) = (u32)p >> 12;
     ((Unkstruct_8001C9D0 *)q)->unk1A.u = (u32)p >> 12;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 =
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x1C);
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x1C);
 }
 
 
@@ -4624,12 +4624,12 @@ void func_8018097C(void *arg0) {
     u32 t;
 
     e = arg0;
-    if (((Unkstruct_800B5CB8 *)e)->unk34 == 1) {
+    if (((Unkstruct_801202A0 *)e)->unk34.u == 1) {
         func_8017DD64(arg0);
     }
 
-    prod = D_801F8090 * ((Unkstruct_800B5CB8 *)e)->unkDC;
-    q = ((Unkstruct_800B5CB8 *)e)->unk20;
+    prod = D_801F8090 * ((Unkstruct_801202A0 *)e)->unkDC.val;
+    q = ((Unkstruct_801202A0 *)e)->unk20;
     t = prod >> 12;
     CAST_WIDTH(u16, q, 0x1C) = t;
     ((Unkstruct_8001C9D0 *)q)->unk1A.u = t;

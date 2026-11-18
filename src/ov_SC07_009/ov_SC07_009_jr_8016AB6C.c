@@ -3341,9 +3341,9 @@ ddb0:
         D_801A376C = *(u16 *)(iVar4 + 0xe);
         func_800D1FC8((s32)param_1, 7);
         *(s32 *)((u8 *)param_1 + 0x20) = iVar2;
-        ((Unkstruct_800B5CB8 *)iVar2)->unk1A = 0x3000;
-        ((Unkstruct_800B5CB8 *)iVar2)->unk18 = 0x3000;
-        ((Unkstruct_800B5CB8 *)iVar2)->unk26 = 0xff;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk26 = 0xff;
         CAST_WIDTH(u32, iVar2, 4) = CAST_WIDTH(u32, iVar2, 4) | 0x50000000;
         guess_StartPairSequence(iVar2, (s32)param_1 + 0x24, (s32)D_801810B4);
         guess_StepPairSequence((void *)iVar2, (void *)((s32)param_1 + 0x24));

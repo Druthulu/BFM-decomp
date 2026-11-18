@@ -3706,18 +3706,18 @@ void func_8017F79C(void *a0) {
     extern u16 D_80196814[];
     void *a1;
 
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk88;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = ((Unkstruct_800B5CB8 *)a0)->unk8A;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = ((Unkstruct_800B5CB8 *)a0)->unk8C;
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk88.u;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8A.u;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8C.u;
         a1 = CAST_SIGN(void *, (s32)a0, 0x20);
         *(u32 *)((s32)a1 + 0x4) &= 0x7fffffff;
         func_8012E688(a0, 0x679, 0);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_ClearVelocityAndSetGravity(a0);
-        ((Unkstruct_800B5CB8 *)a0)->unk12 = D_80196810[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
-        *(u16 *)((s32)a0 + 0x16) = D_80196812[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
-        ((Unkstruct_800B5CB8 *)a0)->unk1A = D_80196814[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_80196810[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        *(u16 *)((s32)a0 + 0x16) = D_80196812[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_80196814[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     }
 }
 

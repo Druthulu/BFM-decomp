@@ -4919,7 +4919,7 @@ void func_8017FDB0(void *a0)
 
     s0 = a02;
 
-    if (((Unkstruct_800B5CB8 *)s0)->unk70 & 0x8000) {
+    if (((Unkstruct_801202A0 *)s0)->unk70.s & 0x8000) {
         p = CAST_SIGN(void *, (s32)s0, 0x64);
         if (*(u16 *)((s32)p + 0x2) == 3) {
             guess_FreeActor(s0);
@@ -6777,43 +6777,43 @@ void func_80182C28(s32 a0)
     s32 v0;
 
     if ((((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkE0 & 2) == 0) {
-        if (func_8012BDBC(((Unkstruct_800B5CB8 *)a0)->unk64, 0x200) == 0) {
+        if (func_8012BDBC(((Unkstruct_801202A0 *)a0)->unk64, 0x200) == 0) {
             goto skip_update;
         }
-        v0 = func_8012B6D4((s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 4), (s16 *)&D_80126B5C);
+        v0 = func_8012B6D4((s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 4), (s16 *)&D_80126B5C);
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), v0, 1);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), v0, 1);
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
         }
     } else {
-        sp10[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sp10[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        sp10[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        sp10[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         v0 = func_8012B70C((s16 *)(a0 + 0x88), sp10);
         {
-            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12), v0, 4);
+            s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x12), v0, 4);
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
         }
     }
 
 skip_update:
-    guess_SetForwardVelocity(a0, ((Unkstruct_800B5CB8 *)a0)->unkE8);
+    guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->extC.kSC04_007_80182B48.unkE8);
 
-    ((Unkstruct_800B5CB8 *)a0)->unkE8 = ((Unkstruct_800B5CB8 *)a0)->unkE8 + 0x18000;
-    if (((Unkstruct_800B5CB8 *)a0)->unk34 == 0) {
+    ((Unkstruct_801202A0 *)a0)->extC.kSC04_007_80182B48.unkE8 = ((Unkstruct_801202A0 *)a0)->extC.kSC04_007_80182B48.unkE8 + 0x18000;
+    if (((Unkstruct_801202A0 *)a0)->unk34.u == 0) {
         v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
         if (v0 != 0) {
             if ((((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkE0 & 2) == 0) {
-                ((Unkstruct_800B5CB8 *)a0)->unkE8 = 0;
+                ((Unkstruct_801202A0 *)a0)->extC.kSC04_007_80182B48.unkE8 = 0;
                 ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkE0 |= 2;
-                ((Unkstruct_800B5CB8 *)a0)->unk34 = ((Unkstruct_800B5CB8 *)a0)->unk34 + 1;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
             }
         } else {
-            s32 obj2 = ((Unkstruct_800B5CB8 *)a0)->unk64;
+            s32 obj2 = ((Unkstruct_801202A0 *)a0)->unk64;
             s32 flags2 = ((Unkstruct_801202A0 *)obj2)->extC.kSC04_002_801871EC.unkE0;
-            if ((flags2 & 2) == 0 && ((Unkstruct_800B5CB8 *)a0)->unk1C == 0x15) {
+            if ((flags2 & 2) == 0 && ((Unkstruct_801202A0 *)a0)->unk1C.s == 0x15) {
                 ((Unkstruct_801202A0 *)obj2)->extC.kSC04_002_801871EC.unkE0 = flags2 | 2;
             }
         }
@@ -6822,7 +6822,7 @@ skip_update:
     }
 
     func_8012D5E4(a0, (s32)D_80198078, (s32)D_80198078 + 8, 0xA);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s + 1;
 }
 
 
@@ -7394,12 +7394,12 @@ void func_80183E80(s32 arg0) {
 
     s0 = arg0;
 
-    if (((Unkstruct_800B5CB8 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         guess_StartActorSequence(s0, (s32)D_801ABCF8);
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = 0;
+        ((Unkstruct_801202A0 *)s0)->unkFC.s = 0;
     }
 
-    if (((Unkstruct_800B5CB8 *)s0)->unk94 == 15) {
+    if (((Unkstruct_801202A0 *)s0)->unk94.s == 15) {
         guess_SetVelocityXZFromLocal(s0, (void *)&D_801A1590);
         a0 = s0;
         a1 = (s32)&D_801A15AC;

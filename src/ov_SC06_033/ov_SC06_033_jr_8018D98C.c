@@ -3753,26 +3753,26 @@ void func_8018F2C4(s32 param_1)
     u32 ret;
 
     if (CAST_SIGN(u16, param_1, 2) == 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unkC0 = 1;
+        ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
         CAST_SIGN(u16, param_1, 2) += 1;
         guess_ClearVelocityAndSetGravity(param_1);
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 1;
         return;
     }
-    ((Unkstruct_800B5CB8 *)param_1)->unkDC = ((Unkstruct_800B5CB8 *)param_1)->unk14;
+    ((Unkstruct_801202A0 *)param_1)->unkDC.val = ((Unkstruct_801202A0 *)param_1)->unk14.val;
     ret = ((s32 (*)(s32))func_8012CBCC)(param_1);
     if (ret != 0 && (ret & 0x6000) != 0) {
-        if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
+        if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
             goto kill;
         }
-        ((Unkstruct_800B5CB8 *)param_1)->unk14 = -((Unkstruct_800B5CB8 *)param_1)->unkDC >> 2;
+        ((Unkstruct_801202A0 *)param_1)->unk14.val = -((Unkstruct_801202A0 *)param_1)->unkDC.val >> 2;
     }
     if ((++CAST_SIGN(u16, param_1, 0xFC)) & 1) {
         iv = (s32)func_8012913C(0x23);
         if (iv != 0) {
-            *(u16 *)((u8 *)iv + 6) = ((Unkstruct_800B5CB8 *)param_1)->unk6;
-            *(u16 *)((u8 *)iv + 0xA) = ((Unkstruct_800B5CB8 *)param_1)->unkA;
-            *(u16 *)((u8 *)iv + 0xE) = ((Unkstruct_800B5CB8 *)param_1)->unkE;
+            *(u16 *)((u8 *)iv + 6) = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+            *(u16 *)((u8 *)iv + 0xA) = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
+            *(u16 *)((u8 *)iv + 0xE) = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
             *(u32 *)((u8 *)iv + 0x18) = 0;
             *(u32 *)((u8 *)iv + 0x14) = 0;
             *(u32 *)((u8 *)iv + 0x10) = 0;
@@ -4417,40 +4417,40 @@ void func_801902A8(s32 a0)
     SV4 out;
     u16 uStack_c;
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk34 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u == 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
             *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
         guess_UpdateActorModelMatrix(a0);
         guess_ClearVelocityAndSetGravity(a0);
-        guess_SetLocalVelocity(a0, ((Unkstruct_800B5CB8 *)a0)->unk70 * 12 + (s32)&D_801C9608);
+        guess_SetLocalVelocity(a0, ((Unkstruct_801202A0 *)a0)->unk70.s * 12 + (s32)&D_801C9608);
 
         in.vx = 0;
         in.vy = 0;
         in.vz = 0x10;
         guess_RotTransSVWithObjMatrix(a0, (s32)&in, (s32)&out);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = out.vx;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = out.vy;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = out.vx;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = out.vy;
         uStack_c = out.vz;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x5a;
-        ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = uStack_c;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x5a;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = uStack_c;
     }
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += -0x80;
     ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += 4;
-    *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += CAST_SIGN(u16, a0, 0xfc);
+    *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x14) += CAST_SIGN(u16, a0, 0xfc);
 
-    ((Unkstruct_800B5CB8 *)a0)->unkDC = ((Unkstruct_800B5CB8 *)a0)->unk14;
+    ((Unkstruct_801202A0 *)a0)->unkDC.val = ((Unkstruct_801202A0 *)a0)->unk14.val;
     if ((((s32 (*)(s32))func_8012CBCC)(a0)) & 0x6000) {
-        ((Unkstruct_800B5CB8 *)a0)->unk14 = -((Unkstruct_800B5CB8 *)a0)->unkDC;
-        if (--((Unkstruct_800B5CB8 *)a0)->unkAC == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk14.val = -((Unkstruct_801202A0 *)a0)->unkDC.val;
+        if (--((Unkstruct_801202A0 *)a0)->extE.kSC06_033_8019041C.unkAC == 0) {
             guess_FreeActor((void *)a0);
         }
     }
 
     {
-        s32 iVar3 = ((Unkstruct_800B5CB8 *)a0)->unk1C - 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = iVar3;
+        s32 iVar3 = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = iVar3;
         if (iVar3 == 0) {
             guess_FreeActor((void *)a0);
         }

@@ -2863,7 +2863,7 @@ void func_8017FAA8(s32 param_1) {
     s32 *p = (s32 *)guess_g_ActiveCamera;
     SV3_8017FAA8 sv;
     SV3_8017FAA8 *svp;
-    switch (((Unkstruct_800B5CB8 *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
         break;
     case 1:
@@ -2884,15 +2884,15 @@ void func_8017FAA8(s32 param_1) {
                 CAST_SIGN(s16, (s32)ptr, 0xE) += sv.z >> 6;
             }
         }
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 4;
         CAST_SIGN(s16, param_1, 0x34) += 1;
         guess_RequestSound(0x9E2, 0);
         break;
     case 2:
-        if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
-            guess_InitModelObject(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)&D_801A8C34);
+        if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
+            guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20, (s32)&D_801A8C34);
             guess_StartActorSequence(param_1, &D_801AA66C);
-            ((Unkstruct_800B5CB8 *)param_1)->unk34 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
             ((void (*)(s32))func_8001AAA0)(0x62);
             func_8002AC00(0x1C);
         }
@@ -2916,20 +2916,20 @@ void func_8017FAA8(s32 param_1) {
                 guess_RequestSound(0x9E3, 0);
             }
         }
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 4;
         CAST_SIGN(s16, param_1, 0x34) += 1;
         break;
     case 4:
-        if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
+        if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
             ((void (*)(s32))func_8001AAA0)(0x63);
-            guess_InitModelObjectKind3(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32)&D_80184F80);
+            guess_InitModelObjectKind3(((Unkstruct_801202A0 *)param_1)->unk20, (s32)&D_80184F80);
             guess_StartActorSequence(param_1, &D_80184F8C);
             CAST_SIGN(s16, param_1, 0x34) += 1;
         }
         break;
     case 8:
         if (((s32 (*)(void))func_80174774)() != 0) {
-            *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 4) |= 0x80000000;
+            *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 4) |= 0x80000000;
             CAST_ALIAS(s16, param_1, 0xE) = -0x600;
             CAST_SIGN(s16, param_1, 0x34) += 1;
         }

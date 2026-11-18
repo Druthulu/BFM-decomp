@@ -3956,18 +3956,18 @@ void func_8017F2A0(void *a0) {
     extern u16 D_80192E20[];
     void *a1;
 
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)a0)->unk88;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = ((Unkstruct_800B5CB8 *)a0)->unk8A;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = ((Unkstruct_800B5CB8 *)a0)->unk8C;
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk88.u;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8A.u;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8C.u;
         a1 = CAST_SIGN(void *, (s32)a0, 0x20);
         *(u32 *)((s32)a1 + 0x4) &= 0x7fffffff;
         func_8012E688(a0, 0x679, 0);
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_ClearVelocityAndSetGravity(a0);
-        ((Unkstruct_800B5CB8 *)a0)->unk12 = D_80192E1C[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
-        *(u16 *)((s32)a0 + 0x16) = D_80192E1E[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
-        ((Unkstruct_800B5CB8 *)a0)->unk1A = D_80192E20[((Unkstruct_800B5CB8 *)a0)->unkFC * 4];
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_80192E1C[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        *(u16 *)((s32)a0 + 0x16) = D_80192E1E[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_80192E20[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     }
 }
 
@@ -4205,11 +4205,11 @@ extern u8 D_80194F64[];
 
 void func_8017F9A8(s32 *arg0) {
     D_80194FC4[CAST_SIGN(u16, (s32)arg0, 2)]();
-    if (((Unkstruct_800B5CB8 *)arg0)->unkE4 != 0) {
+    if (((Unkstruct_801202A0 *)arg0)->extC.kSC03_095_8017F9A8.unkE4 != 0) {
         func_801805C8((s32)arg0);
     }
-    if (((Unkstruct_800B5CB8 *)arg0)->unk0 != 0 && ((Unkstruct_800B5CB8 *)arg0)->unkD4 != 0) {
-        guess_RotTransSVWithObjMatrix((s32)arg0, (s32)D_80194F64, ((Unkstruct_800B5CB8 *)arg0)->unkD4 + 8);
+    if (((Unkstruct_801202A0 *)arg0)->unk0 != 0 && ((Unkstruct_801202A0 *)arg0)->unkD4 != 0) {
+        guess_RotTransSVWithObjMatrix((s32)arg0, (s32)D_80194F64, (s32)((Unkstruct_801202A0 *)arg0)->unkD4 + 8);
     }
 }
 

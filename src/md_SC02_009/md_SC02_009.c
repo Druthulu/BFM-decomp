@@ -98,13 +98,13 @@ void func_801E4E58(void *a0) {
 void func_801E4EC0(void *a0) {
     extern void func_801E53E0(void *a0);
     extern s32 D_801270C8;
-    u16 *p = (u16 *)((Unkstruct_800B5CB8 *)a0)->unk20;
+    u16 *p = (u16 *)((Unkstruct_801202A0 *)a0)->unk20;
 
     func_801E53E0(a0);
     if (D_801270C8 != 7) {
         return;
     }
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C != -1) {
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s != -1) {
         u16 t = p[0xE] - 0x200;
         p[0xE] = t;
         p[0xC] = t;
@@ -112,9 +112,9 @@ void func_801E4EC0(void *a0) {
         p[0x16] |= 0x10;
     } else {
         u16 c = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 8;
-        ((Unkstruct_800B5CB8 *)a0)->unkE += 0x100;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = c;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 8;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += 0x100;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = c;
     }
 }
 

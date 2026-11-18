@@ -3354,11 +3354,11 @@ extern void func_8017BF08(void *a0, void *a1, s32 a2, s32 a3);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_801805F8(s32 a0) {
-    switch (((Unkstruct_800B5CB8 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
-        if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
+        if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
             ((void (*)(s32, s32))func_80178B18)(a0, (s32)D_80185C2C);
-            ((Unkstruct_800B5CB8 *)a0)->unk34 = 1;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
             guess_StartActorSequence(a0, &D_8019FFA4);
         }
         break;
@@ -3366,9 +3366,9 @@ void func_801805F8(s32 a0) {
     case 1:
         if (((s32 (*)(s32))func_80178970)(a0) != 0) {
             ((void (*)(s32))func_80178D18)(a0);
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
             func_8017BF08((void *)(a0 + 0x76), (void *)(a0 + 0x76), 6, 0xD2);
-        } else if (((Unkstruct_800B5CB8 *)a0)->unk94 == 0x22) {
+        } else if (((Unkstruct_801202A0 *)a0)->unk94.s == 0x22) {
             guess_RequestSound(0xC7C, 0);
         }
         break;

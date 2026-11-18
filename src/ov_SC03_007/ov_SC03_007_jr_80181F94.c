@@ -3372,49 +3372,49 @@ extern u8 D_8018C374[];
 
 void func_8018283C(s32 *self)
 {
-    s32 *tgt = (s32 *)((Unkstruct_800B5CB8 *)self)->unk64;
+    s32 *tgt = (s32 *)((Unkstruct_801202A0 *)self)->unk64;
     Vec3s out;
 
-    if (((Unkstruct_800B5CB8 *)self)->unkFE == 0x7FFF) {
-        ((Unkstruct_800B5CB8 *)self)->unkFE =
+    if (((Unkstruct_801202A0 *)self)->unkFE.s == 0x7FFF) {
+        ((Unkstruct_801202A0 *)self)->unkFE.s =
             ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk12;
     }
 
-    if (((Unkstruct_800B5CB8 *)self)->unkFC !=
-        *(s16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x36)) {
+    if (((Unkstruct_801202A0 *)self)->unkFC.s !=
+        ((Unkstruct_801202A0 *)self)->unk64->unk36.s) {
         guess_FreeActor(self);
         return;
     }
 
-    *(Blk8 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x10) =
+    *(Blk8 *)(((Unkstruct_801202A0 *)self)->unk20 + 0x10) =
         *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x10);
 
-    if (*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x90) != (s32)D_801CB130) {
+    if ((s32)((Unkstruct_801202A0 *)self)->unk64->unk90 != (s32)D_801CB130) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk12 =
             CAST_SIGN(u16, (s32)self, 0xFE);
         CAST_WIDTH(s32, (s32)self, 0x4) =
-            *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x4);
+            ((Unkstruct_801202A0 *)self)->unk64->unk4.val;
         CAST_WIDTH(s32, (s32)self, 0x8) =
-            *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x8);
+            ((Unkstruct_801202A0 *)self)->unk64->unk8.val;
         CAST_WIDTH(s32, (s32)self, 0xC) =
-            *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xC);
+            ((Unkstruct_801202A0 *)self)->unk64->unkC.val;
     } else {
-        guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)self)->unk64, (s32)D_8018C374, (s32)&out);
-        ((Unkstruct_800B5CB8 *)self)->unk6 = out.x;
-        ((Unkstruct_800B5CB8 *)self)->unkA = out.y;
-        ((Unkstruct_800B5CB8 *)self)->unkE = out.z;
+        guess_RotTransSVWithObjMatrix(((Unkstruct_801202A0 *)self)->unk64, (s32)D_8018C374, (s32)&out);
+        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = out.x;
+        ((Unkstruct_801202A0 *)self)->unk8.i.hi.u = out.y;
+        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = out.z;
     }
 
-    *(Blk8 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x18) =
+    *(Blk8 *)(((Unkstruct_801202A0 *)self)->unk20 + 0x18) =
         *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x18);
 
     ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk2C =
         *(u16 *)(*(s32 *)((s32)tgt + 0x20) + 0x2C);
 
-    *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x4) =
+    *(s32 *)(((Unkstruct_801202A0 *)self)->unk20 + 0x4) =
         *(s32 *)(*(s32 *)((s32)tgt + 0x20) + 0x4);
 
-    *(s32 *)(((Unkstruct_800B5CB8 *)self)->unk20 + 0x4) &= 0x7FFFFFFF;
+    *(s32 *)(((Unkstruct_801202A0 *)self)->unk20 + 0x4) &= 0x7FFFFFFF;
 }
 
 

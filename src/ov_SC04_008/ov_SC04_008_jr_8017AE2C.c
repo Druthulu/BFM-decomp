@@ -4237,15 +4237,15 @@ void func_8017E394(s32 a0) {
                         e = guess_SpawnActor(0x244, 3, a0);
                         if (e != 0) {
                             s32 r = rand();
-                            s32 b = *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)e)->unk64 + 0x20) + 0x12) - 0x200;
+                            s32 b = *(u16 *)(((Unkstruct_801202A0 *)e)->unk64->unk20 + 0x12) - 0x200;
                             ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk12 = b + (r & 0x3FF);
-                            ((Unkstruct_800B5CB8 *)e)->unkFC = (rand() & 0xFF) - 0x80;
-                            ((Unkstruct_800B5CB8 *)e)->unkFE = (rand() & 0xFF) - 0x80;
-                            ((Unkstruct_800B5CB8 *)e)->unk100 = (rand() & 0xFF) - 0x80;
+                            ((Unkstruct_801202A0 *)e)->unkFC.s = (rand() & 0xFF) - 0x80;
+                            ((Unkstruct_801202A0 *)e)->unkFE.s = (rand() & 0xFF) - 0x80;
+                            ((Unkstruct_801202A0 *)e)->extD.kSC04_008_8017E628.unk100 = (rand() & 0xFF) - 0x80;
                             guess_UpdateActorModelMatrix(e);
                             guess_SetVelocityXZFromLocal(e, &D_8018ED38);
                             *(s16 *)(e + 0x16) = -0x18;
-                            ((Unkstruct_800B5CB8 *)e)->unk1C = 0x3C;
+                            ((Unkstruct_801202A0 *)e)->unk1C.s = 0x3C;
                             guess_RequestSound(0xB42, 0);
                         }
                         i++;
@@ -4284,18 +4284,18 @@ void func_8017E628(s32 a0)
 
     s0 = a0;
     D_8018EE98[CAST_SIGN(u16, s0, 0x2)]();
-    if (((Unkstruct_800B5CB8 *)s0)->unk102 != 0) {
-        v0 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+    if (((Unkstruct_801202A0 *)s0)->extD.kSC04_008_8017E628.unk102 != 0) {
+        v0 = ((Unkstruct_801202A0 *)s0)->unk20;
         ((Unkstruct_8001C9D0 *)v0)->unk18.u -= 0x80;
-        v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)s0)->unk20;
         if (CAST_SIGN(s16, v1, 0x18) < 0x100) {
             guess_FreeActor((void *)s0);
         } else {
             ((Unkstruct_8001C9D0 *)v1)->unk1A.u -= 0x80;
-            v1 = ((Unkstruct_800B5CB8 *)s0)->unk20;
+            v1 = ((Unkstruct_801202A0 *)s0)->unk20;
             CAST_WIDTH(u16, v1, 0x1C) -= 0x80;
-            if (--((Unkstruct_800B5CB8 *)s0)->unk102 == 0) {
-                ((Unkstruct_800B5CB8 *)s0)->unk102 = 3;
+            if (--((Unkstruct_801202A0 *)s0)->extD.kSC04_008_8017E628.unk102 == 0) {
+                ((Unkstruct_801202A0 *)s0)->extD.kSC04_008_8017E628.unk102 = 3;
                 s0 = func_80143C74(s0, 0);
                 if (s0 != 0) {
                     *(s16 *)(s0 + 0x16) = -8;

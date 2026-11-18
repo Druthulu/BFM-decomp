@@ -3854,12 +3854,12 @@ void func_8017D72C(s32 arg0) {
      *  - the 0x5C read/write SPLIT across a temp (an in-place `&= 0xFFFE`
      *    keeps lhu/andi/sh adjacent and the whole block re-orders);
      *  - t5e as s32, not u8 (a u8 temp adds a redundant `andi $v1,0xff`). */
-    ((Unkstruct_800B5CB8 *)arg0)->unk34 = 0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk2 = 2;
-    t5c = ((Unkstruct_800B5CB8 *)arg0)->unk5C;
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = 0x15;
-    t5e = ((Unkstruct_800B5CB8 *)arg0)->unk5E;
-    ((Unkstruct_800B5CB8 *)arg0)->unk5C = t5c & 0xFFFE;
+    ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
+    t5c = ((Unkstruct_801202A0 *)arg0)->unk5C.u;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x15;
+    t5e = ((Unkstruct_801202A0 *)arg0)->unk5E.b;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = t5c & 0xFFFE;
     if (t5e == 5) {
         guess_StartPadVibration(&D_80062BDC);
     }
@@ -3870,17 +3870,17 @@ void func_8017D72C(s32 arg0) {
     /* SIGNED field: `--*(s16*)` gives the target's `sll $v0,$v0,16` + bnez
      * (combine drops the sra for an ==0 test).  A u16 field gives
      * `andi $v0,0xffff` instead -- the load itself is lhu either way. */
-    if (--((Unkstruct_800B5CB8 *)arg0)->unk76 == 0) {
-        ((Unkstruct_800B5CB8 *)arg0)->unk5C &= 0x7FFF;
+    if (--((Unkstruct_801202A0 *)arg0)->unk76 == 0) {
+        ((Unkstruct_801202A0 *)arg0)->unk5C.u &= 0x7FFF;
         guess_RequestSound(0x4A8, 0);
     } else {
         guess_RequestSound(0x4A9, 0);
     }
-    t = D_80186F8C[((Unkstruct_800B5CB8 *)arg0)->unk76];
+    t = D_80186F8C[((Unkstruct_801202A0 *)arg0)->unk76];
     n = t;
-    ((Unkstruct_800B5CB8 *)arg0)->unkFC = t;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.s = t;
     for (i = 0; i < 10; i++) {
-        D_801C5A30[i] = *(Blk12_801C5A30 *)(i * 12 + *(s32 *)D_80186FB0[((Unkstruct_800B5CB8 *)arg0)->unk76]);
+        D_801C5A30[i] = *(Blk12_801C5A30 *)(i * 12 + *(s32 *)D_80186FB0[((Unkstruct_801202A0 *)arg0)->unk76]);
     }
     guess_StartActorSequence(arg0, &D_80186F7C);
     /* §250: the POINTER form materialises one lui/addiu/addu base.  Writing
@@ -3891,7 +3891,7 @@ void func_8017D72C(s32 arg0) {
     D_801C5AAE[0] = p[1];
     D_801C5AB2[0] = p[2];
     func_8012B21C((void *)arg0);
-    ((Unkstruct_800B5CB8 *)arg0)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)arg0)->unk48 = 0x18000;
     v = rand() << 4;
     if ((rand() & 1) == 0) {
         v = -v;
@@ -3902,7 +3902,7 @@ void func_8017D72C(s32 arg0) {
         v = -v;
     }
     CAST_WIDTH(s32, arg0, 0x18) = v;
-    ((Unkstruct_800B5CB8 *)arg0)->unk14 = -0xC0000;
+    ((Unkstruct_801202A0 *)arg0)->unk14.val = -0xC0000;
 }
 
 
@@ -6392,7 +6392,7 @@ void func_801810E4(void *a0) {
             s32 b = D_80127190 - 0x750;
             y = b + (D_8012718C - t);
         }
-        t2 = y - (rand() & (((Unkstruct_800B5CB8 *)a0)->unk2C & 0x7FF));
+        t2 = y - (rand() & (((Unkstruct_8011DB30 *)a0)->unk2C & 0x7FF));
         y = t2 + zr;
         if ((s16)t2 < D_8012718C - 0x9C8) {
             func_801292C8((u8 *)a0);
@@ -6409,10 +6409,10 @@ void func_801810E4(void *a0) {
     v.vx = 0;
     v.vz = d;
     ApplyMatrixSV(&mtx, &v, &v);
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = v.vx;
+    ((Unkstruct_8011DB30 *)a0)->unk6.u = v.vx;
     v.vy = y;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = y;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = v.vz;
+    ((Unkstruct_8011DB30 *)a0)->unkA.u = y;
+    ((Unkstruct_8011DB30 *)a0)->unkE.u = v.vz;
     CAST_WIDTH(s32, (u8 *)a0, 0x10) = v.vx << 9;
 
     r2 = r + zr;
@@ -6428,7 +6428,7 @@ void func_801810E4(void *a0) {
         *(u16 *)((u8 *)a0 + 0x16) = (r & 3) - 0xA;
         m = 0x12;
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = m;
+    ((Unkstruct_8011DB30 *)a0)->unk1C = m;
     /* §5a barrier: without it both sched1 and sched2 sink this store below the
        three &v/&v2 address insns (byte-attributed with -fno-schedule-insns*). */
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
@@ -6438,21 +6438,21 @@ void func_801810E4(void *a0) {
     func_800D23D0(&v2);
     RotMatrixYXZ(&v2, CAST_WIDTH(void *, (u8 *)a0, 0x34));
     CAST_WIDTH(s32, (u8 *)a0, 0x2C) = 0x1000 - (s32)((u32)(r2 & 0x7FF0) >> 4);
-    ((Unkstruct_800B5CB8 *)a0)->unk30 = 0x88;
+    ((Unkstruct_8011DB30 *)a0)->unk30.val = 0x88;
     q = r2 & 0x803C;
-    ((Unkstruct_800B5CB8 *)a0)->unk28 = q;
+    ((Unkstruct_8011DB30 *)a0)->unk28 = q;
     if (q == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk1C <<= 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C <<= 1;
     }
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    if (((Unkstruct_800B5CB8 *)a0)->unk28 != 0) {
+    if (((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
-        ((Unkstruct_800B5CB8 *)a0)->unk14 += 0xF000;
+        ((Unkstruct_8011DB30 *)a0)->unk14 += 0xF000;
     } else {
         func_801696D8((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
-        ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x8000;
+        ((Unkstruct_8011DB30 *)a0)->unk14 += 0x8000;
     }
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
         func_801292C8((u8 *)a0);
     }
     CAST_SIGN(u16, (u8 *)a0, 0x2) += 1;
@@ -6491,9 +6491,9 @@ void func_80181410(s32 param_1)
     u16 c;
     u16 t;
 
-    sp20[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
-    sp20[1] = ((Unkstruct_800B5CB8 *)param_1)->unkA;
-    sp20[2] = ((Unkstruct_800B5CB8 *)param_1)->unkE;
+    sp20[0] = ((Unkstruct_8011DB30 *)param_1)->unk6.u;
+    sp20[1] = ((Unkstruct_8011DB30 *)param_1)->unkA.u;
+    sp20[2] = ((Unkstruct_8011DB30 *)param_1)->unkE.u;
     p1 = sp28;
     func_800D20C0(sp20, p1, 1);
     p1 = 0;
@@ -6502,28 +6502,28 @@ void func_80181410(s32 param_1)
     p2 = 0;
     sp28[2] = sp28[1] * 2;
     RotMatrixYXZ(sp28, sp30);
-    if (((Unkstruct_800B5CB8 *)param_1)->unk1C & 1) {
+    if (((Unkstruct_8011DB30 *)param_1)->unk1C & 1) {
         CAST_WIDTH(s32, param_1, 0x2C) = (rand() & 0x7FF) + 0x600;
     } else {
         CAST_WIDTH(s32, param_1, 0x2C) = 0x500;
     }
     func_801696D8(param_1, (s32)sp30);
-    if (--((Unkstruct_800B5CB8 *)param_1)->unk1C != -1) {
-        sp10[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
-        sp10[1] = ((Unkstruct_800B5CB8 *)param_1)->unkA;
-        sp10[2] = ((Unkstruct_800B5CB8 *)param_1)->unkE;
+    if (--((Unkstruct_8011DB30 *)param_1)->unk1C != -1) {
+        sp10[0] = ((Unkstruct_8011DB30 *)param_1)->unk6.u;
+        sp10[1] = ((Unkstruct_8011DB30 *)param_1)->unkA.u;
+        sp10[2] = ((Unkstruct_8011DB30 *)param_1)->unkE.u;
         guess_AddVelocityToPos((S800D22E4 *)param_1);
-        sp18[0] = ((Unkstruct_800B5CB8 *)param_1)->unk6;
-        sp18[1] = ((Unkstruct_800B5CB8 *)param_1)->unkA;
-        sp18[2] = ((Unkstruct_800B5CB8 *)param_1)->unkE;
+        sp18[0] = ((Unkstruct_8011DB30 *)param_1)->unk6.u;
+        sp18[1] = ((Unkstruct_8011DB30 *)param_1)->unkA.u;
+        sp18[2] = ((Unkstruct_8011DB30 *)param_1)->unkE.u;
         if (func_80135168(1, sp10, sp18) != 0) {
             t = CAST_SIGN(u16, param_1, 2);
-            ((Unkstruct_800B5CB8 *)param_1)->unk6 = sp18[0];
-            ((Unkstruct_800B5CB8 *)param_1)->unkA = sp18[1];
+            ((Unkstruct_8011DB30 *)param_1)->unk6.u = sp18[0];
+            ((Unkstruct_8011DB30 *)param_1)->unkA.u = sp18[1];
             c = sp18[2];
-            ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0xC;
-            ((Unkstruct_800B5CB8 *)param_1)->unk2 = t + 1;
-            ((Unkstruct_800B5CB8 *)param_1)->unkE = c;
+            ((Unkstruct_8011DB30 *)param_1)->unk1C = 0xC;
+            ((Unkstruct_8011DB30 *)param_1)->unk2.s = t + 1;
+            ((Unkstruct_8011DB30 *)param_1)->unkE.u = c;
         }
     } else {
         func_801292C8((u8 *)param_1);
@@ -6651,14 +6651,14 @@ extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_801817CC(s32 *a0) {
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    if (((Unkstruct_800B5CB8 *)a0)->unk28 != 0) {
+    if (((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
-        ((Unkstruct_800B5CB8 *)a0)->unk14 += 0xF000;
+        ((Unkstruct_8011DB30 *)a0)->unk14 += 0xF000;
     } else {
         func_801696D8((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
-        ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x8000;
+        ((Unkstruct_8011DB30 *)a0)->unk14 += 0x8000;
     }
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
         func_801292C8((u8 *)a0);
     }
 }
@@ -6682,9 +6682,9 @@ void func_80181854(void *a0) {
     Blk20 mtx;
     void *p;
 
-    v.unk0.v1.unk0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    v.unk0.v1.unk2 = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    v.unk0.v1.unk4 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    v.unk0.v1.unk0 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+    v.unk0.v1.unk2 = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+    v.unk0.v1.unk4 = ((Unkstruct_8011DB30 *)a0)->unkE.u;
 
     /* §373.1 DEAD-RESET CSE-BREAKER (zero bytes, zero LUID disturbance).
        `&v2` feeds three calls in one cse basic block; cse unifies the three
@@ -6708,14 +6708,14 @@ void func_80181854(void *a0) {
     RotMatrixYXZ(&v2, &mtx);
 
     CAST_WIDTH(s32, (u8 *)a0, 0x2C) =
-        (((Unkstruct_800B5CB8 *)a0)->unk1C & 1) ? ((rand() & 0x7FF) + 0x600) : 0x500;
+        (((Unkstruct_8011DB30 *)a0)->unk1C & 1) ? ((rand() & 0x7FF) + 0x600) : 0x500;
     /* §194-A zero-byte scheduling fence (the colon-less/volatile predicate, not
        the "memory" clobber): without it both schedulers sink this store past the
        two argument insns below and it steals the jal's delay slot. Same lever as
        the §5a barrier in func_801810E4. */
     do { func_801696D8((s32)a0, (s32)&mtx); } while (0);
 
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
         func_801292C8((u8 *)a0);
     }
 }
@@ -7725,7 +7725,7 @@ void func_801831E8(s32 arg0) {
         *ptr = 0x709030;
     }
     D_801C7598 = 0;
-    if ((CAST_ALIAS(s32, arg0, 0x1C) != 0) && (--((Unkstruct_800B5CB8 *)arg0)->unk1C == 0)) {
+    if ((CAST_ALIAS(s32, arg0, 0x1C) != 0) && (--((Unkstruct_801202A0 *)arg0)->unk1C.s == 0)) {
         func_8012C098((void *) arg0);
     }
 }

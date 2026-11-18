@@ -3736,7 +3736,7 @@ extern s16 D_801BE498;
 extern s16 D_8019102C;
 
 void func_8017D734(s32 param_1) {
-    if (((Unkstruct_800B5CB8 *)param_1)->unk100 > 0) {
+    if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_001_8017DA48.unk100 > 0) {
         if (func_8012CBCC(param_1) & 0x6000) {
             *(s16 *)(param_1 + 0x16) = -4;
         }
@@ -3747,32 +3747,32 @@ void func_8017D734(s32 param_1) {
             }
         }
         if (CAST_SIGN(s16, param_1, 0xA) < CAST_SIGN(s16, param_1, 0x8A) - 0x30) {
-            ((Unkstruct_800B5CB8 *)param_1)->unkE = ((Unkstruct_800B5CB8 *)param_1)->unkE + 0x40;
+            ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u + 0x40;
         }
     }
 
-    if (--((Unkstruct_800B5CB8 *)param_1)->unk1C == 0) {
+    if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
         s32 phase = (u16)(CAST_SIGN(u16, param_1, 0x100) + 1) & 3;
-        ((Unkstruct_800B5CB8 *)param_1)->unk100 = phase;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_001_8017DA48.unk100 = phase;
         if (phase == 0) {
-            ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x14;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x14;
             guess_StartActorSequence(param_1, (s32)&D_801BE3F0);
         } else if (phase >= 0) {
           if (phase < 4) {
             u16 *s1 = (u16 *)&D_80191010;
             s32 t;
 
-            ((Unkstruct_800B5CB8 *)param_1)->unk1C = 0x1E;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1E;
             guess_StartActorSequence(param_1, (s32)&D_801BE498);
 
             t = guess_DistSqXZToPoint(param_1, s1);
             if (t < 0x4000) {
                 s32 r2 = rand();
-                s32 v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
+                s32 v1 = ((Unkstruct_801202A0 *)param_1)->unk20;
                 *(u16 *)(v1 + 0x12) = *(u16 *)(v1 + 0x12) + (r2 & 0x1FF);
             } else {
                 s32 v0 = guess_YawToPoint((void *)(param_1 + 4), s1);
-                s32 v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
+                s32 v1 = ((Unkstruct_801202A0 *)param_1)->unk20;
                 *(u16 *)(v1 + 0x12) = (u16)v0;
             }
             guess_UpdateActorModelMatrix(param_1);

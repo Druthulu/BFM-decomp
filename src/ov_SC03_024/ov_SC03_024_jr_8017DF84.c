@@ -3839,9 +3839,9 @@ void func_8017FEB0(s32 a0) {
     guess_StartActorSequence(a0, (void*)&D_8018AC8C);
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    v0 = ((Unkstruct_800B5CB8 *)v1)->unk12;
+    v0 = ((Unkstruct_8001C9D0 *)v1)->unk12.u;
     v0 = v0 + 0xB00;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = v0;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = v0;
 
     stack[0] = 0;
     stack[1] = 0;
@@ -4137,10 +4137,10 @@ void func_8018046C(s32 a0) {
             s3 = 0x325;
             s0 = (u8 *)guess_g_ObjectTable;
             for (s1 = 0; s1 < 0x60; s1++, s0 += 0x10C) {
-                s32 v = ((Unkstruct_800B5CB8 *)s0)->unk0;
+                s32 v = ((Unkstruct_801202A0 *)s0)->unk0;
                 if (v == s4) {
                     func_8012C098((void *)s0);
-                    v = ((Unkstruct_800B5CB8 *)s0)->unk0;
+                    v = ((Unkstruct_801202A0 *)s0)->unk0;
                 }
                 if (v == s3) {
                     func_8012C098((void *)s0);

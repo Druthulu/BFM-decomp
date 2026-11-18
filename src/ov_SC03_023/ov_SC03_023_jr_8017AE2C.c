@@ -4231,8 +4231,8 @@ void func_8017E230(void *a0)
 {
     void *s0;
 
-    if (--((Unkstruct_800B5CB8 *)a0)->unk70 == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk12 = (rand() & 0xF) - 7;
+    if (--((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() & 0xF) - 7;
         *(s16 *)((s32)a0 + 0x16) -= rand() & 0xF;
         *(s16 *)((s32)a0 + 0x16) -= 8;
         CAST_SIGN(s16, (s32)a0, 0x1A) -= rand() & 0xF;
@@ -4241,11 +4241,11 @@ void func_8017E230(void *a0)
         } else {
             guess_StartActorSequence((s32)a0, &D_80182BD4);
         }
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         if (rand() % 3 == 0) {
             guess_RequestSound(0x532, 0);
         }
-    } else if (((Unkstruct_800B5CB8 *)a0)->unk72 & 0x4000) {
+    } else if (((Unkstruct_801202A0 *)a0)->unk72 & 0x4000) {
         if (rand() & 1) {
             guess_StartActorSequence((s32)a0, &D_80182BFC);
         } else {
@@ -4326,18 +4326,18 @@ void func_8017E524(s32 *a0) {
     s32 *s0;
 
     v = CAST_SIGN(u16, (s32)a0, 0x84) + 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk84 = v;
+    ((Unkstruct_801202A0 *)a0)->unk84.s = v;
     if (v >= 0x10) {
         guess_RequestSound(0x529, 0);
-        ((Unkstruct_800B5CB8 *)a0)->unk84 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
     }
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 3;
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
         func_8017D6E8();
         guess_SetGameFlag(0x8F, 1);
     }
-    ((Unkstruct_800B5CB8 *)a0)->unkE += 2;
-    ((Unkstruct_800B5CB8 *)a0)->unk6 ^= 2;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += 2;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u ^= 2;
     s0 = (s32 *)guess_SpawnActorType1C((s32)a0, 1);
     if (s0 != 0) {
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u -= 0x20;
@@ -4552,21 +4552,21 @@ void func_8017EA40(s32 s0) {
     } else if (v1 >= 0x61) {
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = 0x400;
     } else {
-        ((Unkstruct_800B5CB8 *)s0)->unk102 = 2;
+        ((Unkstruct_801202A0 *)s0)->extD.kSC03_023_8017DF1C.unk102 = 2;
     }
     guess_SetVelocityXZFromLocal(s0, (s32)D_80182AB8);
     a0 = func_8012CBCC(s0);
     if (a0 & 0x6000) {
         *(s16 *)(s0 + 0x16) = -4;
-        ((Unkstruct_800B5CB8 *)s0)->unkA -= 4;
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u -= 4;
     }
     if (a0 & 0x8000) {
         *(s16 *)(s0 + 0x16) = -8;
-        ((Unkstruct_800B5CB8 *)s0)->unkA -= 8;
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u -= 8;
     }
-    if (--((Unkstruct_800B5CB8 *)s0)->unk84 == 0) {
+    if (--((Unkstruct_801202A0 *)s0)->unk84.s == 0) {
         guess_RequestSound(0x526, 0);
-        ((Unkstruct_800B5CB8 *)s0)->unk84 = 0xA;
+        ((Unkstruct_801202A0 *)s0)->unk84.s = 0xA;
     }
 }
 

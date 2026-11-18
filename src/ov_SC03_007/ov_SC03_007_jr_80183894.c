@@ -5180,7 +5180,7 @@ void func_801864D8(s32 a0) {
     CAST_WIDTH(s32, a0, 0x18) >>= 1;
     guess_SpawnSmallObject(2, (void *)a0, 0, 0, 0, 3,
         ((((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF) | 0x30009000));
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
         func_8012B200((u8 *)a0);
         func_80185E30((void *)a0);
     }
@@ -5346,17 +5346,17 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 
 void func_801868C8(void *a0)
 {
-    if (--((Unkstruct_800B5CB8 *)a0)->unk1C != -1) {
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s != -1) {
         guess_ApplyAccelAndVelocity((s32)a0);
         if (CAST_SIGN(u32, (s32)a0, 0x94) < 0xB) {
             CAST_SIGN(u32, (s32)a0, 0x94) += 1;
         }
-        if ((((Unkstruct_800B5CB8 *)a0)->unk1C & 3) == 0) {
+        if ((((Unkstruct_801202A0 *)a0)->unk1C.s & 3) == 0) {
             guess_SpawnSmallObject(2, (void *)a0, 0, 0, 0, 2, 0);
         }
     } else {
         func_8002AC00(0x27);
-        if (((Unkstruct_800B5CB8 *)a0)->unk78 != 0) {
+        if (((Unkstruct_801202A0 *)a0)->unk78 != 0) {
             func_8002A04C((s32)a0);
         }
         guess_FreeActor(a0);

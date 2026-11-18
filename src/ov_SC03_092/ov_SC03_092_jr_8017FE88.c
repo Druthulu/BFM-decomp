@@ -3634,59 +3634,59 @@ void func_80180F08(void *a0)
 
     /* §162: fold the store AND the test into ONE expression so cc1 keeps both
      * on the call's native $v0 instead of coalescing them into a fresh copy. */
-    if ((((Unkstruct_800B5CB8 *)a0)->unk20 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
+    if ((((Unkstruct_801202A0 *)a0)->unk20 = ((s32 (*)(void))guess_AllocModelObject)()) == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
 
-    s1 = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xDC);
+    s1 = ((Unkstruct_801202A0 *)a0)->unk64->unkDC.val;
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
-            D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].unk0 =
-                ((s32 *)t)[((Unkstruct_800B5CB8 *)a0)->unk70];
+            D_801B2EB0[((Unkstruct_801202A0 *)a0)->unk70.s].unk0 =
+                ((s32 *)t)[((Unkstruct_801202A0 *)a0)->unk70.s];
         }
     }
-    D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70].unk4 = 0;
-    guess_InitModelObject(((Unkstruct_800B5CB8 *)a0)->unk20,
-                  (s32)&D_801B2EB0[((Unkstruct_800B5CB8 *)a0)->unk70]);
+    D_801B2EB0[((Unkstruct_801202A0 *)a0)->unk70.s].unk4 = 0;
+    guess_InitModelObject(((Unkstruct_801202A0 *)a0)->unk20,
+                  (s32)&D_801B2EB0[((Unkstruct_801202A0 *)a0)->unk70.s]);
 
     if (*(s32 *)(s1 + 0xC) != 0) {
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x4) |= 0x1000000;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x4) |= 0x1000000;
     }
 
     /* source order is DESCENDING here (0xE, 0xA, 0x6) — the emitted stores keep
      * source order, and the target's are 0xE/0xA/0x6 with 0x6 in the delay slot. */
-    ((Unkstruct_800B5CB8 *)a0)->unkE = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = 0;
-    func_80132784((s32)a0, ((Unkstruct_800B5CB8 *)a0)->unk64, CAST_SIGN(u16, (s32)a0, 0x70));
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
+    func_80132784((s32)a0, ((Unkstruct_801202A0 *)a0)->unk64, CAST_SIGN(u16, (s32)a0, 0x70));
 
-    ((Unkstruct_800B5CB8 *)a0)->unk6 = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk48;
-    ((Unkstruct_800B5CB8 *)a0)->unkA = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk4C;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk50;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk48;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk4C;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk50;
 
-    *(Rec8_8017DDC4_80180F08 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10) =
-        *(Rec8_8017DDC4_80180F08 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x10);
+    *(Rec8_8017DDC4_80180F08 *)(((Unkstruct_801202A0 *)a0)->unk20 + 0x10) =
+        *(Rec8_8017DDC4_80180F08 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x10);
 
     guess_ClearVelocityAndSetGravity(a0);
 
-    ApplyMatrixLV(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x34,
-                  (s32)&D_801AC62C[((Unkstruct_800B5CB8 *)a0)->unk70],
+    ApplyMatrixLV((s32)((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x34,
+                  (s32)&D_801AC62C[((Unkstruct_801202A0 *)a0)->unk70.s],
                   (s32)a0 + 0x10);
 
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = rand() & 0xF0;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = rand() & 0x1F0;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = rand() & 0x30;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = rand() & 0x1F0;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC03_092_80181124.unk100 = rand() & 0x30;
 
     v0 = func_80132EF4((s32)a0, 0x22);
     if (v0 != 0) {
         ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_8011DB30 *)v0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14 = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
     func_8012AD50(a0);
 }
 

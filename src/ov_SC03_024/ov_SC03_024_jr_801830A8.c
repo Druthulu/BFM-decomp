@@ -3257,31 +3257,31 @@ void func_80183ACC(s32 a0)
     u16 state;
     s16 t;
 
-    state = ((Unkstruct_800B5CB8 *)s0)->unk34;
+    state = ((Unkstruct_801202A0 *)s0)->unk34.u;
     switch (state) {
     case 0:
-        if (((Unkstruct_800B5CB8 *)s0)->unk98 == 0) {
+        if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
             __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:dbr-delay-fill
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = state + 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = state + 1;
             guess_RequestSound(0x948, 0);
             guess_SpawnActor(0x383, 0, s0);
         }
         break;
     case 1:
-        ((Unkstruct_800B5CB8 *)s0)->unk1C += 1;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s += 1;
         t = CAST_SIGN(u16, (s32)s0, 0xFC) + 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = t;
+        ((Unkstruct_801202A0 *)s0)->unkFC.s = t;
         if (t == 0x28) {
-            *(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0xCC) = guess_SpawnActorNoArg(0x308, s0);
+            ((Unkstruct_801202A0 *)s0)->unk64->unkCC.val = guess_SpawnActorNoArg(0x308, s0);
             guess_RequestSound(0x9CA, 0);
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
         }
         break;
     case 2:
         t = CAST_SIGN(u16, (s32)s0, 0xFC) - 1;
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = t;
+        ((Unkstruct_801202A0 *)s0)->unkFC.s = t;
         if (t == 0) {
-            ((Unkstruct_800B5CB8 *)s0)->unk34 = ((Unkstruct_800B5CB8 *)s0)->unk34 + 1;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
             guess_RequestSound(4, 0x948);
         }
         break;

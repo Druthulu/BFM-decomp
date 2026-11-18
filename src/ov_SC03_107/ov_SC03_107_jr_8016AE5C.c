@@ -3904,7 +3904,7 @@ void func_8016D1D8(int param_1)
             *(int *)(param_1 + 0x20) = iVar5;
             guess_BuildCircle12Points(&D_8019AEA9[-1], 0x28);
             guess_InitObjectKind6(iVar5, &D_8019AEA9[-1]);
-            ((Unkstruct_800B5CB8 *)iVar5)->unk1A = 0x1400;
+            ((Unkstruct_800B5BD8 *)iVar5)->unk1A.u = 0x1400;
             *(unsigned int *)(iVar5 + 4) = *(unsigned int *)(iVar5 + 4) | 0x50000000;
             pp = *(int *)(param_1 + 0x30);
             *(unsigned short *)(param_1 + 0x28) = *(unsigned short *)(pp + 0x36);

@@ -3637,28 +3637,28 @@ extern s32 D_801D4300;
 void func_8018201C(s32 a0) {
     s32 self;
     self = a0;
-    if (((Unkstruct_800B5CB8 *)self)->unk1C == 0x30) {
+    if (((Unkstruct_801202A0 *)self)->unk1C.s == 0x30) {
         func_8013CABC();
-    } else if (((Unkstruct_800B5CB8 *)self)->unk1C == 0x10) {
-        func_80182904((void *)((Unkstruct_800B5CB8 *)self)->unkD0);
+    } else if (((Unkstruct_801202A0 *)self)->unk1C.s == 0x10) {
+        func_80182904((void *)((Unkstruct_801202A0 *)self)->unkD0.val);
     }
     if (CAST_SIGN(u16, self, 0x102) & 1) {
-        *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) =
-            *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) - 3;
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) =
-            *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) - 3;
-        ((Unkstruct_800B5CB8 *)self)->unkE = ((Unkstruct_800B5CB8 *)self)->unkE - 3;
+        ((Unkstruct_801202A0 *)self)->unk64->unkC.i.hi.u =
+            ((Unkstruct_801202A0 *)self)->unk64->unkC.i.hi.u - 3;
+        *(u16 *)(((Unkstruct_801202A0 *)self)->unk64->unk20 + 0xC) =
+            *(u16 *)(((Unkstruct_801202A0 *)self)->unk64->unk20 + 0xC) - 3;
+        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_801202A0 *)self)->unkC.i.hi.u - 3;
     } else {
-        *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) =
-            *(u16 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0xE) + 3;
-        *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) =
-            *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)self)->unk64 + 0x20) + 0xC) + 3;
-        ((Unkstruct_800B5CB8 *)self)->unkE = ((Unkstruct_800B5CB8 *)self)->unkE + 3;
+        ((Unkstruct_801202A0 *)self)->unk64->unkC.i.hi.u =
+            ((Unkstruct_801202A0 *)self)->unk64->unkC.i.hi.u + 3;
+        *(u16 *)(((Unkstruct_801202A0 *)self)->unk64->unk20 + 0xC) =
+            *(u16 *)(((Unkstruct_801202A0 *)self)->unk64->unk20 + 0xC) + 3;
+        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_801202A0 *)self)->unkC.i.hi.u + 3;
     }
     {
         s32 t;
         t = D_801D4300;
-        ((Unkstruct_800B5CB8 *)self)->unk102 = CAST_SIGN(u16, self, 0x102) + 1;
+        ((Unkstruct_801202A0 *)self)->extD.kSC03_118_801825B0.unk102 = CAST_SIGN(u16, self, 0x102) + 1;
         if (t == 0) {
             D_801D4300 = func_80183178();
         }
@@ -3666,8 +3666,8 @@ void func_8018201C(s32 a0) {
     if (guess_TickWaitTimer(self) && D_801D4300) {
         func_8018226C(self);
     } else {
-        if (((Unkstruct_800B5CB8 *)self)->unk1C < 0x48) {
-            if ((((Unkstruct_800B5CB8 *)self)->unk1C & 3) == 0) {
+        if (((Unkstruct_801202A0 *)self)->unk1C.s < 0x48) {
+            if ((((Unkstruct_801202A0 *)self)->unk1C.s & 3) == 0) {
                 func_8018219C(self);
             }
         }
@@ -3759,11 +3759,11 @@ void func_8018226C(s32 a0) {
     func_8012AD44((s32 *)self, 3);
 
     obj = ((Unkstruct_801202A0 *)self)->unk64;
-    t1 = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    t1 = ((Unkstruct_801202A0 *)obj)->unk20;
     CAST_WIDTH(u32, t1, 4) = CAST_WIDTH(u32, t1, 4) | 0x80000000;
     func_801851C8(obj);
 
-    ((Unkstruct_800B5CB8 *)obj)->unk5C = 0;
+    ((Unkstruct_801202A0 *)obj)->unk5C.u = 0;
     func_8012AD44((s32 *)obj, 2);
 
     t2 = ((Unkstruct_801202A0 *)self)->unkD0.val;

@@ -7,25 +7,25 @@ void SHARED_FN(s32 a0)
     s0 = a0;
     v0 = ((s32 (*)(s32))func_8012CBCC)(a0);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)s0)->unkFC = -CAST_SIGN(u16, s0, 0xFC);
-        ((Unkstruct_800B5CB8 *)s0)->unkFE = -CAST_SIGN(u16, s0, 0xFE);
-        ((Unkstruct_800B5CB8 *)s0)->unk100 = -CAST_SIGN(u16, s0, 0x100);
+        ((Unkstruct_801202A0 *)s0)->unkFC.s = -CAST_SIGN(u16, s0, 0xFC);
+        ((Unkstruct_801202A0 *)s0)->unkFE.s = -CAST_SIGN(u16, s0, 0xFE);
+        ((Unkstruct_801202A0 *)s0)->extD.kcls_d47f0640740a.unk100 = -CAST_SIGN(u16, s0, 0x100);
         if (v0 & 0x8000) {
             CAST_WIDTH(s32, s0, 0x10) = -CAST_WIDTH(s32, s0, 0x10);
             CAST_WIDTH(s32, s0, 0x18) = -CAST_WIDTH(s32, s0, 0x18);
         }
         if (v0 & 0x6000) {
-            ((Unkstruct_800B5CB8 *)s0)->unk14 = -8;
+            ((Unkstruct_801202A0 *)s0)->unk14.val = -8;
         }
     }
 
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 += CAST_SIGN(u16, s0, 0xFC);
     ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += CAST_SIGN(u16, s0, 0xFE);
-    *(u16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) += CAST_SIGN(u16, s0, 0x100);
+    *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20 + 0x14) += CAST_SIGN(u16, s0, 0x100);
 
-    if (--((Unkstruct_800B5CB8 *)s0)->unk1C < 0x10) {
-        *(u32 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 4) ^= 0x80000000;
-        if (((Unkstruct_800B5CB8 *)s0)->unk1C == 0) {
+    if (--((Unkstruct_801202A0 *)s0)->unk1C.s < 0x10) {
+        *(u32 *)(((Unkstruct_801202A0 *)s0)->unk20 + 4) ^= 0x80000000;
+        if (((Unkstruct_801202A0 *)s0)->unk1C.s == 0) {
             guess_FreeActor((void *)s0);
         }
     }

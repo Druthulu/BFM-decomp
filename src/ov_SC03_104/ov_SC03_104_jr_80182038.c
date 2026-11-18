@@ -3156,7 +3156,7 @@ void func_801828EC(s32 param_1)
     s32 a0;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)param_1);
         return;
@@ -3166,7 +3166,7 @@ void func_801828EC(s32 param_1)
 
     s0 = guess_AllocSpriteObjectHigh();
     if (s0 != 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unkCC = s0;
+        ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
         a0 = s0;
         guess_InitObjectKind6(a0, (void *)&D_80199E88);
         ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x800;
@@ -3174,12 +3174,12 @@ void func_801828EC(s32 param_1)
         CAST_WIDTH(u32, s0, 4) |= 0x50000000;
     }
 
-    v1 = ((Unkstruct_800B5CB8 *)param_1)->unk20;
+    v1 = ((Unkstruct_801202A0 *)param_1)->unk20;
     ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x20;
-    *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk20 + 0x80) = (s32)&D_80199EC8;
-    t36 = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x36);
-    ((Unkstruct_800B5CB8 *)param_1)->unk2 = 1;
-    ((Unkstruct_800B5CB8 *)param_1)->unkFE = t36;
+    *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20 + 0x80) = (s32)&D_80199EC8;
+    t36 = ((Unkstruct_801202A0 *)param_1)->unk64->unk36.u;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = t36;
 }
 
 
@@ -3277,15 +3277,15 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void func_80182FCC(s32 param_1);
 
 void func_80182C08(void *a0) {
-    if (((Unkstruct_800B5CB8 *)a0)->unkFE != *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x36)) {
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s != ((Unkstruct_801202A0 *)a0)->unk64->unk36.s) {
         func_80182CB4((s32)a0);
-    } else if (((Unkstruct_800B5CB8 *)a0)->unkFC == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+    } else if (((Unkstruct_801202A0 *)a0)->unkFC.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         guess_ShowObjectModel((u8 *)a0);
-        func_8018300C(((Unkstruct_800B5CB8 *)a0)->unkCC);
-        CAST_WIDTH(s32, (s32)a0, 0x4) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x4);
-        CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x8);
-        CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xC);
+        func_8018300C(((Unkstruct_801202A0 *)a0)->unkCC.val);
+        CAST_WIDTH(s32, (s32)a0, 0x4) = ((Unkstruct_801202A0 *)a0)->unk64->unk4.val;
+        CAST_WIDTH(s32, (s32)a0, 0x8) = ((Unkstruct_801202A0 *)a0)->unk64->unk8.val;
+        CAST_WIDTH(s32, (s32)a0, 0xC) = ((Unkstruct_801202A0 *)a0)->unk64->unkC.val;
         guess_UpdateActorModelMatrix((s32)a0);
         func_80182FCC((s32)a0);
     }

@@ -3056,14 +3056,14 @@ extern void guess_FreeActor(void *a0);
 void func_8017D5BC(void *a0) {
     switch (CAST_SIGN(u16, (s32)a0, 0x2)) {
     case 0:
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 5;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 5;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
         /* fall through */
     case 1:
-        if (--((Unkstruct_800B5CB8 *)a0)->unk1C == 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x7F;
+        if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x7F;
             func_80178B18((s32)a0, (s32)D_80181AB0);
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
         }
         break;
     case 2:

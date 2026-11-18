@@ -110,12 +110,12 @@ void func_800CAFA8(void *a0) {
                 return;
             }
             func_8001CC3C(ent, D_800CB464, 0, 0);
-            ((Unkstruct_800B5CB8 *)ent)->unk18 = 0x6000;
-            ((Unkstruct_800B5CB8 *)ent)->unk1A = 0x6000;
-            ((Unkstruct_800B5CB8 *)ent)->unk27 = 0x19;
-            ((Unkstruct_800B5CB8 *)ent)->unk26 = 0;
-            ((Unkstruct_800B5CB8 *)ent)->unk25 = 0;
-            ((Unkstruct_800B5CB8 *)ent)->unk24 = 0;
+            ((Unkstruct_800B5BD8 *)ent)->unk18.u = 0x6000;
+            ((Unkstruct_800B5BD8 *)ent)->unk1A.u = 0x6000;
+            ((Unkstruct_800B5BD8 *)ent)->unk27 = 0x19;
+            ((Unkstruct_800B5BD8 *)ent)->unk26 = 0;
+            ((Unkstruct_800B5BD8 *)ent)->unk25 = 0;
+            ((Unkstruct_800B5BD8 *)ent)->unk24 = 0;
             CAST_WIDTH(s32, ent, 4) |= 0xD0000000;
             guess_StartPairSequence(ent, (s32)a0 + 0x24, D_800CB470);
             *(s32 *)((s32)a0 + 0x20) = ent;
@@ -132,7 +132,7 @@ void func_800CAFA8(void *a0) {
         }
         *(s32 *)((s32)a0 + 0x34) = ent;
         guess_InitObjectKind6(ent, &D_800CB51C);
-        ((Unkstruct_800B5CB8 *)ent)->unk2C = 0x8001;
+        ((Unkstruct_800B5BD8 *)ent)->unk2C.u = 0x8001;
         CAST_WIDTH(s32, ent, 4) |= 0xE0000000;
     }
 }

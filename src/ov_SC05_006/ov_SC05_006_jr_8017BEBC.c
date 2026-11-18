@@ -4311,12 +4311,12 @@ void func_8017EFA4(void *a0)
     s32 a1;
     s16 s1;
 
-    tbl = *(s32 **)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xDC);
+    tbl = *(s32 **)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0xDC);
 
     s1 = (rand() & 1) + 1;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0
         || tbl == 0
         || (a1 = tbl[s1]) == 0) {
@@ -4330,7 +4330,7 @@ void func_8017EFA4(void *a0)
 
     {
         s32 spread = (rand() & 0x3F0) + 0xA00;
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk20;
         *(u16 *)(v1 + 0x1C) = spread;
         *(u16 *)(v1 + 0x1A) = spread;
         *(u16 *)(v1 + 0x18) = spread;
@@ -4344,17 +4344,17 @@ void func_8017EFA4(void *a0)
     CAST_ALIAS(u16, (s32)a0, 0xFE) = guess_g_PlayerPosX;
     CAST_ALIAS(u16, (s32)a0, 0x6) = guess_g_PlayerPosX;
     CAST_ALIAS(u16, (s32)a0, 0xA) = guess_g_PlayerPosY;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = guess_g_PlayerPosZ;
-    ((Unkstruct_800B5CB8 *)a0)->unkE = guess_g_PlayerPosZ;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC05_006_8017F130.unk100 = guess_g_PlayerPosZ;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = guess_g_PlayerPosZ;
 
     *(u16 *)((s32)a0 + 0xE2) = (rand() & 0x1C) + 0x18;
 
-    ((Unkstruct_800B5CB8 *)a0)->unk14 = 0xFFE80000;
-    ((Unkstruct_800B5CB8 *)a0)->unk48 = 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFE80000;
+    ((Unkstruct_801202A0 *)a0)->unk48 = 0x8000;
     CAST_WIDTH(s32, (s32)a0, 0x18) = 0x50000;
 
-    ((Unkstruct_800B5CB8 *)a0)->unk106 = rand() & 0xF0;
-    ((Unkstruct_800B5CB8 *)a0)->unk108 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC05_006_8017F130.unk106 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC05_006_8017F130.unk108 = rand() & 0xF0;
 
     func_8017F16C(a0);
 

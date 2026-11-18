@@ -3876,7 +3876,7 @@ void func_801863E8(void *a0) {
     s32 m;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20 = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((s32)a0);
         return;
@@ -3884,14 +3884,14 @@ void func_801863E8(void *a0) {
 
     guess_InitModelObject(v0, D_801AFBF0[CAST_SIGN(u16, (s32)a0, 0x70) & 0xF]);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk10A = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x36);
+    ((Unkstruct_801202A0 *)a0)->unk10A.s = ((Unkstruct_801202A0 *)a0)->unk64->unk36.u;
 
     if ((CAST_SIGN(u16, (s32)a0, 0x70) & 0xF) == 4) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk20 = (s32)D_811AFC08;
     }
 
     if ((CAST_SIGN(u16, (s32)a0, 0x70) & 0xF) == 5) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         return;
     }
 
@@ -3905,17 +3905,17 @@ void func_801863E8(void *a0) {
         rv[0] = -0x380 - m;
     }
 
-    rv[1] = *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20) + 0x12) + 0x800;
+    rv[1] = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20 + 0x12) + 0x800;
     rv[2] = 0;
     RotMatrixZYX((s32)rv, (s32)buf);
 
     ApplyMatrixLV((s32)buf, (s32)w, (s32)a0 + 0x10);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk48 = 0x18000;
-    ((Unkstruct_800B5CB8 *)a0)->unkFC = rand() & 0xF0;
-    ((Unkstruct_800B5CB8 *)a0)->unkFE = rand() & 0x7F;
-    ((Unkstruct_800B5CB8 *)a0)->unk100 = rand() & 0x30;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+    ((Unkstruct_801202A0 *)a0)->unk48 = 0x18000;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = rand() & 0x7F;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC06_033_801863AC.unk100 = rand() & 0x30;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
 }
 

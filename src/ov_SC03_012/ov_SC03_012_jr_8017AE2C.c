@@ -3926,12 +3926,12 @@ void func_8017D8CC(void *a0) {
     s32 cnt;
 
     s1 = guess_AllocModelObject();
-    ((Unkstruct_800B5CB8 *)a0)->unk20 = s1;
+    ((Unkstruct_801202A0 *)a0)->unk20 = s1;
     if (s1 == 0) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
-    switch (((Unkstruct_800B5CB8 *)a0)->unk70) {
+    switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 0:
     {
         s16 buf[12];
@@ -3940,12 +3940,12 @@ void func_8017D8CC(void *a0) {
         func_8001D0E8(s1, 0x800, 0x800);
         buf[3] = 0xBF;
         buf[4] = 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk6C = func_8012C51C(buf, a0);
+        ((Unkstruct_801202A0 *)a0)->unk6C = func_8012C51C(buf, a0);
         buf[4] = 2;
         func_8012C51C(buf, a0);
         CAST_WIDTH(s16, (char *)a0, 0xE4) = 3;
         *(s16 *)((char *)a0 + 0xE6) = 4;
-        ((Unkstruct_800B5CB8 *)a0)->unkDC = 0;
+        ((Unkstruct_801202A0 *)a0)->unkDC.val = 0;
         CAST_WIDTH(s16, (char *)a0, 0xE0) = 0;
         CAST_WIDTH(s16, (char *)a0, 0xE8) = 0x40;
         guess_RequestSound(0x556, 0);
@@ -3956,25 +3956,25 @@ void func_8017D8CC(void *a0) {
     case 1:
         guess_InitModelObject(s1, (s32)&D_8018D3A0);
         func_8001D0E8(s1, 0x800, 0x800);
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 6);
-        ((Unkstruct_800B5CB8 *)a0)->unkA = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xA);
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unk4.i.hi.u;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u;
         {
-            u16 t = *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE);
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 5;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = t;
+            u16 t = ((Unkstruct_801202A0 *)a0)->unk64->unkC.i.hi.u;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = t;
         }
         break;
     case 2:
         guess_InitModelObject(s1, (s32)&D_8018FB4C);
         func_8001D0E8(s1, 0x800, 0x800);
         cnt = -0x478;
-        ((Unkstruct_800B5CB8 *)a0)->unkA = cnt;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = cnt;
         cnt = -0x171;
-        ((Unkstruct_800B5CB8 *)a0)->unkE = cnt;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = cnt;
         cnt = 6;
-        ((Unkstruct_800B5CB8 *)a0)->unk6 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     store_count:
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = cnt;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = cnt;
         break;
     }
     guess_StartActorSequence(a0, &D_8017E474);

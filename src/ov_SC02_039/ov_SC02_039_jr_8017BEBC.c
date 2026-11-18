@@ -3722,7 +3722,7 @@ void func_8017E794(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk84.s = counter;
 
     if (min_abs < 0xA0) {
-        if (((Unkstruct_800B5CB8 *)best)->unkE0 < 0x150) {
+        if (((Unkstruct_801202A0 *)best)->extC.kSC02_039_8017E794.unkE0 < 0x150) {
             if ((counter & 3) == 0) {
                 s32 quotient;
                 s32 qc;

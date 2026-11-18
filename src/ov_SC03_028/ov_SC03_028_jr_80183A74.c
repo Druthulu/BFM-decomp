@@ -3147,7 +3147,7 @@ extern void (*D_80190370[])(void *);
 void func_80184230(void *arg0) {
     void *prim;
 
-    if (*(u16 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 2) == 0xD) {
+    if (((Unkstruct_801202A0 *)arg0)->unk64->unk2.u == 0xD) {
         if (func_8012D5E4((s32)arg0, (s32)D_80190314, (s32)D_8019031C, 0xC) == 1) {
             D_80126B96 = 0x6009;
         }
@@ -3171,19 +3171,19 @@ void func_8018430C(s32 a0) {
     s32 s0;
     s32 pad[2];
 
-    v0 = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20);
+    v0 = (s32)((Unkstruct_801202A0 *)a0)->unk64->unk20;
     v0 = *(s32 *)(v0 + 4);
-    s0 = ((Unkstruct_800B5CB8 *)a0)->unkCC;
+    s0 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
     if (v0 < 0) {
         CAST_WIDTH(u32, s0, 4) |= 0x80000000;
     } else {
         func_801439FC(a0);
     }
 
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk64;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk64;
     CAST_WIDTH(u16, s0, 0x14) = *(u16 *)(*(s32 *)(v0 + 0x20) + 0x12);
 
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk64;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk64;
     v1 = ((Unkstruct_800B5CB8 *)s0)->unkA - *(u16 *)(v0 + 0xA);
     if ((u16)(v1 + 0x20) >= 0x421) {
         ((Unkstruct_800B5CB8 *)s0)->unk1A = 0;

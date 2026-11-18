@@ -11,7 +11,7 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_800B5CB8 *)*(u32 *)(s0 + 0x20))->unk12 += CAST_SIGN(u16, s0, 0xFE);
     CAST_WIDTH(u16, *(u32 *)(s0 + 0x20), 0x14) += CAST_SIGN(u16, s0, 0x100);
 
-    val1 = *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0x0A);
+    val1 = ((Unkstruct_801202A0 *)s0)->unk64->unk8.i.hi.s;
     val2 = CAST_SIGN(s16, s0, 0x0A);
 
     if (val2 > val1) {

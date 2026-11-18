@@ -8,27 +8,27 @@ void SHARED_FN(s32 a0) {
 
     for (p = guess_g_ObjectTable, i = 0; i < 0x60; p += 0x10C, i++) {
         if (*(u16 *)p == 0x210) {
-            if ((u16)(*(u16 *)(p + 0x6) - ((Unkstruct_800B5CB8 *)a0)->unk6 + 0x9F) < 0x13F) {
-                if ((u16)(*(u16 *)(p + 0xE) - ((Unkstruct_800B5CB8 *)a0)->unkE + 0x9F) < 0x11F) {
+            if ((u16)(*(u16 *)(p + 0x6) - ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 0x9F) < 0x13F) {
+                if ((u16)(*(u16 *)(p + 0xE) - ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0x9F) < 0x11F) {
                     *(u16 *)(p + 0xFE) = 1;
                 }
             }
         }
     }
 
-    if (((Unkstruct_800B5CB8 *)a0)->unkDC != 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unkDC = ((Unkstruct_800B5CB8 *)a0)->unkDC - 0x8000;
+    if (((Unkstruct_801202A0 *)a0)->unkDC.val != 0) {
+        ((Unkstruct_801202A0 *)a0)->unkDC.val = ((Unkstruct_801202A0 *)a0)->unkDC.val - 0x8000;
         w = CAST_SIGN(u16, a0, 0xFC) + 0x200;
-        ((Unkstruct_800B5CB8 *)a0)->unkFC = w;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = w;
         v = rsin((s16)w);
         if (v < 0) {
             v = -v;
         }
-        *(s16 *)(a0 + 0x52) = -(s16)(v * ((Unkstruct_800B5CB8 *)a0)->unkDC >> 0x1C);
+        *(s16 *)(a0 + 0x52) = -(s16)(v * ((Unkstruct_801202A0 *)a0)->unkDC.val >> 0x1C);
     }
 
-    if (((Unkstruct_800B5CB8 *)a0)->unk98 == 0) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 6;
+    if (((Unkstruct_801202A0 *)a0)->unk98.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
         func_8012B200((u8 *)a0);
         *(s16 *)(a0 + 0x52) = 0;
     }

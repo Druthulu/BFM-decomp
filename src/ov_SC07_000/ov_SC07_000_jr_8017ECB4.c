@@ -3152,15 +3152,15 @@ void func_8017F59C(void *a0) {
     s32 obj;
     s32 y;
 
-    CAST_WIDTH(s32, s0, 0x10) = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 4) - CAST_WIDTH(s32, s0, 4)) >> 4;
+    CAST_WIDTH(s32, s0, 0x10) = (((Unkstruct_801202A0 *)s0)->unk64->unk4.val - CAST_WIDTH(s32, s0, 4)) >> 4;
     y = CAST_WIDTH(s32, s0, 8) + 0x1400000;
-    ((Unkstruct_800B5CB8 *)s0)->unk14 = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 8) - y) >> 4;
-    CAST_WIDTH(s32, s0, 0x18) = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0xC) - CAST_WIDTH(s32, s0, 0xC) + 0x200000) >> 4;
-    ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x10;
+    ((Unkstruct_801202A0 *)s0)->unk14.val = (((Unkstruct_801202A0 *)s0)->unk64->unk8.val - y) >> 4;
+    CAST_WIDTH(s32, s0, 0x18) = (((Unkstruct_801202A0 *)s0)->unk64->unkC.val - CAST_WIDTH(s32, s0, 0xC) + 0x200000) >> 4;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x10;
     obj = func_80132EF4(s0, 0x77);
     if (obj != 0) {
         CAST_WIDTH(s32, obj, 4) += CAST_WIDTH(s32, s0, 0x10) * 4;
-        CAST_WIDTH(s32, obj, 8) += -0x300000 + (((Unkstruct_800B5CB8 *)s0)->unk14 * 4);
+        CAST_WIDTH(s32, obj, 8) += -0x300000 + (((Unkstruct_801202A0 *)s0)->unk14.val * 4);
         CAST_WIDTH(s32, obj, 0xC) += CAST_WIDTH(s32, s0, 0x18) * 4;
     }
     do { guess_StartActorSequence(s0, D_801CCFA8); } while (0);
@@ -3186,7 +3186,7 @@ void func_8017F69C(s32 s0) {
     s32 obj;
     s32 y;
 
-    switch (((Unkstruct_800B5CB8 *)s0)->unk34) {
+    switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
     case 0:
         guess_ApplyAccelAndVelocity(s0);
         if (guess_TickWaitTimer(s0) == 0) {
@@ -3200,22 +3200,22 @@ void func_8017F69C(s32 s0) {
         }
         func_8017F888((s32 *)s0, (s32 *)&D_80186584);
     inc:
-        v0 = ((Unkstruct_800B5CB8 *)s0)->unk34;
-        ((Unkstruct_800B5CB8 *)s0)->unk34 = v0 + 1;
+        v0 = ((Unkstruct_801202A0 *)s0)->unk34.u;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = v0 + 1;
         break;
     case 2:
         if ((u16)D_801D0B7C != 6) {
             return;
         }
-        CAST_WIDTH(s32, s0, 0x10) = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 4) - CAST_WIDTH(s32, s0, 4)) >> 4;
+        CAST_WIDTH(s32, s0, 0x10) = (((Unkstruct_801202A0 *)s0)->unk64->unk4.val - CAST_WIDTH(s32, s0, 4)) >> 4;
         y = CAST_WIDTH(s32, s0, 8) + 0x1400000;
-        ((Unkstruct_800B5CB8 *)s0)->unk14 = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 8) - y) >> 4;
-        CAST_WIDTH(s32, s0, 0x18) = (*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0xC) - CAST_WIDTH(s32, s0, 0xC) + 0x200000) >> 4;
-        ((Unkstruct_800B5CB8 *)s0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)s0)->unk14.val = (((Unkstruct_801202A0 *)s0)->unk64->unk8.val - y) >> 4;
+        CAST_WIDTH(s32, s0, 0x18) = (((Unkstruct_801202A0 *)s0)->unk64->unkC.val - CAST_WIDTH(s32, s0, 0xC) + 0x200000) >> 4;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x10;
         obj = func_80132EF4(s0, 0x77);
         if (obj != 0) {
             CAST_WIDTH(s32, obj, 4) += CAST_WIDTH(s32, s0, 0x10) * 4;
-            CAST_WIDTH(s32, obj, 8) += -0x300000 + (((Unkstruct_800B5CB8 *)s0)->unk14 * 4);
+            CAST_WIDTH(s32, obj, 8) += -0x300000 + (((Unkstruct_801202A0 *)s0)->unk14.val * 4);
             CAST_WIDTH(s32, obj, 0xC) += CAST_WIDTH(s32, s0, 0x18) * 4;
         }
         guess_StartActorSequence(s0, D_801CCFA8);

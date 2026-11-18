@@ -3863,11 +3863,11 @@ void func_8017E648(void *a0)
 {
     switch (CAST_SIGN(u16, (s32)a0, 0x2)) {
     case 0:
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x7F;
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x7F;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         break;
     case 1:
-        if (--((Unkstruct_800B5CB8 *)a0)->unk1C > 0) {
+        if (--((Unkstruct_801202A0 *)a0)->unk1C.s > 0) {
             func_8017E4E0(a0);
         } else {
             guess_FreeActor(a0);

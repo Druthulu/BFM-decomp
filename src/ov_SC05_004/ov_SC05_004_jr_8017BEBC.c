@@ -3804,9 +3804,9 @@ void func_8017DDE8(s32 a0) {
     guess_StartActorSequence(a0, (void*)&D_801850F4);
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20;
-    v0 = ((Unkstruct_800B5CB8 *)v1)->unk12;
+    v0 = ((Unkstruct_8001C9D0 *)v1)->unk12.u;
     v0 = v0 + 0xB00;
-    ((Unkstruct_800B5CB8 *)v1)->unk12 = v0;
+    ((Unkstruct_8001C9D0 *)v1)->unk12.u = v0;
 
     stack[0] = 0;
     stack[1] = 0;
@@ -4609,27 +4609,27 @@ void func_8017F0B8(void *arg0) {
     s0 = arg0;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk20 = v0;
 
     if (v0 == 0) {
         guess_FreeActorDuringSpawn(s0);
     } else {
         func_8001C2C4(v0);
 
-        ((Unkstruct_800B5CB8 *)s0)->unkFE = CAST_SIGN(u16, (u8 *)s0, 0x70) & 0x100;
+        ((Unkstruct_801202A0 *)s0)->unkFE.s = CAST_SIGN(u16, (u8 *)s0, 0x70) & 0x100;
 
         mask = CAST_SIGN(u16, (u8 *)s0, 0x70) & 3;
-        ((Unkstruct_800B5CB8 *)s0)->unk70 = mask;
+        ((Unkstruct_801202A0 *)s0)->unk70.s = mask;
 
-        if (((Unkstruct_800B5CB8 *)s0)->unkFE == 0) {
+        if (((Unkstruct_801202A0 *)s0)->unkFE.s == 0) {
             ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk12 =
-                *(u16 *)(*(s32 *)(((Unkstruct_800B5CB8 *)s0)->unk64 + 0x20) + 0x12) + (mask << 10);
-            ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)&D_80198708 | 0x40000000;
-            ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x4C00;
-            ((Unkstruct_800B5CB8 *)s0)->unk75 = 8;
+                *(u16 *)(((Unkstruct_801202A0 *)s0)->unk64->unk20 + 0x12) + (mask << 10);
+            ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)&D_80198708 | 0x40000000;
+            ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x4C00;
+            ((Unkstruct_801202A0 *)s0)->unk75 = 8;
         } else {
-            ((Unkstruct_800B5CB8 *)s0)->unk58 = (s32)&D_80198718;
-            ((Unkstruct_800B5CB8 *)s0)->unk5C = 0x4800;
+            ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)&D_80198718;
+            ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x4800;
         }
 
         func_8012AD50(s0);
