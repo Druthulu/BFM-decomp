@@ -5137,36 +5137,36 @@ void func_8017F63C(void *s1) {
 
     if (CAST_SIGN(u16, (s32)s1, 2) == 0) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s1 + 0x20))->unk20 = (s32)&D_8018FBAC;
-        do { t = ((Unkstruct_800B5CB8 *)s1)->unk20; } while (0);
+        do { t = ((Unkstruct_8011DB30 *)s1)->unk20; } while (0);
         base = (s32)s1 + 0x24;
         CAST_WIDTH(s32, t, 4) |= 0x50000000;
-        x = ((Unkstruct_800B5CB8 *)s1)->unk20;
+        x = ((Unkstruct_8011DB30 *)s1)->unk20;
         ((Unkstruct_800B5BD8 *)x)->unk27 = 0x65;
-        y = ((Unkstruct_800B5CB8 *)s1)->unk20;
+        y = ((Unkstruct_8011DB30 *)s1)->unk20;
         *(u16 *)(y + 0x1A) = 0;
         *(u16 *)(y + 0x18) = 0;
-        do { guess_StartPairSequence(((Unkstruct_800B5CB8 *)s1)->unk20, base, (s32)&D_8018FBB8); } while (0);
-        node = ((Unkstruct_800B5CB8 *)s1)->unk20;
+        do { guess_StartPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, base, (s32)&D_8018FBB8); } while (0);
+        node = ((Unkstruct_8011DB30 *)s1)->unk20;
         delta = D_8018FBC4;
         h = CAST_SIGN(u16, (s32)s1, 2);
         CAST_WIDTH(s32, (s32)s1, 0x2C) = 0x8000000;
-        f = ((Unkstruct_800B5CB8 *)s1)->unk14;
-        ((Unkstruct_800B5CB8 *)s1)->unk1C = 0;
+        f = ((Unkstruct_8011DB30 *)s1)->unk14;
+        ((Unkstruct_8011DB30 *)s1)->unk1C = 0;
         h = h + 1;
         g = f + delta;
-        ((Unkstruct_800B5CB8 *)s1)->unk14 = g;
-        ((Unkstruct_800B5CB8 *)s1)->unk2 = h;
+        ((Unkstruct_8011DB30 *)s1)->unk14 = g;
+        ((Unkstruct_8011DB30 *)s1)->unk2.s = h;
         guess_StepPairSequence(node, (s32 *)base);
     } else {
         e1 = D_8018FBC8;
         e0 = CAST_WIDTH(s32, (s32)s1, 0x2C);
         e0 = e0 + e1;
         CAST_WIDTH(s32, (s32)s1, 0x2C) = e0;
-        e1 = ((Unkstruct_800B5CB8 *)s1)->unk20;
+        e1 = ((Unkstruct_8011DB30 *)s1)->unk20;
         *(u16 *)(e1 + 0x1A) = e0;
         *(u16 *)(e1 + 0x18) = e0;
         guess_AddVelocityToPos(s1);
-        cnt = ((Unkstruct_800B5CB8 *)s1)->unk1C + 1;
+        cnt = ((Unkstruct_8011DB30 *)s1)->unk1C + 1;
         CAST_ALIAS(s32, (s32)s1, 0x1C) = cnt;
         if (D_8018FBC2 < cnt) {
             func_801292C8((u8 *)s1);
@@ -6446,8 +6446,8 @@ void func_801810E4(void *a0)
         if ((((Unkstruct_801202A0 *)a0)->unk1C.s & 1) == 0) {
             t = func_80132EF4((s32)a0, 0x22);
             if (t != 0) {
-                ((Unkstruct_800B5CB8 *)t)->unk34 = 0x5001;
-                ((Unkstruct_800B5CB8 *)t)->unk14 = 0xFFFA0000;
+                ((Unkstruct_8011DB30 *)t)->unk34.i.lo = 0x5001;
+                ((Unkstruct_8011DB30 *)t)->unk14 = 0xFFFA0000;
             }
         }
         if (guess_TickWaitTimer((s32)a0) != 0) {

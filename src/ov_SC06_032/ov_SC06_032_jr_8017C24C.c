@@ -4805,10 +4805,10 @@ void func_8018029C(s32 p) {
         func_801840C0(p, out, 0x282, 0, 0, 0);
         e = func_80132EF4(p, 0x22);
         if (e != 0) {
-            ((Unkstruct_800B5CB8 *)e)->unk34 = 0x7002;
-            ((Unkstruct_800B5CB8 *)e)->unk6 = out[0];
-            ((Unkstruct_800B5CB8 *)e)->unkA = out[1];
-            ((Unkstruct_800B5CB8 *)e)->unkE = out[2];
+            ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7002;
+            ((Unkstruct_8011DB30 *)e)->unk6.u = out[0];
+            ((Unkstruct_8011DB30 *)e)->unkA.u = out[1];
+            ((Unkstruct_8011DB30 *)e)->unkE.u = out[2];
             ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc006;
         }
         g28[0] = 0x40;
@@ -4823,12 +4823,12 @@ void func_8018029C(s32 p) {
                 g38[0] = 0;
                 g38[2] = (rand() % 5 + 4) << 16;
                 ((void (*)(void *, void *, s32))ApplyMatrixLV)(buf58, g38, e + 0x10);
-                ((Unkstruct_800B5CB8 *)e)->unk34 = ((rand() % 2 + 2) << 12) | 1;
+                ((Unkstruct_8011DB30 *)e)->unk34.i.lo = ((rand() % 2 + 2) << 12) | 1;
                 ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc006;
                 func_80184124(p, D_801A661C + i * 8, out, 0xb);
-                ((Unkstruct_800B5CB8 *)e)->unk6 = out[0];
-                ((Unkstruct_800B5CB8 *)e)->unkA = out[1];
-                ((Unkstruct_800B5CB8 *)e)->unkE = out[2];
+                ((Unkstruct_8011DB30 *)e)->unk6.u = out[0];
+                ((Unkstruct_8011DB30 *)e)->unkA.u = out[1];
+                ((Unkstruct_8011DB30 *)e)->unkE.u = out[2];
             }
             i++;
         } while (i < 5);

@@ -623,22 +623,42 @@ typedef struct {
 typedef struct {
     /* T16.c5: fx record */
     /* 0x0000 */ u16 unk0;
-    /* 0x0002 */ u16 unk2;
+    /* 0x0002 */ union {
+        u16 u;
+        s16 s;
+    } unk2;
     /* 0x0004 */ u8 pad4[0x2];
-    /* 0x0006 */ union { s16 s; u16 u; } unk6;
+    /* 0x0006 */ union {
+        s16 s;
+        u16 u;
+    } unk6;
     /* 0x0008 */ u8 pad8[0x2];
-    /* 0x000a */ union { s16 s; u16 u; } unkA;
+    /* 0x000a */ union {
+        s16 s;
+        u16 u;
+    } unkA;
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ union {
         s16 s;
         u16 u;
     } unkE;
-    /* 0x0010 */ u8 pad10[0x10];
+    /* 0x0010 */ u8 pad10[0x2];
+    /* 0x0012 */ u16 unk12;
+    /* 0x0014 */ s32 unk14;
+    /* 0x0018 */ u8 pad18[0x4];
+    /* 0x001c */ s32 unk1C;
     /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ u8 pad24[0xc];
+    /* 0x0024 */ u8 pad24[0x4];
+    /* 0x0028 */ s16 unk28;
+    /* 0x002a */ u16 unk2A;
+    /* 0x002c */ u16 unk2C;
+    /* 0x002e */ u16 unk2E;
     /* 0x0030 */ u16 unk30;
     /* 0x0032 */ union { s16 s; u16 u; } unk32;
-    /* 0x0034 */ union { union { s32 s; u32 u; } val; struct { u16 lo; u16 hi; } i; } unk34;
+    /* 0x0034 */ union {
+        union { s32 s; u32 u; } val;
+        struct { u16 lo; u16 hi; } i;
+    } unk34;
 } Unkstruct_8011DB30; /* size = 0x38 */
 
 /* Unkstruct_8011D030 — the small object (guess_g_SmallObjectPool 0x8011D030 x 30, 0x58 each; +0x0 kind -> D_80126728 handler,

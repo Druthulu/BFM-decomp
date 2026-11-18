@@ -3638,7 +3638,7 @@ void func_8017E934(s32 a0) {
     for (i = 0, p = D_80183C90; i < 8; i++, p += 8) {
         hit = func_801290DC(0x20, p);
         if (hit != 0) {
-            ((Unkstruct_800B5CB8 *)hit)->unk34 = i + 2;
+            ((Unkstruct_8011DB30 *)hit)->unk34.i.lo = i + 2;
         }
     }
 

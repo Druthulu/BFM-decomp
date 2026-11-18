@@ -4344,12 +4344,12 @@ void func_8017F27C(s32 a0) {
     if ((*(s32 *)(s0 + 0x1C) & 1) != 0) {
         v0 = func_8012913C(0x22);
         if (v0 != 0) {
-            ((Unkstruct_800B5CB8 *)v0)->unk6 = *(u16 *)(s0 + 0x6);
-            do { ((Unkstruct_800B5CB8 *)v0)->unkA = *(u16 *)(s0 + 0xA); } while (0);
+            ((Unkstruct_8011DB30 *)v0)->unk6.u = *(u16 *)(s0 + 0x6);
+            do { ((Unkstruct_8011DB30 *)v0)->unkA.u = *(u16 *)(s0 + 0xA); } while (0);
             {
                 u16 t = *(u16 *)(s0 + 0xE);
-                ((Unkstruct_800B5CB8 *)v0)->unk34 = 0x3000;
-                ((Unkstruct_800B5CB8 *)v0)->unkE = t;
+                ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x3000;
+                ((Unkstruct_8011DB30 *)v0)->unkE.u = t;
             }
         }
     }
@@ -4616,7 +4616,7 @@ void func_8017F950(s32 a0)
         obj = func_80132EF4(a0, 0x22);
         if (obj != 0) {
             func_80129374(obj, a0);
-            ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x3000;
+            ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x3000;
         }
     }
     v0 = guess_TickWaitTimer(a0);

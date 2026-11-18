@@ -3666,15 +3666,15 @@ extern void func_801292C8(u8 *a0);
 void func_8017FB84(void *a0) {
     s32 v0;
 
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+    v0 = ((Unkstruct_8011DB30 *)a0)->unk1C;
     if (v0 == 0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        v0 = guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((s32)a0 + 0x24));
+        v0 = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)((s32)a0 + 0x24));
         if (v0 != 0) {
             func_801292C8((u8 *)a0);
         }
     } else {
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = v0 - 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C = v0 - 1;
     }
 }
 

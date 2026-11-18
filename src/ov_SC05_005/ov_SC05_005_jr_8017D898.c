@@ -4476,11 +4476,11 @@ void func_801813B4(s32 a0) {
         }
         s0 = func_80132EF4(obj, 0x50);
         if (s0 != 0) {
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unk20)->unk10 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)s0)->unk20)->unk10 =
                 ratan2(s1[2], s1[1]) + 0x400;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)s0)->unk20)->unk12 =
+            ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)s0)->unk20)->unk12 =
                 ratan2(s1[0], -func_80047D3C(s1[2] * s1[2] + s1[1] * s1[1]));
-            *(s16 *)(((Unkstruct_800B5CB8 *)s0)->unk20 + 0x14) = 0;
+            *(s16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x14) = 0;
         }
         func_80181DE4(obj, 0x7FB);
         guess_FreeActor((void *)obj);

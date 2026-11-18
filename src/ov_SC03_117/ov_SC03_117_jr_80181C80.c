@@ -3596,9 +3596,9 @@ void func_8018321C(s32 a0) {
             func_80133784(1, &p1, (s32)&q);
 
             if (q.pad) {
-                ((Unkstruct_800B5CB8 *)s1)->unk6 = *(u16 *)(a0 + 0x6);
-                ((Unkstruct_800B5CB8 *)s1)->unkA = q.vy;
-                ((Unkstruct_800B5CB8 *)s1)->unkE = *(u16 *)(a0 + 0xE);
+                ((Unkstruct_8011DB30 *)s1)->unk6.u = *(u16 *)(a0 + 0x6);
+                ((Unkstruct_8011DB30 *)s1)->unkA.u = q.vy;
+                ((Unkstruct_8011DB30 *)s1)->unkE.u = *(u16 *)(a0 + 0xE);
             } else {
                 func_801292C8(s1);
             }
@@ -3626,10 +3626,10 @@ void func_8018333C(void *a0)
 
     v1 = func_8012913C(0x7C);
     if (v1 != 0) {
-        ((Unkstruct_800B5CB8 *)v1)->unk6 = *(u16 *)((s32)a0 + 0x6);
-        ((Unkstruct_800B5CB8 *)v1)->unkA = *(u16 *)((s32)a0 + 0xA);
-        ((Unkstruct_800B5CB8 *)v1)->unkE = *(u16 *)((s32)a0 + 0xE);
-        func_8001CD50(((Unkstruct_800B5CB8 *)v1)->unk20, (s32)D_801CE698);
+        ((Unkstruct_8011DB30 *)v1)->unk6.u = *(u16 *)((s32)a0 + 0x6);
+        ((Unkstruct_8011DB30 *)v1)->unkA.u = *(u16 *)((s32)a0 + 0xA);
+        ((Unkstruct_8011DB30 *)v1)->unkE.u = *(u16 *)((s32)a0 + 0xE);
+        func_8001CD50(((Unkstruct_8011DB30 *)v1)->unk20, (s32)D_801CE698);
     }
 }
 
@@ -4140,7 +4140,7 @@ void func_80183F48(void *a0) {
     s32 a2;
     u8 *v1ptr;
 
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+    v0 = ((Unkstruct_8011DB30 *)a0)->unk1C;
     do { v1 = CAST_WIDTH(s32, (s32)a0, 0x2C); } while (0);
     a1 = v0 - 1;
     /* §21 zero-byte re-tie barrier: without it gcc's scheduler hoists the 0x2C load
@@ -4153,14 +4153,14 @@ void func_80183F48(void *a0) {
     a2 = (s32)D_801CE6D8 + v1;
     v1ptr = CAST_SIGN(u8 *, (s32)a0, 0x20);
 
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = a1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C = a1;
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
         ((Unkstruct_800B5CB8 *)v1ptr)->unk1A = v0 << 8;
         ((Unkstruct_800B5CB8 *)v1ptr)->unk18 = v0 << 8;
 
-        v1 = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
         v0 = (v1 << 8) - v1;
         if (v0 < 0) {
             v0 = v0 + 0xF;
@@ -4171,11 +4171,11 @@ void func_80183F48(void *a0) {
         *(u8 *)(a2 + 0x1) = v0;
         *(u8 *)(a2 + 0x0) = v0;
 
-        v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C << 2;
+        v0 = ((Unkstruct_8011DB30 *)a0)->unk1C << 2;
         *(u8 *)(a2 + 0x5) = v0;
         *(u8 *)(a2 + 0x4) = v0;
 
-        *(u8 *)(a2 + 0x6) = ((Unkstruct_800B5CB8 *)a0)->unk1C << 3;
+        *(u8 *)(a2 + 0x6) = ((Unkstruct_8011DB30 *)a0)->unk1C << 3;
     } else {
         func_801292C8((u8 *)a0);
     }

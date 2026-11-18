@@ -5718,8 +5718,8 @@ void func_80187EA0(s32 arg0) {
     if (*(u16 *)(CAST_WIDTH(s32, arg0, 0x2c)) == 0) {
         func_801292C8((u8 *)arg0);
     }
-    temp_v0 = ((Unkstruct_800B5CB8 *)arg0)->unk1C + 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C = temp_v0;
+    temp_v0 = ((Unkstruct_8011DB30 *)arg0)->unk1C + 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C = temp_v0;
 }
 
 
@@ -6382,11 +6382,11 @@ void func_80188C18(s32 a0) {
         ent = func_80188E80(pos);
         if (ent != 0) {
             CAST_WIDTH(s32, (s32)ent, 0x10) = buf1[0];
-            ((Unkstruct_800B5CB8 *)ent)->unk14 = buf1[1];
+            ((Unkstruct_8011DB30 *)ent)->unk14 = buf1[1];
             CAST_WIDTH(s32, (s32)ent, 0x18) = buf1[2];
-            *(u16 *)(((Unkstruct_800B5CB8 *)ent)->unk20 + 0x14) =
+            *(u16 *)(((Unkstruct_8011DB30 *)ent)->unk20 + 0x14) =
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14);
-            ((Unkstruct_800B5CB8 *)ent)->unk1C = i << 3;
+            ((Unkstruct_8011DB30 *)ent)->unk1C = i << 3;
         }
     }
 }
@@ -6444,7 +6444,7 @@ void * func_80188E80(s32 a0)
         return 0;
     }
     arg = (s32)obj + 0x24;
-    sub = ((Unkstruct_800B5CB8 *)obj)->unk20;
+    sub = ((Unkstruct_8011DB30 *)obj)->unk20;
     *(s32 *)(sub + 0x20) = (s32)D_801AC0B8;
     *(u8 *)(sub + 0x27) = 0x66;
     *(u16 *)(sub + 0x1A) = 0x2000;
@@ -6460,16 +6460,16 @@ void func_80188F04(s32 a0)
     s32 t;
 
     if (CAST_SIGN(u16, a0, 2) == 0) {
-        t = ((Unkstruct_800B5CB8 *)a0)->unk1C;
+        t = ((Unkstruct_8011DB30 *)a0)->unk1C;
         if (t == 0) {
             (CAST_SIGN(u16, a0, 2))++;
-            *(u32 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
+            *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
         } else {
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = t - 1;
+            ((Unkstruct_8011DB30 *)a0)->unk1C = t - 1;
         }
     } else {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        if (guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)((s32)a0 + 0x24)) != 0) {
+        if (guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)((s32)a0 + 0x24)) != 0) {
             func_801292C8((u8 *)a0);
         }
     }

@@ -4667,7 +4667,7 @@ void func_8017F20C(s32 param_1)
 {
     s32 buf[2]; /* sp+0x10 : guess_RotTransSVWithObjMatrix out, func_80015954 in */
 
-    guess_RotTransSVWithObjMatrix(((Unkstruct_800B5CB8 *)param_1)->unk1C, CAST_WIDTH(s32, param_1, 0x2C), (s32)&buf[0]);
+    guess_RotTransSVWithObjMatrix(((Unkstruct_8011DB30 *)param_1)->unk1C, CAST_WIDTH(s32, param_1, 0x2C), (s32)&buf[0]);
     func_80015954((s32)&buf[0], param_1 + 4);
 }
 
@@ -6715,20 +6715,20 @@ void func_80182694(s32 a0, s32 a1) {
     if (s0 == 0) goto L8273C;
     if (s1 < 0) goto L82734;
     if (s1 < 2) {
-        ((Unkstruct_800B5CB8 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        ((Unkstruct_8011DB30 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (v0 == 0) goto L82734;
         func_8001CF00(v0);
         a0 = s2;
         goto L82718;
     }
     if (s1 >= 4) goto L82734;
-    ((Unkstruct_800B5CB8 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001CFDC)(0x86, 0xC0);
+    ((Unkstruct_8011DB30 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001CFDC)(0x86, 0xC0);
     if (v0 == 0) goto L82734;
     func_8001C2C4(v0);
     a0 = s2;
 L82718:
     CAST_WIDTH(s32, s0, 0x2C) = s1;
-    ((Unkstruct_800B5CB8 *)s0)->unk0 = 0x5A;
+    ((Unkstruct_8011DB30 *)s0)->unk0 = 0x5A;
     func_80015954(a0, s0 + 4);
     goto L8273C;
 L82734:
@@ -6808,9 +6808,9 @@ extern void func_801292C8(void *a0);
 void func_801828E0(s32 param_1) {
     s32 v0;
 
-    guess_StepPairSequence(((Unkstruct_800B5CB8 *)param_1)->unk20, (s32 *)(param_1 + 0x24));
-    v0 = ((Unkstruct_800B5CB8 *)param_1)->unk1C - 1;
-    ((Unkstruct_800B5CB8 *)param_1)->unk1C = v0;
+    guess_StepPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20, (s32 *)(param_1 + 0x24));
+    v0 = ((Unkstruct_8011DB30 *)param_1)->unk1C - 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk1C = v0;
     if (v0 == -1) {
         func_801292C8((void *)param_1);
     }
@@ -6819,8 +6819,8 @@ void func_801828E0(s32 param_1) {
 
 extern void func_801292C8(void *a0);
 void func_8018292C(void *a0) {
-    s32 v0 = ((Unkstruct_800B5CB8 *)a0)->unk1C - 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = v0;
+    s32 v0 = ((Unkstruct_8011DB30 *)a0)->unk1C - 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C = v0;
     if (v0 == -1) {
         func_801292C8(a0);
     }

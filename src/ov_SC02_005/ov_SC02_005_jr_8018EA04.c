@@ -3523,11 +3523,11 @@ void func_8018EB60(s16 arg0, u16 *arg1, void *arg2, s16 arg3) {
                 rot[2] = 0;
                 RotMatrixYXZ(rot, m);
                 ApplyMatrixSV(m, arg2, rot);
-                ((Unkstruct_800B5CB8 *)s0)->unk6 = arg1[0] + rot[0];
-                ((Unkstruct_800B5CB8 *)s0)->unkA = arg1[1] + rot[1];
-                ((Unkstruct_800B5CB8 *)s0)->unkE = arg1[2] + rot[2];
+                ((Unkstruct_8011DB30 *)s0)->unk6.u = arg1[0] + rot[0];
+                ((Unkstruct_8011DB30 *)s0)->unkA.u = arg1[1] + rot[1];
+                ((Unkstruct_8011DB30 *)s0)->unkE.u = arg1[2] + rot[2];
                 CAST_WIDTH(s32, s0, 0x10) = rot[0] << 11;
-                ((Unkstruct_800B5CB8 *)s0)->unk14 = rot[1] << 11;
+                ((Unkstruct_8011DB30 *)s0)->unk14 = rot[1] << 11;
                 CAST_WIDTH(s32, s0, 0x18) = rot[2] << 11;
             }
             i++;
@@ -3576,9 +3576,9 @@ void func_8018ED84(s32 arg0) {
     s32 s0;
     s32 pad[4];
 
-    v0 = ((Unkstruct_800B5CB8 *)arg0)->unk2C - 1;
-    ((Unkstruct_800B5CB8 *)arg0)->unk2C = v0;
-    s0 = ((Unkstruct_800B5CB8 *)arg0)->unk20;
+    v0 = ((Unkstruct_8011DB30 *)arg0)->unk2C - 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk2C = v0;
+    s0 = ((Unkstruct_8011DB30 *)arg0)->unk20;
     if ((s16)v0 == -1) {
         func_801292C8((u8 *)arg0);
         return;

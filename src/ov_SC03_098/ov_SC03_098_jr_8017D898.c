@@ -4970,7 +4970,7 @@ void func_80182480(s32 arg0) {
     if (*(u16 *)(CAST_WIDTH(s32, s0, 0x2C)) == 0) {
         func_801292C8((u8 *)s0);
     }
-    ((Unkstruct_800B5CB8 *)s0)->unk1C += 1;
+    ((Unkstruct_8011DB30 *)s0)->unk1C += 1;
 }
 
 

@@ -30,5 +30,5 @@ void SHARED_FN(s32 param_1) {
         return;
     }
     guess_SetWaitTimer((s32 *)param_1, (rand() & 0x7F) + 0x60);
-    ((Unkstruct_800B5CB8 *)obj)->unk2E = CAST_SIGN(u16, param_1, 0xFC);
+    ((Unkstruct_8011DB30 *)obj)->unk2E = CAST_SIGN(u16, param_1, 0xFC);
 }

@@ -2079,17 +2079,17 @@ void func_80185FA0(s32 param_1)
         q = func_80132EF4(param_1, 0x22);
         if (q != 0) {
             iVar4 = iVar5 + (D_800B99D8 & 4) * 3 - 0x2A;
-            ((Unkstruct_800B5CB8 *)q)->unk6 = ((Unkstruct_800B5CB8 *)q)->unk6 + iVar4;
-            ((Unkstruct_800B5CB8 *)q)->unkA = ((Unkstruct_800B5CB8 *)q)->unkA - 0x20;
-            ((Unkstruct_800B5CB8 *)q)->unkE = ((Unkstruct_800B5CB8 *)q)->unkE - 0x28;
+            ((Unkstruct_8011DB30 *)q)->unk6.u = ((Unkstruct_8011DB30 *)q)->unk6.u + iVar4;
+            ((Unkstruct_8011DB30 *)q)->unkA.u = ((Unkstruct_8011DB30 *)q)->unkA.u - 0x20;
+            ((Unkstruct_8011DB30 *)q)->unkE.u = ((Unkstruct_8011DB30 *)q)->unkE.u - 0x28;
             iVar4 = iVar4 << 16;
             if ((iVar4 >> 16) >= 0) {
                 sVar1 = (s16)((iVar4 >> 16) << 7);
             } else {
                 sVar1 = (s16)(-((iVar4 >> 16) << 7));
             }
-            ((Unkstruct_800B5CB8 *)q)->unk34 = sVar1 + 0x1000;
-            ((Unkstruct_800B5CB8 *)q)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)q)->unk34.i.lo = sVar1 + 0x1000;
+            ((Unkstruct_8011DB30 *)q)->unk14 = 0xFFFE0000;
             CAST_WIDTH(s32, q, 0x18) = 0xFFFD0000;
         }
         iVar5 += 0x18;

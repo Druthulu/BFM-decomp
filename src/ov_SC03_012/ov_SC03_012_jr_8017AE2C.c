@@ -4136,14 +4136,14 @@ void func_8017DCB4(s32 a0) {
                 }
                 val2c = (s16)((adj >> 2) + 3);
             store_vals:
-                do { ((Unkstruct_800B5CB8 *)result)->unk2C = val2c; } while (0);
-                ptr = ((Unkstruct_800B5CB8 *)result)->unk20;
+                do { ((Unkstruct_8011DB30 *)result)->unk2C = val2c; } while (0);
+                ptr = ((Unkstruct_8011DB30 *)result)->unk20;
                 magv = magw;
                 CAST_WIDTH(u16, ptr, 0x1C) = magv;
                 ((Unkstruct_800B5BD8 *)ptr)->unk1A.u = magv;
                 ((Unkstruct_800B5BD8 *)ptr)->unk18.u = magv;
-                ((Unkstruct_800B5CB8 *)result)->unk6 = (s16)s4;
-                ((Unkstruct_800B5CB8 *)result)->unkE = (s16)s2;
+                ((Unkstruct_8011DB30 *)result)->unk6.u = (s16)s4;
+                ((Unkstruct_8011DB30 *)result)->unkE.u = (s16)s2;
             }
             s1 = s1 + s6;
             s6 = s6 + 1;

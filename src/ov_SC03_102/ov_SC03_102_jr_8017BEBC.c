@@ -4087,38 +4087,38 @@ void func_80180C38(void *a0)
     s32 p, r, base, d, t;
 
     if (*(s16 *)&D_801270C0 != 2) {  /* `lh`: the u16 global is READ SIGNED here */
-        sv_a.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sv_a.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sv_a.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sv_a.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sv_a.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sv_a.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
-        sv_b.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sv_b.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sv_b.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sv_b.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sv_b.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sv_b.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
         if (func_80133784(1, &sv_a, (s32)&sv_b) != 0) {
-            ((Unkstruct_800B5CB8 *)a0)->unk2 = 1;
-            ((Unkstruct_800B5CB8 *)a0)->unk6 = sv_b.vx;
-            ((Unkstruct_800B5CB8 *)a0)->unkA = sv_b.vy;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = sv_b.vz;
+            ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
+            ((Unkstruct_8011DB30 *)a0)->unk6.u = sv_b.vx;
+            ((Unkstruct_8011DB30 *)a0)->unkA.u = sv_b.vy;
+            ((Unkstruct_8011DB30 *)a0)->unkE.u = sv_b.vz;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unk14 = 0;
+            ((Unkstruct_8011DB30 *)a0)->unk14 = 0;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
 
             /* (1) above: the `p = ...` statement is the to_rtx, the `base = ...`
              * statement is the post-call reload.  Both reads are written out. */
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x10);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x10);
             *(s16 *)(p + 0x10) = (rand() & 1) ? base + r : base - r;
 
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x12);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12);
             *(s16 *)(p + 0x12) = (rand() & 1) ? base + r : base - r;
 
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14);
             *(s16 *)(p + 0x14) = (rand() & 1) ? base + r : base - r;
             return;
         }
@@ -4129,7 +4129,7 @@ void func_80180C38(void *a0)
     m.w[6] = CAST_SIGN(s16, (s32)a0, 0xA);
     m.w[7] = CAST_SIGN(s16, (s32)a0, 0xE);
 
-    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14), &m);
     gte_SetRotMatrix(&m);
     gte_SetTransMatrix(&m);
 
@@ -4137,19 +4137,19 @@ void func_80180C38(void *a0)
     RotTransSV(&D_80189C10[8], &sv_b, flag);
 
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&sv_a, (s32)&sv_b) != 0) {
-        guess_SetPlayerHit(1, 1, *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) + 0x800, 30,
+        guess_SetPlayerHit(1, 1, *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) + 0x800, 30,
                       (s32)&sv_b, (s32)guess_g_BoxHitNormalX);
         if (func_8014A454((s32)&guess_g_PlayerActor) != 0) {
             goto kill;
         }
         func_8012F038((s32)guess_g_PlayerModelPtr + 0x34, (short *)&sv_b, (short *)&sv_a);
 
-        ((Unkstruct_800B5CB8 *)a0)->unk12 = sv_a.vx;
+        ((Unkstruct_8011DB30 *)a0)->unk12 = sv_a.vx;
         *(s16 *)((s32)a0 + 0x16) = sv_a.vy;
         CAST_ALIAS(s16, (s32)a0, 0x1A) = sv_a.vz;
         CAST_ALIAS(s32, (s32)a0, 0x1C) = 60;
         CAST_ALIAS(s16, (s32)a0, 0x2) = 2;
-        ((Unkstruct_800B5CB8 *)a0)->unk2A = *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12);
+        ((Unkstruct_8011DB30 *)a0)->unk2A = *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12);
 
         r = rand() % 256;
         /* (2) above: an if/else STATEMENT, not `(rand() & 1) ? r : -r` — the
@@ -4164,13 +4164,13 @@ void func_80180C38(void *a0)
             ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 + d;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
             ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 + d;
-        *(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) =
-            *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) + d;
+        *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) =
+            *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) + d;
         return;
     }
 
-    t = ((Unkstruct_800B5CB8 *)a0)->unk1C - 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk1C = t;
+    t = ((Unkstruct_8011DB30 *)a0)->unk1C - 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C = t;
     if (t != 0) {
         return;
     }
@@ -4195,30 +4195,30 @@ void func_80181030(s32 a0)
     s32 tmp0;
 
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
-        sv1.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sv1.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sv1.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
-        ((Unkstruct_800B5CB8 *)a0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 + 0x18000;
+        sv1.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sv1.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sv1.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+        ((Unkstruct_8011DB30 *)a0)->unk14 = ((Unkstruct_8011DB30 *)a0)->unk14 + 0x18000;
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
-        sv2.vx = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sv2.vy = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sv2.vz = ((Unkstruct_800B5CB8 *)a0)->unkE;
+        sv2.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sv2.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sv2.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
         v0 = func_80133784(1, &sv1, (s32)&sv2);
         if (v0 != 0) {
             s32 rv0;
             s16 rv1;
 
-            ((Unkstruct_800B5CB8 *)a0)->unk6 = sv2.vx;
-            ((Unkstruct_800B5CB8 *)a0)->unkA = sv2.vy;
+            ((Unkstruct_8011DB30 *)a0)->unk6.u = sv2.vx;
+            ((Unkstruct_8011DB30 *)a0)->unkA.u = sv2.vy;
             tmp0 = CAST_WIDTH(s32, a0, 0x2C);
             rv0 = tmp0;
             rv1 = sv2.vz;
             rv0 = rv0 + 1;
             CAST_WIDTH(s32, a0, 0x2C) = rv0;
             rv0 = 0x1E;
-            ((Unkstruct_800B5CB8 *)a0)->unk1C = rv0;
-            ((Unkstruct_800B5CB8 *)a0)->unkE = rv1;
+            ((Unkstruct_8011DB30 *)a0)->unk1C = rv0;
+            ((Unkstruct_8011DB30 *)a0)->unkE.u = rv1;
         }
     } else {
         func_801811F0(a0);
@@ -4331,16 +4331,16 @@ s32 func_80181260(s32 param_1, s16 param_2)
     ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x3800;
     ((Unkstruct_800B5BD8 *)sub)->unk10.u = 0x400;
     CAST_WIDTH(s16, sub, 0x14) = v;
-    ((Unkstruct_800B5CB8 *)obj)->unk28 = v;
+    ((Unkstruct_8011DB30 *)obj)->unk28 = v;
 
     RotMatrixY(param_2, &mtx);
 
     ApplyMatrixLV((s32)&mtx, (s32)D_80189C20, (s32)out);
 
     CAST_WIDTH(s32, obj, 0x10) = out[0];
-    ((Unkstruct_800B5CB8 *)obj)->unk14 = out[1];
+    ((Unkstruct_8011DB30 *)obj)->unk14 = out[1];
     CAST_WIDTH(s32, obj, 0x18) = out[2];
-    ((Unkstruct_800B5CB8 *)obj)->unk1C = 0x5A;
+    ((Unkstruct_8011DB30 *)obj)->unk1C = 0x5A;
 
     return (s32)obj;
 }

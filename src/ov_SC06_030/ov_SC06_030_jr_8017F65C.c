@@ -2931,12 +2931,12 @@ void func_8017FBA4(s32 param_1)
     for (i = 0; i < 4; i++) {
         obj = func_8012913C(0x23);
         if (obj != NULL) {
-            ((Unkstruct_800B5CB8 *)obj)->unk6 = *(u16 *)(param_1 + 6) + (rand() % 160) - 0x50;
-            ((Unkstruct_800B5CB8 *)obj)->unkA = *(u16 *)(param_1 + 0xA) - (rand() % 160);
-            ((Unkstruct_800B5CB8 *)obj)->unkE = *(u16 *)(param_1 + 0xE) + (rand() % 160) - 0x50;
-            ((Unkstruct_800B5CB8 *)obj)->unk34 = 0x7000;
+            ((Unkstruct_8011DB30 *)obj)->unk6.u = *(u16 *)(param_1 + 6) + (rand() % 160) - 0x50;
+            ((Unkstruct_8011DB30 *)obj)->unkA.u = *(u16 *)(param_1 + 0xA) - (rand() % 160);
+            ((Unkstruct_8011DB30 *)obj)->unkE.u = *(u16 *)(param_1 + 0xE) + (rand() % 160) - 0x50;
+            ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x7000;
             CAST_WIDTH(s32, obj, 0x18) = 0;
-            ((Unkstruct_800B5CB8 *)obj)->unk14 = 0;
+            ((Unkstruct_8011DB30 *)obj)->unk14 = 0;
             CAST_WIDTH(s32, obj, 0x10) = 0;
         }
     }

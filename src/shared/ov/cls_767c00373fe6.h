@@ -12,18 +12,18 @@ void SHARED_FN(s32 a0, s32 a1, s32 a2, s32 a3) {
         if (s0 != 0) {
             r = rand();
             d0 = *(s16 *)(a2 + 0);
-            ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
+            ((Unkstruct_8011DB30 *)s0)->unk6.u = (*(u16 *)(a1 + 0) + (r % (d0 << 1))) - d0;
             r = rand();
             d1 = *(s16 *)(a2 + 2);
-            ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
+            ((Unkstruct_8011DB30 *)s0)->unkA.u = (*(u16 *)(a1 + 2) + (r % (d1 << 1))) - d1;
             r = rand();
             d2 = *(s16 *)(a2 + 4);
             t = *(u16 *)(a1 + 4);
-            ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = (t + (r % (d2 << 1))) - d2;
+            ((Unkstruct_8011DB30 *)s0)->unkE.u = (t + (r % (d2 << 1))) - d2;
             CAST_WIDTH(s32, s0, 0x10) = *(s32 *)(a3 + 0);
-            ((Unkstruct_801202A0 *)s0)->unk14.val = *(s32 *)(a3 + 4);
+            ((Unkstruct_8011DB30 *)s0)->unk14 = *(s32 *)(a3 + 4);
             CAST_WIDTH(s32, s0, 0x18) = *(s32 *)(a3 + 8);
-            ((Unkstruct_801202A0 *)s0)->unk34.u = *(u16 *)(a1 + 6);
+            ((Unkstruct_8011DB30 *)s0)->unk34.i.lo = *(u16 *)(a1 + 6);
             ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC010;
         }
     }

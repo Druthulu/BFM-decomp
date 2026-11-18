@@ -5590,19 +5590,19 @@ void func_80186DF0(s32 arg0) {
             q = func_80132EF4(arg0, 0x22);
             if (q != 0) {
                 t0 = rand();
-                u0 = ((Unkstruct_800B5CB8 *)q)->unk6 - 0x10;
-                ((Unkstruct_800B5CB8 *)q)->unk6 = u0 + (t0 & 0x1F);
+                u0 = ((Unkstruct_8011DB30 *)q)->unk6.u - 0x10;
+                ((Unkstruct_8011DB30 *)q)->unk6.u = u0 + (t0 & 0x1F);
                 t1 = rand();
-                u1 = ((Unkstruct_800B5CB8 *)q)->unkE - 0x10;
-                ((Unkstruct_800B5CB8 *)q)->unkE = u1 + (t1 & 0x1F);
-                ((Unkstruct_800B5CB8 *)q)->unkA -= 0x20;
+                u1 = ((Unkstruct_8011DB30 *)q)->unkE.u - 0x10;
+                ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
+                ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                 t2 = rand();
-                ((Unkstruct_800B5CB8 *)q)->unk14 = -0x40000 - ((t2 % 3) << 16);
+                ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 3) << 16);
                 t3 = rand();
                 t4 = rand();
-                ((Unkstruct_800B5CB8 *)q)->unk34 = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
+                ((Unkstruct_8011DB30 *)q)->unk34.i.lo = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
-                *(s32 *)(((Unkstruct_800B5CB8 *)q)->unk20 + 0x4) |= 0x40000000;
+                *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20 + 0x4) |= 0x40000000;
             }
         }
         r = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
@@ -5660,15 +5660,15 @@ void func_80187080(s32 arg0) {
                 q = func_80132EF4(arg0, 0x22);
                 if (q != 0) {
                     t0 = rand();
-                    u0 = ((Unkstruct_800B5CB8 *)q)->unk6 - 0x10;
-                    ((Unkstruct_800B5CB8 *)q)->unk6 = u0 + (t0 & 0x1F);
+                    u0 = ((Unkstruct_8011DB30 *)q)->unk6.u - 0x10;
+                    ((Unkstruct_8011DB30 *)q)->unk6.u = u0 + (t0 & 0x1F);
                     t1 = rand();
-                    u1 = ((Unkstruct_800B5CB8 *)q)->unkE - 0x10;
-                    ((Unkstruct_800B5CB8 *)q)->unkE = u1 + (t1 & 0x1F);
-                    ((Unkstruct_800B5CB8 *)q)->unkA -= 0x20;
+                    u1 = ((Unkstruct_8011DB30 *)q)->unkE.u - 0x10;
+                    ((Unkstruct_8011DB30 *)q)->unkE.u = u1 + (t1 & 0x1F);
+                    ((Unkstruct_8011DB30 *)q)->unkA.u -= 0x20;
                     t2 = rand();
-                    ((Unkstruct_800B5CB8 *)q)->unk14 = -0x40000 - ((t2 % 4) << 16);
-                    ((Unkstruct_800B5CB8 *)q)->unk34 = rand() % 0x1800 + 0x2000;
+                    ((Unkstruct_8011DB30 *)q)->unk14 = -0x40000 - ((t2 % 4) << 16);
+                    ((Unkstruct_8011DB30 *)q)->unk34.i.lo = rand() % 0x1800 + 0x2000;
                     ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
                 }
             }

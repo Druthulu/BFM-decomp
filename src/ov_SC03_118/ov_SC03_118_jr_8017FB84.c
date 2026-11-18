@@ -3695,20 +3695,20 @@ void func_8018219C(s32 arg0)
     do {
         obj = func_80132EF4(owner, 0x22);
         if (obj != 0) {
-            a = ((Unkstruct_800B5CB8 *)obj)->unk6 - 0x28;
+            a = ((Unkstruct_8011DB30 *)obj)->unk6.u - 0x28;
             CAST_ALIAS(u16, obj, 6) = a;
-            b = ((Unkstruct_800B5CB8 *)obj)->unkA - 0x20;
+            b = ((Unkstruct_8011DB30 *)obj)->unkA.u - 0x20;
             CAST_ALIAS(u16, obj, 0xA) = b;
             d1 = (i + (D_800B99D8 & 4) * 3) - 0x2A;
-            ((Unkstruct_800B5CB8 *)obj)->unkE = ((Unkstruct_800B5CB8 *)obj)->unkE + d1;
+            ((Unkstruct_8011DB30 *)obj)->unkE.u = ((Unkstruct_8011DB30 *)obj)->unkE.u + d1;
             d2 = (s16)d1;
             if (d2 >= 0) {
                 d3 = d2 << 7;
             } else {
                 d3 = -(d2 << 7);
             }
-            ((Unkstruct_800B5CB8 *)obj)->unk34 = d3 + 0x1000;
-            ((Unkstruct_800B5CB8 *)obj)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = d3 + 0x1000;
+            ((Unkstruct_8011DB30 *)obj)->unk14 = 0xFFFE0000;
             CAST_WIDTH(s32, obj, 0x10) = 0xFFFD0000;
         }
         i += 0x18;

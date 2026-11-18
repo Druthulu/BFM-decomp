@@ -3631,12 +3631,12 @@ void func_8017EF30(s32 arg)
 
             hit = func_8012913C(0x22);
             if (hit != 0) {
-                ((Unkstruct_800B5CB8 *)hit)->unk6 = sv[0];
-                ((Unkstruct_800B5CB8 *)hit)->unkA = sv[1];
-                ((Unkstruct_800B5CB8 *)hit)->unkE = sv[2];
+                ((Unkstruct_8011DB30 *)hit)->unk6.u = sv[0];
+                ((Unkstruct_8011DB30 *)hit)->unkA.u = sv[1];
+                ((Unkstruct_8011DB30 *)hit)->unkE.u = sv[2];
                 q = rand();
                 r = rand();
-                ((Unkstruct_800B5CB8 *)hit)->unk34 =
+                ((Unkstruct_8011DB30 *)hit)->unk34.i.lo =
                     (((q % 0x2000) + 0x5000) & ~0xF) | (r % 3);
             }
 
@@ -4205,13 +4205,13 @@ void func_80180404(void *a0)
             ent = func_8012913C(0x22);
             if (ent != 0) {
                 RotTransSV(sv, ov, &flag);
-                ((Unkstruct_800B5CB8 *)ent)->unk6 = ov[0];
-                ((Unkstruct_800B5CB8 *)ent)->unkA = ov[1];
-                ((Unkstruct_800B5CB8 *)ent)->unkE = ov[2];
+                ((Unkstruct_8011DB30 *)ent)->unk6.u = ov[0];
+                ((Unkstruct_8011DB30 *)ent)->unkA.u = ov[1];
+                ((Unkstruct_8011DB30 *)ent)->unkE.u = ov[2];
                 t = rand();
                 s = rand();
                 t = (t & 1) << 12;
-                ((Unkstruct_800B5CB8 *)ent)->unk34 = ((t + 0x2000) | (s & 1));
+                ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = ((t + 0x2000) | (s & 1));
             }
             sv[0] += 0x20;
         }
@@ -4404,10 +4404,10 @@ void func_8018088C(s32 a0)
         if (limit > *(s16 *)(rec + 2) + (s16)base) {
             ent = func_8012913C(0x22);
             if (ent != 0) {
-                ((Unkstruct_800B5CB8 *)ent)->unk6 = *(u16 *)rec;
-                ((Unkstruct_800B5CB8 *)ent)->unkA = *(u16 *)(rec + 2) + base;
-                ((Unkstruct_800B5CB8 *)ent)->unkE = *(u16 *)(rec + 4);
-                ((Unkstruct_800B5CB8 *)ent)->unk34 = (rand() % 4095 + 0x6000) & 0xFFF0;
+                ((Unkstruct_8011DB30 *)ent)->unk6.u = *(u16 *)rec;
+                ((Unkstruct_8011DB30 *)ent)->unkA.u = *(u16 *)(rec + 2) + base;
+                ((Unkstruct_8011DB30 *)ent)->unkE.u = *(u16 *)(rec + 4);
+                ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = (rand() % 4095 + 0x6000) & 0xFFF0;
                 ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC00C;
             }
         }

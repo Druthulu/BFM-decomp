@@ -3564,15 +3564,15 @@ void func_8017ECE0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
+        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20;
         if (tmp != 0) {
             ((Unkstruct_800B5BD8 *)tmp)->unk2C.u = 0xC040;
         }
         var_s0 = i * 0x200;
         a = rsin(var_s0);
         b = rcos(var_s0);
-        ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2001;
-        ((Unkstruct_800B5CB8 *)sp1C)->unk14 = -0x80000;
+        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo = 0x2001;
+        ((Unkstruct_8011DB30 *)sp1C)->unk14 = -0x80000;
         CAST_WIDTH(s32, sp1C, 4) += a * 0x200;
         CAST_WIDTH(s32, sp1C, 0xC) += b * 0x200;
     }
@@ -3592,14 +3592,14 @@ void func_8017EDA0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = ((Unkstruct_800B5CB8 *)sp1C)->unk20;
+        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20;
         if (tmp != 0) {
             ((Unkstruct_800B5BD8 *)tmp)->unk2C.u = 0xC040;
         }
         var_s0 = i * 0x80;
         a = rsin(var_s0);
         b = rcos(var_s0);
-        ((Unkstruct_800B5CB8 *)sp1C)->unk34 = 0x2002;
+        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo = 0x2002;
         CAST_WIDTH(s32, sp1C, 0x10) = a * 112;
         CAST_WIDTH(s32, sp1C, 0x18) = b * 112;
         CAST_WIDTH(s32, sp1C, 4) += a * 256;
@@ -3960,9 +3960,9 @@ void func_8017F5FC(s32 param_1)
     SetRotMatrix((void *)(*(s32 *)(p + 0x20) + 0x34));
     SetTransMatrix((void *)(*(s32 *)(p + 0x20) + 0x34));
     RotTransSV(v, v, out);
-    ((Unkstruct_800B5CB8 *)param_1)->unk6 = v[0];
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = v[1];
-    ((Unkstruct_800B5CB8 *)param_1)->unkE = v[2];
+    ((Unkstruct_8011DB30 *)param_1)->unk6.u = v[0];
+    ((Unkstruct_8011DB30 *)param_1)->unkA.u = v[1];
+    ((Unkstruct_8011DB30 *)param_1)->unkE.u = v[2];
 }
 
 
@@ -4938,15 +4938,15 @@ void func_80180E24(void *a0)
         ((Unkstruct_800B5CB8 *)p)->unk1A = 0x2800;
         ((Unkstruct_800B5CB8 *)p)->unk18 = 0x2800;
 
-        guess_StartPairSequence(((Unkstruct_800B5CB8 *)s1)->unk20, (s32)s0, (s32)&D_801890C8);
+        guess_StartPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32)s0, (s32)&D_801890C8);
 
-        ((Unkstruct_800B5CB8 *)s1)->unk2 = CAST_SIGN(u16, (u8 *)s1, 0x2) + 1;
-        guess_StepPairSequence(((Unkstruct_800B5CB8 *)s1)->unk20, (s32 *)s0);
-        ((Unkstruct_800B5CB8 *)s1)->unk1C = 0;         /* +0x1C: frame timer */
+        ((Unkstruct_8011DB30 *)s1)->unk2.s = CAST_SIGN(u16, (u8 *)s1, 0x2) + 1;
+        guess_StepPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32 *)s0);
+        ((Unkstruct_8011DB30 *)s1)->unk1C = 0;         /* +0x1C: frame timer */
     }
 
-    t = ((Unkstruct_800B5CB8 *)s1)->unk1C + 1;
-    ((Unkstruct_800B5CB8 *)s1)->unk1C = t;
+    t = ((Unkstruct_8011DB30 *)s1)->unk1C + 1;
+    ((Unkstruct_8011DB30 *)s1)->unk1C = t;
 
     /* duplicated call+return in both arms; cross_jump merges the scheduled
      * common SUFFIX into the target's one shared block (§193-C / law 22) */
@@ -4971,9 +4971,9 @@ void func_80180E24(void *a0)
     }
 
     guess_RotTransSVWithObjMatrix((s32)s2, (s32)&D_801890D0, (s32)out);
-    ((Unkstruct_800B5CB8 *)s1)->unk6 = out[0];
-    ((Unkstruct_800B5CB8 *)s1)->unkA = out[1];
-    ((Unkstruct_800B5CB8 *)s1)->unkE = out[2];
+    ((Unkstruct_8011DB30 *)s1)->unk6.u = out[0];
+    ((Unkstruct_8011DB30 *)s1)->unkA.u = out[1];
+    ((Unkstruct_8011DB30 *)s1)->unkE.u = out[2];
 
     ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s1 + 0x20))->unk2C = 0xC040;
 }
@@ -5091,13 +5091,13 @@ void func_801810A4(s32 a0) {
          * `addiu $s0,$s1,0x24` as the block's first in-order insn, exactly like the target.
          * Fencing the whole `*(u16*)(a0+2) += 1` statement drags the `sh` up with it and loses. */
         u16 st = CAST_SIGN(u16, a0, 2) + 1;      /* shares the switch's own lhu via cse */
-        ((Unkstruct_800B5CB8 *)a0)->unk2 = st;              /* obj->state */
+        ((Unkstruct_8011DB30 *)a0)->unk2.s = st;              /* obj->state */
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = (s32) D_801890F0;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x44;
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xC00;
-        guess_StartPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
-        guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = 0;
+        guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
+        guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
+        ((Unkstruct_8011DB30 *)a0)->unk1C = 0;
     }
         /* fallthrough */
     case 1:
@@ -5105,20 +5105,20 @@ void func_801810A4(s32 a0) {
             func_801292C8((u8 *)a0);
             return;
         }
-        n = ((Unkstruct_800B5CB8 *)a0)->unk1C + 1;
-        ((Unkstruct_800B5CB8 *)a0)->unk1C = n;
+        n = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C = n;
         if (n < 8) {
             /* `v = n*3` above the fence, `*128` below it, reproduces the target's
              * sll / addu / lw / sll order.  Keeping the whole `n*3*128` above the fence puts the
              * lw one slot too late; omitting the fence lets sched1 hoist the lw above the `addu`,
              * where n ($v1) is still live -- that conflict is what costs p its $v1. */
             v = n * 3;
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;        /* obj->model */
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;        /* obj->model */
             v = v * 128;
             ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
         } else if (n < 0x16) {
             v = 0xC00;
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
         } else if (*(s32 *)(obj + 0x1C) == 0) {
             /* Raw (unnamed) pointer for the 0x1A store, so the sh kills the cse and `p` costs its
@@ -5127,7 +5127,7 @@ void func_801810A4(s32 a0) {
              * first load's pseudo. */
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0x600;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
             ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xC00;
@@ -5136,7 +5136,7 @@ void func_801810A4(s32 a0) {
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
             v = *(s32 *)(obj + 0x1C) * 3 * 32;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
-            p = ((Unkstruct_800B5CB8 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             v = v + 0x600;
         } else {

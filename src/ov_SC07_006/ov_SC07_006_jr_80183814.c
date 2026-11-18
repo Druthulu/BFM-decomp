@@ -6140,7 +6140,7 @@ void func_8018A150(void *a0)
     case 2:
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 += 0x200;
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A += 0x200;
-        if (*(s16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x18) >= 0x2000) {
+        if (*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x18) >= 0x2000) {
             func_801292C8((u8 *)a0);
         }
         break;

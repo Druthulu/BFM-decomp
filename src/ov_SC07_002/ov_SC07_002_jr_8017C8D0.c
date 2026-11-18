@@ -5703,13 +5703,13 @@ void func_80182538(s32 param_1)
     p = func_80132EF4(param_1, 0x72);
     if (p != 0) {
         r = 0x30;
-        t = ((Unkstruct_800B5CB8 *)p)->unk6 - r + rand() % 96;
-        f = ((Unkstruct_800B5CB8 *)p)->unkA;
-        ((Unkstruct_800B5CB8 *)p)->unk6 = t;
-        ((Unkstruct_800B5CB8 *)p)->unkA = *(u16 *)(param_1 + 0x52) + (f + 0x80);
+        t = ((Unkstruct_8011DB30 *)p)->unk6.u - r + rand() % 96;
+        f = ((Unkstruct_8011DB30 *)p)->unkA.u;
+        ((Unkstruct_8011DB30 *)p)->unk6.u = t;
+        ((Unkstruct_8011DB30 *)p)->unkA.u = *(u16 *)(param_1 + 0x52) + (f + 0x80);
         r = 0x30;
-        t = ((Unkstruct_800B5CB8 *)p)->unkE - r + rand() % 96;
-        ((Unkstruct_800B5CB8 *)p)->unkE = t;
+        t = ((Unkstruct_8011DB30 *)p)->unkE.u - r + rand() % 96;
+        ((Unkstruct_8011DB30 *)p)->unkE.u = t;
     }
 }
 
@@ -6186,10 +6186,10 @@ extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_80183078(int param_1)
 {
-    if (((Unkstruct_800B5CB8 *)param_1)->unk1C != 0) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk1C = ((Unkstruct_800B5CB8 *)param_1)->unk1C - 1;
+    if (((Unkstruct_8011DB30 *)param_1)->unk1C != 0) {
+        ((Unkstruct_8011DB30 *)param_1)->unk1C = ((Unkstruct_8011DB30 *)param_1)->unk1C - 1;
         guess_AddVelocityToPos((S800D22E4 *)param_1);
-        CAST_WIDTH(short, ((Unkstruct_800B5CB8 *)param_1)->unk20, 0x14) = CAST_WIDTH(short, ((Unkstruct_800B5CB8 *)param_1)->unk20, 0x14) + 0x40;
+        CAST_WIDTH(short, ((Unkstruct_8011DB30 *)param_1)->unk20, 0x14) = CAST_WIDTH(short, ((Unkstruct_8011DB30 *)param_1)->unk20, 0x14) + 0x40;
     } else {
         func_801292C8((u8 *)param_1);
     }

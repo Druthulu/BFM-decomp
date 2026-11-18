@@ -3495,11 +3495,11 @@ void func_8017E734(s32 arg0) {
             ptr = func_8012913C(0x22);
             if (ptr != NULL) {
                 t = (*(s16 *)(arg0 + 0x12) - *(s16 *)(arg0 + 0x10)) * scale >> 12;
-                ((Unkstruct_800B5CB8 *)ptr)->unk6 = *(s16 *)(arg0 + 0x10) + t;
-                ((Unkstruct_800B5CB8 *)ptr)->unkA = *(s32 *)(arg0 + 8);
+                ((Unkstruct_8011DB30 *)ptr)->unk6.u = *(s16 *)(arg0 + 0x10) + t;
+                ((Unkstruct_8011DB30 *)ptr)->unkA.u = *(s32 *)(arg0 + 8);
                 t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
-                ((Unkstruct_800B5CB8 *)ptr)->unkE = *(s16 *)(arg0 + 0x14) + t;
-                ((Unkstruct_800B5CB8 *)ptr)->unk34 = (rand() & 0x7F0) + 0x2C00;
+                ((Unkstruct_8011DB30 *)ptr)->unkE.u = *(s16 *)(arg0 + 0x14) + t;
+                ((Unkstruct_8011DB30 *)ptr)->unk34.i.lo = (rand() & 0x7F0) + 0x2C00;
                 ((Unkstruct_800B5CB8 *)*(s32 *)(ptr + 0x20))->unk2C = 0xC010;
             }
             scale += 0x400;
@@ -3520,14 +3520,14 @@ void func_8017E824(s32 arg0) {
     if ((D_800B99D8 & 3) == 0) {
         ptr = func_8012913C(0x37);
         if (ptr != NULL) {
-            ((Unkstruct_800B5CB8 *)ptr)->unk6 = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
-            ((Unkstruct_800B5CB8 *)ptr)->unkA = *(s32 *)(arg0 + 0x8);
-            ((Unkstruct_800B5CB8 *)ptr)->unkE = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
+            ((Unkstruct_8011DB30 *)ptr)->unk6.u = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
+            ((Unkstruct_8011DB30 *)ptr)->unkA.u = *(s32 *)(arg0 + 0x8);
+            ((Unkstruct_8011DB30 *)ptr)->unkE.u = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
             diff = *(u16 *)(arg0 + 0x10) - *(u16 *)(arg0 + 0x12);
             if (diff < 0) {
                 diff = -diff;
             }
-            ((Unkstruct_800B5CB8 *)ptr)->unk2C = diff;
+            ((Unkstruct_8011DB30 *)ptr)->unk2C = diff;
         }
     }
 }
@@ -3569,7 +3569,7 @@ void func_8017E940(s32 a0) {
     s1 = (s32 *)a0;
     s0 = (u8 *)func_8017E908();
     if (s0 != 0) {
-        func_8001CD50(((Unkstruct_800B5CB8 *)s1)->unk20, (s32)s0);
+        func_8001CD50(((Unkstruct_8011DB30 *)s1)->unk20, (s32)s0);
         *(CVECTOR *)(s0 + 0) = D_80191968;
         *(CVECTOR *)(s0 + 4) = D_8019196C;
 

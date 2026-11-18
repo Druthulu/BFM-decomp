@@ -3961,10 +3961,10 @@ void func_8017D9C4(void *a0)
     var_s1 = a0;
     var_s0 = func_8012913C(5);
     if (var_s0 != NULL) {
-        ((Unkstruct_800B5CB8 *)var_s0)->unk6 = *(u16 *)(var_s1 + 6);
-        ((Unkstruct_800B5CB8 *)var_s0)->unkA = *(u16 *)(var_s1 + 0xA);
-        ((Unkstruct_800B5CB8 *)var_s0)->unkE = *(u16 *)(var_s1 + 0xE);
-        ((Unkstruct_800B5CB8 *)var_s0)->unk2E = rand() & 3;
+        ((Unkstruct_8011DB30 *)var_s0)->unk6.u = *(u16 *)(var_s1 + 6);
+        ((Unkstruct_8011DB30 *)var_s0)->unkA.u = *(u16 *)(var_s1 + 0xA);
+        ((Unkstruct_8011DB30 *)var_s0)->unkE.u = *(u16 *)(var_s1 + 0xE);
+        ((Unkstruct_8011DB30 *)var_s0)->unk2E = rand() & 3;
     }
 }
 
@@ -4019,31 +4019,31 @@ void func_8017DB2C(s32 a0) {
     u16 vecA[4];
     u16 vecB[4];
 
-    ret = guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
+    ret = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
     if (ret != 0) {
         func_801292C8((u8 *)a0);
     } else {
         if (CAST_SIGN(s16, a0, 0x2E) != 0) {
             guess_AddVelocityToPos((S800D22E4 *)a0);
             CAST_WIDTH(s32, a0, 0x10) -= CAST_WIDTH(s32, a0, 0x10) >> 3;
-            ((Unkstruct_800B5CB8 *)a0)->unk14 += -0x4000;
+            ((Unkstruct_8011DB30 *)a0)->unk14 += -0x4000;
             CAST_WIDTH(s32, a0, 0x18) -= CAST_WIDTH(s32, a0, 0x18) >> 3;
         } else {
-            vecA[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-            vecA[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-            vecA[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+            vecA[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+            vecA[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+            vecA[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
             guess_AddVelocityToPos((S800D22E4 *)a0);
-            vecB[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-            vecB[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-            vecB[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+            vecB[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+            vecB[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+            vecB[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
             ret = func_80135168(0, vecA, vecB);
             if (ret != 0) {
-                ((Unkstruct_800B5CB8 *)a0)->unk6 = vecB[0];
-                ((Unkstruct_800B5CB8 *)a0)->unkA = vecB[1];
-                ((Unkstruct_800B5CB8 *)a0)->unkE = vecB[2];
-                ((Unkstruct_800B5CB8 *)a0)->unk14 = -(((Unkstruct_800B5CB8 *)a0)->unk14 >> 1);
+                ((Unkstruct_8011DB30 *)a0)->unk6.u = vecB[0];
+                ((Unkstruct_8011DB30 *)a0)->unkA.u = vecB[1];
+                ((Unkstruct_8011DB30 *)a0)->unkE.u = vecB[2];
+                ((Unkstruct_8011DB30 *)a0)->unk14 = -(((Unkstruct_8011DB30 *)a0)->unk14 >> 1);
             }
-            ((Unkstruct_800B5CB8 *)a0)->unk14 += 0x1C000;
+            ((Unkstruct_8011DB30 *)a0)->unk14 += 0x1C000;
         }
     }
 }

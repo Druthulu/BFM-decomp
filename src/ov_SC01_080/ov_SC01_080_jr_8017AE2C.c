@@ -6020,11 +6020,11 @@ void func_801808B8(s32 param_1) {
         func_8012913C(0x14);
         q = func_8012913C(0x14);
         if (q != 0) {
-            ((Unkstruct_800B5CB8 *)q)->unk2E = 0x71;
+            ((Unkstruct_8011DB30 *)q)->unk2E = 0x71;
         }
         q = func_8012913C(0x14);
         if (q != 0) {
-            ((Unkstruct_800B5CB8 *)q)->unk2E = 0xE3;
+            ((Unkstruct_8011DB30 *)q)->unk2E = 0xE3;
         }
         *(s32 *)(param_1 + 0x1C) = 0x10;
         if (D_80127188 != 0) {
@@ -6272,7 +6272,7 @@ void func_80180D54(s32 param_1) {
         func_8012913C(0x1C);
         q = func_8012913C(0x1C);
         if (q != 0) {
-            ((Unkstruct_800B5CB8 *)q)->unk2C = 1;
+            ((Unkstruct_8011DB30 *)q)->unk2C = 1;
         }
         *(u16 *)(param_1 + 0x2) = *(u16 *)(param_1 + 0x2) + 1;
     }
@@ -6327,13 +6327,13 @@ void func_80181040(void *a0) {
     u16 v0;
     s32 v1;
 
-    ((Unkstruct_800B5CB8 *)a0)->unkA = D_80127190 - 0x150;
-    v1 = ((Unkstruct_800B5CB8 *)a0)->unk20;
+    ((Unkstruct_8011DB30 *)a0)->unkA.u = D_80127190 - 0x150;
+    v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
     v0 = ((Unkstruct_800B5BD8 *)v1)->unk18.u + 0x80;
     ((Unkstruct_800B5BD8 *)v1)->unk18.u = v0;
     ((Unkstruct_800B5BD8 *)v1)->unk1A.u = v0;
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk2E - 1;
-    ((Unkstruct_800B5CB8 *)a0)->unk2E = v0;
+    v0 = ((Unkstruct_8011DB30 *)a0)->unk2E - 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2E = v0;
     if ((s16)v0 == -1) {
         func_801292C8((u8 *)a0);
     }
@@ -6635,9 +6635,9 @@ void func_80181770(u8 *arg0) {
     u16 sp1E;
     u8 *sp18;
 
-    sp1E = ((Unkstruct_800B5CB8 *)arg0)->unk2E;
+    sp1E = ((Unkstruct_8011DB30 *)arg0)->unk2E;
     sp18 = CAST_SIGN(u8 *, arg0, 0x20);
-    ((Unkstruct_800B5CB8 *)arg0)->unk2E = sp1E - 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk2E = sp1E - 1;
     if ((s16)sp1E < 0) {
         func_801292C8(arg0);
     } else {
@@ -6736,7 +6736,7 @@ void func_80181918(s32 arg0) {
     t = rand();
     CAST_ALIAS(u16, arg0, 6) = guess_g_PlayerPosX + D_80126B6A * 32 + (t & 0x1FF) - 0xFF;
     CAST_ALIAS(u16, arg0, 0xA) = guess_g_PlayerPosY - 0x120;
-    cnt = ((Unkstruct_8011DB30 *)arg0)->unk2;
+    cnt = ((Unkstruct_8011DB30 *)arg0)->unk2.u;
     ((Unkstruct_8011DB30 *)arg0)->unkE.u = guess_g_PlayerPosZ + D_80126B72 * 32 + (t >> 7) - 0xFF;
     CAST_ALIAS(s32, arg0, 0x14) += 0x50000;
     CAST_ALIAS(u16, arg0, 2) = cnt + 1;

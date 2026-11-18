@@ -4904,15 +4904,15 @@ extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
 extern void func_801292C8(u8 *a0);
 
 void func_801817A8(s32 a0) {
-    ((Unkstruct_800B5CB8 *)a0)->unk14 -= 0x2000;
+    ((Unkstruct_8011DB30 *)a0)->unk14 -= 0x2000;
     guess_AddVelocityToPos((S800D22E4 *)a0);
 
-    if ((((Unkstruct_800B5CB8 *)a0)->unk1C & 3) == 0) {
-        guess_StepPairSequence(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)(a0 + 0x24));
+    if ((((Unkstruct_8011DB30 *)a0)->unk1C & 3) == 0) {
+        guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
     }
 
-    ((Unkstruct_800B5CB8 *)a0)->unk1C -= 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C == -1) {
+    ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
         func_801292C8((u8 *)a0);
     }
 }
@@ -5364,26 +5364,26 @@ void func_80182108(s32 arg0)
             s32 d;
             s32 z;
             t = *(u16 *)(arg0 + 0x84) & 4;
-            z = ((Unkstruct_800B5CB8 *)e)->unkE;
+            z = ((Unkstruct_8011DB30 *)e)->unkE.u;
             d = i + t * 3 - 0x2A;
             do {  // !FAKE: do-while — its LOOP notes are sched1 barriers (sched.c:2053-2080): the +6 load stays after d, the +E store before the sign extension (P36 S104 e28)
-                v = ((Unkstruct_800B5CB8 *)e)->unk6;
+                v = ((Unkstruct_8011DB30 *)e)->unk6.u;
                 z += 0x28;
-                ((Unkstruct_800B5CB8 *)e)->unkE = z;
+                ((Unkstruct_8011DB30 *)e)->unkE.u = z;
             } while (0);
             v -= d;
-            ((Unkstruct_800B5CB8 *)e)->unk6 = v;
-            v = ((Unkstruct_800B5CB8 *)e)->unkA;
+            ((Unkstruct_8011DB30 *)e)->unk6.u = v;
+            v = ((Unkstruct_8011DB30 *)e)->unkA.u;
             v -= 0x20;
-            ((Unkstruct_800B5CB8 *)e)->unkA = v;
+            ((Unkstruct_8011DB30 *)e)->unkA.u = v;
             v = (s16)d;
             if (v >= 0) {
                 v = v << 7;
             } else {
                 v = -(v << 7);
             }
-            ((Unkstruct_800B5CB8 *)e)->unk34 = v + 0x1000;
-            ((Unkstruct_800B5CB8 *)e)->unk14 = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)e)->unk34.i.lo = v + 0x1000;
+            ((Unkstruct_8011DB30 *)e)->unk14 = 0xFFFE0000;
             CAST_WIDTH(s32, e, 0x18) = 0x30000;
         }
     }

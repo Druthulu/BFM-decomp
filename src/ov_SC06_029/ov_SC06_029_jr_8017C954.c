@@ -5524,23 +5524,23 @@ void func_801814B0(u16 *param_1, s32 param_2)
                 }
                 func_8012B0B4((unsigned int *)buf, sign * (rand() % 1024), 0x180);
                 t = buf[0];
-                ((Unkstruct_800B5CB8 *)ent)->unk6 = param_1[0] + t;
-                ((Unkstruct_800B5CB8 *)ent)->unkA = param_1[1] + sign * (rand() % 128);
-                ((Unkstruct_800B5CB8 *)ent)->unkE = param_1[2] + (t >> 16);
-                ((Unkstruct_800B5CB8 *)ent)->unk34 =
+                ((Unkstruct_8011DB30 *)ent)->unk6.u = param_1[0] + t;
+                ((Unkstruct_8011DB30 *)ent)->unkA.u = param_1[1] + sign * (rand() % 128);
+                ((Unkstruct_8011DB30 *)ent)->unkE.u = param_1[2] + (t >> 16);
+                ((Unkstruct_8011DB30 *)ent)->unk34.i.lo =
                     (((rand() % 12287) + 0x5000) & 0x7FF0) | (rand() & 1);
                 ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC010;
                 sub = func_8012913C(0x22);
                 if (sub != 0) {
-                    ((Unkstruct_800B5CB8 *)sub)->unk6 = ((Unkstruct_800B5CB8 *)ent)->unk6;
-                    ((Unkstruct_800B5CB8 *)sub)->unkA = ((Unkstruct_800B5CB8 *)ent)->unkA;
-                    ((Unkstruct_800B5CB8 *)sub)->unkE = ((Unkstruct_800B5CB8 *)ent)->unkE;
-                    ((Unkstruct_800B5CB8 *)sub)->unk14 = -0x80000 - ((rand() % 9) << 16);
-                    ((Unkstruct_800B5CB8 *)sub)->unk34 =
+                    ((Unkstruct_8011DB30 *)sub)->unk6.u = ((Unkstruct_8011DB30 *)ent)->unk6.u;
+                    ((Unkstruct_8011DB30 *)sub)->unkA.u = ((Unkstruct_8011DB30 *)ent)->unkA.u;
+                    ((Unkstruct_8011DB30 *)sub)->unkE.u = ((Unkstruct_8011DB30 *)ent)->unkE.u;
+                    ((Unkstruct_8011DB30 *)sub)->unk14 = -0x80000 - ((rand() % 9) << 16);
+                    ((Unkstruct_8011DB30 *)sub)->unk34.i.lo =
                         (((rand() % 4) << 12) + 0x2000) | (rand() & 1);
                     ((Unkstruct_800B5CB8 *)*(s32 *)(sub + 0x20))->unk2C =
                         ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C;
-                    *(s32 *)(((Unkstruct_800B5CB8 *)sub)->unk20 + 0x4) |= 0x40000000;
+                    *(s32 *)(((Unkstruct_8011DB30 *)sub)->unk20 + 0x4) |= 0x40000000;
                 }
             }
             do { i--; } while (0);

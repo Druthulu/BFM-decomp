@@ -3232,14 +3232,14 @@ void func_801898CC(s32 param_1)
         ent = (s32)func_8012913C(0x22);
         if (ent != 0) {
             a = rand();
-            ((Unkstruct_800B5CB8 *)ent)->unk6 = (a % 128) - 0x40;
+            ((Unkstruct_8011DB30 *)ent)->unk6.u = (a % 128) - 0x40;
             b = rand();
-            ((Unkstruct_800B5CB8 *)ent)->unkA = (b % 128) - 0x182;
+            ((Unkstruct_8011DB30 *)ent)->unkA.u = (b % 128) - 0x182;
             c = rand();
-            ((Unkstruct_800B5CB8 *)ent)->unkE = (c % 128) - 0x40;
+            ((Unkstruct_8011DB30 *)ent)->unkE.u = (c % 128) - 0x40;
             d = rand();
             e = rand();
-            ((Unkstruct_800B5CB8 *)ent)->unk34 = (((d % 5) << 12) + 0x3000) | (e & 1);
+            ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = (((d % 5) << 12) + 0x3000) | (e & 1);
             ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC008;
         }
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) != 0) {

@@ -4264,7 +4264,7 @@ s32 func_8018E208(void *a0)
     s32  hit;
 
     cfg = (s32 *)&guess_g_PlayerActor;
-    p0 = (u8 *)((Unkstruct_800B5CB8 *)a0)->unk20;
+    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20;
 
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);
@@ -5461,7 +5461,7 @@ void func_8018FBC8(s32 param_1) {
                       CAST_SIGN(s16, s0, 0xE), 0, 0);
         v = func_80132EF4(s0, 0x22);
         if (v != 0) {
-            ((Unkstruct_800B5CB8 *)v)->unk34 = 0x2000;
+            ((Unkstruct_8011DB30 *)v)->unk34.i.lo = 0x2000;
         }
     } else {
         if (func_8012D5E4(s0, (s32)&D_801E4208, (s32)&D_800D3918, 0x19) == 0 &&

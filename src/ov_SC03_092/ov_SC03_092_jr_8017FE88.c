@@ -3681,9 +3681,9 @@ void func_80180F08(void *a0)
 
     v0 = func_80132EF4((s32)a0, 0x22);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unk34 = 0x4001;
+        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_800B5CB8 *)v0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;

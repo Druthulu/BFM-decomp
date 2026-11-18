@@ -3964,12 +3964,12 @@ void func_80187D64(s32 arg0) {
         ent = func_8012913C(0x22);
         if (ent != 0) {
             s32 s0 = i << 9;
-            ((Unkstruct_800B5CB8 *)ent)->unk6 = vec[0];
-            ((Unkstruct_800B5CB8 *)ent)->unkA = vec[1];
-            ((Unkstruct_800B5CB8 *)ent)->unkE = vec[2];
+            ((Unkstruct_8011DB30 *)ent)->unk6.u = vec[0];
+            ((Unkstruct_8011DB30 *)ent)->unkA.u = vec[1];
+            ((Unkstruct_8011DB30 *)ent)->unkE.u = vec[2];
             CAST_WIDTH(s32, ent, 0x10) = rcos(s0) * 320;
             CAST_WIDTH(s32, ent, 0x18) = rsin(s0) * 320;
-            ((Unkstruct_800B5CB8 *)ent)->unk34 = (((rand() % 3) << 12) + 0x4000) | 1;
+            ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = (((rand() % 3) << 12) + 0x4000) | 1;
             ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC004;
         }
     }
@@ -4220,7 +4220,7 @@ void func_801885C0(s32 *a0, s32 *a1)
         CAST_WIDTH(s32, ent, 0xC) = a0[2];
         CAST_WIDTH(s32, ent, 0x10) = -(a1[0] >> 1);
         CAST_WIDTH(s32, ent, 0x18) = -(a1[2] >> 1);
-        ((Unkstruct_800B5CB8 *)ent)->unk34 = 0x3000;
+        ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = 0x3000;
         ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC004;
     }
 }

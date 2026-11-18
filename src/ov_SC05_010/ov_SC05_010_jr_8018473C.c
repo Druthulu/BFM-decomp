@@ -3112,9 +3112,9 @@ void func_80184E4C(s32 a0) {
     func_8012B0B4(&sp10, rand() % 0x1000,
                   rand() % ((*(s16 *)(*(s32 *)(a0 + 0x20) + 0x18) * 3) >> 9));
     t = (s32)sp10;                                 /* packed dx (lo16) / dz (hi16) */
-    ((Unkstruct_800B5CB8 *)ent)->unk6 = *(u16 *)(a0 + 6) + t;      /* X */
-    ((Unkstruct_800B5CB8 *)ent)->unkA = *(u16 *)(a0 + 0xA);      /* Y */
-    ((Unkstruct_800B5CB8 *)ent)->unkE = *(u16 *)(a0 + 0xE) + (t >> 16); /* Z */
+    ((Unkstruct_8011DB30 *)ent)->unk6.u = *(u16 *)(a0 + 6) + t;      /* X */
+    ((Unkstruct_8011DB30 *)ent)->unkA.u = *(u16 *)(a0 + 0xA);      /* Y */
+    ((Unkstruct_8011DB30 *)ent)->unkE.u = *(u16 *)(a0 + 0xE) + (t >> 16); /* Z */
 
     /* vel X = +/- (rand() % 4) << 16 */
     q = rand();
@@ -3137,7 +3137,7 @@ void func_80184E4C(s32 a0) {
     CAST_WIDTH(s32, ent, 0x18) = m;
 
     /* vel Y = (-12 - rand() % 9) << 16   (0x38E38E39 magic /9) */
-    ((Unkstruct_800B5CB8 *)ent)->unk14 = -0xC0000 - ((rand() % 9) << 16);
+    ((Unkstruct_8011DB30 *)ent)->unk14 = -0xC0000 - ((rand() % 9) << 16);
     CAST_WIDTH(s32, ent, 0x2C) = a0;                     /* owner backref */
 }
 
@@ -3209,35 +3209,35 @@ void func_8018505C(void *a0) {
         /* the pointer is re-loaded per statement: each `sh` kills the CSE
          * of `*(s32 *)(a0+0x20)` (§193-E), which is why the target has three
          * `lw $a0,0x20($s0)`. */
-        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 += CAST_WIDTH(u16, (s32)a0, 0x30);
-        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 += *(u16 *)((s32)a0 + 0x32);
-        *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += ((Unkstruct_800B5CB8 *)a0)->unk34;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk10 += CAST_WIDTH(u16, (s32)a0, 0x30);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk12 += *(u16 *)((s32)a0 + 0x32);
+        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += ((Unkstruct_8011DB30 *)a0)->unk34.i.lo;
 
         if (d.vx + d.vz > 0x9000) {
-            ((Unkstruct_800B5CB8 *)a0)->unk14 = 0x18000;
+            ((Unkstruct_8011DB30 *)a0)->unk14 = 0x18000;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unk36 += 1;
+            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi += 1;
         }
     } else {
-        ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk10 += 0x80;
-        *(u16 *)(((Unkstruct_800B5CB8 *)a0)->unk20 + 0x14) += 0x80;
+        ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk10 += 0x80;
+        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += 0x80;
 
         if (d.vx + d.vz < 0x4001) {
             /* its OWN pseudo: sharing `v` with the abs() block below gives the
              * merged pseudo a whole-function live range, and global_alloc then
              * seats it in $a0 instead of $v0 (§186c). */
             s32 t = rand();
-            ((Unkstruct_800B5CB8 *)a0)->unk36 = 0;
-            ((Unkstruct_800B5CB8 *)a0)->unk14 = -0x100000 - ((t % 9) << 16);
+            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi = 0;
+            ((Unkstruct_8011DB30 *)a0)->unk14 = -0x100000 - ((t % 9) << 16);
         }
     }
 
     guess_AddVelocityToPos((S800D22E4 *)a0);
 
-    in3[0] = ((Unkstruct_800B5CB8 *)a0)->unk6;
-    in3[1] = ((Unkstruct_800B5CB8 *)a0)->unkA;
-    in3[2] = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    in3[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+    in3[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+    in3[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
     ((void (*)(u16 *, s16 *))guess_WorldToScreenFlag)(in3, out2);
 
     /* CALL unless (|out2[0]| < 0xB5 && |out2[1]| < 0x8D && obj->y < 0x10).
@@ -4398,9 +4398,9 @@ void func_80186E1C(void *param_1)
     v0 = CAST_SIGN(s16, (s32)param_1, 0x2C);
     v1 = v0;
     if (v0 < 0x700) {
-        ((Unkstruct_800B5CB8 *)param_1)->unk2C = v1 + 0x30;
+        ((Unkstruct_8011DB30 *)param_1)->unk2C = v1 + 0x30;
         func_80184100((u8 *)&D_801C7E80, -4);
-        guess_BuildCircle12Points((void *)((s32)&D_801C7E80 - 4), ((Unkstruct_800B5CB8 *)param_1)->unk2C);
+        guess_BuildCircle12Points((void *)((s32)&D_801C7E80 - 4), ((Unkstruct_8011DB30 *)param_1)->unk2C);
     } else {
         func_801292C8((u8 *)param_1);
     }

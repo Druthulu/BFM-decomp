@@ -2972,12 +2972,12 @@ void func_801821B4(s32 arg0)
 
     prim = (s32 *)func_80132EF4(arg0, 0x22);
     if (prim != NULL) {
-        ((Unkstruct_800B5CB8 *)prim)->unk34 = 0x1000;
+        ((Unkstruct_8011DB30 *)prim)->unk34.i.lo = 0x1000;
         ang = *(s16 *)(*(s32 *)(arg0 + 0x20) + 0x12);
         func_8012B0B4((unsigned int *)&packed, ang, 0x10);
         ang = (ang - 0x400) & 0xFFF;
-        ((Unkstruct_800B5CB8 *)prim)->unk6 += packed;
-        ((Unkstruct_800B5CB8 *)prim)->unkE += packed >> 16;
+        ((Unkstruct_8011DB30 *)prim)->unk6.u += packed;
+        ((Unkstruct_8011DB30 *)prim)->unkE.u += packed >> 16;
         CAST_WIDTH(s32, (s32)prim, 0x10) = rcos(ang) << 8;
         CAST_WIDTH(s32, (s32)prim, 0x18) = -(rsin(ang) << 8);
     }

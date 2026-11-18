@@ -3302,9 +3302,9 @@ void func_8017DDC4(void *a0)
 
     v0 = func_80132EF4((s32)a0, 0x22);
     if (v0 != 0) {
-        ((Unkstruct_800B5CB8 *)v0)->unk34 = 0x4001;
+        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_800B5CB8 *)v0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14 = ((Unkstruct_800B5CB8 *)a0)->unk14 >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
     ((Unkstruct_800B5CB8 *)a0)->unk1C = 0x20;
@@ -6235,7 +6235,7 @@ void func_80182A9C(s32 arg0) {
     if (*(u16 *)(CAST_WIDTH(s32, arg0, 0x2c)) == 0) {
         func_801292C8((u8 *)arg0);
     }
-    ((Unkstruct_800B5CB8 *)arg0)->unk1C += 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C += 1;
 }
 
 
@@ -6248,11 +6248,11 @@ void func_80182AF4(s32 a0) {
     Local_8017EE34 sp10;
 
     func_80182DBC(a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C >= 0x1F) {
-        sp10.f0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.f1 = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.f2 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    ((Unkstruct_8011DB30 *)a0)->unk1C += 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C >= 0x1F) {
+        sp10.f0 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sp10.f1 = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sp10.f2 = ((Unkstruct_8011DB30 *)a0)->unkE.u;
         sp10.f3 = 0x17F;
         sp10.f4 = 0x8000;
         sp10.f5 = 0;

@@ -4902,11 +4902,11 @@ void func_80180948(s32 a0) {
     Local_8017EE34 sp10;
 
     func_80180C10(a0);
-    ((Unkstruct_800B5CB8 *)a0)->unk1C += 1;
-    if (((Unkstruct_800B5CB8 *)a0)->unk1C >= 0x1F) {
-        sp10.f0 = ((Unkstruct_800B5CB8 *)a0)->unk6;
-        sp10.f1 = ((Unkstruct_800B5CB8 *)a0)->unkA;
-        sp10.f2 = ((Unkstruct_800B5CB8 *)a0)->unkE;
+    ((Unkstruct_8011DB30 *)a0)->unk1C += 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C >= 0x1F) {
+        sp10.f0 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+        sp10.f1 = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+        sp10.f2 = ((Unkstruct_8011DB30 *)a0)->unkE.u;
         sp10.f3 = 0x17F;
         sp10.f4 = 0x8000;
         sp10.f5 = 0;

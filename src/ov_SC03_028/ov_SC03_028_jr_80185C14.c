@@ -3924,7 +3924,7 @@ void func_80187084(void *a0)
                 CAST_WIDTH(s32, obj, 0x2C) = ((v1 & 0x30) << 6) + 0x200;
             }
 
-            ((Unkstruct_800B5CB8 *)obj)->unk1C = *(s32 *)((s32)a0 + 0x1C) + 0x24;
+            ((Unkstruct_8011DB30 *)obj)->unk1C = *(s32 *)((s32)a0 + 0x1C) + 0x24;
             guess_RequestSound(0x564, 0);
         }
     }

@@ -4869,11 +4869,11 @@ s32 func_80181C4C(s32 a0) {
     guess_RequestSound(0xA26, 0);
     e = func_80132EF4(a0, 0x22);
     if (e != 0) {
-        ((Unkstruct_800B5CB8 *)e)->unk34 = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) | 2;
-        ((Unkstruct_800B5CB8 *)e)->unk14 = -0x80000 - ((rand() % 3) << 16);
-        ((Unkstruct_800B5CB8 *)e)->unk6 = *(u16 *)(a0 + 0x7C);
-        ((Unkstruct_800B5CB8 *)e)->unkA = *(u16 *)(a0 + 0x7E);
-        ((Unkstruct_800B5CB8 *)e)->unkE = *(u16 *)(a0 + 0x80);
+        ((Unkstruct_8011DB30 *)e)->unk34.i.lo = *(u16 *)(*(s32 *)(a0 + 0x20) + 0x18) | 2;
+        ((Unkstruct_8011DB30 *)e)->unk14 = -0x80000 - ((rand() % 3) << 16);
+        ((Unkstruct_8011DB30 *)e)->unk6.u = *(u16 *)(a0 + 0x7C);
+        ((Unkstruct_8011DB30 *)e)->unkA.u = *(u16 *)(a0 + 0x7E);
+        ((Unkstruct_8011DB30 *)e)->unkE.u = *(u16 *)(a0 + 0x80);
     }
     return 1;
 }

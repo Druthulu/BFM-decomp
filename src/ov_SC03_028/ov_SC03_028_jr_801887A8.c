@@ -4387,9 +4387,9 @@ void func_8018A800(void *a0)
 
     val = CAST_SIGN(s16, (s32)a0, 0x2C);
     if (val < 0x700) {
-        ((Unkstruct_800B5CB8 *)a0)->unk2C = val + 0x30;
+        ((Unkstruct_8011DB30 *)a0)->unk2C = val + 0x30;
         func_801860F8(&D_801EC45C, -4);
-        guess_BuildCircle12Points(&D_801EC45C - 4, ((Unkstruct_800B5CB8 *)a0)->unk2C);
+        guess_BuildCircle12Points(&D_801EC45C - 4, ((Unkstruct_8011DB30 *)a0)->unk2C);
     } else {
         func_801292C8(a0);
     }

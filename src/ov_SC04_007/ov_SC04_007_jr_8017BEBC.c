@@ -6368,7 +6368,7 @@ s32 func_801821DC(s32 a0) {
         return 0;
     }
 
-    ((Unkstruct_800B5CB8 *)s2)->unkA = ((Unkstruct_800B5CB8 *)s2)->unkA - 0x28;
+    ((Unkstruct_8011DB30 *)s2)->unkA.u = ((Unkstruct_8011DB30 *)s2)->unkA.u - 0x28;
 
     /* NOTE (this is the whole match, do not "tidy" it): each block MUST own its
      * own r/val/base locals.  With one shared `r` across all three blocks, the
@@ -6383,32 +6383,32 @@ s32 func_801821DC(s32 a0) {
         r = rand() % 28;
         base = CAST_SIGN(s16, s2, 0x6);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_800B5CB8 *)s2)->unk6 = val;
+        ((Unkstruct_8011DB30 *)s2)->unk6.u = val;
     }
     {
         s32 r, val, base;
         r = rand() % 32;
         base = CAST_SIGN(s16, s2, 0xA);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_800B5CB8 *)s2)->unkA = val;
+        ((Unkstruct_8011DB30 *)s2)->unkA.u = val;
     }
     {
         s32 r, val, base;
         r = rand() % 28;
         base = CAST_SIGN(s16, s2, 0xE);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_800B5CB8 *)s2)->unkE = val;
+        ((Unkstruct_8011DB30 *)s2)->unkE.u = val;
     }
 
     {
         s32 v0, v1;
 
         if (rand() & 1) {
-            v1 = ((Unkstruct_800B5CB8 *)s2)->unk20;
+            v1 = ((Unkstruct_8011DB30 *)s2)->unk20;
             v0 = -0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         } else {
-            v1 = ((Unkstruct_800B5CB8 *)s2)->unk20;
+            v1 = ((Unkstruct_8011DB30 *)s2)->unk20;
             v0 = 0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         }

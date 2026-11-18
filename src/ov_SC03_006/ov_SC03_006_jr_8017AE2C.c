@@ -7121,11 +7121,11 @@ void func_801828B0(s32 a0) {
             if (q != 0) {
                 func_8012B0B4(buf, *tbl, rand() % 80 + 0x118);
                 v = (s32)buf[0];
-                ((Unkstruct_800B5CB8 *)q)->unk6 = *(u16 *)(obj + 0x6) + v;
-                ((Unkstruct_800B5CB8 *)q)->unkE = *(u16 *)(obj + 0xE) + (v >> 16);
-                ((Unkstruct_800B5CB8 *)q)->unkA = *(u16 *)(obj + 0xA) + 0x40;
-                ((Unkstruct_800B5CB8 *)q)->unk14 = (rand() % 9) * 0x10000 - 0x100000;
-                ((Unkstruct_800B5CB8 *)q)->unk34 = (rand() & 1) | 0x7FF0;
+                ((Unkstruct_8011DB30 *)q)->unk6.u = *(u16 *)(obj + 0x6) + v;
+                ((Unkstruct_8011DB30 *)q)->unkE.u = *(u16 *)(obj + 0xE) + (v >> 16);
+                ((Unkstruct_8011DB30 *)q)->unkA.u = *(u16 *)(obj + 0xA) + 0x40;
+                ((Unkstruct_8011DB30 *)q)->unk14 = (rand() % 9) * 0x10000 - 0x100000;
+                ((Unkstruct_8011DB30 *)q)->unk34.i.lo = (rand() & 1) | 0x7FF0;
                 ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC008;
             }
         }
@@ -7651,12 +7651,12 @@ void func_801833E4(s32 a0)
     if ((guess_g_FrameCounter & 7) == 0) {
         s1 = func_80132EF4(a0, 0x22);
         if (s1 != 0) {
-            ((Unkstruct_800B5CB8 *)s1)->unk34 = 0x1000;
+            ((Unkstruct_8011DB30 *)s1)->unk34.i.lo = 0x1000;
             ang = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
             func_8012B0B4(buf, ang, D_801910D8);
             full = *(s32 *)buf;
-            ((Unkstruct_800B5CB8 *)s1)->unk6 = ((Unkstruct_800B5CB8 *)s1)->unk6 + full;
-            ((Unkstruct_800B5CB8 *)s1)->unkE = ((Unkstruct_800B5CB8 *)s1)->unkE + (full >> 16);
+            ((Unkstruct_8011DB30 *)s1)->unk6.u = ((Unkstruct_8011DB30 *)s1)->unk6.u + full;
+            ((Unkstruct_8011DB30 *)s1)->unkE.u = ((Unkstruct_8011DB30 *)s1)->unkE.u + (full >> 16);
             CAST_WIDTH(s32, s1, 0x10) = rcos(ang) * D_801910DA;
             CAST_WIDTH(s32, s1, 0x18) = rsin(ang) * D_801910DA;
         }
@@ -9933,9 +9933,9 @@ s32 func_801861D8(void *arg0) {
     pointA[1] = CAST_SIGN(u16, base, 0xA);
     pointA[2] = CAST_SIGN(u16, base, 0xE);
 
-    diff[0] = pointA[0] - ((Unkstruct_800B5CB8 *)arg0)->unk6;
-    diff[1] = pointA[1] - ((Unkstruct_800B5CB8 *)arg0)->unkA;
-    diff[2] = pointA[2] - ((Unkstruct_800B5CB8 *)arg0)->unkE;
+    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk6.u;
+    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unkA.u;
+    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkE.u;
 
     VectorNormalSS(diff, diff);
 
@@ -9990,7 +9990,7 @@ s32 func_80186334(void *a0)
     s32  hit;
 
     cfg = (s32 *)&guess_g_PlayerActor;
-    p0 = (u8 *)((Unkstruct_800B5CB8 *)a0)->unk20;
+    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20;
 
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);

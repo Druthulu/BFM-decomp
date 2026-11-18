@@ -3082,7 +3082,7 @@ void func_8017E4E4(s32 arg0)
             s32 s0 = func_80132EF4(arg0, 0x22);
             if (s0 != 0) {
                 func_80129374(s0, arg0);
-                ((Unkstruct_800B5CB8 *)s0)->unk34 = 0x4000;
+                ((Unkstruct_8011DB30 *)s0)->unk34.i.lo = 0x4000;
             }
         }
         if (func_8017E708(arg0, (s32) &D_801892A0) != 0) {
@@ -3437,11 +3437,11 @@ void func_8017F068(void *a0, void *a1, s16 a2, s16 a3)
                 rot[2] = 0;
                 RotMatrixYXZ(rot, mtx);
                 ApplyMatrixSV(mtx, a1, rot);
-                ((Unkstruct_800B5CB8 *)ent)->unk6 = *(s16 *)a0 + rot[0];
-                ((Unkstruct_800B5CB8 *)ent)->unkA = *(s16 *)((s8 *)a0 + 2) + rot[1];
-                ((Unkstruct_800B5CB8 *)ent)->unkE = *(s16 *)((s8 *)a0 + 4) + rot[2];
+                ((Unkstruct_8011DB30 *)ent)->unk6.u = *(s16 *)a0 + rot[0];
+                ((Unkstruct_8011DB30 *)ent)->unkA.u = *(s16 *)((s8 *)a0 + 2) + rot[1];
+                ((Unkstruct_8011DB30 *)ent)->unkE.u = *(s16 *)((s8 *)a0 + 4) + rot[2];
                 CAST_WIDTH(s32, ent, 0x10) = (s32)rot[0] << 12;
-                ((Unkstruct_800B5CB8 *)ent)->unk14 = (s32)rot[1] << 12;
+                ((Unkstruct_8011DB30 *)ent)->unk14 = (s32)rot[1] << 12;
                 CAST_WIDTH(s32, ent, 0x18) = (s32)rot[2] << 12;
             }
             i = i + 1;
@@ -3476,9 +3476,9 @@ void func_8017F290(s32 *a0) {
     s32 p;
     s32 v;
 
-    v = ((Unkstruct_800B5CB8 *)a0)->unk2C - 1;
+    v = ((Unkstruct_8011DB30 *)a0)->unk2C - 1;
     p = a0[0x20 / 4];
-    ((Unkstruct_800B5CB8 *)a0)->unk2C = v;
+    ((Unkstruct_8011DB30 *)a0)->unk2C = v;
     if ((s16)v == -1) {
         func_801292C8((u8 *)a0);
         return;
