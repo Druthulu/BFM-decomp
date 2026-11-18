@@ -1084,3 +1084,4 @@ C0631 | Map call args to params: struct-by-value returns shift args; KR_AS() and
 C0632 | Applying absorbs at fleet scale: walker misses, survivor cites, typed-pointer hand-folds vs the gate | struct,absorb,fold-batch,gate,survivor,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c12
 C0633 | Value folds and field retypes after absorption: VECTOR is 12 bytes, stamp-chain gates, hub-field retypes | struct,fold,psyq,rung-T,field,gate,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c18
 C0634 | Absorbing a big view set into one parent: per-key dry runs, cc1 fast check, stamp hygiene | struct,absorb,fold-batch,gate,cc1,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c20
+C0635 | Per-source split at 7k sources: chunked dry runs, union-read untypeables, padded gap variants | struct,absorb,per-source,split,fold-batch,gate,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c21
