@@ -5547,8 +5547,8 @@ void func_80182F3C(void *param_1)
         ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
         ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk76 =
-            *(u16 *)((s32)((Unkstruct_801202A0 *)s0)->unk64 + 0x76) - 0x28;
-        func_8017C010((s32)((Unkstruct_801202A0 *)s0)->unk64 + 0x76, (s32)&D_8018F924, 0x78);
+            ((Unkstruct_801202A0 *)s0)->unk64->unk76.u - 0x28;
+        func_8017C010((s32)&((Unkstruct_801202A0 *)s0)->unk64->unk76, (s32)&D_8018F924, 0x78);
         func_8016AA50(s0, 0x28);
         func_8016B3F4(s0);
         ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk5C =

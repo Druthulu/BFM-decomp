@@ -4311,7 +4311,7 @@ void func_8017EFA4(void *a0)
     s32 a1;
     s16 s1;
 
-    tbl = *(s32 **)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0xDC);
+    tbl = (s32 *)((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.unkDC.val;
 
     s1 = (rand() & 1) + 1;
 

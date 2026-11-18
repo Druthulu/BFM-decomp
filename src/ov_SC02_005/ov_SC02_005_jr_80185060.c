@@ -19,8 +19,8 @@ void func_80185060(s32 a0, s32 a1)
 
     t = CAST_SIGN(u16, a0, 0x70) + 1;
     func_80187280(a0, t);
-    ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unkDC = 1;
+    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 1;
     if (((Unkstruct_800B5CB8 *)a0)->unk104 == 0) {
         ((Unkstruct_800B5CB8 *)a0)->unk104 = (s16)a1;
     }
@@ -28,19 +28,19 @@ void func_80185060(s32 a0, s32 a1)
     flag = 0;
     switch ((s16)(CAST_SIGN(u16, a0, 0x70) - 3)) {
     case 0:
-        *(u32 *)(((Unkstruct_800B5CB8 *)a0)->unkCC + 0xE8) |= 0x2000;
+        *(u32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xE8) |= 0x2000;
         KR_AS(void, func_80189F64)();
         flag = 1;
         break;
     case 5:
     case 7:
-        *(u16 *)(D_801E43D0[((Unkstruct_800B5CB8 *)a0)->unk70] + 0x5C) = 0x8800;
+        *(u16 *)(D_801E43D0[((Unkstruct_801202A0 *)a0)->unk70.s] + 0x5C) = 0x8800;
         break;
     case 6:
-        *(u32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) |= 0x20000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC02_005_801831A4.unkE8.u |= 0x20000;
         break;
     case 8:
-        *(u32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) |= 0x40000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC02_005_801831A4.unkE8.u |= 0x40000;
         break;
     }
 

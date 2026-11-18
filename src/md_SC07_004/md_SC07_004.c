@@ -3614,7 +3614,7 @@ void func_801A5698(u8 *s2, s32 a1)
     mtx.t[1] = guess_g_PlayerPosY;
     mtx.t[2] = guess_g_PlayerPosZ;
 
-    angle = (s16)a1 + *(s16 *)(((Unkstruct_800B5CB8 *)s2)->unk64 + 0x102);
+    angle = (s16)a1 + ((Unkstruct_801202A0 *)s2)->unk64->extD.kSC07_004_801A2D78.unk102.s;
     RotMatrixY(angle, &mtx);
 
     sv.vy = 0;
@@ -3625,8 +3625,8 @@ void func_801A5698(u8 *s2, s32 a1)
 
     RotTransSV((s32)&sv, (s32)&sv, &flag);
 
-    ((Unkstruct_800B5CB8 *)s2)->unk6 = sv.vx;
-    ((Unkstruct_800B5CB8 *)s2)->unkE = sv.vz;
+    ((Unkstruct_801202A0 *)s2)->unk4.i.hi.u = sv.vx;
+    ((Unkstruct_801202A0 *)s2)->unkC.i.hi.u = sv.vz;
 }
 
 
@@ -4407,7 +4407,7 @@ void func_801A6AD0(s32 arg0) {
 
     /* 8-byte struct copy at offset 0x50 */
     CAST_WIDTH(Unkstruct_801343C4, arg0, 0x50) =
-        *(Unkstruct_801343C4 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0x50);
+        *(Unkstruct_801343C4 *)&((Unkstruct_801202A0 *)arg0)->unk64->unk50;
 
     /* 8-byte struct copy at offset 0x10 of the nested (+0x20) struct */
     *(Unkstruct_801343C4 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x10) =

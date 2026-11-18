@@ -4335,7 +4335,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_801840E8(s32 a0)
 {
-    if (*(u32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) & 2) {
+    if (((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC02_005_801831A4.unkE8.u & 2) {
         if (CAST_SIGN(s16, a0, 0xE) == 0x18) {
             CAST_SIGN(u16, a0, 0xFC) |= 1;
             guess_RequestSound(0x50A, 0);

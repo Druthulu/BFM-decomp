@@ -3858,7 +3858,7 @@ void func_8017EADC(s32 a0) {
 
     func_8012EC04(a0, D_801E1158, (s32 *)m);
     guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193468, (s32)s1);
-    guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193440, (s32)((Unkstruct_801202A0 *)a0)->unkD4 + 8);
+    guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193440, (s32)&((Unkstruct_801202A0 *)a0)->unkD4->unk8);
 
     s2[0] = *(s32 *)&D_80126B5C;
     s2[1] = D_80126B60 + 0xFFD00000;
@@ -4002,7 +4002,7 @@ void func_8017EC4C(s32 param_1)
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     dbase = guess_g_RenderWork;
     func_8012EC04(param_1, D_801E1158, (s32 *)&cmat);
-    guess_RotTransSVWithMatrix((s32)&cmat, (s32)&D_80193440[0], (s32)((Unkstruct_801202A0 *)param_1)->unkD4 + 8);
+    guess_RotTransSVWithMatrix((s32)&cmat, (s32)&D_80193440[0], (s32)&((Unkstruct_801202A0 *)param_1)->unkD4->unk8);
 
     v[0].vx = D_80193440[0];
     v[0].vy = D_80193440[1];

@@ -4295,13 +4295,13 @@ void func_801878A8(s32 arg0) {
 
 void func_80187954(void *a0)
 {
-    s32 t1 = ((Unkstruct_800B5CB8 *)a0)->unk64;
+    s32 t1 = ((Unkstruct_801202A0 *)a0)->unk64;
 
     CAST_WIDTH(s32, (s32)a0, 0x4) = *(s32 *)(t1 + 0x4);
-    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)((((Unkstruct_800B5CB8 *)a0)->unk64) + 0x8);
-    CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xC);
-    ((Unkstruct_800B5CB8 *)((Unkstruct_800B5CB8 *)a0)->unk20)->unk12 =
-        CAST_NONSTRUCT(u16, *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0x20), 0x12);
+    CAST_WIDTH(s32, (s32)a0, 0x8) = *(s32 *)((s32)(((Unkstruct_801202A0 *)a0)->unk64) + 0x8);
+    CAST_WIDTH(s32, (s32)a0, 0xC) = *(s32 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0xC);
+    ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 =
+        CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)a0)->unk64->unk20.p, 0x12);
     guess_UpdateActorModelMatrix((s32)a0);
 }
 

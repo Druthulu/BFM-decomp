@@ -3804,7 +3804,7 @@ void func_8017E960(void *a0) {
     }
 
     func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20.p,
-                  *(void **)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x20));
+                  ((Unkstruct_801202A0 *)a0)->unk64->unk20);
 
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     CAST_ALIAS(s16, (u8 *)a0, 0xA) = -0xA8;

@@ -5576,7 +5576,7 @@ void func_8017FFB4(s32 arg0)
 
     do { v0 = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     s0 = v0;
-    ((Unkstruct_800B5CB8 *)s2)->unk20 = v0;
+    ((Unkstruct_801202A0 *)s2)->unk20.p = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)s2);
         return;
@@ -5586,22 +5586,22 @@ void func_8017FFB4(s32 arg0)
     guess_StartActorSequence((void *)s2, &D_8018A02C);
     D_801C7EC0 = 0;
     s1 = ((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
-    ((Unkstruct_800B5CB8 *)s2)->unkF4 = s1;
+    ((Unkstruct_801202A0 *)s2)->blkDC.f.extC.kSC01_080_8017FF78.unkF4 = s1;
     if (s1 != 0) {
         guess_BuildCircle12Points(&D_80189974, 0x50);
         guess_InitObjectKind6(s1, &D_80189974);
     }
     s1 = ((s32 (*)(s32, s32))func_8001D074)(0x3E, 0x7D);
-    ((Unkstruct_800B5CB8 *)s2)->unkF8 = s1;
+    ((Unkstruct_801202A0 *)s2)->unkF8.val.s = s1;
     if (s1 != 0) {
         guess_BuildCircle12Points(&D_80189974, 0x40);
         guess_InitObjectKind6(s1, &D_80189974);
     }
-    ((Unkstruct_800B5CB8 *)s2)->unk34 = 0;
-    CAST_WIDTH(s32, s2, 4) = *(s32 *)(((Unkstruct_800B5CB8 *)s2)->unk64 + 4);
-    CAST_WIDTH(s32, s2, 8) = *(s32 *)(((Unkstruct_800B5CB8 *)s2)->unk64 + 8) - *(s32 *)(((Unkstruct_800B5CB8 *)s2)->unk64 + 0xF0);
-    CAST_WIDTH(s32, s2, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)s2)->unk64 + 0xC);
-    ((Unkstruct_800B5CB8 *)s2)->unk2 = CAST_SIGN(u16, s2, 2) + 1;
+    ((Unkstruct_801202A0 *)s2)->unk34.u = 0;
+    CAST_WIDTH(s32, s2, 4) = *(s32 *)((s32)((Unkstruct_801202A0 *)s2)->unk64 + 4);
+    CAST_WIDTH(s32, s2, 8) = *(s32 *)((s32)((Unkstruct_801202A0 *)s2)->unk64 + 8) - ((Unkstruct_801202A0 *)s2)->unk64->blkDC.f.extC.kSC01_080_8017F500.unkF0;
+    CAST_WIDTH(s32, s2, 0xC) = *(s32 *)((s32)((Unkstruct_801202A0 *)s2)->unk64 + 0xC);
+    ((Unkstruct_801202A0 *)s2)->unk2.s = CAST_SIGN(u16, s2, 2) + 1;
 }
 
 
@@ -5613,12 +5613,12 @@ void func_801800F4(s32 param_1)
 {
     s32 v0;
 
-    CAST_WIDTH(s32, param_1, 0x4) = *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0x4);
-    ((Unkstruct_800B5CB8 *)param_1)->unkA = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xA) - *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xF0);
-    CAST_WIDTH(s32, param_1, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)param_1)->unk64 + 0xC);
+    CAST_WIDTH(s32, param_1, 0x4) = *(s32 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0x4);
+    ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = *(u16 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0xA) - ((Unkstruct_801202A0 *)param_1)->unk64->blkDC.f.extC.kSC01_080_8017F500.unkF0;
+    CAST_WIDTH(s32, param_1, 0xC) = *(s32 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0xC);
     v0 = func_8012B864(param_1);
     ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = v0;
-    if (((Unkstruct_800B5CB8 *)param_1)->unkF4 != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_080_8017FF78.unkF4 != 0) {
         func_80180188(param_1);
     }
 }
@@ -5742,7 +5742,7 @@ void func_8018045C(s32 arg0)
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
     s1 = v0;
-    ((Unkstruct_800B5CB8 *)arg0)->unk20 = v0;
+    ((Unkstruct_801202A0 *)arg0)->unk20.p = v0;
     if (v0 == 0) {
         guess_FreeActorDuringSpawn((void *)arg0);
         return;
@@ -5751,10 +5751,10 @@ void func_8018045C(s32 arg0)
     func_8001D0E8(s1, 0x800, 0x800);
     guess_StartActorSequence((void *)arg0, &D_8018A044);
     *(s32 *)(s1 + 4) = *(s32 *)(s1 + 4) | 0x40;
-    CAST_WIDTH(s32, arg0, 4) = *(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 4);
-    CAST_WIDTH(s32, arg0, 8) = *(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 8) - *(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0xF0);
-    CAST_WIDTH(s32, arg0, 0xC) = *(s32 *)(((Unkstruct_800B5CB8 *)arg0)->unk64 + 0xC);
-    ((Unkstruct_800B5CB8 *)arg0)->unk2 = CAST_SIGN(u16, arg0, 2) + 1;
+    CAST_WIDTH(s32, arg0, 4) = *(s32 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 4);
+    CAST_WIDTH(s32, arg0, 8) = *(s32 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 8) - ((Unkstruct_801202A0 *)arg0)->unk64->blkDC.f.extC.kSC01_080_8017F500.unkF0;
+    CAST_WIDTH(s32, arg0, 0xC) = *(s32 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0xC);
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
 }
 
 

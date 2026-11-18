@@ -4521,7 +4521,7 @@ void func_8017EBB8(void *a0) {
         ((Unkstruct_801202A0 *)s1)->unk8C.u = *(u16 *)(sum + 4) - ((Unkstruct_801202A0 *)s1)->unk64->unkC.i.hi.u;
         guess_InitModelObject(ent, s2);
         ((Unkstruct_8001C9D0 *)ent)->unk2C.u = ((Unkstruct_8001C9D0 *)ent)->unk2C.u | 0x80;
-        CAST_WIDTH(Unkstruct_8013B83C, s1, 0xCC) = *(Unkstruct_8013B83C *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0xCC);
+        CAST_WIDTH(Unkstruct_8013B83C, s1, 0xCC) = *(Unkstruct_8013B83C *)&((Unkstruct_801202A0 *)s1)->unk64->unkCC;
         CAST_WIDTH(s32, ent, 0x80) = s1 + 0xCC;
         CAST_WIDTH(Unkstruct_8013B83C, ent, 0x10) = *(Unkstruct_8013B83C *)(((Unkstruct_801202A0 *)s1)->unk64->unk20.p + 0x10);
         CAST_WIDTH(s32, s1, 0xC) = 0;

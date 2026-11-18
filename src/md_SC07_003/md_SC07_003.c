@@ -2984,7 +2984,7 @@ void func_801A43E8(void *a0) {
     case 8:
     case 35:
         guess_RequestSound(0xC33, 0);
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x2000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 += 0x2000;
         break;
     case 11:
     case 12:
@@ -2998,18 +2998,18 @@ void func_801A43E8(void *a0) {
     case 25:
     case 26:
         guess_RequestSound(0xC33, 0);
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x4000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 += 0x4000;
         break;
     case 36:
         guess_RequestSound(0xC33, 0);
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x4000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 += 0x4000;
         break;
     default:
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) += 0x2000;
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 += 0x2000;
         break;
     }
-    if (*(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) > 0x10000) {
-        *(s32 *)(((Unkstruct_800B5CB8 *)a0)->unk64 + 0xE8) = 0x10000;
+    if (((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 > 0x10000) {
+        ((Unkstruct_801202A0 *)a0)->unk64->blkDC.f.extC.kSC07_003_801A01D4.unkE8 = 0x10000;
     }
 }
 

@@ -3158,7 +3158,7 @@ void func_8017F02C(s32 arg0) {
                 if (*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x18) == 0) {
                     *(s32 *)(var_s1 + 4) |= 0x80000000;
                     *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 4) |= 0x80000000;
-                    *(u16 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0xE2) = 1;
+                    ((Unkstruct_801202A0 *)arg0)->unk64->blkDC.f.extC.kSC03_117_8017E9BC.unkE2 = 1;
                     guess_ZeroMemory(var_s1, 0x84);
                     guess_FreeActor(arg0);
                     return;
