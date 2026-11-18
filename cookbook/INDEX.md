@@ -1088,3 +1088,4 @@ C0635 | Per-source split at 7k sources: chunked dry runs, union-read untypeables
 C0636 | Second per-source classification pass: re-seed from applied casts, asm-checked a0 pass-through | struct,absorb,per-source,classify,tracing,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c23
 C0637 | Prove header changes byte-neutral read-only: snapshot overlay + cc1 asm diff over every TU | struct,absorb,union,cc1,bytes,judge,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c24/c24b
 C0638 | Third pass on unresolved pointer sources: asm callers, dispatch tables, all-predecessor traces | struct,absorb,per-source,tracing,asm,dead-code,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c25/c25b
+C0639 | Held sources with arithmetic on typed pointer fields: KEPT-base backing, site cache, RMW reschedule | struct,absorb,per-source,kept-cast,gate,cc1,t17 | 2026-11-17 | 3.45/T17 | P3.45 T17.c22/c22b
