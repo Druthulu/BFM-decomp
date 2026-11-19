@@ -3444,7 +3444,7 @@ void func_8018304C(void *a0) {
     register u8 *p __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
     s32 i;
 
-    t = (rsin((((Unkstruct_8018304C *)ent)->unk1C << 6) & 0x7C0) * 100 >> 12) + 100;
+    t = (rsin((((Unkstruct_801202A0 *)ent)->unk1C.s << 6) & 0x7C0) * 100 >> 12) + 100;
     i = 0;
     p = (u8 *)D_80199ED4;
     do {
@@ -3825,7 +3825,7 @@ void func_8018383C(s32 s1)
         v1 = 0x14;
         ((Unkstruct_801202A0 *)s1)->unk75 = v1;
         v1 = ((Unkstruct_801202A0 *)s1)->unk70.s;
-        ((Unkstruct_801202A0 *)s1)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)s1)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)s1)->unkC1.s = 0;
         t0 = t0 | 2;
         ((Unkstruct_801202A0 *)s1)->unkC4 = t0;

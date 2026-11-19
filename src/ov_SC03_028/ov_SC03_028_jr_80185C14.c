@@ -3456,7 +3456,7 @@ extern void (*D_8018FEB0)();
 extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
 void func_801867E4(s32 a0) {
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0x8;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0x8;
     ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
@@ -3470,7 +3470,7 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 extern void (*D_8018FEBC)();
 
 void func_80186838(s32 a0) {
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0x80;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0x80;
     ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
@@ -3526,7 +3526,7 @@ void func_80186894(void *a0)
     v1 = ((Unkstruct_801202A0 *)a0)->unkC4;
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_8018FEC8;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->extE.kSC03_028_80182E2C.unkAE = -1;
     ((Unkstruct_801202A0 *)a0)->unk75 = 0;
     v1 |= 2;
@@ -4281,7 +4281,7 @@ void func_801878A8(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unkBC = (s32)&D_80190050;
         t = ((Unkstruct_801202A0 *)arg0)->unk64;
         ((Unkstruct_801202A0 *)arg0)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = 0;
         CAST_SIGN(u32, arg0, 0xC4) |= 2;
         ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u = *(u16 *)(*(s32 *)(t + 0x20) + 0x12);
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
@@ -4476,7 +4476,7 @@ void func_80187D48(void *a0) {
     s0 = (s32)a0;
     if (guess_InitActorModel(s0, (s32)&D_801900C4) != 0) {
         ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)s0)->unkB4 = 1;
+        ((Unkstruct_801202A0 *)s0)->unkB4.s = 1;
         guess_StartActorSequence(s0, &D_8018BD04);
         v1 = ((Unkstruct_801202A0 *)s0)->unk64;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
@@ -4618,7 +4618,7 @@ void func_801880AC(s32 a0)
     v0 = ((Unkstruct_801202A0 *)s0)->unkC4;
     v1 = ((Unkstruct_801202A0 *)s0)->unk5C.u;
     ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk75 = 0;
     ((Unkstruct_801202A0 *)s0)->unkC4 = v0 | 2;
     ((Unkstruct_801202A0 *)s0)->unk5C.u = v1 | 0x4000;

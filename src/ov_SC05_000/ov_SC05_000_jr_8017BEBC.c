@@ -3694,7 +3694,7 @@ extern void func_80172710(void);
 s32 func_8017DE70(a0)
 void *a0;
 {
-    if (func_8012BD14(((Unkstruct_8017DE18 *)a0)->unk64) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
     ((Unkstruct_8017DE18_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;

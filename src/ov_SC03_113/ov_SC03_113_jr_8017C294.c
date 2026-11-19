@@ -3685,7 +3685,7 @@ void func_8017EC30(s32 a0)
 
     ((void (*)(s32))func_80178D18)(a0);
 
-    guess_SetGameFlag((s32)D_80186EB0[((Unkstruct_8017CD14 *)a0)->unk70], 1);
+    guess_SetGameFlag((s32)D_80186EB0[((Unkstruct_801202A0 *)a0)->unk70.s], 1);
     ((void (*)(s32))guess_FreeActor)(a0);
 }
 
@@ -4373,7 +4373,7 @@ void func_8017FCB8(void *arg0) {
 
     if (guess_InitActorModel(arg0, &D_8019CB30)) {
         ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_8019CB74;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_035_80183258.unkE4 = -((rand() % 8 + 0xC) << 16);
@@ -4865,7 +4865,7 @@ void func_8018097C(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_8019F2C0;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A061C);
         ((Unkstruct_801202A0 *)e)->unk2.s = 1;
@@ -4936,7 +4936,7 @@ void func_8018097C(void *a0v)
         D_801A5A44 = 0;
         guess_BuildCircle12Points(q, 0x20);
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_8019F2C0;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A061C);
         ((Unkstruct_801202A0 *)e)->unk2.s = 8;
@@ -5037,7 +5037,7 @@ void func_8018097C(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_8019F2C0;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A061C);
         ((Unkstruct_801202A0 *)e)->unk2.s = 0xD;
@@ -5880,11 +5880,11 @@ extern s32 rsin(s32 a0);
 
     extern s32 guess_DistSqToPlayer(s32 a0);
     void func_80182624(s32 a0) {
-        s16 v = ((Unkstruct_80180BE4 *)a0)->unkFC;
+        s16 v = ((Unkstruct_801202A0 *)a0)->unkFC.s;
         if (v != 0) {
-            ((Unkstruct_80180BE4 *)a0)->unkFC = v - 1;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = v - 1;
         } else if (guess_DistSqToPlayer(a0) <= 0xFFFFF) {
-            ((Unkstruct_80180BE4 *)a0)->unk2 = 0x9;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 0x9;
         }
     }
 

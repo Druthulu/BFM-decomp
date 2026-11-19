@@ -1613,7 +1613,7 @@ void func_801A2014(s32 p)
         }
         if ((u32)(((Unkstruct_801202A0 *)p)->unk94.s - 0x32) < 0x3D) {
             CAST_WIDTH(u16, p, 0x50) += rsin(((Unkstruct_801202A0 *)p)->unk1C.s) >> 9;
-            ((Unkstruct_801202A0 *)p)->unk54 += rcos(((Unkstruct_801202A0 *)p)->unk1C.s) >> 9;
+            ((Unkstruct_801202A0 *)p)->unk54.u += rcos(((Unkstruct_801202A0 *)p)->unk1C.s) >> 9;
             ((Unkstruct_801202A0 *)p)->unk1C.s += 0x400;
         }
         if (((Unkstruct_801202A0 *)p)->unk94.s == 0x6B) {
@@ -2444,7 +2444,7 @@ void func_801A3490(s32 p)
         s32 tbl;
         s32 dec;
 
-        ((Unkstruct_801202A0 *)p)->unk60 = 0x280;
+        ((Unkstruct_801202A0 *)p)->unk60.s = 0x280;
         func_8012E9C0(p);
 
         if (CAST_WIDTH(u16, p, 0x5E) != 0x1D) {
@@ -2453,7 +2453,7 @@ void func_801A3490(s32 p)
         }
 
         tbl = ((Unkstruct_801202A0 *)p)->unk78;
-        dec = ((s32)((Unkstruct_801202A0 *)p)->unk60 * (s32)*(s16 *)(tbl + 0x30)) >> 12;
+        dec = ((s32)((Unkstruct_801202A0 *)p)->unk60.s * (s32)*(s16 *)(tbl + 0x30)) >> 12;
         if (dec <= 0) {
             dec = 1;
         }

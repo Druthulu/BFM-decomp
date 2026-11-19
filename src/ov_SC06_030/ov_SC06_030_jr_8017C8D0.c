@@ -2982,7 +2982,7 @@ void func_8017DF70(s32 a0) {
     s32 dec;
     s32 q;
 
-    if (((Unkstruct_801202A0 *)a0)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk60.s != 0) {
         if (e == 0x1D) {
             ((Unkstruct_801202A0 *)a0)->unk82 = 0;
             ((Unkstruct_801202A0 *)a0)->unk7C = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
@@ -2990,13 +2990,13 @@ void func_8017DF70(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk80 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         }
         q = ((Unkstruct_801202A0 *)a0)->unk78;
-        if (q != 0 && ((Unkstruct_801202A0 *)a0)->unk60 != 0) {
-            dec = ((s32) ((Unkstruct_801202A0 *)a0)->unk60 * (s32) * (s16 *)(q + 0x30)) >> 12;
+        if (q != 0 && ((Unkstruct_801202A0 *)a0)->unk60.s != 0) {
+            dec = ((s32) ((Unkstruct_801202A0 *)a0)->unk60.s * (s32) * (s16 *)(q + 0x30)) >> 12;
             if (dec < 1) {
                 dec = 1;
             }
         } else {
-            dec = ((Unkstruct_801202A0 *)a0)->unk60;
+            dec = ((Unkstruct_801202A0 *)a0)->unk60.s;
         }
         ((Unkstruct_801202A0 *)a0)->unk76.s = CAST_SIGN(u16, a0, 0x76) - dec;
         func_8016AA50(a0, dec);
@@ -3026,7 +3026,7 @@ void func_8017DF70(s32 a0) {
     func_8017C010(a0 + 0x76, (s32)D_80185D14, 0xD2);
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
     ((Unkstruct_801202A0 *)a0)->unkC2 = 0x10;
-    ((Unkstruct_801202A0 *)a0)->unk60 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk60.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     CAST_WIDTH(s16, a0, 0x5E) = 0;
     if (CAST_SIGN(u16, a0, 0x02) == 2) {

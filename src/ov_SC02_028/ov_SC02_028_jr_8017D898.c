@@ -3728,7 +3728,7 @@ void func_80180040(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801A4C0C;
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_801A4BFC | 0x40000000;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8800;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)a0)->extE.kSC02_026_8017DC3C.unkAE = 0x7FFF;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
@@ -5100,7 +5100,7 @@ void func_80181EDC(s32 s1)
         v1 = 0x14;
         ((Unkstruct_801202A0 *)s1)->unk75 = v1;
         v1 = ((Unkstruct_801202A0 *)s1)->unk70.s;
-        ((Unkstruct_801202A0 *)s1)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)s1)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)s1)->unkC1.s = 0;
         t0 = t0 | 2;
         ((Unkstruct_801202A0 *)s1)->unkC4 = t0;

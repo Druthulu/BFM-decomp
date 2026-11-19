@@ -5561,7 +5561,7 @@ void func_801816FC(Unkstruct_801202A0 *s0) {
     v0 = ((Unkstruct_801202A0 *)s0)->unkC4;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)s0)->unkC4 = v0 | 2;
     CAST_WIDTH(s32, v1, 0x28) = a0r;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
@@ -5576,7 +5576,7 @@ void func_801816FC(Unkstruct_801202A0 *s0) {
     ((Unkstruct_801202A0 *)s0)->unkFE.s = 0;
     ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC02_005_801816FC.unkE8 = 1;
     v0 = D_80195B24[0];
-    ((Unkstruct_801202A0 *)s0)->unk60 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk60.s = 0;
     ((Unkstruct_801202A0 *)s0)->unkFC.s = 0;
     CAST_ALIAS(u16, (s32)s0, 0x76) = v0;
     D_801E439C = v0;

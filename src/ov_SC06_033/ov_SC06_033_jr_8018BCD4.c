@@ -3231,7 +3231,7 @@ void func_8018BCD4(s32 arg0) {
     }
 tail:
     ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unkC4 = 3;
 }
 

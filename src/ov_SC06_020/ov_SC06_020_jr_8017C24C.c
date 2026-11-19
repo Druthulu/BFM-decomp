@@ -3071,7 +3071,7 @@ void func_8017DBE0(s32 param_1) {
     if (iVar1 != 0) {
         ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
         CAST_SIGN(u8 *, param_1, 0xbc) = D_8019EA5C;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = -0x8ad;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x8ad;
         CAST_SIGN(u32, param_1, 0xc4) |= 2;
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
         *(u8 **)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = D_8019E9E4;
@@ -4680,7 +4680,7 @@ void func_801800C8(s32 p) {
     ((Unkstruct_801202A0 *)p)->unk5C.u = ((Unkstruct_801202A0 *)p)->unk5C.u & 0xFFFE;
     guess_ClearVelocityAndSetGravity(p);
 
-    t = (((Unkstruct_801202A0 *)p)->unk60 * *(s16 *)(((Unkstruct_801202A0 *)p)->unk78 + 0x30)) >> 12;
+    t = (((Unkstruct_801202A0 *)p)->unk60.s * *(s16 *)(((Unkstruct_801202A0 *)p)->unk78 + 0x30)) >> 12;
     iVar1 = t;
     t = t << 16;
     if (t <= 0) {

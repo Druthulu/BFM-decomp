@@ -6944,7 +6944,7 @@ void func_80183B1C(s32 param_1) {
     }
 
     if (((Unkstruct_801202A0 *)param_1)->unk5C.u & 1) {
-        ((Unkstruct_801202A0 *)param_1)->unk60 = 0x28;
+        ((Unkstruct_801202A0 *)param_1)->unk60.s = 0x28;
         func_8012E9C0(param_1);
         func_8016B3F4(param_1);
         guess_RequestSound(0xB7C, 0);

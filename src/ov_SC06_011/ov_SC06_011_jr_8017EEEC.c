@@ -919,7 +919,7 @@ extern void func_8017F8F8(void *param_1);
 void func_80180360(void *a0) {
     if (guess_InitActorModel((s32)a0, (s32)&D_801A07CC) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801A0800;
         func_80143970((s32)a0);

@@ -353,6 +353,6 @@ void func_80186AE8(void *arg0) {
 
     extern M2C_UNK D_8018EFBC;
     ((void (*)(void *, void *))func_80178B18)(arg0, &D_8018EFBC);
-    ((Unkstruct_80186AE8 *)arg0)->unk2 = 0x7;
-    ((Unkstruct_80186AE8 *)arg0)->unk34 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x7;
+    ((Unkstruct_801202A0 *)arg0)->unk34.s = 0;
 }

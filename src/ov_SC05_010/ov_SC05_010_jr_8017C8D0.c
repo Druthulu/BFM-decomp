@@ -3541,7 +3541,7 @@ void func_8017EE68(int param_1)
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 10;
         guess_StartActorSequence(param_1, &D_801A33AC);
         ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = -1;
         guess_ClearVelocityAndSetGravity(param_1);
         func_8001D0E8(((Unkstruct_801202A0 *)param_1)->unk20.p, 0x400, 0x400);
         iVar1 = 2;

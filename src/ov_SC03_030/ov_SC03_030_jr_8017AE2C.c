@@ -6446,7 +6446,7 @@ extern void guess_FreeActor(void *a0);
 s32 func_80181C08(void *a0) {
     u8 *a0_byte = (u8 *)a0;
     s32 *v0 = *(s32 **)(a0_byte + 0x64);
-    s16 v1 = ((Unkstruct_80181C08 *)a0_byte)->unkFC;
+    s16 v1 = ((Unkstruct_801202A0 *)a0_byte)->unkFC.s;
     s16 v2 = *(s16 *)((u8 *)v0 + 0x36);
 
     if (v1 == v2) {

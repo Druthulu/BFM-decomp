@@ -3377,7 +3377,7 @@ void func_8017BF70(s32 a0)
             v1 = (u16)*s0;
             if ((v1 & 0xFFFF) == 0x8000) break;
 
-            if (((Unkstruct_8017BF70_2 *)s3)->unk70 != 0) {
+            if (((Unkstruct_8017BF70_2 *)s3)->unk70.s != 0) {
                 buf.f0 = *s0++;
                 buf.f2 = *s0++;
                 buf.f4 = *s0++;
@@ -3396,7 +3396,7 @@ void func_8017BF70(s32 a0)
             s4++;
         } while (s4 < 0x10);
     }
-    ((Unkstruct_8017BF70_2 *)s3)->unk2 += 1;
+    ((Unkstruct_8017BF70_2 *)s3)->unk2.u += 1;
 }
 
 
@@ -6052,7 +6052,7 @@ extern void func_80172710(void);
 s32 func_80180290(a0)
 void *a0;
 {
-    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_8017EAFC *)a0)->unk64) > 0x1000) {
+    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
     ((Unkstruct_8017EAFC_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
@@ -6768,9 +6768,9 @@ void func_80180F94(void *a0, s32 a1)
     SVECTOR loc_18;
     SVECTOR loc_20;
 
-    loc_10.vx = ((Unkstruct_8016E7C8 *)a0)->unk6;
-    loc_10.vy = ((Unkstruct_8016E7C8 *)a0)->unkA;
-    loc_10.vz = ((Unkstruct_8016E7C8 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    loc_10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    loc_10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     loc_18.vx = 0;
     loc_18.vy = 0;
@@ -7241,12 +7241,12 @@ void func_801819D0(void *a0) {
         break;
     case 1:
         func_801820DC(a0);
-        ((Unkstruct_801819D0 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 2;
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)a0);
-            ((Unkstruct_801819D0 *)a0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         }
         break;
     }

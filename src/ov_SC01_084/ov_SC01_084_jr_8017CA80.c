@@ -3830,7 +3830,7 @@ void func_8017F2D0(void *arg0) {
 
     extern s32 D_8018A568;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_8018A568);
-    ((Unkstruct_8017F2D0 *)arg0)->unk2 = 0x2;
+    ((Unkstruct_8017F2D0 *)arg0)->unk2.s = 0x2;
 }
 
 

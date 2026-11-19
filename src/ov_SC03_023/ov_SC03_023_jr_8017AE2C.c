@@ -4200,7 +4200,7 @@ void func_8017E014(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8810;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
-            ((Unkstruct_801202A0 *)a0)->unkB4 &= ~1;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s &= ~1;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
             if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x370) {
                 ((Unkstruct_801202A0 *)a0)->unk76.s = 0x2BC;
@@ -4273,7 +4273,7 @@ void func_8017E3A8(s32 a0) {
     s32 s0 = a0;
     if (guess_InitActorModel(a0, (s32)&D_80182A08)) {
         ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)s0)->unkB4 = 1;
+        ((Unkstruct_801202A0 *)s0)->unkB4.s = 1;
         guess_StartActorSequence(s0, &D_8017F214);
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)s0)->unkBC = (s32)&D_80182A3C;
@@ -4371,7 +4371,7 @@ void func_8017E614(s32 a0) {
     }
 
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0x4000;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0x4000;
     ((Unkstruct_801202A0 *)a0)->unkC4 = 3;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80182A3C;

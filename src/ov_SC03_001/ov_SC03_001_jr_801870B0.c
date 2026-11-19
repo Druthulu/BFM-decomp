@@ -3422,9 +3422,9 @@ void func_801876E8(void *a0, s32 a1)
     Vec4s_801876E8 loc_18;
     Vec4s_801876E8 loc_20;
 
-    loc_10.vx = ((Unkstruct_801876E8 *)a0)->unk6;
-    loc_10.vy = ((Unkstruct_801876E8 *)a0)->unkA;
-    loc_10.vz = ((Unkstruct_801876E8 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    loc_10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    loc_10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     loc_18.vx = 0;
     loc_18.vy = 0;
@@ -3898,12 +3898,12 @@ void func_80188124(void *a0) {
         break;
     case 1:
         func_80188830(a0);
-        ((Unkstruct_801819D0 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 2;
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)a0);
-            ((Unkstruct_801819D0 *)a0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         }
         break;
     }

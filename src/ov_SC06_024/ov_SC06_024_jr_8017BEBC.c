@@ -3805,13 +3805,13 @@ s32 func_8017E8F8(s32 a0) {
        and cross_jump (jump2, after sched2) merges the identical `sh` suffix
        into the single one the target shows at .L8017EA20.  (§193-C) */
     if (st == 0x23 || st == 0x24) {
-        ((Unkstruct_801202A0 *)a0)->unk60 = 8;
+        ((Unkstruct_801202A0 *)a0)->unk60.s = 8;
     } else if (st == 0x2A) {
-        ((Unkstruct_801202A0 *)a0)->unk60 = (s16) CAST_SIGN(u16, a0, 0x60) / 10;
+        ((Unkstruct_801202A0 *)a0)->unk60.s = (s16) CAST_SIGN(u16, a0, 0x60) / 10;
     } else {
-        ((Unkstruct_801202A0 *)a0)->unk60 = (s16) CAST_SIGN(u16, a0, 0x60) / 5;
+        ((Unkstruct_801202A0 *)a0)->unk60.s = (s16) CAST_SIGN(u16, a0, 0x60) / 5;
     }
-    func_8016AA50(a0, ((Unkstruct_801202A0 *)a0)->unk60);
+    func_8016AA50(a0, ((Unkstruct_801202A0 *)a0)->unk60.s);
 
     ((Unkstruct_801202A0 *)a0)->extD.kSC06_024_8017D804.unk106 = 8;
     CAST_WIDTH(s16, a0, 0x5E) = 0;
@@ -4922,7 +4922,7 @@ void func_801809A8(s32 a0)
 
     if (guess_InitActorModel(a0, &D_80193688) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->extE.kSC06_024_80180894.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 8;
         guess_StartActorSequence(a0, &D_801936C8);
@@ -5025,7 +5025,7 @@ void func_80180C34(s32 a0) {
     s32 s0 = a0;
     if (guess_InitActorModel(a0, (s32)&D_8019371C)) {
         ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)s0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)s0)->extE.kSC06_024_8018090C.unkAE = -1;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)s0)->unk75 = 0;
@@ -5061,7 +5061,7 @@ void func_80180D28(s32 param_1)
 {
     if (guess_InitActorModel(param_1, &D_80193780) != 0) {
         ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)param_1)->extE.kcls_99f444c3ad2b.unkAE = -1;
         ((Unkstruct_801202A0 *)param_1)->unk75 = 8;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;

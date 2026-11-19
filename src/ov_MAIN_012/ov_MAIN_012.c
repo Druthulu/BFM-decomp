@@ -1489,7 +1489,7 @@ void func_8012E9C0(int param_1)
     extern int D_8017E6D4;
     int iVar1;
 
-    if (((Unkstruct_801202A0 *)param_1)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk60.s != 0) {
         if (*(unsigned char *)(param_1 + 0x5e) == 0x1d) {
             ((Unkstruct_801202A0 *)param_1)->unk82 = 0;
             ((Unkstruct_801202A0 *)param_1)->unk7C = *(unsigned short *)(param_1 + 6);
@@ -1497,13 +1497,13 @@ void func_8012E9C0(int param_1)
             ((Unkstruct_801202A0 *)param_1)->unk80 = *(unsigned short *)(param_1 + 0xe);
         }
         if (((Unkstruct_801202A0 *)param_1)->unk78 != 0) {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60 *
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s *
                         *(short *)(((Unkstruct_801202A0 *)param_1)->unk78 + 0x30) >> 0xc;
             if (iVar1 < 1) {
                 iVar1 = 1;
             }
         } else {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60;
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s;
         }
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
@@ -1685,7 +1685,7 @@ void func_8012FCC4(int param_1) {
         ((void (*)(int, int))func_80131E00)(param_1, 1);
         return;
     }
-    if (((Unkstruct_801202A0 *)param_1)->unkB4 & 0x100) {
+    if (((Unkstruct_801202A0 *)param_1)->unkB4.s & 0x100) {
         ((void (*)(int))func_80131B14)(param_1);
         if (((Unkstruct_801202A0 *)param_1)->unk76.s <= 0) {
             ((void (*)(int, int))func_80131E00)(param_1, 0xC);
@@ -1795,7 +1795,7 @@ void func_8012FCC4(int param_1) {
 void func_80130D0C(void *a0) {
 
     extern void (*D_8017E710[])(void);
-    D_8017E710[((Unkstruct_80130D0C_3 *)a0)->unkC1]();
+    D_8017E710[((Unkstruct_80130D0C_3 *)a0)->unkC1.u]();
 }
 
 

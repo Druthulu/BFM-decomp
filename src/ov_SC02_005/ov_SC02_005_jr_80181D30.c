@@ -3768,7 +3768,7 @@ void func_80183218(void *arg0) {
                 D_801E4398 = 0;
                 ((Unkstruct_801202A0 *)p)->unk76.s = 0;
             }
-            ((Unkstruct_801202A0 *)p)->unk60 = 0;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0;
             guess_RequestSound(0x4F3, 0);
 
             if (((Unkstruct_801202A0 *)p)->unk76.s == 0) {
@@ -4446,7 +4446,7 @@ void func_80184358(u8 *arg0) {
     if (v0 & 2) {
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 8;
-        func_80185A04(a0, ((Unkstruct_801202A0 *)a0)->unk64, ((Unkstruct_801202A0 *)a0)->unk60);
+        func_80185A04(a0, ((Unkstruct_801202A0 *)a0)->unk64, ((Unkstruct_801202A0 *)a0)->unk60.s);
         KR_AS(void, func_801858C4)(a0);
     } else {
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
@@ -5063,7 +5063,7 @@ void func_80184EC0(void *a0)
     CAST_WIDTH(s32, (u8 *)a0, 0xC) = 0;
     CAST_WIDTH(s32, (u8 *)a0, 0x8) = 0;
     CAST_WIDTH(s32, (u8 *)a0, 0x4) = 0;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk75 = 8;
     ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;

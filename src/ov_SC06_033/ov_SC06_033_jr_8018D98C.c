@@ -4613,7 +4613,7 @@ void func_80190798(s32 a0)
         return;
     }
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = -0x1001;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x1001;
     ((s32 (*)(s32))func_80143970)(a0);
     guess_StartActorSequence(a0, D_801CB1E0);
     CAST_SIGN(u16, a0, 0x2) += 1;
@@ -4879,7 +4879,7 @@ void func_80190CE0(s32 a0) {
         *(s32 *)(s0 + 0x20) = s2 - 0xC;
         func_8001D0E8(s0, 0x280, 0x1E0);
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkC4 = 3;
         guess_StartActorSequence(a0, D_801CB4E4);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
@@ -5155,20 +5155,20 @@ void func_801915A8(s32 param_1)
 
     ((Unkstruct_801202A0 *)param_1)->unkC1.s = 0;
     state = ((Unkstruct_801202A0 *)param_1)->unk5E.b;
-    if (((Unkstruct_801202A0 *)param_1)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk60.s != 0) {
         if (state == 0x1d) {
             ((Unkstruct_801202A0 *)param_1)->unk82 = 0;
             ((Unkstruct_801202A0 *)param_1)->unk7C = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
             ((Unkstruct_801202A0 *)param_1)->unk7E = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
             ((Unkstruct_801202A0 *)param_1)->unk80 = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
         }
-        if ((((Unkstruct_801202A0 *)param_1)->unk78 != 0) && (((Unkstruct_801202A0 *)param_1)->unk60 != 0)) {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60 * *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk78 + 0x30) >> 12;
+        if ((((Unkstruct_801202A0 *)param_1)->unk78 != 0) && (((Unkstruct_801202A0 *)param_1)->unk60.s != 0)) {
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s * *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk78 + 0x30) >> 12;
             if (iVar1 < 1) {
                 iVar1 = 1;
             }
         } else {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60;
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s;
         }
         ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - iVar1;
         func_8016AA50(param_1, iVar1);

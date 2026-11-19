@@ -4058,10 +4058,10 @@ void func_80189C64(s32 *a0)
     extern signed char D_801DE368[];
     s32 v0;
 
-    v0 = ((Unkstruct_80189C64 *)a0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
     v0 = v0 * 4;
     func_80178CBC(a0, *(s32 *)((s32)D_801DE368 + v0));
-    ((Unkstruct_80189C64 *)a0)->unk2 = 0x3;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x3;
 }
 
 
@@ -4081,7 +4081,7 @@ extern void func_80172710(void);
 s32 func_80189CF0(a0)
 void *a0;
 {
-    if (func_8012BD14(((Unkstruct_8017DE18 *)a0)->unk64) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
     ((Unkstruct_8017DE18_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
@@ -4330,7 +4330,7 @@ void func_8018A250(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = v0;
         func_800291C8(0xA, (s16)v0);
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -0x489;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x489;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801DE49C;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkC4 = 1;

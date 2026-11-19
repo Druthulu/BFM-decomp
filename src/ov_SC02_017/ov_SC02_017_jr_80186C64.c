@@ -3564,7 +3564,7 @@ void func_801874E8(s32 a0) {
     }
 
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801D6158;
 
@@ -3664,7 +3664,7 @@ void func_80187710(s32 a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801E0FEC;
     void func_80187794(void * arg0) {
-        ((Unkstruct_801834A0 *)arg0)->unk2 = 10;
+        ((Unkstruct_801834A0 *)arg0)->unk2.s = 10;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801E0FEC);
     }
 
@@ -4514,7 +4514,7 @@ void func_801888BC(s32 s0) {
     }
 
     v1 = 0xFFFBFFFD;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = v1;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = v1;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)&D_801E2090;
@@ -4761,8 +4761,8 @@ void func_80188CB4(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -5006,7 +5006,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -5503,7 +5503,7 @@ void func_80189EEC(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
-            ((Unkstruct_801202A0 *)p)->unk60 = 0xA;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0xA;
             ((Unkstruct_801202A0 *)p)->unk5C.u |= 1;
             v = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             CAST_WIDTH(s16, p, 0x5E) = 1;

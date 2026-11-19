@@ -369,9 +369,9 @@ void func_800CB758(void *a0) {
 
 
 void func_800CB760(void *a0, s16 a1) {
-    if (((Unkstruct_801202A0 *)a0)->unk60 != a1) {
+    if (((Unkstruct_801202A0 *)a0)->unk60.s != a1) {
         guess_PlaySoundUnlessSkipped((u16)a1);
-        ((Unkstruct_801202A0 *)a0)->unk60 = a1;
+        ((Unkstruct_801202A0 *)a0)->unk60.s = a1;
     }
 }
 

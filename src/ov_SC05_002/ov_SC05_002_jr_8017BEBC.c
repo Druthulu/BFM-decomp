@@ -4312,8 +4312,8 @@ void func_8017FB3C(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -4457,7 +4457,7 @@ void func_8017FF2C(void *a0) {
         return;
     }
 
-    ptr = ((Unkstruct_8017FF2C_2 *)a0)->unk64;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
     v1 = *(unsigned short *)(ptr + 0x36);
     v0 = *(unsigned short *)((s32)a0 + 0x70);
     *(unsigned short *)((s32)a0 + 0xFC) = v1;
@@ -4555,7 +4555,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);

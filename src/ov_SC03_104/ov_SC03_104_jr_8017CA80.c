@@ -3887,7 +3887,7 @@ void func_80181BDC(void *arg0)
 
     if (((s32 (*)(s32, void *))guess_InitActorModel)((s32)arg0, &D_80199DD8)) {
         ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_80199E1C;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_089_80183FF0.unkE0 = -((rand() % 8 + 8) << 16);
@@ -4013,7 +4013,7 @@ extern s32 func_80182898(void);
 
 void func_80181EF4(s32 param_1) {
     if (((s32 (*)(s32))func_8012BE54)(param_1) <= 0x40000 && D_80126CBA == 0 && KR_AS(s32, func_80182898)(param_1) == 0) {
-        ((Unkstruct_80181EF4_2 *)param_1)->unk2 = 5;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 5;
     }
 }
 

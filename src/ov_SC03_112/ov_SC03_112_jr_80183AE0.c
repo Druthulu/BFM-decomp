@@ -3275,11 +3275,11 @@ void func_80184758(s32 a0)
 
     extern s32 guess_DistSqToPlayer(s32 a0);
     void func_801848A0(s32 a0) {
-        s16 v = ((Unkstruct_80180BE4 *)a0)->unkFC;
+        s16 v = ((Unkstruct_801202A0 *)a0)->unkFC.s;
         if (v != 0) {
-            ((Unkstruct_80180BE4 *)a0)->unkFC = v - 1;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = v - 1;
         } else if (guess_DistSqToPlayer(a0) <= 0xFFFFF) {
-            ((Unkstruct_80180BE4 *)a0)->unk2 = 0x9;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 0x9;
         }
     }
 

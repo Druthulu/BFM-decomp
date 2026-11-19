@@ -3730,7 +3730,7 @@ void func_80184C0C(int param_1) {
     iVar1 = ((int (*)(int, void *))guess_InitActorModel)(param_1, &D_8018AEB8[*(unsigned short *)(param_1 + 0x70) & 1]);
     if (iVar1 != 0) {
         *(unsigned char *)(param_1 + 0xc0) = 1;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = -1;
         CAST_SIGN(void *, param_1, 0xbc) = D_8018AF20;
         ((Unkstruct_801202A0 *)param_1)->unkC4 = 1;
         iVar1 = guess_SpawnActor(0x79, *(unsigned short *)(param_1 + 0x70) & 1, param_1);

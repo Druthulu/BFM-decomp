@@ -1836,7 +1836,7 @@ void func_80188404(void *a0)
     *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x28) = 0xE000E0;
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_8019637C;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk75 = 8;
     ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
     func_80183D54((s32)a0);
@@ -2214,7 +2214,7 @@ void func_80188BF0(void *a0)
         s32 flags = ((Unkstruct_801202A0 *)a0)->unkC4;
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80196578;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)a0)->extE.kcls_b4ff33593fa2.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
@@ -2542,7 +2542,7 @@ s32 func_801892CC(s32 arg0)
             u16 f = ((Unkstruct_801202A0 *)p)->unk5C.u;
             if ((f & 0xC000) == 0x8000) {
                 ((Unkstruct_801202A0 *)p)->unk5C.u = f | 1;
-                ((Unkstruct_801202A0 *)p)->unk60 = 8;
+                ((Unkstruct_801202A0 *)p)->unk60.s = 8;
                 ((Unkstruct_801202A0 *)p)->unk62 = 0;
                 CAST_WIDTH(s16, p, 0x5E) = 0x1D;
                 ((Unkstruct_801202A0 *)p)->unk7C = hit[0];
@@ -4917,7 +4917,7 @@ void func_8018CA74(s32 d)
     ((Unkstruct_801202A0 *)d)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)d)->unk58.s = (s32)&D_80196B58 | 0x20000000;
     ((Unkstruct_801202A0 *)d)->unk75 = 1;
-    ((Unkstruct_801202A0 *)d)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)d)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)d)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)d)->unkC4 |= 2;
     *(s32 *)(((Unkstruct_801202A0 *)d)->unk20.p + 4) |= 0x50000000;

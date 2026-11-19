@@ -3108,8 +3108,8 @@ void func_80183BB0(s32 param_1)
     func_80184430((s32 *)param_1);
     switch (CAST_WIDTH(u16, param_1, 0x5e)) {
     case 1:
-        if (((Unkstruct_801202A0 *)param_1)->unk60 == 0) {
-            ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - ((Unkstruct_801202A0 *)param_1)->unk60;
+        if (((Unkstruct_801202A0 *)param_1)->unk60.s == 0) {
+            ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - ((Unkstruct_801202A0 *)param_1)->unk60.s;
             if ((s32)(CAST_SIGN(u16, param_1, 0x76) << 16) <= 0) {
                 func_80131E00(param_1, 0xe);
             }
@@ -3880,7 +3880,7 @@ void func_80184CA0(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
-            ((Unkstruct_801202A0 *)p)->unk60 = 0xA;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0xA;
             ((Unkstruct_801202A0 *)p)->unk5C.u |= 1;
             v = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             CAST_WIDTH(s16, p, 0x5E) = 1;
@@ -4160,8 +4160,8 @@ void func_8018537C(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -4406,7 +4406,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);

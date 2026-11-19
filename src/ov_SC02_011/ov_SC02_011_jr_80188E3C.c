@@ -270,7 +270,7 @@ void func_80189324(s32 a0) {
     }
 
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_80196058;
     func_80143970(a0);
@@ -368,7 +368,7 @@ void func_8018951C(s32 param_1) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801D3B74;
     void func_801895A0(void * arg0) {
-        ((Unkstruct_801834A0 *)arg0)->unk2 = 10;
+        ((Unkstruct_801834A0 *)arg0)->unk2.s = 10;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801D3B74);
     }
 
@@ -2688,7 +2688,7 @@ void func_8018C47C(s32 s0) {
     }
 
     v1 = 0xFFFBFFFD;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = v1;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = v1;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)&D_801D6F1C;
@@ -2855,7 +2855,7 @@ void func_8018C7B8(s32 a0) {
 
         v1 = ((Unkstruct_801202A0 *)a0)->unkC4;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801DF6AC;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -0x20AD;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x20AD;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_8018C734.unkE0 = 0;
         v1 = v1 | 0x1;
         ((Unkstruct_801202A0 *)a0)->unkC4 = v1;
@@ -4458,7 +4458,7 @@ void func_8018E678(void *a0)
         CAST_WIDTH(s16, (s32)a0, 0x50) = out[1];
         t5 = out[5];
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_8018E678.unkE0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_011_8018E678.unkE0 + 1;
-        ((Unkstruct_801202A0 *)a0)->unk54 = t5;
+        ((Unkstruct_801202A0 *)a0)->unk54.u = t5;
     }
 
     if (((s32 (*)(s32))func_8012CBF4)((s32)a0) != 0) {
@@ -4867,8 +4867,8 @@ void func_8018EDE8(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -5113,7 +5113,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);

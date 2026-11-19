@@ -3179,7 +3179,7 @@ void func_8017DA58(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_80181C9C;
             ((Unkstruct_801202A0 *)a0)->extE.kcls_7edb30ee0251.unkAE = -4;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
-            ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
             ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk75 = 0x14;
             ((Unkstruct_801202A0 *)a0)->unkCC.val = func_8017D5DC(a0);

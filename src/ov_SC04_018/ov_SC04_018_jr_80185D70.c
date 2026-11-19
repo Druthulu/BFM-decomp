@@ -3047,7 +3047,7 @@ void func_80185D70(void *a0) {
 
     p = guess_g_PlayerRecord;
     v0 = guess_GetStoryProgress();
-    v1 = ((Unkstruct_80185498 *)s2)->unk70;
+    v1 = ((Unkstruct_801202A0 *)s2)->unk70.s;
     s0 = D_801B89D0[v1];
     v1 -= 8;
     switch (v1) {
@@ -3246,20 +3246,20 @@ void func_8018613C(void *a0)
 
     s0 = s4;
     if (s1 == 0x7FFF) {
-        ((Unkstruct_8018613C *)s2)->unk5C = 0;
+        ((Unkstruct_8018613C *)s2)->unk5C.s = 0;
     } else {
-        ((Unkstruct_8018613C *)s2)->unk4 = ((Unkstruct_8018613C_2 *)s0)->unk4;
-        ((Unkstruct_8018613C *)s2)->unk8 = ((Unkstruct_8018613C_2 *)s0)->unk8;
-        ((Unkstruct_8018613C *)s2)->unkC = ((Unkstruct_8018613C_2 *)s0)->unkC;
+        ((Unkstruct_8018613C *)s2)->unk4.val = ((Unkstruct_8018613C_2 *)s0)->unk4.val;
+        ((Unkstruct_8018613C *)s2)->unk8.val = ((Unkstruct_8018613C_2 *)s0)->unk8.val;
+        ((Unkstruct_8018613C *)s2)->unkC.val = ((Unkstruct_8018613C_2 *)s0)->unkC.val;
 
         v1 = *(u8 **)(s2 + 0x20);
         v0 = *(u8 **)(s0 + 0x20);
         *(Unkstruct_8013B83C *)(v1 + 0x10) = *(Unkstruct_8013B83C *)(v0 + 0x10);
 
         a0p = *(u8 **)(s2 + 0x20);
-        ((Unkstruct_8018613C_3 *)a0p)->head.unk12.u = ((Unkstruct_8018613C_3 *)a0p)->head.unk12.u - ((Unkstruct_8018613C_2 *)s0)->unkFE;
+        ((Unkstruct_8018613C_3 *)a0p)->head.unk12.u = ((Unkstruct_8018613C_3 *)a0p)->head.unk12.u - ((Unkstruct_8018613C_2 *)s0)->unkFE.u;
 
-        ((Unkstruct_8018613C *)s2)->unk5C = 0x800;
+        ((Unkstruct_8018613C *)s2)->unk5C.s = 0x800;
     }
 }
 

@@ -2427,7 +2427,7 @@ extern void func_8017E43C(void);
 
 
 void func_80186728(void *a0) {
-        ((Unkstruct_801805EC *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
     }
 
 
@@ -3355,7 +3355,7 @@ extern void (*D_80195FD8[])();
 void func_80187D90(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80195FD8[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_80195FD8[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 

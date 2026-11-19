@@ -2,12 +2,12 @@
  * exemplar src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:5409 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC04_004/ov_SC04_004_jr_8017AE2C.c:6940 rejected by type_census --check */
 void SHARED_FN(s32 a0, s32 a1) {
-    if ((((Unkstruct_80181114 *)a1)->unk5C & 0x8000) != 0) {
-        if (((Unkstruct_80181114 *)a1)->unk5E != 0x1D) {
-            ((Unkstruct_80181114 *)a1)->unk5C = ((Unkstruct_80181114 *)a1)->unk5C | 1;
-            ((Unkstruct_80181114 *)a1)->unk60 = 0x14;
-            ((Unkstruct_80181114 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
-            ((Unkstruct_80181114 *)a1)->unk5E = 0x1D;
+    if ((((Unkstruct_801202A0 *)a1)->unk5C.u & 0x8000) != 0) {
+        if (((Unkstruct_801202A0 *)a1)->unk5E.u != 0x1D) {
+            ((Unkstruct_801202A0 *)a1)->unk5C.u = ((Unkstruct_801202A0 *)a1)->unk5C.u | 1;
+            ((Unkstruct_801202A0 *)a1)->unk60.u = 0x14;
+            ((Unkstruct_801202A0 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
+            ((Unkstruct_801202A0 *)a1)->unk5E.u = 0x1D;
         }
     }
 }

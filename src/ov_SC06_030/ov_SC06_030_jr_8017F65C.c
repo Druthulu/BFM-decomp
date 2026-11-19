@@ -3328,7 +3328,7 @@ void func_80180508(void *a0) {
             CAST_WIDTH(s32, s1, 4) |= 0x80000000;
             ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
             ((Unkstruct_801202A0 *)a0)->unkC4 = 3;
-            ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
             guess_StartActorSequence((s32)a0, (void *)&D_8019EC8C);
             ((Unkstruct_801202A0 *)a0)->unk75 = 0;
@@ -4116,7 +4116,7 @@ void func_80181938(void *a0) {
         }
 
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 8;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (s32)D_80182184);
 

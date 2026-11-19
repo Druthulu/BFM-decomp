@@ -3413,7 +3413,7 @@ void func_80181B04(s32 param_1) {
     if (iVar1 != 0) {
         ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
         CAST_SIGN(u8 *, param_1, 0xbc) = D_801BD184;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = -0x8ad;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x8ad;
         CAST_SIGN(u32, param_1, 0xc4) |= 2;
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
         *(u8 **)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = D_801BD10C;

@@ -3670,7 +3670,7 @@ void func_8017FEA0(s32 s1)
         v1 = 0x14;
         ((Unkstruct_801202A0 *)s1)->unk75 = v1;
         v1 = ((Unkstruct_801202A0 *)s1)->unk70.s;
-        ((Unkstruct_801202A0 *)s1)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)s1)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)s1)->unkC1.s = 0;
         t0 |= 2;
         ((Unkstruct_801202A0 *)s1)->unkC4 = t0;
@@ -3978,8 +3978,8 @@ void *a0;
     s32 t;
     u8 v;
 
-    t = ((Unkstruct_801805EC_2 *)a0)->unk1C + 1;
-    ((Unkstruct_801805EC_2 *)a0)->unk1C = t;
+    t = ((Unkstruct_801202A0 *)a0)->unk1C.s + 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
     if (t & 0x10) {
         v = ((t & 0xF) >> 1) + 9;
     } else {

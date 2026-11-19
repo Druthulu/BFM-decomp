@@ -3545,7 +3545,7 @@ void func_8017E1C4(void *a0) {
         }
 
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 8;
         guess_StartActorSequence((s32 *)a0, (s32)D_8017EEF8);
 

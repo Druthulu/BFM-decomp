@@ -2913,7 +2913,7 @@ void func_80183A74(s32 arg0) {
         return;
     }
     ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s = 1;
     guess_StartActorSequence(arg0, (void *)&D_8018BD04);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
     guess_ClearVelocityAndSetGravity(arg0);

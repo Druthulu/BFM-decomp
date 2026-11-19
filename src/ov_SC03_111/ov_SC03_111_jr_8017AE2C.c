@@ -3994,7 +3994,7 @@ void func_8017CD14(s32 a0)
 
     ((void (*)(s32))func_80178D18)(a0);
 
-    guess_SetGameFlag((s32)D_801885D0[((Unkstruct_8017CD14 *)a0)->unk70], 1);
+    guess_SetGameFlag((s32)D_801885D0[((Unkstruct_801202A0 *)a0)->unk70.s], 1);
     ((void (*)(s32))guess_FreeActor)(a0);
 }
 

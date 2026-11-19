@@ -3224,9 +3224,9 @@ void func_8017E9EC(void *a0) {
 
 
 void func_8017EA28(void *a0) {
-    if (--((Unkstruct_8017EA28_2 *)a0)->unk1C == 0) {
-        ((Unkstruct_8017EA28_2 *)a0)->unk1C = 0x50;
-        ((Unkstruct_8017EA28_2 *)a0)->unk2 = 2;
+    if (--((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x50;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     }
 }
 
@@ -3291,7 +3291,7 @@ void func_8017EBD0(void *a0) {
 
     buf10 = D_801CA324;
     buf18 = D_801CA32C;
-    if (((Unkstruct_8017EBD0_2 *)a0)->unkFC == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s == 0) {
         func_8017EC98(&buf10, &buf18);
     } else {
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)&buf20);
@@ -4876,8 +4876,8 @@ void *a0;
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_8017F68C_2 *)a0)->unk64;
-    st = ((Unkstruct_8017F68C *)ptr)->unk2;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 2) {
         return 0;
     }
@@ -4889,10 +4889,10 @@ void *a0;
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_8017F68C_2 *)a0)->unk64;
-        st2 = ((Unkstruct_8017F68C *)p)->unk2;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_8017F68C *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;

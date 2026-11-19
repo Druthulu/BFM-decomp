@@ -3128,11 +3128,11 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
     s32 y;
 
     t = rsin(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
-    x = ((Unkstruct_8017D788 *)arg0)->unk6 - (t * arg1 >> 12);
+    x = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u - (t * arg1 >> 12);
     vec1[0] = x;
-    vec1[1] = ((Unkstruct_8017D788 *)arg0)->unkA - 0x10;
+    vec1[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0x10;
     t = rcos(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
-    y = ((Unkstruct_8017D788 *)arg0)->unkE - (t * arg1 >> 12);
+    y = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - (t * arg1 >> 12);
     vec1[2] = y;
     vec2[0] = vec1[0];
     vec2[1] = vec1[1] + 0x20;
@@ -3140,9 +3140,9 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
     ret = func_80133784(1, vec1, vec2);
     if (((ret & 0x6000) == 0) && (arg2 != 0)) {
         t = rsin(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
-        ((Unkstruct_8017D788 *)arg0)->unk6 = vec2[0] + (t * arg1 >> 12);
+        ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u = vec2[0] + (t * arg1 >> 12);
         t = rcos(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
-        ((Unkstruct_8017D788 *)arg0)->unkE = vec2[2] + (t * arg1 >> 12);
+        ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = vec2[2] + (t * arg1 >> 12);
     }
     return ret;
 }

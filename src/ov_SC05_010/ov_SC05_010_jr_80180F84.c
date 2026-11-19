@@ -2995,7 +2995,7 @@ void func_801814AC(s32 param_1) {
     s32 var;
     u8 t;
 
-    func_8016AA50(param_1, ((Unkstruct_801202A0 *)param_1)->unk60);
+    func_8016AA50(param_1, ((Unkstruct_801202A0 *)param_1)->unk60.s);
     if (CAST_SIGN(u16, param_1, 0x82) & 1) {
         guess_RespawnSmallObjectType1E(param_1);
         guess_StartPadVibration(D_80192860);
@@ -3200,7 +3200,7 @@ void func_80181B4C(void *a0)
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801928C8;
         CAST_WIDTH(s32, (s32)a0, 0x4)  = 0x25B0000;
         CAST_WIDTH(s32, (s32)a0, 0x8)  = 0xFF900000;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         CAST_SIGN(u16, (s32)a0, 0x2) += 1;
         ((Unkstruct_801202A0 *)a0)->unkC4 |= 3;
     } else {

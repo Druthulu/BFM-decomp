@@ -3003,9 +3003,9 @@ void func_801820DC(s32 a0) {
     s16 sp[3];
     u16 t;
 
-    t = ((Unkstruct_801820DC_4 *)a0)->unk5E;
+    t = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (t == 0x23) {
-        ((Unkstruct_801820DC_4 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (t == 0x24) {
         sp[0] = 2;
@@ -3540,7 +3540,7 @@ void func_80182BFC(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unkC4 = 1;
         s0 = 1;
         t0 = 0x28;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0xFFFBFFFD;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0xFFFBFFFD;
         ((Unkstruct_801202A0 *)a0)->unk86.u = s0;
         *(s16 *)(a0 + 0x52) = t0;
         guess_UpdateActorModelMatrix(a0);

@@ -2855,7 +2855,7 @@ void func_80181694(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
         ((Unkstruct_801202A0 *)a0)->extE.kSC03_092_80181694.unkAE = -9;
         CAST_SIGN(u8 *, a0, 0xBC) = D_801AD70C;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         CAST_SIGN(u8 *, a0, 0x78) = D_801AD3C0;
         CAST_SIGN(u32, a0, 0xC4) |= 2;
         uVar3 = guess_SpawnActor(0x12F, 4, a0);
@@ -3059,9 +3059,9 @@ void func_801821AC(void *a0) {
 
 
 void func_801821E8(void *a0) {
-        ((Unkstruct_8017E394 *)a0)->unkC1 = 0;
-        ((Unkstruct_8017E394 *)a0)->unk5E = 0;
-        ((Unkstruct_8017E394 *)a0)->unk5C &= 0xc800;
+        ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5E.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s &= 0xc800;
     }
 
 
@@ -3146,15 +3146,15 @@ extern void guess_UpdateActorModelMatrix(s32 a0);
 
 void func_80182380(void *a0)
 {
-    u16 v = ((Unkstruct_8017E52C *)a0)->unk5E;
+    u16 v = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (v != 0x1D) {
-        ((Unkstruct_8017E52C *)a0)->unk5C = 0;
-        ((Unkstruct_8017E52C *)a0)->unk2 = 0x7;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 0x7;
     } else {
-        ((Unkstruct_8017E52C *)a0)->unk5C = 0x8000;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
     }
-    ((Unkstruct_8017E52C *)a0)->unkC1 = 0;
-    ((Unkstruct_8017E52C *)a0)->unk5E = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC1.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
 }
 
 
@@ -3343,11 +3343,11 @@ void func_801828A8(s32 a0) {
     s32 t;
 
     func_8012CBA4(a0);
-    t = ((Unkstruct_8017EA54 *)a0)->unk1C - 1;
-    ((Unkstruct_8017EA54 *)a0)->unk1C = t;
+    t = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
     if (t == 0) {
-        ((Unkstruct_8017EA54 *)a0)->unk1C = 0x6;
-        ((Unkstruct_8017EA54 *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x6;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
     }
     func_8012DFD4((u8 *)a0);
 }
@@ -3568,7 +3568,7 @@ void func_80182E30(void *a0) {
     extern s32 D_800A5EB0;
     D_800A5EA8 = D_801AFDE8;
     D_800A5EB0 = rsin(CAST_SIGN(s16, (s32)a0, 0xFE)) * 10 / 4096 - 5;
-    ((Unkstruct_801807AC *)a0)->unkFE = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
+    ((Unkstruct_801202A0 *)a0)->unkFE.u = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(2, &D_800A5EA8);
 }
 
@@ -3585,7 +3585,7 @@ extern void guess_SetFlatLightOrDefault(s32 a0, void *a1);
 void func_80182EE0(void *a0) {
     D_800A5EA8 = D_801AFE20;
     D_800A5EB0 = rsin(CAST_SIGN(s16, (s32)a0, 0xFE)) * 6 / 4096 - 3;
-    ((Unkstruct_8018085C *)a0)->unkFE = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
+    ((Unkstruct_801202A0 *)a0)->unkFE.u = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(2, &D_800A5EA8);
 }
 
@@ -3608,7 +3608,7 @@ void func_80182F90(void *a0) {
     extern s32 D_800A5E90;
     D_800A5E88 = D_801AFE38;
     D_800A5E90 = rsin(CAST_SIGN(s16, (s32)a0, 0xFE)) * 20 / 4096 - 10;
-    ((Unkstruct_8018090C *)a0)->unkFE = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
+    ((Unkstruct_801202A0 *)a0)->unkFE.u = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(0, &D_800A5E88);
 }
 
@@ -3640,7 +3640,7 @@ void func_80183048(void *a0) {
     t = rsin(CAST_SIGN(s16, (s32)a0, 0xFE));
     if (t < 0) t += 0x1FF;
     D_800A5E90 = (t >> 9) + 8;
-    ((Unkstruct_801809C4 *)a0)->unkFE = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
+    ((Unkstruct_801202A0 *)a0)->unkFE.u = (CAST_ALIAS(u16, (s32)a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(0, &D_800A5E88);
 }
 
@@ -3776,8 +3776,8 @@ void func_8018322C(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 

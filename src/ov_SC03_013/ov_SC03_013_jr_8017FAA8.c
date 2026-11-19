@@ -2972,7 +2972,7 @@ void func_8017FE88(s32 arg0)
     }
 
     ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
     func_80143970(arg0);
     guess_StartActorSequence(arg0, &D_801A45A8);
     (CAST_SIGN(u16, (s32)arg0, 0x2))++;

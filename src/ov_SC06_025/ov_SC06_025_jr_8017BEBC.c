@@ -3710,7 +3710,7 @@ void func_8017E3C0(s32 a0)
 {
     if (guess_InitActorModel(a0, (s32)D_80188804) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->extE.kSC06_025_8017E290.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;

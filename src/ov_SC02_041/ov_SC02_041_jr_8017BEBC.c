@@ -4742,7 +4742,7 @@ void func_8017FC70(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)D_8019ACB8) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         func_80143970(a0);
         guess_StartActorSequence(a0, D_801A3560);
         ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
@@ -5375,7 +5375,7 @@ void func_801809A4(s32 s0) {
     }
 
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = -1;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)&D_801A3D0C;
     ((Unkstruct_801202A0 *)s0)->unkC4 = 1;
     ((Unkstruct_801202A0 *)s0)->extE.kSC02_041_80180438.unkAE = 8;
@@ -5627,7 +5627,7 @@ void func_8018102C(s32 a0) {
     }
 
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkC4 = 3;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801ABF44;
     ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
@@ -5821,8 +5821,8 @@ void func_80181464(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -6066,7 +6066,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -6129,7 +6129,7 @@ void func_80181C40(s32 a0) {
     if (guess_InitActorModel(a0, (s32)D_801AD174) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801AD290;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         guess_StartActorSequence(a0, D_801B5BC4);
         func_80143994(a0, 0x2000);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 3;

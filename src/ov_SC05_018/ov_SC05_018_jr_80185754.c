@@ -3104,7 +3104,7 @@ void func_80185B20(void *a0)
     s3 = s0 + 0x6480;
 
     while (s0 != s3) {
-        if (((Unkstruct_801824A8_2 *)s0)->unk0 == 0x61) {
+        if (((Unkstruct_801202A0 *)s0)->unk0 == 0x61) {
             s32 v1_val = func_8012BD14((s32)s0);
             if (v1_val < s1) {
                 s1 = v1_val;
@@ -3116,20 +3116,20 @@ void func_80185B20(void *a0)
 
     s0 = s4;
     if (s1 == 0x7FFF) {
-        ((Unkstruct_801824A8 *)s2)->unk5C = 0;
+        ((Unkstruct_801202A0 *)s2)->unk5C.s = 0;
     } else {
-        ((Unkstruct_801824A8 *)s2)->unk4 = ((Unkstruct_801824A8_2 *)s0)->unk4;
-        ((Unkstruct_801824A8 *)s2)->unk8 = ((Unkstruct_801824A8_2 *)s0)->unk8;
-        ((Unkstruct_801824A8 *)s2)->unkC = ((Unkstruct_801824A8_2 *)s0)->unkC;
+        ((Unkstruct_801202A0 *)s2)->unk4.val = ((Unkstruct_801202A0 *)s0)->unk4.val;
+        ((Unkstruct_801202A0 *)s2)->unk8.val = ((Unkstruct_801202A0 *)s0)->unk8.val;
+        ((Unkstruct_801202A0 *)s2)->unkC.val = ((Unkstruct_801202A0 *)s0)->unkC.val;
 
         v1 = *(u8 **)(s2 + 0x20);
         v0 = *(u8 **)(s0 + 0x20);
         *(Unkstruct_8013B83C *)(v1 + 0x10) = *(Unkstruct_8013B83C *)(v0 + 0x10);
 
         a0p = *(u8 **)(s2 + 0x20);
-        ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u = ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u - ((Unkstruct_801824A8_2 *)s0)->unkFE;
+        ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u = ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u - ((Unkstruct_801202A0 *)s0)->unkFE.u;
 
-        ((Unkstruct_801824A8 *)s2)->unk5C = 0x800;
+        ((Unkstruct_801202A0 *)s2)->unk5C.s = 0x800;
     }
 }
 
@@ -3320,10 +3320,10 @@ void func_80185EDC(s32 *a0)
     extern signed char D_801E343C[];
     s32 v0;
 
-    v0 = ((Unkstruct_8017DD8C *)a0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
     v0 = v0 * 4;
     ((void (*)(s32 *, s32))func_80178CBC)(a0, *(s32 *)((s32)D_801E343C + v0));
-    ((Unkstruct_8017DD8C *)a0)->unk2 = 0x3;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x3;
 }
 
 
@@ -3343,7 +3343,7 @@ extern void func_80172710(void);
 s32 func_80185F68(a0)
 void *a0;
 {
-    if (func_8012BD14(((Unkstruct_8017DE18 *)a0)->unk64) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
     ((Unkstruct_8017DE18_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
@@ -3646,7 +3646,7 @@ s32 aF8018CB18(void *a0)
     if (((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
         return 0;
     }
-    if (((Unkstruct_80181A1C *)a0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
         return 0;
     }
     if (func_801863A4() == 0) {

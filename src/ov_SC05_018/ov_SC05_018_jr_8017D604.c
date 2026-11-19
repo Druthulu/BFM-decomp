@@ -6871,7 +6871,7 @@ s32 func_80183F28_body(void *a0) __asm__("func_80183F28");
 
 s32 func_80183F28_body(void *a0)
 {
-    if (((Unkstruct_8017F68C *)*(s32 *)((s32)a0 + 0x64))->unk2 != 2) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u != 2) {
         return 0;
     }
 
@@ -6883,9 +6883,9 @@ s32 func_80183F28_body(void *a0)
         s32 p;
         u16 st2;
         p = *(s32 *)((s32)a0 + 0x64);
-        st2 = ((Unkstruct_8017F68C *)p)->unk2;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_8017F68C *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -7280,9 +7280,9 @@ void func_8018460C(void *a0, s32 a1)
     Vec4s_8018460C loc_18;
     Vec4s_8018460C loc_20;
 
-    loc_10.vx = ((Unkstruct_8018460C *)a0)->unk6;
-    loc_10.vy = ((Unkstruct_8018460C *)a0)->unkA;
-    loc_10.vz = ((Unkstruct_8018460C *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    loc_10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    loc_10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     loc_18.vx = 0;
     loc_18.vy = 0;
@@ -7754,12 +7754,12 @@ void func_80185048(void *a0) {
         break;
     case 1:
         func_80185754(a0);
-        ((Unkstruct_801819D0 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 2;
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)a0);
-            ((Unkstruct_801819D0 *)a0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         }
         break;
     }

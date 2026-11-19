@@ -4272,7 +4272,7 @@ extern void func_80178D18(void);
 void func_80182DC4(arg0)
 void *arg0;
 {
-    if (((Unkstruct_80182DC4_2 *)arg0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)arg0)->unk34.u != 0) {
         return;
     }
     if (func_80178970() == 0) {
@@ -4282,7 +4282,7 @@ void *arg0;
         return;
     }
     ((void (*)(void *))func_80178D18)(arg0);
-    ((Unkstruct_80182DC4_2 *)arg0)->unk34 = ((Unkstruct_80182DC4_2 *)arg0)->unk34 + 1;
+    ((Unkstruct_801202A0 *)arg0)->unk34.u = ((Unkstruct_801202A0 *)arg0)->unk34.u + 1;
     func_80029514(0x1CC);
 }
 

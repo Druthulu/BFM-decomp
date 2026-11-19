@@ -4670,7 +4670,7 @@ void func_8017F9CC(s32 a0) {
     addr = ((Unkstruct_801202A0 *)a0)->unk20.p;
     *(s32 *)(addr + 0x4) |= 0x8040;
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 1;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 1;
     guess_StartActorSequence(a0, (void *)&D_80181594);
 
     ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
@@ -4813,18 +4813,18 @@ void func_8017FE30(s32 a0) {
 
     val = CAST_SIGN(s16, *(u8 **)(a0 + 0x20), 0x10);
     if (val == 0 || val < 0x101) {
-        ((Unkstruct_8017FE30 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_8001C9D0 *)*(u8 **)(a0 + 0x20))->head.unk10.u = 0;
-        ((Unkstruct_8017FE30 *)a0)->unk84 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk84.s = 0;
         return;
     }
     if (val < 0xF81) {
         ((Unkstruct_8001C9D0 *)*(u8 **)(a0 + 0x20))->head.unk10.u = val + 0x10;
         return;
     }
-    if (((Unkstruct_8017FE30 *)a0)->unk84 == 0 && val >= 0xF88) {
+    if (((Unkstruct_801202A0 *)a0)->unk84.s == 0 && val >= 0xF88) {
         guess_RequestSound(0x550, 0);
-        ((Unkstruct_8017FE30 *)a0)->unk84 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk84.s = 1;
     }
     ((Unkstruct_8001C9D0 *)*(u8 **)(a0 + 0x20))->head.unk10.u += 4;
 }
@@ -5340,8 +5340,8 @@ s32 func_8018094C(s32 s0)
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_8018094C_5 *)s0)->unk64;
-    st = ((Unkstruct_8018094C_2 *)ptr)->unk2;
+    ptr = ((Unkstruct_801202A0 *)s0)->unk64;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 4) {
         return 0;
     }
@@ -5353,10 +5353,10 @@ s32 func_8018094C(s32 s0)
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_8018094C_5 *)s0)->unk64;
-        st2 = ((Unkstruct_8018094C_2 *)p)->unk34;
+        p = ((Unkstruct_801202A0 *)s0)->unk64;
+        st2 = ((Unkstruct_801202A0 *)p)->unk34.u;
         if (st2 == 0) {
-            ((Unkstruct_8018094C_2 *)p)->unk34 = st2 + 1;
+            ((Unkstruct_801202A0 *)p)->unk34.u = st2 + 1;
             func_80178BF8();
             return (s32)func_80172710;
         }

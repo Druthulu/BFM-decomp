@@ -3692,7 +3692,7 @@ void *a0;
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_8017F56C_2 *)a0)->unk64;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
     st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 1) {
         return 0;
@@ -3705,7 +3705,7 @@ void *a0;
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_8017F56C_2 *)a0)->unk64;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
         st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
         ((Unkstruct_801202A0 *)p)->unk2.u = st2;
@@ -4503,8 +4503,8 @@ void *a0;
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_8017F68C_2 *)a0)->unk64;
-    st = ((Unkstruct_8017F68C *)ptr)->unk2;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 2) {
         return 0;
     }
@@ -4516,10 +4516,10 @@ void *a0;
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_8017F68C_2 *)a0)->unk64;
-        st2 = ((Unkstruct_8017F68C *)p)->unk2;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_8017F68C *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -5105,9 +5105,9 @@ void func_80181404(void *a0, s32 a1)
     Vec4s_80181404 loc_18;
     Vec4s_80181404 loc_20;
 
-    loc_10.vx = ((Unkstruct_8016E7C8 *)a0)->unk6;
-    loc_10.vy = ((Unkstruct_8016E7C8 *)a0)->unkA;
-    loc_10.vz = ((Unkstruct_8016E7C8 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    loc_10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    loc_10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     loc_18.vx = 0;
     loc_18.vy = 0;
@@ -5578,12 +5578,12 @@ void func_80181E40(void *a0) {
         break;
     case 1:
         func_8018254C(a0);
-        ((Unkstruct_801819D0 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 2;
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)a0);
-            ((Unkstruct_801819D0 *)a0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         }
         break;
     }

@@ -2889,10 +2889,10 @@ extern void func_80182944(void *arg0);
 void func_80182300(s32 param_1) {
     s32 s0 = param_1;
 
-    ((Unkstruct_80182300 *)s0)->unkC2 = 0;
-    ((Unkstruct_80182300 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     KR_AS(void, func_80182708)();
-    if (((Unkstruct_80182300 *)s0)->unk5E == 9 || ((Unkstruct_80182300 *)s0)->unk5E == 0x1C) {
+    if (((Unkstruct_801202A0 *)s0)->unk5E.u == 9 || ((Unkstruct_801202A0 *)s0)->unk5E.u == 0x1C) {
         guess_SetLocalVelocity(s0, (s32)D_801A8440);
     } else {
         guess_SetLocalVelocity(s0, (s32)D_801A8450);

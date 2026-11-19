@@ -1557,20 +1557,20 @@ void func_801424E4(short *param_1) {
             if (iVar2 == 0) {
                 return;
             }
-            CAST_MISALIGNED(int, param_1, 2) = ((Unkstruct_801424E4 *)iVar2)->unk4;
+            CAST_MISALIGNED(int, param_1, 2) = ((Unkstruct_801202A0 *)iVar2)->unk4.val;
             t = (unsigned short)param_1[0x7e];
             sVar1 = *(unsigned short *)(iVar2 + 10) + t;
             param_1[5] = sVar1;
-            CAST_MISALIGNED(int, param_1, 6) = ((Unkstruct_801424E4 *)iVar2)->unkC;
+            CAST_MISALIGNED(int, param_1, 6) = ((Unkstruct_801202A0 *)iVar2)->unkC.val;
         } else {
             unsigned short a;
             iVar2 = CAST_MISALIGNED(int, param_1, 0x32);
-            if ((iVar2 != 0) && (((Unkstruct_801424E4 *)iVar2)->unk36 == param_1[0x7f])) {
-                CAST_MISALIGNED(int, param_1, 2) = ((Unkstruct_801424E4 *)iVar2)->unk4;
+            if ((iVar2 != 0) && (((Unkstruct_801202A0 *)iVar2)->unk36.s == param_1[0x7f])) {
+                CAST_MISALIGNED(int, param_1, 2) = ((Unkstruct_801202A0 *)iVar2)->unk4.val;
                 a = *(unsigned short *)(CAST_MISALIGNED(int, param_1, 0x32) + 10);
                 param_1[5] = (a + ((unsigned short)param_1[0x7e]));
                 iVar2 = CAST_MISALIGNED(int, param_1, 0x32);
-                CAST_MISALIGNED(int, param_1, 6) = ((Unkstruct_801424E4 *)iVar2)->unkC;
+                CAST_MISALIGNED(int, param_1, 6) = ((Unkstruct_801202A0 *)iVar2)->unkC.val;
                 return;
             }
             ((void (*)(short *))guess_FreeActor)(param_1);
@@ -1653,7 +1653,7 @@ extern void (*D_801849A0[])();
 void func_801427EC(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_801849A0[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_801849A0[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -1672,7 +1672,7 @@ extern void (*D_801849BC[])();
 void func_8014292C(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_801849BC[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_801849BC[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -1687,7 +1687,7 @@ extern void (*D_80184B8C[])();
 void func_80142978(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80184B8C[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_80184B8C[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -1702,7 +1702,7 @@ extern void (*D_80184C44[])();
 void func_801429C4(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80184C44[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_80184C44[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 

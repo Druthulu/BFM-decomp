@@ -5296,7 +5296,7 @@ extern void (*D_8018E5FC[])();
 void func_8018241C(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_8018E5FC[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_8018E5FC[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -5402,7 +5402,7 @@ extern void (*D_8018E60C[])();
 void func_80182678(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_8018E60C[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_8018E60C[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -5685,7 +5685,7 @@ extern void (*D_8018E90C[])();
 void func_80182F58(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_8018E90C[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_8018E90C[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -7001,7 +7001,7 @@ void func_80184BA4(s32 param_1) {
     if (guess_InitActorModel(param_1, (s32)&D_801D0C6C) != 0) {
         ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)param_1)->unkBC = (s32)&D_801D0CA0;
-        ((Unkstruct_801202A0 *)param_1)->unkB4 = 0xFFFBDFD9;
+        ((Unkstruct_801202A0 *)param_1)->unkB4.s = 0xFFFBDFD9;
         ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 0;
         ((Unkstruct_801202A0 *)param_1)->extD.kSC02_017_80184B18.unk100 = 0x1000;
         ((Unkstruct_801202A0 *)param_1)->unkC4 |= 1;

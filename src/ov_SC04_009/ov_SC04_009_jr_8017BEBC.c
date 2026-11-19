@@ -3113,7 +3113,7 @@ void func_8017D808(void *a0)
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
     ((Unkstruct_801202A0 *)a0)->extE.kcls_431f99de0b6a.unkAE = -5;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_8018276C;
     ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_8018275C;
@@ -3485,8 +3485,8 @@ void func_8017DF78(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 

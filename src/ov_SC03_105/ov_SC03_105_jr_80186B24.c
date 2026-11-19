@@ -3037,10 +3037,10 @@ void func_80186D54(s32 param_1)
 
     iVar2 = *(s32 **)(param_1 + 0xCC);
     func_80178B18(param_1, (s32)&D_8018F04C);
-    ((Unkstruct_80186D54 *)param_1)->unk2 = 9;
-    ((Unkstruct_80186D54 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 9;
+    ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     iVar1 = *(s32 **)((s32)iVar2 + 0x20);
-    ((Unkstruct_80186D54_2 *)iVar2)->unk2 = 1;
+    ((Unkstruct_801202A0 *)iVar2)->unk2.s = 1;
     *(u32 *)((s32)iVar1 + 4) = *(u32 *)((s32)iVar1 + 4) & 0x7FFFFFFF;
     func_8017C068();
     func_800D0C48(1);

@@ -3458,7 +3458,7 @@ void func_8017E29C(void *a0) {
     s0 = (s32)a0;
     if (guess_InitActorModel(s0, (s32)D_80183D48) != 0) {
         ((Unkstruct_801202A0 *)s0)->unkC0.s = 1;
-        ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)s0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_80183D8C;
         ((Unkstruct_801202A0 *)s0)->unkFE.u = 8;
         v0 = ((Unkstruct_801202A0 *)s0)->unkC4;

@@ -3198,7 +3198,7 @@ void func_80183B58(s32 a0)
     }
 
     ((Unkstruct_801202A0 *)s0)->unkC0.s = 1;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = -1;
     ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_8018C4CC;
     func_80143970(s0);
@@ -4747,7 +4747,7 @@ s32 func_80185B48(s32 a0)
     mode = CAST_WIDTH(u16, a0, 0x5E);
     if (mode != 0) {
         /* 0x60 (s16) * (*(s32*)(a0+0x78))->0x30 (s16), 12.4 -> integer */
-        spd = (((Unkstruct_801202A0 *)a0)->unk60 * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x30)) >> 12;
+        spd = (((Unkstruct_801202A0 *)a0)->unk60.s * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x30)) >> 12;
         if (spd <= 0) {
             spd = 1;
         }
@@ -4813,7 +4813,7 @@ s32 func_80185B48(s32 a0)
                 tmr = tmr - 1;
                 *(s16 *)(a0 + 0xFA) = tmr;
                 if (tmr == 0) {
-                    ((Unkstruct_801202A0 *)a0)->unk60 = 0;
+                    ((Unkstruct_801202A0 *)a0)->unk60.s = 0;
                     CAST_WIDTH(s16, a0, 0x5E) = 0;
                 }
             }
@@ -4930,14 +4930,14 @@ extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerP
 void func_80185EF8(s32 arg0) {
     s32 dist;
 
-    dist = (((Unkstruct_80185EF8 *)arg0)->unk6 - *(s16 *)&guess_g_PlayerPosX) * (((Unkstruct_80185EF8 *)arg0)->unk6 - *(s16 *)&guess_g_PlayerPosX)
-         + (((Unkstruct_80185EF8 *)arg0)->unkE - *(s16 *)&guess_g_PlayerPosZ) * (((Unkstruct_80185EF8 *)arg0)->unkE - *(s16 *)&guess_g_PlayerPosZ);
+    dist = (((Unkstruct_801202A0 *)arg0)->unk4.i.hi.s - *(s16 *)&guess_g_PlayerPosX) * (((Unkstruct_801202A0 *)arg0)->unk4.i.hi.s - *(s16 *)&guess_g_PlayerPosX)
+         + (((Unkstruct_801202A0 *)arg0)->unkC.i.hi.s - *(s16 *)&guess_g_PlayerPosZ) * (((Unkstruct_801202A0 *)arg0)->unkC.i.hi.s - *(s16 *)&guess_g_PlayerPosZ);
     if (dist > 0xFFFF) {
         return;
     }
-    ((Unkstruct_80185EF8 *)arg0)->unk1C = 0x19;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x19;
     func_800D0C48(1);
-    ((Unkstruct_80185EF8 *)arg0)->unk2 = ((Unkstruct_80185EF8 *)arg0)->unk2 + 1;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u = ((Unkstruct_801202A0 *)arg0)->unk2.u + 1;
 }
 
 
@@ -5577,7 +5577,7 @@ void func_80186DF0(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
-            ((Unkstruct_801202A0 *)p)->unk60 = 0xA;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0xA;
             ((Unkstruct_801202A0 *)p)->unk5C.u |= 1;
             v = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             CAST_WIDTH(s16, p, 0x5E) = 1;

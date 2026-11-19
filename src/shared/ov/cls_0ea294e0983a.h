@@ -7,7 +7,7 @@ void *arg0;
     ((Unkstruct_801202A0 *)arg0)->unk98.s = 1;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 1;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x8810;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 &= ~1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s &= ~1;
     ((Unkstruct_801202A0 *)arg0)->unkC4 |= 2;
     if (((Unkstruct_801202A0 *)arg0)->unk76.s < 0x370) {
         ((Unkstruct_801202A0 *)arg0)->unk76.s = 0x2BC;

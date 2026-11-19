@@ -3870,7 +3870,7 @@ void func_8017FF80(s32 a0)
 
     ((void (*)(s32))func_80178D18)(a0);
 
-    guess_SetGameFlag((s32)D_8018AEC8[((Unkstruct_8017CD14 *)a0)->unk70], 1);
+    guess_SetGameFlag((s32)D_8018AEC8[((Unkstruct_801202A0 *)a0)->unk70.s], 1);
     ((void (*)(s32))guess_FreeActor)(a0);
 }
 
@@ -5723,7 +5723,7 @@ extern s32 func_8017BFA0(void);
 
 
 void func_8018282C(s32 *a0) {
-        ((Unkstruct_801805EC *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
     }
 
 

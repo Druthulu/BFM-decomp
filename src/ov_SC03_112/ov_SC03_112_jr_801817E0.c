@@ -3050,8 +3050,8 @@ void func_80181E88(s32 param_1)
     func_80182708((s32 *)param_1);
     switch (CAST_WIDTH(u16, param_1, 0x5e)) {
     case 1:
-        if (((Unkstruct_801202A0 *)param_1)->unk60 == 0) {
-            ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - ((Unkstruct_801202A0 *)param_1)->unk60;
+        if (((Unkstruct_801202A0 *)param_1)->unk60.s == 0) {
+            ((Unkstruct_801202A0 *)param_1)->unk76.s = CAST_SIGN(u16, param_1, 0x76) - ((Unkstruct_801202A0 *)param_1)->unk60.s;
             if ((s32)(CAST_SIGN(u16, param_1, 0x76) << 16) <= 0) {
                 func_80131E00(param_1, 0xe);
             }

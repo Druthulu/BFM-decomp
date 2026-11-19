@@ -3541,8 +3541,8 @@ void func_8017E1B4(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -3787,7 +3787,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
@@ -3831,7 +3831,7 @@ s32 param_1;
 
     ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)param_1)->unkBC = (s32)&D_8019575C;
-    ((Unkstruct_801202A0 *)param_1)->unkB4 = -0x2021;
+    ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x2021;
     *(s16 *)(param_1 + 0xDE) = 0;
     ((Unkstruct_801202A0 *)param_1)->unkC4 |= 1;
     guess_StartActorSequence(param_1, (s32)&D_8019ADFC);
@@ -4390,7 +4390,7 @@ void func_8017F5EC(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
-            ((Unkstruct_801202A0 *)p)->unk60 = 0xA;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0xA;
             ((Unkstruct_801202A0 *)p)->unk5C.u |= 1;
             v = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             CAST_WIDTH(s16, p, 0x5E) = 1;

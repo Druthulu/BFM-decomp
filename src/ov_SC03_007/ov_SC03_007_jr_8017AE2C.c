@@ -4290,7 +4290,7 @@ void func_8017E124(s32 a0)
 
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_8018BC84;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = 0xFFFBDFDD;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = 0xFFFBDFDD;
     *(s16 *)(s0 + 0xDE) = 0;
     ((Unkstruct_801202A0 *)s0)->unkC4 |= 1;
     func_80143970(s0);
@@ -4609,9 +4609,9 @@ void func_8017E750(s32 a0) {
     s16 sp[3];
     u16 t;
 
-    t = ((Unkstruct_8017E750 *)a0)->unk5E;
+    t = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (t == 0x23) {
-        ((Unkstruct_8017E750 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (t == 0x24) {
         sp[2] = 0;
@@ -4998,7 +4998,7 @@ void func_8017EFD4(s32 a0)
 
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_8018BE58;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = -0xA9;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = -0xA9;
     func_80143970(s0);
     ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC03_007_8017EF98.unkE0 = 0;
     guess_StartActorSequence(s0, D_801BE488);
@@ -6299,7 +6299,7 @@ void func_80180C74(s32 a0)
     }
 
     ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)s0)->unkB4 = 0x4000;
+    ((Unkstruct_801202A0 *)s0)->unkB4.s = 0x4000;
     ((Unkstruct_801202A0 *)s0)->unkBC = (s32)D_8018C014;
     ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)s0)->unkC4 = 3;
@@ -6778,7 +6778,7 @@ void func_8018178C(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8810;
-            ((Unkstruct_801202A0 *)a0)->unkB4 &= ~1;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s &= ~1;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
             if (((Unkstruct_801202A0 *)a0)->unk76.s < 0x370) {
                 ((Unkstruct_801202A0 *)a0)->unk76.s = 0x2BC;

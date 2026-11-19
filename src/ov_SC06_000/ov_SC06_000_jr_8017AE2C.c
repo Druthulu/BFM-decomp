@@ -7584,7 +7584,7 @@ void func_80182CD8(int param_1)
             *(unsigned short *)(param_1 + 0x5c) = 0x8C00;
             ((Unkstruct_801202A0 *)param_1)->extE.kSC06_000_80183088.unkAE = -5;
             CAST_SIGN(void *, param_1, 0xbc) = D_8018C65C;
-            ((Unkstruct_801202A0 *)param_1)->unkB4 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkB4.s = 0;
             ((Unkstruct_801202A0 *)param_1)->unkFE.s = 1;
             ((Unkstruct_801202A0 *)param_1)->unkC4 |= 2;
         }
@@ -8273,7 +8273,7 @@ L_ce4:
     {
         s32 v0 = ((Unkstruct_801202A0 *)self)->unkC4;
         u16 v1 = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
-        ((Unkstruct_801202A0 *)self)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)self)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)self)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)self)->unkC4 = v0 | 2;
         ((Unkstruct_801202A0 *)self)->extD.kSC06_000_801846BC.unk102.s = v1;
@@ -8705,7 +8705,7 @@ void func_80184A28(void) {
 
 
 void func_80184A50(void *a0) {
-        ((Unkstruct_801805EC *)a0)->unk2 = 0x2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
     }
 
 
@@ -9263,9 +9263,9 @@ void func_8018562C(void *a0, void *a1) {
 
     func_80017D98(mb.m[0]);
     func_80017DF8(a1, mb.m[0]);
-    mb.t[0] = ((Unkstruct_8016E7C8 *)a0)->unk6;
-    mb.t[1] = ((Unkstruct_8016E7C8 *)a0)->unkA;
-    mb.t[2] = ((Unkstruct_8016E7C8 *)a0)->unkE;
+    mb.t[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    mb.t[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    mb.t[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
     b.tail = *(Q_8018562C *)((s8 *)a1 + 8);
     b.head = b.tail;
     b.head.unk0 = b.head.unk0 - 0x20;
@@ -9324,9 +9324,9 @@ void func_80185764(s32 a0, s32 *a1)
 
     func_80017D98(mb.m[0]);
     func_80017DF8(a1, mb.m[0]);
-    mb.t[0] = ((Unkstruct_8016E7C8 *)a0)->unk6;
-    mb.t[1] = ((Unkstruct_8016E7C8 *)a0)->unkA - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
-    mb.t[2] = ((Unkstruct_8016E7C8 *)a0)->unkE;
+    mb.t[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    mb.t[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s - (rand() & 0x1F) * 0x10 - (rand() & 0x1F) * 4 - 0x100;
+    mb.t[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
     guess_RotTransSVWithMatrix(mb.m[0], (s8 *)a1 + 8, buf);
     buf[3] = 0xA;
     func_801858E8(buf);

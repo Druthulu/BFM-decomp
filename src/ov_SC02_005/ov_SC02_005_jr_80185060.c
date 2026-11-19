@@ -208,7 +208,7 @@ void func_801853EC(s32 arg0) {
     flags = ((Unkstruct_801202A0 *)s0)->unk5C.u & 0xFFFE;
     ((Unkstruct_801202A0 *)s0)->unk76.s = cnt;
     ((Unkstruct_801202A0 *)s0)->unk5C.u = flags;
-    func_8016AA50(arg0, ((Unkstruct_801202A0 *)s0)->unk60);
+    func_8016AA50(arg0, ((Unkstruct_801202A0 *)s0)->unk60.s);
 
     if (((Unkstruct_801202A0 *)s0)->unk76.s <= 0) {
         CAST_WIDTH(u16, s0, 0x5E) = 0;

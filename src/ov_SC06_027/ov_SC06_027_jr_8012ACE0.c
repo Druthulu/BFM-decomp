@@ -837,7 +837,7 @@ void func_8012E9C0(int param_1)
 {
     int iVar1;
 
-    if (((Unkstruct_801202A0 *)param_1)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk60.s != 0) {
         if (*(unsigned char *)(param_1 + 0x5e) == 0x1d) {
             ((Unkstruct_801202A0 *)param_1)->unk82 = 0;
             ((Unkstruct_801202A0 *)param_1)->unk7C = *(unsigned short *)(param_1 + 6);
@@ -845,13 +845,13 @@ void func_8012E9C0(int param_1)
             ((Unkstruct_801202A0 *)param_1)->unk80 = *(unsigned short *)(param_1 + 0xe);
         }
         if (((Unkstruct_801202A0 *)param_1)->unk78 != 0) {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60 *
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s *
                         *(short *)(((Unkstruct_801202A0 *)param_1)->unk78 + 0x30) >> 0xc;
             if (iVar1 < 1) {
                 iVar1 = 1;
             }
         } else {
-            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60;
+            iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s;
         }
         func_8016AA50(param_1, iVar1);
         if ((*(unsigned short *)(param_1 + 0x82) & 1) != 0) {
@@ -967,8 +967,8 @@ extern s32 guess_CallActorEventHandler(int);
 extern u8 D_8017E350[];
 
 void func_8012F8C8(u8* arg0) {
-    ((Unkstruct_8012F8C8 *)arg0)->unkC1 = 7;
-    if (((Unkstruct_8012F8C8 *)arg0)->unkB4 & 0x80) {
+    ((Unkstruct_801202A0 *)arg0)->unkC1.u = 7;
+    if (((Unkstruct_801202A0 *)arg0)->unkB4.u & 0x80) {
         ((void (*)(void*, void*, s32))func_80131170)(arg0, D_8017E350, 0xB);
     }
     ((void (*)(void*, s32))guess_CallActorEventHandler)(arg0, 0x16);
@@ -1017,7 +1017,7 @@ s32 func_8012FCC4(s32 param_1) {
         ((void (*)(int, int))func_80131E00)(((int)param_1), 1);
         return;
     }
-    if (((Unkstruct_801202A0 *)param_1)->unkB4 & 0x100) {
+    if (((Unkstruct_801202A0 *)param_1)->unkB4.s & 0x100) {
         ((void (*)(int))func_80131B14)(((int)param_1));
         if (((Unkstruct_801202A0 *)param_1)->unk76.s <= 0) {
             ((void (*)(int, int))func_80131E00)(((int)param_1), 0xC);
@@ -1099,7 +1099,7 @@ s32 func_8012FCC4(s32 param_1) {
 extern void (*D_8017E364[])(void);
 
 void func_80130D0C(void *a0) {
-    D_8017E364[((Unkstruct_80130D0C *)a0)->unkC1]();
+    D_8017E364[((Unkstruct_801202A0 *)a0)->unkC1.u]();
 }
 
 
@@ -1320,7 +1320,7 @@ void func_801312D0(s32 param_1, void *param_2)
 
     int iVar5;
 
-    iVar5 = guess_LookupIdValue(((Unkstruct_801312D0_2 *)param_1)->unkBC, 0x2E);
+    iVar5 = guess_LookupIdValue(((Unkstruct_801202A0 *)param_1)->unkBC, 0x2E);
     if (iVar5 != 0) {
         ((Unkstruct_801312D0 *)param_2)->unk4 = 0;
         ((Unkstruct_801312D0 *)param_2)->unk0 = 0;
@@ -1691,7 +1691,7 @@ void func_80131B14(u8 *a0v) {
 
     s32 e = ((Unkstruct_801202A0 *)p)->unk5E.b;
 
-    if (((Unkstruct_801202A0 *)p)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)p)->unk60.s != 0) {
         if (e == 0x1D) {
             ((Unkstruct_801202A0 *)p)->unk82 = 0;
             ((Unkstruct_801202A0 *)p)->unk7C = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
@@ -1702,7 +1702,7 @@ void func_80131B14(u8 *a0v) {
             s32 dec;
             s32 q = ((Unkstruct_801202A0 *)p)->unk78;
             if (q != 0) {
-                dec = ((s32)((Unkstruct_801202A0 *)p)->unk60 * (s32)*(s16 *)(q + 0x30)) >> 12;
+                dec = ((s32)((Unkstruct_801202A0 *)p)->unk60.s * (s32)*(s16 *)(q + 0x30)) >> 12;
                 if (dec <= 0) dec = 1;
             }
             ((Unkstruct_801202A0 *)p)->unk76.s = CAST_SIGN(u16, p, 0x76) - dec;

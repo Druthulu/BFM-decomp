@@ -3349,7 +3349,7 @@ void func_80184700(s32 arg0) {
     }
 
     ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
     guess_StartActorSequence(arg0, (void *)&D_801B92C8);
     CAST_SIGN(u16, arg0, 0x2) += 1;
     guess_ClearVelocityAndSetGravity(arg0);
@@ -3392,13 +3392,13 @@ void func_80184814(s32 a0) {
             return;
         }
     } else {
-        v0 = ((Unkstruct_80184814 *)a0)->unk1C - 1;
-        ((Unkstruct_80184814 *)a0)->unk1C = v0;
+        v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = v0;
         if (v0 != 0) {
             return;
         }
     }
-    ((Unkstruct_80184814 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
 
@@ -3454,7 +3454,7 @@ void func_80184940(s32 arg0) {
     CAST_ALIAS(s16, arg0, 0xA) = -0x82;
     CAST_ALIAS(s16, arg0, 0xE) = -0x640;
     ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
     func_80143970(arg0);
     guess_StartActorSequence(arg0, (void *)&D_801B62A0);
     CAST_SIGN(u16, arg0, 0x2) += 1;
@@ -3922,7 +3922,7 @@ extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_Player
 
 void func_8018546C(void *a0) {
     guess_ClearHideRequest221(&guess_g_PlayerActor);
-    ((Unkstruct_8018546C *)a0)->unk2 = ((Unkstruct_8018546C *)a0)->unk2 + 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
 }
 
 
@@ -3975,14 +3975,14 @@ void func_8018555C(u8 *a0) {
     v += 0x20;
     ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
     ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
-    c = ((Unkstruct_8018555C *)a0)->unk1C;
+    c = ((Unkstruct_801202A0 *)a0)->unk1C.s;
     c -= 1;
-    ((Unkstruct_8018555C *)a0)->unk1C = c;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = c;
     if (c == -1) {
-        ((Unkstruct_8018555C *)a0)->unk1C = 0x28;
-        w = ((Unkstruct_8018555C *)a0)->unk2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x28;
+        w = ((Unkstruct_801202A0 *)a0)->unk2.u;
         w += 1;
-        ((Unkstruct_8018555C *)a0)->unk2 = w;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = w;
     }
 }
 

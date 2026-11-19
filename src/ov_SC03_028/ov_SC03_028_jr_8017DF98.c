@@ -4095,15 +4095,15 @@ void func_801808CC(s32 a0, s32 a1, s32 a2, s32 a3)
         SetTransMatrix(&guess_g_CameraWsMatrix);
 
         do {
-            f = ((Unkstruct_80181114 *)e)->unk5C;
-            if ((f & 0x8000) && ((Unkstruct_80181114 *)e)->unk5E != a3) {
+            f = ((Unkstruct_801202A0 *)e)->unk5C.u;
+            if ((f & 0x8000) && ((Unkstruct_801202A0 *)e)->unk5E.u != a3) {
                 if (func_800133E4(sv, (s16 *)(e + 0x4)) < 0x1E40) {
-                    f = ((Unkstruct_80181114 *)e)->unk5C;
-                    ((Unkstruct_80181114 *)e)->unk60 = a1;
-                    ((Unkstruct_80181114 *)e)->unk62 = a2;
-                    ((Unkstruct_80181114 *)e)->unk5E = a3;
+                    f = ((Unkstruct_801202A0 *)e)->unk5C.u;
+                    ((Unkstruct_801202A0 *)e)->unk60.u = a1;
+                    ((Unkstruct_801202A0 *)e)->unk62 = a2;
+                    ((Unkstruct_801202A0 *)e)->unk5E.u = a3;
                     f |= 1;
-                    ((Unkstruct_80181114 *)e)->unk5C = f;
+                    ((Unkstruct_801202A0 *)e)->unk5C.u = f;
                 }
             }
             e = func_8012DDA4();
@@ -4141,9 +4141,9 @@ s32 func_80180A08(s32 param_1, u16 param_2)
 void func_80180AC4(s32 arg0, s32 arg1) {
     register s32 ret __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:expand-void-return
     s32 a2 = arg0;
-    s32 dz = ((Unkstruct_80180AC4 *)a2)->unkE - 0x3C0;
+    s32 dz = ((Unkstruct_801202A0 *)a2)->unkC.i.hi.s - 0x3C0;
     s32 dzsq = dz * dz;
-    s32 dy = (s16)((Unkstruct_80180AC4 *)a2)->unk6;
+    s32 dy = (s16)((Unkstruct_801202A0 *)a2)->unk4.i.hi.u;
     if (dzsq < 0x1901) {
         dzsq += 0x4000;
     }
@@ -4152,9 +4152,9 @@ void func_80180AC4(s32 arg0, s32 arg1) {
         ret = 0;
         goto out;
     }
-    ((Unkstruct_80180AC4 *)a2)->unk10 = 0;
-    ((Unkstruct_80180AC4 *)a2)->unk18 = 0;
-    ((Unkstruct_80180AC4 *)a2)->unk6 -= dy >> 5;
+    ((Unkstruct_801202A0 *)a2)->unk10.val = 0;
+    ((Unkstruct_801202A0 *)a2)->unk18.val = 0;
+    ((Unkstruct_801202A0 *)a2)->unk4.i.hi.u -= dy >> 5;
     CAST_SIGN(u16, a2, 0xE) -= dz >> 5;
     ret = 1;
 out:
@@ -5238,22 +5238,22 @@ void func_80182780(s32 a0) {
     q = ((Unkstruct_801202A0 *)D_801EC450)->unkCC.p;
     CAST_ALIAS(s16, (u8 *)q, 0x2) = 2;
     CAST_ALIAS(u16, (u8 *)q, 0x5C) = 0x8000;
-    ((Unkstruct_80182780 *)q)->unkC1 = 0;
+    ((Unkstruct_801202A0 *)q)->unkC1.u = 0;
 
     q = ((Unkstruct_801202A0 *)D_801EC450)->unkD0.p;
     CAST_ALIAS(s16, (u8 *)q, 0x2) = 2;
     CAST_ALIAS(u16, (u8 *)q, 0x5C) = 0x8000;
-    ((Unkstruct_80182780 *)q)->unkC1 = 0;
+    ((Unkstruct_801202A0 *)q)->unkC1.u = 0;
 
     q = ((Unkstruct_801202A0 *)D_801EC450)->unkD4.p;
     CAST_ALIAS(s16, (u8 *)q, 0x2) = 2;
     CAST_ALIAS(u16, (u8 *)q, 0x5C) = 0x8000;
-    ((Unkstruct_80182780 *)q)->unkC1 = 0;
+    ((Unkstruct_801202A0 *)q)->unkC1.u = 0;
 
     q = ((Unkstruct_801202A0 *)D_801EC450)->unkD8.p;
-    ((Unkstruct_80182780 *)q)->unk2 = 2;
-    ((Unkstruct_80182780 *)q)->unk5C = 0x8000;
-    ((Unkstruct_80182780 *)q)->unkC1 = 0;
+    ((Unkstruct_801202A0 *)q)->unk2.s = 2;
+    ((Unkstruct_801202A0 *)q)->unk5C.u = 0x8000;
+    ((Unkstruct_801202A0 *)q)->unkC1.u = 0;
 }
 
 

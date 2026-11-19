@@ -3228,7 +3228,7 @@ extern short D_801929E8;
 void func_80186700(s32 *a0) {
     *(s32 *)((s32)a0[0x33] + 0xB0) = 2;
     if (func_8018766C(0xB, 0x17) != 0) {
-        ((Unkstruct_80186700 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((void (*)(s32 *, void *))func_80187778)(a0, (void *)&(*(s32 *)&D_801929E8));
     }
 }
@@ -3465,8 +3465,8 @@ s32 func_80186C54(void *a0)
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_80186C54_2 *)a0)->unk64;
-    st = ((Unkstruct_80186C54 *)ptr)->unk2;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 1 && st != 4) {
         return 0;
     }
@@ -3478,10 +3478,10 @@ s32 func_80186C54(void *a0)
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_80186C54_2 *)a0)->unk64;
-        st2 = ((Unkstruct_80186C54 *)p)->unk2;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_80186C54 *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -3635,7 +3635,7 @@ s32 aF8018CB18(void *a0)
     if (((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
         return 0;
     }
-    if (((Unkstruct_80181A1C *)a0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
         return 0;
     }
     if (func_80186D18() == 0) {

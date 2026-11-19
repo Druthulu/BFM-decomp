@@ -3086,8 +3086,8 @@ extern void (*D_80183140[])();
 
 void func_8017D814(void *param_1)
 {
-    if (((Unkstruct_8017D814 *)param_1)->unk1C != 0) {
-        (((Unkstruct_8017D814 *)param_1)->unk1C)--;
+    if (((Unkstruct_801202A0 *)param_1)->unk1C.s != 0) {
+        (((Unkstruct_801202A0 *)param_1)->unk1C.s)--;
     } else {
         guess_SetGameFlag(0x125, 0);
         guess_SetGameFlag(0x126, 0);
@@ -3099,7 +3099,7 @@ void func_8017D814(void *param_1)
         guess_SetGameFlag(0x12C, 0);
         guess_SetGameFlag(0x130, 0);
         func_80178B18((s32)param_1, (s32)D_80183140);
-        ((Unkstruct_8017D814 *)param_1)->unk2 += 1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u += 1;
     }
 }
 
@@ -3109,7 +3109,7 @@ extern void func_800D1724(s32);
 
 void func_8017D8DC(void *a0) {
     ((void (*)(s32 *))func_800D1724)(&D_80182450);
-    ((Unkstruct_8017D8DC_3 *)a0)->unk2 = ((Unkstruct_8017D8DC_3 *)a0)->unk2 + 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
 }
 
 
@@ -3254,11 +3254,11 @@ void func_8017DC38(void *a0) {
     s32 cnt;
 
     if ((guess_TestGameFlag(0x130) & 0xFF) != 0) {
-        cnt = ((Unkstruct_8017DC38 *)ent)->unk1C;
+        cnt = ((Unkstruct_801202A0 *)ent)->unk1C.s;
         if (cnt < 0x15) {
-            ((Unkstruct_8017DC38 *)ent)->unk1C = cnt + 1;
+            ((Unkstruct_801202A0 *)ent)->unk1C.s = cnt + 1;
             if (cnt % 3 == 0) {
-                ((Unkstruct_8017DC38 *)ent)->unk6 += 1;
+                ((Unkstruct_801202A0 *)ent)->unk4.i.hi.u += 1;
             }
         }
     }

@@ -7,6 +7,6 @@ void SHARED_FN(int param_1)
     extern u16 D_801270C0;
     extern void (*D_80183B94[])();
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80183B94[((Unkstruct_801427EC_2 *)param_1)->unk2]();
+        D_80183B94[((Unkstruct_801427EC_2 *)param_1)->unk2.u]();
     }
 }

@@ -4210,10 +4210,10 @@ void func_8018CFFC(s32 *a0)
     extern signed char D_801EB468[];
     s32 v0;
 
-    v0 = ((Unkstruct_80189C64 *)a0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
     v0 = v0 * 4;
     func_80178CBC(a0, *(s32 *)((s32)D_801EB468 + v0));
-    ((Unkstruct_80189C64 *)a0)->unk2 = 0x3;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x3;
 }
 
 

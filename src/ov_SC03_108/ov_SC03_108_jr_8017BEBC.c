@@ -4138,7 +4138,7 @@ void func_8017F140(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 0x8;
             ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
             CAST_SIGN(void *, a0, 0xBC) = &D_8019E70C;
-            ((Unkstruct_801202A0 *)a0)->unkB4 = -0x249D;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x249D;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 0x2;
             guess_HideObjectModel((u8 *)a0);
             return;
@@ -4150,7 +4150,7 @@ void func_8017F140(s32 a0) {
         } else {
             ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
             CAST_SIGN(void *, a0, 0xBC) = &D_8019E70C;
-            ((Unkstruct_801202A0 *)a0)->unkB4 = -0x249D;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x249D;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 0x2;
         }

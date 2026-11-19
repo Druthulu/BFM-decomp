@@ -3279,7 +3279,7 @@ void func_8017E794(void *a0) {
     extern s32 func_8017EBA8(void *a0);
     extern void (*D_8018E048[])(void *);
     if (func_8017EBA8(a0) == 0) {
-        D_8018E048[((Unkstruct_8017E794 *)a0)->unk2](a0);
+        D_8018E048[((Unkstruct_801202A0 *)a0)->unk2.u](a0);
     }
 }
 
@@ -3480,10 +3480,10 @@ void func_8017EB08(s32 param_1) {
 extern void func_8017F140(s32);
 
 s32 func_8017EBA8(void *a0) {
-    if (!(((Unkstruct_8017E794 *)a0)->unk5C & 1)) {
+    if (!(((Unkstruct_801202A0 *)a0)->unk5C.u & 1)) {
         return 0;
     }
-    if (((Unkstruct_8017E794 *)a0)->unk5E != 0x24) {
+    if (((Unkstruct_801202A0 *)a0)->unk5E.u != 0x24) {
         ((void (*)(void))func_8017F140)();
         return 1;
     }

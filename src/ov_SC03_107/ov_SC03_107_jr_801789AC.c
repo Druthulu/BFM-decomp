@@ -6468,12 +6468,12 @@ extern u8 D_80186134[];
 void func_8017D7D8(s32 a0) {
     s32 s0 = a0;
 
-    if (((Unkstruct_8017D7D8 *)s0)->unk70 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk70.s != 0) {
         func_80178CBC(a0, (s32)D_80186134);
     } else {
         func_80178CBC(s0, (s32)&D_8018611C);
     }
-    ((Unkstruct_8017D7D8 *)s0)->unk2 = 3;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 3;
 }
 
 
@@ -6572,7 +6572,7 @@ void func_8017D9B8(s32 a0) {
     if (guess_InitActorModel(a0, (s32)&D_80191F80) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80191FB4;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0xFFFBDFD9;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0xFFFBDFD9;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_107_8017D92C.unk100 = 0x1000;
         ((Unkstruct_801202A0 *)a0)->unkC4 |= 1;
@@ -8627,11 +8627,11 @@ extern int rsin(int a0);
 
     extern s32 guess_DistSqToPlayer(s32 a0);
     void func_80180BE4(s32 a0) {
-        s16 v = ((Unkstruct_80180BE4 *)a0)->unkFC;
+        s16 v = ((Unkstruct_801202A0 *)a0)->unkFC.s;
         if (v != 0) {
-            ((Unkstruct_80180BE4 *)a0)->unkFC = v - 1;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = v - 1;
         } else if (guess_DistSqToPlayer(a0) <= 0xFFFFF) {
-            ((Unkstruct_80180BE4 *)a0)->unk2 = 0x9;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 0x9;
         }
     }
 
@@ -9239,7 +9239,7 @@ void func_80181850(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = v0;
         func_800291C8(0xA, (s16)v0);
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -0x489;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x489;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80198BB8;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkC4 = 1;

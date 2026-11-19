@@ -54,7 +54,7 @@ void func_801A0230(s32 a0) {
         D_801F885C = 0;
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->extE.kSC07_004_801A2D78.unkAE = -1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32) D_801AFC18;
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
         v1 |= 2;
@@ -2965,7 +2965,7 @@ void func_801A4570(void *arg0)
 
     localA.vx = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u + CAST_WIDTH(u16, (u8 *)arg0, 0x50);
     localA.vy = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u + *(u16 *)((u8 *)arg0 + 0x52) - 0x40;
-    localA.vz = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)arg0)->unk54;
+    localA.vz = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)arg0)->unk54.u;
 
     localB.vx = (u16)guess_g_PlayerPosX;
     localB.vy = (u16)guess_g_PlayerPosY - 0x20;
@@ -4374,7 +4374,7 @@ void func_801A6A38(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_801AFF14 | 0x40000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8800;
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->extE.kSC07_004_801A4420.unkAE = 0;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801AFF24;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
@@ -4407,7 +4407,7 @@ void func_801A6AD0(s32 arg0) {
 
     /* 8-byte struct copy at offset 0x50 */
     CAST_WIDTH(Unkstruct_801343C4, arg0, 0x50) =
-        *(Unkstruct_801343C4 *)&((Unkstruct_801202A0 *)arg0)->unk64->unk50;
+        *(Unkstruct_801343C4 *)&((Unkstruct_801202A0 *)arg0)->unk64->unk50.u;
 
     /* 8-byte struct copy at offset 0x10 of the nested (+0x20) struct */
     *(Unkstruct_801343C4 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x10) =
@@ -7063,7 +7063,7 @@ void func_801AAA6C(s32 a0)
 
     r1.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + CAST_WIDTH(u16, a0, 0x50);
     r1.unk2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + *(u16 *)(a0 + 0x52);
-    r1.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk54;
+    r1.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk54.u;
     r2.unk4 = 0x24;
     r2.unk6 = 5;
     for (; j < 2; j++) {
@@ -7336,9 +7336,9 @@ s32 func_801AAF34(s32 a0, s32 a1, s16 a2)
 {
     s16 sv[3];
 
-    sv[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk50;
+    sv[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk50.u;
     sv[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk52.u;
-    sv[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk54;
+    sv[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk54.u;
     return func_801AAF8C(sv, a1, a2);
 }
 

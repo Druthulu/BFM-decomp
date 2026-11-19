@@ -2784,7 +2784,7 @@ void func_80182BF8(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801A8B74;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A9ED0);
         ((Unkstruct_801202A0 *)e)->unk2.s = 1;
@@ -2855,7 +2855,7 @@ void func_80182BF8(void *a0v)
         D_801ACEA4 = 0;
         guess_BuildCircle12Points(q, 0x20);
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801A8B74;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A9ED0);
         ((Unkstruct_801202A0 *)e)->unk2.s = 8;
@@ -2956,7 +2956,7 @@ void func_80182BF8(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801A8B74;
         ((void (*)(s32, void *))guess_StartActorSequence)(e, D_801A9ED0);
         ((Unkstruct_801202A0 *)e)->unk2.s = 0xD;

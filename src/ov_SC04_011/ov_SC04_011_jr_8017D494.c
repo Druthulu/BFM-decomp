@@ -4623,9 +4623,9 @@ void func_80180970(void *a0)
     {
         void *t;
         t = s0;
-        ((Unkstruct_8016E7C8 *)t)->unk6 = -0x40;
-        ((Unkstruct_8016E7C8 *)t)->unkE = 0x40;
-        ((Unkstruct_8016E7C8 *)t)->unkA = -0x200;
+        ((Unkstruct_801202A0 *)t)->unk4.i.hi.s = -0x40;
+        ((Unkstruct_801202A0 *)t)->unkC.i.hi.s = 0x40;
+        ((Unkstruct_801202A0 *)t)->unk8.i.hi.s = -0x200;
         func_8018637C((s32)t, (s32)&D_801DECA4);
     }
 }
@@ -9126,7 +9126,7 @@ void func_80186940(void *a0, s32 a1, s32 a2) {
     a2s = a2;
     D_801EFD40 |= 0x80;
     ret = func_80186A20(D_801EFC48, (s16)a1);
-    ((Unkstruct_801202A0 *)D_801EFC48)->unk60 = CAST_SIGN(u16, D_801EFC48, 0x60) + ret;
+    ((Unkstruct_801202A0 *)D_801EFC48)->unk60.s = CAST_SIGN(u16, D_801EFC48, 0x60) + ret;
     if (a2s != 0) {
         func_8016AA50((s32)a0, ret);
     }
@@ -9134,7 +9134,7 @@ void func_80186940(void *a0, s32 a1, s32 a2) {
     if (ret != 0) {
         func_80186A68();
         msg = 0xBA9;
-        if (*(u16 *)&D_801EFD28 - ((Unkstruct_801202A0 *)D_801EFC48)->unk60 > 0) {
+        if (*(u16 *)&D_801EFD28 - ((Unkstruct_801202A0 *)D_801EFC48)->unk60.s > 0) {
             msg = 0x906;
         }
         guess_RequestSound(msg, 0);
@@ -11181,7 +11181,7 @@ void func_80189578(void *a0)
     ((Unkstruct_801202A0 *)a0)->extE.kSC04_011_801896BC.unkAE = -5;
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_80194940 | 0x20000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8C00;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     ((Unkstruct_801202A0 *)a0)->unk75 = 0xC;
     ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;

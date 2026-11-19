@@ -4756,7 +4756,7 @@ void func_801801EC(s32 a0, s32 a1) {
     if ((((Unkstruct_801202A0 *)a1)->unk5C.u & 0x8000) != 0) {
         if (CAST_WIDTH(u16, a1, 0x5E) != 0x1D) {
             ((Unkstruct_801202A0 *)a1)->unk5C.u = ((Unkstruct_801202A0 *)a1)->unk5C.u | 1;
-            ((Unkstruct_801202A0 *)a1)->unk60 = 0xa;
+            ((Unkstruct_801202A0 *)a1)->unk60.s = 0xa;
             ((Unkstruct_801202A0 *)a1)->unk62 = func_8012B6D4((s16 *)(a1 + 4), (s16 *)(a0 + 4));
             CAST_WIDTH(u16, a1, 0x5E) = 0x1D;
         }
@@ -4855,7 +4855,7 @@ void func_801803D0(void *param_1)
     *(s32 *)D_8019BA34 = 0x1000000;
     *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x24) = (s32)(D_8019BA34 - 0x14);
     ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)param_1)->unkB4 = -0x801;
+    ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x801;
     ((Unkstruct_801202A0 *)param_1)->unkBC = (s32)&D_80190D88;
     func_80143970((s32)param_1);
     guess_SnapActorToGround((u8 *)param_1);
@@ -5916,8 +5916,8 @@ void func_80181AA0(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -6162,7 +6162,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);

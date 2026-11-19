@@ -3359,7 +3359,7 @@ void func_8017BF50(s32 a0)
             v1 = (u16)*s0;
             if ((v1 & 0xFFFF) == 0x8000) break;
 
-            if (((Unkstruct_8017BF50_2 *)s3)->unk70 != 0) {
+            if (((Unkstruct_801202A0 *)s3)->unk70.s != 0) {
                 buf.f0 = *s0++;
                 buf.f2 = *s0++;
                 buf.f4 = *s0++;
@@ -3378,7 +3378,7 @@ void func_8017BF50(s32 a0)
             s4++;
         } while (s4 < 0x10);
     }
-    ((Unkstruct_8017BF50_2 *)s3)->unk2 += 1;
+    ((Unkstruct_801202A0 *)s3)->unk2.u += 1;
 }
 
 
@@ -5354,7 +5354,7 @@ s32 func_8017FB10(void *a0)
     void *p;
     u16 st;
 
-    if (func_8012BD14(((Unkstruct_8017FB10_2 *)a0)->unk64) > 0x4000) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x4000) {
         return 0;
     }
 
@@ -5362,21 +5362,21 @@ s32 func_8017FB10(void *a0)
     st = CAST_SIGN(u16, (s32)p, 0x2);
     switch (st) {
     case 3:
-        ((Unkstruct_8017FB10 *)p)->unk2 = 8;
+        ((Unkstruct_801202A0 *)p)->unk2.s = 8;
         break;
     case 2:
-        if (((Unkstruct_8017FB10 *)p)->unk34 == 1) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u == 1) {
             goto hit;
         }
         goto fail;
     case 4:
-        if (((Unkstruct_8017FB10 *)p)->unk34 != 0) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 0) {
             goto fail;
         }
     hit:
         D_801ECE68 = st;
         D_801ECE6A = CAST_ALIAS(u16, (s32)p, 0x34);
-        ((Unkstruct_8017FB10 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 10;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 10;
         break;
     default:
     fail:   /* the case-2/case-4 failures share this one `return 0`: a return

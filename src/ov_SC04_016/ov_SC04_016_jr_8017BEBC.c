@@ -3966,7 +3966,7 @@ extern void func_800D1724(s32);
 
 void func_8017EF58(void *a0) {
     ((void (*)(s32 *))func_800D1724)(&D_80183A0C);
-    ((Unkstruct_8017D8DC_3 *)a0)->unk2 = ((Unkstruct_8017D8DC_3 *)a0)->unk2 + 1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
 }
 
 

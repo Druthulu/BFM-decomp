@@ -2949,18 +2949,18 @@ void func_801847E8(s32 param_1)
         break;
     case 5:
         v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
-        ((Unkstruct_801847E8_2 *)v1)->unk2 = 1;
+        ((Unkstruct_801202A0 *)v1)->unk2.s = 1;
         break;
     case 6:
         v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
-        ((Unkstruct_801847E8_2 *)v1)->unk2 = 2;
+        ((Unkstruct_801202A0 *)v1)->unk2.s = 2;
         break;
     case 7:
         v0 = 6;
         goto set_all;
     case 8:
         v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
-        ((Unkstruct_801847E8_2 *)v1)->unk2 = 0x28;
+        ((Unkstruct_801202A0 *)v1)->unk2.s = 0x28;
         break;
     case 9:
         func_800D0C48(1);

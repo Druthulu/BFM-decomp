@@ -3175,7 +3175,7 @@ extern void guess_HideObjectModel(u8 *a0);
 
 void func_8018107C(s32 arg0) {
     s32 s0 = arg0;
-    if (((Unkstruct_8018107C *)s0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk34.u != 0) {
         return;
     }
     if (func_801789AC(arg0) == 0) {
@@ -3183,7 +3183,7 @@ void func_8018107C(s32 arg0) {
     }
     ((void (*)(s32))func_80178D18)(s0);
     func_8012A568(&func_8017E170);
-    ((Unkstruct_8018107C *)s0)->unk34 = ((Unkstruct_8018107C *)s0)->unk34 + 1;
+    ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
     guess_HideObjectModel((u8 *)s0);
 }
 

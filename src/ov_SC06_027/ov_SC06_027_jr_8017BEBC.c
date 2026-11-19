@@ -3120,7 +3120,7 @@ void func_8017D708(void *a0)
         ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk18.u = 0x800;
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) = 0x800;
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->extE.kcls_ffd29a8c26ea.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk2.s  = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;

@@ -3360,7 +3360,7 @@ void func_80185158(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_80190610;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0xCA00;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
-            ((Unkstruct_801202A0 *)a0)->unkB4 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkB4.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk75 = 0;
             ((Unkstruct_801202A0 *)a0)->unk78 = (s32)D_80190638;
             ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;

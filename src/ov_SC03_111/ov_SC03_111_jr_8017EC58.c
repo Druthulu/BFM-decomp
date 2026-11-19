@@ -3794,13 +3794,13 @@ extern void func_80172710(void);
 extern void func_80178BF8();
 
 s32 func_801812B4(void *arg0) {
-    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801812B4 *)arg0)->unk64) > 0x14400) {
+    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801202A0 *)arg0)->unk64) > 0x14400) {
         return 0;
     }
-    if (*(u16 *)(((Unkstruct_801812B4 *)arg0)->unk64 + 2) != 1) {
+    if (*(u16 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 2) != 1) {
         return 0;
     }
-    *(s16 *)(((Unkstruct_801812B4 *)arg0)->unk64 + 0xFE) = 1;
+    *(s16 *)((s32)((Unkstruct_801202A0 *)arg0)->unk64 + 0xFE) = 1;
     func_80178BF8();
     return (s32)func_80172710;
 }
@@ -3867,7 +3867,7 @@ extern void (*D_80188B68[])();
 void func_801814D0(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_80188B68[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_80188B68[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }
 
@@ -4216,7 +4216,7 @@ void func_80181CE4(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801B1C98;
         guess_StartActorSequence(e, D_801B2FF4);
         ((Unkstruct_801202A0 *)e)->unk2.s = 1;
@@ -4287,7 +4287,7 @@ void func_80181CE4(void *a0v)
         D_801B98DC = 0;
         guess_BuildCircle12Points(q, 0x20);
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801B1C98;
         guess_StartActorSequence(e, D_801B2FF4);
         ((Unkstruct_801202A0 *)e)->unk2.s = 8;
@@ -4388,7 +4388,7 @@ void func_80181CE4(void *a0v)
             return;
         }
         ((Unkstruct_801202A0 *)e)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)e)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)e)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)e)->unkBC = (s32)D_801B1C98;
         guess_StartActorSequence(e, D_801B2FF4);
         ((Unkstruct_801202A0 *)e)->unk2.s = 0xD;
@@ -5232,11 +5232,11 @@ void func_80183844(s32 a0)
 
     extern s32 guess_DistSqToPlayer(s32 a0);
     void func_8018398C(s32 a0) {
-        s16 v = ((Unkstruct_80180BE4 *)a0)->unkFC;
+        s16 v = ((Unkstruct_801202A0 *)a0)->unkFC.s;
         if (v != 0) {
-            ((Unkstruct_80180BE4 *)a0)->unkFC = v - 1;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = v - 1;
         } else if (guess_DistSqToPlayer(a0) <= 0xFFFFF) {
-            ((Unkstruct_80180BE4 *)a0)->unk2 = 0x9;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 0x9;
         }
     }
 
@@ -5252,11 +5252,11 @@ void func_801839EC(void *a0) {
     t = sp10[0];
     ((Unkstruct_801839EC *)*(s32 *)((s32)a0 + 0x20))->unk12 = t >> 16;
     ((Unkstruct_801839EC *)*(s32 *)((s32)a0 + 0x20))->unk10 = t;
-    v = ((Unkstruct_80183280 *)a0)->unkA - 8;
-    ((Unkstruct_80183280 *)a0)->unkA = v;
-    if (((Unkstruct_80183280 *)a0)->unk8A - (s16)v >= 0x81) {
-        ((Unkstruct_80183280 *)a0)->unk2 = 0xA;
-        ((Unkstruct_80183280 *)a0)->unkFC = 0xC;
+    v = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 8;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v;
+    if (((Unkstruct_801202A0 *)a0)->unk8A.s - (s16)v >= 0x81) {
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 0xA;
+        ((Unkstruct_801202A0 *)a0)->unkFC.u = 0xC;
     }
     func_80183280((s32)a0);
 }
@@ -5286,11 +5286,11 @@ void func_80183A7C(void *a0) {
 void func_80183AF0(void *a0) {
     u16 w;
 
-    w = ((Unkstruct_80183280 *)a0)->unkA + 8;
-    ((Unkstruct_80183280 *)a0)->unkA = w;
-    if (((Unkstruct_80183280 *)a0)->unk8A - (s16)w <= 0) {
-        ((Unkstruct_80183280 *)a0)->unk2 = 8;
-        ((Unkstruct_80183280 *)a0)->unkFC = 0x1E;
+    w = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + 8;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = w;
+    if (((Unkstruct_801202A0 *)a0)->unk8A.s - (s16)w <= 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 8;
+        ((Unkstruct_801202A0 *)a0)->unkFC.u = 0x1E;
     }
     func_80183280((s32)a0);
 }
@@ -5725,8 +5725,8 @@ void func_80184234(void *a0) {
         func_80178CBC((s32)a0, (s32)(p - 7));
     }
 
-    ((Unkstruct_8017DF78_2 *)a0)->unk2 = 4;
-    ((Unkstruct_8017DF78_2 *)a0)->unk70 |= 0x8000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)a0)->unk70.u |= 0x8000;
 }
 
 
@@ -5969,7 +5969,7 @@ s32 aF8018A224(param_1)
     s32 flag;
 
     m = (s32 *)((u8 *)guess_g_PlayerModelPtr + 0x34);
-    obj = ((Unkstruct_8017E75C_2 *)param_1)->unk64;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk64;
 
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);

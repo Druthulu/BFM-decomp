@@ -2838,7 +2838,7 @@ void func_8018501C(void *a0) {
         u16 saved;
 
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -0x401;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -0x401;
         func_80143970((void *)a0);
 
         state2 = ((Unkstruct_801202A0 *)a0)->unk70.s;
@@ -3916,7 +3916,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_80153BD8(s32 arg);
     extern s32 func_80153BF0(s32 a0);
     void func_80186768(u8 *a0) {
-        ((Unkstruct_80181C00 *)a0)->unkFE = 0;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 0;
         if (func_80153BD8((s32)a0)) {
             ((void (*)(void *))func_80153BF0)(a0);
         }
@@ -4249,12 +4249,12 @@ void func_80186D3C(s32 a0) {
 extern s32 func_8012CBCC(s32 a0);
 
 void func_80186DD8(s32 a0) {
-    s16 v = ((Unkstruct_80181784 *)a0)->unkFC;
+    s16 v = ((Unkstruct_801202A0 *)a0)->unkFC.s;
 
     if (v != 0) {
-        ((Unkstruct_80181784 *)a0)->unkFC = v - 1;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = v - 1;
     } else if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x6000) {
-        ((Unkstruct_80181784 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 }
 
@@ -4374,10 +4374,10 @@ void func_80187008(int param_1)
 {
     int iVar1;
 
-    iVar1 = ((Unkstruct_801819B4 *)param_1)->unk1C - 1;
-    ((Unkstruct_801819B4 *)param_1)->unk1C = iVar1;
-    if (((Unkstruct_801819B4 *)param_1)->unk1C == 0) {
-        ((Unkstruct_801819B4 *)param_1)->unk2 = *(unsigned short *)(param_1 + 0x34);
+    iVar1 = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = iVar1;
+    if (((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = *(unsigned short *)(param_1 + 0x34);
     }
 }
 
@@ -4508,7 +4508,7 @@ void func_801871EC(s32 a0)
 extern s32 func_8012CBCC(s32 a0);
     void func_801872F8(void *a0) {
         if ((((s32 (*)(s32))func_8012CBCC)((s32)a0) & 0x2000) != 0) {
-            ((Unkstruct_80185360 *)a0)->unk2 = 0x2;
+            ((Unkstruct_801202A0 *)a0)->unk2.s = 0x2;
         }
     }
 

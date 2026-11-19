@@ -4852,10 +4852,10 @@ extern void func_80172710(void);
 
 s32 func_8017EDDC(void *a0)
 {
-    if (((s32 (*)(s32))func_8012BE54)(((Unkstruct_8017EDDC *)a0)->unk64) >= 0x2401) {
+    if (((s32 (*)(s32))func_8012BE54)(((Unkstruct_801202A0 *)a0)->unk64) >= 0x2401) {
         return 0;
     }
-    *(s16 *)(((Unkstruct_8017EDDC *)a0)->unk64 + 0x2) = 3;
+    *(s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x2) = 3;
     func_80178BF8();
     return (s32)func_80172710;
 }

@@ -3014,7 +3014,7 @@ void func_8017DFFC(void *a0) {
     if (guess_InitActorModel((s32)a0, (s32)D_801889AC) != 0) {
         func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.p, 0xC8, 0x168);
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)a0)->extE.kSC06_016_8017DEC4.unkAE = -1;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
@@ -3267,7 +3267,7 @@ void func_8017E54C(s32 a0)
 
     func_8012E9C0(a0);
 
-    dmg = ((s32)((Unkstruct_801202A0 *)a0)->unk60 * (s32)*(s16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x30)) >> 12;
+    dmg = ((s32)((Unkstruct_801202A0 *)a0)->unk60.s * (s32)*(s16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 0x30)) >> 12;
     if (dmg <= 0) {
         dmg = 1;
     }

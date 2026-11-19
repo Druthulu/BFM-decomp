@@ -5890,9 +5890,9 @@ void func_801829F0(s32* a0)
 
         RotMatrixZYX((s32)&sv, (s32)buf);
 
-        ((Unkstruct_8017BF50 *)buf)->unk14 = ((Unkstruct_8016E7C8 *)p)->unk6;
-        ((Unkstruct_8017BF50 *)buf)->unk18 = ((Unkstruct_8016E7C8 *)p)->unkA;
-        ((Unkstruct_8017BF50 *)buf)->unk1C = ((Unkstruct_8016E7C8 *)p)->unkE;
+        ((Unkstruct_8017BF50 *)buf)->unk14 = ((Unkstruct_801202A0 *)p)->unk4.i.hi.s;
+        ((Unkstruct_8017BF50 *)buf)->unk18 = ((Unkstruct_801202A0 *)p)->unk8.i.hi.s;
+        ((Unkstruct_8017BF50 *)buf)->unk1C = ((Unkstruct_801202A0 *)p)->unkC.i.hi.s;
 
         sv.f0 = 0;
         sv.f2 = ((Unkstruct_801202A0 *)a0)->unkFE.u;

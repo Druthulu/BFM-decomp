@@ -3137,7 +3137,7 @@ s32 func_8018233C(s32 arg0) {
     }
 
     p = &D_8018EDFC;
-    ((Unkstruct_801202A0 *)arg0)->unk60 = 8;
+    ((Unkstruct_801202A0 *)arg0)->unk60.s = 8;
     func_8012E9C0(arg0);
     *p -= CAST_SIGN(u16, arg0, 0x60);
 
@@ -3751,12 +3751,12 @@ void func_80183768(void *a0, s32 a1, s32 a2)
     s32 s0a, s0b;
     s32 arg[3];
 
-    s0a = rcos((((Unkstruct_80183768 *)a0)->unk1C << 5) & 0xFE0)
-        - rcos(((((Unkstruct_80183768 *)a0)->unk1C - 1) << 5) & 0xFE0);
+    s0a = rcos((((Unkstruct_801202A0 *)a0)->unk1C.s << 5) & 0xFE0)
+        - rcos(((((Unkstruct_801202A0 *)a0)->unk1C.s - 1) << 5) & 0xFE0);
     arg[0] = (a1 * s0a) << 4;
     arg[2] = 0;
-    s0b = rsin((((Unkstruct_80183768 *)a0)->unk1C << 5) & 0x7E0)
-        - rsin(((((Unkstruct_80183768 *)a0)->unk1C - 1) << 5) & 0x7E0);
+    s0b = rsin((((Unkstruct_801202A0 *)a0)->unk1C.s << 5) & 0x7E0)
+        - rsin(((((Unkstruct_801202A0 *)a0)->unk1C.s - 1) << 5) & 0x7E0);
     arg[1] = -((a2 * s0b) << 4);
     func_8018383C(a0, arg);
 }
@@ -3957,8 +3957,8 @@ s32 func_80183C20(void *a0) {
     u16 in[2];
     u16 g[2];
 
-    in[0] = ((Unkstruct_80183C20 *)a0)->unk6;
-    in[1] = ((Unkstruct_80183C20 *)a0)->unkA;
+    in[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    in[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     g[0] = guess_g_PlayerPosX;
     g[1] = guess_g_PlayerPosY;
     func_80183C6C(in, g);

@@ -3521,15 +3521,15 @@ extern void func_8017EF54(s32);
 
 void func_8017FA00(s32 param_1) {
     s32 s0 = param_1;
-    if (((Unkstruct_8017FA00 *)s0)->unk70 != 0) {
-        ((Unkstruct_8017FA00 *)s0)->unkE = 0;
-        ((Unkstruct_8017FA00 *)s0)->unkA = 0;
-        ((Unkstruct_8017FA00 *)s0)->unk6 = 0;
-        func_80132784(s0, ((Unkstruct_8017FA00 *)s0)->unk64, CAST_SIGN(u16, s0, 0x70));
-        ((Unkstruct_8017FA00 *)s0)->unk6 = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk48;
-        ((Unkstruct_8017FA00 *)s0)->unkA = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk4C;
-        ((Unkstruct_8017FA00 *)s0)->unkE = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk50;
-        if (*(s16 *)(((Unkstruct_8017FA00 *)s0)->unk64 + 0x108) != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk70.s != 0) {
+        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = 0;
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = 0;
+        ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = 0;
+        func_80132784(s0, ((Unkstruct_801202A0 *)s0)->unk64, CAST_SIGN(u16, s0, 0x70));
+        ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk48;
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk4C;
+        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk50;
+        if (*(s16 *)((s32)((Unkstruct_801202A0 *)s0)->unk64 + 0x108) != 0) {
             ((void (*)(void *))func_8017EF54)(s0);
         }
     }
@@ -4300,7 +4300,7 @@ void func_80180D6C(void *arg0) {
 
     if (guess_InitActorModel(arg0, &D_801C0F30)) {
         ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_801C0F74;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_035_80183258.unkE4 = -((rand() % 8 + 0xC) << 16);

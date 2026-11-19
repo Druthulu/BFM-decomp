@@ -3353,7 +3353,7 @@ void func_8017BF50(s32 a0)
             v1 = (u16)*s0;
             if ((v1 & 0xFFFF) == 0x8000) break;
 
-            if (((Unkstruct_8017BF50_2 *)s3)->unk70 != 0) {
+            if (((Unkstruct_801202A0 *)s3)->unk70.s != 0) {
                 buf.f0 = *s0++;
                 buf.f2 = *s0++;
                 buf.f4 = *s0++;
@@ -3372,7 +3372,7 @@ void func_8017BF50(s32 a0)
             s4++;
         } while (s4 < 0x10);
     }
-    ((Unkstruct_8017BF50_2 *)s3)->unk2 += 1;
+    ((Unkstruct_801202A0 *)s3)->unk2.u += 1;
 }
 
 
@@ -4403,13 +4403,13 @@ void func_8017E738(void *a0) {
     s32 v0;
     u16 v1;
 
-    v1 = ((Unkstruct_8017E738 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
     switch (v1) {
         case 0:
             v0 = ((s32 (*)(void *))func_801846CC)(a0);
             if (v0 != 0) {
                 ((void (*)(void *, void *, s32, s32))func_801845FC)(a0, D_801B94EC, 1, 0x60);
-                ((Unkstruct_8017E738 *)a0)->unk34 = 1;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
             }
             break;
         case 1:
@@ -4417,7 +4417,7 @@ void func_8017E738(void *a0) {
             if (v0 != 0) {
                 v0 = ((s32 (*)(void *))func_801846CC)(a0);
                 if (v0 != 0) {
-                    ((Unkstruct_8017E738 *)a0)->unk2 = 1;
+                    ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
                     ((void (*)(void *, void *))func_801843E0)(a0, ((u8 *)&D_8018E958));
                 }
             }
@@ -4951,7 +4951,7 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 
 void func_8017F268(void *a0) {
     if ((D_80126B9C & 0x8000000) != 0) {
-        ((Unkstruct_8017EE5C *)a0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         func_80178B18((s32)a0, (s32)&D_8018F37C);
     }
 }
@@ -5024,7 +5024,7 @@ void func_8017F3BC(s32 a0) {
 extern void func_801843E0(s32 *a0, s32 a1);
     extern short D_8018F498;
     void func_8017F40C(void * arg0) {
-        ((Unkstruct_8017F40C_2 *)arg0)->unk2 = 6;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 6;
         ((void (*)(s32, s32))func_801843E0)((int)arg0, (int)&D_8018F498);
     }
 
@@ -5460,10 +5460,10 @@ void func_8017FD70(s32 arg0) {
     extern int func_80178970(void);
     extern void func_80178D18(void);
     extern void func_8017F40C(void *arg0);
-    switch (((Unkstruct_8017F40C_2 *)arg0)->unk34) {
+    switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
         if (D_80126B9C & 0x8000000) {
-            ((Unkstruct_8017F40C_2 *)arg0)->unk34 = 1;
+            ((Unkstruct_801202A0 *)arg0)->unk34.u = 1;
             func_80178B18(arg0, &D_8018F7C8);
         }
         break;
@@ -6134,9 +6134,9 @@ void func_80180BB0(void *a0) {
     extern u32 D_8018FE2C;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)a0);
-        ((Unkstruct_80180BB0 *)a0)->unk2 = 1;
-        ((Unkstruct_80180BB0 *)a0)->unk58 = (s32)&D_8018FE2C | 0x40000000;
-        ((Unkstruct_80180BB0 *)a0)->unk5C = 0x800;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_8018FE2C | 0x40000000;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x800;
     }
 }
 
@@ -6327,15 +6327,15 @@ void func_80180E40(void *param_1) {
             D_801E1A24 = 0;
         }
     }
-    switch (((Unkstruct_80180E40 *)arg0)->unk34) {
+    switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 1:
-        ((Unkstruct_80180E40 *)arg0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk34.u = 2;
         func_80178CBC((s32 *)arg0, (s32)&D_8018FEF0);
         break;
     case 2:
         if (func_801789AC((s32)arg0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)arg0);
-            ((Unkstruct_80180E40 *)arg0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
         }
         break;
     }
@@ -6838,7 +6838,7 @@ s32 aF8018CB18(void *a0)
     if (((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
         return 0;
     }
-    if (((Unkstruct_80181A1C *)a0)->unk34 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
         return 0;
     }
     if (func_801817AC() == 0) {

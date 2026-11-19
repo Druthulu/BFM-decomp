@@ -3371,7 +3371,7 @@ void func_8017F840(void *a0) {
 
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
     ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801A6140;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = 0xFFFF5FFF;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = 0xFFFF5FFF;
     ((Unkstruct_801202A0 *)a0)->unkC4 |= 3;
 
     func_8001C97C(D_801A60D8[CAST_SIGN(u16, (s32)a0, 0x70) & 0xF]);
@@ -3416,7 +3416,7 @@ void func_8017F988(void *arg0) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s32 D_801AB1CC;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801AB1CC);
-    ((Unkstruct_8017F2D0 *)arg0)->unk2 = 0x2;
+    ((Unkstruct_8017F2D0 *)arg0)->unk2.s = 0x2;
 }
 
 
@@ -3886,7 +3886,7 @@ void func_801804C0(s32 param_1) {
     s0 = param_1;
 
     v0 = ((Unkstruct_801202A0 *)s0)->unk78;
-    v1 = ((Unkstruct_801202A0 *)s0)->unk60;
+    v1 = ((Unkstruct_801202A0 *)s0)->unk60.s;
     v0 = *(s16 *)(v0 + 0x30);
     a2 = v1 * v0;
     v0 = a2 >> 12;

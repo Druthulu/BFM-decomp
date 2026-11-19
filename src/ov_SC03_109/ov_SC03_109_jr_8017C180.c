@@ -3221,10 +3221,10 @@ void func_8017DD8C(s32 *a0)
     extern signed char D_80181F10[];
     s32 v0;
 
-    v0 = ((Unkstruct_8017DD8C *)a0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
     v0 = v0 * 4;
     ((void (*)(s32 *, s32))func_80178CBC)(a0, *(s32 *)((s32)D_80181F10 + v0));
-    ((Unkstruct_8017DD8C *)a0)->unk2 = 0x3;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0x3;
 }
 
 
@@ -3244,7 +3244,7 @@ extern void func_80172710(void);
 s32 func_8017DE18(a0)
 void *a0;
 {
-    if (func_8012BD14(((Unkstruct_8017DE18 *)a0)->unk64) > 0x1000) {
+    if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
     ((Unkstruct_8017DE18_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;

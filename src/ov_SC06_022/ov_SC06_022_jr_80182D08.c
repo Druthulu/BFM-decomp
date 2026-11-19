@@ -3604,7 +3604,7 @@ void func_80183FEC(s32 p) {
     ((Unkstruct_801202A0 *)p)->unk5C.u = ((Unkstruct_801202A0 *)p)->unk5C.u & 0xFFFE;
     guess_ClearVelocityAndSetGravity(p);
 
-    t = (((Unkstruct_801202A0 *)p)->unk60 * *(s16 *)(((Unkstruct_801202A0 *)p)->unk78 + 0x30)) >> 12;
+    t = (((Unkstruct_801202A0 *)p)->unk60.s * *(s16 *)(((Unkstruct_801202A0 *)p)->unk78 + 0x30)) >> 12;
     iVar1 = t;
     t = t << 16;
     if (t <= 0) {

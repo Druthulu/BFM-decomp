@@ -2962,8 +2962,8 @@ extern void (*D_801899F4[])(void);
 extern s32 (*D_8018994C)();
 
 void func_80181844(void *param) {
-    ((Unkstruct_80181844 *)param)->unk2 = 4;
-    ((Unkstruct_80181844 *)param)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param)->unk2.u = 4;
+    ((Unkstruct_801202A0 *)param)->unk34.u = 0;
     if ((u32)guess_GetStoryProgress() < 0x82) {
         func_80178CBC((s32)param, (s32)&D_8018994C);
     }
@@ -3030,10 +3030,10 @@ s32 func_80181990(void *a0)
     s32 obj = (s32)a0;
     s32 ptr;
     s32 ptr2;
-    ptr = ((Unkstruct_80181990_2 *)obj)->unk64;
-    if (((Unkstruct_80181990 *)ptr)->unk2 == 2 && KR_AS(s32, func_80182E88)() != 0 && func_80183158(7, 0x15) != 0) {
-        ptr2 = ((Unkstruct_80181990_2 *)obj)->unk64;
-        ((Unkstruct_80181990 *)ptr2)->unk2 = 3;
+    ptr = ((Unkstruct_801202A0 *)obj)->unk64;
+    if (((Unkstruct_801202A0 *)ptr)->unk2.u == 2 && KR_AS(s32, func_80182E88)() != 0 && func_80183158(7, 0x15) != 0) {
+        ptr2 = ((Unkstruct_801202A0 *)obj)->unk64;
+        ((Unkstruct_801202A0 *)ptr2)->unk2.u = 3;
     } else {
         return 0;
     }
@@ -3066,11 +3066,11 @@ void func_80181A64(void *a0) {
     s32 s0 = (s32)a0;
 
     if ((u32)guess_GetStoryProgress() >= 0x82) {
-        switch (((Unkstruct_80181A64 *)s0)->unk34) {
+        switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
         case 0:
             if (func_80128C98(3) != 0) {
                 ((void (*)(s32 *, s32))func_80178CBC)((s32 *)s0, (s32)&D_80189974);
-                ((Unkstruct_80181A64 *)s0)->unk34 = 1;
+                ((Unkstruct_801202A0 *)s0)->unk34.u = 1;
             }
             return;
         case 1:
@@ -3081,7 +3081,7 @@ void func_80181A64(void *a0) {
     }
     if (((s32 (*)(s32))func_80178970)((s32)s0) != 0) {
         ((void (*)(s32))func_80178D18)((s32)s0);
-        ((Unkstruct_80181A64 *)s0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 2;
         func_80183264((void *)s0, &D_80189928);
     }
 }

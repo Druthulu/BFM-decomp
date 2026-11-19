@@ -3479,7 +3479,7 @@ void func_8017C234(s32 a0)
             v1 = (u16)*s0;
             if ((v1 & 0xFFFF) == 0x8000) break;
 
-            if (((Unkstruct_8017BF50_2 *)s3)->unk70 != 0) {
+            if (((Unkstruct_801202A0 *)s3)->unk70.s != 0) {
                 buf.f0 = *s0++;
                 buf.f2 = *s0++;
                 buf.f4 = *s0++;
@@ -3498,7 +3498,7 @@ void func_8017C234(s32 a0)
             s4++;
         } while (s4 < 0x10);
     }
-    ((Unkstruct_8017BF50_2 *)s3)->unk2 += 1;
+    ((Unkstruct_801202A0 *)s3)->unk2.u += 1;
 }
 
 

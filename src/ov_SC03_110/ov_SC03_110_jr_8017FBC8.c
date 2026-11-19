@@ -3012,7 +3012,7 @@ void func_80180270(s32 param_1) {
 
     switch (CAST_WIDTH(u16, param_1, 0x5E)) {
     case 1:
-        hp = ((Unkstruct_801202A0 *)param_1)->unk60;
+        hp = ((Unkstruct_801202A0 *)param_1)->unk60.s;
         if (hp != 0) {
             goto DEFAULT_CASE;
         }
@@ -3626,7 +3626,7 @@ void func_8018105C(void *arg0) {
 
     if (guess_InitActorModel(arg0, &D_8019C764)) {
         ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_8019C7A8;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_035_80183258.unkE4 = -((rand() % 8 + 0xC) << 16);

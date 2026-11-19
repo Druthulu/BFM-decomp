@@ -3386,17 +3386,17 @@ void func_8017D750(s32 param_1) {
     extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern void guess_RequestSound(s32 a0, s32 a1);
 
-    ((Unkstruct_8017D750 *)param_1)->unk50 = guess_g_PlayerPosX - (((Unkstruct_8017D750 *)param_1)->unk6 + 0x20);
-    ((Unkstruct_8017D750 *)param_1)->unk52 = guess_g_PlayerPosY - (((Unkstruct_8017D750 *)param_1)->unkA + 0x30);
-    ((Unkstruct_8017D750 *)param_1)->unk54 = guess_g_PlayerPosZ - (((Unkstruct_8017D750 *)param_1)->unkE + 0x40);
+    ((Unkstruct_801202A0 *)param_1)->unk50.s = guess_g_PlayerPosX - (((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + 0x20);
+    ((Unkstruct_801202A0 *)param_1)->unk52.s = guess_g_PlayerPosY - (((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u + 0x30);
+    ((Unkstruct_801202A0 *)param_1)->unk54.s = guess_g_PlayerPosZ - (((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u + 0x40);
     guess_RequestSound(0x6A6, 0);
 }
 
 
 void func_8017D7BC(void *a0) {
-        ((Unkstruct_8017D7BC *)a0)->unk50 = 0;
-        ((Unkstruct_8017D7BC *)a0)->unk52 = 0;
-        ((Unkstruct_8017D7BC *)a0)->unk54 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk50.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk52.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk54.s = 0;
     }
 
 
@@ -3553,7 +3553,7 @@ void func_8017DAC8(s32 a0) {
     if (guess_InitActorModel(a0, (s32)&D_8018AA74) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
         ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_8018AAA8;
-        ((Unkstruct_801202A0 *)a0)->unkB4 = 0xFFFBDFD9;
+        ((Unkstruct_801202A0 *)a0)->unkB4.s = 0xFFFBDFD9;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = 0;
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_107_8017D92C.unk100 = 0x1000;
         ((Unkstruct_801202A0 *)a0)->unkC4 |= 1;
@@ -4514,7 +4514,7 @@ void func_8017F0C8(void *arg0) {
 
     if (guess_InitActorModel(arg0, &D_8018FEEC)) {
         ((Unkstruct_801202A0 *)arg0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)arg0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)arg0)->unkB4.s = -1;
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_8018FF30;
         CAST_SIGN(u32, (char *)arg0, 0xC4) |= 1;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_035_80183258.unkE4 = -((rand() % 8 + 0xC) << 16);
@@ -5034,7 +5034,7 @@ void func_8017FEC4(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk10A.s == CAST_SIGN(s16, p, 0x36) && ((Unkstruct_801202A0 *)p)->unk76.s > 0) {
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s == (((Unkstruct_801202A0 *)arg0)->unk1C.s / 0x30) * 0x30 &&
             CAST_SIGN(u8, p, 0xC1) == 0) {
-            ((Unkstruct_801202A0 *)p)->unk60 = 0xA;
+            ((Unkstruct_801202A0 *)p)->unk60.s = 0xA;
             ((Unkstruct_801202A0 *)p)->unk5C.u |= 1;
             v = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
             CAST_WIDTH(s16, p, 0x5E) = 1;

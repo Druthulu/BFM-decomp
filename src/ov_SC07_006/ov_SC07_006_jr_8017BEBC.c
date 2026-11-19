@@ -4830,7 +4830,7 @@ void func_80182F3C(s32 a0)
         return;
     }
     ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
-    ((Unkstruct_801202A0 *)a0)->unkB4 = -1;
+    ((Unkstruct_801202A0 *)a0)->unkB4.s = -1;
     func_80143994(a0, 0x7000);
     guess_StartActorSequence(a0, &D_801BFCB4);
     func_8017F3D4(a0, 0);

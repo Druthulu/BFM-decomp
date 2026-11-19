@@ -3861,7 +3861,7 @@ void func_8017EC00(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)D_80186250) != 0) {
         ((Unkstruct_801202A0 *)s0)->unkC0.u = 1;
-        ((Unkstruct_801202A0 *)s0)->unkB4 = -1;
+        ((Unkstruct_801202A0 *)s0)->unkB4.s = -1;
         ((Unkstruct_801202A0 *)s0)->extE.kcls_d736d5fea74c.unkAE = -1;
         func_8001D0E8(((Unkstruct_801202A0 *)s0)->unk20.p, 0x280, 0x1E0);
         guess_StartActorSequence(s0, &D_801B0A20);

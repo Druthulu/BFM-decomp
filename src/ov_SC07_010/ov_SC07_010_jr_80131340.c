@@ -847,7 +847,7 @@ void func_80131B14(u8 *a0v) {
 
     s32 e = ((Unkstruct_801202A0 *)p)->unk5E.b;
 
-    if (((Unkstruct_801202A0 *)p)->unk60 != 0) {
+    if (((Unkstruct_801202A0 *)p)->unk60.s != 0) {
         if (e == 0x1D) {
             ((Unkstruct_801202A0 *)p)->unk82 = 0;
             ((Unkstruct_801202A0 *)p)->unk7C = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
@@ -858,7 +858,7 @@ void func_80131B14(u8 *a0v) {
             s32 dec;
             s32 q = ((Unkstruct_801202A0 *)p)->unk78;
             if (q != 0) {
-                dec = ((s32)((Unkstruct_801202A0 *)p)->unk60 * (s32)*(s16 *)(q + 0x30)) >> 12;
+                dec = ((s32)((Unkstruct_801202A0 *)p)->unk60.s * (s32)*(s16 *)(q + 0x30)) >> 12;
                 if (dec <= 0) dec = 1;
             }
             ((Unkstruct_801202A0 *)p)->unk76.s = CAST_SIGN(u16, p, 0x76) - dec;

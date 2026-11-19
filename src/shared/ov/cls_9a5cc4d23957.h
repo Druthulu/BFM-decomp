@@ -2,6 +2,6 @@
 void SHARED_FN(int param_1)
 {
     if (*(s16 *)&D_801270C0 != 3) {
-        D_801820E8[((Unkstruct_801427EC *)param_1)->unk2]();
+        D_801820E8[((Unkstruct_801202A0 *)param_1)->unk2.u]();
     }
 }

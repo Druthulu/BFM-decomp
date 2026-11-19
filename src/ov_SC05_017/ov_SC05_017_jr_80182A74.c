@@ -3084,7 +3084,7 @@ extern void func_801849B8(s32*, s32);
         if (func_801848AC(0x6, 0x7) != 0) {
             return;
         }
-        ((Unkstruct_80182F50 *)a0)->unk2 = 6;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
         ((void (*)(s32 *, void *))func_801849B8)(a0, (void *)&(*(s32 *)&D_80191C44));
     }
 
@@ -3101,9 +3101,9 @@ void *arg0;
     extern short D_801B9964;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_80182FA8 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801B9964);
-        ((Unkstruct_80182FA8 *)arg0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk34.s = 2;
     }
 }
 
@@ -3119,9 +3119,9 @@ void *arg0;
     extern short D_801B9964;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_80183004 *)arg0)->unk2 = 9;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 9;
         ((void (*)(s32, s32))guess_StartActorSequence)((s32)arg0, (s32)&D_801B9964);
-        ((Unkstruct_80183004 *)arg0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk34.s = 2;
     }
 }
 
@@ -4434,9 +4434,9 @@ void func_80184928(void *a0, s32 a1)
     Vec4s_80184928 loc_18;
     Vec4s_80184928 loc_20;
 
-    loc_10.vx = ((Unkstruct_80184928_2 *)a0)->unk6;
-    loc_10.vy = ((Unkstruct_80184928_2 *)a0)->unkA;
-    loc_10.vz = ((Unkstruct_80184928_2 *)a0)->unkE;
+    loc_10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    loc_10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    loc_10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     loc_18.vx = 0;
     loc_18.vy = 0;
@@ -4910,12 +4910,12 @@ void func_80185364(void *a0) {
         break;
     case 1:
         func_80185A70(a0);
-        ((Unkstruct_801819D0 *)a0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 2;
         break;
     case 2:
         if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
             ((void (*)(s32))func_80178D18)((s32)a0);
-            ((Unkstruct_801819D0 *)a0)->unk34 = 0;
+            ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         }
         break;
     }
