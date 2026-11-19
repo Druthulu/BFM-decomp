@@ -4177,7 +4177,7 @@ void func_80181920(void* a0)
     ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3C;
     guess_StartActorSequence(a0, &D_801A1A10);
-    CAST_WIDTH(s16, a0, 0xDC) = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
+    CAST_WIDTH(s16, a0, 0xDC) = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u;
 }
 
 

@@ -5008,7 +5008,7 @@ void func_8018B5F4(s32 arg0) {
     guess_StartPadVibration(&D_80062C14);
     func_801511E0((int)s0);
     t = (((Unkstruct_800B5CB8 *)s0)->unk42 + 0x800) & 0xFFF;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk12 = (u16)t;
+    ((RenderHead *)*(s32 *)((s32)s0 + 0x20))->unk12.u = (u16)t;
     guess_SetAnimScript(s0, (s32)&D_80190E34);
     guess_SetWaitTimer_2(s0, 0x20);
     func_80146DE8(s0, 0, 0xffff0000, 0xffe80000);

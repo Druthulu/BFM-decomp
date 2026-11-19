@@ -2795,7 +2795,7 @@ case_A: {
     s1 = r0 & 0xF000;
     v1 = func_80148E54(s0);
     if ((s16)v1 > 0) {
-        ((Unkstruct_800B5CB8 *)sub)->unk12 = v1;
+        ((RenderHead *)sub)->unk12.u = v1;
     }
     v0 = s1 & 0xFFFF;
     goto tail;

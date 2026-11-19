@@ -3382,8 +3382,8 @@ void func_801806D4(s32 a0) {
     v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
     if (v0 != 0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = v0 - 1;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 8);
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + func_8012BA10(a0, 8);
     } else {
         ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         switch (((Unkstruct_801202A0 *)a0)->unkFC.s) {

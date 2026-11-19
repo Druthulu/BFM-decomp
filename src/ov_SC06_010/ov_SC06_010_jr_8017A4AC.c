@@ -8228,10 +8228,10 @@ void func_80183884(s32 a0) {
             s32 r = guess_GetAngleStepToward(
                 *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12),
                 guess_YawToPoint((void *)(a0 + 4), (void *)(a0 + 0x88)), 8);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + r;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u & 0xFFF;
             guess_SetVelocityXZFromLocal(a0, tbl);
         } else {
             goto set1;
@@ -8250,10 +8250,10 @@ void func_80183884(s32 a0) {
         s32 r = guess_GetAngleStepToward(
             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12),
             guess_YawToPoint((void *)(a0 + 4), (void *)(a0 + 0x88)), 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + r;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u & 0xFFF;
     }
         func_80182F4C(a0, 0x48);
         {
@@ -9341,7 +9341,7 @@ void func_801857F4(s32 a0) {
     func_8012CBCC(a0);
     func_80182F4C(a0, 0x48);
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) += guess_TurnStepToTarget(a0, 0x10);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 &= 0xFFF;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u &= 0xFFF;
 
     CAST_SIGN(u16, a0, 0x100) -= 1;
     if (((Unkstruct_801202A0 *)a0)->extD.kSC06_010_801857F4.unk100 == 0) {

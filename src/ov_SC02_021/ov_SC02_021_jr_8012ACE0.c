@@ -1470,7 +1470,7 @@ void func_80131340(s32 a0)
     case 0:
     case 1:
         if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 -= 0x100;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.u -= 0x100;
         }
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x3D) {
@@ -1524,7 +1524,7 @@ void func_80131340(s32 a0)
 
     case 2:
         if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 -= 0x100;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.u -= 0x100;
         }
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x3D) {
@@ -1549,11 +1549,11 @@ void func_80131340(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk14.val = (-D_801919CC) / 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.u = 0;
         } else if (D_801919C8 & 0x8000) {
             ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.u = 0;
             CAST_WIDTH(s32, a0, 0x18) = 0;
             CAST_WIDTH(s32, a0, 0x10) = 0;
         }

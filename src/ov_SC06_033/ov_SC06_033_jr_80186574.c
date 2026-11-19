@@ -4619,13 +4619,13 @@ void func_80189148(s32 arg0) {
         if (d > 0x20) {
             d = 0x20;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u =
             *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x12) + d;
     } else if (d < 0) {
         if (d < -0x20) {
             d = -0x20;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u =
             *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x12) + d;
     } else {
         ((Unkstruct_801202A0 *)arg0)->extD.kSC06_018_8018D40C.unk100 = (rand() & 0x7FF) - 0x400;
@@ -4644,7 +4644,7 @@ void func_80189148(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unkFC.s = ((Unkstruct_801202A0 *)arg0)->unkFC.s + d;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk10 = CAST_SIGN(u16, arg0, 0xFC) & 0xFFF;
+    ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.u = CAST_SIGN(u16, arg0, 0xFC) & 0xFFF;
 }
 
 

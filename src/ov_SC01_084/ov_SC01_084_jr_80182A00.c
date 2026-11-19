@@ -601,12 +601,12 @@ void func_8018353C(s32 param_1) {
     func_8012B77C(&out, posPtr, in3);
 
     outVal = out;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)outVal;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.u = (s16)outVal;
 
     v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), outVal >> 16, s0);
 
-    v1 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + v0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)v1;
+    v1 = ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u + v0;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u = (s16)v1;
 
     if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0) {
         func_801838F0((void *)param_1);
@@ -818,12 +818,12 @@ void func_8018392C(s32 param_1) {
     func_8012B77C(&out, posPtr, in3);
 
     outVal = out;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)outVal;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.u = (s16)outVal;
 
     v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), outVal >> 16, 6);
 
-    v1 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + v0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)v1;
+    v1 = ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u + v0;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u = (s16)v1;
     v0 = func_80013478(posPtr, (s32)buf1);
 
     v1 = 0x28;
@@ -905,12 +905,12 @@ void func_80183A7C(s32 param_1) {
     func_8012B77C(&out, posPtr, in3);
 
     outVal = out;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)outVal;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.u = (s16)outVal;
 
     v0 = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), outVal >> 16, 4);
 
-    v1 = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + v0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)v1;
+    v1 = ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u + v0;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk12.u = (s16)v1;
     v0 = func_80013478(posPtr, (s32)buf1);
 
     v1 = 0x78;

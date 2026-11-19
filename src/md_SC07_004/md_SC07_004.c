@@ -6569,7 +6569,7 @@ void func_801A9CAC(void *a0) {
         r = ((Unkstruct_801202A0 *)a0)->unk20.p;
         ((Unkstruct_800B5CB8 *)r)->unk2C = ((Unkstruct_800B5CB8 *)r)->unk2C | 0x10;
         CAST_ALIAS(s16, (s32)a0, 0xA) = -0x200;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
+        ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk12.u =
             *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x12);
         if (((Unkstruct_801202A0 *)a0)->unk70.s == 2) {
             r = ((Unkstruct_801202A0 *)a0)->unk20.p;

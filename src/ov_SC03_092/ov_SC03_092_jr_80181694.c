@@ -3197,8 +3197,8 @@ void func_80182434(s32 a0) {
     } else {
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12),
                           func_8012B864(a0), 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + r;
         guess_SetVelocityXZFromLocal(a0, (s32)D_801AD68C);
         ((Unkstruct_801202A0 *)a0)->unk14.val =
             ((Unkstruct_801202A0 *)a0)->unk14.val +
@@ -3270,8 +3270,8 @@ void func_80182648(s32 a0) {
         sp10[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12),
                           func_8012B70C(sp10, (s16 *)(a0 + 0x88)), 4);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + r;
         guess_SetVelocityXZFromLocal(a0, (s32)D_801AD68C);
         ((Unkstruct_801202A0 *)a0)->unk14.val =
             ((Unkstruct_801202A0 *)a0)->unk14.val +

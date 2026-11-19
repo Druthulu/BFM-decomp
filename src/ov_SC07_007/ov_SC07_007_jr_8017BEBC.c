@@ -7743,7 +7743,7 @@ extern void func_80171928(void *a0);
 
 void func_80182BA8(s32 a0) {
     u8 *p = CAST_SIGN(u8 *, a0, 0x20);
-    ((Unkstruct_800B5CB8 *)p)->unk12 = ((Unkstruct_800B5CB8 *)p)->unk12 - 0x2D;
+    ((RenderHead *)p)->unk12.u = ((RenderHead *)p)->unk12.u - 0x2D;
     if (func_80171A88(a0) != 0) {
         func_80180F94(0x18);
         func_80171928((void *)a0);

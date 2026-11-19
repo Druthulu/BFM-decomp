@@ -5143,7 +5143,7 @@ void func_80180A70(s32 param_1) {
     case 8:
         func_8012A568(func_8017E6E0);
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 4) |= 0x8000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2 = 5;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk2.s = 5;
         ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         break;
     case 10:

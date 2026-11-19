@@ -6171,16 +6171,16 @@ extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 s32 func_80183A3C(s32 arg0) {
     if (guess_TickWaitTimer(arg0) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = 0x806;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u = 0x806;
         return 1;
     }
     if ((((Unkstruct_800B5CB8 *)arg0)->unk1C & 7) >= 4) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 +
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u +
             guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), 0x5E0, 2);
     } else {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 +
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u =
+            ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk12.u +
             guess_GetAngleStepToward(*(s16 *)(((Unkstruct_800B5CB8 *)arg0)->unk20 + 0x12), 0x9E0, 2);
     }
     return 0;

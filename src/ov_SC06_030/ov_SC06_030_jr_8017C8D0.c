@@ -3531,8 +3531,8 @@ void func_8017EEF0(s32 a0) {
 
     case 1:
         if (((Unkstruct_801202A0 *)a0)->unk94.s < 5) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 4);
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + func_8012BA10(a0, 4);
         }
         if (((Unkstruct_801202A0 *)a0)->unk98.s == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
@@ -3604,8 +3604,8 @@ void func_8017F0A0(s32 a0) {
             }
         } else {
             if (((Unkstruct_801202A0 *)a0)->unk94.s < 5) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + func_8012BA10(a0, 4);
+                ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u =
+                    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk12.u + func_8012BA10(a0, 4);
             }
             if (((Unkstruct_801202A0 *)a0)->unk94.s == 0x14) {
                 guess_RotTransSVWithObjMatrix(a0, (s32)&D_80185D78, (s32)pos);
