@@ -3230,7 +3230,7 @@ s32 func_8017E5C8(s32 param_1) {
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = sv;
     CAST_WIDTH(s32, s0, 4) |= 0x50000000;
     guess_StartPairSequence(s0, s1 + 0x24, (s32)&D_8018DE80);
-    ((Unkstruct_8011DB30 *)s1)->unk14.val = 0xFFF80000;
+    ((Unkstruct_8011DB30 *)s1)->unk14.val.s = 0xFFF80000;
     return s1;
 }
 
@@ -3720,8 +3720,8 @@ void func_8017F140(s32 a0) {
 
     s1 = func_80132EF4(a0, 0x22);
     if (s1 != 0) {
-        ((Unkstruct_8011DB30 *)s1)->unk34.i.lo = ((rand() % 3 << 12) + 0x2000) | 2;
-        ((Unkstruct_8011DB30 *)s1)->unk14.val = 0xFFFE0000 - ((rand() % 3) << 16);
+        ((Unkstruct_8011DB30 *)s1)->unk34.i.lo.u = ((rand() % 3 << 12) + 0x2000) | 2;
+        ((Unkstruct_8011DB30 *)s1)->unk14.val.s = 0xFFFE0000 - ((rand() % 3) << 16);
     }
     guess_FreeActor((void *)a0);
 }
@@ -4081,7 +4081,7 @@ s32 func_8017FA90(s32 a0, s16 a1, s32 a2) {
 
     v1 = func_80132EF4(a0, 0x4D);
     if (v1 != 0) {
-        ((Unkstruct_8011DB30 *)v1)->unk14.val = a2;
+        ((Unkstruct_8011DB30 *)v1)->unk14.val.s = a2;
         v0 = ((Unkstruct_8011DB30 *)v1)->unk20;
         *(s16 *)(v0 + 0x1A) = a1;
         *(s16 *)(v0 + 0x18) = a1;

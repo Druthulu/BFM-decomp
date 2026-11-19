@@ -2411,8 +2411,8 @@ void func_8016BCC0(void *arg0) {
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
     guess_UpdateAttachedPos((s32)arg0);
-    temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10 + 0x60;
-    ((Unkstruct_8011D030 *)arg0)->unk10 = temp_a2;
+    temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10.i.lo + 0x60;
+    ((Unkstruct_8011D030 *)arg0)->unk10.i.lo = temp_a2;
     temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;

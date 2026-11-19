@@ -3821,11 +3821,11 @@ void func_80180064(s32 arg0) {
     func_8018012C(arg0);
     /* velocity add: (0, 0xC000, 0) -- the two zero terms still emit lw/sw */
     CAST_WIDTH(s32, arg0, 0x10) += 0;
-    ((Unkstruct_8011DB30 *)arg0)->unk14.val += 0xC000;
+    ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += 0xC000;
     CAST_WIDTH(s32, arg0, 0x18) += 0;
     guess_AddVelocityToPos((S800D22E4 *)arg0);
     if (CAST_SIGN(s16, arg0, 0x2E) < CAST_SIGN(s16, arg0, 0xA)) {
-        ((Unkstruct_8011DB30 *)arg0)->unkA.u = CAST_SIGN(s16, arg0, 0x2E);
+        ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u = CAST_SIGN(s16, arg0, 0x2E);
         guess_CopyVec3HighHalves(arg0 + 4, (s32 *)sp10);
         p = func_801290DC(0x53, (u8 *)sp10);
         if (p != 0) {

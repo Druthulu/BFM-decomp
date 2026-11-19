@@ -3753,14 +3753,14 @@ void func_8017DF10(int param_1)
     s32   c;
 
     obj = ((Unkstruct_8017DF10 *)param_1)->unk34;
-    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017DF10 *)param_1)->unk12.u;
+    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017DF10 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
     prim.unk0.v1.unk0[1].vx = prim.unk0.v1.unk0[1].vy = prim.unk0.v1.unk0[1].vz = 0;
     prim.unk0.v1.unk0[0].vy = prim.unk0.v1.unk0[2].vy = prim.unk0.v1.unk0[3].vy = 0;
     prim.unk20.v1.unk0[1].r = prim.unk20.v1.unk0[1].g = prim.unk20.v1.unk0[1].b = 0;
 
-    c = ((s32)(s16)((Unkstruct_8017DF10 *)param_1)->unk12.u >> 5) + 0x20;
+    c = ((s32)(s16)((Unkstruct_8017DF10 *)param_1)->unk10.i.hi.u >> 5) + 0x20;
     prim.unk20.v1.unk0[0].r = prim.unk20.v1.unk0[0].g = prim.unk20.v1.unk0[0].b =
     prim.unk20.v1.unk0[2].r = prim.unk20.v1.unk0[2].g = prim.unk20.v1.unk0[2].b =
     prim.unk20.v1.unk0[3].r = prim.unk20.v1.unk0[3].g = prim.unk20.v1.unk0[3].b = c;
@@ -6368,7 +6368,7 @@ s32 func_801821DC(s32 a0) {
         return 0;
     }
 
-    ((Unkstruct_8011DB30 *)s2)->unkA.u = ((Unkstruct_8011DB30 *)s2)->unkA.u - 0x28;
+    ((Unkstruct_8011DB30 *)s2)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)s2)->unk8.i.hi.u - 0x28;
 
     /* NOTE (this is the whole match, do not "tidy" it): each block MUST own its
      * own r/val/base locals.  With one shared `r` across all three blocks, the
@@ -6383,21 +6383,21 @@ s32 func_801821DC(s32 a0) {
         r = rand() % 28;
         base = CAST_SIGN(s16, s2, 0x6);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_8011DB30 *)s2)->unk6.u = val;
+        ((Unkstruct_8011DB30 *)s2)->unk4.i.hi.u = val;
     }
     {
         s32 r, val, base;
         r = rand() % 32;
         base = CAST_SIGN(s16, s2, 0xA);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_8011DB30 *)s2)->unkA.u = val;
+        ((Unkstruct_8011DB30 *)s2)->unk8.i.hi.u = val;
     }
     {
         s32 r, val, base;
         r = rand() % 28;
         base = CAST_SIGN(s16, s2, 0xE);
         val = (rand() & 1) ? (base + r) : (base - r);
-        ((Unkstruct_8011DB30 *)s2)->unkE.u = val;
+        ((Unkstruct_8011DB30 *)s2)->unkC.i.hi.u = val;
     }
 
     {

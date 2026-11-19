@@ -3711,9 +3711,9 @@ void func_8017E71C(void *a0) {
         if (s1 != 0) {
             s32 e = func_80132EF4(s0, 0x22);
             if (e != 0) {
-                ((Unkstruct_8011DB30 *)e)->unkA.u = ((Unkstruct_8011DB30 *)e)->unkA.u
+                ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u
                                   + *(u16 *)&D_8018481A[*(s16 *)(s0 + 0x102)][0];
-                ((Unkstruct_8011DB30 *)e)->unk34.i.lo = s1 + 1;
+                ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = s1 + 1;
             }
         }
 

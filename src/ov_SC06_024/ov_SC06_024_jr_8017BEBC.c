@@ -3351,7 +3351,7 @@ void func_8017DBFC(s32 arg0)
             v1 = ((Unkstruct_8011DB30 *)s1)->unk20;
             *(s16 *)(v1 + 0x1A) = v0 << 12;
             *(s16 *)(v1 + 0x18) = v0 << 12;
-            ((Unkstruct_8011DB30 *)s1)->unkA.u = ((Unkstruct_8011DB30 *)s1)->unkA.u - 0x30;
+            ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u - 0x30;
             if (((Unkstruct_801202A0 *)s0)->unk1C.s == 7) {
                 guess_RequestSound(0x95B, 0);
             }
@@ -3439,10 +3439,10 @@ void func_8017DBFC(s32 arg0)
                 vec[1] = D_80193442;
                 vec[2] = D_80193444 - 0xD0;
                 guess_RotTransSVWithMatrix(buf, vec, &vec[4]);
-                ((Unkstruct_8011DB30 *)s1)->unk34.i.lo = 0x3000;
-                ((Unkstruct_8011DB30 *)s1)->unk6.u = vec[4];
-                ((Unkstruct_8011DB30 *)s1)->unkA.u = vec[5];
-                ((Unkstruct_8011DB30 *)s1)->unkE.u = vec[6];
+                ((Unkstruct_8011DB30 *)s1)->unk34.i.lo.u = 0x3000;
+                ((Unkstruct_8011DB30 *)s1)->unk4.i.hi.u = vec[4];
+                ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u = vec[5];
+                ((Unkstruct_8011DB30 *)s1)->unkC.i.hi.u = vec[6];
             }
         }
         func_8017EC4C(s0);
@@ -3597,12 +3597,12 @@ void func_8017E1F0(s32 param_)
             func_8012C51C(&frm.ax, s1);
             ent = func_80132EF4(s1, 0x22);
             if (ent != 0) {
-                ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = rand() & 1 | 0x2000;
+                ((Unkstruct_8011DB30 *)ent)->unk34.i.lo.u = rand() & 1 | 0x2000;
                 ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC006U;
                 frm.out[1] = frm.out[1] - 0x20;
-                ((Unkstruct_8011DB30 *)ent)->unk6.u = frm.out[0];
-                ((Unkstruct_8011DB30 *)ent)->unkA.u = frm.out[1];
-                ((Unkstruct_8011DB30 *)ent)->unkE.u = frm.out[2];
+                ((Unkstruct_8011DB30 *)ent)->unk4.i.hi.u = frm.out[0];
+                ((Unkstruct_8011DB30 *)ent)->unk8.i.hi.u = frm.out[1];
+                ((Unkstruct_8011DB30 *)ent)->unkC.i.hi.u = frm.out[2];
             }
             i++;
         }
@@ -3737,12 +3737,12 @@ void func_8017E61C(s32 p) {
                 if (e != 0) {
                     func_8012B0B4(buf, rand() % 0x1000, 0x60);
                     w = buf[0];
-                    ((Unkstruct_8011DB30 *)e)->unk6.u += w;
-                    ((Unkstruct_8011DB30 *)e)->unkA.u = (t = ((Unkstruct_8011DB30 *)e)->unkA.u - 0x180) - rand() % 0xC0;
-                    ((Unkstruct_8011DB30 *)e)->unkE.u += w >> 16;
+                    ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u += w;
+                    ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u = (t = ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u - 0x180) - rand() % 0xC0;
+                    ((Unkstruct_8011DB30 *)e)->unkC.i.hi.u += w >> 16;
                     r = rand();
                     v = rand();
-                    ((Unkstruct_8011DB30 *)e)->unk34.i.lo = ((r % 0x6000) + 0x1000) & 0x7FF0 | v & 1;
+                    ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = ((r % 0x6000) + 0x1000) & 0x7FF0 | v & 1;
                     ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xC010;
                 }
                 i++;
@@ -4194,11 +4194,11 @@ void func_8017F4FC(void* a0)
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);
                 guess_RotTransSVWithMatrix((s32)m, (s32)&D_801935B0, (s32)vec);
-                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x2001;
-                ((Unkstruct_8011DB30 *)obj)->unk6.u = vec[0];
-                ((Unkstruct_8011DB30 *)obj)->unkA.u = vec[1];
-                ((Unkstruct_8011DB30 *)obj)->unkE.u = vec[2];
-                ((Unkstruct_8011DB30 *)obj)->unk14.val = -0x60000 - ((rand() % 3) << 16);
+                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x2001;
+                ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = vec[0];
+                ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u = vec[1];
+                ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = vec[2];
+                ((Unkstruct_8011DB30 *)obj)->unk14.val.s = -0x60000 - ((rand() % 3) << 16);
             }
         }
     }
@@ -4208,11 +4208,11 @@ void func_8017F4FC(void* a0)
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);
                 guess_RotTransSVWithMatrix((s32)m, (s32)&D_801935B0, (s32)vec);
-                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x2001;
-                ((Unkstruct_8011DB30 *)obj)->unk6.u = vec[0];
-                ((Unkstruct_8011DB30 *)obj)->unkA.u = vec[1];
-                ((Unkstruct_8011DB30 *)obj)->unkE.u = vec[2];
-                ((Unkstruct_8011DB30 *)obj)->unk14.val = -0x60000 - ((rand() % 3) << 16);
+                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x2001;
+                ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = vec[0];
+                ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u = vec[1];
+                ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = vec[2];
+                ((Unkstruct_8011DB30 *)obj)->unk14.val.s = -0x60000 - ((rand() % 3) << 16);
             }
         }
         if (guess_g_FrameCounter % 6 == 0) {
@@ -4220,11 +4220,11 @@ void func_8017F4FC(void* a0)
             if (obj != 0) {
                 func_8012EC04(a0, D_801E1158, (s32 *)m);
                 guess_RotTransSVWithMatrix((s32)m, (s32)&D_801935B8, (s32)vec);
-                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x2001;
-                ((Unkstruct_8011DB30 *)obj)->unk6.u = vec[0];
-                ((Unkstruct_8011DB30 *)obj)->unkA.u = vec[1];
-                ((Unkstruct_8011DB30 *)obj)->unkE.u = vec[2];
-                ((Unkstruct_8011DB30 *)obj)->unk14.val = -0x60000 - ((rand() % 3) << 16);
+                ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x2001;
+                ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = vec[0];
+                ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u = vec[1];
+                ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = vec[2];
+                ((Unkstruct_8011DB30 *)obj)->unk14.val.s = -0x60000 - ((rand() % 3) << 16);
             }
         }
     }
@@ -4378,9 +4378,9 @@ void func_8017FB84(s32 self) {
 
     obj = func_80132EF4(self, 0x23);
     if (obj != 0) {
-        u16 v = ((Unkstruct_8011DB30 *)obj)->unkA.u;
-        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x6001;
-        ((Unkstruct_8011DB30 *)obj)->unkA.u = v - 0x10;
+        u16 v = ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u;
+        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x6001;
+        ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u = v - 0x10;
         p = *(char **)(self + 0x64);
         if (*(s16 *)(p + 0x108) == 0) {
             guess_RequestSound(0x95D, 0);

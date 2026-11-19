@@ -3025,7 +3025,7 @@ void func_801865A8(s32 param_1) {
                       CAST_SIGN(s16, s0, 0xE), 0, 0);
         v = func_80132EF4(s0, 0x22);
         if (v != 0) {
-            ((Unkstruct_8011DB30 *)v)->unk34.i.lo = 0x2000;
+            ((Unkstruct_8011DB30 *)v)->unk34.i.lo.u = 0x2000;
         }
     } else {
         if (func_8012D5E4(s0, (s32)&D_801A2D94, (s32)&D_800D3918, 0x19) == 0 &&

@@ -16,11 +16,11 @@ void SHARED_FN(s32 self)
     obj = func_80132EF4(self, 0x23);
     if (obj != 0) {
         u16 c;
-        ((Unkstruct_8011DB30 *)obj)->unk6.u = sv[0];
-        ((Unkstruct_8011DB30 *)obj)->unkA.u = sv[1];
+        ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = sv[0];
+        ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u = sv[1];
         c = sv[2];
-        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x4001;
-        ((Unkstruct_8011DB30 *)obj)->unkE.u = c;
+        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x4001;
+        ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = c;
         ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk2C.u = 0xC008;
     }
 }

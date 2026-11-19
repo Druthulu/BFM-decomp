@@ -4166,9 +4166,9 @@ void *arg0;
     pointA[1] = CAST_SIGN(u16, base, 0xA);
     pointA[2] = CAST_SIGN(u16, base, 0xE);
 
-    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk6.u;
-    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unkA.u;
-    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkE.u;
+    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u;
+    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u;
+    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u;
 
     VectorNormalSS(diff, diff);
 
@@ -5461,7 +5461,7 @@ void func_8018FBC8(s32 param_1) {
                       CAST_SIGN(s16, s0, 0xE), 0, 0);
         v = func_80132EF4(s0, 0x22);
         if (v != 0) {
-            ((Unkstruct_8011DB30 *)v)->unk34.i.lo = 0x2000;
+            ((Unkstruct_8011DB30 *)v)->unk34.i.lo.u = 0x2000;
         }
     } else {
         if (func_8012D5E4(s0, (s32)&D_801E4208, (s32)&D_800D3918, 0x19) == 0 &&

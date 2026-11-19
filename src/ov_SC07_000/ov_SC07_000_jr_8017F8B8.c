@@ -3749,7 +3749,7 @@ void func_80181228(void *a0) {
     }
     if (CAST_WIDTH(s32, (s32)a0, 0x34) != 0) {
         func_80129350((s32)a0, CAST_WIDTH(s32, (s32)a0, 0x34));
-        ((Unkstruct_8011DB30 *)a0)->unkA.u -= 0x20;
+        ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u -= 0x20;
     }
 }
 

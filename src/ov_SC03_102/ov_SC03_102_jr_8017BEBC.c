@@ -4087,21 +4087,21 @@ void func_80180C38(void *a0)
     s32 p, r, base, d, t;
 
     if (*(s16 *)&D_801270C0 != 2) {  /* `lh`: the u16 global is READ SIGNED here */
-        sv_a.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-        sv_a.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-        sv_a.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+        sv_a.vx = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+        sv_a.vy = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+        sv_a.vz = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
-        sv_b.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-        sv_b.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-        sv_b.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+        sv_b.vx = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+        sv_b.vy = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+        sv_b.vz = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
         if (func_80133784(1, &sv_a, (s32)&sv_b) != 0) {
             ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
-            ((Unkstruct_8011DB30 *)a0)->unk6.u = sv_b.vx;
-            ((Unkstruct_8011DB30 *)a0)->unkA.u = sv_b.vy;
-            ((Unkstruct_8011DB30 *)a0)->unkE.u = sv_b.vz;
+            ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = sv_b.vx;
+            ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = sv_b.vy;
+            ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = sv_b.vz;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
-            ((Unkstruct_8011DB30 *)a0)->unk14.val = 0;
+            ((Unkstruct_8011DB30 *)a0)->unk14.val.s = 0;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
 
             /* (1) above: the `p = ...` statement is the to_rtx, the `base = ...`
@@ -4144,7 +4144,7 @@ void func_80180C38(void *a0)
         }
         func_8012F038((s32)guess_g_PlayerModelPtr + 0x34, (short *)&sv_b, (short *)&sv_a);
 
-        ((Unkstruct_8011DB30 *)a0)->unk12 = sv_a.vx;
+        ((Unkstruct_8011DB30 *)a0)->unk10.i.hi = sv_a.vx;
         *(s16 *)((s32)a0 + 0x16) = sv_a.vy;
         CAST_ALIAS(s16, (s32)a0, 0x1A) = sv_a.vz;
         CAST_ALIAS(s32, (s32)a0, 0x1C) = 60;
@@ -4195,22 +4195,22 @@ void func_80181030(s32 a0)
     s32 tmp0;
 
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
-        sv1.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-        sv1.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-        sv1.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
-        ((Unkstruct_8011DB30 *)a0)->unk14.val = ((Unkstruct_8011DB30 *)a0)->unk14.val + 0x18000;
+        sv1.vx = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+        sv1.vy = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+        sv1.vz = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_8011DB30 *)a0)->unk14.val.s = ((Unkstruct_8011DB30 *)a0)->unk14.val.s + 0x18000;
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
 
-        sv2.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-        sv2.vy = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-        sv2.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+        sv2.vx = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+        sv2.vy = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+        sv2.vz = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
         v0 = func_80133784(1, &sv1, (s32)&sv2);
         if (v0 != 0) {
             s32 rv0;
             s16 rv1;
 
-            ((Unkstruct_8011DB30 *)a0)->unk6.u = sv2.vx;
-            ((Unkstruct_8011DB30 *)a0)->unkA.u = sv2.vy;
+            ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = sv2.vx;
+            ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = sv2.vy;
             tmp0 = CAST_WIDTH(s32, a0, 0x2C);
             rv0 = tmp0;
             rv1 = sv2.vz;
@@ -4218,7 +4218,7 @@ void func_80181030(s32 a0)
             CAST_WIDTH(s32, a0, 0x2C) = rv0;
             rv0 = 0x1E;
             ((Unkstruct_8011DB30 *)a0)->unk1C = rv0;
-            ((Unkstruct_8011DB30 *)a0)->unkE.u = rv1;
+            ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = rv1;
         }
     } else {
         func_801811F0(a0);
@@ -4238,14 +4238,14 @@ void func_8018110C(s32 a0)
     SVECTOR svec_out;
     s32 obj;
 
-    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk12;
+    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi;
     svec_in.vy = *(u16 *)(a0 + 0x16);
-    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk1A;
+    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi;
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&svec_in, (s32)&svec_out);
 
-    ((Unkstruct_8011DB30 *)a0)->unk6.u = svec_out.vx;
-    ((Unkstruct_8011DB30 *)a0)->unkA.u = svec_out.vy;
-    ((Unkstruct_8011DB30 *)a0)->unkE.u = svec_out.vz;
+    ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = svec_out.vx;
+    ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = svec_out.vy;
+    ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = svec_out.vz;
 
     obj = ((Unkstruct_8011DB30 *)a0)->unk20;
     *(u16 *)(obj + 0x14) = *(u16 *)(obj + 0x14) +
@@ -4338,7 +4338,7 @@ s32 func_80181260(s32 param_1, s16 param_2)
     ApplyMatrixLV((s32)&mtx, (s32)D_80189C20, (s32)out);
 
     CAST_WIDTH(s32, obj, 0x10) = out[0];
-    ((Unkstruct_8011DB30 *)obj)->unk14.val = out[1];
+    ((Unkstruct_8011DB30 *)obj)->unk14.val.s = out[1];
     CAST_WIDTH(s32, obj, 0x18) = out[2];
     ((Unkstruct_8011DB30 *)obj)->unk1C = 0x5A;
 

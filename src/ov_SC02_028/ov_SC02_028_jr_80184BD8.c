@@ -4522,7 +4522,7 @@ void func_801879E8(S800D22E4 *arg0) {
     if (CAST_SIGN(u16, (s32)arg0, 2) == 0) {
         guess_AddVelocityToPos(arg0);
         if (((Unkstruct_8011DB30 *)arg0)->unk1C < 0x23) {
-            ((Unkstruct_8011DB30 *)arg0)->unk14.val += 0x10000;
+            ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += 0x10000;
         }
         if (--((Unkstruct_8011DB30 *)arg0)->unk1C == 0) {
             func_801292C8((u8 *)arg0);
@@ -4535,10 +4535,10 @@ void func_801879E8(S800D22E4 *arg0) {
             ((Unkstruct_8011DB30 *)arg0)->unk28 = t;
             if (t != 0) {
                 ((Unkstruct_8011DB30 *)arg0)->unk1C = 10;
-                ((Unkstruct_8011DB30 *)arg0)->unk14.val += (s32)0xFFFF0000;
-                ((Unkstruct_8011DB30 *)arg0)->unk6.u = CAST_WIDTH(s32, (s32)arg0, 0x2C);
-                ((Unkstruct_8011DB30 *)arg0)->unkA.u = ((Unkstruct_8011DB30 *)arg0)->unk30.val;
-                ((Unkstruct_8011DB30 *)arg0)->unkE.u = CAST_WIDTH(s32, (s32)arg0, 0x34);
+                ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += (s32)0xFFFF0000;
+                ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u = CAST_WIDTH(s32, (s32)arg0, 0x2C);
+                ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)arg0)->unk30.val.s;
+                ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u = CAST_WIDTH(s32, (s32)arg0, 0x34);
             } else {
                 func_801292C8((u8 *)arg0);
             }

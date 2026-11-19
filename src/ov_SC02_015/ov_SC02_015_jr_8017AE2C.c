@@ -3727,10 +3727,10 @@ void func_8017DB60(void *a0) {
     CAST_WIDTH(s32, s0, 0x10) = *(volatile s32 *)(s0 + 0x10);
     t = *(volatile s32 *)(s0 + 0x18);
     CAST_WIDTH(s32, s0, 0x18) = t;
-    ((Unkstruct_8011DB30 *)s0)->unk14.val = ((Unkstruct_8011DB30 *)s0)->unk14.val + 0xC000;
+    ((Unkstruct_8011DB30 *)s0)->unk14.val.s = ((Unkstruct_8011DB30 *)s0)->unk14.val.s + 0xC000;
     KR_AS(void, guess_AddVelocityToPos)(s0, t);
     if (CAST_SIGN(s16, s0, 0x2E) < CAST_SIGN(s16, s0, 0xA)) {
-        ((Unkstruct_8011DB30 *)s0)->unkA.u = CAST_SIGN(s16, s0, 0x2E);
+        ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.u = CAST_SIGN(s16, s0, 0x2E);
         guess_CopyVec3HighHalves((s32)s0 + 4, &x);
         p = func_801290DC(0x28, (u8 *)&x);
         if (p != 0) {

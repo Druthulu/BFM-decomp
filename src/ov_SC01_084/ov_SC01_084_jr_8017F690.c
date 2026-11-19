@@ -2765,7 +2765,7 @@ void func_8017F690(s32 param_1)
                 return;
             }
             func_80129350((s32)s0, param_1);
-            ((Unkstruct_8011DB30 *)s0)->unkA.u -= 0x30;
+            ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.u -= 0x30;
             break;
 
         case 3:
@@ -2855,9 +2855,9 @@ void func_8017F8B8(void *a0) {
     u8 *v1 = func_8012913C(7);
 
     if (v1 != NULL) {
-        ((Unkstruct_8011DB30 *)v1)->unk6.u = 0x20;
-        ((Unkstruct_8011DB30 *)v1)->unkA.u = 0x80;
-        ((Unkstruct_8011DB30 *)v1)->unkE.u = 0;
+        ((Unkstruct_8011DB30 *)v1)->unk4.i.hi.u = 0x20;
+        ((Unkstruct_8011DB30 *)v1)->unk8.i.hi.u = 0x80;
+        ((Unkstruct_8011DB30 *)v1)->unkC.i.hi.u = 0;
     }
 
     func_8012913C(8);
@@ -2920,17 +2920,17 @@ void func_8017F9F4(void *a0) {
         for (i = 0x80; i < 0x1000; i += 0x200) {
             p = func_8012913C(6);
             if (p != NULL) {
-                ((Unkstruct_8011DB30 *)p)->unk6.u = (u32)(rcos(i) * 0x37) >> 8;
+                ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = (u32)(rcos(i) * 0x37) >> 8;
                 CAST_ALIAS(s16, p, 0xA) = -0x220;
-                ((Unkstruct_8011DB30 *)p)->unkE.u = (u32)(rsin(i) * 0x37) >> 8;
+                ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = (u32)(rsin(i) * 0x37) >> 8;
             }
         }
         for (i = 0x180; i < 0x1000; i += 0x200) {
             p = func_8012913C(6);
             if (p != NULL) {
-                ((Unkstruct_8011DB30 *)p)->unk6.u = (u32)(rcos(i) * 0x67) >> 9;
+                ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = (u32)(rcos(i) * 0x67) >> 9;
                 CAST_ALIAS(s16, p, 0xA) = -0x388;
-                ((Unkstruct_8011DB30 *)p)->unkE.u = (u32)(rsin(i) * 0x67) >> 9;
+                ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = (u32)(rsin(i) * 0x67) >> 9;
             }
         }
         for (i = 0x180; i < 0x1000; i += 0x400) {
@@ -2938,9 +2938,9 @@ void func_8017F9F4(void *a0) {
             __asm__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:loop-const-hoist
             p = func_8012913C(6);
             if (p != NULL) {
-                ((Unkstruct_8011DB30 *)p)->unk6.u = (u32)(rcos(i) * 3) >> 4;
+                ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = (u32)(rcos(i) * 3) >> 4;
                 CAST_ALIAS(s16, p, 0xA) = -0x4F0;
-                ((Unkstruct_8011DB30 *)p)->unkE.u = (u32)(rsin(i) * 3) >> 4;
+                ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = (u32)(rsin(i) * 3) >> 4;
             }
         }
         guess_FreeActor(a0);

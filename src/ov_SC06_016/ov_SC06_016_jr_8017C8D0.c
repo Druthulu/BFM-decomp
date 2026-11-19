@@ -3571,8 +3571,8 @@ void func_8017ECE0(s32 arg0) {
         var_s0 = i * 0x200;
         a = rsin(var_s0);
         b = rcos(var_s0);
-        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo = 0x2001;
-        ((Unkstruct_8011DB30 *)sp1C)->unk14.val = -0x80000;
+        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo.u = 0x2001;
+        ((Unkstruct_8011DB30 *)sp1C)->unk14.val.s = -0x80000;
         CAST_WIDTH(s32, sp1C, 4) += a * 0x200;
         CAST_WIDTH(s32, sp1C, 0xC) += b * 0x200;
     }
@@ -3599,7 +3599,7 @@ void func_8017EDA0(s32 arg0) {
         var_s0 = i * 0x80;
         a = rsin(var_s0);
         b = rcos(var_s0);
-        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo = 0x2002;
+        ((Unkstruct_8011DB30 *)sp1C)->unk34.i.lo.u = 0x2002;
         CAST_WIDTH(s32, sp1C, 0x10) = a * 112;
         CAST_WIDTH(s32, sp1C, 0x18) = b * 112;
         CAST_WIDTH(s32, sp1C, 4) += a * 256;
@@ -3856,7 +3856,7 @@ extern s32 rand(void);
 
 void func_8017F3B8(s32 a0)
 {
-    s32 sub = ((Unkstruct_8011DB30 *)a0)->unk30.val;
+    s32 sub = ((Unkstruct_8011DB30 *)a0)->unk30.val.s;
 
     if ((((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u & 1) == 0) {
         s32 v1 = *(u16 *)(sub + 0x2);
@@ -3890,9 +3890,9 @@ void func_8017F3B8(s32 a0)
 
                 ((Unkstruct_8011DB30 *)a0)->unk1C = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
                 if ((((Unkstruct_8011DB30 *)a0)->unk1C & 1) == 0) {
-                    out[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-                    out[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-                    out[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+                    out[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+                    out[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+                    out[2] = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
                     r = func_801290DC(0x62, (u8 *)out);
                     if (r != 0) {
                         *(s16 *)(r + 0x2C) = 1;
@@ -3938,7 +3938,7 @@ void func_8017F5B4(int a0, int a1)
     v0 = func_80132EF4(a0, 0x62);
     if (v0 != 0) {
         CAST_WIDTH(int, v0, 0x34) = a0;
-        ((Unkstruct_8011DB30 *)v0)->unk30.val = a1;
+        ((Unkstruct_8011DB30 *)v0)->unk30.val.s = a1;
     }
 }
 
@@ -3960,9 +3960,9 @@ void func_8017F5FC(s32 param_1)
     SetRotMatrix((void *)(*(s32 *)(p + 0x20) + 0x34));
     SetTransMatrix((void *)(*(s32 *)(p + 0x20) + 0x34));
     RotTransSV(v, v, out);
-    ((Unkstruct_8011DB30 *)param_1)->unk6.u = v[0];
-    ((Unkstruct_8011DB30 *)param_1)->unkA.u = v[1];
-    ((Unkstruct_8011DB30 *)param_1)->unkE.u = v[2];
+    ((Unkstruct_8011DB30 *)param_1)->unk4.i.hi.u = v[0];
+    ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u = v[1];
+    ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u = v[2];
 }
 
 
@@ -4971,9 +4971,9 @@ void func_80180E24(void *a0)
     }
 
     guess_RotTransSVWithObjMatrix((s32)s2, (s32)&D_801890D0, (s32)out);
-    ((Unkstruct_8011DB30 *)s1)->unk6.u = out[0];
-    ((Unkstruct_8011DB30 *)s1)->unkA.u = out[1];
-    ((Unkstruct_8011DB30 *)s1)->unkE.u = out[2];
+    ((Unkstruct_8011DB30 *)s1)->unk4.i.hi.u = out[0];
+    ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u = out[1];
+    ((Unkstruct_8011DB30 *)s1)->unkC.i.hi.u = out[2];
 
     ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk2C.u = 0xC040;
 }

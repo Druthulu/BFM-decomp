@@ -3495,11 +3495,11 @@ void func_8017E734(s32 arg0) {
             ptr = func_8012913C(0x22);
             if (ptr != NULL) {
                 t = (*(s16 *)(arg0 + 0x12) - *(s16 *)(arg0 + 0x10)) * scale >> 12;
-                ((Unkstruct_8011DB30 *)ptr)->unk6.u = *(s16 *)(arg0 + 0x10) + t;
-                ((Unkstruct_8011DB30 *)ptr)->unkA.u = *(s32 *)(arg0 + 8);
+                ((Unkstruct_8011DB30 *)ptr)->unk4.i.hi.u = *(s16 *)(arg0 + 0x10) + t;
+                ((Unkstruct_8011DB30 *)ptr)->unk8.i.hi.u = *(s32 *)(arg0 + 8);
                 t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
-                ((Unkstruct_8011DB30 *)ptr)->unkE.u = *(s16 *)(arg0 + 0x14) + t;
-                ((Unkstruct_8011DB30 *)ptr)->unk34.i.lo = (rand() & 0x7F0) + 0x2C00;
+                ((Unkstruct_8011DB30 *)ptr)->unkC.i.hi.u = *(s16 *)(arg0 + 0x14) + t;
+                ((Unkstruct_8011DB30 *)ptr)->unk34.i.lo.u = (rand() & 0x7F0) + 0x2C00;
                 ((Unkstruct_800B5BD8 *)*(s32 *)(ptr + 0x20))->unk2C.u = 0xC010;
             }
             scale += 0x400;
@@ -3520,9 +3520,9 @@ void func_8017E824(s32 arg0) {
     if ((D_800B99D8 & 3) == 0) {
         ptr = func_8012913C(0x37);
         if (ptr != NULL) {
-            ((Unkstruct_8011DB30 *)ptr)->unk6.u = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
-            ((Unkstruct_8011DB30 *)ptr)->unkA.u = *(s32 *)(arg0 + 0x8);
-            ((Unkstruct_8011DB30 *)ptr)->unkE.u = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
+            ((Unkstruct_8011DB30 *)ptr)->unk4.i.hi.u = (*(s16 *)(arg0 + 0x10) + *(s16 *)(arg0 + 0x12)) >> 1;
+            ((Unkstruct_8011DB30 *)ptr)->unk8.i.hi.u = *(s32 *)(arg0 + 0x8);
+            ((Unkstruct_8011DB30 *)ptr)->unkC.i.hi.u = (*(s16 *)(arg0 + 0x14) + *(s16 *)(arg0 + 0x16)) >> 1;
             diff = *(u16 *)(arg0 + 0x10) - *(u16 *)(arg0 + 0x12);
             if (diff < 0) {
                 diff = -diff;

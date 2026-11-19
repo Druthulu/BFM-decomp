@@ -4555,14 +4555,14 @@ void func_801809B8(s32 arg0, s32 arg1, s32 arg2)
         ((Unkstruct_800B5BD8 *)*(s32 *)(res + 0x20))->unk2C.u = 0xC010;
     }
     CAST_WIDTH(s32, res, 0x10) = (rand() & 0x7FFF) * 8 - 0x20000;
-    ((Unkstruct_8011DB30 *)res)->unk14.val = (rand() & 0x7FFF) * 4 - 0x60000;
+    ((Unkstruct_8011DB30 *)res)->unk14.val.s = (rand() & 0x7FFF) * 4 - 0x60000;
     CAST_WIDTH(s32, res, 0x18) = (rand() & 0x7FFF) * 8 - 0x20000;
-    ((Unkstruct_8011DB30 *)res)->unk34.i.lo = 0x3001;
+    ((Unkstruct_8011DB30 *)res)->unk34.i.lo.u = 0x3001;
     *(s32 *)(((Unkstruct_8011DB30 *)res)->unk20 + 4) |= 0x50000000;
     tbl = (s32)D_8018A9A4 + arg1 * 8;
-    ((Unkstruct_8011DB30 *)res)->unk6.u = *(u16 *)(tbl + 0);
-    ((Unkstruct_8011DB30 *)res)->unkA.u = *(u16 *)(tbl + 2);
-    ((Unkstruct_8011DB30 *)res)->unkE.u = *(u16 *)(tbl + 4);
+    ((Unkstruct_8011DB30 *)res)->unk4.i.hi.u = *(u16 *)(tbl + 0);
+    ((Unkstruct_8011DB30 *)res)->unk8.i.hi.u = *(u16 *)(tbl + 2);
+    ((Unkstruct_8011DB30 *)res)->unkC.i.hi.u = *(u16 *)(tbl + 4);
     if (arg2 == 0) {
         guess_RequestSound((arg1 == 3) ? 0xBE1 : 0xC2C, 0);
     }
@@ -6000,11 +6000,11 @@ s16 a3;
                 rot[2] = 0;
                 RotMatrixYXZ(rot, mtx);
                 ApplyMatrixSV(mtx, a1, rot);
-                ((Unkstruct_8011DB30 *)ent)->unk6.u = *(u16 *)a0 + rot[0];
-                ((Unkstruct_8011DB30 *)ent)->unkA.u = *(u16 *)((u8 *)a0 + 2) + rot[1];
-                ((Unkstruct_8011DB30 *)ent)->unkE.u = *(u16 *)((u8 *)a0 + 4) + rot[2];
+                ((Unkstruct_8011DB30 *)ent)->unk4.i.hi.u = *(u16 *)a0 + rot[0];
+                ((Unkstruct_8011DB30 *)ent)->unk8.i.hi.u = *(u16 *)((u8 *)a0 + 2) + rot[1];
+                ((Unkstruct_8011DB30 *)ent)->unkC.i.hi.u = *(u16 *)((u8 *)a0 + 4) + rot[2];
                 CAST_WIDTH(s32, ent, 0x10) = rot[0] << 12;
-                ((Unkstruct_8011DB30 *)ent)->unk14.val = rot[1] << 12;
+                ((Unkstruct_8011DB30 *)ent)->unk14.val.s = rot[1] << 12;
                 CAST_WIDTH(s32, ent, 0x18) = rot[2] << 12;
             }
             i = i + 1;
@@ -6064,7 +6064,7 @@ void func_80182F78(s32 arg0)
         CAST_WIDTH(u32, temp, 0x08) = src->unk04;
         CAST_WIDTH(u32, temp, 0x0C) = src->unk08;
         CAST_WIDTH(u32, temp, 0x10) = src->unk0C;
-        ((Unkstruct_8011DB30 *)temp)->unk14.val = src->unk10;
+        ((Unkstruct_8011DB30 *)temp)->unk14.val.s = src->unk10;
         CAST_WIDTH(u32, temp, 0x18) = src->unk14;
         ((Unkstruct_8011DB30 *)temp)->unk2C.i.lo.u = src->unk18;
     }

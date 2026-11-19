@@ -4632,7 +4632,7 @@ void func_8017F0E4(int param_1)
     uVar1 = *(unsigned short *)(iVar3 + 6);
     *(unsigned short *)(iVar2 + 0x12) = uVar1;
     func_8017F20C((void *)param_1);
-    ((Unkstruct_8011DB30 *)param_1)->unk30.val = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk30.val.s = 0;
     *(unsigned short *)(param_1 + 2) = *(unsigned short *)(param_1 + 2) + 1;
     return;
 }
@@ -4648,11 +4648,11 @@ void func_8017F17C(s32 param_1) {
 
     s1 = ((Unkstruct_8011DB30 *)param_1)->unk20;
     func_8017F20C(param_1);
-    val = D_80186584[((Unkstruct_8011DB30 *)param_1)->unk30.val][0];
+    val = D_80186584[((Unkstruct_8011DB30 *)param_1)->unk30.val.s][0];
     if (val != 0) {
         ((Unkstruct_800B5BD8 *)s1)->unk28.s = val;
-        i = ((Unkstruct_8011DB30 *)param_1)->unk30.val;
-        ((Unkstruct_8011DB30 *)param_1)->unk30.val = i + 1;
+        i = ((Unkstruct_8011DB30 *)param_1)->unk30.val.s;
+        ((Unkstruct_8011DB30 *)param_1)->unk30.val.s = i + 1;
         ((Unkstruct_800B5BD8 *)s1)->unk2A.u = D_80186586[i][0];
     } else {
         func_801292C8(param_1);
@@ -5242,14 +5242,14 @@ s32 arg0;
             prims = func_8012913C(0x4B);
             if (prims != 0) {
                 ((Unkstruct_8011DB30 *)prims)->unk2C.i.lo.u = 0;
-                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi = i;
-                ((Unkstruct_8011DB30 *)prims)->unk30.val = arg0;
+                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi.u = i;
+                ((Unkstruct_8011DB30 *)prims)->unk30.val.s = arg0;
             }
             prims = func_8012913C(0x4B);
             if (prims != 0) {
                 ((Unkstruct_8011DB30 *)prims)->unk2C.i.lo.u = flag;
-                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi = i;
-                ((Unkstruct_8011DB30 *)prims)->unk30.val = arg0;
+                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi.u = i;
+                ((Unkstruct_8011DB30 *)prims)->unk30.val.s = arg0;
             }
             i++;
         } while (i < 7);
@@ -5399,14 +5399,14 @@ void func_801805DC(s32 arg0) {
             prims = func_8012913C(0x4B);
             if (prims != 0) {
                 ((Unkstruct_8011DB30 *)prims)->unk2C.i.lo.u = 0;
-                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi = i;
-                ((Unkstruct_8011DB30 *)prims)->unk30.val = arg0;
+                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi.u = i;
+                ((Unkstruct_8011DB30 *)prims)->unk30.val.s = arg0;
             }
             prims = func_8012913C(0x4B);
             if (prims != 0) {
                 ((Unkstruct_8011DB30 *)prims)->unk2C.i.lo.u = flag;
-                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi = i;
-                ((Unkstruct_8011DB30 *)prims)->unk30.val = arg0;
+                ((Unkstruct_8011DB30 *)prims)->unk2C.i.hi.u = i;
+                ((Unkstruct_8011DB30 *)prims)->unk30.val.s = arg0;
             }
             i++;
         } while (i < 7);
@@ -6612,7 +6612,7 @@ void func_80182490(s32 *p) {
     q = &guess_g_PlayerActor;
     D_80186820[CAST_SIGN(u16, (s32)p, 0x2)]();
     if (p != 0) {
-        if (*(u16 *)((Unkstruct_8011DB30 *)p)->unk30.val == 0) {
+        if (*(u16 *)((Unkstruct_8011DB30 *)p)->unk30.val.s == 0) {
             func_801292C8(p);
         } else {
             s32 *r = CAST_SIGN(s32 *, (s32)p, 0x20);

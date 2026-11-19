@@ -4043,9 +4043,9 @@ void func_8017DED4(s32 param_1)
         v.vz = lim + v.vz;
     }
 
-    ((Unkstruct_8011DB30 *)param_1)->unk6.u += v.vx;
-    ((Unkstruct_8011DB30 *)param_1)->unkA.u += v.vy;
-    ((Unkstruct_8011DB30 *)param_1)->unkE.u += v.vz;
+    ((Unkstruct_8011DB30 *)param_1)->unk4.i.hi.u += v.vx;
+    ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u += v.vy;
+    ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u += v.vz;
 
     ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi = (rand() & 7) + 8;
 }

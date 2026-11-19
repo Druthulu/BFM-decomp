@@ -1058,7 +1058,7 @@ void func_801A143C(s32 a0) {
             CAST_WIDTH(s32, obj, 0xC) += vout.c;
 
             r = rand();
-            ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
+            ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
             ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)obj)->unk20)->unk2C.u = 0xC004;
 
             if (pick != i) {
@@ -1916,12 +1916,12 @@ void func_801A27A4(void *a0, void *a1)
     ent = func_8012913C(0x22);
 
     if (ent != NULL) {
-        ((Unkstruct_8011DB30 *)ent)->unk6.u  = pos[0];
-        ((Unkstruct_8011DB30 *)ent)->unkA.u  = pos[1];
-        ((Unkstruct_8011DB30 *)ent)->unkE.u  = pos[2];
+        ((Unkstruct_8011DB30 *)ent)->unk4.i.hi.u  = pos[0];
+        ((Unkstruct_8011DB30 *)ent)->unk8.i.hi.u  = pos[1];
+        ((Unkstruct_8011DB30 *)ent)->unkC.i.hi.u  = pos[2];
         CAST_WIDTH(s32, (s32)ent, 0x10) = -(CAST_WIDTH(s32, (s32)a0, 0x10));
         CAST_WIDTH(s32, (s32)ent, 0x18) = -(CAST_WIDTH(s32, (s32)a0, 0x18));
-        ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = 0x7001;
+        ((Unkstruct_8011DB30 *)ent)->unk34.i.lo.u = 0x7001;
         CAST_NONSTRUCT(u16, (s32)(((Unkstruct_8011DB30 *)ent)->unk20), 0x2C) = 0xC002;
     }
 

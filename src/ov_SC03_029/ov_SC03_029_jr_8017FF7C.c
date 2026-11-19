@@ -6039,9 +6039,9 @@ void *arg0;
     pointA[1] = CAST_SIGN(u16, base, 0xA);
     pointA[2] = CAST_SIGN(u16, base, 0xE);
 
-    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk6.u;
-    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unkA.u;
-    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkE.u;
+    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u;
+    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u;
+    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u;
 
     VectorNormalSS(diff, diff);
 

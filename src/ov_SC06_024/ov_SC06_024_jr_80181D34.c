@@ -3849,15 +3849,15 @@ s32 func_80183940(s32 a0, s32 a1) {
             s0 = func_80132EF4(a0, 0x22);
             if (s0 != 0) {
                 rr = rand();
-                x1 = ((Unkstruct_8011DB30 *)s0)->unk6.u;
+                x1 = ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.u;
                 x1 = x1 - 0x10;
-                ((Unkstruct_8011DB30 *)s0)->unk6.u = x1 + (rr & 0x1F);
+                ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.u = x1 + (rr & 0x1F);
                 rr = rand();
-                ((Unkstruct_8011DB30 *)s0)->unk14.val = -0x40000;
-                x2 = ((Unkstruct_8011DB30 *)s0)->unkE.u;
+                ((Unkstruct_8011DB30 *)s0)->unk14.val.s = -0x40000;
+                x2 = ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.u;
                 x2 = x2 - 0x10;
-                ((Unkstruct_8011DB30 *)s0)->unkE.u = x2 + (rr & 0x1F);
-                ((Unkstruct_8011DB30 *)s0)->unk34.i.lo = a1;
+                ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.u = x2 + (rr & 0x1F);
+                ((Unkstruct_8011DB30 *)s0)->unk34.i.lo.u = a1;
                 ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk2C.u = 0xC010;
                 *(u32 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x4) |= 0x40000000;
             }

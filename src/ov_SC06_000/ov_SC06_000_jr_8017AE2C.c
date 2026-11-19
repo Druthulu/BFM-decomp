@@ -7747,14 +7747,14 @@ void func_8018325C(s32 a0, void *a1, void *a2)
 
     rec = func_80132EF4(a0, 0x22);
     if (rec != 0) {
-        ((Unkstruct_8011DB30 *)rec)->unk34.i.lo = 0x3002;
+        ((Unkstruct_8011DB30 *)rec)->unk34.i.lo.u = 0x3002;
         gte_SetRotMatrix(a1);
         gte_ldv0(a2);
         gte_rtv0();
         gte_stsv(out);
-        ((Unkstruct_8011DB30 *)rec)->unk6.u = ((Unkstruct_8011DB30 *)rec)->unk6.u + out[0];
-        ((Unkstruct_8011DB30 *)rec)->unkA.u = ((Unkstruct_8011DB30 *)rec)->unkA.u + out[1];
-        ((Unkstruct_8011DB30 *)rec)->unkE.u = ((Unkstruct_8011DB30 *)rec)->unkE.u + out[2];
+        ((Unkstruct_8011DB30 *)rec)->unk4.i.hi.u = ((Unkstruct_8011DB30 *)rec)->unk4.i.hi.u + out[0];
+        ((Unkstruct_8011DB30 *)rec)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)rec)->unk8.i.hi.u + out[1];
+        ((Unkstruct_8011DB30 *)rec)->unkC.i.hi.u = ((Unkstruct_8011DB30 *)rec)->unkC.i.hi.u + out[2];
     }
 }
 
@@ -8368,26 +8368,26 @@ void func_801842CC(s32 arg0)
             s32 d;
             s32 z;
             t = *(u16 *)(arg0 + 0x84) & 4;
-            z = ((Unkstruct_8011DB30 *)e)->unkE.u;
+            z = ((Unkstruct_8011DB30 *)e)->unkC.i.hi.u;
             d = i + t * 3 - 0x2A;
             do {  // !FAKE: do-while — its LOOP notes are sched1 barriers (sched.c:2053-2080): the +6 load stays after d, the +E store before the sign extension (P36 S104 e28)
-                v = ((Unkstruct_8011DB30 *)e)->unk6.u;
+                v = ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u;
                 z += 0x28;
-                ((Unkstruct_8011DB30 *)e)->unkE.u = z;
+                ((Unkstruct_8011DB30 *)e)->unkC.i.hi.u = z;
             } while (0);
             v -= d;
-            ((Unkstruct_8011DB30 *)e)->unk6.u = v;
-            v = ((Unkstruct_8011DB30 *)e)->unkA.u;
+            ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u = v;
+            v = ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u;
             v -= 0x20;
-            ((Unkstruct_8011DB30 *)e)->unkA.u = v;
+            ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u = v;
             v = (s16)d;
             if (v >= 0) {
                 v = v << 7;
             } else {
                 v = -(v << 7);
             }
-            ((Unkstruct_8011DB30 *)e)->unk34.i.lo = v + 0x1000;
-            ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = v + 0x1000;
+            ((Unkstruct_8011DB30 *)e)->unk14.val.s = 0xFFFE0000;
             CAST_WIDTH(s32, e, 0x18) = 0x30000;
         }
     }
@@ -11065,7 +11065,7 @@ void func_801879B8(void *a0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {
-            u16 t = ((Unkstruct_8011DB30 *)a0)->unkA.u + 0x1000;
+            u16 t = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u + 0x1000;
             if (t >= 0x1001) {
                 func_801292C8((u8 *)a0);
                 return;
@@ -11076,11 +11076,11 @@ void func_801879B8(void *a0) {
         return;
     }
 
-    ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
+    ((Unkstruct_8011DB30 *)a0)->unk14.val.s += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkA.u = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
     func_80187B34((void *)((Unkstruct_8011DB30 *)a0)->unk20);
 }
 

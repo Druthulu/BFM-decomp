@@ -3761,7 +3761,7 @@ void func_80180088(s32 param_1)
             *(unsigned short *)(param_1 + 0xA) = sp20[1];
             *(unsigned short *)(param_1 + 0xE) = sp20[2];
             CAST_WIDTH(s32, param_1, 0x10) = 0;
-            ((Unkstruct_8011DB30 *)param_1)->unk14.val = 0;
+            ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0;
             CAST_WIDTH(s32, param_1, 0x18) = 0;
             CAST_WIDTH(s32, param_1, 0x34) = -1;
             obj = CAST_SIGN(s32 *, param_1, 0x20);
@@ -3853,17 +3853,17 @@ void func_80180538(void *a0) {
     u16 sp10[3];
     u16 sp18[3];
 
-    sp10[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    sp10[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    sp10[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    sp10[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
 
-    ((Unkstruct_8011DB30 *)a0)->unk14.val += 0x18000;
+    ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x18000;
 
     guess_AddVelocityToPos((S800D22E4 *)a0);
 
-    sp18[0] = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    sp18[1] = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    sp18[2] = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    sp18[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+    sp18[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+    sp18[2] = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
 
     if (func_80133784(1, &sp10, (s32)&sp18) != 0) {
         sp18[1] -= 8;
@@ -3903,14 +3903,14 @@ void func_801805EC(s32 a0)
     s32 obj;
     s32 *cam;
 
-    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk12;
+    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi;
     svec_in.vy = *(u16 *)(a0 + 0x16);
-    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk1A;
+    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi;
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&svec_in, (s32)&svec_out);
 
-    ((Unkstruct_8011DB30 *)a0)->unk6.u = svec_out.vx;
-    ((Unkstruct_8011DB30 *)a0)->unkA.u = svec_out.vy;
-    ((Unkstruct_8011DB30 *)a0)->unkE.u = svec_out.vz;
+    ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = svec_out.vx;
+    ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = svec_out.vy;
+    ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = svec_out.vz;
 
     obj = ((Unkstruct_8011DB30 *)a0)->unk20;
     cam = guess_g_PlayerModelPtr;
@@ -5126,9 +5126,9 @@ void func_80182244(void *a0)
 
     v0 = func_80132EF4((s32)a0, 0x22);
     if (v0 != 0) {
-        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
+        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo.u = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_8011DB30 *)v0)->unk14.val = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14.val.s = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
@@ -8198,7 +8198,7 @@ void func_80187004(s32 a0) {
     if (CAST_SIGN(u16, a0, 0x2) == 0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
         if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
-            ((Unkstruct_8011DB30 *)a0)->unk14.val += 0x10000;
+            ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x10000;
         }
         if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
             return;
@@ -8210,10 +8210,10 @@ void func_80187004(s32 a0) {
         }
         if (--((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
             ((Unkstruct_8011DB30 *)a0)->unk1C = 0xA;
-            ((Unkstruct_8011DB30 *)a0)->unk14.val -= 0x10000;
-            ((Unkstruct_8011DB30 *)a0)->unk6.u = CAST_WIDTH(s32, a0, 0x2C);
-            ((Unkstruct_8011DB30 *)a0)->unkA.u = ((Unkstruct_8011DB30 *)a0)->unk30.val;
-            ((Unkstruct_8011DB30 *)a0)->unkE.u = CAST_WIDTH(s32, a0, 0x34);
+            ((Unkstruct_8011DB30 *)a0)->unk14.val.s -= 0x10000;
+            ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = CAST_WIDTH(s32, a0, 0x2C);
+            ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)a0)->unk30.val.s;
+            ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = CAST_WIDTH(s32, a0, 0x34);
             return;
         }
     }

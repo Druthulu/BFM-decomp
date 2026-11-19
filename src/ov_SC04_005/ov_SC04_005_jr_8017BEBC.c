@@ -3908,14 +3908,14 @@ void func_8017E22C(int param_1)
     s32   c;
 
     obj = ((Unkstruct_8017E22C *)param_1)->unk34;
-    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017E22C *)param_1)->unk12.u;
+    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017E22C *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
     prim.unk0.v1.unk0[1].vx = prim.unk0.v1.unk0[1].vy = prim.unk0.v1.unk0[1].vz = 0;
     prim.unk0.v1.unk0[0].vy = prim.unk0.v1.unk0[2].vy = prim.unk0.v1.unk0[3].vy = 0;
     prim.unk20.v1.unk0[1].r = prim.unk20.v1.unk0[1].g = prim.unk20.v1.unk0[1].b = 0;
 
-    c = ((s32)(s16)((Unkstruct_8017E22C *)param_1)->unk12.u >> 5) + 0x20;
+    c = ((s32)(s16)((Unkstruct_8017E22C *)param_1)->unk10.i.hi.u >> 5) + 0x20;
     prim.unk20.v1.unk0[0].r = prim.unk20.v1.unk0[0].g = prim.unk20.v1.unk0[0].b =
     prim.unk20.v1.unk0[2].r = prim.unk20.v1.unk0[2].g = prim.unk20.v1.unk0[2].b =
     prim.unk20.v1.unk0[3].r = prim.unk20.v1.unk0[3].g = prim.unk20.v1.unk0[3].b = c;
@@ -9859,9 +9859,9 @@ void func_80187714(s32 a0)
             RotMatrixY(ang, &u.mtx);
             SetRotMatrix(&u.mtx);
             RotTransSV(&D_801BEE74, sv, tv);
-            ((Unkstruct_8011DB30 *)s0)->unk6.s = sv[0];
-            ((Unkstruct_8011DB30 *)s0)->unkA.s = sv[1];
-            ((Unkstruct_8011DB30 *)s0)->unkE.s = sv[2];
+            ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.s = sv[0];
+            ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.s = sv[1];
+            ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.s = sv[2];
             ApplyRotMatrixLV(&D_801BEE7C, (void *)(a0 + 0x10));
             ((Unkstruct_8011DB30 *)s0)->unk34.val.s = 0x4000;
         }

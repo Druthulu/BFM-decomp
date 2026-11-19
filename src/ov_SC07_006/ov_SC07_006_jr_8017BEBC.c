@@ -4865,18 +4865,18 @@ void func_80182F3C(s32 a0)
     if (p != 0) {
         ((Unkstruct_801202A0 *)a0)->unkCC.val = (s32)p;
         guess_BuildCircle12Points(D_801F6180, 0x80);
-        ((Unkstruct_8011DB30 *)p)->unk6.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x20;
-        ((Unkstruct_8011DB30 *)p)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
-        ((Unkstruct_8011DB30 *)p)->unkE.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x20;
+        ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
+        ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         func_8001CD50(((Unkstruct_8011DB30 *)p)->unk20, (s32)D_801F6180);
     }
     p = func_8012913C(0x78);
     if (p != 0) {
         ((Unkstruct_801202A0 *)a0)->unkD0.val = (s32)p;
         guess_BuildCircle12Points(D_801F6140, 0xA0);
-        ((Unkstruct_8011DB30 *)p)->unk6.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x28;
-        ((Unkstruct_8011DB30 *)p)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
-        ((Unkstruct_8011DB30 *)p)->unkE.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x28;
+        ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
+        ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         func_8001CD50(((Unkstruct_8011DB30 *)p)->unk20, (s32)D_801F6140);
         CAST_WIDTH(s32, p, 0x2C) = 1;
     }
@@ -4965,9 +4965,9 @@ void func_80183374(s32 a0)
             for (i = 0; i < 10; i++) {
                 p = func_8012913C(0x78);
                 if (p != 0) {
-                    ((Unkstruct_8011DB30 *)p)->unk6.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x28;
-                    ((Unkstruct_8011DB30 *)p)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
-                    ((Unkstruct_8011DB30 *)p)->unkE.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+                    ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 0x28;
+                    ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xA8;
+                    ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
                     func_8001CD50(((Unkstruct_8011DB30 *)p)->unk20, (s32)D_801F6180);
                     CAST_WIDTH(s32, p, 0x2C) = 2;
                     ((Unkstruct_8011DB30 *)p)->unk1C = 1;

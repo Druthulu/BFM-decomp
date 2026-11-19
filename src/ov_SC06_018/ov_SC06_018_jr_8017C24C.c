@@ -5533,10 +5533,10 @@ void func_80181468(s32 a0) {
         if (spr != 0) {
             m = *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12)
               + (rsin(((Unkstruct_801202A0 *)a0)->extD.kSC06_008_80181EE0.unk104) >> 3);
-            ((Unkstruct_8011DB30 *)spr)->unk6.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - (rsin(m) * 0x6C) / 0x1000;
-            ((Unkstruct_8011DB30 *)spr)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x34;
-            ((Unkstruct_8011DB30 *)spr)->unkE.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - (rcos(m) * 0x6C) / 0x1000;
-            ((Unkstruct_8011DB30 *)spr)->unk14.val = 0x40000;
+            ((Unkstruct_8011DB30 *)spr)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - (rsin(m) * 0x6C) / 0x1000;
+            ((Unkstruct_8011DB30 *)spr)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x34;
+            ((Unkstruct_8011DB30 *)spr)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - (rcos(m) * 0x6C) / 0x1000;
+            ((Unkstruct_8011DB30 *)spr)->unk14.val.s = 0x40000;
             CAST_WIDTH(s32, spr, 0x10) = -(rsin(m) * 0xC0);
             CAST_WIDTH(s32, spr, 0x18) = -(rcos(m) * 0xC0);
         }
@@ -6470,34 +6470,34 @@ void func_80182EA8(s32 arg0) {
         guess_StepPairSequence(((Unkstruct_8011DB30 *)arg0)->unk20, arg0 + 0x24);
         ((Unkstruct_8011DB30 *)arg0)->unk1C -= 1;
         if ((rand() & 7) == 0 && (p = func_8012913C(0x22)) != 0) {
-            ((Unkstruct_8011DB30 *)p)->unk6.u = ((Unkstruct_8011DB30 *)arg0)->unk6.u;
-            ((Unkstruct_8011DB30 *)p)->unkA.u = ((Unkstruct_8011DB30 *)arg0)->unkA.u;
-            ((Unkstruct_8011DB30 *)p)->unkE.u = ((Unkstruct_8011DB30 *)arg0)->unkE.u;
+            ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u;
+            ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u;
+            ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u;
             CAST_WIDTH(s32, p, 0x10) = CAST_WIDTH(s32, arg0, 0x10) >> 3;
-            ((Unkstruct_8011DB30 *)p)->unk14.val = ((Unkstruct_8011DB30 *)arg0)->unk14.val >> 3;
+            ((Unkstruct_8011DB30 *)p)->unk14.val.s = ((Unkstruct_8011DB30 *)arg0)->unk14.val.s >> 3;
             CAST_WIDTH(s32, p, 0x18) = CAST_WIDTH(s32, arg0, 0x18) >> 3;
-            ((Unkstruct_8011DB30 *)p)->unk34.i.lo = ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk18.u + 1;
+            ((Unkstruct_8011DB30 *)p)->unk34.i.lo.u = ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk18.u + 1;
             ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk2C.u = 0xc008;
         }
         if (((Unkstruct_8011DB30 *)arg0)->unk1C == 0) {
             func_801292C8(arg0);
         } else {
-            ((Unkstruct_8011DB30 *)arg0)->unk14.val = 0xffff0000;
+            ((Unkstruct_8011DB30 *)arg0)->unk14.val.s = 0xffff0000;
             iVar1 = CAST_WIDTH(s32, arg0, 0x2c) + 0x80;
             CAST_WIDTH(s32, arg0, 0x2c) = iVar1;
             ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk18.u =
                 *(s16 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x18) + (s16)iVar1;
             ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk1A.u =
                 *(s16 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x1a) + (s16)CAST_WIDTH(s32, arg0, 0x2c);
-            ((Unkstruct_8011DB30 *)arg0)->unkA.u = CAST_SIGN(s16, arg0, 0xa) - 0x20;
-            sp[0] = ((Unkstruct_8011DB30 *)arg0)->unk6.u;
-            sp[1] = ((Unkstruct_8011DB30 *)arg0)->unkA.u;
-            sp[2] = ((Unkstruct_8011DB30 *)arg0)->unkE.u;
+            ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u = CAST_SIGN(s16, arg0, 0xa) - 0x20;
+            sp[0] = ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u;
+            sp[1] = ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u;
+            sp[2] = ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u;
             if (func_8012D664(sp, 0x10, 0xb4) == 1) {
                 u16 *q = &D_80126B96;
                 *q |= 0x4200;
             }
-            ((Unkstruct_8011DB30 *)arg0)->unkA.u = CAST_SIGN(s16, arg0, 0xa) + 0x20;
+            ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u = CAST_SIGN(s16, arg0, 0xa) + 0x20;
         }
     }
 }

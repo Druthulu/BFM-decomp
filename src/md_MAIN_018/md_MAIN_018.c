@@ -175,7 +175,7 @@ void func_800CB168(void *arg0) {
 
 L1B0:
         r = rand();
-        ((Unkstruct_8011D030 *)obj)->unk1A = r & 0xFFF;
+        ((Unkstruct_8011D030 *)obj)->unk18.i.hi = r & 0xFFF;
         ((Unkstruct_8011D030 *)obj)->unk2A.u = (r & 1) + 2;
         CAST_ALIAS(s32, obj, 12) = CAST_ALIAS(s32, obj, 12) + 1;
         goto L288;
@@ -185,7 +185,7 @@ L1DC:
             goto L288;
         }
         ret = func_80146AB4(0x23, (s32)arg0, 0, 0, 0,
-                            ((Unkstruct_8011D030 *)obj)->unk12.s,
+                            ((Unkstruct_8011D030 *)obj)->unk10.i.hi.s,
                             CAST_SIGN(s16, (s32)obj, 0x1A) |
                                 (((((Unkstruct_8011D030 *)obj)->unk28.u)++ & 7) << 16));
         if (ret == 0) {

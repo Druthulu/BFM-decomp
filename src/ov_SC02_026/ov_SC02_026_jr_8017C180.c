@@ -3302,9 +3302,9 @@ void func_8017DDC4(void *a0)
 
     v0 = func_80132EF4((s32)a0, 0x22);
     if (v0 != 0) {
-        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo = 0x4001;
+        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo.u = 0x4001;
         CAST_WIDTH(s32, v0, 0x10) = CAST_WIDTH(s32, (s32)a0, 0x10) >> 2;
-        ((Unkstruct_8011DB30 *)v0)->unk14.val = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
+        ((Unkstruct_8011DB30 *)v0)->unk14.val.s = ((Unkstruct_801202A0 *)a0)->unk14.val >> 2;
         CAST_WIDTH(s32, v0, 0x18) = CAST_WIDTH(s32, (s32)a0, 0x18) >> 2;
     }
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
@@ -4426,7 +4426,7 @@ s32 a0;
     if (CAST_SIGN(u16, a0, 0x2) == 0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
         if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
-            ((Unkstruct_8011DB30 *)a0)->unk14.val += 0x10000;
+            ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x10000;
         }
         if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
             return;
@@ -4438,10 +4438,10 @@ s32 a0;
         }
         if (--((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
             ((Unkstruct_8011DB30 *)a0)->unk1C = 0xA;
-            ((Unkstruct_8011DB30 *)a0)->unk14.val -= 0x10000;
-            ((Unkstruct_8011DB30 *)a0)->unk6.u = CAST_WIDTH(s32, a0, 0x2C);
-            ((Unkstruct_8011DB30 *)a0)->unkA.u = ((Unkstruct_8011DB30 *)a0)->unk30.val;
-            ((Unkstruct_8011DB30 *)a0)->unkE.u = CAST_WIDTH(s32, a0, 0x34);
+            ((Unkstruct_8011DB30 *)a0)->unk14.val.s -= 0x10000;
+            ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = CAST_WIDTH(s32, a0, 0x2C);
+            ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)a0)->unk30.val.s;
+            ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = CAST_WIDTH(s32, a0, 0x34);
             return;
         }
     }
@@ -6120,7 +6120,7 @@ void func_801827E4(s32 s0) {
             goto call;
         } else {
             if (((Unkstruct_8011DB30 *)s0)->unk1C < 0x23) {
-                ((Unkstruct_8011DB30 *)s0)->unk14.val += 0x10000;
+                ((Unkstruct_8011DB30 *)s0)->unk14.val.s += 0x10000;
                 if (CAST_WIDTH(s32, s0, 0x2C) != 0) {
                     ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk27.u = 0x62;
                 }
@@ -6146,7 +6146,7 @@ extern void func_80182DBC(s32 a0);
 
 void func_801828C8(s32 arg0) {
     func_80182DBC(arg0);
-    if (((Unkstruct_8011DB30 *)arg0)->unk30.val == 0) {
+    if (((Unkstruct_8011DB30 *)arg0)->unk30.val.s == 0) {
         ((Unkstruct_8011DB30 *)arg0)->unk2.s = 6;
         ((Unkstruct_8011DB30 *)arg0)->unk1C = 0;
     } else {
@@ -6173,7 +6173,7 @@ void func_8018291C(s32 a0) {
         func_801292C8((u8 *)a0);
     } else {
         partner = CAST_WIDTH(s32, a0, 0x2C);
-        ((Unkstruct_8011DB30 *)a0)->unk14.val = 0x18000;
+        ((Unkstruct_8011DB30 *)a0)->unk14.val.s = 0x18000;
 
         if (((Unkstruct_8011DB30 *)a0)->unk1C >= 0x150) {
             *(s32 *)(partner + 0x30) -= 1;
@@ -6186,9 +6186,9 @@ void func_8018291C(s32 a0) {
             func_80182DBC(a0);
             func_80182B90(a0, (s32)D_800D3918, 0);
 
-            sp10.vx = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+            sp10.vx = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
             sp10.vy = 0;
-            sp10.vz = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+            sp10.vz = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
             sp18.vx = *(u16 *)(partner + 0x6);
             sp18.vy = 0;
             sp18.vz = *(u16 *)(partner + 0xE);
@@ -6250,9 +6250,9 @@ void func_80182AF4(s32 a0) {
     func_80182DBC(a0);
     ((Unkstruct_8011DB30 *)a0)->unk1C += 1;
     if (((Unkstruct_8011DB30 *)a0)->unk1C >= 0x1F) {
-        sp10.f0 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-        sp10.f1 = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-        sp10.f2 = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+        sp10.f0 = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+        sp10.f1 = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+        sp10.f2 = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
         sp10.f3 = 0x17F;
         sp10.f4 = 0x8000;
         sp10.f5 = 0;

@@ -6653,7 +6653,7 @@ void func_80183ED8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
     f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
     mask = f->unk0.v1.unk6 & r;
-    if (((Unkstruct_8011D030 *)a)->unk12.u & 1)
+    if (((Unkstruct_8011D030 *)a)->unk10.i.hi.u & 1)
         f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
         f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;

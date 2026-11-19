@@ -5440,9 +5440,9 @@ void func_80181184(s32 p)
         RotMatrixY(i, &m);
         SetRotMatrix(&m);
         RotTransSV(&D_80190E7C, lv, &sv);
-        ((Unkstruct_8011DB30 *)s0)->unk6.s = lv[0];
-        ((Unkstruct_8011DB30 *)s0)->unkA.s = lv[1];
-        ((Unkstruct_8011DB30 *)s0)->unkE.s = lv[2];
+        ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.s = lv[0];
+        ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.s = lv[1];
+        ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.s = lv[2];
         ApplyRotMatrixLV(&D_80190E84, (void *)(p + 0x10));
         ((Unkstruct_8011DB30 *)s0)->unk34.val.s = 0x4000;
     }
@@ -5697,7 +5697,7 @@ void func_80181708(s32 param_1) {
                       CAST_SIGN(s16, s0, 0xE), 0, 0);
         v = func_80132EF4(s0, 0x22);
         if (v != 0) {
-            ((Unkstruct_8011DB30 *)v)->unk34.i.lo = 0x2000;
+            ((Unkstruct_8011DB30 *)v)->unk34.i.lo.u = 0x2000;
         }
     } else {
         if (func_8012D5E4(s0, (s32)&D_80198268, (s32)&D_800D3918, 0x19) == 0 &&

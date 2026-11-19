@@ -4781,15 +4781,15 @@ void func_8017EB2C(int param_1, int param_2)
         r = rand();
         d = (s32)CAST_SIGN(u16, base, 0xe) - 0x140;
         d += r % 640;
-        ((Unkstruct_8011DB30 *)p)->unkE.u = d;
+        ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = d;
         if ((param_2 & 1) != 0) {
-            ((Unkstruct_8011DB30 *)p)->unk6.u = s1 + 0x7a;
+            ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = s1 + 0x7a;
             v = (s32)CAST_SIGN(u16, base, 0xa) - 0xe0;
         } else {
-            ((Unkstruct_8011DB30 *)p)->unk6.u = s1 - 0xf8;
+            ((Unkstruct_8011DB30 *)p)->unk4.i.hi.u = s1 - 0xf8;
             v = (s32)CAST_SIGN(u16, base, 0xa) - 0xc0;
         }
-        ((Unkstruct_8011DB30 *)p)->unkA.u = v;
+        ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = v;
         ((Unkstruct_8011DB30 *)p)->unk34.i.hi = (s32)CAST_SIGN(u16, base, 0xa) - 0x50;
     }
 }

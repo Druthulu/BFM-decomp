@@ -4447,14 +4447,14 @@ void func_80183170(s32 a0, s32 a1) {
     do {
         e = func_80132EF4(a0, 0x23);
         if (e != 0) {
-            ((Unkstruct_8011DB30 *)e)->unk34.i.lo = rand() % 0x4000 + 0x1000;
+            ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = rand() % 0x4000 + 0x1000;
             ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc008;
 
             func_8012B0B4(p48, rand() % 0x1000, rand() % 0x58);
 
             tmp = *(s32 *)buf48;
-            ((Unkstruct_8011DB30 *)e)->unk6.u = CAST_SIGN(s16, e, 6) + (s16)tmp;
-            ((Unkstruct_8011DB30 *)e)->unkE.u = CAST_SIGN(s16, e, 0xe) + (s16)(tmp >> 16);
+            ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u = CAST_SIGN(s16, e, 6) + (s16)tmp;
+            ((Unkstruct_8011DB30 *)e)->unkC.i.hi.u = CAST_SIGN(s16, e, 0xe) + (s16)(tmp >> 16);
 
             tmp = rand();
             scratch = tmp % 0x80;
@@ -4479,9 +4479,9 @@ void func_80183170(s32 a0, s32 a1) {
 
     e = func_80132EF4(a0, 0x23);
     if (e != 0) {
-        ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7ff1;
+        ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = 0x7ff1;
         ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc004;
-        ((Unkstruct_8011DB30 *)e)->unk14.val = 0xfffb0000;
+        ((Unkstruct_8011DB30 *)e)->unk14.val.s = 0xfffb0000;
     }
 
     i = 0;
@@ -4595,9 +4595,9 @@ s32 func_801835BC(s32 param_1, s32 a1, s32 a2)
     if (guess_TickWaitTimer(param_1) != 0) {
         e = func_80132EF4(param_1, 0x22);
         if (e != 0) {
-            ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7FFF;
+            ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = 0x7FFF;
             ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xC006;
-            ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
+            ((Unkstruct_8011DB30 *)e)->unk14.val.s = 0xFFFE0000;
         }
         return 1;
     }

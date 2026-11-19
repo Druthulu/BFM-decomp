@@ -4126,14 +4126,14 @@ void func_8017D408(int param_1)
     s32   c;
 
     obj = ((Unkstruct_8017D408 *)param_1)->unk34;
-    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017D408 *)param_1)->unk12.u;
+    rot.vx = rot.vy = rot.vz = ((Unkstruct_8017D408 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
     prim.unk0.v1.unk0[1].vx = prim.unk0.v1.unk0[1].vy = prim.unk0.v1.unk0[1].vz = 0;
     prim.unk0.v1.unk0[0].vy = prim.unk0.v1.unk0[2].vy = prim.unk0.v1.unk0[3].vy = 0;
     prim.unk20.v1.unk0[1].r = prim.unk20.v1.unk0[1].g = prim.unk20.v1.unk0[1].b = 0;
 
-    c = ((s32)(s16)((Unkstruct_8017D408 *)param_1)->unk12.u >> 5) + 0x20;
+    c = ((s32)(s16)((Unkstruct_8017D408 *)param_1)->unk10.i.hi.u >> 5) + 0x20;
     prim.unk20.v1.unk0[0].r = prim.unk20.v1.unk0[0].g = prim.unk20.v1.unk0[0].b =
     prim.unk20.v1.unk0[2].r = prim.unk20.v1.unk0[2].g = prim.unk20.v1.unk0[2].b =
     prim.unk20.v1.unk0[3].r = prim.unk20.v1.unk0[3].g = prim.unk20.v1.unk0[3].b = c;
@@ -7121,11 +7121,11 @@ void func_801828B0(s32 a0) {
             if (q != 0) {
                 func_8012B0B4(buf, *tbl, rand() % 80 + 0x118);
                 v = (s32)buf[0];
-                ((Unkstruct_8011DB30 *)q)->unk6.u = *(u16 *)(obj + 0x6) + v;
-                ((Unkstruct_8011DB30 *)q)->unkE.u = *(u16 *)(obj + 0xE) + (v >> 16);
-                ((Unkstruct_8011DB30 *)q)->unkA.u = *(u16 *)(obj + 0xA) + 0x40;
-                ((Unkstruct_8011DB30 *)q)->unk14.val = (rand() % 9) * 0x10000 - 0x100000;
-                ((Unkstruct_8011DB30 *)q)->unk34.i.lo = (rand() & 1) | 0x7FF0;
+                ((Unkstruct_8011DB30 *)q)->unk4.i.hi.u = *(u16 *)(obj + 0x6) + v;
+                ((Unkstruct_8011DB30 *)q)->unkC.i.hi.u = *(u16 *)(obj + 0xE) + (v >> 16);
+                ((Unkstruct_8011DB30 *)q)->unk8.i.hi.u = *(u16 *)(obj + 0xA) + 0x40;
+                ((Unkstruct_8011DB30 *)q)->unk14.val.s = (rand() % 9) * 0x10000 - 0x100000;
+                ((Unkstruct_8011DB30 *)q)->unk34.i.lo.u = (rand() & 1) | 0x7FF0;
                 ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0x20))->unk2C.u = 0xC008;
             }
         }
@@ -7651,12 +7651,12 @@ void func_801833E4(s32 a0)
     if ((guess_g_FrameCounter & 7) == 0) {
         s1 = func_80132EF4(a0, 0x22);
         if (s1 != 0) {
-            ((Unkstruct_8011DB30 *)s1)->unk34.i.lo = 0x1000;
+            ((Unkstruct_8011DB30 *)s1)->unk34.i.lo.u = 0x1000;
             ang = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x12);
             func_8012B0B4(buf, ang, D_801910D8);
             full = *(s32 *)buf;
-            ((Unkstruct_8011DB30 *)s1)->unk6.u = ((Unkstruct_8011DB30 *)s1)->unk6.u + full;
-            ((Unkstruct_8011DB30 *)s1)->unkE.u = ((Unkstruct_8011DB30 *)s1)->unkE.u + (full >> 16);
+            ((Unkstruct_8011DB30 *)s1)->unk4.i.hi.u = ((Unkstruct_8011DB30 *)s1)->unk4.i.hi.u + full;
+            ((Unkstruct_8011DB30 *)s1)->unkC.i.hi.u = ((Unkstruct_8011DB30 *)s1)->unkC.i.hi.u + (full >> 16);
             CAST_WIDTH(s32, s1, 0x10) = rcos(ang) * D_801910DA;
             CAST_WIDTH(s32, s1, 0x18) = rsin(ang) * D_801910DA;
         }
@@ -9933,9 +9933,9 @@ s32 func_801861D8(void *arg0) {
     pointA[1] = CAST_SIGN(u16, base, 0xA);
     pointA[2] = CAST_SIGN(u16, base, 0xE);
 
-    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk6.u;
-    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unkA.u;
-    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkE.u;
+    diff[0] = pointA[0] - ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u;
+    diff[1] = pointA[1] - ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u;
+    diff[2] = pointA[2] - ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u;
 
     VectorNormalSS(diff, diff);
 

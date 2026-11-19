@@ -80,7 +80,7 @@ void func_800CAFA0(void *a0) {
     s32 *s3 = *(s32 **)((s32)a0 + 0x20);
 
     if (D_80078EC1 != 0x11) {
-        guess_SpawnSmallObject(3, a0, ((Unkstruct_8011D030 *)a0)->unk6, ((Unkstruct_8011D030 *)a0)->unkA, ((Unkstruct_8011D030 *)a0)->unkE, 0xAAAFFFA, 0xE000B400);
+        guess_SpawnSmallObject(3, a0, ((Unkstruct_8011D030 *)a0)->unk6, ((Unkstruct_8011D030 *)a0)->unk8.i.hi, ((Unkstruct_8011D030 *)a0)->unkE, 0xAAAFFFA, 0xE000B400);
         guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
@@ -97,7 +97,7 @@ void func_800CAFA0(void *a0) {
         } else {
             *(s32 *)((s32)s3 + 4) &= 0x7FFFFFFF;
             ((Unkstruct_8011D030 *)a0)->unk6 = sv.x;
-            ((Unkstruct_8011D030 *)a0)->unkA = sv.y;
+            ((Unkstruct_8011D030 *)a0)->unk8.i.hi = sv.y;
             ((Unkstruct_8011D030 *)a0)->unkE = sv.z;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }

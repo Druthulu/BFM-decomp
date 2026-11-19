@@ -3232,14 +3232,14 @@ void func_801898CC(s32 param_1)
         ent = (s32)func_8012913C(0x22);
         if (ent != 0) {
             a = rand();
-            ((Unkstruct_8011DB30 *)ent)->unk6.u = (a % 128) - 0x40;
+            ((Unkstruct_8011DB30 *)ent)->unk4.i.hi.u = (a % 128) - 0x40;
             b = rand();
-            ((Unkstruct_8011DB30 *)ent)->unkA.u = (b % 128) - 0x182;
+            ((Unkstruct_8011DB30 *)ent)->unk8.i.hi.u = (b % 128) - 0x182;
             c = rand();
-            ((Unkstruct_8011DB30 *)ent)->unkE.u = (c % 128) - 0x40;
+            ((Unkstruct_8011DB30 *)ent)->unkC.i.hi.u = (c % 128) - 0x40;
             d = rand();
             e = rand();
-            ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = (((d % 5) << 12) + 0x3000) | (e & 1);
+            ((Unkstruct_8011DB30 *)ent)->unk34.i.lo.u = (((d % 5) << 12) + 0x3000) | (e & 1);
             ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC008;
         }
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) != 0) {
@@ -4873,7 +4873,7 @@ void func_8018BA5C(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
     f->unk0.v1.unk2 = f->unk0.v1.unk2 + c->unk0.v1.unk2;
     r = rand();
     mask = f->unk0.v1.unk6 & r;
-    if (((Unkstruct_8011D030 *)a)->unk12.u & 1)
+    if (((Unkstruct_8011D030 *)a)->unk10.i.hi.u & 1)
         f->unk0.v1.unk0 = f->unk0.v1.unk0 + mask;
     else
         f->unk0.v1.unk0 = f->unk0.v1.unk0 - mask;

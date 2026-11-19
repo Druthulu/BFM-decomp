@@ -13,7 +13,7 @@ int SHARED_FN(short *pos, int a1, int a2)
 
         if (a1 != 0) {
             CAST_WIDTH(s32, v1, 0x10) = ((Blk16_956C *)a1)->a;
-            ((Unkstruct_8011DB30 *)v1)->unk14.val = ((Blk16_956C *)a1)->b;
+            ((Unkstruct_8011DB30 *)v1)->unk14.val.s = ((Blk16_956C *)a1)->b;
             CAST_WIDTH(s32, v1, 0x18) = ((Blk16_956C *)a1)->c;
             CAST_WIDTH(s32, v1, 0x34) = ((Blk16_956C *)a1)->d;
         }

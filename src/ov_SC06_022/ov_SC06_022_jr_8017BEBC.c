@@ -3294,7 +3294,7 @@ void func_8017DCA4(s32 arg0) {
         if (((Unkstruct_801202A0 *)arg0)->unk76.s <= 0) {
             temp_v1 = func_80132EF4(arg0, 99);
             if (temp_v1 != 0) {
-                ((Unkstruct_8011DB30 *)temp_v1)->unkA.u += -0xB0;
+                ((Unkstruct_8011DB30 *)temp_v1)->unk8.i.hi.u += -0xB0;
             }
             for (var_s1 = 0; var_s1 < 8; var_s1++) {
                 guess_SpawnActor(0x2F1, 0, arg0);
@@ -3851,10 +3851,10 @@ void func_8017EA6C(s32 p) {
         if (obj == 0) {
             return;
         }
-        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = 0x7FF2;
+        ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x7FF2;
         CAST_SIGN(s16, obj, 0xA) -= 0x80;
         ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk2C.u = 0xC004;
-        ((Unkstruct_8011DB30 *)obj)->unk14.val = 0xFFFC0000;
+        ((Unkstruct_8011DB30 *)obj)->unk14.val.s = 0xFFFC0000;
         for (i = 0; i < 8; i++) {
             guess_SpawnActor(0x2F1, 1, p);
         }
@@ -3926,8 +3926,8 @@ void func_8017EBE8(s32 p) {
                 if (obj != 0) {
                     x = rand();
                     y = rand();
-                    ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = ((x % 0x4000 + 0x2000) & ~0xF) | (y & 1);
-                    ((Unkstruct_8011DB30 *)obj)->unkA.u -= 0x70;
+                    ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = ((x % 0x4000 + 0x2000) & ~0xF) | (y & 1);
+                    ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u -= 0x70;
                     d = rand() % 80;
                     v = CAST_SIGN(s16, obj, 6);
                     if ((rand() & 1) != 0) {
@@ -3935,7 +3935,7 @@ void func_8017EBE8(s32 p) {
                     } else {
                         w1 = v - d;
                     }
-                    ((Unkstruct_8011DB30 *)obj)->unk6.u = w1;
+                    ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = w1;
                     d = rand() % 144;
                     v = CAST_SIGN(s16, obj, 0xE);
                     if ((rand() & 1) != 0) {
@@ -3943,14 +3943,14 @@ void func_8017EBE8(s32 p) {
                     } else {
                         w2 = v - d;
                     }
-                    ((Unkstruct_8011DB30 *)obj)->unkE.u = w2;
+                    ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = w2;
                 }
             }
             n = rand() % 2;
             for (i = 0; i < n; i++) {
                 obj = func_80132EF4(p, 0x22);
                 if (obj != 0) {
-                    ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = rand() % 0x4000 + 0x2000;
+                    ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = rand() % 0x4000 + 0x2000;
                     d = rand() % 80;
                     v = CAST_SIGN(s16, obj, 6);
                     if ((rand() & 1) != 0) {
@@ -3958,7 +3958,7 @@ void func_8017EBE8(s32 p) {
                     } else {
                         w3 = v - d;
                     }
-                    ((Unkstruct_8011DB30 *)obj)->unk6.u = w3;
+                    ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u = w3;
                     d = rand() % 144;
                     v = CAST_SIGN(s16, obj, 0xE);
                     if ((rand() & 1) != 0) {
@@ -3966,9 +3966,9 @@ void func_8017EBE8(s32 p) {
                     } else {
                         w4 = v - d;
                     }
-                    ((Unkstruct_8011DB30 *)obj)->unkE.u = w4;
-                    ((Unkstruct_8011DB30 *)obj)->unkA.u -= 0x80;
-                    ((Unkstruct_8011DB30 *)obj)->unk14.val = (rand() % 3) * -0x10000;
+                    ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = w4;
+                    ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u -= 0x80;
+                    ((Unkstruct_8011DB30 *)obj)->unk14.val.s = (rand() % 3) * -0x10000;
                     *(u32 *)(((Unkstruct_8011DB30 *)obj)->unk20 + 4) |= 0x40000000;
                 }
             }

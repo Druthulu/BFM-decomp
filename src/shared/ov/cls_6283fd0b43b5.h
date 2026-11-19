@@ -6,11 +6,11 @@ void SHARED_FN(s32 param_1)
 
     result = func_80132EF4(param_1, 0x23);
     if (result != 0) {
-        ((Unkstruct_8011DB30 *)result)->unk6.u = *(u16 *)(param_1 + 0xE0);
-        ((Unkstruct_8011DB30 *)result)->unkA.u = *(u16 *)(param_1 + 0xE2);
+        ((Unkstruct_8011DB30 *)result)->unk4.i.hi.u = *(u16 *)(param_1 + 0xE0);
+        ((Unkstruct_8011DB30 *)result)->unk8.i.hi.u = *(u16 *)(param_1 + 0xE2);
         val_e4 = *(u16 *)(param_1 + 0xE4);
-        ((Unkstruct_8011DB30 *)result)->unk34.i.lo = 0x3001;
-        ((Unkstruct_8011DB30 *)result)->unkE.u = val_e4;
+        ((Unkstruct_8011DB30 *)result)->unk34.i.lo.u = 0x3001;
+        ((Unkstruct_8011DB30 *)result)->unkC.i.hi.u = val_e4;
         ((Unkstruct_800B5BD8 *)*(s32 *)(result + 0x20))->unk2C.u = 0xC008;
         *(u32 *)(((Unkstruct_8011DB30 *)result)->unk20 + 0x4) |= 0x50000000;
     }

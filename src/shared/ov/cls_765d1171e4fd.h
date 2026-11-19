@@ -11,8 +11,8 @@ void SHARED_FN(s32 param_1)
     if ((val_fe & 7) == 0) {
         result = func_80132EF4(param_1, 0x22);
         if (result != 0) {
-            ((Unkstruct_8011DB30 *)result)->unk14.val = 0xFFF80000;
-            ((Unkstruct_8011DB30 *)result)->unk34.i.lo = 0x4001;
+            ((Unkstruct_8011DB30 *)result)->unk14.val.s = 0xFFF80000;
+            ((Unkstruct_8011DB30 *)result)->unk34.i.lo.u = 0x4001;
             ((Unkstruct_800B5BD8 *)*(s32 *)(result + 0x20))->unk2C.u = 0xC010;
         }
     }

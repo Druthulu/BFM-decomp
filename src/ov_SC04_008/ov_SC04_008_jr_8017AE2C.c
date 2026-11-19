@@ -3722,7 +3722,7 @@ void func_8017D77C(s32 a0) {
             *(&D_80191EF0 + i) = 1;
             ((Unkstruct_8011DB30 *)obj)->unk34.val.s = i;
             func_8017DCB4((s32)obj);
-            ((Unkstruct_8011DB30 *)obj)->unkA.u += (rand() & 0xF) * 3 * 16;
+            ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u += (rand() & 0xF) * 3 * 16;
         }
     }
 
@@ -3927,9 +3927,9 @@ void func_8017DCB4(s32 param_1)
         v.vz = lim + v.vz;
     }
 
-    ((Unkstruct_8011DB30 *)param_1)->unk6.u += v.vx;
-    ((Unkstruct_8011DB30 *)param_1)->unkA.u += v.vy;
-    ((Unkstruct_8011DB30 *)param_1)->unkE.u += v.vz;
+    ((Unkstruct_8011DB30 *)param_1)->unk4.i.hi.u += v.vx;
+    ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u += v.vy;
+    ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u += v.vz;
 
     ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi = (rand() & 7) + 8;
 }

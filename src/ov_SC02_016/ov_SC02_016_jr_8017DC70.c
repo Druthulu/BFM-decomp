@@ -3561,8 +3561,8 @@ void func_8017F6A4(s32 param_1) {
     if (v1 != 0) {
         ((Unkstruct_8011DB30 *)v1)->unk2C.i.lo.u = *(u8 *)(param_1 + 0x70);
         t = *(u16 *)(param_1 + 0x36);
-        ((Unkstruct_8011DB30 *)v1)->unk30.val = param_1;
-        ((Unkstruct_8011DB30 *)v1)->unk2C.i.hi = t;
+        ((Unkstruct_8011DB30 *)v1)->unk30.val.s = param_1;
+        ((Unkstruct_8011DB30 *)v1)->unk2C.i.hi.u = t;
     }
     if (*(s16 *)(param_1 + 0x70) & 0x8000) {
         ((void (*)(s32))func_8017F190)(param_1);
@@ -3714,7 +3714,7 @@ void func_8017FABC(s32 a0) {
     (void)&frame_pad;
 
     s1 = (u8 *)&D_801B41C8 + (CAST_SIGN(s16, (u8 *)a0, 0x2C) << 6);
-    func_80129350(a0, ((Unkstruct_8011DB30 *)a0)->unk30.val);
+    func_80129350(a0, ((Unkstruct_8011DB30 *)a0)->unk30.val.s);
 
     v = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
     ((Unkstruct_8011DB30 *)a0)->unk1C = v;

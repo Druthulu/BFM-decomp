@@ -3523,11 +3523,11 @@ void func_8018EB60(s16 arg0, u16 *arg1, void *arg2, s16 arg3) {
                 rot[2] = 0;
                 RotMatrixYXZ(rot, m);
                 ApplyMatrixSV(m, arg2, rot);
-                ((Unkstruct_8011DB30 *)s0)->unk6.u = arg1[0] + rot[0];
-                ((Unkstruct_8011DB30 *)s0)->unkA.u = arg1[1] + rot[1];
-                ((Unkstruct_8011DB30 *)s0)->unkE.u = arg1[2] + rot[2];
+                ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.u = arg1[0] + rot[0];
+                ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.u = arg1[1] + rot[1];
+                ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.u = arg1[2] + rot[2];
                 CAST_WIDTH(s32, s0, 0x10) = rot[0] << 11;
-                ((Unkstruct_8011DB30 *)s0)->unk14.val = rot[1] << 11;
+                ((Unkstruct_8011DB30 *)s0)->unk14.val.s = rot[1] << 11;
                 CAST_WIDTH(s32, s0, 0x18) = rot[2] << 11;
             }
             i++;
