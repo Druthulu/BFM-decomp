@@ -10397,8 +10397,8 @@ void func_801882F8(s32 a0)
                 D_801EFE62 = 0xFF;
             }
             if (*(s32 *)(sub + 0x94) < 0x14) {
-                ((Unkstruct_8011DB30 *)a0)->unk1C = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
-                if ((((Unkstruct_8011DB30 *)a0)->unk1C & 1) == 0) {
+                ((Unkstruct_8011DB30 *)a0)->unk1C.s = ((Unkstruct_8011DB30 *)a0)->unk1C.s + 1;
+                if ((((Unkstruct_8011DB30 *)a0)->unk1C.s & 1) == 0) {
                     u8 *r;
                     out[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
                     out[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
@@ -10424,9 +10424,9 @@ void func_801882F8(s32 a0)
                 ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u + 0x400;
         }
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
-        t = ((Unkstruct_8011DB30 *)a0)->unk1C;
+        t = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
         if (t != 0) {
-            ((Unkstruct_8011DB30 *)a0)->unk1C = t - 1;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = t - 1;
             return;
         }
     }
@@ -15570,8 +15570,8 @@ void func_8018EEB0(void *a0) {
         return;
     }
 
-    if (((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
-        ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s -= 1;
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {

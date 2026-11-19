@@ -3952,19 +3952,19 @@ extern void func_8016F374(void);
 extern s32 func_80171990(u8 *a0);
 
 void func_8017DA9C(s32 a0) {
-    s32 v0 = ((Unkstruct_8017DA9C *)a0)->unk20;
+    s32 v0 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     u16 v1;
 
-    ((Unkstruct_8017DA9C *)a0)->unk136 = 2;
+    ((Unkstruct_80126B58 *)a0)->unk136 = 2;
 
     v1 = *(u16 *)(v0 + 0x12);
 
-    ((Unkstruct_8017DA9C *)a0)->unk212 = 0x80;
-    ((Unkstruct_8017DA9C *)a0)->unk210 = 0x80;
-    ((Unkstruct_8017DA9C *)a0)->unk20C = 0;
-    ((Unkstruct_8017DA9C *)a0)->unk20E = 0;
-    ((Unkstruct_8017DA9C *)a0)->unk200 = 0xB0;
-    ((Unkstruct_8017DA9C *)a0)->unk132 = v1;
+    ((Unkstruct_80126B58 *)a0)->unk212 = 0x80;
+    ((Unkstruct_80126B58 *)a0)->unk210 = 0x80;
+    ((Unkstruct_80126B58 *)a0)->unk20C = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20E = 0;
+    ((Unkstruct_80126B58 *)a0)->unk200 = 0xB0;
+    ((Unkstruct_80126B58 *)a0)->unk132 = v1;
     func_8016F374();
     func_80171990((u8 *)a0);
 }
@@ -4941,25 +4941,25 @@ void func_8017F5D8(s32 arg0)
     register s32 a2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus7) wall:sched1-hoist-sink
 
     /* Load velocity components */
-    v0 = ((Unkstruct_8017F5D8 *)s1)->unk10;
-    v1 = ((Unkstruct_8017F5D8 *)s1)->unk2C;
-    a1 = ((Unkstruct_8017F5D8 *)s1)->unk30;
-    a2 = ((Unkstruct_8017F5D8 *)s1)->unk34;
+    v0 = ((Unkstruct_8011DB30 *)s1)->unk10.val.s;
+    v1 = ((Unkstruct_8011DB30 *)s1)->unk2C.val.s;
+    a1 = ((Unkstruct_8011DB30 *)s1)->unk30.val.s;
+    a2 = ((Unkstruct_8011DB30 *)s1)->unk34.val.s;
 
     /* Load s0 pointer from offset 0x20 */
-    s0 = ((Unkstruct_8017F5D8 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
 
     /* Add velocity to position at 0x10 */
     v0 = v0 + v1;
-    ((Unkstruct_8017F5D8 *)s1)->unk10 = v0;
+    ((Unkstruct_8011DB30 *)s1)->unk10.val.s = v0;
 
     /* Load and add velocity to positions at 0x14 and 0x18 */
-    v0 = ((Unkstruct_8017F5D8 *)s1)->unk14;
-    v1 = ((Unkstruct_8017F5D8 *)s1)->unk18;
+    v0 = ((Unkstruct_8011DB30 *)s1)->unk14.val.s;
+    v1 = ((Unkstruct_8011DB30 *)s1)->unk18.val.s;
     v0 = v0 + a1;
     v1 = v1 + a2;
-    ((Unkstruct_8017F5D8 *)s1)->unk14 = v0;
-    ((Unkstruct_8017F5D8 *)s1)->unk18 = v1;
+    ((Unkstruct_8011DB30 *)s1)->unk14.val.s = v0;
+    ((Unkstruct_8011DB30 *)s1)->unk18.val.s = v1;
 
     /* Call update function (target passes no argument registers) */
     ((void (*)(void))guess_AddVelocityToPos)();
@@ -4971,10 +4971,10 @@ void func_8017F5D8(s32 arg0)
     if (guess_StepPairSequence(a0, (s32 *)(s1 + 0x24)) != 0) {
         ((void (*)(s32))func_801292C8)(s1);
     } else {
-        v0 = ((Unkstruct_8017F5D8 *)s1)->unk1C;
+        v0 = ((Unkstruct_8011DB30 *)s1)->unk1C.s;
         if (v0 != 0) {
             v0--;
-            ((Unkstruct_8017F5D8 *)s1)->unk1C = v0;
+            ((Unkstruct_8011DB30 *)s1)->unk1C.s = v0;
             if (v0 == 0) {
                 ((void (*)(s32))func_801292C8)(s1);
             }

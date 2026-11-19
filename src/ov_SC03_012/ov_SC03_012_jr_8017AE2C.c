@@ -4246,13 +4246,13 @@ void func_8017E008(s32 param_1)
 
     ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
-    guess_StartPairSequence(((Unkstruct_8017E008 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
+    guess_StartPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
 
-    ((Unkstruct_8017E008 *)param_1)->unk10 = 0;
-    ((Unkstruct_8017E008 *)param_1)->unk14 = 0xffa40000;
-    ((Unkstruct_8017E008 *)param_1)->unk18 = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk10.val.s = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0xffa40000;
+    ((Unkstruct_8011DB30 *)param_1)->unk18.val.s = 0;
 
-    ((Unkstruct_8017E008 *)param_1)->unk2 = ((Unkstruct_8017E008 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 

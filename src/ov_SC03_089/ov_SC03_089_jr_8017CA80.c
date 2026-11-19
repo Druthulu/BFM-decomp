@@ -6035,7 +6035,7 @@ void func_801851A8(Unkstruct_801202A0 *param_1)
 
 void func_801854BC(s32 arg0) {
         if (arg0 != 0) {
-            ((Unkstruct_8018302C *)arg0)->unk4 |= 0x80000000;
+            ((Unkstruct_800B5BD8 *)arg0)->head.unk4.s |= 0x80000000;
         }
     }
 

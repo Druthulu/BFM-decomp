@@ -16,10 +16,10 @@ void SHARED_FN(s32 arg0)
     if (guess_StepPairSequence(obj, (s32 *)(arg0 + 0x24)) != 0) {
         func_801292C8((u8 *)arg0);
     } else {
-        timer = ((Unkstruct_8011DB30 *)arg0)->unk1C;
+        timer = ((Unkstruct_8011DB30 *)arg0)->unk1C.s;
         if (timer != 0) {
             timer--;
-            ((Unkstruct_8011DB30 *)arg0)->unk1C = timer;
+            ((Unkstruct_8011DB30 *)arg0)->unk1C.s = timer;
             if (timer == 0) {
                 func_801292C8((u8 *)arg0);
             }

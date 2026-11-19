@@ -5492,10 +5492,10 @@ extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 void func_8017FA84(void *a0) {
     s32 p;
 
-    func_8012DBD0((s32)a0, 0xA, ((Unkstruct_8017FA84_3 *)*(s32 *)((s32)a0 + 0x20))->unk12 + 0x800, 0x1D);
+    func_8012DBD0((s32)a0, 0xA, ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.s + 0x800, 0x1D);
 
     p = ((Unkstruct_801202A0 *)a0)->unk20.p;
-    ((Unkstruct_8017FA84_3 *)p)->unk10 = ((Unkstruct_8017FA84_3 *)p)->unk10 - ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.u;
+    ((Unkstruct_8001C9D0 *)p)->head.unk10.u = ((Unkstruct_8001C9D0 *)p)->head.unk10.u - ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.u;
 
     ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
     if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x29) {
@@ -5503,7 +5503,7 @@ void func_8017FA84(void *a0) {
     } else if ((((s32 (*)(s32, s32))func_8012CC64)((s32)a0, (s32)&D_8018BF48) & 0x2000) != 0) {
         ((Unkstruct_801202A0 *)a0)->unkC1.u = 0;
         ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
-        ((Unkstruct_8017FA84_3 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u = 0;
         ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_007_8017EF98.unkE0 = 1;
     }

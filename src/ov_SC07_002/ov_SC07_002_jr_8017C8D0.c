@@ -6186,8 +6186,8 @@ extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_80183078(int param_1)
 {
-    if (((Unkstruct_8011DB30 *)param_1)->unk1C != 0) {
-        ((Unkstruct_8011DB30 *)param_1)->unk1C = ((Unkstruct_8011DB30 *)param_1)->unk1C - 1;
+    if (((Unkstruct_8011DB30 *)param_1)->unk1C.s != 0) {
+        ((Unkstruct_8011DB30 *)param_1)->unk1C.s = ((Unkstruct_8011DB30 *)param_1)->unk1C.s - 1;
         guess_AddVelocityToPos((S800D22E4 *)param_1);
         CAST_WIDTH(short, ((Unkstruct_8011DB30 *)param_1)->unk20, 0x14) = CAST_WIDTH(short, ((Unkstruct_8011DB30 *)param_1)->unk20, 0x14) + 0x40;
     } else {

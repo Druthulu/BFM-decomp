@@ -4970,7 +4970,7 @@ void func_80183374(s32 a0)
                     ((Unkstruct_8011DB30 *)p)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
                     func_8001CD50(((Unkstruct_8011DB30 *)p)->unk20, (s32)D_801F6180);
                     CAST_WIDTH(s32, p, 0x2C) = 2;
-                    ((Unkstruct_8011DB30 *)p)->unk1C = 1;
+                    ((Unkstruct_8011DB30 *)p)->unk1C.s = 1;
                     if (i < 8) {
                         s32 g = ((Unkstruct_8011DB30 *)p)->unk20;
                         s32 v = 0x1000 - (i << 9);

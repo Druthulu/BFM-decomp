@@ -3502,10 +3502,10 @@ void func_8017C2B0(s32 a0)
         ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x800;
     }
 
-    if (((Unkstruct_8017C2B0_2 *)s0)->unk12 != D_801E19F8) {
-        ((Unkstruct_8017C2B0_2 *)s0)->unk12 = D_801E19F8;
+    if (((Unkstruct_8001C9D0 *)s0)->head.unk12.s != D_801E19F8) {
+        ((Unkstruct_8001C9D0 *)s0)->head.unk12.s = D_801E19F8;
         RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20 + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20 + 0x34);
-        ((Unkstruct_8017C2B0_2 *)s0)->unk2C |= 0x11;
+        ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x11;
     }
 }
 
@@ -5151,7 +5151,7 @@ void func_8017F63C(void *s1) {
         h = CAST_SIGN(u16, (s32)s1, 2);
         CAST_WIDTH(s32, (s32)s1, 0x2C) = 0x8000000;
         f = ((Unkstruct_8011DB30 *)s1)->unk14.val.s;
-        ((Unkstruct_8011DB30 *)s1)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)s1)->unk1C.s = 0;
         h = h + 1;
         g = f + delta;
         ((Unkstruct_8011DB30 *)s1)->unk14.val.s = g;
@@ -5166,7 +5166,7 @@ void func_8017F63C(void *s1) {
         *(u16 *)(e1 + 0x1A) = e0;
         *(u16 *)(e1 + 0x18) = e0;
         guess_AddVelocityToPos(s1);
-        cnt = ((Unkstruct_8011DB30 *)s1)->unk1C + 1;
+        cnt = ((Unkstruct_8011DB30 *)s1)->unk1C.s + 1;
         CAST_ALIAS(s32, (s32)s1, 0x1C) = cnt;
         if (D_8018FBC2 < cnt) {
             func_801292C8((u8 *)s1);

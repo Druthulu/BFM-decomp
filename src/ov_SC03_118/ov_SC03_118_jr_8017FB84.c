@@ -4336,7 +4336,7 @@ s32 a0;
 
     
     a0_ptr = s1[8];
-    ((Unkstruct_80182DA4_2 *)a0_ptr)->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)a0_ptr)->head.unk4.s |= 0x50000000;
 
     
     ((Unkstruct_8011DB30 *)s1)->unk2.s = 1;

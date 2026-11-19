@@ -4549,7 +4549,7 @@ s32 func_80180208(s32 a0)
 
 void func_8018028C(s32 arg0) {
         if (arg0 != 0) {
-            ((Unkstruct_8018028C *)arg0)->unk4 |= 0x80000000;
+            ((Unkstruct_8018028C *)arg0)->head.unk4.s |= 0x80000000;
         }
     }
 

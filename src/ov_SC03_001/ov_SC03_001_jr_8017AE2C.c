@@ -3395,8 +3395,8 @@ void func_8017C100(s32 param_1)
 {
     s32 s0;
 
-    s0 = ((Unkstruct_8017C100_3 *)param_1)->unk20;
-    if (((Unkstruct_8017C100_3 *)param_1)->unk2E == 0) {
+    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    if (((Unkstruct_8011DB30 *)param_1)->unk2C.i.hi.s == 0) {
         func_8001CB6C((u8 *)s0, (s32)D_80190EF8, 0x3c0, 0xa0);
     } else {
         func_8001CC3C(s0, (s32)D_80190EF8, 0x3c0, 0xa0);
@@ -3405,8 +3405,8 @@ void func_8017C100(s32 param_1)
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3c00;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3c00;
     ((Unkstruct_800B5BD8 *)s0)->head.unk4.u |= 0x01000000;
-    ((Unkstruct_800B5BD8 *)s0)->unk34.u = ((Unkstruct_8017C100_3 *)param_1)->unk30;
-    (((Unkstruct_8017C100_3 *)param_1)->unk2)++;
+    ((Unkstruct_800B5BD8 *)s0)->unk34.u = ((Unkstruct_8011DB30 *)param_1)->unk30.val.u;
+    (((Unkstruct_8011DB30 *)param_1)->unk2.u)++;
 }
 
 
@@ -3526,10 +3526,10 @@ void func_8017C2B0(s32 a0)
         ((Unkstruct_8017C2B0_4 *)a0)->unk5C = 0x800;
     }
 
-    if (((Unkstruct_8017C2B0_5 *)s0)->unk12 != D_801EE880) {
-        ((Unkstruct_8017C2B0_5 *)s0)->unk12 = D_801EE880;
+    if (((Unkstruct_8017C2B0_5 *)s0)->head.unk12.s != D_801EE880) {
+        ((Unkstruct_8017C2B0_5 *)s0)->head.unk12.s = D_801EE880;
         RotMatrixZYX(((Unkstruct_8017C2B0_4 *)a0)->unk20 + 0x10, ((Unkstruct_8017C2B0_4 *)a0)->unk20 + 0x34);
-        ((Unkstruct_8017C2B0_5 *)s0)->unk2C |= 0x11;
+        ((Unkstruct_8017C2B0_5 *)s0)->unk2C.u |= 0x11;
     }
 }
 
@@ -5193,10 +5193,10 @@ void func_8017F750(void *a0, s32 a1) {
     a2 = (s32 *)D_801EE950[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801EE968[v1 * 16] = a1;
-    ((Unkstruct_8017F750_2 *)a2)->unk8 = ((Unkstruct_801343C4 *)a0)->unk0;
-    ((Unkstruct_8017F750_2 *)a2)->unkA = ((Unkstruct_801343C4 *)a0)->unk2;
-    ((Unkstruct_8017F750_2 *)a2)->unkC = ((Unkstruct_801343C4 *)a0)->unk4;
-    ((Unkstruct_8017F750_2 *)a2)->unk12 = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((Unkstruct_801343C4 *)a0)->unk0;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((Unkstruct_801343C4 *)a0)->unk2;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((Unkstruct_801343C4 *)a0)->unk4;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
 }
 
 

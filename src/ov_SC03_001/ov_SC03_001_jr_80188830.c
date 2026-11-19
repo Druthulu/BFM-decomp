@@ -3367,7 +3367,7 @@ void func_80188BFC(void *a0)
         *(Unkstruct_8013B83C *)(v1 + 0x10) = *(Unkstruct_8013B83C *)(v0 + 0x10);
 
         a0p = *(u8 **)(s2 + 0x20);
-        ((Unkstruct_801824A8_3 *)a0p)->unk12 = ((Unkstruct_801824A8_3 *)a0p)->unk12 - ((Unkstruct_801824A8_2 *)s0)->unkFE;
+        ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u = ((Unkstruct_8001C9D0 *)a0p)->head.unk12.u - ((Unkstruct_801824A8_2 *)s0)->unkFE;
 
         ((Unkstruct_801824A8 *)s2)->unk5C = 0x800;
     }

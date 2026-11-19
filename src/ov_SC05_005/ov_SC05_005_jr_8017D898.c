@@ -4776,8 +4776,8 @@ void func_80181B10(s32 a0) {
         func_801292C8((u8 *)a0);
         return;
     }
-    ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
-    if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s -= 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C.s < 0x23) {
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x10000;
     }
 }

@@ -3623,10 +3623,10 @@ void func_8017C594(s32 a0)
         ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x800;
     }
 
-    if (((Unkstruct_8017C2B0_2 *)s0)->unk12 != D_801C42F0) {
-        ((Unkstruct_8017C2B0_2 *)s0)->unk12 = D_801C42F0;
+    if (((Unkstruct_8001C9D0 *)s0)->head.unk12.s != D_801C42F0) {
+        ((Unkstruct_8001C9D0 *)s0)->head.unk12.s = D_801C42F0;
         RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20 + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20 + 0x34);
-        ((Unkstruct_8017C2B0_2 *)s0)->unk2C |= 0x11;
+        ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x11;
     }
 }
 

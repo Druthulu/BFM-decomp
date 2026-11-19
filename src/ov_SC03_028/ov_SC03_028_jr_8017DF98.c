@@ -3187,14 +3187,14 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017EFA8(s32 param_1)
 {
     s32 iVar2;
-    iVar2 = ((Unkstruct_8017EFA8 *)param_1)->unk20;
+    iVar2 = ((Unkstruct_8011D030 *)param_1)->unk20;
     if (((s32 (*)(s32, s32))guess_StepPairSequence)(iVar2, param_1 + 0x24) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     } else {
-        ((Unkstruct_800B5BD8 *)iVar2)->unk27.s = ((Unkstruct_8017EFA8 *)param_1)->unk28 - 0x70;
-        ((Unkstruct_8017EFA8 *)param_1)->unk10 = ((Unkstruct_8017EFA8 *)param_1)->unk10 - 0x60000;
-        ((Unkstruct_8017EFA8 *)param_1)->unk14 = ((Unkstruct_8017EFA8 *)param_1)->unk14 + ((Unkstruct_8017EFA8 *)param_1)->unk10;
-        ((Unkstruct_8017EFA8 *)param_1)->unk8 = ((Unkstruct_8017EFA8 *)param_1)->unk8 + ((Unkstruct_8017EFA8 *)param_1)->unk14;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk27.s = ((Unkstruct_8011D030 *)param_1)->unk28.b - 0x70;
+        ((Unkstruct_8011D030 *)param_1)->unk10.val = ((Unkstruct_8011D030 *)param_1)->unk10.val - 0x60000;
+        ((Unkstruct_8011D030 *)param_1)->unk14.val = ((Unkstruct_8011D030 *)param_1)->unk14.val + ((Unkstruct_8011D030 *)param_1)->unk10.val;
+        ((Unkstruct_8011D030 *)param_1)->unk8.val = ((Unkstruct_8011D030 *)param_1)->unk8.val + ((Unkstruct_8011D030 *)param_1)->unk14.val;
         ((Unkstruct_800B5BD8 *)iVar2)->unk18.s = ((Unkstruct_800B5BD8 *)iVar2)->unk18.s - 0x500;
         ((Unkstruct_800B5BD8 *)iVar2)->unk1A.s = ((Unkstruct_800B5BD8 *)iVar2)->unk1A.s - 0x300;
     }

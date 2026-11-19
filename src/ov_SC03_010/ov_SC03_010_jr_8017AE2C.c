@@ -3376,9 +3376,9 @@ void func_8017C004(s32 arg0) {
 
     ((Unkstruct_8017C004_4 *)arg0)->unk20 = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk34 = 0;
-    ((Unkstruct_8017C004_4 *)arg0)->unk10 = 0;
-    ((Unkstruct_8017C004_4 *)arg0)->unk14 = 0;
-    ((Unkstruct_8017C004_4 *)arg0)->unk18 = 0;
+    ((Unkstruct_8017C004_4 *)arg0)->unk10.val = 0;
+    ((Unkstruct_8017C004_4 *)arg0)->unk14.val = 0;
+    ((Unkstruct_8017C004_4 *)arg0)->unk18.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk1C = 0;
 
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
@@ -3392,7 +3392,7 @@ void func_8017C004(s32 arg0) {
 
         p = ((s32 (*)(void))guess_AllocSpriteObject)();
         if (p != 0) {
-            ((Unkstruct_8017C004_4 *)arg0)->unk10 = p;
+            ((Unkstruct_8017C004_4 *)arg0)->unk10.val = p;
             guess_SjisToGlyphCodes(D_801839E0, D_8019FF44);
             func_8001CE28(p, D_8019FF44);
             ((Unkstruct_8017C004_3 *)p)->head.unk8.s = 0x30;
@@ -3402,7 +3402,7 @@ void func_8017C004(s32 arg0) {
 
             p = ((s32 (*)(void))guess_AllocSpriteObject)();
             if (p != 0) {
-                ((Unkstruct_8017C004_4 *)arg0)->unk14 = p;
+                ((Unkstruct_8017C004_4 *)arg0)->unk14.val = p;
                 func_8001CEC0(p, D_80183954);
                 ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x40;
                 ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x20;
@@ -3410,7 +3410,7 @@ void func_8017C004(s32 arg0) {
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
                 if (p != 0) {
-                    ((Unkstruct_8017C004_4 *)arg0)->unk18 = p;
+                    ((Unkstruct_8017C004_4 *)arg0)->unk18.val = p;
                     guess_SjisToGlyphCodes(D_801839EC, D_8019FF64);
                     func_8001CE28(p, D_8019FF64);
                     ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x58;
@@ -3427,13 +3427,13 @@ void func_8017C004(s32 arg0) {
                         ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0xC;
                         ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
                         ((Unkstruct_8017C004_3 *)p)->unk27.u = 0xB6;
-                        ((Unkstruct_8017C004_4 *)arg0)->unk2A = 0;
-                        ((Unkstruct_8017C004_4 *)arg0)->unk28 = 0;
+                        ((Unkstruct_8017C004_4 *)arg0)->unk2A.s = 0;
+                        ((Unkstruct_8017C004_4 *)arg0)->unk28.s = 0;
                         D_8019FF40 = 0;
                         D_8019FF3C[0] = 0;
                         D_8019FF38 = 0;
                         ((void (*)(s32))func_8017C234)(arg0);
-                        ((Unkstruct_8017C004_4 *)arg0)->unk2 = ((Unkstruct_8017C004_4 *)arg0)->unk2 + 1;
+                        ((Unkstruct_8017C004_4 *)arg0)->unk2.u = ((Unkstruct_8017C004_4 *)arg0)->unk2.u + 1;
                     }
                 }
             }

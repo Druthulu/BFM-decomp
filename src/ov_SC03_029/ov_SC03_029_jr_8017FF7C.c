@@ -3618,7 +3618,7 @@ void func_801813FC(void *a0) {
     s32 a2;
     u8 *v1ptr;
 
-    v0 = ((Unkstruct_8011DB30 *)a0)->unk1C;
+    v0 = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
     do { v1 = CAST_WIDTH(s32, (s32)a0, 0x2C); } while (0);
     a1 = v0 - 1;
     /* §21 zero-byte re-tie barrier: without it gcc's scheduler hoists the 0x2C load
@@ -3631,14 +3631,14 @@ void func_801813FC(void *a0) {
     a2 = (s32)D_801D9760 + v1;
     v1ptr = CAST_SIGN(u8 *, (s32)a0, 0x20);
 
-    ((Unkstruct_8011DB30 *)a0)->unk1C = a1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = a1;
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
         ((Unkstruct_800B5BD8 *)v1ptr)->unk1A.u = v0 << 8;
         ((Unkstruct_800B5BD8 *)v1ptr)->unk18.u = v0 << 8;
 
-        v1 = ((Unkstruct_8011DB30 *)a0)->unk1C;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
         v0 = (v1 << 8) - v1;
         if (v0 < 0) {
             v0 = v0 + 0xF;
@@ -3649,11 +3649,11 @@ void func_801813FC(void *a0) {
         *(u8 *)(a2 + 0x1) = v0;
         *(u8 *)(a2 + 0x0) = v0;
 
-        v0 = ((Unkstruct_8011DB30 *)a0)->unk1C << 2;
+        v0 = ((Unkstruct_8011DB30 *)a0)->unk1C.s << 2;
         *(u8 *)(a2 + 0x5) = v0;
         *(u8 *)(a2 + 0x4) = v0;
 
-        *(u8 *)(a2 + 0x6) = ((Unkstruct_8011DB30 *)a0)->unk1C << 3;
+        *(u8 *)(a2 + 0x6) = ((Unkstruct_8011DB30 *)a0)->unk1C.s << 3;
     } else {
         func_801292C8((u8 *)a0);
     }

@@ -100,7 +100,7 @@ void func_800CAF94(s32 arg0) {
         q = sv;
         CAST_ALIAS(s16, arg0, 6)   = ((u16 *)q)[0];
         CAST_ALIAS(s16, arg0, 0xA) = ((u16 *)q)[1];
-        ((Unkstruct_8011D030 *)arg0)->unkE = ((u16 *)q)[2];
+        ((Unkstruct_8011D030 *)arg0)->unkE.s = ((u16 *)q)[2];
         q = rot;
         func_800D23D0(q);
         q = mtx;

@@ -3376,16 +3376,16 @@ void func_8017C004(s32 arg0) {
     extern s16 D_801A21D8;
     s32 p;
 
-    ((Unkstruct_8017C004_2 *)arg0)->unk20 = 0;
-    ((Unkstruct_8017C004_2 *)arg0)->unk34 = 0;
-    ((Unkstruct_8017C004_2 *)arg0)->unk10 = 0;
-    ((Unkstruct_8017C004_2 *)arg0)->unk14 = 0;
-    ((Unkstruct_8017C004_2 *)arg0)->unk18 = 0;
-    ((Unkstruct_8017C004_2 *)arg0)->unk1C = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk20 = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk34 = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk10.val = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk14.val = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk18.val = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk1C = 0;
 
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (p != 0) {
-        ((Unkstruct_8017C004_2 *)arg0)->unk34 = p;
+        ((Unkstruct_8011D030 *)arg0)->unk34 = p;
         func_8001CEC0(p, D_80184C54);
         ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x40;
         ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
@@ -3394,7 +3394,7 @@ void func_8017C004(s32 arg0) {
 
         p = ((s32 (*)(void))guess_AllocSpriteObject)();
         if (p != 0) {
-            ((Unkstruct_8017C004_2 *)arg0)->unk10 = p;
+            ((Unkstruct_8011D030 *)arg0)->unk10.val = p;
             guess_SjisToGlyphCodes(D_80184D50, D_801A21DC);
             func_8001CE28(p, D_801A21DC);
             ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x30;
@@ -3404,7 +3404,7 @@ void func_8017C004(s32 arg0) {
 
             p = ((s32 (*)(void))guess_AllocSpriteObject)();
             if (p != 0) {
-                ((Unkstruct_8017C004_2 *)arg0)->unk14 = p;
+                ((Unkstruct_8011D030 *)arg0)->unk14.val = p;
                 func_8001CEC0(p, D_80184CC4);
                 ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x40;
                 ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
@@ -3412,7 +3412,7 @@ void func_8017C004(s32 arg0) {
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
                 if (p != 0) {
-                    ((Unkstruct_8017C004_2 *)arg0)->unk18 = p;
+                    ((Unkstruct_8011D030 *)arg0)->unk18.val = p;
                     guess_SjisToGlyphCodes(D_80184D5C, D_801A21FC);
                     func_8001CE28(p, D_801A21FC);
                     ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x58;
@@ -3422,20 +3422,20 @@ void func_8017C004(s32 arg0) {
 
                     p = ((s32 (*)(void))guess_AllocSpriteObject)();
                     if (p != 0) {
-                        ((Unkstruct_8017C004_2 *)arg0)->unk1C = p;
+                        ((Unkstruct_8011D030 *)arg0)->unk1C = p;
                         guess_SjisToGlyphCodes(D_80184D70, D_801A222C);
                         func_8001CE28(p, D_801A222C);
                         ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x68;
                         ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0xC;
                         ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
                         ((Unkstruct_800B5BD8 *)p)->unk27.u = 0xB6;
-                        ((Unkstruct_8017C004_2 *)arg0)->unk2A = 0;
-                        ((Unkstruct_8017C004_2 *)arg0)->unk28 = 0;
+                        ((Unkstruct_8011D030 *)arg0)->unk2A.s = 0;
+                        ((Unkstruct_8011D030 *)arg0)->unk28.s = 0;
                         D_801A21D8 = 0;
                         D_801A21D4[0] = 0;
                         D_801A21D0 = 0;
                         ((void (*)(s32))func_8017C234)(arg0);
-                        ((Unkstruct_8017C004_2 *)arg0)->unk2 = ((Unkstruct_8017C004_2 *)arg0)->unk2 + 1;
+                        ((Unkstruct_8011D030 *)arg0)->unk2.u = ((Unkstruct_8011D030 *)arg0)->unk2.u + 1;
                     }
                 }
             }

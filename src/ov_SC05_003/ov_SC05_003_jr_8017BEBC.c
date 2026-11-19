@@ -5564,8 +5564,8 @@ void func_80181A08(s32 arg0) {
         func_801292C8((u8 *)arg0);
         return;
     }
-    var = ((Unkstruct_8011DB30 *)arg0)->unk1C - 1;
-    ((Unkstruct_8011DB30 *)arg0)->unk1C = var;
+    var = ((Unkstruct_8011DB30 *)arg0)->unk1C.s - 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C.s = var;
     if (var < 0x23) {
         ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += 0x10000;
     }

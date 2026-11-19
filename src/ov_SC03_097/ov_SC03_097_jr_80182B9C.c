@@ -3988,7 +3988,7 @@ s32 func_80184DE8(s32 a0) {
 
 void func_80184E6C(s32 arg0) {
         if (arg0 != 0) {
-            ((Unkstruct_8018302C *)arg0)->unk4 |= 0x80000000;
+            ((Unkstruct_800B5BD8 *)arg0)->head.unk4.s |= 0x80000000;
         }
     }
 
@@ -4062,8 +4062,8 @@ void func_80184FB0(s16 *a0, s32 a1) {
         ((Unkstruct_80184FB0 *)sub)->unk1A.u = 1;
         ((Unkstruct_80184FB0 *)sub)->unk18.u = 1;
         ((Unkstruct_80184FB0 *)sub)->head.unk4.u |= 0x50000000;
-        ((Unkstruct_80184FB0_2 *)v0)->unk1C = 1;
-        ((Unkstruct_80184FB0_2 *)v0)->unk2C = a1;
+        ((Unkstruct_80184FB0_2 *)v0)->unk1C.u = 1;
+        ((Unkstruct_80184FB0_2 *)v0)->unk2C.val.u = a1;
         c = a1;
         ((Unkstruct_80184FB0 *)sub)->unk26 = c;
         ((Unkstruct_80184FB0 *)sub)->unk25.u = c;
@@ -4085,25 +4085,25 @@ void func_80185054(s32 a0) {
 
     s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
     if (CAST_SIGN(u16, a0, 2) == 0) {
-        w = rsin(((Unkstruct_8011DB30 *)a0)->unk1C << 6);
+        w = rsin(((Unkstruct_8011DB30 *)a0)->unk1C.s << 6);
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = (w * 3 + (w * 3 >> 31)) >> 1;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = (w * 3 + (w * 3 >> 31)) >> 1;
-        ((Unkstruct_8011DB30 *)a0)->unk1C += 1;
-        if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x10) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s += 1;
+        if (((Unkstruct_8011DB30 *)a0)->unk1C.s < 0x10) {
             return;
         }
         CAST_SIGN(u16, a0, 2) += 1;
-        ((Unkstruct_8011DB30 *)a0)->unk1C = ((Unkstruct_8011DB30 *)a0)->unk1C * 2 - 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = ((Unkstruct_8011DB30 *)a0)->unk1C.s * 2 - 1;
     } else {
-        t = (s16)rsin(((Unkstruct_8011DB30 *)a0)->unk1C << 5);
+        t = (s16)rsin(((Unkstruct_8011DB30 *)a0)->unk1C.s << 5);
         q = CAST_WIDTH(s32, a0, 0x2C) * t;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = ((u32)(t * 3) + ((u32)(t * 3) >> 31)) >> 1;
         ((Unkstruct_800B5BD8 *)s1)->unk24.u = q >> 12;
         ((Unkstruct_800B5BD8 *)s1)->unk25.u = q >> 12;
         ((Unkstruct_800B5BD8 *)s1)->unk26 = q >> 12;
-        ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
-        if (((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s -= 1;
+        if (((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
         func_801292C8((u8 *)a0);

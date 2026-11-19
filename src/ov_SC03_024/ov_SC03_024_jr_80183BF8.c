@@ -3569,9 +3569,9 @@ void func_80184B80(s32 param_1, s32 param_2)
     hi = 0x40000000;
     ((Unkstruct_8017BEBC_6 *)prim)->unk4 = code | (mode | hi);
 
-    if (((Unkstruct_80184B80_3 *)*(s32 *)(param_1 + 0xCC))->unk0 != 0) {
-        ((Unkstruct_80184B80_3 *)obj)->unk1A = val;
-        ((Unkstruct_80184B80_3 *)obj)->unk18 = val;
+    if (((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk0.u != 0) {
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.s = val;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.s = val;
     }
 
     t = ((Unkstruct_80184B80 *)param_1)->unkFC + 0x80;
@@ -3838,11 +3838,11 @@ void func_8018520C(s32 a0) {
     D_801C13DE = 0;
     guess_BuildCircle12Points(p, 0x38);
 
-    ((Unkstruct_8018520C_2 *)v)->unk10 = 0x400;
-    ((Unkstruct_8018520C_2 *)v)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-    ((Unkstruct_8018520C_2 *)v)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)v)->head.unk10.u = 0x400;
+    ((Unkstruct_800B5BD8 *)v)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)v)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     CAST_ALIAS(u16, v, 0xC) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
-    ((Unkstruct_8018520C_2 *)v)->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)v)->head.unk4.s |= 0x50000000;
     D_801C13D6 = 0xFF;
     D_801C13E4 = 0xFF;
     D_801C13C6 = 0xFF;
@@ -3900,7 +3900,7 @@ void func_801853BC(void *a0) {
         func_80184B80((s32)a0, r & 1);
     } else {
         guess_RequestSound(0x62E, 0);
-        ((Unkstruct_80184B80_3 *)s1)->unk0 = 0;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk0.u = 0;
         ((Unkstruct_80184B80 *)a0)->unk1C = 0x28;
         ((Unkstruct_80184B80 *)a0)->unk2 += 1;
     }

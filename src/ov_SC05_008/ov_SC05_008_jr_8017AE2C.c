@@ -4667,7 +4667,7 @@ void func_8017F20C(s32 param_1)
 {
     s32 buf[2]; /* sp+0x10 : guess_RotTransSVWithObjMatrix out, func_80015954 in */
 
-    guess_RotTransSVWithObjMatrix(((Unkstruct_8011DB30 *)param_1)->unk1C, CAST_WIDTH(s32, param_1, 0x2C), (s32)&buf[0]);
+    guess_RotTransSVWithObjMatrix(((Unkstruct_8011DB30 *)param_1)->unk1C.s, CAST_WIDTH(s32, param_1, 0x2C), (s32)&buf[0]);
     func_80015954((s32)&buf[0], param_1 + 4);
 }
 
@@ -6809,8 +6809,8 @@ void func_801828E0(s32 param_1) {
     s32 v0;
 
     guess_StepPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20, (s32 *)(param_1 + 0x24));
-    v0 = ((Unkstruct_8011DB30 *)param_1)->unk1C - 1;
-    ((Unkstruct_8011DB30 *)param_1)->unk1C = v0;
+    v0 = ((Unkstruct_8011DB30 *)param_1)->unk1C.s - 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk1C.s = v0;
     if (v0 == -1) {
         func_801292C8((void *)param_1);
     }
@@ -6819,8 +6819,8 @@ void func_801828E0(s32 param_1) {
 
 extern void func_801292C8(void *a0);
 void func_8018292C(void *a0) {
-    s32 v0 = ((Unkstruct_8011DB30 *)a0)->unk1C - 1;
-    ((Unkstruct_8011DB30 *)a0)->unk1C = v0;
+    s32 v0 = ((Unkstruct_8011DB30 *)a0)->unk1C.s - 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = v0;
     if (v0 == -1) {
         func_801292C8(a0);
     }

@@ -4169,8 +4169,8 @@ void func_80180C38(void *a0)
         return;
     }
 
-    t = ((Unkstruct_8011DB30 *)a0)->unk1C - 1;
-    ((Unkstruct_8011DB30 *)a0)->unk1C = t;
+    t = ((Unkstruct_8011DB30 *)a0)->unk1C.s - 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = t;
     if (t != 0) {
         return;
     }
@@ -4217,7 +4217,7 @@ void func_80181030(s32 a0)
             rv0 = rv0 + 1;
             CAST_WIDTH(s32, a0, 0x2C) = rv0;
             rv0 = 0x1E;
-            ((Unkstruct_8011DB30 *)a0)->unk1C = rv0;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = rv0;
             ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = rv1;
         }
     } else {
@@ -4254,12 +4254,12 @@ void func_8018110C(s32 a0)
     ((Unkstruct_8011DB30 *)a0)->unk2A = *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12);
 
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
-        if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
         {
             s32 t = CAST_WIDTH(s32, a0, 0x2C);
-            ((Unkstruct_8011DB30 *)a0)->unk1C = 0x1E;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0x1E;
             CAST_WIDTH(s32, a0, 0x2C) = t + 1;
         }
     } else {
@@ -4285,7 +4285,7 @@ s32 func_801811F0(s32 a0)
     }
     p[1] = w;
 
-    if (--((Unkstruct_8011DB30 *)a0)->unk1C == 0) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C.s == 0) {
         func_801292C8((u8 *)a0);
         return 1;
     }
@@ -4340,7 +4340,7 @@ s32 func_80181260(s32 param_1, s16 param_2)
     CAST_WIDTH(s32, obj, 0x10) = out[0];
     ((Unkstruct_8011DB30 *)obj)->unk14.val.s = out[1];
     CAST_WIDTH(s32, obj, 0x18) = out[2];
-    ((Unkstruct_8011DB30 *)obj)->unk1C = 0x5A;
+    ((Unkstruct_8011DB30 *)obj)->unk1C.s = 0x5A;
 
     return (s32)obj;
 }

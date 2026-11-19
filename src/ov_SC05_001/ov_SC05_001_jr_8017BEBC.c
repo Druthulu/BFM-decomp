@@ -4803,7 +4803,7 @@ void func_8017FB04(s32 a0) {
         ((Unkstruct_8011DB30 *)a0)->unk2.s = CAST_SIGN(u16, a0, 2) + 1;
     } else {
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
-        ((Unkstruct_8011DB30 *)a0)->unk1C += 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s += 1;
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x4000;
         if (CAST_SIGN(s16, a0, 0x34) + 0xC0 < CAST_SIGN(s16, a0, 0xA)) {
             func_801292C8((u8 *)a0);

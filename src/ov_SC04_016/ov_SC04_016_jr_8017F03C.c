@@ -3003,8 +3003,8 @@ void func_8017F72C(void *a0) {
         return;
     }
 
-    if (((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
-        ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s -= 1;
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {

@@ -3501,13 +3501,13 @@ void func_8017F304(s32 arg0)
     src = &D_80189334[arg0];
     temp = func_8012913C(0x48);
     if (temp != 0) {
-        ((Unkstruct_8017F304 *)temp)->unk4 = src->unk00;
-        ((Unkstruct_8017F304 *)temp)->unk8 = src->unk04;
-        ((Unkstruct_8017F304 *)temp)->unkC = src->unk08;
-        ((Unkstruct_8017F304 *)temp)->unk10 = src->unk0C;
-        ((Unkstruct_8017F304 *)temp)->unk14 = src->unk10;
-        ((Unkstruct_8017F304 *)temp)->unk18 = src->unk14;
-        ((Unkstruct_8017F304 *)temp)->unk2C = src->unk18;
+        ((Unkstruct_8011DB30 *)temp)->unk4.val.u = src->unk00;
+        ((Unkstruct_8011DB30 *)temp)->unk8.val.u = src->unk04;
+        ((Unkstruct_8011DB30 *)temp)->unkC.val.u = src->unk08;
+        ((Unkstruct_8011DB30 *)temp)->unk10.val.u = src->unk0C;
+        ((Unkstruct_8011DB30 *)temp)->unk14.val.u = src->unk10;
+        ((Unkstruct_8011DB30 *)temp)->unk18.val.u = src->unk14;
+        ((Unkstruct_8011DB30 *)temp)->unk2C.i.lo.u = src->unk18;
     }
 }
 

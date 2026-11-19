@@ -6428,7 +6428,7 @@ void func_801810E4(void *a0) {
         *(u16 *)((u8 *)a0 + 0x16) = (r & 3) - 0xA;
         m = 0x12;
     }
-    ((Unkstruct_8011DB30 *)a0)->unk1C = m;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = m;
     /* §5a barrier: without it both sched1 and sched2 sink this store below the
        three &v/&v2 address insns (byte-attributed with -fno-schedule-insns*). */
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
@@ -6442,7 +6442,7 @@ void func_801810E4(void *a0) {
     q = r2 & 0x803C;
     ((Unkstruct_8011DB30 *)a0)->unk28 = q;
     if (q == 0) {
-        ((Unkstruct_8011DB30 *)a0)->unk1C <<= 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s <<= 1;
     }
     guess_AddVelocityToPos((S800D22E4 *)a0);
     if (((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
@@ -6452,7 +6452,7 @@ void func_801810E4(void *a0) {
         func_801696D8((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x8000;
     }
-    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C.s == -1) {
         func_801292C8((u8 *)a0);
     }
     CAST_SIGN(u16, (u8 *)a0, 0x2) += 1;
@@ -6502,13 +6502,13 @@ void func_80181410(s32 param_1)
     p2 = 0;
     sp28[2] = sp28[1] * 2;
     RotMatrixYXZ(sp28, sp30);
-    if (((Unkstruct_8011DB30 *)param_1)->unk1C & 1) {
+    if (((Unkstruct_8011DB30 *)param_1)->unk1C.s & 1) {
         CAST_WIDTH(s32, param_1, 0x2C) = (rand() & 0x7FF) + 0x600;
     } else {
         CAST_WIDTH(s32, param_1, 0x2C) = 0x500;
     }
     func_801696D8(param_1, (s32)sp30);
-    if (--((Unkstruct_8011DB30 *)param_1)->unk1C != -1) {
+    if (--((Unkstruct_8011DB30 *)param_1)->unk1C.s != -1) {
         sp10[0] = ((Unkstruct_8011DB30 *)param_1)->unk4.i.hi.u;
         sp10[1] = ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u;
         sp10[2] = ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u;
@@ -6521,7 +6521,7 @@ void func_80181410(s32 param_1)
             ((Unkstruct_8011DB30 *)param_1)->unk4.i.hi.u = sp18[0];
             ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u = sp18[1];
             c = sp18[2];
-            ((Unkstruct_8011DB30 *)param_1)->unk1C = 0xC;
+            ((Unkstruct_8011DB30 *)param_1)->unk1C.s = 0xC;
             ((Unkstruct_8011DB30 *)param_1)->unk2.s = t + 1;
             ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u = c;
         }
@@ -6658,7 +6658,7 @@ void func_801817CC(s32 *a0) {
         func_801696D8((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x8000;
     }
-    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C.s == -1) {
         func_801292C8((u8 *)a0);
     }
 }
@@ -6708,14 +6708,14 @@ void func_80181854(void *a0) {
     RotMatrixYXZ(&v2, &mtx);
 
     CAST_WIDTH(s32, (u8 *)a0, 0x2C) =
-        (((Unkstruct_8011DB30 *)a0)->unk1C & 1) ? ((rand() & 0x7FF) + 0x600) : 0x500;
+        (((Unkstruct_8011DB30 *)a0)->unk1C.s & 1) ? ((rand() & 0x7FF) + 0x600) : 0x500;
     /* §194-A zero-byte scheduling fence (the colon-less/volatile predicate, not
        the "memory" clobber): without it both schedulers sink this store past the
        two argument insns below and it steals the jal's delay slot. Same lever as
        the §5a barrier in func_801810E4. */
     do { func_801696D8((s32)a0, (s32)&mtx); } while (0);
 
-    if (--((Unkstruct_8011DB30 *)a0)->unk1C == -1) {
+    if (--((Unkstruct_8011DB30 *)a0)->unk1C.s == -1) {
         func_801292C8((u8 *)a0);
     }
 }

@@ -3879,7 +3879,7 @@ void func_8017CE90(void *a0)
     s32 pad[10];
 
     s1 = ((void *(*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_8017CE90_2 *)a0)->unk20 = s1;
+    ((Unkstruct_8011D030 *)a0)->unk20 = s1;
 
     if (s1 != NULL) {
         s2 = &D_801AE628;
@@ -3888,24 +3888,24 @@ void func_8017CE90(void *a0)
         ((Unkstruct_8017CE90_5 *)s1)->head.unk4.s |= 0x50000000;
         guess_BuildCircle12Points(s2, 0x50);
 
-        ((Unkstruct_8017CE90_2 *)a0)->unk10 = 0;
-        if (((Unkstruct_8017CE90_2 *)a0)->unk30 & 0x80) {
+        ((Unkstruct_8011D030 *)a0)->unk10.val = 0;
+        if (((Unkstruct_8011D030 *)a0)->unk30 & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
             ((Unkstruct_8017CE90_5 *)s1)->unk1A.s = 0x80;
             ((Unkstruct_8017CE90_5 *)s1)->unk18.s = 0x80;
-            ((Unkstruct_8017CE90_2 *)a0)->unk14 = 0x80;
+            ((Unkstruct_8011D030 *)a0)->unk14.val = 0x80;
         } else {
-            *s2 = D_8018BCA0[((Unkstruct_8017CE90_2 *)a0)->unk2C];
-            ((Unkstruct_8017CE90_2 *)a0)->unk14 = 0x20;
+            *s2 = D_8018BCA0[((Unkstruct_8011D030 *)a0)->unk2C.val];
+            ((Unkstruct_8011D030 *)a0)->unk14.val = 0x20;
         }
 
         D_801AE62C = 0;
         D_801AE62D = 0;
         D_801AE62E = 0;
 
-        ((Unkstruct_8017CE90_2 *)a0)->unk30 = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
-        ((Unkstruct_8017CE90_5 *)s1)->unk2C.s = ((Unkstruct_8017CE90_2 *)a0)->unkE + 0x10;
-        ((Unkstruct_8017CE90_2 *)a0)->unk2 = ((Unkstruct_8017CE90_2 *)a0)->unk2 + 1;
+        ((Unkstruct_8011D030 *)a0)->unk30 = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
+        ((Unkstruct_8017CE90_5 *)s1)->unk2C.s = ((Unkstruct_8011D030 *)a0)->unkE.u + 0x10;
+        ((Unkstruct_8011D030 *)a0)->unk2.u = ((Unkstruct_8011D030 *)a0)->unk2.u + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
@@ -9036,7 +9036,7 @@ s32 a0;
 
     
     a0_ptr = s1[8];
-    ((Unkstruct_80182DA4_2 *)a0_ptr)->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)a0_ptr)->head.unk4.s |= 0x50000000;
 
     
     ((Unkstruct_8011DB30 *)s1)->unk2.s = 1;
@@ -11060,8 +11060,8 @@ void func_801879B8(void *a0) {
         return;
     }
 
-    if (((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
-        ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
+    if (((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s -= 1;
         guess_AddVelocityToPos((S800D22E4 *)a0);
 
         if (*(s16 *)((s32)a0 + 0x32) == 0) {

@@ -3642,9 +3642,9 @@ void func_80180FA8(void *a0) {
     void *ptr;
     s32 v0;
 
-    do { v0 = ((Unkstruct_8011DB30 *)s0)->unk1C; } while (0);
+    do { v0 = ((Unkstruct_8011DB30 *)s0)->unk1C.s; } while (0);
     v0 = v0 - 1;
-    ((Unkstruct_8011DB30 *)s0)->unk1C = v0;
+    ((Unkstruct_8011DB30 *)s0)->unk1C.s = v0;
     if (v0 == 0) {
         func_801292C8((u8 *)s0);
     }

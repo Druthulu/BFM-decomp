@@ -3716,8 +3716,8 @@ void func_8017FABC(s32 a0) {
     s1 = (u8 *)&D_801B41C8 + (CAST_SIGN(s16, (u8 *)a0, 0x2C) << 6);
     func_80129350(a0, ((Unkstruct_8011DB30 *)a0)->unk30.val.s);
 
-    v = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
-    ((Unkstruct_8011DB30 *)a0)->unk1C = v;
+    v = ((Unkstruct_8011DB30 *)a0)->unk1C.s + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = v;
     v &= 1;
 
     if (v != 0) {

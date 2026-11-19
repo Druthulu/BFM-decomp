@@ -3346,9 +3346,9 @@ void func_8017BEBC(s32 param_1, s32 param_2)
     hi = 0x40000000;
     ((Unkstruct_8017BEBC_6 *)prim)->unk4 = code | (mode | hi);
 
-    if (((Unkstruct_80184B80_3 *)*(s32 *)(param_1 + 0xCC))->unk0 != 0) {
-        ((Unkstruct_80184B80_3 *)obj)->unk1A = val;
-        ((Unkstruct_80184B80_3 *)obj)->unk18 = val;
+    if (((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk0.u != 0) {
+        ((Unkstruct_800B5BD8 *)obj)->unk1A.s = val;
+        ((Unkstruct_800B5BD8 *)obj)->unk18.s = val;
     }
 
     t = ((Unkstruct_8017BEBC_2 *)param_1)->unkFC + 0x80;

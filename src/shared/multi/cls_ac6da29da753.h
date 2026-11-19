@@ -9,7 +9,7 @@ int SHARED_FN(short *pos, int a1, int a2)
     v1 = func_801290DC(0x55, (u8 *)pos);
 
     if (v1 != 0) {
-        ((Unkstruct_8011DB30 *)v1)->unk1C = pos[3];
+        ((Unkstruct_8011DB30 *)v1)->unk1C.s = pos[3];
 
         if (a1 != 0) {
             CAST_WIDTH(s32, v1, 0x10) = ((Blk16_956C *)a1)->a;

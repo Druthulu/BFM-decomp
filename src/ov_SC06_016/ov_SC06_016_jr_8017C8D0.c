@@ -3888,8 +3888,8 @@ void func_8017F3B8(s32 a0)
                 s16 out[4];
                 u8 *r;
 
-                ((Unkstruct_8011DB30 *)a0)->unk1C = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
-                if ((((Unkstruct_8011DB30 *)a0)->unk1C & 1) == 0) {
+                ((Unkstruct_8011DB30 *)a0)->unk1C.s = ((Unkstruct_8011DB30 *)a0)->unk1C.s + 1;
+                if ((((Unkstruct_8011DB30 *)a0)->unk1C.s & 1) == 0) {
                     out[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
                     out[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
                     out[2] = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
@@ -3914,9 +3914,9 @@ void func_8017F3B8(s32 a0)
                 ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u + 0x400;
         }
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
-        t = ((Unkstruct_8011DB30 *)a0)->unk1C;
+        t = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
         if (t != 0) {
-            ((Unkstruct_8011DB30 *)a0)->unk1C = t - 1;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = t - 1;
             return;
         }
     }
@@ -4942,11 +4942,11 @@ void func_80180E24(void *a0)
 
         ((Unkstruct_8011DB30 *)s1)->unk2.s = CAST_SIGN(u16, (u8 *)s1, 0x2) + 1;
         guess_StepPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32 *)s0);
-        ((Unkstruct_8011DB30 *)s1)->unk1C = 0;         /* +0x1C: frame timer */
+        ((Unkstruct_8011DB30 *)s1)->unk1C.s = 0;         /* +0x1C: frame timer */
     }
 
-    t = ((Unkstruct_8011DB30 *)s1)->unk1C + 1;
-    ((Unkstruct_8011DB30 *)s1)->unk1C = t;
+    t = ((Unkstruct_8011DB30 *)s1)->unk1C.s + 1;
+    ((Unkstruct_8011DB30 *)s1)->unk1C.s = t;
 
     /* duplicated call+return in both arms; cross_jump merges the scheduled
      * common SUFFIX into the target's one shared block (§193-C / law 22) */
@@ -5097,7 +5097,7 @@ void func_801810A4(s32 a0) {
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0xC00;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
         guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
-        ((Unkstruct_8011DB30 *)a0)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
     }
         /* fallthrough */
     case 1:
@@ -5105,8 +5105,8 @@ void func_801810A4(s32 a0) {
             func_801292C8((u8 *)a0);
             return;
         }
-        n = ((Unkstruct_8011DB30 *)a0)->unk1C + 1;
-        ((Unkstruct_8011DB30 *)a0)->unk1C = n;
+        n = ((Unkstruct_8011DB30 *)a0)->unk1C.s + 1;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = n;
         if (n < 8) {
             /* `v = n*3` above the fence, `*128` below it, reproduces the target's
              * sll / addu / lw / sll order.  Keeping the whole `n*3*128` above the fence puts the

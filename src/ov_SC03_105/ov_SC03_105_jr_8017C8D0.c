@@ -3842,7 +3842,7 @@ void func_8017F234(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = out.unk0.v1.unk4;
         p = func_8017FA90(a0, (rand() % 4 + 4) << 12, 0);
         if (p != 0) {
-            ((Unkstruct_8011DB30 *)p)->unk1C = rand() % 5;
+            ((Unkstruct_8011DB30 *)p)->unk1C.s = rand() % 5;
         }
         w = rand();
         m = (s16)w % 0x380;

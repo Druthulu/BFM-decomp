@@ -3919,17 +3919,17 @@ void func_801805EC(s32 a0)
     cam = 0;
     ((Unkstruct_8011DB30 *)a0)->unk2A = *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12);
     if (CAST_WIDTH(s32, a0, 0x2C) == 0) {
-        if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
         {
             s32 t = CAST_WIDTH(s32, a0, 0x2C);
-            ((Unkstruct_8011DB30 *)a0)->unk1C = 0x1E;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0x1E;
             CAST_WIDTH(s32, a0, 0x2C) = t + 1;
         }
     } else {
         *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) ^= 0x80000000;
-        if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
         func_801292C8((u8 *)a0);
@@ -8197,19 +8197,19 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
 void func_80187004(s32 a0) {
     if (CAST_SIGN(u16, a0, 0x2) == 0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
+        if (((Unkstruct_8011DB30 *)a0)->unk1C.s < 0x23) {
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0x10000;
         }
-        if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
     } else {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
         if (--((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
-            ((Unkstruct_8011DB30 *)a0)->unk1C = 0xA;
+            ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0xA;
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s -= 0x10000;
             ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = CAST_WIDTH(s32, a0, 0x2C);
             ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)a0)->unk30.val.s;
