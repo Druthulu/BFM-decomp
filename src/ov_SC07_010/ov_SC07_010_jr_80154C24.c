@@ -1944,7 +1944,7 @@ void func_8015879C(s32 param_1) {
     D_801A6B90 = 0;
     D_801A6B9C = 1;
     D_801A6BA0 = 0;
-    ((Unkstruct_8015879C_2 *)param_1)->unkA8 = 0;
+    ((Unkstruct_8015879C_2 *)param_1)->unkA8.u = 0;
     ((void (*)(void))guess_ClearHideRequest221)();
     ((void (*)(s32))guess_ClearHideRequest220)(param_1);
     ((void (*)(s32))guess_ClearHideRequest222)(param_1);
@@ -1972,7 +1972,7 @@ void func_80158814(void *arg0) {
     D_801A6B90 = 0;
     D_801A6B9C = 1;
     D_801A6BA0 = 0;
-    ((Unkstruct_80158814_2 *)arg0)->unkA8 = 0;
+    ((Unkstruct_80158814_2 *)arg0)->unkA8.s = 0;
     ((void (*)(void))guess_ClearHideRequest221)();
     ((void (*)(void *))guess_ClearHideRequest220)(arg0);
     ((void (*)(void *))guess_ClearHideRequest222)(arg0);

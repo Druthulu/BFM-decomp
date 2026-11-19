@@ -3672,10 +3672,10 @@ void func_8017C628(s32 a0) {
 
 extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017C6CC(int a0) {
-    int v0 = ((Unkstruct_8017C6CC *)a0)->unk1C;
+    int v0 = ((Unkstruct_8011D030 *)a0)->unk1C;
     unsigned char *p;
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
-    ((Unkstruct_8017C6CC *)a0)->unk1C = v0 + 1;
+    ((Unkstruct_8011D030 *)a0)->unk1C = v0 + 1;
     if (v0 >= 0x1F) {
         KR_AS(s32, guess_FreeSmallObject)();
     } else {
@@ -4202,7 +4202,7 @@ void func_8017D940(void *a0) {
 extern void (*D_801882F0[])(void);
 
 void func_8017D97C(void *a0) {
-    D_801882F0[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_801882F0[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 

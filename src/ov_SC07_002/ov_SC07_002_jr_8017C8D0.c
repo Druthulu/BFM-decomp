@@ -8264,7 +8264,7 @@ void func_80185E48(s32 a0)
     func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
     v0 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     *(s16 *)(v0 + 0x10) = 0;
-    ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
+    ((Unkstruct_80126B58 *)s0)->unkA8.u = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }
 
@@ -8474,7 +8474,7 @@ extern void func_80151664(s32 a0v);
 void func_8018637C(s32 param_1) {
     D_80127518 = 0;
     ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.u = 0;
-    ((Unkstruct_80126B58 *)param_1)->unkA8 = 0x20;
+    ((Unkstruct_80126B58 *)param_1)->unkA8.u = 0x20;
     func_80151664(param_1);
 }
 

@@ -4622,7 +4622,7 @@ void func_80183254(s32 a0) {
 
 void func_801832F8(void *a0) {
         void *a1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8017DE04_2 *)a1)->unk12 += ((Unkstruct_801202A0 *)a0)->unkFC.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk12.u += ((Unkstruct_801202A0 *)a0)->unkFC.u;
     }
 
 
@@ -4690,7 +4690,7 @@ void func_80183404(s32 a0) {
         } else {
             void *p = ((Unkstruct_801202A0 *)a0)->unk20.p;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
-            ((Unkstruct_8017E55C_2 *)p)->unk4 |= 0x80000000;
+            ((Unkstruct_8001C9D0 *)p)->head.unk4.s |= 0x80000000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
         }
     }

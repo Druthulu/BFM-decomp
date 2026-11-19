@@ -240,8 +240,8 @@ void func_800CB3C0(void *arg0) {
     if (((Unkstruct_80126B58 *)arg0)->unk50 != 0) {
         *(u16 *)((u8 *)s0 + 0x1e) += 0x100;
     }
-    ((Unkstruct_80126B58 *)arg0)->unk60 += 0x40;
-    w = *(u16 *)((u8 *)s0 + 0x1a) + ((Unkstruct_80126B58 *)arg0)->unk60;
+    ((Unkstruct_80126B58 *)arg0)->unk60.u += 0x40;
+    w = *(u16 *)((u8 *)s0 + 0x1a) + ((Unkstruct_80126B58 *)arg0)->unk60.u;
     *(u16 *)((u8 *)s0 + 0x1a) = w;
     *(u16 *)((u8 *)s0 + 0x18) = w;
     if ((s16)w >= 0x1001) {

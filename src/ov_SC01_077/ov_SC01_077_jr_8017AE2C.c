@@ -4235,7 +4235,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018A740[])();
 
 void func_8017DE84(void *arg0) {
-    D_8018A740[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
+    D_8018A740[((Unkstruct_80126B58 *)arg0)->unk214.u](arg0);
 }
 
 extern void func_8016F398(void);
@@ -4259,7 +4259,7 @@ void func_8017DEFC(void *arg0) {
     if (temp_v0 & 0x8000) {
         func_8017D98C();
         func_80171B44(arg0);
-        ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
 
@@ -4288,7 +4288,7 @@ void func_8017DF5C(int param_1)
             cVar1 = CAST_SIGN(char, param_1, 0x214) + 1;
             ((Unkstruct_80126B58 *)param_1)->unk20C = 0;
         }
-        ((Unkstruct_80126B58 *)param_1)->unk214 = cVar1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = cVar1;
     }
 }
 
@@ -4338,7 +4338,7 @@ extern void func_80175414(s32 _arg0);
 extern void (*D_8018A754[])();
 
 void func_8017E0EC(void *arg0) {
-    D_8018A754[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
+    D_8018A754[((Unkstruct_80126B58 *)arg0)->unk214.u](arg0);
 }
 
 // @class: plumbing
@@ -4349,7 +4349,7 @@ extern void func_8017E170(s32 a0);
 
 void func_8017E128(s32 a0)
 {
-    ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+    ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = 0x800;
     func_80171B44((s32 *)a0);
     func_8017E170(a0);
@@ -4377,7 +4377,7 @@ extern void func_8016F0E4(u8 *);
 extern void (*D_8018A760[])();
 
 void func_8017E1D4(void *arg0) {
-    D_8018A760[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
+    D_8018A760[((Unkstruct_80126B58 *)arg0)->unk214.u](arg0);
 }
 
 s32 func_8017E210(u8 *a0) {
@@ -4458,7 +4458,7 @@ void func_8017E350(void *arg0) {
     ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17AC);
     guess_SetAnimScript(arg0, &D_8018A59C);
     ((Unkstruct_80126B58 *)arg0)->unk4D = (u8) (((Unkstruct_80126B58 *)arg0)->unk4D + 1);
-    ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
+    ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
 }
 
 // @class: plumbing
@@ -4491,7 +4491,7 @@ void func_8017E460(void *arg0) {
     if (temp_v0 == -1) {
         func_8017F240();
         ((Unkstruct_80126B58 *)arg0)->unk204 = 0x40;
-        ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
 
@@ -4507,7 +4507,7 @@ void func_8017E4B4(void *arg0) {
         ((Unkstruct_80126B58 *)arg0)->unk4D = (u8) (((Unkstruct_80126B58 *)arg0)->unk4D - 1);
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
         ((Unkstruct_80126B58 *)arg0)->unk204 = 0x20;
-        ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
 
@@ -4550,7 +4550,7 @@ void func_8017E604(s32 a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_801B1848);
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4560,7 +4560,7 @@ extern void guess_CloseTextWindow(s32 a0);
 void func_8017E668(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 
@@ -4595,7 +4595,7 @@ void func_8017E6F4(s32 param_1) {
 extern void (*D_8018A790[])();
 
 void func_8017E748(void *arg0) {
-    D_8018A790[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
+    D_8018A790[((Unkstruct_80126B58 *)arg0)->unk214.u](arg0);
 }
 
 extern s32 guess_OpenTextWindow(s32 a0);
@@ -4609,7 +4609,7 @@ void func_8017E784(void *arg0) {
     guess_g_MainCameraRefOffsetTargetX = 0;
     guess_g_MainCameraRefOffsetTargetZ = 0;
     ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B19C0);
-    ((Unkstruct_80126B58 *)arg0)->unk214 = (u8) (((Unkstruct_80126B58 *)arg0)->unk214 + 1);
+    ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
 }
 
 extern s32 guess_GetTextWindowResult(s32 a0);
@@ -4618,7 +4618,7 @@ extern void guess_CloseTextWindow(s32 a0);
 void func_8017E7DC(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 
@@ -4635,7 +4635,7 @@ extern void func_80165770(void);
 extern void (*D_8018A79C[])();
 
 void func_8017E868(void *arg0) {
-    D_8018A79C[((Unkstruct_80126B58 *)arg0)->unk214](arg0);
+    D_8018A79C[((Unkstruct_80126B58 *)arg0)->unk214.u](arg0);
 }
 
 // @class: schedule
@@ -4693,7 +4693,7 @@ void func_8017E974(s32 param_1)
         ((Unkstruct_80126B58 *)param_1)->unkAC = 0xc040;
         ((Unkstruct_80126B58 *)param_1)->unkAA = 0xc040;
     } else {
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 

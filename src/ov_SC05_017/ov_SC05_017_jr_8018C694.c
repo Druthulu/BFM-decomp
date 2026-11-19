@@ -3196,7 +3196,7 @@ void func_8018C7C8(void *a0) {
     {
         u16 *p = (u16 *)((Unkstruct_80183CBC_2 *)a0)->unk20;
 
-        ((Unkstruct_80183CBC *)p)->unk12 = ((Unkstruct_80183CBC *)p)->unk12 + 0x20;
+        ((Unkstruct_8001C9D0 *)p)->head.unk12.u = ((Unkstruct_8001C9D0 *)p)->head.unk12.u + 0x20;
         if (((s32 (*)(void))guess_TickWaitTimer)()) {
             ((void (*)(void *))func_8018C390)(a0);
         }
@@ -3414,7 +3414,7 @@ void func_8018CC34(int param_1)
     unsigned short uVar1;
     int iVar2;
 
-    iVar2 = ((Unkstruct_801834E4 *)param_1)->unk20;
+    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20;
     func_8001CB00(iVar2, &D_801E9B28, 0x280, 0x100);
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x70000000;
     uVar1 = *(unsigned short *)(param_1 + 0x2c);
@@ -3423,7 +3423,7 @@ void func_8018CC34(int param_1)
     *(unsigned short *)(iVar2 + 0x1c) = uVar1;
     *(unsigned short *)(iVar2 + 0x1a) = uVar1;
     *(unsigned short *)(iVar2 + 0x18) = uVar1;
-    ((Unkstruct_801834E4 *)param_1)->unk2 = ((Unkstruct_801834E4 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.s = ((Unkstruct_8011DB30 *)param_1)->unk2.s + 1;
     return;
 }
 

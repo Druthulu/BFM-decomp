@@ -114,7 +114,7 @@ void func_800CB038(void *a0) {
         func_80146DE8((s32 *)a0, 0, -0xC0000, -0x100000);
         guess_SetWaitTimer_2((s32 *)a0, 100);
         memcpy((void *)((s32)a0 + 0x58), (void *)(s1 + 0x10), 8);
-        ((Unkstruct_80126B58 *)a0)->unk60 = 2;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = 2;
         guess_PlaySoundUnlessSkipped(0x8F3);
         guess_NextStep(a0);
     } else {
@@ -164,9 +164,9 @@ void func_800CB114(void *a0) {
     if ((f & 0x6000) == 0) {
         goto L250;
     }
-    w = ((Unkstruct_80126B58 *)a0)->unk60;
+    w = ((Unkstruct_80126B58 *)a0)->unk60.u;
     w = w - 1;
-    ((Unkstruct_80126B58 *)a0)->unk60 = w;
+    ((Unkstruct_80126B58 *)a0)->unk60.u = w;
     if ((s16)w == -1) {
         goto L250;
     }

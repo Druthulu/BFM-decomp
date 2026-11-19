@@ -1230,7 +1230,7 @@ void func_80158F00(int param_1) {
 
     if (gate == 0) {
         s32 r = rand();
-        ((Unkstruct_80158F00 *)param_1)->unk198 = guess_OpenTextWindow(D_80180E34[r % 0xb]);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow(D_80180E34[r % 0xb]);
         ((void (*)(int))guess_NextStep)(param_1);
     }
 }
@@ -1262,7 +1262,7 @@ void func_80158FA4(s32 param_1)
     s16 sVar1;
 
     v0 = ((Unkstruct_80126B58 *)param_1)->unk20.val;
-    ((Unkstruct_80158FA4_2 *)v0)->unk12 = (((Unkstruct_80158FA4_2 *)v0)->unk12 + 0x16) & 0xfff;
+    ((Unkstruct_8001C9D0 *)v0)->head.unk12.u = (((Unkstruct_8001C9D0 *)v0)->head.unk12.u + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_80195938 = 1;
     }

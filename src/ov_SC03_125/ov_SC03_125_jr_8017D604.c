@@ -3150,12 +3150,12 @@ extern s32 D_80127050;
 extern void (*D_80187C3C[])(void);
 
 void func_8017E870(void *a0) {
-    D_80187C3C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80187C3C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
 void func_8017E8AC(u8 *a0) {
-        ((Unkstruct_8017E8AC *)a0)->unk214 += 1;
+        ((Unkstruct_8017E8AC *)a0)->unk214.s += 1;
     }
 
 
@@ -3171,12 +3171,12 @@ extern void func_80175414(s32 _arg0);
 extern void (*D_80187C44[])(void);
 
 void func_8017E8F8(void *a0) {
-    D_80187C44[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80187C44[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
 void func_8017E934(void *a0) {
-        ((Unkstruct_8017E114_2 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.s += 1;
     }
 
 
@@ -4299,15 +4299,15 @@ void func_801805A8(void *a0)
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_801881E8, 0x240, 0x1D0);
 
     v0 = 0x54;
-    ((Unkstruct_8017F3E0 *)s0)->unk27 = v0;
-    v0 = ((Unkstruct_8017F3E0 *)s0)->unk4;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s0)->head.unk4.s;
     v1 = 0x08000000;
     v0 |= v1;
-    ((Unkstruct_8017F3E0 *)s0)->unk4 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk4.s = v0;
 
     v0 = ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.u;
-    ((Unkstruct_8017F3E0 *)s0)->unk1A = v0;
-    ((Unkstruct_8017F3E0 *)s0)->unk18 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
 
     v0 = ((Unkstruct_8011DB30 *)s1)->unk2.u;
     v1 = 0x20;

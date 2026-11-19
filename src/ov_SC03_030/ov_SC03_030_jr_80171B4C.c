@@ -2321,7 +2321,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 s32 func_801727D0(void *a0) {
 
     extern void (*D_801853CC[])(void);
-    D_801853CC[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_801853CC[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2371,7 +2371,7 @@ s32 func_801727D0(void *a0) {
 s32 func_80172B44(void *a0) {
 
     extern void (*D_801853F4[])(void);
-    D_801853F4[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_801853F4[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2388,7 +2388,7 @@ s32 func_80172B44(void *a0) {
 extern void (*D_80185400[])(void);
 
 void func_80172CA0(void *a0) {
-    D_80185400[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80185400[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -2406,7 +2406,7 @@ void func_80172CA0(void *a0) {
 s32 func_80172DAC(void *a0) {
 
     extern void (*D_8018540C[])(void);
-    D_8018540C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018540C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2465,11 +2465,11 @@ extern M2C_UNK D_801853C4;
 
 void func_80173220(void * arg0)
 {
-    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {
         guess_PlaySoundUnlessSkipped(0x516);
         guess_StartPadVibration(&D_801853C4);
     }
-    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000) {
         func_80171A1C(arg0);
         func_80174650(arg0);
     }

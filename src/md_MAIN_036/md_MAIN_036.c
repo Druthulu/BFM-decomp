@@ -101,7 +101,7 @@ void func_800CB030(s32 param_1) {
         guess_InitModelObjectKind3((void *)p, (void *)((s32)&D_800CBFA0 + ((Unkstruct_80126B58 *)param_1)->unk50 * 12));
         *(u32 *)(p + 4) |= 0x08000000;
         guess_TransformPosByObjMatrix(obj, param_1 + 4);
-        ((Unkstruct_80126B58 *)param_1)->unk60 = CAST_SIGN(u16, param_1, 0xA);
+        ((Unkstruct_80126B58 *)param_1)->unk60.u = CAST_SIGN(u16, param_1, 0xA);
         ((Unkstruct_80126B58 *)param_1)->unkA.s = CAST_SIGN(u16, param_1, 0xA) - 0x200;
         ((Unkstruct_80126B58 *)param_1)->unk58 = 0;
         if (((Unkstruct_80126B58 *)param_1)->unk50 == 0) {
@@ -196,10 +196,10 @@ void func_800CB218(void *arg0) {
 
     switch (mode) {
     case 0:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (rsin((guess_g_FrameCounter & 0x3F) << 6)) / 64;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = (rsin((guess_g_FrameCounter & 0x3F) << 6)) / 64;
         break;
     case 1:
-        ((Unkstruct_80126B58 *)arg0)->unk60 = (rsin((guess_g_FrameCounter & 0x1F) << 7)) / 32;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = (rsin((guess_g_FrameCounter & 0x1F) << 7)) / 32;
         break;
     }
 

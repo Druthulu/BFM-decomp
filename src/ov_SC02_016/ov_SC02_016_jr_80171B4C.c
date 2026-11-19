@@ -2321,7 +2321,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 s32 func_801727D0(void *a0) {
 
     extern void (*D_801879FC[])(void);
-    D_801879FC[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_801879FC[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2339,7 +2339,7 @@ s32 func_801727D0(void *a0) {
 s32 func_801728E4(void *a0) {
 
     extern void (*D_80187A08[])(void);
-    D_80187A08[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A08[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2357,7 +2357,7 @@ s32 func_801728E4(void *a0) {
 s32 func_801729F0(void *a0) {
 
     extern void (*D_80187A14[])(void);
-    D_80187A14[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A14[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2377,7 +2377,7 @@ s32 func_801729F0(void *a0) {
 s32 func_80172B44(void *a0) {
 
     extern void (*D_80187A24[])(void);
-    D_80187A24[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A24[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2394,7 +2394,7 @@ s32 func_80172B44(void *a0) {
 extern void (*D_80187A30[])(void);
 
 void func_80172CA0(void *a0) {
-    D_80187A30[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80187A30[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -2412,7 +2412,7 @@ void func_80172CA0(void *a0) {
 s32 func_80172DAC(void *a0) {
 
     extern void (*D_80187A3C[])(void);
-    D_80187A3C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A3C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2444,7 +2444,7 @@ s32 func_80172DAC(void *a0) {
 s32 func_80173078(void *a0) {
 
     extern void (*D_80187A48[])(void);
-    D_80187A48[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A48[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2462,7 +2462,7 @@ s32 func_80173078(void *a0) {
 s32 func_8017319C(void *a0) {
 
     extern void (*D_80187A54[])(void);
-    D_80187A54[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80187A54[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -2477,11 +2477,11 @@ extern M2C_UNK D_801879F4;
 
 void func_80173220(void * arg0)
 {
-    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {
         guess_PlaySoundUnlessSkipped(0x516);
         guess_StartPadVibration(&D_801879F4);
     }
-    if (((Unkstruct_80173220 *)arg0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000) {
         func_80171A1C(arg0);
         func_80174650(arg0);
     }

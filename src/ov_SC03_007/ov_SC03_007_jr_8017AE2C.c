@@ -4481,12 +4481,12 @@ void func_8017E4C8(s32 param_1) {
     }
     p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     t = (v * m) / 0x1000;
-    ((Unkstruct_8017E4C8 *)p)->unk1C = t;
-    ((Unkstruct_8017E4C8 *)p)->unk18 = t;
+    ((Unkstruct_8001C9D0 *)p)->unk1C.s = t;
+    ((Unkstruct_8001C9D0 *)p)->unk18.s = t;
     q = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-    if (((Unkstruct_8017E4C8 *)q)->unk18 <= 0) {
-        ((Unkstruct_8017E4C8 *)q)->unk1C = 1;
-        ((Unkstruct_8017E4C8 *)q)->unk18 = 1;
+    if (((Unkstruct_8001C9D0 *)q)->unk18.s <= 0) {
+        ((Unkstruct_8001C9D0 *)q)->unk1C.s = 1;
+        ((Unkstruct_8001C9D0 *)q)->unk18.s = 1;
     }
 }
 
@@ -5972,10 +5972,10 @@ void func_801804DC(s32 a0)
     vel[0] = 0;
     vel[2] = 0xFFFE8000;
     m = D_800AE620;
-    RotMatrixY(*(s16 *)(((Unkstruct_8017F200_2 *)a0)->unk20 + 0x12), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12), &m);
     ApplyMatrixLV((s32)&m, (s32)&vel[0], a0 + 0x10);
-    ((Unkstruct_8017F200_2 *)a0)->unk2C = 0x3C;
-    ((Unkstruct_8017F200_2 *)a0)->unk2 = 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.s = 0x3C;
+    ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
 }
 
 

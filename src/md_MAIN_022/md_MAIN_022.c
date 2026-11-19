@@ -183,7 +183,7 @@ void func_800CB1BC(void *a0)
             *(s32 *)((u8 *)s2 + 4) = vtemp | 0x50000000;
 
             ((Unkstruct_80126B58 *)a0)->unk62 = 0x1000;
-            ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+            ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
             *(s16 *)((u8 *)s2 + 0x14) = -0x155;
 
             v0 = ((Unkstruct_80126B58 *)a0)->unk54;
@@ -214,7 +214,7 @@ void func_800CB2F4(void *a0) {
     s16 v0;
 
     a1 = CAST_SIGN(void *, (s32)a0, 0x20);
-    ((Unkstruct_80126B58 *)a0)->unk60 += 0x60;
+    ((Unkstruct_80126B58 *)a0)->unk60.u += 0x60;
     v0 = *(u16 *)((s32)a1 + 0x1A) + 0x200;
     *(u16 *)((s32)a1 + 0x1A) = v0;
     *(u16 *)((s32)a1 + 0x18) = v0;

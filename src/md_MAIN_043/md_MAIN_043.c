@@ -224,7 +224,7 @@ void func_800CCF50(void *a0) {
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk104;
         *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk12.u;
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
-        ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;
         func_800CD1F4((void *)a0, (void *)s3);
         func_800CD258((void *)a0, (void *)s3);
@@ -272,9 +272,9 @@ void func_800CD054(void *a0) {
     v1 = *(u16 *)(s1 + 0x1A) + v0;
     *(u16 *)(s1 + 0x1A) = v1;
     *(u16 *)(s1 + 0x18) = v1;
-    v1 = ((Unkstruct_80126B58 *)a0)->unk60;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk60.u;
     v1 += 0x20;
-    ((Unkstruct_80126B58 *)a0)->unk60 = v1;
+    ((Unkstruct_80126B58 *)a0)->unk60.u = v1;
     v0 = *(u16 *)(s1 + 0x1C) + v1;
     *(u16 *)(s1 + 0x1C) = v0;
     if ((s16)v0 >= 0x1000) {
@@ -283,7 +283,7 @@ void func_800CD054(void *a0) {
     *(u16 *)(s1 + 0x1E) = *(u16 *)(s1 + 0x1C) | 0x4000;
     if (*(s16 *)(s1 + 0x1C) == 0x1000) {
         *(u16 *)(s1 + 0x1C) = 0;
-        ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
         *(W_8016BFD0 *)(dp + 4) = *(W_8016BFD0 *)(dp + 0xC);
     }
     v0 = guess_TickWaitTimer_2((s32)a0);
@@ -443,7 +443,7 @@ void func_800CD404(void *a0) {
         ((Unkstruct_80126B58 *)a0)->unk6.s = CAST_SIGN(u16, s2, 6);
         v = CAST_SIGN(u16, s2, 0xA);
         ((Unkstruct_80126B58 *)a0)->unkA.s = v;
-        ((Unkstruct_80126B58 *)a0)->unk60 = v;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = v;
         ((Unkstruct_80126B58 *)a0)->unkE.s = CAST_SIGN(u16, s2, 0xE);
         ((Unkstruct_80126B58 *)a0)->unk62 = ((Unkstruct_80126B58 *)s2)->unk1C;
         guess_SetWaitTimer_2((s32 *)a0, 0x20);
@@ -488,7 +488,7 @@ void func_800CD57C(void *arg0) {
         v0 = v0 * 2;
         v1 = v1 * v0;
         adj = v1 / 0x1000;
-        ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk60 - adj;
+        ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk60.u - adj;
     }
     v0 = guess_TickWaitTimer_2((s32)arg0);
     if (v0 != 0) {

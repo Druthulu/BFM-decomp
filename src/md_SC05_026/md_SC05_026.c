@@ -1449,7 +1449,7 @@ s32 func_801F0150(u8 *a0) {
 void func_801F01BC(void *a0) {
 
     extern void (*D_801F1A64[])(void);
-    D_801F1A64[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801F1A64[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -1500,7 +1500,7 @@ void func_801F02E0(void) {
 void func_801F02E8(void *a0) {
 
     extern void (*D_801F1A74[])(void);
-    D_801F1A74[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801F1A74[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 

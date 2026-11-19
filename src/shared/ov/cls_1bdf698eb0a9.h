@@ -4,6 +4,6 @@ void SHARED_FN(s32 a0)
     s32 s0 = a0;
     ((void (*)(s32))guess_StartPadVibration)((s32)&(*(s32 *)guess_g_RumblePatternFade));
     func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
-    ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
+    ((Unkstruct_80126B58 *)s0)->unkA8.u = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }

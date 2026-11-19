@@ -812,7 +812,7 @@ void func_800CDD9C(s32 param_1) {
         *(u16 *)(iVar2 + 0x12) = d;
         *(u16 *)(iVar2 + 0x10) = x;
         *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk20.m->unk14.u;
-        ((Unkstruct_80126B58 *)param_1)->unk60 = ((Unkstruct_80126B58 *)iVar1)->unk100;
+        ((Unkstruct_80126B58 *)param_1)->unk60.u = ((Unkstruct_80126B58 *)iVar1)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)iVar1)->unk102;
         ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)iVar1)->unk104;
         *(u16 *)(iVar2 + 0x1A) = 0x1000;

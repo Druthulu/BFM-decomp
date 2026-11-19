@@ -233,7 +233,7 @@ void func_800CB620(s32 arg0) {
 
 void func_800CB684(s32 a0, s32 a1) {
     extern s32 rand(void);
-    ((Unkstruct_80126B58 *)a0)->unk60 = a1 + (rand() & 0x7F);
+    ((Unkstruct_80126B58 *)a0)->unk60.u = a1 + (rand() & 0x7F);
     ((Unkstruct_80126B58 *)a0)->unk62 = a1 + (rand() & 0x7F);
 }
 

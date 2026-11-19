@@ -364,7 +364,7 @@ void func_800CB708(void *a0) {
 
 
 void func_800CB758(void *a0) {
-    ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
 }
 
 

@@ -1498,7 +1498,7 @@ s32 func_801EA2D8(void *a0) {
 void func_801EA344(void *a0) {
 
     extern void (*D_801EBBDC[])(void);
-    D_801EBBDC[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801EBBDC[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -1549,7 +1549,7 @@ void func_801EA468(void) {
 void func_801EA470(void *a0) {
 
     extern void (*D_801EBBEC[])(void);
-    D_801EBBEC[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801EBBEC[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 

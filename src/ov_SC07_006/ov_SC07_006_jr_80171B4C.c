@@ -3052,7 +3052,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 s32 func_801727D0(void *a0) {
 
     extern void (*D_8018D98C[])(void);
-    D_8018D98C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D98C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3074,7 +3074,7 @@ void func_8017288C(void) {
 s32 func_801728E4(void *a0) {
 
     extern void (*D_8018D998[])(void);
-    D_8018D998[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D998[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3096,7 +3096,7 @@ void func_801729A8(void) {
 s32 func_801729F0(void *a0) {
 
     extern void (*D_8018D9A4[])(void);
-    D_8018D9A4[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D9A4[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3139,7 +3139,7 @@ void func_80172C48(void) {
 void func_80172CA0(void *a0) {
 
     extern void (*D_8018D9C0[])(void);
-    D_8018D9C0[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_8018D9C0[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3161,7 +3161,7 @@ void func_80172D60(void) {
 s32 func_80172DAC(void *a0) {
 
     extern void (*D_8018D9CC[])(void);
-    D_8018D9CC[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D9CC[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3204,7 +3204,7 @@ void func_80172E8C(void) {
 s32 func_80173078(void *a0) {
 
     extern void (*D_8018D9D8[])(void);
-    D_8018D9D8[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D9D8[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3226,7 +3226,7 @@ void func_8017316C(void) {
 s32 func_8017319C(void *a0) {
 
     extern void (*D_8018D9E4[])(void);
-    D_8018D9E4[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018D9E4[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3299,7 +3299,7 @@ extern void func_80174684(void *);
 void func_80173544(void *a0) {
 
     extern void (*D_8018D9F0[])(void);
-    D_8018D9F0[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_8018D9F0[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3327,7 +3327,7 @@ void func_801736A8(void) {
 s32 func_801736FC(void *a0) {
 
     extern void (*D_8018DA04[])(void);
-    D_8018DA04[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA04[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3349,7 +3349,7 @@ void func_801737B0(void) {
 s32 func_801737E8(void *a0) {
 
     extern void (*D_8018DA10[])(void);
-    D_8018DA10[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA10[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3371,7 +3371,7 @@ void func_801738D4(void) {
 s32 func_8017390C(void *a0) {
 
     extern void (*D_8018DA1C[])(void);
-    D_8018DA1C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA1C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3399,7 +3399,7 @@ void func_80173A20(void) {
 void func_80173B4C(void *a0) {
 
     extern void (*D_8018DA2C[])(void);
-    D_8018DA2C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_8018DA2C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3447,7 +3447,7 @@ void func_80174274(void) {
 s32 func_801742A4(void *a0) {
 
     extern void (*D_8018DA4C[])(void);
-    D_8018DA4C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA4C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3469,7 +3469,7 @@ void func_80174354(void) {
 s32 func_80174384(void *a0) {
 
     extern void (*D_8018DA58[])(void);
-    D_8018DA58[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA58[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3491,7 +3491,7 @@ void func_80174430(void) {
 s32 func_80174474(void *a0) {
 
     extern void (*D_8018DA64[])(void);
-    D_8018DA64[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA64[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3566,7 +3566,7 @@ void func_80174524(void) {
 s32 func_801747CC(void *a0) {
 
     extern void (*D_8018DA70[])(void);
-    D_8018DA70[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA70[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3588,7 +3588,7 @@ void func_8017481C(void) {
 s32 func_80174888(void *a0) {
 
     extern void (*D_8018DA78[])(void);
-    D_8018DA78[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_8018DA78[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 

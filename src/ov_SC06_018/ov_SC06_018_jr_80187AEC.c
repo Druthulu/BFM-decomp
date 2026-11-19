@@ -7062,7 +7062,7 @@ void func_8018DE60(void *arg) {
     } else {
         guess_RequestSound(0xAD8, 0);
         CAST_WIDTH(u16, p, 0x5C) = 0x8800;
-        ((Unkstruct_80126B58 *)p)->unk60 = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.u = 0;
         *(u8  *)(p + 0xC1) = 0;
         *(u8  *)(p + 0xC2) = 0x10;
         func_8018D654(p);
@@ -7140,7 +7140,7 @@ void func_8018DFF4(void *arg) {
     } else {
         guess_RequestSound(0xAD8, 0);
         CAST_WIDTH(u16, p, 0x5C) = 0x8800;
-        ((Unkstruct_80126B58 *)p)->unk60 = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.u = 0;
         *(u8  *)(p + 0xC1) = 0;
         *(u8  *)(p + 0xC2) = 0x10;
         func_8018D654(p);
@@ -7670,7 +7670,7 @@ void func_8018E9BC(void *arg) {
         guess_FreeActor((void *)p);
     } else {
         CAST_WIDTH(u16, p, 0x5C) = 0x8800;
-        ((Unkstruct_80126B58 *)p)->unk60 = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.u = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
     }
@@ -7824,7 +7824,7 @@ void func_8018EDB8(void *arg) {
     } else {
         guess_RequestSound(0x9B7, 0);
         CAST_WIDTH(u16, p, 0x5C) = 0x8800;
-        ((Unkstruct_80126B58 *)p)->unk60 = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.u = 0;
         *(u8 *)(p + 0xC1) = 0;
         *(u8 *)(p + 0xC2) = 0x10;
     }

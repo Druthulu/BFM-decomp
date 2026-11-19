@@ -2587,7 +2587,7 @@ void func_8015879C(s32 param_1) {
     D_801C8580 = 0;
     D_801C858C = 1;
     D_801C8590 = 0;
-    ((Unkstruct_8015879C_2 *)param_1)->unkA8 = 0;
+    ((Unkstruct_8015879C_2 *)param_1)->unkA8.u = 0;
     ((void (*)(void))guess_ClearHideRequest221)();
     ((void (*)(s32))guess_ClearHideRequest220)(param_1);
     ((void (*)(s32))guess_ClearHideRequest222)(param_1);
@@ -2615,7 +2615,7 @@ void func_80158814(void *arg0) {
     D_801C8580 = 0;
     D_801C858C = 1;
     D_801C8590 = 0;
-    ((Unkstruct_80158814_2 *)arg0)->unkA8 = 0;
+    ((Unkstruct_80158814_2 *)arg0)->unkA8.s = 0;
     ((void (*)(void))guess_ClearHideRequest221)();
     ((void (*)(void *))guess_ClearHideRequest220)(arg0);
     ((void (*)(void *))guess_ClearHideRequest222)(arg0);
@@ -2829,7 +2829,7 @@ void func_80158FA4(s32 param_1)
     s16 sVar1;
 
     v0 = ((Unkstruct_80158FA4_3 *)param_1)->unk20.val;
-    ((Unkstruct_80158FA4_4 *)v0)->unk12 = (((Unkstruct_80158FA4_4 *)v0)->unk12 + 0x16) & 0xfff;
+    ((Unkstruct_80158FA4_4 *)v0)->head.unk12.u = (((Unkstruct_80158FA4_4 *)v0)->head.unk12.u + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_801C8590 = 1;
     }

@@ -2443,7 +2443,7 @@ void func_80174684(void *);
 extern s32 (*D_8018A100[])(void *);
 
 s32 func_80173544(void *a0) {
-    return D_8018A100[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A100[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80173580.h"
@@ -2466,7 +2466,7 @@ extern s16 D_80126B32;
 extern s32 (*D_8018A114[])(void *);
 
 s32 func_801736FC(void *a0) {
-    return D_8018A114[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A114[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80173738.h"
@@ -2484,7 +2484,7 @@ extern void func_80174684(void *);
 extern s32 (*D_8018A120[])(void *);
 
 s32 func_801737E8(void *a0) {
-    return D_8018A120[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A120[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80173824.h"
@@ -2503,7 +2503,7 @@ extern void func_80174684(void *);
 extern s32 (*D_8018A12C[])(void *);
 
 s32 func_8017390C(void *a0) {
-    return D_8018A12C[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A12C[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80173948.h"
@@ -2555,7 +2555,7 @@ void func_80173A60(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5)
 extern s32 (*D_8018A13C[])(void *);
 
 s32 func_80173B4C(void *a0) {
-    return D_8018A13C[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A13C[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80173B88.h"
@@ -2606,7 +2606,7 @@ extern void func_801741A8(s32 a0);
 extern s32 (*D_8018A15C[])(void *);
 
 s32 func_801742A4(void *a0) {
-    return D_8018A15C[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A15C[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_801742E0.h"
@@ -2620,7 +2620,7 @@ s32 func_801742A4(void *a0) {
 extern s32 (*D_8018A168[])(void *);
 
 s32 func_80174384(void *a0) {
-    return D_8018A168[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A168[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 extern void func_80171A1C(u8 *a0);
@@ -2637,7 +2637,7 @@ extern void func_801743F0(u8 *a0);
 extern s32 (*D_8018A174[])(void *);
 
 s32 func_80174474(void *a0) {
-    return D_8018A174[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A174[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 extern void func_80171A1C(u8 *a0);
@@ -2694,7 +2694,7 @@ extern void func_801744E0(u8 *a0);
 extern s32 (*D_8018A180[])(void *);
 
 s32 func_801747CC(void *a0) {
-    return D_8018A180[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A180[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_80174808.h"
@@ -2708,7 +2708,7 @@ s32 func_801747CC(void *a0) {
 extern s32 (*D_8018A188[])(void *);
 
 s32 func_80174888(void *a0) {
-    return D_8018A188[((Unkstruct_801727D0_3 *)a0)->unk214](a0);
+    return D_8018A188[((Unkstruct_801727D0_3 *)a0)->unk214.u](a0);
 }
 
 #include "../shared/ov/func_801748C4.h"
@@ -2885,7 +2885,7 @@ extern void (*D_8018A1A4[])(void*);
 extern s32 func_80175268(s32);
 
 void func_80175184(s32* arg0) {
-    u16 v1 = ((Unkstruct_80175184_3 *)arg0)->unk2;
+    u16 v1 = ((Unkstruct_80126B58 *)arg0)->unk2;
     if (v1 < 2) {
         D_8018A1A4[v1](arg0);
     } else {

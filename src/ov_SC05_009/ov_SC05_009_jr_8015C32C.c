@@ -3154,7 +3154,7 @@ void func_80164BDC(s32 param_1)
     if (iVar1 != 0) {
         func_8001CD50(iVar1, base);
         ((void (*)(s32, s32))guess_BuildCircle12Points)(base, 0x60);
-        CAST_ALIAS(u32, iVar1, 4) = ((Unkstruct_80164BDC *)iVar1)->unk4 | 0x50000000;
+        CAST_ALIAS(u32, iVar1, 4) = ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u | 0x50000000;
         D_801959F9 = 0xf0;
         *(u8 *)base = 0xf0;
         D_801959FA = 0xc0;
@@ -3164,7 +3164,7 @@ void func_80164BDC(s32 param_1)
         D_801959FF = 0;
         D_801959FB = 0;
         CAST_ALIAS(s16, iVar1, 0x1e) = 0xccc;
-        ((Unkstruct_80164BDC *)iVar1)->unk10 = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar1)->head.unk10.s = 0x400;
         *(s16 *)(param_1 + 0x60) = 0x700;
         *(s16 *)(param_1 + 0x62) = -0x60;
         func_80164DD0(param_1);
@@ -3676,7 +3676,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_80195AB8)[param_3];
-    s32 uVar6 = ((Unkstruct_80166994 *)param_1)->unk34;
+    s32 uVar6 = ((Unkstruct_8011D030 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];

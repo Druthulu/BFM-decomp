@@ -229,9 +229,9 @@ void func_800CD050(s32 arg0) {
         guess_NextStep(arg0);
         return;
     }
-    ((Unkstruct_80126B58 *)arg0)->unk60 -= 1;
+    ((Unkstruct_80126B58 *)arg0)->unk60.u -= 1;
     if (CAST_SIGN(s16, arg0, 0x60) < 0) {
-        ((Unkstruct_80126B58 *)arg0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = 0;
     }
     if (guess_g_FrameCounter & 3) {
         return;
@@ -242,7 +242,7 @@ void func_800CD050(s32 arg0) {
     }
     if ((CAST_SIGN(s16, arg0, 0x60) == 0) && (acc != 0)) {
         guess_PlaySoundUnlessSkipped(0x747);
-        ((Unkstruct_80126B58 *)arg0)->unk60 = 0xF;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = 0xF;
     }
 }
 
@@ -294,7 +294,7 @@ void func_800CD1D4(s32 *s1) {
         func_800CD5EC(s1);
         v0 = *(s32 *)((s32)s2 + 0x20);
         *(V8_md_MAIN_044 *)((s32)s0 + 0x10) = *(V8_md_MAIN_044 *)((s32)v0 + 0x10);
-        ((Unkstruct_80126B58 *)s1)->unk60 = *(u16 *)((s32)s2 + 0x100);
+        ((Unkstruct_80126B58 *)s1)->unk60.u = *(u16 *)((s32)s2 + 0x100);
         ((Unkstruct_80126B58 *)s1)->unk62 = *(u16 *)((s32)s2 + 0x102);
         ((Unkstruct_80126B58 *)s1)->unk64.u = *(u16 *)((s32)s2 + 0x104);
         func_800CD834(s1);

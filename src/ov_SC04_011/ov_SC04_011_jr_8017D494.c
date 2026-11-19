@@ -12688,9 +12688,9 @@ void func_8018B744(s32 *a0) {
         if (obj != 0) {
             a1 = ((Unkstruct_8018B744 *)obj)->unkCC;
             if (a1 != 0) {
-                ((Unkstruct_8018653C *)a1)->unk8 = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk68;
-                ((Unkstruct_8018653C *)a1)->unkA = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk6C;
-                ((Unkstruct_8018653C *)a1)->unkC = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk70;
+                ((RenderHead *)a1)->unk8.u = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk68;
+                ((RenderHead *)a1)->unkA.u = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk6C;
+                ((RenderHead *)a1)->unkC.u = ((Unkstruct_8018B1B4_2 *)*(s32 *)(obj + 0x20))->unk70;
             }
         }
         i++;
@@ -12816,9 +12816,9 @@ void func_8018B9D4(void *a0, void *a1)
 
 
 void func_8018BA44(s32 param_1, s32 param_2) {
-    ((Unkstruct_8018653C *)param_2)->unk8 = CAST_SIGN(u16, param_1, 6) + ((Unkstruct_80182DCC *)param_1)->unk50;
-    ((Unkstruct_8018653C *)param_2)->unkA = CAST_SIGN(u16, param_1, 10) + CAST_SIGN(u16, param_1, 0x52);
-    ((Unkstruct_8018653C *)param_2)->unkC = CAST_SIGN(u16, param_1, 14) + ((Unkstruct_80182DCC *)param_1)->unk54;
+    ((RenderHead *)param_2)->unk8.u = CAST_SIGN(u16, param_1, 6) + ((Unkstruct_80182DCC *)param_1)->unk50;
+    ((RenderHead *)param_2)->unkA.u = CAST_SIGN(u16, param_1, 10) + CAST_SIGN(u16, param_1, 0x52);
+    ((RenderHead *)param_2)->unkC.u = CAST_SIGN(u16, param_1, 14) + ((Unkstruct_80182DCC *)param_1)->unk54;
     func_8018BB44();
 }
 

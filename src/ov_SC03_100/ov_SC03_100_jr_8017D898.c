@@ -3573,7 +3573,7 @@ void func_80180270(s32 a0) {
         } else {
             void *p = ((Unkstruct_801202A0 *)a0)->unk20.p;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
-            ((Unkstruct_8017E55C_2 *)p)->unk4 |= 0x80000000;
+            ((Unkstruct_8001C9D0 *)p)->head.unk4.s |= 0x80000000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
         }
     }

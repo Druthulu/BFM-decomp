@@ -2375,7 +2375,7 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 extern void (*D_8018282C[])(void);
 
 void func_80172CA0(void *a0) {
-    D_8018282C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8018282C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 

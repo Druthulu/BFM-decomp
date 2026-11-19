@@ -3571,8 +3571,8 @@ void func_80181338(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
-    p = D_801D9760 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = D_801D9760 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->unk1E.s = 0xCCC;
     ((Unkstruct_800B5BD8 *)s1)->head.unk10.s = 0x400;
@@ -3586,8 +3586,8 @@ void func_80181338(void *a0)
     p[5] = 0x40;
     p[4] = 0x40;
     p[6] = 0x80;
-    ((Unkstruct_8017DE80_2 *)a0)->unk1C = 0x10;
-    ((Unkstruct_8017DE80_2 *)a0)->unk2 = ((Unkstruct_8017DE80_2 *)a0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0x10;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
 }
 
 
@@ -5199,13 +5199,13 @@ void func_801838EC(void *a0)
     u16 v1;
 
     a1 = ((Unkstruct_801838EC_3 *)a0)->unk20;
-    v1 = ((Unkstruct_801838EC_2 *)a1)->unk2C;
+    v1 = ((Unkstruct_8001C9D0 *)a1)->unk2C.u;
     if (v1 & 0x10) {
-        ((Unkstruct_801838EC_2 *)a1)->unk2C = v1 & 0xFFEF;
+        ((Unkstruct_8001C9D0 *)a1)->unk2C.u = v1 & 0xFFEF;
         b = ((Unkstruct_801838EC_3 *)a0)->unk20;
-        ((Unkstruct_801838EC_2 *)b)->unk1C = 0x1000;
-        ((Unkstruct_801838EC_2 *)b)->unk1A = 0x1000;
-        ((Unkstruct_801838EC_2 *)b)->unk18 = 0x1000;
+        ((Unkstruct_8001C9D0 *)b)->unk1C.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)b)->unk1A.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)b)->unk18.u = 0x1000;
     }
 }
 
@@ -5947,13 +5947,13 @@ void func_80184694(void *a0)
         vec.vz = (s32)0xFFFE8000;
     }
 
-    ((Unkstruct_8017F200_2 *)a0)->unk2C = 0x3C;
-    ((Unkstruct_8017F200_2 *)a0)->unk2 = 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.s = 0x3C;
+    ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
 
     m = aD800AE620_80184694;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(((Unkstruct_8017F200_2 *)a0)->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12), mp);
 
     ApplyMatrixLV((s32)mp, (s32)&vec, (s32)a0 + 0x10);
 }

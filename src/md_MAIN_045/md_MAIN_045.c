@@ -361,7 +361,7 @@ void func_800CD390(s32 param_1) {
         *(s16 *)(s0 + 0x12) = D_800CE050;
         *(u16 *)(s0 + 0x10) = temp;
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk20.m->unk14.u;
-        ((Unkstruct_80126B58 *)param_1)->unk60 = ((Unkstruct_80126B58 *)s2)->unk100;
+        ((Unkstruct_80126B58 *)param_1)->unk60.u = ((Unkstruct_80126B58 *)s2)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)s2)->unk102;
         ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)s2)->unk104;
         *(u16 *)(s0 + 0x1A) = 0x1000;

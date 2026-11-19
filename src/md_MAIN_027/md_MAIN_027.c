@@ -228,7 +228,7 @@ void func_800CB2CC(s32 arg0) {
         guess_SetWaitTimer_2((s32 *)arg0, 0x20);
         guess_TransformPosByObjMatrix(s2, arg0 + 4);
         ((Unkstruct_80126B58 *)arg0)->unk58 = (u32)&D_800CC150[0];
-        ((Unkstruct_80126B58 *)arg0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = 0;
         ((Unkstruct_80126B58 *)arg0)->unk62 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk64.u = 0;
         func_801466B4(0x28, arg0, 0, 0, 1);
@@ -496,7 +496,7 @@ void func_800CB82C(s32 a0, s32 a1)
         mid.gray[3] = g8;
         cn = (c1 + 1) & 3;
         c1 <<= 2;
-        ((Unkstruct_80126B58 *)a0)->unk60 = cn;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = cn;
         cn = (s32)D_800CC1B0;
         c1 += cn;
         if (func_800CBA44(out1, (P2_CBA44_t *)D_800CC190, (Base_CBA44_t *)a1, (P2_CBA44_t *)p6,
@@ -678,7 +678,7 @@ void func_800CBF28(s32 p1)
             D_800CC254 = 0;
             *(u32 *)base = 0x202000;
         }
-        ((Unkstruct_80126B58 *)p1)->unk60 = 0;
+        ((Unkstruct_80126B58 *)p1)->unk60.u = 0;
         *(u32 *)(r + 4) |= 0x50000000;
         func_800CC024(p1);
         guess_NextStep((void *)p1);

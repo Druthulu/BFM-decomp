@@ -2726,8 +2726,8 @@ extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 func_80171990(u8 *a0);
 
 void func_8017D82C(s32 a0) {
-    if (((Unkstruct_8017CE18 *)a0)->unkB8 & 0x4000) {
-        ((Unkstruct_8017CE18 *)a0)->unk44 |= 0x20000;
+    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x4000) {
+        ((Unkstruct_80126B58 *)a0)->unk44.s |= 0x20000;
         guess_SpawnObject(0x16, a0, 0, -0x80, -0x10, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7BC);
         func_80171990((u8 *)a0);
@@ -2823,7 +2823,7 @@ void func_8017D9C4(s32 a0) {
     if (iVar2 != 0) {
         guess_InitModelObject(iVar2, (s32)&D_80191BA8);
         *(u16 *)(iVar2 + 0x10) = 0x800;
-        ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFC00000, 0);
         D_8018C4DC = 0x80;
@@ -2861,8 +2861,8 @@ void func_8017DA90(s32 a0) {
     if ((CAST_SIGN(s16, a0, 0x60) == 0) && (0 < ((Unkstruct_80126B58 *)a0)->unk28)) {
         u16 uVar1;
         *(u16 *)(iVar2 + 0x10) = 0;
-        uVar1 = ((Unkstruct_80126B58 *)a0)->unk60;
-        ((Unkstruct_80126B58 *)a0)->unk60 = uVar1 + 1;
+        uVar1 = ((Unkstruct_80126B58 *)a0)->unk60.u;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = uVar1 + 1;
     }
     sVar1 = ((Unkstruct_80126B58 *)iVar1)->unkA.s;
     if (sVar1 < ((Unkstruct_80126B58 *)a0)->unkA.s) {
@@ -2870,12 +2870,12 @@ void func_8017DA90(s32 a0) {
         s32 uVar2;
         ((Unkstruct_80126B58 *)a0)->unkA.s = sVar1;
         func_8013C9C4(D_8018C4F0);
-        ((Unkstruct_80126B58 *)a0)->unk60 = *(u16 *)(iVar2 + 0x18);
+        ((Unkstruct_80126B58 *)a0)->unk60.u = *(u16 *)(iVar2 + 0x18);
         func_8001C810(iVar2, (s32)&D_80192200);
         *(s32 **)(iVar2 + 0x80) = &D_8018C4A8;
         *(u16 *)(iVar2 + 0x2c) = *(u16 *)(iVar2 + 0x2c) | 0xA0;
         *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
-        uVar1 = ((Unkstruct_80126B58 *)a0)->unk60;
+        uVar1 = ((Unkstruct_80126B58 *)a0)->unk60.u;
         *(u16 *)(iVar2 + 0x1c) = uVar1;
         *(u16 *)(iVar2 + 0x1a) = uVar1;
         *(u16 *)(iVar2 + 0x18) = uVar1;

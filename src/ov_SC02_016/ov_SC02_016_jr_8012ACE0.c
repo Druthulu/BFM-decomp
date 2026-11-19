@@ -3147,8 +3147,8 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     s32 t18, t1A, t1C;
     s32 *m;
 
-    in0.a = param_3[0] - ((Unkstruct_80135480 *)param_1)->unk48;
-    in0.c = param_3[2] - ((Unkstruct_80135480 *)param_1)->unk50;
+    in0.a = param_3[0] - ((Unkstruct_8001C9D0 *)param_1)->unk48;
+    in0.c = param_3[2] - ((Unkstruct_8001C9D0 *)param_1)->unk50;
     if ((param_2 & 0x10000000) == 0) {
         if (in0.a * in0.a + in0.c * in0.c > 0x40000) {
             return 0;
@@ -3160,16 +3160,16 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         if (param_2 >= 0) {
             mode &= 0x40000000;
         }
-        in0.b = param_3[1] - ((Unkstruct_80135480 *)param_1)->unk4C;
-        in1.a = param_4[0] - ((Unkstruct_80135480 *)param_1)->unk48;
-        in1.b = param_4[1] - ((Unkstruct_80135480 *)param_1)->unk4C;
-        in1.c = param_4[2] - ((Unkstruct_80135480 *)param_1)->unk50;
+        in0.b = param_3[1] - ((Unkstruct_8001C9D0 *)param_1)->unk4C;
+        in1.a = param_4[0] - ((Unkstruct_8001C9D0 *)param_1)->unk48;
+        in1.b = param_4[1] - ((Unkstruct_8001C9D0 *)param_1)->unk4C;
+        in1.c = param_4[2] - ((Unkstruct_8001C9D0 *)param_1)->unk50;
         switch (mode) {
         case 0x60000000:
             m = &D_801B2C8C;
-            *m = 0x1000000 / ((Unkstruct_80135480 *)param_1)->unk18;
-            q1 = 0x1000000 / ((Unkstruct_80135480 *)param_1)->unk1A;
-            q2 = 0x1000000 / ((Unkstruct_80135480 *)param_1)->unk1C;
+            *m = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk18.s;
+            q1 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk1A.s;
+            q2 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk1C.s;
             D_801B2C90 = 0;
             D_801B2C98 = 0;
             D_801B2C94 = q1;
@@ -3181,8 +3181,8 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             /* fallthrough */
         case 0x20000000:
             p = (param_2 & 0xFFFFFFF) | 0x80000000;
-            t18 = ((Unkstruct_80135480 *)param_1)->unk18;
-            t1A = ((Unkstruct_80135480 *)param_1)->unk1A;
+            t18 = ((Unkstruct_8001C9D0 *)param_1)->unk18.s;
+            t1A = ((Unkstruct_8001C9D0 *)param_1)->unk1A.s;
             t1C = CAST_SIGN(u16, (s32)param_1, 0x1C);
             mat2.w4 = 0;
             mat2.wC = 0;
@@ -3230,14 +3230,14 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     {
         s16 *p = *(s16 **)&D_80184A0C;
         p[0] = in0.a;
-        p[1] = ((u16 *)param_3)[1] - ((Unkstruct_80135480 *)param_1)->unk4C;
+        p[1] = ((u16 *)param_3)[1] - ((Unkstruct_8001C9D0 *)param_1)->unk4C;
         p[2] = in0.c;
     }
     {
         s16 *p = *(s16 **)&D_80184A10;
-        p[0] = ((u16 *)param_4)[0] - ((Unkstruct_80135480 *)param_1)->unk48;
-        p[1] = ((u16 *)param_4)[1] - ((Unkstruct_80135480 *)param_1)->unk4C;
-        p[2] = ((u16 *)param_4)[2] - ((Unkstruct_80135480 *)param_1)->unk50;
+        p[0] = ((u16 *)param_4)[0] - ((Unkstruct_8001C9D0 *)param_1)->unk48;
+        p[1] = ((u16 *)param_4)[1] - ((Unkstruct_8001C9D0 *)param_1)->unk4C;
+        p[2] = ((u16 *)param_4)[2] - ((Unkstruct_8001C9D0 *)param_1)->unk50;
     }
     return 1;
 }

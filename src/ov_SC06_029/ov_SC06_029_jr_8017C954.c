@@ -7625,9 +7625,9 @@ void func_80184C68(u8 *v, s32 idx)
 
 void func_80184E6C(s32 *a0, s32 *a1) {
     if (a0 != NULL) {
-        ((Unkstruct_8018653C *)a0)->unk8 = *(u16 *)((s32)a1 + 0x0);
-        ((Unkstruct_8018653C *)a0)->unkA = *(u16 *)((s32)a1 + 0x2);
-        ((Unkstruct_8018653C *)a0)->unkC = *(u16 *)((s32)a1 + 0x4);
+        ((RenderHead *)a0)->unk8.u = *(u16 *)((s32)a1 + 0x0);
+        ((RenderHead *)a0)->unkA.u = *(u16 *)((s32)a1 + 0x2);
+        ((RenderHead *)a0)->unkC.u = *(u16 *)((s32)a1 + 0x4);
     }
 }
 
@@ -8739,9 +8739,9 @@ s32 func_80186470(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4)
 
 
 void func_8018653C(s32 *a0, s32 *a1) {
-        ((Unkstruct_8018653C *)a1)->unk8 = ((Unkstruct_801861A4 *)a0)->unk6;
-        ((Unkstruct_8018653C *)a1)->unkA = ((Unkstruct_801861A4 *)a0)->unkA + *(u16 *)(((Unkstruct_801861A4 *)a0)->unk64 + 0xA);
-        ((Unkstruct_8018653C *)a1)->unkC = ((Unkstruct_801861A4 *)a0)->unkE;
+        ((RenderHead *)a1)->unk8.u = ((Unkstruct_801861A4 *)a0)->unk6;
+        ((RenderHead *)a1)->unkA.u = ((Unkstruct_801861A4 *)a0)->unkA + *(u16 *)(((Unkstruct_801861A4 *)a0)->unk64 + 0xA);
+        ((RenderHead *)a1)->unkC.u = ((Unkstruct_801861A4 *)a0)->unkE;
     }
 
 

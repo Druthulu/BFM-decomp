@@ -4375,11 +4375,11 @@ void func_80182FCC(arg0)
 s32 arg0;
 {
     s32 a0 = *(s32 *)(arg0 + 0x20);
-    if (((Unkstruct_80182FCC_2 *)a0)->unk18 < 0x5000) {
-        ((Unkstruct_80182FCC_2 *)a0)->unk18 = ((Unkstruct_80182FCC_2 *)a0)->unk18 + 0x800;
+    if (((Unkstruct_800B5BD8 *)a0)->unk18.s < 0x5000) {
+        ((Unkstruct_800B5BD8 *)a0)->unk18.s = ((Unkstruct_800B5BD8 *)a0)->unk18.s + 0x800;
     }
-    if (((Unkstruct_80182FCC_2 *)a0)->unk1A < 0x5000) {
-        ((Unkstruct_80182FCC_2 *)a0)->unk1A = ((Unkstruct_80182FCC_2 *)a0)->unk1A + 0x800;
+    if (((Unkstruct_800B5BD8 *)a0)->unk1A.s < 0x5000) {
+        ((Unkstruct_800B5BD8 *)a0)->unk1A.s = ((Unkstruct_800B5BD8 *)a0)->unk1A.s + 0x800;
     }
     KR_AS(void, func_8018291C)();
 }
@@ -4435,14 +4435,14 @@ void func_801830C4(void *a0) {
     s32 t;
     u8 v;
     p = *(s16 **)((s32)a0 + 0x20);
-    if (((Unkstruct_801830C4 *)p)->unk18 > 0x800) {
-        ((Unkstruct_801830C4 *)p)->unk18 = ((Unkstruct_801830C4 *)p)->unk18 - 0x200;
+    if (((Unkstruct_800B5BD8 *)p)->unk18.s > 0x800) {
+        ((Unkstruct_800B5BD8 *)p)->unk18.s = ((Unkstruct_800B5BD8 *)p)->unk18.s - 0x200;
     }
-    if (((Unkstruct_801830C4 *)p)->unk1A > 0x800) {
-        ((Unkstruct_801830C4 *)p)->unk1A = ((Unkstruct_801830C4 *)p)->unk1A - 0x200;
+    if (((Unkstruct_800B5BD8 *)p)->unk1A.s > 0x800) {
+        ((Unkstruct_800B5BD8 *)p)->unk1A.s = ((Unkstruct_800B5BD8 *)p)->unk1A.s - 0x200;
     }
-    t = ((Unkstruct_801830C4_2 *)a0)->unk1C + 1;
-    ((Unkstruct_801830C4_2 *)a0)->unk1C = t;
+    t = ((Unkstruct_8011DB30 *)a0)->unk1C.s + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = t;
     if (t & 0x10) {
         v = ((t & 0xF) >> 1) + 9;
     } else {

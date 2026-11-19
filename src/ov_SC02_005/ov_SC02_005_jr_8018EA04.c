@@ -3552,7 +3552,7 @@ extern u8 D_800D387C[];
 void func_8018ECF4(s32 arg0) {
     s32 iVar1;
 
-    iVar1 = ((Unkstruct_8017F200_2 *)arg0)->unk20;
+    iVar1 = ((Unkstruct_8011DB30 *)arg0)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
     ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x9C;
     ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x7000;
@@ -3561,8 +3561,8 @@ void func_8018ECF4(s32 arg0) {
     ((Unkstruct_800B5BD8 *)iVar1)->unk25.u = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->unk24.u = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u = ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u | 0x50000000;
-    ((Unkstruct_8017F200_2 *)arg0)->unk2C = 0x46;
-    ((Unkstruct_8017F200_2 *)arg0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.s = 0x46;
+    ((Unkstruct_8011DB30 *)arg0)->unk2.s += 1;
 }
 
 
@@ -4855,7 +4855,7 @@ void func_8019084C(s32 a0)
 
     func_8014BC44(s0, ((Unkstruct_80126B58 *)s0)->unkF2);
     ((RenderHead *)*(s32 *)(s0 + 0x20))->unk10.u = 0;
-    ((Unkstruct_80126B58 *)s0)->unkA8 = 0x20;
+    ((Unkstruct_80126B58 *)s0)->unkA8.u = 0x20;
     ((void (*)(s32))func_80151664)(s0);
 }
 

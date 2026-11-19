@@ -191,16 +191,16 @@ void func_800CB1EC(void *a0) {
         v1 = ((Unkstruct_800CB1EC *)a0)->unk1C;
         s5 = 0;
         if (v1 < 0x10) {
-            ((Unkstruct_8017F3E0 *)s3)->unk24 = ((Unkstruct_8017F3E0 *)s3)->unk25 = ((Unkstruct_8017F3E0 *)s3)->unk26 = ((Unkstruct_8017F3E0 *)s3)->unk26 + 4;
-            ((Unkstruct_8017F3E0 *)s3)->unk18 -= 0x400;
-            ((Unkstruct_8017F3E0 *)s3)->unk1A -= 0x400;
+            ((Unkstruct_800B5BD8 *)s3)->unk24.u = ((Unkstruct_800B5BD8 *)s3)->unk25.u = ((Unkstruct_800B5BD8 *)s3)->unk26 = ((Unkstruct_800B5BD8 *)s3)->unk26 + 4;
+            ((Unkstruct_800B5BD8 *)s3)->unk18.u -= 0x400;
+            ((Unkstruct_800B5BD8 *)s3)->unk1A.u -= 0x400;
         } else {
             s5 = v1 - 0x10;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
 
         mask = 0x7FFFFFFF;
-        ((Unkstruct_8017F3E0 *)s3)->unk4 &= mask;
+        ((Unkstruct_800B5BD8 *)s3)->head.unk4.s &= mask;
 
         buf = D_800AE620;
 
@@ -222,8 +222,8 @@ void func_800CB1EC(void *a0) {
         ((Unkstruct_800CB1EC *)a0)->unkE = out[2];
 
         ((Unkstruct_800CB1EC_3 *)s4)->unk4 &= mask;
-        ((Unkstruct_800CB1EC_3 *)s4)->unk18 = ((Unkstruct_8017F3E0 *)s3)->unk18;
-        ((Unkstruct_800CB1EC_3 *)s4)->unk1A = ((Unkstruct_8017F3E0 *)s3)->unk1A;
+        ((Unkstruct_800CB1EC_3 *)s4)->unk18 = ((Unkstruct_800B5BD8 *)s3)->unk18.u;
+        ((Unkstruct_800CB1EC_3 *)s4)->unk1A = ((Unkstruct_800B5BD8 *)s3)->unk1A.u;
         ((Unkstruct_800CB1EC_3 *)s4)->unk8 = ((Unkstruct_800CB1EC *)a0)->unk6;
         ((Unkstruct_800CB1EC_3 *)s4)->unkA = ((Unkstruct_800CB1EC *)a0)->unkA;
         ((Unkstruct_800CB1EC_3 *)s4)->unkC = ((Unkstruct_800CB1EC *)a0)->unkE;

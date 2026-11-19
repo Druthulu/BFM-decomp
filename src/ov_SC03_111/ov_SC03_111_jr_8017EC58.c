@@ -5454,7 +5454,7 @@ void func_80183E00(void *a0)
         if (p != 0) {
             t = rand() & 0xFFF;
             q = ((Unkstruct_801202A0 *)p)->unk20.p;
-            ((Unkstruct_80181058_2 *)q)->unk12 = t;
+            ((Unkstruct_8001C9D0 *)q)->head.unk12.u = t;
             {
                 s32 rr = rand() & 0x7F;
                 s32 xx = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u - 0x40;
@@ -5481,8 +5481,8 @@ void func_80183EE8(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
-    p = D_801B9918 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = D_801B9918 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->unk1E.s = 0xCCC;
     ((Unkstruct_800B5BD8 *)s1)->head.unk10.s = 0x400;
@@ -5496,8 +5496,8 @@ void func_80183EE8(void *a0)
     p[5] = 0x40;
     p[4] = 0x40;
     p[6] = 0x80;
-    ((Unkstruct_8017DE80_2 *)a0)->unk1C = 0x10;
-    ((Unkstruct_8017DE80_2 *)a0)->unk2 = ((Unkstruct_8017DE80_2 *)a0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0x10;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
 }
 
 

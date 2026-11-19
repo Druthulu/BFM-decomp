@@ -4718,10 +4718,10 @@ void func_8017C5F0(s32 a0) {
     func_800D23D0(&sp[4]);
     RotMatrixYXZ(&sp[4], &D_801C995C[-5]);
 
-    ((Unkstruct_8017C5F0_2 *)v0)->unk34 = (s32)&D_801C995C[-5];
-    ((Unkstruct_8017C5F0_2 *)v0)->unk1A = 0;
-    ((Unkstruct_8017C5F0_2 *)v0)->unk18 = 0;
-    ((Unkstruct_8017C5F0_2 *)v0)->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)v0)->unk34.s = (s32)&D_801C995C[-5];
+    ((Unkstruct_800B5BD8 *)v0)->unk1A.s = 0;
+    ((Unkstruct_800B5BD8 *)v0)->unk18.s = 0;
+    ((Unkstruct_800B5BD8 *)v0)->head.unk4.s |= 0x50000000;
     ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
 
@@ -8612,7 +8612,7 @@ void func_80182E84(s32 a0) {
         } else {
             void *p = ((Unkstruct_801202A0 *)a0)->unk20.p;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
-            ((Unkstruct_8017E55C_2 *)p)->unk4 |= 0x80000000;
+            ((Unkstruct_8001C9D0 *)p)->head.unk4.s |= 0x80000000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
         }
     }

@@ -324,7 +324,7 @@ void func_800CB578(void *arg0) {
     t = rsin(CAST_SIGN(s16, (u8 *)arg0, 0x60));
     pos[1] += (sn * t) / 4096;
 
-    ((Unkstruct_80126B58 *)arg0)->unk60 = (((Unkstruct_80126B58 *)arg0)->unk60 + 0xE3) & 0xFFF;
+    ((Unkstruct_80126B58 *)arg0)->unk60.u = (((Unkstruct_80126B58 *)arg0)->unk60.u + 0xE3) & 0xFFF;
     ((Unkstruct_80126B58 *)arg0)->unk62 = (((Unkstruct_80126B58 *)arg0)->unk62 + 0x38) & 0xFFF;
 
     p = D_800CC5B0 + ((Unkstruct_80126B58 *)arg0)->unk50 * 160;
@@ -519,7 +519,7 @@ void func_800CBE38(u8 *arg0)
     if (w < 0x1000) {
         w = 0x1000;
         guess_SetWaitTimer_2((s32 *)arg0, 0x10);
-        ((Unkstruct_80126B58 *)arg0)->unk60 = w;
+        ((Unkstruct_80126B58 *)arg0)->unk60.u = w;
         guess_NextStep(arg0);
     }
     *(u16 *)(s2 + 0x1A) = w;
@@ -544,7 +544,7 @@ void func_800CBEC0(u8 *arg0)
         return;
     }
     func_800CBF80(arg0);
-    w = ((Unkstruct_80126B58 *)arg0)->unk60 - 0x100;
+    w = ((Unkstruct_80126B58 *)arg0)->unk60.u - 0x100;
     CAST_ALIAS(u16, arg0, 0x60) = w;
     if (guess_g_FrameCounter & 1) {
         r = (s16)w / 2;

@@ -3254,7 +3254,7 @@ extern void (*D_80185A28[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801727D0(void *a0)
 {
-    D_80185A28[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185A28[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3275,7 +3275,7 @@ extern void (*D_80185A34[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801728E4(void *a0)
 {
-    D_80185A34[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185A34[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3296,7 +3296,7 @@ extern void (*D_80185A40[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801729F0(void *a0)
 {
-    D_80185A40[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185A40[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3339,7 +3339,7 @@ void func_80172C48(void) {
 void func_80172CA0(void *a0) {
 
     extern void (*D_80185A5C[])(void);
-    D_80185A5C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_80185A5C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3360,7 +3360,7 @@ extern void (*D_80185A68[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80172DAC(void *a0)
 {
-    D_80185A68[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185A68[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3402,7 +3402,7 @@ extern void (*D_80185A74[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80173078(void *a0)
 {
-    D_80185A74[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185A74[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3494,7 +3494,7 @@ extern void func_80174684(void *);
 void func_80173544(void *a0) {
 
     extern void (*D_80185A8C[])(void);
-    D_80185A8C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_80185A8C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3521,7 +3521,7 @@ extern void (*D_80185AA0[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801736FC(void *a0)
 {
-    D_80185AA0[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185AA0[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3561,7 +3561,7 @@ extern void (*D_80185AB8[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_8017390C(void *a0)
 {
-    D_80185AB8[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185AB8[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3589,7 +3589,7 @@ void func_80173A20(void) {
 void func_80173B4C(void *a0) {
 
     extern void (*D_80185AC8[])(void);
-    D_80185AC8[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_80185AC8[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3636,7 +3636,7 @@ extern void (*D_80185AE8[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_801742A4(void *a0)
 {
-    D_80185AE8[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185AE8[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3657,7 +3657,7 @@ s32 func_80174384(void* a0)
 {
 
     extern void (*D_80185AF4[])(void);
-    D_80185AF4[((Unkstruct_80174384_2 *)a0)->unk214]();
+    D_80185AF4[((Unkstruct_80174384_2 *)a0)->unk214.u]();
 }
 
 
@@ -3678,7 +3678,7 @@ extern void (*D_80185B00[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80174474(void* a0)
 {
-    D_80185B00[((Unkstruct_80174384 *)a0)->unk214]();
+    D_80185B00[((Unkstruct_80174384 *)a0)->unk214.u]();
 }
 
 
@@ -3751,7 +3751,7 @@ void func_80174524(void) {
 s32 func_801747CC(void *a0) {
 
     extern void (*D_80185B0C[])(void);
-    D_80185B0C[((Unkstruct_80126B58 *)a0)->unk214]();
+    D_80185B0C[((Unkstruct_80126B58 *)a0)->unk214.u]();
 }
 
 
@@ -3772,7 +3772,7 @@ extern void (*D_80185B14[])(void);
 /* $v0 at exit: result of an indirect call; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x30, ov_SC03_107 objdump */
 s32 func_80174888(void *a0)
 {
-    D_80185B14[((Unkstruct_801727D0_2 *)a0)->unk214]();
+    D_80185B14[((Unkstruct_801727D0_2 *)a0)->unk214.u]();
 }
 
 

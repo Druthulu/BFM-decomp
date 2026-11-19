@@ -3950,8 +3950,8 @@ void func_80180394(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8017DE80_2 *)a0)->unk20;
-    p = D_801CE458 + ((Unkstruct_8017DE80_2 *)a0)->unk2C * 0x40;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = D_801CE458 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->unk1E.s = 0xCCC;
     ((Unkstruct_800B5BD8 *)s1)->head.unk10.s = 0x400;
@@ -3965,8 +3965,8 @@ void func_80180394(void *a0)
     p[1] = 0;
     p[0] = 0;
     p[6] = 0x80;
-    ((Unkstruct_8017DE80_2 *)a0)->unk1C = 0x10;
-    ((Unkstruct_8017DE80_2 *)a0)->unk2 = ((Unkstruct_8017DE80_2 *)a0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0x10;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
 }
 
 

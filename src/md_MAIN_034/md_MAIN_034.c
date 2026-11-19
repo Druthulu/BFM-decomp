@@ -842,7 +842,7 @@ void func_800CC310(void *a0)
 
         *(s16 *)((u8 *)a0 + 0x5A) = 0;
         CAST_WIDTH(s16, (u8 *)a0, 0x58) = 0;
-        ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;
 
         (*(Quad4_800CCAD0 *)&D_800CCB14).r = 0x20;
@@ -871,10 +871,10 @@ extern CVECTOR D_800CCB14;
 
 void func_800CC424(void *a0) {
     void *a2 = CAST_SIGN(void *, (u8 *)a0, 0x20);
-    ((Unkstruct_80126B58 *)a0)->unk60 += 0x60;
+    ((Unkstruct_80126B58 *)a0)->unk60.u += 0x60;
     *(u16 *)((u8 *)a2 + 0x1A) += 0x200;
     *(u16 *)((u8 *)a2 + 0x18) = *(u16 *)((u8 *)a2 + 0x1A);
-    *(u16 *)((u8 *)a0 + 0x5A) += ((Unkstruct_80126B58 *)a0)->unk60;
+    *(u16 *)((u8 *)a0 + 0x5A) += ((Unkstruct_80126B58 *)a0)->unk60.u;
     CAST_WIDTH(u16, (u8 *)a0, 0x58) = *(u16 *)((u8 *)a0 + 0x5A);
     *(u16 *)((u8 *)a2 + 0x10) = (*(u16 *)((u8 *)a2 + 0x10) + 0x9F) & 0xFFF;
     *(u16 *)((u8 *)a2 + 0x12) = (*(u16 *)((u8 *)a2 + 0x12) + 0x71) & 0xFFF;
@@ -926,7 +926,7 @@ void func_800CC4E8(void *a0) {
         ((Unkstruct_800CC424 *)s1)->unk1A = t3;
         ((Unkstruct_800CC424 *)s1)->unk18 = t3;
         if (CAST_SIGN(s16, (u8 *)s1, 0x1a) < 0) {
-            ((Unkstruct_80126B58 *)a0)->unk60 = 0;
+            ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
             ((Unkstruct_800CC424 *)s1)->unk1A = 0;
             ((Unkstruct_800CC424 *)s1)->unk18 = 0;
             guess_NextStep(a0);
@@ -950,8 +950,8 @@ void func_800CC5E4(void *a0) {
 
     a1 = CAST_SIGN(void *, (u8 *)a0, 0x20);
     *(u16 *)((u8 *)a1 + 0x1E) += 0x200;
-    v0 = ((Unkstruct_80126B58 *)a0)->unk60 + 0xC0;
-    ((Unkstruct_80126B58 *)a0)->unk60 = v0;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk60.u + 0xC0;
+    ((Unkstruct_80126B58 *)a0)->unk60.u = v0;
     v1 = *(u16 *)((u8 *)a1 + 0x1A) + v0;
     *(u16 *)((u8 *)a1 + 0x1A) = v1;
     *(u16 *)((u8 *)a1 + 0x18) = v1;

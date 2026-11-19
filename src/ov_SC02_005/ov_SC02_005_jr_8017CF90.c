@@ -3988,7 +3988,7 @@ s32 func_8017F194(void) {
 extern void (*D_80194454[])(void);
 
 void func_8017F1DC(void *a0) {
-    D_80194454[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80194454[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4045,7 +4045,7 @@ extern void func_80175414(s32 _arg0);
 extern void (*D_80194464[])(void);
 
 void func_8017F358(void *a0) {
-    D_80194464[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80194464[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4079,7 +4079,7 @@ extern void func_8016F0E4(u8 *);
 extern void (*D_80194470[])(void);
 
 void func_8017F428(void *a0) {
-    D_80194470[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80194470[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4123,7 +4123,7 @@ void func_8017F530(void *arg0) {
     buffer = D_801E2DC8;
     if (func_80171D78((s32)arg0, (s32)&buffer)) {
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_80196FE8);
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -4144,7 +4144,7 @@ void func_8017F5B0(s32 param_1) {
         guess_g_MainCameraYawTarget = -0x71C;
         guess_g_MainCameraRefOffsetTargetX = -0x20;
         guess_g_MainCameraRefOffsetTargetY = -0x60;
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4158,7 +4158,7 @@ void func_8017F63C(void *a0) {
     ((Unkstruct_80126B58 *)a0)->unk204 = temp;
     if (temp == -1) {
         D_801270C8[0] = 3;
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -4194,7 +4194,7 @@ void func_8017F6E8(s32 param_1)
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         D_801270C8[0] = 7;
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -4213,7 +4213,7 @@ void func_8017F748(void *a0) {
         D_801270C8[0] = 8;
         func_80142454(-0x80);
         ((Unkstruct_80126B58 *)a0)->unk204 = 0x20;
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -4240,7 +4240,7 @@ void func_8017F7CC(s32 param_1)
         func_8017E0B4();
         guess_RequestSound(0x510, 0x103F);
         D_801270C8[0] = 9;
-        ((Unkstruct_80126B58 *)param_1)->unk214 += 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u += 1;
     }
 }
 
@@ -4268,7 +4268,7 @@ void func_8017F898(s32 arg0) {
         guess_SetAnimScript((s32 *)s0, (s32)&D_800D5C6C);
         func_8014706C((void *)s0);
         ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197244);
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4286,7 +4286,7 @@ void func_8017F924(s32 arg0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         guess_SetAnimScript((s32 *)s0, (s32)D_801943B0);
         ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_8019727C);
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4304,7 +4304,7 @@ void func_8017F998(s32 param_1)
         func_8017E26C();
         guess_RequestSound(0x510, 0x103F);
         D_801270C8[0] = 0xB;
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -4351,7 +4351,7 @@ void func_8017FA94(s32 arg0) {
         func_8012A100(0);
         guess_RequestSound(0x510, 0x102F);
         ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197300);
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4451,7 +4451,7 @@ void func_8017FCFC(s32 arg0) {
             guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
             func_8017E26C();
             D_801270C8[0] = 0xE;
-            ((Unkstruct_80126B58 *)s0)->unk214 += 1;
+            ((Unkstruct_80126B58 *)s0)->unk214.u += 1;
         }
     }
     v1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
@@ -4484,7 +4484,7 @@ void func_8017FE08(void *a0) {
     if (func_80171D78((s32)a0, (s32)&buffer) && func_801289F0()) {
         guess_SetAnimScript((s32 *)a0, (s32)D_800D5D4C);
         func_8014706C(a0);
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -4506,7 +4506,7 @@ void func_8017FEA0(s32 arg0) {
         ((Unkstruct_80126B58 *)s0)->unk198 = guess_OpenTextWindow((s32)&D_80197570);
         guess_SetAnimScript((s32 *)s0, (s32)D_800D5C6C);
         func_8014706C((void *)s0);
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4521,7 +4521,7 @@ void func_8017FF2C(s32 param_1) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
         func_80147060((u8 *)s0);
         ((Unkstruct_80126B58 *)s0)->unk204 = 0x20;
-        ++((Unkstruct_80126B58 *)s0)->unk214;
+        ++((Unkstruct_80126B58 *)s0)->unk214.u;
     }
 }
 
@@ -4538,7 +4538,7 @@ void func_8017FF8C(void *a0) {
         guess_g_MainCameraPitchTarget = -0x155;
         guess_g_MainCameraRefOffsetTargetY = 0x20;
         D_801270C8[0] = 0x13;
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -4553,7 +4553,7 @@ void func_8017FFF0(s32 arg0) {
     if (--((Unkstruct_80126B58 *)arg0)->unk204 == -1) {
         D_801270C8[0] = 0x14;
         ((Unkstruct_80126B58 *)arg0)->unk204 = 0x40;
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -4574,7 +4574,7 @@ void func_80180060(void *arg0) {
         func_8014706C(arg0);
         guess_g_MainCameraPitchTarget = -0x71;
         ((Unkstruct_80126B58 *)arg0)->unk204 = 0x12;
-        (((Unkstruct_80126B58 *)arg0)->unk214)++;
+        (((Unkstruct_80126B58 *)arg0)->unk214.u)++;
     }
 }
 
@@ -4603,7 +4603,7 @@ void func_801800CC(s32 s0)
         }
     } else {
         if (((s32 (*)(s32))func_8001AAA0)(0x14) != 0) {
-            ((Unkstruct_80126B58 *)s0)->unk214 += 1;
+            ((Unkstruct_80126B58 *)s0)->unk214.u += 1;
         }
     }
 }
@@ -4623,7 +4623,7 @@ void func_8018016C(s32 a0) {
         func_801903DC(0);
         func_8017E4F8();
         ((Unkstruct_80126B58 *)s0)->unk204 = 0xA0;
-        ((Unkstruct_80126B58 *)s0)->unk214 = ((Unkstruct_80126B58 *)s0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u = ((Unkstruct_80126B58 *)s0)->unk214.u + 1;
     }
 }
 
@@ -4657,7 +4657,7 @@ void func_80180234(void *arg0) {
     if (func_80171D78((s32)arg0, (s32)&buffer)) {
         D_80126974 = guess_g_MainCameraRefOffsetTargetZ = guess_g_MainCameraRefOffsetTargetZ;
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801975C8);
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -4670,7 +4670,7 @@ void func_801802CC(s32 param_1) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         func_8017DE5C();
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -4696,7 +4696,7 @@ void func_80180328(s32 param_1) {
 extern void (*D_801944E8[])(void);
 
 void func_80180380(void *a0) {
-    D_801944E8[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_801944E8[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4760,7 +4760,7 @@ void func_801804D4(void *a0)
 {
 
     extern void (*D_8019452C[])(void);
-    D_8019452C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_8019452C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -4778,7 +4778,7 @@ void func_80180510(void *a0) {
         *state = 0x1E;
         ((Unkstruct_80126B58 *)a0)->unk20C = 2;
     }
-    ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+    ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
 }
 
 
@@ -4794,7 +4794,7 @@ void func_80180574(u8 *a0)
                       D_801944F0[((Unkstruct_80126B58 *)a0)->unk20C][0], 4);
     if ((r << 16) == 0) {
         ((Unkstruct_80126B58 *)a0)->unk1F8 &= ~0x1000000;
-        (((Unkstruct_80126B58 *)a0)->unk214)++;
+        (((Unkstruct_80126B58 *)a0)->unk214.u)++;
     }
     v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_80180574_2 *)v1)->unk12 = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
@@ -4868,7 +4868,7 @@ void func_80180610(Unkstruct_80126B58 *a0) {
         guess_g_MainCameraYawTarget = v1;
         *(Blk8 *)&D_801E4C50 = *(Blk8 *)&D_801944F4[CAST_ALIAS(s16, (s32)a0, 0x20C)].f0;
         func_8014C6C0();
-        a0->unk214 += 1;
+        a0->unk214.u += 1;
     }
 }
 
@@ -5028,7 +5028,7 @@ extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 void func_80180AA4(void *a0) {
 
     extern void (*D_80194544[])(void);
-    D_80194544[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_80194544[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -5049,7 +5049,7 @@ void func_80180B18(u32 arg0) {
     buffer = D_801E2E00;
     if (func_80171D78(arg0, &buffer)) {
         guess_g_MainCameraYawTarget = 0x400;
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -5061,7 +5061,7 @@ void func_80180B90(u8 *a0)
 
     r = func_80012B04(((Unkstruct_80180B90_2 *)*(s32 *)((s8 *)a0 + 0x20))->unk12, 0x400, 4);
     if ((r << 16) == 0) {
-        (((Unkstruct_80126B58 *)a0)->unk214)++;
+        (((Unkstruct_80126B58 *)a0)->unk214.u)++;
     }
     v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_80180B90_2 *)v1)->unk12 = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
@@ -5089,7 +5089,7 @@ void func_80180C3C(void) {
 extern void (*D_8019455C[])(void);
 
 void func_80180C64(void *a0) {
-    D_8019455C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8019455C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -5131,7 +5131,7 @@ void func_80180D18(s32 a0) {
         D_80126962 = 0x400;
         guess_g_MainCameraYawTarget = 0x400;
         ((Unkstruct_80126B58 *)s0)->unk204 = 0x20;
-        ((Unkstruct_80126B58 *)s0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)s0)->unk214.u += 1;
     }
 }
 
@@ -5146,7 +5146,7 @@ void func_80180DB8(void *a0) {
     ((Unkstruct_80126B58 *)a0)->unk204 = v0;
     if (v0 == v1) {
         func_800D0C48(2);
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -5222,7 +5222,7 @@ void func_80180FA8(void *arg0) {
     buffer = D_801E2E10;
     if (func_80171D78((s32)arg0, (s32)&buffer)) {
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801975FC);
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -5343,7 +5343,7 @@ void func_801812B4(void) {
 extern void (*D_8019458C[])(void);
 
 void func_801812DC(void *a0) {
-    D_8019458C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8019458C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -5359,7 +5359,7 @@ void func_80181330(void *a0) {
     if (v0 == -1) {
         guess_RequestSound(0x10B, 0);
         ((Unkstruct_80126B58 *)a0)->unk204 = 0x10;
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 
@@ -5377,7 +5377,7 @@ void func_80181388(s32 arg0) {
         func_8017E8E4();
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_80197628);
         ((Unkstruct_80126B58 *)arg0)->unk200 = 0xDC;
-        ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
     }
 }
 
@@ -5389,7 +5389,7 @@ void func_801813F0(void *a0) {
     v0 += -1;
     ((Unkstruct_80126B58 *)a0)->unk200 = v0;
     if (v0 == v1) {
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 
@@ -5436,7 +5436,7 @@ void func_801814B4(s32 param_1)
         guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5904);
         guess_SetTexAnim(param_1, 2);
         ((Unkstruct_80126B58 *)param_1)->unk208 = 0x160000;
-        (((Unkstruct_80126B58 *)param_1)->unk214)++;
+        (((Unkstruct_80126B58 *)param_1)->unk214.u)++;
     }
 }
 
@@ -5456,7 +5456,7 @@ void func_80181570(s32 a0) {
         guess_SetAnimScript((s32 *)a0, (s32)D_800D5C00);
         guess_SetTexAnimScript((u8 *)a0, (s32)D_800D6004);
         func_800D1724((s32)&D_80194370);
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
     }
 }
 

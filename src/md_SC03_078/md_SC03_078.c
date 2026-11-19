@@ -74,7 +74,7 @@ void func_801EF630(void *a0) {
 void func_801EF66C(void *a0) {
 
     extern void (*D_801EFE6C[])(void);
-    D_801EFE6C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801EFE6C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -123,7 +123,7 @@ void func_801EF738(void *arg0) {
 void func_801EF798(void *a0) {
 
     extern void (*D_801EFE7C[])(void);
-    D_801EFE7C[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_801EFE7C[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 

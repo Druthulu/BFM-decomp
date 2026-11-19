@@ -4844,7 +4844,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80189638[])(void);
 
 void func_8017EEE0(void *a0) {
-    D_80189638[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80189638[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4887,12 +4887,12 @@ void func_8017EF58(int param_1)
 {
     if (func_80171B4C(param_1, 0x1E) != 0) {
         if (((int (*)(void))func_800CF854)() != 0) {
-            ((Unkstruct_80126B58 *)param_1)->unk214 = 3;
+            ((Unkstruct_80126B58 *)param_1)->unk214.u = 3;
         } else {
             ((int (*)(int, int))guess_SetAnimScript)(param_1, (int)&D_800D5A34);
             ((int (*)(int))func_8014706C)(param_1);
             ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
-            ((Unkstruct_80126B58 *)param_1)->unk214 = CAST_SIGN(char, param_1, 0x214) + 1;
+            ((Unkstruct_80126B58 *)param_1)->unk214.u = CAST_SIGN(char, param_1, 0x214) + 1;
             ((Unkstruct_80126B58 *)param_1)->unk20C = 0;
         }
     }
@@ -4950,7 +4950,7 @@ void func_8017EFDC(int param_1) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         func_80147060((u8 *)param_1);
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -4972,7 +4972,7 @@ extern void func_80175414(s32 _arg0);
 extern void (*D_80189648[])(void);
 
 void func_8017F184(void *a0) {
-    D_80189648[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80189648[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -4981,7 +4981,7 @@ extern void func_8017F204(s32 a0);
 
 void func_8017F1C0(s32 a0)
 {
-    ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+    ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = 0;
     func_80171B44((s32 *)a0);
     func_8017F204(a0);
@@ -5009,7 +5009,7 @@ extern void func_8016F0E4(u8 *);
 extern void (*D_80189654[])(void);
 
 void func_8017F268(void *a0) {
-    D_80189654[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_80189654[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -5034,7 +5034,7 @@ void func_8017F2A4(s32 *param_1)
         CAST_ALIAS(s16, (s32)param_1, 0x20E) = guess_g_MainCameraPitchTarget;
         guess_g_MainCameraPitchTarget = 0x38E;
         func_80175454();
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -5064,7 +5064,7 @@ extern void guess_CloseTextWindow(s32 a0);
 void func_8017F3C0(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 
@@ -5095,7 +5095,7 @@ void func_8017F458(void) {
 extern void (*D_80189690[])(void);
 
 void func_8017F480(void *a0) {
-    D_80189690[((Unkstruct_80170C74 *)a0)->unk215]();
+    D_80189690[((Unkstruct_80126B58 *)a0)->unk215.u]();
 }
 
 

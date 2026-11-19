@@ -4158,7 +4158,7 @@ void func_801885D0(void *a0)
     u8 *p;
 
     s1 = ((Unkstruct_801885D0_2 *)a0)->unk20;
-    p = D_801D45D8 + ((Unkstruct_801885D0_2 *)a0)->unk2C * 0x40;
+    p = D_801D45D8 + ((Unkstruct_801885D0_2 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_801885D0 *)s1)->unk1E.s = 0xCCC;
     ((Unkstruct_801885D0 *)s1)->head.unk10.s = 0x400;
@@ -4172,8 +4172,8 @@ void func_801885D0(void *a0)
     p[5] = 0x40;
     p[4] = 0x40;
     p[6] = 0x80;
-    ((Unkstruct_801885D0_2 *)a0)->unk1C = 0x10;
-    ((Unkstruct_801885D0_2 *)a0)->unk2 = ((Unkstruct_801885D0_2 *)a0)->unk2 + 1;
+    ((Unkstruct_801885D0_2 *)a0)->unk1C.s = 0x10;
+    ((Unkstruct_801885D0_2 *)a0)->unk2.u = ((Unkstruct_801885D0_2 *)a0)->unk2.u + 1;
 }
 
 

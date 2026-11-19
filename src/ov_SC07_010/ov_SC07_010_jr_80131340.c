@@ -2360,9 +2360,9 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         switch (mode) {
         case 0x60000000:
             m = &D_801A6A3C;
-            *m = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk18;
-            q1 = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk1A;
-            q2 = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk1C;
+            *m = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk18.s;
+            q1 = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk1A.s;
+            q2 = 0x1000000 / ((Unkstruct_80135480_5 *)param_1)->unk1C.s;
             D_801A6A40 = 0;
             D_801A6A48 = 0;
             D_801A6A44 = q1;
@@ -2374,8 +2374,8 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             /* fallthrough */
         case 0x20000000:
             p = (param_2 & 0xFFFFFFF) | 0x80000000;
-            t18 = ((Unkstruct_80135480_5 *)param_1)->unk18;
-            t1A = ((Unkstruct_80135480_5 *)param_1)->unk1A;
+            t18 = ((Unkstruct_80135480_5 *)param_1)->unk18.s;
+            t1A = ((Unkstruct_80135480_5 *)param_1)->unk1A.s;
             t1C = CAST_SIGN(u16, (s32)param_1, 0x1C);
             mat2.w4 = 0;
             mat2.wC = 0;

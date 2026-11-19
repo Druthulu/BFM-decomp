@@ -3113,7 +3113,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018A47C[])(void);
 
 void func_8017E290(void *a0) {
-    D_8018A47C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8018A47C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -3135,9 +3135,9 @@ void func_8017E2CC(int param_1)
         func_8017DC04();
         guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5A34);
         func_8014706C((void *)param_1);
-        sVar1 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        sVar1 = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
-    ((Unkstruct_80126B58 *)param_1)->unk214 = sVar1;
+    ((Unkstruct_80126B58 *)param_1)->unk214.u = sVar1;
 }
 
 
@@ -3148,7 +3148,7 @@ void func_8017E334(void *arg0) {
     if (D_80126980 & 0x8000) {
         ((Unkstruct_80126B58 *)arg0)->unk20C = 0;
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(((Unkstruct_80126B58 *)arg0)->unk198);
-        (((Unkstruct_80126B58 *)arg0)->unk214)++;
+        (((Unkstruct_80126B58 *)arg0)->unk214.u)++;
     }
 }
 
@@ -3203,7 +3203,7 @@ void func_8017E384(int param_1)
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         ((Unkstruct_80126B58 *)param_1)->unk4D = ((Unkstruct_80126B58 *)param_1)->unk4D - 1;
-        ((Unkstruct_80126B58 *)param_1)->unk214 = ((Unkstruct_80126B58 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }
 }
 
@@ -3229,7 +3229,7 @@ void func_8017E4E4(s32 arg0)
 extern void (*D_8018A48C[])(void);
 
 void func_8017E524(void *a0) {
-    D_8018A48C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8018A48C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
@@ -3250,7 +3250,7 @@ void func_8017E598(void *arg0) {
 
     buffer = D_801C60B8;
     if (func_80171D78((s32)arg0, (s32)&buffer)) {
-        (((Unkstruct_80126B58 *)arg0)->unk214) += 1;
+        (((Unkstruct_80126B58 *)arg0)->unk214.u) += 1;
     }
 }
 
@@ -3268,7 +3268,7 @@ void func_8017E608(u8 *a0) {
     if ((s16)s1 == 0) {
         guess_SpawnSmallObjectAtOrigin(25, (s32)a0, 0x4BB04BC, 0);
         func_8017DB44();
-        ((Unkstruct_80126B58 *)a0)->unk214 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
         ((Unkstruct_80126B58 *)a0)->unk4D += 1;
     }
     t = ((Unkstruct_80126B58 *)a0)->unk20.val;
@@ -3303,7 +3303,7 @@ extern void func_8016EDEC(s32 a0, s32 a1, s32 a2);
 void func_8017E734(void *a0) {
 
     extern void (*D_8018A4A0[])(void);
-    D_8018A4A0[((Unkstruct_80172CA0_2 *)a0)->unk214]();
+    D_8018A4A0[((Unkstruct_80172CA0_2 *)a0)->unk214.u]();
 }
 
 
@@ -3341,7 +3341,7 @@ extern s16 D_801A3220;
 void func_8017E834(void *arg0) {
     if (func_80171AB0((s32)arg0, &D_8018A4C0) == 0) {
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801A3220);
-        ((Unkstruct_80126B58 *)arg0)->unk214 = ((Unkstruct_80126B58 *)arg0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = ((Unkstruct_80126B58 *)arg0)->unk214.u + 1;
     }
 }
 
@@ -3353,7 +3353,7 @@ void func_8017E890(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
         ((Unkstruct_80126B58 *)a0)->unk204 = 0x40;
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 
@@ -3369,7 +3369,7 @@ void func_8017E8E8(void *arg0) {
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32)&D_801A3288);
         ((Unkstruct_80126B58 *)arg0)->unk204 = 0;
         ((Unkstruct_80126B58 *)arg0)->unk20C = 0x5A;
-        ((Unkstruct_80126B58 *)arg0)->unk214 = ((Unkstruct_80126B58 *)arg0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = ((Unkstruct_80126B58 *)arg0)->unk214.u + 1;
     }
 }
 
@@ -3404,7 +3404,7 @@ extern void guess_CloseTextWindow(s32 a0);
 void func_8017E9F8(u8 *a0) {
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
         guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
-        ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk214.u = ((Unkstruct_80126B58 *)a0)->unk214.u + 1;
     }
 }
 

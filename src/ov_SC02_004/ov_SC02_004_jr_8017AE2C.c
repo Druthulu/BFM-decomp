@@ -3861,7 +3861,7 @@ void func_8017D6F0(s32 param_1) {
     }
     if (func_80171D78(param_1, (s32)&buf10)) {
         ((Unkstruct_80126B58 *)param_1)->unk204 = 0x20;
-        ((Unkstruct_80126B58 *)param_1)->unk214 += 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.u += 1;
     }
 }
 
@@ -3888,12 +3888,12 @@ void *a0;
 extern void (*D_8018173C[])(void);
 
 void func_8017D804(void *a0) {
-    D_8018173C[((Unkstruct_80172CA0 *)a0)->unk214]();
+    D_8018173C[((Unkstruct_80172CA0 *)a0)->unk214.u]();
 }
 
 
 void func_8017D840(u8 *a0) {
-        ((Unkstruct_8017D840 *)a0)->unk214 += 1;
+        ((Unkstruct_8017D840 *)a0)->unk214.u += 1;
     }
 
 

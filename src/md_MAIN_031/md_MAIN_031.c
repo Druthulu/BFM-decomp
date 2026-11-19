@@ -564,11 +564,11 @@ void func_800CBCD4(u8 *s0) {
             v0 = rand();
             v0 = v0 & 0x1F;
             v0 = v0 << 6;
-            v1 = ((Unkstruct_80126B58 *)s0)->unk60;
+            v1 = ((Unkstruct_80126B58 *)s0)->unk60.u;
             v0 = v0 - 0xC00;
             v1 = v1 - v0;
             v1 = v1 & 0xFFF;
-            ((Unkstruct_80126B58 *)s0)->unk60 = v1;
+            ((Unkstruct_80126B58 *)s0)->unk60.u = v1;
         }
         i = 0xF;
         v0 = (s32)D_800CC13C;
