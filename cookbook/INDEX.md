@@ -1097,3 +1097,5 @@ C0644 | Inventory a split type from the text: census misses deref-operand casts;
 C0645 | Typing a masked tagged pointer byte-identically; hand-insert new ledger rows | struct,pointer,tagged,bytes,ledger,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c29
 C0646 | Render pointee by access offsets (size exclusion, head-only); a zero-arg C call still passes a0 | struct,per-source,render,sprite,model,asm,abi,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c33
 C0647 | fold-batch limits on the actor slot: member tokens, nested gaps, RESIDUAL restamps | struct,absorb,fold-batch,union,residual,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c30
+C0648 | Deciding kind-agnostic render readers per overlay; helper stores the kind graph misses | struct,per-source,render,actor,kind,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c34
+C0649 | Applying ~2,700 judged per-source keys: chunks, asm() functions, untypeable from union reads | struct,absorb,per-source,fold-batch,gate,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c32
