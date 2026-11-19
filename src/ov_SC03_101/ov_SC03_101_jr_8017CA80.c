@@ -4882,14 +4882,14 @@ void func_801811C8(void *a0)
 
     v0 = ((Unkstruct_80180C68_2 *)s0)->unk70;
     if (v0 & 1) {
-        ((Unkstruct_80180F98 *)s1)->unk14 -= 4;
+        ((Unkstruct_800B5BD8 *)s1)->unk14.u -= 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 + 1;
         ((Unkstruct_80180C68 *)s2)->unk4 = v0;
         if ((s16)v0 >= 0x30) {
             ((Unkstruct_80180C68 *)s2)->unk4 = 0x10;
         }
     } else {
-        ((Unkstruct_80180F98 *)s1)->unk14 += 4;
+        ((Unkstruct_800B5BD8 *)s1)->unk14.u += 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 - 1;
         ((Unkstruct_80180C68 *)s2)->unk4 = v0;
         if ((s16)v0 < 0x11) {

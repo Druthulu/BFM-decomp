@@ -1807,7 +1807,7 @@ void func_801883C4(void)
         p = (s32)guess_g_PlayerModelPtr;
         t = CAST_SIGN(u16, p, 0x12) + *(u16 *)&D_801E43B8;
         *(u16 *)&D_801E43BC = 0;
-        ((Unkstruct_801463A0 *)p)->unk12 = t;
+        ((Unkstruct_8001C9D0 *)p)->head.unk12.s = t;
     }
 }
 
@@ -2353,7 +2353,7 @@ void func_80188F38(s32 a0)
     func_8012B21C((void *)self);
 
     p = (s32)guess_g_PlayerModelPtr;
-    RotMatrixY(((Unkstruct_801463A0 *)p)->unk12, &m);
+    RotMatrixY(((Unkstruct_8001C9D0 *)p)->head.unk12.s, &m);
     ApplyMatrixLV((s32)&m, (s32)&D_801965A0, self + 0x10);
     func_8012AD44((s32 *)self, 3);
 }

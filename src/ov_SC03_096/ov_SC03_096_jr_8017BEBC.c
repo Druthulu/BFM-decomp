@@ -4595,7 +4595,7 @@ s32 func_80180350(s32 a0, s16 a1) {
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) & 0xFFF;
+         ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {

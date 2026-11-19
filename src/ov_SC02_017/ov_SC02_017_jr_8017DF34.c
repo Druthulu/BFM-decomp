@@ -6198,7 +6198,7 @@ extern void guess_SetGameFlag(s32 arg0, s32 arg1);
 extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_PlayerModelPtr
 
 void func_80183AFC(void) {
-    ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 = 0xC00;
+    ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s = 0xC00;
 }
 
 

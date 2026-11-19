@@ -6666,9 +6666,9 @@ void func_80185FA8(s32 a0) {
 
     p = ((Unkstruct_80181430 *)a0)->unk20;
     t = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
-    ((Unkstruct_8017E7B4_2 *)p)->unk1C = t;
-    ((Unkstruct_8017E7B4_2 *)p)->unk1A = t;
-    ((Unkstruct_8017E7B4_2 *)p)->unk18 = t;
+    ((Unkstruct_8001C9D0 *)p)->unk1C.s = t;
+    ((Unkstruct_8001C9D0 *)p)->unk1A.s = t;
+    ((Unkstruct_8001C9D0 *)p)->unk18.s = t;
     if (++((Unkstruct_80181430 *)a0)->unk1C >= 0x11) {
         ((Unkstruct_80181430 *)a0)->unk2.s = 1;
         ((Unkstruct_80181430 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);
@@ -7276,8 +7276,8 @@ void func_80186E78(s32 a0) {
 extern void func_801292C8(u8 *a0);
 /* $v0 at exit: result of func_801292C8 or addiu $v0, $v0, -0x1 at ov_SC02_026:0x80182A38; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC03_090 objdump */
     s32 func_80186F84(s32 arg0) {
-        ((Unkstruct_8017FC8C *)arg0)->unk1C -= 1;
-        if (((Unkstruct_8017FC8C *)arg0)->unk1C == 0) {
+        ((Unkstruct_8011DB30 *)arg0)->unk1C.s -= 1;
+        if (((Unkstruct_8011DB30 *)arg0)->unk1C.s == 0) {
             ((void (*)(void))func_801292C8)();
         }
     }

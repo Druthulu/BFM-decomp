@@ -3394,7 +3394,7 @@ extern void (*D_8018D420[])(void);
         SVECTOR_8017C290 e;
         SVECTOR_8017C290 f;
         s32 i, j;
-        ((Unkstruct_8017C154 *)a0)->unk10 = ((Unkstruct_8017C154 *)a0)->unk30;
+        ((Unkstruct_8011D030 *)a0)->unk10.i.lo.s = ((Unkstruct_8011D030 *)a0)->unk30.val.s;
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)buf20);
         for (j = 0; j < 4; j++) {
             c.unk0.v1.unk0 = 0;
@@ -3404,7 +3404,7 @@ extern void (*D_8018D420[])(void);
             e = c;
             for (i = 0; i < 4; i++) {
                 f = D_8018D434[i];
-                ((Unkstruct_8017C154 *)a0)->unk12 = i + j;
+                ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s = i + j;
                 func_8017C290((int)a0, buf20, &c, &d, &e, &f, (s16 *)((u8 *)a0 + 0x10));
             }
         }
@@ -3445,10 +3445,10 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     SetTransMatrix(&m);
 
     r0_00 = &D_801D42A8[0];
-    if (((Unkstruct_8017C154 *)a)->unk12 == 0) {
+    if (((Unkstruct_8011D030 *)a)->unk10.i.hi.s == 0) {
         D_801D42D8 = 0x50000000;
-        D_801D42C8 = D_8018D36C[((Unkstruct_8017C154 *)a)->unk2C];
-        D_801D42CC = D_8018D36C[((Unkstruct_8017C154 *)a)->unk2C];
+        D_801D42C8 = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val];
+        D_801D42CC = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val];
         D_801D42D0 = 0;
         D_801D42D1 = 0;
         D_801D42D2 = 0;
@@ -3938,8 +3938,8 @@ void func_8017CFBC(void *a0)
     ((Unkstruct_800B5BD8 *)s1)->unk1A.u = v0;
     ((Unkstruct_800B5BD8 *)s1)->unk18.s = v0;
 
-    v1 = ((Unkstruct_8011D030 *)s2)->unk30;
-    ((Unkstruct_8011D030 *)s2)->unk30 = v1 - 1;
+    v1 = ((Unkstruct_8011D030 *)s2)->unk30.val.s;
+    ((Unkstruct_8011D030 *)s2)->unk30.val.s = v1 - 1;
     if (v1 == 0) {
         ((void (*)(void *))guess_FreeSmallObject)(s2);
     }

@@ -7899,7 +7899,7 @@ void func_801681FC(s32 param_1) {
     s32 a3;
 
     ((Unkstruct_801681FC_2 *)param_1)->unk28.s = guess_TestGameFlag(0x81) & 0xFF;
-    ((Unkstruct_801681FC_2 *)param_1)->unk30 = D_80186BA0[((Unkstruct_801681FC_2 *)param_1)->unk2C.val];
+    ((Unkstruct_801681FC_2 *)param_1)->unk30.val.s = D_80186BA0[((Unkstruct_801681FC_2 *)param_1)->unk2C.val];
     iVar3 = (((Unkstruct_801681FC_2 *)param_1)->unk2C.val << 0x11) >> 0x10;
     ((Unkstruct_801681FC_2 *)param_1)->unk2A.s = D_80186B70[iVar3];
     ((Unkstruct_801681FC_2 *)param_1)->unk1C = D_80186B71[iVar3];
@@ -7944,7 +7944,7 @@ void func_80168430(s32 param_1) {
     extern u8 D_80186B85[];
     s32 iVar1;
 
-    ((Unkstruct_80168430_2 *)param_1)->unk30 = D_80186BAC[((Unkstruct_80168430_2 *)param_1)->unk2C.val];
+    ((Unkstruct_80168430_2 *)param_1)->unk30.val.s = D_80186BAC[((Unkstruct_80168430_2 *)param_1)->unk2C.val];
     iVar1 = (((Unkstruct_80168430_2 *)param_1)->unk2C.val << 0x11) >> 0x10;
     ((Unkstruct_80168430_2 *)param_1)->unk2A.s = D_80186B84[iVar1];
     ((Unkstruct_80168430_2 *)param_1)->unk1C = D_80186B85[iVar1];
@@ -8064,17 +8064,17 @@ void func_80168828(s32 param_1)
     thing.f1d = 0xc0;
     thing.f24 = 0x50000000;
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk6;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unkA;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unkE;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk6.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unkE.u;
     func_80017E68(svec, matA);
 
-    svec[0] = svec[1] = svec[2] = (((Unkstruct_80168828 *)param_1)->unk1C << 11) + 0x1000;
+    svec[0] = svec[1] = svec[2] = (((Unkstruct_8011D030 *)param_1)->unk1C << 11) + 0x1000;
     ((void (*)(void *, void *))func_80017DC4)(svec, matA);
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk12;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unk16;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unk1A;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk14.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);
@@ -8673,11 +8673,11 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].vx = 0;
     flags = guess_g_FrameCounter;
     if (flags & 1) {
-        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30 + 0x20;
+        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30.val.s + 0x20;
     } else if (flags & 2) {
-        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30 + 0x40;
+        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30.val.s + 0x40;
     } else {
-        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30;
+        fr.col[1].r = ((Unkstruct_8016A290_6 *)param_1)->unk30.val.s;
     }
 
     p = ((u8 *)&D_80186CF4);
@@ -8788,13 +8788,13 @@ void func_8016A8FC(s32 a0)
     p.v1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + ((Unkstruct_8016A8FC *)a0)->unk50) >> 1);
     p.v2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + ((Unkstruct_8016A8FC *)a0)->unk54) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk6 = (short)((Unkstruct_8016A8FC *)a0)->unk4C;
-    p.w0 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unk6 + (int)((Unkstruct_8016E7C8 *)ptr)->unk6) >> 1);
+    p.w0 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unk6 + (int)((Unkstruct_8011D030 *)ptr)->unk6.s) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk4C = p.w0;
     ((Unkstruct_8016A8FC *)a0)->unkA = (short)((Unkstruct_8016A8FC *)a0)->unk50;
-    p.w1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + (int)((Unkstruct_8016E7C8 *)ptr)->unkA) >> 1);
+    p.w1 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkA + (int)((Unkstruct_8011D030 *)ptr)->unk8.i.hi.s) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk50 = p.w1;
     ((Unkstruct_8016A8FC *)a0)->unkE = (short)((Unkstruct_8016A8FC *)a0)->unk54;
-    p.w2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + (int)((Unkstruct_8016E7C8 *)ptr)->unkE) >> 1);
+    p.w2 = (short)(((int)((Unkstruct_8016A8FC *)a0)->unkE + (int)((Unkstruct_8011D030 *)ptr)->unkE.s) >> 1);
     ((Unkstruct_8016A8FC *)a0)->unk54 = p.w2;
     p.b11 = 0x10;
     p.b15 = 0x80;

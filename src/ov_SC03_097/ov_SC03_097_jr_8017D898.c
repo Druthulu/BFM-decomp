@@ -4292,14 +4292,14 @@ void func_80180C68(void *a0)
 
     v0 = ((Unkstruct_80180C68_2 *)s0)->unk70;
     if (v0 & 1) {
-        ((Unkstruct_80180F98 *)s1)->unk14 -= 4;
+        ((Unkstruct_800B5BD8 *)s1)->unk14.u -= 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 + 1;
         ((Unkstruct_80180C68 *)s2)->unk4 = v0;
         if ((s16)v0 >= 0x30) {
             ((Unkstruct_80180C68 *)s2)->unk4 = 0x10;
         }
     } else {
-        ((Unkstruct_80180F98 *)s1)->unk14 += 4;
+        ((Unkstruct_800B5BD8 *)s1)->unk14.u += 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 - 1;
         ((Unkstruct_80180C68 *)s2)->unk4 = v0;
         if ((s16)v0 < 0x11) {
@@ -4445,15 +4445,15 @@ void func_80180F98(void *a0, void *a1)
         return;
     }
 
-    if (((Unkstruct_80180F98 *)a0)->unk34 != 0) {
+    if (((Unkstruct_800B5BD8 *)a0)->unk34.s != 0) {
         KR_AS(void, func_8001E094)();
     } else {
         func_8001E378(a0);
     }
 
-    base.unk0.v1.unk0 = ((Unkstruct_80180F98 *)a0)->unk2E;
-    base.unk0.v1.unk2 = ((Unkstruct_80180F98 *)a0)->unk30;
-    base.unk0.v1.unk4 = ((Unkstruct_80180F98 *)a0)->unk32;
+    base.unk0.v1.unk0 = ((Unkstruct_800B5BD8 *)a0)->unk2E.u;
+    base.unk0.v1.unk2 = ((Unkstruct_800B5BD8 *)a0)->unk30.u;
+    base.unk0.v1.unk4 = ((Unkstruct_800B5BD8 *)a0)->unk32.u;
 
     gte_ldv0(&base);
     gte_rtps();
@@ -4465,7 +4465,7 @@ void func_80180F98(void *a0, void *a1)
         return;
     }
 
-    w = ((Unkstruct_80180F98 *)a0)->unk2C;
+    w = ((Unkstruct_800B5BD8 *)a0)->unk2C.u;
     z = otz + 1;
     if ((w & 0xC000) != 0) {
         if ((w & 0xC000) == 0xC000) {
@@ -4481,7 +4481,7 @@ void func_80180F98(void *a0, void *a1)
         return;
     }
 
-    if (((Unkstruct_80180F98 *)a0)->unk1E & 0x8000) {
+    if (((Unkstruct_800B5BD8 *)a0)->unk1E.s & 0x8000) {
         for (i = 0; i < 12; i += 6) {
             v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
             v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
@@ -4553,11 +4553,11 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
 
     poly = (Ft4_801833F0 *)D_800A5E60;
     fl = CAST_SIGN(u16, (s32)ent, 0x1E) & 0x8000;
-    flags = ((Unkstruct_80180F98 *)ent)->unk4;
+    flags = ((Unkstruct_800B5BD8 *)ent)->head.unk4.u;
     tp = (flags >> 24) & 3;
     shift = 2 - tp;
-    x = ((Unkstruct_80180F98 *)ent)->unk28 + (((Unkstruct_801813B4_2 *)spr)->unk4 >> shift);
-    y = ((Unkstruct_80180F98 *)ent)->unk2A + ((Unkstruct_801813B4_2 *)spr)->unk6;
+    x = ((Unkstruct_800B5BD8 *)ent)->unk28.u + (((Unkstruct_801813B4_2 *)spr)->unk4 >> shift);
+    y = ((Unkstruct_800B5BD8 *)ent)->unk2A.u + ((Unkstruct_801813B4_2 *)spr)->unk6;
     vtx = CAST_SIGN(s32, (s32)ent, 0x20);
     D_800A5E60 += 0xF0;
     if (flags & 0x40000000) {
@@ -4569,7 +4569,7 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
     }
     tpage = (tp << 7) | (abr << 5) | ((y & 0x100) >> 4) | ((x & 0x3C0) >> 6) |
             ((y & 0x200) << 2);
-    b = ((Unkstruct_80180F98 *)ent)->unk27;
+    b = ((Unkstruct_800B5BD8 *)ent)->unk27.u;
     cy = (b + 0x100) << 6;
     if (b < 0xE0) {
         clut = cy | 0x16;
@@ -4614,9 +4614,9 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
         }
         poly->clut = clut;
         __asm__ __volatile__("" ::"r"(i), "r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:dead-set-delete
-        poly->r0 = ((Unkstruct_80180F98 *)ent)->unk24;
-        poly->g0 = ((Unkstruct_80180F98 *)ent)->unk25;
-        poly->b0 = ((Unkstruct_80180F98 *)ent)->unk26;
+        poly->r0 = ((Unkstruct_800B5BD8 *)ent)->unk24.u;
+        poly->g0 = ((Unkstruct_800B5BD8 *)ent)->unk25.u;
+        poly->b0 = ((Unkstruct_800B5BD8 *)ent)->unk26;
         poly->x0 = ((u16 *)q)[i * 2];
         poly->y0 = ((u16 *)q)[i * 2 + 1];
         poly->x1 = ((u16 *)q)[i * 2 + 2];

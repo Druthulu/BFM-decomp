@@ -3782,7 +3782,7 @@ void func_801811E0(s32 param_1)
     *(s32 *)(param_1 + 0xC) =
         rcos(*(s16 *)(*(s32 *)(param_1 + 0x20) + 0x12)) * *(s32 *)(param_1 + 0xDC) << 4;
     if (*(u8 *)(param_1 + 0x74) != 0) {
-        ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 =
+        ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s =
             CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) + *(u16 *)(param_1 + 0xFC);
         func_8012DFD4((u8 *)param_1);
     }

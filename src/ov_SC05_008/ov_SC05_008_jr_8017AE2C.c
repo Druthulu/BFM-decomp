@@ -4300,7 +4300,7 @@ void func_8017E6A4(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = rec[1];
     ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = rec[2];
 
-    ((Unkstruct_801463A0 *)b78)->unk14 = -*(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)b78)->unk14.s = -*(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) & 0xFFF;
     *(s16 *)&D_80126C88 = -((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->head.unk10.u & 0xFFF;
     *(s16 *)&D_80126C8A = (((Unkstruct_800B5CB8 *)CAST_ALIAS(s32, param_1, 0x20))->unk12 + 0x800) & 0xFFF;
 
@@ -4315,8 +4315,8 @@ void func_8017E6A4(s32 param_1)
     CAST_ALIAS(s32, (s32)b78, 0x48) = (s32)(s16)guess_g_PlayerPosX;
     CAST_ALIAS(s16, (s32)b78, 0xA) = guess_g_PlayerPosY;
     CAST_ALIAS(s32, (s32)b78, 0x4C) = (s32)(s16)guess_g_PlayerPosY;
-    ((Unkstruct_801463A0 *)b78)->unkC = guess_g_PlayerPosZ;
-    ((Unkstruct_801463A0 *)b78)->unk50 = (s32)(s16)guess_g_PlayerPosZ;
+    ((Unkstruct_8001C9D0 *)b78)->head.unkC.s = guess_g_PlayerPosZ;
+    ((Unkstruct_8001C9D0 *)b78)->unk50 = (s32)(s16)guess_g_PlayerPosZ;
 }
 
 

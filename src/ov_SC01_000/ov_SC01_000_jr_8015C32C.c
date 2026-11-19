@@ -5625,17 +5625,17 @@ void func_80168828(s32 param_1)
     thing.f1d = 0xc0;
     thing.f24 = 0x50000000;
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk6;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unkA;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unkE;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk6.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unkE.u;
     func_80017E68(svec, matA);
 
-    svec[0] = svec[1] = svec[2] = (((Unkstruct_80168828 *)param_1)->unk1C << 11) + 0x1000;
+    svec[0] = svec[1] = svec[2] = (((Unkstruct_8011D030 *)param_1)->unk1C << 11) + 0x1000;
     ((void (*)(void *, void *))func_80017DC4)(svec, matA);
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk12;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unk16;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unk1A;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk14.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);
@@ -5950,11 +5950,11 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].vx = 0;
     flags = guess_g_FrameCounter;
     if (flags & 1) {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30 + 0x20;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s + 0x20;
     } else if (flags & 2) {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30 + 0x40;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s + 0x40;
     } else {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s;
     }
 
     p = ((u8 *)&D_80181CF0);

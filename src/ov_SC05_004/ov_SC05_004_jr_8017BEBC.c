@@ -4421,7 +4421,7 @@ void func_8017EBC8(s32 param_1)
     func_8012DFD4((u8 *)param_1);
     if (*(u8 *)(param_1 + 0x74) != 0) {
         v0 = (s32)guess_g_PlayerModelPtr;
-        ((Unkstruct_801463A0 *)v0)->unk12 = CAST_SIGN(u16, v0, 0x12) + *(u16 *)(param_1 + 0xFC);
+        ((Unkstruct_8001C9D0 *)v0)->head.unk12.s = CAST_SIGN(u16, v0, 0x12) + *(u16 *)(param_1 + 0xFC);
     }
     func_8017ECC4((s16 *)param_1);
 }

@@ -2860,13 +2860,13 @@ void func_8017D110(s32 param_1)
     }
     sp10 = guess_g_CameraFollowPos;
 
-    r = rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    r = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }
     sp18.vx = sp10.vx - (r >> 7);
 
-    r = rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    r = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }

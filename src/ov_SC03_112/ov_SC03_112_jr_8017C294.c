@@ -3178,8 +3178,8 @@ void func_8017E160(s32 param_1) {
     if ((s16)pos.unk4 < -0x3C0) {
         *(s16 *)&pos.unk4 = -0x3C0;
     }
-    vec[0] = pos.unk0 - rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
-    vec[2] = pos.unk4 - rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) / 128;
+    vec[0] = pos.unk0 - rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s) / 128;
+    vec[2] = pos.unk4 - rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s) / 128;
     vec[1] = pos.unk2;
     h = KR_AS(s32, func_8017E4B4)(D_801895D0, (s16 *)&pos, vec);
     /* the D_801ACE50 read must precede the 0xA0 store in the RTL stream:

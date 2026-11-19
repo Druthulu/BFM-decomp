@@ -4203,8 +4203,8 @@ extern s32 func_8012BB3C(s32 a0, s32 a1, u32 a2, s32 a3);
 s32 func_80188568(s32 arg0) {
     s32 r;
     r = func_8012BB3C((s32)&D_80126B5C, *(s32 *)(arg0 + 0xD4) + 4,
-                      ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12, 8);
-    ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 += r;
+                      ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s, 8);
+    ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s += r;
     return (s16)r == 0;
 }
 

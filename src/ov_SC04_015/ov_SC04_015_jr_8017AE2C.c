@@ -4783,7 +4783,7 @@ void func_8017E520(s32 a0) {
         guess_StartPairSequence(((Unkstruct_8017E520 *)a0)->unk4, a0 + 8, (s32)D_801885D4);
         ((Unkstruct_8017E520 *)a0)->unk14 = -0x5C;
         ((Unkstruct_8017E520 *)a0)->unk10 = (((Unkstruct_8017E520 *)a0)->unk18 - 4) * 24 + 0x18;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk14 = 0x400;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->unk14.s = 0x400;
         ((Unkstruct_8017E520 *)a0)->unk0 = 4;
         ((Unkstruct_8017E520 *)a0)->unkC = CAST_SIGN(u16, a0, 0x18) & 7;
         ((Unkstruct_8017E520 *)a0)->unk2 = ((Unkstruct_8017E520 *)a0)->unk18 * 4;

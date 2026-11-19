@@ -3825,14 +3825,14 @@ void func_8018188C(s32 param_1) {
     }
     sp10 = *(V4_88 *)&guess_g_CameraFollowPos;
 
-    t = -rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    t = -rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (t < 0) {
         t += 0x3F;
     }
     s1 = &sp10.vx;
     CAST_ALIAS(s16, param_1, 0x2E) = t >> 6;
 
-    t = -rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    t = -rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (t < 0) {
         t += 0x1F;
     }

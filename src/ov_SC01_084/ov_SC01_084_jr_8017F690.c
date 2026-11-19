@@ -3092,8 +3092,8 @@ void func_8017FE64(void *a0) {
     func_8004974C((void *)&guess_g_CameraWsMatrix, (void *)buf);
     ApplyMatrixSV((void *)buf, (void *)sv, (void *)sv);
 
-    ((Unkstruct_8016E7C8 *)s0)->unk6 = sv[0];
-    ((Unkstruct_8016E7C8 *)s0)->unkA = sv[1];
+    ((Unkstruct_8011DB30 *)s0)->unk4.i.hi.s = sv[0];
+    ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.s = sv[1];
     CAST_ALIAS(s16, s0, 0xE) = sv[2];
 
     if (D_801270D8 >= 2) {

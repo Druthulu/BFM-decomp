@@ -3405,7 +3405,7 @@ void func_8017C154(void *a0)
     SVECTOR_8017C290 f;
     s32 i, j;
 
-    ((Unkstruct_8017C154 *)a0)->unk10 = ((Unkstruct_8017C154 *)a0)->unk30;
+    ((Unkstruct_8011D030 *)a0)->unk10.i.lo.s = ((Unkstruct_8011D030 *)a0)->unk30.val.s;
     guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)buf20);
 
     for (j = 0; j < 4; j++) {
@@ -3416,7 +3416,7 @@ void func_8017C154(void *a0)
         e = c;
         for (i = 0; i < 4; i++) {
             f = D_8018F038[i];
-            ((Unkstruct_8017C154 *)a0)->unk12 = i + j;
+            ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s = i + j;
             func_8017C290((int)a0, buf20, &c, &d, &e, &f, (s16 *)((u8 *)a0 + 0x10));
         }
     }
@@ -3476,10 +3476,10 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     SetTransMatrix(&m);
 
     r0_00 = &D_801EA8C0[0];
-    if (((Unkstruct_8017C154 *)a)->unk12 == 0) {
+    if (((Unkstruct_8011D030 *)a)->unk10.i.hi.s == 0) {
         D_801EA8F0 = 0x50000000;
-        D_801EA8E0 = D_8018EF70[((Unkstruct_8017C154 *)a)->unk2C];
-        D_801EA8E4 = D_8018EF70[((Unkstruct_8017C154 *)a)->unk2C];
+        D_801EA8E0 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val];
+        D_801EA8E4 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val];
         D_801EA8E8 = 0;
         D_801EA8E9 = 0;
         D_801EA8EA = 0;
@@ -3918,7 +3918,7 @@ void func_8017CE90(void *a0)
         guess_BuildCircle12Points(s2, 0x50);
 
         ((Unkstruct_8017CE90_3 *)a0)->unk10.val = 0;
-        if (((Unkstruct_8017CE90_3 *)a0)->unk30 & 0x80) {
+        if (((Unkstruct_8017CE90_3 *)a0)->unk30.val.s & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
             ((Unkstruct_800B5BD8 *)s1)->unk1A.s = 0x80;
             ((Unkstruct_800B5BD8 *)s1)->unk18.s = 0x80;
@@ -3932,7 +3932,7 @@ void func_8017CE90(void *a0)
         D_801EA845 = 0;
         D_801EA846 = 0;
 
-        ((Unkstruct_8017CE90_3 *)a0)->unk30 = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
+        ((Unkstruct_8017CE90_3 *)a0)->unk30.val.s = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
         ((Unkstruct_800B5BD8 *)s1)->unk2C.s = ((Unkstruct_8017CE90_3 *)a0)->unkE.u + 0x10;
         ((Unkstruct_8017CE90_3 *)a0)->unk2.u = ((Unkstruct_8017CE90_3 *)a0)->unk2.u + 1;
     } else {
@@ -3966,8 +3966,8 @@ void func_8017CFBC(void *a0)
     ((Unkstruct_8017CFBC_5 *)s1)->unk1A.u = v0;
     ((Unkstruct_8017CFBC_5 *)s1)->unk18.s = v0;
 
-    v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk30;
-    ((Unkstruct_8017CFBC_4 *)s2)->unk30 = v1 - 1;
+    v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk30.val.s;
+    ((Unkstruct_8017CFBC_4 *)s2)->unk30.val.s = v1 - 1;
     if (v1 == 0) {
         ((void (*)(void *))guess_FreeSmallObject)(s2);
     }

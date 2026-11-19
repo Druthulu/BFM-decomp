@@ -4085,12 +4085,12 @@ void func_8017DA44(void *arg0) {
     s32 var_v0;
     s32 var_v0_2;
 
-    var_v0 = -rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    var_v0 = -rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (var_v0 < 0) {
         var_v0 += 0x3F;
     }
     M2C_FIELD(arg0, s16 *, 0x2E) = (s16) (var_v0 >> 6);
-    var_v0_2 = -rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    var_v0_2 = -rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (var_v0_2 < 0) {
         var_v0_2 += 0x1F;
     }

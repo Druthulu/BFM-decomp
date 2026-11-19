@@ -5658,8 +5658,8 @@ void func_80181AF8(s32 a0) {
 extern void func_801292C8(u8 *a0);
 /* $v0 at exit: result of func_801292C8 or addiu $v0, $v0, -0x1 at ov_SC02_026:0x80182A38; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC03_094 objdump */
     s32 func_80181C04(s32 arg0) {
-        ((Unkstruct_8017FC8C *)arg0)->unk1C -= 1;
-        if (((Unkstruct_8017FC8C *)arg0)->unk1C == 0) {
+        ((Unkstruct_8011DB30 *)arg0)->unk1C.s -= 1;
+        if (((Unkstruct_8011DB30 *)arg0)->unk1C.s == 0) {
             ((void (*)(void))func_801292C8)();
         }
     }
@@ -6871,7 +6871,7 @@ s32 func_80183C44(s32 a0, s16 a1) {
     s32 d;
 
     d = (func_8012B6D4((s16 *)&D_80126B5C, (s16 *)(a0 + 4)) -
-         ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12) & 0xFFF;
+         ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s) & 0xFFF;
     if (d < 0x800) {
         return d < a1;
     } else {

@@ -5518,7 +5518,7 @@ void func_801681FC(s32 param_1) {
     s32 a3;
 
     ((Unkstruct_8011D030 *)param_1)->unk28.s = guess_TestGameFlag(0x81) & 0xFF;
-    ((Unkstruct_8011D030 *)param_1)->unk30 = D_801962B8[((Unkstruct_8011D030 *)param_1)->unk2C.val];
+    ((Unkstruct_8011D030 *)param_1)->unk30.val.s = D_801962B8[((Unkstruct_8011D030 *)param_1)->unk2C.val];
     iVar3 = (((Unkstruct_8011D030 *)param_1)->unk2C.val << 0x11) >> 0x10;
     ((Unkstruct_8011D030 *)param_1)->unk2A.s = D_80196288[iVar3];
     ((Unkstruct_8011D030 *)param_1)->unk1C = D_80196289[iVar3];
@@ -5545,7 +5545,7 @@ void func_80168430(s32 param_1) {
     extern u8 D_8019629D[];
     s32 iVar1;
 
-    ((Unkstruct_8011D030 *)param_1)->unk30 = D_801962C4[((Unkstruct_8011D030 *)param_1)->unk2C.val];
+    ((Unkstruct_8011D030 *)param_1)->unk30.val.s = D_801962C4[((Unkstruct_8011D030 *)param_1)->unk2C.val];
     iVar1 = (((Unkstruct_8011D030 *)param_1)->unk2C.val << 0x11) >> 0x10;
     ((Unkstruct_8011D030 *)param_1)->unk2A.s = D_8019629C[iVar1];
     ((Unkstruct_8011D030 *)param_1)->unk1C = D_8019629D[iVar1];
@@ -5631,17 +5631,17 @@ void func_80168828(s32 param_1)
     thing.f1d = 0xc0;
     thing.f24 = 0x50000000;
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk6;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unkA;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unkE;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk6.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unkE.u;
     func_80017E68(svec, matA);
 
-    svec[0] = svec[1] = svec[2] = (((Unkstruct_80168828 *)param_1)->unk1C << 11) + 0x1000;
+    svec[0] = svec[1] = svec[2] = (((Unkstruct_8011D030 *)param_1)->unk1C << 11) + 0x1000;
     ((void (*)(void *, void *))func_80017DC4)(svec, matA);
 
-    svec[0] = ((Unkstruct_80168828 *)param_1)->unk12;
-    svec[1] = ((Unkstruct_80168828 *)param_1)->unk16;
-    svec[2] = ((Unkstruct_80168828 *)param_1)->unk1A;
+    svec[0] = ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u;
+    svec[1] = ((Unkstruct_8011D030 *)param_1)->unk14.i.hi.u;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);
@@ -5956,11 +5956,11 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     fr.v[1].vx = 0;
     flags = guess_g_FrameCounter;
     if (flags & 1) {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30 + 0x20;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s + 0x20;
     } else if (flags & 2) {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30 + 0x40;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s + 0x40;
     } else {
-        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30;
+        fr.col[1].r = ((Unkstruct_8011D030 *)param_1)->unk30.val.s;
     }
 
     p = ((u8 *)&D_8019640C);

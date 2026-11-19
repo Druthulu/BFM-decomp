@@ -3837,35 +3837,35 @@ void func_8018A6A4(s32 p) {
     if (((Unkstruct_801202A0 *)p)->unk34.u == 0) {
         t1 = CAST_SIGN(u16, o, 0x1C) + 0x800;
         tbl = ((Unkstruct_801202A0 *)p)->blkDC.f.unkDC.val;
-        ((Unkstruct_8017E7B4_2 *)o)->unk1C = t1;
-        ((Unkstruct_8017E7B4_2 *)o)->unk18 = t1;
+        ((Unkstruct_8001C9D0 *)o)->unk1C.s = t1;
+        ((Unkstruct_8001C9D0 *)o)->unk18.s = t1;
         lim1 = ((Unkstruct_801312D0 *)tbl)->unk0;
         lv1 = lim1;
         if (lim1 < t1) {
-            ((Unkstruct_8017E7B4_2 *)o)->unk1C = lv1;
-            ((Unkstruct_8017E7B4_2 *)o)->unk18 = lv1;
+            ((Unkstruct_8001C9D0 *)o)->unk1C.s = lv1;
+            ((Unkstruct_8001C9D0 *)o)->unk18.s = lv1;
         }
         t2 = CAST_SIGN(u16, o, 0x1A) + 0x800;
-        ((Unkstruct_8017E7B4_2 *)o)->unk1A = t2;
+        ((Unkstruct_8001C9D0 *)o)->unk1A.s = t2;
         lim2 = ((Unkstruct_801312D0 *)tbl)->unk2;
         lv2 = lim2;
         if (lim2 < t2) {
-            ((Unkstruct_8017E7B4_2 *)o)->unk1A = lv2;
+            ((Unkstruct_8001C9D0 *)o)->unk1A.s = lv2;
             ((Unkstruct_801202A0 *)p)->unk1C.s = ((Unkstruct_801312D0 *)tbl)->unk4;
             ((Unkstruct_801202A0 *)p)->unk34.u += 1;
         }
     } else if (((s32 (*)(void))guess_TickWaitTimer)() != 0) {
         t1 = CAST_SIGN(u16, o, 0x1C) + 0x400;
-        ((Unkstruct_8017E7B4_2 *)o)->unk1C = t1;
-        ((Unkstruct_8017E7B4_2 *)o)->unk18 = t1;
+        ((Unkstruct_8001C9D0 *)o)->unk1C.s = t1;
+        ((Unkstruct_8001C9D0 *)o)->unk18.s = t1;
         if (t1 >= 0x7001) {
-            ((Unkstruct_8017E7B4_2 *)o)->unk1C = 0x7000;
-            ((Unkstruct_8017E7B4_2 *)o)->unk18 = 0x7000;
+            ((Unkstruct_8001C9D0 *)o)->unk1C.s = 0x7000;
+            ((Unkstruct_8001C9D0 *)o)->unk18.s = 0x7000;
         }
         t2 = CAST_SIGN(u16, o, 0x1A) + 0x100;
-        ((Unkstruct_8017E7B4_2 *)o)->unk1A = t2;
+        ((Unkstruct_8001C9D0 *)o)->unk1A.s = t2;
         if (t2 >= 0x7001) {
-            ((Unkstruct_8017E7B4_2 *)o)->unk1A = 0x7000;
+            ((Unkstruct_8001C9D0 *)o)->unk1A.s = 0x7000;
         }
     }
 }

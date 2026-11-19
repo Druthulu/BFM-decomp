@@ -4125,13 +4125,13 @@ void func_8017EAEC(s32 param_1)
 
     local1 = guess_g_CameraFollowPos;
 
-    iVar4 = rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    iVar4 = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }
     dest[0] = local1.vx - (s16)(iVar4 >> 7);
 
-    iVar4 = rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+    iVar4 = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
     if (iVar4 < 0) {
         iVar4 += 0x7F;
     }

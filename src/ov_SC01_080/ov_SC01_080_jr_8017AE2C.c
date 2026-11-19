@@ -7261,7 +7261,7 @@ void func_801824FC(s32 arg0) {
         *(u16 *)(arg0 + 0xA) = D_80126CB6;
         *(u16 *)(arg0 + 0xE) = D_80126CB8;
         *(s32 *)(arg0 + 8) = 0xFDFE0000;
-        if (((guess_g_PlayerPosX + 0x2C0) & 0xFFFF) >= 0x581U && ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 == 0x800) {
+        if (((guess_g_PlayerPosX + 0x2C0) & 0xFFFF) >= 0x581U && ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s == 0x800) {
             *(s32 *)(arg0 + 4) += D_80126B68 * 40 + (rand() & 0x3F) - 0x20;
             *(s32 *)(arg0 + 0xC) += D_80126B70 * 40;
             if (*(s16 *)(arg0 + 0xE) >= 0x380) {

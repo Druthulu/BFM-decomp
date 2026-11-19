@@ -168,9 +168,9 @@ s32 func_800CCF30(void *a0) {
 
 
 void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
-    ((Unkstruct_8017E7B4_2 *)arg0)->unk1C = arg1;
-    ((Unkstruct_8017E7B4_2 *)arg0)->unk1A = arg1;
-    ((Unkstruct_8017E7B4_2 *)arg0)->unk18 = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->unk1C.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->unk1A.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->unk18.s = arg1;
 }
 
 

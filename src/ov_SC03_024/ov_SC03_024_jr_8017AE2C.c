@@ -3407,7 +3407,7 @@ void func_8017C0C8(void *a0) {
         SVECTOR_8017C290 e;
         SVECTOR_8017C290 f;
         s32 i, j;
-        ((Unkstruct_8017C154_2 *)a0)->unk10 = ((Unkstruct_8017C154_2 *)a0)->unk30;
+        ((Unkstruct_8017C154_2 *)a0)->unk10.i.lo.s = ((Unkstruct_8017C154_2 *)a0)->unk30.val.s;
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)buf20);
         for (j = 0; j < 4; j++) {
             c.unk0.v1.unk0 = 0;
@@ -3417,7 +3417,7 @@ void func_8017C0C8(void *a0) {
             e = c;
             for (i = 0; i < 4; i++) {
                 f = D_8018A9D8[i];
-                ((Unkstruct_8017C154_2 *)a0)->unk12 = i + j;
+                ((Unkstruct_8017C154_2 *)a0)->unk10.i.hi.s = i + j;
                 func_8017C290((int)a0, buf20, &c, &d, &e, &f, (s16 *)((u8 *)a0 + 0x10));
             }
         }
@@ -3977,8 +3977,8 @@ void func_8017CFBC(void *a0)
     ((Unkstruct_8017CFBC_6 *)s1)->unk1A.u = v0;
     ((Unkstruct_8017CFBC_6 *)s1)->unk18.s = v0;
 
-    v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk30;
-    ((Unkstruct_8017CFBC_3 *)s2)->unk30 = v1 - 1;
+    v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk30.val.s;
+    ((Unkstruct_8017CFBC_3 *)s2)->unk30.val.s = v1 - 1;
     if (v1 == 0) {
         ((void (*)(void *))guess_FreeSmallObject)(s2);
     }

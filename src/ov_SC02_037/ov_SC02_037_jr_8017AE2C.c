@@ -5732,13 +5732,13 @@ void func_8017EBC4(s32 param_1)
     sp10 = *(Unaligned8 *)&guess_g_CameraFollowPos;
 
     if (((Unkstruct_8017D120 *)param_1)->unkA0 == 0) {
-        t = -rsin(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+        t = -rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
         if (t < 0) {
             t += 0x1F;
         }
         CAST_ALIAS(s16, param_1, 0x2E) = t >> 5;
 
-        t = -rcos(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12);
+        t = -rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
         if (t < 0) {
             t += 0x1F;
         }

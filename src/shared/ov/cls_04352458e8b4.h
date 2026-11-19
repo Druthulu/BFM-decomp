@@ -7,10 +7,10 @@ void SHARED_FN(int param_1) {
         *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x1a) += 0x40;
         *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x1c) += 0x40;
         v1 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        if (((Unkstruct_8017E7B4_2 *)v1)->unk18 >= 0x1800) {
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1C = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk1A = 0x1800;
-            ((Unkstruct_8017E7B4_2 *)v1)->unk18 = 0x1800;
+        if (((Unkstruct_8001C9D0 *)v1)->unk18.s >= 0x1800) {
+            ((Unkstruct_8001C9D0 *)v1)->unk1C.s = 0x1800;
+            ((Unkstruct_8001C9D0 *)v1)->unk1A.s = 0x1800;
+            ((Unkstruct_8001C9D0 *)v1)->unk18.s = 0x1800;
         }
     }
 }

@@ -3080,8 +3080,8 @@ void func_80180E4C(void *arg0) {
     s32 r;
 
     r = func_8012B6D4((s16 *)&D_80126B5C, (s16 *)((s32)arg0 + 4));
-    r = guess_GetAngleStepToward(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12, r, 6);
-    ((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk12 = CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) + r;
+    r = guess_GetAngleStepToward(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s, r, 6);
+    ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s = CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) + r;
 }
 
 
