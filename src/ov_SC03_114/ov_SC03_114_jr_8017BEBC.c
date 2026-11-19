@@ -2972,7 +2972,7 @@ void func_8017D110(s32 param_1)
                 guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, s3);
                 guess_StartActorSequence(param_1, (void *)s2);
                 func_80143994(param_1, 0x3000);
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = s4;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = s4;
             }
             ((Unkstruct_801202A0 *)param_1)->unk2.s = s1;
         }
@@ -3475,9 +3475,9 @@ void func_8017E170(void *a0) {
 
     ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
     func_8017E2EC((void *)((Unkstruct_8011DB30 *)a0)->unk20);
 }
 
@@ -3572,7 +3572,7 @@ void func_8017E2EC(void *a0)
 
     u8 *rotm;
 
-    flags = ((Unkstruct_800B5BD8 *)a0)->unk4.u;
+    flags = ((Unkstruct_800B5BD8 *)a0)->head.unk4.u;
     rotm = &guess_g_CameraWsMatrix;
 
     gte_SetRotMatrix(rotm);

@@ -2416,7 +2416,7 @@ void func_8016BCC0(void *arg0) {
     temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;
-    ((Unkstruct_800B5BD8 *)temp_s0)->unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->unk12.u + 0x71) & 0xFFF);
+    ((Unkstruct_800B5BD8 *)temp_s0)->head.unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->head.unk12.u + 0x71) & 0xFFF);
     func_8016BFA8(arg0, &D_80191074, &D_80191078, temp_s0 + 0x18);
     if ((s16) ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u >= 0x1001) {
         ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = 0x1000U;
@@ -2465,7 +2465,7 @@ s32 func_8016BD78(s32 param_1)
         ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = 0;
         ((Unkstruct_8011D030 *)param_1)->unk2.s = ((Unkstruct_8011D030 *)param_1)->unk2.s + 1;
     }
-    ((Unkstruct_800B5BD8 *)iVar2)->unk12.u = (((Unkstruct_800B5BD8 *)iVar2)->unk12.u + 0x22) & 0xfff;
+    ((Unkstruct_800B5BD8 *)iVar2)->head.unk12.u = (((Unkstruct_800B5BD8 *)iVar2)->head.unk12.u + 0x22) & 0xfff;
 
     ((void (*)(s32, u8 *, u8 *, s32))func_8016BFA8)(param_1, p1, p2, iVar2 + 0x18);
 }

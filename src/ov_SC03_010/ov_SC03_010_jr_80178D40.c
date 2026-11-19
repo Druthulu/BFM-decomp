@@ -2927,11 +2927,11 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         break;
     case 0x24:
         (*(s16*)D_801A01CC) = 3;
-        arg0->unk20.m->unk12.u = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk20.m->head.unk12.u = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x25:
         g[0] = 1;
-        g[2] = arg0->unk20.m->unk12.u + ((Cmd_80178D40 *)arg1)->a.uh[0];
+        g[2] = arg0->unk20.m->head.unk12.u + ((Cmd_80178D40 *)arg1)->a.uh[0];
         g[1] = 0x1E;
         (*(s16*)D_801A01CC) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];

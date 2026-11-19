@@ -3908,7 +3908,7 @@ void func_801886C8(s32 a0) {
         D_8018F204 = 0x80;
         *(void **)(CAST_ALIAS(s32, a0, 0x20) + 0x80) = pFlag;
         ((Unkstruct_80126B58 *)a0)->unk20.m->unk2C.u |= 0x80;
-        ((Unkstruct_80126B58 *)a0)->unk20.m->unk4.s |= 0x8000;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk4.s |= 0x8000;
 
         v0 = guess_AllocSpriteObjectHigh();
         D_801BCA48 = v0;
@@ -3973,7 +3973,7 @@ void func_80188828(s32 arg0)
         }
         break;
     case 1:
-        ((Unkstruct_80126B58 *)arg0)->unk20.m->unk10.s += 0x20;
+        ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.s += 0x20;
         if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0x1E9) {
             ((Unkstruct_80126B58 *)arg0)->unk18 = 0;
             ((Unkstruct_80126B58 *)arg0)->unkE.s = -0x1EA;
@@ -4055,8 +4055,8 @@ s32 func_80188A94(s32 a0) {
     p[0] = p[1] = p[2] = ((t * 128) >> 12) + 0x80;
     if (q != 0) {
         ((Unkstruct_800B5BD8 *)q)->unk18.u = ((Unkstruct_800B5BD8 *)q)->unk1A.u = ((t * 1024) >> 12) + 0x800;
-        ((Unkstruct_800B5BD8 *)q)->unk8.u = *(u16 *)(a0 + 0x6);
-        ((Unkstruct_800B5BD8 *)q)->unkA.u = *(u16 *)(a0 + 0xA);
+        ((Unkstruct_800B5BD8 *)q)->head.unk8.u = *(u16 *)(a0 + 0x6);
+        ((Unkstruct_800B5BD8 *)q)->head.unkA.u = *(u16 *)(a0 + 0xA);
         CAST_ALIAS(u16, q, 0xC) = *(u16 *)(a0 + 0xE);
         D_8018F208 = D_8018F209 = D_8018F20A = ((t * 96) >> 12) + 0x60;
     }
@@ -4186,7 +4186,7 @@ void func_80188D88(s32 param_1)
 
     CAST_SIGN(u16, param_1, 0xA) -= 0x100;
     CAST_WIDTH(u8, param_1, 0xC0) = 0;
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.u |= 0x50000000;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u |= 0x50000000;
     ((Unkstruct_80126B58 *)param_1)->unk20.m->unk2C.u |= 0x90;
     ((Unkstruct_80126B58 *)param_1)->unk20.m->unk80 = param_1 + 0xFC;
 
@@ -4251,7 +4251,7 @@ void func_80188FA4(s32 param_1)
         u8 v0 = CAST_WIDTH(u8, param_1, 0xFC) + 0x10;
         CAST_WIDTH(u8, param_1, 0xFC) = v0;
         if (v0 >= 0xF1) {
-            ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.u |= 0x80000000;
+            ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u |= 0x80000000;
             CAST_WIDTH(u32, *(s32 *)(param_1 + 0xCC), 4) |= 0x80000000;
             ((Unkstruct_80126B58 *)param_1)->unk1C = 8;
             CAST_WIDTH(u16, param_1, 0x34) += 1;

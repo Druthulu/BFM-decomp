@@ -3326,7 +3326,7 @@ void func_8017E7E8(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = guess_g_PlayerPosY + 0x40;
     ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = guess_g_PlayerPosZ + (sp10 >> 16);
     ret = func_8012B8A4((s16 *)param_1);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = ret;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = ret;
     guess_UpdateActorModelMatrix(param_1);
     func_8012B200((u8 *)param_1);
     guess_SetForwardVelocity(param_1, 0xffe60000);
@@ -3817,7 +3817,7 @@ void func_8017F470(void *a0)
         guess_FreeActor((s32)a0);
     } else {
         func_8017F4E4(a0);
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(v1 + 0x20))->unk12.u;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(v1 + 0x20))->head.unk12.u;
         func_8017F668(a0);
     }
 }
@@ -3988,9 +3988,9 @@ void func_8017F834(void *param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk70.s = (s16)(r & 1) << 15;
     if (((s16)(r & 1) << 15) == 0) {
         dir = (r & 1) ? 1 : -1;
-        ((Unkstruct_8001C9D0 *)v0)->unk10.u = dir * ((s16)r % 128) - 0x200;
+        ((Unkstruct_8001C9D0 *)v0)->head.unk10.u = dir * ((s16)r % 128) - 0x200;
         w = dir * (rand() % 768) + 0x800;
-        ((Unkstruct_8001C9D0 *)v0)->unk12.u =
+        ((Unkstruct_8001C9D0 *)v0)->head.unk12.u =
             *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)param_1 + 0x64))->unk20.p + 0x12) + w;
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0xC000;
         guess_UpdateActorModelMatrix((s32)param_1);
@@ -3999,8 +3999,8 @@ void func_8017F834(void *param_1) {
         ((Unkstruct_801202A0 *)param_1)->extD.kcls_5046188d617f.unk100 = rand() & 0x1F0;
         ((Unkstruct_801202A0 *)param_1)->extD.kcls_5046188d617f.unk102 = rand() & 0x30;
     } else {
-        ((Unkstruct_8001C9D0 *)v0)->unk10.u = rand() % 4096;
-        ((Unkstruct_8001C9D0 *)v0)->unk12.u = rand() % 4096;
+        ((Unkstruct_8001C9D0 *)v0)->head.unk10.u = rand() % 4096;
+        ((Unkstruct_8001C9D0 *)v0)->head.unk12.u = rand() % 4096;
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0xC000;
     }
 
@@ -4054,9 +4054,9 @@ void func_8017FD88(s32 param_1)
 
     if (((((Unkstruct_801202A0 *)param_1)->unk70.s) & 0x8000) == 0) {
         a0 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        ((Unkstruct_8001C9D0 *)a0)->unk10.u = ((Unkstruct_8001C9D0 *)a0)->unk10.u + CAST_SIGN(u16, param_1, 0xFE);
+        ((Unkstruct_8001C9D0 *)a0)->head.unk10.u = ((Unkstruct_8001C9D0 *)a0)->head.unk10.u + CAST_SIGN(u16, param_1, 0xFE);
         a0 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        ((Unkstruct_8001C9D0 *)a0)->unk12.u = ((Unkstruct_8001C9D0 *)a0)->unk12.u + CAST_SIGN(u16, param_1, 0x100);
+        ((Unkstruct_8001C9D0 *)a0)->head.unk12.u = ((Unkstruct_8001C9D0 *)a0)->head.unk12.u + CAST_SIGN(u16, param_1, 0x100);
         a0 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(u16, a0, 0x14) = CAST_WIDTH(u16, a0, 0x14) + CAST_SIGN(u16, param_1, 0x102);
     }
@@ -4141,7 +4141,7 @@ void func_80180230(s32 param_1)
             s32 shifted = v70 << 6;
             ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = -0x552 - shifted;
         }
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = val + 0x800;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = val + 0x800;
         ((Unkstruct_801202A0 *)param_1)->unk75 = 2;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     }
@@ -4556,7 +4556,7 @@ void func_80180CB0(void *param_1) {
         CAST_ALIAS(s16, (s32)param_1, 6) = -0x134;
         CAST_ALIAS(s16, (s32)param_1, 0xA) = -0xE82;
         CAST_ALIAS(s16, (s32)param_1, 0xE) = -0x1D9;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u = 0xD00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u = 0xD00;
         guess_UpdateActorModelMatrix((s32)param_1);
         guess_StartActorSequence((s32)param_1, (void *)&D_80184FD0);
         func_80132288((int *)&D_801AAD90, (int *)&D_80185440, D_801A1BDC);

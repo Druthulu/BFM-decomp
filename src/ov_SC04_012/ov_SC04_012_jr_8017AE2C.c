@@ -3605,16 +3605,16 @@ SKIP:
     uVar5 = guess_GetStoryProgress();
     if (uVar5 >= 0x2f0) {
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0xd00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0xd00;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 1) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0xd00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0xd00;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 2) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0x300;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x300;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0x300;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x300;
         }
     } else {
         uVar6 = CAST_SIGN(u16, param_1, 0x70);
@@ -3622,10 +3622,10 @@ SKIP:
             sVar4 = 2;
         } else {
             if ((s16)uVar6 == 2) {
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0x100;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x100;
             }
             if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0x100;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x100;
             }
             sVar4 = 3;
         }
@@ -3946,7 +3946,7 @@ void func_8017DBEC(int param_1)
     c4 = rand();
 
     s0v = ((c1 & 3) << 10) + ((c2 & 0x1F) << 5) + ((c3 & 3) << 8) + (c4 & 0xFF);
-    ((Unkstruct_800B5BD8 *)p)->unk12.u = s0v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk12.u = s0v;
 
     r = rand();
     *(s16 *)(param_1 + 0x2E) = (r & 7) * 11;

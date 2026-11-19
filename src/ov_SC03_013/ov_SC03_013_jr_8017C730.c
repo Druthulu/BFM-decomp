@@ -3615,7 +3615,7 @@ s32 func_8017EE28(s32 a0, s32 a1, s32 a2) {
     guess_RotTransSVWithObjMatrix(a0, a1, (s32)sp10);
     guess_RotTransSVWithObjMatrix(a0, a2, (s32)sp18);
     if (func_8017EEA4(a0, (s32)sp10, (s32)sp18) != 0) {
-        D_80126B9A = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u;
+        D_80126B9A = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u;
         return 1;
     }
     return 0;
@@ -3687,7 +3687,7 @@ void func_8017EF9C(void *a0) {
         ((Unkstruct_800B5CB8 *)v0)->unk12 = v1w & 0xFF0;
         v1 = ((Unkstruct_800B5CB8 *)(s32)a0)->unk100;
         if (v1 == 2) {
-            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10.u = 0x400;
+            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)a0)->unk20.p)->head.unk10.u = 0x400;
         }
     }
     guess_UpdateActorModelMatrix((s32)a0);
@@ -3751,7 +3751,7 @@ void func_8017F140(void *a0) {
         func_8017ECD0((s32)a0);
     } else {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk10.u = ((Unkstruct_8001C9D0 *)v1)->head.unk10.u + 0x80;
     }
 }
 
@@ -3777,7 +3777,7 @@ void func_8017F198(s32 a0) {
         }
     } else {
         if (((Unkstruct_801202A0 *)a0)->unk10A.s != 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u =
                 *(u16 *)((s8 *)guess_g_PlayerModelPtr + 0x12) + 0x400;
             if (((s32 (*)(void))func_80174774)() != 0) {
                 *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x80000000;
@@ -3798,7 +3798,7 @@ void func_8017F288(void *a0) {
         func_8012AD44((s32 *)a0, 1);
     } else {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk10.u = ((Unkstruct_8001C9D0 *)v1)->head.unk10.u + 0x80;
     }
 }
 
@@ -3840,7 +3840,7 @@ void func_8017F324(s32 arg0) {
         func_8001CE28((void *)h, (void *)&D_801AD328);
         bc = &guess_g_ScreenWidth;
         CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x10;
-        ((Unkstruct_800B5BD8 *)h)->unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
+        ((Unkstruct_800B5BD8 *)h)->head.unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
         CAST_ALIAS(s16, h, 0x2C) = 1;
         ((Unkstruct_800B5BD8 *)h)->unk27 = 1;
         h = guess_AllocSpriteObjectHigh();
@@ -3850,7 +3850,7 @@ void func_8017F324(s32 arg0) {
             func_800242D0(q, (void *)&D_801AD350, 2);
             func_8001CE68((void *)h, (void *)&D_801AD350);
             CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x18;
-            ((Unkstruct_800B5BD8 *)h)->unkA.u = -guess_g_ScreenHeight / 2 + 0x20;
+            ((Unkstruct_800B5BD8 *)h)->head.unkA.u = -guess_g_ScreenHeight / 2 + 0x20;
             ((Unkstruct_800B5BD8 *)h)->unk2C.u = 1;
             *(u16 *)(arg0 + 2) += 1;
         }
@@ -3955,8 +3955,8 @@ void func_8017F6C8(s32 param_1) {
         func_8001CEC0(s0, D_80184EE0);
         ((Unkstruct_800B5BD8 *)s0)->unk2E = 0xA0;
         CAST_WIDTH(u16, s0, 0x30) = 0x70;
-        ((Unkstruct_800B5BD8 *)s0)->unk8.u = 0;
-        ((Unkstruct_800B5BD8 *)s0)->unkA.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->head.unkA.u = 0;
         ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
         guess_SetWaitTimer((s32 *)s1, 0x40);
         func_8012AD50((void *)s1);
@@ -4033,7 +4033,7 @@ void func_8017F85C(void *a0)
         v0 = ((Unkstruct_801202A0 *)a0)->unk68;
         v1 = *(u16 *)(v0 + 0xC);
         ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x3C;
-        ((Unkstruct_800B5BD8 *)s0)->unk12.u = v1;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk12.u = v1;
 
         switch (((Unkstruct_801202A0 *)a0)->unkFC.s) {
         case 1:

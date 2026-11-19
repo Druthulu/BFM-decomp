@@ -3924,10 +3924,10 @@ void func_801805B4(s32 arg0)
 {
     s32 s1;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk10.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk10.u + CAST_SIGN(u16, arg0, 0xFC);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u + CAST_SIGN(u16, arg0, 0xFE);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u + CAST_SIGN(u16, arg0, 0xFC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u + CAST_SIGN(u16, arg0, 0xFE);
     *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x14) =
         *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x14) + CAST_SIGN(u16, arg0, 0x100);
 
@@ -3998,9 +3998,9 @@ void func_8018077C(s32 *arg0) {
     func_8012E138((s32)arg0);
     temp = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
     if (temp != 0) {
-        ((Unkstruct_8001C9D0 *)temp)->unk8.u = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
-        ((Unkstruct_8001C9D0 *)temp)->unkA.u = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
-        ((Unkstruct_8001C9D0 *)temp)->unkC.u = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - 0x27E;
+        ((Unkstruct_8001C9D0 *)temp)->head.unk8.u = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_8001C9D0 *)temp)->head.unkA.u = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+        ((Unkstruct_8001C9D0 *)temp)->head.unkC.u = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - 0x27E;
     }
 }
 
@@ -4116,7 +4116,7 @@ void func_80180970(void *a0)
     func_80180B4C(a0);
 
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 3) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk10.u = 0x800;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u = 0x800;
     }
 
     if ((guess_TestGameFlag(0xAE) & 0xFF) == 0) {
@@ -4579,7 +4579,7 @@ void func_801812FC(s32 arg)
         break;
     case 3:
         if (*(s16 *)&guess_g_PlayerPosX >= 0x281) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u = 0;
         }
         /* fall through */
     default:
@@ -4705,7 +4705,7 @@ void func_801815F0(void *a0)
     func_8001C810(v0, (s32)&D_801A6958);
 
     *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x8040;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u =
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u =
         D_801A4DDA[((Unkstruct_801202A0 *)a0)->unk70.s][0];
 
     if (((Unkstruct_801202A0 *)a0)->unk70.s < 2) {

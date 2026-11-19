@@ -251,7 +251,7 @@ void func_800CB378(s32 arg0) {
         ((Unkstruct_800B5BD8 *)s0)->unk34.s = arg0 + 0x38;
         ((Unkstruct_800B5BD8 *)s0)->unk1A.s = 0;
         ((Unkstruct_800B5BD8 *)s0)->unk18.s = 0;
-        ((Unkstruct_800B5BD8 *)s0)->unk4.u = ((Unkstruct_800B5BD8 *)s0)->unk4.u | 0x50000000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk4.u = ((Unkstruct_800B5BD8 *)s0)->head.unk4.u | 0x50000000;
         ten = 0x10;
         ((Unkstruct_800CB378 *)arg0)->unk20 = s0;
         ((Unkstruct_800CB378 *)arg0)->unk1C = ten;

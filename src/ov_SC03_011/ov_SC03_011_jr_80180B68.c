@@ -2991,8 +2991,8 @@ void func_80180B68(void *a0) {
         break;
     case 4:
         v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 0xC00, 6);
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u + v0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u + v0;
         v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s + 1;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = v0;
         v0 = v0 < 0x10;

@@ -2990,7 +2990,7 @@ void func_8017D118(s32 a0) {
             break;
         case 7:
             func_8001C2C4(((Unkstruct_801202A0 *)a0)->unk20.p);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = 0xC00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = 0xC00;
             state = 0xD;
             break;
         }
@@ -3002,7 +3002,7 @@ void func_8017D118(s32 a0) {
             if (p2 != 0) {
                 guess_StartActorSequence((void *)a0, (void *)p2);
             }
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = val;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = val;
         }
         ((Unkstruct_801202A0 *)a0)->unk2.s = state;
     }
@@ -3346,7 +3346,7 @@ s32 func_8017DDA0(s32 param_1)
             }
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = *psVar2;
             psVar2 += 1;
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = *psVar2;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = *psVar2;
             psVar2 += 1;
             *(short *)(param_1 + 0xea) = *psVar2;
             guess_UpdateActorModelMatrix(param_1);

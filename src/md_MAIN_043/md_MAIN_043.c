@@ -222,7 +222,7 @@ void func_800CCF50(void *a0) {
         guess_TransformPosByObjMatrix(s2, a0 + 4);
         *(u16 *)(s0 + 0x10) = ((Unkstruct_80126B58 *)s2)->unk100;
         *(u16 *)(s0 + 0x14) = ((Unkstruct_80126B58 *)s2)->unk104;
-        *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->unk12.u;
+        *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk12.u;
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         ((Unkstruct_80126B58 *)a0)->unk62 = 0;

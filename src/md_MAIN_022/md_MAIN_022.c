@@ -427,7 +427,7 @@ void func_800CB68C(s32 param_1)
         ((Unkstruct_800B5BD8 *)iNew)->unk34.s = (s32)((u8 *)((void *)param_1) + 0x38);
         ((Unkstruct_800B5BD8 *)iNew)->unk1A.s = 0;
         ((Unkstruct_800B5BD8 *)iNew)->unk18.s = 0;
-        ((Unkstruct_800B5BD8 *)iNew)->unk4.u = ((Unkstruct_800B5BD8 *)iNew)->unk4.u | 0x50000000;
+        ((Unkstruct_800B5BD8 *)iNew)->head.unk4.u = ((Unkstruct_800B5BD8 *)iNew)->head.unk4.u | 0x50000000;
         ((void (*)(void *))func_800CBAA4)(((void *)param_1));
         {
             s32 t10;

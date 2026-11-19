@@ -475,7 +475,7 @@ void func_8017F8F8(void *param_1) {
             v1 = t + 0x100;
         }
         ((Unkstruct_801202A0 *)param_1)->unkFC.s =
-            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u + v1) & 0xFFF;
+            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u + v1) & 0xFFF;
     }
 
     guess_ClearVelocityAndSetGravity(param_1);
@@ -776,7 +776,7 @@ void func_8017FFF0(s32 a0) {
     if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 4) {
         v0 = ((Unkstruct_801202A0 *)a0)->unk20.p;
         ret = guess_GetAngleStepToward(CAST_SIGN(s16, v0, 0x12), ((Unkstruct_801202A0 *)a0)->unkFC.s, 8);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u += ret;
     }
     guess_SetForwardVelocity(a0, D_801A07B4);
     if (((s32 (*)(s32))func_8012CBA4)(a0) != 0x2000) {

@@ -193,9 +193,9 @@ void func_800CB23C(void *a0) {
     if (v0 != 0) {
         guess_InitModelObjectKind3((void *)v0, D_800CBE98);
         guess_TransformPosByObjMatrix(s1, (s32)a0 + 4);
-        ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.u = ((Unkstruct_80126B58 *)s1)->unk100;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.u = ((Unkstruct_80126B58 *)s1)->unk100;
         ((Unkstruct_80126B58 *)a0)->unk20.m->unk14.u = ((Unkstruct_80126B58 *)s1)->unk104;
-        ((Unkstruct_80126B58 *)a0)->unk20.m->unk12.u = ((Unkstruct_80126B58 *)s1)->unk20.m->unk12.u;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk12.u = ((Unkstruct_80126B58 *)s1)->unk20.m->head.unk12.u;
         func_80146DE8((s32 *)a0, 0, 0x80000, 0xFFF00000);
         guess_SetWaitTimer_2((s32 *)a0, 0x60);
         func_800CB758(a0);
@@ -261,9 +261,9 @@ void func_800CB300(s32 arg0) {
         goto L6A8;
     }
     func_80013F3C(&mat);
-    func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk10.s);
+    func_800126C4((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->head.unk10.s);
     func_800123F0((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk14.s);
-    func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->unk12.s);
+    func_80012558((s32)&mat, ((Unkstruct_8001C9D0 *)s0)->head.unk12.s);
     *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
     *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];
     ((Unkstruct_8001C9D0 *)s0)->unk2C.u = ((Unkstruct_8001C9D0 *)s0)->unk2C.u | 1;
@@ -444,7 +444,7 @@ void func_800CB8A4(void *a0) {
         ((Unkstruct_800CB8A4_3 *)s1)->unk20 = s0;
         func_8001CEC0(s0, D_800CBECC);
         ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
-        ((Unkstruct_800B5BD8 *)s0)->unk4.s |= 0x80000000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk4.s |= 0x80000000;
         ((Unkstruct_800CB8A4_3 *)s1)->unk6 = -0x28;
         ((Unkstruct_800CB8A4_3 *)s1)->unkA = -0x40;
         s0 = ((s32 (*)(void))func_80146578)();
@@ -545,7 +545,7 @@ void func_800CBAF4(void *a0)
 void func_800CBB50(void *a0) {
     ((Unkstruct_800B5BD8 *)a0)->unk27 = 0x1A;
     ((Unkstruct_800B5BD8 *)a0)->unk2C.u = 1;
-    ((Unkstruct_800B5BD8 *)a0)->unk8.u = 0;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk8.u = 0;
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x40;
 }
 

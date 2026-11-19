@@ -2625,13 +2625,13 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u = (u16)g[2];
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u = (u16)g[2];
             goto reset_both;
         }
         {
             s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u + r;
         }
         return;
     case 2:
@@ -2648,7 +2648,7 @@ void func_8017AE2C(s32 param_1) {
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
                     guess_YawToPoint(p, &D_801A01D4);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
@@ -2664,8 +2664,8 @@ void func_8017AE2C(s32 param_1) {
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
-                    ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2674,7 +2674,7 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
             guess_YawToPoint((void *)(pv + 4), &D_801A01D4);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);
@@ -3500,12 +3500,12 @@ void func_8017C150(void *a0) {
         bank = D_8019F630;
         guess_SjisToGlyphCodes(*(void **)((s32)a0 + 0xDC), bank);
         func_8001CE28((void *)obj, bank);
-        ((Unkstruct_800B5BD8 *)obj)->unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
             ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 3;
             ((Unkstruct_800B5BD8 *)obj)->unk27 = 1;
-            ((Unkstruct_800B5BD8 *)obj)->unkA.u = y + 9;
+            ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
     }

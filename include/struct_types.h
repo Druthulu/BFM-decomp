@@ -116,23 +116,23 @@ typedef struct {
     /* 0x010a */ s16 unk10A;
 } Unkstruct_800B5CB8; /* size = 0x10c */
 
+/* RenderHead — shared render head: first 0x14 bytes of the sprite record Unkstruct_800B5BD8 (pool tag 2, src/800.c:8585-8735)
+   and the model record Unkstruct_8001C9D0 (pool tag 1); slot init tags model 1 / sprite 2 (func_8012C890__1bddfa15.h:55-70). T17.c38. */
 typedef struct {
-    /* Unkstruct_ea207b39: P3.40 T3 band rank 1119; 16 TNC sites in 1 bodies; struct map 16 sites; restruct.py --decide-band */
     /* 0x0000 */ union { u16 u; s16 s; } unk0;
-    /* 0x0002 */ union { s16 s; u16 u; } unk2;
+    /* 0x0002 */ union { u16 u; s16 s; } unk2;
     /* 0x0004 */ union { s32 s; u32 u; } unk4;
     /* 0x0008 */ union { s16 s; u16 u; } unk8;
     /* 0x000a */ union { s16 s; u16 u; } unkA;
     /* 0x000c */ union { s16 s; u16 u; } unkC;
-    /* 0x000e */ u8 padE[0x2];
-    /* 0x0010 */ union {
-        s16 s;
-        u16 u;
-    } unk10;
-    /* 0x0012 */ union {
-        s16 s;
-        u16 u;
-    } unk12;
+    /* 0x000e */ union { u16 u; s16 s; } unkE;
+    /* 0x0010 */ union { s16 s; u16 u; } unk10;
+    /* 0x0012 */ union { s16 s; u16 u; } unk12;
+} RenderHead; /* size = 0x14 */
+
+typedef struct {
+    /* Unkstruct_ea207b39: P3.40 T3 band rank 1119; 16 TNC sites in 1 bodies; struct map 16 sites; restruct.py --decide-band */
+    /* 0x0000 */ RenderHead head; /* shared render head (model record, tag 1); T17.c38 */
     /* 0x0014 */ union { s16 s; u16 u; } unk14;
     /* 0x0016 */ u8 pad16[0x2];
     /* 0x0018 */ union {
@@ -520,21 +520,7 @@ typedef struct Unkstruct_801202A0 {
    Unkstruct_8001C9D0; P3.45 T16.c1 model). */
 typedef struct Unkstruct_800B5BD8 {
     /* T16.c5: sprite record; +0x0 pool tag 2, +0x2 render kind (src/800.c:8585-8735), +0x18 scale (src/800.c:8740) */
-    /* 0x0000 */ u16 unk0;
-    /* 0x0002 */ union {
-        u16 u;
-        s16 s;
-    } unk2;
-    /* 0x0004 */ union { s32 s; u32 u; } unk4;
-    /* 0x0008 */ union { u16 u; s16 s; } unk8;
-    /* 0x000a */ union { u16 u; s16 s; } unkA;
-    /* 0x000c */ union { u16 u; s16 s; } unkC;
-    /* 0x000e */ union {
-        u16 u;
-        s16 s;
-    } unkE;
-    /* 0x0010 */ union { u16 u; s16 s; } unk10;
-    /* 0x0012 */ union { u16 u; s16 s; } unk12;
+    /* 0x0000 */ RenderHead head; /* shared render head (sprite record, tag 2); T17.c38 */
     /* 0x0014 */ s16 unk14;
     /* 0x0016 */ u8 pad16[0x2];
     /* 0x0018 */ union { s16 s; u16 u; } unk18;

@@ -12,7 +12,7 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0x90;
-    ((Unkstruct_800B5BD8 *)iVar1)->unk4.u = ((Unkstruct_800B5BD8 *)iVar1)->unk4.u | 0x50000000;
+    ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u = ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u | 0x50000000;
     ((Unkstruct_8017F200_2 *)arg0)->unk2C = 0x20;
     ((Unkstruct_8017F200_2 *)arg0)->unk2 += 1;
 }

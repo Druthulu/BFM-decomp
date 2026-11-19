@@ -3,5 +3,5 @@
 void SHARED_FN(s32 a0) {
     s32 s0 = a0;
     ((Unkstruct_801202A0 *)s0)->unk2.s = 0xF;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u = (func_8012B864(s0) + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u = (func_8012B864(s0) + 0x800) & 0xFFF;
 }

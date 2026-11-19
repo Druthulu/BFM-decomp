@@ -3153,7 +3153,7 @@ void func_8017E7FC(void *a0)
         return;
     }
     func_8001C2C4(v0);
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)s0 + 0x20))->unk10.u = 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)s0 + 0x20))->head.unk10.u = 0x400;
     guess_UpdateActorModelMatrix((s32)s0);
     arr[1] = 0;
     arr[0] = 0;
@@ -3202,7 +3202,7 @@ void func_8017E8B0(void *a0) {
     CAST_WIDTH(s32, (s32)a0, 4) = *(s32 *)&D_80126B5C;
     CAST_WIDTH(s32, (s32)a0, 8) = D_80126B60;
     CAST_WIDTH(s32, (s32)a0, 0xC) = D_80126B64;
-    ((Unkstruct_8001C9D0 *)v1)->unk12.u = 0xF00;
+    ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = 0xF00;
     guess_UpdateActorModelMatrix((s32)a0);
     guess_SetVelocityXZFromLocal((s32)a0, (s32)&D_801892FC);
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 6;
@@ -3931,7 +3931,7 @@ void func_8017FB24(s32 param_1)
         return;
     }
     guess_InitModelObject(v0, (s32)D_801BFCB4);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0xE00;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0xE00;
     guess_StartActorSequence(param_1, (s32)&D_80189440);
     *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC) = 0x7FFF;
     ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)D_80189540 | 0x40000000;
@@ -4377,7 +4377,7 @@ int param_1;
     u64 vec;
     u32 out;
 
-    func_800139C8(((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s, D_80189838, &vec);
+    func_800139C8(((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.s, D_80189838, &vec);
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {

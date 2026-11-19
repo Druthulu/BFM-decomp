@@ -5,7 +5,7 @@ void SHARED_FN(s32 param_1) {
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0xC000;
     v1 = ((Unkstruct_801202A0 *)param_1)->unk64;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u =
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
         ((Unkstruct_800B5CB8 *)*(s32 *)(v1 + 0x20))->unk12;
     guess_UpdateActorModelMatrix(param_1);
     guess_SetForwardVelocity(param_1, 0x20000);

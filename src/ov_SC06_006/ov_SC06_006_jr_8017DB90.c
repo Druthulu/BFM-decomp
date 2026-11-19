@@ -5124,9 +5124,9 @@ void func_801814DC(void *a0) {
 
     ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
     func_80181658((void *)((Unkstruct_8011DB30 *)a0)->unk20);
 }
 
@@ -5162,7 +5162,7 @@ void func_80181658(void *a0)
 
     u8 *rotm;
 
-    flags = ((Unkstruct_800B5BD8 *)a0)->unk4.u;
+    flags = ((Unkstruct_800B5BD8 *)a0)->head.unk4.u;
     rotm = &guess_g_CameraWsMatrix;
 
     gte_SetRotMatrix(rotm);

@@ -3018,7 +3018,7 @@ join:
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
         guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_80191538);
         v1 = CAST_SIGN(void *, (char *)arg0, 0x20);
-        ((Unkstruct_8001C9D0 *)v1)->unk12.u = CAST_SIGN(short, (char *)v1, 0x12) + 0x800;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = CAST_SIGN(short, (char *)v1, 0x12) + 0x800;
         guess_ShowObjectModel((s32)arg0);
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)arg0, (s32)&(*(short *)&D_801B9A64));
         func_80184990((s32)arg0);
@@ -4356,8 +4356,8 @@ void func_80182564(s32 a0) {
     switch (state) {
     case 0: {
         s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 0xC00, 0x10);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + r;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u + r;
         if (func_801848D0(0xA, 0xF, 0x12, 0) == 0) {
             func_80181FC0(a0);
         }

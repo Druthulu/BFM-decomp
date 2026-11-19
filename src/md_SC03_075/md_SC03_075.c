@@ -401,8 +401,8 @@ void func_801EFF54(void *param_1) {
         s32 v0 = func_8012BA10((s32)param_1, 0x10);
         s32 cur;
         s32 target;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u =
-            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u + v0) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u =
+            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u + v0) & 0xFFF;
         cur = ((Unkstruct_801202A0 *)param_1)->unk90;
         target = D_801F0658[((Unkstruct_801202A0 *)param_1)->unk70.s];
         if (cur != target) {
@@ -414,8 +414,8 @@ void func_801EFF54(void *param_1) {
         s32 v0 = func_8012BA10((s32)param_1, 0x10);
         s32 cur;
         s32 target;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u =
-            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u + v0) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u =
+            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u + v0) & 0xFFF;
         cur = ((Unkstruct_801202A0 *)param_1)->unk90;
         target = D_801F064C[((Unkstruct_801202A0 *)param_1)->unk70.s];
         if (cur != target) {
@@ -427,8 +427,8 @@ void func_801EFF54(void *param_1) {
         s32 v0 = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), 0x600, 8);
         s32 cur;
         s32 target;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u =
-            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u + v0) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u =
+            (((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->head.unk12.u + v0) & 0xFFF;
         cur = ((Unkstruct_801202A0 *)param_1)->unk90;
         target = D_801F064C[((Unkstruct_801202A0 *)param_1)->unk70.s];
         if (cur != target) {

@@ -3002,8 +3002,8 @@ void func_80181998(s32 param_1)
         s32 obj = ((Unkstruct_80126B58 *)param_1)->unk20.val;
         s32 s0 = param_1 + 0x24;
         ((Unkstruct_80126B58 *)obj)->unk20.val = h;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.u =
-            ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.u | 0x58000000;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u =
+            ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u | 0x58000000;
         *(u8 *)(((Unkstruct_80126B58 *)param_1)->unk20.val + 0x27) = 0x42;
         {
             /* one CSE interval -> one lw feeding both sh (§193-E) */
@@ -3053,8 +3053,8 @@ void func_80181998(s32 param_1)
         *(u16 *)(p + 0x18) = 0x3800;
     }
     func_80129350(param_1, s2);
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk10.u = 0;
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.u = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u = 0;
     ((Unkstruct_80126B58 *)param_1)->unk20.m->unk14.u =
         *(u16 *)(*(s32 *)(s2 + 0x20) + 0x12);
     ((Unkstruct_80126B58 *)param_1)->unk20.m->unk2C.u = 0xC040;
@@ -3793,7 +3793,7 @@ void func_80182990(s32 param_1)
         return;
     }
     func_8001C810(v0, (s32)&D_801937DC);
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.s |= 0x50000000;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.s |= 0x50000000;
     ((Unkstruct_80126B58 *)param_1)->unk20.m->unk2C.u |= 0x10;
     func_801813B0(param_1);
     ((Unkstruct_80126B58 *)param_1)->unk2 = 1;
@@ -3844,7 +3844,7 @@ void func_80182A64(int param_1)
             *(unsigned short *)(v1 + 0x30) = *(unsigned short *)(param_1 + 0x36);
         }
         ((Unkstruct_80126B58 *)param_1)->unk2 = 1;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.s = ((Unkstruct_80126B58 *)param_1)->unk70 * 0x200;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.s = ((Unkstruct_80126B58 *)param_1)->unk70 * 0x200;
         guess_UpdateActorModelMatrix(param_1);
         func_8012B200((u8 *)param_1);
         guess_SetForwardVelocity(param_1, 0xFFF30000);
@@ -4094,13 +4094,13 @@ s32 func_80183020(s32 s0) {
     v0 = ((Unkstruct_8017EAEC *)s0)->unk204;
     v1 = *(s32 *)(v0 + 0x20);
     if (v0 != 0) {
-        ((Unkstruct_8001C9D0 *)v1)->unk12.u = ((Unkstruct_8001C9D0 *)v1)->unk12.u + 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = ((Unkstruct_8001C9D0 *)v1)->head.unk12.u + 0x80;
         guess_RotTransSVWithMatrix(v1 + 0x34, s0 + 0x20C, &tmp);
         func_80015954(&tmp, s0 + 0x4);
     }
     v1 = ((Unkstruct_8017EAEC *)s0)->unk20;
-    v0 = ((Unkstruct_8001C9D0 *)v1)->unk12.u + 0x80;
-    ((Unkstruct_8001C9D0 *)v1)->unk12.u = v0;
+    v0 = ((Unkstruct_8001C9D0 *)v1)->head.unk12.u + 0x80;
+    ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = v0;
     v0 = ((Unkstruct_8017EAEC *)s0)->unk208 + 0x80;
     ((Unkstruct_8017EAEC *)s0)->unk208 = v0;
     return !((s16)v0 ^ 0x800);
@@ -4355,7 +4355,7 @@ void func_80183888(void *a0) {
             u16 v0 = v1 & ~0x10;
             ((Unkstruct_80126B58 *)a0)->unk70 = v0;
             guess_InitModelObject(((Unkstruct_80126B58 *)a0)->unk20.val, D_8019A570[(s16)v0]);
-            ((Unkstruct_80126B58 *)a0)->unk20.m->unk4.s |= 0x60000040;
+            ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk4.s |= 0x60000040;
         } else {
             guess_InitModelObject(((Unkstruct_80126B58 *)a0)->unk20.val, D_8019A570[(s16)v1]);
         }

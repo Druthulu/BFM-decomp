@@ -3172,7 +3172,7 @@ void func_8017CFB0(s32 a0) {
     ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObject(iVar2, (s32)&D_801CA794);
-        ((Unkstruct_8001C9D0 *)iVar2)->unk10.u = 0x800;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.u = 0x800;
         ((Unkstruct_80126B58 *)a0)->unk60 = 0;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFC00000, 0);
@@ -3210,7 +3210,7 @@ void func_8017D07C(s32 a0) {
     guess_AddVelocityToPos_2((s32 *)a0);
     if ((CAST_SIGN(s16, a0, 0x60) == 0) && (0 < ((Unkstruct_80126B58 *)a0)->unk28)) {
         u16 uVar1;
-        ((Unkstruct_8001C9D0 *)iVar2)->unk10.u = 0;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.u = 0;
         uVar1 = ((Unkstruct_80126B58 *)a0)->unk60;
         ((Unkstruct_80126B58 *)a0)->unk60 = uVar1 + 1;
     }
@@ -3317,7 +3317,7 @@ void func_8017D364(int param_1) {
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_80188368;
-        ((Unkstruct_8001C9D0 *)iVar1)->unk4.u = ((Unkstruct_8001C9D0 *)iVar1)->unk4.u | 0x50000000;
+        ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u = ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u | 0x50000000;
         ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u | 0xb0;
         ((Unkstruct_8017D364_2 *)param_1)->unk58 = (s32)&D_801883C4[((Unkstruct_8017D364_2 *)param_1)->unk50 * 2];
         ((Unkstruct_8001C9D0 *)iVar1)->unk1C.u = 0;
@@ -3553,8 +3553,8 @@ void func_8017D8DC(s32 param_1) {
         *(s16 *)(param_1 + 0x14) = 0x1000;
         ((Unkstruct_800B5BD8 *)node)->unk28.s = 0x240;
         ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x180;
-        ((Unkstruct_800B5BD8 *)node)->unk10.u = w.vx;
-        ((Unkstruct_800B5BD8 *)node)->unk12.u = w.vy;
+        ((Unkstruct_800B5BD8 *)node)->head.unk10.u = w.vx;
+        ((Unkstruct_800B5BD8 *)node)->head.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
@@ -3614,7 +3614,7 @@ void func_8017DB70(s32 a0) {
         *(s32 *)(a0 + 0x20) = r;
         CAST_WIDTH(u32, r, 4) = CAST_WIDTH(u32, r, 4) | 0x5C000140;
         func_8001CF30((void *)r);
-        ((Unkstruct_800B5BD8 *)r)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)r)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)r)->unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->unk1A.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->unk28.s = 0x248;

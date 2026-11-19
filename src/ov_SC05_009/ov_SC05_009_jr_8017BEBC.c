@@ -3275,7 +3275,7 @@ void func_8017DCB0(s32 arg0) {
     s32 a1;
 
     a1 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-    ((Unkstruct_8001C9D0 *)a1)->unk10.u = ((Unkstruct_8001C9D0 *)a1)->unk10.u + (CAST_SIGN(u16, arg0, 0xFC));
+    ((Unkstruct_8001C9D0 *)a1)->head.unk10.u = ((Unkstruct_8001C9D0 *)a1)->head.unk10.u + (CAST_SIGN(u16, arg0, 0xFC));
 
     CAST_WIDTH(u16, a1, 0x14) = CAST_WIDTH(u16, a1, 0x14) + CAST_SIGN(u16, arg0, 0xFE);
 
@@ -3652,8 +3652,8 @@ void func_8017E4A4(s32 a0) {
         return;
     }
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += 0x30;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u += CAST_SIGN(u16, a0, 0x106);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u += 0x30;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u += CAST_SIGN(u16, a0, 0x106);
     *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) += ((Unkstruct_801202A0 *)a0)->extD.kcls_8d77555e2e34.unk108;
 
     ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_8d77555e2e34.unkE0 += CAST_WIDTH(s32, a0, 0x18);

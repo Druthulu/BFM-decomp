@@ -3476,8 +3476,8 @@ void func_80182ECC(s32 p) {
         break;
 
     case 1:
-        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u + CAST_SIGN(u16, p, 0xFE);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u + CAST_SIGN(u16, p, 0xFE);
         if (guess_TickWaitTimer(p) == 0) {
             break;
         }

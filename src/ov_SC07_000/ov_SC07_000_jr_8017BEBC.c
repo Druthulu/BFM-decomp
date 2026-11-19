@@ -3583,7 +3583,7 @@ void func_8017E4B0(s32 a0) {
     func_8012B200((u8 *)a0);
     CAST_WIDTH(s32, a0, 0x10) = 0xFFFE8000;
     CAST_WIDTH(s32, a0, 0x18) = 0x38000;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = func_8012B8A4((s16 *)a0);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = func_8012B8A4((s16 *)a0);
     ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
 }
 

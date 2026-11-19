@@ -3229,12 +3229,12 @@ void func_80186B4C(s32 a0) {
             goto timeout;
         }
         q = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)q)->unk10.u -= 0x100;
+        ((Unkstruct_8001C9D0 *)q)->head.unk10.u -= 0x100;
         s1 = ((s32 (*)(s32, s32))func_8012CC64)(s0, (s32)&D_801C92DC);
         if (s1 & 0x2000) {
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xF;
             ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
-            ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.u = 0;
         }
         break;
 
@@ -3263,7 +3263,7 @@ merge2:
         if (v0) {
             p = ((Unkstruct_801202A0 *)s0)->unk20.p;
             ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-            ((Unkstruct_8001C9D0 *)p)->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)p)->head.unk10.u = 0;
             CAST_WIDTH(s16, s0, 0x5E) = 0;
             func_80186D90(s0);
         }
@@ -3448,7 +3448,7 @@ void func_80186F9C(s32 a0, s32 a1, s32 a2) {
     }
     ((Unkstruct_801202A0 *)s1)->unk5C.u &= 0xFFFE;
     ((Unkstruct_801202A0 *)s1)->unk1C.s = s2;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(s1 + 0x20))->unk12.u = (((Unkstruct_801202A0 *)s1)->unk62 + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s1 + 0x20))->head.unk12.u = (((Unkstruct_801202A0 *)s1)->unk62 + 0x800) & 0xFFF;
     p = ((Unkstruct_801202A0 *)s1)->unk20.p;
     *(s16 *)(p + 0x14) = 0;
     *(s16 *)(p + 0x10) = 0;

@@ -3897,7 +3897,7 @@ void func_8017E558(s32 a0) {
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = sp[5] + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = sp[5] + 0x800;
     CAST_SIGN(u16, a0, 0x2) += 1;
 }
 
@@ -4468,11 +4468,11 @@ void func_8017F354(void *a0)
 
     {
         s32 p = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)p)->unk12.u += 0x30;
+        ((Unkstruct_8001C9D0 *)p)->head.unk12.u += 0x30;
     }
     {
         s32 p = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)p)->unk10.u += CAST_SIGN(u16, (s32)a0, 0x106);
+        ((Unkstruct_8001C9D0 *)p)->head.unk10.u += CAST_SIGN(u16, (s32)a0, 0x106);
     }
     {
         s32 p = ((Unkstruct_801202A0 *)a0)->unk20.p;

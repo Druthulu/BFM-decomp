@@ -1822,7 +1822,7 @@ s32 func_8015C128(s32 param_1) {
         ((Unkstruct_8015C128_2 *)param_1)->unk238 += sp20[1];
         ((Unkstruct_8015C128_2 *)param_1)->unk23C += sp20[2];
     }
-    ((void(*)(int, int *, int *))func_8001382C)((short)(-((Unkstruct_8015C128_2 *)param_1)->unk20.m->unk12.u),
+    ((void(*)(int, int *, int *))func_8001382C)((short)(-((Unkstruct_8015C128_2 *)param_1)->unk20.m->head.unk12.u),
                   (int *)(((int)param_1) + 0x234), sp20);
     ((void(*)(int, int *))guess_SetMoveVector)(((int)param_1), sp20);
     guess_SetVelocityFromMoveVector(((int)param_1));

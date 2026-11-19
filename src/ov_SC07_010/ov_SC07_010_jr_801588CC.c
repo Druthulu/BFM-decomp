@@ -1449,7 +1449,7 @@ void func_80158BB0(void *arg0) {
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
     ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
-    ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.u = 0;
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
@@ -1571,7 +1571,7 @@ void func_8015934C(void *arg0) {
         guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    ((Unkstruct_8001C9D0 *)temp_v1)->unk12.u = (u16) ((((Unkstruct_8001C9D0 *)temp_v1)->unk12.u + 0x16) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_v1)->head.unk12.u = (u16) ((((Unkstruct_8001C9D0 *)temp_v1)->head.unk12.u + 0x16) & 0xFFF);
 }
 
 

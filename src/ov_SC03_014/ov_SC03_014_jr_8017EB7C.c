@@ -3638,7 +3638,7 @@ void func_8018089C(s32 a0) {
     guess_AddVelocityToPos_2((s32 *)a0);
     if ((CAST_SIGN(s16, a0, 0x60) == 0) && (0 < ((Unkstruct_80126B58 *)a0)->unk28)) {
         u16 uVar1;
-        ((Unkstruct_8001C9D0 *)iVar2)->unk10.u = 0;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.u = 0;
         uVar1 = ((Unkstruct_80126B58 *)a0)->unk60;
         ((Unkstruct_80126B58 *)a0)->unk60 = uVar1 + 1;
     }
@@ -3835,8 +3835,8 @@ void func_80180E38(s32 param_1) {
         *(s16 *)(param_1 + 0x14) = 0x1000;
         ((Unkstruct_800B5BD8 *)node)->unk28.s = 0x240;
         ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x180;
-        ((Unkstruct_800B5BD8 *)node)->unk10.u = w.vx;
-        ((Unkstruct_800B5BD8 *)node)->unk12.u = w.vy;
+        ((Unkstruct_800B5BD8 *)node)->head.unk10.u = w.vx;
+        ((Unkstruct_800B5BD8 *)node)->head.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
@@ -3896,7 +3896,7 @@ void func_801810CC(s32 a0) {
         *(s32 *)(a0 + 0x20) = r;
         CAST_WIDTH(u32, r, 4) = CAST_WIDTH(u32, r, 4) | 0x5C000140;
         func_8001CF30((void *)r);
-        ((Unkstruct_800B5BD8 *)r)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)r)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)r)->unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->unk1A.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->unk28.s = 0x248;
@@ -4525,7 +4525,7 @@ void func_80181DCC(s32 a0) {
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = sp[5] + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = sp[5] + 0x800;
     CAST_SIGN(u16, a0, 0x2) += 1;
 }
 
@@ -5369,12 +5369,12 @@ void func_80182E44(void *a0) {
         bank = D_801EAB78;
         guess_SjisToGlyphCodes(*(void **)((s32)a0 + 0xDC), bank);
         func_8001CE28((void *)obj, bank);
-        ((Unkstruct_800B5BD8 *)obj)->unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
             ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 3;
             ((Unkstruct_800B5BD8 *)obj)->unk27 = 1;
-            ((Unkstruct_800B5BD8 *)obj)->unkA.u = y + 9;
+            ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
     }

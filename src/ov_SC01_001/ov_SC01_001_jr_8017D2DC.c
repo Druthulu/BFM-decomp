@@ -5415,12 +5415,12 @@ void func_80181000(s32 a0)
     s0 = a0;
     p = ((Unkstruct_801202A0 *)s0)->unk20.p;
     g = D_801EDA34[0];
-    tmp = ((Unkstruct_8001C9D0 *)p)->unk12.u + g;
+    tmp = ((Unkstruct_8001C9D0 *)p)->head.unk12.u + g;
     flag = D_801EDA38;
-    ((Unkstruct_8001C9D0 *)p)->unk12.u = tmp;
+    ((Unkstruct_8001C9D0 *)p)->head.unk12.u = tmp;
     if (flag == 0)
         return;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u = 0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u = 0;
     ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = 5;
     CAST_ALIAS(s16, s0, 0xA) = -0x292;
     CAST_ALIAS(s16, s0, 0xE) = -0x15;
@@ -5780,13 +5780,13 @@ s32 func_8018183C(void) {
                 D_801ED9C4 = 0;
             }
             if (D_801ED9C0 == 0) {
-                ((Unkstruct_800B5BD8 *)D_801EDA24)->unk0 = 0;
+                ((Unkstruct_800B5BD8 *)D_801EDA24)->head.unk0.u = 0;
                 return 1;
             }
         } else {
             D_801ED9BC--;
         }
-        ((Unkstruct_800B5BD8 *)D_801EDA24)->unkA.u = ((Unkstruct_800B5BD8 *)D_801EDA24)->unkA.u - 6;
+        ((Unkstruct_800B5BD8 *)D_801EDA24)->head.unkA.u = ((Unkstruct_800B5BD8 *)D_801EDA24)->head.unkA.u - 6;
         break;
     }
     return 0;
@@ -6578,7 +6578,7 @@ s32 func_80182B00(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ptr[0];
         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ptr[1];
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ptr[2];
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = ptr[3];
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = ptr[3];
         ptr += 4;
         CAST_SIGN(u16 *, a0, 0xCC) = ptr;
         return *ptr == 0x8000;
@@ -6794,7 +6794,7 @@ void func_801830A8(void *a0) {
     if (func_80183128(a0, 1, 0) != 0) {
         CAST_SIGN(u16, (s32)a0, 2) += 1;
     }
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk10.u += 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u += 0x100;
     *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) += 0x100;
 }
 

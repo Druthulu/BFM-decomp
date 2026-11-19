@@ -2417,7 +2417,7 @@ void func_8016BCC0(void *arg0) {
     temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;
-    ((Unkstruct_800B5BD8 *)temp_s0)->unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->unk12.u + 0x71) & 0xFFF);
+    ((Unkstruct_800B5BD8 *)temp_s0)->head.unk12.u = (u16) ((((Unkstruct_800B5BD8 *)temp_s0)->head.unk12.u + 0x71) & 0xFFF);
     func_8016BFA8(arg0, &D_801A15D4, &D_801A15D8, temp_s0 + 0x18);
     if ((s16) ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u >= 0x1001) {
         ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = 0x1000U;

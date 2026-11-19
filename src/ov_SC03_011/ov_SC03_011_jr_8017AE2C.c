@@ -2627,13 +2627,13 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u = (u16)g[2];
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u = (u16)g[2];
             goto reset_both;
         }
         {
             s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u + r;
         }
         return;
     case 2:
@@ -2650,7 +2650,7 @@ void func_8017AE2C(s32 param_1) {
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
                     guess_YawToPoint(p, &D_801A2364);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
@@ -2666,8 +2666,8 @@ void func_8017AE2C(s32 param_1) {
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
-                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
-                    ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2676,7 +2676,7 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->head.unk12.u =
             guess_YawToPoint((void *)(pv + 4), &D_801A2364);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);
@@ -3387,18 +3387,18 @@ void func_8017C004(s32 arg0) {
     if (p != 0) {
         ((Unkstruct_8017C004_2 *)arg0)->unk34 = p;
         func_8001CEC0(p, D_80184C54);
-        ((Unkstruct_800B5BD8 *)p)->unk8.s = 0x40;
-        ((Unkstruct_800B5BD8 *)p)->unkA.s = -0x20;
+        ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x40;
+        ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
         ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
-        ((Unkstruct_800B5BD8 *)p)->unk4.s |= 0x40000000;
+        ((Unkstruct_800B5BD8 *)p)->head.unk4.s |= 0x40000000;
 
         p = ((s32 (*)(void))guess_AllocSpriteObject)();
         if (p != 0) {
             ((Unkstruct_8017C004_2 *)arg0)->unk10 = p;
             guess_SjisToGlyphCodes(D_80184D50, D_801A21DC);
             func_8001CE28(p, D_801A21DC);
-            ((Unkstruct_800B5BD8 *)p)->unk8.s = 0x30;
-            ((Unkstruct_800B5BD8 *)p)->unkA.s = -0x2C;
+            ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x30;
+            ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
             ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
             ((Unkstruct_800B5BD8 *)p)->unk27 = 1;
 
@@ -3406,8 +3406,8 @@ void func_8017C004(s32 arg0) {
             if (p != 0) {
                 ((Unkstruct_8017C004_2 *)arg0)->unk14 = p;
                 func_8001CEC0(p, D_80184CC4);
-                ((Unkstruct_800B5BD8 *)p)->unk8.s = -0x40;
-                ((Unkstruct_800B5BD8 *)p)->unkA.s = -0x20;
+                ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x40;
+                ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
                 ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
@@ -3415,8 +3415,8 @@ void func_8017C004(s32 arg0) {
                     ((Unkstruct_8017C004_2 *)arg0)->unk18 = p;
                     guess_SjisToGlyphCodes(D_80184D5C, D_801A21FC);
                     func_8001CE28(p, D_801A21FC);
-                    ((Unkstruct_800B5BD8 *)p)->unk8.s = -0x58;
-                    ((Unkstruct_800B5BD8 *)p)->unkA.s = -0x2C;
+                    ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x58;
+                    ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
                     ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
                     ((Unkstruct_800B5BD8 *)p)->unk27 = 1;
 
@@ -3425,8 +3425,8 @@ void func_8017C004(s32 arg0) {
                         ((Unkstruct_8017C004_2 *)arg0)->unk1C = p;
                         guess_SjisToGlyphCodes(D_80184D70, D_801A222C);
                         func_8001CE28(p, D_801A222C);
-                        ((Unkstruct_800B5BD8 *)p)->unk8.s = -0x68;
-                        ((Unkstruct_800B5BD8 *)p)->unkA.s = -0xC;
+                        ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x68;
+                        ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0xC;
                         ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
                         ((Unkstruct_800B5BD8 *)p)->unk27 = 0xB6;
                         ((Unkstruct_8017C004_2 *)arg0)->unk2A = 0;

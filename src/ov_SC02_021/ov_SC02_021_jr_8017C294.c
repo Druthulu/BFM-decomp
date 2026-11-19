@@ -3574,7 +3574,7 @@ void func_8017E940(s32 a0) {
         *(CVECTOR *)(s0 + 4) = D_8019196C;
 
         p1 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5BD8 *)p1)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)p1)->head.unk10.u = 0x400;
         p2 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         ((Unkstruct_800B5BD8 *)p2)->unk18.u = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
         p3 = CAST_SIGN(s32 *, (s32)s1, 0x20);

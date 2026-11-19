@@ -2910,13 +2910,13 @@ s32 func_801849DC(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
         return 0;
     }
     func_8001CB6C((u8 *)obj, a1, a2, a3);
-    ((Unkstruct_800B5BD8 *)obj)->unk10.u = 0xC00;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk10.u = 0xC00;
     ((Unkstruct_800B5BD8 *)obj)->unk27 = a4;
     ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x2D00;
     ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x2D00;
-    ((Unkstruct_800B5BD8 *)obj)->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-    ((Unkstruct_800B5BD8 *)obj)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-    ((Unkstruct_800B5BD8 *)obj)->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     return obj;
 }
 
@@ -3209,8 +3209,8 @@ void func_8018505C(void *a0) {
         /* the pointer is re-loaded per statement: each `sh` kills the CSE
          * of `*(s32 *)(a0+0x20)` (§193-E), which is why the target has three
          * `lw $a0,0x20($s0)`. */
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk10.u += CAST_WIDTH(u16, (s32)a0, 0x30);
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk12.u += *(u16 *)((s32)a0 + 0x32);
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.u += CAST_WIDTH(u16, (s32)a0, 0x30);
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk12.u += *(u16 *)((s32)a0 + 0x32);
         *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += ((Unkstruct_8011DB30 *)a0)->unk34.i.lo;
 
         if (d.vx + d.vz > 0x9000) {
@@ -3220,7 +3220,7 @@ void func_8018505C(void *a0) {
             ((Unkstruct_8011DB30 *)a0)->unk34.i.hi += 1;
         }
     } else {
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->unk10.u += 0x80;
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.u += 0x80;
         *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += 0x80;
 
         if (d.vx + d.vz < 0x4001) {
@@ -3824,7 +3824,7 @@ extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 void func_80185F38(s32 param_1)
 {
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u - 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u - 0x400;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x78;
     func_80143CD4(param_1);
     guess_RequestSound(0x47B, 0);
@@ -4556,8 +4556,8 @@ void func_80187198(s32 a0)
         }
     }
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk10.u += CAST_SIGN(u16, s0, 0xFC);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u += CAST_SIGN(u16, s0, 0xFE);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.u += CAST_SIGN(u16, s0, 0xFC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u += CAST_SIGN(u16, s0, 0xFE);
     *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x14) += CAST_SIGN(u16, s0, 0x100);
 
     if (--((Unkstruct_801202A0 *)s0)->unk1C.s < 0x10) {
@@ -5243,7 +5243,7 @@ void func_80188234(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0x12);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     func_801511E0(arg0);
-    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {
@@ -5252,7 +5252,7 @@ void func_80188234(s32 arg0)
     guess_SetTexAnim(arg0, 0x16);
     ((void (*)(s32))func_80149020)(arg0);
     s0a = (s32)buf;
-    ((void (*)(s32, s32, s32))func_8001382C)((CAST_SIGN(u16, arg0, 0xF4) - ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u) & 0xFFF,
+    ((void (*)(s32, s32, s32))func_8001382C)((CAST_SIGN(u16, arg0, 0xF4) - ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u) & 0xFFF,
                   (s32)&D_801C3D48, s0a);
     ((void (*)(s32, s32))guess_SetMoveVector)(arg0, s0a);
     ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, *(s32 *)(&D_801C3D54));
@@ -5358,7 +5358,7 @@ void func_8018852C(s32 a0)
     func_80149020((s32 *)s1);
     guess_PlaySoundUnlessSkipped(0x451);
     func_801511E0(s1);
-    if ((s16)func_80012A60(((Unkstruct_80126B58 *)s1)->unk20.m->unk12.s, ((Unkstruct_80126B58 *)s1)->unkF4) >= 0x401) {
+    if ((s16)func_80012A60(((Unkstruct_80126B58 *)s1)->unk20.m->head.unk12.s, ((Unkstruct_80126B58 *)s1)->unkF4) >= 0x401) {
         guess_SetAnimScript((s32 *)s1, (s32)&D_800D5880);
     } else {
         guess_SetAnimScript((s32 *)s1, (s32)&D_800D58AC);

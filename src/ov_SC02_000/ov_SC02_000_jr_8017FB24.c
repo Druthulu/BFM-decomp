@@ -2789,7 +2789,7 @@ void func_8017FB24(int arg0)
             ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
             ((Unkstruct_801202A0 *)arg0)->unk1C.s = (rand() & 0x1f) + 0x46;
             CAST_WIDTH(u16, arg0, 0xe0) = 0;
-            *(u16 *)(arg0 + 0xe2) = ((Unkstruct_8001C9D0 *)*(int *)(arg0 + 0x20))->unk12.u;
+            *(u16 *)(arg0 + 0xe2) = ((Unkstruct_8001C9D0 *)*(int *)(arg0 + 0x20))->head.unk12.u;
             idx = (int)((u32)CAST_SIGN(u16, arg0, 0x70) << 16) >> 24;
             switch (idx) {
             case 0:

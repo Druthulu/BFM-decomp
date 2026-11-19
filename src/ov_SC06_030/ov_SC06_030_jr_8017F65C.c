@@ -3060,7 +3060,7 @@ void func_8017FE9C(s32 a0) {
         }
     }
 
-    ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12.u =
+    ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)a0)->unk20.p)->head.unk12.u =
         *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x300;
     if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
         guess_FreeActor(a0);
@@ -3535,7 +3535,7 @@ void func_80180B50(s32 a0) {
     s32 v0;
 
     v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-    ((Unkstruct_8001C9D0 *)v1)->unk10.u = ((Unkstruct_8001C9D0 *)v1)->unk10.u + 0x300;
+    ((Unkstruct_8001C9D0 *)v1)->head.unk10.u = ((Unkstruct_8001C9D0 *)v1)->head.unk10.u + 0x300;
     if (((s32 (*)(s32))func_8012CBCC)(a0) != 0) {
         guess_FreeActor(a0);
     }

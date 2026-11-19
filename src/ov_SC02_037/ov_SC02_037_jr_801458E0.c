@@ -3898,7 +3898,7 @@ void func_801523F4(s32 arg0)
     ((void (*)(s32, s32))guess_SetWaitTimer_2)(arg0, 0);
     guess_StartPadVibration(&guess_g_RumblePatternFade);
     ((void (*)(s32, s32))func_80151204)(arg0, ((Unkstruct_80126B58 *)arg0)->unkF2);
-    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s,
+    if ((s16)func_80012A60((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.s,
                            (s32)((Unkstruct_80126B58 *)arg0)->unkF4) >= 0x401) {
         ((void (*)(s32, s32))guess_SetAnimScript)(arg0, (s32)&D_800D5880);
     } else {
@@ -3907,7 +3907,7 @@ void func_801523F4(s32 arg0)
     guess_SetTexAnim(arg0, 0x16);
     ((void (*)(s32))func_80149020)(arg0);
     s0a = (s32)buf;
-    ((void (*)(s32, s32, s32))func_8001382C)((CAST_SIGN(u16, arg0, 0xF4) - ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u) & 0xFFF,
+    ((void (*)(s32, s32, s32))func_8001382C)((CAST_SIGN(u16, arg0, 0xF4) - ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u) & 0xFFF,
                   s2a, s0a);
     ((void (*)(s32, s32))guess_SetMoveVector)(arg0, s0a);
     ((void (*)(s32, s32))guess_SetVertSpeed)(arg0, *(s32 *)(s2a + 0xC));

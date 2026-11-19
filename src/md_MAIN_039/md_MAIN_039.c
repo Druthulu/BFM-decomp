@@ -130,12 +130,12 @@ void func_800CB0B4(s32 param_1) {
     ((Unkstruct_80126B58 *)param_1)->unk20.val = obj;
     if (obj != 0) {
         guess_InitModelObject(obj, (s32)&D_800CC444);
-        *(u16 *)(obj + 0x10) = ((Unkstruct_80126B58 *)iVar2)->unk20.m->unk10.u;
+        *(u16 *)(obj + 0x10) = ((Unkstruct_80126B58 *)iVar2)->unk20.m->head.unk10.u;
         {
             s32 prod;
             prod = (((Unkstruct_80126B58 *)param_1)->unk50 - 1) * 0x155;
             *(u16 *)(obj + 0x12) =
-                (((Unkstruct_80126B58 *)iVar2)->unk20.m->unk12.u + prod) & 0xFFF;
+                (((Unkstruct_80126B58 *)iVar2)->unk20.m->head.unk12.u + prod) & 0xFFF;
         }
         *(u16 *)(obj + 0x14) = ((Unkstruct_80126B58 *)iVar2)->unk20.m->unk14.u;
         CAST_WIDTH(u16, param_1, 0x58) = ((Unkstruct_80126B58 *)iVar2)->unk100;

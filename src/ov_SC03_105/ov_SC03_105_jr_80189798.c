@@ -3048,7 +3048,7 @@ void func_80189E64(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk20.p = iVar2;
     if (iVar2 != 0) {
         func_8001CD50(iVar2, (s32)puVar3);
-        ((Unkstruct_800B5BD8 *)iVar2)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar2)->head.unk10.u = 0x400;
         CAST_WIDTH(u32, iVar2, 4) = CAST_WIDTH(u32, iVar2, 4) | 0x60000000;
         guess_BuildCircle12Points(puVar3, 0x40);
         puVar3[0] = 0x808080;

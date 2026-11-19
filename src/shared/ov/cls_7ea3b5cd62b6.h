@@ -19,7 +19,7 @@ void SHARED_FN(s32 a0)
             *(u16 *)(v0 + 0x10) = 0;
             v0 = ((Unkstruct_801202A0 *)a0)->unk68;
             v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-            ((Unkstruct_8001C9D0 *)v1)->unk12.u = *(u16 *)(v0 + 0xC);
+            ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = *(u16 *)(v0 + 0xC);
             guess_UpdateActorModelMatrix(a0);
         }
     }

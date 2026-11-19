@@ -4190,7 +4190,7 @@ void func_80180980(void *a0)
         p = D_8019AFB8 + idx * 8;
         func_8001CB6C((u8 *)s1, D_8019AFC8[idx], *(s16 *)(p + 0), *(s16 *)(p + 2));
         b = *(u16 *)(p + 4);
-        ((Unkstruct_800B5BD8 *)s1)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x2000;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x2000;
         ((Unkstruct_800B5BD8 *)s1)->unk27 = b;
@@ -4200,7 +4200,7 @@ void func_80180980(void *a0)
         ((Unkstruct_800B5BD8 *)s1)->unk28.s = 0x300;
         ((Unkstruct_800B5BD8 *)s1)->unk2A.u = 0x110;
         ((Unkstruct_800B5BD8 *)s1)->unk27 = 0x78;
-        ((Unkstruct_800B5BD8 *)s1)->unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x800;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x800;
 

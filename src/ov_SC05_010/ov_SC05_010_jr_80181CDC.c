@@ -3044,7 +3044,7 @@ void func_801828E0(s32 param_1) {
         CAST_SIGN(u16, param_1, 6) -= (rsin(*(s16 *)(s0 + 8)) << 6) >> 12;
         CAST_SIGN(u16, param_1, 0xE) -= (rcos(*(s16 *)(s0 + 6)) << 6) >> 12;
 
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u =
             CAST_SIGN(u16, param_1, 0xFC) + *(u16 *)(param_1 + 0xFE);
 
         func_8012B370(param_1);
@@ -3066,7 +3066,7 @@ void func_801829F0(s32 param_1) {
 
     if (((Unkstruct_80126B58 *)*(s32 *)(param_1 + 0x64))->unk0 != 0) {
         u16 t = CAST_SIGN(u16, *(s32 *)(param_1 + 0x64), 0xFC) + 0x400;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk12.u =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u =
             *(u16 *)(((Unkstruct_80126B58 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x12) - t;
 
         ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(
@@ -3183,7 +3183,7 @@ void func_80182CA0(s32 p)
         ((Unkstruct_80126B58 *)p)->unk2 = 1;
         ((Unkstruct_80126B58 *)p)->unk20.m->unk18.s = 0x6000;
         ((Unkstruct_80126B58 *)p)->unk20.m->unk1A.s = 0x6000;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk4.u |= 0x8000000;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk4.u |= 0x8000000;
         ((Unkstruct_80126B58 *)p)->unk20.m->unk14.s = 0x600;
         break;
     case 1:
@@ -3203,7 +3203,7 @@ void func_80182CA0(s32 p)
         break;
     }
 
-    ((Unkstruct_80126B58 *)p)->unk20.m->unk4.u |= 0x50000000;
+    ((Unkstruct_80126B58 *)p)->unk20.m->head.unk4.u |= 0x50000000;
     ((Unkstruct_80126B58 *)p)->unk20.m->unk2C.u |= 0x10;
     guess_RequestSound(0x898, 0);
 }
@@ -3739,7 +3739,7 @@ void func_8018388C(s32 param_1) {
 
     case 5:
         if (((s32 (*)(void))func_80174774)() != 0) {
-            ((Unkstruct_80126B58 *)param_1)->unk20.m->unk4.u |= 0x80000000;
+            ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u |= 0x80000000;
             CAST_WIDTH(u16, param_1, 0x34) = CAST_WIDTH(u16, param_1, 0x34) + 1;
             func_8002AC00(0x1E);
         }

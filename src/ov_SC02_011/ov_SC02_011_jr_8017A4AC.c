@@ -2672,7 +2672,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_801EAD00[D_801EB100]; D_801EB100 = (D_801EB100 + 1) & 0x1FF;
-        { s32 t = w->unk20.m->unk12.u + arg;
+        { s32 t = w->unk20.m->head.unk12.u + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

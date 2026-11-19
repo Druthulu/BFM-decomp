@@ -4537,8 +4537,8 @@ void func_8017F790(void *a0) {
         return;
     }
     func_8001C2C4(r);
-    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk10.u = 0x400;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk12.u = 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->head.unk10.u = 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->head.unk12.u = 0x400;
     guess_UpdateActorModelMatrix((s32)s0);
     buf[1] = 0;
     buf[0] = 0;
@@ -4575,8 +4575,8 @@ void func_8017F84C(void *a0)
     } else {
         func_8001C2C4(r);
         v0 = ratan2( -CAST_SIGN(s16, (u8 *)s0, 0xE), CAST_SIGN(s16, (u8 *)s0, 0x6) );
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk12.u = (v0 + 0x400) & 0xFFF;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk10.u = CAST_SIGN(u16, (u8 *)s0, 0x70);
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->head.unk12.u = (v0 + 0x400) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->head.unk10.u = CAST_SIGN(u16, (u8 *)s0, 0x70);
         guess_UpdateActorModelMatrix((s32)s0);
         buf[1] = 0;
         buf[0] = 0;

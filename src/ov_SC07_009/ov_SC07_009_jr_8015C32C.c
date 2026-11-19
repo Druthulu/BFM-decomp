@@ -1280,12 +1280,12 @@ void func_8015C32C(s32 arg0) {
         vin[0] = 0;
         vin[1] = 0;
         vin[2] = -0x4000;
-        func_8001382C((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.s, vin, vout);
+        func_8001382C((s32)((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.s, vin, vout);
         ((Unkstruct_80126B58 *)arg0)->unk234 += vout[0];
         ((Unkstruct_80126B58 *)arg0)->unk238 += vout[1];
         ((Unkstruct_80126B58 *)arg0)->unk23C += vout[2];
     }
-    func_8001382C((s16)-((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.u, (void *)(arg0 + 0x234), vout);
+    func_8001382C((s16)-((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.u, (void *)(arg0 + 0x234), vout);
     guess_SetMoveVector((s32 *)arg0, vout);
     guess_SetVelocityFromMoveVector(arg0);
     ((void (*)(s32))guess_ApplyVelocity)(arg0);
@@ -1691,8 +1691,8 @@ void func_8015D104(void *arg0) {
     } else {
         ((void (*)(void *))func_801725F4)(arg0);
         ((Unkstruct_80126B58 *)arg0)->unk234 = 0xFF1D0000;
-        ((Unkstruct_80126B58 *)arg0)->unk20.m->unk10.u = 0x600;
-        ((Unkstruct_80126B58 *)arg0)->unk244 = ((Unkstruct_80126B58 *)arg0)->unk20.m->unk10.u;
+        ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.u = 0x600;
+        ((Unkstruct_80126B58 *)arg0)->unk244 = ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.u;
         guess_NextStep(arg0);
     }
 }
@@ -1739,7 +1739,7 @@ void func_8015D1B8(s32 *a0)
     *(u16 *)(obj + 0x10) = sum & 0xFFF;
     keep = sum; /* L2: AFTER the store — this is what keeps the $s0 copy alive */
 
-    cur = ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.s;
+    cur = ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.s;
     prev = CAST_SIGN(s16, (u8 *)a0, 0x244);
     if (cur - prev >= 0) {
         d = cur - prev;
@@ -1749,7 +1749,7 @@ void func_8015D1B8(s32 *a0)
     if (d > 0x800) {
         guess_PlaySoundUnlessSkipped(0x5E9);
     }
-    ((Unkstruct_80126B58 *)a0)->unk244 = ((Unkstruct_80126B58 *)a0)->unk20.m->unk10.u;
+    ((Unkstruct_80126B58 *)a0)->unk244 = ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.u;
 
     if (guess_GetPadPressed(a0) & 0x40) {
         ((void (**)(s32*))D_80180440)[((Unkstruct_80126B58 *)a0)->unk0](a0);
@@ -1825,7 +1825,7 @@ void func_8015D414(int param_1)
     ((Unkstruct_80126B58 *)param_1)->unk13C = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13E = 0;
     ((Unkstruct_80126B58 *)param_1)->unkA.s = ((Unkstruct_80126B58 *)param_1)->unkA.s + 0x48;
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk10.s = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.s = 0;
     ((void (*)(void))func_801553C0)();
     guess_SetTexAnim(param_1, 0x11);
 }
@@ -1993,7 +1993,7 @@ void func_8015D738(void *arg0) {
     *(s16 *)(s1 + 0xa) = (s16)((s8)D_80180684[((Unkstruct_80126B58 *)arg0)->unk234 + 1] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0xe));
     *(s16 *)(s1 + 0xe) = (s16)((s8)D_80180684[((Unkstruct_80126B58 *)arg0)->unk234 + 2] + *(u16 *)(*(s32 *)(s1 + 0x78) + 0x10));
     ((void (*)(void *, void *))guess_TransformPosByObjMatrix)(arg0, (void *)(s1 + 4));
-    *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = (((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.u + 0x800) & 0xFFF;
+    *(s16 *)(*(s32 *)(s1 + 0x20) + 0x12) = (((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.u + 0x800) & 0xFFF;
     if (((s32 (*)(void *))func_8014D738)(arg0) != 0) {
         D_80180440[((Unkstruct_80126B58 *)arg0)->unk0](arg0);
         ((void (*)(void *, s32))guess_SetState)(arg0, 9);
@@ -2352,12 +2352,12 @@ Ldefault:
         return;
     }
     if (func_800CF8B4() != 0) {
-        ((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.u =
+        ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.u =
             ((*(u16 *)&guess_g_CameraRelativeYaw) + ((s32 (*)(void *))guess_GetCameraYaw)(arg0)) & 0xFFF;
     }
     temp = func_80148E54(arg0);
     if ((s16)temp >= 0) {
-        s32 d = temp - ((Unkstruct_80126B58 *)arg0)->unk20.m->unk12.u;
+        s32 d = temp - ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk12.u;
         invec[0] = 0;
         invec[1] = 0;
         invec[2] = 0xFFFC0000;
@@ -3049,7 +3049,7 @@ void func_80160534(u8 *p) {
         return;
     }
     if (func_800CF8B4() != 0) {
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk12.u =
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk12.u =
             ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw((s32)p)) & 0xFFF;
     }
     guess_AddMoveVectorThenSetVelocity((s32)p, ((Unkstruct_80126B58 *)p)->unk234, ((Unkstruct_80126B58 *)p)->unk238,
@@ -4307,7 +4307,7 @@ void func_80164930(s32 param_1) {
         if ((int)((unsigned)uVar2 << 0x10) < 0) {
             ((Unkstruct_8001C9D0 *)iVar3)->unk1A.u = 0;
         }
-        ((Unkstruct_8001C9D0 *)iVar3)->unk12.s = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
+        ((Unkstruct_8001C9D0 *)iVar3)->head.unk12.s = CAST_SIGN(u16, iVar3, 0x12) - 0x71;
     }
 }
 

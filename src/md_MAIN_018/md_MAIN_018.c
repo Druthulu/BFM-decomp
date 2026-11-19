@@ -122,7 +122,7 @@ void func_800CAFE0(s32 param_1) {
     ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x2000;
     ((Unkstruct_800B5BD8 *)node)->unk18.u = 0x2000;
     ((Unkstruct_800B5BD8 *)node)->unk27 = (sext >> 17) + 0x19;
-    ((Unkstruct_800B5BD8 *)node)->unk4.u |= 0xC0000000;
+    ((Unkstruct_800B5BD8 *)node)->head.unk4.u |= 0xC0000000;
     save = *(u16 *)(param_1 + 0x30);
     *(s32 *)(param_1 + 0x20) = node;
     *(u16 *)(param_1 + 2) = 2;
@@ -135,10 +135,10 @@ void func_800CAFE0(s32 param_1) {
     *(s32 *)(param_1 + 0x34) = node2;
     guess_InitObjectKind6(node2, D_800CB860);
     ((Unkstruct_800B5BD8 *)node2)->unk2C.u = 0xC001;
-    ((Unkstruct_800B5BD8 *)node2)->unk4.u |= 0xD0000000;
-    ((Unkstruct_800B5BD8 *)node2)->unk8.u = *(u16 *)(param_1 + 6);
-    ((Unkstruct_800B5BD8 *)node2)->unkA.u = *(u16 *)(param_1 + 0xA);
-    ((Unkstruct_800B5BD8 *)node2)->unkC.u = *(u16 *)(param_1 + 0xE);
+    ((Unkstruct_800B5BD8 *)node2)->head.unk4.u |= 0xD0000000;
+    ((Unkstruct_800B5BD8 *)node2)->head.unk8.u = *(u16 *)(param_1 + 6);
+    ((Unkstruct_800B5BD8 *)node2)->head.unkA.u = *(u16 *)(param_1 + 0xA);
+    ((Unkstruct_800B5BD8 *)node2)->head.unkC.u = *(u16 *)(param_1 + 0xE);
 }
 
 

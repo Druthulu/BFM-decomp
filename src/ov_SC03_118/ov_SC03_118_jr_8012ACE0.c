@@ -1221,7 +1221,7 @@ void func_80131340(s32 a0)
     case 0:
     case 1:
         if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u -= 0x100;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u -= 0x100;
         }
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x3D) {
@@ -1275,7 +1275,7 @@ void func_80131340(s32 a0)
 
     case 2:
         if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u -= 0x100;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u -= 0x100;
         }
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x3D) {
@@ -1300,11 +1300,11 @@ void func_80131340(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk14.val = (-D_801D2F14) / 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u = 0;
         } else if (D_801D2F10 & 0x8000) {
             ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u = 0;
             CAST_WIDTH(s32, a0, 0x18) = 0;
             CAST_WIDTH(s32, a0, 0x10) = 0;
         }
@@ -1474,11 +1474,11 @@ void func_80131B14(u8 *a0v) {
 
     {
         s32 r = ((Unkstruct_801202A0 *)p)->unk20.p;
-        ((Unkstruct_8001C9D0 *)r)->unk12.u = (((Unkstruct_801202A0 *)p)->unk62 + 0x800) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)r)->head.unk12.u = (((Unkstruct_801202A0 *)p)->unk62 + 0x800) & 0xFFF;
         {
             s32 r2 = ((Unkstruct_801202A0 *)p)->unk20.p;
             CAST_WIDTH(s16, r2, 0x14) = 0;
-            ((Unkstruct_8001C9D0 *)r2)->unk10.u = 0;
+            ((Unkstruct_8001C9D0 *)r2)->head.unk10.u = 0;
         }
     }
 

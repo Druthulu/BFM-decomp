@@ -2962,8 +2962,8 @@ void func_801830A8(s32 a0)
     case 1:
         ret = func_8012BB3C(a0 + 4, ((Unkstruct_801202A0 *)a0)->unk6C + 4,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 4);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u + ret;
         break;
     case 2:
         guess_StartActorSequence(a0, (void *)&D_801B91F8);
@@ -3076,8 +3076,8 @@ void func_801830A8(s32 a0)
     case 0x14:
         ret = func_8012BB3C(a0 + 4, (s32)&D_80126B5C,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 4);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u + ret;
         break;
     case 0x15:
         guess_StartActorSequence(a0, (void *)&D_801B8FA8);
