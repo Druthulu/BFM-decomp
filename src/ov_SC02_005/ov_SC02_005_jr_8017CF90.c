@@ -4401,7 +4401,7 @@ void func_8017FB80(void *a0)
                 *(s32 *)((s8 *)s0 + 0x1F8) |= 0x1000000;
                 *(s32 *)((s8 *)s0 + 0x198) = guess_OpenTextWindow((s32)&D_801973D8);
                 guess_SetAnimScript((s32 *)s0, (s32)&D_800D5360);
-                t = ((Unkstruct_800B5CB8 *)*(s32 *)((s8 *)s0 + 0x20))->unk12;
+                t = ((Unkstruct_8001C9D0 *)*(s32 *)((s8 *)s0 + 0x20))->unk12.u;
                 *(u16 *)((s8 *)s0 + 0x20E) = 0;
                 *(u16 *)((s8 *)s0 + 0x210) = 0x100;
                 *(u16 *)((s8 *)s0 + 0x20C) = t;

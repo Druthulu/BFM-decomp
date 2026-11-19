@@ -8518,7 +8518,7 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->unk28 = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk2A.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->unk2C.s = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->unk2E = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->unk2E.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk80 = 0;
 }
 

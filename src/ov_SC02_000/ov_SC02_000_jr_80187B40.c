@@ -3128,8 +3128,8 @@ extern void guess_FreeActor(void *a0);
 void func_80187B40(s32 p) {
     u16 sp10[3];
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk10 = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk10 + 0x40;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 + 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk10.u = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk10.u + 0x40;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u + 0x100;
     *(u16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x14) = *(u16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x14) + 0x58;
     if (func_80187F30((void *)p, 1) != 0) {
         ((Unkstruct_801202A0 *)p)->unk4C = 0;
@@ -4360,12 +4360,12 @@ void func_80189E58(s32 param_1) {
     t = CAST_SIGN(u16, param_1, 0x70) & 0xF;
     switch (t) {
     case 0:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)o;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u = (s16)o;
         break;
     case 1:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = (s16)o;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u = (s16)o;
     case 3:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = (s16)(o >> 16);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = (s16)(o >> 16);
         break;
     case 2:
         break;

@@ -157,15 +157,15 @@ typedef struct {
     /* 0x0020 */ s32 unk20;
     /* 0x0024 */ s32 unk24;
     /* 0x0028 */ s16 unk28;
-    /* 0x002a */ union {
-        s16 s;
-        u16 u;
-    } unk2A;
+    /* 0x002a */ union { s16 s; u16 u; } unk2A;
     /* 0x002c */ union {
         s16 s;
         u16 u;
     } unk2C;
-    /* 0x002e */ s16 unk2E;
+    /* 0x002e */ union {
+        s16 s;
+        u16 u;
+    } unk2E;
     /* 0x0030 */ s32 unk30;
     /* 0x0034 */ u8 pad34[0x14];
     /* 0x0048 */ s32 unk48;

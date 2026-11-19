@@ -146,13 +146,13 @@ void func_80185214(s32 arg0) {
         CAST_WIDTH(s32, *(void **)(self + 0x20), 0x24) =
             (s32)(D_801E4AA0 + (((Unkstruct_801202A0 *)self)->unk70.s << 3));
 
-        ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk20 = (s32)D_80063548;
+        ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk20 = (s32)D_80063548;
 
         func_80132784(self, ((Unkstruct_801202A0 *)self)->unk64, CAST_SIGN(u16, self, 0xFC));
 
-        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk48;
-        ((Unkstruct_801202A0 *)self)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk4C;
-        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(void **)(self + 0x20))->unk50;
+        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk48;
+        ((Unkstruct_801202A0 *)self)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk4C;
+        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk50;
         ((Unkstruct_801202A0 *)self)->extD.kSC02_005_8018550C.unk102 = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
 
         func_8012B21C((void *)self);

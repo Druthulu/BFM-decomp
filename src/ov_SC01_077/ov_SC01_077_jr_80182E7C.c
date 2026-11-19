@@ -3097,7 +3097,7 @@ void func_80182E7C(s32 param_1)
             ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = (rand() & 0x1f) + 0x46;
             CAST_WIDTH(u16, param_1, 0xe0) = 0;
-            *(u16 *)(param_1 + 0xe2) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+            *(u16 *)(param_1 + 0xe2) = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
             switch ((s32)((u32)CAST_SIGN(u16, param_1, 0x70) << 0x10) >> 0x18) {
             case 0:
             case 1:
@@ -3161,8 +3161,8 @@ void func_8018301C(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
     ((void (*)(s32, u8 *))guess_StartActorSequence)(param_1, ((u8 *)&D_801B09D0));
     ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = 0x100;
     guess_RequestSound(0x436, 0);
 }
 
@@ -3227,8 +3227,8 @@ void func_8018308C(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
         ((void (*)(s32, u8 *))guess_StartActorSequence)(param_1, ((u8 *)&D_801B09D0));
         ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x100;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = 0x100;
         guess_RequestSound(0x436, 0);
     } else {
         switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
@@ -3254,7 +3254,7 @@ void func_8018308C(s32 param_1)
                 ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = (rand() & 0x1f) + 0x46;
                 CAST_WIDTH(u16, param_1, 0xe0) = 0;
-                *(u16 *)(param_1 + 0xe2) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+                *(u16 *)(param_1 + 0xe2) = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
                 switch ((s32)((u32)CAST_SIGN(u16, param_1, 0x70) << 0x10) >> 0x18) {
                 case 0:
                 case 1:

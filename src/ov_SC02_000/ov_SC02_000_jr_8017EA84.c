@@ -3331,10 +3331,10 @@ void func_8017F62C(s32 a0)
             sp.f0 = vec[0];
             sp.f2 = vec[1];
             sp.f4 = vec[2];
-            sp.fC = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
+            sp.fC = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u;
             o = func_8012C51C(&sp, a0);
             if (o != 0) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(o + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(o + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u;
                 guess_UpdateActorModelMatrix(o);
             }
         } else if (((Unkstruct_801202A0 *)a0)->unk1C.s == 0xF) {

@@ -3211,7 +3211,7 @@ extern void func_80182744(s32 a0);
 void func_80182700(s32 a0)
 {
     ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = 0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = 0;
     func_80171B44((s32 *)a0);
     func_80182744(a0);
 }
@@ -3548,7 +3548,7 @@ void func_80183098(s32 arg0)
         CAST_ALIAS(u16, arg0, 0x0A) = *(u16 *)&buf.unk2;
         ((Unkstruct_80126B58 *)arg0)->unk8C = *(u16 *)&buf.unk4;
         ((Unkstruct_80126B58 *)arg0)->unkE.s = *(u16 *)&buf.unk4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = 0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u = 0;
         ((Unkstruct_80126B58 *)arg0)->unk4D -= 1;
         ((Unkstruct_80126B58 *)arg0)->unk214 += 1;
     } else {
@@ -3674,8 +3674,8 @@ void func_80183310(s32 param_1)
       func_80185EC8();
       func_80188F08();
       *(unsigned int *)(param_1 + 0x1f8) = *(unsigned int *)(param_1 + 0x1f8) | 0x1000000;
-      ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk10 = 0x400;
-      ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 = 0;
+      ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->unk10.u = 0x400;
+      ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->unk12.u = 0;
       CAST_ALIAS(short, param_1, 0x8a) = 0xf940;
       ((Unkstruct_80126B58 *)param_1)->unkA.s = 0xf940;
       ((Unkstruct_80126B58 *)param_1)->unk88 = 0;
@@ -4223,7 +4223,7 @@ void func_8018453C(s32 param_1) {
     guess_RotTransSVWithMatrix(((Unkstruct_801202A0 *)s5)->unk20.p + 0x34, (s32)&D_8018F06C, (s32)sp20);
     ((void (*)(s32, s32, s32, s32))func_80185910)((s32)sp10, (s32)sp18, (s32)sp20, (s32)sp28);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s5 + 0x20))->unk12 = 0xC00 - CAST_WIDTH(u16, s5, 0xDC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s5 + 0x20))->unk12.u = 0xC00 - CAST_WIDTH(u16, s5, 0xDC);
     v0 = CAST_WIDTH(u16, s5, 0xDC) - 0x100;
     CAST_WIDTH(u16, s5, 0xDC) = v0;
     if ((s32)(v0 << 16) <= 0) {
@@ -5778,10 +5778,10 @@ extern s32 func_8012CBCC(s32 a0);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 /* $v0 at exit: result of func_8012CBCC or addiu $v0, $v0, 0x1 at ov_SC02_000:0x801878B4; no byte-neutral return: `return 0;` moved `lui v0,0xffe8` at +0x48, ov_SC02_000 objdump */
 s32 func_80187834(s32 param_1) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 + 0x100;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 + 0x40;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u + 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u + 0x40;
     if (((s32 (*)(void))func_8012CBCC)() != 0) {
         CAST_WIDTH(s32, param_1, 0x18) = 0xFFE80000;
         ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFC80000;

@@ -4140,7 +4140,7 @@ void func_801814E8(void *a0)
     if (CAST_SIGN(u16, (s32)a0, 0x2) == 2 && (((Unkstruct_801202A0 *)a0)->unk5C.u & 1)) {
         if (CAST_WIDTH(u16, (s32)a0, 0x5E) == 0x10) {
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk10.u = 0;
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
             func_8012B21C(a0);
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x27;
@@ -4257,7 +4257,7 @@ void func_80181A7C(s32 param_1) {
         if (((Unkstruct_801202A0 *)param_1)->unkFC.s == 0) {
             lim += 0x800;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 +=
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u +=
             guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), lim, 4);
         v0 = guess_TickWaitTimer(param_1);
         v1 = 0x3C;
@@ -4283,7 +4283,7 @@ void func_80181A7C(s32 param_1) {
     if (CAST_WIDTH(s16, param_1, 0xDC) < 0x400) {
         CAST_SIGN(u16, param_1, 0x100) |= 3;
     }
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = lim;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = lim;
 
     tgt = -(CAST_WIDTH(s16, param_1, 0xDC) * 160) / 12288 + 0x260;
     cur = *(s16 *)(param_1 + 0xDE);
@@ -4485,7 +4485,7 @@ void func_80181F80(s32 param_1) {
         CAST_WIDTH(s16, param_1, 0xDC) = func_801807D8(sp10);
     }
 
-    ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 +=
+    ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12.u +=
         guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12),
                       -CAST_WIDTH(s16, param_1, 0xDC) & 0xFFF, 0x10);
 
@@ -4720,7 +4720,7 @@ void func_80182328(s32 param_1) {
         }
         break;
     case 3:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 += guess_TurnStepToTarget(param_1, 4);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u += guess_TurnStepToTarget(param_1, 4);
         state = ((Unkstruct_801202A0 *)param_1)->unk1C.s;
         if (state == 0xC) {
             func_801845EC(param_1, 0);
@@ -4816,7 +4816,7 @@ void func_801826C4(s32 param_1) {
 
     switch (((Unkstruct_801202A0 *)param_1)->unkC2) {
     case 0:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 -= 0x100;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u -= 0x100;
         if (++((Unkstruct_801202A0 *)param_1)->unk1C.s < 0x29) {
             if (((Unkstruct_801202A0 *)param_1)->unk14.val <= 0) {
                 r = ((s32 (*)(s32))func_8012CBF4)(param_1);
@@ -4834,7 +4834,7 @@ void func_801826C4(s32 param_1) {
         }
         break;
     case 1:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 -= 0x100;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u -= 0x100;
         if (++((Unkstruct_801202A0 *)param_1)->unk1C.s < 0x29) {
             saved = ((Unkstruct_801202A0 *)param_1)->unk14.val;
             if (func_8012CC64(param_1, &D_8018AAB4) & 0x2000) {
@@ -4842,7 +4842,7 @@ void func_801826C4(s32 param_1) {
                 ((Unkstruct_801202A0 *)param_1)->unk14.val = saved;
                 ((Unkstruct_801202A0 *)param_1)->unkC2 = 2;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u = 0;
             }
         } else {
             func_80182DB4(param_1);

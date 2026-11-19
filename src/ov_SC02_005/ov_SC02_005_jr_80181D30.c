@@ -4835,7 +4835,7 @@ void func_80184A8C(void *a0) {
             timer -= 1;
             ((S34_80184A8C *)(s0 + 0x34))->h = timer;
 
-            tmp[0] = (CAST_WIDTH(s16, s0, 0xDC) - ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk48) >> 2;
+            tmp[0] = (CAST_WIDTH(s16, s0, 0xDC) - ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk48) >> 2;
 
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
             tmp[1] = (*(s16 *)(s0 + 0xDE) - ((Unkstruct_8001C9D0 *)ptr)->unk4C) >> 2;
@@ -4921,9 +4921,9 @@ void func_80184CA4(void *arg0)
 {
     s32 s0 = (s32)arg0;
 
-    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk48;
-    ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk4C;
-    ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk50;
+    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk48;
+    ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk4C;
+    ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk50;
     guess_ClearVelocityAndSetGravity(s0);
     CAST_WIDTH(s32, s0, 0x10) = 0x00040000;
     ((Unkstruct_801202A0 *)s0)->unk14.val = 0xFFF80000;
