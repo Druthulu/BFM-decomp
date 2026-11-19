@@ -4216,7 +4216,7 @@ void func_8017E394(s32 a0) {
             }
             d = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - guess_g_PlayerPosY;
             if ((d >= 0) && (d <= lim)) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = func_8012B8A4(a0);
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = func_8012B8A4(a0);
                 ((Unkstruct_801202A0 *)a0)->unkFC.s = (rand() & 0xFF) - 0x80;
                 ((Unkstruct_801202A0 *)a0)->unkFE.s = (rand() & 0xFF) - 0x80;
                 ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_80180ED4.unk100 = (rand() & 0xFF) - 0x80;
@@ -4238,7 +4238,7 @@ void func_8017E394(s32 a0) {
                         if (e != 0) {
                             s32 r = rand();
                             s32 b = *(u16 *)(((Unkstruct_801202A0 *)e)->unk64->unk20.p + 0x12) - 0x200;
-                            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk12 = b + (r & 0x3FF);
+                            ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk12.u = b + (r & 0x3FF);
                             ((Unkstruct_801202A0 *)e)->unkFC.s = (rand() & 0xFF) - 0x80;
                             ((Unkstruct_801202A0 *)e)->unkFE.s = (rand() & 0xFF) - 0x80;
                             ((Unkstruct_801202A0 *)e)->extD.kSC04_008_8017E628.unk100 = (rand() & 0xFF) - 0x80;

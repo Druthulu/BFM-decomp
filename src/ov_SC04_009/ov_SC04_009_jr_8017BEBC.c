@@ -3010,8 +3010,8 @@ void func_8017D638(void *a0)
     extern s32 D_801826D4;
 
     guess_InitModelObjectKind3(CAST_SIGN(void *, (s32)a0, 0x20), D_80182614);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 = 0x2800;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A = 0x2800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk18.u = 0x2800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk1A.u = 0x2800;
     *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x50000000;
     guess_StartActorSequence((s32)a0, &D_801826D4);
 }

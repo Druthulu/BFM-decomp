@@ -3536,7 +3536,7 @@ void func_8017DA90(s32 a0) {
         }
         func_8001C810(((Unkstruct_801202A0 *)a0)->unk20.p, (s32)&D_801AF428);
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, (void *)&D_80189514[(s16)D_801152BA * 16]);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x20;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x20;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x80) = (s32)&D_801B5BA8;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x40000000;
         ((Unkstruct_801202A0 *)a0)->extE.kSC02_011_8017CF54.unkAE = -3;
@@ -4536,7 +4536,7 @@ void func_8017F3E4(void *a0) {
         ((Unkstruct_8001C9D0 *)ctx)->unk1A.u = val;
         ((Unkstruct_8001C9D0 *)ctx)->unk18.u = val;
 
-        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk10 = rand() & 0xFF0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk10.u = rand() & 0xFF0;
         func_8017F710((s32 *)p);
     } else {
         s32 ctx;
@@ -4558,7 +4558,7 @@ void func_8017F3E4(void *a0) {
         func_8012AD50((void *)p);
     }
 
-    if (((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk18 & 1) {
+    if (((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk18.u & 1) {
         ((Unkstruct_801202A0 *)p)->unk58.s = (s32)&D_80189838;
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0xC400;
         ((Unkstruct_801202A0 *)p)->unk75 = 0;
@@ -4613,8 +4613,8 @@ void func_8017F5A4(s32 a0) {
 
     guess_SetLocalVelocity(a0, (s32)D_80189828);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 + ((s32)(((Unkstruct_801202A0 *)a0)->unk70.s * 3) << 8);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u + ((s32)(((Unkstruct_801202A0 *)a0)->unk70.s * 3) << 8);
 
     p = ((Unkstruct_801202A0 *)a0)->unk20.p;
     divisor = *(s16 *)(p + 0x18);
@@ -4665,8 +4665,8 @@ void func_8017F744(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s + 1;
         guess_ApplyAccelAndVelocity(param_1);
 
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 + CAST_SIGN(u16, param_1, 0x100);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u + CAST_SIGN(u16, param_1, 0x100);
 
         idx = ((Unkstruct_801202A0 *)param_1)->unk70.s;
         if (((Unkstruct_801202A0 *)param_1)->unk64->unkC.i.hi.s + D_801897BC[idx].unk0 <
@@ -5312,9 +5312,9 @@ void func_80180600(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     func_80132784(a0, ((Unkstruct_801202A0 *)a0)->unk64, CAST_SIGN(u16, a0, 0x70));
 
-    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk48;
-    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk4C;
-    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk50;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
     func_8012AD50((void *)a0);
 
     CAST_WIDTH(s32, a0, 0x24) = CAST_WIDTH(s32, a0, 0x4);
@@ -5347,10 +5347,10 @@ void func_80180748(void *a0)
 
     if (state == 0) {
         if (((Unkstruct_801202A0 *)a0)->extD.kSC05_001_8017FAC8.unk100 != 0) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 + CAST_SIGN(u16, a0, 0x102);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + *(u16 *)((s32)tbl + 6);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u + CAST_SIGN(u16, a0, 0x102);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + *(u16 *)((s32)tbl + 6);
             guess_ApplyAccelAndVelocity(a0);
             if (CAST_SIGN(s16, a0, 0xA) >= -255) {
                 guess_FreeActor(a0);
@@ -6090,7 +6090,7 @@ void func_801818A4(s32 a0) {
         }
     } else {
         v = guess_TurnStepToTarget(a0, 0xA);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += v;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += v;
         if (guess_TickWaitTimer(a0) != 0 || v == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
         }
@@ -6172,7 +6172,7 @@ void func_80181AE0(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 8;
         } else {
             r = guess_TurnStepToTarget(a0, 8);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += r;
             guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE8);
             ((s32 (*)(s32, s32))func_80182BAC)(a0, 0);
             if (func_801829B0(a0) != 0 && guess_TickWaitTimer(a0) != 0) {
@@ -6181,7 +6181,7 @@ void func_80181AE0(s32 a0) {
         }
     } else {
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE0, 0xA);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += r;
         guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE8);
         ((s32 (*)(s32, s32))func_80182BAC)(a0, 0);
         if (func_801829B0(a0) != 0 && guess_TickWaitTimer(a0) != 0) {
@@ -6207,14 +6207,14 @@ void func_80181BB8(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 8;
         } else {
             r = guess_TurnStepToTarget(a0, 4);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += r;
             guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE8);
             ((void (*)(s32, s32))func_80182BAC)(a0, 1);
             func_801829B0(a0);
         }
     } else {
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE0, 0xA);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += r;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += r;
         guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE8);
         ((void (*)(s32, s32))func_80182BAC)(a0, 0);
         func_801829B0(a0);
@@ -6251,7 +6251,7 @@ void func_80181CE0(s32 a0) {
     s32 flags;
 
     v = guess_TurnStepToTarget(a0, 0xA);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += v;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += v;
     if ((((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val & 0x20) != 0) {
         if ((u32)(((Unkstruct_801202A0 *)a0)->unk1C.s - 10) < 0xD) {
             func_801827A0(a0);
@@ -6333,10 +6333,10 @@ void func_80181EC0(s32 a0)
     extern s32 guess_TickWaitTimer(s32 a0);
 
     if (CAST_SIGN(u32, a0, 0xDC) & 8) {
-        ((Unkstruct_800B5CB8 *)*(u32 *)(a0 + 0x20))->unk12 += 0x44;
+        ((Unkstruct_8001C9D0 *)*(u32 *)(a0 + 0x20))->unk12.u += 0x44;
     } else {
         s32 ret = guess_TurnStepToTarget(a0, 8);
-        ((Unkstruct_800B5CB8 *)*(u32 *)(a0 + 0x20))->unk12 += ret;
+        ((Unkstruct_8001C9D0 *)*(u32 *)(a0 + 0x20))->unk12.u += ret;
         if (ret == 0) {
             goto set_state;
         }
@@ -6434,8 +6434,8 @@ void func_80182168(s32 a0) {
 
     ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;
     if (((Unkstruct_801202A0 *)a0)->unkFE.s != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 += 0x40;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A += 0x40;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk18.u += 0x40;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk1A.u += 0x40;
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) += 0x40;
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
         if (CAST_SIGN(s16, v1, 0x18) >= 0x1800) {
@@ -7116,7 +7116,7 @@ void func_80182FB4(s32 param_1)
     }
 
     sVar1 = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC05_001_80182D7C.unkE4 << 6) & 0x7c0);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = (sVar1 >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (sVar1 >> 1) + 0x800;
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
@@ -7268,7 +7268,7 @@ void func_8018330C(s32 param_1)
     }
 
     angle = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 7) & 0x780);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = (angle >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (angle >> 1) + 0x800;
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;

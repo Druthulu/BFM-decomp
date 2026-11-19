@@ -2962,7 +2962,7 @@ void func_8017D25C(s32 arg0) {
             func_8001D0E8(((Unkstruct_801202A0 *)arg0)->unk20.p, 0x7FFF, 0x7FFF);
             guess_StartActorSequence((void *)arg0, (void *)s2);
             func_80143994(arg0, 0x3000);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = s4;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u = s4;
             ((Unkstruct_801202A0 *)arg0)->unk2.s = s3;
         }
     }

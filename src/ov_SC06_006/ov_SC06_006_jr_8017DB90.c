@@ -2856,7 +2856,7 @@ void func_8017DD64(void *obj) {
             out++;
         }
         ((Unkstruct_801202A0 *)obj)->unk98.s = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)obj + 0x20))->unk20 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)obj + 0x20))->unk20 =
             ((Unkstruct_801202A0 *)obj)->unk9C;
     } else {
         rec = &base[quot];
@@ -2873,7 +2873,7 @@ void func_8017DD64(void *obj) {
             out++;
         }
         ((Unkstruct_801202A0 *)obj)->unk98.s = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)obj + 0x20))->unk20 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)obj + 0x20))->unk20 =
             ((Unkstruct_801202A0 *)obj)->unk9C;
         (((Unkstruct_801202A0 *)obj)->unk94.s)++;
     }
@@ -3173,7 +3173,7 @@ body:
     q = ((Unkstruct_801202A0 *)a0)->unk20.p;
     CAST_WIDTH(s16, q, 0x1C) = (u32)p >> 12;
     ((Unkstruct_8001C9D0 *)q)->unk1A.u = (u32)p >> 12;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 =
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk18.u =
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x1C);
 }
 
