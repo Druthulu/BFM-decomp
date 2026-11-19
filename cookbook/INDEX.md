@@ -1099,3 +1099,4 @@ C0646 | Render pointee by access offsets (size exclusion, head-only); a zero-arg
 C0647 | fold-batch limits on the actor slot: member tokens, nested gaps, RESIDUAL restamps | struct,absorb,fold-batch,union,residual,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c30
 C0648 | Deciding kind-agnostic render readers per overlay; helper stores the kind graph misses | struct,per-source,render,actor,kind,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c34
 C0649 | Applying ~2,700 judged per-source keys: chunks, asm() functions, untypeable from union reads | struct,absorb,per-source,fold-batch,gate,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c32
+C0650 | Held actor keys: split a gap at top level, read the pointer leaf, census local-name collisions | struct,absorb,actor,gap,census,untypeable,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c35
