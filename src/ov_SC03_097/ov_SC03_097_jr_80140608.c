@@ -2298,7 +2298,7 @@ void func_8014477C(void *param_1) {
     ((void (*)(void *, void *))guess_StartActorSequence)(param_1, &D_801877E0);
     v1 = (s32)((Unkstruct_801202A0 *)param_1)->unk70.s << 0xC;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 = v1 / 3;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u = v1 / 3;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x78;
 }
 

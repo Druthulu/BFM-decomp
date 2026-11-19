@@ -2962,8 +2962,8 @@ void func_801830A8(s32 a0)
     case 1:
         ret = func_8012BB3C(a0 + 4, ((Unkstruct_801202A0 *)a0)->unk6C + 4,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 4);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
         break;
     case 2:
         guess_StartActorSequence(a0, (void *)&D_801B91F8);
@@ -3056,9 +3056,9 @@ void func_801830A8(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk10A.s = 0x12;
         break;
     case 0x12:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk1A.u =
             ((rsin(((Unkstruct_801202A0 *)a0)->unkFC.s) << 12) >> 12) + 0x1000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = rcos(((Unkstruct_801202A0 *)a0)->unkFC.s);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk18.u = rcos(((Unkstruct_801202A0 *)a0)->unkFC.s);
         *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) = rcos(((Unkstruct_801202A0 *)a0)->unkFC.s);
         t = CAST_SIGN(u16, a0, 0xFC) + 0x80;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = t;
@@ -3076,8 +3076,8 @@ void func_801830A8(s32 a0)
     case 0x14:
         ret = func_8012BB3C(a0 + 4, (s32)&D_80126B5C,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 4);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
         break;
     case 0x15:
         guess_StartActorSequence(a0, (void *)&D_801B8FA8);

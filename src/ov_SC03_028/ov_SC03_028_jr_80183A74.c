@@ -2920,7 +2920,7 @@ void func_80183A74(s32 arg0) {
 
     switch (((Unkstruct_801202A0 *)arg0)->unk70.s) {
     case 0:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)arg0)->unk64->unk20.p, 0x12) + (rand() & 0x3FF) - 0xA00;
         guess_UpdateActorModelMatrix(arg0);
         guess_SetLocalVelocity(arg0, (s32)&D_8019029C);
@@ -2942,7 +2942,7 @@ void func_80183A74(s32 arg0) {
         *(u16 *)(arg0 + 0x16) = -(rand() & 0x1F) - 4;
         break;
     case 4:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)arg0)->unk64->unk20.p, 0x12) + (rand() & 0x3FF) - 0xA00;
         guess_UpdateActorModelMatrix(arg0);
         guess_SetLocalVelocity(arg0, (s32)&D_8019029C);
@@ -2954,7 +2954,7 @@ void func_80183A74(s32 arg0) {
             CAST_NONSTRUCT(s16, ((Unkstruct_801202A0 *)arg0)->unk64->unk20.p, 0x12) + 0xD00) << 10;
         break;
     case 5:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)arg0)->unk64->unk20.p, 0x12) + (rand() & 0x3FF) - 0xA00;
         guess_UpdateActorModelMatrix(arg0);
         guess_SetLocalVelocity(arg0, (s32)&D_8019029C);

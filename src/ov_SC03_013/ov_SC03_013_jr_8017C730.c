@@ -3687,7 +3687,7 @@ void func_8017EF9C(void *a0) {
         ((Unkstruct_800B5CB8 *)v0)->unk12 = v1w & 0xFF0;
         v1 = ((Unkstruct_800B5CB8 *)(s32)a0)->unk100;
         if (v1 == 2) {
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10 = 0x400;
+            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10.u = 0x400;
         }
     }
     guess_UpdateActorModelMatrix((s32)a0);
@@ -3777,7 +3777,7 @@ void func_8017F198(s32 a0) {
         }
     } else {
         if (((Unkstruct_801202A0 *)a0)->unk10A.s != 0) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u =
                 *(u16 *)((s8 *)guess_g_PlayerModelPtr + 0x12) + 0x400;
             if (((s32 (*)(void))func_80174774)() != 0) {
                 *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x80000000;

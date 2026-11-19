@@ -5922,11 +5922,11 @@ void func_80180E0C(s32 param_1) {
     q = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     ((Unkstruct_8001C9D0 *)q)->unk2C.u |= 0x10;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = 1;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = 1;
     if (CAST_SIGN(u16, param_1, 0x70) & 1) {
         dst = &D_801869BC;
         *(Bc8_80180E0C *)dst = D_801869B4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x80;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = (s32)dst;
     }
     guess_StartActorSequence(param_1, (void *)&(*(s32 *)&D_80182178));
