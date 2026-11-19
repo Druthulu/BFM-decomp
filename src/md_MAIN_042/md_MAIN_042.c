@@ -80,11 +80,11 @@ void func_800CCBF0(u8 *a0) {
                 ((Unkstruct_80126B58 *)a0)->unk246 += ((Unkstruct_80126B58 *)a0)->unk248;
                 ((Unkstruct_80126B58 *)a0)->unk24A = ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk12.u;
                 ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk12.u =
-                    ((Unkstruct_80126B58 *)a0)->unk244 + ((Unkstruct_80126B58 *)a0)->unk246;
+                    ((Unkstruct_80126B58 *)a0)->unk244.u + ((Unkstruct_80126B58 *)a0)->unk246;
                 func_80155FB0((s32)a0, (p[0x48] & 0x7F) - 1);
             } else {
                 ((Unkstruct_80126B58 *)a0)->unkB8 = 1;
-                ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk12.u = ((Unkstruct_80126B58 *)a0)->unk244;
+                ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk12.u = ((Unkstruct_80126B58 *)a0)->unk244.u;
                 ((Unkstruct_80126B58 *)a0)->unk234 += 1;
             }
         }

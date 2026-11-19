@@ -2728,7 +2728,7 @@ void func_8017CE3C(s32 a0) {
     v1 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     v0 = (CAST_SIGN(u16, s0, 0xF4) + 0x800) & 0xFFF;
     *(s16 *)(v1 + 0x12) = v0;
-    ((Unkstruct_80126B58 *)s0)->unk244 = v0;
+    ((Unkstruct_80126B58 *)s0)->unk244.u = v0;
     guess_SetAnimScript((s32 *)s0, (s32)&D_80188800);
     ((Unkstruct_80126B58 *)s0)->unk234 = 0;
     guess_SetTexAnim(s0, 0x1C);
@@ -2781,7 +2781,7 @@ void func_8017CEF4(s32 a0) {
     func_80149020((s32 *)a0);
 
     s1 = *(s16 *)(s0 + 0x12);
-    *(s16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)a0)->unk244;
+    *(s16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)a0)->unk244.u;
     guess_SetVelocityFromMoveVector(a0);
 
     guess_ApplyVelocity((s32 *)a0);

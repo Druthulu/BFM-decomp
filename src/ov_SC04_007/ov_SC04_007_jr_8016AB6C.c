@@ -2829,7 +2829,7 @@ void func_8016C998(s32 param_1)
         *(MATRIX *)(r + 0x38) = *(MATRIX *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
         *(s16 *)(r + 6) = ((Unkstruct_8011D030 *)param_1)->unk6;
-        *(s16 *)(r + 0xa) = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi;
+        *(s16 *)(r + 0xa) = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.s;
         *(s16 *)(r + 0xe) = ((Unkstruct_8011D030 *)param_1)->unkE.s;
         ((Unkstruct_8011D030 *)param_1)->unk1C = 0x10;
     } else {

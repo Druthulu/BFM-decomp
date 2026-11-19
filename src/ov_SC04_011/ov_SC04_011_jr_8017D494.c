@@ -7430,7 +7430,7 @@ void func_801840F8(void *a0) {
 
     func_80184414(ent);
     ((Unkstruct_80126B58 *)ent)->unk20.m->unk2C.u |= 0x80;
-    ((Unkstruct_80126B58 *)ent)->unk20.m->unk80 = (s32)D_80194348;
+    ((Unkstruct_80126B58 *)ent)->unk20.m->unk80 = (SVECTOR *)D_80194348;
     *(u8 *)((s32)ent + 0x75) = 0x15;
 
     switch (n) {

@@ -3850,14 +3850,14 @@ void func_80180FFC(u8 *p) {
     s32 t;
     s32 b;
     q = *(u8 **)(p + 0x20);
-    ((Unkstruct_8011D030 *)p)->unk14.i.hi = ((Unkstruct_8011D030 *)p)->unk14.i.hi + ((Unkstruct_8011D030 *)p)->unk14.i.lo;
+    ((Unkstruct_8011D030 *)p)->unk14.i.hi.u = ((Unkstruct_8011D030 *)p)->unk14.i.hi.u + ((Unkstruct_8011D030 *)p)->unk14.i.lo;
     if (((Unkstruct_8011D030 *)p)->unk1C < 8) {
         ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x200;
     } else {
         ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x51;
     }
     b = ((Unkstruct_800B5BD8 *)q)->unk26 - 2;
-    ((Unkstruct_800B5BD8 *)q)->unk1A.s = ((Unkstruct_8011D030 *)p)->unk14.i.hi;
+    ((Unkstruct_800B5BD8 *)q)->unk1A.s = ((Unkstruct_8011D030 *)p)->unk14.i.hi.u;
     ((Unkstruct_800B5BD8 *)q)->unk26 = b;
     ((Unkstruct_800B5BD8 *)q)->unk25.s = b;
     ((Unkstruct_800B5BD8 *)q)->unk24.s = b;

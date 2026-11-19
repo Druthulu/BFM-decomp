@@ -1690,7 +1690,7 @@ void func_8015D104(void *arg0) {
         ((void (*)(void *))func_801725F4)(arg0);
         ((Unkstruct_80126B58 *)arg0)->unk234 = 0xFF1D0000;
         ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.u = 0x600;
-        ((Unkstruct_80126B58 *)arg0)->unk244 = ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.u;
+        ((Unkstruct_80126B58 *)arg0)->unk244.u = ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.u;
         guess_NextStep(arg0);
     }
 }
@@ -1747,7 +1747,7 @@ void func_8015D1B8(s32 *a0)
     if (d > 0x800) {
         guess_PlaySoundUnlessSkipped(0x5E9);
     }
-    ((Unkstruct_80126B58 *)a0)->unk244 = ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.u;
+    ((Unkstruct_80126B58 *)a0)->unk244.u = ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.u;
 
     if (guess_GetPadPressed(a0) & 0x40) {
         ((void (**)(s32*))D_80181124)[((Unkstruct_80126B58 *)a0)->unk0](a0);

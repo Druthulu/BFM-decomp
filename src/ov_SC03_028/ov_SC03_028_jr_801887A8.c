@@ -4760,7 +4760,7 @@ void func_8018AF9C(void *a0) {
         s1->unk2C.s = 3;
         s1->unk27.u = uVar1;
         ((Unkstruct_8011D030 *)a0)->unk6 = 0;
-        ((Unkstruct_8011D030 *)a0)->unk8.i.hi = 0x50;
+        ((Unkstruct_8011D030 *)a0)->unk8.i.hi.s = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
            except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB

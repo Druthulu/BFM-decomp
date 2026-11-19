@@ -446,11 +446,11 @@ s32 func_800CD494(void *a0) {
             ((Unkstruct_80126B58 *)s0)->unk246 = 0;
         }
     }
-    v0 = ((Unkstruct_80126B58 *)s0)->unk244;
+    v0 = ((Unkstruct_80126B58 *)s0)->unk244.u;
     v1 = ((Unkstruct_80126B58 *)s0)->unk246;
     v0 = v0 + v1;
     v0 = v0 & 0xFFF;
-    ((Unkstruct_80126B58 *)s0)->unk244 = v0;
+    ((Unkstruct_80126B58 *)s0)->unk244.u = v0;
     *(u16 *)(s1 + 0x12) = v0;
     if (CAST_SIGN(s16, s0, 0x246) == 0) {
         func_801599A4((void *)s0);

@@ -116,6 +116,9 @@ typedef struct {
     /* 0x010a */ s16 unk10A;
 } Unkstruct_800B5CB8; /* size = 0x10c */
 
+/* T18.c13: SVECTOR moved ahead of the model record (unk80 SVECTOR *; byte-neutral) */
+typedef struct { short vx, vy, vz, pad; } SVECTOR;
+
 /* RenderHead — shared render head: first 0x14 bytes of the sprite record Unkstruct_800B5BD8 (pool tag 2, src/800.c:8585-8735)
    and the model record Unkstruct_8001C9D0 (pool tag 1); slot init tags model 1 / sprite 2 (func_8012C890__1bddfa15.h:55-70). T17.c38. */
 typedef struct {
@@ -169,7 +172,7 @@ typedef struct {
     /* 0x0076 */ s16 unk76;
     /* 0x0078 */ s32 unk78;
     /* 0x007c */ u8 pad7C[0x4];
-    /* 0x0080 */ s32 unk80;
+    /* 0x0080 */ SVECTOR *unk80;
 } Unkstruct_8001C9D0; /* size = 0x84 */
 
 typedef struct {
@@ -397,7 +400,7 @@ typedef struct {
     /* 0x0238 */ s32 unk238;
     /* 0x023c */ s32 unk23C;
     /* 0x0240 */ s32 unk240;
-    /* 0x0244 */ u16 unk244;
+    /* 0x0244 */ union { u16 u; struct { u8 lo; u8 hi; } b; } unk244;
     /* 0x0246 */ u16 unk246;
     /* 0x0248 */ u16 unk248;
     /* 0x024a */ s16 unk24A;
@@ -642,7 +645,7 @@ typedef struct {
     /* 0x0006 */ s16 unk6;
     /* 0x0008 */ union {
         s32 val;
-        struct { u16 lo; s16 hi; } i;
+        struct { u16 lo; union { s16 s; u16 u; } hi; } i;
     } unk8;
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ union {
@@ -651,11 +654,11 @@ typedef struct {
     } unkE;
     /* 0x0010 */ union {
         s32 val;
-        struct { u16 lo; union { s16 s; u16 u; } hi; } i;
+        struct { union { u16 u; s16 s; } lo; union { s16 s; u16 u; } hi; } i;
     } unk10;
     /* 0x0014 */ union {
         s32 val;
-        struct { u16 lo; u16 hi; } i;
+        struct { u16 lo; union { u16 u; s16 s; } hi; } i;
     } unk14;
     /* 0x0018 */ union {
         s32 val;
@@ -675,7 +678,7 @@ typedef struct {
     } unk2A;
     /* 0x002c */ union {
         s32 val;
-        struct { s16 lo; u16 hi; } i;
+        struct { union { s16 s; u16 u; } lo; u16 hi; } i;
     } unk2C;
     /* 0x0030 */ s32 unk30;
     /* 0x0034 */ s32 unk34;
@@ -818,7 +821,6 @@ typedef struct Ent_8016AB6C {
     s32 unk30;
 } Ent_8016AB6C;
 typedef struct { char s[10]; } S10_80136C90;
-typedef struct { short vx, vy, vz, pad; } SVECTOR;
 typedef SVECTOR Blk8; /* T17.c18: SVECTOR folded into SVECTOR */
 typedef SVECTOR SVec_8016AB6C;
 typedef struct { char pad_8013BC7C[0x68]; s32 f68; } S_8013BC7C_8013BC7C;
@@ -3459,8 +3461,8 @@ typedef struct {
     /* Unkstruct_8016DF5C: P37 struct map 5 sites in 1 bodies; evidence {'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ union {
-        s16 s;
         u16 u;
+        s16 s;
     } unk2;
     /* 0x0004 */ union {
         struct { u32 unk4; } v0;
