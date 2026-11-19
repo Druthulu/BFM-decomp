@@ -4066,7 +4066,7 @@ void func_80180628(int param_1)
 
     p = ((Unkstruct_801813D0 *)param_1)->unk20;
     *(u8 **)(p + 0x20) = D_800D387C;
-    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9c;
+    ((Unkstruct_800B5BD8 *)p)->unk27.u = 0x9c;
     ((Unkstruct_800B5BD8 *)p)->head.unk4.u = ((Unkstruct_800B5BD8 *)p)->head.unk4.u | 0x60000000;
 
     guess_StartPairSequence(((Unkstruct_801813D0 *)param_1)->unk20, param_1 + 0x24, (s32)D_800D3888);
@@ -4192,7 +4192,7 @@ s32 func_80180AB4(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
     ((Unkstruct_800B5BD8 *)obj)->head.unk10.u = 0xC00;
     ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x2D00;
     ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x2D00;
-    ((Unkstruct_800B5BD8 *)obj)->unk27 = a4;
+    ((Unkstruct_800B5BD8 *)obj)->unk27.u = a4;
     ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 0xC008;
     ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x24;

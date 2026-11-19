@@ -3767,9 +3767,9 @@ void func_801850E0(s32 a0) {
     s32 t;
     s16 i;
 
-    val = ((Unkstruct_801850E0 *)s1)->unk1A + 0x80;
-    ((Unkstruct_801850E0 *)s1)->unk1A = val;
-    ((Unkstruct_801850E0 *)s1)->unk18 = val;
+    val = ((Unkstruct_800B5BD8 *)s1)->unk1A.u + 0x80;
+    ((Unkstruct_800B5BD8 *)s1)->unk1A.u = val;
+    ((Unkstruct_800B5BD8 *)s1)->unk18.s = val;
 
     t = ((Unkstruct_80184B80 *)a0)->unk1C - 1;
     ((Unkstruct_80184B80 *)a0)->unk1C = t;
@@ -3888,9 +3888,9 @@ void func_801853BC(void *a0) {
     v1 = CAST_SIGN(void *, a0, 0xD0);
     s1 = CAST_SIGN(void *, a0, 0xCC);
 
-    tmp = ((Unkstruct_801850E0 *)v1)->unk1A + 0x20;
-    ((Unkstruct_801850E0 *)v1)->unk1A = tmp;
-    ((Unkstruct_801850E0 *)v1)->unk18 = tmp;
+    tmp = ((Unkstruct_800B5BD8 *)v1)->unk1A.u + 0x20;
+    ((Unkstruct_800B5BD8 *)v1)->unk1A.u = tmp;
+    ((Unkstruct_800B5BD8 *)v1)->unk18.s = tmp;
 
     v0 = ((Unkstruct_80184B80 *)a0)->unk1C - 1;
     ((Unkstruct_80184B80 *)a0)->unk1C = v0;
@@ -3971,10 +3971,10 @@ void func_8018555C(u8 *a0) {
     s32 frame_pad[4];
     (void)&frame_pad;
     p = *(s32 **)(a0 + 0xD0);
-    v = ((Unkstruct_8018555C_2 *)p)->unk1A;
+    v = ((Unkstruct_800B5BD8 *)p)->unk1A.u;
     v += 0x20;
-    ((Unkstruct_8018555C_2 *)p)->unk1A = v;
-    ((Unkstruct_8018555C_2 *)p)->unk18 = v;
+    ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
     c = ((Unkstruct_8018555C *)a0)->unk1C;
     c -= 1;
     ((Unkstruct_8018555C *)a0)->unk1C = c;
@@ -3994,9 +3994,9 @@ void func_801855AC(s32 a0) {
     s32 count;
 
     v1 = ((Unkstruct_801855AC *)a0)->unkD0;
-    val = ((Unkstruct_801855AC_2 *)v1)->unk1A + 0x80;
-    ((Unkstruct_801855AC_2 *)v1)->unk1A = val;
-    ((Unkstruct_801855AC_2 *)v1)->unk18 = val;
+    val = ((Unkstruct_800B5BD8 *)v1)->unk1A.u + 0x80;
+    ((Unkstruct_800B5BD8 *)v1)->unk1A.u = val;
+    ((Unkstruct_800B5BD8 *)v1)->unk18.s = val;
 
     count = ((Unkstruct_801855AC *)a0)->unk1C - 1;
     ((Unkstruct_801855AC *)a0)->unk1C = count;

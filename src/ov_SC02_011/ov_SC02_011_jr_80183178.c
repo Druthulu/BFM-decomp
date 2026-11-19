@@ -1974,7 +1974,7 @@ L_ce4:
 
     ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x2200;
     ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1600;
-    ((Unkstruct_800B5BD8 *)obj)->unk27 = 0xED;
+    ((Unkstruct_800B5BD8 *)obj)->unk27.u = 0xED;
     CAST_WIDTH(u32, obj, 4) |= 0x51000000;
     guess_StartPairSequence(obj, (s32)&(*(u8 *)&D_801EB518), (s32)&D_80195968);
 
@@ -3270,7 +3270,7 @@ void func_8018797C(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_80195DD0, 0, 0);
-        ((Unkstruct_800B5BD8 *)effect)->unk27 = 0x9c;
+        ((Unkstruct_800B5BD8 *)effect)->unk27.u = 0x9c;
         ((Unkstruct_800B5BD8 *)effect)->unk1A.u = 0x4000;
         ((Unkstruct_800B5BD8 *)effect)->unk18.u = 0x4000;
         CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;

@@ -2962,7 +2962,7 @@ void aF80185EEC(s32 a0) {
     v1 = ((Unkstruct_80182258 *)a0)->unk20;
     v0 = -v0;
     ((Unkstruct_80182258 *)a0)->unkF4 = v0;
-    ((Unkstruct_80182258_3 *)v1)->unk20 = a0 + 0xEC;
+    ((Unkstruct_8001C9D0 *)v1)->unk20 = a0 + 0xEC;
     func_801844CC((void *)a0);
 }
 

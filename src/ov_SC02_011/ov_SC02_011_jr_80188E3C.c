@@ -5918,7 +5918,7 @@ void func_8019064C(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkCC.val = s0;
         func_8001CC3C(s0, (s32)D_801E8680, 0x214, 0x168);
         CAST_WIDTH(s32, s0, 0x4) = 0x50000000;
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x24;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x24;
         guess_StartPairSequence(s0, a0 + 0xDC, (s32)D_801E868C);
         func_80190BC4(a0);
         ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;

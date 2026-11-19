@@ -3401,7 +3401,7 @@ void func_8017C100(s32 param_1)
     } else {
         func_8001CC3C(s0, (s32)D_80190EF8, 0x3c0, 0xa0);
     }
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0xfc;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0xfc;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3c00;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3c00;
     ((Unkstruct_800B5BD8 *)s0)->head.unk4.u |= 0x01000000;
@@ -5692,7 +5692,7 @@ void func_80180224(u8 *arg0)
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
         func_8001CC3C(s0, 0, 0, 0);
         ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)D_800D387C;
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x9C;
         ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3000;
         ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3000;
         CAST_WIDTH(u32, s0, 4) = CAST_WIDTH(u32, s0, 4) | 0x50000000;

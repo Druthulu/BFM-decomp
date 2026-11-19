@@ -5458,9 +5458,9 @@ void func_80185FB4(s32 a0, s32 a1, s32 a2)
         func_80020F34(a2, a0 + 0x18);
     }
 
-    ((Unkstruct_8017BF50 *)a2)->unk14 = ((Unkstruct_801914A0 *)a0)->unk8;
-    ((Unkstruct_8017BF50 *)a2)->unk18 = ((Unkstruct_801914A0 *)a0)->unkA;
-    ((Unkstruct_8017BF50 *)a2)->unk1C = ((Unkstruct_801914A0 *)a0)->unkC;
+    ((Unkstruct_8017BF50 *)a2)->unk14 = ((RenderHead *)a0)->unk8.s;
+    ((Unkstruct_8017BF50 *)a2)->unk18 = ((RenderHead *)a0)->unkA.s;
+    ((Unkstruct_8017BF50 *)a2)->unk1C = ((RenderHead *)a0)->unkC.s;
 }
 
 

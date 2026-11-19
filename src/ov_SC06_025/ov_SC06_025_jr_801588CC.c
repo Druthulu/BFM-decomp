@@ -1494,7 +1494,7 @@ void func_80159A20(unsigned char *param_1)
     ((void (*)(u8 *))func_8015126C)(param_1);
     ((void (*)(u8 *))func_8014900C)(param_1);
     D_801873D4[((Unkstruct_80126B58 *)param_1)->unk0 & 0x7fff](param_1);
-    ((Unkstruct_80126B58 *)param_1)->unk44 |= 0x8000000;
+    ((Unkstruct_80126B58 *)param_1)->unk44.u |= 0x8000000;
     switch (((Unkstruct_80126B58 *)param_1)->unk0) {
     case 2:
     case 3:
@@ -1516,7 +1516,7 @@ void func_80159A20(unsigned char *param_1)
         return;
     }
 mask:
-    ((Unkstruct_80126B58 *)param_1)->unk44 &= 0xf7ffffff;
+    ((Unkstruct_80126B58 *)param_1)->unk44.u &= 0xf7ffffff;
 }
 
 #include "../shared/ov/func_80159B08.h"

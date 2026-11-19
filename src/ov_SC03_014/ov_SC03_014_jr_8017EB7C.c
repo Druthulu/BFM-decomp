@@ -3506,8 +3506,8 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 void func_80180638(arg0)
 void *arg0;
 {
-    if (((Unkstruct_8017ECD4_3 *)arg0)->unkB8 & 0x4000) {
-        ((Unkstruct_8017ECD4_3 *)arg0)->unk44 |= 0x20000;
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {
+        ((Unkstruct_80126B58 *)arg0)->unk44.s |= 0x20000;
         guess_SpawnObject(0x16, (s32)arg0, 0, -0x80, -0x10, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7BC);
         func_80171990((u8 *)arg0);
@@ -3850,19 +3850,19 @@ void func_80180FFC(u8 *p) {
     s32 t;
     s32 b;
     q = *(u8 **)(p + 0x20);
-    ((Unkstruct_8017C558 *)p)->unk16 = ((Unkstruct_8017C558 *)p)->unk16 + ((Unkstruct_8017C558 *)p)->unk14;
-    if (((Unkstruct_8017C558 *)p)->unk1C < 8) {
-        ((Unkstruct_8017C558 *)p)->unk14 = ((Unkstruct_8017C558 *)p)->unk14 - 0x200;
+    ((Unkstruct_8011D030 *)p)->unk14.i.hi = ((Unkstruct_8011D030 *)p)->unk14.i.hi + ((Unkstruct_8011D030 *)p)->unk14.i.lo;
+    if (((Unkstruct_8011D030 *)p)->unk1C < 8) {
+        ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x200;
     } else {
-        ((Unkstruct_8017C558 *)p)->unk14 = ((Unkstruct_8017C558 *)p)->unk14 - 0x51;
+        ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x51;
     }
-    b = ((Unkstruct_8017C558_2 *)q)->unk26 - 2;
-    ((Unkstruct_8017C558_2 *)q)->unk1A = ((Unkstruct_8017C558 *)p)->unk16;
-    ((Unkstruct_8017C558_2 *)q)->unk26 = b;
-    ((Unkstruct_8017C558_2 *)q)->unk25 = b;
-    ((Unkstruct_8017C558_2 *)q)->unk24 = b;
-    t = ((Unkstruct_8017C558 *)p)->unk1C;
-    ((Unkstruct_8017C558 *)p)->unk1C = t + 1;
+    b = ((Unkstruct_800B5BD8 *)q)->unk26 - 2;
+    ((Unkstruct_800B5BD8 *)q)->unk1A.s = ((Unkstruct_8011D030 *)p)->unk14.i.hi;
+    ((Unkstruct_800B5BD8 *)q)->unk26 = b;
+    ((Unkstruct_800B5BD8 *)q)->unk25.s = b;
+    ((Unkstruct_800B5BD8 *)q)->unk24.s = b;
+    t = ((Unkstruct_8011D030 *)p)->unk1C;
+    ((Unkstruct_8011D030 *)p)->unk1C = t + 1;
     if (t >= 0x1E) {
         ((void (*)(u8 *))guess_FreeSmallObject)(p);
     }
@@ -5373,7 +5373,7 @@ void func_80182E44(void *a0) {
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
             ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 3;
-            ((Unkstruct_800B5BD8 *)obj)->unk27 = 1;
+            ((Unkstruct_800B5BD8 *)obj)->unk27.u = 1;
             ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;

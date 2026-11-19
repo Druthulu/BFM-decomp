@@ -4554,7 +4554,7 @@ void func_80180328(void *arg0) {
     {
         s32 p;
         p = ((Unkstruct_80184A88 *)arg0)->unk20;
-        ((Unkstruct_80180328_2 *)p)->unk18 = ((Unkstruct_80180328_2 *)p)->unk1A = 0x2000;
+        ((Unkstruct_8001C9D0 *)p)->unk18.s = ((Unkstruct_8001C9D0 *)p)->unk1A.s = 0x2000;
     }
     func_801806EC(((Unkstruct_80184A88 *)arg0)->unkD4);
 }
@@ -4709,7 +4709,7 @@ s32 func_80180688(s32 a0)
         return 0;
     }
     func_8001CB6C((u8 *)s0, (s32)&D_80194E8C, 0x298, 0x1B0);
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x68;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1800;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
     return s0;
@@ -4799,7 +4799,7 @@ s32 a1;
         ((Unkstruct_800B5BD8 *)sub)->unk20.u = (u32)&D_80194FF8;
         ((Unkstruct_800B5BD8 *)sub)->unk28.u = 0x290;
         ((Unkstruct_800B5BD8 *)sub)->unk2A.u = 0x1A0;
-        ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x70;
+        ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x70;
         ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 1;
         ((Unkstruct_800B5BD8 *)sub)->unk18.u = 1;
         ((Unkstruct_800B5BD8 *)sub)->head.unk4.u |= 0x50000000;
@@ -4808,8 +4808,8 @@ s32 a1;
         v1 = s0;
         ((Unkstruct_80180850_3 *)v0)->unk2C = s0;
         ((Unkstruct_800B5BD8 *)sub)->unk26 = v1;
-        ((Unkstruct_800B5BD8 *)sub)->unk25 = v1;
-        ((Unkstruct_800B5BD8 *)sub)->unk24 = v1;
+        ((Unkstruct_800B5BD8 *)sub)->unk25.u = v1;
+        ((Unkstruct_800B5BD8 *)sub)->unk24.u = v1;
     } else {
         v0 = NULL;
     }
@@ -4844,8 +4844,8 @@ void func_801808F4(s32 a0)
         m >>= 1;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = m;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = m;
-        ((Unkstruct_800B5BD8 *)s1)->unk24 = p >> 12;
-        ((Unkstruct_800B5BD8 *)s1)->unk25 = p >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk24.u = p >> 12;
+        ((Unkstruct_800B5BD8 *)s1)->unk25.u = p >> 12;
         ((Unkstruct_800B5BD8 *)s1)->unk26 = p >> 12;
         *(s32 *)(a0 + 0x1C) -= 1;
         if (*(s32 *)(a0 + 0x1C) == 0) {

@@ -1552,7 +1552,7 @@ void func_80158434(s32 param_1)
     s32 frame_pad[4];
     (void)&frame_pad;
 
-    ((Unkstruct_80126B58 *)param_1)->unk44 = ((Unkstruct_80126B58 *)param_1)->unk44 | 2;
+    ((Unkstruct_80126B58 *)param_1)->unk44.u = ((Unkstruct_80126B58 *)param_1)->unk44.u | 2;
     if ((((Unkstruct_80126B58 *)param_1)->unkB8 & 0x4000) != 0) {
         ((Unkstruct_80126B58 *)param_1)->unk234 = ((Unkstruct_80126B58 *)param_1)->unk234 + 1;
         ((s32 (*)(void))guess_ClearStoodOnActor)();

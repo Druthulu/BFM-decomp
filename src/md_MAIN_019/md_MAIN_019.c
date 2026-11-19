@@ -13,7 +13,7 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CC104[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CC104[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -91,7 +91,7 @@ void func_800CB0C8(void *a0) {
     p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(s32 *)(p + 0x80) = (s32)&D_800CC580;
     func_800CB1A0();
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 2;
     v0 = func_80161208((s32)a0);
     if (v0 != 0) {
         func_800CB170((s32)a0);

@@ -18,7 +18,7 @@ void func_800CAE0C(void) {
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CB8C8[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB8C8[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -57,7 +57,7 @@ void func_800CAF18(void *a0) {
             guess_SpawnObject(0x20, (s32)a0, 0, -0x40, 0, 0, 0, 0);
         }
         if (func_80161208(a0) == 0) {
-            ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
+            ((Unkstruct_80126B58 *)a0)->unk44.u |= 2;
         }
     }
 }
@@ -390,7 +390,7 @@ void func_800CB7B8(s32 param_1) {
     guess_StepPairSequence(node, (s32 *)(p + 0x24));
     *(u8 *)(node + 0x27) = ((Unkstruct_8011D030 *)p)->unk28.b - 0x70;
     ((void (*)(s32, s32))func_800CB8A8)((void *)p, 0x40);
-    ((Unkstruct_8011D030 *)p)->unk14 -= 0x4000;
+    ((Unkstruct_8011D030 *)p)->unk14.val -= 0x4000;
     guess_AddVelocityToPos_6(p);
     if (guess_TickWaitTimer_2(p) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(p);

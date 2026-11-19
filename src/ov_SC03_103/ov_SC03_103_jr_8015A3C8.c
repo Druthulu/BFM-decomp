@@ -1314,7 +1314,7 @@ s32 arg0;
     }
 
     ((void (*)(s32))func_80148AFC)(arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unk44 & 0x200) {
+    if (((Unkstruct_80126B58 *)arg0)->unk44.u & 0x200) {
         if (((Unkstruct_80126B58 *)arg0)->unk23C == 0) {
             guess_SetAnim(arg0, 0xA);
             guess_SetTexAnim(arg0, 0x1C);

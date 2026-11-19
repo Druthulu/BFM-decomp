@@ -18,7 +18,7 @@ void func_800CAE0C(void) {
 void func_800CAE54(void *a0) {
 
     extern void (*D_800CB880[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB880[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -61,7 +61,7 @@ extern void func_80159B3C(void *a0);
 extern s32 func_80155FD4(s32 a0, s32 a1);
 
 void func_800CAF68(s32 a0) {
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 2;
     if (KR_AS(s32, func_80161208)() != 0) {
         return;
     }
@@ -84,7 +84,7 @@ void func_800CB018(s32 a0) {
     extern void guess_SetTexAnim(s32 a0, s32 a1);
     ((Unkstruct_80126B58 *)a0)->unk1BA = 0x1000;
     ((Unkstruct_80126B58 *)a0)->unk1B8 = 0x1000;
-    ((Unkstruct_80126B58 *)a0)->unk44 = ((Unkstruct_80126B58 *)a0)->unk44 & ~2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u = ((Unkstruct_80126B58 *)a0)->unk44.u & ~2;
     guess_SetTexAnim(a0, 0x11);
 }
 

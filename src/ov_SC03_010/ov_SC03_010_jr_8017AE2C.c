@@ -3398,7 +3398,7 @@ void func_8017C004(s32 arg0) {
             ((Unkstruct_8017C004_3 *)p)->head.unk8.s = 0x30;
             ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x2C;
             ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-            ((Unkstruct_8017C004_3 *)p)->unk27 = 1;
+            ((Unkstruct_8017C004_3 *)p)->unk27.u = 1;
 
             p = ((s32 (*)(void))guess_AllocSpriteObject)();
             if (p != 0) {
@@ -3416,7 +3416,7 @@ void func_8017C004(s32 arg0) {
                     ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x58;
                     ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x2C;
                     ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-                    ((Unkstruct_8017C004_3 *)p)->unk27 = 1;
+                    ((Unkstruct_8017C004_3 *)p)->unk27.u = 1;
 
                     p = ((s32 (*)(void))guess_AllocSpriteObject)();
                     if (p != 0) {
@@ -3426,7 +3426,7 @@ void func_8017C004(s32 arg0) {
                         ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x68;
                         ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0xC;
                         ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-                        ((Unkstruct_8017C004_3 *)p)->unk27 = 0xB6;
+                        ((Unkstruct_8017C004_3 *)p)->unk27.u = 0xB6;
                         ((Unkstruct_8017C004_4 *)arg0)->unk2A = 0;
                         ((Unkstruct_8017C004_4 *)arg0)->unk28 = 0;
                         D_8019FF40 = 0;
@@ -3507,7 +3507,7 @@ void func_8017C234(s32 arg0) {
     CAST_ALIAS(u16, arg0, 0x28) = r;
     m = guess_g_FrameCounter;
     (*(u16 *)D_8019FF3C) = r;
-    fld1 = ((Unkstruct_8017C234 *)arg0)->unk28;
+    fld1 = ((Unkstruct_8011D030 *)arg0)->unk28.u;
     D_801838EA = 0x61 - fld1;
     fld2 = CAST_ALIAS(u16, arg0, 0x28);
     D_8018395A = 0x61 - D_8019FF38_u;

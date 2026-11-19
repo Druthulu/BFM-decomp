@@ -4753,14 +4753,14 @@ void func_8018AF9C(void *a0) {
         s32 idx;
         u8 uVar1;
 
-        ((Unkstruct_8018AF9C *)a0)->unk20 = (s32)s1;
-        idx = ((Unkstruct_8018AF9C *)a0)->unk2C;
+        ((Unkstruct_8011D030 *)a0)->unk20 = (s32)s1;
+        idx = ((Unkstruct_8011D030 *)a0)->unk2C.val;
         func_8001CBDC((s32)s1, (s32)D_80190D18, D_80190CB4[idx][0], D_80190CB4[idx][1]);
-        uVar1 = D_80190CE0[((Unkstruct_8018AF9C *)a0)->unk2C];
+        uVar1 = D_80190CE0[((Unkstruct_8011D030 *)a0)->unk2C.val];
         s1->unk2C.s = 3;
-        s1->unk27 = uVar1;
-        ((Unkstruct_8018AF9C *)a0)->unk6 = 0;
-        ((Unkstruct_8018AF9C *)a0)->unkA = 0x50;
+        s1->unk27.u = uVar1;
+        ((Unkstruct_8011D030 *)a0)->unk6 = 0;
+        ((Unkstruct_8011D030 *)a0)->unkA = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy
            except the first: gcc-2.7.2 CSE is per-extended-BB, and inside one BB
@@ -4778,8 +4778,8 @@ void func_8018AF9C(void *a0) {
            neighbouring symbol (idiom 7): `&D_80190E14 + 4 == &D_80190E18`, a
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
-#define COND (((Unkstruct_8018AF9C *)a0)->unk2C > 0)
-        *(CVECTOR *)((s32)&D_80190E14 + 4) = D_80190CEC[((Unkstruct_8018AF9C *)a0)->unk2C];
+#define COND (((Unkstruct_8011D030 *)a0)->unk2C.val > 0)
+        *(CVECTOR *)((s32)&D_80190E14 + 4) = D_80190CEC[((Unkstruct_8011D030 *)a0)->unk2C.val];
         if (COND) { D_80190E14 = D_80190E18; } else { D_80190E14 = D_80190E18; }
         if (COND) { D_80190DE4 = D_80190E14; } else { D_80190DE4 = D_80190E14; }
         if (COND) { D_80190DE0 = D_80190DE4; } else { D_80190DE0 = D_80190DE4; }
@@ -4790,7 +4790,7 @@ void func_8018AF9C(void *a0) {
         D_80190D78 = D_80190D7C;
         D_80190D50 = D_80190D78;
 
-        ((Unkstruct_8018AF9C *)a0)->unk2 = ((Unkstruct_8018AF9C *)a0)->unk2 + 1;
+        ((Unkstruct_8011D030 *)a0)->unk2.s = ((Unkstruct_8011D030 *)a0)->unk2.s + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
     }

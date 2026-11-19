@@ -38,7 +38,7 @@ void func_800CAE70(void) {
 void func_800CAEC0(void *a0) {
 
     extern void (*D_800CB610[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB610[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -318,7 +318,7 @@ void func_800CB480(s32 arg0)
     } else {
         *(s32 *)(arg0 + 0x20) = iVar1;
         func_8001CC3C(iVar1, (s32)&D_800CB648, 0x1B8, 0x100);
-        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x1A;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x1A;
         ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x2000;
         ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x2000;
         *(s32 *)(arg0 + 0x10) = *(s32 *)((s32)&D_800CB65C + (*(s32 *)(arg0 + 0x2C)) * 0x10);

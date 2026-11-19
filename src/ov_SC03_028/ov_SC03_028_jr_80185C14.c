@@ -3000,8 +3000,8 @@ void func_80185C14(s32 arg0) {
         break;
     case 6: {
         s32 ent = ((Unkstruct_80185864 *)arg0)->unk20;
-        s32 ang = ((Unkstruct_80185C14_2 *)ent)->unk18;
-        ((Unkstruct_80185C14_2 *)ent)->unk18 = -ang;
+        s32 ang = ((Unkstruct_8001C9D0 *)ent)->unk18.s;
+        ((Unkstruct_8001C9D0 *)ent)->unk18.s = -ang;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
         ((Unkstruct_80185864 *)arg0)->unk2 = 6;
         break;
@@ -4818,9 +4818,9 @@ void func_8018858C(s32 arg) {
     s16 chk;
 
     ptr1 = ((Unkstruct_8018858C *)arg)->unk20;
-    val = ((Unkstruct_8018858C_2 *)ptr1)->unk1A;
+    val = ((Unkstruct_8001C9D0 *)ptr1)->unk1A.u;
     val = val + 0x200;
-    ((Unkstruct_8018858C_2 *)ptr1)->unk1A = val;
+    ((Unkstruct_8001C9D0 *)ptr1)->unk1A.u = val;
 
     ptr2 = ((Unkstruct_8018858C *)arg)->unk20;
     chk = CAST_SIGN(s16, ptr2, 0x1A);

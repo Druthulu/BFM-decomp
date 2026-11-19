@@ -3528,7 +3528,7 @@ void func_8017E330(s32 param_1)
     p = *(s32 *)(param_1 + 0x20);
     func_8001CB6C((u8 *)p, (s32)&D_80190F30, 0x2E0, 0x100);
 
-    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x4F;
+    ((Unkstruct_800B5BD8 *)p)->unk27.u = 0x4F;
     CAST_ALIAS(s16, p, 0x1A) = -0x8000;
     CAST_ALIAS(s16, p, 0x18) = -0x8000;
     ((Unkstruct_800B5BD8 *)p)->head.unk10.u = 0x400;

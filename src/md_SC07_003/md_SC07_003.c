@@ -3938,7 +3938,7 @@ void func_801A5A10(s32 param_1)
 
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.s |= 0x50000000;
 
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5A;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27.u = 0x5A;
 
     p = ((Unkstruct_801A5A10 *)param_1)->unk20;
     p->unk1A.u = 0x3000;

@@ -4326,7 +4326,7 @@ s32 func_80181260(s32 param_1, s16 param_2)
     func_8001CB6C(sub, (s32)D_80189BF0, 0x320, 0x100);
 
     v = param_2 + 0x800;
-    ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x4E;
+    ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x4E;
     ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1800;
     ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x3800;
     ((Unkstruct_800B5BD8 *)sub)->head.unk10.u = 0x400;
@@ -4452,7 +4452,7 @@ void func_8018153C(void *a0)
     if (s0 != 0) {
         ((Unkstruct_801202A0 *)a0)->unk20.p = s0;
         func_8001CEC0(s0, v2);
-        ((Unkstruct_800B5BD8 *)s0)->unk2E = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk2E.u = 0;
         CAST_WIDTH(s16, s0, 0x30) = 0;
         ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 1;
         guess_CopyVec3HighHalves((s32)((u8 *)a0 + 4), (s32 *)((u8 *)a0 + 0xFC));

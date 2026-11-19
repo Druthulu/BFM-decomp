@@ -4005,7 +4005,7 @@ s32 func_80180770(void *a0)
 
     sub = *(u8 **)(obj + 0x20);
     func_8001CB6C(sub, (s32)&D_8018F120, 0x320, 0x100);
-    ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x4E;
+    ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x4E;
     ((Unkstruct_800B5BD8 *)sub)->unk18.u = 0x1800;
     ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 0x3800;
     ((Unkstruct_800B5BD8 *)sub)->head.unk10.u = 0x400;
@@ -8138,7 +8138,7 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
     }
     sub = *(s32 *)(obj + 0x20);
     ((Unkstruct_800B5BD8 *)sub)->unk20.s = (s32) D_801AFC00;
-    ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x56;
+    ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x56;
     ((Unkstruct_800B5BD8 *)sub)->unk28.s = 0x2A0;
     ((Unkstruct_800B5BD8 *)sub)->unk2A.u = 0x1A0;
 

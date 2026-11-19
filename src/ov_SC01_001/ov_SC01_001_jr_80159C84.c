@@ -1248,7 +1248,7 @@ s32 func_80159C84(s32 p) {
         return;
     }
 
-    if ((((Unkstruct_80126B58 *)p)->unk44 & 0x200) == 0 && ((Unkstruct_80126B58 *)p)->unkD4 == 0x8000) {
+    if ((((Unkstruct_80126B58 *)p)->unk44.u & 0x200) == 0 && ((Unkstruct_80126B58 *)p)->unkD4 == 0x8000) {
         if (((Unkstruct_80126B58 *)p)->unk234 >= 3) {
             t = (s32)&D_800D5F44;
             if (((Unkstruct_80126B58 *)p)->unkD0 == t) {
@@ -1269,7 +1269,7 @@ s32 func_80159C84(s32 p) {
 after_b4c:
 
     if (((Unkstruct_80126B58 *)p)->unkB8 & 0x8000) {
-        if ((((Unkstruct_80126B58 *)p)->unk44 & 0x200) == 0) {
+        if ((((Unkstruct_80126B58 *)p)->unk44.u & 0x200) == 0) {
             if (guess_GetPlayerControlScript() != 0) {
                 ((Unkstruct_80126B58 *)p)->unk234 = 0;
                 ((Unkstruct_80126B58 *)p)->unk238 = 0;
@@ -1292,7 +1292,7 @@ after_b4c:
                 break;
             case 2:
                 if ((((Unkstruct_80126B58 *)p)->unk238)++ >= 2) {
-                    if ((((Unkstruct_80126B58 *)p)->unk44 & 4) != 0) {
+                    if ((((Unkstruct_80126B58 *)p)->unk44.u & 4) != 0) {
                         ((Unkstruct_80126B58 *)p)->unk234 = 0;
                         ((Unkstruct_80126B58 *)p)->unk238 = 0;
                         guess_SetAnim((s32)((u8 *)p), 0);

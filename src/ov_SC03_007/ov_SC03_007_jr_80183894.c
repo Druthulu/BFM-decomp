@@ -3636,7 +3636,7 @@ void func_80184500(s32 param_1) {
     s32 rec;
     s32 val;
 
-    rec = (s32)(D_801E9D30 + ((Unkstruct_8017DC54_4 *)param_1)->unk34 * 0x40);
+    rec = (s32)(D_801E9D30 + ((Unkstruct_8011DB30 *)param_1)->unk34.val.s * 0x40);
     val = *(u8 *)rec;
     val = val - 8;
     if (val > 0) {

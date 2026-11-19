@@ -5488,7 +5488,7 @@ s32 func_80181780(void *a0, s32 a1, s32 a2, s32 a3) {
         idx = a3 & 0xF;
         {
             u16 *tbl = D_801A8DA8[idx];
-            ((Unkstruct_800B5BD8 *)sub)->unk27 = (u8) tbl[2];
+            ((Unkstruct_800B5BD8 *)sub)->unk27.u = (u8) tbl[2];
             ((Unkstruct_800B5BD8 *)sub)->unk28.s = tbl[0];
             ((Unkstruct_800B5BD8 *)sub)->unk2A.u = tbl[1];
         }
@@ -5564,7 +5564,7 @@ void func_801819C0(s32 a0) {
         if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
             ((Unkstruct_8011DB30 *)a0)->unk14.val += 0x10000;
             if (CAST_WIDTH(s32, a0, 0x2C) != 0) {
-                ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x62;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27.u = 0x62;
             }
         }
         ((Unkstruct_8011DB30 *)a0)->unk1C -= 1;
@@ -6813,7 +6813,7 @@ s32 func_80183AFC(s32 a0)
         return 0;
     }
     func_8001CB6C((u8 *)ret, D_801AE7EC, 0x298, 0x1B0);
-    ((Unkstruct_800B5BD8 *)ret)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)ret)->unk27.u = 0x68;
     ((Unkstruct_800B5BD8 *)ret)->unk1A.u = 0x1800;
     ((Unkstruct_800B5BD8 *)ret)->unk18.u = 0x1800;
     return ret;

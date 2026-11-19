@@ -6767,15 +6767,15 @@ void func_80182794(s32 param_1, s32 param_2) {
     case 0:
     case 1:
         func_8001CC3C(obj, (s32)D_800D387C, 0, 0);
-        ((Unkstruct_800B5BD8 *)obj)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)obj)->unk27.u = 0x9C;
         CAST_WIDTH(s32, obj, 4) |= 0x50000000;
         t = (rand() & 3) << 12;
         /* cookbook §205 / §167-13-ADDENDUM: the CHAINED store is a scheduling
          * dial -- it keeps the `andi/sll` at the top of the block instead of
          * letting the birthing boost sink it next to its consumer. */
         ((Unkstruct_800B5BD8 *)obj)->unk18.u = ((Unkstruct_800B5BD8 *)obj)->unk1A.u = t;
-        ((Unkstruct_800B5BD8 *)obj)->unk24 = 0x40;
-        ((Unkstruct_800B5BD8 *)obj)->unk25 = 0x30;
+        ((Unkstruct_800B5BD8 *)obj)->unk24.u = 0x40;
+        ((Unkstruct_800B5BD8 *)obj)->unk25.u = 0x30;
         ((Unkstruct_800B5BD8 *)obj)->unk26 = 0x30;
         guess_StartPairSequence(obj, param_1 + 0x24, (s32)D_800D3888);
         guess_StepPairSequence(obj, (s32 *)(param_1 + 0x24));

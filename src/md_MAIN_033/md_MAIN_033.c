@@ -18,7 +18,7 @@ void func_800CAE0C(void) {
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CB8A4[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB8A4[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -122,7 +122,7 @@ void func_800CB058(s32 arg0)
     p = s2a;
     q = (s32)(s1a + 4);
     v0w = CAST_WIDTH(u32, s0a, 4);
-    ((Unkstruct_800B5BD8 *)s0a)->unk27 = 0x19;
+    ((Unkstruct_800B5BD8 *)s0a)->unk27.u = 0x19;
     CAST_WIDTH(u32, s0a, 4) = (v0w | maska) & ~0x40;
     fptr = *(s32 *)(p + 0x20);
     cnt = D_800CB984++;

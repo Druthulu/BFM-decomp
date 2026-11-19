@@ -3167,13 +3167,13 @@ void func_8017EEDC(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_8018F718, 0x250, 0x100);
-        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x90;
         ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x6000;
         ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x7000;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x80;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25.u = 0x80;
         ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0xFF;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24.u = 0;
         guess_StartPairSequence(iVar1, param_1 + 0x24, (s32)&D_8018F724);
         *(s32 *)(param_1 + 0x10) = 0;
         *(s32 *)(param_1 + 0x14) = 0xfff40000;
@@ -3191,12 +3191,12 @@ void func_8017EFA8(s32 param_1)
     if (((s32 (*)(s32, s32))guess_StepPairSequence)(iVar2, param_1 + 0x24) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     } else {
-        ((Unkstruct_8017EFA8_2 *)iVar2)->unk27 = ((Unkstruct_8017EFA8 *)param_1)->unk28 - 0x70;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk27.s = ((Unkstruct_8017EFA8 *)param_1)->unk28 - 0x70;
         ((Unkstruct_8017EFA8 *)param_1)->unk10 = ((Unkstruct_8017EFA8 *)param_1)->unk10 - 0x60000;
         ((Unkstruct_8017EFA8 *)param_1)->unk14 = ((Unkstruct_8017EFA8 *)param_1)->unk14 + ((Unkstruct_8017EFA8 *)param_1)->unk10;
         ((Unkstruct_8017EFA8 *)param_1)->unk8 = ((Unkstruct_8017EFA8 *)param_1)->unk8 + ((Unkstruct_8017EFA8 *)param_1)->unk14;
-        ((Unkstruct_8017EFA8_2 *)iVar2)->unk18 = ((Unkstruct_8017EFA8_2 *)iVar2)->unk18 - 0x500;
-        ((Unkstruct_8017EFA8_2 *)iVar2)->unk1A = ((Unkstruct_8017EFA8_2 *)iVar2)->unk1A - 0x300;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk18.s = ((Unkstruct_800B5BD8 *)iVar2)->unk18.s - 0x500;
+        ((Unkstruct_800B5BD8 *)iVar2)->unk1A.s = ((Unkstruct_800B5BD8 *)iVar2)->unk1A.s - 0x300;
     }
 }
 
@@ -3253,7 +3253,7 @@ void func_8017F0D0(s32 param_1)
         }
     }
 
-    ((Unkstruct_8017F0D0_2 *)param_1)->unk2 = ((Unkstruct_8017F0D0_2 *)param_1)->unk2 + 1;
+    ((Unkstruct_8017F0D0_2 *)param_1)->unk2.u = ((Unkstruct_8017F0D0_2 *)param_1)->unk2.u + 1;
 }
 
 

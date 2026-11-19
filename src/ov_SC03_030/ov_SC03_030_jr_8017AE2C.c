@@ -4862,7 +4862,7 @@ void func_8017F26C(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_801859FC, 0, 0);
-        ((Unkstruct_800B5BD8 *)effect)->unk27 = 0x88;
+        ((Unkstruct_800B5BD8 *)effect)->unk27.u = 0x88;
         ((Unkstruct_800B5BD8 *)effect)->unk1A.u = 0x4000;
         ((Unkstruct_800B5BD8 *)effect)->unk18.u = 0x4000;
         CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
@@ -5124,9 +5124,9 @@ void func_8017FA6C(void *a0)
     if (handle != 0) {
         ((Unkstruct_8017FA6C_2 *)a0)->unk20 = handle;
         ((void (*)(s32, void *))func_8001CEC0)(handle, ptr);
-        ((Unkstruct_8017FA6C *)handle)->unk2E = 0;
-        ((Unkstruct_8017FA6C *)handle)->unk30 = 0;
-        ((Unkstruct_8017FA6C *)handle)->unk2C = 1;
+        ((Unkstruct_800B5BD8 *)handle)->unk2E.s = 0;
+        ((Unkstruct_800B5BD8 *)handle)->unk30.s = 0;
+        ((Unkstruct_800B5BD8 *)handle)->unk2C.s = 1;
         ((void (*)(s32, s32 *))guess_CopyVec3HighHalves)((s32)a0 + 4, (s32 *)((s32)a0 + 0xFC));
         ((void (*)(void *))func_8017FB04)(a0);
         ((void (*)(void *))func_8012AD50)(a0);
@@ -5868,7 +5868,7 @@ void func_80180CDC(s32 arg0) {
 
     prim = *(s32 *)(arg0 + 0x20);
     func_8001CB6C((u8 *)prim, (s32)D_80186968, 0x320, 0x100);
-    ((Unkstruct_800B5BD8 *)prim)->unk27 = 0x35;
+    ((Unkstruct_800B5BD8 *)prim)->unk27.u = 0x35;
     ((Unkstruct_800B5BD8 *)prim)->unk1A.u = 0x3000;
     ((Unkstruct_800B5BD8 *)prim)->unk18.u = 0x3000;
     ((Unkstruct_800B5BD8 *)prim)->head.unk10.u = 0x400;
@@ -6481,7 +6481,7 @@ void func_80181C80(s32 param_1) {
         *(int *)(param_1 + 0xCC) = iVar3;
         *(u16 *)(param_1 + 0xFC) = *(u16 *)(*(int *)(param_1 + 0x64) + 0x36);
         func_8001CC3C(iVar3, (s32)&D_80186A14, 0x300, 0x1A0);
-        ((Unkstruct_800B5BD8 *)iVar3)->unk27 = 0x49;
+        ((Unkstruct_800B5BD8 *)iVar3)->unk27.u = 0x49;
         ((Unkstruct_800B5BD8 *)iVar3)->unk1A.u = 0x1000;
         ((Unkstruct_800B5BD8 *)iVar3)->unk18.u = 0x1000;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.u = *(u16 *)(*(int *)(param_1 + 0x64) + 6);

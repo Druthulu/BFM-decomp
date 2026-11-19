@@ -214,9 +214,9 @@ void func_800CD010(s32 param_1)
     *(s32 *)(p1 + 0x20) = iVar1;
     if (iVar1 != 0) {
         func_8001CC3C(iVar1, (s32)&D_800CD66C, 0x220, 0x168);
-        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x24;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0xFF;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x40;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x24;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24.u = 0xFF;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25.u = 0x40;
         ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x40;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;
         ((Unkstruct_800B5BD8 *)iVar1)->head.unk10.u = *(s32 *)(p1 + 0x50) << 10;

@@ -3419,7 +3419,7 @@ void func_8017C100(s32 param_1)
     } else {
         func_8001CC3C(s0, (s32)D_80190BC4, 0x3c0, 0xa0);
     }
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0xfc;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0xfc;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3c00;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3c00;
     CAST_WIDTH(u32, s0, 0x4) |= 0x01000000;
@@ -3440,11 +3440,11 @@ void func_8017C1AC(s32 param_1)
     s32 s0;
     s32 a1;
 
-    s0 = ((Unkstruct_8017C1AC *)param_1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20;
     sv4.vx = -0x20;
     sv4.vz = 0;
     sv4.vy = D_801ECDA8;
-    a1 = ((Unkstruct_8017C1AC_2 *)s0)->unk34;
+    a1 = ((Unkstruct_800B5BD8 *)s0)->unk34.s;
     RotMatrixYXZ(&sv4, a1);
 }
 

@@ -3568,19 +3568,19 @@ void func_8017DAA0(u8 *p) {
     s32 t;
     s32 b;
     q = *(u8 **)(p + 0x20);
-    ((Unkstruct_8017C558 *)p)->unk16 = ((Unkstruct_8017C558 *)p)->unk16 + ((Unkstruct_8017C558 *)p)->unk14;
-    if (((Unkstruct_8017C558 *)p)->unk1C < 8) {
-        ((Unkstruct_8017C558 *)p)->unk14 = ((Unkstruct_8017C558 *)p)->unk14 - 0x200;
+    ((Unkstruct_8011D030 *)p)->unk14.i.hi = ((Unkstruct_8011D030 *)p)->unk14.i.hi + ((Unkstruct_8011D030 *)p)->unk14.i.lo;
+    if (((Unkstruct_8011D030 *)p)->unk1C < 8) {
+        ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x200;
     } else {
-        ((Unkstruct_8017C558 *)p)->unk14 = ((Unkstruct_8017C558 *)p)->unk14 - 0x51;
+        ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x51;
     }
-    b = ((Unkstruct_8017C558_2 *)q)->unk26 - 2;
-    ((Unkstruct_8017C558_2 *)q)->unk1A = ((Unkstruct_8017C558 *)p)->unk16;
-    ((Unkstruct_8017C558_2 *)q)->unk26 = b;
-    ((Unkstruct_8017C558_2 *)q)->unk25 = b;
-    ((Unkstruct_8017C558_2 *)q)->unk24 = b;
-    t = ((Unkstruct_8017C558 *)p)->unk1C;
-    ((Unkstruct_8017C558 *)p)->unk1C = t + 1;
+    b = ((Unkstruct_800B5BD8 *)q)->unk26 - 2;
+    ((Unkstruct_800B5BD8 *)q)->unk1A.s = ((Unkstruct_8011D030 *)p)->unk14.i.hi;
+    ((Unkstruct_800B5BD8 *)q)->unk26 = b;
+    ((Unkstruct_800B5BD8 *)q)->unk25.s = b;
+    ((Unkstruct_800B5BD8 *)q)->unk24.s = b;
+    t = ((Unkstruct_8011D030 *)p)->unk1C;
+    ((Unkstruct_8011D030 *)p)->unk1C = t + 1;
     if (t >= 0x1E) {
         ((void (*)(u8 *))guess_FreeSmallObject)(p);
     }

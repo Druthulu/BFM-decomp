@@ -5219,7 +5219,7 @@ void func_80180648(s32 param_1)
         } else {
             ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
             func_8001CB6C(s0, (s32)&D_801A3DF0, 0x2E0, 0x100);
-            ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x37;
+            ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x37;
             ((Unkstruct_800B5BD8 *)s0)->head.unk10.u = 0x400;
             CAST_WIDTH(u32, s0, 4) |= 0x50000000;
             uVar1 = CAST_SIGN(u16, param_1, 0xFC);
@@ -8119,7 +8119,7 @@ void func_801846E8(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkCC.val = s0;
         func_8001CC3C(s0, (s32)D_801B65A4, 0x214, 0x168);
         CAST_WIDTH(s32, s0, 0x4) = 0x50000000;
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x24;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x24;
         guess_StartPairSequence(s0, a0 + 0xDC, (s32)D_801B65B0);
         func_80184C60(a0);
         ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;

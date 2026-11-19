@@ -6240,11 +6240,11 @@ void func_80187EDC(void *a0)
                 *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
                 *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
             }
-            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(pkt + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
-            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(p1 + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
 
             *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);
@@ -7804,7 +7804,7 @@ void func_8018ABE8(s32 arg0) {
     if (CAST_SIGN(u16, arg0, 2) == 0) {
         *(u8 **)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x20) = &D_801C2BE0;
         *(u32 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 4) |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27 = 0x59;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27.u = 0x59;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)arg0)->unk20, arg0 + 0x24, (s32)&D_801C2BEC);
         rv = rand();
         ((Unkstruct_8011DB30 *)arg0)->unk1C = 0x10;

@@ -2188,7 +2188,7 @@ s32 func_80149FB0(s32 a0) {
         } while (v != 0);
     }
 
-    if ((((Unkstruct_80149FB0_2 *)a0)->unk44 & 0x400) != 0) {
+    if ((((Unkstruct_80149FB0_2 *)a0)->unk44.u & 0x400) != 0) {
         return 0;
     }
     if (((Unkstruct_80149FB0_2 *)a0)->unk1C8.s != 0) {

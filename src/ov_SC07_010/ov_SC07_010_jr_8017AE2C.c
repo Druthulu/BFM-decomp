@@ -6816,11 +6816,11 @@ void func_80181B98(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    ((Unkstruct_800B5BD8 *)work)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->unk27.u = 0x9C;
     CAST_WIDTH(s32, work, 4) = CAST_WIDTH(s32, work, 4) | 0x50000000;
     val = *(s32 *)(param_1 + 0x2C);
-    ((Unkstruct_800B5BD8 *)work)->unk24 = 0xC0;
-    ((Unkstruct_800B5BD8 *)work)->unk25 = 0x40;
+    ((Unkstruct_800B5BD8 *)work)->unk24.u = 0xC0;
+    ((Unkstruct_800B5BD8 *)work)->unk25.u = 0x40;
     ((Unkstruct_800B5BD8 *)work)->unk26 = 0x20;
     res = ((8 - val) * 3) << 9;
     ((Unkstruct_800B5BD8 *)work)->unk1A.u = res;
@@ -6882,17 +6882,17 @@ void func_80181D48(s32 a0) {
     s0 = *(u8 **)(a0 + 0x20);
     guess_AddVelocityToPos();
 
-    v0 = ((Unkstruct_800B5BD8 *)s0)->unk24;
+    v0 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
     v0 = v0 - 4;
-    ((Unkstruct_800B5BD8 *)s0)->unk24 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk24.u = v0;
     if ((u8)v0 > 0xC0) {
-        ((Unkstruct_800B5BD8 *)s0)->unk24 = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk24.u = 0;
     }
 
-    v1 = ((Unkstruct_800B5BD8 *)s0)->unk24;
-    if (v1 < ((Unkstruct_800B5BD8 *)s0)->unk25) {
-        ((Unkstruct_800B5BD8 *)s0)->unk25 = v1;
-        v1 = ((Unkstruct_800B5BD8 *)s0)->unk24;
+    v1 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
+    if (v1 < ((Unkstruct_800B5BD8 *)s0)->unk25.u) {
+        ((Unkstruct_800B5BD8 *)s0)->unk25.u = v1;
+        v1 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
     }
     if (v1 < ((Unkstruct_800B5BD8 *)s0)->unk26) {
         ((Unkstruct_800B5BD8 *)s0)->unk26 = v1;
@@ -6906,7 +6906,7 @@ void func_80181D48(s32 a0) {
 
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
 
-    if (((Unkstruct_800B5BD8 *)s0)->unk24 == 0) {
+    if (((Unkstruct_800B5BD8 *)s0)->unk24.u == 0) {
         func_801292C8(a0);
     }
 }
@@ -6930,7 +6930,7 @@ void func_80181E5C(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    ((Unkstruct_800B5BD8 *)work)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->unk27.u = 0x9C;
     ((Unkstruct_800B5BD8 *)work)->unk1A.u = 0x3000;
     ((Unkstruct_800B5BD8 *)work)->unk18.u = 0x3000;
     CAST_WIDTH(u32, work, 4) = CAST_WIDTH(u32, work, 4) | 0x50000000;

@@ -4220,7 +4220,7 @@ void func_8018AF48(void *a0) {
         func_8001CBDC((s32)s1, (s32)D_801D7178, D_801D7114[idx][0], D_801D7114[idx][1]);
         uVar1 = D_801D7140[*(s32 *)((s32)a0 + 0x2C)];
         ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk27.u = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

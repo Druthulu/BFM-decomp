@@ -3427,7 +3427,7 @@ void func_801888F4(void *arg0)
 
     p = *(void **)((s32)a0 + 0x20);
     func_8001CC3C((s32)p, (s32)&D_8018F560[rand() & 3], 0x3F0, 0x100);
-    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9D;
+    ((Unkstruct_800B5BD8 *)p)->unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)p)->unk1A.u = 0x1000;
     CAST_WIDTH(s16, (s32)p, 0x18) = 0x1000;
 
@@ -3513,7 +3513,7 @@ void func_80188AEC(void *a0) {
     v = rand() & 3;
     ((void (*)(void *, void *, s32, s32))func_8001CB6C)(s0, &((void (**)())D_8018F560)[v * 3], 0x3F0, 0x100);
 
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x9D;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1000;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1000;
 
@@ -3573,7 +3573,7 @@ s32 func_80188C0C(s32 a0, s16 a1)
     }
     prim = CAST_SIGN(u8 *, obj, 0x20);
     ((Unkstruct_800B5BD8 *)prim)->unk20.s = (s32)D_800D387C;
-    ((Unkstruct_800B5BD8 *)prim)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)prim)->unk27.u = 0x9C;
     ((Unkstruct_800B5BD8 *)prim)->unk1A.u = a1;
     ((Unkstruct_800B5BD8 *)prim)->unk18.u = a1;
     CAST_WIDTH(u32, prim, 4) |= 0x50000000;

@@ -4459,7 +4459,7 @@ s32 func_80187780(s16 *a0, s32 a1, s32 a2, s32 a3) {
     }
     sub = *(s32 *)(obj + 0x20);
     ((Unkstruct_800B5BD8 *)sub)->unk20.s = (s32) D_801A9AA0;
-    ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x56;
+    ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x56;
     ((Unkstruct_800B5BD8 *)sub)->unk28.s = 0x2A0;
     ((Unkstruct_800B5BD8 *)sub)->unk2A.u = 0x1A0;
 

@@ -18,7 +18,7 @@ void func_800CAE14(void) {
 void func_800CAE5C(void *a0) {
 
     extern void (*D_800CBE7C[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CBE7C[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -543,7 +543,7 @@ void func_800CBAF4(void *a0)
 
 
 void func_800CBB50(void *a0) {
-    ((Unkstruct_800B5BD8 *)a0)->unk27 = 0x1A;
+    ((Unkstruct_800B5BD8 *)a0)->unk27.u = 0x1A;
     ((Unkstruct_800B5BD8 *)a0)->unk2C.u = 1;
     ((Unkstruct_800B5BD8 *)a0)->head.unk8.u = 0;
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x40;

@@ -15,7 +15,7 @@ void func_800CAE0C(void) {
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CBBA8[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CBBA8[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -71,7 +71,7 @@ extern u8 D_800CBB64[];
 
 void func_800CAFAC(void *a0) {
     s32 temp = ((Unkstruct_80126B58 *)a0)->unk20.val;
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 2;
     if (KR_AS(s32, func_80161208)() == 0) {
         switch (((Unkstruct_80126B58 *)a0)->unkA9) {
         case 0x41: {

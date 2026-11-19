@@ -3823,7 +3823,7 @@ void func_8017FCD0(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_801881A4, 0, 0);
-        ((Unkstruct_800B5BD8 *)effect)->unk27 = 0x88;
+        ((Unkstruct_800B5BD8 *)effect)->unk27.u = 0x88;
         ((Unkstruct_800B5BD8 *)effect)->unk1A.u = 0x4000;
         ((Unkstruct_800B5BD8 *)effect)->unk18.u = 0x4000;
         CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;

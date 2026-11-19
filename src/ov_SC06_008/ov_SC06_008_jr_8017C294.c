@@ -3428,7 +3428,7 @@ void func_8017E4F8(void *a0)
     s1 = (s32)a0;
     s0 = *(s32 *)(s1 + 0x20);
     func_8001CC3C(s0, (s32)D_801895B8, 0x2C0, 0x100);
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x46;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x46;
     v0 = 0x1333;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
@@ -6492,7 +6492,7 @@ void func_8018309C(s32 arg0) {
     if (CAST_SIGN(u16, arg0, 2) == 0) {
         *(u8 **)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x20) = &D_8019EDA4;
         *(u32 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 4) |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27 = 0x59;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27.u = 0x59;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)arg0)->unk20, arg0 + 0x24, (s32)&D_8019EDB0);
         rv = rand();
         ((Unkstruct_8011DB30 *)arg0)->unk1C = 0x10;

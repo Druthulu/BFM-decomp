@@ -3249,7 +3249,7 @@ void func_8016DA7C(s32 param_1)
     } else {
         *(s32 *)(param_1 + 0x20) = iVar1;
         ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_8018DE50, 0x250, 0x100);
-        ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x90;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x90;
         ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x4000;
         CAST_WIDTH(u32, iVar1, 4) = CAST_WIDTH(u32, iVar1, 4) | 0x50000000;

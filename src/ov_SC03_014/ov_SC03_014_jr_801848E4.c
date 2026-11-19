@@ -5581,10 +5581,10 @@ void func_80189680(s32 a0) {
     D_801EAC98 = D_801E94F4;
 
     v1 = s1[8];
-    ((Unkstruct_80189680 *)v1)->unk18 = 0x800;
+    ((Unkstruct_800B5BD8 *)v1)->unk18.s = 0x800;
 
     v1 = s1[8];
-    ((Unkstruct_80189680 *)v1)->unk1A = 0x1000;
+    ((Unkstruct_800B5BD8 *)v1)->unk1A.s = 0x1000;
 
     a0_ptr = s1[8];
     *(s32 *)((s8 *)a0_ptr + 0x4) |= 0x50000000;
@@ -5627,13 +5627,13 @@ void func_801897C4(s32 param_1) {
     short sVar2;
 
     ptr = *(int *)(param_1 + 0x20);
-    sVar1 = ((Unkstruct_801897C4 *)ptr)->unk18;
+    sVar1 = ((Unkstruct_800B5BD8 *)ptr)->unk18.s;
     if (sVar1 < 0x5000) {
-        ((Unkstruct_801897C4 *)ptr)->unk18 = sVar1 + 0x800;
+        ((Unkstruct_800B5BD8 *)ptr)->unk18.s = sVar1 + 0x800;
     }
-    sVar2 = ((Unkstruct_801897C4 *)ptr)->unk1A;
+    sVar2 = ((Unkstruct_800B5BD8 *)ptr)->unk1A.s;
     if (sVar2 < 0x5000) {
-        ((Unkstruct_801897C4 *)ptr)->unk1A = sVar2 + 0x800;
+        ((Unkstruct_800B5BD8 *)ptr)->unk1A.s = sVar2 + 0x800;
     }
     func_80189110();
 }
@@ -5648,11 +5648,11 @@ void func_80189824(void *arg0) {
     u8 *q;
 
     p = *(s16 **)((s32)arg0 + 0x20);
-    if (((Unkstruct_80189824 *)p)->unk18 > 0x800) {
-        ((Unkstruct_80189824 *)p)->unk18 = ((Unkstruct_80189824 *)p)->unk18 - 0x200;
+    if (((Unkstruct_800B5BD8 *)p)->unk18.s > 0x800) {
+        ((Unkstruct_800B5BD8 *)p)->unk18.s = ((Unkstruct_800B5BD8 *)p)->unk18.s - 0x200;
     }
-    if (((Unkstruct_80189824 *)p)->unk1A > 0x800) {
-        ((Unkstruct_80189824 *)p)->unk1A = ((Unkstruct_80189824 *)p)->unk1A - 0x200;
+    if (((Unkstruct_800B5BD8 *)p)->unk1A.s > 0x800) {
+        ((Unkstruct_800B5BD8 *)p)->unk1A.s = ((Unkstruct_800B5BD8 *)p)->unk1A.s - 0x200;
     }
     q = &D_801EAC94;
     if (*q >= 0xC1) {

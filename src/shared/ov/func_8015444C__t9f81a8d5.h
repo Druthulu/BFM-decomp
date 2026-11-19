@@ -213,7 +213,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     break;
                 case 25:
                     if (*arg3 == 0) {
-                        arg0->unk44 = arg0->unk44 & 0xFFFDFFFF;
+                        arg0->unk44.u = arg0->unk44.u & 0xFFFDFFFF;
                     }
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 1;
@@ -222,7 +222,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     break;
                 case 26:
                     if (*arg3 == 0) {
-                        arg0->unk44 = arg0->unk44 | 0x20000;
+                        arg0->unk44.u = arg0->unk44.u | 0x20000;
                     }
                     arg0->unkB8 = 1;
                     arg0->unkBC = arg0->unkBC + 1;

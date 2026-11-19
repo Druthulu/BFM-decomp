@@ -3981,9 +3981,9 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 
 void func_8018276C(s32 a0) {
     s32 v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
-    ((Unkstruct_801914A0 *)v1)->unk8 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 8;
-    ((Unkstruct_801914A0 *)v1)->unkA = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xE8;
-    ((Unkstruct_801914A0 *)v1)->unkC = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 2;
+    ((RenderHead *)v1)->unk8.s = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - 8;
+    ((RenderHead *)v1)->unkA.s = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0xE8;
+    ((RenderHead *)v1)->unkC.s = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 2;
 }
 
 
@@ -4328,18 +4328,18 @@ s32 a0;
 
     
     v1 = s1[8];
-    ((Unkstruct_80182DA4 *)v1)->unk18 = 0x800;
+    ((Unkstruct_800B5BD8 *)v1)->unk18.s = 0x800;
 
     
     v1 = s1[8];
-    ((Unkstruct_80182DA4 *)v1)->unk1A = 0x1000;
+    ((Unkstruct_800B5BD8 *)v1)->unk1A.s = 0x1000;
 
     
     a0_ptr = s1[8];
     ((Unkstruct_80182DA4_2 *)a0_ptr)->unk4 |= 0x50000000;
 
     
-    ((Unkstruct_80182DA4_3 *)s1)->unk2 = 1;
+    ((Unkstruct_8011DB30 *)s1)->unk2.s = 1;
 
     (void)pad;  
 }

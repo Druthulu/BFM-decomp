@@ -4930,7 +4930,7 @@ void func_80180E24(void *a0)
     if (v0 == 0) {
         s0 = (u8 *)s1 + 0x24;                  /* +0x24: 4-word scratch */
         ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk20.s = (s32)&D_801890BC;
-        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk27 = 0x43;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk27.u = 0x43;
 
         /* one shared base for the 0x1A/0x18 pair (§193-E: naming it collapses
          * the two CSE intervals into the single `lw $v1,0x20($s1)` reload) */
@@ -5093,7 +5093,7 @@ void func_801810A4(s32 a0) {
         u16 st = CAST_SIGN(u16, a0, 2) + 1;      /* shares the switch's own lhu via cse */
         ((Unkstruct_8011DB30 *)a0)->unk2.s = st;              /* obj->state */
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk20.s = (s32) D_801890F0;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x44;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27.u = 0x44;
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0xC00;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
         guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));

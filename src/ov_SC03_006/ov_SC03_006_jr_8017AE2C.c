@@ -5103,8 +5103,8 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 void func_8017ECD4(arg0)
 void *arg0;
 {
-    if (((Unkstruct_8017ECD4_3 *)arg0)->unkB8 & 0x4000) {
-        ((Unkstruct_8017ECD4_3 *)arg0)->unk44 |= 0x20000;
+    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {
+        ((Unkstruct_80126B58 *)arg0)->unk44.s |= 0x20000;
         guess_SpawnObject(0x16, (s32)arg0, 0, -0x80, -0x10, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7BC);
         func_80171990((u8 *)arg0);
@@ -8106,13 +8106,13 @@ void func_80183DD4(s32 a0) {
     ((Unkstruct_80183DD4 *)a0)->unk5C = 0;
     ((Unkstruct_80183DD4 *)a0)->unk98 = 0;
     ((Unkstruct_80183DD4 *)a0)->unk1C = 0;
-    ((Unkstruct_80183DD4_2 *)obj)->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)obj)->unk2C.u |= 0x10;
     if (((Unkstruct_80183DD4 *)a0)->unkAA == 0) {
-        val1 = ((Unkstruct_80183DD4_2 *)*(s32 *)(a0 + 0x20))->unk18;
+        val1 = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk18.u;
         ((Unkstruct_80183DD4 *)a0)->unk106 = 0;
         ((Unkstruct_80183DD4 *)a0)->unk100 = val1;
     } else {
-        val2 = ((Unkstruct_80183DD4_2 *)*(s32 *)(a0 + 0x20))->unk18;
+        val2 = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk18.u;
         ((Unkstruct_80183DD4 *)a0)->unk106 = 1;
         ((Unkstruct_80183DD4 *)a0)->unk104 = val2;
     }
@@ -12281,7 +12281,7 @@ void func_801896EC(s32 param_1) {
         mask = ~0x80;
         f = ((Unkstruct_801896EC *)self)->unkDC;
         q = ((Unkstruct_801896EC *)self)->unk20;
-        q = ((Unkstruct_801896EC_2 *)q)->unk18;
+        q = ((Unkstruct_8001C9D0 *)q)->unk18.u;
         f &= mask;
         ((Unkstruct_801896EC *)self)->unkDC = f;
         ((Unkstruct_801896EC *)self)->unk100 = q;
@@ -13931,7 +13931,7 @@ void func_8018BA58(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkCC.val = s0;
         func_8001CC3C(s0, (s32)D_801F16C8, 0x214, 0x168);
         CAST_WIDTH(s32, s0, 0x4) = 0x50000000;
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x24;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x24;
         guess_StartPairSequence(s0, a0 + 0xDC, (s32)D_801F16D4);
         func_8018BFD0(a0);
         ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;

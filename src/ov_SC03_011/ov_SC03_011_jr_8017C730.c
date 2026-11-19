@@ -3454,7 +3454,7 @@ extern s32 guess_OpenTextWindow(s32 a0);
 extern s32 func_80171990(u8 *a0);
 
 void func_8017DED4(u8 *a0) {
-    ((Unkstruct_8017DED4_2 *)a0)->unk198 = guess_OpenTextWindow((s32)&D_80185EC8);
+    ((Unkstruct_80126B58 *)a0)->unk198 = guess_OpenTextWindow((s32)&D_80185EC8);
     func_80171990(a0);
 }
 
@@ -3469,11 +3469,11 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017DF14(s32 param_1)
 {
-    if (guess_GetTextWindowResult(((Unkstruct_8017DF14 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017DF14 *)param_1)->unk198);
-        ((Unkstruct_8017DF14 *)param_1)->unk198 = 0;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = 0;
         guess_SetGameFlag(0xBD, 1);
-        ((Unkstruct_8017DF14 *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80185F04);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80185F04);
         func_80171990((u8 *)param_1);
     }
 }
@@ -3487,10 +3487,10 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017DF84(s32 param_1)
 {
-    if (guess_GetTextWindowResult(((Unkstruct_8017DF84_2 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017DF84_2 *)param_1)->unk198);
-        ((Unkstruct_8017DF84_2 *)param_1)->unk198 = 0;
-        ((Unkstruct_8017DF84_2 *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80185F44);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = 0;
+        ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80185F44);
         func_80171990((u8 *)param_1);
     }
 }
@@ -3530,9 +3530,9 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017E08C(s32 param_1)
 {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E08C *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E08C *)param_1)->unk198);
-        ((Unkstruct_8017E08C *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80186068);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
+        ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow((s32)&D_80186068);
         func_80171990((u8 *)param_1);
     }
 }
@@ -3542,9 +3542,9 @@ extern s32 guess_GetTextWindowResult(s32 a0);
 extern void guess_CloseTextWindow(s32 a0);
 extern s32 func_80171990(u8*);
 void func_8017E0EC(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017E0EC *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E0EC *)a0)->unk198);
-        ((Unkstruct_8017E0EC *)a0)->unk198 = 0;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk198 = 0;
         ((void (*)(void *))func_80171990)(a0);
     }
 }

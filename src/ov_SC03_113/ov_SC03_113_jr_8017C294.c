@@ -4220,7 +4220,7 @@ void func_8017F904(void *a0) {
     } else {
         ((Unkstruct_801202A0 *)a0)->unk20.p = iVar;
         func_8001CB6C((u8 *)iVar, (s32)&D_80186FA4, 0x300, 0x100);
-        ((Unkstruct_800B5BD8 *)iVar)->unk27 = 100;
+        ((Unkstruct_800B5BD8 *)iVar)->unk27.u = 100;
         tbl = *(u16 *)(D_8018715C + (((Unkstruct_801202A0 *)a0)->unk70.s) * 2);
         *(s16 *)(iVar + 0x32) = -0x20;
         ((Unkstruct_800B5BD8 *)iVar)->unk2C.u = 0x8004;

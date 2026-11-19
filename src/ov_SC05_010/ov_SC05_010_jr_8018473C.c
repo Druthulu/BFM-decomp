@@ -2911,7 +2911,7 @@ s32 func_801849DC(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
     }
     func_8001CB6C((u8 *)obj, a1, a2, a3);
     ((Unkstruct_800B5BD8 *)obj)->head.unk10.u = 0xC00;
-    ((Unkstruct_800B5BD8 *)obj)->unk27 = a4;
+    ((Unkstruct_800B5BD8 *)obj)->unk27.u = a4;
     ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x2D00;
     ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x2D00;
     ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
@@ -4777,7 +4777,7 @@ void func_801877A8(s32 arg0)
     s32 r;
 
     func_8001CB6C(*(u8 **)(arg0 + 0x20), D_801942C0, 0x234, 0x1C0);
-    ((Unkstruct_800B5BD8 *)*(u32 *)(arg0 + 0x20))->unk27 = 0x26;
+    ((Unkstruct_800B5BD8 *)*(u32 *)(arg0 + 0x20))->unk27.u = 0x26;
     ((Unkstruct_801877A8 *)arg0)->unk30 = rand() & 0x1FF;
     ((Unkstruct_801877A8 *)arg0)->unk32 = rand() & 0x1F;
     ((Unkstruct_801877A8 *)arg0)->unk34 = rand() & 0x7F;
@@ -4856,7 +4856,7 @@ void func_801878E8(void *a0) {
         func_8001CBDC((s32)s1, (s32)D_801C3BE0, D_801C3B7C[idx][0], D_801C3B7C[idx][1]);
         uVar1 = D_801C3BA8[*(s32 *)((s32)a0 + 0x2C)];
         ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk27.u = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 
@@ -5434,7 +5434,7 @@ void func_80188770(s32 param_1)
     }
     *(s32 *)(param_1 + 0x20) = ret;
     func_8001CC3C(ret, (s32)&D_801C3DE4, 0x270, 0x100);
-    ((Unkstruct_800B5BD8 *)ret)->unk27 = 0x9B;
+    ((Unkstruct_800B5BD8 *)ret)->unk27.u = 0x9B;
     CAST_WIDTH(u32, ret, 4) = CAST_WIDTH(u32, ret, 4) | 0x50000000;
     if (*(s32 *)(param_1 + 0x2C) == 0) {
         ((Unkstruct_800B5BD8 *)ret)->unk1A.u = 0x3000;
@@ -5471,12 +5471,12 @@ void func_80188848(void *a0) {
             ((Unkstruct_800B5BD8 *)s1)->unk1A.u += 0x600;
         }
         v26 = ((Unkstruct_800B5BD8 *)s1)->unk26;
-        v25 = ((Unkstruct_800B5BD8 *)s1)->unk25;
+        v25 = ((Unkstruct_800B5BD8 *)s1)->unk25.u;
         v26 -= 4;
         v25 -= 8;
         ((Unkstruct_800B5BD8 *)s1)->unk26 = v26;
-        ((Unkstruct_800B5BD8 *)s1)->unk24 = v26;
-        ((Unkstruct_800B5BD8 *)s1)->unk25 = v25;
+        ((Unkstruct_800B5BD8 *)s1)->unk24.u = v26;
+        ((Unkstruct_800B5BD8 *)s1)->unk25.u = v25;
     }
 }
 

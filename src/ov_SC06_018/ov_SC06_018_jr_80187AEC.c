@@ -6371,11 +6371,11 @@ void func_8018CD04(void *a0)
                 *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
                 *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
             }
-            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(pkt + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
-            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(p1 + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
 
             *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);

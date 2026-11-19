@@ -2168,7 +2168,7 @@ s32 arg0;
     }
 
     ((void (*)(s32))func_80148AFC)(arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unk44 & 0x200) {
+    if (((Unkstruct_80126B58 *)arg0)->unk44.u & 0x200) {
         if (((Unkstruct_80126B58 *)arg0)->unk23C == 0) {
             guess_SetAnim(arg0, 0xA);
             guess_SetTexAnim(arg0, 0x1C);
@@ -2447,7 +2447,7 @@ s32 arg0;
                 if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
                     guess_SetTexAnim(arg0, 0x22);
                     ((void (*)(s32))func_8015B8F8)(arg0);
-                    ((Unkstruct_80126B58 *)arg0)->unk44 &= ~2;
+                    ((Unkstruct_80126B58 *)arg0)->unk44.u &= ~2;
                     if (flag != 0) {
                         ((void (*)(s32, s32, s32, s32))guess_SpawnSmallObjectAtOrigin)(0x3B, arg0, 0, 0);
                     }
@@ -2469,7 +2469,7 @@ s32 arg0;
             break;
         }
     }
-    if (((Unkstruct_80126B58 *)arg0)->unk44 & 2) {
+    if (((Unkstruct_80126B58 *)arg0)->unk44.u & 2) {
         ((void (*)(s32, s32))func_80155FF8)(arg0, ((Unkstruct_80126B58 *)arg0)->unk1AA);
     } else {
         if ((((Unkstruct_80126B58 *)arg0)->unk240 == 0) && (((s32 (*)(s32))func_8015B858)(arg0) != 0)) {
@@ -2614,7 +2614,7 @@ s32 arg0;
                 ((Unkstruct_80126B58 *)arg0)->unk18 = ((Unkstruct_80126B58 *)arg0)->unk58;
                 ((void (*)(s32))guess_ApplyVelocity)(arg0);
             }
-            if (!(((Unkstruct_80126B58 *)arg0)->unk44 & 2)) {
+            if (!(((Unkstruct_80126B58 *)arg0)->unk44.u & 2)) {
                 ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 0xF, 0x12);
             }
         }
@@ -2636,7 +2636,7 @@ s32 arg0;
     }
     r = ((s32 (*)(s32))func_80161488)(arg0);
     if (r & 5) {
-        ((Unkstruct_80126B58 *)arg0)->unk44 &= ~2;
+        ((Unkstruct_80126B58 *)arg0)->unk44.u &= ~2;
         if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D4A9C) {
             guess_SetAnim(arg0, 0xE);
         } else {

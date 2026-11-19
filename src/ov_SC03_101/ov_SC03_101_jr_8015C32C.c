@@ -2489,7 +2489,7 @@ extern int func_80155FF8(int arg, int a1);
 void func_8015F118(void *a0) {
     u16 flag;
 
-    ((Unkstruct_80126B58 *)a0)->unk44 = CAST_SIGN(s32, (u8 *)a0, 0x44) | 2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u = CAST_SIGN(s32, (u8 *)a0, 0x44) | 2;
     flag = ((Unkstruct_80126B58 *)a0)->unkB8;
     if (flag == 0x8000) {
         (*D_80185F64[((Unkstruct_80126B58 *)a0)->unk0])(a0);
@@ -3174,7 +3174,7 @@ extern void func_80159B70(void *a0);
 extern s32 func_80161208(void *a0);
 
 void func_80160D10(void *arg0) {
-    if (((Unkstruct_80126B58 *)arg0)->unk44 & 0x10) {
+    if (((Unkstruct_80126B58 *)arg0)->unk44.u & 0x10) {
         D_80185F64[((Unkstruct_80126B58 *)arg0)->unk0](arg0);
     } else {
         if (((Unkstruct_80126B58 *)arg0)->unk1AC == 0) {
@@ -4725,7 +4725,7 @@ void func_80165AC8(void) {
 extern void (*D_8018679C[])(void);
 
 void func_80165B28(void *a0) {
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 8;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 8;
     D_8018679C[((Unkstruct_80126B58 *)a0)->unk197]();
 }
 
@@ -5867,8 +5867,8 @@ void func_80169F3C(int param_1)
         ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x2000;
         ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x2000;
         ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x60;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x60;
-        ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk25.u = 0x60;
+        ((Unkstruct_800B5BD8 *)iVar1)->unk24.u = 0x60;
         *(unsigned int *)(iVar1 + 4) = *(unsigned int *)(iVar1 + 4) | 0x50000000;
         ((void (*)(int, int, void *))guess_StartPairSequence)(iVar1, param_1 + 0x24, D_80186918);
         *(short *)(param_1 + 2) = *(short *)(param_1 + 2) + 1;

@@ -3532,7 +3532,7 @@ void func_8017F3E0(void *a0)
     s32 v0;
     s32 v1;
 
-    s0 = ((Unkstruct_8017F3E0_2 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_801893DC, 0x240, 0x1D0);
 
     v0 = 0x54;
@@ -3542,15 +3542,15 @@ void func_8017F3E0(void *a0)
     v0 |= v1;
     ((Unkstruct_8017F3E0 *)s0)->unk4 = v0;
 
-    v0 = ((Unkstruct_8017F3E0_2 *)s1)->unk2C;
+    v0 = ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.u;
     ((Unkstruct_8017F3E0 *)s0)->unk1A = v0;
     ((Unkstruct_8017F3E0 *)s0)->unk18 = v0;
 
-    v0 = ((Unkstruct_8017F3E0_2 *)s1)->unk2;
+    v0 = ((Unkstruct_8011DB30 *)s1)->unk2.u;
     v1 = 0x20;
-    ((Unkstruct_8017F3E0_2 *)s1)->unk2C = v1;
+    ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.u = v1;
     v0 += 1;
-    ((Unkstruct_8017F3E0_2 *)s1)->unk2 = v0;
+    ((Unkstruct_8011DB30 *)s1)->unk2.u = v0;
 }
 
 

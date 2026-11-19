@@ -4342,13 +4342,13 @@ void func_8018431C(void *a0)
         ((Unkstruct_800B5BD8 *)s1)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x2000;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x2000;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = b;
+        ((Unkstruct_800B5BD8 *)s1)->unk27.u = b;
     } else {
         func_8001CF00(s1);
         ((Unkstruct_800B5BD8 *)s1)->unk20.s = (s32)D_801C00F0;
         ((Unkstruct_800B5BD8 *)s1)->unk28.s = 0x300;
         ((Unkstruct_800B5BD8 *)s1)->unk2A.u = 0x110;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = 0x78;
+        ((Unkstruct_800B5BD8 *)s1)->unk27.u = 0x78;
         ((Unkstruct_800B5BD8 *)s1)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x800;
         ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x800;

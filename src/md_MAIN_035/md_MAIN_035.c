@@ -13,7 +13,7 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CB278[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB278[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 

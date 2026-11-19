@@ -6788,7 +6788,7 @@ void func_80181A70(void *a0)
     s0 = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (s0 != 0) {
         func_8001CB6C((u8 *)s0, (s32)D_8018A220, 0x280, 0x180);
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x4D;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x4D;
         ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = *(u16 *)((s32)a0 + 6);
         ((Unkstruct_800B5BD8 *)s0)->head.unkA.u = *(u16 *)((s32)a0 + 0xA);
         ((Unkstruct_800B5BD8 *)s0)->head.unkC.u = *(u16 *)((s32)a0 + 0xE);

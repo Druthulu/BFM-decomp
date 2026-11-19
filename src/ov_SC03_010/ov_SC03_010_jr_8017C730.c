@@ -3710,7 +3710,7 @@ void func_8017EB58(s32 arg0) {
         CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x10;
         ((Unkstruct_800B5BD8 *)h)->head.unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
         CAST_ALIAS(s16, h, 0x2C) = 1;
-        ((Unkstruct_800B5BD8 *)h)->unk27 = 1;
+        ((Unkstruct_800B5BD8 *)h)->unk27.u = 1;
         h = guess_AllocSpriteObjectHigh();
         if (h != 0) {
             q = (s16)((s16)*(u16 *)(arg0 + 0xFC) / 30);
@@ -3815,7 +3815,7 @@ void func_8017EEFC(s32 param_1) {
     if (s0 != 0) {
         ((Unkstruct_800B5CB8 *)s1)->unk20 = s0;
         func_8001CEC0(s0, D_80183D08);
-        ((Unkstruct_800B5BD8 *)s0)->unk2E = 0xA0;
+        ((Unkstruct_800B5BD8 *)s0)->unk2E.u = 0xA0;
         CAST_WIDTH(u16, s0, 0x30) = 0x70;
         ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = 0;
         ((Unkstruct_800B5BD8 *)s0)->head.unkA.u = 0;
@@ -3877,7 +3877,7 @@ void func_8017F090(s32 param_1) {
         ((Unkstruct_800B5CB8 *)param_1)->unk20 = v0;
         func_8001CB6C((u8 *)v0, (s32)D_80183D4C, 0x2F0, 0x198);
         v1 = *(u16 *)(((Unkstruct_800B5CB8 *)param_1)->unk68 + 0xC);
-        ((Unkstruct_800B5BD8 *)v0)->unk27 = 0x3C;
+        ((Unkstruct_800B5BD8 *)v0)->unk27.u = 0x3C;
         ((Unkstruct_800B5BD8 *)v0)->head.unk12.u = v1;
         func_8012AD50((void *)param_1);
     }

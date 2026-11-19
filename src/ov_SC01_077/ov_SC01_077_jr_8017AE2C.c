@@ -4896,7 +4896,7 @@ void func_8017EEC0(s32 param_1) {
     s32 iVar2 = ((Unkstruct_8017EC7C *)param_1)->unk20;
 
     func_8001CC3C(iVar2, (rand() & 3) * 0xc + (s32)&D_8018A7C0, 0x3F0, 0x100);
-    ((Unkstruct_800B5BD8 *)iVar2)->unk27 = 0x9D;
+    ((Unkstruct_800B5BD8 *)iVar2)->unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)iVar2)->unk1A.u = 0x1000;
     ((Unkstruct_800B5BD8 *)iVar2)->unk18.u = 0x1000;
     func_8017EC7C(param_1);
@@ -4956,7 +4956,7 @@ void func_8017F024(int param_1)
 
     p = ((Unkstruct_8017ED88 *)param_1)->unk20;
     func_8001CB6C((u8 *)p, (s32)&D_8018A7C0 + (rand() & 3) * 0xc, 0x3F0, 0x100);
-    ((Unkstruct_800B5BD8 *)p)->unk27 = 0x9D;
+    ((Unkstruct_800B5BD8 *)p)->unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)p)->unk1A.s = 0x1000;
     ((Unkstruct_800B5BD8 *)p)->unk18.s = 0x1000;
     func_8017ED88((void *)param_1);

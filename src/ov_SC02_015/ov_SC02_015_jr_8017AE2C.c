@@ -3617,7 +3617,7 @@ void func_8017D7E0(s32 param_1) {
     if (obj != 0) {
         ((Unkstruct_801202A0 *)param_1)->unk20.p = obj;
         func_8001CEC0(obj, (s32)tbl);
-        ((Unkstruct_800B5BD8 *)obj)->unk2E = 0;
+        ((Unkstruct_800B5BD8 *)obj)->unk2E.u = 0;
         CAST_WIDTH(u16, obj, 0x30) = 0;
         ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 1;
         guess_CopyVec3HighHalves(param_1 + 4, (s32 *)(param_1 + 0xFC));

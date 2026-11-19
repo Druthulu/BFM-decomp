@@ -5121,15 +5121,15 @@ void func_801914A0(short *param_1) {
         if (*(short *)(param_1 + 0x38) == 0 || *(short *)(param_1 + 0x38) == 2) {
             iVar2 = CAST_MISALIGNED(int, param_1, 0x66);
             if (iVar2 != 0) {
-                ((Unkstruct_801914A0 *)iVar2)->unk8 = *(unsigned short *)(param_1 + 3);
-                ((Unkstruct_801914A0 *)iVar2)->unkA = *(unsigned short *)(param_1 + 5);
-                ((Unkstruct_801914A0 *)iVar2)->unkC = *(unsigned short *)(param_1 + 7);
+                ((RenderHead *)iVar2)->unk8.s = *(unsigned short *)(param_1 + 3);
+                ((RenderHead *)iVar2)->unkA.s = *(unsigned short *)(param_1 + 5);
+                ((RenderHead *)iVar2)->unkC.s = *(unsigned short *)(param_1 + 7);
             }
             iVar2 = *(int *)(param_1 + 0x68);
             if (iVar2 != 0) {
-                ((Unkstruct_801914A0 *)iVar2)->unk8 = *(unsigned short *)(param_1 + 3);
-                ((Unkstruct_801914A0 *)iVar2)->unkA = *(unsigned short *)(param_1 + 5) + *(unsigned short *)(param_1 + 0x7e);
-                ((Unkstruct_801914A0 *)iVar2)->unkC = *(unsigned short *)(param_1 + 7);
+                ((RenderHead *)iVar2)->unk8.s = *(unsigned short *)(param_1 + 3);
+                ((RenderHead *)iVar2)->unkA.s = *(unsigned short *)(param_1 + 5) + *(unsigned short *)(param_1 + 0x7e);
+                ((RenderHead *)iVar2)->unkC.s = *(unsigned short *)(param_1 + 7);
             }
             if (param_1[0x7f] != 0) {
                 var_v1 = param_1[0x7f] - 1;

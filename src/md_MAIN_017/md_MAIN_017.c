@@ -16,7 +16,7 @@ void func_800CAE0C(void) {
 void func_800CAE44(void *a0) {
 
     extern void (*D_800CB318[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB318[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -142,7 +142,7 @@ void func_800CB1CC(void *arg0) {
         func_8001CC3C(obj, D_800CB324, 0, 0);
         ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1C00;
         ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1C00;
-        ((Unkstruct_800B5BD8 *)obj)->unk27 = 0x19;
+        ((Unkstruct_800B5BD8 *)obj)->unk27.u = 0x19;
         CAST_WIDTH(s32, obj, 4) |= 0xC0000000;
         guess_StartPairSequence(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
         result = 2;

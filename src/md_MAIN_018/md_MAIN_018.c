@@ -30,7 +30,7 @@ void func_800CAE0C(void) {
 void func_800CAEB4(void *a0) {
 
     extern void (*D_800CB5E8[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB5E8[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -121,7 +121,7 @@ void func_800CAFE0(s32 param_1) {
                   *(s16 *)((s32)&D_800CB5F6 + (sext >> 15)));
     ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x2000;
     ((Unkstruct_800B5BD8 *)node)->unk18.u = 0x2000;
-    ((Unkstruct_800B5BD8 *)node)->unk27 = (sext >> 17) + 0x19;
+    ((Unkstruct_800B5BD8 *)node)->unk27.u = (sext >> 17) + 0x19;
     ((Unkstruct_800B5BD8 *)node)->head.unk4.u |= 0xC0000000;
     save = *(u16 *)(param_1 + 0x30);
     *(s32 *)(param_1 + 0x20) = node;

@@ -4407,7 +4407,7 @@ void func_801812B0(s32 a0) {
             return;
         }
         func_8001CBDC(p0, (s32)D_801C39E0, 0x3E0, 0x100);
-        ((Unkstruct_800B5BD8 *)p0)->unk27 = 0x8C;
+        ((Unkstruct_800B5BD8 *)p0)->unk27.u = 0x8C;
         CAST_ALIAS(s16, p0, 0x8) = -1;
         ((Unkstruct_800B5BD8 *)p0)->head.unkA.u = 0x59;
     }

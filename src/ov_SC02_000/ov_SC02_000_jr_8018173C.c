@@ -3413,7 +3413,7 @@ void func_80182CB4(s32 _arg0)
 extern void func_80181914(void);
 
 void func_80182D3C(u8 *a0) {
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 0x2000000;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 0x2000000;
     func_80181914();
     ((Unkstruct_80126B58 *)a0)->unk214 = ((Unkstruct_80126B58 *)a0)->unk214 + 1;
 }

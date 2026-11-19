@@ -4431,12 +4431,12 @@ void func_8017E47C(s32 a0)
     ((Unkstruct_8017E47C *)a0)->unk1C = 0;
     if (((Unkstruct_8017E47C *)a0)->unkAA == 0) {
         s32 t = ((Unkstruct_8017E47C *)a0)->unk20;
-        u16 var = ((Unkstruct_8017E47C_2 *)t)->unk18;
+        u16 var = ((Unkstruct_8001C9D0 *)t)->unk18.u;
         ((Unkstruct_8017E47C *)a0)->unk104 = 0;
         ((Unkstruct_8017E47C *)a0)->unk100 = var;
     } else {
         s32 t = ((Unkstruct_8017E47C *)a0)->unk20;
-        u16 var = ((Unkstruct_8017E47C_2 *)t)->unk18;
+        u16 var = ((Unkstruct_8001C9D0 *)t)->unk18.u;
         ((Unkstruct_8017E47C *)a0)->unk104 = 1;
         ((Unkstruct_8017E47C *)a0)->unk102 = var;
     }
@@ -6148,9 +6148,9 @@ s32 func_80180838(void *a0, s32 a1, s32 a2)
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);
 
-    matrix[5] = ((Unkstruct_801914A0 *)p0)->unk8;
-    matrix[6] = ((Unkstruct_801914A0 *)p0)->unkA;
-    matrix[7] = ((Unkstruct_801914A0 *)p0)->unkC;
+    matrix[5] = ((RenderHead *)p0)->unk8.s;
+    matrix[6] = ((RenderHead *)p0)->unkA.s;
+    matrix[7] = ((RenderHead *)p0)->unkC.s;
 
     base = D_8018BF68;
     p1 = base + 0x20;

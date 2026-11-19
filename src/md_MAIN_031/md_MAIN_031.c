@@ -64,7 +64,7 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
 void func_800CAF58(void *a0) {
 
     extern void (*D_800CBFE4[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CBFE4[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 

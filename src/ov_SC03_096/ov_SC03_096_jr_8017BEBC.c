@@ -4367,8 +4367,8 @@ void func_8017FEA8(s32 a0) {
     ((Unkstruct_80184A88 *)a0)->unk2 = 4;
     ((Unkstruct_80184A88 *)a0)->unk5C = *(u16 *)(((Unkstruct_80184A88 *)a0)->unk78 + 2);
     v1 = ((Unkstruct_80184A88 *)a0)->unk20;
-    ((Unkstruct_8017FEA8_2 *)v1)->unk1A = 0x2000;
-    ((Unkstruct_8017FEA8_2 *)v1)->unk18 = 0x2000;
+    ((Unkstruct_8001C9D0 *)v1)->unk1A.s = 0x2000;
+    ((Unkstruct_8001C9D0 *)v1)->unk18.s = 0x2000;
     func_8018026C(((Unkstruct_80184A88 *)a0)->unkD4);
 }
 
@@ -4535,7 +4535,7 @@ s32 func_80180208(s32 a0)
         return 0;
     }
     func_8001CB6C((u8 *)s0, (s32)&D_80193940, 0x298, 0x1B0);
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x68;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x68;
     ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x1800;
     ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
     return s0;
@@ -4623,7 +4623,7 @@ void func_801803D0(s16 *param_1, s32 param_2)
         ((Unkstruct_800B5BD8 *)sub)->unk20.s = (s32)D_80193AAC;
         ((Unkstruct_800B5BD8 *)sub)->unk28.s = 0x290;
         ((Unkstruct_800B5BD8 *)sub)->unk2A.u = 0x1A0;
-        ((Unkstruct_800B5BD8 *)sub)->unk27 = 0x70;
+        ((Unkstruct_800B5BD8 *)sub)->unk27.u = 0x70;
         ((Unkstruct_800B5BD8 *)sub)->unk1A.u = 1;
         ((Unkstruct_800B5BD8 *)sub)->unk18.u = 1;
         CAST_WIDTH(s32, (u8 *)sub, 0x4) |= 0x50000000;
@@ -4632,8 +4632,8 @@ void func_801803D0(s16 *param_1, s32 param_2)
         *(s32 *)(obj + 0x2C) = w;
         chn = w;
         ((Unkstruct_800B5BD8 *)sub)->unk26 = chn;
-        ((Unkstruct_800B5BD8 *)sub)->unk25 = chn;
-        ((Unkstruct_800B5BD8 *)sub)->unk24 = chn;
+        ((Unkstruct_800B5BD8 *)sub)->unk25.u = chn;
+        ((Unkstruct_800B5BD8 *)sub)->unk24.u = chn;
     } else {
         rv = 0;
         __asm__ __volatile__("" :: "r"(rv));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:expand-void-return
@@ -4670,8 +4670,8 @@ void func_80180474(s32 a0) {
         q >>= 1;
         ((Unkstruct_800B5BD8 *)prim)->unk18.u = q;
         ((Unkstruct_800B5BD8 *)prim)->unk1A.u = q;
-        ((Unkstruct_800B5BD8 *)prim)->unk24 = prod >> 12;
-        ((Unkstruct_800B5BD8 *)prim)->unk25 = prod >> 12;
+        ((Unkstruct_800B5BD8 *)prim)->unk24.u = prod >> 12;
+        ((Unkstruct_800B5BD8 *)prim)->unk25.u = prod >> 12;
         ((Unkstruct_800B5BD8 *)prim)->unk26 = prod >> 12;
         *(s32 *)(a0 + 0x1C) -= 1;
         if (*(s32 *)(a0 + 0x1C) == 0) {

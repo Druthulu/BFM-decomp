@@ -3,6 +3,6 @@
 /* $v0 at exit: result of 0x80154A74; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x24, md_MAIN_015 objdump */
 s32 SHARED_FN(s32 a0)
 {
-    ((Unkstruct_80126B58 *)a0)->unk44 = ((Unkstruct_80126B58 *)a0)->unk44 & ~2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u = ((Unkstruct_80126B58 *)a0)->unk44.u & ~2;
     guess_SetTexAnim(a0, 0x11);
 }

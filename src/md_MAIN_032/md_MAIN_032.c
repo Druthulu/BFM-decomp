@@ -14,7 +14,7 @@ void func_800CAE0C(void) {
 void func_800CAE34(void *a0) {
 
     extern void (*D_800CB29C[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CB29C[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -50,7 +50,7 @@ void func_800CAF60(void *a0) {
     extern s32  func_80161418(void *a0);
     extern s32  func_80155FD4(s32 a0, s32 a1);
 
-    ((Unkstruct_80126B58 *)a0)->unk44 |= 2;
+    ((Unkstruct_80126B58 *)a0)->unk44.u |= 2;
     guess_SetVelocityFromMoveVector((s32)a0);
     guess_ApplyVelocity((s32 *)a0);
     guess_AddVertSpeed((s32)a0, 0x20000);

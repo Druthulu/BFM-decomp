@@ -6456,7 +6456,7 @@ void func_80182EA8(s32 arg0) {
     if (CAST_SIGN(u16, arg0, 2) == 0) {
         *(u8 **)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x20) = &D_801AD3C4;
         *(u32 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 4) |= 0x50000000;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27 = 0x59;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->unk27.u = 0x59;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)arg0)->unk20, arg0 + 0x24, (s32)&D_801AD3D0);
         rv = rand();
         ((Unkstruct_8011DB30 *)arg0)->unk1C = 0x10;

@@ -3962,9 +3962,9 @@ void func_8017CFBC(void *a0)
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk10 + ((Unkstruct_8017CFBC_4 *)s2)->unk14;
     ((Unkstruct_8017CFBC_4 *)s2)->unk10 = v1;
 
-    v0 = ((Unkstruct_8017CFBC_5 *)s1)->unk1A + v1;
-    ((Unkstruct_8017CFBC_5 *)s1)->unk1A = v0;
-    ((Unkstruct_8017CFBC_5 *)s1)->unk18 = v0;
+    v0 = ((Unkstruct_8017CFBC_5 *)s1)->unk1A.u + v1;
+    ((Unkstruct_8017CFBC_5 *)s1)->unk1A.u = v0;
+    ((Unkstruct_8017CFBC_5 *)s1)->unk18.s = v0;
 
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk30;
     ((Unkstruct_8017CFBC_4 *)s2)->unk30 = v1 - 1;

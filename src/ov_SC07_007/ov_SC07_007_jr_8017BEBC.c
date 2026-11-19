@@ -6830,7 +6830,7 @@ void func_801816A4(s32 a0) {
     if (s0 != 0) {
         func_8001CBDC((void *)s0, (void *)&D_801886F0, 0x300, 0x100);
 
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x33;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x33;
         ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 0x1;
         CAST_WIDTH(s32, s0, 0x4) = CAST_WIDTH(s32, s0, 0x4) | 0x80000000;
 

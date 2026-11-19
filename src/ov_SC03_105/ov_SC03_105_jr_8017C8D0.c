@@ -3185,12 +3185,12 @@ s32 func_8017E4D4(s32 arg0, s16 *arg1, s32 arg2)
     q = CAST_SIGN(u8 *, p, 0x20);
     ((Unkstruct_800B5BD8 *)q)->head.unk2.s = 2;
     *(void (**)(void))(q + 0x20) = D_8018DE68;
-    ((Unkstruct_800B5BD8 *)q)->unk27 = 0x74;
+    ((Unkstruct_800B5BD8 *)q)->unk27.u = 0x74;
     ((Unkstruct_800B5BD8 *)q)->unk28.s = 0x3C5;
     ((Unkstruct_800B5BD8 *)q)->unk2A.u = 0x1E0;
     CAST_WIDTH(u32, q, 0x4) |= 0xC000040;
     CAST_WIDTH(u32, q, 0x34) = *(u32 *)(arg0 + 0x20) + 0x34;
-    ((Unkstruct_800B5BD8 *)q)->unk2E = arg1[0];
+    ((Unkstruct_800B5BD8 *)q)->unk2E.u = arg1[0];
     CAST_WIDTH(s16, q, 0x30) = arg1[1];
     *(s16 *)(q + 0x32) = arg1[2];
     if (arg2 != 0) {
@@ -3219,7 +3219,7 @@ s32 func_8017E5C8(s32 param_1) {
     }
     s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
     ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)&D_8018DE5C;
-    ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x66;
+    ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x66;
     r = rand();
     q = r;
     if (r < 0) {
@@ -4154,7 +4154,7 @@ void func_8017FBE8(void *arg0) {
 
     work = *(void **)((s8 *)arg0 + 0x20);
     ((Unkstruct_800B5BD8 *)work)->unk20.s = (u32)&D_800D387C;
-    ((Unkstruct_800B5BD8 *)work)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->unk27.u = 0x9C;
     CAST_WIDTH(u32, (s8 *)work, 0x4) |= 0x50000000;
     guess_StartPairSequence((s32)work, (s32)arg0 + 0x24, (s32)D_800D3888);
     *(u16 *)((s8 *)arg0 + 0x2) += 1;

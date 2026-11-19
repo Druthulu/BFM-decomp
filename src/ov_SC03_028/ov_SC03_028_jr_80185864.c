@@ -2988,8 +2988,8 @@ void func_80185864(s32 arg0) {
         break;
     case 6:
         ptr = ((Unkstruct_80185864 *)arg0)->unk20;
-        val = ((Unkstruct_80185864_2 *)ptr)->unk18;
-        ((Unkstruct_80185864_2 *)ptr)->unk18 = -val;
+        val = ((Unkstruct_8001C9D0 *)ptr)->unk18.s;
+        ((Unkstruct_8001C9D0 *)ptr)->unk18.s = -val;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
         ((Unkstruct_80185864 *)arg0)->unk2 = 6;
         break;

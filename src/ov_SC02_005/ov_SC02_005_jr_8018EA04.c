@@ -3554,12 +3554,12 @@ void func_8018ECF4(s32 arg0) {
 
     iVar1 = ((Unkstruct_8017F200_2 *)arg0)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
-    ((Unkstruct_800B5BD8 *)iVar1)->unk27 = 0x9C;
+    ((Unkstruct_800B5BD8 *)iVar1)->unk27.u = 0x9C;
     ((Unkstruct_800B5BD8 *)iVar1)->unk1A.u = 0x7000;
     ((Unkstruct_800B5BD8 *)iVar1)->unk18.u = 0x7000;
     ((Unkstruct_800B5BD8 *)iVar1)->unk26 = 0x90;
-    ((Unkstruct_800B5BD8 *)iVar1)->unk25 = 0x90;
-    ((Unkstruct_800B5BD8 *)iVar1)->unk24 = 0x90;
+    ((Unkstruct_800B5BD8 *)iVar1)->unk25.u = 0x90;
+    ((Unkstruct_800B5BD8 *)iVar1)->unk24.u = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u = ((Unkstruct_800B5BD8 *)iVar1)->head.unk4.u | 0x50000000;
     ((Unkstruct_8017F200_2 *)arg0)->unk2C = 0x46;
     ((Unkstruct_8017F200_2 *)arg0)->unk2 += 1;
@@ -3586,8 +3586,8 @@ void func_8018ED84(s32 arg0) {
     guess_AddVelocityToPos((void *)arg0);
     v0 = ((Unkstruct_800B5BD8 *)s0)->unk26 - 2;
     ((Unkstruct_800B5BD8 *)s0)->unk26 = v0;
-    ((Unkstruct_800B5BD8 *)s0)->unk25 = v0;
-    ((Unkstruct_800B5BD8 *)s0)->unk24 = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk25.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->unk24.u = v0;
 }
 
 
@@ -4597,7 +4597,7 @@ void func_80190144(void *a0) {
         func_8001CBDC((s32)s1, (s32)D_80196D94, D_80196D30[idx][0], D_80196D30[idx][1]);
         uVar1 = D_80196D5C[*(s32 *)((s32)a0 + 0x2C)];
         ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
-        ((Unkstruct_800B5BD8 *)s1)->unk27 = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->unk27.u = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

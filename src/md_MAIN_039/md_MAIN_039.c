@@ -15,7 +15,7 @@ void func_800CAE14(void) {
 void func_800CAE4C(void *a0) {
 
     extern void (*D_800CBE34[])(void);
-    ((Unkstruct_800CAE34 *)a0)->unk44 |= 8;
+    ((Unkstruct_800CAE34 *)a0)->unk44.u |= 8;
     D_800CBE34[((Unkstruct_800CAE34 *)a0)->unk197]();
 }
 
@@ -503,7 +503,7 @@ s32 param_1;
     guess_StepPairSequence(node, (s32 *)(p + 0x24));
     *(u8 *)(node + 0x27) = ((Unkstruct_8011D030 *)p)->unk28.b - 0x70;
     ((void (*)(s32, s32))func_800CBC40)((void *)p, 0x40);
-    ((Unkstruct_8011D030 *)p)->unk14 -= 0x4000;
+    ((Unkstruct_8011D030 *)p)->unk14.val -= 0x4000;
     guess_AddVelocityToPos_5(p);
     if (guess_TickWaitTimer_2(p) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(p);
@@ -575,11 +575,11 @@ void func_800CBCBC(void *a0)
     if (s0 != NULL) {
         func_8001CC3C((s32)s0, (s32)&D_800D387C, 0, 0);
 
-        ((Unkstruct_800B5BD8 *)s0)->unk27 = 0x9C;
+        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x9C;
         ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x2000;
         ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x2000;
-        ((Unkstruct_800B5BD8 *)s0)->unk24 = 0xFF;
-        ((Unkstruct_800B5BD8 *)s0)->unk25 = 0;
+        ((Unkstruct_800B5BD8 *)s0)->unk24.u = 0xFF;
+        ((Unkstruct_800B5BD8 *)s0)->unk25.u = 0;
         ((Unkstruct_800B5BD8 *)s0)->unk26 = 0;
         CAST_WIDTH(s32, (u8 *)s0, 4) |= 0x50000000;
 
@@ -604,20 +604,20 @@ void func_800CBD90(void *arg0) {
 
     q = *(s32 *)((s32)arg0 + 0x20);
 
-    a = ((Unkstruct_800B5BD8 *)q)->unk24 - 0x20;
-    ((Unkstruct_800B5BD8 *)q)->unk24 = a;
+    a = ((Unkstruct_800B5BD8 *)q)->unk24.u - 0x20;
+    ((Unkstruct_800B5BD8 *)q)->unk24.u = a;
     if (a < 0x80) {
-        ((Unkstruct_800B5BD8 *)q)->unk24 = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->unk24.u = 0x80;
     }
 
-    b = ((Unkstruct_800B5BD8 *)q)->unk25 + 0x20;
-    ((Unkstruct_800B5BD8 *)q)->unk25 = b;
+    b = ((Unkstruct_800B5BD8 *)q)->unk25.u + 0x20;
+    ((Unkstruct_800B5BD8 *)q)->unk25.u = b;
     if (b > 0x80) {
-        ((Unkstruct_800B5BD8 *)q)->unk25 = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->unk25.u = 0x80;
     }
 
     h = ((Unkstruct_800B5BD8 *)q)->unk1A.u + 0x400;
-    ((Unkstruct_800B5BD8 *)q)->unk26 = ((Unkstruct_800B5BD8 *)q)->unk25;
+    ((Unkstruct_800B5BD8 *)q)->unk26 = ((Unkstruct_800B5BD8 *)q)->unk25.u;
     ((Unkstruct_800B5BD8 *)q)->unk1A.u = h;
     ((Unkstruct_800B5BD8 *)q)->unk18.u = h;
 

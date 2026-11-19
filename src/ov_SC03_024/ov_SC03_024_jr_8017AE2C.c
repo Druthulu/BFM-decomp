@@ -3655,7 +3655,7 @@ void func_8017C6A0(void *a0) {
 
         func_8001CB00((s32)s3, D_8018A9F8, 0x280, 0x100);
 
-        ((Unkstruct_800B5BD8 *)s3)->unk27 = 0x80;
+        ((Unkstruct_800B5BD8 *)s3)->unk27.u = 0x80;
 
         ((Unkstruct_800B5BD8 *)s3)->unk2C.u = CAST_SIGN(u16, a0, 0xE);
         ((Unkstruct_800B5BD8 *)s3)->unk1A.u = 0;
@@ -3973,9 +3973,9 @@ void func_8017CFBC(void *a0)
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk10 + ((Unkstruct_8017CFBC_3 *)s2)->unk14;
     ((Unkstruct_8017CFBC_3 *)s2)->unk10 = v1;
 
-    v0 = ((Unkstruct_8017CFBC_6 *)s1)->unk1A + v1;
-    ((Unkstruct_8017CFBC_6 *)s1)->unk1A = v0;
-    ((Unkstruct_8017CFBC_6 *)s1)->unk18 = v0;
+    v0 = ((Unkstruct_8017CFBC_6 *)s1)->unk1A.u + v1;
+    ((Unkstruct_8017CFBC_6 *)s1)->unk1A.u = v0;
+    ((Unkstruct_8017CFBC_6 *)s1)->unk18.s = v0;
 
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk30;
     ((Unkstruct_8017CFBC_3 *)s2)->unk30 = v1 - 1;
@@ -4465,7 +4465,7 @@ void func_8017DCC0(a0)
 u8 *a0;
 {
     s32 v;
-    if (((Unkstruct_8017DCC0_2 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
         switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
         case 0: v = 0; break;
         case 1: v = 1; break;

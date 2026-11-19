@@ -6293,7 +6293,7 @@ void func_801A9674(void *a0) {
 
     guess_StepPairSequence((s32)s1, (s32 *)((s32)s0 + 0xF0));
 
-    ((Unkstruct_800B5BD8 *)s1)->unk27 = (u8)D_801B070C[*(s16 *)((s32)s0 + 0xF4)];
+    ((Unkstruct_800B5BD8 *)s1)->unk27.u = (u8)D_801B070C[*(s16 *)((s32)s0 + 0xF4)];
 
     guess_ApplyAccelAndVelocity((s32)s0);
 
@@ -7910,7 +7910,7 @@ void func_801ABC04(void *a0) {
     ((Unkstruct_800B5BD8 *)t)->unk1A.u = h;
     ((Unkstruct_800B5BD8 *)t)->unk18.u = h;
 
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk27 = 0x55;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk27.u = 0x55;
 
     ((Unkstruct_801ABC04 *)a0)->unk2 += 1;
 }
@@ -8266,7 +8266,7 @@ void func_801AC3C8(void *a0) {
         return;
     }
 
-    ((Unkstruct_800B5BD8 *)s1)->unk27 = (u8)D_801B070C[CAST_WIDTH(s16, (s32)a0, 0xF4)];
+    ((Unkstruct_800B5BD8 *)s1)->unk27.u = (u8)D_801B070C[CAST_WIDTH(s16, (s32)a0, 0xF4)];
 
     t = CAST_WIDTH(s16, (s32)a0, 0xF4) * 14 + 0x30;
     if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
@@ -8628,7 +8628,7 @@ void func_801ACC24(void *a0)
     buf[1] = t1 = *(u16 *)((s32)a0 + 0xA);
     buf[2] = t2 = *(u16 *)((s32)a0 + 0xE);
 
-    t0 += ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk2E;
+    t0 += ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk2E.u;
     buf[4] = t0;
     t1 += CAST_WIDTH(u16, *(s32 *)((s32)a0 + 0x20), 0x30);
     buf[5] = t1;
@@ -10427,11 +10427,11 @@ void func_801AF368(void *a0)
                 *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
                 *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
             }
-            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(pkt + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
-            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24;
-            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25;
+            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
+            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
             *(u8 *)(p1 + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
 
             *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);

@@ -674,7 +674,7 @@ void func_801E5CA8(int param_1) {
         ((Unkstruct_801202A0 *)param_1)->unkFC.u = uVar2;
         func_8001CB6C((u8 *)iVar3, (s32)&D_801921F8, 0x250, 0x1A0);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk4.s = 0x60000000;
-        ((Unkstruct_800B5BD8 *)iVar3)->unk27 = 0x14;
+        ((Unkstruct_800B5BD8 *)iVar3)->unk27.u = 0x14;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x68);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unkA.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x6C);

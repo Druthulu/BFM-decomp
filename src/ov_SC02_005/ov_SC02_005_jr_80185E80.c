@@ -4186,7 +4186,7 @@ void func_8018BB9C(s32 param_1)
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.s |= 0x50000000;
 
     // *(u8*)(*(s32*)(param_1 + 0x20) + 0x27) = 0x90;
-    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x90;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->unk27.u = 0x90;
 
     // v0 = *(u16*)(param_1 + 0x34) & 0x7FFF;
     v0 = ((Unkstruct_80143458 *)param_1)->unk34 & 0x7FFF;

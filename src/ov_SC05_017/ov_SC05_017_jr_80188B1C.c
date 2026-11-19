@@ -4615,7 +4615,7 @@ void func_8018AE9C(u8 *arg0)
         full = *(s32 *)buf;
         low = *(s16 *)buf;
         *(s32 *)(param_1 + 0x48) = 0;
-        ((Unkstruct_80126B58 *)param_1)->unk44 = low;
+        ((Unkstruct_80126B58 *)param_1)->unk44.u = low;
         *(s32 *)(param_1 + 0x4C) = full >> 16;
     }
 }
