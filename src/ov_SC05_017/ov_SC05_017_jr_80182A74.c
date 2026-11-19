@@ -2883,7 +2883,7 @@ void func_80182A74(void *a0)
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
         return;
     case 2:
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80184CA4((s32)a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }
@@ -3362,7 +3362,7 @@ extern void func_801832C4(void *a0);
 
     void func_801834A4(void *a0) {
         s32 v0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         v0 = func_801848D0(0xB, 0, 0x17, 0);
         if (v0) {
             func_801832C4(a0);
@@ -3421,7 +3421,7 @@ case0:
     return;
 
 case1:
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184CA4((s32)a0) != 0) {
         ((void (*)(s32))func_80183328)((s32)a0);
     }
@@ -3659,8 +3659,8 @@ void func_80183A08(void *a0)
             D_801ECE88 = 0;
             func_80184BD4((s32)a0, (s32)&D_801B8158, 0, 0x70);
             ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unk108 = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unkB0 = 2;
+            ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extD.kSC03_001_80187DAC.unk108 = 0;
+            ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
             return;
         case 2:
             switch (D_801ECE88) {
@@ -3721,8 +3721,8 @@ void func_80183A08(void *a0)
             }
             func_80184BD4((s32)a0, (s32)&D_801B667C, 1, 0x70);
             ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unk108 = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unkB0 = 2;
+            ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extD.kSC03_001_80187DAC.unk108 = 0;
+            ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
             return;
         case 2:
             if (func_80184CA4((s32)a0) != 0) {

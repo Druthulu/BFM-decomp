@@ -5010,7 +5010,7 @@ s32 *arg0;
 {
     s32 res;
     s32 flag;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)arg0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)arg0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     res = func_8012E544(0x363);
     if (res == 0) {
         flag = 0;
@@ -5457,7 +5457,7 @@ void func_8017FCA0(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184CA4((s32)a0) != 0) {
         func_8017F73C(a0);
     }
@@ -5565,7 +5565,7 @@ void *arg0;
     s32 code;
     s32 a0val;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((u8 *)s0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
 
     v0 = ((s32 (*)(void))func_80184B44)();
     if (v0 == 1) {

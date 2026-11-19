@@ -5631,18 +5631,18 @@ void func_80181964(s32 arg0) {
     s32 flags;
 
     if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80181848.unkE0 & 0x4) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xCC))->unkE0 |= 0x4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD0))->unkE0 |= 0x4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD4))->unkE0 |= 0x4;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xCC))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x4;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xD0))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x4;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xD4))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x4;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD8))->unkE0 |= 0x4;
         ((Unkstruct_801202A0 *)arg0)->extD.kSC06_029_80181848.unk100 = 1;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80181848.unkE0 &= ~0x4;
     }
 
     if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80181848.unkE0 & 0x8) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xCC))->unkE0 |= 0x8;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD0))->unkE0 |= 0x8;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD4))->unkE0 |= 0x8;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xCC))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x8;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xD0))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x8;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0xD4))->blkDC.f.extC.kSC06_029_801827D0.unkE0 |= 0x8;
         ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0xD8))->unkE0 |= 0x8;
         ((Unkstruct_801202A0 *)arg0)->extD.kSC06_029_80181848.unk100 = 0;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_029_80181848.unkE0 &= ~0x8;

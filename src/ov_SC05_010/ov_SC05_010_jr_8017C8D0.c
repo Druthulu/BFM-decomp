@@ -4293,7 +4293,7 @@ void func_80180214(s32 arg0) {
             if (cnt == 0) {
                 ((Unkstruct_801202A0 *)arg0)->unk34.u += 1;
                 guess_RequestSound(0x905, 0);
-                if (((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x6C))->unk74 != 0) {
+                if (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x6C))->unk74 != 0) {
                     guess_RequestSound(0x904, 0);
                     vec[0] = guess_g_PlayerPosX;
                     vec[1] = guess_g_PlayerPosY;

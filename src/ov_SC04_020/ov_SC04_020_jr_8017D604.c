@@ -3418,8 +3418,8 @@ void func_8017EE50(s32 obj) {
         if (func_80181780(obj) != 0) {
             func_801816B0(obj, (s32)&D_8019BB1C, 1, 0x40);
             ((Unkstruct_801202A0 *)obj)->unk34.u = 2;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0xCC))->unk108 = 0;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0xCC))->unkB0 = 2;
+            ((Unkstruct_801202A0 *)*(s32 *)(obj + 0xCC))->extD.kSC03_001_80187DAC.unk108 = 0;
+            ((Unkstruct_801202A0 *)*(s32 *)(obj + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         }
         break;
     case 2:
@@ -3479,7 +3479,7 @@ void func_8017F030(void) {
 extern s32 func_801813AC(u8 a0, u8 a1, u8 a2, u8 a3);
 
 void func_8017F068(s32 obj) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)(obj + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_801813AC(5, 0, 5, 0x1E) != 0) {
         func_8017EDF4((void *)obj);
     } else if (func_80181388(7, 0x15) != 0) {
@@ -3501,7 +3501,7 @@ extern s16 D_801871F8;
 void func_8017F0DC(s32 obj) {
     switch (((Unkstruct_801202A0 *)obj)->unk34.u) {
     case 0:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)(obj + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80181388(7, 0x15) == 0) {
             ((Unkstruct_801202A0 *)obj)->unk2.s = 1;
             func_80181494((s32 *)obj, (s32)&D_801871F8);

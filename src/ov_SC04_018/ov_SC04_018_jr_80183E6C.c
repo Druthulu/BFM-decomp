@@ -3031,7 +3031,7 @@ void func_80183E6C(void *a0)
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
         return;
     case 2:
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80184FA4((s32)a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }
@@ -3107,7 +3107,7 @@ void func_80183FF4(void *a0)
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
         return;
     case 2:
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80184FA4((s32)a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }

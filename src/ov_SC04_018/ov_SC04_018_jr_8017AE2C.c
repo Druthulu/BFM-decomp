@@ -4302,8 +4302,8 @@ void func_8017E628(void *a0)
         }
         func_80184ED4((s32)a0, (s32)D_801B68E0, 1, 0x70);
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unk108 = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extD.kSC03_001_80187DAC.unk108 = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         return;
     case 2:
         if (func_80184FA4((s32)a0) != 0) {
@@ -5304,7 +5304,7 @@ case0:
     return;
 
 case1:
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184FA4((s32)a0) != 0) {
         func_8017F564((s32)a0);
     }
@@ -6117,7 +6117,7 @@ void func_80180E28(s32 a0) {
     s32 sel;
 
     s2 = a0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s2 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)(s2 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     dd = KR_AS(s32, func_80184DD0)(a0);
     sel = guess_GetStoryProgress();
 
@@ -6172,7 +6172,7 @@ void func_80180EE8(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184FA4((s32)a0) != 0) {
         func_801808FC(a0);
     }
@@ -6401,7 +6401,7 @@ extern short D_80191AB0;
 void func_80181400(s32 *arg0) {
     s32 res;
     s32 flag;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)arg0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)arg0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     res = func_8012E544(0x2A0);
     if (res == 0) {
         flag = 0;
@@ -7361,7 +7361,7 @@ void func_8018276C(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184FA4((s32)a0) != 0) {
         func_80181FE4(a0);
     }
@@ -7382,7 +7382,7 @@ void func_80182800(void *arg0)
     s32 code;
 
     s2 = (s32)arg0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s2 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)(s2 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     dd = KR_AS(s32, func_80184DD0)(s2);
     sel = guess_GetStoryProgress();
 
@@ -8133,7 +8133,7 @@ extern s32 func_80184FA4(s32 a0);
 extern void func_801832A8(void * arg0);
 
 void func_801837A8(void *a0) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (((s32 (*)(s32))func_80184FA4)((s32)a0)) {
         func_801832A8(a0);
     }

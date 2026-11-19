@@ -4499,7 +4499,7 @@ void func_8018165C(s32 a0) {
     if (CAST_SIGN(s16, a0, 0x108) == 0) {
         if (((Unkstruct_801202A0 *)a0)->extE.kSC01_005_80182000.unkB0 == 0) {
             if (trig & 0x10) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk104 = 1;
+                ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->extD.kSC01_005_8017FF74.unk104 = 1;
             } else if (trig & 0x20) {
                 ((Unkstruct_801202A0 *)a0)->extE.kSC01_005_80182000.unkB0 = guess_OpenTextWindow(D_801C37D4[((Unkstruct_801202A0 *)a0)->unk70.s]);
             }

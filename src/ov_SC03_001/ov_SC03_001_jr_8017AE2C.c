@@ -7162,7 +7162,7 @@ void func_80182148(void *a0)
 {
     s32 v0;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     v0 = ((s32 (*)(void))func_801877C0)();
     if (v0 == 3) {
         v0 = func_8018766C(0xA, 0x16);
@@ -7200,7 +7200,7 @@ void func_801821C0(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80187A64((s32)a0) != 0) {
         func_80181CAC(a0);
     }
@@ -8211,7 +8211,7 @@ void func_801835B0(void *a0)
 {
     s32 v0;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (((s32 (*)(void))func_801877C0)() == 3) {
         if (func_8018766C(0xA, 0x15) != 0) {
             func_801831F0((short *)a0);
@@ -8246,7 +8246,7 @@ void func_80183628(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80187A64((s32)a0) != 0) {
         func_80182EE4(a0);
     }
@@ -8934,7 +8934,7 @@ extern void func_80183F84(s32);
 extern s16 D_80192434[0];
 
 void func_80184498(void *arg0) {
-    ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)arg0)->unkCC.val)->unkB0 = 2;
+    ((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)arg0)->unkCC.val)->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_801877C0((s32)arg0) == 3) {
         if (func_8018766C(7, 0x14) == 0) {
             ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
@@ -8981,7 +8981,7 @@ extern s32 func_80187A64(s32 a0);
 extern void func_80184054(void * arg0);
 
 void func_801845B8(void *a0) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (((s32 (*)(s32))func_80187A64)((s32)a0)) {
         func_80184054(a0);
     }

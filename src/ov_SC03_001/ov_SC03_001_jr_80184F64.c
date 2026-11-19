@@ -3006,7 +3006,7 @@ void func_80184F64(void *a0)
         ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
         return;
     case 2:
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80187A64((s32)a0) != 0) {
             ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }
@@ -3693,7 +3693,7 @@ extern void func_80185950(void *arg0);
 
 void func_80185E44(void *arg0)
 {
-    ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)arg0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if ((guess_TestGameFlag(0xDF) & 0xFF) != 0 &&
         (func_80187690(10, 0, 10, 30) != 0 || func_80187690(15, 0, 15, 30) != 0)) {
         *(u8 *)((char *)arg0 + 0x105) = (u8)CAST_SIGN(u16, (char *)arg0, 2);

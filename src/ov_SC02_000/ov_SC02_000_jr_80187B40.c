@@ -3763,7 +3763,7 @@ void func_80188F60(s32 self)
     t = (s16)CAST_SIGN(u16, self, 0xA8) >> 1;
     CAST_ALIAS(s16, self, 0xA8) = t;
     if (D_801270C8 != 1) {
-        ((Unkstruct_800B5CB8 *)self)->unkA8 = t | 0x40;
+        ((Unkstruct_801202A0 *)self)->extB8.kSC02_000_80189304.unkA8 = t | 0x40;
         if (((Unkstruct_801202A0 *)self)->unk70.s == 0) {
             goto tail;
         }
@@ -3787,13 +3787,13 @@ void func_80188F60(s32 self)
             } else {
                 guess_RequestSound(4, 0x4CF);
             }
-            ((Unkstruct_800B5CB8 *)self)->unkA4 = 1;
+            ((Unkstruct_801202A0 *)self)->extB4.kSC02_000_80189304.unkA4 = 1;
         }
     } else {
-        if (((Unkstruct_801202A0 *)self)->unk70.s != 0 && ((Unkstruct_800B5CB8 *)self)->unkA4 != 0) {
+        if (((Unkstruct_801202A0 *)self)->unk70.s != 0 && ((Unkstruct_801202A0 *)self)->extB4.kSC02_000_80189304.unkA4 != 0) {
             guess_RequestSound(4, 0x4CF);
             ((Unkstruct_801202A0 *)self)->unk84.s = 1;
-            ((Unkstruct_800B5CB8 *)self)->unkA4 = 0;
+            ((Unkstruct_801202A0 *)self)->extB4.kSC02_000_80189304.unkA4 = 0;
         }
         if (D_801270D4 == 1) {
             s32 *rec2 = &D_800A5E9C;
@@ -3806,9 +3806,9 @@ void func_80188F60(s32 self)
             return;
         }
     }
-    if (((Unkstruct_801202A0 *)self)->unk70.s != 0 && ((Unkstruct_800B5CB8 *)self)->unkA4 != 0 && D_800B9A0E != 0) {
+    if (((Unkstruct_801202A0 *)self)->unk70.s != 0 && ((Unkstruct_801202A0 *)self)->extB4.kSC02_000_80189304.unkA4 != 0 && D_800B9A0E != 0) {
         guess_RequestSound(4, 0x4CF);
-        ((Unkstruct_800B5CB8 *)self)->unkA4 = 0;
+        ((Unkstruct_801202A0 *)self)->extB4.kSC02_000_80189304.unkA4 = 0;
     }
 tail:
     func_80189340(self);
@@ -3936,7 +3936,7 @@ void func_80189340(s32 p)
                 xy[0] = xy[2];
                 xy[1] = xy[3];
                 RotTransPers(sv, &xy[2], &rgb, &flag);
-                if ((((Unkstruct_800B5CB8 *)p)->unkA8 & mask) != 0) {
+                if ((((Unkstruct_801202A0 *)p)->extB8.kSC02_000_80189304.unkA8 & mask) != 0) {
                     rgb = ((Unkstruct_801202A0 *)p)->unk1C.s << 6;
                     for (j = 0; j < 4; j++) {
                         s32 c = rgb;

@@ -3299,7 +3299,7 @@ void func_801810A4(void *a0)
 {
     s32 v1;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (((s32 (*)(void))func_80184B44)() == 1) {
         v1 = func_801848AC(10, 0x15) != 0 ? 1 : 2;
     } else if (func_801848AC(10, 0x10) != 0) {
@@ -3343,7 +3343,7 @@ void func_80181144(void *a0)
         return;
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80184CA4((s32)a0) != 0) {
         func_80180A94(a0);
     }
@@ -3358,7 +3358,7 @@ void func_801811D8(void *a0)
 {
     s32 v1;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (((s32 (*)(void))func_80184B44)() == 1) {
         v1 = func_801848AC(10, 0x15) != 0 ? 1 : 2;
     } else if (func_801848AC(10, 0x10) != 0) {

@@ -4244,7 +4244,7 @@ void func_80181CE4(void *a0v)
         CAST_ALIAS(s32, e, 0x58) = (s32)D_801B1C0C | 0x40000000 | 0x20000000;
         CAST_ALIAS(s32, e, 0xD0) = (s32)D_801B1C1C;
         ((Unkstruct_801202A0 *)e)->unkC.i.hi.u = ((Unkstruct_801202A0 *)e)->unkC.i.hi.u + D_801B1C20;
-        cc = ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x64))->unkCC;
+        cc = ((Unkstruct_801202A0 *)*(s32 *)(e + 0x64))->unkCC.val;
         ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u = ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u | 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)e)->unk20.p + 0x80) = cc;
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;
@@ -4316,7 +4316,7 @@ void func_80181CE4(void *a0v)
         CAST_ALIAS(s32, e, 0x58) = (s32)D_801B1C0C | 0x40000000 | 0x20000000;
         CAST_ALIAS(s32, e, 0xD0) = (s32)D_801B1C1C;
         ((Unkstruct_801202A0 *)e)->unkC.i.hi.u = ((Unkstruct_801202A0 *)e)->unkC.i.hi.u + D_801B1C20;
-        cc = ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x64))->unkCC;
+        cc = ((Unkstruct_801202A0 *)*(s32 *)(e + 0x64))->unkCC.val;
         ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u = ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u | 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)e)->unk20.p + 0x80) = cc;
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;
@@ -4365,9 +4365,9 @@ void func_80181CE4(void *a0v)
         guess_StartActorSequence(e, D_801B1C54);
         ((Unkstruct_801202A0 *)e)->unk2.s = 0xC;
         ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk10.u =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x64))->unk20 + 0x10);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(e + 0x64))->unk20.p + 0x10);
         ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk12.u =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x64))->unk20 + 0x12);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(e + 0x64))->unk20.p + 0x12);
         ((Unkstruct_801202A0 *)e)->unk14.val = rsin(*(s16 *)(((Unkstruct_801202A0 *)e)->unk20.p + 0x10)) << 9;
         {
             s32 t1 = rsin(*(s16 *)(((Unkstruct_801202A0 *)e)->unk20.p + 0x12));
@@ -4423,7 +4423,7 @@ void func_80181CE4(void *a0v)
         CAST_ALIAS(s32, e, 0x58) = (s32)D_801B1C0C | 0x40000000 | 0x20000000;
         CAST_ALIAS(s32, e, 0xD0) = (s32)D_801B1C1C;
         ((Unkstruct_801202A0 *)e)->unkC.i.hi.u = ((Unkstruct_801202A0 *)e)->unkC.i.hi.u + D_801B1C20;
-        cc = ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x64))->unkCC;
+        cc = ((Unkstruct_801202A0 *)*(s32 *)(e + 0x64))->unkCC.val;
         ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u = ((Unkstruct_8001C9D0 *)*(s32 *)(e + 0x20))->unk2C.u | 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)e)->unk20.p + 0x80) = cc;
         ((Unkstruct_801202A0 *)e)->unkCC.val = cc;

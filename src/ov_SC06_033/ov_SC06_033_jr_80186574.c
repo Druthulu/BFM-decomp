@@ -5307,7 +5307,7 @@ void func_80189EC4(void *arg) {
             *(u16 *)(iv + 0x100) = (rand() & 0xFF) - 0x80;
             *(s32 *)(iv + 0x1C) = 0x3C;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x64))->unkCC = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)(p + 0x64))->unkCC.val = 0;
         guess_FreeActor(p);
     } else {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;

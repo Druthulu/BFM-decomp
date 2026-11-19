@@ -3045,7 +3045,7 @@ s32 func_80181990(void *a0)
 void func_80181A10(void *a0)
 {
     s32 v0;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kSC03_001_80187DAC.unkB0 = 2;
     v0 = func_8018317C(5, 0, 5, 0x1E);
     if (v0 != 0) {
         func_80181548(a0);

@@ -4684,7 +4684,7 @@ void func_8017FEF8(s32 p) {
 
     switch (disc) {
     case 0:
-        if (((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x64))->unk106 < 2) {
+        if (((Unkstruct_801202A0 *)*(s32 *)(p + 0x64))->extD.kSC06_022_80180310.unk106.s < 2) {
             if ((CAST_SIGN(u16, p, 0x102) & 3) == 0) {
                 guess_RequestSound(0x951, 0);
             }
