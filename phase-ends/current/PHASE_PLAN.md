@@ -173,3 +173,4 @@ Approved: 2026-11-13   Planner: claude-opus-5-5/medium   Plan-hash: a694de413642
 - 2026-11-16 router: T16 review: B borders kept in plan order; T28 = ov_SC03_001-096, T29 = ov_SC03_097-126 (by casts at T16)
 - 2026-11-16 router: T16 review: T22 first step: rung T judges a file's keys together (bisect on DIFFERS) and files in parallel, measured vs T16.c9 (~40 s per typed key); each B wave repeats rung T passes until a pass types nothing new
 - 2026-11-16 router: T16 next -> done
+- 2026-11-18 developer: T17 done-when clarified: Unkstruct_800B5CB8's ~222 sources (578 sites) + 3 held keys that code reading cannot place carry to A5/T21 per R211 (list docs/ops/p345-t17-b5cb8-carry.tsv); T30 owns any T21 cannot close. T17 closes with that one type pending in its ratchet. Head-only readers get a RenderHead common header in T17 (c38).
