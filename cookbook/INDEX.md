@@ -1100,3 +1100,4 @@ C0647 | fold-batch limits on the actor slot: member tokens, nested gaps, RESIDUA
 C0648 | Deciding kind-agnostic render readers per overlay; helper stores the kind graph misses | struct,per-source,render,actor,kind,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c34
 C0649 | Applying ~2,700 judged per-source keys: chunks, asm() functions, untypeable from union reads | struct,absorb,per-source,fold-batch,gate,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c32
 C0650 | Held actor keys: split a gap at top level, read the pointer leaf, census local-name collisions | struct,absorb,actor,gap,census,untypeable,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c35
+C0651 | Kind-reach tracing gaps: tables cut at data labels, tail calls, static-data parameters | tracing,actor,kind,tables,asm,per-source,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c36
