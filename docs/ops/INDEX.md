@@ -86,4 +86,5 @@ p345-struct-merge-report.md | 3.45 T2 — merge-evidence report (generated, stru
 p345-t14-source-census.md | 3.45 T14 — the source census (struct_twins.py --sources): casts by pointer source, flows, verdicts, candidate parents, families, cast-view metric | 78
 p345-t15-typing-engine.md | 3.45 T15 — rung T, the typing engine (restruct.py --type-source / --type-batch / --type-check): keys, kinds, type decision, respell and non-cast rules, second attempt, ledger row, check mode | 96
 p345-t16-pilot.md | 3.45 T16 — the tracing pilot: sample judging, the actor parent model, absorption and rung T results, five before/after functions, wave projection (membership p345-t16-waves.tsv) | 118
+p345-t17-b5cb8-carry.tsv | 3.45 T17 — Unkstruct_800B5CB8 pointer sources wave A1 could not place by code reading (219 residual, 578 sites; 3 held keys), carried to A5/T21 per R211/R234 (T30 owns what T21 cannot close) | 226
 sig-evidence.md | sig-evidence — the asm signature census and its gate (3.44 T3-T9) | 341
