@@ -6464,7 +6464,7 @@ void func_80180EC8(s32 param_1)
 
 
 void func_80180F38(void *a0) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x12);
+    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x12);
 }
 
 

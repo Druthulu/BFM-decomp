@@ -4051,7 +4051,7 @@ void func_8017F784(s32 param_1)
         CAST_WIDTH(s32, param_1, 4) = ((Unkstruct_801202A0 *)param_1)->unk64->unk4.val;
         CAST_WIDTH(s32, param_1, 8) = ((Unkstruct_801202A0 *)param_1)->unk64->unk8.val - 0x300000;
         CAST_WIDTH(s32, param_1, 0xC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkC.val;
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x12);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20.p + 0x12);
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);
@@ -4089,7 +4089,7 @@ void func_8017F784(s32 param_1)
         CAST_WIDTH(s32, param_1, 4) = ((Unkstruct_801202A0 *)param_1)->unk64->unk4.val;
         CAST_WIDTH(s32, param_1, 8) = ((Unkstruct_801202A0 *)param_1)->unk64->unk8.val - 0x300000;
         CAST_WIDTH(s32, param_1, 0xC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkC.val;
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x12);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20.p + 0x12);
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);
@@ -4123,7 +4123,7 @@ void func_8017F784(s32 param_1)
             CAST_WIDTH(s32, param_1, 4) = ((Unkstruct_801202A0 *)param_1)->unk64->unk4.val;
             CAST_WIDTH(s32, param_1, 8) = ((Unkstruct_801202A0 *)param_1)->unk64->unk8.val - 0x300000;
             CAST_WIDTH(s32, param_1, 0xC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkC.val;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x12);
+            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20.p + 0x12);
             *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) += 0x78;
             func_8012B370(param_1);
             func_8017F694(param_1);
@@ -4140,7 +4140,7 @@ void func_8017F784(s32 param_1)
         CAST_WIDTH(s32, param_1, 4) = ((Unkstruct_801202A0 *)param_1)->unk64->unk4.val;
         CAST_WIDTH(s32, param_1, 8) = ((Unkstruct_801202A0 *)param_1)->unk64->unk8.val - 0x300000;
         CAST_WIDTH(s32, param_1, 0xC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkC.val;
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x12);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20.p + 0x12);
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);
@@ -4176,7 +4176,7 @@ void func_8017F784(s32 param_1)
         CAST_WIDTH(s32, param_1, 4) = ((Unkstruct_801202A0 *)param_1)->unk64->unk4.val;
         CAST_WIDTH(s32, param_1, 8) = ((Unkstruct_801202A0 *)param_1)->unk64->unk8.val - 0x300000;
         CAST_WIDTH(s32, param_1, 0xC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkC.val;
-        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x12);
+        ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)param_1)->unk20.p)->unk12 = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20.p + 0x12);
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14) += 0x78;
         func_8012B370(param_1);
         func_8017F694(param_1);

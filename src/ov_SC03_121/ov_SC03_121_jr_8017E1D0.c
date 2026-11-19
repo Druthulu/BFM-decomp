@@ -3269,7 +3269,7 @@ void func_8017F234(s32 param_1)
         guess_InitModelObjectKind3(v0, (s32)D_80185E00);
         guess_StartActorSequence(param_1, (s32)D_80185E18);
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x12);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.p + 0x12);
         guess_ClearVelocityAndSetGravity(param_1);
         guess_UpdateActorModelMatrix(param_1);
         guess_SetLocalVelocity(param_1, (s32)D_80185E30);
@@ -4513,14 +4513,14 @@ void func_80181218(s32 arg0) {
         s32 obj;
         s32 t;
 
-        obj = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unk20;
+        obj = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.p;
         t = -rsin(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
         ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = t;
 
         ((Unkstruct_801202A0 *)arg0)->unk44.w.unk44 = -(CAST_WIDTH(s32, arg0, 0x10) >> 4);
 
-        obj = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unk20;
+        obj = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.p;
         t = -rcos(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
         ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = t;

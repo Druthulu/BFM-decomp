@@ -3060,7 +3060,7 @@ void func_80186688(int param_1)
 
     if (*(unsigned short *)(param_1 + 0x34) == 0) {
         ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x20))->unk12 =
-            *(short *)(((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x64))->unk20 + 0x12);
+            *(short *)(((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk20.p + 0x12);
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         guess_ClearVelocityAndSetGravity(param_1);
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_801A2DA4);

@@ -2999,7 +2999,7 @@ void func_80186B24(s32 param_1) {
         s32 o;
         s32 m;
         (((Unkstruct_801202A0 *)param_1)->unk34.u)++;
-        o = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unk20;
+        o = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0xCC))->unk20.p;
         m = *(s32 *)(o + 4) & 0x7FFFFFFF;
         *(s32 *)(o + 4) = m;
         func_801870B4();

@@ -4388,7 +4388,7 @@ void func_801812F4(s32 a0) {
     s16 t;
     s32 vec[4];
 
-    t = *(u16 *)(((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk64)->unk20 + 0x12);
+    t = *(u16 *)(((Unkstruct_801202A0 *)((Unkstruct_801202A0 *)a0)->unk64)->unk20.p + 0x12);
     ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12 = t + 0x800;
     guess_UpdateActorModelMatrix(a0);
     vec[0] = 0;

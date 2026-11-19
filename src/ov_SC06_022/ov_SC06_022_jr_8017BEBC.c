@@ -4614,10 +4614,10 @@ void func_8017FB9C(s32 p) {
                 return;
             }
             if (((Unkstruct_801202A0 *)p)->unkCC.val != 0) {
-                *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xCC))->unk20 + 4) |= 0x80000000;
+                *(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0xCC))->unk20.p + 4) |= 0x80000000;
             }
             if (((Unkstruct_801202A0 *)p)->unkD0.val != 0) {
-                *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xD0))->unk20 + 4) |= 0x80000000;
+                *(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0xD0))->unk20.p + 4) |= 0x80000000;
             }
             if (((Unkstruct_801202A0 *)p)->unkD4.p != 0) {
                 *(u32 *)(((Unkstruct_801202A0 *)p)->unkD4.p->unk20.p + 4) |= 0x80000000;
@@ -4990,7 +4990,7 @@ void func_80180838(void *a0)
         ((Unkstruct_801202A0 *)s0)->unk34.u += 1;
         return;
     case 2:
-        if (*(s32 *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x64))->unk20 + 0x4) < 0) {
+        if (*(s32 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)s0 + 0x64))->unk20.p + 0x4) < 0) {
             ((void (*)(s32))guess_FreeActor)((s32)s0);
         }
         return;

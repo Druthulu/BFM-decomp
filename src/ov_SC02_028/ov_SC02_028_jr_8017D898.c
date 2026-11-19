@@ -3768,7 +3768,7 @@ void func_80180214(void *a0)
     if (a1 != 0) {
         a1 = *(s32 *)(a1 + 0x4);
         if (a1 != 0) {
-            func_8001C924(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)a1);
+            func_8001C924(((Unkstruct_801202A0 *)a0)->unk20.p, (s32 *)a1);
         }
     }
     func_80180294(a0);
@@ -3877,11 +3877,11 @@ void func_8018034C(void *a0)
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk50;
 
     *(SVECTOR *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x10) =
-        *(SVECTOR *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x10);
+        *(SVECTOR *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x10);
 
     guess_ClearVelocityAndSetGravity(a0);
 
-    ApplyMatrixLV(((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x34,
+    ApplyMatrixLV(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x34,
                   (s32)&D_801A4C38[((Unkstruct_801202A0 *)a0)->unk70.s],
                   (s32)a0 + 0x10);
 

@@ -2984,7 +2984,7 @@ tail:
     {
         s32 msk;
         msk = 0x80000000;             /* HOISTED OUT OF THE ARM ON PURPOSE — see header (3) */
-        if (*(s32 *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x4) < 0) {
+        if (*(s32 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x4) < 0) {
             *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= msk;
         } else {
             *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) &= 0x7FFFFFFF;
@@ -2999,7 +2999,7 @@ tail:
     sv0[1] = *(u16 *)((s32)a0 + 0x16);
     sv0[2] = ((Unkstruct_801202A0 *)a0)->unk18.i.hi;
 
-    m = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x34;
+    m = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x34;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
 

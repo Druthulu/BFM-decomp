@@ -4373,7 +4373,7 @@ void func_80184618(s32 param_1)
         guess_InitModelObjectKind3(v0, (s32)D_801A8C1C);
         guess_StartActorSequence(param_1, (s32)D_801A8C34);
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x12);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.p + 0x12);
         guess_ClearVelocityAndSetGravity((void *)param_1);
         guess_UpdateActorModelMatrix(param_1);
         guess_SetLocalVelocity(param_1, (s32)D_801A8C4C);
@@ -4437,7 +4437,7 @@ void func_80184788(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk94.s = v0 & 0xF;
 
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x12);
 
         guess_ClearVelocityAndSetGravity((void *)a0);
         guess_UpdateActorModelMatrix(a0);

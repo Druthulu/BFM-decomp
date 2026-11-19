@@ -3709,7 +3709,7 @@ void func_8017EBE4(s32 a0)
 
     /* 32-byte aligned block move: 8x lw/sw in two groups of four (MAX_MOVE_REGS == 4).
      * The pseudo holding &m survives as $s1 and is reused for the three uses below. */
-    m = *(Mtx_8017EBE4 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x34);
+    m = *(Mtx_8017EBE4 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x34);
     g = &guess_g_PlayerActor;
 
     if (CAST_SIGN(u16, a0, 0xFE) < 2) {
@@ -3947,7 +3947,7 @@ void func_8017F1CC(s32 a0) {
             func_8017EBE4(a0);
         }
     } else {
-        if (*(s32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 4) < 0) {
+        if (*(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 4) < 0) {
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             return;
         }

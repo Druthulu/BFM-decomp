@@ -1317,7 +1317,7 @@ s32 func_80185098_impl(s32 a0, s32 a1) {
     if (val < CAST_NONSTRUCT(s16, a0, 0xA) || CAST_NONSTRUCT(s16, a0, 0xFC) != 0) {
         return 0;
     }
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = -ratan2(CAST_NONSTRUCT(s16, a1, 4) - CAST_NONSTRUCT(s16, a0, 0xE),
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u = -ratan2(CAST_NONSTRUCT(s16, a1, 4) - CAST_NONSTRUCT(s16, a0, 0xE),
                                                    val - CAST_NONSTRUCT(s16, a0, 0xA));
     guess_UpdateActorModelMatrix(a0);
     guess_SetLocalVelocity(a0, (s32)D_801957EC);

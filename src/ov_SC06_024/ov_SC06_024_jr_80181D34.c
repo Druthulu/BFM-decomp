@@ -3040,13 +3040,13 @@ void func_80182074(s32 p) {
                 return;
             }
             if (((Unkstruct_801202A0 *)p)->unkCC.val != 0) {
-                *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xCC))->unk20 + 4) |= 0x80000000;
+                *(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0xCC))->unk20.p + 4) |= 0x80000000;
             }
             if (((Unkstruct_801202A0 *)p)->unkD0.val != 0) {
-                *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xD0))->unk20 + 4) |= 0x80000000;
+                *(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0xD0))->unk20.p + 4) |= 0x80000000;
             }
             if (((Unkstruct_801202A0 *)p)->unkD4.p != 0) {
-                *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xD4))->unk20 + 4) |= 0x80000000;
+                *(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0xD4))->unk20.p + 4) |= 0x80000000;
             }
             if (((Unkstruct_801202A0 *)p)->unkD8.val != 0) {
                 *(u32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(p + 0xD8))->unk20 + 4) |= 0x80000000;

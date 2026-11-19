@@ -4504,16 +4504,16 @@ void func_80187A98(s32 a0) {
     switch (state) {
     case 0:
         t = 0xFF000058;
-        t += *(s32 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x20);
+        t += *(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x20);
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk6 + *(s8 *)(t + 3);
         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkA + *(s8 *)(t + 4);
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkE + *(s8 *)(t + 5);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x10) - *(u16 *)(t + 6);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x10) - *(u16 *)(t + 6);
         ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x12);
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x12);
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) =
-            *(u16 *)(((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk20 + 0x14) - 0x280;
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk20.p + 0x14) - 0x280;
         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u += (rsin(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) +
                           (*(u8 *)(t + 1) + ((*(u8 *)t & 0xF) * 0x100))) << 4) >> 12;
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += (rcos(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) +
@@ -6232,7 +6232,7 @@ void func_8018A390(void *a0)
     w = sv.w;
     guess_InitModelObject(v0, D_801E3A18[w]);
 
-    RotMatrixY(*(s16 *)(((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x12), mp);
 
     ApplyMatrixSV(mp, svp, svp);
 
