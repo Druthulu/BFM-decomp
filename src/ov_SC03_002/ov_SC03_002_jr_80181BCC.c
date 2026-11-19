@@ -2854,8 +2854,8 @@ void func_80181BCC(void *a0) {
         break;
     case 3:
         ((s32 (*)(s32))func_80178970)((s32)a0);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((char *)a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)((char *)a0 + 0x20))->unk12 +
+        ((Unkstruct_8001C9D0 *)*(s32 *)((char *)a0 + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)((char *)a0 + 0x20))->unk12.u +
             guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), 0x1E0, 8);
         break;
     case 4:

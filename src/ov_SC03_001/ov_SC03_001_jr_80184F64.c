@@ -3841,7 +3841,7 @@ void func_8018617C(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)temp)->unk4.i.hi.u - 0x40;
         ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)temp)->unk8.i.hi.u;
         ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)temp)->unkC.i.hi.u + 0x40;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(temp + 0x20))->unk12;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(temp + 0x20))->unk12.u;
     }
 }
 

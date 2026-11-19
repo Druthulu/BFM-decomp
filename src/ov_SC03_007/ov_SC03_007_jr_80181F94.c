@@ -3316,7 +3316,7 @@ void func_8018256C(s32 param_1)
                         *(u16 *)(D_801270C8[0] + 0x5C) |= 1;
                         *(s16 *)(D_801270C8[0] + 0x60) = 9;
                         *(u16 *)(D_801270C8[0] + 0x62) =
-                            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+                            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
                         *(s16 *)(D_801270C8[0] + 0x5E) = 1;
                     }
                 }
@@ -3377,7 +3377,7 @@ void func_8018283C(s32 *self)
 
     if (((Unkstruct_801202A0 *)self)->unkFE.s == 0x7FFF) {
         ((Unkstruct_801202A0 *)self)->unkFE.s =
-            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk12;
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk12.u;
     }
 
     if (((Unkstruct_801202A0 *)self)->unkFC.s !=
@@ -3390,7 +3390,7 @@ void func_8018283C(s32 *self)
         *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x10);
 
     if ((s32)((Unkstruct_801202A0 *)self)->unk64->unk90 != (s32)D_801CB130) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk12.u =
             CAST_SIGN(u16, (s32)self, 0xFE);
         CAST_WIDTH(s32, (s32)self, 0x4) =
             ((Unkstruct_801202A0 *)self)->unk64->unk4.val;
@@ -3408,7 +3408,7 @@ void func_8018283C(s32 *self)
     *(Blk8 *)(((Unkstruct_801202A0 *)self)->unk20.p + 0x18) =
         *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x18);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk2C =
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk2C.u =
         *(u16 *)(*(s32 *)((s32)tgt + 0x20) + 0x2C);
 
     *(s32 *)(((Unkstruct_801202A0 *)self)->unk20.p + 0x4) =
@@ -3988,7 +3988,7 @@ void func_8018335C(s32 a0)
                 d = r + 0x100;
             }
             ((Unkstruct_801202A0 *)a0)->unkFC.s =
-                (((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + d) & 0xFFF;
+                (((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + d) & 0xFFF;
             guess_ClearVelocityAndSetGravity(a0);
 
             if (func_8012CE2C(a0) != 0) {
@@ -4075,7 +4075,7 @@ void func_801836B8(s32 param_1, s32 param_2)
                                    (s32)&c0, (s32)&c1) != 0) {
                     *(u16 *)(D_801270C8[0] + 0x5C) |= 1;
                     *(s16 *)(D_801270C8[0] + 0x60) = param_2;
-                    *(u16 *)(D_801270C8[0] + 0x62) = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+                    *(u16 *)(D_801270C8[0] + 0x62) = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
                     *(s16 *)(D_801270C8[0] + 0x5E) = 1;
                 }
             }

@@ -3857,8 +3857,8 @@ void func_8017EA20(s32 param_1) {
         s32 h = D_8019B5C0[((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102][0];
         s32 o;
         /* first CSE interval: read+write of 0x2C shares one base load */
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C | 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u | 0x10;
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
@@ -3882,11 +3882,11 @@ void func_8017EA20(s32 param_1) {
     /* branch sense: target `beq` jumps to the (rand&1) arm, so THAT is the else */
     if (((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102 != 2) {
         s32 r = rand() & 0xFF;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)param_1)->unk64->unk20.p, 0x12) + r - 0x80;
     } else {
         s32 r = rand() & 1;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)param_1)->unk64->unk20.p, 0x12) + r * 0x1C0 - 0xE0;
     }
 
@@ -4041,8 +4041,8 @@ void func_8017EC34(s32 param_1)
         }
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 + CAST_SIGN(u16, param_1, 0x100);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u + CAST_SIGN(u16, param_1, 0x100);
     func_8017EED8(param_1);
 }
 

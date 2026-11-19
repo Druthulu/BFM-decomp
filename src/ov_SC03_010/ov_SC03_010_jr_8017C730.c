@@ -3559,9 +3559,9 @@ void func_8017E744(s32 a0)
     v1 = D_80183C0C[((Unkstruct_801202A0 *)a0)->unk70.s];
     ((Unkstruct_801202A0 *)a0)->unkFC.s = (v1 & 0xF000) >> 12;
     ((Unkstruct_801202A0 *)a0)->unkFE.s = v1 & 0xF;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = v1 & 0xFF0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = v1 & 0xFF0;
     if (((Unkstruct_801202A0 *)a0)->unkFE.s == 2) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = 0x100;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u = 0x100;
     }
     guess_UpdateActorModelMatrix(a0);
     st.f1 = 0;

@@ -3931,7 +3931,7 @@ void func_8017FB24(s32 param_1)
         return;
     }
     guess_InitModelObject(v0, (s32)D_801BFCB4);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0xE00;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0xE00;
     guess_StartActorSequence(param_1, (s32)&D_80189440);
     *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC) = 0x7FFF;
     ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)D_80189540 | 0x40000000;
