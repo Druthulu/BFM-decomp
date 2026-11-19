@@ -1172,7 +1172,7 @@ void func_80158BB0(void *arg0) {
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
     ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
-    ((Unkstruct_800B5CB8 *)M2C_FIELD(arg0, void **, 0x20))->unk10 = 0;
+    ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->unk10.u = 0;
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);

@@ -2849,7 +2849,7 @@ void func_80181D34(void *a0) {
 
     func_8001C2C4(v0);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk20 = (s32)D_80063548;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk20 = (s32)D_80063548;
 
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 0:
@@ -2857,9 +2857,9 @@ void func_80181D34(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u += D_801AC422[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += D_801AC424[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x28) = 0x2000100;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x90;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk2C.u |= 0x90;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x80) = (s32)D_801AC4D8;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 = 0x1040;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk18.u = 0x1040;
         ((Unkstruct_801202A0 *)a0)->unkCC.val = guess_SpawnActor(0x2F4, 1, (s32)a0);
         ((Unkstruct_801202A0 *)a0)->unkD0.val = guess_SpawnActor(0x2F4, 2, (s32)a0);
         ((Unkstruct_801202A0 *)a0)->unkD4.p = guess_SpawnActor(0x2F4, 3, (s32)a0);
@@ -3476,8 +3476,8 @@ void func_80182ECC(s32 p) {
         break;
 
     case 1:
-        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12 + CAST_SIGN(u16, p, 0xFE);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->unk12.u + CAST_SIGN(u16, p, 0xFE);
         if (guess_TickWaitTimer(p) == 0) {
             break;
         }

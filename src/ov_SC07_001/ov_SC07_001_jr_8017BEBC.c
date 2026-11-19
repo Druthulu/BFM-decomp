@@ -3326,7 +3326,7 @@ void func_8017E7E8(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = guess_g_PlayerPosY + 0x40;
     ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = guess_g_PlayerPosZ + (sp10 >> 16);
     ret = func_8012B8A4((s16 *)param_1);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = ret;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = ret;
     guess_UpdateActorModelMatrix(param_1);
     func_8012B200((u8 *)param_1);
     guess_SetForwardVelocity(param_1, 0xffe60000);
@@ -3787,7 +3787,7 @@ void *arg0;
         return;
     }
     guess_InitModelObject(v0, 0);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C.u |= 0x10;
     {
         s32 t = ((Unkstruct_801202A0 *)arg0)->unk20.p;
         ((Unkstruct_8001C9D0 *)t)->unk1A.u = 1;
@@ -3817,7 +3817,7 @@ void func_8017F470(void *a0)
         guess_FreeActor((s32)a0);
     } else {
         func_8017F4E4(a0);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_800B5CB8 *)*(s32 *)(v1 + 0x20))->unk12;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(v1 + 0x20))->unk12.u;
         func_8017F668(a0);
     }
 }
@@ -4141,7 +4141,7 @@ void func_80180230(s32 param_1)
             s32 shifted = v70 << 6;
             ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = -0x552 - shifted;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = val + 0x800;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = val + 0x800;
         ((Unkstruct_801202A0 *)param_1)->unk75 = 2;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     }
@@ -4556,7 +4556,7 @@ void func_80180CB0(void *param_1) {
         CAST_ALIAS(s16, (s32)param_1, 6) = -0x134;
         CAST_ALIAS(s16, (s32)param_1, 0xA) = -0xE82;
         CAST_ALIAS(s16, (s32)param_1, 0xE) = -0x1D9;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 = 0xD00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u = 0xD00;
         guess_UpdateActorModelMatrix((s32)param_1);
         guess_StartActorSequence((s32)param_1, (void *)&D_80184FD0);
         func_80132288((int *)&D_801AAD90, (int *)&D_80185440, D_801A1BDC);

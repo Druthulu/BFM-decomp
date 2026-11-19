@@ -6464,7 +6464,7 @@ void func_80180EC8(s32 param_1)
 
 
 void func_80180F38(void *a0) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x12);
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u = *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.p + 0x12);
 }
 
 
@@ -6757,7 +6757,7 @@ s32 func_8018152C(s32 a0) {
     if (((s32 (*)(s32, u16 *))guess_DistSqXZToPoint)(a0, (u16 *)s1) < 0x101) {
         goto ret1;
     }
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = guess_YawToPoint((void *)(a0 + 4), (void *)s1);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = guess_YawToPoint((void *)(a0 + 4), (void *)s1);
     guess_SetForwardVelocity(a0, CAST_MISALIGNED(s16, s1, 3) << 16);
     guess_ApplyAccelAndVelocity(a0);
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 8;

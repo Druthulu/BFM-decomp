@@ -4008,7 +4008,7 @@ void func_8017E078(void *param_1) {
             ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC07_011_8017DD78.unkE4;
     r = func_8012BB3C((s32)sp10, (s32)param_1 + 4,
                       *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12), 4);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)param_1 + 0x20))->unk12 += r;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)param_1 + 0x20))->unk12.u += r;
     n = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC07_011_8017DD78.unkE0 + 1;
     ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC07_011_8017DD78.unkE0 = n;
     if (n == ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC07_011_8017DD78.unkE4) {

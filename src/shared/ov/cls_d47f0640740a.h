@@ -19,8 +19,8 @@ void SHARED_FN(s32 a0)
         }
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 += CAST_SIGN(u16, s0, 0xFC);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += CAST_SIGN(u16, s0, 0xFE);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk10.u += CAST_SIGN(u16, s0, 0xFC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u += CAST_SIGN(u16, s0, 0xFE);
     *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x14) += CAST_SIGN(u16, s0, 0x100);
 
     if (--((Unkstruct_801202A0 *)s0)->unk1C.s < 0x10) {

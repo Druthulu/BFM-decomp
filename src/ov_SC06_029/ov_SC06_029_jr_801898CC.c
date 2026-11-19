@@ -3308,7 +3308,7 @@ void func_80189BB4(void *a0) {
 
         guess_InitModelObject(v0, (s32)&D_801B5EC8);
         guess_StartActorSequence((s32)a0, &D_801B90F4);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 = 0xA00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u = 0xA00;
         guess_HideObjectModel((u8 *)a0);
         RotMatrixY(0x200, &mtx);
         vec[0] = 0;
@@ -3412,9 +3412,9 @@ void func_80189E18(s32 param_1)
     guess_InitModelObject(v0, (s32)D_801C5C70);
     guess_StartActorSequence(param_1, D_801C8E38);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = 0x600;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C =
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C | 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = 0x600;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u | 0x10;
     guess_HideObjectModel((u8 *)param_1);
 
     RotMatrixY(-0x200, &mtx);
@@ -3466,7 +3466,7 @@ void func_80189F58(s32 param_1)
     } else {
         guess_InitModelObject(v0, (s32)&D_801CBE14);
         guess_StartActorSequence(param_1, (void *)&D_801CEE2C);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)param_1 + 0x20))->unk12 = 0xA00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)param_1 + 0x20))->unk12.u = 0xA00;
         guess_HideObjectModel((u8 *)param_1);
         RotMatrixY(0x200, &localMatrix);
         localVec.vx = 0;
@@ -3733,10 +3733,10 @@ void func_8018A41C(void *a0) {
 
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
         RotMatrixY(0x200, &mtx);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk12 = 0xA00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk12.u = 0xA00;
     } else {
         RotMatrixY(-0x200, &mtx);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0x20))->unk12 = 0x600;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk12.u = 0x600;
     }
 
     vec[0] = 0;
