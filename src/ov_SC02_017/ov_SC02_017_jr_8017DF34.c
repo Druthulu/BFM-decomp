@@ -4497,7 +4497,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 
 void func_8018104C(s32 param_1) {
     if (guess_TickWaitTimer(param_1) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xD0))->unkDC = 1;
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0xD0))->blkDC.f.unkDC.val = 1;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
     }
 }
@@ -4507,7 +4507,7 @@ extern s32 guess_TickWaitTimer(s32 a0);
 
 void func_80181090(void *a0) {
     if (guess_TickWaitTimer((s32)a0)) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)a0 + 0xCC))->unkDC = 1;
+        ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0xCC))->blkDC.f.unkDC.val = 1;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 }

@@ -3764,7 +3764,7 @@ void func_80180214(void *a0)
     CAST_WIDTH(s16, (s32)a0, 0x5E) = 0;
     ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     guess_SetGameFlag(D_801A4C1C[v0], 1);
-    a1 = ((Unkstruct_800B5CB8 *)a0)->unkDC;
+    a1 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     if (a1 != 0) {
         a1 = *(s32 *)(a1 + 0x4);
         if (a1 != 0) {
@@ -3849,7 +3849,7 @@ void func_8018034C(void *a0)
         return;
     }
 
-    s1 = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkDC;
+    s1 = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->blkDC.f.unkDC.val;
     if (s1 != 0) {
         t = *(s32 *)(s1 + 0x8);
         if (t != 0) {
@@ -4276,7 +4276,7 @@ void func_80180D80(void *a0)
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 0x12) {
         if (((Unkstruct_80126B58 *)&guess_g_PlayerActor)->unk0 != 0x1A) {
             guess_SetGameFlag(0xAE, 1);
-            handler = ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkDC;
+            handler = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->blkDC.f.unkDC.val;
             if (handler != 0) {
                 ((void (*)())handler)();
             }
