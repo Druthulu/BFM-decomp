@@ -8039,31 +8039,31 @@ s32 func_80187F4C(s32 a0)
     s32 v1;
     s32 a1;
 
-    v0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_8018745C.unkE0;
+    v0 = ((Unkstruct_800B5CB8 *)a0)->unkE0;
     if (v0 == 0) {
         v0 = 1;
         goto END;
     }
     v0 = v0 - 1;
-    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_8018745C.unkE0 = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unkE0 = v0;
     if (v0 > 0) {
         goto SET0;
     }
 
-    v1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
+    v1 = ((Unkstruct_800B5CB8 *)a0)->unkD0;
     v1 = v1 + 8;
     a1 = *(s32 *)v1;
     if ((a1 & 0x40000000) != 0) {
-        v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
+        v1 = ((Unkstruct_800B5CB8 *)a0)->unkCC;
     } else if (a1 < 0) {
         v0 = 1;
-        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_8018745C.unkE0 = 0;
+        ((Unkstruct_800B5CB8 *)a0)->unkE0 = 0;
         goto END;
     }
 
     v0 = *(s32 *)v1;
-    ((Unkstruct_801202A0 *)a0)->unkD0.val = v1;
-    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_8018745C.unkE0 = v0;
+    ((Unkstruct_800B5CB8 *)a0)->unkD0 = v1;
+    ((Unkstruct_800B5CB8 *)a0)->unkE0 = v0;
     guess_AllocRenderWorkRecord(*(s32 *)(v1 + 4));
 
 SET0:

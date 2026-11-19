@@ -3759,16 +3759,16 @@ void func_80180214(void *a0)
     extern u16 D_801A4C1C[];
     s32 v0;
     s32 a1;
-    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
-    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+    v0 = ((Unkstruct_800B5CB8 *)a0)->unk70;
+    ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
     CAST_WIDTH(s16, (s32)a0, 0x5E) = 0;
-    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
+    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
     guess_SetGameFlag(D_801A4C1C[v0], 1);
-    a1 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
+    a1 = ((Unkstruct_800B5CB8 *)a0)->unkDC;
     if (a1 != 0) {
         a1 = *(s32 *)(a1 + 0x4);
         if (a1 != 0) {
-            func_8001C924(((Unkstruct_801202A0 *)a0)->unk20.p, (s32 *)a1);
+            func_8001C924(((Unkstruct_800B5CB8 *)a0)->unk20, (s32 *)a1);
         }
     }
     func_80180294(a0);

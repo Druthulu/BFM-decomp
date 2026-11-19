@@ -5759,25 +5759,25 @@ void func_8018AAF4(void *arg) {
     s32 iv;
 
     p = (u8 *)arg;
-    e = ((Unkstruct_801202A0 *)p)->unk5E.b;
+    e = ((Unkstruct_800B5CB8 *)p)->unk5E;
 
-    if (((Unkstruct_801202A0 *)p)->unk60 != 0) {
+    if (((Unkstruct_800B5CB8 *)p)->unk60 != 0) {
         if (e == 0x1D) {
-            ((Unkstruct_801202A0 *)p)->unk82 = 0;
-            ((Unkstruct_801202A0 *)p)->unk7C = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
-            ((Unkstruct_801202A0 *)p)->unk7E = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
-            ((Unkstruct_801202A0 *)p)->unk80 = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+            ((Unkstruct_800B5CB8 *)p)->unk82 = 0;
+            ((Unkstruct_800B5CB8 *)p)->unk7C = ((Unkstruct_800B5CB8 *)p)->unk6;
+            ((Unkstruct_800B5CB8 *)p)->unk7E = ((Unkstruct_800B5CB8 *)p)->unkA;
+            ((Unkstruct_800B5CB8 *)p)->unk80 = ((Unkstruct_800B5CB8 *)p)->unkE;
         }
         {
             s32 dec;
-            s32 q = ((Unkstruct_801202A0 *)p)->unk78;
-            if (q != 0 && ((Unkstruct_801202A0 *)p)->unk60 != 0) {
-                dec = ((s32)((Unkstruct_801202A0 *)p)->unk60 * (s32)*(s16 *)(q + 0x30)) >> 12;
+            s32 q = ((Unkstruct_800B5CB8 *)p)->unk78;
+            if (q != 0 && ((Unkstruct_800B5CB8 *)p)->unk60 != 0) {
+                dec = ((s32)((Unkstruct_800B5CB8 *)p)->unk60 * (s32)*(s16 *)(q + 0x30)) >> 12;
                 if (dec < 1) dec = 1;
             } else {
-                dec = ((Unkstruct_801202A0 *)p)->unk60;
+                dec = ((Unkstruct_800B5CB8 *)p)->unk60;
             }
-            ((Unkstruct_801202A0 *)p)->unk76.s = CAST_SIGN(u16, p, 0x76) - dec;
+            ((Unkstruct_800B5CB8 *)p)->unk76 = CAST_SIGN(u16, p, 0x76) - dec;
             ((void (*)(void *, s32))func_8016AA50)(p, dec);
         }
         if (CAST_SIGN(u16, p, 0x82) & 1) {
@@ -5787,11 +5787,11 @@ void func_8018AAF4(void *arg) {
     }
 
     if (e != 0x1D) {
-        if (((Unkstruct_801202A0 *)p)->extF.kSC06_033_8018AAF4.unkC8) func_8002A520(p);
-        if (((Unkstruct_801202A0 *)p)->extF.kSC06_033_8018AAF4.unkC9) func_8002A790(p);
+        if (((Unkstruct_800B5CB8 *)p)->unkC8) func_8002A520(p);
+        if (((Unkstruct_800B5CB8 *)p)->unkC9) func_8002A790(p);
     }
 
-    if (((Unkstruct_801202A0 *)p)->unk76.s < 0) {
+    if (((Unkstruct_800B5CB8 *)p)->unk76 < 0) {
         i = 0;
         do {
             iv = ((s32 (*)(s32, void *))guess_SpawnActorNoArg)(0x281, p);
@@ -5810,11 +5810,11 @@ void func_8018AAF4(void *arg) {
                 s32 r;
                 s32 sv;
                 r = rand();
-                *(u16 *)(iv + 0x06) = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u + (r & 0x3F) - 0x20;
+                *(u16 *)(iv + 0x06) = ((Unkstruct_800B5CB8 *)p)->unk6 + (r & 0x3F) - 0x20;
                 r = rand();
-                *(u16 *)(iv + 0x0A) = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - (r & 0x3F) - 0x20;
+                *(u16 *)(iv + 0x0A) = ((Unkstruct_800B5CB8 *)p)->unkA - (r & 0x3F) - 0x20;
                 r = rand();
-                sv = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+                sv = ((Unkstruct_800B5CB8 *)p)->unkE;
                 *(s32 *)(iv + 0x18) = 0;
                 *(s32 *)(iv + 0x14) = 0;
                 *(s32 *)(iv + 0x10) = 0;
@@ -5828,7 +5828,7 @@ void func_8018AAF4(void *arg) {
         {
         s32 q;
         s32 sv;
-        iv = ((Unkstruct_801202A0 *)p)->unk64;
+        iv = ((Unkstruct_800B5CB8 *)p)->unk64;
         sv = *(s32 *)(iv + 0x20);
         q = iv;
         *(u16 *)(q + 0x5C) = 1;
@@ -5843,10 +5843,10 @@ void func_8018AAF4(void *arg) {
         guess_FreeActor(p);
     } else {
         guess_RequestSound(0x9B7, 0);
-        ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
-        ((Unkstruct_801202A0 *)p)->unk60 = 0;
-        ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_800B5CB8 *)p)->unk5C = 0x8800;
+        ((Unkstruct_800B5CB8 *)p)->unk60 = 0;
+        ((Unkstruct_800B5CB8 *)p)->unkC1 = 0;
+        ((Unkstruct_800B5CB8 *)p)->unkC2 = 0x10;
     }
 }
 
