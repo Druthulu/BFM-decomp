@@ -445,7 +445,7 @@ typedef struct Unkstruct_801202A0 {
     /* 0x0014 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk14;
     /* 0x0018 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk18;
     /* 0x001c */ union { s32 s; u32 u; } unk1C;
-    /* 0x0020 */ union { void *p; Unkstruct_8001C9D0 *m; struct Unkstruct_800B5BD8 *s; } unk20; /* render pointer: slot init tags model 1 / sprite 2 (func_8012C890__1bddfa15.h:55-70) */
+    /* 0x0020 */ union { void *p; Unkstruct_8001C9D0 *m; struct Unkstruct_800B5BD8 *s; RenderHead *h; } unk20; /* render pointer: slot init tags model 1 / sprite 2 (func_8012C890__1bddfa15.h:55-70) */
     /* 0x0024 */ union { u8 raw[0x10]; struct { u8 pad0[0x4]; s16 unk28; } kcls_08c5824beac9; struct { u8 pad0[0x8]; u16 unk2C; u16 unk2E; } kcls_ae1124e6e4cc; struct { u8 pad0[0x4]; s16 unk28; } kSC01_077_801867E0; struct { u8 unk24; u8 unk25; u8 unk26; u8 unk27; u8 pad4[0x2]; u16 unk2A; u16 unk2C; u16 unk2E; } kSC04_003_8017E040; struct { u8 pad0[0x8]; u16 unk2C; u16 unk2E; } kSC04_007_8017FF08; struct { u8 pad0[0x4]; s16 unk28; } kcls_fbecc647cdc0; struct { u8 unk24; u8 unk25; u8 unk26; u8 unk27; u8 pad4[0x2]; u16 unk2A; } kSC04_007_80180324; struct { u8 pad0[0x4]; s16 unk28; u16 unk2A; } kSC03_093_8018208C; struct { u8 pad0[0x4]; s16 unk28; u16 unk2A; } kSC03_094_80183AC8; struct { u8 pad0[0x4]; s16 unk28; u16 unk2A; } kSC03_095_80180654; struct { u8 pad0[0x4]; s16 unk28; u16 unk2A; } kSC03_096_801801D4; struct { u8 pad0[0x4]; s16 unk28; u16 unk2A; } kSC03_097_80184DB4; } extA;
     /* 0x0034 */ union { u16 u; s16 s; } unk34;
     /* 0x0036 */ union { u16 u; s16 s; } unk36;

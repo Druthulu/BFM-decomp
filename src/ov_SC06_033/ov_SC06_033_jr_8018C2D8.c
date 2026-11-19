@@ -3209,8 +3209,8 @@ void func_8018C2D8(void *arg)
             ((Unkstruct_801202A0 *)s1)->unkC.i.hi.u = buf[2];
             func_8012B77C((s32)buf, (s32)(s1 + 4), (s32)D_80126B5C);
             w = *(s32 *)buf;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)s1)->unk20.p)->unk10 = (u16)w;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)s1)->unk20.p)->unk12 = (u16)(w >> 16);
+            ((Unkstruct_801202A0 *)s1)->unk20.h->unk10.u = (u16)w;
+            ((Unkstruct_801202A0 *)s1)->unk20.h->unk12.u = (u16)(w >> 16);
         }
 
         if ((((Unkstruct_801202A0 *)s1)->unk1C.s & 0xF) == 0) {
@@ -3345,8 +3345,8 @@ void func_8018C2D8(void *arg)
             ((Unkstruct_801202A0 *)s1)->unkC.i.hi.u = buf[2];
             func_8012B77C((s32)buf, (s32)(s1 + 4), (s32)D_80126B5C);
             w = *(s32 *)buf;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)s1)->unk20.p)->unk10 = (u16)w;
-            ((Unkstruct_800B5CB8 *)((Unkstruct_801202A0 *)s1)->unk20.p)->unk12 = (u16)(w >> 16);
+            ((Unkstruct_801202A0 *)s1)->unk20.h->unk10.u = (u16)w;
+            ((Unkstruct_801202A0 *)s1)->unk20.h->unk12.u = (u16)(w >> 16);
         }
 
         {
