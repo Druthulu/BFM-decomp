@@ -4263,7 +4263,7 @@ void func_801803E4(s32 param_1) {
         }
     }
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 =
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u =
         func_80012ABC(*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12),
                       *(s16 *)(param_1 + 0xFA), 4);
 }

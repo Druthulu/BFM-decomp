@@ -10581,8 +10581,8 @@ extern void guess_FreeActor(void *a0);
 
 void func_80188818(void *a0) {
     if (((Unkstruct_801202A0 *)a0)->extD.kSC04_011_80188818.unk104 < *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1A)) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 -= 0x10;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk1A -= 0x80;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk18.u -= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk1A.u -= 0x80;
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) -= 0x10;
     } else {
         ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;

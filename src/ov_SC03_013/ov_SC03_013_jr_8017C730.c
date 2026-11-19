@@ -3615,7 +3615,7 @@ s32 func_8017EE28(s32 a0, s32 a1, s32 a2) {
     guess_RotTransSVWithObjMatrix(a0, a1, (s32)sp10);
     guess_RotTransSVWithObjMatrix(a0, a2, (s32)sp18);
     if (func_8017EEA4(a0, (s32)sp10, (s32)sp18) != 0) {
-        D_80126B9A = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
+        D_80126B9A = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u;
         return 1;
     }
     return 0;

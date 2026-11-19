@@ -5077,8 +5077,8 @@ void func_80188B94(void *arg0)
     extern u8 D_801919F4;
     s32 temp_a0;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)arg0 + 0x20))->unk18 = 0x2C00;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)arg0 + 0x20))->unk1A = 0x3800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)arg0 + 0x20))->unk18.u = 0x2C00;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)arg0 + 0x20))->unk1A.u = 0x3800;
     guess_StartActorSequence((s32)arg0, &D_801919F4);
     ((Unkstruct_801202A0 *)arg0)->unkFC.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;

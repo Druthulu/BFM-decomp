@@ -4537,8 +4537,8 @@ void func_8017F790(void *a0) {
         return;
     }
     func_8001C2C4(r);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk10 = 0x400;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk12 = 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk10.u = 0x400;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk12.u = 0x400;
     guess_UpdateActorModelMatrix((s32)s0);
     buf[1] = 0;
     buf[0] = 0;

@@ -4318,8 +4318,8 @@ void func_8017D50C(s32 a0) {
                 D_801EB444 = y << 16;
             } else {
                 func_8017DD34((s16 *)a0);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + 0xC00;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + 0xC00;
             }
         } else {
             for (i = 0; i < 2; i++) {
@@ -4334,8 +4334,8 @@ void func_8017D50C(s32 a0) {
 
         ret = func_8012BB3C(a0 + 4, (s32)&D_801EB43C,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), i);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
 
         ang = -3 - CAST_SIGN(u16, a0, 0x104);
         func_8017DCC0(a0, ang, 0x50);
@@ -4352,8 +4352,8 @@ void func_8017D50C(s32 a0) {
         if (d != 0) {
             s32 r2 = guess_TurnStepToTarget(a0, d);
 
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r2;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + r2;
         }
     }
 }
@@ -4505,7 +4505,7 @@ void func_8017D710(s32 a0) {
     }
 
     if (CAST_WIDTH(u16, a0, 0x5E) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ((Unkstruct_801202A0 *)a0)->unk62;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = ((Unkstruct_801202A0 *)a0)->unk62;
         func_8017DCC0(a0, -0xF, 0);
         func_8017DD34((s16 *)a0);
         CAST_WIDTH(s16, a0, 0x5E) = 0;
@@ -4528,7 +4528,7 @@ void func_8017D710(s32 a0) {
             if (spd != 0) {
                 func_8017DD34((s16 *)a0);
                 if (((Unkstruct_801202A0 *)a0)->extD.kSC02_011_8017D710.unk104 == 0) {
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = func_8012B864(a0) - 0x800;
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = func_8012B864(a0) - 0x800;
                     ret = 1;
                 }
                 ((Unkstruct_801202A0 *)a0)->extD.kSC02_011_8017D710.unk104 = spd;

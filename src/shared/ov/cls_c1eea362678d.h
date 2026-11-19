@@ -6,7 +6,7 @@ void SHARED_FN(void *arg0) {
 
     hval = ((Unkstruct_801202A0 *)arg0)->unk10A.s;
     if (hval & 0x8000) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((char *)arg0 + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((char *)arg0 + 0x20))->unk12.u =
             func_80012ABC(*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x12), hval & 0xFFF, 4);
     }
     temp = ((Unkstruct_801202A0 *)arg0)->unkF8.val.s;

@@ -2143,11 +2143,11 @@ void func_80188A7C(void *a0)
     }
 
     if (*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x10) < 0x400) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk10.u =
             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x10) + 0x100;
     }
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 + 0x40;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk12.u + 0x40;
 
     switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:

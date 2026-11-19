@@ -5459,8 +5459,8 @@ void func_801822E8(void *a0)
 {
     void *self = a0;
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk18 = 0x2C00;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk1A = 0x3800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk18.u = 0x2C00;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk1A.u = 0x3800;
     guess_StartActorSequence((s32)self, &D_8018B250);
     ((Unkstruct_801202A0 *)self)->unkFC.s = 0;
     ((Unkstruct_801202A0 *)self)->unk1C.s = 0x10;
