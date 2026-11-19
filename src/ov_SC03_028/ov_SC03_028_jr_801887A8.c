@@ -4754,9 +4754,9 @@ void func_8018AF9C(void *a0) {
         u8 uVar1;
 
         ((Unkstruct_8011D030 *)a0)->unk20 = (s32)s1;
-        idx = ((Unkstruct_8011D030 *)a0)->unk2C.val;
+        idx = ((Unkstruct_8011D030 *)a0)->unk2C.val.s;
         func_8001CBDC((s32)s1, (s32)D_80190D18, D_80190CB4[idx][0], D_80190CB4[idx][1]);
-        uVar1 = D_80190CE0[((Unkstruct_8011D030 *)a0)->unk2C.val];
+        uVar1 = D_80190CE0[((Unkstruct_8011D030 *)a0)->unk2C.val.s];
         s1->unk2C.s = 3;
         s1->unk27.u = uVar1;
         ((Unkstruct_8011D030 *)a0)->unk6.s = 0;
@@ -4778,8 +4778,8 @@ void func_8018AF9C(void *a0) {
            neighbouring symbol (idiom 7): `&D_80190E14 + 4 == &D_80190E18`, a
            CSE-distinct rtx, so the next copy still recomputes its source
            address. Both spellings relocate to 0x80196E94. */
-#define COND (((Unkstruct_8011D030 *)a0)->unk2C.val > 0)
-        *(CVECTOR *)((s32)&D_80190E14 + 4) = D_80190CEC[((Unkstruct_8011D030 *)a0)->unk2C.val];
+#define COND (((Unkstruct_8011D030 *)a0)->unk2C.val.s > 0)
+        *(CVECTOR *)((s32)&D_80190E14 + 4) = D_80190CEC[((Unkstruct_8011D030 *)a0)->unk2C.val.s];
         if (COND) { D_80190E14 = D_80190E18; } else { D_80190E14 = D_80190E18; }
         if (COND) { D_80190DE4 = D_80190E14; } else { D_80190DE4 = D_80190E14; }
         if (COND) { D_80190DE0 = D_80190DE4; } else { D_80190DE0 = D_80190DE4; }

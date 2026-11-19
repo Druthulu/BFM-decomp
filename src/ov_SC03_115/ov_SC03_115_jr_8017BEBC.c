@@ -3221,14 +3221,14 @@ extern void func_80171A1C(u8 *a0);
 extern s32 func_80174650(s32);
 extern s16 D_80126B3C;
 void func_8017D234(void *a0) {
-    s32 v0p = ((Unkstruct_8017D234_2 *)a0)->unk20;
+    s32 v0p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     s32 r = func_80012B04(((Unkstruct_8001C9D0 *)v0p)->head.unk12.s, D_80126B3C, 4);
     s32 v1;
     if (((r << 16) >> 16) == 0) {
         func_80171A1C((u8 *)a0);
         func_80174650((s32)a0);
     }
-    v1 = ((Unkstruct_8017D234_2 *)a0)->unk20;
+    v1 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     ((Unkstruct_8001C9D0 *)v1)->head.unk12.s = (CAST_SIGN(u16, v1, 0x12) + r) & 0xFFF;
 }
 

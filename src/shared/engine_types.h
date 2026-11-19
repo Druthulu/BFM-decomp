@@ -413,14 +413,10 @@ struct Sub2_80167540 {
     u8 pad0[0x44];
     s32 unk44;        /* 0x44 */
 };
-struct Sub_8015CD20 {
-    u8 pad0[0x12];
-    u16 unk12;      /* +0x12 */
-};
 struct Ent_8015CD20 {
     u16 unk0;       /* +0x00 */
     u8 pad2[0x1E];
-    struct Sub_8015CD20 *unk20;  /* +0x20 */
+    union { s32 val; Unkstruct_8001C9D0 *m; } unk20;  /* +0x20: the model record (was struct Sub_8015CD20 *, its u16 +0x12 = head.unk12; T18.c13) */
     u8 pad24[0x94];
     s16 unkB8;      /* +0xB8 */
     u8 pad_BA[0x102];

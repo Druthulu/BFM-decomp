@@ -84,12 +84,12 @@ void func_800CAFA0(void *a0) {
         guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
-        RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val, &m);
+        RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s, &m);
         m.t[0] = ((Unkstruct_8016E7C8 *)s2)->unk6;
         m.t[1] = ((Unkstruct_8016E7C8 *)s2)->unkA;
         m.t[2] = ((Unkstruct_8016E7C8 *)s2)->unkE;
         sv.x = 0;
-        sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val) >> 9) - 0x14;
+        sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s) >> 9) - 0x14;
         sv.z = -0x40;
         guess_RotTransSVWithMatrix((s32)&m, (s32)&sv, (s32)&sv);
         if (((Unkstruct_8011D030 *)a0)->unk1C == 0) {

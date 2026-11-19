@@ -5029,7 +5029,7 @@ void func_80182930(void *a0)
     obj = ((Unkstruct_8011D030 *)p)->unk34;
     r = rand();
     ((Unkstruct_8011D030 *)p)->unk6.u = ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u + ((r & 0x3F) - 0x20);
-    if (((Unkstruct_8011D030 *)p)->unk2C.val != 0) {
+    if (((Unkstruct_8011D030 *)p)->unk2C.val.s != 0) {
         t = ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u;
         ((Unkstruct_8011D030 *)p)->unk14.i.hi.s = 0x20;
         ((Unkstruct_8011D030 *)p)->unk8.i.hi.u = t - 0x140;
@@ -5076,7 +5076,7 @@ void func_80182A40(void *a0)
     s32 p;
 
     p = (s32)a0;
-    if (((Unkstruct_80182A40 *)p)->unk2C.val != 0) {
+    if (((Unkstruct_80182A40 *)p)->unk2C.val.s != 0) {
         prim.v[0].vy = ((Unkstruct_80182A40 *)p)->unk8.i.hi.u - 0x20;
         prim.v[1].vy = ((Unkstruct_80182A40 *)p)->unk8.i.hi.u + 0x20;
     } else {

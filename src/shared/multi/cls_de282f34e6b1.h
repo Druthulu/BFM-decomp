@@ -10,7 +10,7 @@ void SHARED_FN(s32 a0) {
     src[1] = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0x28;
     src[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
     func_800D20C0((void *)src, (void *)mtx, 6);
-    ((Unkstruct_8016DF5C *)a0)->unk4.v1.unk2 = src[0];
+    ((Unkstruct_8016DF5C *)a0)->unk6.s = src[0];
     ((Unkstruct_8016DF5C *)a0)->unkA = src[1];
     ((Unkstruct_8016DF5C *)a0)->unkE = src[2];
     func_800D23D0((void *)mtx);

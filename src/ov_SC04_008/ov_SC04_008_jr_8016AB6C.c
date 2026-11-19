@@ -2912,7 +2912,7 @@ void func_8016D1D8(int param_1) {
     MATRIX mtx;
 
     iVar5 = ((Unkstruct_8011D030 *)param_1)->unk34;
-    if (((Unkstruct_8011D030 *)param_1)->unk2C.val == 0) {
+    if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         D_80191350[1] = 0xE0;
         D_80191350[2] = 0xE0;
         D_80191350[0] = 0xE0;

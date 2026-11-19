@@ -2056,8 +2056,8 @@ void func_8016B234(s32 param_1) {
         prim.v0 = prim.v1 = 0x1d0;
         prim.v2 = prim.v3 = 0x1d8;
         prim.cy = prim.dy = uVar1 + hh;
-        prim.r = prim.g = prim.b = ((Unkstruct_8011D030 *)param_1)->unk24;
-        prim.code = (&D_80181C54)[((Unkstruct_8011D030 *)param_1)->unk2C.val];
+        prim.r = prim.g = prim.b = ((Unkstruct_8011D030 *)param_1)->unk24.b;
+        prim.code = (&D_80181C54)[((Unkstruct_8011D030 *)param_1)->unk2C.val.s];
         if (CAST_SIGN(s16, param_1, 0x26) < 5) {
             prim.tag = 0;
         } else {
@@ -3090,7 +3090,7 @@ void func_8016D1D8(int param_1) {
     MATRIX mtx;
 
     iVar5 = ((Unkstruct_8011D030 *)param_1)->unk34;
-    if (((Unkstruct_8011D030 *)param_1)->unk2C.val == 0) {
+    if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         D_80197560[1] = 0xE0;
         D_80197560[2] = 0xE0;
         D_80197560[0] = 0xE0;

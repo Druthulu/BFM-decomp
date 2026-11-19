@@ -1554,7 +1554,7 @@ s32 func_8015CD20(s32 arg0) {
 
     s32 temp_v0;
     s32 var_v0;
-    struct Sub_8015CD20 *sp;
+    Unkstruct_8001C9D0 *sp;
 
     ((void(*)())func_80149FB0)();
     if (((s32(*)(struct Ent_8015CD20 *))guess_IsConfirmPressed)(((struct Ent_8015CD20 *)arg0)) != 0) {
@@ -1575,8 +1575,8 @@ s32 func_8015CD20(s32 arg0) {
             ((void(*)(struct Ent_8015CD20 *))guess_SetVelocityFromMoveVector)(((struct Ent_8015CD20 *)arg0));
             ((void(*)(struct Ent_8015CD20 *))guess_ApplyVelocity)(((struct Ent_8015CD20 *)arg0));
             ((void(*)(struct Ent_8015CD20 *, s32))guess_SetAnim)(((struct Ent_8015CD20 *)arg0), 0x15);
-            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
-            var_v0 = sp->unk12 - 0xAA;
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20.m;
+            var_v0 = sp->head.unk12.u - 0xAA;
             goto block_13;
         }
         if (((s32(*)(struct Ent_8015CD20 *))func_8014891C)(((struct Ent_8015CD20 *)arg0)) != 0) {
@@ -1587,15 +1587,15 @@ s32 func_8015CD20(s32 arg0) {
             ((struct Ent_8015CD20 *)arg0)->unkB8 = 1;
         }
         if (((s32(*)(struct Ent_8015CD20 *))func_801489E8)(((struct Ent_8015CD20 *)arg0)) != 0) {
-            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
-            var_v0 = sp->unk12 + 0x71;
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20.m;
+            var_v0 = sp->head.unk12.u + 0x71;
             goto block_13;
         }
         if (((s32(*)(struct Ent_8015CD20 *))func_80148A48)(((struct Ent_8015CD20 *)arg0)) != 0) {
-            sp = ((struct Ent_8015CD20 *)arg0)->unk20;
-            var_v0 = sp->unk12 - 0x71;
+            sp = ((struct Ent_8015CD20 *)arg0)->unk20.m;
+            var_v0 = sp->head.unk12.u - 0x71;
 block_13:
-            sp->unk12 = var_v0 & 0xFFF;
+            sp->head.unk12.u = var_v0 & 0xFFF;
         }
     } else {
         ((struct Ent_8015CD20 *)arg0)->unk234 = temp_v0 - 1;
@@ -2572,15 +2572,15 @@ void func_8015F448(s32 arg0) {
         return;
     }
 
-    if (((Unkstruct_8015F448 *)arg0)->unk245 == 0) {
-        if (((Unkstruct_8015F448 *)arg0)->unk244 == 0) {
+    if (((Unkstruct_8015F448 *)arg0)->unk244.b.hi == 0) {
+        if (((Unkstruct_8015F448 *)arg0)->unk244.b.lo == 0) {
             if (((s32 (*)(s32))guess_GetPadPressed)(arg0) & 0x10) {
-                ((Unkstruct_8015F448 *)arg0)->unk244 = 1;
-                ((Unkstruct_8015F448 *)arg0)->unk245 = 1;
+                ((Unkstruct_8015F448 *)arg0)->unk244.b.lo = 1;
+                ((Unkstruct_8015F448 *)arg0)->unk244.b.hi = 1;
             }
         } else if (((s32 (*)(s32))guess_GetPadPressed)(arg0) & 0x80) {
-            ((Unkstruct_8015F448 *)arg0)->unk244 = 0;
-            ((Unkstruct_8015F448 *)arg0)->unk245 = 1;
+            ((Unkstruct_8015F448 *)arg0)->unk244.b.lo = 0;
+            ((Unkstruct_8015F448 *)arg0)->unk244.b.hi = 1;
         }
     }
 
@@ -2602,8 +2602,8 @@ void func_8015F448(s32 arg0) {
     }
 
     if (((Unkstruct_8015F448 *)arg0)->unkB8 & 0x8000) {
-        if (((Unkstruct_8015F448 *)arg0)->unk245 != 0) {
-            ((Unkstruct_8015F448 *)arg0)->unk245 = 0;
+        if (((Unkstruct_8015F448 *)arg0)->unk244.b.hi != 0) {
+            ((Unkstruct_8015F448 *)arg0)->unk244.b.hi = 0;
             ((Unkstruct_8015F448 *)arg0)->unkB8 = ((Unkstruct_8015F448 *)arg0)->unkBA;
             if (((s32 (*)(s32))guess_IsDownHeld)(arg0) != 0) {
                 ((void (*)(s32, s32 *))guess_SetMoveVector)(arg0, &D_801815B0);

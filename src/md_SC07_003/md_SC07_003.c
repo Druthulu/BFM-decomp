@@ -1197,7 +1197,7 @@ void func_801A1924(s32 arg0) {
     guess_g_PlayerPosX = sp30.unk0;
     guess_g_PlayerPosY = sp30.unk2;
     guess_g_PlayerPosZ = sp30.unk4;
-    *(s16 *)(((Unkstruct_801463A0 *)guess_g_PlayerModelPtr)->unk0 + 0x12) = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
+    ((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr[0])->head.unk12.s = func_8012B70C((s16 *)sp38, (s16 *)&sp30);
 }
 
 

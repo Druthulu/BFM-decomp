@@ -136,7 +136,7 @@ void func_800CB158(s32 arg0) {
 
     a0 = ((Unkstruct_8011D030 *)arg0)->unk34;
 
-    if ((((Unkstruct_8011D030 *)arg0)->unk2C.val & 0x8000) == 0) {
+    if ((((Unkstruct_8011D030 *)arg0)->unk2C.val.s & 0x8000) == 0) {
         cnt = ((Unkstruct_8011D030 *)arg0)->unk1C;
         ((Unkstruct_8011D030 *)arg0)->unk1C = cnt + 1;
 

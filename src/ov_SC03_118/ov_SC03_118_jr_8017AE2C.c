@@ -3447,8 +3447,8 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     r0_00 = &D_801D42A8[0];
     if (((Unkstruct_8011D030 *)a)->unk10.i.hi.s == 0) {
         D_801D42D8 = 0x50000000;
-        D_801D42C8 = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val];
-        D_801D42CC = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val];
+        D_801D42C8 = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val.s];
+        D_801D42CC = D_8018D36C[((Unkstruct_8011D030 *)a)->unk2C.val.s];
         D_801D42D0 = 0;
         D_801D42D1 = 0;
         D_801D42D2 = 0;

@@ -3448,8 +3448,8 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     r0_00 = &D_801AE6A8[0];
     if (((Unkstruct_8011D030 *)a)->unk10.i.hi.s == 0) {
         D_801AE6D8 = 0x50000000;
-        D_801AE6C8 = D_8018BC8C[((Unkstruct_8011D030 *)a)->unk2C.val];
-        D_801AE6CC = D_8018BC8C[((Unkstruct_8011D030 *)a)->unk2C.val];
+        D_801AE6C8 = D_8018BC8C[((Unkstruct_8011D030 *)a)->unk2C.val.s];
+        D_801AE6CC = D_8018BC8C[((Unkstruct_8011D030 *)a)->unk2C.val.s];
         D_801AE6D0 = 0;
         D_801AE6D1 = 0;
         D_801AE6D2 = 0;
@@ -3895,7 +3895,7 @@ void func_8017CE90(void *a0)
             ((Unkstruct_8017CE90_5 *)s1)->unk18.s = 0x80;
             ((Unkstruct_8011D030 *)a0)->unk14.val = 0x80;
         } else {
-            *s2 = D_8018BCA0[((Unkstruct_8011D030 *)a0)->unk2C.val];
+            *s2 = D_8018BCA0[((Unkstruct_8011D030 *)a0)->unk2C.val.s];
             ((Unkstruct_8011D030 *)a0)->unk14.val = 0x20;
         }
 
@@ -6067,7 +6067,7 @@ void func_801807D0(void *a0)
     obj = ((Unkstruct_8011D030 *)p)->unk34;
     r = rand();
     ((Unkstruct_8011D030 *)p)->unk6.u = ((Unkstruct_80126B58 *)obj)->unk6.u + ((r & 0x3F) - 0x20);
-    if (((Unkstruct_8011D030 *)p)->unk2C.val != 0) {
+    if (((Unkstruct_8011D030 *)p)->unk2C.val.s != 0) {
         t = ((Unkstruct_80126B58 *)obj)->unkA.u;
         ((Unkstruct_8011D030 *)p)->unk14.i.hi.s = 0x20;
         ((Unkstruct_8011D030 *)p)->unk8.i.hi.u = t - 0x140;
@@ -6114,7 +6114,7 @@ void func_801808E0(void *a0)
     s32 p;
 
     p = (s32)a0;
-    if (((Unkstruct_801808E0 *)p)->unk2C.val != 0) {
+    if (((Unkstruct_801808E0 *)p)->unk2C.val.s != 0) {
         prim.v[0].vy = ((Unkstruct_801808E0 *)p)->unk8.i.hi.u - 0x20;
         prim.v[1].vy = ((Unkstruct_801808E0 *)p)->unk8.i.hi.u + 0x20;
     } else {

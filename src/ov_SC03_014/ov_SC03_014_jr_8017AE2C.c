@@ -3478,8 +3478,8 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017C290 *c, SVECTOR_8017C290 *d,
     r0_00 = &D_801EA8C0[0];
     if (((Unkstruct_8011D030 *)a)->unk10.i.hi.s == 0) {
         D_801EA8F0 = 0x50000000;
-        D_801EA8E0 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val];
-        D_801EA8E4 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val];
+        D_801EA8E0 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val.s];
+        D_801EA8E4 = D_8018EF70[((Unkstruct_8011D030 *)a)->unk2C.val.s];
         D_801EA8E8 = 0;
         D_801EA8E9 = 0;
         D_801EA8EA = 0;
@@ -3924,7 +3924,7 @@ void func_8017CE90(void *a0)
             ((Unkstruct_800B5BD8 *)s1)->unk18.s = 0x80;
             ((Unkstruct_8017CE90_3 *)a0)->unk14.val = 0x80;
         } else {
-            *s2 = D_8018EF84[((Unkstruct_8017CE90_3 *)a0)->unk2C.val];
+            *s2 = D_8018EF84[((Unkstruct_8017CE90_3 *)a0)->unk2C.val.s];
             ((Unkstruct_8017CE90_3 *)a0)->unk14.val = 0x20;
         }
 
