@@ -1573,8 +1573,8 @@ void func_801846B4(int param_1)
         t = (s32)buf;
     }
 
-    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unk6 + t;
-    ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unkE + (t >> 16);
+    ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk4.i.hi.u + t;
+    ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkC.i.hi.u + (t >> 16);
     v = guess_TurnStepToTarget(param_1, 4);
 
     p = (unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12);

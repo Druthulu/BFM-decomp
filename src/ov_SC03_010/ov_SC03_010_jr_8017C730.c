@@ -3438,11 +3438,11 @@ L474:
         if (obj != 0) {
             func_80129374(obj, a0);
             if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk18 = 0x2C00;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk1A = 0x2000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk18.u = 0x2C00;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk1A.u = 0x2000;
             } else {
-                ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk18 = 0x4000;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(obj + 0x20))->unk1A = 0x4000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk18.u = 0x4000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk1A.u = 0x4000;
             }
         }
     }

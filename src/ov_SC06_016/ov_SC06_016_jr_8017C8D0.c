@@ -3909,9 +3909,9 @@ void func_8017F3B8(s32 a0)
         s32 t;
 
         if (h < 0x1000) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = h + 0x400;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A + 0x400;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk18.u = h + 0x400;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u =
+                ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u + 0x400;
         }
         guess_AddVelocityToPos((Unkstruct_801202A0 *)a0);
         t = ((Unkstruct_8011DB30 *)a0)->unk1C;
@@ -4929,8 +4929,8 @@ void func_80180E24(void *a0)
 
     if (v0 == 0) {
         s0 = (u8 *)s1 + 0x24;                  /* +0x24: 4-word scratch */
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s1 + 0x20))->unk20 = (s32)&D_801890BC;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s1 + 0x20))->unk27 = 0x43;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk20.s = (s32)&D_801890BC;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk27 = 0x43;
 
         /* one shared base for the 0x1A/0x18 pair (§193-E: naming it collapses
          * the two CSE intervals into the single `lw $v1,0x20($s1)` reload) */
@@ -4975,7 +4975,7 @@ void func_80180E24(void *a0)
     ((Unkstruct_8011DB30 *)s1)->unkA.u = out[1];
     ((Unkstruct_8011DB30 *)s1)->unkE.u = out[2];
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s1 + 0x20))->unk2C = 0xC040;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->unk2C.u = 0xC040;
 }
 
 
@@ -5092,9 +5092,9 @@ void func_801810A4(s32 a0) {
          * Fencing the whole `*(u16*)(a0+2) += 1` statement drags the `sh` up with it and loses. */
         u16 st = CAST_SIGN(u16, a0, 2) + 1;      /* shares the switch's own lhu via cse */
         ((Unkstruct_8011DB30 *)a0)->unk2.s = st;              /* obj->state */
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk20 = (s32) D_801890F0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x44;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xC00;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk20.s = (s32) D_801890F0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x44;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0xC00;
         guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
         guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
         ((Unkstruct_8011DB30 *)a0)->unk1C = 0;
@@ -5125,12 +5125,12 @@ void func_801810A4(s32 a0) {
              * own second `lw $v1,0x20($s1)` -- the target shows exactly two here (§193-E).  The
              * fence stops sched1 lifting that second load above the sh, where it would overlap the
              * first load's pseudo. */
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0x600;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0x600;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             p = ((Unkstruct_8011DB30 *)a0)->unk20;
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xC00;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0xC00;
             /* Two fences: the first keeps the whole obj->0x1C multiply above `p`'s load (it must
              * not overlap the obj->0x1C pseudo, which also wants $v1), the second keeps the
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
@@ -5143,14 +5143,14 @@ void func_801810A4(s32 a0) {
             /* This arm writes its own 0x18 store and skips the shared tail; in the target it lands
              * on the opposite register pair (`sh $v1,0x18($v0)`), which is precisely why
              * cross_jump could not fold it into .L8018121C. */
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk1A = 0xC00;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk18 = 0xC00;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0xC00;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk18.u = 0xC00;
             goto call;
         }
         ((Unkstruct_800B5BD8 *)p)->unk18.u = v;             /* the .L8018121C merge block */
     call:
         func_80129350(a0, obj);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C = 0xC040;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk2C.u = 0xC040;
         break;
     }
 }

@@ -3132,7 +3132,7 @@ s32 func_8016BBE0(s32 param_1) {
     int temp;
 
     iVar1 = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_8011D030 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         guess_UpdateAttachedPos(((int)param_1));

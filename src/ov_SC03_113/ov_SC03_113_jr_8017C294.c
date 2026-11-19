@@ -4272,7 +4272,7 @@ void *a0;
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = u - 0x18;
     *(s32 *)(p + 4) |= 0x8040;
 
-    if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE != 0) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s != 0) {
         if ((guess_TestGameFlag(0xBA) & 0xFF) == 0) {
             func_8012AD44((s32 *)a0, 2);
             return;
@@ -4294,14 +4294,14 @@ void func_8017FAD4(void *a0)
     s32 sum;
     s16 diff;
 
-    t = D_80187164[((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk70];
+    t = D_80187164[((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk70.s];
     sum = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + t;
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = sum;
-    diff = sum - ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkA;
+    diff = sum - ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk8.i.hi.u;
     if (diff < 0) {
         diff = -diff;
     }
-    if (diff >= D_80187154[((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk70]) {
+    if (diff >= D_80187154[((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk70.s]) {
         guess_FreeActor(a0);
     } else if (((Unkstruct_801202A0 *)a0)->unk74 != 0) {
         func_8012E014((s32)a0);

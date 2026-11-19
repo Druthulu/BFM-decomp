@@ -4160,10 +4160,10 @@ void func_80180C38(void *a0)
             d = -r;
         }
 
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk10 + d;
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk12 + d;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk10.u =
+            ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk10.u + d;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk12.u =
+            ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk12.u + d;
         *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) =
             *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) + d;
         return;

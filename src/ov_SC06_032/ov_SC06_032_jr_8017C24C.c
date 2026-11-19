@@ -4809,7 +4809,7 @@ void func_8018029C(s32 p) {
             ((Unkstruct_8011DB30 *)e)->unk6.u = out[0];
             ((Unkstruct_8011DB30 *)e)->unkA.u = out[1];
             ((Unkstruct_8011DB30 *)e)->unkE.u = out[2];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc006;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc006;
         }
         g28[0] = 0x40;
         g28[1] = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk12;
@@ -4824,7 +4824,7 @@ void func_8018029C(s32 p) {
                 g38[2] = (rand() % 5 + 4) << 16;
                 ((void (*)(void *, void *, s32))ApplyMatrixLV)(buf58, g38, e + 0x10);
                 ((Unkstruct_8011DB30 *)e)->unk34.i.lo = ((rand() % 2 + 2) << 12) | 1;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc006;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc006;
                 func_80184124(p, D_801A661C + i * 8, out, 0xb);
                 ((Unkstruct_8011DB30 *)e)->unk6.u = out[0];
                 ((Unkstruct_8011DB30 *)e)->unkA.u = out[1];

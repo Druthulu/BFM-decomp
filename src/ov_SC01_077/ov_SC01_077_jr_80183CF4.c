@@ -3816,7 +3816,7 @@ void func_80184D50(s32 *self)
     *(Blk8 *)(((Unkstruct_801202A0 *)self)->unk20.p + 0x10) =
         *(Blk8 *)(((Unkstruct_801202A0 *)tgt)->unk20.p + 0x10);
 
-    if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x64))->unk90 != (s32)D_80197514) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)self + 0x64))->unk90 != (s32)D_80197514) {
         ((Unkstruct_800B5CB8 *)*(s32 *)((s32)self + 0x20))->unk12 =
             CAST_SIGN(u16, (s32)self, 0xFE);
         CAST_WIDTH(s32, (s32)self, 0x4) =

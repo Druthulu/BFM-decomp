@@ -3759,10 +3759,10 @@ void func_80180214(void *a0)
     extern u16 D_801A4C1C[];
     s32 v0;
     s32 a1;
-    v0 = ((Unkstruct_800B5CB8 *)a0)->unk70;
-    ((Unkstruct_800B5CB8 *)a0)->unkC1 = 0;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk70.s;
+    ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     CAST_WIDTH(s16, (s32)a0, 0x5E) = 0;
-    ((Unkstruct_800B5CB8 *)a0)->unk5C = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
     guess_SetGameFlag(D_801A4C1C[v0], 1);
     a1 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     if (a1 != 0) {
@@ -4569,7 +4569,7 @@ void func_801812FC(s32 arg)
     a0 = arg;
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 1:
-        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_801202A0 *)a0)->unk70.s) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s == ((Unkstruct_801202A0 *)a0)->unk70.s) {
             s32 *base = (s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p);
             s32 r = *(base + 1) & 0x7FFFFFFF;
             *(base + 1) = r;
@@ -4583,7 +4583,7 @@ void func_801812FC(s32 arg)
         }
         /* fall through */
     default:
-        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_801202A0 *)a0)->unk70.s) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s == ((Unkstruct_801202A0 *)a0)->unk70.s) {
             func_80180BAC((void *)a0);
         }
         break;
@@ -4901,7 +4901,7 @@ void func_80181A40(void *a0)
 {
     D_801A4E14[CAST_SIGN(u16, (s32)a0, 2)]();
     if (((Unkstruct_801202A0 *)a0)->unk64 != 0 &&
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == 0) {
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s == 0) {
         guess_FreeActor(a0);
     } else if (((Unkstruct_801202A0 *)a0)->unk74 != 0) {
         func_8012E014((s32)a0);

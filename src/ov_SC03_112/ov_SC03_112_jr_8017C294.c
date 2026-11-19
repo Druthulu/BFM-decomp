@@ -3770,7 +3770,7 @@ void func_8017EE48(s32 a0)
     if (CAST_SIGN(s16, a0, 0xA) < -0xFF)
         goto neg;
 
-    if (*(s16 *)(D_80189674 + ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk70) == 0)
+    if (*(s16 *)(D_80189674 + ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk70.s) == 0)
         return;
 
     lim = 0x100;
@@ -3779,7 +3779,7 @@ void func_8017EE48(s32 a0)
 
     ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kcls_9dcd4c27736a.unkE0 = 0;
 
-    if (*(s16 *)(D_80189674 + ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk70) > 0) {
+    if (*(s16 *)(D_80189674 + ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk70.s) > 0) {
         if (*(s16 *)(a0 + 0xDE) > -lim)
             *(s16 *)(a0 + 0xDE) -= 8;
     } else {

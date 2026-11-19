@@ -4354,7 +4354,7 @@ void func_8017F4F0(s32 a0) {
         *(u16 *)(s0 + 0x2C) = 0xC010;
         *(u16 *)(s0 + 0xC) = t;
         v = CAST_SIGN(u16, a0, 0x2) + 1;
-        u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk36;
+        u = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk36.u;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x180;
         ((Unkstruct_801202A0 *)a0)->unk2.s = v;
         ((Unkstruct_801202A0 *)a0)->unk10A.s = u;

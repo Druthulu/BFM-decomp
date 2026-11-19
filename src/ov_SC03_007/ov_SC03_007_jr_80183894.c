@@ -5541,7 +5541,7 @@ void func_80186CF4(s32 a0) {
         *(u16 *)(s0 + 0x2C) = 0xC010;
         *(u16 *)(s0 + 0xC) = t;
         v = CAST_SIGN(u16, a0, 0x2) + 1;
-        u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk36;
+        u = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk36.u;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x180;
         ((Unkstruct_801202A0 *)a0)->unk2.s = v;
         ((Unkstruct_801202A0 *)a0)->unk10A.s = u;
@@ -5601,7 +5601,7 @@ void func_80186DF0(s32 arg0) {
                 t3 = rand();
                 t4 = rand();
                 ((Unkstruct_8011DB30 *)q)->unk34.i.lo = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0x20))->unk2C.u = 0xC010;
                 *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20 + 0x4) |= 0x40000000;
             }
         }
@@ -5669,7 +5669,7 @@ void func_80187080(s32 arg0) {
                     t2 = rand();
                     ((Unkstruct_8011DB30 *)q)->unk14.val = -0x40000 - ((t2 % 4) << 16);
                     ((Unkstruct_8011DB30 *)q)->unk34.i.lo = rand() % 0x1800 + 0x2000;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(q + 0x20))->unk2C = 0xC010;
+                    ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0x20))->unk2C.u = 0xC010;
                 }
             }
             return;

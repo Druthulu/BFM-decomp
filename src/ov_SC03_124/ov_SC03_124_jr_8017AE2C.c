@@ -5136,7 +5136,7 @@ void func_8017F63C(void *s1) {
     s32 cnt;
 
     if (CAST_SIGN(u16, (s32)s1, 2) == 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s1 + 0x20))->unk20 = (s32)&D_8018FBAC;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((s32)s1 + 0x20))->unk20.s = (s32)&D_8018FBAC;
         do { t = ((Unkstruct_8011DB30 *)s1)->unk20; } while (0);
         base = (s32)s1 + 0x24;
         CAST_WIDTH(s32, t, 4) |= 0x50000000;

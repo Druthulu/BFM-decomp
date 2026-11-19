@@ -5529,7 +5529,7 @@ void func_801814B0(u16 *param_1, s32 param_2)
                 ((Unkstruct_8011DB30 *)ent)->unkE.u = param_1[2] + (t >> 16);
                 ((Unkstruct_8011DB30 *)ent)->unk34.i.lo =
                     (((rand() % 12287) + 0x5000) & 0x7FF0) | (rand() & 1);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC010;
                 sub = func_8012913C(0x22);
                 if (sub != 0) {
                     ((Unkstruct_8011DB30 *)sub)->unk6.u = ((Unkstruct_8011DB30 *)ent)->unk6.u;
@@ -5538,8 +5538,8 @@ void func_801814B0(u16 *param_1, s32 param_2)
                     ((Unkstruct_8011DB30 *)sub)->unk14.val = -0x80000 - ((rand() % 9) << 16);
                     ((Unkstruct_8011DB30 *)sub)->unk34.i.lo =
                         (((rand() % 4) << 12) + 0x2000) | (rand() & 1);
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(sub + 0x20))->unk2C =
-                        ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C;
+                    ((Unkstruct_800B5BD8 *)*(s32 *)(sub + 0x20))->unk2C.u =
+                        ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u;
                     *(s32 *)(((Unkstruct_8011DB30 *)sub)->unk20 + 0x4) |= 0x40000000;
                 }
             }

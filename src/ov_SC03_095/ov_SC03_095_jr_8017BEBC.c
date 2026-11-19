@@ -3619,10 +3619,10 @@ void func_8017E43C(s32 a0) {
         guess_InitModelObjectKind3(((Unkstruct_801202A0 *)a0)->unk20.p, (s32)D_80192B80);
         guess_StartActorSequence(a0, (s32)D_80192C40);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 9;
-        ((Unkstruct_801202A0 *)a0)->unkFE.s = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk36;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk36.u;
         *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x80000000;
-        ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_801808D0.unk100 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkFE * 6;
-        sVar1 = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk70;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_801808D0.unk100 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unkFE.s * 6;
+        sVar1 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk70.s;
         if (sVar1 == 5) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() % 0x60) - 0x30;
             *(s16 *)(a0 + 0x16) = (rand() % 0x60) - 0x60;
@@ -3687,11 +3687,11 @@ low:
     ((Unkstruct_801202A0 *)a0)->extD.kSC03_095_8017EE2C.unk100 = cnt;
     if ((s16)cnt < 9) {
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_095_8017EE2C.unk100 = 0x18;
-        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk70 == 5) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk70.s == 5) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = rand() % 56 - 0x1C;
             *(s16 *)((s32)a0 + 0x16) = rand() % 96 - 0x60;
             ((Unkstruct_801202A0 *)a0)->unk18.i.hi = rand() % 56 - 0x2C;
-        } else if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unk70 == 6) {
+        } else if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk70.s == 6) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = rand() % 56 - 0x1C;
             *(s16 *)((s32)a0 + 0x16) = rand() % 32 - 0x20;
             ((Unkstruct_801202A0 *)a0)->unk18.i.hi = rand() % 128 - 0x60;

@@ -3240,7 +3240,7 @@ void func_801898CC(s32 param_1)
             d = rand();
             e = rand();
             ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = (((d % 5) << 12) + 0x3000) | (e & 1);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC008;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC008;
         }
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1) != 0) {
             guess_ZeroMemory((void *)sub, 0x38);

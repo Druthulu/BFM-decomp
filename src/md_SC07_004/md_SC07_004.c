@@ -3375,7 +3375,7 @@ void func_801A4FDC(void)
     vec0.vy = -0x200;
     p = (s32)func_801290DC(0x22, (u8 *)&vec0);
     if (p != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk2C.u = 0xC020;
         vec1.a = 0;
         vec1.b = -0x40000;
         vec1.c = -(((rand() & 0xF) + 0x1C) << 16);
@@ -3411,7 +3411,7 @@ void func_801A5094(void)
 
     p = (s32)func_801290DC(0x2E, (u8 *)&vec0);
     if (p != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC020;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk2C.u = 0xC020;
         vec1.a = 0;
         vec1.b = 0;
         r = rand();
@@ -6704,7 +6704,7 @@ void func_801AA160(s32 arg0, s32 arg1)
         ((Unkstruct_8011DB30 *)s0)->unk6.u += vec[0];
         ((Unkstruct_8011DB30 *)s0)->unkA.u += vec[1];
         ((Unkstruct_8011DB30 *)s0)->unkE.u += vec[2];
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC020;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk2C.u = 0xC020;
         ApplyRotMatrixLV((void *)(D_801B07A0 + (s1 << 4)), (void *)(s0 + 0x10));
         ((Unkstruct_8011DB30 *)s0)->unk34.i.lo = 0x3400;
     }
@@ -7009,8 +7009,8 @@ void func_801AA91C(s32 param_1, s32 param_2, s32 param_3)
 
     if (s0 != 0) {
         ((Unkstruct_8011DB30 *)s0)->unkA.u += *(u16 *)(s1 + 0x52);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk10 = s2;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = s3;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk10.u = s2;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk12.u = s3;
         *(u16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x14) = 0;
         CAST_WIDTH(u16, s0, 0x30) = 5;
         *(u16 *)(s0 + 0x32) = 0;
@@ -9304,8 +9304,8 @@ void func_801ADBB0(s32 x, s32 y, s32 z)
 
     if (work != NULL) {
         *(u16 *)(work + 0x2C) = dup;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(work + 0x20))->unk10 = tx;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(work + 0x20))->unk12 = ty;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(work + 0x20))->unk10.u = tx;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(work + 0x20))->unk12.u = ty;
         CAST_WIDTH(u16, *(s32 *)(work + 0x20), 0x14) = (s16)z * 0x300;
     }
 }

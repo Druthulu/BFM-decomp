@@ -3383,8 +3383,8 @@ have_flag:
         p = func_80132EF4(s0, 0x22);
         if (p != 0) {
             func_80129374(p, s0);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk18 = D_80184D1C[*(s16 *)(s0 + 0x100) * 2];
-            ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk1A = D_80184D1E[*(s16 *)(s0 + 0x100) * 2];
+            ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk18.u = D_80184D1C[*(s16 *)(s0 + 0x100) * 2];
+            ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk1A.u = D_80184D1E[*(s16 *)(s0 + 0x100) * 2];
         }
     }
 

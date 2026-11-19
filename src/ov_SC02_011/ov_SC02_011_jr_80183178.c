@@ -2543,8 +2543,8 @@ void func_80186868(s32 a0)
             t = func_80132EF4(self, 0x22);
             if (t != 0) {
                 func_80129374(t, self);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(t + 0x20))->unk18 = 0x5000;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(t + 0x20))->unk1A = 0x5000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(t + 0x20))->unk18.u = 0x5000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(t + 0x20))->unk1A.u = 0x5000;
             }
         }
         if ((*(s32 *)(self + 0x1C) & 3) == 0) {

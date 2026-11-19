@@ -6120,7 +6120,7 @@ void func_80182E48(int param_1)
     idx = ((short)CAST_SIGN(u16, param_1, 0x70) % 3) * 0x10000 >> 0xf;
     sVar1 = *(u16 *)(D_8018A454 + idx);
     *(short *)(param_1 + 0xe6) = sVar1;
-    CAST_WIDTH(short, param_1, 0xe4) = sVar1 + ((Unkstruct_800B5CB8 *)*(int *)(param_1 + 0x64))->unk70 * 0x300;
+    CAST_WIDTH(short, param_1, 0xe4) = sVar1 + ((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk70.s * 0x300;
     CAST_WIDTH(u16, param_1, 0xe8) = *(u16 *)(D_8018A45C + idx);
     func_8012AD50(param_1);
   }

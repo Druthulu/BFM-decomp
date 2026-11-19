@@ -3155,7 +3155,7 @@ void func_80187434(void *a0)
         *(s16 *)((s32)s0 + 0x06) = out[0];
         *(s16 *)((s32)s0 + 0x0A) = out[1];
         *(s16 *)((s32)s0 + 0x0E) = out[2];
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x20))->unk2C = 0xC020;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((s32)s0 + 0x20))->unk2C.u = 0xC020;
     }
 }
 
@@ -3514,8 +3514,8 @@ void func_80187A30(void *arg0, s32 yy, s32 zz)
                         *(u16 *)(p + 0xA) = vt[0].vy;
                         *(s16 *)(p + 0xE) = (vt[0].vz + vt[1].vz) >> 1;
                         *(s32 *)(p + 0x14) = 0x100000;
-                        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk18 = ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk1A = ((rand() % 2) + 2) << 12;
-                        ((Unkstruct_800B5CB8 *)*(s32 *)(p + 0x20))->unk2C = 0xC010;
+                        ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk1A.u = ((rand() % 2) + 2) << 12;
+                        ((Unkstruct_800B5BD8 *)*(s32 *)(p + 0x20))->unk2C.u = 0xC010;
                         *(s32 *)(p + 0x1C) = rand() % 5;
                     }
                 }
@@ -3534,7 +3534,7 @@ out:
             w = func_80132EF4((s32)arg0, 0x4D);
             if (w != 0) {
                 *(s32 *)(w + 0x14) = -0x80000 - ((rand() % 5) << 16);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(w + 0x20))->unk18 = ((Unkstruct_800B5CB8 *)*(s32 *)(w + 0x20))->unk1A = ((rand() % 4) + 2) << 12;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(w + 0x20))->unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(w + 0x20))->unk1A.u = ((rand() % 4) + 2) << 12;
                 t = rand() % 30;
                 *(s16 *)(w + 0x6) = ((rand() & 1) == 0) ? -t : t;
                 *(s16 *)(w + 0xA) = -188;

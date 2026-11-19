@@ -4771,7 +4771,7 @@ void func_80180638(s32 a0) {
             if (((Unkstruct_8011DB30 *)a0)->unk1C < 0x23) {
                 ((Unkstruct_8011DB30 *)a0)->unk14.val += 0x10000;
                 if (CAST_WIDTH(s32, a0, 0x2C) != 0) {
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x62;
+                    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->unk27 = 0x62;
                 }
             }
             if (--((Unkstruct_8011DB30 *)a0)->unk1C != 0) {

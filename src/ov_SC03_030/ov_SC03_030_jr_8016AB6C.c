@@ -2374,7 +2374,7 @@ s32 func_8016BBE0(s32 param_1) {
     int temp;
 
     iVar1 = ((s32 (*)(void))guess_AllocSpriteObject)();
-    ((Unkstruct_800B5CB8 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_8011D030 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32))func_8016BF34)(((int)param_1));
         guess_UpdateAttachedPos(((int)param_1));
@@ -2412,8 +2412,8 @@ void func_8016BCC0(void *arg0) {
 
     temp_s0 = M2C_FIELD(arg0, void **, 0x20);
     guess_UpdateAttachedPos((s32)arg0);
-    temp_a2 = ((Unkstruct_800B5CB8 *)arg0)->unk10 + 0x60;
-    ((Unkstruct_800B5CB8 *)arg0)->unk10 = temp_a2;
+    temp_a2 = ((Unkstruct_8011D030 *)arg0)->unk10 + 0x60;
+    ((Unkstruct_8011D030 *)arg0)->unk10 = temp_a2;
     temp_v0 = ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u + temp_a2;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk1A.u = temp_v0;
     ((Unkstruct_800B5BD8 *)temp_s0)->unk18.u = temp_v0;

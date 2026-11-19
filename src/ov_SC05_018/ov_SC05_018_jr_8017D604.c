@@ -4552,7 +4552,7 @@ void func_801809B8(s32 arg0, s32 arg1, s32 arg2)
         return;
     }
     if (((Unkstruct_8011DB30 *)res)->unk20 != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(res + 0x20))->unk2C = 0xC010;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(res + 0x20))->unk2C.u = 0xC010;
     }
     CAST_WIDTH(s32, res, 0x10) = (rand() & 0x7FFF) * 8 - 0x20000;
     ((Unkstruct_8011DB30 *)res)->unk14.val = (rand() & 0x7FFF) * 4 - 0x60000;

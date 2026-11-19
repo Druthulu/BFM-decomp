@@ -3919,7 +3919,7 @@ void func_80189000(s32 a0, s32 a1) {
         e = func_80132EF4(a0, 0x23);
         if (e != 0) {
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = rand() % 0x4000 + 0x1000;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc008;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc008;
 
             func_8012B0B4(p48, rand() % 0x1000, rand() % 0x58);
 
@@ -3951,7 +3951,7 @@ void func_80189000(s32 a0, s32 a1) {
     e = func_80132EF4(a0, 0x23);
     if (e != 0) {
         ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7ff1;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc004;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc004;
         ((Unkstruct_8011DB30 *)e)->unk14.val = 0xfffb0000;
     }
 
@@ -4068,7 +4068,7 @@ s32 func_8018944C(s32 param_1, s32 a1, s32 a2)
         e = func_80132EF4(param_1, 0x22);
         if (e != 0) {
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7FFF;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xC006;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xC006;
             ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
         }
         return 1;
@@ -6265,9 +6265,9 @@ void func_8018CB88(void *a0) {
 
     ((Unkstruct_8011DB30 *)a0)->unk14.val += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk8 = ((Unkstruct_8011DB30 *)a0)->unk6.u;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unkA = ((Unkstruct_8011DB30 *)a0)->unkA.u;
-    ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unkC = ((Unkstruct_8011DB30 *)a0)->unkE.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk8.u = ((Unkstruct_8011DB30 *)a0)->unk6.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkA.u = ((Unkstruct_8011DB30 *)a0)->unkA.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unkC.u = ((Unkstruct_8011DB30 *)a0)->unkE.u;
     func_8018CD04((void *)((Unkstruct_8011DB30 *)a0)->unk20);
 }
 

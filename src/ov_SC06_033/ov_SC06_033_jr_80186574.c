@@ -3782,7 +3782,7 @@ void func_80187A88(s32 a0, s32 a1) {
         e = func_80132EF4(a0, 0x23);
         if (e != 0) {
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = rand() % 0x4000 + 0x1000;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc008;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc008;
 
             func_8012B0B4(p48, rand() % 0x1000, rand() % 0x58);
 
@@ -3814,7 +3814,7 @@ void func_80187A88(s32 a0, s32 a1) {
     e = func_80132EF4(a0, 0x23);
     if (e != 0) {
         ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7ff1;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xc004;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc004;
         ((Unkstruct_8011DB30 *)e)->unk14.val = 0xfffb0000;
     }
 
@@ -3932,7 +3932,7 @@ s32 func_80187ED4(s32 a0, s32 a1, s32 a2)
         e = func_80132EF4(a0, 0x22);
         if (e != 0) {
             ((Unkstruct_8011DB30 *)e)->unk34.i.lo = 0x7FFF;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xC006;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xC006;
             ((Unkstruct_8011DB30 *)e)->unk14.val = 0xFFFE0000;
         }
         return 1;
@@ -4631,7 +4631,7 @@ void func_80189148(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->extD.kSC06_018_8018D40C.unk100 = (rand() & 0x7FF) - 0x400;
     }
 
-    d = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC - ((Unkstruct_801202A0 *)arg0)->unkFC.s;
+    d = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s - ((Unkstruct_801202A0 *)arg0)->unkFC.s;
     if (d > 0) {
         if (d > 8) {
             d = 8;
@@ -4687,7 +4687,7 @@ void func_80189250(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->extD.kSC06_018_8018D514.unk100 = (rand() & 0x7FF) - 0x400;
     }
 
-    d = ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC - ((Unkstruct_801202A0 *)arg0)->unkFC.s;
+    d = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s - ((Unkstruct_801202A0 *)arg0)->unkFC.s;
     if (d > 0) {
         if (d > 8) {
             d = 8;
@@ -5787,8 +5787,8 @@ void func_8018AAF4(void *arg) {
     }
 
     if (e != 0x1D) {
-        if (((Unkstruct_800B5CB8 *)p)->unkC8) func_8002A520(p);
-        if (((Unkstruct_800B5CB8 *)p)->unkC9) func_8002A790(p);
+        if (((Unkstruct_801202A0 *)p)->extF.kSC06_033_8018AAF4.unkC8) func_8002A520(p);
+        if (((Unkstruct_801202A0 *)p)->extF.kSC06_033_8018AAF4.unkC9) func_8002A790(p);
     }
 
     if (((Unkstruct_801202A0 *)p)->unk76.s < 0) {

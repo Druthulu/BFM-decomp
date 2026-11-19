@@ -3851,10 +3851,10 @@ void func_8017E65C(s32 a0) {
             /* §193-E: three CSE-live intervals -> three `lw 0x64($s0)`. The
              * third field is read BEFORE the intervening 0x2 store so the
              * reload lands in $v1 and the count stays 91. */
-            ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unk6;
-            ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkA;
+            ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk4.i.hi.u;
+            ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk8.i.hi.u;
             {
-                u16 t = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x64))->unkE;
+                u16 t = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unkC.i.hi.u;
                 ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
                 ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = t;
             }

@@ -1059,7 +1059,7 @@ void func_801A143C(s32 a0) {
 
             r = rand();
             ((Unkstruct_8011DB30 *)obj)->unk34.i.lo = (((r % 8192) + 0x5000) & ~0xF) | (rand() & 1);
-            ((Unkstruct_800B5CB8 *)((Unkstruct_8011DB30 *)obj)->unk20)->unk2C = 0xC004;
+            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)obj)->unk20)->unk2C.u = 0xC004;
 
             if (pick != i) {
                 continue;
@@ -1864,7 +1864,7 @@ void func_801A2658(s32 arg0, s32 arg1) {
             *(s32 *)(ent + 0x10) = rcos(i) * 320;
             *(s32 *)(ent + 0x18) = rsin(i) * 320;
             *(s16 *)(ent + 0x34) = 0x4000;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC002;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC002;
         }
     }
 

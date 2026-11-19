@@ -3500,7 +3500,7 @@ void func_8017E734(s32 arg0) {
                 t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
                 ((Unkstruct_8011DB30 *)ptr)->unkE.u = *(s16 *)(arg0 + 0x14) + t;
                 ((Unkstruct_8011DB30 *)ptr)->unk34.i.lo = (rand() & 0x7F0) + 0x2C00;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(ptr + 0x20))->unk2C = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(ptr + 0x20))->unk2C.u = 0xC010;
             }
             scale += 0x400;
         }
@@ -3606,7 +3606,7 @@ void func_8017EA5C(s32 a0) {
     if (CAST_WIDTH(u8, (s8 *)p3, 2) >= 8) {
         CAST_WIDTH(u8, (s8 *)p3, 2) = CAST_WIDTH(u8, (s8 *)p3, 2) - 8;
     }
-    if ((s16)((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk18 > 0x3800) {
+    if ((s16)((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk18.u > 0x3800) {
         *(u8 *)((s8 *)p3 + 3) = 0;
         func_801292C8((u8 *)a0);
     }

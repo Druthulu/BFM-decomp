@@ -5546,14 +5546,14 @@ void func_80182F3C(void *param_1)
     } else {
         ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
         ((Unkstruct_801202A0 *)s0)->unkC1.s = 0;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk76 =
+        ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk76.s =
             ((Unkstruct_801202A0 *)s0)->unk64->unk76.u - 0x28;
         func_8017C010((s32)&((Unkstruct_801202A0 *)s0)->unk64->unk76, (s32)&D_8018F924, 0x78);
         func_8016AA50(s0, 0x28);
         func_8016B3F4(s0);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk5C =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk5C & 0xFDFF;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x64))->unk2 = 0x27;
+        ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk5C.u =
+            ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk5C.u & 0xFDFF;
+        ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk2.s = 0x27;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 2;
         ((Unkstruct_801202A0 *)s0)->unk1C.s = 0xC;
         guess_RequestSound(0xB08, 0);

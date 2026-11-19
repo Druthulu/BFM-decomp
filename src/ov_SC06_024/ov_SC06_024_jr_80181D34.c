@@ -3858,7 +3858,7 @@ s32 func_80183940(s32 a0, s32 a1) {
                 x2 = x2 - 0x10;
                 ((Unkstruct_8011DB30 *)s0)->unkE.u = x2 + (rr & 0x1F);
                 ((Unkstruct_8011DB30 *)s0)->unk34.i.lo = a1;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk2C.u = 0xC010;
                 *(u32 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x4) |= 0x40000000;
             }
             return 1;

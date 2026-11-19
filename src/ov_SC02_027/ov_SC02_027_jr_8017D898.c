@@ -5789,7 +5789,7 @@ void func_801831F4(s32 arg)
     a0 = arg;
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 1:
-        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_801202A0 *)a0)->unk70.s) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s == ((Unkstruct_801202A0 *)a0)->unk70.s) {
             s32 *base = (s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p);
             s32 r = *(base + 1) & 0x7FFFFFFF;
             *(base + 1) = r;
@@ -5803,7 +5803,7 @@ void func_801831F4(s32 arg)
         }
         /* fall through */
     default:
-        if (((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x64))->unkFE == ((Unkstruct_801202A0 *)a0)->unk70.s) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkFE.s == ((Unkstruct_801202A0 *)a0)->unk70.s) {
             func_80182AA4((void *)a0);
         }
         break;

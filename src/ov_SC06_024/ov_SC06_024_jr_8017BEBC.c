@@ -3598,7 +3598,7 @@ void func_8017E1F0(s32 param_)
             ent = func_80132EF4(s1, 0x22);
             if (ent != 0) {
                 ((Unkstruct_8011DB30 *)ent)->unk34.i.lo = rand() & 1 | 0x2000;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(ent + 0x20))->unk2C = 0xC006U;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC006U;
                 frm.out[1] = frm.out[1] - 0x20;
                 ((Unkstruct_8011DB30 *)ent)->unk6.u = frm.out[0];
                 ((Unkstruct_8011DB30 *)ent)->unkA.u = frm.out[1];
@@ -3743,7 +3743,7 @@ void func_8017E61C(s32 p) {
                     r = rand();
                     v = rand();
                     ((Unkstruct_8011DB30 *)e)->unk34.i.lo = ((r % 0x6000) + 0x1000) & 0x7FF0 | v & 1;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(e + 0x20))->unk2C = 0xC010;
+                    ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xC010;
                 }
                 i++;
             } while (i < n);

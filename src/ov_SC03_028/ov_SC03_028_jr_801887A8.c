@@ -3336,7 +3336,7 @@ void func_80188D14(void *a0)
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
     ((Unkstruct_801202A0 *)s0)->unk20.p = v0;
     if (v0 == 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)s0 + 0x64))->unkFC = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)s0 + 0x64))->unkFC.s = 0;
         guess_FreeActorDuringSpawn(s0);
     } else {
         extern u8 D_801905A0;
@@ -3372,7 +3372,7 @@ void func_80188DC0(s32 param_1) {
     if (state < 0x1801) {
         guess_ClearVelocityAndSetGravity((s32)param_1);
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x64))->unkFC = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unkFC.s = 0;
     } else {
         s16 t;
 
@@ -3631,14 +3631,14 @@ void func_80189380(s32 arg0)
         guess_AllocRenderWorkRecord(D_80190780[(s16)var >> 1]);
         cmp = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
         if (cmp == 5) {
-            if (((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC == 0) {
+            if (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s == 0) {
                 a0 = guess_SpawnActorNoArg(((Unkstruct_801202A0 *)arg0)->unkFE.s, arg0);
                 if (a0 != 0) {
                     *(s32 *)(a0 + 0x64) = ((Unkstruct_801202A0 *)arg0)->unk64;
                     *(s32 *)(a0 + 4) = ((Unkstruct_801202A0 *)arg0)->unk64->unk4.val;
                     *(s32 *)(a0 + 8) = ((Unkstruct_801202A0 *)arg0)->unk64->unk8.val - 0x40000;
                     *(s32 *)(a0 + 0xC) = ((Unkstruct_801202A0 *)arg0)->unk64->unkC.val;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC = 8;
+                    ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s = 8;
                 }
             }
         }
@@ -3803,14 +3803,14 @@ void func_80189808(s32 arg0)
         guess_AllocRenderWorkRecord((s32)D_80190854[(s16)var >> 1]);
         cmp = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
         if (cmp == 5) {
-            if (((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC == 0) {
+            if (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s == 0) {
                 a0 = guess_SpawnActorNoArg(((Unkstruct_801202A0 *)arg0)->unkFE.s, arg0);
                 if (a0 != 0) {
                     *(s32 *)(a0 + 0x64) = ((Unkstruct_801202A0 *)arg0)->unk64;
                     *(s32 *)(a0 + 4) = ((Unkstruct_801202A0 *)arg0)->unk64->unk4.val;
                     *(s32 *)(a0 + 8) = ((Unkstruct_801202A0 *)arg0)->unk64->unk8.val - 0x40000;
                     *(s32 *)(a0 + 0xC) = ((Unkstruct_801202A0 *)arg0)->unk64->unkC.val;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC = 8;
+                    ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s = 8;
                 }
             }
         }
@@ -3970,14 +3970,14 @@ void func_80189C90(s32 arg0)
         guess_AllocRenderWorkRecord((s32)D_80190918[(s16)var >> 1]);
         cmp = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
         if (cmp == 5) {
-            if (((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC == 0) {
+            if (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s == 0) {
                 a0 = guess_SpawnActorNoArg(((Unkstruct_801202A0 *)arg0)->unkFE.s, arg0);
                 if (a0 != 0) {
                     *(s32 *)(a0 + 0x64) = ((Unkstruct_801202A0 *)arg0)->unk64;
                     *(s32 *)(a0 + 4) = ((Unkstruct_801202A0 *)arg0)->unk64->unk4.val;
                     *(s32 *)(a0 + 8) = ((Unkstruct_801202A0 *)arg0)->unk64->unk8.val - 0x40000;
                     *(s32 *)(a0 + 0xC) = ((Unkstruct_801202A0 *)arg0)->unk64->unkC.val;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC = 8;
+                    ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s = 8;
                 }
             }
         }
@@ -4135,14 +4135,14 @@ void func_8018A118(s32 arg0) {
         guess_AllocRenderWorkRecord((s32)D_801909DC[(s16)var >> 1]);
         cmp = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
         if (cmp == 5) {
-            if (((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC == 0) {
+            if (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s == 0) {
                 a0 = guess_SpawnActorNoArg(((Unkstruct_801202A0 *)arg0)->unkFE.s, arg0);
                 if (a0 != 0) {
                     *(s32 *)(a0 + 0x64) = ((Unkstruct_801202A0 *)arg0)->unk64;
                     *(s32 *)(a0 + 4) = ((Unkstruct_801202A0 *)arg0)->unk64->unk4.val;
                     *(s32 *)(a0 + 8) = ((Unkstruct_801202A0 *)arg0)->unk64->unk8.val - 0x40000;
                     *(s32 *)(a0 + 0xC) = ((Unkstruct_801202A0 *)arg0)->unk64->unkC.val;
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(arg0 + 0x64))->unkFC = 8;
+                    ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unkFC.s = 8;
                 }
             }
         }
