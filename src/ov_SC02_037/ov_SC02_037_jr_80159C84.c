@@ -2308,7 +2308,7 @@ void func_80159C84(u8 *p) {
     }
 after_b4c:
 
-    if (((Unkstruct_80126B58 *)p)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)p)->unkB8.u & 0x8000) {
         if ((((Unkstruct_80126B58 *)p)->unk44.u & 0x200) == 0) {
             if (guess_GetPlayerControlScript() != 0) {
                 ((Unkstruct_80126B58 *)p)->unk234 = 0;

@@ -3261,8 +3261,8 @@ extern s32 func_8017EC64(s32 arg0);
 
 void func_8017EA88(u8 *a0) {
     if (func_8017EC64(a0) == 0x12C) {
-        if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
-            ((Unkstruct_80126B58 *)a0)->unkB8 = ((Unkstruct_80126B58 *)a0)->unkBA;
+        if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
+            ((Unkstruct_80126B58 *)a0)->unkB8.u = ((Unkstruct_80126B58 *)a0)->unkBA;
             func_80171990(a0);
         }
     }
@@ -3282,11 +3282,11 @@ void func_8017EADC(void *a0) {
         return;
     }
     ((void (*)(void))func_8017EC64)();
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
             guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
             ((Unkstruct_80126B58 *)a0)->unk198 = guess_OpenTextWindow(&D_801830D8);
-            ((Unkstruct_80126B58 *)a0)->unkB8 = ((Unkstruct_80126B58 *)a0)->unkBA;
+            ((Unkstruct_80126B58 *)a0)->unkB8.u = ((Unkstruct_80126B58 *)a0)->unkBA;
             func_80171990(a0);
         }
     }
@@ -3304,11 +3304,11 @@ void func_8017EB6C(void *a0) {
     if (D_8018FB78 != 0) {
         return;
     }
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
             guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
             ((Unkstruct_80126B58 *)a0)->unk198 = guess_OpenTextWindow((s32)D_8018310C);
-            ((Unkstruct_80126B58 *)a0)->unkB8 = ((Unkstruct_80126B58 *)a0)->unkBA;
+            ((Unkstruct_80126B58 *)a0)->unkB8.u = ((Unkstruct_80126B58 *)a0)->unkBA;
             func_80171990(a0);
         }
     }
@@ -3322,7 +3322,7 @@ extern void func_80171928(void *a0);
 
 void func_8017EBF4(void *a0) {
     if (D_8018FB78 == 0) {
-        if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+        if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
             if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
                 guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
                 ((Unkstruct_80126B58 *)a0)->unk198 = 0;

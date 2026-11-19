@@ -5134,8 +5134,8 @@ void func_80187FCC(s32 arg0)
 
     if (((Unkstruct_80126B58 *)s0)->unk234 == 0) {
         if (((Unkstruct_80126B58 *)s0)->unk34 >= 0) {
-            if ((((Unkstruct_80126B58 *)s0)->unkB8 & 0x8000) != 0) {
-                ((Unkstruct_80126B58 *)s0)->unkB8 = ((Unkstruct_80126B58 *)s0)->unkBA;
+            if ((((Unkstruct_80126B58 *)s0)->unkB8.u & 0x8000) != 0) {
+                ((Unkstruct_80126B58 *)s0)->unkB8.u = ((Unkstruct_80126B58 *)s0)->unkBA;
             }
         }
     }
@@ -5388,7 +5388,7 @@ extern void func_80165718(s32 a0);
 void func_80188680(s32 *arg0)
 {
     func_80149020(arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u == 0x8000) {
         func_801886F4(arg0);
         func_80159B3C(arg0);
         if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D5880) {

@@ -3546,9 +3546,9 @@ void func_8017DF50(void *arg0) {
     } else {
         ((void (*)(s32 *))func_8017E230)(arg0);
         if (((Unkstruct_80126B58 *)arg0)->unk20C == 0) {
-            if ((((Unkstruct_80126B58 *)arg0)->unkB8 & 0x8000) != 0) {
+            if ((((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x8000) != 0) {
                 ((Unkstruct_80126B58 *)arg0)->unk20C = 1;
-                ((Unkstruct_80126B58 *)arg0)->unkB8 = ((Unkstruct_80126B58 *)arg0)->unkBA;
+                ((Unkstruct_80126B58 *)arg0)->unkB8.u = ((Unkstruct_80126B58 *)arg0)->unkBA;
             }
         }
     }
@@ -3560,7 +3560,7 @@ extern s32 func_8017E05C(void *a0);
 
 void func_8017E008(void *a0) {
     if (((s32 (*)(void))func_8017E05C)() == 0) {
-        if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+        if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
             func_80171A34((s32 *)a0, 1);
         }
     }

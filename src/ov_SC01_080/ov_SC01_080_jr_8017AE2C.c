@@ -4927,7 +4927,7 @@ void func_8017EFDC(int param_1) {
         }
         break;
     case 3:
-        if (((((Unkstruct_80126B58 *)param_1)->unkB8 & 0x8000) != 0) && (((Unkstruct_80126B58 *)param_1)->unk20E == 0)) {
+        if (((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) != 0) && (((Unkstruct_80126B58 *)param_1)->unk20E == 0)) {
             ((Unkstruct_80126B58 *)param_1)->unk20E = 1;
             guess_SetAnimScript((s32 *)param_1, (s32)&D_801895CC);
         }
@@ -4938,7 +4938,7 @@ void func_8017EFDC(int param_1) {
         break;
     case 1:
     case 4:
-        if ((((Unkstruct_80126B58 *)param_1)->unkB8 & 0x8000) != 0) {
+        if ((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) != 0) {
             guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5A34);
             ((Unkstruct_80126B58 *)param_1)->unk20C = CAST_SIGN(u16, param_1, 0x20C) + 1;
         }

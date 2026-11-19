@@ -137,7 +137,7 @@ extern void guess_NextStep(void *a0);
 void func_800CB108(s32 a0) {
     if (KR_AS(s32, func_80161208)()) {
         func_80165A20(a0);
-    } else if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
+    } else if (((Unkstruct_80126B58 *)a0)->unkB8.u == 0x8000) {
         guess_SetAnim(a0, 0x27);
         guess_SetTexAnim(a0, 0x1F);
         guess_SpawnObject(0xD, a0, 0, -0x40, 0, 0, 0, 0);

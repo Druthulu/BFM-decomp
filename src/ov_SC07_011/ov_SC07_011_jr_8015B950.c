@@ -2245,7 +2245,7 @@ s32 func_8015B950(s32 arg0)
         }
         return;
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u == 0x8000) {
         D_80180D1C[((Unkstruct_80126B58 *)arg0)->unk0]((void *)arg0);
         ((void (*)(s32, s32))guess_SetState)(arg0, 0);
         ((void (*)(s32))func_80159B70)(arg0);

@@ -9,7 +9,7 @@
         q = ((Unkstruct_80126B58 *)arg0)->unk20.val;
         if (*(s16 *)((u8 *)q + 0x10) < 0xc00) {
             *(u16 *)((u8 *)q + 0x10) = 0xc00;
-            ((Unkstruct_80126B58 *)arg0)->unkB8 = 1;
+            ((Unkstruct_80126B58 *)arg0)->unkB8.u = 1;
             ((void (*)(void *))func_80171A1C)(arg0);
         }
     }

@@ -78,7 +78,7 @@ void func_800CCC88(void *a0) {
     }
     func_8016151C(a0);
     func_801725A4((u8 *)a0);
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         guess_SetAnimScript((s32 *)a0, (s32)&D_800D5404);
         guess_NextStep(a0);
     }

@@ -3428,11 +3428,11 @@ void func_80173220(void * arg0)
 {
 
     extern M2C_UNK D_801818F8;
-    if (((Unkstruct_80173220_2 *)arg0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80173220_2 *)arg0)->unkB8.u & 0x4000) {
         guess_PlaySoundUnlessSkipped(0x516);
         guess_StartPadVibration(&D_801818F8);
     }
-    if (((Unkstruct_80173220_2 *)arg0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80173220_2 *)arg0)->unkB8.u & 0x8000) {
         func_80171A1C(arg0);
         func_80174650(arg0);
     }

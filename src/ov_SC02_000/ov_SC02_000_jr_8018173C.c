@@ -3309,14 +3309,14 @@ extern void func_801553A8(s32 *arg);
 extern void guess_PlaySoundUnlessSkipped(s32 arg);
 
 void func_80182AE4(void *a0) {
-    u16 flags = ((Unkstruct_80126B58 *)a0)->unkB8;
+    u16 flags = ((Unkstruct_80126B58 *)a0)->unkB8.u;
     if (flags & 0x2000) {
         func_801553A8((s32 *)a0);
         guess_PlaySoundUnlessSkipped(0x445);
     } else if (flags & 0x4000) {
         ((Unkstruct_80126B58 *)a0)->unkD4 += 1;
     }
-    if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u == 0x8000) {
         ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
         ((Unkstruct_80126B58 *)a0)->unk4D -= 1;
     }

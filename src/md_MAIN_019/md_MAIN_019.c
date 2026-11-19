@@ -49,7 +49,7 @@ void func_800CAF08(u8 *arg0) {
         func_800CB170((s32)arg0);
         return;
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 != 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u != 0x8000) {
         return;
     }
     guess_PlaySoundUnlessSkipped(0x479);

@@ -118,7 +118,7 @@ void func_800CB034(void *a0) {
         func_80159B3C((void *)s0);
         return;
     }
-    if (((Unkstruct_80126B58 *)s0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)s0)->unkB8.u & 0x8000) {
         guess_SetAnimScript((s32 *)s0, (s32)&D_800CB234);
     }
     if (func_80148AFC((void *)s0) & 0xFF) {

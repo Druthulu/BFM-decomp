@@ -3179,7 +3179,7 @@ extern void func_80165718(s32 a0);
 void func_8017DAE4(s32 arg0)
 {
     func_80149020(arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u == 0x8000) {
         func_8017DB58(arg0);
         func_80159B3C(arg0);
         if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D5880) {

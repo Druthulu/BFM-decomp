@@ -3810,8 +3810,8 @@ void func_8017E098(s32 param_1)
 
     if (((Unkstruct_80126B58 *)param_1)->unk234 == 0) {
         if (((Unkstruct_80126B58 *)param_1)->unk34 >= 0) {
-            if (((Unkstruct_80126B58 *)param_1)->unkB8 & 0x8000) {
-                ((Unkstruct_80126B58 *)param_1)->unkB8 = ((Unkstruct_80126B58 *)param_1)->unkBA;
+            if (((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) {
+                ((Unkstruct_80126B58 *)param_1)->unkB8.u = ((Unkstruct_80126B58 *)param_1)->unkBA;
             }
         }
     }

@@ -19,26 +19,26 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
     u8 *img;
 
     if (p != NULL) {
-        t = *(u8 *)&arg0->unkB8;
+        t = *(u8 *)&arg0->unkB8.u;
         if (t != 0) {
             if (*arg1 == 0) {
-                arg0->unkB8 = t;
+                arg0->unkB8.u = t;
                 *arg1 += 1;
             }
-            t2 = (u16)arg0->unkB8 - 1;
-            arg0->unkB8 = t2;
+            t2 = (u16)arg0->unkB8.u - 1;
+            arg0->unkB8.u = t2;
             if (!(t2 & 0xFF)) {
                 op = arg0->unkB4.p[arg0->unkBC];
                 switch (op) {
                 case 0:
-                    arg0->unkB8 = 0;
+                    arg0->unkB8.u = 0;
                     *arg2 |= 0x8000;
                     arg0->unkBA = 0;
                     arg0->unkBC = 0;
                     arg0->unkBD = 0;
                     break;
                 case 1:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     *arg2 |= 0x8000;
                     arg0->unkBC = 0;
                     arg0->unkBD = 0;
@@ -46,13 +46,13 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 2:
-                    arg0->unkB8 = 0;
+                    arg0->unkB8.u = 0;
                     arg0->unkBC = arg0->unkBC + 1;
                     *arg2 |= 0x8000;
                     break;
                 case 3:
                     temp = arg0->unkB4.p[arg0->unkBC + 1];
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     arg0->unkBA = temp;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -60,7 +60,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                 case 5:
                     nb4 = arg0->unkB4.p[arg0->unkBC + 1];
                     nbc = arg0->unkB4.p[arg0->unkBC + 2];
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkDC = 0;
                     arg0->unkBC = nbc;
                     arg0->unkB4.p = (s32 *)nb4;
@@ -68,40 +68,40 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     break;
                 case 6:
                     arg0->unkBC = arg0->unkB4.p[arg0->unkBC + 1];
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkDC = ((s32 (*)(s32))func_801549F8)((s32)arg0);
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 7:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     *arg2 |= 0x4000;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 8:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     *arg2 |= 0x2000;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 9:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     *arg2 |= 0x1000;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 10:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     *arg2 |= 0x800;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 13:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
@@ -109,7 +109,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         guess_SetTexAnimScript((u8 *)arg0, arg0->unkB4.p[arg0->unkBC + 1]);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
@@ -117,7 +117,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         guess_SetTexAnim((s32)arg0, arg0->unkB4.p[arg0->unkBC + 1]);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
@@ -125,7 +125,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         func_801553C0((s32)arg0);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -134,7 +134,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         func_80155440((s32 *)arg0);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -143,7 +143,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         func_80155394((s32 *)arg0);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -152,7 +152,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         func_801553A8((s32 *)arg0);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -161,7 +161,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         arg0->unk1A8 ^= 1;
                     }
-                    arg0->unkB8 =  1;
+                    arg0->unkB8.u =  1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -172,7 +172,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                         img = &D_80126738;
                         StoreImage(w, img);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
@@ -182,14 +182,14 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                         img = &D_80126838;
                         StoreImage(w, img);
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 case 4:
                 case 11:
                 case 12:
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 2;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
@@ -197,7 +197,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         p->unk20 = (s32)&D_80126748;
                     }
-                    arg0->unkB8 = (u16)arg0->unkBA;
+                    arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;
                     arg0->unkDC++;
@@ -206,7 +206,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         p->unk20 = (s32)&D_80126848;
                     }
-                    arg0->unkB8 = (u16)arg0->unkBA;
+                    arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;
                     arg0->unkDC++;
@@ -215,7 +215,7 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         arg0->unk44.u = arg0->unk44.u & 0xFFFDFFFF;
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
@@ -224,21 +224,21 @@ void func_8015444C(void* a0v, s32* arg1x, s32* arg2x, s32* arg3x)
                     if (*arg3 == 0) {
                         arg0->unk44.u = arg0->unk44.u | 0x20000;
                     }
-                    arg0->unkB8 = 1;
+                    arg0->unkB8.u = 1;
                     arg0->unkBC = arg0->unkBC + 1;
                     arg0->unkBD = arg0->unkBD + 1;
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 default:
                     p->unk20 = (s32)(op + 0x10);
-                    arg0->unkB8 = (u16)arg0->unkBA;
+                    arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;
                     arg0->unkDC++;
                     break;
                 }
             }
-            arg0->unkB8 = (u16)arg0->unkB8 | *arg2;
+            arg0->unkB8.u = (u16)arg0->unkB8.u | *arg2;
         }
     }
 }

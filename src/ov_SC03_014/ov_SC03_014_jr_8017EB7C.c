@@ -3506,7 +3506,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 void func_80180638(arg0)
 void *arg0;
 {
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x4000) {
         ((Unkstruct_80126B58 *)arg0)->unk44.s |= 0x20000;
         guess_SpawnObject(0x16, (s32)arg0, 0, -0x80, -0x10, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7BC);

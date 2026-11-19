@@ -3070,7 +3070,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern s32 func_80171990(u8 *a0);
 
 void func_8017CE18(s32 param) {
-    if (((Unkstruct_80126B58 *)param)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)param)->unkB8.u & 0x4000) {
         ((Unkstruct_80126B58 *)param)->unk44.s = ((Unkstruct_80126B58 *)param)->unk44.s | 0x20000;
         guess_SpawnObject(0x16, param, 0, -0x80, -0x10, 0, 0, 0);
         guess_PlaySoundUnlessSkipped(0x7BC);

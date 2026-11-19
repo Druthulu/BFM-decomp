@@ -41,7 +41,7 @@ extern s32 D_800CBAE0[];
 
 void func_800CAF0C(s32 *a0) {
     if (KR_AS(s32, func_80161208)() == 0) {
-        if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
+        if (((Unkstruct_80126B58 *)a0)->unkB8.u == 0x8000) {
             if (guess_GetPadHeld(a0) & 0x20) {
                 guess_SetAnimScript(a0, (s32)D_800CBB00);
                 ((Unkstruct_80126B58 *)a0)->unk197 += 1;
@@ -95,7 +95,7 @@ void func_800CAF9C(s32 a0) {
         break;
     }
 
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x4000) {
         guess_SpawnObject(2, a0, 0, -0x18, -0xF, 0, 0, 1);
         guess_SpawnSmallObject(0xF, (void *)a0, 0, -0x18, -0xF, 0, 0);
         guess_PlaySoundUnlessSkipped(0x476);
@@ -103,7 +103,7 @@ void func_800CAF9C(s32 a0) {
         guess_StartPadVibration(&guess_g_RumblePatternShort);
     }
 
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         if (func_80165624(a0) == 0 && (guess_GetPadHeld((s32 *)a0) & 0x20)) {
             guess_SetAnimScript((s32 *)a0, (s32)D_800CBB00);
         } else {

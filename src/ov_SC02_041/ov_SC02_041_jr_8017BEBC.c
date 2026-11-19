@@ -2792,8 +2792,8 @@ void func_8017CEF4(s32 a0) {
 
     if (((Unkstruct_80126B58 *)a0)->unk234 == 0) {
         if (((Unkstruct_80126B58 *)a0)->unk34 >= 0) {
-            if ((((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) != 0) {
-                ((Unkstruct_80126B58 *)a0)->unkB8 = ((Unkstruct_80126B58 *)a0)->unkBA;
+            if ((((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) != 0) {
+                ((Unkstruct_80126B58 *)a0)->unkB8.u = ((Unkstruct_80126B58 *)a0)->unkBA;
                 ((Unkstruct_80126B58 *)a0)->unk234 = ((Unkstruct_80126B58 *)a0)->unk234 + 1;
             }
         }

@@ -2,7 +2,7 @@
 map_type	action	target	evidence	note
 Unkstruct_800D3888	fold	Unkstruct_800B5CB8	E1-lineage	drift name of the 800B5CB8 cluster: 12041/16515 TNC sites sit in bodies whose rung-S rows drew the base as Unkstruct_800B5CB8; same UF cluster
 Unkstruct_cb638a45	define	Unkstruct_80135EB0	flow-cluster	no entity evidence for an existing type; 381 bodies 3 fns; best layout match recorded by T2 only
-Unkstruct_dac960ce	define	Unkstruct_8015F448	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
+Unkstruct_dac960ce	define	Unkstruct_80126B58	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a5d21dec	define	Unkstruct_8012C890	single-fn	no entity evidence for an existing type; 124 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_f8ed2b9f	define	Unkstruct_80126B58	flow-cluster	no entity evidence for an existing type; 4061 bodies 95 fns; best layout match recorded by T2 only
 Unkstruct_cedd385d	fold	Unkstruct_80078E78	E3-copy	func_80176218 cach = &guess_g_HudState+0x48: field-wise copies from cur at equal offsets; 0x48+sizeof 0x98 = 0xE0 = flag start
@@ -3732,7 +3732,6 @@ Unkstruct_8012F8C8	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8012F8C
 Unkstruct_8014305C	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8014305C_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8014ADE0	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8014ADE0 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8015EEE0	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8015EEE0 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_8015F448	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8015F448_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_80164744	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80164744_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8016E9EC	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8016E9EC_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8016EBA8	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8016EBA8_3 pruned; 0 uses fleet-wide after the t5 rung-S sweeps

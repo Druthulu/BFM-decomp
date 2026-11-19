@@ -4928,8 +4928,8 @@ void func_8018B390(void *a0) {
     guess_AddVertSpeed((s32)s0, 0x10000);
     guess_ApplyVertSpeed((s32)s0);
 
-    if (s0->unk234 == 0 && s0->unk34 >= 0 && (s0->unkB8 & 0x8000)) {
-        s0->unkB8 = s0->unkBA;
+    if (s0->unk234 == 0 && s0->unk34 >= 0 && (s0->unkB8.u & 0x8000)) {
+        s0->unkB8.u = s0->unkBA;
     }
 
     v1 = func_801535F4(s0);
@@ -5077,8 +5077,8 @@ void func_8018B774(s32 param_1)
 
     if (((Unkstruct_80126B58 *)param_1)->unk234 == 0) {
         if (((Unkstruct_80126B58 *)param_1)->unk34 >= 0) {
-            if (((Unkstruct_80126B58 *)param_1)->unkB8 & 0x8000) {
-                ((Unkstruct_80126B58 *)param_1)->unkB8 = ((Unkstruct_80126B58 *)param_1)->unkBA;
+            if (((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) {
+                ((Unkstruct_80126B58 *)param_1)->unkB8.u = ((Unkstruct_80126B58 *)param_1)->unkBA;
             }
         }
     }

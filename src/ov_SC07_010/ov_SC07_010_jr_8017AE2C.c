@@ -4038,7 +4038,7 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017D91C(u8 *a0) {
     s32 ws = guess_g_ActiveCamera;
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         *(s16 *)(ws + 0x22) = 0x200;
         *(s16 *)(ws + 0x1A) = 0x200;
         func_801542A4((s32 *)a0, (s32)&D_80185AC8);
@@ -4056,7 +4056,7 @@ void func_8017D974(a0)
 u8 *a0;
 {
     s32 ws = guess_g_ActiveCamera;
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         *(s16 *)(ws + 0x22) = 0x600;
         *(s16 *)(ws + 0x1A) = 0x600;
         func_801542A4((s32 *)a0, (s32)&D_80185AC8);
@@ -4072,7 +4072,7 @@ extern s32 func_80171990(u8 *a0);
 
 void func_8017D9CC(u8 *a0) {
     s32 ws = guess_g_ActiveCamera;
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         *(s16 *)(ws + 0x20) = -0x38;
         *(s16 *)(ws + 0x18) = -0x38;
         *(s16 *)(ws + 0x22) = 0x400;

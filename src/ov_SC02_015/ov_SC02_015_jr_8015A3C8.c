@@ -1416,7 +1416,7 @@ s32 arg0;
         ((Unkstruct_80126B58 *)arg0)->unk23C = 0;
     }
     if (((s32 (*)(s32))func_80161278)(arg0) == 0) {
-        if (((Unkstruct_80126B58 *)arg0)->unkB8 & 0x2000) {
+        if (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x2000) {
             func_80161C24(arg0, ((Unkstruct_80126B58 *)arg0)->unk16E);
         }
         ((void (*)(s32))func_80172608)(arg0);

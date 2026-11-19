@@ -4465,7 +4465,7 @@ void func_8017DCC0(a0)
 u8 *a0;
 {
     s32 v;
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
         switch ((s16)(*(u16 *)&D_80126B3A - 2)) {
         case 0: v = 0; break;
         case 1: v = 1; break;

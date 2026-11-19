@@ -6,7 +6,7 @@ extern void guess_SetAnim(s32 a0, s32 a1);
 extern s32 func_80174650(s32);
 extern s16 D_80126B30;
 void func_801730FC(Unkstruct_80126B58 *a0) {
-    if (a0->unkB8 & 0x8000) {
+    if (a0->unkB8.u & 0x8000) {
         func_80171A1C((u8 *)a0);
         if (D_80126B30 != 0) {
             func_80147060(a0);

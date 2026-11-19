@@ -50,7 +50,7 @@ void func_800CAF24(void *a0) {
     extern s32 func_80146608(s32 a0, s32 a1, s32 a2, s32 a3, s16 a4, s32 a5, s32 a6, s32 a7, s32 a8);
     u16 flag;
     CAST_SIGN(s32, (u8 *)a0, 0x44) |= 2;
-    flag = ((Unkstruct_80126B58 *)a0)->unkB8;
+    flag = ((Unkstruct_80126B58 *)a0)->unkB8.u;
     if (!(flag & 0x4000)) {
         if (flag == 0x8000) {
             func_801599A4(a0);

@@ -65,13 +65,13 @@ void func_800CAF68(s32 a0) {
     if (KR_AS(s32, func_80161208)() != 0) {
         return;
     }
-    if (((Unkstruct_80126B58 *)a0)->unkB8 & 0x2000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x2000) {
         ((Unkstruct_80126B58 *)a0)->unkBF += 1;
     }
     if (((Unkstruct_80126B58 *)a0)->unkBF != 0) {
         func_800CB05C(a0, ((Unkstruct_80126B58 *)a0)->unkBF);
     }
-    if (((Unkstruct_80126B58 *)a0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)a0)->unkB8.u == 0x8000) {
         func_801599A4((void *)a0);
         func_80159B3C((void *)a0);
         return;

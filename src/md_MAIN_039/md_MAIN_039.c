@@ -68,7 +68,7 @@ extern s32 func_80161208(void *a0);
 void func_800CAF80(void *a0) {
     u16 flag;
 
-    flag = ((Unkstruct_80126B58 *)a0)->unkB8;
+    flag = ((Unkstruct_80126B58 *)a0)->unkB8.u;
     if (flag == 0x8000) {
         func_801599A4(a0);
         func_80159B3C(a0);

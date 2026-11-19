@@ -4948,7 +4948,7 @@ extern M2C_UNK D_800D5880;
 void func_80182120(s32 arg0)
 {
     func_80149020(arg0);
-    if (((Unkstruct_80126B58 *)arg0)->unkB8 == 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u == 0x8000) {
         func_80182194(arg0);
         func_80159B3C(arg0);
         if (((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&D_800D5880) {
