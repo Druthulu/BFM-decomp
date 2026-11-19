@@ -682,7 +682,10 @@ typedef struct {
         u8 b;
         s16 s;
     } unk24;
-    /* 0x0026 */ u16 unk26;
+    /* 0x0026 */ union {
+        u16 u;
+        s16 s;
+    } unk26;
     /* 0x0028 */ union {
         u16 u;
         u8 b;
@@ -831,14 +834,6 @@ typedef struct Obj_8016AB6C {
     s16 unk2E;
     s16 unk30;
 } Obj_8016AB6C;
-typedef struct Ent_8016AB6C {
-    u16 unk0, unk2, unk4, unk6, unk8, unkA, unkC, unkE;
-    s32 unk10, unk14, unk18, unk1C;
-    void *unk20; /* holds an Obj_8016AB6C (stored only); T18.c13 small parent spelling */
-    s16 unk24, unk26, unk28, unk2A;
-    s32 unk2C;
-    s32 unk30;
-} Ent_8016AB6C;
 typedef struct { char s[10]; } S10_80136C90;
 typedef SVECTOR Blk8; /* T17.c18: SVECTOR folded into SVECTOR */
 typedef SVECTOR SVec_8016AB6C;
@@ -3318,33 +3313,6 @@ typedef struct {
     /* 0x0010 */ u8 pad10[0x26];
     /* 0x0036 */ u16 unk36;
 } Unkstruct_8016C49C; /* size = 0x38 */
-
-typedef struct {
-    /* Unkstruct_8016DF5C: P37 struct map 5 sites in 1 bodies; evidence {'L': 1}; type_folds.tsv evidence flow-cluster; P3.40 T2 */
-    /* 0x0000 */ u8 pad0[0x2];
-    /* 0x0002 */ union {
-        u16 u;
-        s16 s;
-    } unk2;
-    /* 0x0004 */ u8 pad4[0x2];
-    /* 0x0006 */ union {
-        s16 s;
-        u16 u;
-    } unk6;
-    /* 0x0008 */ u8 pad8[0x2];
-    /* 0x000a */ s16 unkA;
-    /* 0x000c */ u8 padC[0x2];
-    /* 0x000e */ s16 unkE;
-    /* 0x0010 */ u8 pad10[0x8];
-    /* 0x0018 */ s16 unk18;
-    /* 0x001a */ s16 unk1A;
-    /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ u8 pad24[0x8];
-    /* 0x002c */ u32 unk2C;
-    /* 0x0030 */ s32 unk30;
-    /* 0x0034 */ s32 unk34;
-} Unkstruct_8016DF5C; /* size = 0x38 */
 
 typedef struct {
     /* Unkstruct_297e7547: P37 struct map 1240 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */

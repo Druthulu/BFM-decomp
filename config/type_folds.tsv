@@ -20,7 +20,6 @@ Unkstruct_1255bbfd	define	Unkstruct_8011F888	E2-anchor	flag = &guess_g_HudState 
 Unkstruct_dd542e54	fold	Unkstruct_8011F7A8	E2-anchor	func_80175DA8 s = &guess_g_HudPlayerRecord - 0x48 = &guess_g_HudState
 Unkstruct_f49880fd	define	Unkstruct_8001C9D0	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_a8d34bce	define	Unkstruct_80126B58	flow-cluster	no entity evidence for an existing type; 1948 bodies 15 fns; best layout match recorded by T2 only
-Unkstruct_8016DF5C	define	Unkstruct_8016DF5C	flow-cluster	no entity evidence for an existing type; 131 bodies 5 fns; best layout match recorded by T2 only
 Unkstruct_568f7bda	define	Unkstruct_8011D030	single-fn	no entity evidence for an existing type; 125 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_cd1bacd2	define	Unkstruct_8011D030	single-fn	no entity evidence for an existing type; 126 bodies 1 fns; best layout match recorded by T2 only
 Unkstruct_8011F7A8	define	Unkstruct_8011F7A8	E2-anchor	st = (s32)&guess_g_HudState (func_80176218, func_80176734)
@@ -1387,7 +1386,7 @@ Unkstruct_2d4c10ce	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80180B0
 Unkstruct_6c3d629b	define	Unkstruct_80180B08_2	owner:func_80180B08	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 13 bodies
 Unkstruct_92c402ee	define	Unkstruct_8002C8F4	owner:func_8002C8F4	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 8 bodies
 Unkstruct_8012F274	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80015954_2 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
-Unkstruct_d13bbdc9	define	Unkstruct_8016DF5C	owner:func_800CB8A4	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 4 bodies
+Unkstruct_d13bbdc9	define	Unkstruct_8011D030	owner:func_800CB8A4	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 4 bodies
 Unkstruct_8017D060	define	Unkstruct_8017D060	owner:func_8017D060	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 3 bodies
 Unkstruct_27677965	define	Unkstruct_801202A0	owner:func_8018111C	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 2 bodies
 Unkstruct_62f89823	define	Blk16_956C	owner:func_801E38B4	no E1/E2 evidence; flat layout of the struct map record; 13 TNC sites in 2 bodies

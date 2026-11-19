@@ -2616,9 +2616,9 @@ void func_8016B234(s32 param_1) {
         uVar1 = (u16)out.xy[1];
         prim.ax = prim.cx = X;
         prim.bx = prim.dx = X + 8;
-        Y0 = uVar1 - ((Unkstruct_8011D030 *)param_1)->unk26;
+        Y0 = uVar1 - ((Unkstruct_8011D030 *)param_1)->unk26.u;
         prim.ay = prim.by = Y0;
-        hh = ((Unkstruct_8011D030 *)param_1)->unk26;
+        hh = ((Unkstruct_8011D030 *)param_1)->unk26.u;
         prim.v0 = prim.v1 = 0x1d0;
         prim.v2 = prim.v3 = 0x1d8;
         prim.cy = prim.dy = uVar1 + hh;
