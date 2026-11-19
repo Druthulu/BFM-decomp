@@ -8647,7 +8647,7 @@ void func_801862C0(s32 param_1) {
             guess_SpawnActorNoArg(0x353, param_1);
             ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
         } else {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
             func_8018641C(param_1);
         }
     }
@@ -8660,8 +8660,8 @@ extern void func_801863C8(s32);
 void func_80186334(s32 param_1)
 {
     if (D_801DFF68 != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0xA6;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0xA6;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 3;
         return;
     }
@@ -8669,7 +8669,7 @@ void func_80186334(s32 param_1)
         func_801863C8(param_1);
         func_8018641C(param_1);
     } else {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA5;
         func_8018641C(param_1);
     }
 }
