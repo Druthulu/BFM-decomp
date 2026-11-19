@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-19T05:49:25.949Z
+# filed through: 2026-11-19T07:31:38.619Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -228,9 +228,13 @@ R224 | 2026-11-18 | finding | in force | Phase 3.45 T17 absorption wave A1 progr
 R225 | 2026-11-18 | open | superseded by R226 | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17's expert was stopped by Ctrl+C a second time after c26c finished, and T17 is paused. | .claude-state/journal/2026-11-18/073257-033r-claude-record.md
 R226 | 2026-11-18 | decision | superseded by R228 | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 resumed after the second Ctrl+C on the developer's pick, then was paused on the developer's "pa… | .claude-state/journal/2026-11-18/095412-041r-claude-record.md
 R227 | 2026-11-18 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17's state at the pause. | .claude-state/journal/2026-11-18/095412-041r-claude-record.md
-R228 | 2026-11-18 | decision | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 resumed as attempt 3 on the developer's yes, after the pause and the restart. | .claude-state/journal/2026-11-18/134442-008r-claude-record.md
+R228 | 2026-11-18 | decision | superseded by R235 | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 resumed as attempt 3 on the developer's yes, after the pause and the restart. | .claude-state/journal/2026-11-18/134442-008r-claude-record.md
 R229 | 2026-11-18 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17's second "Ctrl+C" stop on 2026-11-18 (about 14:17Z, right after c26c handed back) was likely a… | .claude-state/journal/2026-11-18/134442-008r-claude-record.md
 R230 | 2026-11-18 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 state at its question stop (2026-11-19 05:48Z). | .claude-state/journal/2026-11-18/230501-025r-claude-record.md
 R231 | 2026-11-18 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | The source census and the consolidation gate's struct-view cast count only see casts on a plain nam… | .claude-state/journal/2026-11-18/230501-025r-claude-record.md
 R232 | 2026-11-18 | decision | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | Claude approves T17 Q1: a real `RenderHead` struct as the first member of both the sprite record (U… | .claude-state/journal/2026-11-18/230501-025r-claude-record.md
-R233 | 2026-11-18 | open | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 Q2: about 222 Unkstruct_800B5CB8 sources (578 sites) plus 3 held keys that code reading cannot… | .claude-state/journal/2026-11-18/230501-025r-claude-record.md
+R233 | 2026-11-18 | open | superseded by R234 | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 Q2: about 222 Unkstruct_800B5CB8 sources (578 sites) plus 3 held keys that code reading cannot… | .claude-state/journal/2026-11-18/230501-025r-claude-record.md
+R234 | 2026-11-18 | decision | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | The roughly 222 Unkstruct_800B5CB8 sources (578 sites) and 3 held keys that code reading cannot pla… | .claude-state/journal/2026-11-18/232901-029r-claude-record.md
+R235 | 2026-11-19 | decision | superseded by R237 | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 is paused on the developer's request for a Claude Code restart, after the c38 gate rerun. | .claude-state/journal/2026-11-19/001626-036r-claude-record.md
+R236 | 2026-11-19 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17's state at this pause. | .claude-state/journal/2026-11-19/001626-036r-claude-record.md
+R237 | 2026-11-19 | decision | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 resumed as attempt 5 on the developer's "continue work", after the pause and the 3.32.21 restar… | .claude-state/journal/2026-11-19/004655-009r-claude-record.md
