@@ -2809,11 +2809,11 @@ void func_801817E0(s32 param_1)
         }
         if (func_8012D624(param_1, 0x20, 5) == 1) {
             D_80126B96 = 0x11;
-            D_80126B9A = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+            D_80126B9A = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
             CAST_ALIAS(s32, param_1, 0x48) = 0x18000;
             CAST_ALIAS(u16, param_1, 0x34) += 1;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 + 0x800;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u + 0x800;
             guess_UpdateActorModelMatrix(param_1);
             guess_SetForwardVelocity(param_1, 0xFFF00000);
             goto TAIL;
@@ -2840,7 +2840,7 @@ void func_801817E0(s32 param_1)
         }
         if ((iVar1 & 0x2000) != 0) {
             ((Unkstruct_801202A0 *)param_1)->unk34.u += 1;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u = 0;
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
             goto TAIL;
         }
@@ -2881,7 +2881,7 @@ void func_801817E0(s32 param_1)
     STATE4:
         guess_ClearVelocityAndSetGravity(param_1);
         ((Unkstruct_801202A0 *)param_1)->unk34.u = 4;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk10.u = 0;
         goto TAIL;
     L_AF8:
         if ((iVar1 & 0x2000) == 0) {
@@ -2948,7 +2948,7 @@ void func_80181BE0(s32 param_1)
     guess_ApplyAccelAndVelocity(param_1);
     if (func_8012D624(param_1, 0x20, 5) == 1) {
         D_80126B96 = 0x11;
-        D_80126B9A = ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12;
+        D_80126B9A = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u;
     }
     if (guess_TickWaitTimer(param_1) != 0) {
         func_8018290C(param_1);

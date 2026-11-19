@@ -3361,8 +3361,8 @@ void func_8017E7E8(s32 a0) {
 
             v = sp20;
             /* the sh kills the cse of *(s32*)(a0+0x20), so it is re-loaded (§193-E) */
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 = v;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = v >> 16;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u = v;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = v >> 16;
             guess_UpdateActorModelMatrix(a0);
             guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val);
         } else {
@@ -3388,7 +3388,7 @@ void func_8017E7E8(s32 a0) {
     }
 
     *(s32 *)(obj + 0x4) |= 0x50000000;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x10;
     /* two separate `or`s: the ADDR_EXPR is not an INTEGER_CST so fold never
      * associates 0x20000000|0x40000000 into a single lui 0x6000 */
     ((Unkstruct_801202A0 *)a0)->unk58.s = ((s32)&D_8018E028 | 0x20000000) | 0x40000000;
@@ -3432,8 +3432,8 @@ void func_8017EA24(s32 a0) {
         v0 = guess_TickWaitTimer(a0);
         if (v0 != 0) {
             d = func_8012BA10(a0, (s32)((Unkstruct_801202A0 *)a0)->unkFE.s);
-            t = ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = t + d;
+            t = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = t + d;
             guess_SetForwardVelocity(a0, ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val);
         }
         v0 = func_8012CBF4(a0);
@@ -3702,7 +3702,7 @@ s32 func_8017F018(s32 a0) {
 
 
 void func_8017F0C8(s32 a0, s32 a1) {
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = CAST_SIGN(u16, a0, 0xFC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = CAST_SIGN(u16, a0, 0xFC);
     guess_UpdateActorModelMatrix(a0);
     guess_ClearVelocityAndSetGravity(a0);
     guess_SetForwardVelocity(a0, a1);
@@ -3908,8 +3908,8 @@ void func_8017F55C(s32 a0) {
         break;
     case 1:
         if (((Unkstruct_801202A0 *)a0)->unk70.s & 0x8000) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += CAST_SIGN(u16, a0, 0xFC);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += CAST_SIGN(u16, a0, 0xFE);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u += CAST_SIGN(u16, a0, 0xFC);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += CAST_SIGN(u16, a0, 0xFE);
             *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) += CAST_SIGN(u16, a0, 0x100);
         }
         flags = func_8012CBF4(a0);
@@ -3948,8 +3948,8 @@ void func_8017F55C(s32 a0) {
         break;
     case 4:
         if (((Unkstruct_801202A0 *)a0)->unk70.s & 0x8000) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk10 += CAST_SIGN(u16, a0, 0xFC);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 += CAST_SIGN(u16, a0, 0xFE);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk10.u += CAST_SIGN(u16, a0, 0xFC);
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u += CAST_SIGN(u16, a0, 0xFE);
             *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) += CAST_SIGN(u16, a0, 0x100);
         }
         flags = func_8012CBF4(a0);
@@ -4214,7 +4214,7 @@ void func_8017FD2C(s32 a0) {
         return;
     }
     guess_InitModelObject(v0, 0);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x10;
     v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
     *(s16 *)(v1 + 0x1A) = 0x1000;
     *(s16 *)(v1 + 0x18) = 0x1000;
@@ -4256,7 +4256,7 @@ void func_8017FDB8(s32 a0) {
     CAST_ALIAS(s16, a0, 0xE) = sp[2];
 
     CAST_ALIAS(s16, *(s32 *)(a0 + 0x20), 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     func_8017FEA8((void *)a0);
 }
 
@@ -4467,7 +4467,7 @@ void func_801801F8(s32 a0) {
     CAST_WIDTH(s32, a0, 0xC) = 0xFF360000;
     /* LOAD-BEARING: +0x20 re-read FRESH (not a cached local) so cse emits the
      * separate `lw $v1,0x20($s0)` feeding the lhu/ori/sh (§172a addendum family). */
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x10;
     CAST_ALIAS(s16, a0, 0x2) = 1;
     CAST_ALIAS(s16, a0, 0xAE) = -9;
     /* LOAD-BEARING: this sb must precede the 0xCC store in the source; sched2 then
@@ -4764,7 +4764,7 @@ void func_801806F8(s32 a0)
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x3C;
             ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC03_105_80180100.unkE0 |= 1;
             (((Unkstruct_801202A0 *)s0)->unk34.u)++;
-            ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 = 0;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u = 0;
         }
         break;
     case 5:

@@ -2619,13 +2619,13 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 = (u16)g[2];
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u = (u16)g[2];
             goto reset_both;
         }
         {
             s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
-            ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
         }
         return;
     case 2:
@@ -2642,7 +2642,7 @@ void func_8017AE2C(s32 param_1) {
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
                     guess_YawToPoint(p, &D_801B9AEC);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
@@ -2658,8 +2658,8 @@ void func_8017AE2C(s32 param_1) {
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 + r;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2668,7 +2668,7 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(pv + 0x20))->unk12 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(pv + 0x20))->unk12.u =
             guess_YawToPoint((void *)(pv + 4), &D_801B9AEC);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);
@@ -3342,7 +3342,7 @@ void func_8017BEBC(void *a0) {
         }
         ((Unkstruct_801202A0 *)a0)->unk5C.u |= 0x10;
         guess_StartActorSequence((s32)a0, D_8018830C);
-        ((Unkstruct_800B5CB8 *)*(s32 *)((s32)a0 + 0x20))->unk2C |= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk2C.u |= 0x10;
         *(s32 *)&D_801B95F0 = CAST_SIGN(s16, (s32)a0, 0x88) << 16;
         D_801B95F4 = CAST_SIGN(s16, (s32)a0, 0x8A) << 16;
         D_801B95F8 = CAST_SIGN(s16, (s32)a0, 0x8C) << 16;
@@ -3421,8 +3421,8 @@ void func_8017C058(s32 a0) {
                 D_801B9604 = y << 16;
             } else {
                 func_8017C880((s16 *)a0);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + 0xC00;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + 0xC00;
             }
         } else {
             for (i = 0; i < 2; i++) {
@@ -3437,8 +3437,8 @@ void func_8017C058(s32 a0) {
 
         ret = func_8012BB3C(a0 + 4, (s32)&D_801B95FC,
                             *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12), i);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + ret;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + ret;
 
         ang = -3 - CAST_SIGN(u16, a0, 0x104);
         func_8017C80C(a0, ang, 0x50);
@@ -3455,8 +3455,8 @@ void func_8017C058(s32 a0) {
         if (d != 0) {
             s32 r2 = guess_TurnStepToTarget(a0, d);
 
-            ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 =
-                ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 + r2;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u =
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u + r2;
         }
     }
 }
@@ -3608,7 +3608,7 @@ void func_8017C25C(s32 a0) {
     }
 
     if (CAST_WIDTH(u16, a0, 0x5E) != 0) {
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = ((Unkstruct_801202A0 *)a0)->unk62;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = ((Unkstruct_801202A0 *)a0)->unk62;
         func_8017C80C(a0, -0xF, 0);
         func_8017C880((s16 *)a0);
         CAST_WIDTH(s16, a0, 0x5E) = 0;
@@ -3631,7 +3631,7 @@ void func_8017C25C(s32 a0) {
             if (spd != 0) {
                 func_8017C880((s16 *)a0);
                 if (((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk104 == 0) {
-                    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = func_8012B864(a0) - 0x800;
+                    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = func_8012B864(a0) - 0x800;
                     ret = 1;
                 }
                 ((Unkstruct_801202A0 *)a0)->extD.kSC03_002_8017CF30.unk104 = spd;
@@ -4436,7 +4436,7 @@ void func_8017D3AC(s32 a0) {
         }
         func_8001C810(((Unkstruct_801202A0 *)a0)->unk20.p, (s32)&D_801B6048);
         guess_StartActorSequence(a0, (void *)&D_80188690[(s16)D_801152BA * 16]);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x20;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x20;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x80) = (s32)&D_801B9608;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x40000000;
         ((Unkstruct_801202A0 *)a0)->extE.kSC02_011_8017CF54.unkAE = -3;
@@ -4844,7 +4844,7 @@ void func_8017DE74(s32 a0) {
     func_800D20C0(&sp[0], &sp[4], 0);
     func_800D23D0(&sp[4]);
 
-    ((Unkstruct_800B5CB8 *)*(s32 *)(a0 + 0x20))->unk12 = sp[5] + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk12.u = sp[5] + 0x800;
     CAST_SIGN(u16, a0, 0x2) += 1;
 }
 

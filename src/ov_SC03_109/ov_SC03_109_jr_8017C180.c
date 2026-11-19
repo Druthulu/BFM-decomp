@@ -3133,7 +3133,7 @@ void func_8017DB84(void *arg0) {
         ((Unkstruct_801202A0 *)s0)->unk70.s = mask;
 
         if (((Unkstruct_801202A0 *)s0)->unkFE.s == 0) {
-            ((Unkstruct_800B5CB8 *)*(s32 *)((u8 *)s0 + 0x20))->unk12 =
+            ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)s0 + 0x20))->unk12.u =
                 *(u16 *)(((Unkstruct_801202A0 *)s0)->unk64->unk20.p + 0x12) + (mask << 10);
             ((Unkstruct_801202A0 *)s0)->unk58.s = (s32)&D_80181E74 | 0x40000000;
             ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x4C00;

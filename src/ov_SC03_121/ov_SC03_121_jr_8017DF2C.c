@@ -2735,8 +2735,8 @@ void func_8017DF2C(s32 a0) {
         if ((((Unkstruct_801202A0 *)s0)->unk94.s == 0) || (((Unkstruct_801202A0 *)s0)->unk94.s == 0x17)) {
             guess_RequestSound(0x70A, 0);
         }
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 += guess_TurnStepToTarget((s32)s0, 0x10);
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk12 &= 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u += guess_TurnStepToTarget((s32)s0, 0x10);
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk12.u &= 0xFFF;
         func_8012CBCC((s32)s0);
         t = guess_DistSqToPlayer((s32)s0);
         arr[2] = t * -0x20;

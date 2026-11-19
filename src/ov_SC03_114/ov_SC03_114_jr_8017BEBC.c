@@ -2960,7 +2960,7 @@ void func_8017D110(s32 param_1)
                 func_8001CA88(((Unkstruct_801202A0 *)param_1)->unk20.p, D_801A9678);
                 s1 = 9;
                 *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 4) |= 0x50000000;
-                ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2E = 0xC010;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2E.u = 0xC010;
                 break;
             case 6:
                 func_8001C2C4(((Unkstruct_801202A0 *)param_1)->unk20.p);
@@ -2972,7 +2972,7 @@ void func_8017D110(s32 param_1)
                 guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, s3);
                 guess_StartActorSequence(param_1, (void *)s2);
                 func_80143994(param_1, 0x3000);
-                ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk12 = s4;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk12.u = s4;
             }
             ((Unkstruct_801202A0 *)param_1)->unk2.s = s1;
         }

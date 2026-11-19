@@ -3311,7 +3311,7 @@ void func_8017F674(s32 param_1)
     }
 
     sVar1 = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_110_8017F43C.unkE4 << 6) & 0x7c0);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = (sVar1 >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (sVar1 >> 1) + 0x800;
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
@@ -3463,7 +3463,7 @@ void func_8017F9CC(s32 param_1)
     }
 
     angle = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 7) & 0x780);
-    ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk1A = (angle >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (angle >> 1) + 0x800;
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;

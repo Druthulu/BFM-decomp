@@ -2879,9 +2879,9 @@ void *a0;
         ((s32 (*)(s32, void *))guess_StartActorSequence)(s0, &D_8018E1C0);
         ((Unkstruct_801202A0 *)s0)->unk94.s = rand() & 7;
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk18 = (rand() >> 3) + 0x2000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk1A = 0x2000;
-        ((Unkstruct_800B5CB8 *)*(s32 *)(s0 + 0x20))->unk2C |= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk18.u = (rand() >> 3) + 0x2000;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk1A.u = 0x2000;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk2C.u |= 0x10;
         *(u32 *)(((Unkstruct_801202A0 *)s0)->unk20.p + 4) |= 0x8000000;
         *(u16 *)(((Unkstruct_801202A0 *)s0)->unk20.p + 0x14) = rand() & 0xFFF;
     }
