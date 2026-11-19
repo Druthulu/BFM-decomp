@@ -1095,3 +1095,5 @@ C0642 | Union retype of a heavily used pointer field: rename probe to fixpoint, 
 C0643 | fold-batch --write drops parent member comments; a re-cast split leaves the ratchet unchanged | struct,absorb,fold-batch,comments,ratchet,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c27b
 C0644 | Inventory a split type from the text: census misses deref-operand casts; key holder-field sources | struct,per-source,census,split,holder,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c31
 C0645 | Typing a masked tagged pointer byte-identically; hand-insert new ledger rows | struct,pointer,tagged,bytes,ledger,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c29
+C0646 | Render pointee by access offsets (size exclusion, head-only); a zero-arg C call still passes a0 | struct,per-source,render,sprite,model,asm,abi,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c33
+C0647 | fold-batch limits on the actor slot: member tokens, nested gaps, RESIDUAL restamps | struct,absorb,fold-batch,union,residual,t17 | 2026-11-18 | 3.45/T17 | P3.45 T17.c30
