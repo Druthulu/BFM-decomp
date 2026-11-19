@@ -5167,7 +5167,7 @@ void func_80182CB0(s32 a0, s32 a1) {
     p = guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
-            ((Unkstruct_801202A0 *)p)->unkD4 = a0;
+            ((Unkstruct_801202A0 *)p)->unkD4.p = a0;
             ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }
@@ -5187,7 +5187,7 @@ void func_80182D04(s32 a0, s32 a1, s32 a2) {
     for (i = 0; i < 0x60; i++) {
         if (((Unkstruct_801202A0 *)p)->unk0 == 0x6B) {
             ((Unkstruct_801202A0 *)p)->unk70.s = a2;
-            ((Unkstruct_801202A0 *)p)->unkD4 = a0;
+            ((Unkstruct_801202A0 *)p)->unkD4.p = a0;
             ((Unkstruct_801202A0 *)p)->unkD8.val = a1;
             return;
         }

@@ -4880,7 +4880,7 @@ void func_80188600(s32 param_1)
         ((Unkstruct_800B5CB8 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = func_8012C51C(D_8018F884, param_1);
         ((Unkstruct_801202A0 *)param_1)->unkD0.val = func_8012C51C(D_8018F898, param_1);
-        ((Unkstruct_801202A0 *)param_1)->unkD4 = func_8012C51C(D_8018F8AC, param_1);
+        ((Unkstruct_801202A0 *)param_1)->unkD4.p = func_8012C51C(D_8018F8AC, param_1);
         ((Unkstruct_801202A0 *)param_1)->unkD8.val = func_8012C51C(D_8018F8C0, param_1);
         ((Unkstruct_801202A0 *)param_1)->extD.kSC03_028_80184A40.unk100 = 1;
     }

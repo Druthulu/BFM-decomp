@@ -5245,7 +5245,7 @@ void func_80182780(s32 a0) {
     CAST_ALIAS(u16, (u8 *)q, 0x5C) = 0x8000;
     ((Unkstruct_80182780 *)q)->unkC1 = 0;
 
-    q = ((Unkstruct_801202A0 *)D_801EC450)->unkD4;
+    q = ((Unkstruct_801202A0 *)D_801EC450)->unkD4.p;
     CAST_ALIAS(s16, (u8 *)q, 0x2) = 2;
     CAST_ALIAS(u16, (u8 *)q, 0x5C) = 0x8000;
     ((Unkstruct_80182780 *)q)->unkC1 = 0;

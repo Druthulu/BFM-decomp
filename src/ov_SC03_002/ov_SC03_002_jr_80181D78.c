@@ -3070,7 +3070,7 @@ void func_8018235C(void *arg0) {
 
     v1 = ((Unkstruct_801202A0 *)arg0)->unk68;
     *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = func_801788B8((s32)arg0, (s32)func_80182498);
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = func_801788B8((s32)arg0, (s32)func_80182498);
     guess_SpawnActorNoArg(0x266, (s32)arg0);
 }
 

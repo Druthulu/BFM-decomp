@@ -4201,7 +4201,7 @@ void func_8017E228(void *a0) {
         *(s16 *)((char *)pv0 + 0xC) = (s16)pv1;
     }
     v0 = func_801788B8((s32)s0, (s32)func_8017E5C4);
-    ((Unkstruct_801202A0 *)s0)->unkD4 = v0;
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = v0;
     guess_SetObjectPosAndYaw(v0, (s32)&D_8018E958);
 }
 
@@ -4580,7 +4580,7 @@ void func_8017EB04(void *a0) {
     }
     func_801843E0(s0, (s32)&D_8018F038);
     CAST_NONSTRUCT(s16, (char *)*(void **)((char *)s0 + 0x68), 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8017EB84);
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)func_8017EB84);
 }
 
 
@@ -4891,7 +4891,7 @@ void func_8017F0A4(void *arg0) {
 
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk68 + 0xC) = 0x7FFF;
     t = func_801788B8((s32)arg0, (s32)func_8017F1A0);
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = t;
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = t;
     guess_SetObjectPosAndYaw(t, (s32)&D_8018F1DC);
 }
 
@@ -5072,13 +5072,13 @@ void func_8017F438(void *arg0) {
     if ((u32)(s1 - 0x181) < 5) {
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
         func_801843E0(s0, s2);
-        ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8(s0, (s32)func_8017FA98);
+        ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8(s0, (s32)func_8017FA98);
     } else if ((u32)(s1 - 0x186) < 0x14) {
         ((Unkstruct_801202A0 *)s0)->unk2.s = 2;
         guess_SetObjectPosAndYaw(s0, s2);
         guess_ShowObjectModel(s0);
         guess_StartActorSequence(s0, (s32)&D_8018F478);
-        ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8(s0, (s32)func_8017FA98);
+        ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8(s0, (s32)func_8017FA98);
     } else if ((u32)(s1 - 0x19A) < 0x14) {
         ((Unkstruct_801202A0 *)s0)->unk2.s = 5;
         guess_SetObjectPosAndYaw(s0, (s32)&D_8018F794);
@@ -6001,7 +6001,7 @@ void *arg0;
     ((void (*)(s32*, s32))func_801843E0)((s32 *)arg0, (s32)&D_8018FC3C);
     v1 = CAST_SIGN(void *, (char *)arg0, 0x68);
     *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = func_801788B8((s32)arg0, (s32)&func_8018095C);
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = func_801788B8((s32)arg0, (s32)&func_8018095C);
 }
 
 
@@ -6173,7 +6173,7 @@ void func_80180C0C(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_8018FE2C | 0x40000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)func_80180CC8);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)func_80180CC8);
 }
 
 

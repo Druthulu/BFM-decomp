@@ -3157,7 +3157,7 @@ void func_801864E8(void *a0) {
         func_80187778((s32 *)a0, (s32)&D_80192970);
         v1 = CAST_SIGN(void *, (char *)a0, 0x68);
         *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
-        ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80186568);
+        ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)&func_80186568);
     }
 }
 
@@ -3262,7 +3262,7 @@ void func_801867A8(void *a0) {
         }
         func_80187778((s32 *)a0, (s32)&D_801929E8);
         *(s16 *)(((Unkstruct_801202A0 *)a0)->unk68 + 0xC) = 0x7FFF;
-        ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)func_80186828);
+        ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)func_80186828);
     }
 }
 
@@ -3408,7 +3408,7 @@ void func_80186A8C(void *arg0) {
         guess_StartActorSequence((s32)arg0, (s32)&D_801C3C90);
         func_8001C97C(&D_801EB318);
         *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk68 + 0xC) = 0x7FFF;
-        ((Unkstruct_801202A0 *)arg0)->unkD4 = func_801788B8((s32)arg0, (s32)func_80186C54);
+        ((Unkstruct_801202A0 *)arg0)->unkD4.p = func_801788B8((s32)arg0, (s32)func_80186C54);
     }
 }
 

@@ -6521,14 +6521,14 @@ void func_80183084(void *a0) {
                 saved = CAST_SIGN(u16, (s32)a0, 0xFC);
                 ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801AF7F0;
                 ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_80183084.unk100 = saved;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_80182F00.unk100.s = saved;
                 break;
             case 2:
                 guess_StartActorSequence((s32)a0, (s32)D_801BB960);
                 saved = CAST_SIGN(u16, (s32)a0, 0xFC);
                 ((Unkstruct_801202A0 *)a0)->unk2.s = 9;
                 ((Unkstruct_801202A0 *)a0)->unkBC = (s32)&D_801AF890;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_80183084.unk100 = saved;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_80182F00.unk100.s = saved;
                 break;
             case 1:
             case 3:

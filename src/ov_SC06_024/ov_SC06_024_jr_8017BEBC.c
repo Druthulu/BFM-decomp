@@ -3165,7 +3165,7 @@ void func_8017D89C(s32 param_1) {
         s1 = guess_AllocSpriteObjectHigh();
         if (s1 != 0) {
             s0 = &D_80193470;
-            ((Unkstruct_801202A0 *)param_1)->unkD4 = s1;
+            ((Unkstruct_801202A0 *)param_1)->unkD4.p = s1;
             guess_InitObjectKind6(s1, s0);
             *(s16 *)(s1 + 0x18) = 0x400;
             *(s16 *)(s1 + 0x1A) = 0x400;
@@ -3361,7 +3361,7 @@ void func_8017DBFC(s32 arg0)
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x1E;
             ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
             func_80128D60(0, D_801E1120, D_80193378);
-            *(s32 *)((s32)((Unkstruct_801202A0 *)s0)->unkD4 + 4) &= 0x7FFFFFFF;
+            *(s32 *)((s32)((Unkstruct_801202A0 *)s0)->unkD4.p + 4) &= 0x7FFFFFFF;
             D_80193470 = 0x20;
             D_80193471 = 0x20;
             D_80193472 = 0x20;
@@ -3483,7 +3483,7 @@ void func_8017DBFC(s32 arg0)
             ((Unkstruct_801202A0 *)s0)->unk2.s = 3;
         }
         ((Unkstruct_801202A0 *)s0)->unk34.u = 0;
-        ((Unkstruct_801202A0 *)s0)->unkD4->unk4.val |= 0x80000000;
+        ((Unkstruct_801202A0 *)s0)->unkD4.p->unk4.val |= 0x80000000;
         *(s32 *)(((Unkstruct_801202A0 *)s0)->unkD8.val + 4) |= 0x80000000;
         guess_RequestSound(4, 0x95C);
         break;
@@ -3714,7 +3714,7 @@ void func_8017E61C(s32 p) {
         func_80128D60(0, D_801E1120, &D_80193418);
         ((Unkstruct_801202A0 *)p)->unk1C.s = 0x3D;
         ((Unkstruct_801202A0 *)p)->unk34.u += 1;
-        ((Unkstruct_801202A0 *)p)->unkD4->unk4.val |= 0x80000000;
+        ((Unkstruct_801202A0 *)p)->unkD4.p->unk4.val |= 0x80000000;
         *(u32 *)(((Unkstruct_801202A0 *)p)->unkD8.val + 4) |= 0x80000000;
         func_8001C924(((Unkstruct_801202A0 *)p)->unk20.p, &D_801E1128);
         guess_StartActorSequence(p, &D_80193504);
@@ -3858,7 +3858,7 @@ void func_8017EADC(s32 a0) {
 
     func_8012EC04(a0, D_801E1158, (s32 *)m);
     guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193468, (s32)s1);
-    guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193440, (s32)&((Unkstruct_801202A0 *)a0)->unkD4->unk8);
+    guess_RotTransSVWithMatrix((s32)m, (s32)&D_80193440, (s32)&((Unkstruct_801202A0 *)a0)->unkD4.p->unk8);
 
     s2[0] = *(s32 *)&D_80126B5C;
     s2[1] = D_80126B60 + 0xFFD00000;
@@ -4002,7 +4002,7 @@ void func_8017EC4C(s32 param_1)
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     dbase = guess_g_RenderWork;
     func_8012EC04(param_1, D_801E1158, (s32 *)&cmat);
-    guess_RotTransSVWithMatrix((s32)&cmat, (s32)&D_80193440[0], (s32)&((Unkstruct_801202A0 *)param_1)->unkD4->unk8);
+    guess_RotTransSVWithMatrix((s32)&cmat, (s32)&D_80193440[0], (s32)&((Unkstruct_801202A0 *)param_1)->unkD4.p->unk8);
 
     v[0].vx = D_80193440[0];
     v[0].vy = D_80193440[1];

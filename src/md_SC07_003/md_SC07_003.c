@@ -160,7 +160,7 @@ void func_801A026C(s32 arg0)
 
     ((Unkstruct_801202A0 *)arg0)->unkCC.val = guess_SpawnActorNoArg(0x34C, arg0);
     ((Unkstruct_801202A0 *)arg0)->unkD0.val = guess_SpawnActorNoArg(0x351, arg0);
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = guess_SpawnActor(0x34C, 2, arg0);
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = guess_SpawnActor(0x34C, 2, arg0);
     ((Unkstruct_801202A0 *)arg0)->unkD8.val = guess_SpawnActorNoArg(0x3AB, arg0);
 
     for (i = 0; i < 3; i++) {

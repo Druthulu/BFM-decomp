@@ -2978,7 +2978,7 @@ void func_8017FE88(s32 arg0)
     (CAST_SIGN(u16, (s32)arg0, 0x2))++;
     guess_ClearVelocityAndSetGravity(arg0);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x1E;
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = (s32)arg0;
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = (s32)arg0;
 }
 
 

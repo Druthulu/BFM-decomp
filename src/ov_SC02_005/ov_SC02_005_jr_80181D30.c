@@ -2988,7 +2988,7 @@ L224:
     if (CAST_WIDTH(s16, (s32)arg0, 0xDC) != 0) {
         s1 = 0x30;
     }
-    func_801840E8(((Unkstruct_801202A0 *)arg0)->unkD4);
+    func_801840E8(((Unkstruct_801202A0 *)arg0)->unkD4.p);
 
 L244:
     if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC02_005_801821C8.unkE8 & 0x2000) {
@@ -3192,7 +3192,7 @@ void func_801824D0(s32 s0) {
             func_801900F4();
             break;
         case 2:
-            func_80184184(((Unkstruct_801202A0 *)s0)->unkD4);
+            func_80184184(((Unkstruct_801202A0 *)s0)->unkD4.p);
             ((Unkstruct_801202A0 *)s0)->unk5C.u = 0x800;
             break;
         }
@@ -3447,7 +3447,7 @@ void func_80182A8C(s32 s0) {
         }
         break;
     case 3:
-        func_801840E8(((Unkstruct_801202A0 *)s0)->unkD4);
+        func_801840E8(((Unkstruct_801202A0 *)s0)->unkD4.p);
         ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
         ((Unkstruct_801202A0 *)s0)->unk34.u = 4;
         break;
@@ -3793,7 +3793,7 @@ void func_80183218(void *arg0) {
                         func_801900F4();
                         break;
                     case 2:
-                        func_80184184(((Unkstruct_801202A0 *)p)->unkD4);
+                        func_80184184(((Unkstruct_801202A0 *)p)->unkD4.p);
                         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x800;
                         break;
                     }

@@ -2944,7 +2944,7 @@ void func_801816F0(void *a0) {
             *(short *)(t + 0xC) = 0x7FFF;
         }
         v0 = func_801788B8((s32)s0, (s32)&func_80181990);
-        s0->unkD4 = v0;
+        s0->unkD4.p = v0;
         guess_SetObjectPosAndYaw(v0, (s32)&D_80189928);
         s0->unkD8.val = (func_801788B8((s32)s0, (s32)&func_801813E4));
     }

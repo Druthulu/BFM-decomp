@@ -2782,7 +2782,7 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         v10.vx = ((Cmd_80178D40 *)arg1)->a.uh[0];
         v10.vy = 0;
         v10.vz = ((Cmd_80178D40 *)arg1)->a.uh[1];
-        guess_RotTransSVWithObjMatrix(arg0->unkD4, &v10, &v18);
+        guess_RotTransSVWithObjMatrix(arg0->unkD4.p, &v10, &v18);
         func_80179D30(&v18);
         (*(s16*)D_801E4C4C) = 3;
         break;
@@ -2813,7 +2813,7 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         (*(s16*)D_801E4C4C) = 3;
         break;
     case 0x16: {
-        Unkstruct_801202A0 *p = arg0->unkD4;
+        Unkstruct_801202A0 *p = arg0->unkD4.p;
         v10.vx = p->unk4.i.hi.u;
         v10.vy = p->unk8.i.hi.u;
         v10.vz = p->unkC.i.hi.u;

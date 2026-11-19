@@ -426,7 +426,7 @@ void func_801EF6D8(s32 a0) {
                 guess_RequestSound(0x13, 0);
                 func_80029514(0x46);
                 guess_SetGameFlag(0xE7, 1);
-                guess_FreeActor(((Unkstruct_801202A0 *)a0)->unkD4);
+                guess_FreeActor(((Unkstruct_801202A0 *)a0)->unkD4.p);
                 guess_FreeActor(a0);
             }
         }

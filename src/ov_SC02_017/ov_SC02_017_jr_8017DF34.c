@@ -4122,7 +4122,7 @@ void func_801806C8(void *a0) {
     q = CAST_SIGN(void *, (u8 *)a0, 0x64);
     ((Unkstruct_801202A0 *)a0)->unkCC.val = (s32)((u8 *)a0 + 0xFC);
     CAST_WIDTH(u16, (u8 *)a0, 0xD0) = 1;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = 0;
     CAST_WIDTH(s16, (u8 *)a0, 0xD8) = -2;
     ((Unkstruct_801202A0 *)a0)->extD.kSC02_017_8018068C.unk108 = *(u16 *)((u8 *)q + 0x36);
     guess_StartActorSequence((s32)a0, (void *)((u8 *)a0 + 0xCC));
@@ -6300,7 +6300,7 @@ void func_80183C6C(s32 a0) {
     v1 = ((Unkstruct_801202A0 *)s1)->unk68;
     *(u16 *)(v1 + 0xC) = 0x7FFF;
     guess_StartActorSequence(s1, (void *)s0);
-    ((Unkstruct_801202A0 *)s1)->unkD4 = func_801788B8(s1, (s32)func_80184084);
+    ((Unkstruct_801202A0 *)s1)->unkD4.p = func_801788B8(s1, (s32)func_80184084);
     ((Unkstruct_801202A0 *)s1)->unk2.s = 1;
     guess_SetObjectPosAndYaw(s1, (s32)&D_8018ECA8);
     guess_StartActorSequence(s1, (void *)s0);

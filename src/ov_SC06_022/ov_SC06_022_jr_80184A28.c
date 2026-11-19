@@ -4851,9 +4851,9 @@ void func_80187AC8(s32 param_1) {
             CAST_WIDTH(s16, param_1, 0xDC) = ((Unkstruct_801202A0 *)param_1)->unk64->unkCC.u.lo;
             *(s16 *)(param_1 + 0xDE) = ((Unkstruct_801202A0 *)param_1)->unk64->unkCC.u.hi;
             CAST_WIDTH(s16, param_1, 0xE0) = ((Unkstruct_801202A0 *)param_1)->unk64->unkD0.u.lo;
-            CAST_WIDTH(s16, param_1, 0xE4) = *(u16 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0xD4);
-            *(s16 *)(param_1 + 0xE6) = *(u16 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0xD6);
-            CAST_WIDTH(s16, param_1, 0xE8) = *(u16 *)((s32)((Unkstruct_801202A0 *)param_1)->unk64 + 0xD8);
+            CAST_WIDTH(s16, param_1, 0xE4) = ((Unkstruct_801202A0 *)param_1)->unk64->unkD4.u.lo;
+            *(s16 *)(param_1 + 0xE6) = ((Unkstruct_801202A0 *)param_1)->unk64->unkD4.u.hi;
+            CAST_WIDTH(s16, param_1, 0xE8) = ((Unkstruct_801202A0 *)param_1)->unk64->unkD8.u.lo;
             ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 8;
         }

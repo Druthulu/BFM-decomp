@@ -4952,7 +4952,7 @@ void func_80180020(s32 a0) {
         }
         {
         u8 *q = &D_801A9D28;
-        ((Unkstruct_801202A0 *)a0)->unkD4 = (s32)p;
+        ((Unkstruct_801202A0 *)a0)->unkD4.p = (s32)p;
         *(u16 *)(p + 0x6) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 0x9C;
         *(u16 *)(p + 0xA) = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x20;
         *(u16 *)(p + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - 0x28;

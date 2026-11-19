@@ -3086,7 +3086,7 @@ void func_8018C2D8(void *arg)
         t = (u8 *)guess_SpawnActor(0x318, 2, (s32)s1);
         if (t == 0) return;
         *(u16 *)(t + 0xFC) = 0x600;
-        ((Unkstruct_801202A0 *)s1)->unkD4 = (s32)t;
+        ((Unkstruct_801202A0 *)s1)->unkD4.p = (s32)t;
         ((Unkstruct_801202A0 *)s1)->unk34.u = ((Unkstruct_801202A0 *)s1)->unk34.u + 1;
         return;
     }

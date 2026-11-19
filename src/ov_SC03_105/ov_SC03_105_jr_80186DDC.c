@@ -2974,7 +2974,7 @@ void func_80186DDC(void *arg0)
         ((Unkstruct_801202A0 *)ent)->unk34.u += 1;
         break;
     case 7:
-        ((Unkstruct_801202A0 *)ent)->unkD4 = guess_SpawnActorNoArg(0x222, ent);
+        ((Unkstruct_801202A0 *)ent)->unkD4.p = guess_SpawnActorNoArg(0x222, ent);
         ((Unkstruct_801202A0 *)ent)->unk34.u += 1;
         break;
     case 9:

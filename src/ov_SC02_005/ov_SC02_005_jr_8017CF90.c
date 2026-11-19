@@ -5585,7 +5585,7 @@ void func_801816FC(Unkstruct_801202A0 *s0) {
     if (func_80183C7C((s32)s0) == 0) goto fail;
     ((Unkstruct_801202A0 *)s0)->unkCC.val = v0;
     if (guess_SpawnActorNoArg(0x4E, (s32)s0) == 0) goto fail;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = v0;
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = v0;
     D_801E4418[0] = 0x1000000;
     if (guess_SpawnActorNoArg(0x42, (s32)s0) == 0) goto fail;
     ((Unkstruct_801202A0 *)s0)->unkD0.val = v0;

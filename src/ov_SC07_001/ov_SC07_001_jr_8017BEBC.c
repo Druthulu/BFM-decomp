@@ -3198,7 +3198,7 @@ void func_8017E4DC(s32 arg0)
     ((Unkstruct_801202A0 *)arg0)->unk75 = 2;
     ((Unkstruct_801202A0 *)arg0)->extE.kSC07_001_8017E448.unkAE = -1;
     ((Unkstruct_801202A0 *)arg0)->unkCC.val = guess_SpawnActorNoArg(0x3A2, arg0);
-    ((Unkstruct_801202A0 *)arg0)->unkD4 = guess_SpawnActorNoArg(0x3BC, arg0);
+    ((Unkstruct_801202A0 *)arg0)->unkD4.p = guess_SpawnActorNoArg(0x3BC, arg0);
     D_801AAD60 = arg0;
     D_801AAD8C = 0;
     for (i = 0; i < 0x24; i++) {

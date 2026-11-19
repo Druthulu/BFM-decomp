@@ -5134,7 +5134,7 @@ void func_801804C0(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801856C8);
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk68 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80180598);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)&func_80180598);
 }
 
 
@@ -5326,7 +5326,7 @@ void func_80180830(void *a0) {
 
     v1p = CAST_SIGN(void *, (u8 *)s0, 0x68);
     *(s16 *)((u8 *)v1p + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018094C);
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)&func_8018094C);
 }
 
 

@@ -3611,7 +3611,7 @@ void func_80185B54(void *arg0) {
     after:
         p68 = ((Unkstruct_801202A0 *)s0)->unk68;
         *(s16 *)(p68 + 0xC) = 32767;
-        tt = ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_801856A8);
+        tt = ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)&func_801856A8);
         guess_SetObjectPosAndYaw(tt, (s32)&D_80192864);
     }
 }

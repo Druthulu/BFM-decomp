@@ -4403,7 +4403,7 @@ void func_80182744(void *a0) {
     q = CAST_SIGN(void *, (u8 *)a0, 0x64);
     ((Unkstruct_801202A0 *)a0)->unkCC.val = (s32)((u8 *)a0 + 0xFC);
     CAST_WIDTH(u16, (u8 *)a0, 0xD0) = 1;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = 0;
     CAST_WIDTH(s16, (u8 *)a0, 0xD8) = -2;
     ((Unkstruct_801202A0 *)a0)->extD.kSC03_029_80182708.unk108 = *(u16 *)((u8 *)q + 0x36);
     guess_StartActorSequence((s32)a0, (void *)((u8 *)a0 + 0xCC));

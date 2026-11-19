@@ -3539,7 +3539,7 @@ void func_8017F1D4(void *arg0) {
         guess_HideObjectModel((u8 *)arg0);
         guess_SetObjectPosAndYaw((s32)arg0, (s32)&D_801871F8);
         *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk68 + 0xC) = 0x7FFF;
-        ((Unkstruct_801202A0 *)arg0)->unkD4 = func_801788B8((s32)arg0, (s32)&func_8017F24C);
+        ((Unkstruct_801202A0 *)arg0)->unkD4.p = func_801788B8((s32)arg0, (s32)&func_8017F24C);
     }
 }
 
@@ -3644,7 +3644,7 @@ void func_8017F3C0(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)D_801873B0 | 0x40000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
     v0 = func_801788B8(a0, (s32)func_8017F56C);
-    ((Unkstruct_801202A0 *)a0)->unkD4 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = v0;
     ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 0x2) + 1;
 }
 
@@ -4431,7 +4431,7 @@ void func_80180708(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
     }
 
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80180978);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)&func_80180978);
 }
 
 

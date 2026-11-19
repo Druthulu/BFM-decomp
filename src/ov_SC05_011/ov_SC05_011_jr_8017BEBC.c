@@ -2924,13 +2924,13 @@ void func_8017D25C(s32 arg0) {
                 sp10.f4 = -0x60;
                 ((Unkstruct_801202A0 *)arg0)->unkD0.val = func_8012C51C(&sp10, arg0);
             }
-            if (((Unkstruct_801202A0 *)arg0)->unkD4 == 0) {
+            if (((Unkstruct_801202A0 *)arg0)->unkD4.p == 0) {
                 sp10.f8 = 2;
                 sp10.f0 = -0x40;
                 sp10.f4 = -0x60;
-                ((Unkstruct_801202A0 *)arg0)->unkD4 = func_8012C51C(&sp10, arg0);
+                ((Unkstruct_801202A0 *)arg0)->unkD4.p = func_8012C51C(&sp10, arg0);
             }
-            if ((((Unkstruct_801202A0 *)arg0)->unkCC.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD0.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD4 != 0)) {
+            if ((((Unkstruct_801202A0 *)arg0)->unkCC.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD0.val != 0) && (((Unkstruct_801202A0 *)arg0)->unkD4.p != 0)) {
                 ((Unkstruct_801202A0 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
             }
         }

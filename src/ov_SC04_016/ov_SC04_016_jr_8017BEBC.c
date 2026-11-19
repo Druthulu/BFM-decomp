@@ -2887,12 +2887,12 @@ void func_8017D118(s32 a0) {
             st.f4 = 0;
             ((Unkstruct_801202A0 *)a0)->unkCC.val = func_8012C51C(&st, a0);
         }
-        if (((Unkstruct_801202A0 *)a0)->unkD4 == 0) {
+        if (((Unkstruct_801202A0 *)a0)->unkD4.p == 0) {
             st.f8 = 2;
             st.f0 = -0xF8;
             st.f2 = -0x502;
             st.f4 = 0x60;
-            ((Unkstruct_801202A0 *)a0)->unkD4 = func_8012C51C(&st, a0);
+            ((Unkstruct_801202A0 *)a0)->unkD4.p = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_801202A0 *)a0)->unkD0.val == 0) {
             st.f8 = 1;
@@ -2923,7 +2923,7 @@ void func_8017D118(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_016_8017DCDC.unkF4 = func_8012C51C(&st, a0);
         }
         if (((Unkstruct_801202A0 *)a0)->unkCC.val != 0 && ((Unkstruct_801202A0 *)a0)->unkD0.val != 0 &&
-            ((Unkstruct_801202A0 *)a0)->unkD4 != 0 && ((Unkstruct_801202A0 *)a0)->unkD8.val != 0 &&
+            ((Unkstruct_801202A0 *)a0)->unkD4.p != 0 && ((Unkstruct_801202A0 *)a0)->unkD8.val != 0 &&
             ((Unkstruct_801202A0 *)a0)->unkF8.val.s != 0 && ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_016_8017DCDC.unkF4 != 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, a0, 2) + 1;
         }

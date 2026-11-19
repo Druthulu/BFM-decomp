@@ -3123,7 +3123,7 @@ dispatch:
         *(s16 *)((u8 *)pv0 + 0xC) = (s16)pv1;
     }
     newEnt = (void *)func_801788B8((s32)s0, (s32)func_80180F3C);
-    ((Unkstruct_801202A0 *)s0)->unkD4 = (s32)newEnt;
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = (s32)newEnt;
     guess_SetObjectPosAndYaw((s32)newEnt, (s32)&D_80191530);
     ((Unkstruct_801202A0 *)s0)->unkD8.val = (s32)((void *)func_801788B8((s32)s0, (s32)func_80180FB4));
 }
@@ -3773,7 +3773,7 @@ void func_8018193C(void *a0) {
     }
     v1 = CAST_SIGN(void *, (char *)a0, 0x68);
     *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80181A4C);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)&func_80181A4C);
 }
 
 
@@ -3970,7 +3970,7 @@ void func_80181D50(void *a0) {
     ((void (*)(s32, s32))func_801849B8)((int)a0, (int)&D_801919AC);
     v1 = CAST_SIGN(void *, (char *)a0, 0x68);
     *(s16 *)((char *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)&func_80181E0C);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)&func_80181E0C);
 }
 
 
@@ -4165,7 +4165,7 @@ void func_80182084(void *a0) {
     }
 
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk68 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)a0)->unkD4 = func_801788B8((s32)a0, (s32)func_80182318);
+    ((Unkstruct_801202A0 *)a0)->unkD4.p = func_801788B8((s32)a0, (s32)func_80182318);
 }
 
 

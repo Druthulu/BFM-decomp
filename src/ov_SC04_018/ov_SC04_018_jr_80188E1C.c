@@ -5428,7 +5428,7 @@ void func_8018C278(void *a0) {
 
     v1p = CAST_SIGN(void *, (u8 *)s0, 0x68);
     *(s16 *)((u8 *)v1p + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C3F0);
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)&func_8018C3F0);
 }
 
 

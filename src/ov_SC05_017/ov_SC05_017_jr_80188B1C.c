@@ -5298,7 +5298,7 @@ void func_8018BE14(void *arg0) {
 tail:
     ptr = CAST_SIGN(void *, (char *)s0, 0x68);
     *(short *)((char *)ptr + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)func_8018BEE0);
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)func_8018BEE0);
 }
 
 
@@ -5385,7 +5385,7 @@ void func_8018BF78(void *arg0) {
 
     v1 = ((Unkstruct_801202A0 *)s0)->unk68;
     *(s16 *)((u8 *)v1 + 0xC) = 0x7FFF;
-    ((Unkstruct_801202A0 *)s0)->unkD4 = func_801788B8((s32)s0, (s32)&func_8018C0F0);
+    ((Unkstruct_801202A0 *)s0)->unkD4.p = func_801788B8((s32)s0, (s32)&func_8018C0F0);
 }
 
 

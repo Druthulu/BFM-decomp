@@ -242,7 +242,7 @@ void func_8018622C(Unkstruct_801202A0 *a0) {
 
     v2 = a1->blkDC.f.extC.kSC02_005_801816FC.unkE8;
     if ((v2 & 0x2) == 0) {
-        v0 = a1->unkD4;
+        v0 = a1->unkD4.p;
         v0->unk20.m->unk4.s &= a2;
     }
 }

@@ -4425,9 +4425,9 @@ void func_801812B0(s32 a0) {
             ((Unkstruct_8001C9D0 *)p1)->unkA.u = 0;
             CAST_ALIAS(s16, p1, 0xC) = -8;
         }
-        if (((Unkstruct_801202A0 *)a0)->unkD4 == 0) {
+        if (((Unkstruct_801202A0 *)a0)->unkD4.p == 0) {
             p0 = guess_AllocModelObject();
-            ((Unkstruct_801202A0 *)a0)->unkD4 = p0;
+            ((Unkstruct_801202A0 *)a0)->unkD4.p = p0;
             if (p0 == 0) {
                 return;
             }
@@ -4606,7 +4606,7 @@ void func_80181894(s32 a0) {
     s32 v;
 
     p1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-    p2 = ((Unkstruct_801202A0 *)a0)->unkD4;
+    p2 = ((Unkstruct_801202A0 *)a0)->unkD4.p;
     func_801820F8(a0);
     n = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = n;

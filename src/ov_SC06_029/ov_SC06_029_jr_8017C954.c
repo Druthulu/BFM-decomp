@@ -4972,7 +4972,7 @@ void func_801808C4(s32 a0) {
         *(s32 *)(t2 + 0xE0) = 1;
     }
 
-    t3 = ((Unkstruct_801202A0 *)a0)->unkD4;
+    t3 = ((Unkstruct_801202A0 *)a0)->unkD4.p;
     if (t3 != 0) {
         *(s32 *)(t3 + 0xE0) = 1;
     }
@@ -5616,7 +5616,7 @@ void func_80181898(s32 param_1) {
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = (s32)&D_80190448;
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = guess_SpawnActor(0x295, 0, param_1);
         ((Unkstruct_801202A0 *)param_1)->unkD0.val = guess_SpawnActor(0x295, 1, param_1);
-        ((Unkstruct_801202A0 *)param_1)->unkD4 = guess_SpawnActor(0x295, 2, param_1);
+        ((Unkstruct_801202A0 *)param_1)->unkD4.p = guess_SpawnActor(0x295, 2, param_1);
         ((Unkstruct_801202A0 *)param_1)->unkD8.val = guess_SpawnActor(0x295, 3, param_1);
         func_80181D94(param_1);
         func_80182334(param_1);
@@ -7102,7 +7102,7 @@ void func_80183D84(u8 *a0) {
 
     ((Unkstruct_801202A0 *)e)->unkCC.val = (s32)obj[0];
     ((Unkstruct_801202A0 *)e)->unkD0.val = (s32)obj[1];
-    ((Unkstruct_801202A0 *)e)->unkD4 = (s32)obj[2];
+    ((Unkstruct_801202A0 *)e)->unkD4.p = (s32)obj[2];
     ((Unkstruct_801202A0 *)e)->unkD8.val = (s32)obj[3];
     ((Unkstruct_801202A0 *)e)->unk1C.s = 0x10;
 
@@ -7250,7 +7250,7 @@ void func_80184084(s32 param_1)
             ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
             func_80184EA0(((Unkstruct_801202A0 *)param_1)->unkCC.val);
             func_80184EA0(((Unkstruct_801202A0 *)param_1)->unkD0.val);
-            func_80184EA0(((Unkstruct_801202A0 *)param_1)->unkD4);
+            func_80184EA0(((Unkstruct_801202A0 *)param_1)->unkD4.p);
             func_80184EA0(((Unkstruct_801202A0 *)param_1)->unkD8.val);
             if (((Unkstruct_801202A0 *)param_1)->unkFE.s != -1) {
                 *(s32 *)(D_801DFD38[((Unkstruct_801202A0 *)param_1)->unkFE.s] + 4) |= 0x80000000;
@@ -7298,7 +7298,7 @@ void func_80184464(void *a0) {
     if (((Unkstruct_801202A0 *)a0)->unkD0.val != 0) {
         guess_ZeroMemory(CAST_SIGN(void *, (s32)a0, 0xD0), 0x38);
     }
-    if (((Unkstruct_801202A0 *)a0)->unkD4 != 0) {
+    if (((Unkstruct_801202A0 *)a0)->unkD4.p != 0) {
         guess_ZeroMemory(CAST_SIGN(void *, (s32)a0, 0xD4), 0x38);
     }
     if (((Unkstruct_801202A0 *)a0)->unkD8.val != 0) {

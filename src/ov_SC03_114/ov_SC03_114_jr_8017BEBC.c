@@ -2877,12 +2877,12 @@ void func_8017D110(s32 param_1)
             sp10.f4 = 0x1E0;
             ((Unkstruct_801202A0 *)param_1)->unkD0.val = func_8012C51C(&sp10, param_1);
         }
-        if (((Unkstruct_801202A0 *)param_1)->unkD4 == 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unkD4.p == 0) {
             sp10.f8 = 2;
             sp10.f0 = 0;
             sp10.f2 = s1;
             sp10.f4 = 0x140;
-            ((Unkstruct_801202A0 *)param_1)->unkD4 = func_8012C51C(&sp10, param_1);
+            ((Unkstruct_801202A0 *)param_1)->unkD4.p = func_8012C51C(&sp10, param_1);
         }
         if (((Unkstruct_801202A0 *)param_1)->unkD8.val == 0) {
             sp10.f8 = 3;
@@ -2914,7 +2914,7 @@ void func_8017D110(s32 param_1)
         }
 
         if (((Unkstruct_801202A0 *)param_1)->unkCC.val != 0 && ((Unkstruct_801202A0 *)param_1)->unkD0.val != 0 &&
-            ((Unkstruct_801202A0 *)param_1)->unkD4 != 0 && ((Unkstruct_801202A0 *)param_1)->unkD8.val != 0 &&
+            ((Unkstruct_801202A0 *)param_1)->unkD4.p != 0 && ((Unkstruct_801202A0 *)param_1)->unkD8.val != 0 &&
             CAST_WIDTH(s32, param_1, 0xEC) != 0 && CAST_WIDTH(s32, param_1, 0xF0) != 0 &&
             ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kcls_f3aff223cfe8.unkF4 != 0) {
             D_801A9678[0] = 0xF0;
