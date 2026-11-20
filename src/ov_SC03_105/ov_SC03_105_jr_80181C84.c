@@ -3727,7 +3727,7 @@ void func_8018364C(void *arg0) {
         ret = func_801850D8(6, (s16)(i * 0x200 + 0x3000 + r % 1024), 0, 0, sp20,
                             (s32)arg0, (s32)D_8018E47C, 0);
         if (ret != 0) {
-            ((Unkstruct_8018364C *)ret)->unk52 = i;
+            ((Unkstruct_8018364C *)ret)->ext50.kSC03_105_80184E74.unk52 = i;
             r = rand();
             ((Unkstruct_8018364C *)ret)->unk4C = r % 8;
         }

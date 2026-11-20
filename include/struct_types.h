@@ -860,7 +860,7 @@ typedef struct {
     } E_13BD74;
 typedef struct {
         u8   pad0[8];
-        void *f8;
+        s32 f8; /* T18.c16: was void *; s32 like the packet-model views (merge into Unkstruct_8017FA5C) */
         void *fC;
     } E_13C08C_8013C08C;
 typedef E_13C08C_8013C08C E_13C08C;
@@ -8210,7 +8210,7 @@ typedef struct {
 typedef struct {
     /* Unkstruct_a60d032a: P3.40 T3 band rank 1642; 10 TNC sites in 5 bodies; struct map 10 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0xc];
-    /* 0x000c */ s32 unkC;
+    /* 0x000c */ void * unkC; /* T18.c16: was s32; read only as (CellC59C **) (packet-model merge) */
     /* 0x0010 */ u8 pad10[0x50];
     /* 0x0060 */ s32 unk60;
 } Unkstruct_8017C59C; /* size = 0x64 */
@@ -18045,9 +18045,14 @@ typedef struct {
     /* Unkstruct_40137cba: P3.40 T3 band rank 6459; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x4c];
     /* 0x004c */ s16 unk4C;
-    /* 0x004e */ u8 pad4E[0x4];
-    /* 0x0052 */ s16 unk52;
-    /* 0x0054 */ u8 pad54[0x8]; /* T16.c8: element of D_801BA734[0x60], stride 0x5C */
+    /* 0x004e */ u8 pad4E[0x2];
+    /* 0x0050 */ union {
+        u8 raw[0xc];
+        struct {
+            u8 pad0[0x2];
+            s16 unk52;
+        } kSC03_105_80184E74;
+    } ext50; /* T16.c8: element of D_801BA734[0x60], stride 0x5C; T18.c16: per-kind words +0x50..+0x5B (gap union, variants by pool handler); s16 unk52 (kind 6 only) moved into it */
 } Unkstruct_8018364C; /* size = 0x5C; was 0x54 */
 
 typedef Unkstruct_80181FAC_2 Unkstruct_8018393C; /* size = 0x4 */
