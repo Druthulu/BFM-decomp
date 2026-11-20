@@ -177,7 +177,7 @@ extern void func_801553C0(s32 a0);
 extern void guess_SetTexAnim(s32 a0, s32 a1);
 
 void func_800CB234(void *a0) {
-    ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.u = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.w.unk10.u = 0;
     func_801553C0((s32)a0);
     guess_SetTexAnim((s32)a0, 0x11);
 }

@@ -1172,7 +1172,7 @@ void func_80158BB0(void *arg0) {
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
     ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
-    ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk10.u = 0;
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);
     func_801472C8(arg0);
@@ -1240,7 +1240,7 @@ void func_80158FA4(s32 param_1)
     s16 sVar1;
 
     v0 = ((Unkstruct_80126B58 *)param_1)->unk20.val;
-    ((Unkstruct_8001C9D0 *)v0)->head.unk12.u = (((Unkstruct_8001C9D0 *)v0)->head.unk12.u + 0x16) & 0xfff;
+    ((Unkstruct_8001C9D0 *)v0)->head.unk10.w.unk12.u = (((Unkstruct_8001C9D0 *)v0)->head.unk10.w.unk12.u + 0x16) & 0xfff;
     if (((s32 (*)(void))guess_GetPadPressed)() & 0xf0) {
         D_801A59A8 = 1;
     }
@@ -1284,7 +1284,7 @@ void func_8015934C(void *arg0) {
         guess_g_EventSubStep += 1;
     }
     temp_v1 = M2C_FIELD(arg0, void **, 0x20);
-    ((Unkstruct_8001C9D0 *)temp_v1)->head.unk12.u = (u16) ((((Unkstruct_8001C9D0 *)temp_v1)->head.unk12.u + 0x16) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_v1)->head.unk10.w.unk12.u = (u16) ((((Unkstruct_8001C9D0 *)temp_v1)->head.unk10.w.unk12.u + 0x16) & 0xFFF);
 }
 
 

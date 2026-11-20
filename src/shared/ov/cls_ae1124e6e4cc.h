@@ -10,8 +10,8 @@ void SHARED_FN(s32 a0) {
 
     s1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
 
-    temp = ((Unkstruct_800B5BD8 *)s1)->head.unk10.u + 0x71;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk10.u = temp;
+    temp = ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u + 0x71;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u = temp;
     v0 = rsin(temp);
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u + (CAST_SIGN(s16, a0, 0x2C) * v0) / 4096;
 
@@ -21,8 +21,8 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk14.val += 0xFFFF4000;
     CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_801202A0 *)a0)->unk14.val;
 
-    ((Unkstruct_800B5BD8 *)s1)->head.unk1A.u += 0xCC;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk18.u = ((Unkstruct_800B5BD8 *)s1)->head.unk1A.u;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u += 0xCC;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u;
 
     if ((((Unkstruct_801202A0 *)a0)->unk1C.s & 3) == 0) {
         guess_StepPairSequence(((Unkstruct_801202A0 *)a0)->unk20.p, (s32 *)(a0 + 0x24));

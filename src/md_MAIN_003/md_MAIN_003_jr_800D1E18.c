@@ -327,6 +327,7 @@ extern void func_800D2C88(void);
 extern void func_800599B8(u16 *, u16 *);
 
 void func_800D24D0(void) {
+    extern Unkstruct_801343C4 aD_800EC9D0 __asm__("D_800EC9D0"); /* 8-byte copy unit held by the global (T18.c20) */
     D24D0_Rect sp10[2];
     s32 s0;
     s32 idx;
@@ -343,7 +344,7 @@ void func_800D24D0(void) {
     {
         s32 *pb = &D_800EC9B8;
         s0 = *pb;
-        sp10[0] = *(D24D0_Rect *)&D_800EC9D0;
+        sp10[0] = aD_800EC9D0;
         *pb = (*pb == 0);
     }
     if (D_800EC9F0 != 0 && (r = D_800EC9C0[D_800EC9CC * 4] % D_800EC9D4) != 0) {

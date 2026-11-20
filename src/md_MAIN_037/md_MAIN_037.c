@@ -136,7 +136,7 @@ void func_800CB09C(s32 a0) {
     ((Unkstruct_80126B58 *)a0)->unk20.val = iVar2;
     if (iVar2 != 0) {
         guess_InitModelObjectKind3(iVar2, (s32)&D_800CB61C);
-        uVar1 = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk12.u;
+        uVar1 = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk10.w.unk12.u;
         *(u16 *)(iVar2 + 0x12) = uVar1;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0xFFF40000, 0xFFE80000);
@@ -319,8 +319,8 @@ void func_800CB480(s32 arg0)
         *(s32 *)(arg0 + 0x20) = iVar1;
         func_8001CC3C(iVar1, (s32)&D_800CB648, 0x1B8, 0x100);
         ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk27.u = 0x1A;
-        ((Unkstruct_800B5BD8 *)iVar1)->head.unk1A.u = 0x2000;
-        ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.w.unk1A.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.w.unk18.u = 0x2000;
         *(s32 *)(arg0 + 0x10) = *(s32 *)((s32)&D_800CB65C + (*(s32 *)(arg0 + 0x2C)) * 0x10);
         *(s32 *)(arg0 + 0x14) = *(s32 *)((s32)&D_800CB660 + (*(s32 *)(arg0 + 0x2C)) * 0x10);
         *(s32 *)(arg0 + 0x18) = *(s32 *)((s32)&D_800CB664 + (*(s32 *)(arg0 + 0x2C)) * 0x10);

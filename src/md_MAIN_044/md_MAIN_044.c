@@ -168,9 +168,9 @@ s32 func_800CCF30(void *a0) {
 
 
 void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
-    ((Unkstruct_8001C9D0 *)arg0)->head.unk1C.s = arg1;
-    ((Unkstruct_8001C9D0 *)arg0)->head.unk1A.s = arg1;
-    ((Unkstruct_8001C9D0 *)arg0)->head.unk18.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk18.w.unk1C.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk18.w.unk1A.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk18.w.unk18.s = arg1;
 }
 
 
@@ -293,7 +293,7 @@ void func_800CD1D4(s32 *s1) {
         guess_TransformPosByObjMatrix((s32)s2, (s32)(s1 + 1));
         func_800CD5EC(s1);
         v0 = *(s32 *)((s32)s2 + 0x20);
-        *(V8_md_MAIN_044 *)((s32)s0 + 0x10) = *(V8_md_MAIN_044 *)((s32)v0 + 0x10);
+        { RenderHead *d = (RenderHead *)s0, *s = (RenderHead *)v0; d->unk10.m = s->unk10.m; }
         ((Unkstruct_80126B58 *)s1)->unk60.u = *(u16 *)((s32)s2 + 0x100);
         ((Unkstruct_80126B58 *)s1)->unk62 = *(u16 *)((s32)s2 + 0x102);
         ((Unkstruct_80126B58 *)s1)->unk64.u = *(u16 *)((s32)s2 + 0x104);
@@ -516,9 +516,9 @@ void func_800CD834(void *a0) {
 extern s32 func_80012F74(s32, s32, s32, s32);
 
 void func_800CD848(s32 param_1) {
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.s =
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk1A.s =
-        func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk1A.s, 0x1000, 4, 1);
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.w.unk18.s =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.w.unk1A.s =
+        func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.w.unk1A.s, 0x1000, 4, 1);
 }
 
 

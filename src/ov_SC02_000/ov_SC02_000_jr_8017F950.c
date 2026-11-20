@@ -34,7 +34,7 @@ void func_8017F950(s32 arg0)
     func_8012E9C0(arg0);
     ((Unkstruct_801202A0 *)arg0)->unk76.s = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
     ((Unkstruct_801202A0 *)arg0)->unk5C.u &= 0xFFFE;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;

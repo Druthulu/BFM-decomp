@@ -126,8 +126,8 @@ void func_800CB058(s32 arg0)
     CAST_WIDTH(u32, s0a, 4) = (v0w | maska) & ~0x40;
     fptr = *(s32 *)(p + 0x20);
     cnt = D_800CB984++;
-    ((Unkstruct_800B5BD8 *)s0a)->head.unk12.u = *(s16 *)(fptr + 0x12);
-    ((Unkstruct_800B5BD8 *)s0a)->head.unk10.u = 0x400;
+    ((Unkstruct_800B5BD8 *)s0a)->head.unk10.w.unk12.u = *(s16 *)(fptr + 0x12);
+    ((Unkstruct_800B5BD8 *)s0a)->head.unk10.w.unk10.u = 0x400;
     CAST_WIDTH(s32, s0a, 0x34) = (s32)D_800CB988 + ((cnt & 7) * 32);
     guess_TransformPosByObjMatrix(p, q);
     func_80146DE8(s1a, 0, 0, -0x100000);
@@ -366,9 +366,9 @@ void func_800CB5DC(void *arg0) {
         CAST_ALIAS(s32, (u8 *)s1, 4) |= 0x50000000;
 
         v1 = *(u16 *)(*(void **)((u8 *)s3 + 0x20) + 0x12);
-        ((Unkstruct_800B5BD8 *)s1)->head.unk10.s = 0x400;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.s = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->unk34.s = (s32)((u8 *)arg0 + 0x38);
-        ((Unkstruct_800B5BD8 *)s1)->head.unk12.s = v1;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk12.s = v1;
 
         ((Unkstruct_800CB5DC *)arg0)->unk2 = ((Unkstruct_800CB5DC *)arg0)->unk2 + 1;
     } else {
@@ -418,12 +418,12 @@ void func_800CB76C(void *arg0) {
     s0 = ((Unkstruct_800CB76C_2 *)s2)->unk20;
     s1 = ((Unkstruct_801819B4_2 *)s3)->unk20;
     if (s0 != 0) {
-        ((Unkstruct_800B5BD8 *)s0)->head.unk12.u = *(u16 *)(s1 + 0x12);
+        ((Unkstruct_800B5BD8 *)s0)->head.unk10.w.unk12.u = *(u16 *)(s1 + 0x12);
         RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800B5BD8 *)s0)->unk34.s);
         v = *(s16 *)(s1 + 0x1A);
         q = (v * 180) / 100;
-        ((Unkstruct_800B5BD8 *)s0)->head.unk1A.s = q;
-        ((Unkstruct_800B5BD8 *)s0)->head.unk18.s = q;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1A.s = q;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.s = q;
         func_800139C8(CAST_SIGN(s16, s0, 0x12), D_800CB8FC, (s32)&sp10[0]);
         ((Unkstruct_800CB76C_2 *)s2)->unk6 = ((Unkstruct_801819B4_2 *)s3)->unk6 + sp10[0];
         ((Unkstruct_800CB76C_2 *)s2)->unkA = ((Unkstruct_801819B4_2 *)s3)->unkA + sp10[1];

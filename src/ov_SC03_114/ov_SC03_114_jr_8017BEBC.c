@@ -2972,7 +2972,7 @@ void func_8017D110(s32 param_1)
                 guess_InitModelObject(((Unkstruct_801202A0 *)param_1)->unk20.p, s3);
                 guess_StartActorSequence(param_1, (void *)s2);
                 func_80143994(param_1, 0x3000);
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = s4;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = s4;
             }
             ((Unkstruct_801202A0 *)param_1)->unk2.s = s1;
         }
@@ -3353,7 +3353,7 @@ void func_8017DEE4(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk20.p = var_v0;
     if (var_v0 != 0) {
         guess_InitObjectKind6(var_v0, (void *)var_s2);
-        ((Unkstruct_800B5BD8 *)var_v0)->head.unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)var_v0)->head.unk18.w.unk1A.u = 0x3000;
         CAST_WIDTH(s32, var_v0, 4) |= 0x50000000;
         guess_BuildCircle12Points((void *)var_s2, 0x80);
         func_8017E014(a0, var_s2);
@@ -3602,11 +3602,11 @@ void func_8017E2EC(void *a0)
         if (idx < 0x1000) {
             d = (s32)&stk[0x08];
 
-            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unkA = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkC = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkE = 0;
-            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unk12 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk14 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk16 = 0;
@@ -3615,7 +3615,7 @@ void func_8017E2EC(void *a0)
             ((Unkstruct_8017E2EC_3 *)stk)->unk20 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk1C = 0;
 
-            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->head.unk14.s, (void *)d);
+            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->head.unk10.w.unk14.s, (void *)d);
             gte_SetRotMatrix((void *)d);
             gte_SetTransMatrix((void *)d);
 

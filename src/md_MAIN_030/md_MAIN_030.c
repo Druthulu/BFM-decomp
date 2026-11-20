@@ -110,8 +110,8 @@ void func_800CAFA8(void *a0) {
                 return;
             }
             func_8001CC3C(ent, D_800CB464, 0, 0);
-            ((Unkstruct_800B5BD8 *)ent)->head.unk18.u = 0x6000;
-            ((Unkstruct_800B5BD8 *)ent)->head.unk1A.u = 0x6000;
+            ((Unkstruct_800B5BD8 *)ent)->head.unk18.w.unk18.u = 0x6000;
+            ((Unkstruct_800B5BD8 *)ent)->head.unk18.w.unk1A.u = 0x6000;
             ((Unkstruct_800B5BD8 *)ent)->head.unk24.b.unk27.u = 0x19;
             ((Unkstruct_800B5BD8 *)ent)->head.unk24.b.unk26 = 0;
             ((Unkstruct_800B5BD8 *)ent)->head.unk24.b.unk25.u = 0;
@@ -192,8 +192,8 @@ void func_800CB1EC(void *a0) {
         s5 = 0;
         if (v1 < 0x10) {
             ((Unkstruct_800B5BD8 *)s3)->head.unk24.b.unk24.u = ((Unkstruct_800B5BD8 *)s3)->head.unk24.b.unk25.u = ((Unkstruct_800B5BD8 *)s3)->head.unk24.b.unk26 = ((Unkstruct_800B5BD8 *)s3)->head.unk24.b.unk26 + 4;
-            ((Unkstruct_800B5BD8 *)s3)->head.unk18.u -= 0x400;
-            ((Unkstruct_800B5BD8 *)s3)->head.unk1A.u -= 0x400;
+            ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk18.u -= 0x400;
+            ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk1A.u -= 0x400;
         } else {
             s5 = v1 - 0x10;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
@@ -222,8 +222,8 @@ void func_800CB1EC(void *a0) {
         ((Unkstruct_800CB1EC *)a0)->unkE = out[2];
 
         ((Unkstruct_800CB1EC_3 *)s4)->unk4 &= mask;
-        ((Unkstruct_800CB1EC_3 *)s4)->unk18 = ((Unkstruct_800B5BD8 *)s3)->head.unk18.u;
-        ((Unkstruct_800CB1EC_3 *)s4)->unk1A = ((Unkstruct_800B5BD8 *)s3)->head.unk1A.u;
+        ((Unkstruct_800CB1EC_3 *)s4)->unk18 = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk18.u;
+        ((Unkstruct_800CB1EC_3 *)s4)->unk1A = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk1A.u;
         ((Unkstruct_800CB1EC_3 *)s4)->unk8 = ((Unkstruct_800CB1EC *)a0)->unk6;
         ((Unkstruct_800CB1EC_3 *)s4)->unkA = ((Unkstruct_800CB1EC *)a0)->unkA;
         ((Unkstruct_800CB1EC_3 *)s4)->unkC = ((Unkstruct_800CB1EC *)a0)->unkE;

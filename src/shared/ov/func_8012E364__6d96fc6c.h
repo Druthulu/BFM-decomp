@@ -44,7 +44,7 @@ void func_8012E364(s32 arg0_)
     ((RenderHead *)e1)->unk2C.u = flags | 0x10;
     e2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     d = abs(v);
-    ((RenderHead *)e2)->unk1C.s = d;
-    ((RenderHead *)e2)->unk18.s = d;
+    ((RenderHead *)e2)->unk18.w.unk1C.s = d;
+    ((RenderHead *)e2)->unk18.w.unk18.s = d;
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }

@@ -639,7 +639,7 @@ void func_801E5B3C(Unkstruct_800B5CB8 *a0) {
     CAST_ALIAS(s16, s0, 0xC) = sp[2];
     CAST_WIDTH(s32, s0, 4) = CAST_WIDTH(s32, s0, 4) & 0x7FFFFFFF;
     CAST_ALIAS(s16, s0, 0x10) = ratan2(guess_g_BoxHitNormalZ, guess_g_BoxHitNormalY) + 0x400;
-    ((Unkstruct_800B5BD8 *)s0)->head.unk12.u = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
+    ((Unkstruct_800B5BD8 *)s0)->head.unk10.w.unk12.u = ratan2(*(s16 *)guess_g_BoxHitNormalX, guess_g_BoxHitNormalY);
     CAST_WIDTH(s16, s0, 0x14) = *(u16 *)(*(s32 *)(s1 + 0x20) + 0x12) + 0x200;
 }
 
@@ -675,17 +675,17 @@ void func_801E5CA8(int param_1) {
         func_8001CB6C((u8 *)iVar3, (s32)&D_801921F8, 0x250, 0x1A0);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk4.s = 0x60000000;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk24.b.unk27.u = 0x14;
-        ((Unkstruct_800B5BD8 *)iVar3)->head.unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar3)->head.unk10.w.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x68);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unkA.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x6C);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unkC.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x70);
         sVar1 = ((Unkstruct_801202A0 *)param_1)->unk70.s;
         if (sVar1 != 0) {
-            ((Unkstruct_800B5BD8 *)iVar3)->head.unk1A.s = sVar1;
-            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.s = sVar1;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.w.unk1A.s = sVar1;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.w.unk18.s = sVar1;
         } else {
-            ((Unkstruct_800B5BD8 *)iVar3)->head.unk1A.s = 0x2000;
-            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.s = 0x2000;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.w.unk1A.s = 0x2000;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.w.unk18.s = 0x2000;
         }
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 1;
     }

@@ -7,8 +7,8 @@ void SHARED_FN(s32 arg0) {
     iVar1 = ((Unkstruct_8011DB30 *)arg0)->unk20;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk27.u = 0x9C;
-    ((Unkstruct_800B5BD8 *)iVar1)->head.unk1A.u = 0x7000;
-    ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.u = 0x7000;
+    ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.w.unk1A.u = 0x7000;
+    ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.w.unk18.u = 0x7000;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk26 = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk25.u = 0x90;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk24.u = 0x90;

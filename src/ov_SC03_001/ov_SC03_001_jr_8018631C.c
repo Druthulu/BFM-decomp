@@ -3524,7 +3524,7 @@ extern void guess_UpdateActorModelMatrix(s32 arg);
 void func_80186DAC(void *arg0) {
     u16 *p = CAST_SIGN(u16 *, (char *)arg0, 0x20);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
-    ((Unkstruct_8001C9D0 *)p)->head.unk12.u = 0x600;
+    ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk12.u = 0x600;
     guess_UpdateActorModelMatrix((s32)arg0);
 }
 
@@ -3571,7 +3571,7 @@ void func_80186DDC(void *arg0) {
                 s32 *q = CAST_SIGN(s32 *, (char *)arg0, 0x20);
                 ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
                 ((Unkstruct_801202A0 *)arg0)->unk34.u = 0;
-                ((Unkstruct_8001C9D0 *)q)->head.unk12.u = 0;
+                ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk12.u = 0;
                 ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x30;
             }
         } else {
@@ -3583,7 +3583,7 @@ void func_80186DDC(void *arg0) {
             } else {
                 p = CAST_SIGN(s32 *, (char *)arg0, 0x20);
                 ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
-                ((Unkstruct_8001C9D0 *)p)->head.unk12.u = 0x600;
+                ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk12.u = 0x600;
                 guess_UpdateActorModelMatrix((s32)arg0);
             }
         }

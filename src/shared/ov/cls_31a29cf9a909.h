@@ -8,10 +8,10 @@ void SHARED_FN(s32 *a0)
     s32 ptr;
 
     ((Unkstruct_801202A0 *)a0)->unk5C.u = ((Unkstruct_801202A0 *)a0)->unk5C.u & 0xFFFE;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u = (((Unkstruct_801202A0 *)a0)->unk62 + 0x800) & 0xFFF;
     ptr = ((Unkstruct_801202A0 *)a0)->unk20.p;
     CAST_WIDTH(u16, ptr, 0x14) = 0;
-    ((Unkstruct_8001C9D0 *)ptr)->head.unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk10.u = 0;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
     guess_UpdateActorModelMatrix((s32)a0);
     guess_ClearVelocityAndSetGravity((s32)a0);

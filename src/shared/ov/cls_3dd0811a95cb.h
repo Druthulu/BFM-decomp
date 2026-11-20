@@ -4,7 +4,7 @@ void SHARED_FN(u8 *a0) {
     u16 v = CAST_SIGN(u16, a0, 0xFC);
     ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x50;
-    ((Unkstruct_8001C9D0 *)p)->head.unk12.u = v;
+    ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk12.u = v;
     guess_UpdateActorModelMatrix((s32)a0);
     func_8012B200(a0);
     guess_SetForwardVelocity((s32)a0, 0xFFF00000);

@@ -3093,7 +3093,7 @@ void func_80185C9C(void *a0)
     ((Unkstruct_801202A0 *)a0)->unk20.p = iVar2;
     if (iVar2 != 0) {
         func_8001CD50(iVar2, (s32)puVar3);
-        ((Unkstruct_800B5BD8 *)iVar2)->head.unk10.u = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar2)->head.unk10.w.unk10.u = 0x400;
         CAST_WIDTH(u32, iVar2, 4) = CAST_WIDTH(u32, iVar2, 4) | 0x60000000;
         guess_BuildCircle12Points(puVar3, 0x40);
         puVar3[0] = 0x808080;
@@ -3154,12 +3154,12 @@ void func_80185D5C(void *a0)
 
     p = ((Unkstruct_801202A0 *)a0)->unk20.p;
     if (p != 0) {
-        v = ((Unkstruct_800B5BD8 *)p)->head.unk1A.u - 0x100;
-        ((Unkstruct_800B5BD8 *)p)->head.unk1A.u = v;
-        ((Unkstruct_800B5BD8 *)p)->head.unk18.u = v;
+        v = ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u - 0x100;
+        ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = v;
+        ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = v;
         if (CAST_SIGN(s16, p, 0x1A) < 0) {
-            ((Unkstruct_800B5BD8 *)p)->head.unk1A.u = 0;
-            ((Unkstruct_800B5BD8 *)p)->head.unk18.u = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = 0;
         }
     }
     if (((Unkstruct_801202A0 *)a0)->unkFE.s >= 0x6000) {

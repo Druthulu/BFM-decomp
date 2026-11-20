@@ -11,17 +11,17 @@ s32 SHARED_FN(s32 a0, s32 a1) {
     sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x20;
     sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
-    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     r = (s16)a1;
     sp18.unk2 = sp10.unk2;
     sp18.unk0 = sp10.unk0 - ((t * r) >> 12);
-    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     sp18.unk4 = sp10.unk4 - ((t * r) >> 12);
     if ((func_80133784(1, &sp10, (s32)&sp18) & 0x8000) == 0) {
-        t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+        t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
         sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u - ((t * r) >> 12);
         sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x10;
-        t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+        t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
         sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - ((t * r) >> 12);
         sp18.unk0 = sp10.unk0;
         sp18.unk2 = sp10.unk2 + 0x20;
@@ -30,9 +30,9 @@ s32 SHARED_FN(s32 a0, s32 a1) {
             return 0;
         }
     }
-    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = sp18.unk0 + ((t * r) >> 12);
-    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF);
+    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = sp18.unk4 + ((t * r) >> 12);
     return 1;
 }

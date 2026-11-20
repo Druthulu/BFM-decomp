@@ -3002,7 +3002,7 @@ extern s32 D_801BD174[];
 void func_80184894(s32 *a0) {
     s32 s0 = a0;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_801202A0 *)s0)->unk52.s = -0x30;
+    ((Unkstruct_801202A0 *)s0)->unk50.w.unk52.s = -0x30;
     guess_StartActorSequence(s0, D_801BD174[((Unkstruct_801202A0 *)s0)->unk70.u & 0xF]);
 }
 

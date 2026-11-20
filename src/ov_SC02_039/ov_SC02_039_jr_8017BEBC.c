@@ -2841,13 +2841,13 @@ void func_8017D110(s32 param_1)
     }
     sp10 = guess_g_CameraFollowPos;
 
-    r = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
+    r = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk10.w.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }
     sp18.vx = sp10.vx - (r >> 7);
 
-    r = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
+    r = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk10.w.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }
@@ -3862,8 +3862,8 @@ void func_8017EA20(s32 param_1) {
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
-        ((Unkstruct_8001C9D0 *)o)->head.unk1A.u = h + r;
-        ((Unkstruct_8001C9D0 *)o)->head.unk18.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.w.unk1A.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.w.unk18.u = h + r;
     }
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
@@ -3882,11 +3882,11 @@ void func_8017EA20(s32 param_1) {
     /* branch sense: target `beq` jumps to the (rand&1) arm, so THAT is the else */
     if (((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102 != 2) {
         s32 r = rand() & 0xFF;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)param_1)->unk64->unk20.p, 0x12) + r - 0x80;
     } else {
         s32 r = rand() & 1;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u =
             CAST_NONSTRUCT(u16, ((Unkstruct_801202A0 *)param_1)->unk64->unk20.p, 0x12) + r * 0x1C0 - 0xE0;
     }
 
@@ -4041,8 +4041,8 @@ void func_8017EC34(s32 param_1)
         }
     }
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.u + CAST_SIGN(u16, param_1, 0x100);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u + CAST_SIGN(u16, param_1, 0x100);
     func_8017EED8(param_1);
 }
 

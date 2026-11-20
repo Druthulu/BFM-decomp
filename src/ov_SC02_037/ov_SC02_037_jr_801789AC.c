@@ -4083,11 +4083,11 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         break;
     case 0x24:
         (*(s16*)D_801C9AE4) = 3;
-        arg0->unk20.m->head.unk12.u = ((Cmd_80178D40 *)arg1)->a.w;
+        arg0->unk20.m->head.unk10.w.unk12.u = ((Cmd_80178D40 *)arg1)->a.w;
         break;
     case 0x25:
         g[0] = 1;
-        g[2] = arg0->unk20.m->head.unk12.u + ((Cmd_80178D40 *)arg1)->a.uh[0];
+        g[2] = arg0->unk20.m->head.unk10.w.unk12.u + ((Cmd_80178D40 *)arg1)->a.uh[0];
         g[1] = 0x1E;
         (*(s16*)D_801C9AE4) = 3;
         g[3] = ((Cmd_80178D40 *)arg1)->a.uh[1];
@@ -4797,7 +4797,7 @@ void func_8017A4AC(void) {
         return; }
     case 4:
         { s16 arg = D_801C9238[D_801C9638]; D_801C9638 = (D_801C9638 + 1) & 0x1FF;
-        { s32 t = w->unk20.m->head.unk12.u + arg;
+        { s32 t = w->unk20.m->head.unk10.w.unk12.u + arg;
         func_80172B14(t & 0xFFF); }
         return; }
     case 5:

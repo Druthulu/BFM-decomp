@@ -2985,7 +2985,7 @@ void func_801815A4(s32 *a0) {
     u16 var;
     KR_AS(void, func_80131B14)();
     var = ((Unkstruct_801202A0 *)s0)->unk70.u;
-    ((Unkstruct_801202A0 *)s0)->unk52.s = -0x30;
+    ((Unkstruct_801202A0 *)s0)->unk50.w.unk52.s = -0x30;
     guess_StartActorSequence(s0, (void *)D_801A66AC[var & 0xF]);
 }
 
@@ -3084,7 +3084,7 @@ void func_80181738(s32 a0) {
         func_80181B24(a0, (s32)&D_801A681C);
         ((Unkstruct_801202A0 *)a0)->unkC2 += 1;
     case 1:
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u -= 0x100;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u -= 0x100;
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x29) {
             func_80131E00(a0, 0xD);
@@ -3111,7 +3111,7 @@ void func_80181738(s32 a0) {
         {
             s32 s2;
 
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u -= 0x100;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u -= 0x100;
             ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
             if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x29) {
                 func_80131E00(a0, 0xD);
@@ -3131,7 +3131,7 @@ void func_80181738(s32 a0) {
                 ((Unkstruct_801202A0 *)a0)->unk14.val = (-s2) / 3;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
                 ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
-                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u = 0;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0;
             }
         }
         break;
@@ -3298,7 +3298,7 @@ void func_80181D1C(s32 param_1) {
     }
     iVar2 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     CAST_WIDTH(s16, iVar2, 0x14) = 0;
-    ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk10.u = 0;
     uVar1 = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk78 + 2);
     ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_018_80183A00.unkE0 = (CAST_SIGN(u32, param_1, 0xe0) & 0xffffffd5) | 0x400;
     CAST_WIDTH(s16, param_1, 0x5e) = 0;

@@ -2619,13 +2619,13 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u = (u16)g[2];
+            ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u = (u16)g[2];
             goto reset_both;
         }
         {
             s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
-            ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u + r;
+            ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u + r;
         }
         return;
     case 2:
@@ -2642,7 +2642,7 @@ void func_8017AE2C(s32 param_1) {
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
                     guess_YawToPoint(p, &D_801B9FEC);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
@@ -2658,8 +2658,8 @@ void func_8017AE2C(s32 param_1) {
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
-                    ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u + r;
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
+                    ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2668,7 +2668,7 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
+        ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
             guess_YawToPoint((void *)(pv + 4), &D_801B9FEC);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);

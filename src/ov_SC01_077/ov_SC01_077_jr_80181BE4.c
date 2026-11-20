@@ -3101,7 +3101,7 @@ void func_80181BE4(s32 p)
         if (((Unkstruct_801202A0 *)p)->unk1C.s >= 0x19) {
             s32 r = guess_TurnStepToTarget(p, 4);
             s32 o = ((Unkstruct_801202A0 *)p)->unk20.p;
-            ((Unkstruct_8001C9D0 *)o)->head.unk12.u = ((Unkstruct_8001C9D0 *)o)->head.unk12.u + r;
+            ((Unkstruct_8001C9D0 *)o)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)o)->head.unk10.w.unk12.u + r;
         }
         s1c = ((Unkstruct_801202A0 *)p)->unk1C.s;
         if (s1c == 0xC) {
@@ -3117,10 +3117,10 @@ void func_80181BE4(s32 p)
             sp.f0 = buf[0];
             sp.f2 = buf[1];
             sp.f4 = buf[2];
-            sp.fC = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u;
+            sp.fC = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u;
             tv0 = func_8012C51C(&sp, p);
             if (tv0 != 0) {
-                ((Unkstruct_8001C9D0 *)*(s32 *)(tv0 + 0x20))->head.unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(tv0 + 0x20))->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u;
                 guess_UpdateActorModelMatrix(tv0);
             }
         } else if (s1c == 0xF) {

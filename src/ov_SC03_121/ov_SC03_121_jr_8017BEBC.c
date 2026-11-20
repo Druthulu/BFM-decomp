@@ -2795,7 +2795,7 @@ case_A: {
     s1 = r0 & 0xF000;
     v1 = func_80148E54(s0);
     if ((s16)v1 > 0) {
-        ((RenderHead *)sub)->unk12.u = v1;
+        ((RenderHead *)sub)->unk10.w.unk12.u = v1;
     }
     v0 = s1 & 0xFFFF;
     goto tail;
@@ -3486,19 +3486,19 @@ void func_8017DDB4(s32 a0) {
     sv1.vy = CAST_SIGN(s16, s0, 0xA) + -0x20;
     sv1.vz = CAST_SIGN(s16, s0, 0xE);
 
-    iVar1 = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u & 0xFFF);
+    iVar1 = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     sv2.vx = sv1.vx - (s16)(iVar1 * 0x20 >> 0xC);
     sv2.vy = sv1.vy;
 
-    iVar1 = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u & 0xFFF);
+    iVar1 = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
     sv2.vz = sv1.vz - (s16)(iVar1 * 0x20 >> 0xC);
 
     uVar2 = ((s32 (*)(s32, SVECTOR *, SVECTOR *))func_80133784)(1, &sv1, &sv2);
     if ((uVar2 & 0x8000) != 0) {
-        iVar1 = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u & 0xFFF);
+        iVar1 = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = sv2.vx + (s16)(iVar1 * 0x20 >> 0xC);
 
-        iVar1 = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk12.u & 0xFFF);
+        iVar1 = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk12.u & 0xFFF);
         ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = sv2.vz + (s16)(iVar1 * 0x20 >> 0xC);
     }
 }

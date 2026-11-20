@@ -7,19 +7,19 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_801202A0 *)arg0)->unkB4.s |= 1;
     ((Unkstruct_801202A0 *)arg0)->unkC4 &= ~2;
     if (((Unkstruct_801202A0 *)arg0)->unk60.s != 0) {
-        ((Unkstruct_801202A0 *)arg0)->unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
-        ((Unkstruct_801202A0 *)arg0)->unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
-        ((Unkstruct_801202A0 *)arg0)->unk80 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
+        ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk7C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk7E = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+        ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk80 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
         func_8016AA50(arg0, ((Unkstruct_801202A0 *)arg0)->unk60.s);
     }
     diff = CAST_SIGN(u16, arg0, 0x76) - CAST_SIGN(u16, arg0, 0x60);
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk60.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unk76.s = diff;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u = (((Unkstruct_801202A0 *)arg0)->unk62 + 0x800) & 0xFFF;
     p = ((Unkstruct_801202A0 *)arg0)->unk20.p;
     CAST_WIDTH(u16, p, 0x14) = 0;
-    ((Unkstruct_8001C9D0 *)p)->head.unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk10.u = 0;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
     ((Unkstruct_801202A0 *)arg0)->unkC2 = 1;

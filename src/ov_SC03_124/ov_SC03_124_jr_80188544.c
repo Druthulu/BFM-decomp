@@ -4105,21 +4105,21 @@ s32 func_80189D4C(s32 a0, s16 a1, s16 a2) {
     p1[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     p1[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
 
-    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF) * a1;
+    t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF) * a1;
     p2[1] = p1[1];
     p2[0] = p1[0] - (t >> 12);
 
-    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF) * a1;
+    t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF) * a1;
     p2[2] = p1[2] - (t >> 12);
 
     result = func_80133784(1, p1, (s32)p2);
 
     if ((result & 0x8000) && a2) {
-        t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF) * a1;
+        t = rsin(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF) * a1;
         p1[1] = p2[1];
         p1[0] = p2[0] + (t >> 12);
 
-        t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u & 0xFFF) * a1;
+        t = rcos(((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u & 0xFFF) * a1;
         p1[2] = p2[2] + (t >> 12);
 
         result = func_80133784(1, p2, (s32)p1);
@@ -4505,7 +4505,7 @@ void func_8018A6C0(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v0;
     ((Unkstruct_801202A0 *)a0)->unk1C.s = v1;
     if (v1 == 0) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u = 0;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0;
         CAST_ALIAS(s16, a0, 0x2) = 1;
         CAST_ALIAS(s32, a0, 0x1C) = 2;
         CAST_ALIAS(u16, a0, 0xFC) = 0x3C;

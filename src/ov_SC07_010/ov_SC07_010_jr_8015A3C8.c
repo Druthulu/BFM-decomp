@@ -1941,7 +1941,7 @@ s32 arg0;
         }
     }
     if (func_800CF8B4() != 0) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u = ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw(arg0)) & 0xFFF;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u = ((*(u16 *)&guess_g_CameraRelativeYaw) + guess_GetCameraYaw(arg0)) & 0xFFF;
     }
     if (flag == 0) {
         if ((u8)((s32 (*)(s32))func_80148AFC)(arg0)) {

@@ -4974,12 +4974,12 @@ void func_80183374(s32 a0)
                     if (i < 8) {
                         s32 g = ((Unkstruct_8011DB30 *)p)->unk20;
                         s32 v = 0x1000 - (i << 9);
-                        ((Unkstruct_800B5BD8 *)g)->head.unk1A.u = v;
-                        ((Unkstruct_800B5BD8 *)g)->head.unk18.u = v;
+                        ((Unkstruct_800B5BD8 *)g)->head.unk18.w.unk1A.u = v;
+                        ((Unkstruct_800B5BD8 *)g)->head.unk18.w.unk18.u = v;
                     } else {
                         s32 g = ((Unkstruct_8011DB30 *)p)->unk20;
-                        ((Unkstruct_800B5BD8 *)g)->head.unk1A.u = 0x200;
-                        ((Unkstruct_800B5BD8 *)g)->head.unk18.u = 0x200;
+                        ((Unkstruct_800B5BD8 *)g)->head.unk18.w.unk1A.u = 0x200;
+                        ((Unkstruct_800B5BD8 *)g)->head.unk18.w.unk18.u = 0x200;
                     }
                 }
             }

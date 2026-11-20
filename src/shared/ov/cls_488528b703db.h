@@ -27,8 +27,8 @@ void SHARED_FN(s32 arg0) {
     r6 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     rA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
     rE = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
-    ((Unkstruct_801202A0 *)arg0)->unk7C = r6;
-    ((Unkstruct_801202A0 *)arg0)->unk7E = rA;
-    ((Unkstruct_801202A0 *)arg0)->unk80 = rE;
+    ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk7C = r6;
+    ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk7E = rA;
+    ((Unkstruct_801202A0 *)arg0)->unk7C.w.unk80 = rE;
     func_8016AA50(arg0, 0xA);
 }

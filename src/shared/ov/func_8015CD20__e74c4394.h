@@ -31,7 +31,7 @@ s32 func_8015CD20(s32 arg0) {
             ((void(*)(Unkstruct_80126B58 *))guess_ApplyVelocity)(((Unkstruct_80126B58 *)arg0));
             ((void(*)(Unkstruct_80126B58 *, s32))guess_SetAnim)(((Unkstruct_80126B58 *)arg0), 0x15);
             sp = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-            var_v0 = sp->head.unk12.u - 0xAA;
+            var_v0 = sp->head.unk10.w.unk12.u - 0xAA;
             goto block_13;
         }
         if (((s32(*)(Unkstruct_80126B58 *))func_8014891C)(((Unkstruct_80126B58 *)arg0)) != 0) {
@@ -43,14 +43,14 @@ s32 func_8015CD20(s32 arg0) {
         }
         if (((s32(*)(Unkstruct_80126B58 *))func_801489E8)(((Unkstruct_80126B58 *)arg0)) != 0) {
             sp = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-            var_v0 = sp->head.unk12.u + 0x71;
+            var_v0 = sp->head.unk10.w.unk12.u + 0x71;
             goto block_13;
         }
         if (((s32(*)(Unkstruct_80126B58 *))func_80148A48)(((Unkstruct_80126B58 *)arg0)) != 0) {
             sp = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-            var_v0 = sp->head.unk12.u - 0x71;
+            var_v0 = sp->head.unk10.w.unk12.u - 0x71;
 block_13:
-            sp->head.unk12.u = var_v0 & 0xFFF;
+            sp->head.unk10.w.unk12.u = var_v0 & 0xFFF;
         }
     } else {
         ((Unkstruct_80126B58 *)arg0)->unk234 = temp_v0 - 1;

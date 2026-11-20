@@ -1091,9 +1091,9 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         }
     }
     if (((Unkstruct_8012C890_3 *)dst)->unk20.val != 0) {
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unk8 = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.u;
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkA = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk52.u;
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkC = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk54.u;
+        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unk8 = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
+        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkA = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
+        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkC = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
     }
     return (s32)dst;
 }
@@ -1423,8 +1423,8 @@ void func_8012E364(s32 arg0_)
     ((RenderHead *)e1)->unk2C.u = flags | 0x10;
     e2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     d = abs(v);
-    ((RenderHead *)e2)->unk1C.s = d;
-    ((RenderHead *)e2)->unk18.s = d;
+    ((RenderHead *)e2)->unk18.w.unk1C.s = d;
+    ((RenderHead *)e2)->unk18.w.unk18.s = d;
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }
 
@@ -1491,10 +1491,10 @@ void func_8012E9C0(int param_1)
 
     if (((Unkstruct_801202A0 *)param_1)->unk60.s != 0) {
         if (*(unsigned char *)(param_1 + 0x5e) == 0x1d) {
-            ((Unkstruct_801202A0 *)param_1)->unk82 = 0;
-            ((Unkstruct_801202A0 *)param_1)->unk7C = *(unsigned short *)(param_1 + 6);
-            ((Unkstruct_801202A0 *)param_1)->unk7E = *(unsigned short *)(param_1 + 0xa);
-            ((Unkstruct_801202A0 *)param_1)->unk80 = *(unsigned short *)(param_1 + 0xe);
+            ((Unkstruct_801202A0 *)param_1)->unk7C.w.unk82 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unk7C.w.unk7C = *(unsigned short *)(param_1 + 6);
+            ((Unkstruct_801202A0 *)param_1)->unk7C.w.unk7E = *(unsigned short *)(param_1 + 0xa);
+            ((Unkstruct_801202A0 *)param_1)->unk7C.w.unk80 = *(unsigned short *)(param_1 + 0xe);
         }
         if (((Unkstruct_801202A0 *)param_1)->unk78 != 0) {
             iVar1 = ((Unkstruct_801202A0 *)param_1)->unk60.s *

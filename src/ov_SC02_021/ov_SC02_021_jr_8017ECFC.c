@@ -3214,10 +3214,10 @@ void func_8017F904(void *a0)
     s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
     p = D_80193530 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
-    ((Unkstruct_800B5BD8 *)s1)->head.unk1E.s = 0xCCC;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk10.s = 0x400;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk1A.s = 0;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk18.s = 0;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = 0xCCC;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.s = 0x400;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.s = 0;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.s = 0;
     ((Unkstruct_800B5BD8 *)s1)->head.unk4.s = ((Unkstruct_800B5BD8 *)s1)->head.unk4.s | 0x50000000;
     guess_BuildCircle12Points(p, 0x80);
     p[2] = 0xFF;
@@ -3275,8 +3275,8 @@ void func_8017F9C8(void *a0) {
 
     if (!(a1 == -1)) {
         v0 = 0x10 - a1;
-        ((Unkstruct_800B5BD8 *)v1ptr)->head.unk1A.u = v0 << 8;
-        ((Unkstruct_800B5BD8 *)v1ptr)->head.unk18.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->head.unk18.w.unk1A.u = v0 << 8;
+        ((Unkstruct_800B5BD8 *)v1ptr)->head.unk18.w.unk18.u = v0 << 8;
 
         v1 = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
         v0 = (v1 << 8) - v1;

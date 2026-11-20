@@ -2860,13 +2860,13 @@ void func_8017D110(s32 param_1)
     }
     sp10 = guess_g_CameraFollowPos;
 
-    r = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
+    r = rsin(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk10.w.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }
     sp18.vx = sp10.vx - (r >> 7);
 
-    r = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk12.s);
+    r = rcos(((Unkstruct_8001C9D0 *)guess_g_PlayerModelPtr)->head.unk10.w.unk12.s);
     if (r < 0) {
         r += 0x7F;
     }
@@ -3609,8 +3609,8 @@ void func_8017E508(s32 param_1) {
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
-        ((Unkstruct_8001C9D0 *)o)->head.unk1A.u = h + r;
-        ((Unkstruct_8001C9D0 *)o)->head.unk18.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.w.unk1A.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.w.unk18.u = h + r;
     }
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
@@ -3629,11 +3629,11 @@ void func_8017E508(s32 param_1) {
     /* branch sense: target `beq` jumps to the (rand&1) arm, so THAT is the else */
     if (((Unkstruct_801202A0 *)param_1)->extD.kcls_1e87b69413a8.unk102 != 2) {
         s32 r = rand() & 0xFF;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u =
             *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk64->unk20.p + 0x12) + r - 0x80;
     } else {
         s32 r = rand() & 1;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u =
             *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk64->unk20.p + 0x12) + r * 0x1C0 - 0xE0;
     }
 
@@ -4128,8 +4128,8 @@ void func_8017F140(s32 a0) {
         if (s0 != 0) {
             ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
             guess_InitObjectKind6((int)s0, (void *)&D_8019E6BC);
-            ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x555;
-            ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1A.u = 0x555;
             CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
         }
 
@@ -4188,7 +4188,7 @@ void func_8017F2E8(s32 param_1)
     }
 
     sVar1 = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7c0);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (sVar1 >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk18.w.unk1A.u = (sVar1 >> 1) + 0x800;
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
@@ -4235,7 +4235,7 @@ void func_8017F2E8(s32 param_1)
         s32 d = 0x1000 - sVar1;
         s32 arg1;
 
-        ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u = ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u + ret;
+        ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u + ret;
         if (d >= 0) {
             arg1 = -(d << 4) - 0x4000;
         } else {
@@ -4266,7 +4266,7 @@ void func_8017F2E8(s32 param_1)
             ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
         }
         ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u = ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u + ret;
+        ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u + ret;
         break;
     }
 
@@ -4340,12 +4340,12 @@ void func_8017F640(s32 param_1)
     }
 
     angle = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 7) & 0x780);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (angle >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk18.w.unk1A.u = (angle >> 1) + 0x800;
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        s32 v = ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u + iVar1;
-        ((Unkstruct_8001C9D0 *)ptr)->head.unk12.u = v;
+        s32 v = ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u + iVar1;
+        ((Unkstruct_8001C9D0 *)ptr)->head.unk10.w.unk12.u = v;
         if (0x1000 - angle >= 0) {
             a1 = 0xFFFF0000 - ((0x1000 - angle) << 7);
         } else {

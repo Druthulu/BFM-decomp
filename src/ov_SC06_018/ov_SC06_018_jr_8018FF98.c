@@ -3261,8 +3261,8 @@ void func_8018FF98(s32 arg0) {
         t |= r3 & 0xFFFF;
         flg[2] = t;
 
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u = t;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u = t >> 16;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk10.u = t;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u = t >> 16;
         *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x14) = 0;
         guess_UpdateActorModelMatrix(arg0);
         CAST_WIDTH(s16, arg0, 0xE4) = 0;

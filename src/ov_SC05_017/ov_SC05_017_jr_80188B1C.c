@@ -4099,7 +4099,7 @@ void func_8018A3C8(void *a0, s32 a1) {
     ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((SVECTOR *)a0)->vx;
     ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((SVECTOR *)a0)->vy;
     ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((SVECTOR *)a0)->vz;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = (((SVECTOR *)a0)->pad & 0xF) << 10;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk10.w.unk12.u = (((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 
 
@@ -4217,7 +4217,7 @@ void func_8018A690(s32 param_1) {
         step1 = CAST_WIDTH(s32, param_1, 0xe4) + CAST_WIDTH(s32, param_1, 0xe0);
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + step1;
         CAST_WIDTH(s32, param_1, 0xe4) = step1;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.w.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }
@@ -4226,7 +4226,7 @@ void func_8018A690(s32 param_1) {
         break;
     case 2:
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + CAST_WIDTH(s32, param_1, 0xe4);
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.w.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }
@@ -4238,7 +4238,7 @@ void func_8018A690(s32 param_1) {
         step3 = CAST_WIDTH(s32, param_1, 0xe4) + CAST_WIDTH(s32, param_1, 0xe0);
         CAST_WIDTH(s32, param_1, 0xdc) = CAST_WIDTH(s32, param_1, 0xdc) + step3;
         CAST_WIDTH(s32, param_1, 0xe4) = step3;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.w.unk12.u = CAST_WIDTH(u16, param_1, 0xde);
         if (guess_TickWaitTimer(param_1) == 0) {
             return;
         }

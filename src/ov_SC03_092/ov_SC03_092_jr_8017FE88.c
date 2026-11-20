@@ -3138,8 +3138,8 @@ void func_801803F4(void *a0)
     guess_ShowObjectModel((s32)a0);
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_801893B4[(CAST_SIGN(u16, (s32)a0, 0x70) & 0xF) << 3]);
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) = 0x400;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u = 0;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u = D_80189444[((Unkstruct_801202A0 *)a0)->unk70.s];
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u = 0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk10.u = D_80189444[((Unkstruct_801202A0 *)a0)->unk70.s];
     *(s16 *)(((Unkstruct_801202A0 *)a0)->unk68 + 0xC) = 0x7FFF;
 }
 
@@ -3241,7 +3241,7 @@ void func_8018066C(void *a0)
     guess_SetObjectPosAndYaw((s32)a0, (s32)&D_80189458);
 
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u = 0x800;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u = 0x800;
     }
     if (((Unkstruct_801202A0 *)a0)->unk70.s != 0) {
         guess_StartActorSequence((s32)a0, D_801AFB90);
@@ -3712,10 +3712,10 @@ void func_80181170(s32 arg0)
 {
     s32 s1;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u + CAST_SIGN(u16, arg0, 0xFC);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u + CAST_SIGN(u16, arg0, 0xFE);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk10.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk10.u + CAST_SIGN(u16, arg0, 0xFC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u + CAST_SIGN(u16, arg0, 0xFE);
     *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x14) =
         *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x14) + CAST_SIGN(u16, arg0, 0x100);
 

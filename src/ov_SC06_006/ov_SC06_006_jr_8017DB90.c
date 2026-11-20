@@ -3164,16 +3164,16 @@ void func_8017E734(void* a0)
         goto body;
     }
 copy:
-    *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x18) =
-        *(V4_8017E734 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x18);
+    ((Unkstruct_801202A0 *)a0)->unk20.h->unk18.m =
+        ((Unkstruct_801202A0 *)a0)->unk64->unk20.h->unk18.m;
     return;
 body:
     p = d * D_80185F7A;
     p = (p + 0x1000) * *(s16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x18);
     q = ((Unkstruct_801202A0 *)a0)->unk20.p;
     CAST_WIDTH(s16, q, 0x1C) = (u32)p >> 12;
-    ((Unkstruct_8001C9D0 *)q)->head.unk1A.u = (u32)p >> 12;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk18.u =
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1A.u = (u32)p >> 12;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u =
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk64->unk20.p + 0x1C);
 }
 
@@ -4632,8 +4632,8 @@ void func_8018097C(void *arg0) {
     q = ((Unkstruct_801202A0 *)e)->unk20.p;
     t = prod >> 12;
     CAST_WIDTH(u16, q, 0x1C) = t;
-    ((Unkstruct_8001C9D0 *)q)->head.unk1A.u = t;
-    ((Unkstruct_8001C9D0 *)q)->head.unk18.u = t;
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1A.u = t;
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk18.u = t;
 
     switch ((s16)(CAST_SIGN(u16, e, 0x70) - 3)) {
     case 1:
@@ -5192,11 +5192,11 @@ void func_80181658(void *a0)
         if (idx < 0x1000) {
             d = (s32)&stk[0x08];
 
-            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unkA = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkC = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkE = 0;
-            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unk12 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk14 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk16 = 0;
@@ -5205,7 +5205,7 @@ void func_80181658(void *a0)
             ((Unkstruct_8017E2EC_3 *)stk)->unk20 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk1C = 0;
 
-            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->head.unk14.s, (void *)d);
+            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->head.unk10.w.unk14.s, (void *)d);
             gte_SetRotMatrix((void *)d);
             gte_SetTransMatrix((void *)d);
 

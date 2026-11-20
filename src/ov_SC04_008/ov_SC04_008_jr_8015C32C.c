@@ -3164,7 +3164,7 @@ void func_80164BDC(s32 param_1)
         D_80190E5F = 0;
         D_80190E5B = 0;
         CAST_ALIAS(s16, iVar1, 0x1e) = 0xccc;
-        ((Unkstruct_800B5BD8 *)iVar1)->head.unk10.s = 0x400;
+        ((Unkstruct_800B5BD8 *)iVar1)->head.unk10.w.unk10.s = 0x400;
         *(s16 *)(param_1 + 0x60) = 0x700;
         *(s16 *)(param_1 + 0x62) = -0x60;
         func_80164DD0(param_1);
@@ -4140,8 +4140,8 @@ void func_80169BBC(s32 arg0) {
         CAST_WIDTH(s32, s2, 0x34) = (s32)D_80193378;
         RotMatrixYXZ(rot, D_80193378);
         func_80048D9C(D_80193378, mtx);
-        ((Unkstruct_800B5BD8 *)s2)->head.unk18.u = 0x5000;
-        ((Unkstruct_800B5BD8 *)s2)->head.unk1A.u = 0x2000;
+        ((Unkstruct_800B5BD8 *)s2)->head.unk18.w.unk18.u = 0x5000;
+        ((Unkstruct_800B5BD8 *)s2)->head.unk18.w.unk1A.u = 0x2000;
         CAST_WIDTH(s32, s2, 4) = CAST_WIDTH(s32, s2, 4) | 0xC000140;
         guess_StartPairSequence(s2, arg0 + 0x24, (s32)D_80181B60);
         *(u16 *)(arg0 + 2) = *(u16 *)(arg0 + 2) + 1;

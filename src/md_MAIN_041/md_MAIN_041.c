@@ -112,7 +112,7 @@ void func_800CB028(s32 a0) {
         *(u16 *)(s0 + 0x1C) = 0x2000;
         *(u16 *)(s0 + 0x1A) = 0x2000;
         *(u16 *)(s0 + 0x18) = 0x2000;
-        *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk12.u;
+        *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk10.w.unk12.u;
         guess_TransformPosByObjMatrix(s2, a0 + 4);
         func_80146DE8((s32 *)a0, 0, 0, 0xFFE80000);
         guess_SetWaitTimer_2((s32 *)a0, 0x3C);

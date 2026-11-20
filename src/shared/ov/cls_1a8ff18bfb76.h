@@ -13,8 +13,8 @@ void SHARED_FN(s32 a0) {
     func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
 
     r = sp20[0];
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.u = r;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk12.u = r >> 16;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = r;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u = r >> 16;
     guess_UpdateActorModelMatrix(a0);
 
     func_8012B200((u8 *)a0);

@@ -2622,13 +2622,13 @@ void func_8017AE2C(s32 param_1) {
     case 1:
         g[1] = (u16)g[1] - 1;
         if (g[1] <= 0) {
-            ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u = (u16)g[2];
+            ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u = (u16)g[2];
             goto reset_both;
         }
         {
             s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), g[2], 6);
-            ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u + r;
+            ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u + r;
         }
         return;
     case 2:
@@ -2645,7 +2645,7 @@ void func_8017AE2C(s32 param_1) {
                                        (s16)guess_YawToPoint(p, &g[6])) < 0x100) {
                     g[1] = 0;
                 }
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
                     guess_YawToPoint(p, &D_801931A4);
                 guess_SetForwardVelocity(pv, 0xFFFA0000);
                 guess_ApplyAccelAndVelocity(pv);
@@ -2661,8 +2661,8 @@ void func_8017AE2C(s32 param_1) {
             {
                 s32 t = guess_YawToPoint((void *)(pv + 4), &g[6]);
                 s32 r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)pv)->unk20.p + 0x12), t, g[3]);
-                ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
-                    ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u + r;
+                ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
+                    ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u + r;
             }
             g[1] = (u16)g[1] - 1;
             if (g[1] > 0) {
@@ -2671,7 +2671,7 @@ void func_8017AE2C(s32 param_1) {
             g[1] = 0;
             return;
         }
-        ((RenderHead *)*(s32 *)(pv + 0x20))->unk12.u =
+        ((RenderHead *)*(s32 *)(pv + 0x20))->unk10.w.unk12.u =
             guess_YawToPoint((void *)(pv + 4), &D_801931A4);
         guess_SetForwardVelocity(pv, 0xFFFA0000);
         guess_ApplyAccelAndVelocity(pv);
@@ -3605,16 +3605,16 @@ SKIP:
     uVar5 = guess_GetStoryProgress();
     if (uVar5 >= 0x2f0) {
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0xd00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0xd00;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 1) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0xd00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0xd00;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 2) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x300;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0x300;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x300;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0x300;
         }
     } else {
         uVar6 = CAST_SIGN(u16, param_1, 0x70);
@@ -3622,10 +3622,10 @@ SKIP:
             sVar4 = 2;
         } else {
             if ((s16)uVar6 == 2) {
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x100;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0x100;
             }
             if (((Unkstruct_801202A0 *)param_1)->unk70.s == 3) {
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u = 0x100;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0x100;
             }
             sVar4 = 3;
         }
@@ -3931,8 +3931,8 @@ void func_8017DBEC(int param_1)
     r = rand();
     v = (r & 3) * 1365;
     ptr = D_801930CC;
-    ((Unkstruct_800B5BD8 *)p)->head.unk1A.u = v;
-    ((Unkstruct_800B5BD8 *)p)->head.unk18.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = v;
 
     *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
     v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);
@@ -3946,7 +3946,7 @@ void func_8017DBEC(int param_1)
     c4 = rand();
 
     s0v = ((c1 & 3) << 10) + ((c2 & 0x1F) << 5) + ((c3 & 3) << 8) + (c4 & 0xFF);
-    ((Unkstruct_800B5BD8 *)p)->head.unk12.u = s0v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk10.w.unk12.u = s0v;
 
     r = rand();
     *(s16 *)(param_1 + 0x2E) = (r & 7) * 11;

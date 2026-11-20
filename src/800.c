@@ -8503,13 +8503,13 @@ void func_8001C9D0(s32 a0v) {
     s32 v;
 
     v = 0x1000;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk1C.s = v;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk1A.s = v;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk18.s = v;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk18.w.unk1C.s = v;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk18.w.unk1A.s = v;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk18.w.unk18.s = v;
     v = 0xC8;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk14.s = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk12.s = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk10.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk10.w.unk14.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk10.w.unk12.s = 0;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk10.w.unk10.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unkC.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unkA.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unk8.s = 0;
@@ -8663,7 +8663,7 @@ void func_8001CD50(s32 a0, s32 a1) {
     ((Unkstruct_800B5BD8 *)s0)->head.unk2.s = 5;
     ((Unkstruct_800B5BD8 *)s0)->head.unk20.s = s1;
     ((Unkstruct_800B5BD8 *)s0)->head.unkE.s = 0;
-    ((Unkstruct_800B5BD8 *)s0)->head.unk1E.s = 0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1E.s = 0;
     ((Unkstruct_800B5BD8 *)s0)->head.unk2C.s = 0;
 }
 
@@ -8736,8 +8736,8 @@ void func_8001CF30(s32 *a0) {
 void func_8001CF48(s32 a0) {
     ((Unkstruct_800B5BD8 *)a0)->head.unk0.u = 2;
     CAST_WIDTH(s16, a0, 0x1C) = 0x1000;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk1A.u = 0x1000;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk18.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk1A.u = 0x1000;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk18.w.unk18.u = 0x1000;
     *(s16 *)(a0 + 0x32) = 0;
     CAST_WIDTH(s16, a0, 0x30) = 0;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2E.u = 0;
@@ -8745,8 +8745,8 @@ void func_8001CF48(s32 a0) {
     ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk27.u = 0;
     *(s16 *)(a0 + 0x1E) = 0;
     CAST_WIDTH(s16, a0, 0x14) = 0;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk12.u = 0;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk10.u = 0;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk10.w.unk12.u = 0;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk10.w.unk10.u = 0;
     ((Unkstruct_800B5BD8 *)a0)->head.unkE.u = 0;
     ((Unkstruct_800B5BD8 *)a0)->head.unkC.u = 0;
     ((Unkstruct_800B5BD8 *)a0)->head.unkA.u = 0;
@@ -9404,15 +9404,15 @@ void func_8001E094(Unkstruct_800B5BD8 *arg0)
     s32 g;
     s32 t;
 
-    sc[0] = arg0->head.unk18.u;
+    sc[0] = arg0->head.unk18.w.unk18.u;
     sc[1] = 0;
     sc[2] = 0;
     sc[3] = 0;
-    sc[4] = arg0->head.unk1A.u;
+    sc[4] = arg0->head.unk18.w.unk1A.u;
     sc[5] = 0;
     sc[6] = 0;
     sc[7] = 0;
-    sc[8] = arg0->head.unk1C.u;
+    sc[8] = arg0->head.unk18.w.unk1C.u;
 
     g = (s32)&guess_g_CameraWsMatrix;
 
@@ -12422,7 +12422,7 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
     s32 shadow;
     register s32 *zp __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:loop-iv
 
-    f16 = ((Unkstruct_800B5BD8 *)arg0)->head.unk1E.u;
+    f16 = ((Unkstruct_800B5BD8 *)arg0)->head.unk18.w.unk1E.u;
     flags = arg0->flags;
     useIdx = f16 & 0x8000;
     shadow = 0;
@@ -12501,7 +12501,7 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
         }
     }
 
-    f16 = ((Unkstruct_800B5BD8 *)arg0)->head.unk1E.u;
+    f16 = ((Unkstruct_800B5BD8 *)arg0)->head.unk18.w.unk1E.u;
     p = D_800A5E60;
     tt = f16 & 0x1FFF;
     t = tt;
@@ -12598,7 +12598,7 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
         *(u16 *)(p - 0x04) = ((DVECTOR *)work)->vx;
         *(u16 *)(p - 0x02) = ((DVECTOR *)work)->vy;
 
-        if (((Unkstruct_800B5BD8 *)arg0)->head.unk1E.u & 0x4000) {
+        if (((Unkstruct_800B5BD8 *)arg0)->head.unk18.w.unk1E.u & 0x4000) {
             u32 maskAddr;
             u32 maskLen;
             s32 mm;

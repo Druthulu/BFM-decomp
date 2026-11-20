@@ -109,7 +109,7 @@ void func_800CB038(void *a0) {
     ((Unkstruct_80126B58 *)a0)->unk20.val = s1;
     if (s1 != 0) {
         guess_InitModelObject(s1, (s32)&D_800CBD74);
-        *(u16 *)(s1 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk12.u;
+        *(u16 *)(s1 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk10.w.unk12.u;
         guess_TransformPosByObjMatrix((s32)s2, (s32)a0 + 4);
         func_80146DE8((s32 *)a0, 0, -0xC0000, -0x100000);
         guess_SetWaitTimer_2((s32 *)a0, 100);

@@ -27,7 +27,7 @@ u16 a4;
         *(u16 *)(a0 + 0x62) = a4;
         *(u16 *)(a0 + 0x60) = a2;
         *(u16 *)(a0 + 0x5C) = t | 1;
-        *(Unkstruct_801343C4 *)(a0 + 0x7C) = *(Unkstruct_801343C4 *)a3;
+        { Unkstruct_801202A0 *d = (Unkstruct_801202A0 *)a0; d->unk7C.m = *(Unkstruct_801343C4 *)a3; }
         *(u8 *)(a0 + 0xC9) = D_8012693A;
         *(u8 *)(a0 + 0xC8) = D_801152B8;
         return a0;

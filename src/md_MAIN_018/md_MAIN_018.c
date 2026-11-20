@@ -119,8 +119,8 @@ void func_800CAFE0(s32 param_1) {
     func_8001CC3C(node, D_800D387C,
                   *(s16 *)((s32)&D_800CB5F4 + (sext >> 15)),
                   *(s16 *)((s32)&D_800CB5F6 + (sext >> 15)));
-    ((Unkstruct_800B5BD8 *)node)->head.unk1A.u = 0x2000;
-    ((Unkstruct_800B5BD8 *)node)->head.unk18.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk18.u = 0x2000;
     ((Unkstruct_800B5BD8 *)node)->head.unk24.b.unk27.u = (sext >> 17) + 0x19;
     ((Unkstruct_800B5BD8 *)node)->head.unk4.u |= 0xC0000000;
     save = *(u16 *)(param_1 + 0x30);

@@ -119,6 +119,15 @@ typedef struct {
 /* T18.c13: SVECTOR moved ahead of the model record (unk80 SVECTOR *; byte-neutral) */
 typedef struct { short vx, vy, vz, pad; } SVECTOR;
 
+/* T18.c20: Unkstruct_801343C4 moved ahead of RenderHead and the actor (byte-neutral): their 8-byte copy-unit unions spell it. */
+typedef struct {
+    /* Unkstruct_e505dcd3: P37 struct map 868 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
+    /* 0x0000 */ u16 unk0;
+    /* 0x0002 */ u16 unk2;
+    /* 0x0004 */ u16 unk4;
+    /* 0x0006 */ u16 unk6;
+} Unkstruct_801343C4; /* size = 0x8 */
+
 /* RenderHead — shared render head: first 0x30 bytes (0x14 until T18.c19) of the sprite record Unkstruct_800B5BD8 (pool tag 2, src/800.c:8585-8735)
    and the model record Unkstruct_8001C9D0 (pool tag 1); slot init tags model 1 / sprite 2 (func_8012C890__1bddfa15.h:55-70). T17.c38. */
 typedef struct {
@@ -129,16 +138,10 @@ typedef struct {
     /* 0x000a */ union { s16 s; u16 u; } unkA;
     /* 0x000c */ union { s16 s; u16 u; } unkC;
     /* 0x000e */ union { u16 u; s16 s; } unkE;
-    /* 0x0010 */ union { s16 s; u16 u; } unk10;
-    /* 0x0012 */ union { s16 s; u16 u; } unk12;
     /* T18.c19: grown 0x14 -> 0x30 over the span model and sprite share (judge c12 + expert x: +0x14..+0x1D agree; +0x1E is
        sprite unk1E, unread by the model; +0x24 is model s32 / sprite 4 x u8, held as a union). Was size 0x14. */
-    /* 0x0014 */ union { s16 s; u16 u; } unk14;
-    /* 0x0016 */ u8 pad16[0x2];
-    /* 0x0018 */ union { s16 s; u16 u; } unk18;
-    /* 0x001a */ union { s16 s; u16 u; } unk1A;
-    /* 0x001c */ union { s16 s; u16 u; } unk1C;
-    /* 0x001e */ union { s16 s; u16 u; } unk1E;
+    /* 0x0010 */ union { struct { union { s16 s; u16 u; } unk10; union { s16 s; u16 u; } unk12; union { s16 s; u16 u; } unk14; u8 pad16[0x2]; } w; Unkstruct_801343C4 m; } unk10; /* m: 8-byte copy unit (T18.c20; copied head to head, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3789) */
+    /* 0x0018 */ union { struct { union { s16 s; u16 u; } unk18; union { s16 s; u16 u; } unk1A; union { s16 s; u16 u; } unk1C; union { s16 s; u16 u; } unk1E; } w; Unkstruct_801343C4 m; } unk18; /* m: 8-byte copy unit (T18.c20; copied head to head, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3794) */
     /* 0x0020 */ union { s32 s; u32 u; } unk20;
     /* 0x0024 */ union { s32 w; struct { union { u8 u; s8 s; } unk24; union { u8 u; s8 s; } unk25; u8 unk26; union { u8 u; s8 s; } unk27; } b; } unk24;
     /* 0x0028 */ union { s16 s; u16 u; } unk28;
@@ -457,10 +460,7 @@ typedef struct Unkstruct_801202A0 {
     /* 0x0042 */ u16 unk42;
     /* 0x0044 */ union { struct { s32 unk44; s32 unk48; } w; Unkstruct_8013B83C m; } unk44; /* m: 8-byte record copy (func_8016380C.h) */
     /* 0x004c */ s32 unk4C;
-    /* 0x0050 */ union { u16 u; s16 s; } unk50;
-    /* 0x0052 */ union { u16 u; s16 s; } unk52;
-    /* 0x0054 */ union { u16 u; s16 s; } unk54;
-    /* 0x0056 */ u8 pad56[0x2];
+    /* 0x0050 */ union { struct { union { u16 u; s16 s; } unk50; union { u16 u; s16 s; } unk52; union { u16 u; s16 s; } unk54; u8 pad56[0x2]; } w; Unkstruct_801343C4 m; } unk50; /* m: 8-byte copy unit (T18.c20; copied actor to actor, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3784) */
     /* 0x0058 */ union { s32 s; u32 u; } unk58;
     /* 0x005c */ union { s16 s; u16 u; } unk5C;
     /* 0x005e */ union { u8 b; u16 u; s16 s; } unk5E;
@@ -475,10 +475,7 @@ typedef struct Unkstruct_801202A0 {
     /* 0x0075 */ u8 unk75;
     /* 0x0076 */ union { s16 s; u16 u; } unk76;
     /* 0x0078 */ void *unk78;
-    /* 0x007c */ s16 unk7C;
-    /* 0x007e */ s16 unk7E;
-    /* 0x0080 */ s16 unk80;
-    /* 0x0082 */ s16 unk82;
+    /* 0x007c */ union { struct { s16 unk7C; s16 unk7E; s16 unk80; s16 unk82; } w; Unkstruct_801343C4 m; } unk7C; /* m: 8-byte copy unit (T18.c20; written from an event argument, src/shared/ov/func_8014C4AC.h:30) */
     /* 0x0084 */ union { s16 s; u16 u; } unk84;
     /* 0x0086 */ union { u16 u; s16 s; } unk86;
     /* 0x0088 */ union { u16 u; s16 s; } unk88;
@@ -835,13 +832,6 @@ typedef Vec3s Src_8013B6A0;
 typedef struct { s16 vx, vy; } DVECTOR;
 typedef DVECTOR DVEC2_C974_8017BA3C;
 typedef MATRIX MTX_C974;
-typedef struct {
-    /* Unkstruct_e505dcd3: P37 struct map 868 sites in 124 bodies; evidence {'PV': 1, 'P': 1, 'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
-    /* 0x0000 */ u16 unk0;
-    /* 0x0002 */ u16 unk2;
-    /* 0x0004 */ u16 unk4;
-    /* 0x0006 */ u16 unk6;
-} Unkstruct_801343C4; /* size = 0x8 */
 typedef Unkstruct_801343C4 Pt_8017D87C;
 typedef SVECTOR SV;
 typedef SVECTOR SVEC2_C974_8017BA3C;

@@ -563,7 +563,7 @@ void func_800CD7D8(s32 a0) {
         *(s16 *)(s0 + 0x1A) = 0;
         *(s16 *)(s0 + 0x18) = 0;
         func_800CD96C(a0);
-        D_800CE8D4 = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk12.u;
+        D_800CE8D4 = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk10.w.unk12.u;
         guess_NextStep((void *)a0);
     } else {
         ((void (*)(s32))guess_FreeObjectAndSubObject_26)(a0);
@@ -808,10 +808,10 @@ void func_800CDD9C(s32 param_1) {
         *(u32 *)(iVar2 + 4) = *(u32 *)(iVar2 + 4) | 0x50000000;
         guess_TransformPosByObjMatrix(iVar1, param_1 + 4);
         d = D_800CE8D4;
-        x = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk10.u;
+        x = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk10.w.unk10.u;
         *(u16 *)(iVar2 + 0x12) = d;
         *(u16 *)(iVar2 + 0x10) = x;
-        *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk14.u;
+        *(u16 *)(iVar2 + 0x14) = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk10.w.unk14.u;
         ((Unkstruct_80126B58 *)param_1)->unk60.u = ((Unkstruct_80126B58 *)iVar1)->unk100;
         ((Unkstruct_80126B58 *)param_1)->unk62 = ((Unkstruct_80126B58 *)iVar1)->unk102;
         ((Unkstruct_80126B58 *)param_1)->unk64.u = ((Unkstruct_80126B58 *)iVar1)->unk104;

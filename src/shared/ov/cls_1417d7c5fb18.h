@@ -14,8 +14,8 @@ void SHARED_FN(s32 param_1) {
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x9c;
 
     t = ((Unkstruct_80184178 *)param_1)->unk20;
-    ((Unkstruct_800B5BD8 *)t)->head.unk1A.u = 0x2000;
-    ((Unkstruct_800B5BD8 *)t)->head.unk18.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)t)->head.unk18.w.unk1A.u = 0x2000;
+    ((Unkstruct_800B5BD8 *)t)->head.unk18.w.unk18.u = 0x2000;
 
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk24.u = 0xff;
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk25.u = 0;

@@ -3093,13 +3093,13 @@ void func_8018226C(s32 arg0)
         CAST_WIDTH(s32, arg0, 0xC) = 0xFF360000;
 
         p1 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)p1)->head.unk1A.u = 0x1000;
-        ((Unkstruct_8001C9D0 *)p1)->head.unk18.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)p1)->head.unk18.w.unk1A.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)p1)->head.unk18.w.unk18.u = 0x1000;
 
         p2 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
         CAST_WIDTH(s16, p2, 0x14) = 0;
-        ((Unkstruct_8001C9D0 *)p2)->head.unk12.u = 0;
-        ((Unkstruct_8001C9D0 *)p2)->head.unk10.u = 0;
+        ((Unkstruct_8001C9D0 *)p2)->head.unk10.w.unk12.u = 0;
+        ((Unkstruct_8001C9D0 *)p2)->head.unk10.w.unk10.u = 0;
 
         ((Unkstruct_801202A0 *)arg0)->unk58.s = ((s32)D_8018E288 | 0x40000000) | 0x20000000;
         ((Unkstruct_801202A0 *)arg0)->unk34.u += 1;
@@ -4090,8 +4090,8 @@ void func_80183F0C(void *a0) {
     *(u16 *)((char *)t + 0x18) = 0x1800;
     vp = CAST_SIGN(void *, (char *)a0, 0x20);
     CAST_WIDTH(u16, (char *)vp, 0x14) = 0;
-    ((Unkstruct_8001C9D0 *)vp)->head.unk12.u = 0;
-    ((Unkstruct_8001C9D0 *)vp)->head.unk10.u = 0;
+    ((Unkstruct_8001C9D0 *)vp)->head.unk10.w.unk12.u = 0;
+    ((Unkstruct_8001C9D0 *)vp)->head.unk10.w.unk10.u = 0;
     func_80184604(0);
 }
 

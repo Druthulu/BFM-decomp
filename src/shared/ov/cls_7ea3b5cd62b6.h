@@ -12,14 +12,14 @@ void SHARED_FN(s32 a0)
             ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x10;
             v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
             CAST_WIDTH(u16, v1, 0x1C) = 1;
-            ((Unkstruct_8001C9D0 *)v1)->head.unk1A.u = 1;
-            ((Unkstruct_8001C9D0 *)v1)->head.unk18.u = 1;
+            ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk1A.u = 1;
+            ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u = 1;
             v0 = ((Unkstruct_801202A0 *)a0)->unk20.p;
             *(u16 *)(v0 + 0x14) = 0;
             *(u16 *)(v0 + 0x10) = 0;
             v0 = ((Unkstruct_801202A0 *)a0)->unk68;
             v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-            ((Unkstruct_8001C9D0 *)v1)->head.unk12.u = *(u16 *)(v0 + 0xC);
+            ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk12.u = *(u16 *)(v0 + 0xC);
             guess_UpdateActorModelMatrix(a0);
         }
     }

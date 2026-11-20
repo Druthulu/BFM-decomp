@@ -20,10 +20,10 @@ void SHARED_FN(s32 param_1) {
         ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u = 0x80;
     }
 
-    h = ((Unkstruct_800B5BD8 *)q)->head.unk1A.u + 0x400;
+    h = ((Unkstruct_800B5BD8 *)q)->head.unk18.w.unk1A.u + 0x400;
     ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk26 = ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u;
-    ((Unkstruct_800B5BD8 *)q)->head.unk1A.u = h;
-    ((Unkstruct_800B5BD8 *)q)->head.unk18.u = h;
+    ((Unkstruct_800B5BD8 *)q)->head.unk18.w.unk1A.u = h;
+    ((Unkstruct_800B5BD8 *)q)->head.unk18.w.unk18.u = h;
 
     guess_AddVelocityToPos(param_1);
 

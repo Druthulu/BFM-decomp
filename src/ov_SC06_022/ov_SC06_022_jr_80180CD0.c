@@ -3338,7 +3338,7 @@ void func_8018199C(s32 arg0) {
     s16 h;
 
     a0 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-    ((Unkstruct_8001C9D0 *)a0)->head.unk10.u = ((Unkstruct_8001C9D0 *)a0)->head.unk10.u + (CAST_SIGN(u16, arg0, 0x106));
+    ((Unkstruct_8001C9D0 *)a0)->head.unk10.w.unk10.u = ((Unkstruct_8001C9D0 *)a0)->head.unk10.w.unk10.u + (CAST_SIGN(u16, arg0, 0x106));
 
     a1 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
     val = ((Unkstruct_801202A0 *)arg0)->extD.kSC06_022_801813C8.unk108;
@@ -3349,9 +3349,9 @@ void func_8018199C(s32 arg0) {
     h = CAST_WIDTH(s16, arg0, 0xE0);
     if (CAST_SIGN(s16, arg0, 0xA) >= h) {
         ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u = h;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u = 0x400;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk10.u = 0x400;
         if ((rand() & 1) != 0) {
-            ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.u = 0xC00;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk10.u = 0xC00;
         }
         func_80181394((void *)arg0);
     }
@@ -3530,7 +3530,7 @@ void func_80181E38(s32 param_1)
     s32 s0;
     s32 s2;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12), ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE8, 8);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u += guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12), ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE8, 8);
     guess_SetForwardVelocity(p, 0xFFFB0000);
 
     CAST_SIGN(u32, p, 0xE0) &= 0xFFFFFFBF;
@@ -3603,7 +3603,7 @@ void func_80181FE4(s32 p)
     s32 s1;
     s32 e;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u += guess_TurnStepToTarget(p, 8);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u += guess_TurnStepToTarget(p, 8);
     guess_SetForwardVelocity(p, 0xFFF90000);
 
     if ((u32)guess_g_FrameCounter % 10 == 0) {
@@ -3943,8 +3943,8 @@ void func_80182610(s32 p)
 
 LAB_80184738:
     r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12), ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE8, 8);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u =
-        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u + r;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u + r;
 
     if (((Unkstruct_801202A0 *)p)->unk34.u == 0) {
         guess_SetForwardVelocity(p, 0xFFF8D000);
@@ -3987,7 +3987,7 @@ void func_801828D8(s32 p) {
 
     if (((Unkstruct_801202A0 *)p)->unk34.u == 0) {
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12), ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE8, 4);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u += r;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u += r;
         if (func_8012BDBC(p, 0x200) != 0) {
             ((Unkstruct_801202A0 *)p)->unk1C.s = 0xF;
             ((Unkstruct_801202A0 *)p)->unk34.u += 1;
@@ -4041,7 +4041,7 @@ void func_801829D8(s32 p)
     if (v > 0xC4000) {
         if ((CAST_SIGN(u32, p, 0xE0) & 0x40) == 0) {
             r = guess_TurnStepToTarget(p, 8);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u += r;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u += r;
         }
     } else {
         if ((u32)(v - 0x24000) <= 0xA0000) {
@@ -4059,7 +4059,7 @@ void func_801829D8(s32 p)
         }
 
         r = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)p)->unk20.p + 0x12), ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE8, 8);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u += r;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk10.w.unk12.u += r;
     }
 
     guess_SetForwardVelocity(p, 0xFFF9C000);
