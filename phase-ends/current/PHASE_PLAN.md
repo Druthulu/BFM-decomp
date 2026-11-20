@@ -175,3 +175,4 @@ Approved: 2026-11-13   Planner: claude-opus-5-5/medium   Plan-hash: a694de413642
 - 2026-11-16 router: T16 next -> done
 - 2026-11-18 developer: T17 done-when clarified: Unkstruct_800B5CB8's ~222 sources (578 sites) + 3 held keys that code reading cannot place carry to A5/T21 per R211 (list docs/ops/p345-t17-b5cb8-carry.tsv); T30 owns any T21 cannot close. T17 closes with that one type pending in its ratchet. Head-only readers get a RenderHead common header in T17 (c38).
 - 2026-11-19 router: T17 next -> done
+- 2026-11-20 developer: Milestone finishes gain 'not a struct' (disposition scalar, class text|scalar): a placeholder whose object is not a record (text, scalar array) is finished by retyping its sources to the true scalar type and deleting the placeholder, with the data object and retyped sources as evidence; struct_twins rules and the T8 gate accept it. First use: Unkstruct_801407F4 (menu Shift-JIS text, u16 slots [9..0xE]) in T18.
