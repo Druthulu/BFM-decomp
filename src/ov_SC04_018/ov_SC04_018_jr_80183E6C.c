@@ -3580,6 +3580,7 @@ extern s32 D_801B85BC[][8];
 extern s32 func_80184B04(s32 arg0);
 
 s32 func_80184960(s32 a0) {
+    extern s32 aD_801E7998[] __asm__("D_801E7998"); /* one-word view without a struct cast (T18.c20, was E4) */
     u8 *p;
     s32 s0;
     s32 t;
@@ -3613,7 +3614,7 @@ s32 func_80184960(s32 a0) {
         idx = D_801B86F0[idx] - 1;
     }
 
-    ((Unkstruct_801E7998 *)&D_801E7998)->f0 = 1;
+    aD_801E7998[0] = 1;
     return D_801B85BC[idx][s0];
 }
 

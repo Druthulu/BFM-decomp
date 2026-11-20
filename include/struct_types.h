@@ -866,7 +866,6 @@ typedef union { /* T18.c18: word leaf w for the whole-tag writes (OT clear, addP
 } PrimTag;
 typedef PrimTag PTag;
 typedef Blk16_8018A8B8 St801D9204;
-typedef E4 Unkstruct_801151D0;
 typedef struct {
     /* 0x0000 */ s32 a;
     /* 0x0004 */ s32 b;
@@ -2925,7 +2924,6 @@ typedef struct Slot_800_shared {
     /* 0x45 */ u8 unk45[3];
 } Slot_800_shared;
 typedef Unkstruct_8017D2A4 W16;
-typedef E4 W32;
 
 /* provenance (head_types-hand): T2 (P3.40) canonical definitions, one per `define` target of config/type_folds.tsv, flat max-site layout renamed to the target, by tools/head_types.py --type <map type> --map .run/P37/census/struct_map.json --header .run/P40/t2/per/<map type>.h, one run per type, hand-copied at 504802c32e (P3.40 T2.c2); order: by name; generator retired P3.45 T6; hand-edited since */
 typedef struct {

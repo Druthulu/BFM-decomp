@@ -1646,11 +1646,11 @@ extern Blk12_801854C4   D_80064D49[];
 extern Ent24   D_800A463C[];
 extern u8  D_80076251;
 extern s32 D_8007622C[];
-extern W32 D_80076228;
+extern s32 D_80076228;
 extern W8_  D_80076243;
 extern W8_  D_80076242;
-extern W32 D_80076294;
-extern W32 D_80076238;
+extern s32 D_80076294;
+extern s32 D_80076238;
 extern s32 D_8007629C;
 
 void func_80037028(s32 base, s32 val) {
@@ -1677,12 +1677,12 @@ void func_80037028(s32 base, s32 val) {
             s32 r;
             D_8007622C[0] = val;
             r = D_800A463C[b].unk00;
-            D_80076228.f0 = val;
+            D_80076228 = val;
             D_80076240[0].unk00 = 0;
             D_80076243.v = 2;
             D_80076242.v = 0;
-            D_80076294.f0 = 0;
-            D_80076238.f0 = r;
+            D_80076294 = 0;
+            D_80076238 = r;
         }
     }
 
@@ -1718,13 +1718,13 @@ void func_80037028(s32 base, s32 val) {
  * struct), so every relocation is still exactly D_8007622C / D_80076228 / ... as in the .s. */
 
 extern Slot16 D_80076244[];
-extern W32   D_80076228;
+extern s32   D_80076228;
 extern s32   D_8007622C[];
-extern W32   D_80076238;
+extern s32   D_80076238;
 extern Slot16A D_80076240[];
 extern W8_    D_80076242;
 extern W8_    D_80076243;
-extern W32   D_80076294;
+extern s32   D_80076294;
 extern s32   D_8007629C;       /* src/800.c already declares this one as `extern s32` */
 extern u8    D_800BA320[];
 extern H2    D_80065438[];
@@ -1785,12 +1785,12 @@ void func_80037144(s32 idx) {
         if (i == 0) {
             D_8007622C[0] = (s32)D_800BA320;
             ent = D_800A463C[k].unk00;
-            D_80076228.f0 = (s32)D_800BA320;
+            D_80076228 = (s32)D_800BA320;
             D_80076240[0].unk00 = 0;
             D_80076243.v = 1;
             D_80076242.v = 0;
-            D_80076294.f0 = 0;
-            D_80076238.f0 = ent;
+            D_80076294 = 0;
+            D_80076238 = ent;
         }
     }
     D_8007629C = 0;

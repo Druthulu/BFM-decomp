@@ -3999,6 +3999,7 @@ void func_801808AC(void *arg0)
 
 
 void func_80180950(void *arg0) {
+    extern s32 aD_801270C8[] __asm__("D_801270C8"); /* one-word view without a struct cast (T18.c20, was E4) */
 
 
     extern s32 D_801270C8;
@@ -4011,7 +4012,7 @@ void func_80180950(void *arg0) {
     p->unk34.s = 0;
     p->unkDC = 0;
     p->unkDE = 0;
-    ((Unkstruct_801270C8 *)&D_801270C8)->f0 = 3;
+    aD_801270C8[0] = 3;
     D_801B1708 = 0;
     D_801B1710 = 0;
     p->unk1C = 0x16;
@@ -4028,6 +4029,7 @@ void func_80180950(void *arg0) {
  * which deliberately calls `guess_StartActorSequence()` with no arguments behind a
  * no-prototype decl. */
 void func_8018098C(void *arg0) {
+    extern s32 aD_801270C8[] __asm__("D_801270C8"); /* one-word view without a struct cast (T18.c20, was E4) */
 
 
     extern void func_80180B7C(s32 a0);
@@ -4083,7 +4085,7 @@ void func_8018098C(void *arg0) {
              * the varying /s p->unk34 store and hoists above it (sched.c:817).  The
              * COMPONENT_REF spelling -- this TU's own idiom, see func_80180950 --
              * sets MEM_IN_STRUCT_P and keeps the store in source order. */
-            ((Unkstruct_801270C8 *)&D_801270C8)->f0 = 0;
+            aD_801270C8[0] = 0;
         }
         break;
 

@@ -3935,6 +3935,7 @@ s32 func_8017DC10(void) {
  */
 
 void func_8017DEF0(void) {
+    extern s32 aMenuPacketPtr[] __asm__("guess_g_MenuPacketPtr"); /* one-word view without a struct cast (T18.c20, was E4) */
 
              /* 0x14 stride */
 
@@ -3969,7 +3970,7 @@ void func_8017DEF0(void) {
     s16 i;
     u16 *pb;
 
-    ot = (s32 *)((E4 *)&guess_g_MenuPacketPtr)->f0;
+    ot = (s32 *)aMenuPacketPtr[0];
     panel = D_80115134;
 
     if (D_80115126 != 4) {
@@ -4026,7 +4027,7 @@ void func_8017DEF0(void) {
     guess_g_FrontOrderingTables[*pb].f4[2] =
         (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
     ot += 10;
-    ((E4 *)&guess_g_MenuPacketPtr)->f0 = (s32)ot;
+    aMenuPacketPtr[0] = (s32)ot;
 }
 
 

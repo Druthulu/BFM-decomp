@@ -7153,6 +7153,7 @@ s32 aF801848DC(void *a0) __asm__("func_801842C0");
 extern s32 func_801844E8(s32 arg0);
 
 s32 func_80184344(s32 a0) {
+    extern s32 aD_801E66F8[] __asm__("D_801E66F8"); /* one-word view without a struct cast (T18.c20, was E4) */
 
     extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
     extern u8 D_80078EB1;
@@ -7194,7 +7195,7 @@ s32 func_80184344(s32 a0) {
         idx = D_801E01FC[idx] - 1;
     }
 
-    ((Unkstruct_801E66F8 *)&D_801E66F8)->f0 = 1;
+    aD_801E66F8[0] = 1;
     return D_801E00C8[idx][s0];
 }
 

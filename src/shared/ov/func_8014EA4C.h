@@ -37,7 +37,7 @@ s32 func_8014EA4C(void * a0, void * a1, void * a2, s32 _arg3)
         if (p == *(u8 **)((u8 *)a0 + 0x174)) continue;
         if ((q[1] & 0x1800) == 0) continue;
         guess_g_BoxHitFlags = 0;
-        if (func_80135A4C(q[-0xe], ((Unkstruct_8014EA4C *)q)->f0, (s32 *)a1, (s32)a2) != 0) {
+        if (func_80135A4C(q[-0xe], ((Unkstruct_801202A0 *)p)->unk58.s, (s32 *)a1, (s32)a2) != 0) {
             if ((guess_g_BoxHitFlags & 1) != 0) {
                 if ((*(u16 *)(p + 0x5C) & 0x10) == 0) {
                     if ((*(s16 *)&guess_g_BoxHitCenterX) - *(s16 *)((u8 *)a1 + 0x0) >= 0)

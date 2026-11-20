@@ -2751,11 +2751,12 @@ extern s32 D_801270D8;
 
 void func_8017F690(s32 param_1)
 {
+    extern s32 aD_801270D8[] __asm__("D_801270D8"); /* one-word view without a struct cast (T18.c20, was E4) */
     u8 *s0;
 
-    if (*(s32 *)(param_1 + 0xDC) != ((Unkstruct_801270D8 *)&D_801270D8)->f0) {
-        *(s32 *)(param_1 + 0xDC) = ((Unkstruct_801270D8 *)&D_801270D8)->f0;
-        switch (((Unkstruct_801270D8 *)&D_801270D8)->f0) {
+    if (*(s32 *)(param_1 + 0xDC) != aD_801270D8[0]) {
+        *(s32 *)(param_1 + 0xDC) = aD_801270D8[0];
+        switch (aD_801270D8[0]) {
         case 2:
         case 4:
         case 6:
@@ -3188,6 +3189,7 @@ extern u8 D_800A5EA4;
 extern u8 D_800A5EA5;
 
 void func_80180000(s32 param_1) {
+    extern s32 aD_801270D8[] __asm__("D_801270D8"); /* one-word view without a struct cast (T18.c20, was E4) */
     if (((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_084_801801BC.unkE0 != 0 && --((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_084_801801BC.unkE0 == 0) {
         u8 *base;
         base = (s32)&D_800A5E88;
@@ -3218,9 +3220,9 @@ void func_80180000(s32 param_1) {
             guess_SetFlatLightOrDefault(0, rec - 8);
             ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC01_084_801801BC.unkE4 = (rand() & 1) + 1;
         }
-        if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val != ((Unkstruct_801270D8 *)&D_801270D8)->f0) {
-            ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = ((Unkstruct_801270D8 *)&D_801270D8)->f0;
-            switch (((Unkstruct_801270D8 *)&D_801270D8)->f0) {
+        if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val != aD_801270D8[0]) {
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = aD_801270D8[0];
+            switch (aD_801270D8[0]) {
             case 2:
             case 4:
             case 6:

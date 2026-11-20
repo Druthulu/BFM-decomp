@@ -3975,7 +3975,7 @@ s32 func_8017DD70(void) {
  *     1578, so panel wins $s2 where the target wants lim.  The [3] form gets
  *     the target grant (score 0, 175/175).
  *     Separately, `guess_g_MenuPacketPtr` is read and written as
- *     `((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0`: MEM_IN_STRUCT_P like
+ *     `aMenuPacketPtr[0]` (block-scope `s32 []` asm alias; an E4 view until T18.c20): MEM_IN_STRUCT_P like
  *     `guess_g_FrontOrderingTables[..].f4[2]` (`mem/s`), so sched2 does not disambiguate them
  *     and the final store stays after the OT read-modify-write (as a plain
  *     scalar it is hoisted above it: score 4).
@@ -3997,6 +3997,7 @@ s32 func_8017DD70(void) {
  */
 
 void func_8017E050(void) {
+    extern s32 aMenuPacketPtr[] __asm__("guess_g_MenuPacketPtr"); /* one-word view without a struct cast (T18.c20, was E4) */
 
              /* 0x14 stride */
 
@@ -4031,7 +4032,7 @@ void func_8017E050(void) {
     s16 i;
     u16 *pb;
 
-    ot = (s32 *)((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0;
+    ot = (s32 *)aMenuPacketPtr[0];
     panel = D_80115134;
 
     if (D_80115126 != 4) {
@@ -4088,7 +4089,7 @@ void func_8017E050(void) {
     guess_g_FrontOrderingTables[*pb].f4[2] =
         (guess_g_FrontOrderingTables[*pb].f4[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
     ot += 10;
-    ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = (s32)ot;
+    aMenuPacketPtr[0] = (s32)ot;
 }
 
 

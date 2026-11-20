@@ -2069,6 +2069,7 @@ extern void func_8013FAF8(s16 a0, s16 a1);
 
 /* $v0 at exit: result of func_800D0488 or result of func_800D2624 or lhu $v0, 0x5118($v0) at ov_SC02_037:0x8013F0D0 or addiu $v0, $v0, 0x1 at ov_SC02_037:0x8013F118; no byte-neutral return: `return 0;` moved `beqz v0,<func_8013EF88+0x1a0>` at +0x138, ov_SC02_037 objdump */
 s32 func_8013EF88() {
+    extern s32 aMenuPanelSlideStep[] __asm__("guess_g_MenuPanelSlideStep"); /* one-word view without a struct cast (T18.c20, was E4) */
 
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern unsigned short guess_g_MenuStep; // Names ledger: config/names.tsv guess_g_MenuStep
@@ -2095,10 +2096,10 @@ s32 func_8013EF88() {
             (*(int*)&guess_g_MenuPacketPtr) = guess_g_MenuTransitionTimer.arrB0[(*(unsigned short*)&guess_g_DoubleBufferIndex)];
             ((void(*)(int, int))func_8013FAF8)(0, 5);
             for (i = 0; i < 5; i++) {
-                int a = *(int *)((char *)&(((E4 *)&guess_g_MenuPanelSlideStep)->f0) + (i << 2));
+                int a = *(int *)((char *)&(aMenuPanelSlideStep[0]) + (i << 2));
                 int b = *(int *)((char *)&guess_g_MenuPanelSlide + (i << 2));
                 int w = a * 3;
-                *(int *)((char *)&(((E4 *)&guess_g_MenuPanelSlideStep)->f0) + (i << 2)) = w;
+                *(int *)((char *)&(aMenuPanelSlideStep[0]) + (i << 2)) = w;
                 *(int *)((char *)&guess_g_MenuPanelSlide + (i << 2)) = b + w;
             }
             if (guess_g_MenuTransitionTimer.field0 < 3) {

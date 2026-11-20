@@ -568,6 +568,7 @@ Lmid:
 
 
 void func_801F0210(void) {
+    extern s32 aMenuPacketPtr[] __asm__("guess_g_MenuPacketPtr"); /* one-word view without a struct cast (T18.c20, was E4) */
    /* 0x14 stride */
                /* 0x20 stride */
 
@@ -632,7 +633,7 @@ void func_801F0210(void) {
         (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
-    ((Unkstruct_801151D0 *)&guess_g_MenuPacketPtr)->f0 = ot;
+    aMenuPacketPtr[0] = ot;
 }
 
 
