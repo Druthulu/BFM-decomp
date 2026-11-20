@@ -11041,8 +11041,8 @@ typedef struct {
     /* 0x0020 */ union { void *p; Unkstruct_8001C9D0 *m; struct Unkstruct_800B5BD8 *s; RenderHead *h; s32 val; } unk20;
     /* 0x0024 */ u8 pad24[0x38];
     /* 0x005c */ union {
-        u16 u;
         s16 s;
+        u16 u;
     } unk5C;
     /* 0x005e */ u8 pad5E[0x1a];
     /* 0x0078 */ s32 unk78;
