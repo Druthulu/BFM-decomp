@@ -2172,50 +2172,50 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     same = 0;
     D_80190E70->pad = -0x7FFF;
     D_80190E74->pad = 0x7FFF;
-    D_80190E70->vx = (u16)((SVECTOR *)arg1)->vx;
-    D_80190E70->vz = (u16)((SVECTOR *)arg1)->vz;
-    D_80190E74->vx = (u16)((SVECTOR *)arg2)->vx;
-    D_80190E74->vz = (u16)((SVECTOR *)arg2)->vz;
+    D_80190E70->vx = ((SVECTOR *)arg1)->vx;
+    D_80190E70->vz = ((SVECTOR *)arg1)->vz;
+    D_80190E74->vx = ((SVECTOR *)arg2)->vx;
+    D_80190E74->vz = ((SVECTOR *)arg2)->vz;
     D_801E3010 = 0;
     D_801E300C = 0;
 
     if (mode == 0) {
-        s16 dx = (u16)((SVECTOR *)arg2)->vx - (u16)((SVECTOR *)arg1)->vx;
-        s16 dy = (u16)((SVECTOR *)arg2)->vy - (u16)((SVECTOR *)arg1)->vy;
-        s16 dz = (u16)((SVECTOR *)arg2)->vz - (u16)((SVECTOR *)arg1)->vz;
+        s16 dx = ((SVECTOR *)arg2)->vx - ((SVECTOR *)arg1)->vx;
+        s16 dy = ((SVECTOR *)arg2)->vy - ((SVECTOR *)arg1)->vy;
+        s16 dz = ((SVECTOR *)arg2)->vz - ((SVECTOR *)arg1)->vz;
         if (dx == 0 && dy == 0) {
             same = (dz == 0);
         }
-        D_80190E70->vy = (u16)((SVECTOR *)arg1)->vy - 4;
+        D_80190E70->vy = ((SVECTOR *)arg1)->vy - 4;
         r = func_80047D3C(dx * dx + dz * dz);
         if (r < 3) {
             r = 4;
         } else if (r < 5) {
             r += 1;
         }
-        D_80190E74->vy = (u16)((SVECTOR *)arg2)->vy + r + 1;
+        D_80190E74->vy = ((SVECTOR *)arg2)->vy + r + 1;
     } else {
-        D_80190E70->vy = (u16)((SVECTOR *)arg1)->vy;
+        D_80190E70->vy = ((SVECTOR *)arg1)->vy;
         if (mode == 2) {
-            D_80190E74->vx = (u16)D_80190E70->vx;
-            D_80190E74->vy = (u16)D_80190E70->vy + 6;
+            D_80190E74->vx = D_80190E70->vx;
+            D_80190E74->vy = D_80190E70->vy + 6;
             same = 1;
-            D_80190E74->vz = (u16)D_80190E70->vz;
+            D_80190E74->vz = D_80190E70->vz;
         } else {
-            D_80190E74->vy = (u16)((SVECTOR *)arg2)->vy;
+            D_80190E74->vy = ((SVECTOR *)arg2)->vy;
         }
     }
 
     while (1) {
-        r = func_80133AB0(mode, (u16)D_80190E70->vx, (u16)D_80190E70->vz, D_801E3000);
+        r = func_80133AB0(mode, D_80190E70->vx, D_80190E70->vz, D_801E3000);
         if (r == 0) break;
         hits |= r;
         if (same) break;
         if (tries++ >= 5) {
-            D_80190E74->vx = (u16)D_80190E70->vx;
-            D_80190E74->vy = (u16)D_80190E70->vy;
+            D_80190E74->vx = D_80190E70->vx;
+            D_80190E74->vy = D_80190E70->vy;
             flags = 0x2000;
-            D_80190E74->vz = (u16)D_80190E70->vz;
+            D_80190E74->vz = D_80190E70->vz;
             goto store_out;
         }
     }
@@ -2233,9 +2233,9 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
             flags |= 0x2000;
         }
     store_out:
-        ((SVECTOR *)arg2)->vx = (u16)D_80190E74->vx;
-        ((SVECTOR *)arg2)->vy = (u16)D_80190E74->vy;
-        ((SVECTOR *)arg2)->vz = (u16)D_80190E74->vz;
+        ((SVECTOR *)arg2)->vx = D_80190E74->vx;
+        ((SVECTOR *)arg2)->vy = D_80190E74->vy;
+        ((SVECTOR *)arg2)->vz = D_80190E74->vz;
         ((SVECTOR *)arg2)->pad = D_801E3010;
         return flags & 0xFFFF;
     }
@@ -2507,9 +2507,9 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
     pac[0] = ((u16 *)p1)[0];
     pac[1] = ((u16 *)p1)[1];
     pac[2] = ((u16 *)p1)[2];
-    pb0[0] = (u16)((SVECTOR *)p2)->vx;
-    pb0[1] = (u16)((SVECTOR *)p2)->vy;
-    pb0[2] = (u16)((SVECTOR *)p2)->vz;
+    pb0[0] = ((SVECTOR *)p2)->vx;
+    pb0[1] = ((SVECTOR *)p2)->vy;
+    pb0[2] = ((SVECTOR *)p2)->vz;
 
     a1v = pac[0]; a2v = pac[2];
     D_801E3010 = 0;
@@ -2568,7 +2568,7 @@ s32 func_80134510(s32 param) {
 
     if (func_801345F8((*(s32*)&D_801E3000)) != 0) {
         s16 x;
-        ((Foo_80134510_80134510 *)param)->vy = (u16)D_80190E78->vy - 2;
+        ((Foo_80134510_80134510 *)param)->vy = D_80190E78->vy - 2;
         x = D_80190E70->pad;
         if (x >= -3019) {
             if (x < -1400) {
@@ -2678,9 +2678,9 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     iv = -iv;
     dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
-    D_80190E78->vx = (u16)D_80190E70->vx;
-    D_80190E78->vy = (u16)D_80190E70->vy + q;
-    D_80190E78->vz = (u16)D_80190E70->vz;
+    D_80190E78->vx = D_80190E70->vx;
+    D_80190E78->vy = D_80190E70->vy + q;
+    D_80190E78->vz = D_80190E70->vz;
     if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->f6], (s32)D_80190E78, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f8]) < -0x2F00) {
         return 0;
     }
@@ -2698,8 +2698,8 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if ((((S0_801347A0 *)arg1)->f0 & 0x300) != 0) {
         return 0;
     }
-    D_80190E78->vx = (u16)D_80190E70->vx;
-    D_80190E78->vz = (u16)D_80190E70->vz;
+    D_80190E78->vx = D_80190E70->vx;
+    D_80190E78->vz = D_80190E70->vz;
     guess_g_BoxHitNormalX = *pElem;
     D_80190E70->pad = pElem->vy;
     return 1;
@@ -2881,9 +2881,9 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
     pb0 = D_80190E74;
 
-    ax = (u16)((SVECTOR *)p2)->vx; pac = D_80190E70; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_80190E7C); pac[0] = bx; pb8[0] = ax - bx;
-    ay = (u16)((SVECTOR *)p2)->vy; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
-    az = (u16)((SVECTOR *)p2)->vz; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
+    ax = ((SVECTOR *)p2)->vx; pac = D_80190E70; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_80190E7C); pac[0] = bx; pb8[0] = ax - bx;
+    ay = ((SVECTOR *)p2)->vy; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
+    az = ((SVECTOR *)p2)->vz; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
 
     id = ((int)arg0) & 0xFFFF;
     a1v = pac[0]; a2v = pac[2];

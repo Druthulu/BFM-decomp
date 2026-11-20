@@ -24,9 +24,9 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     iv = -iv;
     dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
-    D_8017F810->vx = (u16)D_8017F808->vx;
-    D_8017F810->vy = (u16)D_8017F808->vy + q;
-    D_8017F810->vz = (u16)D_8017F808->vz;
+    D_8017F810->vx = D_8017F808->vx;
+    D_8017F810->vy = D_8017F808->vy + q;
+    D_8017F810->vz = D_8017F808->vz;
     if (guess_Vec3sDotAdd_2((s32)&((SVECTOR *)arg2)[((S0_801347A0 *)arg1)->f6], (s32)D_8017F810, ((s32 *)arg3)[((S0_801347A0 *)arg1)->f8]) < -0x2F00) {
         return 0;
     }
@@ -44,8 +44,8 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if ((((S0_801347A0 *)arg1)->f0 & 0x300) != 0) {
         return 0;
     }
-    D_8017F810->vx = (u16)D_8017F808->vx;
-    D_8017F810->vz = (u16)D_8017F808->vz;
+    D_8017F810->vx = D_8017F808->vx;
+    D_8017F810->vz = D_8017F808->vz;
     guess_g_BoxHitNormalX = *pElem;
     D_8017F808->pad = pElem->vy;
     return 1;

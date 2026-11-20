@@ -4483,22 +4483,22 @@ void func_80180F98(void *a0, void *a1)
 
     if (((Unkstruct_800B5BD8 *)a0)->head.unk1E.s & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -4510,14 +4510,14 @@ void func_80180F98(void *a0, void *a1)
         func_801813B4(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -4621,8 +4621,8 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
         poly->y0 = ((u16 *)q)[i * 2 + 1];
         poly->x1 = ((u16 *)q)[i * 2 + 2];
         poly->y1 = ((u16 *)q)[i * 2 + 3];
-        poly->x2 = (u16)((SVECTOR *)q)->vx;
-        poly->y2 = (u16)((SVECTOR *)q)->vy;
+        poly->x2 = ((SVECTOR *)q)->vx;
+        poly->y2 = ((SVECTOR *)q)->vy;
         poly->x3 = ((u16 *)q)[i * 2 + 4];
         poly->y3 = ((u16 *)q)[i * 2 + 5];
         if (fl != 0) {
@@ -4631,8 +4631,8 @@ void func_801813B4(void *ent, void *spr, u32 *q, u32 *ot)
             ADDPRIM_801833F0(ot, poly);
         }
     }
-    poly[-1].x3 = (u16)((SVECTOR *)q)->vz;
-    poly[-1].y3 = (u16)((SVECTOR *)q)->pad;
+    poly[-1].x3 = ((SVECTOR *)q)->vz;
+    poly[-1].y3 = ((SVECTOR *)q)->pad;
     poly[-1].u3 = su + SR3_801833F0(vtx + 0x10);
     poly[-1].v3 = sv + SR3_801833F0(vtx + 0x12);
 
@@ -5270,7 +5270,7 @@ void func_801820F8(void *a0, void *a1, s16 a2) {
     extern u8 D_801AAB6A;
     extern u32 D_801AAB64;
     if (a0 != NULL) {
-        D_801AAB60 = (u16)((DVECTOR *)a0)->vx;
+        D_801AAB60 = ((DVECTOR *)a0)->vx;
         D_801AAB62 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801AAB60 = 0;

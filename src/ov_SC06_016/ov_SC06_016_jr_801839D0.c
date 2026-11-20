@@ -3511,7 +3511,7 @@ void func_80184578(void *a0, void *a1, s16 a2) {
     extern u8 D_8019FF12;
     extern u32 D_8019FF0C;
     if (a0 != NULL) {
-        D_8019FF08 = (u16)((DVECTOR *)a0)->vx;
+        D_8019FF08 = ((DVECTOR *)a0)->vx;
         D_8019FF0A = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_8019FF08 = 0;

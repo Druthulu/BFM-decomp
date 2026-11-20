@@ -870,8 +870,8 @@ void func_801397B0(s32 arg0)
 
     b1A8 = (u8 *)&D_80184298 + off;
     do {
-        ((Unkstruct_801397B0_5 *)buf)->unk10 = (u16)((DVECTOR *)b1A8)->vx;
-        ((Unkstruct_801397B0_5 *)buf)->unk12 = (u16)((DVECTOR *)b1A8)->vy;
+        ((Unkstruct_801397B0_5 *)buf)->unk10 = ((DVECTOR *)b1A8)->vx;
+        ((Unkstruct_801397B0_5 *)buf)->unk12 = ((DVECTOR *)b1A8)->vy;
         ((Unkstruct_801397B0_5 *)buf)->unk16 = 0x80;
         ((Unkstruct_801397B0_5 *)buf)->unk15 = 0x80;
         ((Unkstruct_801397B0_5 *)buf)->unk14 = 0x80;

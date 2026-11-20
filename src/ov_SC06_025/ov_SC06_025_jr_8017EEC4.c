@@ -4242,7 +4242,7 @@ void func_80180E30(void *a0) {
     u16 flag;
 
     D_80189020[(u16)((DVECTOR *)a0)->vy]();
-    flag = (u16)((DVECTOR *)a0)->vx;
+    flag = ((DVECTOR *)a0)->vx;
     D_801B1720 = -1;
     if (flag != 0) {
         ((void (*)())func_80182170)(a0);

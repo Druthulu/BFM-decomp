@@ -3614,8 +3614,8 @@ void func_80180ED0(s32 arg0) {
     if (((Unkstruct_80180ED0 *)a3)->unk1C != 0) {
         (((Unkstruct_80180ED0 *)a3)->unk1C)--;
         for (i = 0, a1 = (s32)D_801D0630; i < 12; i += 2) {
-            *(u16 *)(a1 + 0) += (u16)D_801D0660[i >> 1].vx;
-            *(u16 *)(a1 + 2) += (u16)D_801D0662[i >> 1].vx;
+            *(u16 *)(a1 + 0) += D_801D0660[i >> 1].vx;
+            *(u16 *)(a1 + 2) += D_801D0662[i >> 1].vx;
             a1 += 8;
         }
         *(u16 *)(((Unkstruct_80180ED0 *)a3)->unk20 + 0x18) += 0x200;
@@ -3952,8 +3952,8 @@ void func_801817B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80181854(arg0, 0x1000, 0);
-    sp10.vx = (u16)((DVECTOR *)arg3)->vx;
-    sp10.vz = (u16)((DVECTOR *)arg3)->vy;
+    sp10.vx = ((DVECTOR *)arg3)->vx;
+    sp10.vz = ((DVECTOR *)arg3)->vy;
     sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
         sp10.vy = ang;
@@ -4507,7 +4507,7 @@ void func_80181FAC(void *a0, void *a1, s16 a2) {
     extern u8 D_801D097A;
     extern u32 D_801D0974;
     if (a0 != NULL) {
-        D_801D0970 = (u16)((DVECTOR *)a0)->vx;
+        D_801D0970 = ((DVECTOR *)a0)->vx;
         D_801D0972 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801D0970 = 0;

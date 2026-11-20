@@ -997,19 +997,19 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
     ((SVECTOR *)a3)->pad = ((Unkstruct_800CC424 *)v4)->unk12;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((SVECTOR *)a3)->pad = ((u16)((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
+    ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((SVECTOR *)a3)->pad = ((u16)((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
+    ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
     ((SVECTOR *)a3)->pad = ((Unkstruct_800CC424 *)v4)->unk10;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((SVECTOR *)a3)->pad = ((u16)((SVECTOR *)a3)->pad - 0x555) & 0xFFF;
+    ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad - 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((SVECTOR *)a3)->pad = ((u16)((SVECTOR *)a3)->pad - 0x555) & 0xFFF;
+    ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad - 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 }
 
@@ -1046,9 +1046,9 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     func_80013F3C((s32)&buf);
     func_800123F0((s32)&buf, CAST_SIGN(s16, (s32)a3, 6));
 
-    v2.x = (u16)((SVECTOR *)a3)->vx;
-    v2.y = (u16)((SVECTOR *)a3)->vy;
-    v2.z = (u16)((SVECTOR *)a3)->vz;
+    v2.x = ((SVECTOR *)a3)->vx;
+    v2.y = ((SVECTOR *)a3)->vy;
+    v2.z = ((SVECTOR *)a3)->vz;
     func_80020F34((s32)&buf, (s32)&v2);
 
     buf.t[0] = v1.x;

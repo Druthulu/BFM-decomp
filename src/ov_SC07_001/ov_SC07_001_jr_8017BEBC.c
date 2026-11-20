@@ -3045,7 +3045,7 @@ void func_8017E278(s32 a0, s32 a1) {
     extern s16 D_800B9ABA[];
     extern s32 D_801AABA0;
 
-    D_800B9AB8 = D_801AABA0 + (u16)((DVECTOR *)a1)->vx;
+    D_800B9AB8 = D_801AABA0 + ((DVECTOR *)a1)->vx;
     D_800B9ABA[0] = CAST_ALIAS(u16, a1, 2);
 }
 

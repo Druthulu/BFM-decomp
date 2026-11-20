@@ -3492,10 +3492,10 @@ void func_80182980(void *a0, s32 a1) {
     a2 = (s32 *)D_801E1A30[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801E1A48[v1 * 16] = a1;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = (u16)((SVECTOR *)a0)->vx;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = (u16)((SVECTOR *)a0)->vy;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = (u16)((SVECTOR *)a0)->vz;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = ((u16)((SVECTOR *)a0)->pad & 0xF) << 10;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((SVECTOR *)a0)->vx;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((SVECTOR *)a0)->vy;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((SVECTOR *)a0)->vz;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = (((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 
 

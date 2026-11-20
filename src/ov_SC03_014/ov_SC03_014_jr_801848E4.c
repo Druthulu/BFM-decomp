@@ -6851,7 +6851,7 @@ extern u32 D_801EACDC;
 
 void func_8018AE9C(void *a0, void *a1, s16 a2) {
     if (a0 != NULL) {
-        D_801EACD8 = (u16)((DVECTOR *)a0)->vx;
+        D_801EACD8 = ((DVECTOR *)a0)->vx;
         D_801EACDA = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801EACD8 = 0;

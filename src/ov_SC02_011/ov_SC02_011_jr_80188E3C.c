@@ -1128,7 +1128,7 @@ void func_8018A72C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801EB6DC;
-        D_801EB6DC = (u16)((DVECTOR *)arg0)->vx;
+        D_801EB6DC = ((DVECTOR *)arg0)->vx;
         D_801EB6DE = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801EB6E0 = arg1;
         D_801EB6E2 = arg2;
@@ -1233,7 +1233,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     s1 = (s16 *)((a0 * 14) + (s32)&D_801EB6E4);
 
-    ((Unkstruct_8018A8E8 *)s1)->unk0 = (u16)((SVECTOR *)a1)->vx;
+    ((Unkstruct_8018A8E8 *)s1)->unk0 = ((SVECTOR *)a1)->vx;
 
     *(B4_8018A8E8 *)((u8 *)s1 + 6) = *(B4_8018A8E8 *)a2;
     ((Unkstruct_8018A8E8 *)s1)->unk9 = 0;
@@ -1242,7 +1242,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
     ((Unkstruct_8018A8E8 *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
-    temp_u16 = (u16)((SVECTOR *)a1)->vy;
+    temp_u16 = ((SVECTOR *)a1)->vy;
     ((Unkstruct_8018A8E8 *)s1)->unk2.u = temp_u16 + v0 - 0x20;
 
     v0 = rand() & 0x7f0;
@@ -1661,7 +1661,7 @@ void func_8018AF24(void *a0, void *a1, s16 a2) {
     extern u8 D_801EB5DA;
     extern u32 D_801EB5D4;
     if (a0 != NULL) {
-        D_801EB5D0 = (u16)((DVECTOR *)a0)->vx;
+        D_801EB5D0 = ((DVECTOR *)a0)->vx;
         D_801EB5D2 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801EB5D0 = 0;

@@ -5210,7 +5210,7 @@ void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
+    r0_00->unk0.v1.unk4 = ((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -5225,7 +5225,7 @@ void func_8017E72C(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
+    r0_00->unk0.v1.unk4 = ((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     *c = *f;

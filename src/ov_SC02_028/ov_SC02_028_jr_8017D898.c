@@ -5969,22 +5969,22 @@ void func_80182FD4(void *a0, void *a1)
 
     if (*(s16 *)((s32)a0 + 0x1E) & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 4].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 4].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -5996,14 +5996,14 @@ void func_80182FD4(void *a0, void *a1)
         func_801833F0(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 1].vx;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 1].vy;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -6357,7 +6357,7 @@ void func_8018393C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D328C;
-        D_801D328C = (u16)((DVECTOR *)arg0)->vx;
+        D_801D328C = ((DVECTOR *)arg0)->vx;
         D_801D328E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D3290 = arg1;
         D_801D3292 = arg2;
@@ -6889,7 +6889,7 @@ void func_80184134(void *a0, void *a1, s16 a2) {
     extern u8 D_801D318A;
     extern u32 D_801D3184;
     if (a0 != NULL) {
-        D_801D3180 = (u16)((DVECTOR *)a0)->vx;
+        D_801D3180 = ((DVECTOR *)a0)->vx;
         D_801D3182 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801D3180 = 0;

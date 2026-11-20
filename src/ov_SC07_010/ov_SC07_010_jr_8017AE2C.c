@@ -4581,13 +4581,13 @@ void func_8017E5B8(s32 a0, s32 a1) {
         p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
         if (p != 0) {
             func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
-            p->unkFC = (u16)D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 341);
+            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 341);
             p->unkDC = 0;
         }
         p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
         if (p != 0) {
             func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
-            p->unkFC = (u16)D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 227);
+            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 227);
             p->unkDC = 1;
         }
     }
@@ -4612,13 +4612,13 @@ void func_8017E70C(void) {
     p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
-        p->unkFC = (u16)D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 341);
+        p->unkFC = D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 341);
         p->unkDC = 0;
     }
     p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
-        p->unkFC = (u16)D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 227);
+        p->unkFC = D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 227);
         p->unkDC = 1;
     }
 }

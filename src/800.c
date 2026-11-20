@@ -2204,9 +2204,9 @@ s16 *func_80015908(s32 a0, s32 a1)
 }
 
 void func_80015954(s32 a0, s32 a1) {
-    *(u16 *)(a1 + 0x2) = (u16)((SVECTOR *)a0)->vx;
-    *(u16 *)(a1 + 0x6) = (u16)((SVECTOR *)a0)->vy;
-    *(u16 *)(a1 + 0xA) = (u16)((SVECTOR *)a0)->vz;
+    *(u16 *)(a1 + 0x2) = ((SVECTOR *)a0)->vx;
+    *(u16 *)(a1 + 0x6) = ((SVECTOR *)a0)->vy;
+    *(u16 *)(a1 + 0xA) = ((SVECTOR *)a0)->vz;
 }
 
 /* guess_CopyVec3HighHalves: copies the high halfwords of the three words at a0 (+0x2, +0x6, +0xA) to the s16 vector a1 (+0x0, +0x2, +0x4)
@@ -2786,10 +2786,10 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p->r0 = arg4;
         p->g0 = arg5;
         p->b0 = arg6;
-        p->x0 = (u16)pts[i].vx;
-        p->y0 = (u16)pts[i].vy;
-        p->x1 = (u16)pts[i + 1].vx;
-        p->y1 = (u16)pts[i + 1].vy;
+        p->x0 = pts[i].vx;
+        p->y0 = pts[i].vy;
+        p->x1 = pts[i + 1].vx;
+        p->y1 = pts[i + 1].vy;
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
@@ -2800,8 +2800,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p++;
     }
 
-    p[-1].x1 = (u16)pts[0].vx;
-    p[-1].y1 = (u16)pts[0].vy;
+    p[-1].x1 = pts[0].vx;
+    p[-1].y1 = pts[0].vy;
 
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[((Unkstruct_8012956C *)base)->unkA3D2 * 20], arg7, arg8);
@@ -12180,12 +12180,12 @@ void func_80021D38(Obj_80021D38 *p)
             gte_stsxy3(&out[i + 1], &out[i + 2], &out[i + 3]);
         }
 
-        out[i + 1].vx += (u16)out[0].vx;
-        out[i + 1].vy += (u16)out[0].vy;
-        out[i + 2].vx += (u16)out[0].vx;
-        out[i + 2].vy += (u16)out[0].vy;
-        out[i + 3].vx += (u16)out[0].vx;
-        out[i + 3].vy += (u16)out[0].vy;
+        out[i + 1].vx += out[0].vx;
+        out[i + 1].vy += out[0].vy;
+        out[i + 2].vx += out[0].vx;
+        out[i + 2].vy += out[0].vy;
+        out[i + 3].vx += out[0].vx;
+        out[i + 3].vy += out[0].vy;
     }
 
     func_800226C0(p, pts, out, ot + (d << 2));
@@ -12341,29 +12341,29 @@ void func_800221A8(Obj221A8 *o) {
                     gte_ldv0(&sv0);
                     gte_rtps();
                     gte_stsxy(&sxy2[0]);
-                    sxy[0].vx += (u16)sxy2[0].vx;
-                    sxy[0].vy += (u16)sxy2[0].vy;
+                    sxy[0].vx += sxy2[0].vx;
+                    sxy[0].vy += sxy2[0].vy;
                 }
                 i = 0;
                 do {
-                    sv0.vx = (u16)s->pt[i].vx;
-                    sv0.vy = (u16)s->pt[i].vy;
+                    sv0.vx = s->pt[i].vx;
+                    sv0.vy = s->pt[i].vy;
                     sv0.vz = sz;
-                    sv1.vx = (u16)s->pt[i + 1].vx;
-                    sv1.vy = (u16)s->pt[i + 1].vy;
+                    sv1.vx = s->pt[i + 1].vx;
+                    sv1.vy = s->pt[i + 1].vy;
                     sv1.vz = sz;
-                    sv2.vx = (u16)s->pt[i + 2].vx;
-                    sv2.vy = (u16)s->pt[i + 2].vy;
+                    sv2.vx = s->pt[i + 2].vx;
+                    sv2.vy = s->pt[i + 2].vy;
                     sv2.vz = sz;
                     gte_ldv3(&sv0, &sv1, &sv2);
                     gte_rtpt();
                     gte_stsxy3(&sxy[i + 1], &sxy[i + 2], &sxy[i + 3]);
-                    sxy[i + 1].vx += (u16)sxy[0].vx;
-                    sxy[i + 1].vy += (u16)sxy[0].vy;
-                    sxy[i + 2].vx += (u16)sxy[0].vx;
-                    sxy[i + 2].vy += (u16)sxy[0].vy;
-                    sxy[i + 3].vx += (u16)sxy[0].vx;
-                    sxy[i + 3].vy += (u16)sxy[0].vy;
+                    sxy[i + 1].vx += sxy[0].vx;
+                    sxy[i + 1].vy += sxy[0].vy;
+                    sxy[i + 2].vx += sxy[0].vx;
+                    sxy[i + 2].vy += sxy[0].vy;
+                    sxy[i + 3].vx += sxy[0].vx;
+                    sxy[i + 3].vy += sxy[0].vy;
                     i += 3;
                 } while (i < 0xC);
                 func_800226C0((s32)o, (s32)s, (s32)&sxy[0], (s32)(ot + z * 4));
@@ -12560,11 +12560,11 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 *(u16 *)(d - 0x18) = ((Unkstruct_800226C0 *)ss)->unk6;
                 *(u16 *)(d - 0x12) = ((Unkstruct_800226C0 *)ss)->unk8;
                 *(u16 *)(d - 0x10) = ((Unkstruct_800226C0 *)ss)->unkA;
-                *(u16 *)(d - 0x0A) = (u16)((DVECTOR *)ww)->vx;
-                *(u16 *)(d - 0x08) = (u16)((DVECTOR *)ww)->vy;
+                *(u16 *)(d - 0x0A) = ((DVECTOR *)ww)->vx;
+                *(u16 *)(d - 0x08) = ((DVECTOR *)ww)->vy;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x02) = (u16)((DVECTOR *)e)->vx;
-                *(u16 *)(d) = (u16)((DVECTOR *)e)->vy;
+                *(u16 *)(d - 0x02) = ((DVECTOR *)e)->vx;
+                *(u16 *)(d) = ((DVECTOR *)e)->vy;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)((u8 *)pts));
@@ -12595,8 +12595,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
 
         *(u16 *)(p - 0x14) = ((Unkstruct_800226C0 *)pts)->unk4;
         *(u16 *)(p - 0x12) = ((Unkstruct_800226C0 *)pts)->unk6;
-        *(u16 *)(p - 0x04) = (u16)((DVECTOR *)work)->vx;
-        *(u16 *)(p - 0x02) = (u16)((DVECTOR *)work)->vy;
+        *(u16 *)(p - 0x04) = ((DVECTOR *)work)->vx;
+        *(u16 *)(p - 0x02) = ((DVECTOR *)work)->vy;
 
         if (((Unkstruct_800B5BD8 *)arg0)->head.unk1E.u & 0x4000) {
             u32 maskAddr;
@@ -12630,16 +12630,16 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 d[-0x06] = col[0x0C];
                 d[-0x05] = col[0x0D];
                 d[-0x04] = col[0x0E];
-                *(u16 *)(d - 0x1A) = (u16)((DVECTOR *)ww)->vx;
-                *(u16 *)(d - 0x18) = (u16)((DVECTOR *)ww)->vy;
+                *(u16 *)(d - 0x1A) = ((DVECTOR *)ww)->vx;
+                *(u16 *)(d - 0x18) = ((DVECTOR *)ww)->vy;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x12) = (u16)((DVECTOR *)e)->vx;
-                *(u16 *)(d - 0x10) = (u16)((DVECTOR *)e)->vy;
+                *(u16 *)(d - 0x12) = ((DVECTOR *)e)->vx;
+                *(u16 *)(d - 0x10) = ((DVECTOR *)e)->vy;
                 *(u16 *)(d - 0x0A) = ((Unkstruct_800226C0 *)pts)->unk0;
                 *(u16 *)(d - 0x08) = ((Unkstruct_800226C0 *)pts)->unk2;
                 e = (u8 *)work + mm;
-                *(u16 *)(d - 0x02) = (u16)((DVECTOR *)e)->vx;
-                *(u16 *)(d) = (u16)((DVECTOR *)e)->vy;
+                *(u16 *)(d - 0x02) = ((DVECTOR *)e)->vx;
+                *(u16 *)(d) = ((DVECTOR *)e)->vy;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)work);
@@ -12667,8 +12667,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 p += 0x24;
             } while (i < 12);
 
-            *(u16 *)(p - 0x04) = (u16)((DVECTOR *)work)->vx;
-            *(u16 *)(p - 0x02) = (u16)((DVECTOR *)work)->vy;
+            *(u16 *)(p - 0x04) = ((DVECTOR *)work)->vx;
+            *(u16 *)(p - 0x02) = ((DVECTOR *)work)->vy;
         }
     } else {
         u32 maskAddr;
@@ -12960,13 +12960,13 @@ void guess_BuildCircle12Points(Poly12Obj *a0, u16 a1) {
     }
 
     for (i = 4; i < 7; i++) {
-        a0->pts[i].vx = (u16)a0->pts[6 - i].vx;
-        a0->pts[i].vy = -(u16)a0->pts[6 - i].vy;
+        a0->pts[i].vx = a0->pts[6 - i].vx;
+        a0->pts[i].vy = -a0->pts[6 - i].vy;
     }
 
     for (i = 7; i < 12; i++) {
-        a0->pts[i].vx = -(u16)a0->pts[12 - i].vx;
-        a0->pts[i].vy = (u16)a0->pts[12 - i].vy;
+        a0->pts[i].vx = -a0->pts[12 - i].vx;
+        a0->pts[i].vy = a0->pts[12 - i].vy;
     }
 }
 

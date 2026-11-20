@@ -9445,8 +9445,8 @@ void func_801ADE1C(void *a0, u16 *a1, s8 *a2, u8 *a3) {
         out++;
     }
 
-    rect.unk0 = (u16)((DVECTOR *)pos)->vx;
-    rect.unk2 = (u16)((DVECTOR *)pos)->vy;
+    rect.unk0 = ((DVECTOR *)pos)->vx;
+    rect.unk2 = ((DVECTOR *)pos)->vy;
     rect.unk4 = 16;
     rect.unk6 = 1;
 

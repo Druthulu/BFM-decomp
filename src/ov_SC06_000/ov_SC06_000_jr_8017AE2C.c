@@ -3491,7 +3491,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
+    r0_00->unk0.v1.unk4 = ((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -3506,7 +3506,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
+    r0_00->unk0.v1.unk4 = ((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     *c = *f;
@@ -9992,7 +9992,7 @@ void func_8018677C(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801B1EF4;
-        D_801B1EF4 = (u16)((DVECTOR *)arg0)->vx;
+        D_801B1EF4 = ((DVECTOR *)arg0)->vx;
         D_801B1EF6 = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801B1EF8 = arg1;
         D_801B1EFA = arg2;
@@ -10529,7 +10529,7 @@ void func_80186F74(void *a0, void *a1, s16 a2) {
     extern u8 D_801B1DF2;
     extern u32 D_801B1DEC;
     if (a0 != NULL) {
-        D_801B1DE8 = (u16)((DVECTOR *)a0)->vx;
+        D_801B1DE8 = ((DVECTOR *)a0)->vx;
         D_801B1DEA = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801B1DE8 = 0;
