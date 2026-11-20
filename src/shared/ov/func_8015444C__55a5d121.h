@@ -192,7 +192,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 23:
                     if (*arg3 == 0) {
-                        p->unk20 = (s32)&D_80126748;
+                        p->head.unk20.s = (s32)&D_80126748;
                     }
                     arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -201,7 +201,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     break;
                 case 24:
                     if (*arg3 == 0) {
-                        p->unk20 = (s32)&D_80126848;
+                        p->head.unk20.s = (s32)&D_80126848;
                     }
                     arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
@@ -227,7 +227,7 @@ void func_8015444C(void *a0v, s32 *arg1x, s32 *arg2x, s32 *arg3x) {
                     func_8015444C(arg0, arg1, arg2, arg3);
                     break;
                 default:
-                    p->unk20 = (s32)(op + 0x10);
+                    p->head.unk20.s = (s32)(op + 0x10);
                     arg0->unkB8.u = (u16)arg0->unkBA;
                     arg0->unkBC++;
                     arg0->unkBD++;

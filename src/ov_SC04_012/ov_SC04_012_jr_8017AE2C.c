@@ -3931,8 +3931,8 @@ void func_8017DBEC(int param_1)
     r = rand();
     v = (r & 3) * 1365;
     ptr = D_801930CC;
-    ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
-    ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.u = v;
 
     *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
     v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);

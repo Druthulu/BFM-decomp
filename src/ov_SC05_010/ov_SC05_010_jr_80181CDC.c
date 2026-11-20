@@ -2864,9 +2864,9 @@ void func_80181CDC(Unkstruct_801202A0 *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->unk20.m->head.unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
             obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
-                                         (s16)obj->unk20.m->unk14.u, 4);
+                                         (s16)obj->unk20.m->head.unk14.u, 4);
             obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 8);
 
             if ((s16)obj->extD.kSC05_010_801828E0.unk102 <= 0) {
@@ -2942,15 +2942,15 @@ void func_80181CDC(Unkstruct_801202A0 *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->unk20.m->head.unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
             obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
-                                         (s16)obj->unk20.m->unk14.u, 4);
+                                         (s16)obj->unk20.m->head.unk14.u, 4);
             obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 8);
         }
         break;
 
     case 4:
-        obj->unk20.m->unk14.u += guess_GetAngleStepToward((s16)obj->unk20.m->unk14.u, 0x180, 0x10);
+        obj->unk20.m->head.unk14.u += guess_GetAngleStepToward((s16)obj->unk20.m->head.unk14.u, 0x180, 0x10);
         obj->unkFC.s += guess_GetAngleStepToward((s16)obj->unkFC.s, 0, 0x10);
         obj->unkFE.s += guess_GetAngleStepToward((s16)obj->unkFE.s, 0x400, 0x10);
         obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100, 0, 0x10);
@@ -3012,9 +3012,9 @@ void func_80181CDC(Unkstruct_801202A0 *obj) {
 
             ta = ra;
             tb = rb;
-            obj->unk20.m->unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
+            obj->unk20.m->head.unk14.u += guess_GetAngleStepToward(tb.a, ta.a, 4);
             obj->extD.kSC05_010_801828E0.unk100 += guess_GetAngleStepToward((s16)obj->extD.kSC05_010_801828E0.unk100,
-                                         (s16)obj->unk20.m->unk14.u, 4);
+                                         (s16)obj->unk20.m->head.unk14.u, 4);
             obj->unkFE.s += guess_GetAngleStepToward(tb.b, ta.b, 4);
         }
         break;
@@ -3078,7 +3078,7 @@ void func_801829F0(s32 param_1) {
         ((Unkstruct_80126B58 *)param_1)->unkA.s = pos.vy;
         ((Unkstruct_80126B58 *)param_1)->unkE.s = pos.vz;
 
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk14.u =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk14.u =
             ((Unkstruct_80126B58 *)*(s32 *)(param_1 + 0x64))->unk100;
         func_8012B370(param_1);
     }
@@ -3151,7 +3151,7 @@ void func_80182BD0(Unkstruct_801202A0 *obj) {
         obj->unk8.i.hi.s = out[1];
         obj->unkC.i.hi.s = out[2];
 
-        obj->unk20.m->unk14.u = obj->unk64->extD.kSC05_010_80182AC0.unk100;
+        obj->unk20.m->head.unk14.u = obj->unk64->extD.kSC05_010_80182AC0.unk100;
         func_8012B370((int)obj);
     }
 }
@@ -3181,17 +3181,17 @@ void func_80182CA0(s32 p)
         *(s16 *)(p + 0x16) = -0x70;
         ((Unkstruct_80126B58 *)p)->unkA.s = -0x70;
         ((Unkstruct_80126B58 *)p)->unk2 = 1;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk18.s = 0x6000;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk1A.s = 0x6000;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk18.s = 0x6000;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk1A.s = 0x6000;
         ((Unkstruct_80126B58 *)p)->unk20.m->head.unk4.u |= 0x8000000;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk14.s = 0x600;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk14.s = 0x600;
         break;
     case 1:
         guess_InitModelObjectKind3(((Unkstruct_80126B58 *)p)->unk20.val, D_80192A30);
         guess_StartActorSequence(p, D_80192A9C);
         ((Unkstruct_801202A0 *)p)->unk94.s = rand() & 7;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk18.s = 0x4000;
-        ((Unkstruct_80126B58 *)p)->unk20.m->unk1A.s = 0x4000;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk18.s = 0x4000;
+        ((Unkstruct_80126B58 *)p)->unk20.m->head.unk1A.s = 0x4000;
         ((Unkstruct_801202A0 *)p)->unk44.w.unk48 = ((Unkstruct_801202A0 *)p)->unk44.w.unk48 * 2 / 3;
         ((Unkstruct_80126B58 *)p)->unk2 = 2;
         break;
@@ -3204,7 +3204,7 @@ void func_80182CA0(s32 p)
     }
 
     ((Unkstruct_80126B58 *)p)->unk20.m->head.unk4.u |= 0x50000000;
-    ((Unkstruct_80126B58 *)p)->unk20.m->unk2C.u |= 0x10;
+    ((Unkstruct_80126B58 *)p)->unk20.m->head.unk2C.u |= 0x10;
     guess_RequestSound(0x898, 0);
 }
 
@@ -3722,7 +3722,7 @@ void func_8018388C(s32 param_1) {
             for (i = 0; i < 0x18; i++) {
                 obj = guess_SpawnActorNoArg(0x2E3, param_1);
                 if (obj != 0) {
-                    ((Unkstruct_80126B58 *)obj)->unk20.m->unk24 = D_80192D64[i];
+                    ((Unkstruct_80126B58 *)obj)->unk20.m->head.unk24.w = D_80192D64[i];
                 }
             }
             func_8017C068();

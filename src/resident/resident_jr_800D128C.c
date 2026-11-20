@@ -1219,7 +1219,7 @@ Unkstruct_800B5BD8 *func_800D21C4(s32 arg0, s32 arg1, s32 arg2) {
     Unkstruct_800B5BD8 *s0 = (Unkstruct_800B5BD8 *)KR_AS(void *, func_801465C0)(arg0);
     if (s0 != 0) {
         func_8001CC3C(s0, arg1, 0, 0);
-        s0->unk27.u = arg2;
+        s0->head.unk24.b.unk27.u = arg2;
         return s0;
     }
     return 0;

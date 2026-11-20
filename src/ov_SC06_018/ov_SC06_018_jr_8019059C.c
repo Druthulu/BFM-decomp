@@ -3406,8 +3406,8 @@ void func_80191320(s32 arg0) {
                 ((Unkstruct_800B5BD8 *)e)->head.unkA.u = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
                 tmp = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
                 CAST_WIDTH(s32, e, 4) = CAST_WIDTH(s32, e, 4) | 0x50000000;
-                ((Unkstruct_800B5BD8 *)e)->unk18.u = ((Unkstruct_800B5BD8 *)e)->unk1A.u = 0x80;
-                ((Unkstruct_800B5BD8 *)e)->unk2C.u = 0xC006;
+                ((Unkstruct_800B5BD8 *)e)->head.unk18.u = ((Unkstruct_800B5BD8 *)e)->head.unk1A.u = 0x80;
+                ((Unkstruct_800B5BD8 *)e)->head.unk2C.u = 0xC006;
                 ((Unkstruct_800B5BD8 *)e)->head.unkC.u = tmp;
             }
             t34a = ((Unkstruct_801202A0 *)arg0)->unk34.u;

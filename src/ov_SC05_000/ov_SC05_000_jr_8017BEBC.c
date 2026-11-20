@@ -3080,19 +3080,19 @@ void func_8017CE68(s32 a0) {
         return;
     }
     *(s32 *)(a0 + 0x20) = s0;
-    ((Unkstruct_800B5BD8 *)s0)->unk2A.u = 0x1F0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk2A.u = 0x1F0;
     s3 = *(s32 *)(s2 + 0x20) + 0x34;
     r = rand();
     if (*(s32 *)(a0 + 0x2C) == 0) {
         scale = 0x1000;
         sp10[0] = (r & 0xFF) + 0x240;
-        ((Unkstruct_800B5BD8 *)s0)->unk28.s = 0x240;
-        ((Unkstruct_800B5BD8 *)s0)->unk18.u = scale;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk28.s = 0x240;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = scale;
     } else {
         scale = 0x200;
         sp10[0] = ((r & 0xFF) << 2) + 0xD00;
-        ((Unkstruct_800B5BD8 *)s0)->unk28.s = 0x244;
-        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x1800;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk28.s = 0x244;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x1800;
     }
     sp10[1] = ((r & 0x7F00) >> 5) + 0xE00;
     sp10[2] = 0;
@@ -3443,7 +3443,7 @@ void func_8017D864(s32 param_1) {
     v0 = guess_InitActorModel(param_1, (s32)D_80181E28);
     if (v0 != 0) {
         func_8001D0E8(((Unkstruct_801202A0 *)param_1)->unk20.p, 0x7FFF, 0x7FFF);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk20 = D_80198064;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk20.s = D_80198064;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = CAST_SIGN(u16, param_1, 0x2) + 1;
     }
 }
@@ -3679,9 +3679,9 @@ void func_8017DDBC(s32 param_1)
         a0 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
         CAST_WIDTH(u32, a0, 4) |= 0x50000000;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x10;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = 0x4000;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk18.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = 0x4000;
         ((Unkstruct_801202A0 *)param_1)->extD.kSC05_000_8017DC9C.unk100 = 0;
     }
 }

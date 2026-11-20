@@ -3791,16 +3791,16 @@ void func_8017E960(void *a0) {
     *(CVECTOR *)s0 = D_80186540[((Unkstruct_801202A0 *)a0)->unk70.s];
     *(CVECTOR *)(s0 + 4) = D_801CE6E0;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk2E.u = 0xC080;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->head.unk2E.u = 0xC080;
 
     if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x50800000;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk18.u = 0x1400;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk1A.u = 0x1A00;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->head.unk18.u = 0x1400;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->head.unk1A.u = 0x1A00;
     } else {
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x50800000;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk18.u = 0x1200;
-        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->unk1A.u = 0x1600;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->head.unk18.u = 0x1200;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)a0 + 0x20))->head.unk1A.u = 0x1600;
     }
 
     func_8001C1E4((void *)((Unkstruct_801202A0 *)a0)->unk20.p,
@@ -3866,13 +3866,13 @@ void func_8017EC00(s32 a0) {
         func_8001D0E8(((Unkstruct_801202A0 *)s0)->unk20.p, 0x280, 0x1E0);
         guess_StartActorSequence(s0, &D_801B0A20);
         v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        v0 = ((Unkstruct_8001C9D0 *)v1)->unk2C.u;
+        v0 = ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u;
         (*(s16 *)&D_801D0BB8) = 0;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u = v0 | 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u = v0 | 0x10;
         v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         CAST_WIDTH(u16, v1, 0x1C) = 0x1C00;
-        ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 0x1C00;
-        ((Unkstruct_8001C9D0 *)v1)->unk18.u = 0x1C00;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk1A.u = 0x1C00;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk18.u = 0x1C00;
         func_80180440(s0);
         ((void (*)(s32))func_8017DFFC)(s0);
     }

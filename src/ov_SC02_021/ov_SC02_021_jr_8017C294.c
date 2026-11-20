@@ -3500,7 +3500,7 @@ void func_8017E734(s32 arg0) {
                 t = (*(s16 *)(arg0 + 0x16) - *(s16 *)(arg0 + 0x14)) * scale >> 12;
                 ((Unkstruct_8011DB30 *)ptr)->unkC.i.hi.u = *(s16 *)(arg0 + 0x14) + t;
                 ((Unkstruct_8011DB30 *)ptr)->unk34.i.lo.u = (rand() & 0x7F0) + 0x2C00;
-                ((Unkstruct_800B5BD8 *)*(s32 *)(ptr + 0x20))->unk2C.u = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(ptr + 0x20))->head.unk2C.u = 0xC010;
             }
             scale += 0x400;
         }
@@ -3576,9 +3576,9 @@ void func_8017E940(s32 a0) {
         p1 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         ((Unkstruct_800B5BD8 *)p1)->head.unk10.u = 0x400;
         p2 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5BD8 *)p2)->unk18.u = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
+        ((Unkstruct_800B5BD8 *)p2)->head.unk18.u = (CAST_SIGN(s16, (s32)s1, 0x2C) << 12) / 96;
         p3 = CAST_SIGN(s32 *, (s32)s1, 0x20);
-        ((Unkstruct_800B5BD8 *)p3)->unk1A.u = (CAST_SIGN(s16, (s8 *)p3, 0x18) >> 2) * 3;
+        ((Unkstruct_800B5BD8 *)p3)->head.unk1A.u = (CAST_SIGN(s16, (s8 *)p3, 0x18) >> 2) * 3;
         p4 = CAST_SIGN(s32 *, (s32)s1, 0x20);
         CAST_WIDTH(s32, (s8 *)p4, 0x4) |= 0x50000000;
         p5 = CAST_SIGN(s32 *, (s32)s1, 0x20);
@@ -3596,17 +3596,17 @@ void func_8017EA5C(s32 a0) {
     s32 *p1, *p2, *p3;
 
     p1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
-    ((Unkstruct_800B5BD8 *)p1)->unk18.u = ((Unkstruct_800B5BD8 *)p1)->unk18.u + 0x280;
+    ((Unkstruct_800B5BD8 *)p1)->head.unk18.u = ((Unkstruct_800B5BD8 *)p1)->head.unk18.u + 0x280;
     p2 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     p3 = CAST_SIGN(s32 *, (s32)p1, 0x20);
-    ((Unkstruct_800B5BD8 *)p2)->unk1A.u = ((Unkstruct_800B5BD8 *)p2)->unk1A.u + 0x280;
+    ((Unkstruct_800B5BD8 *)p2)->head.unk1A.u = ((Unkstruct_800B5BD8 *)p2)->head.unk1A.u + 0x280;
     if (*(u8 *)((s8 *)p3 + 1) >= 8) {
         *(u8 *)((s8 *)p3 + 1) = *(u8 *)((s8 *)p3 + 1) - 8;
     }
     if (CAST_WIDTH(u8, (s8 *)p3, 2) >= 8) {
         CAST_WIDTH(u8, (s8 *)p3, 2) = CAST_WIDTH(u8, (s8 *)p3, 2) - 8;
     }
-    if ((s16)((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->unk18.u > 0x3800) {
+    if ((s16)((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk18.u > 0x3800) {
         *(u8 *)((s8 *)p3 + 3) = 0;
         func_801292C8((u8 *)a0);
     }

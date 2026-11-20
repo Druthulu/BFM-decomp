@@ -3493,8 +3493,8 @@ void func_8017C150(void *a0) {
         ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
-            ((Unkstruct_800B5BD8 *)obj)->unk2C.u = 3;
-            ((Unkstruct_800B5BD8 *)obj)->unk27.u = 1;
+            ((Unkstruct_800B5BD8 *)obj)->head.unk2C.u = 3;
+            ((Unkstruct_800B5BD8 *)obj)->head.unk24.b.unk27.u = 1;
             ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
@@ -3757,7 +3757,7 @@ void func_8017C8D0(void *a0) {
         }
         ((Unkstruct_801202A0 *)a0)->unk5C.u |= 0x10;
         guess_StartActorSequence((s32)a0, D_8018F420);
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk2C.u |= 0x10;
         *(s32 *)&D_801EB5B0 = CAST_SIGN(s16, (s32)a0, 0x88) << 16;
         D_801EB5B4 = CAST_SIGN(s16, (s32)a0, 0x8A) << 16;
         D_801EB5B8 = CAST_SIGN(s16, (s32)a0, 0x8C) << 16;

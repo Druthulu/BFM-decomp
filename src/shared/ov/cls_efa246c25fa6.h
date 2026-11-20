@@ -9,7 +9,7 @@ void SHARED_FN(s32 a0)
         ((Unkstruct_801202A0 *)a0)->unk98.s = 1;
 
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x10;
 
         ((Unkstruct_8001C9D0 *)*(s32*)(a0 + 0x20))->head.unk4.s |= 0x8000000;
 

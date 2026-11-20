@@ -6185,11 +6185,11 @@ void func_80180D30(Unkstruct_801202A0 *a0) {
     func_80181204(a0);
     ((void (*)(Unkstruct_801202A0 *))func_80181224)(a0);
 
-    w = ((Unkstruct_8001C9D0 *)s1)->unk1A.u;
+    w = ((Unkstruct_8001C9D0 *)s1)->head.unk1A.u;
     w = w + 0x10;
-    ((Unkstruct_8001C9D0 *)s1)->unk1A.u = w;
+    ((Unkstruct_8001C9D0 *)s1)->head.unk1A.u = w;
     if ((s16)w >= 0x24A) {
-        ((Unkstruct_8001C9D0 *)s1)->unk1A.u = 0x249;
+        ((Unkstruct_8001C9D0 *)s1)->head.unk1A.u = 0x249;
     }
 
     func_801811C8((s32)a0);
@@ -6816,15 +6816,15 @@ void func_80181B98(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    ((Unkstruct_800B5BD8 *)work)->unk27.u = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->head.unk24.b.unk27.u = 0x9C;
     CAST_WIDTH(s32, work, 4) = CAST_WIDTH(s32, work, 4) | 0x50000000;
     val = *(s32 *)(param_1 + 0x2C);
-    ((Unkstruct_800B5BD8 *)work)->unk24.u = 0xC0;
-    ((Unkstruct_800B5BD8 *)work)->unk25.u = 0x40;
-    ((Unkstruct_800B5BD8 *)work)->unk26 = 0x20;
+    ((Unkstruct_800B5BD8 *)work)->head.unk24.b.unk24.u = 0xC0;
+    ((Unkstruct_800B5BD8 *)work)->head.unk24.b.unk25.u = 0x40;
+    ((Unkstruct_800B5BD8 *)work)->head.unk24.b.unk26 = 0x20;
     res = ((8 - val) * 3) << 9;
-    ((Unkstruct_800B5BD8 *)work)->unk1A.u = res;
-    ((Unkstruct_800B5BD8 *)work)->unk18.u = res;
+    ((Unkstruct_800B5BD8 *)work)->head.unk1A.u = res;
+    ((Unkstruct_800B5BD8 *)work)->head.unk18.u = res;
     guess_StartPairSequence(work, param_1 + 0x24, &D_80185FD0);
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;
 }
@@ -6882,31 +6882,31 @@ void func_80181D48(s32 a0) {
     s0 = *(u8 **)(a0 + 0x20);
     guess_AddVelocityToPos();
 
-    v0 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
+    v0 = ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u;
     v0 = v0 - 4;
-    ((Unkstruct_800B5BD8 *)s0)->unk24.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u = v0;
     if ((u8)v0 > 0xC0) {
-        ((Unkstruct_800B5BD8 *)s0)->unk24.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u = 0;
     }
 
-    v1 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
-    if (v1 < ((Unkstruct_800B5BD8 *)s0)->unk25.u) {
-        ((Unkstruct_800B5BD8 *)s0)->unk25.u = v1;
-        v1 = ((Unkstruct_800B5BD8 *)s0)->unk24.u;
+    v1 = ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u;
+    if (v1 < ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk25.u) {
+        ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk25.u = v1;
+        v1 = ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u;
     }
-    if (v1 < ((Unkstruct_800B5BD8 *)s0)->unk26) {
-        ((Unkstruct_800B5BD8 *)s0)->unk26 = v1;
+    if (v1 < ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk26) {
+        ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk26 = v1;
     }
 
-    v0 = ((Unkstruct_800B5BD8 *)s0)->unk18.u + 0x100;
-    ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s0)->head.unk18.u + 0x100;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = v0;
     if ((s16)v0 >= 0x4001) {
-        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x4000;
     }
 
-    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = ((Unkstruct_800B5BD8 *)s0)->unk18.u;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = ((Unkstruct_800B5BD8 *)s0)->head.unk18.u;
 
-    if (((Unkstruct_800B5BD8 *)s0)->unk24.u == 0) {
+    if (((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk24.u == 0) {
         func_801292C8(a0);
     }
 }
@@ -6930,9 +6930,9 @@ void func_80181E5C(s32 param_1)
 
     work = *(s32 *)(param_1 + 0x20);
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(work, D_800D387C, 0, 0);
-    ((Unkstruct_800B5BD8 *)work)->unk27.u = 0x9C;
-    ((Unkstruct_800B5BD8 *)work)->unk1A.u = 0x3000;
-    ((Unkstruct_800B5BD8 *)work)->unk18.u = 0x3000;
+    ((Unkstruct_800B5BD8 *)work)->head.unk24.b.unk27.u = 0x9C;
+    ((Unkstruct_800B5BD8 *)work)->head.unk1A.u = 0x3000;
+    ((Unkstruct_800B5BD8 *)work)->head.unk18.u = 0x3000;
     CAST_WIDTH(u32, work, 4) = CAST_WIDTH(u32, work, 4) | 0x50000000;
     guess_StartPairSequence(work, param_1 + 0x24, D_80186020);
     *(u16 *)(param_1 + 2) = *(u16 *)(param_1 + 2) + 1;

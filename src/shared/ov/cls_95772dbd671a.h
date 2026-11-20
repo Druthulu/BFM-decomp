@@ -8,22 +8,22 @@ void SHARED_FN(s32 param_1) {
 
     q = *(s32 *)(param_1 + 0x20);
 
-    a = ((Unkstruct_800B5BD8 *)q)->unk24.u - 0x20;
-    ((Unkstruct_800B5BD8 *)q)->unk24.u = a;
+    a = ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk24.u - 0x20;
+    ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk24.u = a;
     if (a < 0x80) {
-        ((Unkstruct_800B5BD8 *)q)->unk24.u = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk24.u = 0x80;
     }
 
-    b = ((Unkstruct_800B5BD8 *)q)->unk25.u + 0x20;
-    ((Unkstruct_800B5BD8 *)q)->unk25.u = b;
+    b = ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u + 0x20;
+    ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u = b;
     if (b > 0x80) {
-        ((Unkstruct_800B5BD8 *)q)->unk25.u = 0x80;
+        ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u = 0x80;
     }
 
-    h = ((Unkstruct_800B5BD8 *)q)->unk1A.u + 0x400;
-    ((Unkstruct_800B5BD8 *)q)->unk26 = ((Unkstruct_800B5BD8 *)q)->unk25.u;
-    ((Unkstruct_800B5BD8 *)q)->unk1A.u = h;
-    ((Unkstruct_800B5BD8 *)q)->unk18.u = h;
+    h = ((Unkstruct_800B5BD8 *)q)->head.unk1A.u + 0x400;
+    ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk26 = ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.u;
+    ((Unkstruct_800B5BD8 *)q)->head.unk1A.u = h;
+    ((Unkstruct_800B5BD8 *)q)->head.unk18.u = h;
 
     guess_AddVelocityToPos(param_1);
 

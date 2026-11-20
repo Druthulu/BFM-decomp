@@ -3823,9 +3823,9 @@ void func_8017FCD0(s32 a0) {
     *(s32 *)(a0 + 0x1c) = count;
     if (count == -1) {
         func_8001CC3C(effect, (s32)D_801881A4, 0, 0);
-        ((Unkstruct_800B5BD8 *)effect)->unk27.u = 0x88;
-        ((Unkstruct_800B5BD8 *)effect)->unk1A.u = 0x4000;
-        ((Unkstruct_800B5BD8 *)effect)->unk18.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)effect)->head.unk24.b.unk27.u = 0x88;
+        ((Unkstruct_800B5BD8 *)effect)->head.unk1A.u = 0x4000;
+        ((Unkstruct_800B5BD8 *)effect)->head.unk18.u = 0x4000;
         CAST_WIDTH(u32, effect, 4) = CAST_WIDTH(u32, effect, 4) | 0x50000040;
 
         idx = *(s32 *)(a0 + 0x2c);
@@ -4098,7 +4098,7 @@ void func_801804F8(int param_1)
         ((Unkstruct_8001C9D0 *)prims)->head.unk10.u = 0;
         ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->head.unk12.u =
             *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC);
-        ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->unk2C.u &= ~0x10;
+        ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->head.unk2C.u &= ~0x10;
         ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = *(unsigned short *)(param_1 + 0x88);
         ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = *(unsigned short *)(param_1 + 0x8A);
         ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = *(unsigned short *)(param_1 + 0x8C);
@@ -4125,7 +4125,7 @@ void func_801805D8(s32 a0) {
     SVECTOR out;
     s32 v0;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u &= 0xFFEF;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u &= 0xFFEF;
     {
         s16 *p = (s16 *)((Unkstruct_801202A0 *)a0)->unk20.p;
         p[0xE] = 0x1000;

@@ -3787,11 +3787,11 @@ void *arg0;
         return;
     }
     guess_InitModelObject(v0, 0);
-    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk2C.u |= 0x10;
     {
         s32 t = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)t)->unk1A.u = 1;
-        ((Unkstruct_8001C9D0 *)t)->unk18.u = 1;
+        ((Unkstruct_8001C9D0 *)t)->head.unk1A.u = 1;
+        ((Unkstruct_8001C9D0 *)t)->head.unk18.u = 1;
     }
     {
         u16 x = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)arg0 + 0x64))->unk36.u;
@@ -3979,10 +3979,10 @@ void func_8017F834(void *param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk20.p = v0;
     guess_InitModelObject(v0, 0);
 
-    ((Unkstruct_8001C9D0 *)v0)->unk2C.u = ((Unkstruct_8001C9D0 *)v0)->unk2C.u | 0x10;
+    ((Unkstruct_8001C9D0 *)v0)->head.unk2C.u = ((Unkstruct_8001C9D0 *)v0)->head.unk2C.u | 0x10;
     CAST_WIDTH(s16, v0, 0x1C) = dir % 384 + 0x400;
-    ((Unkstruct_8001C9D0 *)v0)->unk1A.u = dir % 384 + 0x400;
-    ((Unkstruct_8001C9D0 *)v0)->unk18.u = dir % 384 + 0x400;
+    ((Unkstruct_8001C9D0 *)v0)->head.unk1A.u = dir % 384 + 0x400;
+    ((Unkstruct_8001C9D0 *)v0)->head.unk18.u = dir % 384 + 0x400;
 
     r = rand();
     ((Unkstruct_801202A0 *)param_1)->unk70.s = (s16)(r & 1) << 15;
@@ -4126,7 +4126,7 @@ void func_80180230(s32 param_1)
         v0 = *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk78 + 8) | 0x40000000;
         ((Unkstruct_801202A0 *)param_1)->unk58.s = v0;
         v1 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk20 = (s32)D_801853D4;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk20.s = (s32)D_801853D4;
 
         angle = (s16)CAST_SIGN(u16, param_1, 0x70);
         mod = angle % 12;
@@ -4408,7 +4408,7 @@ void func_8018088C(s32 a0)
                 ((Unkstruct_8011DB30 *)ent)->unk8.i.hi.u = *(u16 *)(rec + 2) + base;
                 ((Unkstruct_8011DB30 *)ent)->unkC.i.hi.u = *(u16 *)(rec + 4);
                 ((Unkstruct_8011DB30 *)ent)->unk34.i.lo.u = (rand() % 4095 + 0x6000) & 0xFFF0;
-                ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->unk2C.u = 0xC00C;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->head.unk2C.u = 0xC00C;
             }
         }
         rec += 8;

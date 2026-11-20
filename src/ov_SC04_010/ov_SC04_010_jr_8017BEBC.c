@@ -3029,7 +3029,7 @@ s32 func_8017D5DC(void* param_1)
 
     guess_InitObjectKind6(s1, s0);
 
-    ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0xC008;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = 0xC008;
     CAST_WIDTH(u32, s1, 4) |= 0x50000000;
 
     ((Unkstruct_800B5BD8 *)s1)->head.unk8.u = *(u16 *)(param_1 + 6);
@@ -3117,10 +3117,10 @@ void func_8017D844(void *a0) {
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x880;
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = 0x1330;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk2C.u |= 0x10;
     *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x70000000;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk18.u = 0;
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk1A.u = 0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk18.u = 0;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk1A.u = 0;
     *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x1C) = 0;
     guess_RequestSound(0x90F, 0);
     func_8012AD50(a0);
@@ -3130,8 +3130,8 @@ void func_8017D844(void *a0) {
 void func_8017D904(void *a0) {
     switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
-        ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->unk18.u += 0x400;
-        ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->unk1A.u += 0x333;
+        ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->head.unk18.u += 0x400;
+        ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->head.unk1A.u += 0x333;
         CAST_WIDTH(u16, *(u32 *)((u8 *)a0 + 0x20), 0x1C) += 0x400;
         if (CAST_SIGN(s16, *(u32 *)((u8 *)a0 + 0x20), 0x18) >= 0x1400) {
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x60;
@@ -3140,8 +3140,8 @@ void func_8017D904(void *a0) {
         break;
     case 1:
         if (guess_TickWaitTimer((s32)a0) != 0) {
-            ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->unk18.u -= 0x400;
-            ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->unk1A.u -= 0x333;
+            ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->head.unk18.u -= 0x400;
+            ((Unkstruct_8001C9D0 *)*(u32 *)((u8 *)a0 + 0x20))->head.unk1A.u -= 0x333;
             CAST_WIDTH(u16, *(u32 *)((u8 *)a0 + 0x20), 0x1C) -= 0x400;
             if (CAST_SIGN(s16, *(u32 *)((u8 *)a0 + 0x20), 0x18) <= 0) {
                 guess_FreeActor(a0);

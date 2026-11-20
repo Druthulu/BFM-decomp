@@ -3808,8 +3808,8 @@ void func_8017D9CC(int param_1)
     r = rand();
     v = (r & 3) * 1365;
     ptr = D_8019334C;
-    ((Unkstruct_800B5BD8 *)p)->unk1A.u = v;
-    ((Unkstruct_800B5BD8 *)p)->unk18.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.u = v;
 
     *(s16 *)(param_1 + 0x12) = *(u16 *)(param_1 + 6) + *(u16 *)(ptr + 2);
     v1a = *(u16 *)(param_1 + 0xE) + *(u16 *)(ptr + 6);
@@ -4286,12 +4286,12 @@ void func_8017E628(s32 a0)
     D_8018EE98[CAST_SIGN(u16, s0, 0x2)]();
     if (((Unkstruct_801202A0 *)s0)->extD.kSC04_008_8017E628.unk102 != 0) {
         v0 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v0)->unk18.u -= 0x80;
+        ((Unkstruct_8001C9D0 *)v0)->head.unk18.u -= 0x80;
         v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
         if (CAST_SIGN(s16, v1, 0x18) < 0x100) {
             guess_FreeActor((void *)s0);
         } else {
-            ((Unkstruct_8001C9D0 *)v1)->unk1A.u -= 0x80;
+            ((Unkstruct_8001C9D0 *)v1)->head.unk1A.u -= 0x80;
             v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
             CAST_WIDTH(u16, v1, 0x1C) -= 0x80;
             if (--((Unkstruct_801202A0 *)s0)->extD.kSC04_008_8017E628.unk102 == 0) {

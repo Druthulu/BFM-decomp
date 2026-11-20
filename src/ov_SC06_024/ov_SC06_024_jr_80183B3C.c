@@ -3154,7 +3154,7 @@ void func_80183FDC(s32 param_1) {
         CAST_WIDTH(u8 *, param_1, 0xbc) = D_801BC2C8;
         ((Unkstruct_80126B58 *)param_1)->unkB4.val = -0x8ad;
         CAST_SIGN(u32, param_1, 0xc4) |= 2;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk2C.u |= 0x80;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk2C.u |= 0x80;
         *(u8 **)(((Unkstruct_80126B58 *)param_1)->unk20.val + 0x80) = D_801BC250;
         func_80143994(param_1, 0x4000);
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;

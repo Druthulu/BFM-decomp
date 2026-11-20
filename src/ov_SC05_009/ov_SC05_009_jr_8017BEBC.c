@@ -3419,12 +3419,12 @@ void func_8017DF5C(s32 a0)
                     {
                         /* re-read 0x20 per store-separated run (§193-H) */
                         s32 vp = ((Unkstruct_801202A0 *)s0)->unk20.p;
-                        s32 t2 = ((Unkstruct_8001C9D0 *)vp)->unk18.u - 0x10;
-                        ((Unkstruct_8001C9D0 *)vp)->unk18.u = t2;
+                        s32 t2 = ((Unkstruct_8001C9D0 *)vp)->head.unk18.u - 0x10;
+                        ((Unkstruct_8001C9D0 *)vp)->head.unk18.u = t2;
                     }
                     {
                         s32 vp = ((Unkstruct_801202A0 *)s0)->unk20.p;
-                        s32 t3 = ((Unkstruct_8001C9D0 *)vp)->unk18.u;
+                        s32 t3 = ((Unkstruct_8001C9D0 *)vp)->head.unk18.u;
                         CAST_WIDTH(u16, (u8 *)vp, 0x1C) = t3;
                     }
                 }
@@ -3536,7 +3536,7 @@ void func_8017E0F4(void *a0)
 
     guess_InitModelObject(v0, a1);
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk2C.u |= 0x10;
 
     {
         s32 spread = (rand() & 0x3F0) + 0xA00;
@@ -3613,11 +3613,11 @@ void func_8017E3AC(void *a0)
 
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x10;
     }
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk18.u = CAST_SIGN(u16, (s32)a0, 0x70);
+        ((Unkstruct_8001C9D0 *)v1)->head.unk18.u = CAST_SIGN(u16, (s32)a0, 0x70);
     }
     {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;

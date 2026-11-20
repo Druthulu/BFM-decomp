@@ -24,7 +24,7 @@ void SHARED_FN(s32 self)
         c = sv[2];
         ((Unkstruct_8011DB30 *)obj)->unk34.i.lo.u = 0x4000;
         ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = c;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->unk2C.u = 0xC008;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(obj + 0x20))->head.unk2C.u = 0xC008;
     }
     for (i = 0; i < 7; i++) {
         target = guess_SpawnActor(0x2FE, i, self);

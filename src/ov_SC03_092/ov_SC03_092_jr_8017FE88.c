@@ -3283,7 +3283,7 @@ void func_8018074C(s32 param_1, s32 param_2)
             }
             *(s16 *)(param_2 + 6) = -2;
             guess_ShowObjectModel((u8 *)param_1);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u |= 0x80;
             *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = param_2;
         }
     }
@@ -3577,12 +3577,12 @@ void func_80180E50(s32 arg0) {
     s32 i;
 
     ptr = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-    old = ((Unkstruct_8001C9D0 *)ptr)->unk20;
-    ((Unkstruct_8001C9D0 *)ptr)->unk20 = D_801AC5D8;
+    old = ((Unkstruct_8001C9D0 *)ptr)->head.unk20.s;
+    ((Unkstruct_8001C9D0 *)ptr)->head.unk20.s = D_801AC5D8;
     for (i = 0; i < 5; i++) {
         guess_SpawnActor(0x150, i, arg0);
     }
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk20 = old;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk20.s = old;
 }
 
 

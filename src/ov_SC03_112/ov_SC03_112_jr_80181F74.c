@@ -3187,8 +3187,8 @@ void func_80182944(void *arg0) {
         {
             u16 x = *(u16 *)(s2 + 0xA3AA);
             s16 r = (rsin(((x * 7) << 3) & 0x7F8) >> 4) + 0x455;
-            ((Unkstruct_800B5BD8 *)s0)->unk1A.u = r;
-            ((Unkstruct_800B5BD8 *)s0)->unk18.u = r;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = r;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = r;
         }
     }
 }

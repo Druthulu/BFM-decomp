@@ -3795,11 +3795,11 @@ void func_8017CABC(s32 param_1) {
         CAST_WIDTH(u32, node, 4) = CAST_WIDTH(u32, node, 4) | 0x5D000100;
         ((void (*)(void *))func_8001CF30)((void *)node);
         CAST_WIDTH(s16, node, 0x18) = 0x4000;
-        ((Unkstruct_800B5BD8 *)node)->unk1A.u = 0x200;
+        ((Unkstruct_800B5BD8 *)node)->head.unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
         CAST_WIDTH(s16, node, 0x28) = 0x240;
-        ((Unkstruct_800B5BD8 *)node)->unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->head.unk2A.u = 0x180;
         CAST_WIDTH(s16, node, 0x10) = w.vx;
         ((Unkstruct_800B5BD8 *)node)->head.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
@@ -3842,9 +3842,9 @@ void func_8017CD50(s32 a0) {
         func_8001CF30((void *)r);
         CAST_WIDTH(s16, r, 0x10) = 0x400;
         CAST_WIDTH(s16, r, 0x18) = 0x3000;
-        ((Unkstruct_800B5BD8 *)r)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)r)->head.unk1A.u = 0x3000;
         CAST_WIDTH(s16, r, 0x28) = 0x248;
-        ((Unkstruct_800B5BD8 *)r)->unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->head.unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
@@ -4934,11 +4934,11 @@ void func_8017EF54(s32 param_1)
         guess_InitModelObjectKind3((void *)((Unkstruct_80126B58 *)param_1)->unk20.m, D_80188C88);
         guess_StartActorSequence(param_1, D_80188D48);
         ((Unkstruct_80126B58 *)param_1)->unk2 += 1;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk18.s = 0x2000;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk1A.s = 0x2000;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.s = 0x2000;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk1A.s = 0x2000;
         ((Unkstruct_801202A0 *)param_1)->unk94.s = rand() & 0xF;
         ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk4.u |= 0x50000000;
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk2C.u |= 0x10;
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk2C.u |= 0x10;
     }
 }
 

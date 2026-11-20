@@ -1411,13 +1411,13 @@ void func_8012E364(s32 arg0_)
     e1 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     v = D_801A69D0 - prev + spd;
     D_801A69D4 = spd;
-    flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
+    flags = ((RenderHead *)e1)->unk2C.u;
     D_801A69D0 = v;
-    ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
+    ((RenderHead *)e1)->unk2C.u = flags | 0x10;
     e2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     d = abs(v);
-    ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
-    ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
+    ((RenderHead *)e2)->unk1C.s = d;
+    ((RenderHead *)e2)->unk18.s = d;
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }
 

@@ -3936,11 +3936,11 @@ void func_8017DF70(void *a0, void *a1, s32 a2) {
     u16 v;
 
     guess_InitModelObject((s32)a1, a2);
-    ((Unkstruct_8001C9D0 *)a1)->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk2C.u |= 0x10;
     v = *(u16 *)(D_80182330 + ((CAST_SIGN(u16, (s32)a0, 0x70) >> 3) & 0x1E));
     CAST_WIDTH(u16, (s32)a1, 0x1C) = v;
-    ((Unkstruct_8001C9D0 *)a1)->unk1A.u = v;
-    ((Unkstruct_8001C9D0 *)a1)->unk18.u = v;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk1A.u = v;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk18.u = v;
 }
 
 
@@ -4080,8 +4080,8 @@ void func_8017E32C(void *a0) {
         idx = *(s32 *)((s32)a0 + 0x2C);
         func_8001CBDC((s32)s1, (s32)D_8018BB38, D_8018BAD4[idx][0], D_8018BAD4[idx][1]);
         uVar1 = D_8018BB00[*(s32 *)((s32)a0 + 0x2C)];
-        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 3;
-        ((Unkstruct_800B5BD8 *)s1)->unk27.u = uVar1;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = 3;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk24.b.unk27.u = uVar1;
         *(s16 *)((s32)a0 + 0x6) = 0;
         *(s16 *)((s32)a0 + 0xA) = 0x50;
 

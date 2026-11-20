@@ -780,13 +780,13 @@ void func_8012E364(s32 arg0_)
     e1 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     v = D_801CAFB8 - prev + spd;
     D_801CAFBC = spd;
-    flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
+    flags = ((RenderHead *)e1)->unk2C.u;
     D_801CAFB8 = v;
-    ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
+    ((RenderHead *)e1)->unk2C.u = flags | 0x10;
     e2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     d = abs(v);
-    ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
-    ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
+    ((RenderHead *)e2)->unk1C.s = d;
+    ((RenderHead *)e2)->unk18.s = d;
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }
 
@@ -3168,9 +3168,9 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
         switch (mode) {
         case 0x60000000:
             m = &D_801CB024;
-            *m = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk18.s;
-            q1 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk1A.s;
-            q2 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->unk1C.s;
+            *m = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->head.unk18.s;
+            q1 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->head.unk1A.s;
+            q2 = 0x1000000 / ((Unkstruct_8001C9D0 *)param_1)->head.unk1C.s;
             D_801CB028 = 0;
             D_801CB030 = 0;
             D_801CB02C = q1;
@@ -3182,8 +3182,8 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
             /* fallthrough */
         case 0x20000000:
             p = (param_2 & 0xFFFFFFF) | 0x80000000;
-            t18 = ((Unkstruct_8001C9D0 *)param_1)->unk18.s;
-            t1A = ((Unkstruct_8001C9D0 *)param_1)->unk1A.s;
+            t18 = ((Unkstruct_8001C9D0 *)param_1)->head.unk18.s;
+            t1A = ((Unkstruct_8001C9D0 *)param_1)->head.unk1A.s;
             t1C = CAST_SIGN(u16, (s32)param_1, 0x1C);
             mat2.w4 = 0;
             mat2.wC = 0;

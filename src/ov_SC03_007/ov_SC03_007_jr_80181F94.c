@@ -3083,12 +3083,12 @@ void func_80182214(s32 param_1) {
     }
     p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     t = (v * m) / 0x1000;
-    ((Unkstruct_8001C9D0 *)p)->unk1C.s = t;
-    ((Unkstruct_8001C9D0 *)p)->unk18.s = t;
+    ((Unkstruct_8001C9D0 *)p)->head.unk1C.s = t;
+    ((Unkstruct_8001C9D0 *)p)->head.unk18.s = t;
     q = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-    if (((Unkstruct_8001C9D0 *)q)->unk18.s <= 0) {
-        ((Unkstruct_8001C9D0 *)q)->unk1C.s = 1;
-        ((Unkstruct_8001C9D0 *)q)->unk18.s = 1;
+    if (((Unkstruct_8001C9D0 *)q)->head.unk18.s <= 0) {
+        ((Unkstruct_8001C9D0 *)q)->head.unk1C.s = 1;
+        ((Unkstruct_8001C9D0 *)q)->head.unk18.s = 1;
     }
 }
 
@@ -3114,7 +3114,7 @@ void func_801822C8(s32 param_1) {
         p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         do { h = CAST_SIGN(u16, param_1, 0x100); } while (0);
         CAST_WIDTH(s16, p, 0x1C) = h;
-        ((Unkstruct_8001C9D0 *)p)->unk18.u = h;
+        ((Unkstruct_8001C9D0 *)p)->head.unk18.u = h;
         a = param_1;
         *(s16 *)(a + 0x5C) |= 1;
         *(s16 *)(a + 0x60) = 0;
@@ -3408,7 +3408,7 @@ void func_8018283C(s32 *self)
     *(Blk8 *)(((Unkstruct_801202A0 *)self)->unk20.p + 0x18) =
         *(Blk8 *)(*(s32 *)((s32)tgt + 0x20) + 0x18);
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->unk2C.u =
+    ((Unkstruct_8001C9D0 *)*(s32 *)((s32)self + 0x20))->head.unk2C.u =
         *(u16 *)(*(s32 *)((s32)tgt + 0x20) + 0x2C);
 
     *(s32 *)(((Unkstruct_801202A0 *)self)->unk20.p + 0x4) =

@@ -3857,13 +3857,13 @@ void func_8017EA20(s32 param_1) {
         s32 h = D_8019B5C0[((Unkstruct_801202A0 *)param_1)->extD.kSC02_039_8017EE9C.unk102][0];
         s32 o;
         /* first CSE interval: read+write of 0x2C shares one base load */
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u | 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u | 0x10;
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
-        ((Unkstruct_8001C9D0 *)o)->unk1A.u = h + r;
-        ((Unkstruct_8001C9D0 *)o)->unk18.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk1A.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.u = h + r;
     }
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;

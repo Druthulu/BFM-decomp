@@ -3920,8 +3920,8 @@ void func_8017CE90(void *a0)
         ((Unkstruct_8017CE90_3 *)a0)->unk10.val = 0;
         if (((Unkstruct_8017CE90_3 *)a0)->unk30.val.s & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
-            ((Unkstruct_800B5BD8 *)s1)->unk1A.s = 0x80;
-            ((Unkstruct_800B5BD8 *)s1)->unk18.s = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk1A.s = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.s = 0x80;
             ((Unkstruct_8017CE90_3 *)a0)->unk14.val = 0x80;
         } else {
             *s2 = D_8018EF84[((Unkstruct_8017CE90_3 *)a0)->unk2C.val.s];
@@ -3933,7 +3933,7 @@ void func_8017CE90(void *a0)
         D_801EA846 = 0;
 
         ((Unkstruct_8017CE90_3 *)a0)->unk30.val.s = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
-        ((Unkstruct_800B5BD8 *)s1)->unk2C.s = ((Unkstruct_8017CE90_3 *)a0)->unkE.u + 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.s = ((Unkstruct_8017CE90_3 *)a0)->unkE.u + 0x10;
         ((Unkstruct_8017CE90_3 *)a0)->unk2.u = ((Unkstruct_8017CE90_3 *)a0)->unk2.u + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
@@ -3962,9 +3962,9 @@ void func_8017CFBC(void *a0)
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk10.val + ((Unkstruct_8017CFBC_4 *)s2)->unk14.val;
     ((Unkstruct_8017CFBC_4 *)s2)->unk10.val = v1;
 
-    v0 = ((Unkstruct_8017CFBC_5 *)s1)->unk1A.u + v1;
-    ((Unkstruct_8017CFBC_5 *)s1)->unk1A.u = v0;
-    ((Unkstruct_8017CFBC_5 *)s1)->unk18.s = v0;
+    v0 = ((Unkstruct_8017CFBC_5 *)s1)->head.unk1A.u + v1;
+    ((Unkstruct_8017CFBC_5 *)s1)->head.unk1A.u = v0;
+    ((Unkstruct_8017CFBC_5 *)s1)->head.unk18.s = v0;
 
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk30.val.s;
     ((Unkstruct_8017CFBC_4 *)s2)->unk30.val.s = v1 - 1;
@@ -4356,15 +4356,15 @@ void *a1;
     s16 var;
 
     a1 = ((Unkstruct_8011D030 *)arg0)->unk20;
-    var = ((Unkstruct_800B5BD8 *)a1)->unk1A.u + 0x200;
-    ((Unkstruct_800B5BD8 *)a1)->unk1A.u = var;
-    ((Unkstruct_800B5BD8 *)a1)->unk18.u = var;
+    var = ((Unkstruct_800B5BD8 *)a1)->head.unk1A.u + 0x200;
+    ((Unkstruct_800B5BD8 *)a1)->head.unk1A.u = var;
+    ((Unkstruct_800B5BD8 *)a1)->head.unk18.u = var;
     if (var >= 0x1001) {
         D_801EA884 = 0xFF;
         D_801EA885 = 0xFF;
         D_801EA886 = 0xFF;
         CAST_ALIAS(u16, (s32)a1, 0x1A) = 0x1000;
-        ((Unkstruct_800B5BD8 *)a1)->unk18.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)a1)->head.unk18.u = 0x1000;
         ((Unkstruct_8011D030 *)arg0)->unk2.u = ((Unkstruct_8011D030 *)arg0)->unk2.u + 1;
     }
 }

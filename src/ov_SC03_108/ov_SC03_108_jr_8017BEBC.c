@@ -3604,13 +3604,13 @@ void func_8017E508(s32 param_1) {
         s32 h = D_801847F4[((Unkstruct_801202A0 *)param_1)->extD.kcls_1e87b69413a8.unk102][0];
         s32 o;
         /* first CSE interval: read+write of 0x2C shares one base load */
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u =
-            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u | 0x10;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u =
+            ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u | 0x10;
         /* the store killed the base (§193-E); second interval is named */
         o = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s16, o, 0x1C) = h + r;
-        ((Unkstruct_8001C9D0 *)o)->unk1A.u = h + r;
-        ((Unkstruct_8001C9D0 *)o)->unk18.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk1A.u = h + r;
+        ((Unkstruct_8001C9D0 *)o)->head.unk18.u = h + r;
     }
 
     ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
@@ -4120,7 +4120,7 @@ void func_8017F140(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)&D_8019E640)) {
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x30;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x30;
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
         CAST_WIDTH(void *, v1, 0x80) = &D_8019E674;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_108_8017F0B0.unkE8 = 0x40;
@@ -4128,8 +4128,8 @@ void func_8017F140(s32 a0) {
         if (s0 != 0) {
             ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
             guess_InitObjectKind6((int)s0, (void *)&D_8019E6BC);
-            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x555;
-            ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = 0x555;
             CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
         }
 
@@ -4188,7 +4188,7 @@ void func_8017F2E8(s32 param_1)
     }
 
     sVar1 = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 6) & 0x7c0);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (sVar1 >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (sVar1 >> 1) + 0x800;
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
@@ -4340,7 +4340,7 @@ void func_8017F640(s32 param_1)
     }
 
     angle = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 7) & 0x780);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (angle >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (angle >> 1) + 0x800;
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;

@@ -2960,7 +2960,7 @@ void func_8017D110(s32 param_1)
                 func_8001CA88(((Unkstruct_801202A0 *)param_1)->unk20.p, D_801A9678);
                 s1 = 9;
                 *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 4) |= 0x50000000;
-                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2E.u = 0xC010;
+                ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2E.u = 0xC010;
                 break;
             case 6:
                 func_8001C2C4(((Unkstruct_801202A0 *)param_1)->unk20.p);
@@ -3353,7 +3353,7 @@ void func_8017DEE4(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk20.p = var_v0;
     if (var_v0 != 0) {
         guess_InitObjectKind6(var_v0, (void *)var_s2);
-        ((Unkstruct_800B5BD8 *)var_v0)->unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)var_v0)->head.unk1A.u = 0x3000;
         CAST_WIDTH(s32, var_v0, 4) |= 0x50000000;
         guess_BuildCircle12Points((void *)var_s2, 0x80);
         func_8017E014(a0, var_s2);
@@ -3588,7 +3588,7 @@ void func_8017E2EC(void *a0)
         idx = ((Unkstruct_8017E2EC_3 *)stk)->unk50 + 1;
         ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
         {
-            u16 flags2 = ((Unkstruct_800B5BD8 *)a0)->unk2C.u;
+            u16 flags2 = ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u;
             if ((flags2 & 0xC000) != 0) {
                 if ((flags2 & 0xC000) == 0xC000) {
                     idx = idx - (flags2 & 0xFFF);
@@ -3602,11 +3602,11 @@ void func_8017E2EC(void *a0)
         if (idx < 0x1000) {
             d = (s32)&stk[0x08];
 
-            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk8 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unkA = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkC = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unkE = 0;
-            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->unk18.u;
+            ((Unkstruct_8017E2EC_3 *)stk)->unk10 = ((Unkstruct_800B5BD8 *)a0)->head.unk18.u;
             ((Unkstruct_8017E2EC_3 *)stk)->unk12 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk14 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk16 = 0;
@@ -3615,7 +3615,7 @@ void func_8017E2EC(void *a0)
             ((Unkstruct_8017E2EC_3 *)stk)->unk20 = 0;
             ((Unkstruct_8017E2EC_3 *)stk)->unk1C = 0;
 
-            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->unk14.s, (void *)d);
+            RotMatrixZ(((Unkstruct_800B5BD8 *)a0)->head.unk14.s, (void *)d);
             gte_SetRotMatrix((void *)d);
             gte_SetTransMatrix((void *)d);
 
@@ -3640,12 +3640,12 @@ void func_8017E2EC(void *a0)
                 *(u8 *)(pkt + 0x7) = *(u8 *)(pkt + 0x7) | 2;
                 *(u8 *)(p1 + 0x7) = *(u8 *)(p1 + 0x7) | 2;
             }
-            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
-            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
-            *(u8 *)(pkt + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
-            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->unk24.u;
-            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->unk25.u;
-            *(u8 *)(p1 + 0x6) = ((Unkstruct_800B5BD8 *)a0)->unk26;
+            *(u8 *)(pkt + 0x4) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk24.u;
+            *(u8 *)(pkt + 0x5) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk25.u;
+            *(u8 *)(pkt + 0x6) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk26;
+            *(u8 *)(p1 + 0x4) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk24.u;
+            *(u8 *)(p1 + 0x5) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk25.u;
+            *(u8 *)(p1 + 0x6) = ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk26;
 
             *(s16 *)(pkt + 0x8) = RD16(stk) + RD16(stk + 0x54);
             *(s16 *)(pkt + 0xa) = RD16(stk + 0x02) + RD16(stk + 0x56);

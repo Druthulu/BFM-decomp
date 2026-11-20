@@ -2950,7 +2950,7 @@ void aF80185EEC(s32 a0) {
     v1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
     v0 = -v0;
     ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_80187DAC.unkF4 = v0;
-    ((Unkstruct_8001C9D0 *)v1)->unk20 = a0 + 0xEC;
+    ((Unkstruct_8001C9D0 *)v1)->head.unk20.s = a0 + 0xEC;
     func_8018228C((void *)a0);
 }
 
@@ -4275,10 +4275,10 @@ void func_80183DE8(u8 *arg0)
         }
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
         func_8001CC3C(s0, 0, 0, 0);
-        ((Unkstruct_800B5BD8 *)s0)->unk20.s = (s32)D_800D387C;
-        ((Unkstruct_800B5BD8 *)s0)->unk27.u = 0x9C;
-        ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x3000;
-        ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk20.s = (s32)D_800D387C;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk27.u = 0x9C;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = 0x3000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x3000;
         CAST_WIDTH(u32, s0, 4) = CAST_WIDTH(u32, s0, 4) | 0x50000000;
         guess_StartPairSequence(s0, (s32)(param_1 + 0xD0), (s32)D_800D3888);
     }

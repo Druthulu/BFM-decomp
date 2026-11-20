@@ -2976,7 +2976,7 @@ void func_8017D118(s32 a0) {
             D_801A6B04 = D_801A6B05 = D_801A6B06 = 0;
             guess_BuildCircle12Points(pk, 0x30);
             func_8001CA88(((Unkstruct_801202A0 *)a0)->unk20.p, pk);
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk1A.u = 0x2000;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk1A.u = 0x2000;
             *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 4) |= 0x50000000;
             val = 0;
             p2 = 0;

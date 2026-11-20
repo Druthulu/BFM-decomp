@@ -85,9 +85,9 @@ void func_800CAFA0(void *a0) {
     } else {
         m = D_800AE620;
         RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s, &m);
-        m.t[0] = ((Unkstruct_8016E7C8 *)s2)->unk6;
-        m.t[1] = ((Unkstruct_8016E7C8 *)s2)->unkA;
-        m.t[2] = ((Unkstruct_8016E7C8 *)s2)->unkE;
+        m.t[0] = ((Unkstruct_801202A0 *)s2)->unk4.i.hi.s;
+        m.t[1] = ((Unkstruct_801202A0 *)s2)->unk8.i.hi.s;
+        m.t[2] = ((Unkstruct_801202A0 *)s2)->unkC.i.hi.s;
         sv.x = 0;
         sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s) >> 9) - 0x14;
         sv.z = -0x40;
@@ -140,9 +140,9 @@ void func_800CB1CC(void *arg0) {
             return;
         }
         func_8001CC3C(obj, D_800CB324, 0, 0);
-        ((Unkstruct_800B5BD8 *)obj)->unk1A.u = 0x1C00;
-        ((Unkstruct_800B5BD8 *)obj)->unk18.u = 0x1C00;
-        ((Unkstruct_800B5BD8 *)obj)->unk27.u = 0x19;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk1A.u = 0x1C00;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk18.u = 0x1C00;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk24.b.unk27.u = 0x19;
         CAST_WIDTH(s32, obj, 4) |= 0xC0000000;
         guess_StartPairSequence(obj, (s32)arg0 + 0x24, (s32)D_800CB330);
         result = 2;

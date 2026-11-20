@@ -4325,7 +4325,7 @@ void func_80183FCC(s32 param_1)
     ((Unkstruct_801202A0 *)param_1)->unkCC.val = s0;
     if (s0 != 0) {
         guess_InitObjectKind6(s0, s2);
-        ((Unkstruct_800B5BD8 *)s0)->unk2C.u = 0xC010;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk2C.u = 0xC010;
         CAST_WIDTH(u32, s0, 4) |= 0xD0000000;
     }
 }
@@ -4398,8 +4398,8 @@ void func_801841E0(void *a0) {
             s16 a2arr[3];
 
             p20 = CAST_SIGN(void *, (u8 *)a0, 0x20);
-            flags = ((Unkstruct_8001C9D0 *)p20)->unk2C.u;
-            ((Unkstruct_8001C9D0 *)p20)->unk2C.u = flags & 0xFFFE;
+            flags = ((Unkstruct_8001C9D0 *)p20)->head.unk2C.u;
+            ((Unkstruct_8001C9D0 *)p20)->head.unk2C.u = flags & 0xFFFE;
 
             func_80132784((s32)a0, ((Unkstruct_801202A0 *)a0)->unk64, 0x15);
 
@@ -4875,8 +4875,8 @@ void func_80184A8C(void *a0) {
         u16 flagval;
 
         flagptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        flagval = ((Unkstruct_8001C9D0 *)flagptr)->unk2C.u;
-        ((Unkstruct_8001C9D0 *)flagptr)->unk2C.u = flagval | 1;
+        flagval = ((Unkstruct_8001C9D0 *)flagptr)->head.unk2C.u;
+        ((Unkstruct_8001C9D0 *)flagptr)->head.unk2C.u = flagval | 1;
     }
 }
 

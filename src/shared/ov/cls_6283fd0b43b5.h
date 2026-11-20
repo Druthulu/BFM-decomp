@@ -11,7 +11,7 @@ void SHARED_FN(s32 param_1)
         val_e4 = *(u16 *)(param_1 + 0xE4);
         ((Unkstruct_8011DB30 *)result)->unk34.i.lo.u = 0x3001;
         ((Unkstruct_8011DB30 *)result)->unkC.i.hi.u = val_e4;
-        ((Unkstruct_800B5BD8 *)*(s32 *)(result + 0x20))->unk2C.u = 0xC008;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(result + 0x20))->head.unk2C.u = 0xC008;
         *(u32 *)(((Unkstruct_8011DB30 *)result)->unk20 + 0x4) |= 0x50000000;
     }
 }

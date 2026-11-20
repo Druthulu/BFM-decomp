@@ -3655,11 +3655,11 @@ void func_8017C6A0(void *a0) {
 
         func_8001CB00((s32)s3, D_8018A9F8, 0x280, 0x100);
 
-        ((Unkstruct_800B5BD8 *)s3)->unk27.u = 0x80;
+        ((Unkstruct_800B5BD8 *)s3)->head.unk24.b.unk27.u = 0x80;
 
-        ((Unkstruct_800B5BD8 *)s3)->unk2C.u = CAST_SIGN(u16, a0, 0xE);
-        ((Unkstruct_800B5BD8 *)s3)->unk1A.u = 0;
-        ((Unkstruct_800B5BD8 *)s3)->unk18.u = 0;
+        ((Unkstruct_800B5BD8 *)s3)->head.unk2C.u = CAST_SIGN(u16, a0, 0xE);
+        ((Unkstruct_800B5BD8 *)s3)->head.unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)s3)->head.unk18.u = 0;
 
         ((Unkstruct_80126B58 *)a0)->unk10 = 0;
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
@@ -3838,9 +3838,9 @@ void func_8017CD10(void *a0) {
         }
     }
 
-    v0 = ((Unkstruct_800B5BD8 *)s2)->unk1A.u - 0x40;
-    ((Unkstruct_800B5BD8 *)s2)->unk1A.u = v0;
-    ((Unkstruct_800B5BD8 *)s2)->unk18.u = v0;
+    v0 = ((Unkstruct_800B5BD8 *)s2)->head.unk1A.u - 0x40;
+    ((Unkstruct_800B5BD8 *)s2)->head.unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)s2)->head.unk18.u = v0;
 
     if (v0 < 0) {
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
@@ -3931,8 +3931,8 @@ void func_8017CE90(void *a0)
         *(s32 *)((u8 *)a0 + 0x10) = 0;
         if (*(s32 *)((u8 *)a0 + 0x30) & 0x80) {
             *(u32 *)s2 = 0xFFFFFF;
-            ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0x80;
-            ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk1A.u = 0x80;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.u = 0x80;
             *(s32 *)((u8 *)a0 + 0x14) = 0x80;
         } else {
             *s2 = D_8018A924[*(s32 *)((u8 *)a0 + 0x2C)];
@@ -3944,7 +3944,7 @@ void func_8017CE90(void *a0)
         D_801C11B6 = 0;
 
         *(s32 *)((u8 *)a0 + 0x30) = *(s32 *)((u8 *)a0 + 0x30) & 0x7F;
-        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = *(u16 *)((u8 *)a0 + 0xE) + 0x10;
         *(u16 *)((u8 *)a0 + 0x2) = *(u16 *)((u8 *)a0 + 0x2) + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
@@ -3973,9 +3973,9 @@ void func_8017CFBC(void *a0)
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk10.val + ((Unkstruct_8017CFBC_3 *)s2)->unk14.val;
     ((Unkstruct_8017CFBC_3 *)s2)->unk10.val = v1;
 
-    v0 = ((Unkstruct_8017CFBC_6 *)s1)->unk1A.u + v1;
-    ((Unkstruct_8017CFBC_6 *)s1)->unk1A.u = v0;
-    ((Unkstruct_8017CFBC_6 *)s1)->unk18.s = v0;
+    v0 = ((Unkstruct_8017CFBC_6 *)s1)->head.unk1A.u + v1;
+    ((Unkstruct_8017CFBC_6 *)s1)->head.unk1A.u = v0;
+    ((Unkstruct_8017CFBC_6 *)s1)->head.unk18.s = v0;
 
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk30.val.s;
     ((Unkstruct_8017CFBC_3 *)s2)->unk30.val.s = v1 - 1;
@@ -4217,10 +4217,10 @@ void func_8017D678(void *a0)
         CAST_WIDTH(s32, (u8 *)s1, 4) |= 0x50000000;
         guess_BuildCircle12Points(s0, 0x100);
 
-        ((Unkstruct_800B5BD8 *)s1)->unk1A.u = 0;
-        ((Unkstruct_800B5BD8 *)s1)->unk18.u = 0;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.u = 0;
         ((Unkstruct_80126B58 *)a0)->unk10 = 0x80;
-        ((Unkstruct_800B5BD8 *)s1)->unk2C.u = 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = 0x10;
 
         *(u8 *)s0 = 0xFF;
         D_801C11F1 = 0xFF;
@@ -4294,15 +4294,15 @@ void *a1;
     s16 var;
 
     a1 = ((Unkstruct_8011D030 *)arg0)->unk20;
-    var = ((Unkstruct_800B5BD8 *)a1)->unk1A.u + 0x200;
-    ((Unkstruct_800B5BD8 *)a1)->unk1A.u = var;
-    ((Unkstruct_800B5BD8 *)a1)->unk18.u = var;
+    var = ((Unkstruct_800B5BD8 *)a1)->head.unk1A.u + 0x200;
+    ((Unkstruct_800B5BD8 *)a1)->head.unk1A.u = var;
+    ((Unkstruct_800B5BD8 *)a1)->head.unk18.u = var;
     if (var >= 0x1001) {
         D_801C11F4 = 0xFF;
         D_801C11F5 = 0xFF;
         D_801C11F6 = 0xFF;
         CAST_ALIAS(u16, (s32)a1, 0x1A) = 0x1000;
-        ((Unkstruct_800B5BD8 *)a1)->unk18.u = 0x1000;
+        ((Unkstruct_800B5BD8 *)a1)->head.unk18.u = 0x1000;
         ((Unkstruct_8011D030 *)arg0)->unk2.u = ((Unkstruct_8011D030 *)arg0)->unk2.u + 1;
     }
 }

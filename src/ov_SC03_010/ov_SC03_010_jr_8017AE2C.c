@@ -3387,7 +3387,7 @@ void func_8017C004(s32 arg0) {
         func_8001CEC0(p, D_801838E4);
         ((Unkstruct_8017C004_3 *)p)->head.unk8.s = 0x40;
         ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x20;
-        ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
+        ((Unkstruct_8017C004_3 *)p)->head.unk2C.s = 1;
         ((Unkstruct_8017C004_3 *)p)->head.unk4.s |= 0x40000000;
 
         p = ((s32 (*)(void))guess_AllocSpriteObject)();
@@ -3397,8 +3397,8 @@ void func_8017C004(s32 arg0) {
             func_8001CE28(p, D_8019FF44);
             ((Unkstruct_8017C004_3 *)p)->head.unk8.s = 0x30;
             ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x2C;
-            ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-            ((Unkstruct_8017C004_3 *)p)->unk27.u = 1;
+            ((Unkstruct_8017C004_3 *)p)->head.unk2C.s = 1;
+            ((Unkstruct_8017C004_3 *)p)->head.unk24.b.unk27.u = 1;
 
             p = ((s32 (*)(void))guess_AllocSpriteObject)();
             if (p != 0) {
@@ -3406,7 +3406,7 @@ void func_8017C004(s32 arg0) {
                 func_8001CEC0(p, D_80183954);
                 ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x40;
                 ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x20;
-                ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
+                ((Unkstruct_8017C004_3 *)p)->head.unk2C.s = 1;
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
                 if (p != 0) {
@@ -3415,8 +3415,8 @@ void func_8017C004(s32 arg0) {
                     func_8001CE28(p, D_8019FF64);
                     ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x58;
                     ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x2C;
-                    ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-                    ((Unkstruct_8017C004_3 *)p)->unk27.u = 1;
+                    ((Unkstruct_8017C004_3 *)p)->head.unk2C.s = 1;
+                    ((Unkstruct_8017C004_3 *)p)->head.unk24.b.unk27.u = 1;
 
                     p = ((s32 (*)(void))guess_AllocSpriteObject)();
                     if (p != 0) {
@@ -3425,8 +3425,8 @@ void func_8017C004(s32 arg0) {
                         func_8001CE28(p, D_8019FF94);
                         ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x68;
                         ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0xC;
-                        ((Unkstruct_8017C004_3 *)p)->unk2C.s = 1;
-                        ((Unkstruct_8017C004_3 *)p)->unk27.u = 0xB6;
+                        ((Unkstruct_8017C004_3 *)p)->head.unk2C.s = 1;
+                        ((Unkstruct_8017C004_3 *)p)->head.unk24.b.unk27.u = 0xB6;
                         ((Unkstruct_8017C004_4 *)arg0)->unk2A.s = 0;
                         ((Unkstruct_8017C004_4 *)arg0)->unk28.s = 0;
                         D_8019FF40 = 0;

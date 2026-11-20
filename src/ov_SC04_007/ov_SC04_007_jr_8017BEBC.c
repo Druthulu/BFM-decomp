@@ -3239,7 +3239,7 @@ void func_8017CECC(s32 a0) {
         }
         func_8001C810(((Unkstruct_801202A0 *)a0)->unk20.p, (s32)&D_801B0044);
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, (void *)&D_801895DC[(s16)D_801152BA * 16]);
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x20;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x20;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x80) = (s32)&D_801B5218;
         *(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x40000000;
         ((Unkstruct_801202A0 *)a0)->extE.kSC02_011_8017CF54.unkAE = -3;
@@ -3474,8 +3474,8 @@ void func_8017D4D0(s32 a0) {
     RotMatrixYXZ(&sp[4], &D_801B548C[-5]);
 
     ((Unkstruct_800B5BD8 *)v0)->unk34.s = (s32)&D_801B548C[-5];
-    ((Unkstruct_800B5BD8 *)v0)->unk1A.s = 0;
-    ((Unkstruct_800B5BD8 *)v0)->unk18.s = 0;
+    ((Unkstruct_800B5BD8 *)v0)->head.unk1A.s = 0;
+    ((Unkstruct_800B5BD8 *)v0)->head.unk18.s = 0;
     ((Unkstruct_800B5BD8 *)v0)->head.unk4.s |= 0x50000000;
     ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
 }
@@ -3615,10 +3615,10 @@ extern s32 func_80178B18(s32 param_1, s32 param_2);
 void func_8017DA48(s32 a0) {
     s32 ptr1 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
     s32 ptr2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
-    s16 val = ((Unkstruct_800B5BD8 *)ptr1)->unk1A.u - 0xC0;
+    s16 val = ((Unkstruct_800B5BD8 *)ptr1)->head.unk1A.u - 0xC0;
 
-    ((Unkstruct_800B5BD8 *)ptr1)->unk1A.u = val;
-    ((Unkstruct_800B5BD8 *)ptr1)->unk18.s = val;
+    ((Unkstruct_800B5BD8 *)ptr1)->head.unk1A.u = val;
+    ((Unkstruct_800B5BD8 *)ptr1)->head.unk18.s = val;
 
     if (val < 0) {
         ((Unkstruct_800B5BD8 *)ptr1)->head.unk0.s = 0;
@@ -5222,10 +5222,10 @@ extern void func_80180894(s32 param_1, s32 param_2);
 
 void func_8018084C(void *arg0, s32 arg1) {
     u16 sp10[3];
-    sp10[0] = ((Unkstruct_801805F8 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_801805F8 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_801805F8 *)arg0)->unkE;
-    func_80180894(sp10, ((Unkstruct_801805F8 *)arg0)->unk1C);
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
+    func_80180894(sp10, ((Unkstruct_801202A0 *)arg0)->unk1C.s);
 }
 
 
@@ -6412,8 +6412,8 @@ s32 func_801821DC(s32 a0) {
             v0 = 0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         }
-        ((Unkstruct_800B5BD8 *)v1)->unk1A.u = v0;
-        do { ((Unkstruct_800B5BD8 *)v1)->unk18.u = v0; } while (0);
+        ((Unkstruct_800B5BD8 *)v1)->head.unk1A.u = v0;
+        do { ((Unkstruct_800B5BD8 *)v1)->head.unk18.u = v0; } while (0);
     }
 
     /* Zero-byte scheduling fence (§190-C).  Without it BOTH sched1 and sched2
@@ -8362,8 +8362,8 @@ void func_80185318(int param_1)
         *(unsigned int *)(iVar3 + 4) = *(unsigned int *)(iVar3 + 4) | 0x50000000;
         if (((Unkstruct_8017DA20 *)param_1)->unk2C != 0) {
             sVar2 = (rand() & 3) * 0x800 + 0x1000;
-            ((Unkstruct_800B5BD8 *)iVar3)->unk1A.s = sVar2;
-            ((Unkstruct_800B5BD8 *)iVar3)->unk18.s = sVar2;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk1A.s = sVar2;
+            ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.s = sVar2;
             *(unsigned short *)(param_1 + 0x12) = (rand() & 0xf) + 3;
             if ((rand() & 1) != 0) {
                 ((Unkstruct_8017DA20 *)param_1)->unk12 = -((Unkstruct_8017DA20 *)param_1)->unk12;
@@ -8373,8 +8373,8 @@ void func_80185318(int param_1)
                 ((Unkstruct_8017DA20 *)param_1)->unk1A = -((Unkstruct_8017DA20 *)param_1)->unk1A;
             }
         } else {
-            iVar3b->unk1A.s = 0x4000;
-            iVar3b->unk18.s = 0x4000;
+            iVar3b->head.unk1A.s = 0x4000;
+            iVar3b->head.unk18.s = 0x4000;
         }
         ((Unkstruct_8017DA20 *)param_1)->unk2 = ((Unkstruct_8017DA20 *)param_1)->unk2 + 1;
     } else {

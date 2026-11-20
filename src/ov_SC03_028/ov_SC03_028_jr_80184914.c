@@ -3163,7 +3163,7 @@ check:
     }
     if ((((s32 (*)(s32))func_8012CBCC)(a0) != 0) || (flag != 0) ||
         (func_8012D624(a0, 0x30, 0xA) != 0)) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk20 = (s32)D_801904C4;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk20.s = (s32)D_801904C4;
         guess_StartActorSequence(a0, D_8019053C);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xA;

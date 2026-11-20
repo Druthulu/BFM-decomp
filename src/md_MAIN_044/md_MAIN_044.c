@@ -168,9 +168,9 @@ s32 func_800CCF30(void *a0) {
 
 
 void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
-    ((Unkstruct_8001C9D0 *)arg0)->unk1C.s = arg1;
-    ((Unkstruct_8001C9D0 *)arg0)->unk1A.s = arg1;
-    ((Unkstruct_8001C9D0 *)arg0)->unk18.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk1C.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk1A.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk18.s = arg1;
 }
 
 
@@ -516,9 +516,9 @@ void func_800CD834(void *a0) {
 extern s32 func_80012F74(s32, s32, s32, s32);
 
 void func_800CD848(s32 param_1) {
-    ((Unkstruct_80126B58 *)param_1)->unk20.m->unk18.s =
-        ((Unkstruct_80126B58 *)param_1)->unk20.m->unk1A.s =
-        func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20.m->unk1A.s, 0x1000, 4, 1);
+    ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk18.s =
+        ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk1A.s =
+        func_80012F74(((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk1A.s, 0x1000, 4, 1);
 }
 
 

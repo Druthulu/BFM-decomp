@@ -5240,7 +5240,7 @@ void func_80186530(s32 self)
     ((Unkstruct_8001C9D0 *)a1)->head.unk8.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u;
     ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
     t = ((Unkstruct_801202A0 *)self)->unkC.i.hi.u;
-    ((Unkstruct_8001C9D0 *)a1)->unk2C.u |= 0x10;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk2C.u |= 0x10;
     ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = t;
     v1 = D_8018F318 * ((Unkstruct_801202A0 *)self)->unkFC.s;
     if (v1 < 0) {
@@ -5248,8 +5248,8 @@ void func_80186530(s32 self)
     }
     v1 = (v1 >> 4) + D_8018F314;
     CAST_WIDTH(s16, a1, 0x1C) = v1;
-    ((Unkstruct_8001C9D0 *)a1)->unk1A.u = v1;
-    ((Unkstruct_8001C9D0 *)a1)->unk18.u = v1;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk1A.u = v1;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk18.u = v1;
     a0 = &D_801270C8;
     if (((Unkstruct_801202A0 *)self)->blkDC.f.unkDC.val != *a0) {
         ((Unkstruct_801202A0 *)self)->blkDC.f.unkDC.val = *a0;

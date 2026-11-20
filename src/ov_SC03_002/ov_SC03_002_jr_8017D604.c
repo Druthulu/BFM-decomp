@@ -3536,15 +3536,15 @@ void func_8017F3E0(void *a0)
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_801893DC, 0x240, 0x1D0);
 
     v0 = 0x54;
-    ((Unkstruct_800B5BD8 *)s0)->unk27.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk27.u = v0;
     v0 = ((Unkstruct_800B5BD8 *)s0)->head.unk4.s;
     v1 = 0x08000000;
     v0 |= v1;
     ((Unkstruct_800B5BD8 *)s0)->head.unk4.s = v0;
 
     v0 = ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.u;
-    ((Unkstruct_800B5BD8 *)s0)->unk1A.u = v0;
-    ((Unkstruct_800B5BD8 *)s0)->unk18.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = v0;
 
     v0 = ((Unkstruct_8011DB30 *)s1)->unk2.u;
     v1 = 0x20;
@@ -4059,8 +4059,8 @@ s32 func_8017FDFC(s32 param_1)
     ((void (*)(void *, s32))func_8016EDEC)(func_801801CC, 0x1000000);
     D_801270C0 = 2;
     D_80126B9C = D_80126B9C | 0x4000000;
-    ((Unkstruct_8017D664 *)param_1)->unk15 = ((Unkstruct_8017D664 *)param_1)->unk15 + 1;
-    ((Unkstruct_8017D664 *)param_1)->unk28 = 0xA;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 0xA;
     return 0;
 }
 
@@ -4077,7 +4077,7 @@ s32 func_8017FE6C(s32 a0) {
     extern s16 D_800B9A0A;
     s16 s0;
 
-    if (--(((Unkstruct_8017D6D4 *)a0)->unk28) == -1) {
+    if (--(((Dst *)a0)->unk28) == -1) {
         func_800D1E28();
         s0 = D_800B9A0A;
         if (s0 != 0x1000 || (s16)func_800D1D94() != s0) {
@@ -4086,7 +4086,7 @@ s32 func_8017FE6C(s32 a0) {
             guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         }
-        ((Unkstruct_8017D6D4 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }

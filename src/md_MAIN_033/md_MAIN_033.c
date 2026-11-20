@@ -122,7 +122,7 @@ void func_800CB058(s32 arg0)
     p = s2a;
     q = (s32)(s1a + 4);
     v0w = CAST_WIDTH(u32, s0a, 4);
-    ((Unkstruct_800B5BD8 *)s0a)->unk27.u = 0x19;
+    ((Unkstruct_800B5BD8 *)s0a)->head.unk24.b.unk27.u = 0x19;
     CAST_WIDTH(u32, s0a, 4) = (v0w | maska) & ~0x40;
     fptr = *(s32 *)(p + 0x20);
     cnt = D_800CB984++;
@@ -422,8 +422,8 @@ void func_800CB76C(void *arg0) {
         RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800B5BD8 *)s0)->unk34.s);
         v = *(s16 *)(s1 + 0x1A);
         q = (v * 180) / 100;
-        ((Unkstruct_800B5BD8 *)s0)->unk1A.s = q;
-        ((Unkstruct_800B5BD8 *)s0)->unk18.s = q;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk1A.s = q;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.s = q;
         func_800139C8(CAST_SIGN(s16, s0, 0x12), D_800CB8FC, (s32)&sp10[0]);
         ((Unkstruct_800CB76C_2 *)s2)->unk6 = ((Unkstruct_801819B4_2 *)s3)->unk6 + sp10[0];
         ((Unkstruct_800CB76C_2 *)s2)->unkA = ((Unkstruct_801819B4_2 *)s3)->unkA + sp10[1];

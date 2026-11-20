@@ -3189,8 +3189,8 @@ s32 func_8018FCE8(s32 arg0) {
         *(s16 *)(arg0 + 0xEA) = 0x100;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_032_8019303C.unkEC = 0x100;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_032_8019303C.unkEE = -2;
-        ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk2C.u =
-            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk2C.u | 0x80;
+        ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->head.unk2C.u =
+            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->head.unk2C.u | 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x80) = arg0 + 0xE8;
         ((Unkstruct_801202A0 *)arg0)->unk78 = (s32)D_801CC714;
         goto tail;
@@ -3206,8 +3206,8 @@ s32 func_8018FCE8(s32 arg0) {
         *(s16 *)(arg0 + 0xEA) = 0x100;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_032_8019303C.unkEC = 0x100;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC06_032_8019303C.unkEE = -2;
-        ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk2C.u =
-            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->unk2C.u | 0x80;
+        ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->head.unk2C.u =
+            ((Unkstruct_8001C9D0 *)((Unkstruct_801202A0 *)arg0)->unk20.p)->head.unk2C.u | 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x80) = arg0 + 0xE8;
         ((Unkstruct_801202A0 *)arg0)->unk78 = (s32)D_801CC714;
         goto tail;

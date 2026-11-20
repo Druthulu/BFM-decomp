@@ -3073,7 +3073,7 @@ void func_8017DBE0(s32 param_1) {
         CAST_SIGN(u8 *, param_1, 0xbc) = D_8019EA5C;
         ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x8ad;
         CAST_SIGN(u32, param_1, 0xc4) |= 2;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u |= 0x80;
         *(u8 **)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = D_8019E9E4;
         func_80143994(param_1, 0x4000);
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;
@@ -4211,7 +4211,7 @@ void func_8017F668(s32 p) {
             ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u = out[0];
             ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u = out[1];
             ((Unkstruct_8011DB30 *)e)->unkC.i.hi.u = out[2];
-            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc006;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->head.unk2C.u = 0xc006;
         }
         g28[0] = 0x40;
         g28[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(p + 0x20))->head.unk12.u;
@@ -4226,7 +4226,7 @@ void func_8017F668(s32 p) {
                 g38[2] = (rand() % 5 + 4) << 16;
                 ((void (*)(void *, void *, s32))ApplyMatrixLV)(buf58, g38, e + 0x10);
                 ((Unkstruct_8011DB30 *)e)->unk34.i.lo.u = ((rand() % 2 + 2) << 12) | 1;
-                ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->unk2C.u = 0xc006;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(e + 0x20))->head.unk2C.u = 0xc006;
                 func_801834F0(p, D_8019E9BC + i * 8, out, 0xb);
                 ((Unkstruct_8011DB30 *)e)->unk4.i.hi.u = out[0];
                 ((Unkstruct_8011DB30 *)e)->unk8.i.hi.u = out[1];

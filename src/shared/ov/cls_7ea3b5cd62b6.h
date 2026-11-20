@@ -9,11 +9,11 @@ void SHARED_FN(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unk2.s = 6;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
             *(s32 *)((((Unkstruct_801202A0 *)a0)->unk20.p) + 4) &= 0x7FFFFFFF;
-            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk2C.u |= 0x10;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x10;
             v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
             CAST_WIDTH(u16, v1, 0x1C) = 1;
-            ((Unkstruct_8001C9D0 *)v1)->unk1A.u = 1;
-            ((Unkstruct_8001C9D0 *)v1)->unk18.u = 1;
+            ((Unkstruct_8001C9D0 *)v1)->head.unk1A.u = 1;
+            ((Unkstruct_8001C9D0 *)v1)->head.unk18.u = 1;
             v0 = ((Unkstruct_801202A0 *)a0)->unk20.p;
             *(u16 *)(v0 + 0x14) = 0;
             *(u16 *)(v0 + 0x10) = 0;

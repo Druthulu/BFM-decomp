@@ -3925,10 +3925,10 @@ void func_8017EE38(s32 a0)
 {
     s16 buf[4];
 
-    buf[0] = ((Unkstruct_801805F8 *)a0)->unk6;
-    buf[1] = ((Unkstruct_801805F8 *)a0)->unkA;
-    buf[2] = ((Unkstruct_801805F8 *)a0)->unkE;
-    func_8017EE80(buf, ((Unkstruct_801805F8 *)a0)->unk1C);
+    buf[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    buf[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+    func_8017EE80(buf, ((Unkstruct_801202A0 *)a0)->unk1C.s);
 }
 
 
@@ -4035,7 +4035,7 @@ void func_8017F150(void *arg0) {
 
     guess_StartActorSequence_2((u8 *)s0, (s32)&D_801976F4);
     CAST_ALIAS(s32, (u8 *)s0, 0x94) = 0xF;
-    ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->unk20 = D_8019776C;
+    ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->head.unk20.s = D_8019776C;
     guess_ClearVelocityAndSetGravity((s32)s0);
     func_8012AD44((s32 *)s0, 2);
 }
@@ -4062,7 +4062,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_8017F218(void *arg0, s16 a1) {
-    ((Unkstruct_8001C9D0 *)*(s32 *)((char *)arg0 + 0x20))->unk20 = D_80197764;
+    ((Unkstruct_8001C9D0 *)*(s32 *)((char *)arg0 + 0x20))->head.unk20.s = D_80197764;
     ((Unkstruct_8001C9D0 *)*(s32 *)((char *)arg0 + 0x20))->head.unk12.u = a1;
     guess_ClearVelocityAndSetGravity((s32)arg0);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 8;
@@ -4235,7 +4235,7 @@ void func_8017F574(void *arg0) {
         L_FC:
             guess_StartActorSequence_2((u8 *)s0, (s32)&D_801976F4);
             CAST_ALIAS(s32, (u8 *)s0, 0x94) = 0xF;
-            ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->unk20 = D_8019776C;
+            ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->head.unk20.s = D_8019776C;
             guess_ClearVelocityAndSetGravity((s32)s0);
             func_8012AD44((s32 *)s0, 2);
         } else {
@@ -4804,7 +4804,7 @@ void func_8018025C(s32 param_1) {
     D_8019BA70[0] = D_8019322C;
 
     CAST_WIDTH(s32, *(s32 *)(param_1 + 0x20), 0x24) = (s32)D_8019BA60;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk20 = D_80197764;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk20.s = D_80197764;
 
     ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk12.u =
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk64->unk20.p + 0x12);
@@ -5040,7 +5040,7 @@ void func_8018084C(void *arg0) {
     if ((((Unkstruct_801202A0 *)s0)->unk86.u & 1) == 0 && func_8017FB48(s0, buf) != 0) {
         guess_StartActorSequence_2((u8 *)s0, (s32)&D_801976F4);
         CAST_ALIAS(s32, (u8 *)s0, 0x94) = 0xF;
-        ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->unk20 = D_8019776C;
+        ((Unkstruct_8001C9D0 *)*(u8 **)((u8 *)s0 + 0x20))->head.unk20.s = D_8019776C;
         guess_ClearVelocityAndSetGravity((s32)s0);
         func_8012AD44((s32 *)s0, 2);
     } else {
@@ -5260,7 +5260,7 @@ s32 func_80180D50(s32 arg0) {
             }
             break;
         case 0x239:
-            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + ((Unkstruct_80126B58 *)pe)->unk20.m->unk18.s) >> 6;
+            t = (u32)(*(s16 *)(*(s32 *)(arg0 + 0x20) + 0x18) + ((Unkstruct_80126B58 *)pe)->unk20.m->head.unk18.s) >> 6;
             if (((s32 (*)(s16 *, s16 *, s32))func_80180E34)((s16 *)arg0, (s16 *)(pe + 4), t) != 0) {
                 return (s32)pe;
             }
@@ -5479,7 +5479,7 @@ void func_801812C4(void *param_1)
 
     {
         s32 v1 = ((Unkstruct_801202A0 *)ent)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x10;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x10;
         v1 = ((Unkstruct_801202A0 *)ent)->unk20.p;
         CAST_WIDTH(u32, v1, 0x4) |= 0x8040;
     }

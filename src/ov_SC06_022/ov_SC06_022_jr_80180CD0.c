@@ -3104,7 +3104,7 @@ s32 a1;
                 x2 = x2 - 0x10;
                 ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.u = x2 + (rr & 0x1F);
                 ((Unkstruct_8011DB30 *)s0)->unk34.i.lo.u = a1;
-                ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->unk2C.u = 0xC010;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk2C.u = 0xC010;
                 *(u32 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x4) |= 0x40000000;
             }
             return 1;
@@ -3415,7 +3415,7 @@ void func_80181B04(s32 param_1) {
         CAST_SIGN(u8 *, param_1, 0xbc) = D_801BD184;
         ((Unkstruct_801202A0 *)param_1)->unkB4.s = -0x8ad;
         CAST_SIGN(u32, param_1, 0xc4) |= 2;
-        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk2C.u |= 0x80;
         *(u8 **)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = D_801BD10C;
         func_80143994(param_1, 0x4000);
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0x18000;

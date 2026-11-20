@@ -1486,8 +1486,8 @@ void func_801431E8(s32 param_1) {
         uVar2 = ((Unkstruct_801202A0 *)param_1)->unk70.u;
         ((Unkstruct_8001C9D0 *)d)->unk76 = -0x10;
         sVar4 = (uVar2 & 0xf) * 0x600 + 0xc00;
-        ((Unkstruct_8001C9D0 *)d)->unk1A.s = sVar4;
-        ((Unkstruct_8001C9D0 *)d)->unk18.s = sVar4;
+        ((Unkstruct_8001C9D0 *)d)->head.unk1A.s = sVar4;
+        ((Unkstruct_8001C9D0 *)d)->head.unk18.s = sVar4;
         ((Unkstruct_8001C9D0 *)d)->head.unk4.u = ((Unkstruct_8001C9D0 *)d)->head.unk4.u | 0x50000000;
         if (func_8012E504(param_1, 0x33) == 0) {
             ((Unkstruct_801202A0 *)param_1)->unkFC.s = 1;

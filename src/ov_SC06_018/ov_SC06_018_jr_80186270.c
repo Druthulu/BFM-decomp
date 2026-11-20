@@ -3949,7 +3949,7 @@ void func_80187960(void *a0) {
     ((Unkstruct_801202A0 *)a0)->unk10A.s = ((Unkstruct_801202A0 *)a0)->unk64->unk36.u;
 
     if ((CAST_SIGN(u16, (s32)a0, 0x70) & 0xF) == 4) {
-        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->unk20 = (s32)D_811B53E4;
+        ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk20.s = (s32)D_811B53E4;
     }
 
     if ((CAST_SIGN(u16, (s32)a0, 0x70) & 0xF) == 5) {

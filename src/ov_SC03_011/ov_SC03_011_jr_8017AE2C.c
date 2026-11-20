@@ -3389,7 +3389,7 @@ void func_8017C004(s32 arg0) {
         func_8001CEC0(p, D_80184C54);
         ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x40;
         ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
-        ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
+        ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
         ((Unkstruct_800B5BD8 *)p)->head.unk4.s |= 0x40000000;
 
         p = ((s32 (*)(void))guess_AllocSpriteObject)();
@@ -3399,8 +3399,8 @@ void func_8017C004(s32 arg0) {
             func_8001CE28(p, D_801A21DC);
             ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x30;
             ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
-            ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
-            ((Unkstruct_800B5BD8 *)p)->unk27.u = 1;
+            ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
+            ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 1;
 
             p = ((s32 (*)(void))guess_AllocSpriteObject)();
             if (p != 0) {
@@ -3408,7 +3408,7 @@ void func_8017C004(s32 arg0) {
                 func_8001CEC0(p, D_80184CC4);
                 ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x40;
                 ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
-                ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
+                ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
                 if (p != 0) {
@@ -3417,8 +3417,8 @@ void func_8017C004(s32 arg0) {
                     func_8001CE28(p, D_801A21FC);
                     ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x58;
                     ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
-                    ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
-                    ((Unkstruct_800B5BD8 *)p)->unk27.u = 1;
+                    ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
+                    ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 1;
 
                     p = ((s32 (*)(void))guess_AllocSpriteObject)();
                     if (p != 0) {
@@ -3427,8 +3427,8 @@ void func_8017C004(s32 arg0) {
                         func_8001CE28(p, D_801A222C);
                         ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x68;
                         ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0xC;
-                        ((Unkstruct_800B5BD8 *)p)->unk2C.s = 1;
-                        ((Unkstruct_800B5BD8 *)p)->unk27.u = 0xB6;
+                        ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
+                        ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 0xB6;
                         ((Unkstruct_8011D030 *)arg0)->unk2A.s = 0;
                         ((Unkstruct_8011D030 *)arg0)->unk28.s = 0;
                         D_801A21D8 = 0;

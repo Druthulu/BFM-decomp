@@ -4140,8 +4140,8 @@ void func_8017DCB4(s32 a0) {
                 ptr = ((Unkstruct_8011DB30 *)result)->unk20;
                 magv = magw;
                 CAST_WIDTH(u16, ptr, 0x1C) = magv;
-                ((Unkstruct_800B5BD8 *)ptr)->unk1A.u = magv;
-                ((Unkstruct_800B5BD8 *)ptr)->unk18.u = magv;
+                ((Unkstruct_800B5BD8 *)ptr)->head.unk1A.u = magv;
+                ((Unkstruct_800B5BD8 *)ptr)->head.unk18.u = magv;
                 ((Unkstruct_8011DB30 *)result)->unk4.i.hi.u = (s16)s4;
                 ((Unkstruct_8011DB30 *)result)->unkC.i.hi.u = (s16)s2;
             }

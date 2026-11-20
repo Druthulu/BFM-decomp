@@ -3016,12 +3016,12 @@ void func_8017F15C(s32 s0)
         }
         t = ((Unkstruct_801202A0 *)s0)->unk20.p;
         if (CAST_SIGN(s16, t, 0x18) >= 0x201) {
-            ((Unkstruct_8001C9D0 *)t)->unk18.u = CAST_SIGN(s16, t, 0x18) - CAST_SIGN(u16, s0, 0xFE);
+            ((Unkstruct_8001C9D0 *)t)->head.unk18.u = CAST_SIGN(s16, t, 0x18) - CAST_SIGN(u16, s0, 0xFE);
         }
         u = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        v1 = ((Unkstruct_8001C9D0 *)u)->unk18.u;
+        v1 = ((Unkstruct_8001C9D0 *)u)->head.unk18.u;
         CAST_WIDTH(u16, u, 0x1C) = v1;
-        ((Unkstruct_8001C9D0 *)u)->unk1A.u = v1;
+        ((Unkstruct_8001C9D0 *)u)->head.unk1A.u = v1;
         if (((Unkstruct_801202A0 *)s0)->unkFE.s < 0x41) {
             return;
         }

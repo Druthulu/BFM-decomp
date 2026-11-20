@@ -5219,7 +5219,7 @@ void func_80184BEC(s32 a0) {
     func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.p, 0xC8, 0xB4);
     ((Unkstruct_801202A0 *)a0)->unk58.s = (u32)&D_801BBEA8 | 0x40000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk20 = (s32)&D_801BBEC4;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk20.s = (s32)&D_801BBEC4;
     CAST_WIDTH(s16, a0, 0xE8) = 0;
     CAST_WIDTH(Blk12_801854C4_80184BEC, a0, 0xEC) = D_801BBEB8;
     ((Unkstruct_801202A0 *)a0)->unk10A.s = 6;

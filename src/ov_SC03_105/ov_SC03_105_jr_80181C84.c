@@ -3093,8 +3093,8 @@ void func_8018226C(s32 arg0)
         CAST_WIDTH(s32, arg0, 0xC) = 0xFF360000;
 
         p1 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)p1)->unk1A.u = 0x1000;
-        ((Unkstruct_8001C9D0 *)p1)->unk18.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)p1)->head.unk1A.u = 0x1000;
+        ((Unkstruct_8001C9D0 *)p1)->head.unk18.u = 0x1000;
 
         p2 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
         CAST_WIDTH(s16, p2, 0x14) = 0;
@@ -5513,9 +5513,9 @@ void func_801860D0(int param_1)
         ((Unkstruct_801202A0 *)param_1)->unk6C = guess_SpawnActorNoArg(0x1DE, param_1);
         guess_SpawnActorNoArg(0x14D, param_1);
         v1 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-        flags = ((Unkstruct_8001C9D0 *)v1)->unk2C.u;
+        flags = ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u;
         D_801BCBBC = 0;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u = flags | 0x80;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u = flags | 0x80;
         v1 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         CAST_WIDTH(s32, v1, 0x80) = (s32)&D_8018EE04;
         D_8018EE02 = 0xF0;

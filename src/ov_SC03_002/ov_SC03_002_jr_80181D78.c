@@ -3404,10 +3404,10 @@ extern void func_80182A78(s32 param_1, s32 param_2);
 
 void func_80182A30(void *arg0, s32 arg1) {
     u16 sp10[3];
-    sp10[0] = ((Unkstruct_801805F8 *)arg0)->unk6;
-    sp10[1] = ((Unkstruct_801805F8 *)arg0)->unkA;
-    sp10[2] = ((Unkstruct_801805F8 *)arg0)->unkE;
-    func_80182A78(sp10, ((Unkstruct_801805F8 *)arg0)->unk1C);
+    sp10[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+    sp10[2] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
+    func_80182A78(sp10, ((Unkstruct_801202A0 *)arg0)->unk1C.s);
 }
 
 
@@ -4246,7 +4246,7 @@ void func_80183A70(s32 a0) {
     func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.p, 0xC8, 0xB4);
     ((Unkstruct_801202A0 *)a0)->unk58.s = (u32)&D_801A84E4 | 0x40000000;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk20 = (s32)&D_801A8500;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk20.s = (s32)&D_801A8500;
     CAST_WIDTH(s16, a0, 0xE8) = 0;
     CAST_WIDTH(Blk12_801854C4_80183A70, a0, 0xEC) = D_801A84F4;
     ((Unkstruct_801202A0 *)a0)->unk10A.s = 6;

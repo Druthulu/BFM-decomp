@@ -4,8 +4,8 @@ void SHARED_FN(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk1C.s != 0) {
         ((Unkstruct_801202A0 *)arg0)->unk1C.s -= 1;
     }
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk18.u -= 0x100;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk1A.u -= 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk18.u -= 0x100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk1A.u -= 0x100;
     if (*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.p + 0x1A) < 0x81) {
         if (((Unkstruct_801202A0 *)arg0)->unk70.s == 1) {
             /* LOAD-BEARING: hoisting the argument load into its own local

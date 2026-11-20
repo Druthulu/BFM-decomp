@@ -3241,7 +3241,7 @@ void func_8017F4CC(s32 a0) {
 
     if (guess_InitActorModel(a0, (s32)&D_8019BF40)) {
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
-        ((Unkstruct_8001C9D0 *)v1)->unk2C.u |= 0x30;
+        ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x30;
         v1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
         CAST_WIDTH(void *, v1, 0x80) = &D_8019BF74;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_108_8017F0B0.unkE8 = 0x40;
@@ -3249,8 +3249,8 @@ void func_8017F4CC(s32 a0) {
         if (s0 != 0) {
             ((Unkstruct_801202A0 *)a0)->unkD0.val = s0;
             guess_InitObjectKind6((int)s0, (void *)&D_8019BFBC);
-            ((Unkstruct_800B5BD8 *)s0)->unk18.u = 0x555;
-            ((Unkstruct_800B5BD8 *)s0)->unk1A.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.u = 0x555;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk1A.u = 0x555;
             CAST_WIDTH(s32, s0, 0x4) |= 0x50000000;
         }
 
@@ -3311,7 +3311,7 @@ void func_8017F674(s32 param_1)
     }
 
     sVar1 = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_110_8017F43C.unkE4 << 6) & 0x7c0);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (sVar1 >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (sVar1 >> 1) + 0x800;
 
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
@@ -3463,7 +3463,7 @@ void func_8017F9CC(s32 param_1)
     }
 
     angle = rsin((((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_108_8017F0B0.unkE4 << 7) & 0x780);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = (angle >> 1) + 0x800;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk1A.u = (angle >> 1) + 0x800;
     iVar1 = guess_TurnStepToTarget(param_1, 0xa);
     {
         s32 ptr = ((Unkstruct_801202A0 *)param_1)->unk20.p;
