@@ -5937,12 +5937,12 @@ void func_8017BEBC(s32 arg0)
                                                 q = 0x80 - (tz - 0x190) / 24;
                                                 if (q < 0) q = 0;
                                                 rgb = q | (q << 8) | (q << 16);
-                                                ((XFT4 *)pkt)->rgbc = (tp[0] & 0xFF000000) | rgb;
-                                                ((XFT4 *)pkt)->uvc0 = tp[1];
-                                                ((XFT4 *)pkt)->uvp1 = tp[2];
+                                                LOWU(((XFT4 *)pkt)->r0) = (tp[0] & 0xFF000000) | rgb;
+                                                LOWU(((XFT4 *)pkt)->u0) = tp[1];
+                                                LOWU(((XFT4 *)pkt)->u1) = tp[2];
                                                 uvw = tp[3];
-                                                ((XFT4 *)pkt)->uv2 = uvw;
-                                                ((XFT4 *)pkt)->uv3 = uvw >> 16;
+                                                LOHU(((XFT4 *)pkt)->u2) = uvw;
+                                                LOHU(((XFT4 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((tz >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

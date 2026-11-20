@@ -3654,7 +3654,7 @@ void func_8017C59C(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C59C *)pkt)->rgbc = prim->a;
+                                        LOWU(((PF4_C59C *)pkt)->r0) = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3713,12 +3713,12 @@ void func_8017C59C(s32 arg0)
                                         *(u32 *)&((PFT4_C59C *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C59C *)pkt)->x3 = *(u32 *)&tmpxy[3];
                                         tp = (u32 *)prim->a;
-                                        ((PFT4_C59C *)pkt)->rgbc = tp[0];
-                                        ((PFT4_C59C *)pkt)->uvc0 = tp[1];
-                                        ((PFT4_C59C *)pkt)->uvp1 = tp[2];
+                                        LOWU(((PFT4_C59C *)pkt)->r0) = tp[0];
+                                        LOWU(((PFT4_C59C *)pkt)->u0) = tp[1];
+                                        LOWU(((PFT4_C59C *)pkt)->u1) = tp[2];
                                         uvw = tp[3];
-                                        ((PFT4_C59C *)pkt)->uv2 = uvw;
-                                        ((PFT4_C59C *)pkt)->uv3 = uvw >> 16;
+                                        LOHU(((PFT4_C59C *)pkt)->u2) = uvw;
+                                        LOHU(((PFT4_C59C *)pkt)->u3) = uvw >> 16;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

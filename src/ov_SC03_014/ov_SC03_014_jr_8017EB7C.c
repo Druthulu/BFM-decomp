@@ -2941,33 +2941,33 @@ void func_8017EB7C(s32 arg0)
                                     gte_stsxy3_f3(pkt);
                                     gte_ldv0(vd);
                                     gte_rtps();
-                                    if (((PolyF4 *)pkt)->x0 > ((PolyF4 *)pkt)->x1) {
-                                        mx = ((PolyF4 *)pkt)->x0;
-                                        mn = ((PolyF4 *)pkt)->x1;
+                                    if (((POLY_F4 *)pkt)->x0 > ((POLY_F4 *)pkt)->x1) {
+                                        mx = ((POLY_F4 *)pkt)->x0;
+                                        mn = ((POLY_F4 *)pkt)->x1;
                                     } else {
-                                        mn = ((PolyF4 *)pkt)->x0;
-                                        mx = ((PolyF4 *)pkt)->x1;
+                                        mn = ((POLY_F4 *)pkt)->x0;
+                                        mx = ((POLY_F4 *)pkt)->x1;
                                     }
-                                    if (((PolyF4 *)pkt)->x2 > mx) mx = ((PolyF4 *)pkt)->x2;
-                                    else if (((PolyF4 *)pkt)->x2 < mn) mn = ((PolyF4 *)pkt)->x2;
-                                    if (((PolyF4 *)pkt)->y0 > ((PolyF4 *)pkt)->y1) {
-                                        my = ((PolyF4 *)pkt)->y0;
-                                        mny = ((PolyF4 *)pkt)->y1;
+                                    if (((POLY_F4 *)pkt)->x2 > mx) mx = ((POLY_F4 *)pkt)->x2;
+                                    else if (((POLY_F4 *)pkt)->x2 < mn) mn = ((POLY_F4 *)pkt)->x2;
+                                    if (((POLY_F4 *)pkt)->y0 > ((POLY_F4 *)pkt)->y1) {
+                                        my = ((POLY_F4 *)pkt)->y0;
+                                        mny = ((POLY_F4 *)pkt)->y1;
                                     } else {
-                                        mny = ((PolyF4 *)pkt)->y0;
-                                        my = ((PolyF4 *)pkt)->y1;
+                                        mny = ((POLY_F4 *)pkt)->y0;
+                                        my = ((POLY_F4 *)pkt)->y1;
                                     }
-                                    if (((PolyF4 *)pkt)->y2 > my) my = ((PolyF4 *)pkt)->y2;
-                                    else if (((PolyF4 *)pkt)->y2 < mny) mny = ((PolyF4 *)pkt)->y2;
+                                    if (((POLY_F4 *)pkt)->y2 > my) my = ((POLY_F4 *)pkt)->y2;
+                                    else if (((POLY_F4 *)pkt)->y2 < mny) mny = ((POLY_F4 *)pkt)->y2;
                                     gte_stflg(&g.flag);
                                     if (!(g.flag & 0x7F85E000)) {
                                         gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
-                                        gte_stsxy((long *)&((PolyF4 *)pkt)->x3);
-                                        if (((PolyF4 *)pkt)->x3 < mn) mn = ((PolyF4 *)pkt)->x3;
-                                        else if (mx < ((PolyF4 *)pkt)->x3) mx = ((PolyF4 *)pkt)->x3;
+                                        gte_stsxy((long *)&((POLY_F4 *)pkt)->x3);
+                                        if (((POLY_F4 *)pkt)->x3 < mn) mn = ((POLY_F4 *)pkt)->x3;
+                                        else if (mx < ((POLY_F4 *)pkt)->x3) mx = ((POLY_F4 *)pkt)->x3;
                                         if (mx >= -0xA0 && mn < 0xA1) {
-                                            if (((PolyF4 *)pkt)->y3 < mny) mny = ((PolyF4 *)pkt)->y3;
-                                            else if (my < ((PolyF4 *)pkt)->y3) my = ((PolyF4 *)pkt)->y3;
+                                            if (((POLY_F4 *)pkt)->y3 < mny) mny = ((POLY_F4 *)pkt)->y3;
+                                            else if (my < ((POLY_F4 *)pkt)->y3) my = ((POLY_F4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
                                                 s32 za, zb, zc;
                                                 u32 *otp;
@@ -2978,7 +2978,7 @@ void func_8017EB7C(s32 arg0)
                                                 zc = za;
                                                 if (zc < zb) zc = zb;
                                                 g.opz = zc;
-                                                ((PolyF4 *)pkt)->rgbc = prim->a;
+                                                LOWU(((POLY_F4 *)pkt)->r0) = prim->a;
                                                 otp = (u32 *)(((zc >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3013,12 +3013,12 @@ void func_8017EB7C(s32 arg0)
                                     gte_stflg(&g.flag);
                                     if (!(g.flag & 0x7F85E000)) {
                                         gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
-                                        gte_stsxy((long *)&((PolyFT4 *)pkt)->x3);
-                                        if (((PolyFT4 *)pkt)->x3 < mn) mn = ((PolyFT4 *)pkt)->x3;
-                                        else if (mx < ((PolyFT4 *)pkt)->x3) mx = ((PolyFT4 *)pkt)->x3;
+                                        gte_stsxy((long *)&((POLY_FT4 *)pkt)->x3);
+                                        if (((POLY_FT4 *)pkt)->x3 < mn) mn = ((POLY_FT4 *)pkt)->x3;
+                                        else if (mx < ((POLY_FT4 *)pkt)->x3) mx = ((POLY_FT4 *)pkt)->x3;
                                         if (mx >= -0xA0 && mn < 0xA1) {
-                                            if (((PolyFT4 *)pkt)->y3 < mny) mny = ((PolyFT4 *)pkt)->y3;
-                                            else if (my < ((PolyFT4 *)pkt)->y3) my = ((PolyFT4 *)pkt)->y3;
+                                            if (((POLY_FT4 *)pkt)->y3 < mny) mny = ((POLY_FT4 *)pkt)->y3;
+                                            else if (my < ((POLY_FT4 *)pkt)->y3) my = ((POLY_FT4 *)pkt)->y3;
                                             if (my >= -0x78 && mny < 0x79) {
                                                 s32 za, zb;
                                                 u32 *otp;
@@ -3031,16 +3031,16 @@ void func_8017EB7C(s32 arg0)
                                                 if (za < zb) za = zb;
                                                 g.opz = za;
                                                 if (code == 3) g.opz = za + 0x200;
-                                                *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
-                                                *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
-                                                *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
-                                                ((PolyFT4 *)pkt)->rgbc = tp[0];
-                                                ((PolyFT4 *)pkt)->uvc0 = tp[1];
-                                                ((PolyFT4 *)pkt)->uvp1 = tp[2];
+                                                LOWU(((POLY_FT4 *)pkt)->r0) = tp[0];
+                                                LOWU(((POLY_FT4 *)pkt)->u0) = tp[1];
+                                                LOWU(((POLY_FT4 *)pkt)->u1) = tp[2];
                                                 uvw = tp[3];
-                                                ((PolyFT4 *)pkt)->uv2 = uvw;
-                                                ((PolyFT4 *)pkt)->uv3 = uvw >> 16;
+                                                LOHU(((POLY_FT4 *)pkt)->u2) = uvw;
+                                                LOHU(((POLY_FT4 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3440,12 +3440,12 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
                                         gte_stflg(&g.flag);
                                         if (!(g.flag & 0x7F85E000)) {
                                             gte_stsz4(&g.sz0, &g.sz1, &g.sz2, &g.sz3);
-                                            gte_stsxy((long *)&((PolyFT4 *)pkt)->x3);
-                                            if (((PolyFT4 *)pkt)->x3 < mn) mn = ((PolyFT4 *)pkt)->x3;
-                                            else if (mx < ((PolyFT4 *)pkt)->x3) mx = ((PolyFT4 *)pkt)->x3;
+                                            gte_stsxy((long *)&((POLY_FT4 *)pkt)->x3);
+                                            if (((POLY_FT4 *)pkt)->x3 < mn) mn = ((POLY_FT4 *)pkt)->x3;
+                                            else if (mx < ((POLY_FT4 *)pkt)->x3) mx = ((POLY_FT4 *)pkt)->x3;
                                             if (mx >= -0xA0 && mn < 0xA1) {
-                                                if (((PolyFT4 *)pkt)->y3 < mny) mny = ((PolyFT4 *)pkt)->y3;
-                                                else if (my < ((PolyFT4 *)pkt)->y3) my = ((PolyFT4 *)pkt)->y3;
+                                                if (((POLY_FT4 *)pkt)->y3 < mny) mny = ((POLY_FT4 *)pkt)->y3;
+                                                else if (my < ((POLY_FT4 *)pkt)->y3) my = ((POLY_FT4 *)pkt)->y3;
                                                 if (my >= -0x6E && mny < 0x6F) {
                                                     s32 za, zb;
                                                     u32 *otp;
@@ -3458,16 +3458,16 @@ void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2)
                                                     if (za < zb) za = zb;
                                                     g.opz = za;
                                                     if (code == 3) g.opz = za + 0x200;
-                                                    *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
-                                                    *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
-                                                    *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                    *(u32 *)&((POLY_FT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                    *(u32 *)&((POLY_FT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                    *(u32 *)&((POLY_FT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                     tp = (u32 *)prim->a;
-                                                    ((PolyFT4 *)pkt)->rgbc = tp[0];
-                                                    ((PolyFT4 *)pkt)->uvc0 = tp[1];
-                                                    ((PolyFT4 *)pkt)->uvp1 = tp[2];
+                                                    LOWU(((POLY_FT4 *)pkt)->r0) = tp[0];
+                                                    LOWU(((POLY_FT4 *)pkt)->u0) = tp[1];
+                                                    LOWU(((POLY_FT4 *)pkt)->u1) = tp[2];
                                                     uvw = tp[3];
-                                                    ((PolyFT4 *)pkt)->uv2 = uvw;
-                                                    ((PolyFT4 *)pkt)->uv3 = uvw >> 16;
+                                                    LOHU(((POLY_FT4 *)pkt)->u2) = uvw;
+                                                    LOHU(((POLY_FT4 *)pkt)->u3) = uvw >> 16;
                                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

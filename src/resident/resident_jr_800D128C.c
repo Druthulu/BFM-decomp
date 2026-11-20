@@ -1520,7 +1520,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
  *     unfilled (137 ins, closeness 109).  As a statement it hoists to idx 18 — FIRST in the
  *     preheader, ahead of the addPrim invariants, which is exactly the target's order.
  *
- *  6. Field stores are RAW CASTS `*(s16 *)(out + K)`, not a `p = (PolyFT4 *)(out + 4)`
+ *  6. Field stores are RAW CASTS `*(s16 *)(out + K)`, not a `p = (POLY_FT4 *)(out + 4)`
  *     struct (which is how 29F8 spells it).  Struct-member stores are MEM_IN_STRUCT_P and
  *     gcc-2.7.2's alias code treats them as non-conflicting with the `*(u32 *)out` full-word
  *     read inside addPrim, letting the scheduler hoist that read arbitrarily early; plain

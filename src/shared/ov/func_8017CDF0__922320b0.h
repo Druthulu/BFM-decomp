@@ -242,12 +242,12 @@ void func_8017CDF0(s32 a0, s32 a1, s32 a2)
                                                 *(u32 *)&((PolyFT4_8017CDF0 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4_8017CDF0 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
-                                                ((PolyFT4_8017CDF0 *)pkt)->rgbc = tp[0];
-                                                ((PolyFT4_8017CDF0 *)pkt)->uvc0 = tp[1];
-                                                ((PolyFT4_8017CDF0 *)pkt)->uvp1 = tp[2];
+                                                LOWU(((PolyFT4_8017CDF0 *)pkt)->r0) = tp[0];
+                                                LOWU(((PolyFT4_8017CDF0 *)pkt)->u0) = tp[1];
+                                                LOWU(((PolyFT4_8017CDF0 *)pkt)->u1) = tp[2];
                                                 uvw = tp[3];
-                                                ((PolyFT4_8017CDF0 *)pkt)->uv2 = uvw;
-                                                ((PolyFT4_8017CDF0 *)pkt)->uv3 = uvw >> 16;
+                                                LOHU(((PolyFT4_8017CDF0 *)pkt)->u2) = uvw;
+                                                LOHU(((PolyFT4_8017CDF0 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((za >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

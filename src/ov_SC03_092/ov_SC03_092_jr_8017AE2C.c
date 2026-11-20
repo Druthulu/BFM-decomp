@@ -4117,12 +4117,12 @@ void func_8017CE58(s32 arg0)
                                     gte_stflg(&gflag);
                                     if (!(gflag & mask)) {
                                         gte_stsz4(&gsz0, &gsz1, &gsz2, &gsz3);
-                                        gte_stsxy((long *)&((PolyFT4 *)pkt)->x3);
-                                        if (((PolyFT4 *)pkt)->x3 < mn) mn = ((PolyFT4 *)pkt)->x3;
-                                        else if (mx < ((PolyFT4 *)pkt)->x3) mx = ((PolyFT4 *)pkt)->x3;
+                                        gte_stsxy((long *)&((POLY_FT4 *)pkt)->x3);
+                                        if (((POLY_FT4 *)pkt)->x3 < mn) mn = ((POLY_FT4 *)pkt)->x3;
+                                        else if (mx < ((POLY_FT4 *)pkt)->x3) mx = ((POLY_FT4 *)pkt)->x3;
                                         if (mx >= -0xA0 && mn < 0xA1) {
-                                            if (((PolyFT4 *)pkt)->y3 < mny) mny = ((PolyFT4 *)pkt)->y3;
-                                            else if (my < ((PolyFT4 *)pkt)->y3) my = ((PolyFT4 *)pkt)->y3;
+                                            if (((POLY_FT4 *)pkt)->y3 < mny) mny = ((POLY_FT4 *)pkt)->y3;
+                                            else if (my < ((POLY_FT4 *)pkt)->y3) my = ((POLY_FT4 *)pkt)->y3;
                                             if (my >= -0x6E && mny < 0x6F) {
                                                 s32 za, zb;
                                                 u32 *otp;
@@ -4136,9 +4136,9 @@ void func_8017CE58(s32 arg0)
                                                 if (za < gsz1) za = gsz1;
                                                 if (za < zb) za = zb;
                                                 gopz = za;
-                                                *(u32 *)&((PolyFT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
-                                                *(u32 *)&((PolyFT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
-                                                *(u32 *)&((PolyFT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((POLY_FT4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
                                                 fade = 0x80 - (za - 400) / 12;
                                                 if (fade < 0) fade = 0;
@@ -4146,12 +4146,12 @@ void func_8017CE58(s32 arg0)
                                                 cc = fade | cc;
                                                 cc = cc | (fade << 16);
                                                 __asm__ __volatile__("" : : "r"(fade));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
-                                                ((PolyFT4 *)pkt)->rgbc = (tp[0] & 0xFF000000) | cc;
-                                                ((PolyFT4 *)pkt)->uvc0 = tp[1];
-                                                ((PolyFT4 *)pkt)->uvp1 = tp[2];
+                                                LOWU(((POLY_FT4 *)pkt)->r0) = (tp[0] & 0xFF000000) | cc;
+                                                LOWU(((POLY_FT4 *)pkt)->u0) = tp[1];
+                                                LOWU(((POLY_FT4 *)pkt)->u1) = tp[2];
                                                 uvw = tp[3];
-                                                ((PolyFT4 *)pkt)->uv2 = uvw;
-                                                ((PolyFT4 *)pkt)->uv3 = uvw >> 16;
+                                                LOHU(((POLY_FT4 *)pkt)->u2) = uvw;
+                                                LOHU(((POLY_FT4 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((za >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

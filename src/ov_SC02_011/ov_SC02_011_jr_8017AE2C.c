@@ -6934,7 +6934,7 @@ void func_80180E74(void *a0)
  *
  * Types are suffixed _80180FE4 so the draft compiles standalone; when banked into
  * ov_SC02_011_jr_8017AE2C.c the shared engine_types.h spellings (DVECTOR2, SVECTOR2,
- * MATRIX2, Part, PolyFT3, PolyFT4) are already in scope via engine_core.h and these
+ * MATRIX2, Part, PolyFT3, POLY_FT4) are already in scope via engine_core.h and these
  * local typedefs can be dropped.
  */
 
@@ -7190,12 +7190,12 @@ void func_80180FE4(s32 arg0)
                                                 *(u32 *)&((PolyFT4_80180FE4 *)pkt)->x1 = *(u32 *)&tmpxy[1];
                                                 *(u32 *)&((PolyFT4_80180FE4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
-                                                ((PolyFT4_80180FE4 *)pkt)->rgbc = tp[0];
-                                                ((PolyFT4_80180FE4 *)pkt)->uvc0 = tp[1];
-                                                ((PolyFT4_80180FE4 *)pkt)->uvp1 = tp[2];
+                                                LOWU(((PolyFT4_80180FE4 *)pkt)->r0) = tp[0];
+                                                LOWU(((PolyFT4_80180FE4 *)pkt)->u0) = tp[1];
+                                                LOWU(((PolyFT4_80180FE4 *)pkt)->u1) = tp[2];
                                                 uvw = tp[3];
-                                                ((PolyFT4_80180FE4 *)pkt)->uv2 = uvw;
-                                                ((PolyFT4_80180FE4 *)pkt)->uv3 = uvw >> 16;
+                                                LOHU(((PolyFT4_80180FE4 *)pkt)->u2) = uvw;
+                                                LOHU(((PolyFT4_80180FE4 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

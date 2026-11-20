@@ -291,7 +291,7 @@ void func_8017C6F4(s32 arg0)
                                         if (za < zb) za = zb;
                                         g.opz = za;
                                         if (code != 0) g.opz = za + 0x200;
-                                        ((PF4_C6F4 *)pkt)->rgbc = prim->a;
+                                        LOWU(((PF4_C6F4 *)pkt)->r0) = prim->a;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x5000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -350,12 +350,12 @@ void func_8017C6F4(s32 arg0)
                                         *(u32 *)&((PFT4_C6F4 *)pkt)->x2 = *(u32 *)&tmpxy[2];
                                         *(u32 *)&((PFT4_C6F4 *)pkt)->x3 = *(u32 *)&tmpxy[3];
                                         tp = (u32 *)prim->a;
-                                        ((PFT4_C6F4 *)pkt)->rgbc = tp[0];
-                                        ((PFT4_C6F4 *)pkt)->uvc0 = tp[1];
-                                        ((PFT4_C6F4 *)pkt)->uvp1 = tp[2];
+                                        LOWU(((PFT4_C6F4 *)pkt)->r0) = tp[0];
+                                        LOWU(((PFT4_C6F4 *)pkt)->u0) = tp[1];
+                                        LOWU(((PFT4_C6F4 *)pkt)->u1) = tp[2];
                                         uvw = tp[3];
-                                        ((PFT4_C6F4 *)pkt)->uv2 = uvw;
-                                        ((PFT4_C6F4 *)pkt)->uv3 = uvw >> 16;
+                                        LOHU(((PFT4_C6F4 *)pkt)->u2) = uvw;
+                                        LOHU(((PFT4_C6F4 *)pkt)->u3) = uvw >> 16;
                                         otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                         *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
                                         *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

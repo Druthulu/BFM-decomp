@@ -4066,18 +4066,6 @@ typedef struct {
     /* 0x0020 */ s32 unk20;
 } Unkstruct_8016D848; /* size = 0x24 */
 
-typedef struct {
-    /* Unkstruct_90f25f7a: P3.40 T3 band rank 345; 60 TNC sites in 4 bodies; struct map 60 sites; restruct.py --decide-band */
-    /* 0x0000 */ u32 unk0;
-    /* 0x0004 */ s32 unk4;
-    /* 0x0008 */ s32 unk8;
-    /* 0x000c */ s32 unkC;
-    /* 0x0010 */ s32 unk10;
-    /* 0x0014 */ s32 unk14;
-    /* 0x0018 */ s32 unk18;
-    /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ s32 unk20;
-} Unkstruct_8017F368; /* size = 0x24 */
 
 typedef struct {
     /* Unkstruct_3e8a6c2f: P3.40 T3 band rank 347; 60 TNC sites in 1 bodies; struct map 60 sites; restruct.py --decide-band */
@@ -6706,7 +6694,7 @@ typedef struct {
 
 typedef Unkstruct_8018234C Unkstruct_80185E34; /* size = 0x14 */
 
-typedef Unkstruct_8017F368 Unkstruct_8018A2E0; /* size = 0x24 */
+typedef POLY_G4 Unkstruct_8018A2E0; /* size = 0x24 */
 
 typedef Unkstruct_8018234C Unkstruct_80182498; /* size = 0x14 */
 
@@ -10875,18 +10863,7 @@ typedef struct {
     /* 0x00fe */ u16 unkFE;
 } Unkstruct_8017D598_5; /* size = 0x100 */
 
-typedef struct {
-    /* Unkstruct_8b0cdd5c: P3.40 T3 band rank 2973; 6 TNC sites in 1 bodies; struct map 6 sites; restruct.py --decide-band */
-    /* 0x0000 */ u32 unk0;
-    /* 0x0004 */ u32 unk4;
-    /* 0x0008 */ u8 pad8[0x4];
-    /* 0x000c */ u32 unkC;
-    /* 0x0010 */ u8 pad10[0x4];
-    /* 0x0014 */ u32 unk14;
-    /* 0x0018 */ u8 pad18[0x4];
-    /* 0x001c */ u32 unk1C;
-} Unkstruct_80184BFC;
-typedef Unkstruct_80184BFC Unkstruct_80185434; /* size = 0x20 */
+typedef POLY_G4 Unkstruct_80185434; /* size = 0x20 */
 
 typedef struct {
     /* Unkstruct_15054509: P3.40 T3 band rank 2767; 6 TNC sites in 1 bodies; struct map 6 sites; restruct.py --decide-band */
@@ -11113,7 +11090,7 @@ typedef struct {
     } unkE0;
 } Unkstruct_80182AD4; /* size = 0xe4 */
 
-typedef Unkstruct_80184BFC Unkstruct_8018F734; /* size = 0x20 */
+typedef POLY_G4 Unkstruct_8018F734; /* size = 0x20 */
 
 typedef struct {
     /* Unkstruct_4ea2930d: P3.40 T3 band rank 2855; 6 TNC sites in 1 bodies; struct map 6 sites; restruct.py --decide-band */
