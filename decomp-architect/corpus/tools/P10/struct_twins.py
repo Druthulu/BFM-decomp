@@ -179,12 +179,14 @@ def psyq_layouts():
 
 INVENTORY_DEFAULT = ".run/3.45/t1/struct_inventory.tsv"
 LEDGER = REPO / "config" / "struct_dispositions.tsv"
-FINISHES = ("fold", "absorb", "survivor", "wall")          # P3.45 T6 (DW4): the consolidation list; a fold/absorb finishes once applied:
+FINISHES = ("fold", "absorb", "survivor", "wall", "scalar")   # P3.45 T6 (DW4): the consolidation list; a fold/absorb finishes once applied:
+# (T18.c22: scalar, a placeholder whose real object is shown not to be a record; finishes once applied and its definition is gone)
 PENDING = ("apart", "no-evidence", "undisposed")
 DISPOSITIONS = ("undisposed",) + FINISHES + PENDING[:2]
 LEDGER_COLS = ("key", "kind", "file_line", "size", "disposition", "target", "class", "evidence", "reason")   # class: T2.c2
 CLASSES = {"undisposed": ("-",), "fold": ("link", "twin", "value"), "absorb": ("offset", "variant"),
            "survivor": ("global", "static", "element", "alloc", "member", "sdk"), "wall": ("fold", "absorb", "retype"),
+           "scalar": ("text", "scalar"),
            "apart": ("own", "conflict", "size", "hub"), "no-evidence": ("-",)}
 LINK_SUBS = ("global", "pointer", "body")                  # a fold link's evidence class, the prefix of its evidence (`C30 global: …`)
 LINK_EV_RX = re.compile(r"^C\d+ (global|pointer|body): \S")
@@ -196,27 +198,35 @@ MEMBER_RX = re.compile(r"(?:^|\s)member:[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*")   # ab
 WALL_RX = (re.compile(r"(?:^|\s)residual:[A-Z][A-Z0-9-]*"), re.compile(r"(?:^|\s)attempt1:\S"), re.compile(r"(?:^|\s)attempt2:\S"))
 APPLIED_RX = re.compile(r"(?:^|\s)applied:\S+$")    # a disposition applied by a later task (T7): never rewritten by --propose
 CITE_RX = re.compile(r"0x[0-9A-Fa-f]{8}|[\w./-]+\.[ch]:\d+")   # an address or a file:line (apart evidence)
+FILE_LINE_RX = re.compile(r"[\w./-]+\.[ch]:\d+")
+SCALAR_EV_RX = re.compile(r"(?:^|\s)object:(.*?)(?:^|\s)retyped:(.*)$")   # T18.c22: scalar evidence `object: <cites> retyped: <cites>`
+NOTE_RX = re.compile(r"\(([^()]+)\)")                       # a `(name)` note: the name a scalar's cited lines carry
 LEDGER_HEAD = """# config/struct_dispositions.tsv: the struct disposition ledger (Phase 3.45 T1; `class` T2.c2; consolidation list T6). One row per
 # placeholder struct/union definition of the canonical type files (tools/struct_twins.py --inventory, class placeholder), by inventory key.
-# disposition (closed list, P3.45 T6): finishes fold | absorb | survivor | wall (a fold or absorb finishes once its reason ends in
-#   ` applied:<commit>`); pending apart | no-evidence | undisposed.
+# disposition (closed list, P3.45 T6): finishes fold | absorb | survivor | wall | scalar (a fold, absorb or scalar finishes once its
+#   reason ends in ` applied:<commit>`); pending apart | no-evidence | undisposed.
 #   fold: fold into `target` (a ledger key or a PsyQ/ledgered type); class link (a T2 link; evidence `C<n> <global|pointer|body>: `
 #     + the cites), twin (exact layout; evidence `lhash:<12 hex> fields:<n>`, n >= 3 non-pad fields) or value (a dense small shape;
 #     evidence `shape:<shape>`). absorb: a view absorbed into its parent `target`; class offset (evidence `+0x<off>`) or variant
 #     (evidence `member:<path>`), plus the pointer source's address or file:line. survivor: a real root type; class
 #     global|static|element|alloc|member|sdk; evidence cites the object (address or file:line). wall: refused after its second
 #     attempt; class fold|absorb|retype; evidence the object (address or file:line) and `+0x<off>`; reason `residual:<CLASS>
-#     attempt1:<…> attempt2:<…>`. apart (kept apart; class own|conflict|size|hub; evidence an address or file:line).
+#     attempt1:<…> attempt2:<…>`. scalar (T18.c22): a placeholder whose real object is shown not to be a record (e.g. text), never
+#     a way to finish a hard struct; class text|scalar; evidence `object: <the data object's address or file:line> retyped: <file:line
+#     of each retyped source, >= 1>`, each cite followed by a `(name)` its line carries; reason `not-a-record: <why>`; finishes once
+#     ` applied:<commit>` ends its reason and its definition is deleted.
+#     apart (kept apart; class own|conflict|size|hub; evidence an address or file:line).
 #     no-evidence (no binding or use to judge by; `reason` says why). undisposed (not judged yet). no-evidence/undisposed class `-`.
 # Proposals: tools/struct_twins.py --links --propose [--policy typed|effective|views] (default effective; method
 #   docs/ops/p345-t2-struct-merge-evidence.md) rewrites disposition..reason of each row it judges: folds as class link, evidence
 #   `C<n> <sub>: `; component targets apart own `C<n>: `. Never rewritten: a row whose reason ends in ` applied:<commit>`, a fold
-#   twin|value, an absorb, a survivor, a wall.
+#   twin|value, an absorb, a survivor, a wall, a scalar.
 # Written by tools/struct_twins.py --dispositions (new rows undisposed, dispositions kept, kind/file_line/size refreshed);
 # checked by tools/struct_twins.py --dispositions --check (FAIL on a missing, duplicate or unknown row, a class outside its
 #   closed list, a row breaking its disposition's rule above; prints finished vs pending). Tab-separated, by key.
 # Gated by tools/struct_twins.py --gate (P3.45 T8; docs/ops/p345-t14-source-census.md "The gate (T8)"): these rules, broken
-#   rows (an applied fold/absorb still defined or with a dangling target; a survivor / wall whose cite does not hold) and the
+#   rows (an applied fold/absorb still defined or with a dangling target; a survivor / wall whose cite does not hold; a scalar
+#   unapplied, still defined or whose cite does not hold) and the
 #   pending / cast counts against config/consolidation_ratchet.tsv.
 """
 INV_COLS = ("key", "names", "tag", "kind", "size", "fields_total", "unk", "pad", "named", "file:line", "block", "class", "tus",
@@ -443,6 +453,14 @@ def ledger_problems(have, keys_ok):
             out["wall without object (address or file:line) and +0x<off> in evidence"].append(k)
         if d == "wall" and not all(r.search(rs) for r in WALL_RX):
             out["wall without residual:<CLASS> attempt1: attempt2: in reason"].append(k)
+        if d == "scalar":                                         # T18.c22
+            sm = SCALAR_EV_RX.search(ev)
+            if not (sm and CITE_RX.search(sm.group(1))):
+                out["scalar without object: <address or file:line> in evidence"].append(k)
+            if not (sm and FILE_LINE_RX.search(sm.group(2))):
+                out["scalar without retyped: <file:line> (>= 1) in evidence"].append(k)
+            if not re.match(r"not-a-record:\s*\S", rs):
+                out["scalar without a reason beginning not-a-record: <why>"].append(k)
         if d == "apart" and not CITE_RX.search(e.get("evidence") or ""):
             out["apart without an address or file:line in evidence"].append(k)
         if d == "no-evidence" and (e.get("reason") or "-") == "-":
@@ -485,7 +503,7 @@ def ledger_write(ledger, ph, have, props=None):
         r, e = ph.get(k), have.get(k) or {}
         vals = [e.get("disposition", "undisposed")] + [e.get(c) or "-" for c in ("target", "class", "evidence", "reason")]
         if props and k in props:
-            if APPLIED_RX.search(e.get("reason") or "") or e.get("disposition") in ("absorb", "survivor", "wall") or (
+            if APPLIED_RX.search(e.get("reason") or "") or e.get("disposition") in ("absorb", "survivor", "wall", "scalar") or (
                     e.get("disposition") == "fold" and e.get("class") in ("twin", "value")):
                 applied += 1
             else:
@@ -500,7 +518,7 @@ def disposition_fails(rows, have, dup, bad):
     """(pure) (ph, gone, [(what, [keys])]) of dispositions(check=True)'s rules: missing, duplicate, unknown, malformed, ledger_problems"""
     ph = {r["key"]: r for r in rows if r["klass"] == "placeholder"}
     # P3.45 T6.c2: a fold/absorb row whose definition restruct --fold-row deleted is a folded-away placeholder, not an unknown key
-    gone = {k for k, e in have.items() if k not in ph and e.get("disposition") in ("fold", "absorb")}
+    gone = {k for k, e in have.items() if k not in ph and e.get("disposition") in ("fold", "absorb", "scalar")}   # T18.c22: + scalar
     miss, unk = sorted(set(ph) - set(have)), sorted(set(have) - set(ph) - gone)
     prob = ledger_problems(have, set(have) | {r["key"] for r in rows if r["klass"] in ("PsyQ", "ledgered")})
     return ph, gone, [(w, ks) for w, ks in (("missing", miss), ("duplicate", dup), ("unknown key", unk),
@@ -528,12 +546,13 @@ def dispositions(ledger, check):
             c = e.get("class")
             cons["link" if d == "fold" and app and c in ("global", "pointer", "body", "link") else c if d == "fold" and app
                  and c in ("twin", "value") else "absorbed" if d == "absorb" and app else "survivors" if d == "survivor"
-                 else "walls" if d == "wall" else "pending"] += 1
+                 else "walls" if d == "wall" else "scalars" if d == "scalar" and app and k not in ph else "pending"] += 1
         print(f"  consolidation: placeholders {len(ph) + len(gone)} · folded link {cons['link']} · twin {cons['twin']} · value {cons['value']}"
-              f" · absorbed {cons['absorbed']} · survivors {cons['survivors']} · walls {cons['walls']} · pending {cons['pending']}")
-        print(f"  folded away (definition deleted by restruct --fold-row) {len(gone)}")
-        print(f"  finished {len(ph) + len(gone) - cons['pending']} (applied fold/absorb, survivor, wall) · pending {cons['pending']}"
-              f" (apart, no-evidence, undisposed, unapplied fold/absorb)")
+              f" · absorbed {cons['absorbed']} · survivors {cons['survivors']} · walls {cons['walls']} · scalars {cons['scalars']}"
+              f" · pending {cons['pending']}")
+        print(f"  folded away (definition deleted by restruct --fold-row, or a scalar's by hand) {len(gone)}")
+        print(f"  finished {len(ph) + len(gone) - cons['pending']} (applied fold/absorb/scalar, survivor, wall) · pending {cons['pending']}"
+              f" (apart, no-evidence, undisposed, unapplied fold/absorb/scalar)")
         for what, ks in fails:
             print(f"  FAIL {what}: {len(ks)} ({', '.join(ks[:8])}{' …' if len(ks) > 8 else ''})")
         sys.exit(1 if fails else 0)
@@ -3383,7 +3402,8 @@ def cite_holds(c, names, line_of, sym_at):
 
 def gate_rows(have, defined, hold, members=lambda k: ()):
     """(pure over hold, members) [(what, [keys])] of the broken ledger rows: an applied fold/absorb whose key is still defined or
-    whose target chain (applied rows) reaches no defined / PsyQ type; a survivor or wall breaking its evidence rule or cite.
+    whose target chain (applied rows) reaches no defined / PsyQ type; a survivor or wall breaking its evidence rule or cite; a scalar
+    (T18.c22) not applied, still defined, or with a cite (object: / retyped:) that does not hold for its `(name)` notes.
     Pending rows and applied fold/absorb evidence cites are historical: not checked."""
     out = collections.defaultdict(list)
     app = lambda e: e.get("disposition") in ("fold", "absorb") and bool(APPLIED_RX.search(e.get("reason") or ""))
@@ -3418,6 +3438,16 @@ def gate_rows(have, defined, hold, members=lambda k: ()):
             elif not all(hold(c, (e.get("target"),) + tuple(members(k)) + tuple(m.group(0).split(":", 1)[1].split(".")[-1]
                                                                              for m in MEMBER_RX.finditer(ev))) for c in cs):
                 out["wall whose cite does not hold"].append(k)
+        elif d == "scalar":                                       # T18.c22: never finishes a type whose definition still exists
+            sm, notes = SCALAR_EV_RX.search(ev), tuple(n.strip() for n in NOTE_RX.findall(ev))
+            if not APPLIED_RX.search(rs):
+                out["scalar not applied (reason does not end in applied:<commit>)"].append(k)
+            if k in defined:
+                out["scalar whose key type is still defined"].append(k)
+            if not (sm and cites_of(sm.group(1)) and any(c[0] == "path" for c in cites_of(sm.group(2)))):
+                out["scalar without object: and retyped: cites in evidence"].append(k)
+            elif not all(hold(c, notes) for c in cites_of(ev)):
+                out["scalar whose cite does not hold"].append(k)
     return sorted(out.items())
 
 
@@ -3447,14 +3477,16 @@ def cast_view_problems(cv, site_keys, hold):
     return sorted((w, sorted(ks)) for w, ks in out.items())
 
 
-def gate_metrics(have, keys, sites, src, cv, lying):
+def gate_metrics(have, keys, sites, src, cv, lying, defined=frozenset()):
     """(pure) {metric: count}: pending placeholders (keys: placeholders + folded-away rows), cast sites not backed by a cast_views
-    (source, ctype) row by form on typeable sources and on untypeable ones (arith, unplaced text), DECL-PARAM lies not walled"""
+    (source, ctype) row by form on typeable sources and on untypeable ones (arith, unplaced text), DECL-PARAM lies not walled;
+    a scalar is finished only when applied and its key not in defined (T18.c22)"""
     n = collections.Counter({m: 0 for m in GATE_METRICS})
     for k in keys:
         e = have.get(k) or {}
         d = e.get("disposition")
-        if not (d in ("survivor", "wall") or (d in ("fold", "absorb") and APPLIED_RX.search(e.get("reason") or ""))):
+        if not (d in ("survivor", "wall") or (d in ("fold", "absorb") and APPLIED_RX.search(e.get("reason") or ""))
+                or (d == "scalar" and APPLIED_RX.search(e.get("reason") or "") and k not in defined)):
             n["pending_types"] += 1
     backed = {(r["source"], r["ctype"]) for r in cv}
     for x in sites:
@@ -3535,7 +3567,7 @@ def gate(jobs, final=False, write_ratchet=False):
     cvp = cast_view_problems(cv, {(x["src"], x["ctype"]) for x in SR["sites"]}, hold)
     lying = [dict(zip(("callee", "def_file", "kind", "cause", "task", "cites"), ln.split("\t")))
              for ln in LYING.read_text().splitlines() if ln.strip() and not ln.startswith(("#", "callee\t"))]
-    counts = gate_metrics(have, set(ph) | gone, SR["sites"], SR["src"], cv, lying)
+    counts = gate_metrics(have, set(ph) | gone, SR["sites"], SR["src"], cv, lying, defined)
     rat = ratchet_read(RATCHET)
     L = []
     if write_ratchet:
@@ -3757,7 +3789,12 @@ def links_selftest():
           "SV": row("survivor", "-", "global", "main/0x80002000 (g)"), "SV2": row("survivor", "-", "global", "a global"),
           "WA": row("wall", "-", "fold", "src/a.c:9 +0x4", "residual:TYPE-UNION attempt1:c1 attempt2:c2"),
           "WA2": row("wall", "-", "fold", "src/a.c:9", "residual:TYPE-UNION attempt1:c1 attempt2:c2"),
-          "WA3": row("wall", "-", "retype", "src/a.c:9 +0x4", "residual:TYPE-UNION attempt1:c1")}
+          "WA3": row("wall", "-", "retype", "src/a.c:9 +0x4", "residual:TYPE-UNION attempt1:c1"),
+          # T18.c22: scalar, one good row and one per missing piece (object:, retyped:, not-a-record: reason)
+          "SC": row("scalar", "-", "text", "object: src/a.c:3 (T) main/0x80002000 retyped: src/b.c:4 (u16 *)", "not-a-record: text applied:abc1234"),
+          "SC2": row("scalar", "-", "text", "retyped: src/b.c:4 (u16 *)", "not-a-record: text"),
+          "SC3": row("scalar", "-", "scalar", "object: src/a.c:3 (T) retyped: main/0x80002000", "not-a-record: text"),
+          "SC4": row("scalar", "-", "text", "object: src/a.c:3 (T) retyped: src/b.c:4 (u16 *)", "menu text")}
     cprob = dict(ledger_problems(cl, set(cl)))
     want = {"fold without a ledger / PsyQ / ledgered target": ["P"], "fold without evidence": ["FE", "P"],
             "fold twin without lhash:<12 hex> and fields:<n >= 3> in evidence": ["FT2"], "fold value without shape: in evidence": ["FV2"],
@@ -3766,7 +3803,10 @@ def links_selftest():
             "absorb without a ledger / PsyQ / ledgered parent target": ["AT"],
             "survivor without the object's address or file:line in evidence": ["SV2"],
             "wall without object (address or file:line) and +0x<off> in evidence": ["WA2"],
-            "wall without residual:<CLASS> attempt1: attempt2: in reason": ["WA3"]}
+            "wall without residual:<CLASS> attempt1: attempt2: in reason": ["WA3"],
+            "scalar without object: <address or file:line> in evidence": ["SC2"],
+            "scalar without retyped: <file:line> (>= 1) in evidence": ["SC2", "SC3"],
+            "scalar without a reason beginning not-a-record: <why>": ["SC4"]}
     prov = ["/* x */", "/* provenance (restruct-band): r ran at abc; generator retired P3.45 T6; hand-edited since */", "typedef struct {",
             "    /* 0x0 */ u8 unk0;", "} A; /* size = 0x1 */", "typedef A B;", "", "/* provenance (head_types): h */", "typedef int C;",
             "/* hand */", "typedef int D;"]
@@ -3796,7 +3836,7 @@ def links_selftest():
     SHARED_INC.clear()
     SHARED_INC.update(inc0)
     # 3.45 T8: the gate's broken rows, cites, cast_views rows and ratchet, on planted rows / a planted tree
-    gl = {"src/g.c": ["SVa x;", "TW *p = q->m;", "(CVt *)a", "nothing here"]}
+    gl = {"src/g.c": ["SVa x;", "TW *p = q->m;", "(CVt *)a", "nothing here", "u16 *puVar1;"]}
     line_of = lambda rel, n: gl[rel][n - 1] if rel in gl and 1 <= n <= len(gl[rel]) else None
     ghold = lambda c, names: cite_holds(c, names, line_of, lambda b, va: (b, va) == ("main", 0x80002000))
     ap_ = "x applied:abc1234"
@@ -3812,12 +3852,20 @@ def links_selftest():
             "W4": row("wall", "ZZ", "fold", "src/g.c:4 +0x4", "residual:WIDTH attempt1:c1 attempt2:c2"),
             "W5": row("wall", "ZZ", "fold", "src/g.c:2 +0x4", "residual:CSE-KILL attempt1:c1 attempt2:c2"),
             "PD": row("apart", "-", "own", "src/gone.c:9")}
-    gbroken = dict(gate_rows(gled, {"DEF", "AK", "SVa", "TW"}, ghold, lambda k: ("m",) if k == "W5" else ()))
+    sg_ev = "object: src/g.c:1 (SVa) main/0x80002000 retyped: src/g.c:5 (u16 *)"   # T18.c22: planted scalar rows
+    gled.update({"SG": row("scalar", "-", "text", sg_ev, "not-a-record: s " + ap_), "SGd": row("scalar", "-", "text", sg_ev, "not-a-record: s " + ap_),
+                 "SGu": row("scalar", "-", "text", sg_ev, "not-a-record: s"),
+                 "SGo": row("scalar", "-", "text", "retyped: src/g.c:5 (u16 *)", "not-a-record: s " + ap_),
+                 "SGr": row("scalar", "-", "text", "object: src/g.c:1 (SVa) retyped: main/0x80002000", "not-a-record: s " + ap_),
+                 "SGc": row("scalar", "-", "text", "object: src/g.c:4 (SVa) retyped: src/g.c:5 (u16 *)", "not-a-record: s " + ap_)})
+    gbroken = dict(gate_rows(gled, {"DEF", "AK", "SVa", "TW", "SGd"}, ghold, lambda k: ("m",) if k == "W5" else ()))
     gwant = {"applied fold/absorb whose key type is still defined": ["AK"],
              "applied fold/absorb whose target is not defined, PsyQ/ledgered, nor reached by applied rows": ["AQ", "AX"],
              "survivor without an object cite in evidence": ["SVb"], "survivor whose cite does not hold": ["SVc", "SVd"],
              "wall without residual:<X class> attempt1: attempt2: in reason": ["W2"],
-             "wall without its DIFF (object cite and +0x<off>) in evidence": ["W3"], "wall whose cite does not hold": ["W4"]}
+             "wall without its DIFF (object cite and +0x<off>) in evidence": ["W3"], "wall whose cite does not hold": ["W4"],
+             "scalar not applied (reason does not end in applied:<commit>)": ["SGu"], "scalar whose key type is still defined": ["SGd"],
+             "scalar without object: and retyped: cites in evidence": ["SGo", "SGr"], "scalar whose cite does not hold": ["SGc"]}
     gcv = [dict(source="s1", ctype="CVt *", form="C", cause="REINTERP", task="T5", cites="src/g.c:3 src/g.c:3"),
            dict(source="s2", ctype="CVt *", form="C", cause="REINTERP", task="T5", cites="src/g.c:3 src/g.c:3"),
            dict(source="s1", ctype="CVu *", form="C", cause="WALL residual:WIDTH attempt1:a attempt2:b", task="T5", cites="src/g.c:4"),
@@ -3828,6 +3876,7 @@ def links_selftest():
     gsrc = {"s1": dict(kind="param", fl=1), "s3": dict(kind="arith", fl=1), "s4": dict(kind="field", fl=None), "s5": dict(kind="ret-of", fl=2)}
     gm = gate_metrics(gled, ["AD", "AY", "SVa", "PD", "NEW"], gsites, gsrc, gcv[:1],
                       [dict(kind="DECL-PARAM", cause="WALL x"), dict(kind="DECL-PARAM", cause="SHARED-DECL-SPLIT"), dict(kind="return", cause="y")])
+    gms = gate_metrics(gled, ["SG", "SGd", "SGu"], [], {}, [], [], {"SGd"})["pending_types"]   # T18.c22: only SG finishes
     rat0 = {m: (gm[m], "T8", "-") for m in GATE_METRICS}
     over, under = dict(gm, pending_types=gm["pending_types"] + 1), dict(gm, pending_types=gm["pending_types"] - 1)
     cases = [
@@ -3844,6 +3893,8 @@ def links_selftest():
          or print(gcvp)),
         ("gate (T8): metrics count pending rows, unbacked casts by form / untypeable, unwalled DECL-PARAM lies",
          gm == dict(pending_types=3, casts_C=0, casts_P=1, casts_I=0, casts_X=0, casts_M=1, casts_untypeable=2, decl_param_pending=1) or print(gm)),
+        ("gate (T18.c22): a scalar finishes only applied and no longer defined (still-defined and unapplied rows stay pending)",
+         gms == 2 or print(gms)),
         ("gate (T8): ratchet equal passes; over fails; under fails stale; --final fails a nonzero metric; --write-ratchet never raises",
          ratchet_verdict(gm, rat0) == [] and ratchet_verdict(over, rat0) == ["pending_types 4 > ratchet 3"]
          and ratchet_verdict(under, rat0) == ["ratchet stale: pending_types 2 < 3: lower to 2 with --write-ratchet"]

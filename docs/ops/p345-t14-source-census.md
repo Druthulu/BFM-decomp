@@ -108,15 +108,21 @@ one block, exit 1 on any `FAIL`. Checks, in order:
   defined, PsyQ/ledgered, nor reached by a chain of applied rows to a defined type; a survivor without an object cite, or
   whose cite does not hold; a wall without `residual:<CLASS>` (restruct's X classes: SCHED-ALIAS, CSE-KILL, WIDTH,
   ADDRESS-FOLD, ALIGNMENT, REGALLOC) and non-empty `attempt1:` / `attempt2:` in reason, without its DIFF (object cite +
-  `+0x<off>`) in evidence, or whose cite does not hold. Pending rows' cites and applied fold/absorb evidence are historical:
-  not checked.
+  `+0x<off>`) in evidence, or whose cite does not hold; a scalar (below) not applied, still defined, without `object:` and
+  `retyped:` cites, or whose cite does not hold. Pending rows' cites and applied fold/absorb evidence are historical: not checked.
+- Scalar (T18.c22, developer-approved): only for a placeholder whose real object is shown not to be a record (e.g.
+  NUL-terminated text reached through a view); never a way to finish a hard struct. Class `text|scalar`; evidence
+  `object: <data object address or file:line> (name) retyped: <file:line of each retyped source, >= 1> (name)`; reason
+  `not-a-record: <why>`. It finishes only when ` applied:<commit>` ends its reason, its definition (and aliases) is deleted
+  and every cite holds; otherwise it is a broken row. Until then it counts in `pending_types`.
 - `config/cast_views.tsv` rows (`source ctype form cause task cites`; cause `REINTERP` with both views cited, or `WALL
   residual:<CLASS> attempt1: attempt2:`): FAIL with no current site (source, ctype), a cite that does not hold, a malformed cause.
 - A cite holds: `path:line` → the file has the line and it names the row's type (survivor: key name; wall: a member of
-  the key type, a `member:` path leaf, or the target; cast_views: the ctype, whitespace dropped); `<binary>/0x<addr>` →
+  the key type, a `member:` path leaf, or the target; scalar: one of the evidence's `(name)` notes; cast_views: the ctype,
+  whitespace dropped); `<binary>/0x<addr>` →
   that binary's linked ELF symtab (`nm --defined-only`, absolute symbols included: main's bss, C0604) has a symbol there.
 - Metrics: `pending_types` (placeholders + folded-away rows not finished: apart, no-evidence, undisposed, unapplied
-  fold/absorb); `casts_C/P/I/X/M` = sites on typeable sources (kinds param, param-copy, local, global, field, ret-of,
+  fold/absorb/scalar, a scalar still defined); `casts_C/P/I/X/M` = sites on typeable sources (kinds param, param-copy, local, global, field, ret-of,
   mixed) with no cast_views row (source, ctype); `casts_untypeable` = the same on arith and unplaced-text (field with no
   function) sources; `decl_param_pending` = `config/lying_exceptions.tsv` DECL-PARAM rows whose cause does not start `WALL`.
 - Ratchet `config/consolidation_ratchet.tsv` (`metric count task note`): FAIL a count above its row; FAIL `ratchet stale:
