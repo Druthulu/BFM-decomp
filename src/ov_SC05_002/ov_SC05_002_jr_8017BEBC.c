@@ -4563,7 +4563,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_8019CD7C, sv0, &flag);
     RotTransSV(D_8019CD7C + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {

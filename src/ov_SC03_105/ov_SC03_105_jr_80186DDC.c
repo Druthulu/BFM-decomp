@@ -4213,14 +4213,14 @@ void func_80188EAC(s32 param_1)
     u16 v0;
     u16 v1;
 
-    a1 = ((Unkstruct_8018620C *)param_1)->unkCC;
+    a1 = ((Unkstruct_8018620C *)param_1)->unkCC.val;
     v1 = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u;
     if (v1 < 0x5000) {
         s32 p20;
 
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u = v1 + 0x100;
 
-        p20 = ((Unkstruct_8018620C *)param_1)->unk20;
+        p20 = ((Unkstruct_8018620C *)param_1)->unk20.val;
         v1 = ((Unkstruct_8001C9D0 *)p20)->unk18.u;
         ((Unkstruct_8001C9D0 *)p20)->unk1C.u = v1;
         ((Unkstruct_8001C9D0 *)p20)->unk1A.u = v1;
@@ -4420,7 +4420,7 @@ void func_80189350(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801320D8 *)param_1)->unk20 = v0;
+    ((Unkstruct_801320D8 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {

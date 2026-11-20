@@ -4799,9 +4799,9 @@ void func_8017EBD0(void *arg0) {
     a1 = (u8 *)arg0;
     if ((s16)guess_g_PlayerPosX * (s16)guess_g_PlayerPosX +
         ((s16)guess_g_PlayerPosZ - 2530) * ((s16)guess_g_PlayerPosZ - 2530) <= 0xD2400) {
-        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20 + 4) &= 0x7FFFFFFF;
+        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20.val + 4) &= 0x7FFFFFFF;
     } else {
-        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20 + 4) |= 0x80000000;
+        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20.val + 4) |= 0x80000000;
     }
 
     if (((Unkstruct_8017EBD0 *)a1)->unkFE != 0) {

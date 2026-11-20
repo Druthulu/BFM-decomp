@@ -3194,7 +3194,7 @@ void func_8018C7C8(void *a0) {
         return;
     }
     {
-        u16 *p = (u16 *)((Unkstruct_80183CBC_2 *)a0)->unk20;
+        u16 *p = (u16 *)((Unkstruct_80183CBC_2 *)a0)->unk20.val;
 
         ((Unkstruct_8001C9D0 *)p)->head.unk12.u = ((Unkstruct_8001C9D0 *)p)->head.unk12.u + 0x20;
         if (((s32 (*)(void))guess_TickWaitTimer)()) {

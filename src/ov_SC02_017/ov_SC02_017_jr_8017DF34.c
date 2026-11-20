@@ -5270,7 +5270,7 @@ extern u32 D_8018E5CC;
 
 void func_80182398(s32 arg0) {
     s32 v0 = ((s32 (*)(s32))guess_AllocModelObject)(arg0);
-    ((Unkstruct_8017D62C *)arg0)->unk20 = v0;
+    ((Unkstruct_8017D62C *)arg0)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(arg0);
     } else {
@@ -5278,7 +5278,7 @@ void func_80182398(s32 arg0) {
         ((Unkstruct_8017D62C *)arg0)->unk2 = 1;
         ((Unkstruct_8017D62C *)arg0)->unk5C = 0x20;
         ((Unkstruct_8017D62C *)arg0)->unk58 = (u32)&D_8018E5CC | 0x40000000;
-        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
+        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20.val) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
     }
 }
 
@@ -7371,12 +7371,12 @@ void func_801853DC(s32 param_1) {
     s32 v1;
     u16 sp10[3];
 
-    temp_a0 = ((Unkstruct_80180388 *)param_1)->unk20;
+    temp_a0 = ((Unkstruct_80180388 *)param_1)->unk20.val;
     if (((Unkstruct_8001C9D0 *)temp_a0)->unk24 == (s32)&D_801D29B8) {
         func_8001C924(temp_a0, &D_801D29A8);
     }
     ((Unkstruct_80180388 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_80180388 *)param_1)->unkDC &= ~0x10;
+    ((Unkstruct_80180388 *)param_1)->blkDC.f.unkDC.val &= ~0x10;
     v1 = ((Unkstruct_80180388 *)param_1)->unk5E;
     if (v1 == 0x23) {
         ((Unkstruct_80180388 *)param_1)->unkFE = 1;

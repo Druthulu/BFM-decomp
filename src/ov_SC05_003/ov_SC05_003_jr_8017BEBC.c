@@ -3453,13 +3453,13 @@ void func_8017E89C(void *a0) {
 
     if (((s32 (*)(s32))func_8012BD14)((s32)a0) > 0x18FFF) {
         mask = 0x7FFFFFFF;
-        v1 = ((Unkstruct_80183A70 *)a0)->unk20;
+        v1 = ((Unkstruct_80183A70 *)a0)->unk20.val;
         ((Unkstruct_80183A70 *)a0)->unk2 = 2;
         ((Unkstruct_80183A70 *)a0)->unk1C = 0x10;
         ((Unkstruct_8017E89C_2 *)v1)->unk4 = ((Unkstruct_8017E89C_2 *)v1)->unk4 & mask;
-        v12 = ((Unkstruct_80183A70 *)a0)->unk20;
+        v12 = ((Unkstruct_80183A70 *)a0)->unk20.val;
         ((Unkstruct_8017E89C_2 *)v12)->unk2C |= 0x10;
-        v13 = ((Unkstruct_80183A70 *)a0)->unk20;
+        v13 = ((Unkstruct_80183A70 *)a0)->unk20.val;
         ((Unkstruct_8017E89C_2 *)v13)->unk1C = 1;
         ((Unkstruct_8017E89C_2 *)v13)->unk1A = 1;
         ((Unkstruct_8017E89C_2 *)v13)->unk18 = 1;

@@ -3656,7 +3656,7 @@ void func_80186094(s32 param_1)
                 v0 = rand();
                 ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
-                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (v0 & 7) - 4;
+                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
                 { s32 t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 0x10; ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = t + (v0 & 0x1F); }
                 v0 = rand();

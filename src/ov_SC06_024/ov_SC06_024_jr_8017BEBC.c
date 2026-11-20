@@ -4350,7 +4350,7 @@ void func_8017FA1C(s32 arg0) {
             if (a0 >= 0) v0 = a0 * 5;
             else v0 = (a1 + 0x900) * 5;
             v0 <<= 1;
-            a2->unk18.i.hi = v0;
+            a2->unk18.i.hi.u = v0;
             a2->unk18.i.lo = v0;
         }
     }

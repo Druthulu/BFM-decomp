@@ -4981,7 +4981,7 @@ void func_801820AC(s32 a0) {
     if (((Unkstruct_801820AC *)s0)->unkFE == 0) {
         if (func_8012E57C(0x1C0, 2) == 0) {
             ((Unkstruct_801820AC *)s0)->unkFE = 1;
-            v1 = ((Unkstruct_801820AC *)s0)->unk20;
+            v1 = ((Unkstruct_801820AC *)s0)->unk20.val;
             v1 = ((Unkstruct_8001C9D0 *)v1)->unk80;
             ((SVECTOR *)v1)->vz = -0x20;
             ((SVECTOR *)v1)->vy = -0x20;

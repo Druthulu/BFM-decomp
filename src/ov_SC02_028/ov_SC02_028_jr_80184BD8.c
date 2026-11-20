@@ -2823,7 +2823,7 @@ void func_80184BD8(s32 a0) {
     guess_ClearVelocityAndSetGravity((void *)a0);
     ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A751C[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     *(u16 *)(a0 + 0x16) = D_801A751E[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A7520[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+    ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = D_801A7520[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 0:
         guess_InitModelObjectKind3(((Unkstruct_801202A0 *)a0)->unk20.p, (s32)D_801A7280);
@@ -2896,7 +2896,7 @@ void func_80184BD8(s32 a0) {
             *(s16 *)(a0 + 0x16) = (rand() % 0x20) - 0x20;
             sVar1 = (rand() % 0x60) - 0x50;
         }
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = sVar1;
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = sVar1;
     }
     uVar5 = rand();
     ((Unkstruct_801202A0 *)a0)->unk94.s = uVar5 & 0xF;
@@ -2951,11 +2951,11 @@ low:
         if (*(s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x70) == 5) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = rand() % 56 - 0x1C;
             *(s16 *)((s32)a0 + 0x16) = rand() % 96 - 0x60;
-            ((Unkstruct_801202A0 *)a0)->unk18.i.hi = rand() % 56 - 0x2C;
+            ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = rand() % 56 - 0x2C;
         } else if (*(s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x70) == 6) {
             ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = rand() % 56 - 0x1C;
             *(s16 *)((s32)a0 + 0x16) = rand() % 32 - 0x20;
-            ((Unkstruct_801202A0 *)a0)->unk18.i.hi = rand() % 128 - 0x60;
+            ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = rand() % 128 - 0x60;
         }
     }
     tmp = ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_801855C8.unk100;
@@ -2988,7 +2988,7 @@ tail:
 
     sv0[0] = ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u;
     sv0[1] = *(u16 *)((s32)a0 + 0x16);
-    sv0[2] = ((Unkstruct_801202A0 *)a0)->unk18.i.hi;
+    sv0[2] = ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u;
 
     m = *(s32 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x20) + 0x34;
     gte_SetRotMatrix(m);
@@ -3226,7 +3226,7 @@ void func_80185A3C(void *a0) {
         guess_ClearVelocityAndSetGravity(a0);
         ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A751C[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)((s32)a0 + 0x16) = D_801A751E[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A7520[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = D_801A7520[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
     }
 }
 
@@ -3320,7 +3320,7 @@ void func_80185D28(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk75 = 0;
         ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = D_801A760C[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         *(u16 *)(a0 + 0x16) = D_801A760E[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = D_801A7610[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = D_801A7610[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_801A7612[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         guess_SpawnActorNoArg(0x1C4, a0);
     }

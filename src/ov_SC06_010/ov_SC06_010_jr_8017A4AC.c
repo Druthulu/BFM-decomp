@@ -9412,7 +9412,7 @@ void func_80185994(s32 a0)
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
                 ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
-                ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -9564,7 +9564,7 @@ void func_80185CD8(s32 a0)
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
                 ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
-                ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -9717,7 +9717,7 @@ void func_80185FC8(s32 a0)
                 ((Unkstruct_801202A0 *)obj)->unk1C.s = 2;
                 ((Unkstruct_801202A0 *)obj)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(s16 *)(obj + 0x16) = -((rand() & 0xF) + 0x10);
-                ((Unkstruct_801202A0 *)obj)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)obj)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
             }
         }
         return;
@@ -10170,7 +10170,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801AEF78, sv0, &flag);
     RotTransSV(D_801AEF78 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {

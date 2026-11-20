@@ -2901,7 +2901,7 @@ void func_801822A0(s32 a0) {
 
 
 void func_801823F0(s32 a0) {
-    s32 v1 = ((Unkstruct_801823F0 *)a0)->unkCC;
+    s32 v1 = ((Unkstruct_801823F0 *)a0)->unkCC.val;
     ((Unkstruct_801823F0 *)a0)->unk2 = 9;
     ((Unkstruct_801823F0 *)a0)->unk1C = 0x20;
     ((Unkstruct_801823F0 *)a0)->unk34 = 0;
@@ -4429,7 +4429,7 @@ void func_80184604(void *a0)
 
     s0 = (s32)a0;
     idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20;
+    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_8019CA78 + idx * 12;
 
@@ -4521,7 +4521,7 @@ void func_801848E8(s32 param) {
 
     if (((s32 (*)(s32))func_80178970)(param) != 0) {
         ((void (*)(s32))func_80178D18)(param);
-        local = ((Unkstruct_80180F4C *)param)->unkDC;
+        local = ((Unkstruct_801202A0 *)param)->blkDC.f.unkDC.val;
         func_800D1724(local);
     }
     ((void (*)(s32))func_80184604)(param);

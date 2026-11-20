@@ -7943,12 +7943,12 @@ void func_80183A70(s32 a0) {
     ((Unkstruct_80183A70 *)a0)->unk2 = 2;
     ((Unkstruct_80183A70 *)a0)->unk1C = 0x10;
 
-    *(s32 *)((((Unkstruct_80183A70 *)a0)->unk20) + 0x4) &= mask;
+    *(s32 *)((((Unkstruct_80183A70 *)a0)->unk20.val) + 0x4) &= mask;
 
-    p = ((Unkstruct_80183A70 *)a0)->unk20;
+    p = ((Unkstruct_80183A70 *)a0)->unk20.val;
     ((Unkstruct_8001C9D0 *)p)->unk2C.u |= 0x10;
 
-    p = ((Unkstruct_80183A70 *)a0)->unk20;
+    p = ((Unkstruct_80183A70 *)a0)->unk20.val;
     ((Unkstruct_8001C9D0 *)p)->unk1C.u = 1;
     ((Unkstruct_8001C9D0 *)p)->unk1A.u = 1;
     ((Unkstruct_8001C9D0 *)p)->unk18.u = 1;
@@ -8457,11 +8457,11 @@ void func_8018450C(s32 a0, s32 a1) {
         }
         /* fall through */
     case 1:
-        ((Unkstruct_8018450C *)obj)->unkDC = func_8012B864(obj);
+        ((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s = func_8012B864(obj);
         break;
     case 2:
         off = rand() % 512;
-        cur = ((Unkstruct_8018450C *)obj)->unkDC;
+        cur = ((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s;
         if ((rand() & 1) == 0) {
             r2 = cur + 0x800;
             r2 = r2 - off;
@@ -8469,20 +8469,20 @@ void func_8018450C(s32 a0, s32 a1) {
             r2 = cur + 0x800;
             r2 = r2 + off;
         }
-        ((Unkstruct_8018450C *)obj)->unkDC = r2;
+        ((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s = r2;
         break;
     case 3:
         do {
             val = rand() % 0x1000;
-        } while (((Unkstruct_8018450C *)obj)->unkDC == (s16)val);
+        } while (((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s == (s16)val);
         break;
     case 4:
-        ((Unkstruct_8018450C *)obj)->unkDC = (func_8012B864(obj) + 0x800) & 0xFFF;
+        ((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s = (func_8012B864(obj) + 0x800) & 0xFFF;
         break;
     }
 
     m = D_800AE620;
-    RotMatrixY(((Unkstruct_8018450C *)obj)->unkDC, &m);
+    RotMatrixY(((Unkstruct_801202A0 *)obj)->blkDC.f.unkDC.i.lo.s, &m);
     ApplyMatrixLV((s32)&m, (s32)vec, obj + 0x10);
 }
 
@@ -9104,11 +9104,11 @@ void func_801852C8(void *a0)
     s32 b;
     u16 v1;
 
-    a1 = ((Unkstruct_801838EC_3 *)a0)->unk20;
+    a1 = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
     v1 = ((Unkstruct_8001C9D0 *)a1)->unk2C.u;
     if (v1 & 0x10) {
         ((Unkstruct_8001C9D0 *)a1)->unk2C.u = v1 & 0xFFEF;
-        b = ((Unkstruct_801838EC_3 *)a0)->unk20;
+        b = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
         ((Unkstruct_8001C9D0 *)b)->unk1C.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk1A.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk18.u = 0x1000;
@@ -10607,7 +10607,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 void func_8018720C(void * arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E270_3 *)arg0)->unkDC;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
     ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
 }
 
@@ -10767,7 +10767,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801C97AC, sv0, &flag);
     RotTransSV(D_801C97AC + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
@@ -12218,12 +12218,12 @@ void func_80189554(s32 param_1) {
     s32 v1;
     u16 sp10[3];
 
-    temp_a0 = ((Unkstruct_80180388 *)param_1)->unk20;
+    temp_a0 = ((Unkstruct_80180388 *)param_1)->unk20.val;
     if (((Unkstruct_8001C9D0 *)temp_a0)->unk24 == (s32)&D_801D478C) {
         func_8001C924(temp_a0, &D_801D477C);
     }
     ((Unkstruct_80180388 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_80180388 *)param_1)->unkDC &= ~0x10;
+    ((Unkstruct_80180388 *)param_1)->blkDC.f.unkDC.val &= ~0x10;
     v1 = ((Unkstruct_80180388 *)param_1)->unk5E;
     if (v1 == 0x23) {
         ((Unkstruct_80180388 *)param_1)->unkFE = 1;
@@ -12627,12 +12627,12 @@ void func_80189E1C(s32 a0) {
     ret = func_8014CB0C();
     s0 = a0;
     if (ret != 0) {
-        ((Unkstruct_80189E1C *)s0)->unkDC |= 0x20;
+        ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val |= 0x20;
     } else {
         if ((rand() & 1) != 0) {
-            ((Unkstruct_80189E1C *)s0)->unkDC |= 0x20;
+            ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val |= 0x20;
         } else {
-            ((Unkstruct_80189E1C *)s0)->unkDC &= ~0x20;
+            ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val &= ~0x20;
         }
     }
 }

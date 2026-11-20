@@ -3615,7 +3615,7 @@ void func_8017C594(s32 a0)
     s32 unused[2];              /* dead 8-byte local — frame 0x28, not 0x20 */
     s32 s0;
 
-    s0 = ((Unkstruct_8017C2B0 *)a0)->unk20;
+    s0 = ((Unkstruct_8017C2B0 *)a0)->unk20.val;
 
     if ((s32)((Unkstruct_8017C2B0 *)a0)->unkA - (s32)(*(s16 *)&guess_g_PlayerPosY) >= 0x40) {
         ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x40;
@@ -3625,7 +3625,7 @@ void func_8017C594(s32 a0)
 
     if (((Unkstruct_8001C9D0 *)s0)->head.unk12.s != D_801E64E8) {
         ((Unkstruct_8001C9D0 *)s0)->head.unk12.s = D_801E64E8;
-        RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20 + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20 + 0x34);
+        RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x34);
         ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x11;
     }
 }

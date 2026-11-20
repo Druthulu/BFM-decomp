@@ -3180,7 +3180,7 @@ extern u32 D_8018279C;
 
 void func_8017D964(s32 arg0) {
     s32 v0 = ((s32 (*)(s32))guess_AllocModelObject)(arg0);
-    ((Unkstruct_8017D62C *)arg0)->unk20 = v0;
+    ((Unkstruct_8017D62C *)arg0)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(arg0);
     } else {
@@ -3188,7 +3188,7 @@ void func_8017D964(s32 arg0) {
         ((Unkstruct_8017D62C *)arg0)->unk2 = 1;
         ((Unkstruct_8017D62C *)arg0)->unk5C = 0x20;
         ((Unkstruct_8017D62C *)arg0)->unk58 = (u32)&D_8018279C | 0x40000000;
-        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
+        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20.val) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
     }
 }
 

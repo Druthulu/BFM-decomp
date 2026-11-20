@@ -5860,7 +5860,7 @@ void func_80182F88(s32 param) {
 
     if (((s32 (*)(s32))func_80178970)(param) != 0) {
         ((void (*)(s32))func_80178D18)(param);
-        local = ((Unkstruct_80180F4C *)param)->unkDC;
+        local = ((Unkstruct_801202A0 *)param)->blkDC.f.unkDC.val;
         func_800D1724(local);
     }
     ((void (*)(s32))func_80182CA4)(param);

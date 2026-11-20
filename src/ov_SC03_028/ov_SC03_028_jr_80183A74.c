@@ -2934,7 +2934,7 @@ void func_80183A74(s32 arg0) {
     case 2:
         *(u16 *)(arg0 + 0x16) = -(rand() & 0x1F) - 4;
         ((Unkstruct_801202A0 *)arg0)->unk10.i.hi.u = (rand() & 7) - 4;
-        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = (rand() & 7) - 4;
+        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = (rand() & 7) - 4;
         break;
     case 3:
         CAST_WIDTH(s32, arg0, 0x10) = (rand() & 3) + 1;

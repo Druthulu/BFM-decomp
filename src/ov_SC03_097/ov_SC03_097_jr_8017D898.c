@@ -3611,12 +3611,12 @@ void func_8017FDBC(s32 arg0) {
 
 void func_8017FE4C(s32 a0) {
     if (*(s16 *)(((Unkstruct_8017FE4C *)a0)->unk64 + 0xFC) != 0) {
-        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20;
+        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20.val;
         s32 field = ptr[1];
         field |= 0x80000000;
         ptr[1] = field;
     } else {
-        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20;
+        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20.val;
         s32 field = ptr[1];
         field &= 0x7FFFFFFF;
         ptr[1] = field;
@@ -4284,7 +4284,7 @@ void func_80180C68(void *a0)
 
     s0 = (s32)a0;
     idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20;
+    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_8019AF4C + idx * 12;
 
@@ -4379,7 +4379,7 @@ void func_80180F4C(s32 param) {
 
     if (((s32 (*)(s32))func_80178970)(param) != 0) {
         ((void (*)(s32))func_80178D18)(param);
-        local = ((Unkstruct_80180F4C *)param)->unkDC;
+        local = ((Unkstruct_801202A0 *)param)->blkDC.f.unkDC.val;
         func_800D1724(local);
     }
     ((void (*)(s32))func_80180C68)(param);

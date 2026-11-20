@@ -3733,7 +3733,7 @@ void func_8017D894(s32 param_1)
     u16 var;
 
     if ((s16)guess_g_PlayerPosZ >= 0x710) {
-        *(s16 *)(((Unkstruct_8017D894 *)param_1)->unk20 + 0x12) = (rsin(CAST_SIGN(s16, param_1, 0xFC)) * 0x200 >> 12) + 0x100;
+        *(s16 *)(((Unkstruct_8017D894 *)param_1)->unk20.val + 0x12) = (rsin(CAST_SIGN(s16, param_1, 0xFC)) * 0x200 >> 12) + 0x100;
         var = ((Unkstruct_8017D894 *)param_1)->unkFC + 0x10;
         ((Unkstruct_8017D894 *)param_1)->unkFC = var;
         if ((s16)var >= 0x400) {

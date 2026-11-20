@@ -5556,7 +5556,7 @@ void func_801890FC(void *a0) {
         s2 = rand();
         s1 = (rand() & 7) + 8;
         ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rsin(s2) * s1) >> 12;
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (rcos(s2) * s1) >> 12;
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (rcos(s2) * s1) >> 12;
         ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.u = rand();
         ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk12.u = rand();
         *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x14) = rand();
@@ -5580,7 +5580,7 @@ void func_801890FC(void *a0) {
         guess_StartActorSequence((s32)a0, D_801BFCFC);
         func_8012B21C(a0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = -((rand() & 3) + 2);
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = -((rand() & 3) + 2);
         ((Unkstruct_801202A0 *)a0)->unkFC.s = 0x30;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 6;
         /* Statement order is the byte-dial here (sched1 LUID tie -> regalloc -> sched2 relay):
@@ -5601,7 +5601,7 @@ void func_801890FC(void *a0) {
         guess_StartActorSequence((s32)a0, D_801BFD04);
         func_8012B21C(a0);
         ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
-        ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (rand() & 3) + 2;
+        ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (rand() & 3) + 2;
         ((Unkstruct_801202A0 *)a0)->unkFC.s = -0x30;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 6;
         ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0x40;
@@ -5758,7 +5758,7 @@ void func_8018984C(void *a0) {
             if (s0 != 0) {
                 *(u16 *)(s0 + 0x6) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk10.i.hi.u << 2) - 0x20;
                 *(u16 *)(s0 + 0xA) = *(u16 *)(s0 + 0xA) - 0x28;
-                *(u16 *)(s0 + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk18.i.hi << 2);
+                *(u16 *)(s0 + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk18.i.hi.u << 2);
                 *(s32 *)(s0 + 0x10) = ((rand() & 0xFF) - 0x80) << 10;
                 *(s32 *)(s0 + 0x18) = ((rand() & 0xFF) - 0x80) << 10;
                 *(u16 *)(s0 + 0x16) = -((rand() & 3) + 4);
@@ -5978,7 +5978,7 @@ void func_80189DB8(void *a0) {
         if (s1 != 0) {
             *(u16 *)(s1 + 0x6) = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk10.i.hi.u << 2);
             *(u16 *)(s1 + 0xA) = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + (*(u16 *)((s32)a0 + 0x16) << 2);
-            *(u16 *)(s1 + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk18.i.hi << 2);
+            *(u16 *)(s1 + 0xE) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + (((Unkstruct_801202A0 *)a0)->unk18.i.hi.u << 2);
         }
     }
     ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;

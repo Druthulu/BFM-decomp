@@ -5803,7 +5803,7 @@ void func_80180EFC(void *arg0)
             if (*(s16 *)((s32)a0 + 0x18) != 0) {
                 arg0 = (void *)((Unkstruct_801202A0 *)arg0)->unkCC.val;
                 ((Unkstruct_801202A0 *)arg0)->unk18.i.lo = *(s16 *)((s32)a0 + 0x18);
-                ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = *(u16 *)((s32)a0 + 0x1A);
+                ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = *(u16 *)((s32)a0 + 0x1A);
                 func_80181054(arg0, &D_80199AAC);
                 CAST_WIDTH(s16, (s32)arg0, 0x14) -= 4;
                 t = *(u16 *)&D_80199AB0;
@@ -7534,7 +7534,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801B0B0C, sv0, &flag);
     RotTransSV(D_801B0B0C + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E520_2 *)obj)->unk20, ((Unkstruct_8017E520_2 *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E520_2 *)obj)->unk20.val, ((Unkstruct_8017E520_2 *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
@@ -7668,7 +7668,7 @@ void func_801840A8(s32 a0) {
                 CAST_SIGN(s16, a0, 0xA) -= 0x20;
                 *(s16 *)(a0 + 0x16) = -8;
                 ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (rand() & 7) - 4;
-                ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (rand() & 7) - 4;
+                ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (rand() & 7) - 4;
             }
         }
     }

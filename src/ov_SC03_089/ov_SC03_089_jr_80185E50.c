@@ -3651,7 +3651,7 @@ void func_80186EC8(s32 param_1)
                 v0 = rand();
                 ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
-                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (v0 & 7) - 4;
+                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
                 { s32 t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 0x10; ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = t + (v0 & 0x1F); }
                 v0 = rand();
@@ -4652,7 +4652,7 @@ void func_801884B8(void *a0)
 
     s0 = (s32)a0;
     idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20;
+    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_801C3B90 + idx * 12;
 
@@ -4742,7 +4742,7 @@ void func_8018879C(s32 param) {
 
     if (((s32 (*)(s32))func_80178970)(param) != 0) {
         ((void (*)(s32))func_80178D18)(param);
-        local = ((Unkstruct_80180F4C *)param)->unkDC;
+        local = ((Unkstruct_801202A0 *)param)->blkDC.f.unkDC.val;
         func_800D1724(local);
     }
     ((void (*)(s32))func_801884B8)(param);

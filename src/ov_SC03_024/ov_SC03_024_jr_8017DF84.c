@@ -5317,7 +5317,7 @@ void func_80181F7C(s32 a0) {
     if (((Unkstruct_80181F7C *)self)->unk1C == 0x30) {
         func_8013CABC();
     } else if (((Unkstruct_80181F7C *)self)->unk1C == 0x10) {
-        ((void (*)(void *))func_8018282C)((void *)((Unkstruct_80181F7C *)self)->unkD0);
+        ((void (*)(void *))func_8018282C)((void *)((Unkstruct_80181F7C *)self)->unkD0.val);
     }
     if (((Unkstruct_80181F7C *)self)->unk84 & 1) {
         ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 = ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 - 3;
@@ -5829,7 +5829,7 @@ void func_80182A00(void *arg0) {
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
     extern s32 D_801C1350;
     void func_80182A08(void *arg0) {
-        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC, &D_801C1350);
+        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_801C1350);
     }
 
 

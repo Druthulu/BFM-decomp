@@ -3026,7 +3026,7 @@ void func_8018466C(void *a0)
     u16 v0_2;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8018242C *)a0)->unk20 = v0;
+    ((Unkstruct_8018242C *)a0)->unk20.val = v0;
 
     if (v0 == 0) {
         ((void (*)(void *))guess_FreeActorDuringSpawn)(a0);

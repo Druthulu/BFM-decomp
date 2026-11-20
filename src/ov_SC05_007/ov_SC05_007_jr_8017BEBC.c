@@ -4066,7 +4066,7 @@ void func_8017EDB0(s32 param_1) {
     s32 uVar2;
 
     ((Unkstruct_8017E800 *)param_1)->unk5C = 0;
-    if (((Unkstruct_8017E800 *)param_1)->unkDC & 2) {
+    if (((Unkstruct_8017E800 *)param_1)->blkDC.f.unkDC.val & 2) {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x2D;
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_80197C48);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
@@ -4075,7 +4075,7 @@ void func_8017EDB0(s32 param_1) {
         ((Unkstruct_8017E800 *)param_1)->unk52 = 0;
     } else {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x37;
-        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20, &D_80195F04);
+        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20.val, &D_80195F04);
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_80197B68);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E800 *)param_1)->unk62;
     }

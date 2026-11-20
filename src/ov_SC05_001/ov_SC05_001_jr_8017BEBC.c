@@ -4775,7 +4775,7 @@ void func_8017FA18(s32 param_1)
         guess_ClearVelocityAndSetGravity(param_1);
         ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = row[0];
         *(u16 *)(param_1 + 0x16) = row[1];
-        ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = row[2];
+        ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = row[2];
         ((Unkstruct_801202A0 *)param_1)->extD.kSC05_001_8017FAC8.unk100 = 1;
         ((Unkstruct_801202A0 *)param_1)->extD.kSC05_001_8017FAC8.unk102 = 0x60 - ((rand() & 3) << 4);
     }
@@ -6675,7 +6675,7 @@ void func_80182530(s32 param_1) {
     s32 uVar2;
 
     ((Unkstruct_8017E800 *)param_1)->unk5C = 0;
-    if (((Unkstruct_8017E800 *)param_1)->unkDC & 2) {
+    if (((Unkstruct_8017E800 *)param_1)->blkDC.f.unkDC.val & 2) {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x2D;
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_801AE2C4);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
@@ -6684,7 +6684,7 @@ void func_80182530(s32 param_1) {
         ((Unkstruct_8017E800 *)param_1)->unk52 = 0;
     } else {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x37;
-        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20, &D_801AC580);
+        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20.val, &D_801AC580);
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_801AE1E4);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E800 *)param_1)->unk62;
     }

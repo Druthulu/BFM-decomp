@@ -2987,7 +2987,7 @@ void func_80185864(s32 arg0) {
         ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6:
-        ptr = ((Unkstruct_80185864 *)arg0)->unk20;
+        ptr = ((Unkstruct_80185864 *)arg0)->unk20.val;
         val = ((Unkstruct_8001C9D0 *)ptr)->unk18.s;
         ((Unkstruct_8001C9D0 *)ptr)->unk18.s = -val;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
@@ -3068,7 +3068,7 @@ void func_80185A3C(s32 arg0) {
         ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6:
-        v1 = ((Unkstruct_80185864 *)arg0)->unk20;
+        v1 = (s32)((Unkstruct_80185864 *)arg0)->unk20.p;
         t = -*(s16 *)(v1 + 0x18);
         *(s16 *)(v1 + 0x18) = t;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;

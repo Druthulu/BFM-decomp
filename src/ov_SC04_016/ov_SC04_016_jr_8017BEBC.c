@@ -3773,7 +3773,7 @@ void func_8017EA74(void) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80183A64;
     void func_8017EB30(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC, &D_80183A64);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_80183A64);
     }
 
 
@@ -3781,7 +3781,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80183FF4;
     void func_8017EB5C(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC, &D_80183FF4);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_80183FF4);
     }
 
 
@@ -3789,7 +3789,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80183DFC;
     void func_8017EB88(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC, &D_80183DFC);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_80183DFC);
     }
 
 

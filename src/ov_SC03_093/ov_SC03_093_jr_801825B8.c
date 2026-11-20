@@ -3611,7 +3611,7 @@ void func_80183630(s32 param_1)
                 v0 = rand();
                 ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
-                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (v0 & 7) - 4;
+                ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = (v0 & 7) - 4;
                 v0 = rand();
                 { s32 t = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u - 0x10; ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = t + (v0 & 0x1F); }
                 v0 = rand();
@@ -4859,7 +4859,7 @@ void func_8018547C(s32 a0) {
             if (((Unkstruct_801202A0 *)a0)->unk70.s == 1) {
                 if (((Unkstruct_801202A0 *)a0)->unkFC.s == 2) {
                     ((Unkstruct_801202A0 *)a0)->unkFC.s = 1;
-                    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = 4;
+                    ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = 4;
                     ((Unkstruct_801202A0 *)a0)->unk4C = 0x4000;
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unkFC.s = 2;

@@ -3579,7 +3579,7 @@ void func_8018568C(s32 arg0) {
         ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6:
-        ptr = ((Unkstruct_80185864 *)arg0)->unk20;
+        ptr = ((Unkstruct_80185864 *)arg0)->unk20.val;
         val = *(s16 *)(ptr + 0x18);
         *(s16 *)(ptr + 0x18) = -val;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;

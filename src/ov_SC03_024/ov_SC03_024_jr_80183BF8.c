@@ -3074,7 +3074,7 @@ void func_80184040(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = -(((Unkstruct_801202A0 *)arg0)->unk14.val >> 4);
 
         spin = (rand() & 0x1F) - 0x10;
-        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = spin;
+        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = spin;
     } else {
         s32 obj;
         s32 t;
@@ -3089,7 +3089,7 @@ void func_80184040(s32 arg0) {
         obj = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.p;
         t = -rcos(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
-        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = t;
+        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = t;
     }
 
     do { ((Unkstruct_801202A0 *)arg0)->unk4C = -(CAST_WIDTH(s32, arg0, 0x18) >> 4); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
@@ -3550,8 +3550,8 @@ void func_80184B80(s32 param_1, s32 param_2)
 
     SV4_L_80184B80 vec;                              /* sp+0x10 */
     MTX_L_80184B80 mtx;                              /* sp+0x18 */
-    s32 obj = ((Unkstruct_80184B80 *)param_1)->unkCC;
-    s32 prim = ((Unkstruct_80184B80 *)param_1)->unk20;
+    s32 obj = ((Unkstruct_80184B80 *)param_1)->unkCC.val;
+    s32 prim = ((Unkstruct_80184B80 *)param_1)->unk20.val;
     s32 mode;
     s32 val;
     s32 hi;
@@ -3761,8 +3761,8 @@ void func_801850E0(s32 a0) {
 
     Rec_8017C738_8017CDD4 *q = D_801BBFBC;
     Rec_8017C738_8017CDD4 *p = *(Rec_8017C738_8017CDD4 **)(a0 + 0xD8);
-    s32 s1 = ((Unkstruct_80184B80 *)a0)->unkD0;
-    s32 s4 = ((Unkstruct_80184B80 *)a0)->unk20;
+    s32 s1 = ((Unkstruct_80184B80 *)a0)->unkD0.val;
+    s32 s4 = ((Unkstruct_80184B80 *)a0)->unk20.val;
     s16 val;
     s32 t;
     s16 i;
@@ -3927,7 +3927,7 @@ void func_8018546C(void *a0) {
 
 
 void func_801854B0(s32 a0) {
-    s32 ptr = ((Unkstruct_80185638_2 *)a0)->unkD0;
+    s32 ptr = ((Unkstruct_80185638_2 *)a0)->unkD0.val;
     s16 val = ((Unkstruct_800B5BD8 *)ptr)->unk1A.u - 0xC0;
 
     ((Unkstruct_800B5BD8 *)ptr)->unk1A.u = val;
@@ -3993,7 +3993,7 @@ void func_801855AC(s32 a0) {
     s16 val;
     s32 count;
 
-    v1 = ((Unkstruct_801855AC *)a0)->unkD0;
+    v1 = ((Unkstruct_801855AC *)a0)->unkD0.val;
     val = ((Unkstruct_800B5BD8 *)v1)->unk1A.u + 0x80;
     ((Unkstruct_800B5BD8 *)v1)->unk1A.u = val;
     ((Unkstruct_800B5BD8 *)v1)->unk18.s = val;
@@ -4003,14 +4003,14 @@ void func_801855AC(s32 a0) {
     if (count == -1) {
         ((Unkstruct_801855AC *)a0)->unk1C = 0;
         func_8014708C(&guess_g_PlayerActor);
-        *(s32 *)(((Unkstruct_801855AC *)a0)->unk20 + 4) &= 0x7FFFFFFF;
+        *(s32 *)(((Unkstruct_801855AC *)a0)->unk20.val + 4) &= 0x7FFFFFFF;
         ((Unkstruct_801855AC *)a0)->unk2 += 1;
     }
 }
 
 
 void func_80185638(s32 a0) {
-    s32 ptr1 = ((Unkstruct_80185638_2 *)a0)->unkD0;
+    s32 ptr1 = ((Unkstruct_80185638_2 *)a0)->unkD0.val;
     s16 val = ((Unkstruct_800B5BD8 *)ptr1)->unk1A.u - 0xC0;
 
     ((Unkstruct_800B5BD8 *)ptr1)->unk1A.u = val;
@@ -4158,7 +4158,7 @@ void func_80185730(void *a0)
 
     ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
-    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (s16)sv.z >> 3;
 
     ((Unkstruct_801202A0 *)a0)->unkFC.s = (s16)((rand() & 0x7FF) - 0x400) >> w;
     ((Unkstruct_801202A0 *)a0)->unkFE.s = (s16)((rand() & 0x7FF) - 0x400) >> w;

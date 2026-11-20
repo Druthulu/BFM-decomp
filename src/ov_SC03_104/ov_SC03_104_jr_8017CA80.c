@@ -3731,7 +3731,7 @@ void func_80181800(s32 a0) {
         func_8013B7AC(i);
     }
     ((Unkstruct_80183C90 *)a0)->unk2 += 1;
-    ((Unkstruct_80183C90 *)a0)->unkCC = 0;
+    ((Unkstruct_80183C90 *)a0)->unkCC.val = 0;
 }
 
 
@@ -3759,7 +3759,7 @@ void func_80181858(s32 a0) {
     best1 = 0;
     best2 = 0;
     flag = 0;
-    t = ((Unkstruct_80181858 *)a0)->unkCC;
+    t = ((Unkstruct_80181858 *)a0)->unkCC.val;
     if (t != 0) {
         func_80181AD0(t + 4, 0);
     } else {

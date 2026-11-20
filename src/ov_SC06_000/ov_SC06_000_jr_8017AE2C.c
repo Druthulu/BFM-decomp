@@ -9902,7 +9902,7 @@ void func_80186468(void *a0)
 
     ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
-    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (s16)sv.z >> 3;
 
     ((Unkstruct_801202A0 *)a0)->unkFC.s = (s16)((rand() & 0x7FF) - 0x400) >> w;
     ((Unkstruct_801202A0 *)a0)->unkFE.s = (s16)((rand() & 0x7FF) - 0x400) >> w;

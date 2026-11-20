@@ -3637,7 +3637,7 @@ void func_8017E39C(s32 a0) {
             if (v1 != 0) {
                 a0 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
                 ((Unkstruct_801202A0 *)a0)->unk18.i.lo = v1;
-                ((Unkstruct_801202A0 *)a0)->unk18.i.hi = *(u16 *)(p + 0x1A);
+                ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = *(u16 *)(p + 0x1A);
                 func_8017E4F4((void *)a0, D_80190C84);
                 CAST_WIDTH(u16, a0, 0x14) = CAST_WIDTH(u16, a0, 0x14) - 4;
                 D_80190C88 = D_80190C88 + 1;
@@ -6010,7 +6010,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 void func_80181D98(void * arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E270_3 *)arg0)->unkDC;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
     ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
 }
 
@@ -6170,7 +6170,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_8019887C, sv0, &flag);
     RotTransSV(D_8019887C + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {

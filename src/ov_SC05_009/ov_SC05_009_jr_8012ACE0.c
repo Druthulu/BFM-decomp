@@ -661,17 +661,17 @@ void func_8012E364(s32 arg0_)
     }
 
     prev = D_8019576C;
-    e1 = ((Unkstruct_8012E364 *)arg0)->unk20;
+    e1 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
     v = D_80195768 - prev + spd;
     D_8019576C = spd;
     flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
     D_80195768 = v;
     ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
-    e2 = ((Unkstruct_8012E364 *)arg0)->unk20;
+    e2 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
     d = abs(v);
     ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
     ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
-    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20 + 0x1A) = 0x1000;
+    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }
 
 

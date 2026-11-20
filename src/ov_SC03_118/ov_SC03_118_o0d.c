@@ -3003,7 +3003,7 @@ void func_801837B0(s32 arg0)
     func_80180A64(&D_801D47E0, &D_801B5D38,
                   ((Args_801837B0 *)arg0)->fDC,
                   ((Args_801837B0 *)arg0)->fE2);
-    ((Rmw_801837B0 *)arg0)->fDC += 7;
+    ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.i.lo.u += 7;
 }
 
 

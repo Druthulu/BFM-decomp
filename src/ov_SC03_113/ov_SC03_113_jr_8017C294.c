@@ -5437,14 +5437,14 @@ void func_80181864(s32 e) {
                 q[2] = z + 0x40;
 
                 if (func_80133784(1, p1, (s32)q) != 0) {
-                    ((Unkstruct_801202A0 *)e)->unk18.i.hi = -(rand() & 3) - 4;
+                    ((Unkstruct_801202A0 *)e)->unk18.i.hi.u = -(rand() & 3) - 4;
                     n += 4;
                 } else {
                     q[0] = p1[0];
                     q[1] = p1[1];
                     q[2] = p1[2] + 0x40;
                     if (func_80133784(1, q, (s32)p1) != 0) {
-                        ((Unkstruct_801202A0 *)e)->unk18.i.hi = (rand() & 3) + 4;
+                        ((Unkstruct_801202A0 *)e)->unk18.i.hi.u = (rand() & 3) + 4;
                         n += 8;
                     }
                 }

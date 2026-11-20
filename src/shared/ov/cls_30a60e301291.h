@@ -7,7 +7,7 @@ void SHARED_FN(void *a0) {
     extern short D_800BA2BA;
     u16 idx1 = D_80078EAC;
     u8 idx2 = D_80078EB1;
-    s32 ptr = ((Unkstruct_80180CCC *)a0)->unkD0;
+    s32 ptr = ((Unkstruct_80180CCC *)a0)->unkD0.val;
     s16 offset = ((Unkstruct_80180CCC_2 *)ptr)->unk10;
 
     *(short *)((char *)&D_800BA2BA + (offset << 2)) = idx2 + (idx1 * 24);

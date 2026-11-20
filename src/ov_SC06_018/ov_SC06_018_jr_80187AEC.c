@@ -6873,7 +6873,7 @@ void func_8018D870(void *arg) {
                 ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
                 ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
             }
             i++;
         } while (i < 8);
@@ -6954,7 +6954,7 @@ void func_8018D870(void *arg) {
                     ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
                     ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                     *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                    ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                    ((Unkstruct_801202A0 *)iv)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
                 }
                 i++;
             } while (i < 8);
@@ -7220,7 +7220,7 @@ void func_8018E188(void *arg) {
                 ((Unkstruct_801202A0 *)iv)->unk1C.s = 2;
                 ((Unkstruct_801202A0 *)iv)->unk10.i.hi.u = (rand() & 0x1F) - 0x10;
                 *(u16 *)(iv + 0x16) = -((rand() & 0x0F) + 0x10);
-                ((Unkstruct_801202A0 *)iv)->unk18.i.hi = (rand() & 0x1F) - 0x10;
+                ((Unkstruct_801202A0 *)iv)->unk18.i.hi.u = (rand() & 0x1F) - 0x10;
             }
             i++;
         } while (i < 8);
@@ -7414,13 +7414,13 @@ void func_8018E5DC(void *arg) {
         if (t != 0) {
             CAST_ALIAS(s16, t, 0x12) = -4;
             *(s16 *)(t + 0x16) = -0x10;
-            ((Unkstruct_801202A0 *)t)->unk18.i.hi = 0;
+            ((Unkstruct_801202A0 *)t)->unk18.i.hi.u = 0;
         }
         t = guess_SpawnActor(0x32, 2, (s32)p);
         if (t != 0) {
             CAST_ALIAS(s16, t, 0x12) = -4;
             *(s16 *)(t + 0x16) = -0x10;
-            ((Unkstruct_801202A0 *)t)->unk18.i.hi = 4;
+            ((Unkstruct_801202A0 *)t)->unk18.i.hi.u = 4;
         }
 
         i = 0;

@@ -3676,10 +3676,6 @@ typedef struct {
     u16 unk18;
 } Rec_80189334;
 typedef struct { char c[0x14]; } Rec_80int;
-typedef struct {
-    u8 _[0xDC];
-    u16 fDC;
-} Rmw_801837B0;
 typedef Unkstruct_801343C4 Row8_8018367C_801811A4;
 typedef FnEntry RowC_80180CD0;
 typedef Entry16 Row_80186060;   /* a.raw[0..2]: r, g, b */

@@ -4899,7 +4899,7 @@ void func_80185E3C(void *arg0) {
     val = 0x4000 - ((neg - (s32)*(unsigned short *)((char *)arg0 + 0xA)) << 4);
     arg0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
     arg0 = CAST_SIGN(void *, (char *)arg0, 0xCC);
-    ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = val;
+    ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = val;
     ((Unkstruct_801202A0 *)arg0)->unk18.i.lo = val;
 }
 
@@ -4949,7 +4949,7 @@ void func_80185F84(void *arg0) {
     temp_v0 = ((Unkstruct_80185F84 *)arg0)->unk1C - 1;
     ((Unkstruct_80185F84 *)arg0)->unk1C = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_80185F84 *)arg0)->unk48 = 0x38000;
+        ((Unkstruct_80185F84 *)arg0)->unk44.w.unk48 = 0x38000;
         ((Unkstruct_80185F84 *)arg0)->unk1C = 0x10;
         ((void (*)(s32))func_8001AAA0)(0x9C);
         ((Unkstruct_80185F84 *)arg0)->unk2 = 0xC;

@@ -576,7 +576,7 @@ void func_801E59A4(void *a0)
         ((Unkstruct_801202A0 *)s1)->unkCC.val = func_80143994(s1, 0x3000);
 
         tmp = ((Unkstruct_801202A0 *)s1)->unk2.u;
-        ((Unkstruct_801202A0 *)s1)->unk14.i.hi = 4;
+        ((Unkstruct_801202A0 *)s1)->unk14.i.hi.u = 4;
         ((Unkstruct_801202A0 *)s1)->unk2.u = tmp + 1;
     }
 }

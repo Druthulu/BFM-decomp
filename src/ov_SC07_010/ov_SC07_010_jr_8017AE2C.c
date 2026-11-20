@@ -6363,7 +6363,7 @@ void func_801810F8(void *a0) {
 void func_801811C8(s32 arg0) {
     u16 temp;
     arg0 = ((Unkstruct_801202A0 *)arg0)->unk20.p;
-    temp = ((Unkstruct_801202A0 *)arg0)->unk18.i.hi;
+    temp = ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u;
     CAST_WIDTH(s16, arg0, 0x1C) = temp;
     ((Unkstruct_801202A0 *)arg0)->unk18.i.lo = (((s32)(s16)temp << 7) / 94);
 }

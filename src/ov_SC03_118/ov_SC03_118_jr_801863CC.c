@@ -3517,14 +3517,14 @@ void func_801872B4(s32 e) {
                 q[2] = z + 0x40;
 
                 if (func_80133784(1, p1, (s32)q) != 0) {
-                    ((Unkstruct_801202A0 *)e)->unk18.i.hi = -(rand() & 3) - 4;
+                    ((Unkstruct_801202A0 *)e)->unk18.i.hi.u = -(rand() & 3) - 4;
                     n += 4;
                 } else {
                     q[0] = p1[0];
                     q[1] = p1[1];
                     q[2] = p1[2] + 0x40;
                     if (func_80133784(1, q, (s32)p1) != 0) {
-                        ((Unkstruct_801202A0 *)e)->unk18.i.hi = (rand() & 3) + 4;
+                        ((Unkstruct_801202A0 *)e)->unk18.i.hi.u = (rand() & 3) + 4;
                         n += 8;
                     }
                 }
@@ -4432,7 +4432,7 @@ void func_80188DE4(void *a0) {
 
     if (((Unkstruct_80188DE4 *)a0)->unkFC != 0) {
         ((Unkstruct_80188DE4 *)a0)->unkFC = ((Unkstruct_80188DE4 *)a0)->unkFC - 1;
-        *(u32 *)(((Unkstruct_80188DE4 *)a0)->unk20 + 4) ^= 0x80000000;
+        *(u32 *)(((Unkstruct_80188DE4 *)a0)->unk20.val + 4) ^= 0x80000000;
     }
 
     t = ((Unkstruct_80188DE4 *)a0)->unkA;
@@ -4482,7 +4482,7 @@ void func_80188F14(void *arg0) {
 
     s32 p;
 
-    p = ((Unkstruct_80188F14 *)arg0)->unk20;
+    p = ((Unkstruct_80188F14 *)arg0)->unk20.val;
     *(s32 *)(p + 4) &= 0x7FFFFFFF;
     ((Unkstruct_80188F14 *)arg0)->unkFC = 0;
     func_800291C8(10, (s16)(((Unkstruct_80188F14 *)arg0)->unkFE | 0x100));
@@ -4949,7 +4949,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801D1088, sv0, &flag);
     RotTransSV(D_801D1088 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {

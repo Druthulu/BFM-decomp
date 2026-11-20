@@ -5595,7 +5595,7 @@ void func_80180ED4(void *arg0)
             *(s16 *)(new + 0x16) = -8;
             ((Unkstruct_801202A0 *)new)->unk8.i.hi.u = ((Unkstruct_801202A0 *)new)->unk8.i.hi.u - 0x20;
             ((Unkstruct_801202A0 *)new)->unk10.i.hi.u = (rand() & 7) - 4;
-            ((Unkstruct_801202A0 *)new)->unk18.i.hi = (rand() & 7) - 4;
+            ((Unkstruct_801202A0 *)new)->unk18.i.hi.u = (rand() & 7) - 4;
         }
     }
 }
@@ -5914,7 +5914,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 void func_8018175C(void * arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E270_3 *)arg0)->unkDC;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
     ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
 }
 
@@ -6074,7 +6074,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801ACA84, sv0, &flag);
     RotTransSV(D_801ACA84 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {

@@ -2930,7 +2930,7 @@ void func_80180F84(s32 arg0)
         if ((u32)(((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk12.u - 0x3F0) < 0x21) {
             ((Unkstruct_801202A0 *)arg0)->unk34.u = 7;
             *(s16 *)(arg0 + 0x16) = -0x10;
-            ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = 4;
+            ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = 4;
             guess_RequestSound(0x897, 0);
             break;
         }

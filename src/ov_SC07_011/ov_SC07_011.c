@@ -1025,7 +1025,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
     ((Unkstruct_8012C890_3 *)dst)->unkFC = ((Unkstruct_8012C890_4 *)src)->unkE;
     v10 = ((Unkstruct_8012C890_4 *)src)->unk10;
     ((Unkstruct_8012C890_3 *)dst)->unk78 = (s32)&D_80181E90;
-    ((Unkstruct_8012C890_3 *)dst)->unkDC = v10;
+    ((Unkstruct_8012C890_3 *)dst)->blkDC.f.unkDC.val = v10;
 
     {
         u16 *pc;
@@ -1085,7 +1085,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
             }
         }
     }
-    if (((Unkstruct_8012C890_3 *)dst)->unk20 != 0) {
+    if (((Unkstruct_8012C890_3 *)dst)->unk20.val != 0) {
         ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unk8 = ((Unkstruct_8012C890_3 *)dst)->unk6 + ((Unkstruct_8012C890_3 *)dst)->unk50;
         ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkA = ((Unkstruct_8012C890_3 *)dst)->unkA + ((Unkstruct_8012C890_3 *)dst)->unk52;
         ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkC = ((Unkstruct_8012C890_3 *)dst)->unkE + ((Unkstruct_8012C890_3 *)dst)->unk54;
@@ -1408,17 +1408,17 @@ void func_8012E364(s32 arg0_)
     }
 
     prev = D_8018F06C;
-    e1 = ((Unkstruct_8012E364 *)arg0)->unk20;
+    e1 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
     v = D_8018F068 - prev + spd;
     D_8018F06C = spd;
     flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
     D_8018F068 = v;
     ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
-    e2 = ((Unkstruct_8012E364 *)arg0)->unk20;
+    e2 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
     d = abs(v);
     ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
     ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
-    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20 + 0x1A) = 0x1000;
+    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }
 
 

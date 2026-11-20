@@ -4871,7 +4871,7 @@ void func_8018B6A0(void *a0) {
     s32 v0;
 
     v0 = func_8012E57C(0x61, 0xD);
-    ((Unkstruct_80180728 *)a0)->unkCC = v0;
+    ((Unkstruct_80180728 *)a0)->unkCC.val = v0;
     v0 = func_8018B5AC();
 
     if (v0 != 0) {
@@ -4991,7 +4991,7 @@ void func_8018B988(void *a0) {
     s32 v0;
 
     v0 = func_8012E57C(0x61, 0xC);
-    ((Unkstruct_80180A10 *)a0)->unkCC = v0;
+    ((Unkstruct_80180A10 *)a0)->unkCC.val = v0;
     v0 = func_8018B8B0();
 
     if (v0 != 0) {
@@ -5147,7 +5147,7 @@ extern u8 D_801E7A96;
 
 void func_8018BCDC(s32 a0) {
     ((Unkstruct_80181864 *)a0)->unk2 = 1;
-    ((Unkstruct_80181864 *)a0)->unkCC = func_8012E57C(0x61, 0xE);
+    ((Unkstruct_80181864 *)a0)->unkCC.val = func_8012E57C(0x61, 0xE);
     if (func_8018BB50() != 0) {
         CAST_ALIAS(s32, *(s32 *)(a0 + 0xCC), 0xB0) = 1;
         D_801E7A96 = 1;

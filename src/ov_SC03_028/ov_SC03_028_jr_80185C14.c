@@ -2999,7 +2999,7 @@ void func_80185C14(s32 arg0) {
         ((Unkstruct_80185864 *)arg0)->unkFC = 0;
         break;
     case 6: {
-        s32 ent = ((Unkstruct_80185864 *)arg0)->unk20;
+        s32 ent = ((Unkstruct_80185864 *)arg0)->unk20.val;
         s32 ang = ((Unkstruct_8001C9D0 *)ent)->unk18.s;
         ((Unkstruct_8001C9D0 *)ent)->unk18.s = -ang;
         ((Unkstruct_80185864 *)arg0)->unk1C = 0x20;
@@ -3662,7 +3662,7 @@ void func_80186BAC(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
         ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = -CAST_SIGN(s16, param_1, 6) >> 6;
         *(s16 *)(param_1 + 0x16) = -0x10;
-        ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (0x3C0 - CAST_SIGN(s16, param_1, 0xE)) >> 6;
+        ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = (0x3C0 - CAST_SIGN(s16, param_1, 0xE)) >> 6;
         ((Unkstruct_801202A0 *)param_1)->unkFC.s = (-CAST_SIGN(s16, param_1, 0xA) - 0x40) / 5;
     }
 }
@@ -4775,11 +4775,11 @@ void func_801884AC(void *a0)
     s32 v0;
 
     if (((Unkstruct_801884AC *)a0)->unk12 > 0) {
-        t0 = ((Unkstruct_801884AC *)a0)->unkCC;
-        t1 = ((Unkstruct_801884AC *)a0)->unkD0;
+        t0 = ((Unkstruct_801884AC *)a0)->unkCC.val;
+        t1 = ((Unkstruct_801884AC *)a0)->unkD0.val;
     } else {
-        t0 = ((Unkstruct_801884AC *)a0)->unkD4;
-        t1 = ((Unkstruct_801884AC *)a0)->unkD8;
+        t0 = ((Unkstruct_801884AC *)a0)->unkD4.val;
+        t1 = ((Unkstruct_801884AC *)a0)->unkD8.val;
     }
 
     if (*(u16 *)(t0 + 2) != 5) {
@@ -4801,7 +4801,7 @@ void func_801884AC(void *a0)
 
 void func_8018854C(s32 a0) {
     ((Unkstruct_8018854C_2 *)*(s32 *)(a0 + 0x20))->unk1A -= 0x200;
-    if (*(s16 *)(((Unkstruct_8018854C *)a0)->unk20 + 0x1A) < 0x1001) {
+    if (*(s16 *)(((Unkstruct_8018854C *)a0)->unk20.val + 0x1A) < 0x1001) {
         ((Unkstruct_8018854C *)a0)->unk2 = 4;
     }
 }
@@ -4817,12 +4817,12 @@ void func_8018858C(s32 arg) {
     u16 state;
     s16 chk;
 
-    ptr1 = ((Unkstruct_8018858C *)arg)->unk20;
+    ptr1 = ((Unkstruct_8018858C *)arg)->unk20.val;
     val = ((Unkstruct_8001C9D0 *)ptr1)->unk1A.u;
     val = val + 0x200;
     ((Unkstruct_8001C9D0 *)ptr1)->unk1A.u = val;
 
-    ptr2 = ((Unkstruct_8018858C *)arg)->unk20;
+    ptr2 = ((Unkstruct_8018858C *)arg)->unk20.val;
     chk = CAST_SIGN(s16, ptr2, 0x1A);
     if (chk < 0x2000) {
         return;

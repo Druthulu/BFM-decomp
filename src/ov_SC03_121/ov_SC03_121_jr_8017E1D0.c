@@ -3395,7 +3395,7 @@ void func_8017F578(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->extD.kcls_719635c74644.unk100 = (rand() & 0xFF) - 0x80;
     ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.u = (rand() & 0xF) - 0x8;
     *(s16 *)(param_1 + 0x16) = -(rand() & 0x1F);
-    ((Unkstruct_801202A0 *)param_1)->unk18.i.hi = (rand() & 0xF) - 0x8;
+    ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.u = (rand() & 0xF) - 0x8;
 
     ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u - 0x50;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x3C;
@@ -3445,7 +3445,7 @@ void func_8017F6D8(void *a0) {
 
         ((Unkstruct_8017F6D8_2 *)s0)->unk14 = ((Unkstruct_8017F6D8_2 *)s0)->unk14 + (s32)0xFFFD8000;
 
-        if (*(s16 *)(((Unkstruct_8017F6D8_2 *)s0)->unk20 + 0x10) == 0xC00) {
+        if (*(s16 *)(((Unkstruct_8017F6D8_2 *)s0)->unk20.val + 0x10) == 0xC00) {
             state = ((Unkstruct_8017F6D8_2 *)s0)->unk34;
             state = state + 1;
             ((Unkstruct_8017F6D8_2 *)s0)->unk34 = state;
@@ -4508,7 +4508,7 @@ void func_80181218(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = -(((Unkstruct_801202A0 *)arg0)->unk14.val >> 4);
 
         spin = (rand() & 0x1F) - 0x10;
-        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = spin;
+        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = spin;
     } else {
         s32 obj;
         s32 t;
@@ -4523,7 +4523,7 @@ void func_80181218(s32 arg0) {
         obj = ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.p;
         t = -rcos(*(u16 *)(obj + 0x12) & 0xFFF);
         t = t >> 8;
-        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi = t;
+        ((Unkstruct_801202A0 *)arg0)->unk18.i.hi.u = t;
     }
 
     do { ((Unkstruct_801202A0 *)arg0)->unk4C = -(CAST_WIDTH(s32, arg0, 0x18) >> 4); } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)

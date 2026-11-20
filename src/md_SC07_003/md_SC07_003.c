@@ -4073,14 +4073,14 @@ void func_801A5D4C(s32 param_1)
     u16 v0;
     u16 v1;
 
-    a1 = ((Unkstruct_8018620C *)param_1)->unkCC;
+    a1 = ((Unkstruct_8018620C *)param_1)->unkCC.val;
     v1 = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u;
     if (v1 < 0x5000) {
         s32 p20;
 
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u = v1 + 0x100;
 
-        p20 = ((Unkstruct_8018620C *)param_1)->unk20;
+        p20 = ((Unkstruct_8018620C *)param_1)->unk20.val;
         v1 = ((Unkstruct_8001C9D0 *)p20)->unk18.u;
         ((Unkstruct_8001C9D0 *)p20)->unk1C.u = v1;
         ((Unkstruct_8001C9D0 *)p20)->unk1A.u = v1;

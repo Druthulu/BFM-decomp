@@ -3928,12 +3928,12 @@ void func_8017E380(s32 arg0) {
     u16 sp10[3];
     u16 kind;
 
-    temp = ((Unkstruct_80180388 *)arg0)->unk20;
+    temp = ((Unkstruct_80180388 *)arg0)->unk20.val;
     if (*(s32 *)(temp + 0x24) == (s32)&D_8018C7E8) {
         func_8001C924(temp, &D_8018C7D8);
     }
     ((Unkstruct_80180388 *)arg0)->unk1C = 0x18;
-    ((Unkstruct_80180388 *)arg0)->unkDC &= ~0x10;
+    ((Unkstruct_80180388 *)arg0)->blkDC.f.unkDC.val &= ~0x10;
     kind = ((Unkstruct_80180388 *)arg0)->unk5E;
     if (kind == 0x23) {
         ((Unkstruct_80180388 *)arg0)->unkFE = 1;
@@ -4205,7 +4205,7 @@ void func_8017E800(s32 param_1) {
     s32 uVar2;
 
     ((Unkstruct_8017E800 *)param_1)->unk5C = 0;
-    if (((Unkstruct_8017E800 *)param_1)->unkDC & 2) {
+    if (((Unkstruct_8017E800 *)param_1)->blkDC.f.unkDC.val & 2) {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x2D;
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018FECC);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
@@ -4214,7 +4214,7 @@ void func_8017E800(s32 param_1) {
         ((Unkstruct_8017E800 *)param_1)->unk52 = 0;
     } else {
         ((Unkstruct_8017E800 *)param_1)->unk1C = 0x37;
-        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20, &D_8018E188);
+        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20.val, &D_8018E188);
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018FDEC);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E800 *)param_1)->unk62;
     }

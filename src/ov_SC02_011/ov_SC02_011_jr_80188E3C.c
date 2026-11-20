@@ -3352,11 +3352,11 @@ void func_8018D19C(void *a0)
     s32 b;
     u16 v1;
 
-    a1 = ((Unkstruct_801838EC_3 *)a0)->unk20;
+    a1 = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
     v1 = ((Unkstruct_8001C9D0 *)a1)->unk2C.u;
     if (v1 & 0x10) {
         ((Unkstruct_8001C9D0 *)a1)->unk2C.u = v1 & 0xFFEF;
-        b = ((Unkstruct_801838EC_3 *)a0)->unk20;
+        b = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
         ((Unkstruct_8001C9D0 *)b)->unk1C.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk1A.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk18.u = 0x1000;
@@ -4961,7 +4961,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
 void func_8018F0E0(void * arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_8017E270_3 *)arg0)->unkDC;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
     ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
 }
 
@@ -5121,7 +5121,7 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801E33F0, sv0, &flag);
     RotTransSV(D_801E33F0 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
@@ -5659,7 +5659,7 @@ void func_8018FE94(void *a0)
 
     ((Unkstruct_801202A0 *)a0)->unk10.i.hi.u = (s16)sv.x >> 3;
     *(s16 *)((s32)a0 + 0x16) = (s16)sv.y >> 3;
-    ((Unkstruct_801202A0 *)a0)->unk18.i.hi = (s16)sv.z >> 3;
+    ((Unkstruct_801202A0 *)a0)->unk18.i.hi.u = (s16)sv.z >> 3;
 
     ((Unkstruct_801202A0 *)a0)->unkFC.s = (s16)((rand() & 0x7FF) - 0x400) >> w;
     ((Unkstruct_801202A0 *)a0)->unkFE.s = (s16)((rand() & 0x7FF) - 0x400) >> w;

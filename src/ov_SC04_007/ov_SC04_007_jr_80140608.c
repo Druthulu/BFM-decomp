@@ -1837,7 +1837,7 @@ void func_80142EC0(s32 param_1) {
 
     do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     obj = ret;
-    ((Unkstruct_801431E8_2 *)d)->unk20 = ret;
+    ((Unkstruct_801431E8_2 *)d)->unk20.val = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
@@ -1927,7 +1927,7 @@ void func_801431E8(s32 param_1) {
     memcpy(buf, &D_801B36F0, 4);
     iVar5 = ((s32 (*)(void))guess_AllocModelObject)();
     d = iVar5;
-    ((Unkstruct_801431E8_2 *)param_1)->unk20 = iVar5;
+    ((Unkstruct_801431E8_2 *)param_1)->unk20.val = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
