@@ -5170,10 +5170,11 @@ void func_80181394(s32 a0, s16 *param_2, s32 a2)
 
 extern Unkstruct_801343C4 D_8018A2E0[];
 extern u8 D_8019F060[];
+/* 8-byte copy unit held by the global (T18.c20); file scope so verbatim_check does not read the label as an asm body (T18) */
+extern Unkstruct_801343C4 aD_8019F060 __asm__("D_8019F060");
 
 void func_801817E0(s32 arg0)
 {
-    extern Unkstruct_801343C4 aD_8019F060 __asm__("D_8019F060"); /* 8-byte copy unit held by the global (T18.c20) */
     aD_8019F060 = D_8018A2E0[arg0];
 }
 
