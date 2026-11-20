@@ -2739,7 +2739,7 @@ void func_8017DA00(void) {
 
     *(Unkstruct_80126948 *)D_8011F920 = *(Unkstruct_80126948 *)cam;
     cam->unk8 = 500;
-    cam->unkC = 500;
+    cam->unkC.val = 500;
     guess_SetMainCameraHandler((s32)func_8017DD2C, 1);
     func_8017DD2C(cam);
     func_8012A094((s32)cam);
@@ -3032,7 +3032,7 @@ s32 func_8017DECC(s32 param_1, s32 param_2)
 extern void (*D_8018A2F8[])(void);
 
 void func_8017E0C0(void *a0) {
-    D_8018A2F8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A2F8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3048,7 +3048,7 @@ s32 func_8017E0FC(s32 param_1)
 {
     ((void (*)(void *, s32))func_8016EDEC)(func_8017E290, 0x1000000);
     func_800167B8(0);
-    ((Unkstruct_8017D4D8 *)param_1)->unk15 = ((Unkstruct_8017D4D8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -3065,7 +3065,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018A300[])(void);
 
 void func_8017E170(void *a0) {
-    D_8018A300[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A300[((Dst *)a0)->unk15]();
 }
 
 

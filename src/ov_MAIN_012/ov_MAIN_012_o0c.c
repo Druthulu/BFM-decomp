@@ -921,7 +921,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 extern void (*D_8017E338[])(void *);
 
 void func_8013BC7C(void *arg0) {
-    D_8017E338[((S_8013BC7C *)arg0)->f68](arg0);
+    D_8017E338[((S_8013BC7C *)arg0)->unk68](arg0);
 }
 
 

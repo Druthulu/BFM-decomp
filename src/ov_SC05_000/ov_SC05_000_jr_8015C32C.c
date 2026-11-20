@@ -3711,7 +3711,7 @@ void func_801622C4(void)
 extern void (*D_80180DEC[])(void);
 
 void func_80162330(void *a0) {
-    D_80180DEC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80180DEC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3891,7 +3891,7 @@ void func_801627E8(void)
 extern void (*D_80180E34[])(void);
 
 void func_80162834(void *a0) {
-    D_80180E34[((Unkstruct_8017553C *)a0)->unk1]();
+    D_80180E34[((Unkstruct_80162870 *)a0)->unk1]();
 }
 
 
@@ -4202,8 +4202,8 @@ void func_80164744(s32 param_1)
 {
     s32 iVar1;
 
-    iVar1 = ((Unkstruct_80164744 *)param_1)->unk20;
-    D_80180E90[((Unkstruct_80164744 *)param_1)->unk2]();
+    iVar1 = ((Ent_80164930_80164930 *)param_1)->unk20;
+    D_80180E90[((Ent_80164930_80164930 *)param_1)->unk2]();
     if (iVar1 != 0) {
         ((void (*)(s32))func_80162D28)(param_1);
     }
@@ -4242,8 +4242,8 @@ void func_801647A4(int param_1) {
         D_80180E8A = 0x80;
         D_80180E88 = 0x80;
         CAST_ALIAS(u16, iVar1, 0x1a) = 0;
-        ((Ent_80164930_80164930 *)param_1)->unk60 = 0;
-        ((Ent_80164930_80164930 *)param_1)->unk62 = 0x200;
+        ((Ent_80164930_80164930 *)param_1)->unk60.u = 0;
+        ((Ent_80164930_80164930 *)param_1)->unk62.u = 0x200;
         ((s32 (*)(s32))func_80164A74)(param_1);
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {
@@ -4420,12 +4420,12 @@ void func_80164EE0(int param_1)
     for (i = 7; i >= 0; i--) {
         D_80199A9C[i].a = 0;
     }
-    ((Unkstruct_80164EE0 *)param_1)->unk2E = 0x4000;
-    ((Unkstruct_80164EE0 *)param_1)->unk2C = 0x4000;
-    ((Unkstruct_80164EE0 *)param_1)->unk60 = 0;
-    ((Unkstruct_80164EE0 *)param_1)->unk62 = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk2E = 0x4000;
+    ((Ent_80164930_80164930 *)param_1)->unk2C = 0x4000;
+    ((Ent_80164930_80164930 *)param_1)->unk60.s = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk62.s = 0;
     ((void (*)(int))func_80165124)(param_1);
-    ((Unkstruct_80164EE0 *)param_1)->unk66 = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk66.s = 0;
     ((void (*)(int))guess_NextStep)(param_1);
 }
 

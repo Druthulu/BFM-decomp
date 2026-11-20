@@ -731,7 +731,7 @@ rank	map_type	sites	bodies	cum_pct
 727	Unkstruct_d2617969	24	4	68.445
 728	Unkstruct_ec463357	24	4	68.463
 729	Unkstruct_24e7040c	24	3	68.480
-730	Unkstruct_80175AB8	24	3	68.497
+730	Unkstruct_8011F7A8	24	3	68.497
 731	Unkstruct_dc3e0cd3	24	3	68.514
 732	Unkstruct_0e27047e	24	2	68.531
 733	Unkstruct_9f88e5a6	24	2	68.549
@@ -898,7 +898,7 @@ rank	map_type	sites	bodies	cum_pct
 894	Unkstruct_80135EB0	20	2	71.039
 895	Unkstruct_8014D790	20	2	71.054
 896	Unkstruct_8016DA7C	20	2	71.068
-897	Unkstruct_80174BF4	20	2	71.082
+897	Unkstruct_80126948	20	2	71.082
 898	Unkstruct_80177DA8	20	2	71.097
 899	Unkstruct_81debdbd	20	2	71.111
 900	Unkstruct_8fe8cdc9	20	2	71.125
@@ -1677,7 +1677,7 @@ rank	map_type	sites	bodies	cum_pct
 1673	Unkstruct_8012B77C	10	2	78.872
 1674	Unkstruct_8012C750	10	2	78.879
 1675	Unkstruct_801202A0	10	2	78.886
-1676	Unkstruct_801596F0	10	2	78.893
+1676	Dst	10	2	78.893
 1677	Unkstruct_8015F118	10	2	78.901
 1678	Unkstruct_80126B58	10	2	78.908
 1679	Unkstruct_8017D800	10	2	78.915
@@ -2112,7 +2112,7 @@ rank	map_type	sites	bodies	cum_pct
 2108	Unkstruct_80126B58	8	2	81.717
 2109	Unkstruct_801650C4	8	2	81.722
 2110	Unkstruct_8016BFA8	8	2	81.728
-2111	Unkstruct_8016EC0C	8	2	81.734
+2111	Entry_8016E95C	8	2	81.734
 2112	Vec	8	2	81.740
 2113	Unkstruct_87951449	8	2	81.745
 2114	Unkstruct_886af8c3	8	2	81.751
@@ -3348,7 +3348,7 @@ rank	map_type	sites	bodies	cum_pct
 3344	Unkstruct_801539F8	5	1	87.337
 3345	Unkstruct_80159404	5	1	87.340
 3346	Unkstruct_80159434	5	1	87.344
-3347	Unkstruct_80164EE0	5	1	87.347
+3347	Ent_80164930_80164930	5	1	87.347
 3348	Unkstruct_80168640	5	1	87.351
 3349	Unkstruct_80169BBC	5	1	87.355
 3350	Unkstruct_8016A890	5	1	87.358
@@ -3676,10 +3676,10 @@ rank	map_type	sites	bodies	cum_pct
 3672	Unkstruct_80126B58	4	2	88.429
 3673	Unkstruct_8015EEE0	4	2	88.432
 3674	Unkstruct_80126B58	4	2	88.435
-3675	Unkstruct_80164744	4	2	88.438
+3675	Ent_80164930_80164930	4	2	88.438
 3676	Unkstruct_80126B58	4	2	88.440
-3677	Unkstruct_8016E9EC	4	2	88.443
-3678	Unkstruct_8016EBA8	4	2	88.446
+3677	Entry_8016E95C	4	2	88.443
+3678	Entry_8016E95C	4	2	88.446
 3679	Unkstruct_80126B58	4	2	88.449
 3680	Unkstruct_8017CE80	4	2	88.452
 3681	Unkstruct_8017FB1C	4	2	88.455
@@ -5928,7 +5928,7 @@ rank	map_type	sites	bodies	cum_pct
 5924	Unkstruct_801523F4	2	2	93.922
 5925	Unkstruct_8015282C	2	2	93.923
 5926	Unkstruct_801555BC	2	2	93.925
-5927	Unkstruct_80159698	2	2	93.926
+5927	Dst	2	2	93.926
 5928	Unkstruct_8015AD3C	2	2	93.928
 5929	Unkstruct_8015CA28	2	2	93.929
 5930	Unkstruct_80126B58	2	2	93.931
@@ -6874,7 +6874,7 @@ rank	map_type	sites	bodies	cum_pct
 6870	Unkstruct_8017DD7C	2	1	95.278
 6871	Unkstruct_80126B58	2	1	95.280
 6872	Unkstruct_8017E358	2	1	95.281
-6873	Unkstruct_8017E508	2	1	95.282
+6873	Dst	2	1	95.282
 6874	Unkstruct_8017E5AC	2	1	95.284
 6875	Unkstruct_8017E5C8	2	1	95.285
 6876	Unkstruct_8017E5EC	2	1	95.287
@@ -9594,7 +9594,7 @@ rank	map_type	sites	bodies	cum_pct
 9590	Unkstruct_80180FAC	1	1	97.741
 9591	Unkstruct_80180FB8	1	1	97.742
 9592	Unkstruct_80180FCC	1	1	97.742
-9593	Unkstruct_8017BE9C	1	1	97.743
+9593	Unkstruct_8017FA5C	1	1	97.743
 9594	Unkstruct_80180FEC	1	1	97.744
 9595	Unkstruct_80180FF0	1	1	97.744
 9596	Unkstruct_80180FF8	1	1	97.745

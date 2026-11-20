@@ -2891,9 +2891,9 @@ void func_801826C8(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190710[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80190710[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x340;
@@ -2924,24 +2924,24 @@ void func_80182788(s32 a0) {
     register s16 c __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190714[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80190714[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
     v1 = sp10.vx;
     if (v1 >= 0x700) {
         if (v1 < 0x7C0) {
-            ((Unkstruct_8017CF48 *)a0)->unk2E = 0x7C0 - v1;
+            ((Unkstruct_80126948 *)a0)->unk2E = 0x7C0 - v1;
         } else {
-            ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
+            ((Unkstruct_80126948 *)a0)->unk2E = 0;
         }
     } else {
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
     }
 
-    ((Unkstruct_8017CF48 *)a0)->unk28 = (s16)func_80012F74(((Unkstruct_8017CF48 *)a0)->unk28, ((Unkstruct_8017CF48 *)a0)->unk2E, 4, 1);
+    ((Unkstruct_80126948 *)a0)->unk28 = (s16)func_80012F74(((Unkstruct_80126948 *)a0)->unk28, ((Unkstruct_80126948 *)a0)->unk2E, 4, 1);
 
     {
         s16 lo = 0x540;
@@ -2984,9 +2984,9 @@ void func_801828B8(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190718[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80190718[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x800;
@@ -3014,24 +3014,24 @@ void func_80182968(s32 a0) {
     register s16 c __asm__("$4"); /* clamp store value — target stores every bound from $a0 */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:greg-priority
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_8019071C[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_8019071C[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
     v1 = sp10.vx;
     if (v1 >= 0x440) {
         if (v1 < 0x500) {
-            ((Unkstruct_8017CF48 *)a0)->unk2E = 0x500 - v1;
+            ((Unkstruct_80126948 *)a0)->unk2E = 0x500 - v1;
         } else {
-            ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
+            ((Unkstruct_80126948 *)a0)->unk2E = 0;
         }
     } else {
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
     }
 
-    ((Unkstruct_8017CF48 *)a0)->unk28 = (s16)func_80012F74(((Unkstruct_8017CF48 *)a0)->unk28, ((Unkstruct_8017CF48 *)a0)->unk2E, 4, 1);
+    ((Unkstruct_80126948 *)a0)->unk28 = (s16)func_80012F74(((Unkstruct_80126948 *)a0)->unk28, ((Unkstruct_80126948 *)a0)->unk2E, 4, 1);
 
     {
         s16 lo = 0x380;
@@ -3074,9 +3074,9 @@ void func_80182A98(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80190720[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80190720[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x340;

@@ -721,7 +721,7 @@ void func_80138BE0(int p)
     if (*(unsigned short *)(p + 0xe) != 0) {
         *(unsigned short *)(p + 0xe) -= 1;
     }
-    D_80184384[((Unkstruct_80138BE0 *)p)->unk4]();
+    D_80184384[((struct S8013A0A4 *)p)->field_4]();
 }
 
 
@@ -738,28 +738,28 @@ s32 func_80138C60(s32 arg0, s32 arg1)
     s32 f;
     s32 idx;
 
-    if (((Unkstruct_80139C7C *)arg0)->unk8 & 0x2000) {
+    if (((struct S8013A0A4 *)arg0)->field_8 & 0x2000) {
         return 1;
     }
 
-    t = ((Unkstruct_80139C7C *)arg0)->unk22 & 7;
-    ((Unkstruct_80139C7C *)arg0)->unk18 = t;
+    t = ((struct S8013A0A4 *)arg0)->unk22 & 7;
+    ((struct S8013A0A4 *)arg0)->unk18 = t;
     if (t < 2) {
-        ((Unkstruct_80139C7C *)arg0)->unk20 = 0;
+        ((struct S8013A0A4 *)arg0)->unk20 = 0;
     }
 
-    f = ((Unkstruct_80139C7C *)arg0)->unk8;
+    f = ((struct S8013A0A4 *)arg0)->field_8;
     if (f & 0x40) {
-        ((Unkstruct_80139C7C *)arg0)->unk22 = (((Unkstruct_80139C7C *)arg0)->unk22 & 0x67) | (f & ~0x67);
+        ((struct S8013A0A4 *)arg0)->unk22 = (((struct S8013A0A4 *)arg0)->unk22 & 0x67) | (f & ~0x67);
     }
 
-    b = ((Unkstruct_80139C7C *)arg0)->unk22;
+    b = ((struct S8013A0A4 *)arg0)->unk22;
     if (b & 0x80) {
         idx = (b & 0x18) >> 3;
     } else {
         idx = (b & 0x78) >> 3;
         if (b & 0x60) {
-            ((Unkstruct_80139C7C *)arg0)->unk1C = 0;
+            ((struct S8013A0A4 *)arg0)->unk1C = 0;
         }
     }
 
@@ -823,7 +823,7 @@ void func_801397B0(s32 arg0)
 
     e = (u8 *)arg0;
     b164 = (u8 *)&D_801843C8;
-    off = ((s32)((Unkstruct_801397B0_2 *)e)->unk20 - 1) << 2;
+    off = ((s32)((struct S8013A0A4 *)e)->unk20 - 1) << 2;
     b164 = off + b164;
 
     ((Unkstruct_801397B0 *)buf)->unk0 = 0;
@@ -841,7 +841,7 @@ void func_801397B0(s32 arg0)
         ((Unkstruct_801397B0 *)buf)->unk16 = 0x80;
         ((Unkstruct_801397B0 *)buf)->unk15 = 0x80;
         ((Unkstruct_801397B0 *)buf)->unk14 = 0x80;
-        ((Unkstruct_801397B0 *)buf)->unk6 = ((Unkstruct_801397B0_2 *)e)->unk32;
+        ((Unkstruct_801397B0 *)buf)->unk6 = ((struct S8013A0A4 *)e)->unk32;
         ((Unkstruct_801397B0 *)buf)->unk8 = 0x20;
         ((Unkstruct_801397B0 *)buf)->unkA = 0x28;
     } while (0);
@@ -851,22 +851,22 @@ void func_801397B0(s32 arg0)
     vv = *(u16 *)(b164 + 2);
     ((Unkstruct_801397B0 *)buf)->unkF = vv;
 
-    if (((Unkstruct_801397B0_2 *)e)->unk22 & 8) {
+    if (((struct S8013A0A4 *)e)->unk22 & 8) {
         ((Unkstruct_801397B0 *)buf)->unk4 =
-            ((Unkstruct_801397B0_2 *)e)->unk30 + ((Unkstruct_801397B0_2 *)e)->unk34 + 0x28;
-        sc = -((Unkstruct_801397B0_2 *)e)->unk28;
+            ((struct S8013A0A4 *)e)->unk30 + ((struct S8013A0A4 *)e)->unk34.u + 0x28;
+        sc = -((struct S8013A0A4 *)e)->unk28;
     } else {
-        ((Unkstruct_801397B0 *)buf)->unk4 = ((Unkstruct_801397B0_2 *)e)->unk30 - 0x28;
-        sc = ((Unkstruct_801397B0_2 *)e)->unk28;
+        ((Unkstruct_801397B0 *)buf)->unk4 = ((struct S8013A0A4 *)e)->unk30 - 0x28;
+        sc = ((struct S8013A0A4 *)e)->unk28;
     }
     ((Unkstruct_801397B0 *)buf)->unk1C = sc;
-    ((Unkstruct_801397B0 *)buf)->unk1E = ((Unkstruct_801397B0_2 *)e)->unk2A;
+    ((Unkstruct_801397B0 *)buf)->unk1E = ((struct S8013A0A4 *)e)->unk2A;
     ((Unkstruct_801397B0 *)buf)->unk1A = 0;
     ((Unkstruct_801397B0 *)buf)->unk18 = 0;
     ((Unkstruct_801397B0 *)buf)->unk20 = 0;
 
     GsSortSprite(buf, &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20],
-                 ((Unkstruct_801397B0_2 *)e)->unk1A);
+                 ((struct S8013A0A4 *)e)->unk1A);
 }
 
 
@@ -924,13 +924,13 @@ void func_80139BE0(int param_1)
         } else {
             v = D_8018434C[0];
         }
-        ((Unkstruct_80139C7C *)param_1)->unk2E = 3;
-        ((Unkstruct_80139C7C *)param_1)->unk2C = v;
+        ((struct S8013A0A4 *)param_1)->field_2E = 3;
+        ((struct S8013A0A4 *)param_1)->unk2C = v;
     }
-    ((Unkstruct_80139C7C *)param_1)->unk34 = ((Unkstruct_80139C7C *)param_1)->unk2C * 6;
+    ((struct S8013A0A4 *)param_1)->unk34.s = ((struct S8013A0A4 *)param_1)->unk2C * 6;
     {
-        int x = ((Unkstruct_80139C7C *)param_1)->unk2E;
-        ((Unkstruct_80139C7C *)param_1)->unk36 = x * 12 + (x - 1) * 2;
+        int x = ((struct S8013A0A4 *)param_1)->field_2E;
+        ((struct S8013A0A4 *)param_1)->unk36 = x * 12 + (x - 1) * 2;
     }
 }
 

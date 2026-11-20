@@ -3067,7 +3067,7 @@ extern s32 guess_GetStoryProgress(void);
 extern void (*D_80182CF8[])(void);
 
 void func_8017CDB4(void *a0) {
-    D_80182CF8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182CF8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3125,7 +3125,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80182D0C[])(void);
 
 void func_8017CF34(void *a0) {
-    D_80182D0C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182D0C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3144,7 +3144,7 @@ extern void func_800D1E28(void);
 extern void (*D_80182D18[])(void);
 
 void func_8017CFE4(void *a0) {
-    D_80182D18[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182D18[((Dst *)a0)->unk15]();
 }
 
 

@@ -4180,8 +4180,8 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 void func_8017E51C(s32 arg0)
 {
     s32 ptr = guess_g_ActiveCamera;
-    ((Unkstruct_80126948 *)ptr)->unk1A = 0xE00;
-    ((Unkstruct_80126948 *)ptr)->unk22 = 0xE00;
+    ((Unkstruct_80126948 *)ptr)->unk1A.u = 0xE00;
+    ((Unkstruct_80126948 *)ptr)->unk22.u = 0xE00;
     *(u16 *)(arg0 + 6) = 0;
     *(u16 *)(arg0 + 4) = *(u16 *)(arg0 + 4) + 1;
 }
@@ -4191,8 +4191,8 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 void func_8017E544(void) {
     s32 p = guess_g_ActiveCamera;
-    ((Unkstruct_80126948 *)p)->unk1A -= 2;
-    ((Unkstruct_80126948 *)p)->unk22 = ((Unkstruct_80126948 *)p)->unk1A;
+    ((Unkstruct_80126948 *)p)->unk1A.u -= 2;
+    ((Unkstruct_80126948 *)p)->unk22.u = ((Unkstruct_80126948 *)p)->unk1A.u;
 }
 
 
@@ -4204,8 +4204,8 @@ void func_8017E568(void *arg0) {
     p = guess_g_ActiveCamera;
     ((Unkstruct_80126948 *)p)->unk10 = 0x190;
     ((Unkstruct_80126948 *)p)->unk14 = 0x190;
-    ((Unkstruct_80126948 *)p)->unk1A = 0x200;
-    ((Unkstruct_80126948 *)p)->unk22 = 0x200;
+    ((Unkstruct_80126948 *)p)->unk1A.u = 0x200;
+    ((Unkstruct_80126948 *)p)->unk22.u = 0x200;
     M2C_FIELD(arg0, u16 *, 4) = (u16)(M2C_FIELD(arg0, u16 *, 4) + 1);
     M2C_FIELD(arg0, s16 *, 0x6) = 0;
 }
@@ -4215,8 +4215,8 @@ extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_Activ
 
 void func_8017E59C(void) {
     s32 p = guess_g_ActiveCamera;
-    ((Unkstruct_80126948 *)p)->unk1A += 2;
-    ((Unkstruct_80126948 *)p)->unk22 = ((Unkstruct_80126948 *)p)->unk1A;
+    ((Unkstruct_80126948 *)p)->unk1A.u += 2;
+    ((Unkstruct_80126948 *)p)->unk22.u = ((Unkstruct_80126948 *)p)->unk1A.u;
 }
 
 
@@ -4543,8 +4543,8 @@ void func_8017EB34(s32 a0) {
     func_8017D158();
 
     v0 = 0x11C;
-    ((Unkstruct_80126948 *)s1)->unk1A = v0;
-    ((Unkstruct_80126948 *)s1)->unk22 = v0;
+    ((Unkstruct_80126948 *)s1)->unk1A.u = v0;
+    ((Unkstruct_80126948 *)s1)->unk22.u = v0;
 
     func_801813EC((s32)s0);
     func_8018122C((s32)s0, &D_80188AA8);

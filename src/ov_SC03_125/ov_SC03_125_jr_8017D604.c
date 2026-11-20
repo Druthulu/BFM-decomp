@@ -3057,7 +3057,7 @@ s32 func_8017E4E4(s32 param_1)
 {
     ((void (*)(void *, s32))func_8016EDEC)(func_8017E870, 0x1000000);
     func_800167B8(0);
-    ((Unkstruct_8017D4D8 *)param_1)->unk15 = ((Unkstruct_8017D4D8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -3120,7 +3120,7 @@ void func_8017E780(void) {
 extern void (*D_80187B24[])(void);
 
 void func_8017E7A8(void *a0) {
-    D_80187B24[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80187B24[((Dst *)a0)->unk15]();
 }
 
 
@@ -3128,7 +3128,7 @@ void func_8017E7A8(void *a0) {
 extern void (*D_80187B2C[])(void);
 
 void func_8017E7E4(void *a0) {
-    D_80187B2C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80187B2C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3136,7 +3136,7 @@ void func_8017E7E4(void *a0) {
 extern void (*D_80187B38[])(void);
 
 void func_8017E820(void *a0) {
-    D_80187B38[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80187B38[((Dst *)a0)->unk15]();
 }
 
 
@@ -4561,23 +4561,23 @@ void func_80180ADC(void *arg0) {
     s32 h;
     s32 t;
 
-    ((Unkstruct_8017DA08 *)base)->unk0 = (s32)D_80188214;
-    ((Unkstruct_8017DA08 *)base)->unk4 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk8 = 0;
-    ((Unkstruct_8017DA08 *)base)->unkC = 0;
-    ((Unkstruct_8017DA08 *)base)->unkE = 0;
-    ((Unkstruct_8017DA08 *)base)->unk10 = 0;
+    ((Ent_8017D6EC *)base)->unk0 = (s32)D_80188214;
+    ((Ent_8017D6EC *)base)->unk4 = 0;
+    ((Ent_8017D6EC *)base)->unk8 = 0;
+    ((Ent_8017D6EC *)base)->unkC = 0;
+    ((Ent_8017D6EC *)base)->unkE.s = 0;
+    ((Ent_8017D6EC *)base)->unk10.s = 0;
 
     r1 = rand();
     r2 = rand();
-    h = ((Unkstruct_8017DA08 *)base)->unk16 * 80;
+    h = ((Ent_8017D6EC *)base)->unk16 * 80;
     t = (r1 & 7) * 5 - 0xA0;
-    ((Unkstruct_8017DA08 *)base)->unk12 = h + t + (r2 & 0xF);
+    ((Ent_8017D6EC *)base)->unk12.s = h + t + (r2 & 0xF);
 
-    ((Unkstruct_8017DA08 *)base)->unk14 = -((rand() & 0xF) * 2);
-    ((Unkstruct_8017DA08 *)base)->unk1C = 0;
-    ((Unkstruct_8017DA08 *)base)->unk20 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
+    ((Ent_8017D6EC *)base)->unk14.s = -((rand() & 0xF) * 2);
+    ((Ent_8017D6EC *)base)->unk1C = 0;
+    ((Ent_8017D6EC *)base)->unk20 = 0;
+    ((Ent_8017D6EC *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
 }
 
 

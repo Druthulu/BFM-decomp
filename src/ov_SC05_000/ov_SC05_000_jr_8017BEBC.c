@@ -3148,7 +3148,7 @@ extern void guess_AddVelocityToPos_4(s32 a0);
 extern void (*D_80181D70[])(void);
 
 void func_8017D060(void *a0) {
-    D_80181D70[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80181D70[((Dst *)a0)->unk15]();
 }
 
 
@@ -3177,7 +3177,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80181D78[])(void);
 
 void func_8017D104(void *a0) {
-    D_80181D78[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80181D78[((Dst *)a0)->unk15]();
 }
 
 
@@ -3214,7 +3214,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80181D84[])(void);
 
 void func_8017D21C(void *a0) {
-    D_80181D84[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80181D84[((Dst *)a0)->unk15]();
 }
 
 
@@ -3233,7 +3233,7 @@ extern void func_800D1E28(void);
 extern void (*D_80181D90[])(void);
 
 void func_8017D2CC(void *a0) {
-    D_80181D90[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80181D90[((Dst *)a0)->unk15]();
 }
 
 

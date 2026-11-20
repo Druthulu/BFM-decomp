@@ -2754,7 +2754,7 @@ int func_8017D160(void) {
 extern void (*D_80189BC4[])(void);
 
 void func_8017D184(void *a0) {
-    D_80189BC4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80189BC4[((Dst *)a0)->unk15]();
 }
 
 
@@ -2917,41 +2917,41 @@ void func_8017D508(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BEC[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80189BEC[t];
     }
     sp10 = guess_g_CameraFollowPos;
     if (((u32)((u16)sp10.vx - 0x2C1) < 0x2BF) && (sp10.vy >= -0x35F) &&
         ((u32)((u16)sp10.vz - 0x581) < 0x77F)) {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0x71;
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
-        ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk30 = -0x50;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0x71;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk24.s = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk30 = -0x50;
     } else if (((u16)((u16)sp10.vx + 0x5FF) < 0x5FF) &&
                ((u32)((u16)sp10.vz - 0x681) < 0x3FC)) {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x800;
-        ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk30 = 0;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0x2AA;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x800;
+        ((Unkstruct_80126948 *)a0)->unk24.s = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk30 = 0;
     } else if (sp10.vz < 0x380) {
         s16 k = -0x50;                  /* §5a: born ABOVE the barrier so sched1 can hoist the li */
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0x71;
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
-        ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0x71;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk24.s = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
         __asm__ __volatile__("");       /* §5a/§336 cross-jump barrier - LOAD-BEARING, see above */  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:jump2-crossjump
-        ((Unkstruct_8017CF48 *)a0)->unk30 = k;
+        ((Unkstruct_80126948 *)a0)->unk30 = k;
     } else {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0x2AA;
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
-        ((Unkstruct_8017CF48 *)a0)->unk24 = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk2E = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk30 = 0;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0x2AA;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk24.s = 0;
+        ((Unkstruct_80126948 *)a0)->unk2E = 0;
+        ((Unkstruct_80126948 *)a0)->unk30 = 0;
     }
-    ((Unkstruct_8017CF48 *)a0)->unk32 = 0;
+    ((Unkstruct_80126948 *)a0)->unk32 = 0;
     if (sp10.vx < -0x400) {
         sp10.vx = -0x400;
     }
@@ -2976,9 +2976,9 @@ void func_8017D6D0(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80189BF0[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80189BF0[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x400;

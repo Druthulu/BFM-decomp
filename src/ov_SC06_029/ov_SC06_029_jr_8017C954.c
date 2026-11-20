@@ -2890,7 +2890,7 @@ void func_8017C954(s32 arg0)
     s32 d;
     u32 e;
 
-    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017FA5C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
@@ -2903,7 +2903,7 @@ void func_8017C954(s32 arg0)
     colB = (e << 16) | (e << 8) | e;
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017C954_3 *)*(s32 *)(arg0 + 8))->unk8;
-    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
+    vtx = *(u8 **)(((Unkstruct_8017FA5C *)arg0)->unk8 + 0x10);
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3536,7 +3536,7 @@ extern void func_8002931C(s32 a0);
 extern void (*D_80190028[])(void);
 
 void func_8017E24C(void *a0) {
-    D_80190028[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190028[((Dst *)a0)->unk15]();
 }
 
 
@@ -3565,7 +3565,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80190030[])(void);
 
 void func_8017E2F0(void *a0) {
-    D_80190030[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190030[((Dst *)a0)->unk15]();
 }
 
 

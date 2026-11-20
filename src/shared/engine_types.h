@@ -81,22 +81,6 @@ struct obj {
     s32 unk8;
 };
 
-struct S8013A0A4 {
-    /* 0x0000 */ u8 pad0[0x4];
-    /* 0x0004 */ s16 field_4;
-    /* 0x0006 */ u8 pad6[0x2];
-    /* 0x0008 */ s32 field_8;
-    /* 0x000c */ u8 unkC;
-    /* 0x000d */ u8 padD[0x1];
-    /* 0x000e */ u16 unkE;
-    /* 0x0010 */ u8 pad10[0x6];
-    /* 0x0016 */ u16 field_16;
-    /* 0x0018 */ u8 pad18[0x6];
-    /* 0x001e */ u8 field_1E;
-    /* 0x001f */ u8 pad1F[0xf];
-    /* 0x002e */ s16 field_2E;
-}; /* size = 0x30 */
-
 struct Inner8013A4C4 {
     u8 pad_0[0x28];
     s16 unk28;     /* 0x28 */
@@ -1006,14 +990,6 @@ typedef Ent_8017BFE0_80180544 Ent_8017BFE0_8017DFF4;
 typedef Ent_8017BFE0_80180544 Ent_8017BFE0_8017E1B8;
 typedef Ent_8017BFE0_80180544 Ent_8017BFE0_8017FFB0;
 typedef Ent_8017BFE0_80180544 Ent_8017BFE0_80182110;
-typedef struct {
-    /* T18.c16: raw byte arrays unk00/unk18/unk20 (never accessed) made pads so the 80182080/8017DA08 views fold in */
-    /* 0x0000 */ u8 pad0[0x16];
-    /* 0x0016 */ s16 unk16;
-    /* 0x0018 */ u8 pad18[0x4];
-    /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ u8 pad20[0x4];
-} Ent_8017D6EC; /* size = 0x24 */
 typedef Ent_8017D6EC Ent_8017D6EC_8017D6EC;
 typedef Ent_8017D6EC Ent_8017D6EC_8017DEE8;
 typedef Ent_8017D6EC Ent_8017D6EC_8017F5F8;

@@ -1349,7 +1349,7 @@ extern void func_800D1F90(void);
 extern void (*D_80191DDC[])(void);
 
 void func_80159698(void *a0) {
-    D_80191DDC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80191DDC[((Dst *)a0)->unk15]();
 }
 
 
@@ -1388,8 +1388,8 @@ s32 func_801596F0(s32 param_1) {
     u32 *p;
     u32 *q;
 
-    v = ((Unkstruct_801596F0 *)param_1)->unk28 - 1;
-    ((Unkstruct_801596F0 *)param_1)->unk28 = v;
+    v = ((Dst *)param_1)->unk28 - 1;
+    ((Dst *)param_1)->unk28 = v;
     if (v == -1) {
         func_80174B6C();
         (*(s16 *)&guess_g_BackgroundLayerPriority) = 0x7fff;
@@ -1421,8 +1421,8 @@ s32 func_801596F0(s32 param_1) {
         guess_SetFlatLightOrDefault(0, &(*(u8 *)&D_80191BFC));
         guess_SetFlatLightOrDefault(1, &(*(u8 *)&D_80191BFC) + 0x10);
         guess_SetFlatLightOrDefault(2, &(*(u8 *)&D_80191BFC) + 0x20);
-        ((Unkstruct_801596F0 *)param_1)->unk28 = 0xff;
-        ((Unkstruct_801596F0 *)param_1)->unk15 = ((Unkstruct_801596F0 *)param_1)->unk15 + 1;
+        ((Dst *)param_1)->unk28 = 0xff;
+        ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     }
     return 0;
 }

@@ -3383,9 +3383,9 @@ void func_8017D130(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018DF0C[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_8018DF0C[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_8017D4E4(a0, &sp10.vx);
@@ -3404,33 +3404,33 @@ void func_8017D1D0(s32 param_1) {
     ptr = D_801F6098;
     switch (CAST_SIGN(s16, param_1, 0xA0)) {
     case 0:
-        sp10[0] = ptr[0] + (ptr[8] - ptr[0]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
-        sp10[1] = ptr[1] + (ptr[9] - ptr[1]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
-        sp10[2] = ptr[2] + (ptr[10] - ptr[2]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
-        ((Unkstruct_8017CF48 *)param_1)->unk9C = ((Unkstruct_8017CF48 *)param_1)->unk9C + 1;
-        if (ptr[3] < ((Unkstruct_8017CF48 *)param_1)->unk9C) {
+        sp10[0] = ptr[0] + (ptr[8] - ptr[0]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
+        sp10[1] = ptr[1] + (ptr[9] - ptr[1]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
+        sp10[2] = ptr[2] + (ptr[10] - ptr[2]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
+        ((Unkstruct_80126948 *)param_1)->unk9C = ((Unkstruct_80126948 *)param_1)->unk9C + 1;
+        if (ptr[3] < ((Unkstruct_80126948 *)param_1)->unk9C) {
             D_801274E8 = *(Blk8_80126940_8018008C_SC07_006_8017BEBC *)&sp10[0];
-            ((Unkstruct_8017CF48 *)param_1)->unk9C = 0;
-            ((Unkstruct_8017CF48 *)param_1)->unkA0 += 1;
+            ((Unkstruct_80126948 *)param_1)->unk9C = 0;
+            ((Unkstruct_80126948 *)param_1)->unkA0.u += 1;
         }
         break;
     case 1:
-        v = (ptr[8] - ptr[0]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
+        v = (ptr[8] - ptr[0]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
         if (v < 0) {
             v += 3;
         }
         sp10[0] = *(s16 *)&D_801274E8 + (v >> 2);
-        v = (ptr[9] - ptr[1]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
+        v = (ptr[9] - ptr[1]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
         if (v < 0) {
             v += 3;
         }
         sp10[1] = ((s16 *)&D_801274E8)[1] + (v >> 2);
-        v = (ptr[10] - ptr[2]) * ((Unkstruct_8017CF48 *)param_1)->unk9C / ptr[3];
+        v = (ptr[10] - ptr[2]) * ((Unkstruct_80126948 *)param_1)->unk9C / ptr[3];
         if (v < 0) {
             v += 3;
         }
         sp10[2] = ((s16 *)&D_801274E8)[2] + (v >> 2);
-        ((Unkstruct_8017CF48 *)param_1)->unk9C += 1;
+        ((Unkstruct_80126948 *)param_1)->unk9C += 1;
         break;
     }
     func_8017D4E4(param_1, sp10);

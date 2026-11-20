@@ -3334,7 +3334,7 @@ void func_8017CD9C(void)
 extern void (*D_80182500[])(void);
 
 void func_8017CE0C(void *a0) {
-    D_80182500[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182500[((Dst *)a0)->unk15]();
 }
 
 
@@ -3387,7 +3387,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80182514[])(void);
 
 void func_8017CF8C(void *a0) {
-    D_80182514[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182514[((Dst *)a0)->unk15]();
 }
 
 
@@ -3466,9 +3466,9 @@ void func_8017D168(s32 a0) {
     extern void func_8017D210(s32 a0, s16 *a1);
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80182534[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80182534[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vz = -0x480;

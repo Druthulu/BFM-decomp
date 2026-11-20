@@ -2583,16 +2583,16 @@ extern void (*D_80194EAC[])();
 
 void func_80174BF4(void * arg0)
 {
-    ((Unkstruct_80174BF4 *)arg0)->unkC = 0x12C;
-    ((Unkstruct_80174BF4 *)arg0)->unk14 = 0x12C;
-    ((Unkstruct_80174BF4 *)arg0)->unk20 = 0x155;
-    ((Unkstruct_80174BF4 *)arg0)->unk22 = 0x800;
-    ((Unkstruct_80174BF4 *)arg0)->unk24 = 0;
-    ((Unkstruct_80174BF4 *)arg0)->unk2E = 0;
-    ((Unkstruct_80174BF4 *)arg0)->unk30 = -0x28;
-    ((Unkstruct_80174BF4 *)arg0)->unk32 = 0;
-    ((Unkstruct_80174BF4 *)arg0)->unk54 = 0;
-    D_80194EAC[((Unkstruct_80174BF4 *)arg0)->unk4]();
+    ((Unkstruct_80126948 *)arg0)->unkC.val = 0x12C;
+    ((Unkstruct_80126948 *)arg0)->unk14 = 0x12C;
+    ((Unkstruct_80126948 *)arg0)->unk20.s = 0x155;
+    ((Unkstruct_80126948 *)arg0)->unk22.s = 0x800;
+    ((Unkstruct_80126948 *)arg0)->unk24.s = 0;
+    ((Unkstruct_80126948 *)arg0)->unk2E = 0;
+    ((Unkstruct_80126948 *)arg0)->unk30 = -0x28;
+    ((Unkstruct_80126948 *)arg0)->unk32 = 0;
+    ((Unkstruct_80126948 *)arg0)->unk54 = 0;
+    D_80194EAC[((Unkstruct_80126948 *)arg0)->unk4]();
 }
 
 
@@ -2726,7 +2726,7 @@ extern void func_80175820(void);
 extern s32 func_801759D8(void);
 
 void func_8017553C(s32 *param) {
-    D_8019502C[((Unkstruct_8017553C *)param)->unk1]();
+    D_8019502C[((Unkstruct_8011F7A8 *)param)->unk1]();
     ((void (*)(void))func_801758FC)();
     ((void (*)(void))func_80175820)();
     ((void (*)(void))func_801759D8)();
@@ -2746,7 +2746,7 @@ extern void func_80175820(void);
 extern s32 func_801759D8(void);
 
 void func_80175690(s32 *param) {
-    D_80195038[((Unkstruct_8017553C *)param)->unk1]();
+    D_80195038[((Unkstruct_8011F7A8 *)param)->unk1]();
     ((void (*)(void))func_801758FC)();
     ((void (*)(void))func_80175820)();
     ((void (*)(void))func_801759D8)();
@@ -3134,7 +3134,7 @@ void func_80176218(s32 param_1)
         goto L328;
     }
     if (ne) {
-        ((Unkstruct_8011F7A8 *)st)->unk82  = sA;
+        ((Unkstruct_8011F7A8 *)st)->unk48.hp_max  = sA;
         ((Unkstruct_8011F7A8 *)st)->unk11C = 1;
     } else {
         ((Unkstruct_8011F7A8 *)st)->unk11C = 0;
@@ -3343,11 +3343,11 @@ void func_80176734(s32 param_1)
     }
 
     /* ---- block B: 0x48 animation already running ---- */
-    if (((Unkstruct_8011F888 *)flag)->unk48 != 0) {
+    if (((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 != 0) {
         p = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
-        *(u8 *)(p + 0xD) = D_80194FF0[((Unkstruct_8011F888 *)flag)->unk48];
-        if (((Unkstruct_8011F888 *)flag)->unk48 < 4) {
-            ((Unkstruct_8011F888 *)flag)->unk48 = ((Unkstruct_8011F888 *)flag)->unk48 + 1;
+        *(u8 *)(p + 0xD) = D_80194FF0[((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128];
+        if (((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 < 4) {
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 + 1;
         } else {
             u8 c = ((Unkstruct_80078E78 *)cach)->unk48;
             s32 arg;
@@ -3363,36 +3363,36 @@ void func_80176734(s32 param_1)
             }
             guess_AllocRenderWorkRecord(arg);
         Lskip:
-            if (((Unkstruct_8011F888 *)flag)->unk48 == 5) {
-                if (((Unkstruct_80078E78 *)cach)->unk48 == 0) ((Unkstruct_8011F888 *)flag)->unk48 = 0;
-                else ((Unkstruct_8011F888 *)flag)->unk48 = ((Unkstruct_8011F888 *)flag)->unk48 + 1;
-            } else if (((Unkstruct_8011F888 *)flag)->unk48 == 10) {
-                ((Unkstruct_8011F888 *)flag)->unk48 = 0;
+            if (((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 == 5) {
+                if (((Unkstruct_80078E78 *)cach)->unk48 == 0) ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = 0;
+                else ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 + 1;
+            } else if (((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 == 10) {
+                ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = 0;
             } else {
-                ((Unkstruct_8011F888 *)flag)->unk48 = ((Unkstruct_8011F888 *)flag)->unk48 + 1;
+                ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 + 1;
             }
         }
     /* ---- block C: 0x48 changed -> start the animation ---- */
     } else if (((Unkstruct_80078E78 *)cach)->unk48 != ((Unkstruct_80078E78 *)cur)->unk48) {
         u8 k;                                /* gives the `andi $v1,$v1,0xFF` index mask */
         if (((Unkstruct_80078E78 *)cach)->unk48 == 0 && ((Unkstruct_80078E78 *)cur)->unk48 != 0)
-            ((Unkstruct_8011F888 *)flag)->unk48 = 5;
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = 5;
         else
-            ((Unkstruct_8011F888 *)flag)->unk48 = 0;
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = 0;
         ((Unkstruct_80078E78 *)cach)->unk48 = ((Unkstruct_80078E78 *)cur)->unk48;
         p = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
-        k = ((Unkstruct_8011F888 *)flag)->unk48;
-        ((Unkstruct_8011F888 *)flag)->unk48 = k + 1;
+        k = ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128;
+        ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk128 = k + 1;
         *(u8 *)(p + 0xD) = D_80194FF0[k];
     }
 
     /* ---- block D: field 0x2E (equality-first: the ne-arm must be out of line) ---- */
     if (*(s16 *)(cach + 0x2E) == *(s16 *)(cur + 0x2E)) {
-        if (((Unkstruct_8011F888 *)flag)->unk2E == 0) goto L9C0;
-        ((Unkstruct_8011F888 *)flag)->unk2E = 0;
+        if (((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk10E == 0) goto L9C0;
+        ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk10E = 0;
     } else {
         *(s16 *)(cach + 0x2E) = *(s16 *)(cur + 0x2E);
-        ((Unkstruct_8011F888 *)flag)->unk2E = 1;
+        ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk10E = 1;
     }
     {
         s32 pp = *(s32 *)(((pv << 16) >> 14) + st + 0x28);
@@ -3450,7 +3450,7 @@ L9C0:
     /* ---- block H: amp != 0 short-circuit ---- */
     {
         if (amp != 0) {
-            ((Unkstruct_8011F888 *)flag)->unk47 = 1;
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk127 = 1;
             ((Unkstruct_80078E78 *)cach)->unk4B = ((Unkstruct_80078E78 *)cur)->unk48 | 0xF0;
             ((Unkstruct_80078E78 *)cach)->unk47 = ((s32)D_80126D20 << 7) / amp;
             goto Ltail;
@@ -3481,7 +3481,7 @@ L9C0:
     /* ---- block J/K: slew cach[0x47] toward tgt when anything changed.  The inner test re-reads
        chg after the flag load (cse cannot see through the label), jump threading sends the outer
        `chg != 0` past it. ---- */
-    if (amp != 0 || chg != 0 || ((Unkstruct_8011F888 *)flag)->unk47 != 0) {
+    if (amp != 0 || chg != 0 || ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk127 != 0) {
         if (amp != 0 || chg != 0) {
             u32 c = ((Unkstruct_80078E78 *)cach)->unk47;
             s32 sv = (s16)tgt;
@@ -3498,9 +3498,9 @@ L9C0:
                     ((Unkstruct_80078E78 *)cach)->unk47 = tgt;
                 }
             }
-            ((Unkstruct_8011F888 *)flag)->unk47 = 1;
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk127 = 1;
         } else {
-            ((Unkstruct_8011F888 *)flag)->unk47 = 0;
+            ((Unkstruct_8011F7A8 *)((s32)flag - 0xE0))->unk127 = 0;
         }
     }
 Ltail:

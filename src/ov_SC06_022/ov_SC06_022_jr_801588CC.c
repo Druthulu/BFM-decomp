@@ -1349,7 +1349,7 @@ extern void func_800D1F90(void);
 extern void (*D_8018F904[])(void);
 
 void func_80159698(void *a0) {
-    D_8018F904[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018F904[((Dst *)a0)->unk15]();
 }
 
 

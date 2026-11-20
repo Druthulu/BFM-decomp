@@ -3056,7 +3056,7 @@ s32 func_8017E4E4(s32 param_1)
 {
     ((void (*)(void *, s32))func_8016EDEC)(func_8017EA50, 0x1000000);
     func_800167B8(0);
-    ((Unkstruct_8017D4D8 *)param_1)->unk15 = ((Unkstruct_8017D4D8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -3205,7 +3205,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018A6D8[])(void);
 
 void func_8017E910(void *a0) {
-    D_8018A6D8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A6D8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3213,7 +3213,7 @@ void func_8017E910(void *a0) {
 extern void (*D_8018A6E0[])(void);
 
 void func_8017E94C(void *a0) {
-    D_8018A6E0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A6E0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3221,7 +3221,7 @@ void func_8017E94C(void *a0) {
 extern void (*D_8018A6EC[])(void);
 
 void func_8017E988(void *a0) {
-    D_8018A6EC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A6EC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3229,7 +3229,7 @@ void func_8017E988(void *a0) {
 extern void (*D_8018A704[])(void);
 
 void func_8017E9C4(void *a0) {
-    D_8018A704[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A704[((Dst *)a0)->unk15]();
 }
 
 
@@ -3237,7 +3237,7 @@ void func_8017E9C4(void *a0) {
 extern void (*D_8018A70C[])(void);
 
 void func_8017EA00(void *a0) {
-    D_8018A70C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A70C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3326,15 +3326,15 @@ void func_8017EBFC(void *a0) {
     s16 val;
     s32 cnt;
     ptr = guess_g_ActiveCamera;
-    val = ((Unkstruct_80126948 *)ptr)->unk22 + 4;
-    ((Unkstruct_80126948 *)ptr)->unk22 = val;
-    ((Unkstruct_80126948 *)ptr)->unk1A = val;
+    val = ((Unkstruct_80126948 *)ptr)->unk22.u + 4;
+    ((Unkstruct_80126948 *)ptr)->unk22.u = val;
+    ((Unkstruct_80126948 *)ptr)->unk1A.u = val;
     cnt = *(s32 *)((u8 *)a0 + 0x204) - 1;
     *(s32 *)((u8 *)a0 + 0x204) = cnt;
     if (cnt == -1) {
         *(s32 *)((u8 *)a0 + 0x204) = 0x3C;
-        ((Unkstruct_80126948 *)ptr)->unk22 = 0x600;
-        ((Unkstruct_80126948 *)ptr)->unk1A = 0x600;
+        ((Unkstruct_80126948 *)ptr)->unk22.u = 0x600;
+        ((Unkstruct_80126948 *)ptr)->unk1A.u = 0x600;
         ((Unkstruct_80126948 *)ptr)->unk14 = 0x384;
         ((Unkstruct_80126948 *)ptr)->unk10 = 0x384;
         ((Unkstruct_80126948 *)ptr)->unk2E = 0x40;
@@ -3356,9 +3356,9 @@ void func_8017EC80(s32 a0) {
     s32 v1;
 
     v1 = guess_g_ActiveCamera;
-    v0 = ((Unkstruct_80126948 *)v1)->unk22 + 4;
-    ((Unkstruct_80126948 *)v1)->unk22 = v0;
-    ((Unkstruct_80126948 *)v1)->unk1A = v0;
+    v0 = ((Unkstruct_80126948 *)v1)->unk22.u + 4;
+    ((Unkstruct_80126948 *)v1)->unk22.u = v0;
+    ((Unkstruct_80126948 *)v1)->unk1A.u = v0;
 
     v02 = *(s32 *)((u8 *)a0 + 0x204) - 1;
     *(s32 *)((u8 *)a0 + 0x204) = v02;
@@ -6353,23 +6353,23 @@ void func_80183588(void *arg0) {
     s32 h;
     s32 t;
 
-    ((Unkstruct_8017DA08 *)base)->unk0 = (s32)D_8018B1A0;
-    ((Unkstruct_8017DA08 *)base)->unk4 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk8 = 0;
-    ((Unkstruct_8017DA08 *)base)->unkC = 0;
-    ((Unkstruct_8017DA08 *)base)->unkE = 0;
-    ((Unkstruct_8017DA08 *)base)->unk10 = 0;
+    ((Ent_8017D6EC *)base)->unk0 = (s32)D_8018B1A0;
+    ((Ent_8017D6EC *)base)->unk4 = 0;
+    ((Ent_8017D6EC *)base)->unk8 = 0;
+    ((Ent_8017D6EC *)base)->unkC = 0;
+    ((Ent_8017D6EC *)base)->unkE.s = 0;
+    ((Ent_8017D6EC *)base)->unk10.s = 0;
 
     r1 = rand();
     r2 = rand();
-    h = ((Unkstruct_8017DA08 *)base)->unk16 * 80;
+    h = ((Ent_8017D6EC *)base)->unk16 * 80;
     t = (r1 & 7) * 5 - 0xA0;
-    ((Unkstruct_8017DA08 *)base)->unk12 = h + t + (r2 & 0xF);
+    ((Ent_8017D6EC *)base)->unk12.s = h + t + (r2 & 0xF);
 
-    ((Unkstruct_8017DA08 *)base)->unk14 = -((rand() & 0xF) * 2);
-    ((Unkstruct_8017DA08 *)base)->unk1C = 0;
-    ((Unkstruct_8017DA08 *)base)->unk20 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
+    ((Ent_8017D6EC *)base)->unk14.s = -((rand() & 0xF) * 2);
+    ((Ent_8017D6EC *)base)->unk1C = 0;
+    ((Ent_8017D6EC *)base)->unk20 = 0;
+    ((Ent_8017D6EC *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
 }
 
 

@@ -3058,7 +3058,7 @@ void func_8017BE9C(s32 arg0)
 extern void (*D_80182138[])(void);
 
 void func_8017CD7C(void *a0) {
-    D_80182138[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182138[((Dst *)a0)->unk15]();
 }
 
 
@@ -3083,7 +3083,7 @@ s32 func_8017CDB8(s32 a0) {
 extern void (*D_80182140[])(void);
 
 void func_8017CE20(void *a0) {
-    D_80182140[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182140[((Dst *)a0)->unk15]();
 }
 
 
@@ -3113,7 +3113,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018214C[])(void);
 
 void func_8017CF14(void *a0) {
-    D_8018214C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018214C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3159,7 +3159,7 @@ Handler func_8017CFC4(void)
 extern void (*D_80182158[])(void);
 
 void func_8017D034(void *a0) {
-    D_80182158[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182158[((Dst *)a0)->unk15]();
 }
 
 
@@ -3180,7 +3180,7 @@ s32 func_8017D070(s32 a0) {
 extern void (*D_80182160[])(void);
 
 void func_8017D0B4(void *a0) {
-    D_80182160[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182160[((Dst *)a0)->unk15]();
 }
 
 
@@ -3699,19 +3699,19 @@ void func_8017DD58(s32 a0) {
     *(Blk8_dd58 *)&guess_g_CameraFollowPos = *(Blk8_dd58 *)&D_80182234;
 
     t1 = CAST_SIGN(u16, a0, 0x20) - 5;
-    ((Unkstruct_8017CF48 *)a0)->unk20 = t1;
-    ((Unkstruct_8017CF48 *)a0)->unk18 = t1;
+    ((Unkstruct_80126948 *)a0)->unk20.s = t1;
+    ((Unkstruct_80126948 *)a0)->unk18.s = t1;
     if (t1 < 0) {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0;
-        ((Unkstruct_8017CF48 *)a0)->unk18 = 0;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0;
+        ((Unkstruct_80126948 *)a0)->unk18.s = 0;
     }
 
     t2 = CAST_SIGN(u16, a0, 0x22) + 6;
-    ((Unkstruct_8017CF48 *)a0)->unk22 = t2;
-    ((Unkstruct_8017CF48 *)a0)->unk1A = t2;
+    ((Unkstruct_80126948 *)a0)->unk22.s = t2;
+    ((Unkstruct_80126948 *)a0)->unk1A.s = t2;
     if (t2 > 0xFE0) {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0xFE0;
-        ((Unkstruct_8017CF48 *)a0)->unk1A = 0xFE0;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0xFE0;
+        ((Unkstruct_80126948 *)a0)->unk1A.s = 0xFE0;
     }
 
     func_8017DE88(a0, &guess_g_CameraFollowPos);
@@ -3727,9 +3727,9 @@ extern s16 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_Ca
 extern s16 D_801274E8;
 
 void func_8017DE0C(s32 param_1) {
-    if (((Unkstruct_8017CF48 *)param_1)->unk9C != 0) {
+    if (((Unkstruct_80126948 *)param_1)->unk9C != 0) {
         *(Blk8_dd58 *)&D_801274E8 = *(Blk8_dd58 *)&guess_g_CameraFollowPos;
-        ((Unkstruct_8017CF48 *)param_1)->unk9C += -1;
+        ((Unkstruct_80126948 *)param_1)->unk9C += -1;
     }
     func_8017DE88(param_1, &D_801274E8);
 }

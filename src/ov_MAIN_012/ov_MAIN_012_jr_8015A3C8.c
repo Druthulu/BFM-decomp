@@ -6094,7 +6094,7 @@ void func_801627E8(void)
 void func_80162834(void *a0) {
 
     extern void (*D_80180F28[])(void);
-    D_80180F28[((Unkstruct_80162834_2 *)a0)->unk1]();
+    D_80180F28[((Unkstruct_80162870 *)a0)->unk1]();
 }
 
 
@@ -6485,8 +6485,8 @@ void func_801647A4(int param_1) {
         D_80180F7E = 0x80;
         D_80180F7C = 0x80;
         CAST_ALIAS(u16, iVar1, 0x1a) = 0;
-        ((Unkstruct_801647A4_5 *)param_1)->unk60 = 0;
-        ((Unkstruct_801647A4_5 *)param_1)->unk62 = 0x200;
+        ((Unkstruct_801647A4_5 *)param_1)->unk60.u = 0;
+        ((Unkstruct_801647A4_5 *)param_1)->unk62.u = 0x200;
         ((s32 (*)(s32))func_80164A74)(param_1);
         ((void (*)(s32))guess_NextStep)(param_1);
     } else {
@@ -6685,10 +6685,10 @@ void func_80164EE0(int param_1)
     }
     ((Unkstruct_80164EE0_2 *)param_1)->unk2E = 0x4000;
     ((Unkstruct_80164EE0_2 *)param_1)->unk2C = 0x4000;
-    ((Unkstruct_80164EE0_2 *)param_1)->unk60 = 0;
-    ((Unkstruct_80164EE0_2 *)param_1)->unk62 = 0;
+    ((Unkstruct_80164EE0_2 *)param_1)->unk60.s = 0;
+    ((Unkstruct_80164EE0_2 *)param_1)->unk62.s = 0;
     ((void (*)(int))func_80165124)(param_1);
-    ((Unkstruct_80164EE0_2 *)param_1)->unk66 = 0;
+    ((Unkstruct_80164EE0_2 *)param_1)->unk66.s = 0;
     ((void (*)(int))guess_NextStep)(param_1);
 }
 

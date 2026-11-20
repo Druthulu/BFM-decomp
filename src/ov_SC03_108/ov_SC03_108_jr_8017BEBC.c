@@ -2704,7 +2704,7 @@ extern void func_8017BEB4(void);
 extern void (*D_801846DC[])(void);
 
 void func_8017CD9C(void *a0) {
-    D_801846DC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801846DC[((Dst *)a0)->unk15]();
 }
 
 
@@ -2740,7 +2740,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_801846F0[])(void);
 
 void func_8017CF1C(void *a0) {
-    D_801846F0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801846F0[((Dst *)a0)->unk15]();
 }
 
 

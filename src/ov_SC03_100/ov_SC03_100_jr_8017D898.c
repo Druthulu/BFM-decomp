@@ -2734,7 +2734,7 @@ void func_8017E7B8(void)
 extern void (*D_80188510[])(void);
 
 void func_8017E7F8(void *a0) {
-    D_80188510[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188510[((Dst *)a0)->unk15]();
 }
 
 
@@ -2792,7 +2792,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80188524[])(void);
 
 void func_8017E978(void *a0) {
-    D_80188524[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188524[((Dst *)a0)->unk15]();
 }
 
 
@@ -2906,9 +2906,9 @@ void func_8017EBE4(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80188540[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80188540[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_8017ED90(a0, &sp10.vx);
@@ -2927,22 +2927,22 @@ void func_8017EC84(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_80188544[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80188544[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
     if (sp10.vz < 0x1B00 && (u16)sp10.vx - 0xF01u < 0x17Fu) {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
     } else if (sp10.vz < 0x20A0) {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x800;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x800;
     } else if (!(sp10.vz < 0x2180)) {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
     } else if ((u16)sp10.vx - 0xF01u < 0x17Fu) {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x800;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x800;
     } else {
-        ((Unkstruct_8017CF48 *)a0)->unk22 = 0x600;
+        ((Unkstruct_80126948 *)a0)->unk22.s = 0x600;
     }
 
     func_8017ED90(a0, &sp10.vx);

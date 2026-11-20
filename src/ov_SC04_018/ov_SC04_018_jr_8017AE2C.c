@@ -3846,16 +3846,16 @@ void func_8017DA08(void *arg0) {
     ((Unkstruct_8017DA08_2 *)base)->unk4 = 0;
     ((Unkstruct_8017DA08_2 *)base)->unk8 = 0;
     ((Unkstruct_8017DA08_2 *)base)->unkC = 0;
-    ((Unkstruct_8017DA08_2 *)base)->unkE = 0;
-    ((Unkstruct_8017DA08_2 *)base)->unk10 = 0;
+    ((Unkstruct_8017DA08_2 *)base)->unkE.s = 0;
+    ((Unkstruct_8017DA08_2 *)base)->unk10.s = 0;
 
     r1 = rand();
     r2 = rand();
     h = ((Unkstruct_8017DA08_2 *)base)->unk16 * 80;
     t = (r1 & 7) * 5 - 0xA0;
-    ((Unkstruct_8017DA08_2 *)base)->unk12 = h + t + (r2 & 0xF);
+    ((Unkstruct_8017DA08_2 *)base)->unk12.s = h + t + (r2 & 0xF);
 
-    ((Unkstruct_8017DA08_2 *)base)->unk14 = -((rand() & 0xF) * 2);
+    ((Unkstruct_8017DA08_2 *)base)->unk14.s = -((rand() & 0xF) * 2);
     ((Unkstruct_8017DA08_2 *)base)->unk1C = 0;
     ((Unkstruct_8017DA08_2 *)base)->unk20 = 0;
     ((Unkstruct_8017DA08_2 *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
@@ -3946,7 +3946,7 @@ s32 func_8017DC98(s32 param_1)
 {
     ((void (*)(void *, s32))func_8016EDEC)(func_8017E038, 0x1000000);
     func_800167B8(0);
-    ((Unkstruct_8017D4D8 *)param_1)->unk15 = ((Unkstruct_8017D4D8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -4003,7 +4003,7 @@ extern void func_800D1E28(void);
 extern void (*D_80190D64[])(void);
 
 void func_8017DF34(void *a0) {
-    D_80190D64[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190D64[((Dst *)a0)->unk15]();
 }
 
 
@@ -4011,7 +4011,7 @@ void func_8017DF34(void *a0) {
 extern void (*D_80190D6C[])(void);
 
 void func_8017DF70(void *a0) {
-    D_80190D6C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190D6C[((Dst *)a0)->unk15]();
 }
 
 
@@ -4019,7 +4019,7 @@ void func_8017DF70(void *a0) {
 extern void (*D_80190D78[])(void);
 
 void func_8017DFAC(void *a0) {
-    D_80190D78[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190D78[((Dst *)a0)->unk15]();
 }
 
 
@@ -4027,7 +4027,7 @@ void func_8017DFAC(void *a0) {
 extern void (*D_80190D84[])(void);
 
 void func_8017DFE8(void *a0) {
-    D_80190D84[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190D84[((Dst *)a0)->unk15]();
 }
 
 

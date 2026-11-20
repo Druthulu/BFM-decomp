@@ -3955,7 +3955,7 @@ extern void func_80178D18(void);
 extern void (*D_8018AF4C[])(void);
 
 void func_80180110(void *a0) {
-    D_8018AF4C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018AF4C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3984,7 +3984,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018AF54[])(void);
 
 void func_801801B4(void *a0) {
-    D_8018AF54[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018AF54[((Dst *)a0)->unk15]();
 }
 
 
@@ -4045,7 +4045,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018AF60[])(void);
 
 void func_801802EC(void *a0) {
-    D_8018AF60[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018AF60[((Dst *)a0)->unk15]();
 }
 
 
@@ -4527,9 +4527,9 @@ void func_80180D08(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018B080[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_8018B080[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_80180EA8(a0, &sp10.vx);
@@ -4548,9 +4548,9 @@ void func_80180DA8(s32 a0) {
     s16 v0;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_8018B084[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_8018B084[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
@@ -5106,23 +5106,23 @@ void func_80181BA0(void *arg0) {
     s32 h;
     s32 t;
 
-    ((Unkstruct_8017DA08 *)base)->unk0 = (s32)D_8018B0C4;
-    ((Unkstruct_8017DA08 *)base)->unk4 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk8 = 0;
-    ((Unkstruct_8017DA08 *)base)->unkC = 0;
-    ((Unkstruct_8017DA08 *)base)->unkE = 0;
-    ((Unkstruct_8017DA08 *)base)->unk10 = 0;
+    ((Ent_8017D6EC *)base)->unk0 = (s32)D_8018B0C4;
+    ((Ent_8017D6EC *)base)->unk4 = 0;
+    ((Ent_8017D6EC *)base)->unk8 = 0;
+    ((Ent_8017D6EC *)base)->unkC = 0;
+    ((Ent_8017D6EC *)base)->unkE.s = 0;
+    ((Ent_8017D6EC *)base)->unk10.s = 0;
 
     r1 = rand();
     r2 = rand();
-    h = ((Unkstruct_8017DA08 *)base)->unk16 * 80;
+    h = ((Ent_8017D6EC *)base)->unk16 * 80;
     t = (r1 & 7) * 5 - 0xA0;
-    ((Unkstruct_8017DA08 *)base)->unk12 = h + t + (r2 & 0xF);
+    ((Ent_8017D6EC *)base)->unk12.s = h + t + (r2 & 0xF);
 
-    ((Unkstruct_8017DA08 *)base)->unk14 = -((rand() & 0xF) * 2);
-    ((Unkstruct_8017DA08 *)base)->unk1C = 0;
-    ((Unkstruct_8017DA08 *)base)->unk20 = 0;
-    ((Unkstruct_8017DA08 *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
+    ((Ent_8017D6EC *)base)->unk14.s = -((rand() & 0xF) * 2);
+    ((Ent_8017D6EC *)base)->unk1C = 0;
+    ((Ent_8017D6EC *)base)->unk20 = 0;
+    ((Ent_8017D6EC *)base)->unk18 = (CAST_SIGN(u16, base, 0x16) & 2) * 30;
 }
 
 

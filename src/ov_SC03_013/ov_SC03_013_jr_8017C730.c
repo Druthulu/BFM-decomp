@@ -2724,7 +2724,7 @@ static inline void bandsetup(SVECTOR2 *o, SVECTOR2 *out)
 extern void (*D_80184AC0[])(void);
 
 void func_8017D7C4(void *a0) {
-    D_80184AC0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184AC0[((Dst *)a0)->unk15]();
 }
 
 
@@ -2748,7 +2748,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80184AC8[])(void);
 
 void func_8017D868(void *a0) {
-    D_80184AC8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184AC8[((Dst *)a0)->unk15]();
 }
 
 
@@ -2780,7 +2780,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80184AD4[])(void);
 
 void func_8017D980(void *a0) {
-    D_80184AD4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184AD4[((Dst *)a0)->unk15]();
 }
 
 

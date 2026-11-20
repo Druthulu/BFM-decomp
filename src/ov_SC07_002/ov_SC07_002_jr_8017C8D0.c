@@ -3645,7 +3645,7 @@ void func_8017EC34(void) {
 extern void (*D_8018A2A8[])(void);
 
 void func_8017ECC0(void *a0) {
-    D_8018A2A8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A2A8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3674,7 +3674,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018A2B0[])(void);
 
 void func_8017ED64(void *a0) {
-    D_8018A2B0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A2B0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3711,7 +3711,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_8018A2BC[])(void);
 
 void func_8017EE7C(void *a0) {
-    D_8018A2BC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018A2BC[((Dst *)a0)->unk15]();
 }
 
 
@@ -4313,7 +4313,7 @@ s32 func_8017FA94(void)
     } else {
         guess_g_MainCameraYawTarget = 0;
     }
-    ((Unkstruct_80126948 *)s0)->unk24 = 0;
+    ((Unkstruct_80126948 *)s0)->unk24.s = 0;
     ((Unkstruct_80126948 *)s0)->unk2E = 0;
     ((Unkstruct_80126948 *)s0)->unk30 = -1;
     ((Unkstruct_80126948 *)s0)->unk32 = 0;

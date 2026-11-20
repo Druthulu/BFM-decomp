@@ -3056,7 +3056,7 @@ void func_8017C730(s32 arg0)
 extern void (*D_80184EB0[])(void);
 
 void func_8017D610(void *a0) {
-    D_80184EB0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184EB0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3077,7 +3077,7 @@ s32 func_8017D64C(s32 a0) {
 extern void (*D_80184EB8[])(void);
 
 void func_8017D690(void *a0) {
-    D_80184EB8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184EB8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3086,9 +3086,9 @@ extern void func_800167B8(s32 a0);
 
 s32 func_8017D6CC(s32 a0) {
     func_8017DB78();
-    ((Unkstruct_8017D6CC_2 *)a0)->unk28 = 8;
+    ((Dst *)a0)->unk28 = 8;
     func_800167B8(0);
-    ((Unkstruct_8017D6CC_2 *)a0)->unk15 += 1;
+    ((Dst *)a0)->unk15 += 1;
     return 0;
 }
 
@@ -3098,10 +3098,10 @@ extern void func_800167B8(s32 a0);
 s32 func_8017D718(s32 a0) {
     s32 temp_v0;
     func_800167B8(0);
-    temp_v0 = ((Unkstruct_8017D718 *)a0)->unk28 - 1;
-    ((Unkstruct_8017D718 *)a0)->unk28 = temp_v0;
+    temp_v0 = ((Dst *)a0)->unk28 - 1;
+    ((Dst *)a0)->unk28 = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_8017D718 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }
@@ -3119,7 +3119,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80184EC4[])(void);
 
 void func_8017D790(void *a0) {
-    D_80184EC4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184EC4[((Dst *)a0)->unk15]();
 }
 
 
@@ -3129,8 +3129,8 @@ extern void func_8017DBD8(void);
 
 s32 func_8017D7CC(s32 a0) {
     func_8017DBD8();
-    ((Unkstruct_8017D7CC *)a0)->unk28 = 64;
-    ((Unkstruct_8017D7CC *)a0)->unk15 += 1;
+    ((Dst *)a0)->unk28 = 64;
+    ((Dst *)a0)->unk15 += 1;
     return 0;
 }
 
@@ -3139,7 +3139,7 @@ s32 func_8017D7CC(s32 a0) {
 extern void (*D_80184ED0[])(void);
 
 void func_8017D80C(void *a0) {
-    D_80184ED0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184ED0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3164,8 +3164,8 @@ extern void func_800D1E28(void);
 s32 func_8017D888(s32 a0) {
     s32 t;
 
-    t = ((Unkstruct_8017D888 *)a0)->unk28 - 1;
-    ((Unkstruct_8017D888 *)a0)->unk28 = t;
+    t = ((Dst *)a0)->unk28 - 1;
+    ((Dst *)a0)->unk28 = t;
     if (t == -1) {
         guess_SetGameFlag(0x90, 1);
         guess_RequestSound(0x1C, 0);
@@ -3173,7 +3173,7 @@ s32 func_8017D888(s32 a0) {
         guess_RequestSound(0x1D, 0);
         func_800D0C48(1);
         func_800D1E28();
-        ((Unkstruct_8017D888 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }
@@ -3189,7 +3189,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80184EDC[])(void);
 
 void func_8017D930(void *a0) {
-    D_80184EDC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80184EDC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3204,8 +3204,8 @@ extern s32 D_801A23FC;
 s32 func_8017D96C(s32 a0) {
     s32 t;
 
-    t = ((Unkstruct_8017D96C *)a0)->unk28 - 1;
-    ((Unkstruct_8017D96C *)a0)->unk28 = t;
+    t = ((Dst *)a0)->unk28 - 1;
+    ((Dst *)a0)->unk28 = t;
     if (t == -1) {
         if ((guess_TestGameFlag(0x90) & 0xFF) == 0 || D_801A23FC != 0) {
             guess_SetGameFlag(0x90, 0x1);
@@ -3215,7 +3215,7 @@ s32 func_8017D96C(s32 a0) {
             guess_RequestSound(0x1D, 0);
         }
         func_800D1E28();
-        ((Unkstruct_8017D96C *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }

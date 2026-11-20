@@ -5196,14 +5196,14 @@ void func_8017D898(s32 arg0)
     s32 mnc, mxc;
     s16 my, mny, mx, mn;
 
-    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017FA5C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
     pkt = (*(u8 * *)&D_800A5E60);
     part = *(Part **)(arg0 + 0xC);
-    nparts = *(s32 *)(((Unkstruct_8017BE9C *)arg0)->unk8 + 8);
-    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
+    nparts = *(s32 *)(((Unkstruct_8017FA5C *)arg0)->unk8 + 8);
+    vtx = *(u8 **)(((Unkstruct_8017FA5C *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {

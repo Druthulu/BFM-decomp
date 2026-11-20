@@ -2945,7 +2945,7 @@ void func_8017DDE0(void) {
 extern void (*D_8018DE2C[])(void);
 
 void func_8017DE20(void *a0) {
-    D_8018DE2C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018DE2C[((Dst *)a0)->unk15]();
 }
 
 
@@ -2974,7 +2974,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018DE34[])(void);
 
 void func_8017DEC4(void *a0) {
-    D_8018DE34[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018DE34[((Dst *)a0)->unk15]();
 }
 
 
@@ -2997,8 +2997,8 @@ s32 func_8017DF40(s32 a0) {
     s32 t;
     s32 r = guess_GetStoryProgress();
 
-    t = ((Unkstruct_8017DF40 *)a0)->unk28 - 1;
-    ((Unkstruct_8017DF40 *)a0)->unk28 = t;
+    t = ((Dst *)a0)->unk28 - 1;
+    ((Dst *)a0)->unk28 = t;
     if (t == -1) {
         if (r == 0x258 && !(guess_TestGameFlag(0x132) & 0xFF)) {
             guess_SetGameFlag(0x132, 1);
@@ -3008,7 +3008,7 @@ s32 func_8017DF40(s32 a0) {
         func_8001BFD0();
         guess_RequestSound(0x1D, 0);
         func_800D1E28();
-        ((Unkstruct_8017DF40 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }
@@ -3134,15 +3134,15 @@ void func_8017E180(s32 param_1) {
     }
     CAST_ALIAS(s32, param_1, 0x14) = (v1 * 0x280) / 0x400 + 0x320;
     t = arr[0].vx;
-    arr[0].vx = t - t * (s16)(((Unkstruct_8017CF48 *)param_1)->unk10 - 0x320) / 640;
+    arr[0].vx = t - t * (s16)(((Unkstruct_80126948 *)param_1)->unk10 - 0x320) / 640;
     switch (D_801BA588) {
     case 0:
-        ((Unkstruct_8017CF48 *)param_1)->unk20 = 0;
-        ((Unkstruct_8017CF48 *)param_1)->unk30 = -0xB0;
+        ((Unkstruct_80126948 *)param_1)->unk20.s = 0;
+        ((Unkstruct_80126948 *)param_1)->unk30 = -0xB0;
         break;
     case 1:
-        ((Unkstruct_8017CF48 *)param_1)->unk20 = 0xE3;
-        ((Unkstruct_8017CF48 *)param_1)->unk30 = -0x40;
+        ((Unkstruct_80126948 *)param_1)->unk20.s = 0xE3;
+        ((Unkstruct_80126948 *)param_1)->unk30 = -0x40;
         break;
     }
     func_8017E33C(param_1, (s16*)arr);

@@ -4187,7 +4187,7 @@ s32 func_8017DCEC(s32 param_1)
 {
     ((void (*)(void *, s32))func_8016EDEC)(func_8017DE84, 0x1000000);
     func_800167B8(0);
-    ((Unkstruct_8017D4D8 *)param_1)->unk15 = ((Unkstruct_8017D4D8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 

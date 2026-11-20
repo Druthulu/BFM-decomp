@@ -6210,16 +6210,16 @@ L164:
 L174:
     t = flag;
     if (t == 0) goto LAB;
-    t = func_80012DBC(((Unkstruct_8017CF48 *)a0)->unk18, CAST_SIGN(s16, a0, 0xA0), 0xA, 1);
-    ((Unkstruct_8017CF48 *)a0)->unk20 = t;
-    ((Unkstruct_8017CF48 *)a0)->unk18 = t;
-    ((Unkstruct_8017CF48 *)a0)->unk1A = ((Unkstruct_8017CF48 *)a0)->unk22 = func_80012DBC(((Unkstruct_8017CF48 *)a0)->unk1A, CAST_SIGN(s16, a0, 0xA2), 0xA, 1);
+    t = func_80012DBC(((Unkstruct_80126948 *)a0)->unk18.s, CAST_SIGN(s16, a0, 0xA0), 0xA, 1);
+    ((Unkstruct_80126948 *)a0)->unk20.s = t;
+    ((Unkstruct_80126948 *)a0)->unk18.s = t;
+    ((Unkstruct_80126948 *)a0)->unk1A.s = ((Unkstruct_80126948 *)a0)->unk22.s = func_80012DBC(((Unkstruct_80126948 *)a0)->unk1A.s, CAST_SIGN(s16, a0, 0xA2), 0xA, 1);
     goto LEND;
 LAB:
-    t = func_80012ABC(((Unkstruct_8017CF48 *)a0)->unk18, CAST_SIGN(s16, a0, 0xA0), 0xA);
-    ((Unkstruct_8017CF48 *)a0)->unk20 = t;
-    ((Unkstruct_8017CF48 *)a0)->unk18 = t;
-    ((Unkstruct_8017CF48 *)a0)->unk1A = ((Unkstruct_8017CF48 *)a0)->unk22 = func_80012ABC(((Unkstruct_8017CF48 *)a0)->unk1A, CAST_SIGN(s16, a0, 0xA2), 0xA);
+    t = func_80012ABC(((Unkstruct_80126948 *)a0)->unk18.s, CAST_SIGN(s16, a0, 0xA0), 0xA);
+    ((Unkstruct_80126948 *)a0)->unk20.s = t;
+    ((Unkstruct_80126948 *)a0)->unk18.s = t;
+    ((Unkstruct_80126948 *)a0)->unk1A.s = ((Unkstruct_80126948 *)a0)->unk22.s = func_80012ABC(((Unkstruct_80126948 *)a0)->unk1A.s, CAST_SIGN(s16, a0, 0xA2), 0xA);
 LEND:
     tp = (s32)D_801274F0_8017CF48;
     __asm__("" : "=r"(tp) : "0"(tp));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
@@ -6262,9 +6262,9 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 
 void func_8017D474(s32 a0, s32 a1, s32 a2) {
-    ((Unkstruct_8017CF48 *)a0)->unkA0 = *(u16 *)(a2 + 8);
-    ((Unkstruct_8017CF48 *)a0)->unkA2 = *(u16 *)(a2 + 0xA);
-    ((Unkstruct_8017CF48 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)(a2 + 8);
+    ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)(a2 + 0xA);
+    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
     {
         s32 y = *(s16 *)(a2 + 2);
         s32 x = *(s16 *)(a2 + 0);
@@ -6276,9 +6276,9 @@ void func_8017D474(s32 a0, s32 a1, s32 a2) {
 
 
 void func_8017D4C8(s32 a0, s32 a1, s32 a2) {
-    ((Unkstruct_8017CF48 *)a0)->unkA0 = *(u16 *)(a2 + 8);
-    ((Unkstruct_8017CF48 *)a0)->unkA2 = *(u16 *)(a2 + 0xA);
-    ((Unkstruct_8017CF48 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)(a2 + 8);
+    ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)(a2 + 0xA);
+    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
     {
         s32 y = *(s16 *)(a2 + 6);
         s32 x = *(s16 *)(a2 + 4);
@@ -6290,9 +6290,9 @@ void func_8017D4C8(s32 a0, s32 a1, s32 a2) {
 
 
 void func_8017D51C(s32 *a0, s32 *a1, s32 *a2) {
-    ((Unkstruct_8017CF48 *)a0)->unkA0 = *(u16 *)((s32)a2 + 0x8);
-    ((Unkstruct_8017CF48 *)a0)->unkA2 = *(u16 *)((s32)a2 + 0xA);
-    ((Unkstruct_8017CF48 *)a0)->unk14 = *(s32 *)((s32)a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)((s32)a2 + 0x8);
+    ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)((s32)a2 + 0xA);
+    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)((s32)a2 + 0xC);
 }
 
 

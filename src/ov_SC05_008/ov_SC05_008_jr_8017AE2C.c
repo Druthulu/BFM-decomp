@@ -3308,7 +3308,7 @@ void func_8017BE60(void *a0) {
 extern void (*D_801863F0[])(void);
 
 void func_8017CD9C(void *a0) {
-    D_801863F0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801863F0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3335,7 +3335,7 @@ s32 func_8017CDD8(s32 a0) {
 extern void (*D_801863F8[])(void);
 
 void func_8017CE40(void *a0) {
-    D_801863F8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801863F8[((Dst *)a0)->unk15]();
 }
 
 
@@ -3510,12 +3510,12 @@ void func_8017D214(void *a0)
         ((Unkstruct_80126948 *)wp)->unk10 -= 1;
         ((Unkstruct_80126948 *)wp)->unk14 = ((Unkstruct_80126948 *)wp)->unk10;
     }
-    t = ((Unkstruct_80126948 *)wp)->unk1A + 0xB;
-    ((Unkstruct_80126948 *)wp)->unk1A = t;
-    ((Unkstruct_80126948 *)wp)->unk22 = t;
+    t = ((Unkstruct_80126948 *)wp)->unk1A.u + 0xB;
+    ((Unkstruct_80126948 *)wp)->unk1A.u = t;
+    ((Unkstruct_80126948 *)wp)->unk22.u = t;
     if (CAST_SIGN(s16, wp, 0x1A) >= 0x801) {
-        ((Unkstruct_80126948 *)wp)->unk1A = 0x800;
-        ((Unkstruct_80126948 *)wp)->unk22 = 0x800;
+        ((Unkstruct_80126948 *)wp)->unk1A.u = 0x800;
+        ((Unkstruct_80126948 *)wp)->unk22.u = 0x800;
         func_80175414(wp);
         func_8016F264();
         arg = (u8 *)a0;
@@ -3549,9 +3549,9 @@ void func_8017D2AC(s32 param_1) {
     *(u16 *)(self + 0xAA) = tAA & 0xAF40;
     t130 = *(u16 *)(self + 0x130);
     *(u16 *)(self + 0xAC) = tAC & 0xAF40;
-    ((Unkstruct_80126948 *)wp)->unk20 = t130;
+    ((Unkstruct_80126948 *)wp)->unk20.s = t130;
     t132 = *(u16 *)(self + 0x132);
-    ((Unkstruct_80126948 *)wp)->unk22 = t132;
+    ((Unkstruct_80126948 *)wp)->unk22.u = t132;
 
     if (func_8014BFD4() == 0) {
         func_8016F2A8();
@@ -3594,9 +3594,9 @@ void func_8017D3C0(void *a0) {
         ((Unkstruct_80126948 *)wp)->unk10 += 1;
         ((Unkstruct_80126948 *)wp)->unk14 = ((Unkstruct_80126948 *)wp)->unk10;
     }
-    t = ((Unkstruct_80126948 *)wp)->unk1A + 0xB;
-    ((Unkstruct_80126948 *)wp)->unk1A = t;
-    ((Unkstruct_80126948 *)wp)->unk22 = t;
+    t = ((Unkstruct_80126948 *)wp)->unk1A.u + 0xB;
+    ((Unkstruct_80126948 *)wp)->unk1A.u = t;
+    ((Unkstruct_80126948 *)wp)->unk22.u = t;
     if (CAST_SIGN(s16, wp, 0x1A) >= 0xF1D) {
         *(s32 *)((u8 *)a0 + 0x200) = 60;
         func_80171990((u8 *)a0);

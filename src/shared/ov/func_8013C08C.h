@@ -6,7 +6,7 @@ extern void func_8013C0F8(s32 a0);
  * Names ledger: config/names.tsv guess_InitPacketModel */
 void guess_InitPacketModel(void *a0, void *a1) {
     void *p = a1;
-    ((E_13C08C_8013C08C *)a0)->f8 = (s32)a1;
-    ((E_13C08C_8013C08C *)a0)->fC = (u8 *)p + 0x14;
+    ((Unkstruct_8017FA5C *)a0)->unk8 = (s32)a1;
+    ((Unkstruct_8017FA5C *)a0)->unkC = (u8 *)p + 0x14;
     func_8013C0F8((s32)a1);
 }

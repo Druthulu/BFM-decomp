@@ -3393,7 +3393,7 @@ void func_8017C59C(s32 arg0)
     func_800491EC();
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
-    func_8017BEBC(D_80198C20, rect, ((Unkstruct_8017C59C *)arg0)->unk60);
+    func_8017BEBC(D_80198C20, rect, ((Unkstruct_8017FA5C *)arg0)->unk60);
 
     pkt = D_800A5E60;
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
@@ -3407,7 +3407,7 @@ void func_8017C59C(s32 arg0)
     cy0 = (cy0 < 0) ? 0 : ((cy0 > 0x3F) ? 0x3F : cy0);
     cy1 = (cy1 < 0) ? 0 : ((cy1 > 0x3F) ? 0x3F : cy1);
 
-    rowptr = (CellC59C **)(((Unkstruct_8017C59C *)arg0)->unkC) + (cy0 * 64 + cx0);
+    rowptr = (CellC59C **)(((Unkstruct_8017FA5C *)arg0)->unkC) + (cy0 * 64 + cx0);
 
     for (y = cy0; y < cy1; y++, rowptr += 0x40) {
         for (col = cx0, p = rowptr; col < cx1; col++, p++) {
@@ -3733,7 +3733,7 @@ void func_8017C59C(s32 arg0)
 extern void (*D_801828FC[])(void);
 
 void func_8017D468(void *a0) {
-    D_801828FC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801828FC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3762,7 +3762,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80182904[])(void);
 
 void func_8017D50C(void *a0) {
-    D_80182904[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182904[((Dst *)a0)->unk15]();
 }
 
 

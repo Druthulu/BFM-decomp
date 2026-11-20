@@ -3420,7 +3420,7 @@ void func_80181CA0(void)
 extern void (*D_8019068C[])(void);
 
 void func_80181CE0(void *a0) {
-    D_8019068C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8019068C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3449,7 +3449,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80190694[])(void);
 
 void func_80181D84(void *a0) {
-    D_80190694[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80190694[((Dst *)a0)->unk15]();
 }
 
 
@@ -3486,7 +3486,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_801906A0[])(void);
 
 void func_80181E9C(void *a0) {
-    D_801906A0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801906A0[((Dst *)a0)->unk15]();
 }
 
 
@@ -3505,7 +3505,7 @@ extern void func_800D1E28(void);
 extern void (*D_801906AC[])(void);
 
 void func_80181F4C(void *a0) {
-    D_801906AC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801906AC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3535,7 +3535,7 @@ extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_Player
 extern void (*D_801906B4[])(void);
 
 void func_8018200C(void *a0) {
-    D_801906B4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801906B4[((Dst *)a0)->unk15]();
 }
 
 

@@ -3360,7 +3360,7 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 extern void (*D_80188A14[])(void);
 
 void func_80180730(void *a0) {
-    D_80188A14[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188A14[((Dst *)a0)->unk15]();
 }
 
 
@@ -3388,7 +3388,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80188A1C[])(void);
 
 void func_801807D4(void *a0) {
-    D_80188A1C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188A1C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3506,7 +3506,7 @@ extern u16 guess_GetPadPressed(s32 *a0);
 extern s32 func_80013294(void *a0, void *a1);
 
 void func_80180A10(s32 a0) {
-    extern void func_80180B80(Unkstruct_80180A10_2* arg0, s16* arg1, u16 arg2);
+    extern void func_80180B80(Unkstruct_80126948* arg0, s16* arg1, u16 arg2);
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_80188A54[];
     extern s32 D_80188A4C;
@@ -3518,9 +3518,9 @@ void func_80180A10(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_80180A10_2 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_80180A10_2 *)a0)->unk5 = t;
-        ((Unkstruct_80180A10_2 *)a0)->unk14 = D_80188A54[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_80188A54[t];
     }
 
     sp10 = guess_g_CameraFollowPos;
@@ -3539,9 +3539,9 @@ void func_80180A10(s32 a0) {
     v = (s16)func_80013294(&D_80188A4C, sp18);
 
     if (v >= 0x621) {
-        ((Unkstruct_80180A10_2 *)a0)->unk20 = 0x38E;
+        ((Unkstruct_80126948 *)a0)->unk20.u = 0x38E;
     } else {
-        ((Unkstruct_80180A10_2 *)a0)->unk20 = v * 683 / 1568 + 0xE3;
+        ((Unkstruct_80126948 *)a0)->unk20.u = v * 683 / 1568 + 0xE3;
     }
 
     func_80180B80(a0, &sp10.vx, s1);
@@ -3549,29 +3549,29 @@ void func_80180A10(s32 a0) {
 
 
 
-void func_80180B80(Unkstruct_80180A10_2* arg0, s16* arg1, u16 arg2) {
+void func_80180B80(Unkstruct_80126948* arg0, s16* arg1, u16 arg2) {
     s16 sp0x10[16];
     s16 sp0x30[4];
     u16 sp0x38[4];
     u16 sp0x40[3];
     s16 temp;
 
-    temp = guess_EaseToward(*(s16*)&arg0->unk8, *(s16*)&arg0->unkC, 4);
+    temp = guess_EaseToward(*(s16*)&arg0->unk8, *(s16*)&arg0->unkC.val, 4);
     *(s32*)&arg0->unk8 = temp;
     temp = guess_EaseToward(*(s16*)&arg0->unk10, *(s16*)&arg0->unk14, 4);
     *(s32*)&arg0->unk10 = temp;
-    arg0->unk18 = func_80012ABC((s16)arg0->unk18, (s16)arg0->unk20, 4);
-    arg0->unk1A = func_80012ABC((s16)arg0->unk1A, (s16)arg0->unk22, 4);
-    arg0->unk1C = func_80012ABC((s16)arg0->unk1C, (s16)arg0->unk24, 4);
+    arg0->unk18.u = func_80012ABC((s16)arg0->unk18.u, (s16)arg0->unk20.u, 4);
+    arg0->unk1A.u = func_80012ABC((s16)arg0->unk1A.u, (s16)arg0->unk22.u, 4);
+    arg0->unk1C.u = func_80012ABC((s16)arg0->unk1C.u, (s16)arg0->unk24.u, 4);
     arg0->unk28 = guess_EaseToward(arg0->unk28, arg0->unk2E, 0x10);
     arg0->unk2A = guess_EaseToward(arg0->unk2A, arg0->unk30, 0x10);
     arg0->unk2C = guess_EaseToward(arg0->unk2C, arg0->unk32, 0x10);
     arg0->unk48 = arg0->unk28 + *arg1;
     arg0->unk4C = arg0->unk2A + arg1[1];
     arg0->unk50 = arg0->unk2C + arg1[2];
-    sp0x40[0] = arg0->unk18;
-    sp0x40[1] = arg0->unk1A + arg2;
-    sp0x40[2] = arg0->unk1C;
+    sp0x40[0] = arg0->unk18.u;
+    sp0x40[1] = arg0->unk1A.u + arg2;
+    sp0x40[2] = arg0->unk1C.u;
     func_80181998(sp0x40, sp0x10);
     sp0x30[0] = 0;
     sp0x30[1] = 0;

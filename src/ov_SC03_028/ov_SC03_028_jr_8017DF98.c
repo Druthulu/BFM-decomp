@@ -3445,7 +3445,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018F820[])(void);
 
 void func_8017F768(void *a0) {
-    D_8018F820[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018F820[((Dst *)a0)->unk15]();
 }
 
 
@@ -3707,14 +3707,14 @@ void func_8017FBE0(s32 param_1) {
     z2 = D_80126944;
     if (z2 >= 0x281) {
         s16 diff = z2 - 0x280;
-        s16 v1 = func_80012DBC(((Unkstruct_8017CF48 *)param_1)->unk18, (s16)(0x38E - (diff * 2) / 3), 10, 1);
-        ((Unkstruct_8017CF48 *)param_1)->unk20 = v1;
-        ((Unkstruct_8017CF48 *)param_1)->unk18 = v1;
+        s16 v1 = func_80012DBC(((Unkstruct_80126948 *)param_1)->unk18.s, (s16)(0x38E - (diff * 2) / 3), 10, 1);
+        ((Unkstruct_80126948 *)param_1)->unk20.s = v1;
+        ((Unkstruct_80126948 *)param_1)->unk18.s = v1;
 
         {
             s16 v2 = func_800130D0(CAST_WIDTH(s16, param_1, 0x10), (s16)(0x4B0 - diff / 3), 4);
-            ((Unkstruct_8017CF48 *)param_1)->unk14 = (s16)v2;
-            ((Unkstruct_8017CF48 *)param_1)->unk10 = (s16)v2;
+            ((Unkstruct_80126948 *)param_1)->unk14 = (s16)v2;
+            ((Unkstruct_80126948 *)param_1)->unk10 = (s16)v2;
         }
     }
 
@@ -3727,8 +3727,8 @@ extern s16 guess_g_CameraFollowPos; // Names ledger: config/names.tsv guess_g_Ca
 extern void func_8017FF68(s32 param_1, s16 *param_2);
 
 void func_8017FD64(s32 arg0) {
-    ((Unkstruct_8017CF48 *)arg0)->unk2A = guess_EaseToward(((Unkstruct_8017CF48 *)arg0)->unk2A, ((Unkstruct_8017CF48 *)arg0)->unk30, 4);
-    ((Unkstruct_8017CF48 *)arg0)->unk2C = guess_EaseToward(((Unkstruct_8017CF48 *)arg0)->unk2C, ((Unkstruct_8017CF48 *)arg0)->unk32, 4);
+    ((Unkstruct_80126948 *)arg0)->unk2A = guess_EaseToward(((Unkstruct_80126948 *)arg0)->unk2A, ((Unkstruct_80126948 *)arg0)->unk30, 4);
+    ((Unkstruct_80126948 *)arg0)->unk2C = guess_EaseToward(((Unkstruct_80126948 *)arg0)->unk2C, ((Unkstruct_80126948 *)arg0)->unk32, 4);
     func_8017FF68(arg0, &guess_g_CameraFollowPos);
 }
 
@@ -3747,8 +3747,8 @@ void func_8017FDC0(s32 param_1) {
 
     var = CAST_SIGN(u16, param_1, 0x1A) - 5;
     var &= 0xFFF;
-    ((Unkstruct_8017CF48 *)param_1)->unk1A = var;
-    ((Unkstruct_8017CF48 *)param_1)->unk22 = var;
+    ((Unkstruct_80126948 *)param_1)->unk1A.s = var;
+    ((Unkstruct_80126948 *)param_1)->unk22.s = var;
     func_8017FF68(param_1, buf);
 }
 
@@ -3804,8 +3804,8 @@ void func_8017FE18(s32 param_1) {
     guess_CopyVec3HighHalves(func_8012E544(0x82) + 4, sp18);
 
     var = func_80012F74(CAST_WIDTH(s16, param_1, 0x10), (s16)(((s32 (*)(s32 *, s32 *))func_80013294)((s32 *)buf, sp18) + 900), 10, 1);
-    ((Unkstruct_8017CF48 *)param_1)->unk14 = (s16)var;
-    ((Unkstruct_8017CF48 *)param_1)->unk10 = (s16)var;
+    ((Unkstruct_80126948 *)param_1)->unk14 = (s16)var;
+    ((Unkstruct_80126948 *)param_1)->unk10 = (s16)var;
     func_8017FF68(param_1, buf);
 }
 

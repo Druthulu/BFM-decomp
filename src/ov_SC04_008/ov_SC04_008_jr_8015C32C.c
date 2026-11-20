@@ -3229,12 +3229,12 @@ void func_80164EE0(int param_1)
     for (i = 7; i >= 0; i--) {
         D_80190EA4[i].a = 0;
     }
-    ((Unkstruct_80164EE0 *)param_1)->unk2E = 0x4000;
-    ((Unkstruct_80164EE0 *)param_1)->unk2C = 0x4000;
-    ((Unkstruct_80164EE0 *)param_1)->unk60 = 0;
-    ((Unkstruct_80164EE0 *)param_1)->unk62 = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk2E = 0x4000;
+    ((Ent_80164930_80164930 *)param_1)->unk2C = 0x4000;
+    ((Ent_80164930_80164930 *)param_1)->unk60.s = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk62.s = 0;
     ((void (*)(int))func_80165124)(param_1);
-    ((Unkstruct_80164EE0 *)param_1)->unk66 = 0;
+    ((Ent_80164930_80164930 *)param_1)->unk66.s = 0;
     ((void (*)(int))guess_NextStep)(param_1);
 }
 

@@ -3144,8 +3144,8 @@ s16 func_8017CF40(void) {
     extern void (*D_801883A0[])(void);
     extern void func_80162D28(s32*);
     void func_8017CF50(void *a0) {
-        D_801883A0[((Unkstruct_8017CF50 *)a0)->unk2]();
-        if (((Unkstruct_8017CF50 *)a0)->unk20 != 0) {
+        D_801883A0[((Ent_80164930_80164930 *)a0)->unk2]();
+        if (((Ent_80164930_80164930 *)a0)->unk20 != 0) {
             ((void (*)(void *))func_80162D28)(a0);
         }
     }
@@ -3296,7 +3296,7 @@ void func_8017D2A4(void) {
     {
         KR_AS(void, func_8017D598)();
         D_801883E4[*(unsigned short *)(param_1 + 2)](param_1);
-        if (((Unkstruct_8017D300 *)param_1)->unk20 != 0) {
+        if (((Ent_80164930_80164930 *)param_1)->unk20 != 0) {
             ((void (*)(int))func_80162D28)(param_1);
         }
     }
@@ -3313,13 +3313,13 @@ void func_8017D364(int param_1) {
     extern s32 D_801883C4[];
     s32 iVar1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_8017D364_2 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_80188368;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u = ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u | 0x50000000;
         ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u | 0xb0;
-        ((Unkstruct_8017D364_2 *)param_1)->unk58 = (s32)&D_801883C4[((Unkstruct_8017D364_2 *)param_1)->unk50 * 2];
+        ((Ent_80164930_80164930 *)param_1)->unk58 = (s32)&D_801883C4[((Ent_80164930_80164930 *)param_1)->f50 * 2];
         ((Unkstruct_8001C9D0 *)iVar1)->unk1C.u = 0;
         ((Unkstruct_8001C9D0 *)iVar1)->unk1A.u = 0;
         ((Unkstruct_8001C9D0 *)iVar1)->unk18.u = 0;
@@ -3650,7 +3650,7 @@ void func_8017DC14(int a0) {
 extern void (*D_8018847C[])(void);
 
 void func_8017DC78(void *a0) {
-    D_8018847C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018847C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3679,7 +3679,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_80188484[])(void);
 
 void func_8017DD1C(void *a0) {
-    D_80188484[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188484[((Dst *)a0)->unk15]();
 }
 
 
@@ -3729,7 +3729,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80188498[])(void);
 
 void func_8017DE78(void *a0) {
-    D_80188498[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80188498[((Dst *)a0)->unk15]();
 }
 
 
@@ -3742,7 +3742,7 @@ void func_8017DE78(void *a0) {
 extern void (*D_801884A4[])(void);
 
 void func_8017DF44(void *a0) {
-    D_801884A4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801884A4[((Dst *)a0)->unk15]();
 }
 
 
@@ -3871,22 +3871,22 @@ void func_8017E218(s32 a0) {
     s32 v;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_801884F0[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_801884F0[t];
     }
     sp10 = guess_g_CameraFollowPos;
     if (sp10.vz < 0x100) {
         sp10.vz = 0x100;
     }
     if (sp10.vz >= 0x1341) {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0x155;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0x155;
         v = 0x600;
     } else {
-        ((Unkstruct_8017CF48 *)a0)->unk20 = 0xE3;
+        ((Unkstruct_80126948 *)a0)->unk20.s = 0xE3;
         v = 0x400;
     }
-    ((Unkstruct_8017CF48 *)a0)->unk22 = v;
+    ((Unkstruct_80126948 *)a0)->unk22.s = v;
     func_8017E300(a0, &sp10.vx);
 }
 

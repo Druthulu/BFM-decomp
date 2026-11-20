@@ -2818,7 +2818,7 @@ extern void func_8002931C(s32 a0);
 extern void (*D_801952BC[])(void);
 
 void func_8017D410(void *a0) {
-    D_801952BC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801952BC[((Dst *)a0)->unk15]();
 }
 
 
@@ -2847,7 +2847,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_801952C4[])(void);
 
 void func_8017D4B4(void *a0) {
-    D_801952C4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801952C4[((Dst *)a0)->unk15]();
 }
 
 
@@ -2884,7 +2884,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_801952D0[])(void);
 
 void func_8017D5CC(void *a0) {
-    D_801952D0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801952D0[((Dst *)a0)->unk15]();
 }
 
 
@@ -2994,9 +2994,9 @@ void func_8017D7E0(s32 param_1) {
     s16 *q;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        idx = (((Unkstruct_8017CF48 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)param_1)->unk5 = idx;
-        ((Unkstruct_8017CF48 *)param_1)->unk14 = D_801952F8[idx];
+        idx = (((Unkstruct_80126948 *)param_1)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)param_1)->unk5 = idx;
+        ((Unkstruct_80126948 *)param_1)->unk14 = D_801952F8[idx];
     }
 
     sp10 = guess_g_CameraFollowPos;
@@ -3021,7 +3021,7 @@ void func_8017D7E0(s32 param_1) {
         zc = -0x100;
         if (sp10.vz > 0xAC0) {
             zc = -0x1000;
-            ((Unkstruct_8017CF48 *)param_1)->unk20 = 0xE3;
+            ((Unkstruct_80126948 *)param_1)->unk20.s = 0xE3;
             *p = 1;
             func_8017DD48();
         }
@@ -3030,7 +3030,7 @@ void func_8017D7E0(s32 param_1) {
         zc = -0x1000;
         if (sp10.vz < 0x9C0) {
             zc = -0x100;
-            ((Unkstruct_8017CF48 *)param_1)->unk20 = 0x2AA;
+            ((Unkstruct_80126948 *)param_1)->unk20.s = 0x2AA;
             *p = 0;
             func_8017DD88();
         }
@@ -3051,12 +3051,12 @@ void func_8017D7E0(s32 param_1) {
     D_801274EA = sp10.vy;
     D_801274EC = sp10.vz;
     if ((u16)sp10.vz >= 0xAC1 && (u16)sp10.vz < 0xC00) {
-        ((Unkstruct_8017CF48 *)param_1)->unk14 = 0x4B0;
+        ((Unkstruct_80126948 *)param_1)->unk14 = 0x4B0;
     } else {
-        ((Unkstruct_8017CF48 *)param_1)->unk14 = D_801952F8[((Unkstruct_8017CF48 *)param_1)->unk5];
+        ((Unkstruct_80126948 *)param_1)->unk14 = D_801952F8[((Unkstruct_80126948 *)param_1)->unk5];
     }
-    ((Unkstruct_8017CF48 *)param_1)->unk2E = v2E;
-    ((Unkstruct_8017CF48 *)param_1)->unk32 = v32;
+    ((Unkstruct_80126948 *)param_1)->unk2E = v2E;
+    ((Unkstruct_80126948 *)param_1)->unk32 = v32;
     func_8017DA78(param_1, &D_801274E8);
     ((void (*)(s32, s16 *))func_8017DC18)(param_1, &D_801274E8);
 }
@@ -3082,7 +3082,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 
 
 void func_8017DC10(void *a0) {
-        ((Unkstruct_80126948 *)a0)->unkA0 = 0;
+        ((Unkstruct_80126948 *)a0)->unkA0.s = 0;
     }
 
 

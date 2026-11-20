@@ -184,7 +184,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 extern void (*D_80186AD4[])(void *);
 
 void func_8013BC7C(void *arg0) {
-    D_80186AD4[((S_8013BC7C *)arg0)->f68](arg0);
+    D_80186AD4[((S_8013BC7C *)arg0)->unk68](arg0);
 }
 
 /* func_8013BCDC (ov_SC01_077_o0, -O0): guarded indirect call through D_80187270.

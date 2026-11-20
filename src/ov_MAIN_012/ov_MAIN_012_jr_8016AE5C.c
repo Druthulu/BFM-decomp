@@ -4519,7 +4519,7 @@ void func_8016E9EC(u8 *p)
     guess_BcdToDigitCodes((guess_IntToBcd_2(p[3], 0x1C)), 1, buf + off, 0);
     ((s32 (*)(void *, void *))guess_SjisToGlyphCodes)(buf, p + 8);
     p[3] = (i + 0);
-    ((Unkstruct_8016E9EC_2 *)p)->unk4 = -0xD7;
+    ((Unkstruct_8016E9EC_2 *)p)->unk4.s = -0xD7;
     h = D_80181738[i];
     p[2] = 0;
     ((Unkstruct_8016E9EC_2 *)p)->unk6 = h;
@@ -4563,13 +4563,13 @@ void func_8016EB3C(s32 p) {
     extern u8 D_80181730[];
     u8 v;
 
-    ((void (*)(s32, s32))func_8016EC0C)(p, D_80181730[((Unkstruct_8016EB3C_2 *)p)->unk2 & 3]);
+    ((void (*)(s32, s32))func_8016EC0C)(p, D_80181730[((struct Entry_8016E95C *)p)->unk2 & 3]);
 
-    v = ((Unkstruct_8016EB3C_2 *)p)->unk2;
-    ((Unkstruct_8016EB3C_2 *)p)->unk2 = v + 0xFF;
+    v = ((struct Entry_8016E95C *)p)->unk2;
+    ((struct Entry_8016E95C *)p)->unk2 = v + 0xFF;
     if (v == 0) {
-        ((Unkstruct_8016EB3C_2 *)p)->unk2 = 5;
-        ((Unkstruct_8016EB3C_2 *)p)->unk1 = ((Unkstruct_8016EB3C_2 *)p)->unk1 + 1;
+        ((struct Entry_8016E95C *)p)->unk2 = 5;
+        ((struct Entry_8016E95C *)p)->f1 = ((struct Entry_8016E95C *)p)->f1 + 1;
     }
 }
 
@@ -4587,8 +4587,8 @@ void func_8016EBA8(u8 *param_1)
     extern u16 D_80181740[];
     u8 c;
 
-    ((Unkstruct_8016EBA8_2 *)param_1)->unk4 =
-        ((Unkstruct_8016EBA8_2 *)param_1)->unk4 - D_80181740[param_1[2]];
+    ((Unkstruct_8016EBA8_2 *)param_1)->unk4.u =
+        ((Unkstruct_8016EBA8_2 *)param_1)->unk4.u - D_80181740[param_1[2]];
     ((void (*)(u8 *, int))func_8016EC0C)(param_1, 0x80);
     c = param_1[2];
     param_1[2] = c + 0xFF;
@@ -4622,7 +4622,7 @@ void func_8016EC0C(s32 a0, s32 a1)
     s.u14 = 0;
     s.u08 = 0x28;
     s.u0A = 8;
-    x = ((Unkstruct_8016EC0C_2 *)a0)->unk4;
+    x = ((Unkstruct_8016EC0C_2 *)a0)->unk4.u;
     s.x = x + 0x10;
     y = ((Unkstruct_8016EC0C_2 *)a0)->unk6;
     s.u04 = 0x10;

@@ -3157,7 +3157,7 @@ s32 func_8017D920(s32 a0) {
 extern void (*D_801860C0[])(void);
 
 void func_8017D988(void *a0) {
-    D_801860C0[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801860C0[((Dst *)a0)->unk15]();
 }
 
 

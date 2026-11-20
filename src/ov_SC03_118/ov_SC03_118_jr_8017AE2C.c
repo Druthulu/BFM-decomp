@@ -5675,13 +5675,13 @@ void func_8017F90C(int param_1) {
     extern s32 D_8018DA88[];
     s32 iVar1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Unkstruct_8017D364_2 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_8018DA2C;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u = ((Unkstruct_8001C9D0 *)iVar1)->head.unk4.u | 0x50000000;
         ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->unk2C.u | 0xb0;
-        ((Unkstruct_8017D364_2 *)param_1)->unk58 = (s32)&D_8018DA88[((Unkstruct_8017D364_2 *)param_1)->unk50 * 2];
+        ((Ent_80164930_80164930 *)param_1)->unk58 = (s32)&D_8018DA88[((Ent_80164930_80164930 *)param_1)->f50 * 2];
         ((Unkstruct_8001C9D0 *)iVar1)->unk1C.u = 0;
         ((Unkstruct_8001C9D0 *)iVar1)->unk1A.u = 0;
         ((Unkstruct_8001C9D0 *)iVar1)->unk18.u = 0;

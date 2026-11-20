@@ -2730,14 +2730,14 @@ void func_8017BE9C(s32 arg0)
     s32 mnc, mxc;
     s16 my, mny, mx, mn;
 
-    lim = func_800491EC() + ((Unkstruct_8017BE9C *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017FA5C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
     pkt = D_800A5E60;
     part = *(Part **)(arg0 + 0xC);
-    nparts = *(s32 *)(((Unkstruct_8017BE9C *)arg0)->unk8 + 8);
-    vtx = *(u8 **)(((Unkstruct_8017BE9C *)arg0)->unk8 + 0x10);
+    nparts = *(s32 *)(((Unkstruct_8017FA5C *)arg0)->unk8 + 8);
+    vtx = *(u8 **)(((Unkstruct_8017FA5C *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
@@ -3058,7 +3058,7 @@ void func_8017BE9C(s32 arg0)
 extern void (*D_801831CC[])(void);
 
 void func_8017CD7C(void *a0) {
-    D_801831CC[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801831CC[((Dst *)a0)->unk15]();
 }
 
 
@@ -3066,7 +3066,7 @@ void func_8017CD7C(void *a0) {
 extern void (*D_801831D4[])(void);
 
 void func_8017CDB8(void *a0) {
-    D_801831D4[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801831D4[((Dst *)a0)->unk15]();
 }
 
 
@@ -3136,7 +3136,7 @@ extern void func_800D1E28(void);
 extern void (*D_801831E8[])(void);
 
 void func_8017CF7C(void *a0) {
-    D_801831E8[((Unkstruct_80159698 *)a0)->unk15]();
+    D_801831E8[((Dst *)a0)->unk15]();
 }
 
 

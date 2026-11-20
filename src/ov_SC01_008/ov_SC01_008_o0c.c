@@ -916,7 +916,7 @@ void func_8013B83C(s32 a0, s32 a1, s32 a2) {
 void func_8013BC7C(void *arg0) {
 
     extern void (*D_8017F748[])(void *);
-    D_8017F748[((S_8013BC7C_8013BC7C *)arg0)->f68](arg0);
+    D_8017F748[((Unkstruct_8017FA5C *)arg0)->unk68](arg0);
 }
 
 

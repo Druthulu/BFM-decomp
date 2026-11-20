@@ -3305,7 +3305,7 @@ void func_8017BE60(void *a0) {
 extern void (*D_80182064[])(void);
 
 void func_8017CD9C(void *a0) {
-    D_80182064[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182064[((Dst *)a0)->unk15]();
 }
 
 
@@ -3338,7 +3338,7 @@ extern s32 func_800167F0(s32 a0);
 extern void (*D_8018206C[])(void);
 
 void func_8017CE68(void *a0) {
-    D_8018206C[((Unkstruct_80159698 *)a0)->unk15]();
+    D_8018206C[((Dst *)a0)->unk15]();
 }
 
 
@@ -3375,7 +3375,7 @@ extern s32 func_800D1EBC(void);
 extern void (*D_80182084[])(void);
 
 void func_8017CFEC(void *a0) {
-    D_80182084[((Unkstruct_80159698 *)a0)->unk15]();
+    D_80182084[((Dst *)a0)->unk15]();
 }
 
 
@@ -3461,9 +3461,9 @@ void func_8017D190(s32 a0) {
     SVECTOR sp10;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        u8 t = (((Unkstruct_8017CF48 *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017CF48 *)a0)->unk5 = t;
-        ((Unkstruct_8017CF48 *)a0)->unk14 = D_801820A8[t];
+        u8 t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14 = D_801820A8[t];
     }
 
     sp10 = guess_g_CameraFollowPos;
