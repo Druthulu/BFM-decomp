@@ -6238,15 +6238,15 @@ void func_80180D48(void)
 
     p = *(s32 *)&D_801E256C;
     t = a & 0xFFFF;
-    ((Unkstruct_80180D48 *)p)->unkC = t;
+    ((Cmd_80178D40 *)((s32)p + 8))->a.w = t;
     if (a >= b) {
-        ((Unkstruct_80180D48 *)p)->unkC = t | 0x10000;
+        ((Cmd_80178D40 *)((s32)p + 8))->a.w = t | 0x10000;
     }
     p = *(s32 *)&D_801E256C;
     t = b & 0xFFFF;
-    ((Unkstruct_80180D48 *)p)->unk14 = t;
+    ((Cmd_80178D40 *)((s32)p + 0x10))->a.w = t;
     if (a < b) {
-        ((Unkstruct_80180D48 *)p)->unk14 = t | 0x10000;
+        ((Cmd_80178D40 *)((s32)p + 0x10))->a.w = t | 0x10000;
     }
 }
 

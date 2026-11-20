@@ -5903,8 +5903,8 @@ extern void guess_FreeActorDuringSpawn(void *a0);
 extern void guess_InitModelObject(s32 a0, s32 a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 D_801869AC[];
-extern Bc8_80180E0C D_801869B4;
-extern Bc8_80180E0C D_801869BC;
+extern SVECTOR D_801869B4;
+extern SVECTOR D_801869BC;
 extern u8 D_80182178;
 
 void func_80180E0C(s32 param_1) {
@@ -5925,7 +5925,7 @@ void func_80180E0C(s32 param_1) {
     ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u = 1;
     if (CAST_SIGN(u16, param_1, 0x70) & 1) {
         dst = &D_801869BC;
-        *(Bc8_80180E0C *)dst = D_801869B4;
+        *(SVECTOR *)dst = D_801869B4;
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x80;
         *(s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x80) = (s32)dst;
     }
@@ -5938,7 +5938,7 @@ void func_80180E0C(s32 param_1) {
 extern s32 rsin(s32 a0);
 extern u8 *func_801290DC(s32 a0, u8 *a1);
 extern void guess_FreeActor(void *a0);
-extern Bc8_80180E0C D_801869BC;
+extern SVECTOR D_801869BC;
 extern u16 D_801869C0;
 
 void func_80180F14(void *a0) {

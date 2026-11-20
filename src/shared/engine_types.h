@@ -1750,7 +1750,6 @@ typedef Unkstruct_8013B83C B8_801851A8_80182D18;
 typedef Unkstruct_8013B83C B8_801851A8_80184E84;
 typedef Unkstruct_8013B83C B8_801851A8_80185D2C;
 typedef Unkstruct_8013B83C B8_8018AD9C;
-typedef struct { s32 f0; s32 f1; } __attribute__((packed, aligned(1))) Bc8_80180E0C;
 typedef struct { char c[12]; } Blk12_801C5A30;
 typedef Blk152 Blk152_8017DF40;
 typedef struct {

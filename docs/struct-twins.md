@@ -703,14 +703,6 @@ cause: 4 names (36 B, all members placeholders) bound to 5 distinct objects, non
 - `Unkstruct_80185264_2`: 1 obj — ov_SC06_000/0x80185264:a0
 - `Unkstruct_801AE624`: 1 obj — md_SC07_004/0x801AE624:s0
 
-### 8da756678e6d
-names: Bc8_80180E0C, Packed8, S80126B38, UnalignedPair
-cause: 4 names (8 B, all members placeholders) bound to 11 distinct objects, none bound to two names: 0x80126B38, 0x80126C98, 0x8014CB9C(arg0), 0x801869B4, 0x801869BC, ov_SC03_030/0x80180E0C:dst, shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src …; full list: tools/struct_twins.py --show 8da756678e6d
-- `Bc8_80180E0C`: 3 obj — 0x801869B4, 0x801869BC, ov_SC03_030/0x80180E0C:dst
-- `Packed8`: 2 obj — 0x80126C98, 0x8014CB9C(arg0)
-- `S80126B38`: 3 obj — 0x80126B38, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1
-- `UnalignedPair`: 3 obj — shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src, shared/ov/0x8014C8F0:arg0
-
 ### b897dee504b0
 names: Unkstruct_8015D380, Unkstruct_8017E800_2, Unkstruct_801839EC, Unkstruct_80189268_2
 cause: 4 names (20 B, all members placeholders) bound to 7 distinct objects, none bound to two names: ov_SC01_000/0x8015D380:s1, ov_SC02_005/0x80189268:a0, ov_SC03_111/0x801839EC:a0, ov_SC03_112/0x80180808:param_1, ov_SC03_115/0x8017E800:param_1, ov_SC05_001/0x80182530:param_1, ov_SC05_007/0x8017EDB0:param_1; full list: tools/struct_twins.py --show b897dee504b0
@@ -790,6 +782,13 @@ cause: 3 names (36 B, all members placeholders) bound to 8 distinct objects, non
 - `Blk36_800296F8`: 3 obj — 0x800298BC(arg0), 0x80079204, main/0x800296F8:arg0
 - `G4`: 4 obj — ov_SC06_025/0x801818D8:func_80010A08, ov_SC06_025/0x801818D8:q, ov_SC06_025/0x80181E08:func_80010A08, ov_SC06_025/0x80181E08:q
 - `SW20`: 1 obj — 0x800D4B70
+
+### 8da756678e6d
+names: Packed8, S80126B38, UnalignedPair
+cause: 3 names (8 B, all members placeholders) bound to 8 distinct objects, none bound to two names: 0x80126B38, 0x80126C98, 0x8014CB9C(arg0), shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src, shared/ov/0x8014C8F0:arg0, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1; full list: tools/struct_twins.py --show 8da756678e6d
+- `Packed8`: 2 obj — 0x80126C98, 0x8014CB9C(arg0)
+- `S80126B38`: 3 obj — 0x80126B38, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1
+- `UnalignedPair`: 3 obj — shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src, shared/ov/0x8014C8F0:arg0
 
 ### a8915529c611
 names: Unkstruct_8017D588_6, Unkstruct_8017F2DC, Unkstruct_80180458
