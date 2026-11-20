@@ -3779,19 +3779,19 @@ void func_80180024(void *a0)
 }
 
 
-extern W_8016BFD0 D_801A94C4;
-extern W_8016BFD0 D_801A94C8;
+extern struct packed_word D_801A94C4;
+extern struct packed_word D_801A94C8;
 extern s32 rand(void);
 extern void func_80181A64(s32 a0, s32 a1, s32 a2);
 
 void func_80180158(s32 a0) {
     s32 s0;
-    W_8016BFD0 b1, b2;
+    union word_bytes b1, b2;
     SVECTOR p;
 
     s0 = a0;
-    b1 = D_801A94C4;
-    b2 = D_801A94C8;
+    b1.pw = D_801A94C4;
+    b2.pw = D_801A94C8;
     b1.b[2] = (s8)((rand() & 0x3F) - 0x80);
     p.vx = 0x100;
     p.vz = 0x80;

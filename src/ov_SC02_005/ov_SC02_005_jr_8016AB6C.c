@@ -2540,10 +2540,10 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
     s32 iVar5 = *(s32 *)(a0 + 0x20);
 
     ((Unkstruct_8016BFD0 *)a4)->unk30 = 0x50000000;
-    *(W_8016BFD0 *)((s32)a4 + 0x20) = *(W_8016BFD0 *)a1;
-    *(W_8016BFD0 *)((s32)a4 + 0x24) = *(W_8016BFD0 *)a1;
-    *(W_8016BFD0 *)((s32)a4 + 0x28) = *(W_8016BFD0 *)a2;
-    *(W_8016BFD0 *)((s32)a4 + 0x2c) = *(W_8016BFD0 *)a2;
+    *(struct packed_word *)((s32)a4 + 0x20) = *(struct packed_word *)a1;
+    *(struct packed_word *)((s32)a4 + 0x24) = *(struct packed_word *)a1;
+    *(struct packed_word *)((s32)a4 + 0x28) = *(struct packed_word *)a2;
+    *(struct packed_word *)((s32)a4 + 0x2c) = *(struct packed_word *)a2;
 
     v1.x = *(u16 *)(a0 + 6);
     v1.y = *(u16 *)(a0 + 0xa);

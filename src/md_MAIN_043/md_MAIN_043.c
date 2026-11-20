@@ -284,7 +284,7 @@ void func_800CD054(void *a0) {
     if (*(s16 *)(s1 + 0x1C) == 0x1000) {
         *(u16 *)(s1 + 0x1C) = 0;
         ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
-        *(W_8016BFD0 *)(dp + 4) = *(W_8016BFD0 *)(dp + 0xC);
+        *(struct packed_word *)(dp + 4) = *(struct packed_word *)(dp + 0xC);
     }
     v0 = guess_TickWaitTimer_2((s32)a0);
     if (v0 != 0) {

@@ -4,8 +4,8 @@ void func_8013B598(s32 a0, u16 *a1) {
     extern Spr_8013B598_8013B598 D_8018FA00[];
 
     D_8018FA00[a0].f0 = 1;
-    D_8018FA00[a0].unk4 = ((Src_8013B598_8013B598 *)a1)->f0;
-    D_8018FA00[a0].unk6 = ((Src_8013B598_8013B598 *)a1)->f2;
-    D_8018FA00[a0].unk8 = ((Src_8013B598_8013B598 *)a1)->f4;
+    D_8018FA00[a0].unk4 = ((Vec3s *)a1)->x;
+    D_8018FA00[a0].unk6 = ((Vec3s *)a1)->y;
+    D_8018FA00[a0].unk8 = ((Vec3s *)a1)->z;
     D_8018FA00[a0].unkC = 0x100;
 }

@@ -1174,11 +1174,11 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     s32 dx, dy, dz;
     s32 shift;
 
-    { s32 tx = p->t5C; dx = tx - arg0->f0; }
+    { s32 tx = p->t5C; dx = tx - (u16)arg0->x; }
     local.vx = dx;
-    { s32 ty = p->t60; dy = ty - arg0->f2; }
+    { s32 ty = p->t60; dy = ty - (u16)arg0->y; }
     local.vy = dy;
-    { s32 tz = p->t64; dz = tz - arg0->f4; }
+    { s32 tz = p->t64; dz = tz - (u16)arg0->z; }
     local.vz = dz;
 
     if (((u32)((dx + 0x3FFF) & 0xFFFF) < 0x7FFF) &&
@@ -1197,9 +1197,9 @@ void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     VectorNormalSS(&local, arg1);
 
     shift = arg2 & 0xFFFF;
-    arg0->f0 += arg1->vx >> shift;
-    arg0->f2 += arg1->vy >> shift;
-    arg0->f4 += arg1->vz >> shift;
+    arg0->x += arg1->vx >> shift;
+    arg0->y += arg1->vy >> shift;
+    arg0->z += arg1->vz >> shift;
 }
 
 /* ANALYSIS (asm 0x68):

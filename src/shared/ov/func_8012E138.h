@@ -8,14 +8,14 @@ extern MATRIX *RotMatrixZYX(s32 a0, s32 a1);
 extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern s32 func_80135888(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void func_8012E138(int model) {
-    Src_8013B598_8013B598 cam;
+    Vec3s cam;
     int bufB[2];
     int bufA[2];
     int m;
     short s;
-    cam.f0 = guess_g_PlayerPosX;
-    cam.f2 = guess_g_PlayerPosY;
-    cam.f4 = guess_g_PlayerPosZ;
+    cam.x = guess_g_PlayerPosX;
+    cam.y = guess_g_PlayerPosY;
+    cam.z = guess_g_PlayerPosZ;
     func_8012F038(*(int *)(model + 0x20) + 0x34, &cam, bufA);
     m = *(int *)(model + 0x20);
     if (m != 0) {
@@ -35,8 +35,8 @@ void func_8012E138(int model) {
     }
     guess_RotTransSVWithMatrix(*(int *)(model + 0x20) + 0x34, bufA, bufB);
     if (func_80135888(*(int *)(model + 0x20), *(int *)(model + 0x58), bufB, &cam)) {
-        guess_g_PlayerPosX = cam.f0;
-        guess_g_PlayerPosY = cam.f2;
-        guess_g_PlayerPosZ = cam.f4;
+        guess_g_PlayerPosX = cam.x;
+        guess_g_PlayerPosY = cam.y;
+        guess_g_PlayerPosZ = cam.z;
     }
 }

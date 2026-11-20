@@ -782,9 +782,9 @@ void func_8013B598(s32 a0, u16 *a1) {
     extern Spr_8013B598_8013B598 D_801A22D8[];
 
     D_801A22D8[a0].f0 = 1;
-    D_801A22D8[a0].unk4 = ((Src_8013B598_8013B598 *)a1)->f0;
-    D_801A22D8[a0].unk6 = ((Src_8013B598_8013B598 *)a1)->f2;
-    D_801A22D8[a0].unk8 = ((Src_8013B598_8013B598 *)a1)->f4;
+    D_801A22D8[a0].unk4 = ((Vec3s *)a1)->x;
+    D_801A22D8[a0].unk6 = ((Vec3s *)a1)->y;
+    D_801A22D8[a0].unk8 = ((Vec3s *)a1)->z;
     D_801A22D8[a0].unkC = 0x100;
 }
 
@@ -796,9 +796,9 @@ void func_8013B6A0(s32 idx, u16 *src, s32 val)
     extern E_3B7AC_8013B7AC D_801A22D8[];
 
     D_801A22D8[idx].f0 = 1;
-    D_801A22D8[idx].unk4 = ((Src_8013B598_8013B598 *)src)->f0;
-    D_801A22D8[idx].unk6 = ((Src_8013B598_8013B598 *)src)->f2;
-    D_801A22D8[idx].unk8 = ((Src_8013B598_8013B598 *)src)->f4;
+    D_801A22D8[idx].unk4 = ((Vec3s *)src)->x;
+    D_801A22D8[idx].unk6 = ((Vec3s *)src)->y;
+    D_801A22D8[idx].unk8 = ((Vec3s *)src)->z;
     D_801A22D8[idx].unkC = val;
 }
 

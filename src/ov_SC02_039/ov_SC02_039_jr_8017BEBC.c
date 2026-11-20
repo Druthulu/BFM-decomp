@@ -4068,7 +4068,7 @@ void func_8017EED8(s32 a0in) {
     if (s1 != 0) {
         ((void (*)(void))guess_UpdateActorModelMatrix)();
         if (func_8017EF5C(param_1, s1) != 0) {
-            D_80126B96 = ((Src_8013B598_8013B598 *)s1)->f4;
+            D_80126B96 = ((Vec3s *)s1)->z;
             D_80126B98 = CAST_ALIAS(s16, s1, 6);
         }
     }
@@ -4093,15 +4093,15 @@ s32 func_8017EF5C(s32 a0, s32 a1) {
     s32 i, j;
     s32 val;
 
-    half = ((Src_8013B598_8013B598 *)a1)->f2 >> 1;
+    half = (u16)((Vec3s *)a1)->y >> 1;
     p2.unk0 = half;
     p1.unk0 = -half;
 
-    for (i = 0; i < ((Src_8013B598_8013B598 *)a1)->f0; i++) {
+    for (i = 0; i < (u16)((Vec3s *)a1)->x; i++) {
         val = *(u16 *)(a1 + 0x8 + i * 2);
         p2.unk2 = val;
         p1.unk2 = val;
-        for (j = 0; j < ((Src_8013B598_8013B598 *)a1)->f0; j++) {
+        for (j = 0; j < (u16)((Vec3s *)a1)->x; j++) {
             val = *(u16 *)(a1 + 0x8 + j * 2);
             p2.unk4 = val;
             p1.unk4 = val;

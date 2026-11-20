@@ -3147,9 +3147,9 @@ void func_8017F6A8(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_8018395C = spos.f4;
-        D_80183964 = spos.f4;
-        D_8018396C = spos.f4;
+        D_8018395C = spos.z;
+        D_80183964 = spos.z;
+        D_8018396C = spos.z;
         func_80017D98(&mtx);
         mtx.t[2] = 0;
         mtx.t[1] = 0;
@@ -3171,21 +3171,21 @@ void func_8017F6A8(s32 arg0)
             prim.g2 = 0x20;
             prim.r2 = 0x20;
             prim.color = 0x50000000;
-            prim.v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
-            prim.v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
-            prim.v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
-            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
-            prim.v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
-            prim.v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            prim.v[0].vx = sxy[0].unk0.v1.unk0 + spos.x;
+            prim.v[0].vy = sxy[0].unk0.v1.unk2 + spos.y;
+            prim.v[1].vx = sxy[1].unk0.v1.unk0 + spos.x;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
+            prim.v[2].vx = sxy[2].unk0.v1.unk0 + spos.x;
+            prim.v[2].vy = sxy[2].unk0.v1.unk2 + spos.y;
             prim.v[0].vz = otz;
             func_8001739C(&prim);
             t = sxy[1].unk0.v1.unk2;
-            prim.v[1].vy = spos.f2 - t;
+            prim.v[1].vy = spos.y - t;
             func_8001739C(&prim);
             t = sxy[2].unk0.v1.unk0;
-            prim.v[2].vx = spos.f0 - t;
+            prim.v[2].vx = spos.x - t;
             func_8001739C(&prim);
-            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(&prim);
         }
     }

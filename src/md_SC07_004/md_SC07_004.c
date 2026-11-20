@@ -2720,8 +2720,8 @@ void func_801A40CC(s32 a0) {
 
     for (; i < 4; i++) {
         guess_BuildCircle12Points((void *)p, 0x40);
-        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801AFEF8;
-        *(W_8016BFD0 *)q = *(W_8016BFD0 *)&D_801A01B4;
+        *(struct packed_word *)p = *(struct packed_word *)&D_801AFEF8;
+        *(struct packed_word *)q = *(struct packed_word *)&D_801A01B4;
         q += 0x40;
         p += 0x40;
     }
@@ -5411,7 +5411,7 @@ void func_801A8228(s32 a0)
     s32 v0;
 
     *(Blk4_md_SC07_004_801A8228 *)&D_801F89F8 = *(Blk4_md_SC07_004_801A8228 *)&D_801A0210;
-    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(W_8016BFD0 *)&D_801A01E8);
+    *(Blk4_md_SC07_004_801A8228 *)&D_801F89FC = *(Blk4_md_SC07_004_801A8228 *)&(*(struct packed_word *)&D_801A01E8);
 
     v0 = *(s32 *)(a0 + 0x20);
     *(s16 *)(v0 + 0x1A) = 0;
@@ -8770,9 +8770,9 @@ void func_801ACE5C(void *a0) {
     if (s1 != 0) {
         p = (void *)&D_801F8D18;
         guess_BuildCircle12Points(p, 0x80);
-        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801A0218;
+        *(struct packed_word *)p = *(struct packed_word *)&D_801A0218;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_004_801AD1E4.unkE0 = 0x20C;
-        *(W_8016BFD0 *)&D_801F8D1C = *(W_8016BFD0 *)&D_801A021C;
+        *(struct packed_word *)&D_801F8D1C = *(struct packed_word *)&D_801A021C;
         guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;
@@ -8783,9 +8783,9 @@ void func_801ACE5C(void *a0) {
     if (s1 != 0) {
         p = (void *)&D_801F8D58;
         guess_BuildCircle12Points(p, 0x60);
-        *(W_8016BFD0 *)p = *(W_8016BFD0 *)&D_801A0220;
+        *(struct packed_word *)p = *(struct packed_word *)&D_801A0220;
         ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_004_801AD1E4.unkE4 = 0xC02;
-        *(W_8016BFD0 *)&D_801F8D5C = *(W_8016BFD0 *)&D_801A021C;
+        *(struct packed_word *)&D_801F8D5C = *(struct packed_word *)&D_801A021C;
         guess_InitObjectKind6(s1, (s32)p);
         *(u16 *)(s1 + 0x2C) = 0xC100;
         *(s32 *)(s1 + 0x4) = 0x50000000;

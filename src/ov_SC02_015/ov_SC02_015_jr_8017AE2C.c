@@ -3774,8 +3774,8 @@ extern s16 D_80181DB0;
 void func_8017DC24(s32 arg0)
 {
     Prim_8017DC24 prim;             /* sp+0x10 */
-    Src_8013B598_8013B598 wpos;              /* sp+0x38 */
-    Src_8013B598_8013B598 spos;              /* sp+0x40 */
+    Vec3s wpos;              /* sp+0x38 */
+    Vec3s spos;              /* sp+0x40 */
     Sxy_8017DC24 sxy[4];            /* sp+0x48 (only 0..2 used; 4th slot fills 0x60) */
     Mtx_8017DC24 mtx;               /* sp+0x68 */
     s32 otz;                        /* sp+0x88 */
@@ -3785,9 +3785,9 @@ void func_8017DC24(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_80181DA0 = spos.f4;
-        D_80181DA8 = spos.f4;
-        D_80181DB0 = spos.f4;
+        D_80181DA0 = spos.z;
+        D_80181DA8 = spos.z;
+        D_80181DB0 = spos.z;
         func_80017D98(&mtx);
         /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
         mtx.t[2] = 0;
@@ -3810,21 +3810,21 @@ void func_8017DC24(s32 arg0)
             prim.g2 = 0x20;
             prim.r2 = 0x20;
             prim.color = 0x50000000;
-            prim.v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
-            prim.v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
-            prim.v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
-            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
-            prim.v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
-            prim.v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            prim.v[0].vx = sxy[0].unk0.v1.unk0 + spos.x;
+            prim.v[0].vy = sxy[0].unk0.v1.unk2 + spos.y;
+            prim.v[1].vx = sxy[1].unk0.v1.unk0 + spos.x;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
+            prim.v[2].vx = sxy[2].unk0.v1.unk0 + spos.x;
+            prim.v[2].vy = sxy[2].unk0.v1.unk2 + spos.y;
             prim.v[0].vz = otz;
             func_8001739C(&prim);
             t = sxy[1].unk0.v1.unk2;
-            prim.v[1].vy = spos.f2 - t;
+            prim.v[1].vy = spos.y - t;
             func_8001739C(&prim);
             t = sxy[2].unk0.v1.unk0;
-            prim.v[2].vx = spos.f0 - t;
+            prim.v[2].vx = spos.x - t;
             func_8001739C(&prim);
-            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            prim.v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(&prim);
         }
     }

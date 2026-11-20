@@ -16827,7 +16827,7 @@ void func_80029774(s32 a0) {
     }
 
     for (i = 0; i < 0x18; i++) {
-        *(W_8016BFD0 *)(dst + 0x27C + i * 4) = *(W_8016BFD0 *)(D_800BA2B8 + i * 4);
+        *(struct packed_word *)(dst + 0x27C + i * 4) = *(struct packed_word *)(D_800BA2B8 + i * 4);
     }
 
     D_800A5E58[a0] = 1;

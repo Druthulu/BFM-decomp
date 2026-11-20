@@ -2638,9 +2638,9 @@ void func_80185C0C(s32 arg0)
     guess_CopyVec3HighHalves(arg0 + 4, (s32 *)&wpos);
     if ((func_8012EF34((s32)&wpos, (s32)&spos) & ~0x1000) == 0) {
         gte_stszotz(&otz);
-        D_8018AC5C = spos.f4;
-        D_8018AC64 = spos.f4;
-        D_8018AC6C = spos.f4;
+        D_8018AC5C = spos.z;
+        D_8018AC64 = spos.z;
+        D_8018AC6C = spos.z;
         func_80017D98(&mtx);
         /* emitted 0x84/0x80/0x7C -> source runs t[2] first */
         mtx.t[2] = 0;
@@ -2665,21 +2665,21 @@ void func_80185C0C(s32 arg0)
             p->g2 = 0x20;
             p->r2 = 0x20;
             p->color = 0x50000000;
-            p->v[0].vx = sxy[0].unk0.v1.unk0 + spos.f0;
-            p->v[0].vy = sxy[0].unk0.v1.unk2 + spos.f2;
-            p->v[1].vx = sxy[1].unk0.v1.unk0 + spos.f0;
-            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
-            p->v[2].vx = sxy[2].unk0.v1.unk0 + spos.f0;
-            p->v[2].vy = sxy[2].unk0.v1.unk2 + spos.f2;
+            p->v[0].vx = sxy[0].unk0.v1.unk0 + spos.x;
+            p->v[0].vy = sxy[0].unk0.v1.unk2 + spos.y;
+            p->v[1].vx = sxy[1].unk0.v1.unk0 + spos.x;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
+            p->v[2].vx = sxy[2].unk0.v1.unk0 + spos.x;
+            p->v[2].vy = sxy[2].unk0.v1.unk2 + spos.y;
             p->v[0].vz = otz;
             func_8001739C(p);
             t = sxy[1].unk0.v1.unk2;
-            p->v[1].vy = spos.f2 - t;
+            p->v[1].vy = spos.y - t;
             func_8001739C(p);
             t = sxy[2].unk0.v1.unk0;
-            p->v[2].vx = spos.f0 - t;
+            p->v[2].vx = spos.x - t;
             func_8001739C(p);
-            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.f2;
+            p->v[1].vy = sxy[1].unk0.v1.unk2 + spos.y;
             func_8001739C(p);
         }
     }

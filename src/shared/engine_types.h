@@ -1795,7 +1795,7 @@ typedef CVECTOR Blk4_80187D68;
 typedef CVECTOR Blk4_8018FF98_8018FCE8;
 typedef CVECTOR Blk4_80191320;
 typedef CVECTOR Blk4_80191320_8018D05C;
-typedef W_8016BFD0 Blk4_fc;
+typedef struct packed_word Blk4_fc; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
 typedef struct S80190C84 Blk8018057C;
 typedef SVECTOR Blk8U;
 typedef SVECTOR Blk8_80126940_8017D168;
@@ -2261,9 +2261,9 @@ typedef Part Part80180FE4;
 typedef PolyFT3 PolyFT3_80180FE4;
 typedef POLY_FT4 PolyFT4_80180FE4;
 typedef SVECTOR Pos;
-typedef Src_8013B598_8013B598 Pos_8017F6A8;
-typedef Src_8013B598_8013B598 Pos_8018012C;
-typedef Src_8013B598_8013B598 Pos_80185C0C;
+typedef Vec3s Pos_8017F6A8;
+typedef Vec3s Pos_8018012C;
+typedef Vec3s Pos_80185C0C;
 typedef struct {
     s16 x, y, z;
     u16 a, b, c;

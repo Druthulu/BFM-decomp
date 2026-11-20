@@ -801,8 +801,7 @@ typedef struct {
 } Unkstruct_8017FA5C; /* size = 0x6c */
 typedef Unkstruct_8017FA5C S_8013BC7C;
 typedef struct { s16 x, y, z; } Vec3s;
-typedef struct { char b[4]; } W_8016BFD0;
-typedef W_8016BFD0 W;
+typedef struct packed_word W; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
 typedef void (*code)(unsigned short *);
 typedef struct { long vx, vy, vz; unsigned char r, g, b; } GsF_LIGHT; /* PsyQ libgs.h */
 struct S80190C84 {
@@ -831,9 +830,8 @@ typedef struct {
         s32 f8;
     } P_13BD74;
 typedef E_3B7AC_8013B7AC Spr_8013B598;
-typedef struct { u16 f0; u16 f2; u16 f4; } Src_8013B598_8013B598;
-typedef Src_8013B598_8013B598 Src_8013B598;
-typedef Src_8013B598_8013B598 Src_8013B6A0;
+typedef Vec3s Src_8013B598;
+typedef Vec3s Src_8013B6A0;
 typedef struct { s16 vx, vy; } DVECTOR;
 typedef DVECTOR DVEC2_C974_8017BA3C;
 typedef MATRIX MTX_C974;
@@ -894,10 +892,10 @@ typedef CVECTOR Blk4_8017DF40_801E48B8;
 typedef CVECTOR Blk4_8017DF40_801E9DF8;
 typedef CVECTOR Blk4_8017DF40_801EFC58;
 typedef CVECTOR Blk4_8017DF40_801F1738;
-typedef W_8016BFD0 Blk4_801A7358;
-typedef W_8016BFD0 Blk4_801AB8C0;
-typedef W_8016BFD0 Blk4_801AD31C;
-typedef W_8016BFD0 Blk4_md_SC07_004_801A8228;
+typedef struct packed_word Blk4_801A7358; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
+typedef struct packed_word Blk4_801AB8C0; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
+typedef struct { char b[4]; } Blk4_801AD31C; /* T18.c19: was an alias of W_8016BFD0; kept a byte struct: its objects D_801A0224/D_801A0228 (md_SC07_004) are byte-initialised constants */
+typedef struct packed_word Blk4_md_SC07_004_801A8228; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
 typedef struct {
     u32 field0;
     u32 field1;
@@ -2203,7 +2201,7 @@ typedef struct {
     u32 c3;             /* 0x1C */
     s16 x3, y3;         /* 0x20 */
 } PolyG4_800D29F8;
-typedef Src_8013B598_8013B598 Pos800D20C0;
+typedef Vec3s Pos800D20C0;
 typedef CVECTOR RGBC;
 typedef struct {            /* 0x24 — POLY_G4 */
     u32  tag;

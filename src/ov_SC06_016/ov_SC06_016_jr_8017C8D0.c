@@ -4557,12 +4557,12 @@ void func_8018048C(void *a0) {
         }
         c = 0xFF - c;
 
-        *(W_8016BFD0 *)p = *(W_8016BFD0 *)D_8019E28C;
+        *(struct packed_word *)p = *(struct packed_word *)D_8019E28C;
         p[4] = c;
         p[5] = c;
         p[6] = c / 2;
 
-        *(W_8016BFD0 *)q = *(W_8016BFD0 *)D_8019E28C;
+        *(struct packed_word *)q = *(struct packed_word *)D_8019E28C;
         q[4] = c;
         q[5] = c;
         q[6] = c / 2;

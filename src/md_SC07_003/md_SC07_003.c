@@ -2129,9 +2129,9 @@ extern u16 D_801A6934[];   /* source palette A (minuend)    */
 /* stride-6 colour records; the three labels overlap (+0/+2/+4) but each
    store must anchor its OWN symbol, hence three array decls */
 
-extern Src_8013B598_8013B598 D_801F43C4[];
-extern Src_8013B598_8013B598 D_801F43C6[];
-extern Src_8013B598_8013B598 D_801F43C8[];
+extern Vec3s D_801F43C4[];
+extern Vec3s D_801F43C6[];
+extern Vec3s D_801F43C8[];
 
 void func_801A2E20(void)
 {
@@ -2140,9 +2140,9 @@ void func_801A2E20(void)
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        D_801F43C4[i].f0 = (*a & 0x1F) - (*b & 0x1F);
-        D_801F43C6[i].f0 = ((*a >> 5) & 0x1F) - ((*b >> 5) & 0x1F);
-        D_801F43C8[i].f0 = ((*a >> 10) & 0x1F) - ((*b >> 10) & 0x1F);
+        D_801F43C4[i].x = (*a & 0x1F) - (*b & 0x1F);
+        D_801F43C6[i].x = ((*a >> 5) & 0x1F) - ((*b >> 5) & 0x1F);
+        D_801F43C8[i].x = ((*a >> 10) & 0x1F) - ((*b >> 10) & 0x1F);
         a++;
         b++;
     }
@@ -2158,9 +2158,9 @@ extern u16 D_801F4424[];
 
 
 
-extern Src_8013B598_8013B598 D_801F43C4[];
-extern Src_8013B598_8013B598 D_801F43C6[];
-extern Src_8013B598_8013B598 D_801F43C8[];
+extern Vec3s D_801F43C4[];
+extern Vec3s D_801F43C6[];
+extern Vec3s D_801F43C8[];
 
 void func_801A2EC8(void *a0)
 {

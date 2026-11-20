@@ -5878,15 +5878,15 @@ void func_801829F0(s32* a0)
 
 
     u8 buf[32];
-    Src_8013B598_8013B598 sv;
+    Vec3s sv;
     s32 out[2];
     s32 p;
 
     p = ((Unkstruct_801202A0 *)a0)->unkCC.val;
     if (p != 0) {
-        sv.f0 = 0;
-        sv.f2 = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk100.u;
-        sv.f4 = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk102.u;
+        sv.x = 0;
+        sv.y = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk100.u;
+        sv.z = ((Unkstruct_801202A0 *)a0)->extD.kSC07_002_80182228.unk102.u;
 
         RotMatrixZYX((s32)&sv, (s32)buf);
 
@@ -5894,18 +5894,18 @@ void func_801829F0(s32* a0)
         ((MATRIX *)buf)->t[1] = ((Unkstruct_801202A0 *)p)->unk8.i.hi.s;
         ((MATRIX *)buf)->t[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.s;
 
-        sv.f0 = 0;
-        sv.f2 = ((Unkstruct_801202A0 *)a0)->unkFE.u;
-        sv.f4 = -((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE0;
+        sv.x = 0;
+        sv.y = ((Unkstruct_801202A0 *)a0)->unkFE.u;
+        sv.z = -((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE0;
 
         SetRotMatrix(buf);
         SetTransMatrix(buf);
 
         RotTransSV(&sv, &sv, out);
 
-        ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sv.f0;
-        ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sv.f2;
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sv.f4;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi = sv.x;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi = sv.y;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi = sv.z;
     }
 }
 
