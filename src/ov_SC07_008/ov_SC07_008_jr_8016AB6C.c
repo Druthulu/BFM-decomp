@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8017F0F8;
 extern void (*D_8017F120[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8017F100;

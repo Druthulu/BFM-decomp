@@ -3851,8 +3851,8 @@ extern u8 D_801B0328[];
 extern u8 D_801B0330[];
 extern u8 D_801B030C[];                     /* 0xFF-terminated enum byte stream */
 extern u16 D_801F885C;
-extern Unkstruct_80181FAC_2 D_801B02DC[];
-extern Unkstruct_80181FAC_2 D_801B02DE[];
+extern DVECTOR D_801B02DC[];
+extern DVECTOR D_801B02DE[];
 
 extern void func_801A6184(u8 *, s32, s32);
 extern void func_801A5E60(s32 a0, u8 *v);
@@ -3880,13 +3880,13 @@ void func_801A5D68(void *arg) {
            Preheader strata (cookbook 190-A) then fall out exactly: biv init
            `i = 0`, hoisted invariant `D_801F885C`, giv init `$a0 = $s2`. */
         for (i = 0; i < 4; i++) {
-            buf[i].unk0 = D_801B02DC[*p].unk0;
+            buf[i].unk0 = (u16)D_801B02DC[*p].vx;
             /* f2 is cleared AFTER f0 in source order so sched1 sinks the
                `sh $zero, 0x2($a0)` into the `lhu`'s load-delay slot; written
                first it emits at the block top and leaves a `nop` behind
                (+1 instruction). */
             buf[i].unk2 = 0;
-            val = D_801B02DE[*p].unk0;
+            val = (u16)D_801B02DE[*p].vx;
             buf[i].unk4 = val;
             if (*p >= 6) {
                 buf[i].unk4 = val + D_801F885C;
@@ -7179,9 +7179,9 @@ void func_801AACD4(void *a0, void *a1, u32 a2, s32 a3)
     s32 flag;            /* sp+0x38 */
 
     RotMatrixZYX((s32)a1, (s32)&mtx);
-    mtx.t[0] = ((Unkstruct_801312D0 *)a0)->unk0;
-    mtx.t[1] = ((Unkstruct_801312D0 *)a0)->unk2;
-    mtx.t[2] = ((Unkstruct_801312D0 *)a0)->unk4;
+    mtx.t[0] = ((SVECTOR *)a0)->vx;
+    mtx.t[1] = ((SVECTOR *)a0)->vy;
+    mtx.t[2] = ((SVECTOR *)a0)->vz;
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
     sv.vy = 0;
@@ -9445,8 +9445,8 @@ void func_801ADE1C(void *a0, u16 *a1, s8 *a2, u8 *a3) {
         out++;
     }
 
-    rect.unk0 = ((Unkstruct_80181FAC_2 *)pos)->unk0;
-    rect.unk2 = ((Unkstruct_80181FAC_2 *)pos)->unk2;
+    rect.unk0 = (u16)((DVECTOR *)pos)->vx;
+    rect.unk2 = (u16)((DVECTOR *)pos)->vy;
     rect.unk4 = 16;
     rect.unk6 = 1;
 

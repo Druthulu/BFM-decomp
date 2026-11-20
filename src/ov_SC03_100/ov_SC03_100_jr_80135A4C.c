@@ -686,7 +686,7 @@ docall:
         eq = ((V3 *)a2)->x == ((V3 *)a3)->x && ((V3 *)a2)->y == ((V3 *)a3)->y && ((V3 *)a2)->z == ((V3 *)a3)->z;
 
         while (1) {
-            ret = func_80133AB0(0, (s16)(*(Box **)&D_80184E7C)->f0, (s16)(*(Box **)&D_80184E7C)->f4, (s32)p);
+            ret = func_80133AB0(0, (s16)(u16)(*(Box **)&D_80184E7C)->vx, (s16)(u16)(*(Box **)&D_80184E7C)->vz, (s32)p);
             if (ret == 0) break;
             acc |= ret;
             if (eq != 0) break;
@@ -694,12 +694,12 @@ docall:
         }
 
         if ((s16)acc != 0 || D_801C715C != 0) {
-            if ((*(Box **)&D_80184E7C)->f6.s >= -0xBCB) {
+            if ((*(Box **)&D_80184E7C)->pad >= -0xBCB) {
                 *(Blk8_SC03_100_80135A4C *)guess_g_BoxHitNormalX = *(Blk8_SC03_100_80135A4C *)&D_801152B0;
             }
-            (*(Box **)&D_80184E84)->f0 = (*(Box **)&D_80184E80)->f0;
-            (*(Box **)&D_80184E84)->f2 = (*(Box **)&D_80184E80)->f2;
-            (*(Box **)&D_80184E84)->f4 = (*(Box **)&D_80184E80)->f4;
+            (*(Box **)&D_80184E84)->vx = (u16)(*(Box **)&D_80184E80)->vx;
+            (*(Box **)&D_80184E84)->vy = (u16)(*(Box **)&D_80184E80)->vy;
+            (*(Box **)&D_80184E84)->vz = (u16)(*(Box **)&D_80184E80)->vz;
             goto docall;
         }
     }

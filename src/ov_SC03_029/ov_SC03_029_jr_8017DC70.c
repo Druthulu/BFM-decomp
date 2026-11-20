@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80189608;
 extern void (*D_80189630[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80189610;
@@ -3631,9 +3631,9 @@ void func_8017FA84(s32 a0, s16* a1, u32 a2)
     *(s16 *)((s32)a0 + 0x2A) = ((s16 (*)(s16, s16, s32))guess_EaseToward)(*(s16 *)((s32)a0 + 0x2A), *(s16 *)((s32)a0 + 0x30), 0x10);
     *(s16 *)((s32)a0 + 0x2C) = ((s16 (*)(s16, s16, s32))guess_EaseToward)(*(s16 *)((s32)a0 + 0x2C), *(s16 *)((s32)a0 + 0x32), 0x10);
 
-    *(s32 *)((s32)a0 + 0x48) = *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_801312D0 *)a1)->unk0;
-    *(s32 *)((s32)a0 + 0x4C) = *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_801312D0 *)a1)->unk2;
-    *(s32 *)((s32)a0 + 0x50) = *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_801312D0 *)a1)->unk4;
+    *(s32 *)((s32)a0 + 0x48) = *(s16 *)((s32)a0 + 0x28) + ((SVECTOR *)a1)->vx;
+    *(s32 *)((s32)a0 + 0x4C) = *(s16 *)((s32)a0 + 0x2A) + ((SVECTOR *)a1)->vy;
+    *(s32 *)((s32)a0 + 0x50) = *(s16 *)((s32)a0 + 0x2C) + ((SVECTOR *)a1)->vz;
 
     sp40[0] = *(u16 *)((s32)a0 + 0x18);
     sp40[1] = *(u16 *)((s32)a0 + 0x1A) + a2;
@@ -3645,9 +3645,9 @@ void func_8017FA84(s32 a0, s16* a1, u32 a2)
     sp30[2] = *(s32 *)((s32)a0 + 0x10);
     ApplyMatrixSV(sp10, sp30, sp38);
 
-    *(s32 *)((s32)a0 + 0x3C) = ((s16)sp38[0] >> 3) + *(s16 *)((s32)a0 + 0x28) + ((Unkstruct_801312D0 *)a1)->unk0;
-    *(s32 *)((s32)a0 + 0x40) = ((s16)sp38[1] >> 3) + *(s16 *)((s32)a0 + 0x2A) + ((Unkstruct_801312D0 *)a1)->unk2;
-    *(s32 *)((s32)a0 + 0x44) = ((s16)sp38[2] >> 3) + *(s16 *)((s32)a0 + 0x2C) + ((Unkstruct_801312D0 *)a1)->unk4;
+    *(s32 *)((s32)a0 + 0x3C) = ((s16)sp38[0] >> 3) + *(s16 *)((s32)a0 + 0x28) + ((SVECTOR *)a1)->vx;
+    *(s32 *)((s32)a0 + 0x40) = ((s16)sp38[1] >> 3) + *(s16 *)((s32)a0 + 0x2A) + ((SVECTOR *)a1)->vy;
+    *(s32 *)((s32)a0 + 0x44) = ((s16)sp38[2] >> 3) + *(s16 *)((s32)a0 + 0x2C) + ((SVECTOR *)a1)->vz;
 }
 
 

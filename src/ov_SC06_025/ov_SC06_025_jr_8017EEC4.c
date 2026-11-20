@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186A8C;
 extern void (*D_80186AB4[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186A94;
@@ -4241,8 +4241,8 @@ void func_80180E30(void *a0) {
     extern void func_80182170(void *a0);
     u16 flag;
 
-    D_80189020[((Unkstruct_80181FAC_2 *)a0)->unk2]();
-    flag = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+    D_80189020[(u16)((DVECTOR *)a0)->vy]();
+    flag = (u16)((DVECTOR *)a0)->vx;
     D_801B1720 = -1;
     if (flag != 0) {
         ((void (*)())func_80182170)(a0);

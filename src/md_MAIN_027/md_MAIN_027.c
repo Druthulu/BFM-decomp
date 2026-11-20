@@ -556,14 +556,14 @@ s32 func_800CBA44(SV_CBA44_t *out, P2_CBA44_t *in, Base_CBA44_t *b, P2_CBA44_t *
 extern void func_800178EC(s32 a0);
 
 void func_800CBBF8(s32 *a0, s32 *a1) {
-    ((Src_80017930 *)a0)->unk0.v1.unk0 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
-    ((Src_80017930 *)a0)->unk0.v1.unk2 += ((Unkstruct_80181FAC_2 *)a1)->unk2;
-    ((Src_80017930 *)a0)->unk0.v1.unk8 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
-    ((Src_80017930 *)a0)->unk0.v1.unkA += ((Unkstruct_80181FAC_2 *)a1)->unk2;
-    ((Src_80017930 *)a0)->unk0.v1.unk10 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
-    ((Src_80017930 *)a0)->unk0.v1.unk12 += ((Unkstruct_80181FAC_2 *)a1)->unk2;
-    ((Src_80017930 *)a0)->unk0.v1.unk18 += ((Unkstruct_80181FAC_2 *)a1)->unk0;
-    ((Src_80017930 *)a0)->unk0.v1.unk1A += ((Unkstruct_80181FAC_2 *)a1)->unk2;
+    ((Src_80017930 *)a0)->unk0.v1.unk0 += (u16)((DVECTOR *)a1)->vx;
+    ((Src_80017930 *)a0)->unk0.v1.unk2 += (u16)((DVECTOR *)a1)->vy;
+    ((Src_80017930 *)a0)->unk0.v1.unk8 += (u16)((DVECTOR *)a1)->vx;
+    ((Src_80017930 *)a0)->unk0.v1.unkA += (u16)((DVECTOR *)a1)->vy;
+    ((Src_80017930 *)a0)->unk0.v1.unk10 += (u16)((DVECTOR *)a1)->vx;
+    ((Src_80017930 *)a0)->unk0.v1.unk12 += (u16)((DVECTOR *)a1)->vy;
+    ((Src_80017930 *)a0)->unk0.v1.unk18 += (u16)((DVECTOR *)a1)->vx;
+    ((Src_80017930 *)a0)->unk0.v1.unk1A += (u16)((DVECTOR *)a1)->vy;
     func_800178EC((s32)a0);
 }
 

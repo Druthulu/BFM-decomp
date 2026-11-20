@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018B760;
 extern void (*D_8018B788[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018B768;
@@ -3281,12 +3281,12 @@ extern s32 guess_EaseToward(s32 a0, s32 a1, s32 a2);
 void func_80184334(int param_1) {
     struct W80184334 *p = (struct W80184334 *)param_1;
 
-    p->f48 = (short)guess_EaseToward((int)*(short *)&p->f48, (int)((Unkstruct_801312D0 *)D_801D4358)->unk0, 0x20);
-    p->f4C = (short)guess_EaseToward((int)*(short *)&p->f4C, (int)((Unkstruct_801312D0 *)D_801D4358)->unk2, 0x20);
-    p->f50 = (short)guess_EaseToward((int)*(short *)&p->f50, (int)((Unkstruct_801312D0 *)D_801D4358)->unk4, 0x20);
-    p->f3C = (short)guess_EaseToward((int)*(short *)&p->f3C, (int)((Unkstruct_801312D0 *)D_801D435C)->unk0, 0x20);
-    p->f40 = (short)guess_EaseToward((int)*(short *)&p->f40, (int)((Unkstruct_801312D0 *)D_801D435C)->unk2, 0x20);
-    p->f44 = (short)guess_EaseToward((int)*(short *)&p->f44, (int)((Unkstruct_801312D0 *)D_801D435C)->unk4, 0x20);
+    p->f48 = (short)guess_EaseToward((int)*(short *)&p->f48, (int)((SVECTOR *)D_801D4358)->vx, 0x20);
+    p->f4C = (short)guess_EaseToward((int)*(short *)&p->f4C, (int)((SVECTOR *)D_801D4358)->vy, 0x20);
+    p->f50 = (short)guess_EaseToward((int)*(short *)&p->f50, (int)((SVECTOR *)D_801D4358)->vz, 0x20);
+    p->f3C = (short)guess_EaseToward((int)*(short *)&p->f3C, (int)((SVECTOR *)D_801D435C)->vx, 0x20);
+    p->f40 = (short)guess_EaseToward((int)*(short *)&p->f40, (int)((SVECTOR *)D_801D435C)->vy, 0x20);
+    p->f44 = (short)guess_EaseToward((int)*(short *)&p->f44, (int)((SVECTOR *)D_801D435C)->vz, 0x20);
 }
 
 
@@ -3799,19 +3799,19 @@ void func_80184F18(s16 *arg0, s32 arg1, s32 arg2)
         d->v[2].vy = sxy[1].unk0.v1.unk2 + p->unk6;
         d->v[3].vx = sxy[0].unk0.v1.unk0 + p->unk0;
         d->v[3].vy = sxy[0].unk0.v1.unk2;
-        d->uv[0].unk0 = u;
-        d->uv[0].unk2 = 0x1FF;
-        d->uv[1].unk0 = t + 0xD20;
-        d->uv[1].unk2 = 0x100;
-        d->uv[2].unk0 = p->unk2 + u;
-        d->uv[2].unk2 = 0x1FF;
-        d->uv[3].unk0 = p->unk0 + u;
-        d->uv[3].unk2 = 0x100;
+        d->uv[0].vx = u;
+        d->uv[0].vy = 0x1FF;
+        d->uv[1].vx = t + 0xD20;
+        d->uv[1].vy = 0x100;
+        d->uv[2].vx = p->unk2 + u;
+        d->uv[2].vy = 0x1FF;
+        d->uv[3].vx = p->unk0 + u;
+        d->uv[3].vy = 0x100;
         func_800178EC((s32)d);
         d->v[2].vx = sxy[1].unk0.v1.unk0 - p->unk2;
         d->v[3].vx = sxy[0].unk0.v1.unk0 - p->unk0;
-        d->uv[2].unk0 = u - p->unk2;
-        d->uv[3].unk0 = u - p->unk0;
+        d->uv[2].vx = u - p->unk2;
+        d->uv[3].vx = u - p->unk0;
         func_800178EC((s32)d);
     }
 }
@@ -4017,8 +4017,8 @@ void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_801855F0(arg0, 0x1000, 0);
-    sp10.vx = ((Unkstruct_80185550 *)arg3)->unk0;
-    sp10.vz = ((Unkstruct_80185550 *)arg3)->unk2;
+    sp10.vx = (u16)((Unkstruct_80185550 *)arg3)->vx;
+    sp10.vz = (u16)((Unkstruct_80185550 *)arg3)->vy;
     sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
         sp10.vy = ang;
@@ -4037,7 +4037,7 @@ void func_80185550(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D446C;
-        D_801D446C = ((Unkstruct_80181854_2 *)arg0)->unk0;
+        D_801D446C = (u16)((Unkstruct_80181854_2 *)arg0)->vx;
         D_801D446E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D4470 = arg1;
         D_801D4472 = arg2;
@@ -4147,7 +4147,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     s1 = (s16 *)((a0 * 14) + (s32)&D_801D4474);
 
-    ((Unkstruct_8018570C *)s1)->unk0 = ((Unkstruct_80181ABC *)a1)->unk0;
+    ((Unkstruct_8018570C *)s1)->unk0 = (u16)((SVECTOR *)a1)->vx;
 
     *(B4_8018570C *)((u8 *)s1 + 6) = *(B4_8018570C *)a2;
     ((Unkstruct_8018570C *)s1)->unk9 = 0;
@@ -4156,16 +4156,16 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
     ((Unkstruct_8018570C *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
-    temp_u16 = ((Unkstruct_80181ABC *)a1)->unk2;
+    temp_u16 = (u16)((SVECTOR *)a1)->vy;
     ((Unkstruct_8018570C *)s1)->unk2.u = temp_u16 + v0 - 0x20;
 
     v0 = rand() & 0x7f0;
-    temp_s16 = ((Unkstruct_80181ABC *)a1)->unk4;
+    temp_s16 = ((SVECTOR *)a1)->vz;
     temp_s32 = temp_s16 * (v0 + 0xc00);
     v0 = (s32)(temp_s32 >> 12);
     ((Unkstruct_8018570C *)s1)->unk4.u = (s16)v0;
 
-    v0 = ((Unkstruct_80181ABC *)a1)->unk6;
+    v0 = ((SVECTOR *)a1)->pad;
     if (v0 != 0) {
         u16 v1 = ((Unkstruct_8018570C *)s1)->unk4.u;
         ((Unkstruct_8018570C *)s1)->unk9 = 1;
@@ -4575,7 +4575,7 @@ void func_80185D48(void *a0, void *a1, s16 a2) {
     extern u8 D_801D436A;
     extern u32 D_801D4364;
     if (a0 != NULL) {
-        D_801D4360 = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+        D_801D4360 = (u16)((DVECTOR *)a0)->vx;
         D_801D4362 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801D4360 = 0;
@@ -4882,7 +4882,7 @@ void func_801860E8(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_801860E8_2 *)sv)->unk0 = p->f0;
+    ((Unkstruct_801860E8_2 *)sv)->vx = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_801860E8 *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -4900,7 +4900,7 @@ void func_801860E8(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_801860E8_2 *)sv)->unk0 = 2;
+    ((Unkstruct_801860E8_2 *)sv)->vx = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_801860E8 *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];

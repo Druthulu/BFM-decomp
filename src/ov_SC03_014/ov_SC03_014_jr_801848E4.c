@@ -854,7 +854,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D364;
 extern void (*D_8018D38C[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D36C;
@@ -6435,7 +6435,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     s1 = (s16 *)((a0 * 14) + (s32)&D_801EADEC);
 
-    ((Unkstruct_8018A860 *)s1)->unk0 = ((Unkstruct_8018A860_2 *)a1)->unk0;
+    ((Unkstruct_8018A860 *)s1)->unk0 = (u16)((Unkstruct_8018A860_2 *)a1)->vx;
 
     *(CVECTOR *)((u8 *)s1 + 6) = *(CVECTOR *)a2;
     ((Unkstruct_8018A860 *)s1)->unk9 = 0;
@@ -6444,16 +6444,16 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
     ((Unkstruct_8018A860 *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
-    temp_u16 = ((Unkstruct_8018A860_2 *)a1)->unk2;
+    temp_u16 = (u16)((Unkstruct_8018A860_2 *)a1)->vy;
     ((Unkstruct_8018A860 *)s1)->unk2.u = temp_u16 + v0 - 0x20;
 
     v0 = rand() & 0x7f0;
-    temp_s16 = ((Unkstruct_8018A860_2 *)a1)->unk4;
+    temp_s16 = ((Unkstruct_8018A860_2 *)a1)->vz;
     temp_s32 = temp_s16 * (v0 + 0xc00);
     v0 = (s32)(temp_s32 >> 12);
     ((Unkstruct_8018A860 *)s1)->unk4.u = (s16)v0;
 
-    v0 = ((Unkstruct_8018A860_2 *)a1)->unk6;
+    v0 = ((Unkstruct_8018A860_2 *)a1)->pad;
     if (v0 != 0) {
         u16 v1 = ((Unkstruct_8018A860 *)s1)->unk4.u;
         ((Unkstruct_8018A860 *)s1)->unk9 = 1;
@@ -6851,7 +6851,7 @@ extern u32 D_801EACDC;
 
 void func_8018AE9C(void *a0, void *a1, s16 a2) {
     if (a0 != NULL) {
-        D_801EACD8 = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+        D_801EACD8 = (u16)((DVECTOR *)a0)->vx;
         D_801EACDA = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801EACD8 = 0;
@@ -7153,7 +7153,7 @@ void func_8018B23C(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_8018B23C_2 *)sv)->unk0 = p->f0;
+    ((Unkstruct_8018B23C_2 *)sv)->vx = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018B23C *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -7171,7 +7171,7 @@ void func_8018B23C(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_8018B23C_2 *)sv)->unk0 = 2;
+    ((Unkstruct_8018B23C_2 *)sv)->vx = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018B23C *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];

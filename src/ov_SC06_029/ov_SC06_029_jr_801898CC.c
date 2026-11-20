@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E360;
 extern void (*D_8018E388[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E368;
@@ -3839,7 +3839,7 @@ void func_8018A6A4(s32 p) {
         tbl = ((Unkstruct_801202A0 *)p)->blkDC.f.unkDC.val;
         ((Unkstruct_8001C9D0 *)o)->unk1C.s = t1;
         ((Unkstruct_8001C9D0 *)o)->unk18.s = t1;
-        lim1 = ((Unkstruct_801312D0 *)tbl)->unk0;
+        lim1 = ((SVECTOR *)tbl)->vx;
         lv1 = lim1;
         if (lim1 < t1) {
             ((Unkstruct_8001C9D0 *)o)->unk1C.s = lv1;
@@ -3847,11 +3847,11 @@ void func_8018A6A4(s32 p) {
         }
         t2 = CAST_SIGN(u16, o, 0x1A) + 0x800;
         ((Unkstruct_8001C9D0 *)o)->unk1A.s = t2;
-        lim2 = ((Unkstruct_801312D0 *)tbl)->unk2;
+        lim2 = ((SVECTOR *)tbl)->vy;
         lv2 = lim2;
         if (lim2 < t2) {
             ((Unkstruct_8001C9D0 *)o)->unk1A.s = lv2;
-            ((Unkstruct_801202A0 *)p)->unk1C.s = ((Unkstruct_801312D0 *)tbl)->unk4;
+            ((Unkstruct_801202A0 *)p)->unk1C.s = ((SVECTOR *)tbl)->vz;
             ((Unkstruct_801202A0 *)p)->unk34.u += 1;
         }
     } else if (((s32 (*)(void))guess_TickWaitTimer)() != 0) {

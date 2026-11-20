@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80185350;
 extern void (*D_80185378[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80185358;
@@ -4657,9 +4657,9 @@ void func_8017E8A0(s32 param_1, s32 param_2)
     func_80012558((s32)&mtx, (s32)*(s16 *)(param_1 + 0x1a));
     func_800126C4((s32)&mtx, (s32)*(s16 *)(param_1 + 0x18));
 
-    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((Unkstruct_801312D0 *)param_2)->unk0;
-    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((Unkstruct_801312D0 *)param_2)->unk2;
-    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((Unkstruct_801312D0 *)param_2)->unk4;
+    mtx.t[0] = (s32)*(s16 *)(param_1 + 0x28) + (s32)((SVECTOR *)param_2)->vx;
+    mtx.t[1] = (s32)*(s16 *)(param_1 + 0x2a) + (s32)((SVECTOR *)param_2)->vy;
+    mtx.t[2] = (s32)*(s16 *)(param_1 + 0x2c) + (s32)((SVECTOR *)param_2)->vz;
 
     vec.vx = 0;
     vec.vy = 0;
@@ -7562,11 +7562,11 @@ void func_80182CB8(void *a0, Unkstruct_8013B83C *a1, Unkstruct_8013B83C *a2, s16
     s32 r;
 
     func_80017D98(&m);
-    m.t[0] = ((Unkstruct_801312D0 *)a1)->unk0;
-    m.t[1] = ((Unkstruct_801312D0 *)a1)->unk2;
-    m.t[2] = ((Unkstruct_801312D0 *)a1)->unk4;
-    delta.vx = ((Unkstruct_80182CB8_2 *)a2)->unk0 - ((Unkstruct_801312D0 *)a1)->unk0;
-    delta.vz = ((Unkstruct_80182CB8_2 *)a2)->unk4 - ((Unkstruct_801312D0 *)a1)->unk4;
+    m.t[0] = ((SVECTOR *)a1)->vx;
+    m.t[1] = ((SVECTOR *)a1)->vy;
+    m.t[2] = ((SVECTOR *)a1)->vz;
+    delta.vx = ((Unkstruct_80182CB8_2 *)a2)->unk0 - ((SVECTOR *)a1)->vx;
+    delta.vz = ((Unkstruct_80182CB8_2 *)a2)->unk4 - ((SVECTOR *)a1)->vz;
     q = (SV_80182CB8 *)D_801C7560;
     c.vz = 0;
     c.vy = 0;

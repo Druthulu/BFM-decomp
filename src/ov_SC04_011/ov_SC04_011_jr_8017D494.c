@@ -858,7 +858,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80192224;
 extern void (*D_8019224C[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8019222C;
@@ -9410,9 +9410,9 @@ void func_80186EFC(s32 arg0) {
     s32 base;
 
     base = D_801EFC4C;
-    ((Unkstruct_801312D0 *)arg0)->unk0 = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk48;
-    ((Unkstruct_801312D0 *)arg0)->unk2 = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk4C;
-    ((Unkstruct_801312D0 *)arg0)->unk4 = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk50;
+    ((SVECTOR *)arg0)->vx = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk48;
+    ((SVECTOR *)arg0)->vy = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk4C;
+    ((SVECTOR *)arg0)->vz = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk50;
 }
 
 
@@ -14681,7 +14681,7 @@ void func_8018E034(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801F1414;
-        D_801F1414 = ((Unkstruct_80181FAC_2 *)arg0)->unk0;
+        D_801F1414 = (u16)((DVECTOR *)arg0)->vx;
         D_801F1416 = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801F1418 = arg1;
         D_801F141A = arg2;
@@ -14788,7 +14788,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     s1 = (s16 *)((a0 * 14) + (s32)&D_801F141C);
 
-    ((Unkstruct_8018E1F0 *)s1)->unk0 = ((Unkstruct_8018E1F0_2 *)a1)->unk0;
+    ((Unkstruct_8018E1F0 *)s1)->unk0 = (u16)((Unkstruct_8018E1F0_2 *)a1)->vx;
 
     *(B4_8018E1F0 *)((u8 *)s1 + 6) = *(B4_8018E1F0 *)a2;
     ((Unkstruct_8018E1F0 *)s1)->unk9 = 0;
@@ -14797,16 +14797,16 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
     ((Unkstruct_8018E1F0 *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
-    temp_u16 = ((Unkstruct_8018E1F0_2 *)a1)->unk2;
+    temp_u16 = (u16)((Unkstruct_8018E1F0_2 *)a1)->vy;
     ((Unkstruct_8018E1F0 *)s1)->unk2.u = temp_u16 + v0 - 0x20;
 
     v0 = rand() & 0x7f0;
-    temp_s16 = ((Unkstruct_8018E1F0_2 *)a1)->unk4;
+    temp_s16 = ((Unkstruct_8018E1F0_2 *)a1)->vz;
     temp_s32 = temp_s16 * (v0 + 0xc00);
     v0 = (s32)(temp_s32 >> 12);
     ((Unkstruct_8018E1F0 *)s1)->unk4.u = (s16)v0;
 
-    v0 = ((Unkstruct_8018E1F0_2 *)a1)->unk6;
+    v0 = ((Unkstruct_8018E1F0_2 *)a1)->pad;
     if (v0 != 0) {
         u16 v1 = ((Unkstruct_8018E1F0 *)s1)->unk4.u;
         ((Unkstruct_8018E1F0 *)s1)->unk9 = 1;
@@ -15215,7 +15215,7 @@ void func_8018E82C(void *a0, void *a1, s16 a2) {
     extern u8 D_801F1312;
     extern u32 D_801F130C;
     if (a0 != NULL) {
-        D_801F1308 = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+        D_801F1308 = (u16)((DVECTOR *)a0)->vx;
         D_801F130A = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801F1308 = 0;
@@ -15522,7 +15522,7 @@ void func_8018EBCC(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_8018EBCC_2 *)sv)->unk0 = p->f0;
+    ((Unkstruct_8018EBCC_2 *)sv)->vx = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018EBCC *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -15540,7 +15540,7 @@ void func_8018EBCC(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_8018EBCC_2 *)sv)->unk0 = 2;
+    ((Unkstruct_8018EBCC_2 *)sv)->vx = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018EBCC *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];
@@ -16241,9 +16241,9 @@ void func_8018FE20(arg0, arg1, arg2, arg3)
 
     prim.f30 = 0x50000000;
     func_80017D98(&mtx);
-    mtx.t[0] = ((Unkstruct_801312D0 *)arg1)->unk0;
-    mtx.t[1] = ((Unkstruct_801312D0 *)arg1)->unk2;
-    mtx.t[2] = ((Unkstruct_801312D0 *)arg1)->unk4;
+    mtx.t[0] = ((SVECTOR *)arg1)->vx;
+    mtx.t[1] = ((SVECTOR *)arg1)->vy;
+    mtx.t[2] = ((SVECTOR *)arg1)->vz;
     tbl = (s32 *)D_801F1500;
     d.vx = *(u16 *)((s32)arg2 + 0) - CAST_SIGN(u16, (s32)arg1, 0);
     d.vy = *(u16 *)((s32)arg2 + 2) - CAST_SIGN(u16, (s32)arg1, 2);

@@ -848,7 +848,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E728;
 extern void (*D_8018E750[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E730;
@@ -3499,9 +3499,9 @@ extern void func_8013B598(s32 a0, u16 *a1);
 
 void func_80184B28(s32 a0, s32 a1, s32 a2) {
     u16 sp[3];
-    sp[0] = ((Unkstruct_80181AD0_2 *)a0)->unk2;
-    sp[1] = ((Unkstruct_80181AD0_2 *)a0)->unk6;
-    sp[2] = ((Unkstruct_80181AD0_2 *)a0)->unkA;
+    sp[0] = HIHU(((VECTOR *)a0)->vx);
+    sp[1] = HIHU(((VECTOR *)a0)->vy);
+    sp[2] = HIHU(((VECTOR *)a0)->vz);
     func_8013B6A0(a1, sp, a2);
 }
 
@@ -6113,9 +6113,9 @@ void func_80188660(s32 a0) {
         break;
 
     case 1:
-        ((Unkstruct_801877B8 *)sp10)->unk2 = 0x800;
-        ((Unkstruct_801877B8 *)sp10)->unk6 = *(u16 *)(a0 + 0xA);
-        ((Unkstruct_801877B8 *)sp10)->unkA = -0x40;
+        HIH(((VECTOR *)sp10)->vx) = 0x800;
+        HIH(((VECTOR *)sp10)->vy) = *(u16 *)(a0 + 0xA);
+        HIH(((VECTOR *)sp10)->vz) = -0x40;
         func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
         t = sp20[0];
         *(s16 *)(a0 + 0x100) = t;
@@ -6128,9 +6128,9 @@ void func_80188660(s32 a0) {
         break;
 
     case 2:
-        ((Unkstruct_801877B8 *)sp10)->unk2 = 0x800;
-        ((Unkstruct_801877B8 *)sp10)->unk6 = *(u16 *)(a0 + 0xA);
-        ((Unkstruct_801877B8 *)sp10)->unkA = -0x2C0;
+        HIH(((VECTOR *)sp10)->vx) = 0x800;
+        HIH(((VECTOR *)sp10)->vy) = *(u16 *)(a0 + 0xA);
+        HIH(((VECTOR *)sp10)->vz) = -0x2C0;
         func_8012B77C((s32)sp20, a0 + 4, (s32)sp10);
         t = sp20[0];
         *(s16 *)(a0 + 0x100) = t;

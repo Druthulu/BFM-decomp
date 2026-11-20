@@ -6449,9 +6449,9 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
         idx--;
         e = (Snd54 *)((u8 *)D_800A46E8 + idx * 0x54);
         if (flags & 0x1000) {
-            e->unk1C[0].unk6 = 1;
-            e->unk1C[0].unk2 = 0x100;
-            e->unk1C[0].unk4 = ((s32)(flags & 0x7F) * 0x3FFF) >> 7;
+            LOBU(e->unk1C[0].pad) = 1;
+            e->unk1C[0].vy = 0x100;
+            e->unk1C[0].vz = ((s32)(flags & 0x7F) * 0x3FFF) >> 7;
             if (flags & 0x2000) {
                 e->unk38 = D_8006AED8[(flags >> 8) & 0xF];
             } else {
@@ -6504,7 +6504,7 @@ s32 func_80034314(u32 arg0, u8 *p, u32 arg2) {
     }
     e->unk36 = 0;
 
-    pa = &e->unk1C[0].unk0;
+    pa = &e->unk1C[0].vx;
     for (i = 0; i < 3; i++, pa = (s16 *)((u8 *)pa + 8)) {
         pa[1] = 0x100;
         *((u8 *)pa + 6) = 0;

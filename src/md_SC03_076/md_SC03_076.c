@@ -1304,8 +1304,8 @@ s32 *func_801F1520(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = (u16)q->vx + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = (u16)q->vy - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

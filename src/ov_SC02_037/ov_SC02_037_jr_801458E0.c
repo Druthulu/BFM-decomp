@@ -4188,14 +4188,14 @@ extern s32 func_80133784(s32 arg0, void *arg1, s32 arg2);
 // @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
 extern void guess_StartPadVibration(void *a0);
 
-void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
+void func_80153CCC(DVECTOR *a0) {
 
     extern s32 D_80185A04;
     extern void (*D_80185A2C[])(void *a0);
     extern s16 D_8011DB0C;
     extern u16 D_8011F748;
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80185A04);
-    D_80185A2C[a0->unk2](a0);
+    D_80185A2C[(u16)a0->vy](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

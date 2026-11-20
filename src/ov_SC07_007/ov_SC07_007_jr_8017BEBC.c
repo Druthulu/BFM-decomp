@@ -1717,7 +1717,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -3767,9 +3767,9 @@ void func_8017DAE8(void *a0, void *a1)
     if (D_801C7804 == -1) {
         *(SV4 *)a1 = loc0;
     } else {
-        ((Unkstruct_801312D0 *)a1)->unk0 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk0, loc0.vx, s);
-        ((Unkstruct_801312D0 *)a1)->unk2 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk2, loc0.vy, s);
-        ((Unkstruct_801312D0 *)a1)->unk4 = func_800130D0(((Unkstruct_801312D0 *)a1)->unk4, loc0.vz, s);
+        ((SVECTOR *)a1)->vx = func_800130D0(((SVECTOR *)a1)->vx, loc0.vx, s);
+        ((SVECTOR *)a1)->vy = func_800130D0(((SVECTOR *)a1)->vy, loc0.vy, s);
+        ((SVECTOR *)a1)->vz = func_800130D0(((SVECTOR *)a1)->vz, loc0.vz, s);
     }
 }
 
@@ -3792,13 +3792,13 @@ void func_8017DC20(void *param_1, void *param_2, void *param_3) {
     *(s16 *)(p1 + 0x2A) = guess_EaseToward((s32)*(s16 *)(p1 + 0x2A), (s32)*(s16 *)(p1 + 0x30), 0x10);
     *(s16 *)(p1 + 0x2C) = guess_EaseToward((s32)*(s16 *)(p1 + 0x2C), (s32)*(s16 *)(p1 + 0x32), 0x10);
 
-    *(s32 *)(p1 + 0x48) = (s32)*(s16 *)(p1 + 0x28) + (s32)((Unkstruct_801312D0 *)p3)->unk0;
-    *(s32 *)(p1 + 0x4C) = (s32)*(s16 *)(p1 + 0x2A) + (s32)((Unkstruct_801312D0 *)p3)->unk2;
-    *(s32 *)(p1 + 0x50) = (s32)*(s16 *)(p1 + 0x2C) + (s32)((Unkstruct_801312D0 *)p3)->unk4;
+    *(s32 *)(p1 + 0x48) = (s32)*(s16 *)(p1 + 0x28) + (s32)((SVECTOR *)p3)->vx;
+    *(s32 *)(p1 + 0x4C) = (s32)*(s16 *)(p1 + 0x2A) + (s32)((SVECTOR *)p3)->vy;
+    *(s32 *)(p1 + 0x50) = (s32)*(s16 *)(p1 + 0x2C) + (s32)((SVECTOR *)p3)->vz;
 
-    *(s32 *)(p1 + 0x3C) = (s32)((Unkstruct_801312D0 *)p2)->unk0;
-    *(s32 *)(p1 + 0x40) = (s32)((Unkstruct_801312D0 *)p2)->unk2;
-    *(s32 *)(p1 + 0x44) = (s32)((Unkstruct_801312D0 *)p2)->unk4;
+    *(s32 *)(p1 + 0x3C) = (s32)((SVECTOR *)p2)->vx;
+    *(s32 *)(p1 + 0x40) = (s32)((SVECTOR *)p2)->vy;
+    *(s32 *)(p1 + 0x44) = (s32)((SVECTOR *)p2)->vz;
 }
 
 

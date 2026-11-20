@@ -1170,22 +1170,22 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
         }
         ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
-        if ((s16)((Unkstruct_80181FAC_2 *)&sxy0)->unk2 < 120) {
-            if ((s16)((Unkstruct_80181FAC_2 *)&sxy1)->unk2 < -119) {
+        if ((s16)(u16)((DVECTOR *)&sxy0)->vy < 120) {
+            if ((s16)(u16)((DVECTOR *)&sxy1)->vy < -119) {
                 return;
             }
             if ((s16)w >= 2) {
                 p = (Ft4_80183DA4 *)func_80010A08(0x28);
                 *(s32 *)((u8 *)p + 4) = 0x808080;
                 SetPolyFT4(p);
-                p->x0 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk0 - w;
-                p->y0 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk2;
-                p->x1 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk0 + w;
-                p->y1 = ((Unkstruct_80181FAC_2 *)&sxy0)->unk2;
-                p->x2 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk0 - w;
-                p->y2 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk2;
-                p->x3 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk0 + w;
-                p->y3 = ((Unkstruct_80181FAC_2 *)&sxy1)->unk2;
+                p->x0 = (u16)((DVECTOR *)&sxy0)->vx - w;
+                p->y0 = (u16)((DVECTOR *)&sxy0)->vy;
+                p->x1 = (u16)((DVECTOR *)&sxy0)->vx + w;
+                p->y1 = (u16)((DVECTOR *)&sxy0)->vy;
+                p->x2 = (u16)((DVECTOR *)&sxy1)->vx - w;
+                p->y2 = (u16)((DVECTOR *)&sxy1)->vy;
+                p->x3 = (u16)((DVECTOR *)&sxy1)->vx + w;
+                p->y3 = (u16)((DVECTOR *)&sxy1)->vy;
                 p->u0 = uu;
                 p->v0 = vv;
                 p->u1 = 0xF7;
@@ -1324,22 +1324,22 @@ void func_80184138(SVec_80184138 *arg0) {
         }
         ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
         w = (d << 3) / (otz * 4);
-        if ((s16)((DVec_80184138 *)&sxy0)->unk2 < 120) {
-            if ((s16)((DVec_80184138 *)&sxy1)->unk2 < -119) {
+        if ((s16)(u16)((DVec_80184138 *)&sxy0)->vy < 120) {
+            if ((s16)(u16)((DVec_80184138 *)&sxy1)->vy < -119) {
                 return;
             }
             if ((s16)w >= 2) {
                 p = (Ft4_80184138 *)func_80010A08(0x28);
                 *(s32 *)((u8 *)p + 4) = 0x808080;
                 SetPolyFT4(p);
-                p->x0 = ((DVec_80184138 *)&sxy0)->unk0 - w;
-                p->y0 = ((DVec_80184138 *)&sxy0)->unk2;
-                p->x1 = ((DVec_80184138 *)&sxy0)->unk0 + w;
-                p->y1 = ((DVec_80184138 *)&sxy0)->unk2;
-                p->x2 = ((DVec_80184138 *)&sxy1)->unk0 - w;
-                p->y2 = ((DVec_80184138 *)&sxy1)->unk2;
-                p->x3 = ((DVec_80184138 *)&sxy1)->unk0 + w;
-                p->y3 = ((DVec_80184138 *)&sxy1)->unk2;
+                p->x0 = (u16)((DVec_80184138 *)&sxy0)->vx - w;
+                p->y0 = (u16)((DVec_80184138 *)&sxy0)->vy;
+                p->x1 = (u16)((DVec_80184138 *)&sxy0)->vx + w;
+                p->y1 = (u16)((DVec_80184138 *)&sxy0)->vy;
+                p->x2 = (u16)((DVec_80184138 *)&sxy1)->vx - w;
+                p->y2 = (u16)((DVec_80184138 *)&sxy1)->vy;
+                p->x3 = (u16)((DVec_80184138 *)&sxy1)->vx + w;
+                p->y3 = (u16)((DVec_80184138 *)&sxy1)->vy;
                 p->u0 = uu;
                 p->v0 = vv;
                 p->u1 = 0xFF;

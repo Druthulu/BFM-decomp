@@ -860,7 +860,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80186718;
 extern void (*D_80186740[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80186720;
@@ -3090,8 +3090,8 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     DVECTOR2 tmpxy[4];                                      /* sp+0x10 */
     SVECTOR2 box[8];                                        /* sp+0x20 */
     SVECTOR2 sxy[8];                                        /* sp+0x60 */
-    SVec_8017FB38 v[3];                                              /* sp+0xA0 */
-    SVec_8017FB38 vdv;                                               /* sp+0xB8 */
+    SVECTOR v[3];                                              /* sp+0xA0 */
+    SVECTOR vdv;                                               /* sp+0xB8 */
     MATRIX2 mtx;                                            /* sp+0xC0 */
     struct { long otz, flag, opz, sz0, sz1, sz2, sz3; } g;  /* sp+0xE0 */
 
@@ -3102,7 +3102,7 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     u32 nprim;
     u32 i;
     Part *part;     /* spill 0x118 */
-    SVec_8017FB38 *vp;
+    SVECTOR *vp;
     Blk12 *prim;
     u8 *pkt;
     u8 *vtx;
@@ -3213,9 +3213,9 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                             vb = vtx + (w >> 16);
                             w = prim->c;
                             vc = vtx + (w & 0xFFFF);
-                            v[0] = *(SVec_8017FB38 *)va;
-                            v[1] = *(SVec_8017FB38 *)vb;
-                            v[2] = *(SVec_8017FB38 *)vc;
+                            v[0] = *(SVECTOR *)va;
+                            v[1] = *(SVECTOR *)vb;
+                            v[2] = *(SVECTOR *)vc;
                             w = w >> 16;
                             v[0].vy += D_801887C4[(v[0].vz + rot) & 0xFF] + zoff;
                             v[1].vy += D_801887C4[(v[1].vz + rot) & 0xFF] + zoff;
@@ -3282,7 +3282,7 @@ void func_8017FB38(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
                                     case 2:
                                     case 3:
                                         gte_stsxy3c(&tmpxy[0]);
-                                        vdv = *(SVec_8017FB38 *)vd;
+                                        vdv = *(SVECTOR *)vd;
                                         vdv.vy += D_801887C4[(vdv.vz + rot) & 0xFF] + zoff;
                                         gte_ldv0(vp);
                                         gte_rtps();
@@ -3950,19 +3950,19 @@ void func_80181574(s16 *arg0, s32 arg1, s32 arg2)
         d->v[2].vy = sxy[1].unk0.v1.unk2 + p->unk6;
         d->v[3].vx = sxy[0].unk0.v1.unk0 + p->unk0;
         d->v[3].vy = sxy[0].unk0.v1.unk2;
-        d->uv[0].unk0 = arg1;
-        d->uv[0].unk2 = 0x1FF;
-        d->uv[1].unk0 = t + 0xC20;
-        d->uv[1].unk2 = 0x100;
-        d->uv[2].unk0 = p->unk2 + arg1;
-        d->uv[2].unk2 = 0x1FF;
-        d->uv[3].unk0 = p->unk0 + arg1;
-        d->uv[3].unk2 = 0x100;
+        d->uv[0].vx = arg1;
+        d->uv[0].vy = 0x1FF;
+        d->uv[1].vx = t + 0xC20;
+        d->uv[1].vy = 0x100;
+        d->uv[2].vx = p->unk2 + arg1;
+        d->uv[2].vy = 0x1FF;
+        d->uv[3].vx = p->unk0 + arg1;
+        d->uv[3].vy = 0x100;
         func_800178EC((s32)d);
         d->v[2].vx = sxy[1].unk0.v1.unk0 - p->unk2;
         d->v[3].vx = sxy[0].unk0.v1.unk0 - p->unk0;
-        d->uv[2].unk0 = arg1 - p->unk2;
-        d->uv[3].unk0 = arg1 - p->unk0;
+        d->uv[2].vx = arg1 - p->unk2;
+        d->uv[3].vx = arg1 - p->unk0;
         func_800178EC((s32)d);
     }
 }

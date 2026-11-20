@@ -853,7 +853,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E360;
 extern void (*D_8018E388[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E368;
@@ -5994,9 +5994,9 @@ void func_80182388(s32 a0, s32 a1)
     p = ((a1 + *(s16 *)(a0 + 0x70) * 4) << 4) + (s32)D_801DFBF8;
     guess_RotTransSVWithMatrix((s32)D_801DFD94, p, (s32)sp28);
 
-    ((Unkstruct_801877B8 *)sp68)->unk2 = sp28[0] + *(u16 *)(p + 0xA);
-    ((Unkstruct_801877B8 *)sp68)->unk6 = sp28[1] + *(u16 *)(p + 0xE);
-    ((Unkstruct_801877B8 *)sp68)->unkA = sp28[2];
+    HIH(((VECTOR *)sp68)->vx) = sp28[0] + *(u16 *)(p + 0xA);
+    HIH(((VECTOR *)sp68)->vy) = sp28[1] + *(u16 *)(p + 0xE);
+    HIH(((VECTOR *)sp68)->vz) = sp28[2];
     func_8012B77C((s32)&ang, (s32)sp68, (s32)&D_80126B5C);
 
     rot[0] = ang;

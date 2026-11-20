@@ -852,7 +852,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018E3D8;
 extern void (*D_8018E400[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018E3E0;
@@ -10788,12 +10788,12 @@ void func_801875B4(s32 a0) {
     u32 v0;
     u32 (*func_ptr)(void);
 
-    v0 = ((Unkstruct_80181FAC_2 *)s0)->unk2;
+    v0 = (u16)((DVECTOR *)s0)->vy;
     v0 = v0 * 4;
     func_ptr = (u32 (*)(void))D_801CA170[v0 / 4];
     func_ptr();
 
-    v0 = ((Unkstruct_80181FAC_2 *)s0)->unk0;
+    v0 = (u16)((DVECTOR *)s0)->vx;
     if (v0 == 0) {
         return;
     }

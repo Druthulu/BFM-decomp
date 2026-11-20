@@ -2,7 +2,7 @@
  * exemplar src/800.c:955 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/800.c:2278 rejected by type_census --check */
 void SHARED_FN(s32 *arg0, void *arg1) {
-    ((Unkstruct_801312D0 *)arg1)->unk0 = arg0[0];
-    ((Unkstruct_801312D0 *)arg1)->unk2 = arg0[1];
-    ((Unkstruct_801312D0 *)arg1)->unk4 = arg0[2];
+    ((SVECTOR *)arg1)->vx = arg0[0];
+    ((SVECTOR *)arg1)->vy = arg0[1];
+    ((SVECTOR *)arg1)->vz = arg0[2];
 }

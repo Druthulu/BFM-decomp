@@ -2023,9 +2023,9 @@ void func_801312D0(s32 param_1, void *param_2)
 
     iVar5 = ((int (*)(int, int))guess_LookupIdValue)(((Unkstruct_801312D0_8 *)param_1)->unkBC, 0x2E);
     if (iVar5 != 0) {
-        ((Unkstruct_801312D0_4 *)param_2)->unk4 = 0;
-        ((Unkstruct_801312D0_4 *)param_2)->unk0 = 0;
-        ((Unkstruct_801312D0_4 *)param_2)->unk2 = (short)iVar5;
+        ((Unkstruct_801312D0_4 *)param_2)->vz = 0;
+        ((Unkstruct_801312D0_4 *)param_2)->vx = 0;
+        ((Unkstruct_801312D0_4 *)param_2)->vy = (short)iVar5;
     } else {
         *(M8 *)((short *)param_2) = D_8017E838;
     }

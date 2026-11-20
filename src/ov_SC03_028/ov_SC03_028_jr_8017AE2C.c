@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_8018D7D0;
 extern void (*D_8018D7F8[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018D7D8;
@@ -4263,12 +4263,12 @@ void func_8017D370(s32 a0) {
     s16 arg;
     s32 d;
 
-    ((Unkstruct_801312D0 *)in)->unk0 = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
-    ((Unkstruct_801312D0 *)in)->unk2 = *(u16 *)(a0 + 0xA) + 8;
-    ((Unkstruct_801312D0 *)in)->unk4 = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
-    ((Unkstruct_801312D0 *)out)->unk0 = *(u16 *)(a0 + 0x6);
-    ((Unkstruct_801312D0 *)out)->unk2 = *(u16 *)(a0 + 0xA) + 8;
-    ((Unkstruct_801312D0 *)out)->unk4 = *(u16 *)(a0 + 0xE);
+    ((SVECTOR *)in)->vx = *(u16 *)(a0 + 0x6) + *(u16 *)(a0 + 0x12);
+    ((SVECTOR *)in)->vy = *(u16 *)(a0 + 0xA) + 8;
+    ((SVECTOR *)in)->vz = *(u16 *)(a0 + 0xE) + *(u16 *)(a0 + 0x1A);
+    ((SVECTOR *)out)->vx = *(u16 *)(a0 + 0x6);
+    ((SVECTOR *)out)->vy = *(u16 *)(a0 + 0xA) + 8;
+    ((SVECTOR *)out)->vz = *(u16 *)(a0 + 0xE);
     if ((func_80133784(1, &in[0], (s32)&out[0]) & 0xC000) != 0) {
         base = ratan2(D_801152B0, D_801152B4) & 0xFFF;
         ang = ratan2(*(s32 *)(a0 + 0x10), *(s32 *)(a0 + 0x18)) & 0xFFF;
@@ -4281,19 +4281,19 @@ void func_8017D370(s32 a0) {
         }
         arg = base - ang;
         ang = *(u16 *)(a0 + 0x6);
-        ((Unkstruct_801312D0 *)in)->unk0 = ang;
-        ((Unkstruct_801312D0 *)in)->unk2 = *(u16 *)(a0 + 0xA);
-        ((Unkstruct_801312D0 *)in)->unk4 = *(u16 *)(a0 + 0xE);
+        ((SVECTOR *)in)->vx = ang;
+        ((SVECTOR *)in)->vy = *(u16 *)(a0 + 0xA);
+        ((SVECTOR *)in)->vz = *(u16 *)(a0 + 0xE);
         m = D_800AE620;
         RotMatrixY(arg, &m);
-        ((Unkstruct_801312D0 *)out)->unk0 = *(u16 *)(a0 + 0x12);
-        ((Unkstruct_801312D0 *)out)->unk2 = *(u16 *)(a0 + 0x16);
-        ((Unkstruct_801312D0 *)out)->unk4 = *(u16 *)(a0 + 0x1A);
+        ((SVECTOR *)out)->vx = *(u16 *)(a0 + 0x12);
+        ((SVECTOR *)out)->vy = *(u16 *)(a0 + 0x16);
+        ((SVECTOR *)out)->vz = *(u16 *)(a0 + 0x1A);
         ApplyMatrixSV(&m, &out[0], &out[0]);
-        ((Unkstruct_801312D0 *)out)->unk0 = *(u16 *)(a0 + 0x6) + ((s16)CAST_SIGN(u16, out, 0) >> 1);
-        ((Unkstruct_801312D0 *)out)->unk2 = *(u16 *)(a0 + 0xA) + ((s16)CAST_SIGN(u16, out, 2) >> 1);
+        ((SVECTOR *)out)->vx = *(u16 *)(a0 + 0x6) + ((s16)CAST_SIGN(u16, out, 0) >> 1);
+        ((SVECTOR *)out)->vy = *(u16 *)(a0 + 0xA) + ((s16)CAST_SIGN(u16, out, 2) >> 1);
         d = (s16)CAST_SIGN(u16, out, 4) >> 1;
-        ((Unkstruct_801312D0 *)out)->unk4 = *(u16 *)(a0 + 0xE) + d;
+        ((SVECTOR *)out)->vz = *(u16 *)(a0 + 0xE) + d;
         if ((func_8012CEB0((s32)&in[0], (s32)&out[0], 0) & 0x2000) != 0) {
             *(s16 *)(a0 + 0x6) = CAST_SIGN(u16, out, 0);
             *(s16 *)(a0 + 0xA) = CAST_SIGN(u16, out, 2);

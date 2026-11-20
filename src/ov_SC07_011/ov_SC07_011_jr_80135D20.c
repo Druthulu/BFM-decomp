@@ -836,8 +836,8 @@ ret1:
 
 s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
     extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
-    extern Box_80133784 * D_8017EC10;
-    extern Box_80133784 * D_8017EC14;
+    extern SVECTOR * D_8017EC10;
+    extern SVECTOR * D_8017EC14;
     extern s16 *D_8017EC18;
     extern u8 D_8017EC1C;
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -911,8 +911,8 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 // (siblings use block-scope; gcc-2.7.2 does not cross-conflict block-scope externs).
 s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
-    extern Box_80133784 * D_8017EC10;
-    extern Box_80133784 * D_8017EC14;
+    extern SVECTOR * D_8017EC10;
+    extern SVECTOR * D_8017EC14;
     extern s16 *D_8017EC18;
     extern u8 D_8017EC1C;
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX
@@ -997,8 +997,8 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
 
 s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
-    extern Box_80133784 * D_8017EC10;
-    extern Box_80133784 * D_8017EC14;
+    extern SVECTOR * D_8017EC10;
+    extern SVECTOR * D_8017EC14;
     extern s16 *D_8017EC18;
     extern u8 D_8017EC1C;
     extern u8 guess_g_BoxHitNormalX[]; // Names ledger: config/names.tsv guess_g_BoxHitNormalX

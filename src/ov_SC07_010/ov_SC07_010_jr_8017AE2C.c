@@ -1168,7 +1168,7 @@ extern s32 D_80115210;
 extern void func_80153C8C(void);
 extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern void func_80153D7C(s32 param_1);
@@ -4568,7 +4568,7 @@ void func_8017E5B8(s32 a0, s32 a1) {
     extern struct S72 D_80185D2A[];
     extern struct S72 D_80185D2C[];
     extern struct S72 D_80185D2E[];
-    extern Unkstruct_80181FAC_2 D_80185D5A[];
+    extern DVECTOR D_80185D5A[];
     extern s32 guess_SpawnSmallObject(s32, void*, s32, s32, s32, s32, s32);
     extern void func_80015954(s32 a0, s32 a1);
     extern s32 guess_SpawnActorNoArg(s32 a0, s32 a1);
@@ -4581,13 +4581,13 @@ void func_8017E5B8(s32 a0, s32 a1) {
         p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
         if (p != 0) {
             func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
-            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].unk0 + (i * 170 - 341);
+            p->unkFC = (u16)D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 341);
             p->unkDC = 0;
         }
         p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
         if (p != 0) {
             func_80015954((s32)&D_80185D28[a1], (s32)p + 4);
-            p->unkFC = D_80185D5A[D_80185D2E[a1].unk0].unk0 + (i * 170 - 227);
+            p->unkFC = (u16)D_80185D5A[D_80185D2E[a1].unk0].vx + (i * 170 - 227);
             p->unkDC = 1;
         }
     }
@@ -4601,7 +4601,7 @@ extern s32 rand(void);
 
 extern Unkstruct_8013B83C D_80185D6C[];
 extern struct S72 D_80185D72[];
-extern Unkstruct_80181FAC_2 D_80185D9E[];
+extern DVECTOR D_80185D9E[];
 
 void func_8017E70C(void) {
     s32 r; /* incoming $s3, never written */
@@ -4612,13 +4612,13 @@ void func_8017E70C(void) {
     p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
-        p->unkFC = D_80185D9E[D_80185D72[t].unk0].unk0 + (r * 170 - 341);
+        p->unkFC = (u16)D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 341);
         p->unkDC = 0;
     }
     p = (struct Ent_SC07_010_8017AE2C *)guess_SpawnActorNoArg(0x3A6, 0);
     if (p != 0) {
         func_80015954((s32)&D_80185D6C[t], (s32)p + 4);
-        p->unkFC = D_80185D9E[D_80185D72[t].unk0].unk0 + (r * 170 - 227);
+        p->unkFC = (u16)D_80185D9E[D_80185D72[t].unk0].vx + (r * 170 - 227);
         p->unkDC = 1;
     }
 }

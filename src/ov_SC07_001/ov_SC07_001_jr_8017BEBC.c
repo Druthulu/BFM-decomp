@@ -862,7 +862,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80183324;
 extern void (*D_8018334C[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018332C;
@@ -3045,7 +3045,7 @@ void func_8017E278(s32 a0, s32 a1) {
     extern s16 D_800B9ABA[];
     extern s32 D_801AABA0;
 
-    D_800B9AB8 = D_801AABA0 + ((Unkstruct_80181FAC_2 *)a1)->unk0;
+    D_800B9AB8 = D_801AABA0 + (u16)((DVECTOR *)a1)->vx;
     D_800B9ABA[0] = CAST_ALIAS(u16, a1, 2);
 }
 

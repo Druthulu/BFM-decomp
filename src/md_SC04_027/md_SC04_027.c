@@ -1292,14 +1292,14 @@ s32 *func_801E9BE0(s32 *out) {
 
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
-    Unkstruct_80181FAC_2 *q;
+    DVECTOR *q;
     volatile u16 *pb;
     s32 n;
     s32 d;
 
     /* D_80115134 is an s32 table base here -- keep s32 arithmetic,
        fold +0x18 into the load displacement. */
-    q = *(Unkstruct_80181FAC_2 **)((*(s16 *)&guess_g_MenuPanel << 5) + D_80115134 + 0x18);
+    q = *(DVECTOR **)((*(s16 *)&guess_g_MenuPanel << 5) + D_80115134 + 0x18);
     if (D_8011512C == 1) {
         n = D_801EBB10[guess_g_MenuFrameCounter & 7];
     } else {
@@ -1314,8 +1314,8 @@ s32 *func_801E9BE0(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = (u16)q->vx + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = (u16)q->vy - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

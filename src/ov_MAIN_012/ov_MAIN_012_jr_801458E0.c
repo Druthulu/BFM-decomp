@@ -4145,14 +4145,14 @@ extern void *memcpy(void *dst, const void *src, u32 n);
 // @unstuck(P36): none — MATCH (expected); dispatch-table %lo-fold via extern fn-ptr array, s0 holds param across both calls
 extern void guess_StartPadVibration(void *a0);
 
-void func_80153CCC(Unkstruct_80181FAC_2 *a0) {
+void func_80153CCC(DVECTOR *a0) {
 
     extern s32 D_80180178;
     extern void (*D_801801A0[])(void *a0);
     extern s16 D_8011DB0C;
     extern u16 D_8011F748;
     ((s32 (*)(s32))guess_StartPadVibration)((s32)&D_80180178);
-    D_801801A0[a0->unk2](a0);
+    D_801801A0[(u16)a0->vy](a0);
     D_8011DB0C = 0;
     D_8011F748 = 0;
 }

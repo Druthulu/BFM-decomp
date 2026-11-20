@@ -1314,7 +1314,7 @@ s32 *func_801E46A0(s32 *out) {
     extern u16 D_801E65A8[];
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
 
-    Unkstruct_80181FAC_2 *q;
+    DVECTOR *q;
     volatile u16 *pb;
     s32 n;
     s32 d;
@@ -1334,8 +1334,8 @@ s32 *func_801E46A0(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unkE = 0x4056;
 
     d = n - 0x60;                                   /* [L2] */
-    ((Unkstruct_8017DD28 *)out)->unk8 = q->unk0 + d;
-    ((Unkstruct_8017DD28 *)out)->unkA = q->unk2 - 2;
+    ((Unkstruct_8017DD28 *)out)->unk8 = (u16)q->vx + d;
+    ((Unkstruct_8017DD28 *)out)->unkA = (u16)q->vy - 2;
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 

@@ -1339,8 +1339,8 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     extern s32 D_8018F0C0;
     extern s32 func_80047D3C(s32);
     extern s32 func_80133AB0(s16, s16, s16, s32);
-    extern Box_80133784 * D_8017EC10;
-    extern Box_80133784 * D_8017EC14;
+    extern SVECTOR * D_8017EC10;
+    extern SVECTOR * D_8017EC14;
     extern s16 D_8018F0CC;
     extern u16 D_8018F0D0;
 
@@ -1355,58 +1355,58 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     tries = 0;
     hits = 0;
     same = 0;
-    D_8017EC10->f6.s = -0x7FFF;
-    D_8017EC14->f6.s = 0x7FFF;
-    D_8017EC10->f0 = ((Box_80133784 *)arg1)->f0;
-    D_8017EC10->f4 = ((Box_80133784 *)arg1)->f4;
-    D_8017EC14->f0 = ((Box_80133784 *)arg2)->f0;
-    D_8017EC14->f4 = ((Box_80133784 *)arg2)->f4;
+    D_8017EC10->pad = -0x7FFF;
+    D_8017EC14->pad = 0x7FFF;
+    D_8017EC10->vx = (u16)((SVECTOR *)arg1)->vx;
+    D_8017EC10->vz = (u16)((SVECTOR *)arg1)->vz;
+    D_8017EC14->vx = (u16)((SVECTOR *)arg2)->vx;
+    D_8017EC14->vz = (u16)((SVECTOR *)arg2)->vz;
     D_8018F0D0 = 0;
     D_8018F0CC = 0;
 
     if (mode == 0) {
-        s16 dx = ((Box_80133784 *)arg2)->f0 - ((Box_80133784 *)arg1)->f0;
-        s16 dy = ((Box_80133784 *)arg2)->f2 - ((Box_80133784 *)arg1)->f2;
-        s16 dz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
+        s16 dx = (u16)((SVECTOR *)arg2)->vx - (u16)((SVECTOR *)arg1)->vx;
+        s16 dy = (u16)((SVECTOR *)arg2)->vy - (u16)((SVECTOR *)arg1)->vy;
+        s16 dz = (u16)((SVECTOR *)arg2)->vz - (u16)((SVECTOR *)arg1)->vz;
         if (dx == 0 && dy == 0) {
             same = (dz == 0);
         }
-        D_8017EC10->f2 = ((Box_80133784 *)arg1)->f2 - 4;
+        D_8017EC10->vy = (u16)((SVECTOR *)arg1)->vy - 4;
         r = func_80047D3C(dx * dx + dz * dz);
         if (r < 3) {
             r = 4;
         } else if (r < 5) {
             r += 1;
         }
-        D_8017EC14->f2 = ((Box_80133784 *)arg2)->f2 + r + 1;
+        D_8017EC14->vy = (u16)((SVECTOR *)arg2)->vy + r + 1;
     } else {
-        D_8017EC10->f2 = ((Box_80133784 *)arg1)->f2;
+        D_8017EC10->vy = (u16)((SVECTOR *)arg1)->vy;
         if (mode == 2) {
-            D_8017EC14->f0 = D_8017EC10->f0;
-            D_8017EC14->f2 = D_8017EC10->f2 + 6;
+            D_8017EC14->vx = (u16)D_8017EC10->vx;
+            D_8017EC14->vy = (u16)D_8017EC10->vy + 6;
             same = 1;
-            D_8017EC14->f4 = D_8017EC10->f4;
+            D_8017EC14->vz = (u16)D_8017EC10->vz;
         } else {
-            D_8017EC14->f2 = ((Box_80133784 *)arg2)->f2;
+            D_8017EC14->vy = (u16)((SVECTOR *)arg2)->vy;
         }
     }
 
     while (1) {
-        r = func_80133AB0(mode, D_8017EC10->f0, D_8017EC10->f4, D_8018F0C0);
+        r = func_80133AB0(mode, (u16)D_8017EC10->vx, (u16)D_8017EC10->vz, D_8018F0C0);
         if (r == 0) break;
         hits |= r;
         if (same) break;
         if (tries++ >= 5) {
-            D_8017EC14->f0 = D_8017EC10->f0;
-            D_8017EC14->f2 = D_8017EC10->f2;
+            D_8017EC14->vx = (u16)D_8017EC10->vx;
+            D_8017EC14->vy = (u16)D_8017EC10->vy;
             flags = 0x2000;
-            D_8017EC14->f4 = D_8017EC10->f4;
+            D_8017EC14->vz = (u16)D_8017EC10->vz;
             goto store_out;
         }
     }
 
     if ((s16)hits != 0 || D_8018F0CC != 0) {
-        s16 t = D_8017EC10->f6.s;
+        s16 t = D_8017EC10->pad;
         if (t >= -0xBCB) {
             if (t < -0x578) {
                 flags |= 0x4000;
@@ -1414,17 +1414,17 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
                 flags |= 0x8000;
             }
         }
-        if (D_8017EC14->f6.s < -0xBCB) {
+        if (D_8017EC14->pad < -0xBCB) {
             flags |= 0x2000;
         }
     store_out:
-        ((Box_80133784 *)arg2)->f0 = D_8017EC14->f0;
-        ((Box_80133784 *)arg2)->f2 = D_8017EC14->f2;
-        ((Box_80133784 *)arg2)->f4 = D_8017EC14->f4;
-        ((Box_80133784 *)arg2)->f6.s = D_8018F0D0;
+        ((SVECTOR *)arg2)->vx = (u16)D_8017EC14->vx;
+        ((SVECTOR *)arg2)->vy = (u16)D_8017EC14->vy;
+        ((SVECTOR *)arg2)->vz = (u16)D_8017EC14->vz;
+        ((SVECTOR *)arg2)->pad = D_8018F0D0;
         return flags & 0xFFFF;
     }
-    ((Box_80133784 *)arg2)->f6.s = D_8018F0D0;
+    ((SVECTOR *)arg2)->pad = D_8018F0D0;
     return 0;
 }
 
@@ -1742,23 +1742,23 @@ s32 func_80134510(s32 param) {
     s32 ret = 0;
     Foo_80134510 *b0 = D_8017EC14;
     Foo_80134510 *ac = D_8017EC10;
-    u16 t0 = ((Foo_80134510 *)param)->f0;
+    u16 t0 = (u16)((Foo_80134510 *)param)->vx;
     u16 t2, t4;
 
-    ((Foo_80134510 *)param)->f6.s = 0;
-    ac->f0 = t0;
-    b0->f0 = t0;
-    t2 = ((Foo_80134510 *)param)->f2;
-    ac->f2 = t2 - 4;
-    b0->f2 = t2 + 0x2FC;
-    t4 = ((Foo_80134510 *)param)->f4;
-    ac->f4 = t4;
-    b0->f4 = t4;
+    ((Foo_80134510 *)param)->pad = 0;
+    ac->vx = t0;
+    b0->vx = t0;
+    t2 = (u16)((Foo_80134510 *)param)->vy;
+    ac->vy = t2 - 4;
+    b0->vy = t2 + 0x2FC;
+    t4 = (u16)((Foo_80134510 *)param)->vz;
+    ac->vz = t4;
+    b0->vz = t4;
 
     if (func_801345F8(D_8018F0C0) != 0) {
         s16 x;
-        ((Foo_80134510 *)param)->f2 = D_8017EC18->f2 - 2;
-        x = D_8017EC10->f6.s;
+        ((Foo_80134510 *)param)->vy = (u16)D_8017EC18->vy - 2;
+        x = D_8017EC10->pad;
         if (x >= -3019) {
             if (x < -1400) {
                 ret = 0x4000;
@@ -1768,7 +1768,7 @@ s32 func_80134510(s32 param) {
         } else {
             ret = 0x2000;
         }
-        D_8017EC10->f6.s = D_8018F0D0;
+        D_8017EC10->pad = D_8018F0D0;
     }
     return ret;
 }
@@ -1865,9 +1865,9 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     iv = -iv;
     dvsr = pElem->vy * 48;
     q = (iv * 48) / dvsr;
-    D_8017EC18->f0 = D_8017EC10->f0;
-    D_8017EC18->f2 = D_8017EC10->f2 + q;
-    D_8017EC18->f4 = D_8017EC10->f4;
+    D_8017EC18->vx = (u16)D_8017EC10->vx;
+    D_8017EC18->vy = (u16)D_8017EC10->vy + q;
+    D_8017EC18->vz = (u16)D_8017EC10->vz;
     if (guess_Vec3sDotAdd_2((s32)&((Elem *)arg2)[((S0 *)arg1)->f6], (s32)D_8017EC18, ((s32 *)arg3)[((S0 *)arg1)->f8]) < -0x2F00) {
         return 0;
     }
@@ -1885,10 +1885,10 @@ s32 func_801347A0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if ((((S0 *)arg1)->f0 & 0x300) != 0) {
         return 0;
     }
-    D_8017EC18->f0 = D_8017EC10->f0;
-    D_8017EC18->f4 = D_8017EC10->f4;
+    D_8017EC18->vx = (u16)D_8017EC10->vx;
+    D_8017EC18->vz = (u16)D_8017EC10->vz;
     (*(Elem*)guess_g_BoxHitNormalX) = *pElem;
-    D_8017EC10->f6.u = pElem->vy;
+    D_8017EC10->pad = pElem->vy;
     return 1;
 }
 
@@ -2317,8 +2317,8 @@ extern int func_80135168(u16 arg0, u16 *p1, u16 *p2);
 s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
 {
 
-    extern Box_80133784 * D_8017EC10;
-    extern Box_80133784 * D_8017EC14;
+    extern SVECTOR * D_8017EC10;
+    extern SVECTOR * D_8017EC14;
         extern void func_80048EAC(void *m0, void *m1);
     extern void SetRotMatrix(void *m);
     extern void ApplyTransposeMatrixLV(void *m, void *in, void *out);

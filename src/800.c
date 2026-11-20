@@ -521,9 +521,9 @@ s32 func_80013350(s32 *a0, s32 *a1) {
     s32 diff[3];
     s32 result[3];
 
-    diff[0] = ((Unkstruct_801877B8 *)a0)->unk2 - *(s16 *)((u8 *)a1 + 2);
-    diff[1] = ((Unkstruct_801877B8 *)a0)->unk6 - *(s16 *)((u8 *)a1 + 6);
-    diff[2] = ((Unkstruct_801877B8 *)a0)->unkA - *(s16 *)((u8 *)a1 + 10);
+    diff[0] = HIH(((VECTOR *)a0)->vx) - *(s16 *)((u8 *)a1 + 2);
+    diff[1] = HIH(((VECTOR *)a0)->vy) - *(s16 *)((u8 *)a1 + 6);
+    diff[2] = HIH(((VECTOR *)a0)->vz) - *(s16 *)((u8 *)a1 + 10);
 
     Square0(diff, result);
 
@@ -2227,9 +2227,9 @@ void guess_CopyVec3HighHalves(s32 *a0, s32 *a1) {
 #undef SHARED_FN
 
 void func_800159E4(s32 *a0, s32 *a1) {
-    ((Unkstruct_800159E4 *)a1)->unk2 = ((Unkstruct_80181AD0_2 *)a0)->unk2;
-    *(u16 *)((s32)a1 + 0x6) = ((Unkstruct_80181AD0_2 *)a0)->unk6;
-    ((Unkstruct_800159E4 *)a1)->unkA = ((Unkstruct_80181AD0_2 *)a0)->unkA;
+    ((Unkstruct_800159E4 *)a1)->unk2 = HIHU(((VECTOR *)a0)->vx);
+    *(u16 *)((s32)a1 + 0x6) = HIHU(((VECTOR *)a0)->vy);
+    ((Unkstruct_800159E4 *)a1)->unkA = HIHU(((VECTOR *)a0)->vz);
 }
 
 void func_80015A08(s32 *a0, s32 *a1) {
@@ -2722,7 +2722,7 @@ extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_Or
 void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
     extern OtBlk_80016450_80015F04 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
-    Unkstruct_80181FAC_2 pts[4];
+    DVECTOR pts[4];
     LineF2_80015F04 *p;
     u8 *base;
     u32 *otp;
@@ -2760,14 +2760,14 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
      * (save, load, filler) interleave.  Emits nothing. */
     __asm__("" : "=r"(x0) : "0"(x0) : "memory");  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:no-c-spelling
 
-    pts[0].unk0 = x0;
-    pts[0].unk2 = ob;
-    pts[1].unk0 = a0;
-    pts[1].unk2 = ob;
-    pts[2].unk0 = a0;
-    pts[2].unk2 = a1;
-    pts[3].unk0 = x0;
-    pts[3].unk2 = a1;
+    pts[0].vx = x0;
+    pts[0].vy = ob;
+    pts[1].vx = a0;
+    pts[1].vy = ob;
+    pts[2].vx = a0;
+    pts[2].vy = a1;
+    pts[3].vx = x0;
+    pts[3].vy = a1;
 
     p = (LineF2_80015F04 *)func_80010A08(sz);
 
@@ -2786,10 +2786,10 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p->r0 = arg4;
         p->g0 = arg5;
         p->b0 = arg6;
-        p->x0 = pts[i].unk0;
-        p->y0 = pts[i].unk2;
-        p->x1 = pts[i + 1].unk0;
-        p->y1 = pts[i + 1].unk2;
+        p->x0 = (u16)pts[i].vx;
+        p->y0 = (u16)pts[i].vy;
+        p->x1 = (u16)pts[i + 1].vx;
+        p->y1 = (u16)pts[i + 1].vy;
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
@@ -2800,8 +2800,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p++;
     }
 
-    p[-1].x1 = pts[0].unk0;
-    p[-1].y1 = pts[0].unk2;
+    p[-1].x1 = (u16)pts[0].vx;
+    p[-1].y1 = (u16)pts[0].vy;
 
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[((Unkstruct_8012956C *)base)->unkA3D2 * 20], arg7, arg8);
@@ -10451,9 +10451,9 @@ extern void (*D_80063500[])();
 void func_8001FB8C(s32 *a0, s32 *a1)
 {
     if (a0[1] < 0) return;
-    if (((Unkstruct_80181FAC_2 *)a0)->unk0 != 1) return;
-    if (((Unkstruct_80181FAC_2 *)a0)->unk2 < 9) {
-        D_80063500[((Unkstruct_80181FAC_2 *)a0)->unk2](a0);
+    if ((u16)((DVECTOR *)a0)->vx != 1) return;
+    if ((u16)((DVECTOR *)a0)->vy < 9) {
+        D_80063500[(u16)((DVECTOR *)a0)->vy](a0);
         a1[0]++;
     }
 }
@@ -12158,34 +12158,34 @@ void func_80021D38(Obj_80021D38 *p)
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[j].unk0 = vec[0];
-            out[j].unk2 = vec[1];
+            out[j].vx = vec[0];
+            out[j].vy = vec[1];
 
             gte_ldv0(&sv[1]);
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[k].unk0 = vec[0];
-            out[k].unk2 = vec[1];
+            out[k].vx = vec[0];
+            out[k].vy = vec[1];
 
             gte_ldv0(&sv[2]);
             gte_rtv0tr();
             gte_stlvnl(vec);
             gte_stflg(&flag);
-            out[i + 3].unk0 = vec[0];
-            out[i + 3].unk2 = vec[1];
+            out[i + 3].vx = vec[0];
+            out[i + 3].vy = vec[1];
         } else {
             gte_ldv3(&sv[0], &sv[1], &sv[2]);
             gte_rtpt();
             gte_stsxy3(&out[i + 1], &out[i + 2], &out[i + 3]);
         }
 
-        out[i + 1].unk0 += out[0].unk0;
-        out[i + 1].unk2 += out[0].unk2;
-        out[i + 2].unk0 += out[0].unk0;
-        out[i + 2].unk2 += out[0].unk2;
-        out[i + 3].unk0 += out[0].unk0;
-        out[i + 3].unk2 += out[0].unk2;
+        out[i + 1].vx += (u16)out[0].vx;
+        out[i + 1].vy += (u16)out[0].vy;
+        out[i + 2].vx += (u16)out[0].vx;
+        out[i + 2].vy += (u16)out[0].vy;
+        out[i + 3].vx += (u16)out[0].vx;
+        out[i + 3].vy += (u16)out[0].vy;
     }
 
     func_800226C0(p, pts, out, ot + (d << 2));
@@ -12341,29 +12341,29 @@ void func_800221A8(Obj221A8 *o) {
                     gte_ldv0(&sv0);
                     gte_rtps();
                     gte_stsxy(&sxy2[0]);
-                    sxy[0].unk0 += sxy2[0].unk0;
-                    sxy[0].unk2 += sxy2[0].unk2;
+                    sxy[0].vx += (u16)sxy2[0].vx;
+                    sxy[0].vy += (u16)sxy2[0].vy;
                 }
                 i = 0;
                 do {
-                    sv0.vx = s->pt[i].unk0;
-                    sv0.vy = s->pt[i].unk2;
+                    sv0.vx = (u16)s->pt[i].vx;
+                    sv0.vy = (u16)s->pt[i].vy;
                     sv0.vz = sz;
-                    sv1.vx = s->pt[i + 1].unk0;
-                    sv1.vy = s->pt[i + 1].unk2;
+                    sv1.vx = (u16)s->pt[i + 1].vx;
+                    sv1.vy = (u16)s->pt[i + 1].vy;
                     sv1.vz = sz;
-                    sv2.vx = s->pt[i + 2].unk0;
-                    sv2.vy = s->pt[i + 2].unk2;
+                    sv2.vx = (u16)s->pt[i + 2].vx;
+                    sv2.vy = (u16)s->pt[i + 2].vy;
                     sv2.vz = sz;
                     gte_ldv3(&sv0, &sv1, &sv2);
                     gte_rtpt();
                     gte_stsxy3(&sxy[i + 1], &sxy[i + 2], &sxy[i + 3]);
-                    sxy[i + 1].unk0 += sxy[0].unk0;
-                    sxy[i + 1].unk2 += sxy[0].unk2;
-                    sxy[i + 2].unk0 += sxy[0].unk0;
-                    sxy[i + 2].unk2 += sxy[0].unk2;
-                    sxy[i + 3].unk0 += sxy[0].unk0;
-                    sxy[i + 3].unk2 += sxy[0].unk2;
+                    sxy[i + 1].vx += (u16)sxy[0].vx;
+                    sxy[i + 1].vy += (u16)sxy[0].vy;
+                    sxy[i + 2].vx += (u16)sxy[0].vx;
+                    sxy[i + 2].vy += (u16)sxy[0].vy;
+                    sxy[i + 3].vx += (u16)sxy[0].vx;
+                    sxy[i + 3].vy += (u16)sxy[0].vy;
                     i += 3;
                 } while (i < 0xC);
                 func_800226C0((s32)o, (s32)s, (s32)&sxy[0], (s32)(ot + z * 4));
@@ -12560,11 +12560,11 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 *(u16 *)(d - 0x18) = ((Unkstruct_800226C0 *)ss)->unk6;
                 *(u16 *)(d - 0x12) = ((Unkstruct_800226C0 *)ss)->unk8;
                 *(u16 *)(d - 0x10) = ((Unkstruct_800226C0 *)ss)->unkA;
-                *(u16 *)(d - 0x0A) = ((Unkstruct_80181FAC_2 *)ww)->unk0;
-                *(u16 *)(d - 0x08) = ((Unkstruct_80181FAC_2 *)ww)->unk2;
+                *(u16 *)(d - 0x0A) = (u16)((DVECTOR *)ww)->vx;
+                *(u16 *)(d - 0x08) = (u16)((DVECTOR *)ww)->vy;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x02) = ((Unkstruct_80181FAC_2 *)e)->unk0;
-                *(u16 *)(d) = ((Unkstruct_80181FAC_2 *)e)->unk2;
+                *(u16 *)(d - 0x02) = (u16)((DVECTOR *)e)->vx;
+                *(u16 *)(d) = (u16)((DVECTOR *)e)->vy;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)((u8 *)pts));
@@ -12595,8 +12595,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
 
         *(u16 *)(p - 0x14) = ((Unkstruct_800226C0 *)pts)->unk4;
         *(u16 *)(p - 0x12) = ((Unkstruct_800226C0 *)pts)->unk6;
-        *(u16 *)(p - 0x04) = ((Unkstruct_80181FAC_2 *)work)->unk0;
-        *(u16 *)(p - 0x02) = ((Unkstruct_80181FAC_2 *)work)->unk2;
+        *(u16 *)(p - 0x04) = (u16)((DVECTOR *)work)->vx;
+        *(u16 *)(p - 0x02) = (u16)((DVECTOR *)work)->vy;
 
         if (((Unkstruct_800B5BD8 *)arg0)->unk1E.u & 0x4000) {
             u32 maskAddr;
@@ -12630,16 +12630,16 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 d[-0x06] = col[0x0C];
                 d[-0x05] = col[0x0D];
                 d[-0x04] = col[0x0E];
-                *(u16 *)(d - 0x1A) = ((Unkstruct_80181FAC_2 *)ww)->unk0;
-                *(u16 *)(d - 0x18) = ((Unkstruct_80181FAC_2 *)ww)->unk2;
+                *(u16 *)(d - 0x1A) = (u16)((DVECTOR *)ww)->vx;
+                *(u16 *)(d - 0x18) = (u16)((DVECTOR *)ww)->vy;
                 e = (u8 *)work + kk;
-                *(u16 *)(d - 0x12) = ((Unkstruct_80181FAC_2 *)e)->unk0;
-                *(u16 *)(d - 0x10) = ((Unkstruct_80181FAC_2 *)e)->unk2;
+                *(u16 *)(d - 0x12) = (u16)((DVECTOR *)e)->vx;
+                *(u16 *)(d - 0x10) = (u16)((DVECTOR *)e)->vy;
                 *(u16 *)(d - 0x0A) = ((Unkstruct_800226C0 *)pts)->unk0;
                 *(u16 *)(d - 0x08) = ((Unkstruct_800226C0 *)pts)->unk2;
                 e = (u8 *)work + mm;
-                *(u16 *)(d - 0x02) = ((Unkstruct_80181FAC_2 *)e)->unk0;
-                *(u16 *)(d) = ((Unkstruct_80181FAC_2 *)e)->unk2;
+                *(u16 *)(d - 0x02) = (u16)((DVECTOR *)e)->vx;
+                *(u16 *)(d) = (u16)((DVECTOR *)e)->vy;
                 if (useIdx) {
                     h = i >> 1;
                     zp = (s32 *)((h << 2) + (u32)work);
@@ -12667,8 +12667,8 @@ void func_800226C0(Obj_80021D38 *arg0, u8 *col, DVec_80021D38 *pts, u8 *ot)
                 p += 0x24;
             } while (i < 12);
 
-            *(u16 *)(p - 0x04) = ((Unkstruct_80181FAC_2 *)work)->unk0;
-            *(u16 *)(p - 0x02) = ((Unkstruct_80181FAC_2 *)work)->unk2;
+            *(u16 *)(p - 0x04) = (u16)((DVECTOR *)work)->vx;
+            *(u16 *)(p - 0x02) = (u16)((DVECTOR *)work)->vy;
         }
     } else {
         u32 maskAddr;
@@ -12955,18 +12955,18 @@ void guess_BuildCircle12Points(Poly12Obj *a0, u16 a1) {
      * s1-before-s0 increment order.  An explicit pre-loop `ang = 0` statement
      * sits ahead of the LSR-inserted init instead -> 6-instruction residual. */
     for (; i < 4; i++) {
-        a0->pts[i].unk0 = (rsin(i * 0x155) * radius) >> 12;
-        a0->pts[i].unk2 = (rcos(i * 0x155) * radius) >> 12;
+        a0->pts[i].vx = (rsin(i * 0x155) * radius) >> 12;
+        a0->pts[i].vy = (rcos(i * 0x155) * radius) >> 12;
     }
 
     for (i = 4; i < 7; i++) {
-        a0->pts[i].unk0 = a0->pts[6 - i].unk0;
-        a0->pts[i].unk2 = -a0->pts[6 - i].unk2;
+        a0->pts[i].vx = (u16)a0->pts[6 - i].vx;
+        a0->pts[i].vy = -(u16)a0->pts[6 - i].vy;
     }
 
     for (i = 7; i < 12; i++) {
-        a0->pts[i].unk0 = -a0->pts[12 - i].unk0;
-        a0->pts[i].unk2 = a0->pts[12 - i].unk2;
+        a0->pts[i].vx = -(u16)a0->pts[12 - i].vx;
+        a0->pts[i].vy = (u16)a0->pts[12 - i].vy;
     }
 }
 

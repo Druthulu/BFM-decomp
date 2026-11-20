@@ -855,7 +855,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80184474;
 extern void (*D_8018449C[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_8018447C;
@@ -3603,8 +3603,8 @@ void func_80180DB4(s32 ent) {
 
 extern void func_8017FB38(s32 param_1);
 extern Unkstruct_801343C4 D_801D0630[];
-extern Unkstruct_80181FAC_2 D_801D0660[];
-extern Unkstruct_80181FAC_2 D_801D0662[];
+extern DVECTOR D_801D0660[];
+extern DVECTOR D_801D0662[];
 
 void func_80180ED0(s32 arg0) {
     s32 a3 = arg0;
@@ -3614,8 +3614,8 @@ void func_80180ED0(s32 arg0) {
     if (((Unkstruct_80180ED0 *)a3)->unk1C != 0) {
         (((Unkstruct_80180ED0 *)a3)->unk1C)--;
         for (i = 0, a1 = (s32)D_801D0630; i < 12; i += 2) {
-            *(u16 *)(a1 + 0) += D_801D0660[i >> 1].unk0;
-            *(u16 *)(a1 + 2) += D_801D0662[i >> 1].unk0;
+            *(u16 *)(a1 + 0) += (u16)D_801D0660[i >> 1].vx;
+            *(u16 *)(a1 + 2) += (u16)D_801D0662[i >> 1].vx;
             a1 += 8;
         }
         *(u16 *)(((Unkstruct_80180ED0 *)a3)->unk20 + 0x18) += 0x200;
@@ -3952,8 +3952,8 @@ void func_801817B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_80181854(arg0, 0x1000, 0);
-    sp10.vx = ((Unkstruct_80181FAC_2 *)arg3)->unk0;
-    sp10.vz = ((Unkstruct_80181FAC_2 *)arg3)->unk2;
+    sp10.vx = (u16)((DVECTOR *)arg3)->vx;
+    sp10.vz = (u16)((DVECTOR *)arg3)->vy;
     sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
         sp10.vy = ang;
@@ -3972,7 +3972,7 @@ void func_801817B4(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
        LATER function in this TU, which blocks a byte-true decl of a different type.
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern s16 D_801D0A7C;
-        D_801D0A7C = ((Unkstruct_80181854_2 *)arg0)->unk0;
+        D_801D0A7C = (u16)((Unkstruct_80181854_2 *)arg0)->vx;
         D_801D0A7E = CAST_ALIAS(u16, (s32)arg0, 0x2);
         D_801D0A80 = arg1;
         D_801D0A82 = arg2;
@@ -4079,7 +4079,7 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
 
     s1 = (s16 *)((a0 * 14) + (s32)&D_801D0A84);
 
-    ((Unkstruct_80181970 *)s1)->unk0 = ((Unkstruct_80181970_2 *)a1)->unk0;
+    ((Unkstruct_80181970 *)s1)->unk0 = (u16)((Unkstruct_80181970_2 *)a1)->vx;
 
     *(B4_80181970 *)((u8 *)s1 + 6) = *(B4_80181970 *)a2;
     ((Unkstruct_80181970 *)s1)->unk9 = 0;
@@ -4088,16 +4088,16 @@ void aF8018A860(s32 a0, s16 *a1, u8 *a2, u8 *a3)
     ((Unkstruct_80181970 *)s1)->unkD = 0;
 
     v0 = rand() & 0x3f;
-    temp_u16 = ((Unkstruct_80181970_2 *)a1)->unk2;
+    temp_u16 = (u16)((Unkstruct_80181970_2 *)a1)->vy;
     ((Unkstruct_80181970 *)s1)->unk2.u = temp_u16 + v0 - 0x20;
 
     v0 = rand() & 0x7f0;
-    temp_s16 = ((Unkstruct_80181970_2 *)a1)->unk4;
+    temp_s16 = ((Unkstruct_80181970_2 *)a1)->vz;
     temp_s32 = temp_s16 * (v0 + 0xc00);
     v0 = (s32)(temp_s32 >> 12);
     ((Unkstruct_80181970 *)s1)->unk4.u = (s16)v0;
 
-    v0 = ((Unkstruct_80181970_2 *)a1)->unk6;
+    v0 = ((Unkstruct_80181970_2 *)a1)->pad;
     if (v0 != 0) {
         u16 v1 = ((Unkstruct_80181970 *)s1)->unk4.u;
         ((Unkstruct_80181970 *)s1)->unk9 = 1;
@@ -4507,7 +4507,7 @@ void func_80181FAC(void *a0, void *a1, s16 a2) {
     extern u8 D_801D097A;
     extern u32 D_801D0974;
     if (a0 != NULL) {
-        D_801D0970 = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+        D_801D0970 = (u16)((DVECTOR *)a0)->vx;
         D_801D0972 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801D0970 = 0;
@@ -4814,7 +4814,7 @@ void func_8018234C(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_801312D0 *)sv)->unk0 = p->f0;
+    ((SVECTOR *)sv)->vx = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018234C *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -4832,7 +4832,7 @@ void func_8018234C(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_801312D0 *)sv)->unk0 = 2;
+    ((SVECTOR *)sv)->vx = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_8018234C *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];

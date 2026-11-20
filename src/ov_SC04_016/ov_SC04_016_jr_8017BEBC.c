@@ -861,7 +861,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80181DF4;
 extern void (*D_80181E1C[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80181DFC;
@@ -3698,9 +3698,9 @@ void func_8017E960(s32 param_1, s32 param_2, s32 *param_3)
     s32 ax, az;
     s32 ay;
 
-    dx = ((Unkstruct_801877B8 *)param_2)->unk2 - ((Unkstruct_801877B8 *)param_1)->unk2;
-    dy = ((Unkstruct_801877B8 *)param_2)->unk6 - ((Unkstruct_801877B8 *)param_1)->unk6;
-    dz = ((Unkstruct_801877B8 *)param_2)->unkA - ((Unkstruct_801877B8 *)param_1)->unkA;
+    dx = HIH(((VECTOR *)param_2)->vx) - HIH(((VECTOR *)param_1)->vx);
+    dy = HIH(((VECTOR *)param_2)->vy) - HIH(((VECTOR *)param_1)->vy);
+    dz = HIH(((VECTOR *)param_2)->vz) - HIH(((VECTOR *)param_1)->vz);
 
     ax = dx;
     if (dx < 0) {

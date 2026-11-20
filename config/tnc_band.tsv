@@ -2101,7 +2101,7 @@ rank	map_type	sites	bodies	cum_pct
 2097	Unkstruct_7313d444	8	2	81.654
 2098	Unkstruct_7b47ba89	8	2	81.659
 2099	Unkstruct_800CD704	8	2	81.665
-2100	Unkstruct_801312D0	8	2	81.671
+2100	SVECTOR	8	2	81.671
 2101	Unkstruct_8001C9D0	8	2	81.676
 2102	Unkstruct_801202A0	8	2	81.682
 2103	Unkstruct_8014659C	8	2	81.688
@@ -9664,7 +9664,7 @@ rank	map_type	sites	bodies	cum_pct
 9660	Unkstruct_80181A8C	1	1	97.791
 9661	Unkstruct_80181A98	1	1	97.792
 9662	Unkstruct_80181A9C	1	1	97.792
-9663	Unkstruct_80181ABC	1	1	97.793
+9663	SVECTOR	1	1	97.793
 9664	Unkstruct_80181AF4	1	1	97.794
 9665	Unkstruct_80181AF8	1	1	97.795
 9666	Unkstruct_80181B10	1	1	97.795
@@ -9889,7 +9889,7 @@ rank	map_type	sites	bodies	cum_pct
 9885	Unkstruct_80183A40	1	1	97.952
 9886	Unkstruct_80183A68	1	1	97.953
 9887	Unkstruct_80183AE4	1	1	97.954
-9888	Unkstruct_80181FAC_2	1	1	97.954
+9888	DVECTOR	1	1	97.954
 9889	Unkstruct_80183B00	1	1	97.955
 9890	Unkstruct_80183C04	1	1	97.956
 9891	Unkstruct_801202A0	1	1	97.957

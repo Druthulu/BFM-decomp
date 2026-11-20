@@ -1632,8 +1632,8 @@ void func_8013373C(s16 arg0) {
 s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     extern s32 func_80047D3C(s32);
     extern s32 func_80133AB0(s16, s16, s16, s32);
-    extern Box_80133784 * D_8017F054;
-    extern Box_80133784 * D_8017F058;
+    extern SVECTOR * D_8017F054;
+    extern SVECTOR * D_8017F058;
     extern s16 D_801957CC;
     extern u16 D_801957D0;
 
@@ -1648,58 +1648,58 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
     tries = 0;
     hits = 0;
     same = 0;
-    D_8017F054->f6.s = -0x7FFF;
-    D_8017F058->f6.s = 0x7FFF;
-    D_8017F054->f0 = ((Box_80133784 *)arg1)->f0;
-    D_8017F054->f4 = ((Box_80133784 *)arg1)->f4;
-    D_8017F058->f0 = ((Box_80133784 *)arg2)->f0;
-    D_8017F058->f4 = ((Box_80133784 *)arg2)->f4;
+    D_8017F054->pad = -0x7FFF;
+    D_8017F058->pad = 0x7FFF;
+    D_8017F054->vx = (u16)((SVECTOR *)arg1)->vx;
+    D_8017F054->vz = (u16)((SVECTOR *)arg1)->vz;
+    D_8017F058->vx = (u16)((SVECTOR *)arg2)->vx;
+    D_8017F058->vz = (u16)((SVECTOR *)arg2)->vz;
     D_801957D0 = 0;
     D_801957CC = 0;
 
     if (mode == 0) {
-        s16 dx = ((Box_80133784 *)arg2)->f0 - ((Box_80133784 *)arg1)->f0;
-        s16 dy = ((Box_80133784 *)arg2)->f2 - ((Box_80133784 *)arg1)->f2;
-        s16 dz = ((Box_80133784 *)arg2)->f4 - ((Box_80133784 *)arg1)->f4;
+        s16 dx = (u16)((SVECTOR *)arg2)->vx - (u16)((SVECTOR *)arg1)->vx;
+        s16 dy = (u16)((SVECTOR *)arg2)->vy - (u16)((SVECTOR *)arg1)->vy;
+        s16 dz = (u16)((SVECTOR *)arg2)->vz - (u16)((SVECTOR *)arg1)->vz;
         if (dx == 0 && dy == 0) {
             same = (dz == 0);
         }
-        D_8017F054->f2 = ((Box_80133784 *)arg1)->f2 - 4;
+        D_8017F054->vy = (u16)((SVECTOR *)arg1)->vy - 4;
         r = func_80047D3C(dx * dx + dz * dz);
         if (r < 3) {
             r = 4;
         } else if (r < 5) {
             r += 1;
         }
-        D_8017F058->f2 = ((Box_80133784 *)arg2)->f2 + r + 1;
+        D_8017F058->vy = (u16)((SVECTOR *)arg2)->vy + r + 1;
     } else {
-        D_8017F054->f2 = ((Box_80133784 *)arg1)->f2;
+        D_8017F054->vy = (u16)((SVECTOR *)arg1)->vy;
         if (mode == 2) {
-            D_8017F058->f0 = D_8017F054->f0;
-            D_8017F058->f2 = D_8017F054->f2 + 6;
+            D_8017F058->vx = (u16)D_8017F054->vx;
+            D_8017F058->vy = (u16)D_8017F054->vy + 6;
             same = 1;
-            D_8017F058->f4 = D_8017F054->f4;
+            D_8017F058->vz = (u16)D_8017F054->vz;
         } else {
-            D_8017F058->f2 = ((Box_80133784 *)arg2)->f2;
+            D_8017F058->vy = (u16)((SVECTOR *)arg2)->vy;
         }
     }
 
     while (1) {
-        r = func_80133AB0(mode, D_8017F054->f0, D_8017F054->f4, D_801957C0);
+        r = func_80133AB0(mode, (u16)D_8017F054->vx, (u16)D_8017F054->vz, D_801957C0);
         if (r == 0) break;
         hits |= r;
         if (same) break;
         if (tries++ >= 5) {
-            D_8017F058->f0 = D_8017F054->f0;
-            D_8017F058->f2 = D_8017F054->f2;
+            D_8017F058->vx = (u16)D_8017F054->vx;
+            D_8017F058->vy = (u16)D_8017F054->vy;
             flags = 0x2000;
-            D_8017F058->f4 = D_8017F054->f4;
+            D_8017F058->vz = (u16)D_8017F054->vz;
             goto store_out;
         }
     }
 
     if ((s16)hits != 0 || D_801957CC != 0) {
-        s16 t = D_8017F054->f6.s;
+        s16 t = D_8017F054->pad;
         if (t >= -0xBCB) {
             if (t < -0x578) {
                 flags |= 0x4000;
@@ -1707,17 +1707,17 @@ s32 func_80133784(s32 arg0, void *arg1, s32 arg2) {
                 flags |= 0x8000;
             }
         }
-        if (D_8017F058->f6.s < -0xBCB) {
+        if (D_8017F058->pad < -0xBCB) {
             flags |= 0x2000;
         }
     store_out:
-        ((Box_80133784 *)arg2)->f0 = D_8017F058->f0;
-        ((Box_80133784 *)arg2)->f2 = D_8017F058->f2;
-        ((Box_80133784 *)arg2)->f4 = D_8017F058->f4;
-        ((Box_80133784 *)arg2)->f6.s = D_801957D0;
+        ((SVECTOR *)arg2)->vx = (u16)D_8017F058->vx;
+        ((SVECTOR *)arg2)->vy = (u16)D_8017F058->vy;
+        ((SVECTOR *)arg2)->vz = (u16)D_8017F058->vz;
+        ((SVECTOR *)arg2)->pad = D_801957D0;
         return flags & 0xFFFF;
     }
-    ((Box_80133784 *)arg2)->f6.s = D_801957D0;
+    ((SVECTOR *)arg2)->pad = D_801957D0;
     return 0;
 }
 
@@ -2031,23 +2031,23 @@ s32 func_80134510(s32 param) {
     s32 ret = 0;
     Foo_80134510_80134510 *b0 = D_8017F058;
     Foo_80134510_80134510 *ac = D_8017F054;
-    u16 t0 = ((Foo_80134510_80134510 *)param)->f0;
+    u16 t0 = (u16)((Foo_80134510_80134510 *)param)->vx;
     u16 t2, t4;
 
-    ((Foo_80134510_80134510 *)param)->f6.s = 0;
-    ac->f0 = t0;
-    b0->f0 = t0;
-    t2 = ((Foo_80134510_80134510 *)param)->f2;
-    ac->f2 = t2 - 4;
-    b0->f2 = t2 + 0x2FC;
-    t4 = ((Foo_80134510_80134510 *)param)->f4;
-    ac->f4 = t4;
-    b0->f4 = t4;
+    ((Foo_80134510_80134510 *)param)->pad = 0;
+    ac->vx = t0;
+    b0->vx = t0;
+    t2 = (u16)((Foo_80134510_80134510 *)param)->vy;
+    ac->vy = t2 - 4;
+    b0->vy = t2 + 0x2FC;
+    t4 = (u16)((Foo_80134510_80134510 *)param)->vz;
+    ac->vz = t4;
+    b0->vz = t4;
 
     if (func_801345F8((*(s32*)&D_801957C0)) != 0) {
         s16 x;
-        ((Foo_80134510_80134510 *)param)->f2 = D_8017F05C->f2 - 2;
-        x = D_8017F054->f6.s;
+        ((Foo_80134510_80134510 *)param)->vy = (u16)D_8017F05C->vy - 2;
+        x = D_8017F054->pad;
         if (x >= -3019) {
             if (x < -1400) {
                 ret = 0x4000;
@@ -2057,7 +2057,7 @@ s32 func_80134510(s32 param) {
         } else {
             ret = 0x2000;
         }
-        D_8017F054->f6.s = D_801957D0;
+        D_8017F054->pad = D_801957D0;
     }
     return ret;
 }

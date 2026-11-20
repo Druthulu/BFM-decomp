@@ -857,7 +857,7 @@ extern void func_80153C9C(void);
 extern s32 func_80153CBC(void);
 extern s32 D_80187C8C;
 extern void (*D_80187CB4[])(void *a0);
-extern void func_80153CCC(Unkstruct_80181FAC_2 *a0);
+extern void func_80153CCC(DVECTOR *a0);
 extern void func_80153D7C(s32 a0);
 extern void func_80153D34(s32 a0);
 extern u8 D_80187C94;
@@ -4483,22 +4483,22 @@ void func_80180F98(void *a0, void *a1)
 
     if (((Unkstruct_800B5BD8 *)a0)->unk1E.s & 0x8000) {
         for (i = 0; i < 12; i += 6) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 4].unk0;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 4].unk2;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 4].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 4].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
             gte_stsxy3(&buf[i + 1], &buf[i + 3], &buf[i + 5]);
         }
         for (i = 1; i < 12; i += 2) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv0(&v[0]);
             gte_rtps();
@@ -4510,14 +4510,14 @@ void func_80180F98(void *a0, void *a1)
         func_801813B4(a0, a1, &buf[0], ot);
     } else {
         for (i = 0; i < 12; i += 3) {
-            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i].unk0;
-            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i].unk2;
+            v[0].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i].vx;
+            v[0].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i].vy;
             v[0].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 1].unk0;
-            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 1].unk2;
+            v[1].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 1].vx;
+            v[1].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 1].vy;
             v[1].unk0.v1.unk4 = base.unk0.v1.unk4;
-            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + s->pt[i + 2].unk0;
-            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + s->pt[i + 2].unk2;
+            v[2].unk0.v1.unk0 = base.unk0.v1.unk0 + (u16)s->pt[i + 2].vx;
+            v[2].unk0.v1.unk2 = base.unk0.v1.unk2 + (u16)s->pt[i + 2].vy;
             v[2].unk0.v1.unk4 = base.unk0.v1.unk4;
             gte_ldv3(&v[0], &v[1], &v[2]);
             gte_rtpt();
@@ -4710,8 +4710,8 @@ void func_80181900(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 ang;
 
     func_801819A0(arg0, 0x1000, 0);
-    sp10.vx = ((Unkstruct_80181900 *)arg3)->unk0;
-    sp10.vz = ((Unkstruct_80181900 *)arg3)->unk2;
+    sp10.vx = (u16)((Unkstruct_80181900 *)arg3)->vx;
+    sp10.vz = (u16)((Unkstruct_80181900 *)arg3)->vy;
     sp10.pad = 1;
     for (i = 0, ang = 0; i < 16; i++) {
         sp10.vy = ang;
@@ -4727,7 +4727,7 @@ void func_801819A0(s32 arg0, s32 arg1, s32 arg2) {
     extern s16 D_801AAC70;
     extern s16 D_801AAC72;
 
-    D_801AAC6C = ((Unkstruct_801819A0 *)arg0)->unk0;
+    D_801AAC6C = (u16)((Unkstruct_801819A0 *)arg0)->vx;
     D_801AAC6E = CAST_ALIAS(u16, (s32)arg0, 0x2);
     D_801AAC70 = arg1;
     D_801AAC72 = arg2;
@@ -5270,7 +5270,7 @@ void func_801820F8(void *a0, void *a1, s16 a2) {
     extern u8 D_801AAB6A;
     extern u32 D_801AAB64;
     if (a0 != NULL) {
-        D_801AAB60 = ((Unkstruct_80181FAC_2 *)a0)->unk0;
+        D_801AAB60 = (u16)((DVECTOR *)a0)->vx;
         D_801AAB62 = CAST_ALIAS(u16, (s32)a0, 2);
     } else {
         D_801AAB60 = 0;
@@ -5577,7 +5577,7 @@ void func_80182498(s32 a0) {
 
     CAST_ALIAS(s16, sv, 4) = 0;
     CAST_ALIAS(s16, sv, 2) = 0;
-    ((Unkstruct_80182498_2 *)sv)->unk0 = p->f0;
+    ((Unkstruct_80182498_2 *)sv)->vx = p->f0;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_80182498 *)q)->unk8 = x + ((s16)out[0] >> 1) * 3;
@@ -5595,7 +5595,7 @@ void func_80182498(s32 a0) {
         RotMatrixZ(-0x400, m);
     }
 
-    ((Unkstruct_80182498_2 *)sv)->unk0 = 2;
+    ((Unkstruct_80182498_2 *)sv)->vx = 2;
     ApplyMatrixSV(m, sv, out);
 
     ((Unkstruct_80182498 *)q)->unk10 = CAST_SIGN(u16, q, 0x10) + out[0];
