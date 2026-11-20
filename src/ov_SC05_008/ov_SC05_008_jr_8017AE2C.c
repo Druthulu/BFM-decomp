@@ -3508,7 +3508,7 @@ void func_8017D214(void *a0)
 
     if (guess_g_FrameCounter & 1) {
         ((Unkstruct_80126948 *)wp)->unk10 -= 1;
-        ((Unkstruct_80126948 *)wp)->unk14 = ((Unkstruct_80126948 *)wp)->unk10;
+        ((Unkstruct_80126948 *)wp)->unk14.v0.unk14 = ((Unkstruct_80126948 *)wp)->unk10;
     }
     t = ((Unkstruct_80126948 *)wp)->unk1A.u + 0xB;
     ((Unkstruct_80126948 *)wp)->unk1A.u = t;
@@ -3592,7 +3592,7 @@ void func_8017D3C0(void *a0) {
 
     if (guess_g_FrameCounter & 1) {
         ((Unkstruct_80126948 *)wp)->unk10 += 1;
-        ((Unkstruct_80126948 *)wp)->unk14 = ((Unkstruct_80126948 *)wp)->unk10;
+        ((Unkstruct_80126948 *)wp)->unk14.v0.unk14 = ((Unkstruct_80126948 *)wp)->unk10;
     }
     t = ((Unkstruct_80126948 *)wp)->unk1A.u + 0xB;
     ((Unkstruct_80126948 *)wp)->unk1A.u = t;
@@ -4829,7 +4829,7 @@ void func_8017F6A4(void *a0) {
     extern s32 func_80182334(s32 a0v);
     extern s32 func_8012C098(void *param_1);
 
-    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38) {
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u) {
         guess_RequestSound(0x894, 2);
     }
     ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, -2);
@@ -4884,7 +4884,7 @@ void func_8017F874(void *a0) {
     extern s32 func_80182334(s32 a0v);
     extern s32 func_8012C098(void *param_1);
 
-    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38) {
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u) {
         guess_RequestSound(0x894, 3);
     }
     ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, -1);
@@ -4939,7 +4939,7 @@ void func_8017FA44(void *a0) {
     extern s32 func_80182334(s32 a0v);
     extern s32 func_8012C098(void *param_1);
 
-    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38) {
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u) {
         guess_RequestSound(0x894, 4);
     }
     ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, 0);
@@ -4993,7 +4993,7 @@ void func_8017FC14(void *a0) {
     extern s32 func_80182334(s32 a0v);
     extern s32 func_8012C098(void *param_1);
 
-    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38) {
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u) {
         guess_RequestSound(0x894, 5);
     }
     ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, 1);
@@ -5050,7 +5050,7 @@ void func_8017FDE4(void *a0) {
     extern s32 func_80182334(s32 a0v);
     extern s32 func_8012C098(void *param_1);
 
-    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38) {
+    if (*(s32 *)((s32)a0 + 0xDC) - 10 == ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u) {
         guess_RequestSound(0x894, 6);
     }
     ((void (*)(s32, s32, s32))func_801823B8)((s32)a0, 0, 2);
@@ -5286,7 +5286,7 @@ void func_801802EC(void *param_1) {
             }
             idx++;
         }
-        if (*(s32 *)((s32)param_1 + 0xDC) - 10 == ((Unkstruct_80126948 *)wp)->unk38) {
+        if (*(s32 *)((s32)param_1 + 0xDC) - 10 == ((Unkstruct_80126948 *)wp)->unk38.u) {
             guess_RequestSound(0x88E, 0);
         }
     }
@@ -5445,7 +5445,7 @@ void func_80180698(void *param_1) {
             }
             idx++;
         }
-        if (*(s32 *)((s32)param_1 + 0xDC) - 10 == ((Unkstruct_80126948 *)wp)->unk38) {
+        if (*(s32 *)((s32)param_1 + 0xDC) - 10 == ((Unkstruct_80126948 *)wp)->unk38.u) {
             guess_RequestSound(0x88E, 0);
         }
     }
@@ -6404,7 +6404,7 @@ void func_80182054(void *a0) {
     if (((s32 (*)(s32))func_80182334)((s32)a0) == 0) {
         ((void (*)(s32))func_8012C098)((s32)a0);
     } else {
-        if (*(s32 *)((s32)a0 + 0xDC) - 0xA == ((Unkstruct_80126948 *)wp)->unk38) {
+        if (*(s32 *)((s32)a0 + 0xDC) - 0xA == ((Unkstruct_80126948 *)wp)->unk38.u) {
             guess_RequestSound(0x88E, 0);
         }
     }
@@ -6465,7 +6465,7 @@ void func_801821D4(void *a0) {
     if (((s32 (*)(s32))func_80182334)((s32)a0) == 0) {
         ((void (*)(s32))func_8012C098)((s32)a0);
     } else {
-        if (*(s32 *)((s32)a0 + 0xDC) - 0xA == ((Unkstruct_80126948 *)wp)->unk38) {
+        if (*(s32 *)((s32)a0 + 0xDC) - 0xA == ((Unkstruct_80126948 *)wp)->unk38.u) {
             guess_RequestSound(0x88E, 0);
         }
     }
@@ -6550,7 +6550,7 @@ s32 func_80182334(s32 a0v)
     *(s16 *)(a1 + 0xD0) = v0;
 skip:
     (void)&frame_pad;
-    result = *(s32 *)(a1 + 0xDC) - ((Unkstruct_80126948 *)a2)->unk38;
+    result = *(s32 *)(a1 + 0xDC) - ((Unkstruct_80126948 *)a2)->unk38.u;
     if (result < 1) {
         result = 0;
     }
@@ -6596,7 +6596,7 @@ s32 func_801823B8(void *a0, s32 a1, void *a2) {
 
 extern s32 guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
     s32 func_80182478(void) {
-        return ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38;
+        return ((Unkstruct_80126948 *)guess_g_ActiveCamera)->unk38.u;
     }
 
 

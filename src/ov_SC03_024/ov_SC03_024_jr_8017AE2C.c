@@ -3909,13 +3909,13 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017CE90(void *a0)
 {
 
-    extern Blk4_8017CE90_8017CE90 D_8018A924[];
-    extern Blk4_8017CE90_8017CE90 D_801C11B0;
+    extern CVECTOR D_8018A924[];
+    extern CVECTOR D_801C11B0;
     extern u8 D_801C11B4;
     extern u8 D_801C11B5;
     extern u8 D_801C11B6;
     void *s1;
-    Blk4_8017CE90_8017CE90 *s2;
+    CVECTOR *s2;
     s32 pad[10];
 
     s1 = ((void *(*)(void))guess_AllocSpriteObject)();
@@ -3956,7 +3956,7 @@ void func_8017CE90(void *a0)
 
 void func_8017CFBC(void *a0)
 {
-    extern Blk4_8017CE90_8017CE90 D_801C11B0;
+    extern CVECTOR D_801C11B0;
     extern s32 func_80012F74(s32 a0, s32 a1, s32 a2, s32 a3);
     extern s32 guess_FreeSmallObject(u8 *a0);
     void *s2;
@@ -3966,9 +3966,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC_3 *)s2)->unk20;
-    D_801C11B0.d[0] = func_80012F74(D_801C11B0.d[0], 0, 10, 1);
-    D_801C11B0.d[1] = func_80012F74(D_801C11B0.d[1], 0, 10, 1);
-    D_801C11B0.d[2] = func_80012F74(D_801C11B0.d[2], 0, 10, 1);
+    D_801C11B0.r = func_80012F74(D_801C11B0.r, 0, 10, 1);
+    D_801C11B0.g = func_80012F74(D_801C11B0.g, 0, 10, 1);
+    D_801C11B0.b = func_80012F74(D_801C11B0.b, 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC_3 *)s2)->unk10.val + ((Unkstruct_8017CFBC_3 *)s2)->unk14.val;
     ((Unkstruct_8017CFBC_3 *)s2)->unk10.val = v1;

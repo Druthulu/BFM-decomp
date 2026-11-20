@@ -3772,7 +3772,7 @@ s32 *func_801880E0(s32 *ot, Panel_8017E978_801880E0 *w0, s16 idx) {
             if (flag3 != 0) {
                 sp60[0] += -0x282828;
             }
-            ot = func_800D2650(ot, sp18, p->x, p->y, 1, sp60[0]);
+            ot = func_800D2650(ot, sp18, p->vx, p->vy, 1, sp60[0]);
         }
         p++;
     }

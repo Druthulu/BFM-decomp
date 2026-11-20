@@ -5607,7 +5607,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
     part = (Part *)(arg1 + 0x14);
     nparts = ((Unkstruct_8017F5B4_2 *)arg1)->unk8;
     vtx = *(u8 **)(arg1 + 0x10);
-    ot = (u32)&D_800A6610[(((Unkstruct_80010178 *)base)->unkA3D2) << 14];
+    ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -8153,13 +8153,13 @@ void func_80184640(void *arg0) {
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
 
-        if ((u8)guess_TestGameFlag(D_801AAE88[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
-            if (D_801AAE88[((Unkstruct_8017E0C4_2 *)ptr)->unkA] == 0x54) {
+        if ((u8)guess_TestGameFlag(D_801AAE88[((Unkstruct_8017DF78 *)ptr)->unkA]) != 0) {
+            if (D_801AAE88[((Unkstruct_8017DF78 *)ptr)->unkA] == 0x54) {
                 func_80029514(0x5A);
                 guess_SetGameFlag(0xEA, 1);
             }
 
-            if ((((Unkstruct_8017E0C4_2 *)ptr)->unk8 & 0x4000) != 0) {
+            if ((((Unkstruct_8017DF78 *)ptr)->unk8 & 0x4000) != 0) {
                 if ((u8)guess_TestGameFlag(0x1D) != 0) {
                     func_80145EE8(0);
                 }
@@ -8202,7 +8202,7 @@ extern void guess_SetGameFlag(s32, s32);
 void func_801847AC(void *a0) {
 
     extern s32 D_801AAE88[];
-    u16 idx = ((Unkstruct_8017E230 *)*(s32 *)(a0 + 0xDC))->unkA;
+    u16 idx = ((Unkstruct_8017DF78 *)*(s32 *)(a0 + 0xDC))->unkA;
     guess_SetGameFlag(D_801AAE88[idx], 1);
 }
 
@@ -8215,7 +8215,7 @@ void func_801847EC(void * arg0) {
     s32 temp_v0;
 
     temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
-    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
+    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017DF78 *)temp_v0)->unkC);
 }
 
 

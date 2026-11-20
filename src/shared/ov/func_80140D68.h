@@ -31,7 +31,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
 
     dx -= 0xD;
     q = (s16 *)(ofs * 2 + (s32)src);
-    a = (u16)q[0] + (u16)D_8011516A[idx].x;
+    a = (u16)q[0] + (u16)D_8011516A[idx].vx;
     a += dx;
     *(s16 *)((u8 *)out + 0x8) = a;
     *(s16 *)((u8 *)out + 0xA) = q[1] - 4;

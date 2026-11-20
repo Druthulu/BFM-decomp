@@ -3103,7 +3103,7 @@ void func_8017D654(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_801887A4[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_801887A4[t];
     }
     sp10 = *(Blk8_80126940_8017D654 *)&guess_g_CameraFollowPos;
 

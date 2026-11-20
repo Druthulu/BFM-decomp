@@ -282,9 +282,9 @@ void func_800CB3F0(void *a0) {
     func_80017DF8((s16 *)(s2v + 0x10), mat);
     KR_AS(void, guess_ObjRotTransSV)(s3v, (s32)D_800CBCBC, (s32)ang);
 
-    ((Unkstruct_8017BF50 *)mat)->unk14 = ang[0];
-    ((Unkstruct_8017BF50 *)mat)->unk18 = ang[1];
-    ((Unkstruct_8017BF50 *)mat)->unk1C = ang[2];
+    ((MATRIX *)mat)->t[0] = ang[0];
+    ((MATRIX *)mat)->t[1] = ang[1];
+    ((MATRIX *)mat)->t[2] = ang[2];
 
     guess_RotTransSVWithMatrix((s32)mat, (s32)D_800CBCC4, (s32)ang);
     func_80015954((s32)ang, (s32)a0 + 4);

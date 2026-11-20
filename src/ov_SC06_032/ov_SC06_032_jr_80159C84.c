@@ -1111,7 +1111,7 @@ extern u8 guess_g_EventSubStep; // Names ledger: config/names.tsv guess_g_EventS
 extern s32 D_801CF388;
 extern void func_8015934C(void *arg0);
 extern void func_801593E4(Unkstruct_80126B58 *a0);
-extern Pair_8013AD38 D_801956FC[];
+extern DVECTOR D_801956FC[];
 extern void (*D_80195910[])(void);
 extern void func_80159698(void *a0);
 extern s32 func_801596D4(void *a0);

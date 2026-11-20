@@ -3881,7 +3881,7 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
     s32 flag3;
     s32 flag4;
     s16 i;
-    Pair_8013AD38 *p;
+    DVECTOR *p;
     s32 r;
 
     w = w0;
@@ -3905,7 +3905,7 @@ s32 *func_8018B478(s32 *ot, Panel_8017E978_8018B478 *w0, s16 idx) {
             if (flag3 != 0) {
                 sp60[0] += -0x282828;
             }
-            do { ot = func_800D2650(ot, sp18, p->x, p->y, 1, sp60[0]); } while (0);
+            do { ot = func_800D2650(ot, sp18, p->vx, p->vy, 1, sp60[0]); } while (0);
         }
         p++;
     }

@@ -1294,7 +1294,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
             addr = func_8013FFD8(2, guess_GetMenuPanelCursorIndex(2), sp60);
         }
         guess_SjisToGlyphCodes(addr, sp18);
-        ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, 1,
+        ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].vx), p->kind, 1,
                            flag != 0 ? 0x585858 : 0x808080);
         p = D_80189904[i];
         j = 0;
@@ -1317,7 +1317,7 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
                     if (flag2 != 0) {
                         sp60[0] += -0x282828;
                     }
-                    ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].x), p->kind, t, sp60[0]);
+                    ot = func_800D2650(ot, sp18, (s16)(p->dist + (u16)D_8011516A[i].vx), p->kind, t, sp60[0]);
                 }
                 p++;
             }
@@ -1329,8 +1329,8 @@ void func_8013FAF8(s16 arg0, s16 arg1) {
         guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] =
             (guess_g_FrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].f4[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
         ot = func_800D29F8(flag3,
-                           func_800D27DC(flag3 != 0, ot + 10, &D_801893A0[i], 8, D_8011516A[i].x),
-                           &D_801896A0[i], 2, D_8011516A[i].x);
+                           func_800D27DC(flag3 != 0, ot + 10, &D_801893A0[i], 8, D_8011516A[i].vx),
+                           &D_801896A0[i], 2, D_8011516A[i].vx);
     }
     pp = &D_80189D18;
     if (*pp == 0xE) {

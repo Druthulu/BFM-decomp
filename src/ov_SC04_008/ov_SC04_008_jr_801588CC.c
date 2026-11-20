@@ -1320,7 +1320,7 @@ void func_8015934C(void *arg0) {
 extern s16 currentLocationId;
 extern s32 func_80029A94(s32);
 
-extern Pair_8013AD38 D_80180E9C[];
+extern DVECTOR D_80180E9C[];
 
 #include "../shared/ov/func_80159464__57e60f69.h"
 

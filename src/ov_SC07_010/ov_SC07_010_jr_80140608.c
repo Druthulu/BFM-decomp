@@ -444,7 +444,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
 
     dx -= 0xD;
     q = (s16 *)(ofs * 2 + (s32)src);
-    a = (u16)q[0] + (u16)D_8011516A[idx].x;
+    a = (u16)q[0] + (u16)D_8011516A[idx].vx;
     a += dx;
     ((Unkstruct_8017DD28 *)out)->unk8 = a;
     ((Unkstruct_8017DD28 *)out)->unkA = q[1] - 4;

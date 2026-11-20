@@ -1173,7 +1173,7 @@ extern s32 D_8018E858;
 extern s16 currentLocationId;
 extern s32 func_80029A94(s32);
 
-extern Pair_8013AD38 D_80181650[];
+extern DVECTOR D_80181650[];
 
 #include "../shared/ov/func_80159464__08b70f0d.h"
 

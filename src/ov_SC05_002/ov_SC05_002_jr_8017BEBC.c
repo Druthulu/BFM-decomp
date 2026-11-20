@@ -3278,7 +3278,7 @@ void func_8017E1DC(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_8018412C[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_8018412C[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_8017E27C(a0, &sp10.vx);
@@ -4342,13 +4342,13 @@ void func_8017FC88(void *arg0) {
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
 
-        if ((u8)guess_TestGameFlag(D_8019CABC[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
-            if (D_8019CABC[((Unkstruct_8017E0C4_2 *)ptr)->unkA] == 0x54) {
+        if ((u8)guess_TestGameFlag(D_8019CABC[((Unkstruct_8017DF78 *)ptr)->unkA]) != 0) {
+            if (D_8019CABC[((Unkstruct_8017DF78 *)ptr)->unkA] == 0x54) {
                 func_80029514(0x5A);
                 guess_SetGameFlag(0xEA, 1);
             }
 
-            if ((((Unkstruct_8017E0C4_2 *)ptr)->unk8 & 0x4000) != 0) {
+            if ((((Unkstruct_8017DF78 *)ptr)->unk8 & 0x4000) != 0) {
                 if ((u8)guess_TestGameFlag(0x1D) != 0) {
                     func_80145EE8(0);
                 }
@@ -4394,7 +4394,7 @@ extern void guess_SetGameFlag(s32, s32);
 void func_8017FDF4(void *a0) {
 
     extern s32 D_8019CABC[];
-    u16 idx = ((Unkstruct_8017E230 *)*(s32 *)(a0 + 0xDC))->unkA;
+    u16 idx = ((Unkstruct_8017DF78 *)*(s32 *)(a0 + 0xDC))->unkA;
     guess_SetGameFlag(D_8019CABC[idx], 1);
 }
 

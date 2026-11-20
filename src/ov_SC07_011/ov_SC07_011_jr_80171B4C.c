@@ -3623,8 +3623,8 @@ void func_80174BF4(void * arg0)
 {
 
     extern void (*D_80181CF8[])();
-    ((Unkstruct_80174BF4_2 *)arg0)->unkC.val = 0x12C;
-    ((Unkstruct_80174BF4_2 *)arg0)->unk14 = 0x12C;
+    ((Unkstruct_80174BF4_2 *)arg0)->unkC.v0.unkC.val = 0x12C;
+    ((Unkstruct_80174BF4_2 *)arg0)->unk14.v0.unk14 = 0x12C;
     ((Unkstruct_80174BF4_2 *)arg0)->unk20.s = 0x155;
     ((Unkstruct_80174BF4_2 *)arg0)->unk22.s = 0x800;
     ((Unkstruct_80174BF4_2 *)arg0)->unk24.s = 0;

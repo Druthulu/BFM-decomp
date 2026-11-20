@@ -3955,9 +3955,9 @@ void func_8017CFBC(void *a0)
 
     s2 = a0;
     s1 = ((Unkstruct_8017CFBC_4 *)s2)->unk20;
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[0] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[0], 0, 10, 1);
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[1] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[1], 0, 10, 1);
-    (*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[2] = func_80012F74((*(Blk4_8017CE90_8017CE90 *)&D_801EA840).d[2], 0, 10, 1);
+    (*(CVECTOR *)&D_801EA840).r = func_80012F74((*(CVECTOR *)&D_801EA840).r, 0, 10, 1);
+    (*(CVECTOR *)&D_801EA840).g = func_80012F74((*(CVECTOR *)&D_801EA840).g, 0, 10, 1);
+    (*(CVECTOR *)&D_801EA840).b = func_80012F74((*(CVECTOR *)&D_801EA840).b, 0, 10, 1);
 
     v1 = ((Unkstruct_8017CFBC_4 *)s2)->unk10.val + ((Unkstruct_8017CFBC_4 *)s2)->unk14.val;
     ((Unkstruct_8017CFBC_4 *)s2)->unk10.val = v1;

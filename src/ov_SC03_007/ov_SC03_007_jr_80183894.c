@@ -3671,19 +3671,19 @@ void func_80184560(s32 param_1)
 
     func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
 
-    if (v.vx > ((Pair_8013AD38 *)D_801EB138)->x) {
-        lim = ((Pair_8013AD38 *)D_801EB138)->x;
+    if (v.vx > ((DVECTOR *)D_801EB138)->vx) {
+        lim = ((DVECTOR *)D_801EB138)->vx;
         v.vx = v.vx - lim;
-    } else if (v.vx < -((Pair_8013AD38 *)D_801EB138)->x) {
-        lim = ((Pair_8013AD38 *)D_801EB138)->x;
+    } else if (v.vx < -((DVECTOR *)D_801EB138)->vx) {
+        lim = ((DVECTOR *)D_801EB138)->vx;
         v.vx = lim + v.vx;
     }
 
-    if (v.vz > ((Pair_8013AD38 *)D_801EB138)->y) {
-        lim = ((Pair_8013AD38 *)D_801EB138)->y;
+    if (v.vz > ((DVECTOR *)D_801EB138)->vy) {
+        lim = ((DVECTOR *)D_801EB138)->vy;
         v.vz = v.vz - lim;
-    } else if (v.vz < -((Pair_8013AD38 *)D_801EB138)->y) {
-        lim = ((Pair_8013AD38 *)D_801EB138)->y;
+    } else if (v.vz < -((DVECTOR *)D_801EB138)->vy) {
+        lim = ((DVECTOR *)D_801EB138)->vy;
         v.vz = lim + v.vz;
     }
 

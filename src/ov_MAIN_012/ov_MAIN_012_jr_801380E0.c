@@ -862,8 +862,8 @@ void func_801397B0(s32 arg0)
 
     ((Unkstruct_801397B0_5 *)buf)->unk0 = 0;
 
-    t2 = ((Pair_8013AD38 *)b164)->y;
-    t0 = ((Pair_8013AD38 *)b164)->x;
+    t2 = ((DVECTOR *)b164)->vy;
+    t0 = ((DVECTOR *)b164)->vx;
     hi = (t2 & 0x100) >> 4;
     lo = ((t0 & 0x3C0) >> 6) | 0x20;
     ((Unkstruct_801397B0_5 *)buf)->unkC = hi | lo | ((t2 & 0x200) << 2);
@@ -1073,14 +1073,14 @@ void func_8013AD38(void *flag, s32 a1, void *out2, void *out3)
         gte_ldv0(vec);
         gte_rtv0tr();
         gte_stlvnl(res);
-        ((Pair *)out2)[i].x = res[0];
-        ((Pair *)out2)[i].y = res[1];
-        if (((Unkstruct_8013AD38_5 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
-        if (((Unkstruct_8013AD38_5 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
+        ((Pair *)out2)[i].vx = res[0];
+        ((Pair *)out2)[i].vy = res[1];
+        if (((Unkstruct_8013AD38_5 *)flag)->vx < 0) ((s8 *)out3)[2 * i]     = -tbl[2 * i];     else ((s8 *)out3)[2 * i]     = tbl[2 * i];
+        if (((Unkstruct_8013AD38_5 *)flag)->vy < 0) ((s8 *)out3)[2 * i + 1] = -tbl[2 * i + 1]; else ((s8 *)out3)[2 * i + 1] = tbl[2 * i + 1];
     }
     ((Pair *)out2)[i] = ((Pair *)out2)[0];
-    if (((Unkstruct_8013AD38_5 *)flag)->x < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
-    if (((Unkstruct_8013AD38_5 *)flag)->y < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
+    if (((Unkstruct_8013AD38_5 *)flag)->vx < 0) ((s8 *)out3)[2 * i]     = -tbl[0]; else ((s8 *)out3)[2 * i]     = tbl[0];
+    if (((Unkstruct_8013AD38_5 *)flag)->vy < 0) ((s8 *)out3)[2 * i + 1] = -tbl[1]; else ((s8 *)out3)[2 * i + 1] = tbl[1];
 }
 
 
@@ -1126,7 +1126,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     if (sa == 0) {
         ((Unkstruct_8013B274_3 *)L)->unk0 = 0;
     } else {
-        quot = ((s32)sa << 12) / ((Pair_8013AD38 *)a2)->x;
+        quot = ((s32)sa << 12) / ((DVECTOR *)a2)->vx;
         ang = (s16)quot;
         if (!(D_8017EACA < ang)) goto outer_else;
         if (!(ang < D_8017EAD0)) goto inner_else;
@@ -1148,7 +1148,7 @@ void func_8013B274(s32 a0, s32 a1, void *a2)
     gte_ldv0(L); gte_rtv0tr();
     gte_stlvnl((u8 *)L + 8);
 
-    if (((Pair_8013AD38 *)a2)->y > 0)
+    if (((DVECTOR *)a2)->vy > 0)
         ((Unkstruct_8013B274_3 *)L)->unkC -= 1;
     else
         ((Unkstruct_8013B274_3 *)L)->unkC += 2;

@@ -6264,7 +6264,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 void func_8017D474(s32 a0, s32 a1, s32 a2) {
     ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)(a2 + 8);
     ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)(a2 + 0xA);
-    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = *(s32 *)(a2 + 0xC);
     {
         s32 y = *(s16 *)(a2 + 2);
         s32 x = *(s16 *)(a2 + 0);
@@ -6278,7 +6278,7 @@ void func_8017D474(s32 a0, s32 a1, s32 a2) {
 void func_8017D4C8(s32 a0, s32 a1, s32 a2) {
     ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)(a2 + 8);
     ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)(a2 + 0xA);
-    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)(a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = *(s32 *)(a2 + 0xC);
     {
         s32 y = *(s16 *)(a2 + 6);
         s32 x = *(s16 *)(a2 + 4);
@@ -6292,7 +6292,7 @@ void func_8017D4C8(s32 a0, s32 a1, s32 a2) {
 void func_8017D51C(s32 *a0, s32 *a1, s32 *a2) {
     ((Unkstruct_80126948 *)a0)->unkA0.u = *(u16 *)((s32)a2 + 0x8);
     ((Unkstruct_80126948 *)a0)->unkA2.u = *(u16 *)((s32)a2 + 0xA);
-    ((Unkstruct_80126948 *)a0)->unk14 = *(s32 *)((s32)a2 + 0xC);
+    ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = *(s32 *)((s32)a2 + 0xC);
 }
 
 

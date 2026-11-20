@@ -1106,7 +1106,7 @@ s32 func_801873FC(s32 a0) {
     p1.unk4 = ((Unkstruct_801873FC *)box)->unkC;
     p2.unk0 = ((Unkstruct_801873FC *)box)->unk4;
     p2.unk4 = ((Unkstruct_801873FC *)box)->unkE;
-    step = (u32)(((Unkstruct_801873FC *)box)->unk6 - CAST_SIGN(s16, box, 4)) >> 1;
+    step = (u32)(((Unkstruct_801873FC *)box)->unk6.s - CAST_SIGN(s16, box, 4)) >> 1;
 
     for (i = 0; i < 3; i++) {
         p1.unk2 = p2.unk2 = ((Unkstruct_801873FC *)box)->unk8;

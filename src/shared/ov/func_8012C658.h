@@ -20,11 +20,11 @@ s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2) {
         sp.unk2 = 0;
         sp.unk0 = 0;
     }
-    sp.unk6 = (s16)arg0;
-    sp.unk8 = (s16)arg1;
-    sp.unkA = 0;
+    sp.unk6.s = (s16)arg0;
+    sp.unk8.s = (s16)arg1;
+    sp.unkA.s = 0;
     sp.unk10 = 0;
-    sp.unkE = 0;
+    sp.unkE.s = 0;
     sp.unkC = 0x7FFF;
     param = &sp.unk0;
     end = (u16 *)guess_g_BoxHitCenterX;

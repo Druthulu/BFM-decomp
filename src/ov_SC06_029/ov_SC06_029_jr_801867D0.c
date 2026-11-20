@@ -4370,14 +4370,14 @@ void func_80188988(int param_1) {
     ((Unkstruct_80188988_2 *)param_1)->unk44 = psVar2[2];
     sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
     ((Unkstruct_80188988 *)(param_1 + 0x48))->f0 += sVar4;
-    sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, ((Pair_8013AD38 *)D_801DFFE4)->x, 0x80);
+    sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, ((DVECTOR *)D_801DFFE4)->vx, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     ((Unkstruct_80188988_2 *)param_1)->unk3C += sVar4;
     if (psVar5[0] < ((Unkstruct_80188988_2 *)param_1)->unk48) {
         ((Unkstruct_80188988_2 *)param_1)->unk48 = psVar5[0];
     }
-    if (((Pair_8013AD38 *)D_801DFFE4)->x < ((Unkstruct_80188988_2 *)param_1)->unk3C) {
-        ((Unkstruct_80188988_2 *)param_1)->unk3C = ((Pair_8013AD38 *)D_801DFFE4)->x;
+    if (((DVECTOR *)D_801DFFE4)->vx < ((Unkstruct_80188988_2 *)param_1)->unk3C) {
+        ((Unkstruct_80188988_2 *)param_1)->unk3C = ((DVECTOR *)D_801DFFE4)->vx;
     }
 }
 
@@ -4406,13 +4406,13 @@ void func_80188A90(int param_1) {
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
     ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f0 += sVar4;
-    sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((Pair_8013AD38 *)D_801DFFE4)->y, 0x80);
+    sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((DVECTOR *)D_801DFFE4)->vy, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
     ((Unkstruct_80188988_2 *)param_1)->unk40 += sVar4;
     if (((Unkstruct_80188988_2 *)param_1)->unk4C < psVar5[1])
         ((Unkstruct_80188988_2 *)param_1)->unk4C = psVar5[1];
-    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((Pair_8013AD38 *)D_801DFFE4)->y)
-        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((Pair_8013AD38 *)D_801DFFE4)->y;
+    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((DVECTOR *)D_801DFFE4)->vy)
+        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((DVECTOR *)D_801DFFE4)->vy;
 }
 
 

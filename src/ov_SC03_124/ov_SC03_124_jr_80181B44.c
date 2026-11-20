@@ -4243,48 +4243,48 @@ void func_801839A8(void *arg0)
         u8 *p = (u8 *)D_801E1BD0 + k * 0x24;
         s32 c;
 
-        if (((Unkstruct_8017D77C *)p)->unk1C != 0) {
+        if (((Ent_8017D6EC *)p)->unk1C != 0) {
             continue;
         }
 
         {
-            s16 val = ((Unkstruct_8017D77C *)p)->unkC;
+            s16 val = ((Ent_8017D6EC *)p)->unkC;
             if (val < 0x401) {
-                ((Unkstruct_8017D77C *)p)->unkC = val + 0xB;
-            } else if (((Unkstruct_8017D77C *)p)->unk18 != 0) {
-                ((Unkstruct_8017D77C *)p)->unk18 -= 1;
+                ((Ent_8017D6EC *)p)->unkC = val + 0xB;
+            } else if (((Ent_8017D6EC *)p)->unk18 != 0) {
+                ((Ent_8017D6EC *)p)->unk18 -= 1;
             } else {
-                ((Unkstruct_8017D77C *)p)->unkC = val + 0xB;
+                ((Ent_8017D6EC *)p)->unkC = val + 0xB;
             }
         }
 
-        if (((Unkstruct_8017D77C *)p)->unkC >= 0x801) {
-            ((Unkstruct_8017D77C *)p)->unkC = 0;
+        if (((Ent_8017D6EC *)p)->unkC >= 0x801) {
+            ((Ent_8017D6EC *)p)->unkC = 0;
         }
 
-        c = (rsin(((Unkstruct_8017D77C *)p)->unkC) / 64) & 0xFF;
+        c = (rsin(((Ent_8017D6EC *)p)->unkC) / 64) & 0xFF;
         c = c | (c << 16 | c << 8);
-        ((Unkstruct_8017D77C *)p)->unk4 = c;
+        ((Ent_8017D6EC *)p)->unk4 = c;
 
-        c = (rsin(((Unkstruct_8017D77C *)p)->unkC) / 256) & 0xFF;
+        c = (rsin(((Ent_8017D6EC *)p)->unkC) / 256) & 0xFF;
         c = c | (c << 16 | c << 8);
-        ((Unkstruct_8017D77C *)p)->unk8 = c;
+        ((Ent_8017D6EC *)p)->unk8 = c;
 
-        if ((((Unkstruct_80010178 *)m)->unkA3AA & 1) == 0) {
-            s16 cnt = ((Unkstruct_8017D77C *)p)->unkE + 1;
-            ((Unkstruct_8017D77C *)p)->unkE = cnt;
+        if ((((Unkstruct_8012956C *)m)->unkA3AA & 1) == 0) {
+            s16 cnt = ((Ent_8017D6EC *)p)->unkE.u + 1;
+            ((Ent_8017D6EC *)p)->unkE.u = cnt;
             if (cnt >= 0x40) {
-                ((Unkstruct_8017D77C *)p)->unkE = 0;
+                ((Ent_8017D6EC *)p)->unkE.u = 0;
             }
         }
 
         {
-            s32 val2 = ((Unkstruct_8017D77C *)p)->unkC;
+            s32 val2 = ((Ent_8017D6EC *)p)->unkC;
             if (val2 == 0) {
-                ((Unkstruct_8017D77C *)p)->unk1C = 1;
+                ((Ent_8017D6EC *)p)->unk1C = 1;
             } else if (val2 >= 0x556) {
-                if (((Unkstruct_8017D77C *)p)->unk20 == 0) {
-                    ((Unkstruct_8017D77C *)p)->unk20 = 1;
+                if (((Ent_8017D6EC *)p)->unk20 == 0) {
+                    ((Ent_8017D6EC *)p)->unk20 = 1;
                     if (e78[0x39] < 9) {
                         ((void (*)(void *))func_80183BE4)(p);
                     }
@@ -4402,8 +4402,8 @@ void func_80183CF0(void *arg0)
 
     q = &prim;
     p = *(u16 **)(a0 + 0x0);
-    dx = ((Unkstruct_80183CF0 *)a0)->unk12;
-    dy = ((Unkstruct_80183CF0 *)a0)->unk14;
+    dx = ((Unkstruct_80183CF0 *)a0)->unk12.u;
+    dy = ((Unkstruct_80183CF0 *)a0)->unk14.u;
     i = 0;
 
     prim.v[0].vz = 3;

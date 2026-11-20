@@ -709,8 +709,8 @@ s32 func_801E8A80(s32 ot, u8 *s, s16 c) {
             dim = flag;
             for (i = 0; i < 5; i++) {
                 if (i == 0) {
-                    sp60[0] = (((Pair_8013AD38 *)p)->x + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
-                              ((((Pair_8013AD38 *)p)->y + ((Unkstruct_8017C120 *)s)->unk12) << 16);
+                    sp60[0] = (((DVECTOR *)p)->vx + ((Unkstruct_8017C120 *)s)->unk10) & 0xFFFF |
+                              ((((DVECTOR *)p)->vy + ((Unkstruct_8017C120 *)s)->unk12) << 16);
                 } else {
                     *(s32 *)(bp + 0x48 + i * 4) = p[i];
                 }

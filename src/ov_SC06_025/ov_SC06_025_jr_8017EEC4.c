@@ -4302,7 +4302,7 @@ extern void (*D_801890CC[])(void);
  * apart; both tables are walked with the same 4-byte stride, so the second is
  * reached through a pointer cast of &D_801891F6 (the target's `la $v1` form). */
 
-extern Pair_8013AD38 D_801891F4[];
+extern DVECTOR D_801891F4[];
 extern s16 D_801891F6;
 extern s16 D_801B1704;
 extern u8 D_801B1B90[];
@@ -4351,19 +4351,19 @@ void func_80180F70(void *a0) {
      * into `la`+`lh 0($x)` (+1 insn). Compare written `target == arr[i]` so the
      * bne operands land as `bne $a2,$v0`. */
     if (D_801891F6 != -1) {
-        Pair_8013AD38 *base = (Pair_8013AD38 *)&D_801891F6;
+        DVECTOR *base = (DVECTOR *)&D_801891F6;
         s32 i = 0;
         s32 target = (s32)D_801B1704 * 2;
         do {
-            if (target == D_801891F4[i].x) {
-                if (base[i].x == 1) {
+            if (target == D_801891F4[i].vx) {
+                if (base[i].vx == 1) {
                     ((Unkstruct_80180F70 *)a0)->unkFC = 1;   /* +0xFC = pending anim id */
                 } else {
                     ((Unkstruct_80180F70 *)a0)->unkFC = 2;
                 }
             }
             i++;
-        } while (base[i].x != -1);
+        } while (base[i].vx != -1);
     }
 
     if (((Unkstruct_80180F70 *)a0)->unk70 != 1 && ((Unkstruct_80180F70 *)a0)->unk70 != 3) {
@@ -6946,13 +6946,13 @@ void func_801846F4(void *arg0) {
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
 
-        if ((u8)guess_TestGameFlag(D_801ADEE0[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
-            if (D_801ADEE0[((Unkstruct_8017E0C4_2 *)ptr)->unkA] == 0x54) {
+        if ((u8)guess_TestGameFlag(D_801ADEE0[((Unkstruct_8017DF78 *)ptr)->unkA]) != 0) {
+            if (D_801ADEE0[((Unkstruct_8017DF78 *)ptr)->unkA] == 0x54) {
                 func_80029514(0x5A);
                 guess_SetGameFlag(0xEA, 1);
             }
 
-            if ((((Unkstruct_8017E0C4_2 *)ptr)->unk8 & 0x4000) != 0) {
+            if ((((Unkstruct_8017DF78 *)ptr)->unk8 & 0x4000) != 0) {
                 if ((u8)guess_TestGameFlag(0x1D) != 0) {
                     func_80145EE8(0);
                 }
@@ -6995,7 +6995,7 @@ extern void guess_SetGameFlag(s32, s32);
 void func_80184860(void *a0) {
 
     extern s32 D_801ADEE0[];
-    u16 idx = ((Unkstruct_8017E230 *)*(s32 *)(a0 + 0xDC))->unkA;
+    u16 idx = ((Unkstruct_8017DF78 *)*(s32 *)(a0 + 0xDC))->unkA;
     guess_SetGameFlag(D_801ADEE0[idx], 1);
 }
 
@@ -7004,7 +7004,7 @@ extern void func_8014ADA8(s32 a0, s32 a1);
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     void func_801848A0(s32 arg0) {
         s32 temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
-        ((void (*)(void *, s32))func_8014ADA8)((void *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
+        ((void (*)(void *, s32))func_8014ADA8)((void *)&guess_g_PlayerActor, ((Unkstruct_8017DF78 *)temp_v0)->unkC);
     }
 
 

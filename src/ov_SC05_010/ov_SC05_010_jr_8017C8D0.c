@@ -3053,9 +3053,9 @@ void func_8017E02C(s32 param_1)
 
     for (i = 0; i < 8; i++) {
         grp = &D_801C6FA8[i];
-        grp->g0 = 0;
-        grp->g2 = i << 9;
-        grp->gC = (rand() & 0xF) << 16;
+        grp->g0.u = 0;
+        grp->g2.u = i << 9;
+        grp->unkC.v0.gC = (rand() & 0xF) << 16;
         grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
         grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
 
@@ -3063,14 +3063,14 @@ void func_8017E02C(s32 param_1)
             sub = &grp->subs[j];
             sub->f0 = 0;
             sub->f2 = (rand() & 3) + 4;
-            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->f8.u = (j << 8) + (rand() & 0xF) * 56;
             sub->fA = (rand() & 0xF) << 8;
-            sub->f14 = (rand() & 0xF) << 13;
+            sub->unk14.v0.f14 = (rand() & 0xF) << 13;
             sub->fC = ((rand() & 0xF) << 14) + 0x10000;
             sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
             sub->f4 = 0x200;
             sub->f6 = (rand() & 0xF) << 4;
-            sub->f18 = ((rand() & 3) << 5) + 0x40;
+            sub->f18.s = ((rand() & 3) << 5) + 0x40;
         }
     }
 
@@ -3107,10 +3107,10 @@ void func_8017E1D4(void *arg0) {
             switch (*(s16 *)(p)) {
             case 0:
                 vel = ((SubRec_801EB5C8_8017D7EC *)p)->fC + ((SubRec_801EB5C8_8017D7EC *)p)->f10;
-                pos = ((SubRec_801EB5C8_8017D7EC *)p)->f14;
+                pos = ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14;
                 life = ((SubRec_801EB5C8_8017D7EC *)p)->f2 - 1;
                 pos = pos + vel;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f14 = pos;
+                ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14 = pos;
                 ((SubRec_801EB5C8_8017D7EC *)p)->fC = vel;
                 ((SubRec_801EB5C8_8017D7EC *)p)->f2 = life;
                 if ((s16)life == -1) {
@@ -3121,10 +3121,10 @@ void func_8017E1D4(void *arg0) {
                 break;
             case 1:
                 ((SubRec_801EB5C8_8017D7EC *)p)->f4 = ((SubRec_801EB5C8_8017D7EC *)p)->f4 + 0x80;
-                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18 - 8;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f18 = f18;
+                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18.s - 8;
+                ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = f18;
                 if (f18 < 0) {
-                    ((SubRec_801EB5C8_8017D7EC *)p)->f18 = 0;
+                    ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = 0;
                     ((SubRec_801EB5C8_8017D7EC *)p)->f0 = ((SubRec_801EB5C8_8017D7EC *)p)->f0 + 1;
                 }
                 break;
@@ -3200,14 +3200,14 @@ void func_8017E368(s32 a0, s32 a1) {
         do {
             rowPtr = a1 + off;
             {
-                u32 c = ((Unkstruct_8017E368 *)rowPtr)->unk18;
+                u32 c = ((Unkstruct_8017E368 *)rowPtr)->f18.u;
                 pp->bcast = c | ((c << 0x10) | (c << 8));
             }
-            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->unk4;
+            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->f4;
             func_80017DC4(ap, mp);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->unkA;
+            angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->fA;
             func_80017E30(ap, mp);
             ApplyMatrixSV(mp, &dv[0], &sv1);
             ApplyMatrixSV(mp, &dv[1], &sv2);
@@ -3215,8 +3215,8 @@ void func_8017E368(s32 a0, s32 a1) {
             ApplyMatrixSV(mp, &dv[3], &sv4);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->unk16;
-            func_800139C8((s32) ((Unkstruct_8017E368 *)rowPtr)->unk8, ap, &sinOut);
+            angBuf.vz = ((Unkstruct_8017E368 *)rowPtr)->unk14.v1.unk2;
+            func_800139C8((s32) ((Unkstruct_8017E368 *)rowPtr)->f8.s, ap, &sinOut);
             sinOut.vx = sinOut.vx + vecB.vx;
             sinOut.vz = sinOut.vz + vecB.vy;
             pp->v[0].vx = sinOut.vx + sv1.vx;
@@ -3416,7 +3416,7 @@ void func_8017EA10(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80192284[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80192284[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_8017EAE4(a0, &sp10.vx);

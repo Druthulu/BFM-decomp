@@ -2893,7 +2893,7 @@ void func_801826C8(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80190710[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80190710[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x340;
@@ -2926,7 +2926,7 @@ void func_80182788(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80190714[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80190714[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
@@ -2986,7 +2986,7 @@ void func_801828B8(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80190718[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80190718[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x800;
@@ -3016,7 +3016,7 @@ void func_80182968(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_8019071C[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_8019071C[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
@@ -3076,7 +3076,7 @@ void func_80182A98(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80190720[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80190720[t];
     }
     sp10 = guess_g_CameraFollowPos;
     sp10.vx = 0x340;

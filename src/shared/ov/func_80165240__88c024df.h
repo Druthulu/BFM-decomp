@@ -24,7 +24,7 @@ void func_80165240(void *param_1, void *param_2, void *param_3)
     *(u32 *)(prim + 0x24) = D_80181718;
     *(u32 *)(prim + 0x28) = D_80181724;
     *(u32 *)(prim + 0x2c) = D_8018171C;
-    *(struct W4 *)(prim + 0x30) = *(struct W4 *)param_3;
+    *(CVECTOR *)(prim + 0x30) = *(CVECTOR *)param_3;
     *(u32 *)(prim + 0x34) = 0x50000000;
 
     func_80016ED4(p);

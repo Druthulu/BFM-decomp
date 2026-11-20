@@ -1299,15 +1299,15 @@ void func_8015934C(void *arg0) {
 extern s16 currentLocationId;
 extern s32 func_80029A94(s32);
 
-extern Pair_8013AD38 D_8018DE60[];
+extern DVECTOR D_8018DE60[];
 
 s32 func_80159464(void) {
-    Pair_8013AD38 *e;
+    DVECTOR *e;
 
     e = D_8018DE60;
-    while (e->x != 0) {
-        if (currentLocationId == e->x) {
-            return e->y;
+    while (e->vx != 0) {
+        if (currentLocationId == e->vx) {
+            return e->vy;
         }
         e++;
     }

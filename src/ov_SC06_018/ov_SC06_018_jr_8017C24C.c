@@ -2852,7 +2852,7 @@ void func_8017D4DC(s32 arg0) {
         t = ((Unkstruct_80126948 *)arg0)->unk5;
         t = (t + 1) & 1;
         ((Unkstruct_80126948 *)arg0)->unk5 = t;
-        ((Unkstruct_80126948 *)arg0)->unk14 = D_80197084[t];
+        ((Unkstruct_80126948 *)arg0)->unk14.v0.unk14 = D_80197084[t];
     }
     sp10 = guess_g_CameraFollowPos;
     if (sp10.vy < -0x150) {

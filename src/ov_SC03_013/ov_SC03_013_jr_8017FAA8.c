@@ -3239,13 +3239,13 @@ void func_80180494(void *a0)
 
 
 
-extern Blk4_8017CE90_8017CE90 D_801AD358[1];
-extern Blk4_8017CE90_8017CE90 D_801AD35C[1];
-extern Blk4_8017CE90_8017CE90 D_801AD398[1];
-extern Blk4_8017CE90_8017CE90 D_801AD39C[1];
-extern Blk4_8017CE90_8017CE90 D_801ABF54[1];
-extern Blk4_8017CE90_8017CE90 D_801ABF58[1];
-extern Blk4_8017CE90_8017CE90 D_801ABF5C[1];
+extern CVECTOR D_801AD358[1];
+extern CVECTOR D_801AD35C[1];
+extern CVECTOR D_801AD398[1];
+extern CVECTOR D_801AD39C[1];
+extern CVECTOR D_801ABF54[1];
+extern CVECTOR D_801ABF58[1];
+extern CVECTOR D_801ABF5C[1];
 extern u8 D_801A5288[];
 
 extern void guess_BuildCircle12Points(void *, unsigned short);
@@ -3282,8 +3282,8 @@ void func_80180518(s32 a0) {
 
 
 
-extern Blk4_8017CE90_8017CE90 D_801AD358[1];
-extern Blk4_8017CE90_8017CE90 D_801AD398[1];
+extern CVECTOR D_801AD358[1];
+extern CVECTOR D_801AD398[1];
 extern void guess_InitObjectKind6(s32, void *);
 extern s32 guess_GetGameVarByte(s32 arg);
 

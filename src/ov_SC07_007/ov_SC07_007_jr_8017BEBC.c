@@ -4035,12 +4035,12 @@ void func_8017E268(s32 a0) {
     s32 t;
 
     p = guess_g_ActiveCamera;
-    t = ((Unkstruct_80126948 *)p)->unk14 - 1;
-    ((Unkstruct_80126948 *)p)->unk14 = t;
+    t = ((Unkstruct_80126948 *)p)->unk14.v0.unk14 - 1;
+    ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = t;
     ((Unkstruct_80126948 *)p)->unk10 = t;
     if (t < 400) {
         ((Unkstruct_80126948 *)p)->unk10 = 400;
-        ((Unkstruct_80126948 *)p)->unk14 = 400;
+        ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 400;
         guess_ZeroMemory((void *)a0, 0x18);
     }
 }
@@ -4166,10 +4166,10 @@ void func_8017E4C4(s32 a0) {
     p = guess_g_ActiveCamera;
     t = ((Unkstruct_80126948 *)p)->unk10 - 2;
     ((Unkstruct_80126948 *)p)->unk10 = t;
-    ((Unkstruct_80126948 *)p)->unk14 = t;
+    ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = t;
     if (((Unkstruct_80126948 *)p)->unk10 < 300) {
         ((Unkstruct_80126948 *)p)->unk10 = 300;
-        ((Unkstruct_80126948 *)p)->unk14 = 300;
+        ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 300;
         guess_ZeroMemory((void *)a0, 0x18);
     }
 }
@@ -4203,7 +4203,7 @@ void func_8017E568(void *arg0) {
 
     p = guess_g_ActiveCamera;
     ((Unkstruct_80126948 *)p)->unk10 = 0x190;
-    ((Unkstruct_80126948 *)p)->unk14 = 0x190;
+    ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
     ((Unkstruct_80126948 *)p)->unk1A.u = 0x200;
     ((Unkstruct_80126948 *)p)->unk22.u = 0x200;
     M2C_FIELD(arg0, u16 *, 4) = (u16)(M2C_FIELD(arg0, u16 *, 4) + 1);
@@ -4502,7 +4502,7 @@ void func_8017EA48(s32 a0) {
 
     ((s32 (*)(s32, void *, s32))func_80180FA4)(s0, (void *)&D_80186C38, 0);
     if (func_80181384(s0, 3) != 0) {
-        ((Unkstruct_80126948 *)s1)->unk14 -= 0x64;
+        ((Unkstruct_80126948 *)s1)->unk14.v0.unk14 -= 0x64;
     }
     ((s32 (*)(s32, void *, s32))func_8018107C)(s0, (void *)&D_80187E08, 3);
     func_801810CC(s0, (s32)&D_80187DA8, 1);
@@ -4616,7 +4616,7 @@ void func_8017EC68(s32 *a0) {
     func_8017D41C();
     func_801813EC((s32)s0);
 
-    ((Unkstruct_80126948 *)s1)->unk14 = 0x190;
+    ((Unkstruct_80126948 *)s1)->unk14.v0.unk14 = 0x190;
     ((Unkstruct_80126948 *)s1)->unk10 = 0x190;
 
     fnptr = (void *)func_8018263C;
@@ -4705,7 +4705,7 @@ void func_8017EDD4(s32 *a0) {
     func_8017D158();
     func_801813EC((s32)s0);
 
-    ((Unkstruct_80126948 *)s1)->unk14 = 0x190;
+    ((Unkstruct_80126948 *)s1)->unk14.v0.unk14 = 0x190;
     ((Unkstruct_80126948 *)s1)->unk10 = 0x190;
     ((void (*)(s32, u8 *))func_80181048)((s32)s0, &D_80187C98);
 
@@ -5345,7 +5345,7 @@ void func_8017F90C(void *a0) {
         func_80181048(a0, &D_80187298);
         func_8017D350();
         func_8018144C(a0, D_80187C78);
-        ((Unkstruct_80126948 *)p)->unk14 = 0x190;
+        ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
         ((Unkstruct_80126948 *)p)->unk10 = 0x190;
         func_8012AD50(a0);
     }
@@ -5435,7 +5435,7 @@ void func_8017FAC4(s32 a0) {
         }
         func_8017D1F0();
         func_801813EC(a0);
-        ((Unkstruct_80126948 *)p)->unk14 = 0x190;
+        ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
         ((Unkstruct_80126948 *)p)->unk10 = 0x190;
         ((s32 (*)(s32))func_8012AD50)(a0);
     }

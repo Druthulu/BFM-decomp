@@ -2897,13 +2897,13 @@ extern s32 func_80029A94(s32);
 
 s32 func_80159464(void) {
 
-    extern Pair_8013AD38 D_80185FE4[];
-    Pair_8013AD38 *e;
+    extern DVECTOR D_80185FE4[];
+    DVECTOR *e;
 
     e = D_80185FE4;
-    while (e->x != 0) {
-        if (currentLocationId == e->x) {
-            return e->y;
+    while (e->vx != 0) {
+        if (currentLocationId == e->vx) {
+            return e->vy;
         }
         e++;
     }

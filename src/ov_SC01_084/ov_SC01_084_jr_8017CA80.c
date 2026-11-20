@@ -2738,8 +2738,8 @@ void func_8017DA00(void) {
     Unkstruct_80126948 *cam = guess_g_MainCamera;
 
     *(Unkstruct_80126948 *)D_8011F920 = *(Unkstruct_80126948 *)cam;
-    cam->unk8 = 500;
-    cam->unkC.val = 500;
+    cam->unk8.v0.unk8 = 500;
+    cam->unkC.v0.unkC.val = 500;
     guess_SetMainCameraHandler((s32)func_8017DD2C, 1);
     func_8017DD2C(cam);
     func_8012A094((s32)cam);

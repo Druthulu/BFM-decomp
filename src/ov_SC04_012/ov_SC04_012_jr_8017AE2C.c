@@ -3463,7 +3463,7 @@ void func_8017D190(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         u8 t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_801820A8[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_801820A8[t];
     }
 
     sp10 = guess_g_CameraFollowPos;
@@ -4027,19 +4027,19 @@ void func_8017DED4(s32 param_1)
 
     func_800139C8(((rand() & 3) << 10) + ((rand() & 0x1F) << 5) + ((rand() & 3) << 8) + (rand() & 0xFF), &v, &v);
 
-    if (v.vx > ((Pair_8013AD38 *)D_801930C8)->x) {
-        lim = ((Pair_8013AD38 *)D_801930C8)->x;
+    if (v.vx > ((DVECTOR *)D_801930C8)->vx) {
+        lim = ((DVECTOR *)D_801930C8)->vx;
         v.vx = v.vx - lim;
-    } else if (v.vx < -((Pair_8013AD38 *)D_801930C8)->x) {
-        lim = ((Pair_8013AD38 *)D_801930C8)->x;
+    } else if (v.vx < -((DVECTOR *)D_801930C8)->vx) {
+        lim = ((DVECTOR *)D_801930C8)->vx;
         v.vx = lim + v.vx;
     }
 
-    if (v.vz > ((Pair_8013AD38 *)D_801930C8)->y) {
-        lim = ((Pair_8013AD38 *)D_801930C8)->y;
+    if (v.vz > ((DVECTOR *)D_801930C8)->vy) {
+        lim = ((DVECTOR *)D_801930C8)->vy;
         v.vz = v.vz - lim;
-    } else if (v.vz < -((Pair_8013AD38 *)D_801930C8)->y) {
-        lim = ((Pair_8013AD38 *)D_801930C8)->y;
+    } else if (v.vz < -((DVECTOR *)D_801930C8)->vy) {
+        lim = ((DVECTOR *)D_801930C8)->vy;
         v.vz = lim + v.vz;
     }
 

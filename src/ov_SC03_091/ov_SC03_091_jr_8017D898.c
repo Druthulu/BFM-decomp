@@ -2995,7 +2995,7 @@ void func_8017E778(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017E778_4 *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017E778_4 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(((Unkstruct_80010178 *)base)->unkA3D2) << 14];
+    ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;

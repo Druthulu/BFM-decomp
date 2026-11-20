@@ -4138,7 +4138,7 @@ void func_80189A70(s32 *a0)
     s32 v;
     s32 t;
     s32 c;
-    Pair_8013AD38 range;
+    DVECTOR range;
 
     v = (s16)(CAST_SIGN(u16, (s32)a0, 0x100) -= 0x10);
     if (v < 0) {
@@ -4152,8 +4152,8 @@ void func_80189A70(s32 *a0)
     } else {
         c = v | ((v << 16) | t);
     }
-    range.x = 0;
-    range.y = 0x50;
+    range.vx = 0;
+    range.vy = 0x50;
     func_80189B1C(a0, &range, D_8018F71C, func_80189DB8(a0, c));
 }
 
@@ -4175,7 +4175,7 @@ void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3) {
     u16 *p;
     u16 t;
 
-    p = D_801E82A0 + a1->x * 4;
+    p = D_801E82A0 + a1->vx * 4;
 
     func_80017DC4(a2, &mtx);
 
@@ -4184,15 +4184,15 @@ void func_80189B1C(void *a0, Range_80189B1C *a1, void *a2, void *a3) {
     mtx.t[2] = 0;
     buf.tag = 0x50000000;
 
-    i = a1->x;
+    i = a1->vx;
     buf.p1 = a3;
     buf.p0 = a3;
     buf.zero2 = 0;
     buf.zero1 = 0;
 
-    if (i < a1->y) {
+    if (i < a1->vy) {
         rec = &buf;
-        for (; i < a1->y; i++) {
+        for (; i < a1->vy; i++) {
             t = p[0];
             rec->t0.vy = 0;
             rec->t0.vx = t;

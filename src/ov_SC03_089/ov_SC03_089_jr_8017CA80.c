@@ -2978,7 +2978,7 @@ void func_8017D960(s32 arg0)
     part = *(Part **)(arg0 + 0xC);
     nparts = ((Unkstruct_8017D960_7 *)*(s32 *)(arg0 + 8))->unk8;
     vtx = *(u8 **)(((Unkstruct_8017D960_5 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(((Unkstruct_80010178 *)base)->unkA3D2) << 14];
+    ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -3790,7 +3790,7 @@ void func_801817E0(s32 param_1) {
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         ((Unkstruct_80126948 *)param_1)->unk5 = (((Unkstruct_80126948 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_80126948 *)param_1)->unk14 = D_8018D358[((Unkstruct_80126948 *)param_1)->unk5];
+        ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = D_8018D358[((Unkstruct_80126948 *)param_1)->unk5];
     }
     sp10 = *(V4_801817E0 *)&guess_g_CameraFollowPos;
     s1 = &sp10.vx;
@@ -3821,7 +3821,7 @@ void func_8018188C(s32 param_1) {
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         ((Unkstruct_80126948 *)param_1)->unk5 = (((Unkstruct_80126948 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_80126948 *)param_1)->unk14 = D_8018D35C[((Unkstruct_80126948 *)param_1)->unk5];
+        ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = D_8018D35C[((Unkstruct_80126948 *)param_1)->unk5];
     }
     sp10 = *(V4_88 *)&guess_g_CameraFollowPos;
 
@@ -3880,7 +3880,7 @@ void func_80181A68(s32 param_1) {
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         ((Unkstruct_80126948 *)param_1)->unk5 = (((Unkstruct_80126948 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_80126948 *)param_1)->unk14 = D_8018D360[((Unkstruct_80126948 *)param_1)->unk5];
+        ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = D_8018D360[((Unkstruct_80126948 *)param_1)->unk5];
     }
     sp10 = *(V4_80181A68 *)&guess_g_CameraFollowPos;
     s1 = &sp10.vx;
@@ -3903,7 +3903,7 @@ void func_80181B14(s32 param_1) {
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         ((Unkstruct_80126948 *)param_1)->unk5 = (((Unkstruct_80126948 *)param_1)->unk5 + 1) & 1;
-        ((Unkstruct_80126948 *)param_1)->unk14 = D_8018D364[((Unkstruct_80126948 *)param_1)->unk5];
+        ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = D_8018D364[((Unkstruct_80126948 *)param_1)->unk5];
     }
     sp10 = *(V4_80181B14 *)&guess_g_CameraFollowPos;
     s1 = &sp10.vx;

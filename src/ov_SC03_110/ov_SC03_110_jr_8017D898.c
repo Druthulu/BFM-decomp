@@ -2850,7 +2850,7 @@ void func_8017EB14(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80185984[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80185984[t];
     }
     sp10 = guess_g_CameraFollowPos;
 

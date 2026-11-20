@@ -2854,25 +2854,25 @@ void func_8017DB5C(s32 arg0)
                                 case 5:
                                     gte_stsxy3_f3(pkt);
                                     gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
-                                    if (((PolyF3 *)pkt)->x0 > ((PolyF3 *)pkt)->x1) {
-                                        mx = ((PolyF3 *)pkt)->x0;
-                                        mn = ((PolyF3 *)pkt)->x1;
+                                    if (((Unkstruct_8018234C *)pkt)->unk8 > ((Unkstruct_8018234C *)pkt)->unkC) {
+                                        mx = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unkC;
                                     } else {
-                                        mn = ((PolyF3 *)pkt)->x0;
-                                        mx = ((PolyF3 *)pkt)->x1;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mx = ((Unkstruct_8018234C *)pkt)->unkC;
                                     }
-                                    if (((PolyF3 *)pkt)->x2 > mx) mx = ((PolyF3 *)pkt)->x2;
-                                    else if (((PolyF3 *)pkt)->x2 < mn) mn = ((PolyF3 *)pkt)->x2;
+                                    if (((Unkstruct_8018234C *)pkt)->unk10 > mx) mx = ((Unkstruct_8018234C *)pkt)->unk10;
+                                    else if (((Unkstruct_8018234C *)pkt)->unk10 < mn) mn = ((Unkstruct_8018234C *)pkt)->unk10;
                                     if (mx >= -0xA0 && mn < 0xA1) {
-                                        if (((PolyF3 *)pkt)->y0 > ((PolyF3 *)pkt)->y1) {
-                                            my = ((PolyF3 *)pkt)->y0;
-                                            mny = ((PolyF3 *)pkt)->y1;
+                                        if (((Unkstruct_8018234C *)pkt)->unkA > ((Unkstruct_8018234C *)pkt)->unkE) {
+                                            my = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkE;
                                         } else {
-                                            mny = ((PolyF3 *)pkt)->y0;
-                                            my = ((PolyF3 *)pkt)->y1;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            my = ((Unkstruct_8018234C *)pkt)->unkE;
                                         }
-                                        if (((PolyF3 *)pkt)->y2 > my) my = ((PolyF3 *)pkt)->y2;
-                                        else if (((PolyF3 *)pkt)->y2 < mny) mny = ((PolyF3 *)pkt)->y2;
+                                        if (((Unkstruct_8018234C *)pkt)->unk12 > my) my = ((Unkstruct_8018234C *)pkt)->unk12;
+                                        else if (((Unkstruct_8018234C *)pkt)->unk12 < mny) mny = ((Unkstruct_8018234C *)pkt)->unk12;
                                         if (my >= -0x78 && mny < 0x79) {
                                             s32 za, zb;
                                             u32 *otp;
@@ -2885,7 +2885,7 @@ void func_8017DB5C(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->a;
+                                            ((Unkstruct_8018234C *)pkt)->unk4.v1.unk0 = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -5126,13 +5126,13 @@ void func_80181DC8(void *arg0) {
     if (func_801789AC((s32)arg0) != 0) {
         ((void (*)(void *))func_80178D18)(arg0);
 
-        if ((u8)guess_TestGameFlag(D_801BF8CC[((Unkstruct_8017E0C4_2 *)ptr)->unkA]) != 0) {
-            if (D_801BF8CC[((Unkstruct_8017E0C4_2 *)ptr)->unkA] == 0x54) {
+        if ((u8)guess_TestGameFlag(D_801BF8CC[((Unkstruct_8017DF78 *)ptr)->unkA]) != 0) {
+            if (D_801BF8CC[((Unkstruct_8017DF78 *)ptr)->unkA] == 0x54) {
                 func_80029514(0x5A);
                 guess_SetGameFlag(0xEA, 1);
             }
 
-            if ((((Unkstruct_8017E0C4_2 *)ptr)->unk8 & 0x4000) != 0) {
+            if ((((Unkstruct_8017DF78 *)ptr)->unk8 & 0x4000) != 0) {
                 if ((u8)guess_TestGameFlag(0x1D) != 0) {
                     func_80145EE8(0);
                 }
@@ -5175,7 +5175,7 @@ extern void guess_SetGameFlag(s32, s32);
 void func_80181F34(void *a0) {
 
     extern s32 D_801BF8CC[];
-    u16 idx = ((Unkstruct_8017E230 *)*(s32 *)(a0 + 0xDC))->unkA;
+    u16 idx = ((Unkstruct_8017DF78 *)*(s32 *)(a0 + 0xDC))->unkA;
     guess_SetGameFlag(D_801BF8CC[idx], 1);
 }
 
@@ -5188,7 +5188,7 @@ void func_80181F74(void * arg0) {
     s32 temp_v0;
 
     temp_v0 = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
-    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017E270_2 *)temp_v0)->unkC);
+    ((void (*)(s32 *, s32))func_8014ADA8)((s32 *)&guess_g_PlayerActor, ((Unkstruct_8017DF78 *)temp_v0)->unkC);
 }
 
 

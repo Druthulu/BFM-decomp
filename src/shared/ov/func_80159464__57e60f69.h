@@ -1,12 +1,12 @@
 /* func_80159464 — shared body (overlay slot 0x80128158, h_exact 57e60f69). ONE source: instantiated by #include at each
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 s32 func_80159464(void) {
-    Pair_8013AD38 *e;
+    DVECTOR *e;
 
     e = D_80180E9C;
-    while (e->x != 0) {
-        if (currentLocationId == e->x) {
-            return e->y;
+    while (e->vx != 0) {
+        if (currentLocationId == e->vx) {
+            return e->vy;
         }
         e++;
     }

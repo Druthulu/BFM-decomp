@@ -1000,7 +1000,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
     s32 v10;
     void *obj;
 
-    ((Unkstruct_8012C890_3 *)dst)->unk0  = ((Unkstruct_8012C890_4 *)src)->unk6;
+    ((Unkstruct_8012C890_3 *)dst)->unk0  = ((Unkstruct_8012C890_4 *)src)->unk6.u;
     v2 = ((Unkstruct_8012C890_4 *)src)->unk0;
     ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u  = v2;
     ((Unkstruct_8012C890_3 *)dst)->unk88.u = v2;
@@ -1013,9 +1013,9 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
     ((Unkstruct_8012C890_3 *)dst)->unk4.i.lo  = 0;
     ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u  = v4;
     ((Unkstruct_8012C890_3 *)dst)->unk8C.u = v4;
-    ((Unkstruct_8012C890_3 *)dst)->unk70.u = ((Unkstruct_8012C890_4 *)src)->unk8;
-    ((Unkstruct_8012C890_3 *)dst)->unk72 = ((Unkstruct_8012C890_4 *)src)->unkA & 0xF7FF;
-    ((Unkstruct_8012C890_3 *)dst)->unkFC.u = ((Unkstruct_8012C890_4 *)src)->unkE;
+    ((Unkstruct_8012C890_3 *)dst)->unk70.u = ((Unkstruct_8012C890_4 *)src)->unk8.u;
+    ((Unkstruct_8012C890_3 *)dst)->unk72 = ((Unkstruct_8012C890_4 *)src)->unkA.u & 0xF7FF;
+    ((Unkstruct_8012C890_3 *)dst)->unkFC.u = ((Unkstruct_8012C890_4 *)src)->unkE.u;
     v10 = ((Unkstruct_8012C890_4 *)src)->unk10;
     ((Unkstruct_8012C890_3 *)dst)->unk78 = (s32)&D_80185CB8;
     ((Unkstruct_8012C890_3 *)dst)->blkDC.f.unkDC.val = v10;
@@ -1039,7 +1039,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         ((Unkstruct_8012C890_3 *)dst)->unk68 = (s32)src;
     }
 
-    ((Unkstruct_8012C890_4 *)src)->unkA |= 0x8000;
+    ((Unkstruct_8012C890_4 *)src)->unkA.u |= 0x8000;
     ((Unkstruct_8012C890_3 *)dst)->unk2.u = 0;
     d = D_801274E4;
     *d &= 0xFFFE;
@@ -1062,7 +1062,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         done:;
         }
         guess_ZeroMemory(dst, 0x10C);
-        ((Unkstruct_8012C890_4 *)src)->unkA &= 0x7FFF;
+        ((Unkstruct_8012C890_4 *)src)->unkA.u &= 0x7FFF;
         return 0;
     }
 

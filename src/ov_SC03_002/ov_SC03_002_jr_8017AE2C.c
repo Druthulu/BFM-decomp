@@ -3489,9 +3489,9 @@ void func_8017C234(s32 a0)
 
                 v3 = ((s32 (*)(s32))func_8012913C)(0x11);
                 if (v3 == 0) break;
-                ((Unkstruct_8017BF50 *)s2)->unk14 = *s0++;
-                ((Unkstruct_8017BF50 *)s2)->unk18 = *s0++;
-                ((Unkstruct_8017BF50 *)s2)->unk1C = *s0++;
+                ((MATRIX *)s2)->t[0] = *s0++;
+                ((MATRIX *)s2)->t[1] = *s0++;
+                ((MATRIX *)s2)->t[2] = *s0++;
                 *(u8 **)(v3 + 0x30) = s2;
                 s2 += 0x20;
             }

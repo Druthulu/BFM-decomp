@@ -3007,25 +3007,25 @@ void func_8017C954(s32 arg0)
                                 case 5:
                                     gte_stsxy3_f3(pkt);
                                     gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
-                                    if (((PolyF3 *)pkt)->x0 > ((PolyF3 *)pkt)->x1) {
-                                        mx = ((PolyF3 *)pkt)->x0;
-                                        mn = ((PolyF3 *)pkt)->x1;
+                                    if (((Unkstruct_8018234C *)pkt)->unk8 > ((Unkstruct_8018234C *)pkt)->unkC) {
+                                        mx = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unkC;
                                     } else {
-                                        mn = ((PolyF3 *)pkt)->x0;
-                                        mx = ((PolyF3 *)pkt)->x1;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mx = ((Unkstruct_8018234C *)pkt)->unkC;
                                     }
-                                    if (((PolyF3 *)pkt)->x2 > mx) mx = ((PolyF3 *)pkt)->x2;
-                                    else if (((PolyF3 *)pkt)->x2 < mn) mn = ((PolyF3 *)pkt)->x2;
+                                    if (((Unkstruct_8018234C *)pkt)->unk10 > mx) mx = ((Unkstruct_8018234C *)pkt)->unk10;
+                                    else if (((Unkstruct_8018234C *)pkt)->unk10 < mn) mn = ((Unkstruct_8018234C *)pkt)->unk10;
                                     if (mx >= -0xA0 && mn < 0xA1) {
-                                        if (((PolyF3 *)pkt)->y0 > ((PolyF3 *)pkt)->y1) {
-                                            my = ((PolyF3 *)pkt)->y0;
-                                            mny = ((PolyF3 *)pkt)->y1;
+                                        if (((Unkstruct_8018234C *)pkt)->unkA > ((Unkstruct_8018234C *)pkt)->unkE) {
+                                            my = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkE;
                                         } else {
-                                            mny = ((PolyF3 *)pkt)->y0;
-                                            my = ((PolyF3 *)pkt)->y1;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            my = ((Unkstruct_8018234C *)pkt)->unkE;
                                         }
-                                        if (((PolyF3 *)pkt)->y2 > my) my = ((PolyF3 *)pkt)->y2;
-                                        else if (((PolyF3 *)pkt)->y2 < mny) mny = ((PolyF3 *)pkt)->y2;
+                                        if (((Unkstruct_8018234C *)pkt)->unk12 > my) my = ((Unkstruct_8018234C *)pkt)->unk12;
+                                        else if (((Unkstruct_8018234C *)pkt)->unk12 < mny) mny = ((Unkstruct_8018234C *)pkt)->unk12;
                                         if (my >= -0x78 && mny < 0x79) {
                                             s32 za, zb;
                                             u32 *otp;
@@ -3038,7 +3038,7 @@ void func_8017C954(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->a;
+                                            ((Unkstruct_8018234C *)pkt)->unk4.v1.unk0 = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3323,9 +3323,9 @@ void func_8017DC38(s32 param_1)
 
     for (i = 0; i < 8; i++) {
         grp = &D_801DCCA8[i];
-        grp->g0 = 0;
-        grp->g2 = i << 9;
-        grp->gC = (rand() & 0xF) << 16;
+        grp->g0.u = 0;
+        grp->g2.u = i << 9;
+        grp->unkC.v0.gC = (rand() & 0xF) << 16;
         grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
         grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
 
@@ -3333,14 +3333,14 @@ void func_8017DC38(s32 param_1)
             sub = &grp->subs[j];
             sub->f0 = 0;
             sub->f2 = (rand() & 3) + 4;
-            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->f8.u = (j << 8) + (rand() & 0xF) * 56;
             sub->fA = (rand() & 0xF) << 8;
-            sub->f14 = (rand() & 0xF) << 13;
+            sub->unk14.v0.f14 = (rand() & 0xF) << 13;
             sub->fC = ((rand() & 0xF) << 14) + 0x10000;
             sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
             sub->f4 = 0x200;
             sub->f6 = (rand() & 0xF) << 4;
-            sub->f18 = ((rand() & 3) << 5) + 0x40;
+            sub->f18.s = ((rand() & 3) << 5) + 0x40;
         }
     }
 
@@ -3390,18 +3390,18 @@ void func_8017DDE0(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         base = (s32)&D_801DCCA8[i];
-        if (((Unkstruct_8017DDE0_2 *)base)->unk0 == 0) {
-            ((Unkstruct_8017DDE0_2 *)base)->unkC = ((Unkstruct_8017DDE0_2 *)base)->unkC + 0x10000;
+        if (((GroupRec_801EB5C8 *)base)->g0.s == 0) {
+            ((GroupRec_801EB5C8 *)base)->unkC.v0.gC = ((GroupRec_801EB5C8 *)base)->unkC.v0.gC + 0x10000;
         }
         for (j = 0; j < 16; j++) {
             p = base + 0x10 + j * 0x1C;
             switch (*(s16 *)(p)) {
             case 0:
                 vel = ((SubRec_801EB5C8_8017D7EC *)p)->fC + ((SubRec_801EB5C8_8017D7EC *)p)->f10;
-                pos = ((SubRec_801EB5C8_8017D7EC *)p)->f14;
+                pos = ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14;
                 life = ((SubRec_801EB5C8_8017D7EC *)p)->f2 - 1;
                 pos = pos + vel;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f14 = pos;
+                ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14 = pos;
                 ((SubRec_801EB5C8_8017D7EC *)p)->fC = vel;
                 ((SubRec_801EB5C8_8017D7EC *)p)->f2 = life;
                 if ((s16)life == -1) {
@@ -3412,10 +3412,10 @@ void func_8017DDE0(void *arg0) {
                 break;
             case 1:
                 ((SubRec_801EB5C8_8017D7EC *)p)->f4 = ((SubRec_801EB5C8_8017D7EC *)p)->f4 + 0x80;
-                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18 - 8;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f18 = f18;
+                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18.s - 8;
+                ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = f18;
                 if (f18 < 0) {
-                    ((SubRec_801EB5C8_8017D7EC *)p)->f18 = 0;
+                    ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = 0;
                     ((SubRec_801EB5C8_8017D7EC *)p)->f0 = ((SubRec_801EB5C8_8017D7EC *)p)->f0 + 1;
                 }
                 break;
@@ -3491,14 +3491,14 @@ void func_8017DF74(s32 a0, s32 a1) {
         do {
             rowPtr = a1 + off;
             {
-                u32 c = ((Unkstruct_8017DB28_2 *)rowPtr)->unk18;
+                u32 c = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f18.u;
                 pp->bcast = c | ((c << 0x10) | (c << 8));
             }
-            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk4;
+            angBuf.vx = angBuf.vy = angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f4;
             func_80017DC4(ap, mp);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unkA;
+            angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->fA;
             func_80017E30(ap, mp);
             ApplyMatrixSV(mp, &dv[0], &sv1);
             ApplyMatrixSV(mp, &dv[1], &sv2);
@@ -3506,8 +3506,8 @@ void func_8017DF74(s32 a0, s32 a1) {
             ApplyMatrixSV(mp, &dv[3], &sv4);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk16;
-            func_800139C8((s32) ((Unkstruct_8017DB28_2 *)rowPtr)->unk8, ap, &sinOut);
+            angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->unk14.v1.unk2;
+            func_800139C8((s32) ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f8.s, ap, &sinOut);
             sinOut.vx = sinOut.vx + vecB.vx;
             sinOut.vz = sinOut.vz + vecB.vy;
             pp->v[0].vx = sinOut.vx + sv1.vx;
@@ -6084,15 +6084,15 @@ void func_801825D8(s32 arg0, s32 arg1)
         rec.unk0 = buf[0];
         rec.unk2 = buf[1];
         rec.unk4 = buf[2];
-        rec.unk6 = 0x31C;
+        rec.unk6.s = 0x31C;
         t = *(u8 *)(arg1 + 6) & 0xF;
-        rec.unk8 = t;
-        rec.unkA = 0;
+        rec.unk8.s = t;
+        rec.unkA.s = 0;
         rec.unk10 = 0;
-        rec.unkE = 0;
+        rec.unkE.s = 0;
         rec.unkC = 0x7FFF;
         if (*(u8 *)(arg1 + 6) & 0x20) {
-            rec.unk8 = t | 0x4000;
+            rec.unk8.s = t | 0x4000;
             *(u8 *)(arg1 + 6) &= ~0x20;
         }
         func_8012C51C(&rec, arg0);
@@ -6805,9 +6805,9 @@ void func_80183534(s32 arg0, SVEC_80183534 *arg1, SVEC_80183534 *arg2, s32 *arg3
 
     oidx = g.otz << 2;                                          /* L2 */
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000)
-                | (*(u32 *)&D_800A6614[oidx + (((Unkstruct_80010178 *)base)->unkA3D2 << 14)] & 0xFFFFFF);
+                | (*(u32 *)&D_800A6614[oidx + (((Unkstruct_8012956C *)base)->unkA3D2 << 14)] & 0xFFFFFF);
     do {
-    otp = (u32 *)&D_800A6614[oidx + (((Unkstruct_80010178 *)base)->unkA3D2 << 14)];
+    otp = (u32 *)&D_800A6614[oidx + (((Unkstruct_8012956C *)base)->unkA3D2 << 14)];
     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
     } while (0);  // !FAKE: do-while
 }
@@ -7738,11 +7738,11 @@ join:
         rec.unk0 = ((Unkstruct_801202A0 *)param_1)->unk88.u;
         rec.unk2 = ((Unkstruct_801202A0 *)param_1)->unk8A.u;
         rec.unk4 = ((Unkstruct_801202A0 *)param_1)->unk8C.u;
-        rec.unk6 = 0x31C;
-        rec.unk8 = CAST_SIGN(u16, param_1, 0x70) | 0x8000;
-        rec.unkA = 0;
+        rec.unk6.s = 0x31C;
+        rec.unk8.s = CAST_SIGN(u16, param_1, 0x70) | 0x8000;
+        rec.unkA.s = 0;
         rec.unk10 = 0;
-        rec.unkE = 0;
+        rec.unkE.s = 0;
         rec.unkC = 0x7FFF;
         func_8012C51C(&rec, ((Unkstruct_801202A0 *)param_1)->unk64);
         ((Unkstruct_801202A0 *)param_1)->unkFE.s = CAST_SIGN(u16, param_1, 0xFE) + 1;
@@ -7809,14 +7809,14 @@ void func_80185214(s32 a0)
 
     prim.clut = 0x79;
 
-    prim.uv[0].x = 0xC00;
-    prim.uv[0].y = 0x180;
-    prim.uv[1].x = 0xC7F;
-    prim.uv[1].y = 0x180;
-    prim.uv[2].x = 0xC00;
-    prim.uv[2].y = 0x1FF;
-    prim.uv[3].x = 0xC7F;
-    prim.uv[3].y = 0x1FF;
+    prim.uv[0].vx = 0xC00;
+    prim.uv[0].vy = 0x180;
+    prim.uv[1].vx = 0xC7F;
+    prim.uv[1].vy = 0x180;
+    prim.uv[2].vx = 0xC00;
+    prim.uv[2].vy = 0x1FF;
+    prim.uv[3].vx = 0xC7F;
+    prim.uv[3].vy = 0x1FF;
 
     t = t | (t << 8) | (t << 16);
     col = 0x808080 - t;

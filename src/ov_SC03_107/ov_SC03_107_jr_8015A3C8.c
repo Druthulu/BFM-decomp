@@ -6823,14 +6823,14 @@ void func_80165240(void *param_1, void *param_2, void *param_3)
     ((void (*)(void *, void *, void *))ApplyMatrixSV)(mat, &D_801850DC[0x10], prim + 0x10);
     ((void (*)(void *, void *, void *))ApplyMatrixSV)(mat, &D_801850DC[0x18], prim + 0x18);
 
-    ((Unkstruct_80165240_2 *)prim)->unk4 = 3;
+    ((Unkstruct_80165240_2 *)prim)->v[0].z = 3;
     prim[0x38] = 0x2c;
-    ((Unkstruct_80165240_2 *)prim)->unk20 = D_80185104;
-    ((Unkstruct_80165240_2 *)prim)->unk24 = D_801850FC;
-    ((Unkstruct_80165240_2 *)prim)->unk28 = D_80185108;
-    ((Unkstruct_80165240_2 *)prim)->unk2C = D_80185100;
-    *(struct W4 *)(prim + 0x30) = *(struct W4 *)param_3;
-    ((Unkstruct_80165240_2 *)prim)->unk34 = 0x50000000;
+    ((Unkstruct_80165240_2 *)prim)->unk20.v1.unk0 = D_80185104;
+    ((Unkstruct_80165240_2 *)prim)->unk20.v1.unk4 = D_801850FC;
+    ((Unkstruct_80165240_2 *)prim)->unk20.v1.unk8 = D_80185108;
+    ((Unkstruct_80165240_2 *)prim)->unk20.v1.unkC = D_80185100;
+    *(CVECTOR *)(prim + 0x30) = *(CVECTOR *)param_3;
+    ((Unkstruct_80165240_2 *)prim)->attr = 0x50000000;
 
     func_80016ED4(p);
 }

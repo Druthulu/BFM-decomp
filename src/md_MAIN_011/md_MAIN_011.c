@@ -8,8 +8,8 @@ extern FnEntry D_800D4C54[];
 
 void func_800CEE74(void) {
     register u8 *base = (u8 *)guess_g_RenderWork;
-    if (((Unkstruct_80010178 *)base)->unkA3B4 < 5u) {
-        D_800D4C54[((Unkstruct_80010178 *)base)->unkA3B4].fn();
+    if (((Unkstruct_8012956C *)base)->unkA3B4 < 5u) {
+        D_800D4C54[((Unkstruct_8012956C *)base)->unkA3B4].fn();
     }
 }
 
@@ -430,7 +430,7 @@ extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_Render
 void func_800D03F8(void) {
     register u8 *v0 = guess_g_RenderWork;
 
-    ((Unkstruct_80010178 *)v0)->unkA3B6 = 1;
+    ((Unkstruct_8012956C *)v0)->unkA3B6 = 1;
 }
 
 

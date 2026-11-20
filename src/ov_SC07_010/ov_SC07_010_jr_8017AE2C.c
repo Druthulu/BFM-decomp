@@ -3653,7 +3653,7 @@ void func_8017C59C(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C59C *)pkt)->rgbc = prim->a;
+                                    ((PF3_C59C *)pkt)->unk4.v1.unk0 = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -4020,8 +4020,8 @@ void func_8017D898(s32 param_1) {
 
     if (func_80171A88(param_1) != 0) {
         guess_CopyVec3HighHalves(param_1 + 4, sp10);
-        ((Pair_8013AD38 *)sp10)->x -= 0x20;
-        ((Pair_8013AD38 *)sp10)->y -= 0x20;
+        ((DVECTOR *)sp10)->vx -= 0x20;
+        ((DVECTOR *)sp10)->vy -= 0x20;
         func_8017EBB8((void *)0, sp10);
         guess_PlaySoundUnlessSkipped(0xC13);
         func_8014706C((void *)param_1);
@@ -5753,7 +5753,7 @@ void func_8018042C(s32 a0) {
     v0 = ((Unkstruct_80126948 *)p)->unk10;
     v0 -= 3;
     ((Unkstruct_80126948 *)p)->unk10 = v0;
-    ((Unkstruct_80126948 *)p)->unk14 = v0;
+    ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = v0;
     if (guess_TickWaitTimer(a0) != 0) {
         func_8012AD50((void *)a0);
     }
@@ -5776,7 +5776,7 @@ void func_80180480(s32 a0) {
     v0 = ((Unkstruct_80126948 *)p)->unk10;
     v0 = v0 - 3;
     ((Unkstruct_80126948 *)p)->unk10 = v0;
-    ((Unkstruct_80126948 *)p)->unk14 = v0;
+    ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = v0;
     if (((s32 (*)(s32))func_8013D13C)(10) == 0) {
         (*(s16 *)&guess_g_BackgroundLayerPriority) = 0x7FFF;
         D_800B9B00 = 0x7FFF;

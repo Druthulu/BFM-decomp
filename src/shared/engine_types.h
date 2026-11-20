@@ -382,22 +382,10 @@ typedef struct packed_word PW8017E6D8;
 typedef Unkstruct_80126B58 S126B58;
 struct S734 { s32 unk0; s32 unk4; s32 unk8; s32 unkC; u8 unk10[8]; s32 unk18;
               void (*unk1C)(s32, void *, s32); };
-struct S8012C658 {
-    u16 unk0;
-    u16 unk2;
-    u16 unk4;
-    s16 unk6;
-    s16 unk8;
-    s16 unkA;
-    s16 unkC;
-    s16 unkE;
-    s32 unk10;
-};
 struct Sub2_80167540 {
     u8 pad0[0x44];
     s32 unk44;        /* 0x44 */
 };
-struct W4 { u32 w; } __attribute__((packed, aligned(1)));
 typedef struct {
     u8 r, g, b, pad_3;
     u8 dr, dg, db, pad_7;
@@ -439,7 +427,6 @@ typedef struct {
     } a;
 } Cmd_80178D40;
 typedef DVECTOR DVECTOR2;
-typedef struct { u32 w[23]; } DrawEnv_8013DD68;
 typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;
 typedef SVECTOR Elem;
 typedef struct { u8 _pad[0x34]; } Elem52_801B5094;
@@ -448,7 +435,7 @@ typedef Unkstruct_800B5CB8 Entry_8012DDA4;
 typedef Box_80133784 Foo_80134510;
 typedef Box_80133784 Foo_80134510_80134510;
 typedef Prim_md_MAIN_047_800CCBC0 Frame_80166690;
-typedef Pair_8013AD38 Hw4;
+typedef DVECTOR Hw4;
 typedef M8_801312D0 M8;
 typedef MATRIX MATRIX2;
 typedef MATRIX MATRIX_8016E7C8;
@@ -499,9 +486,8 @@ struct Entity_80167540 {
 };
 typedef MATRIX Mat_8016A73C;
 typedef struct { u32 addr : 24; u8 len; } PTag_8018F694;
-typedef Pair_8013AD38 Pair;
+typedef DVECTOR Pair;
 typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part;
-typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2; } PolyF3;
 typedef struct { u32 tag, rgbc; s16 x0, y0, x1, y1, x2, y2, x3, y3; } PolyF4;
 typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PolyFT3;
 typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; s16 x3, y3; u16 uv3, p3; } PolyFT4;
@@ -513,19 +499,6 @@ typedef SpotDef_8018A278 Prim4;
 typedef struct { s32 a, b, c; } Rec12;
 typedef struct { s32 f0; u32 *f4; s32 f8; s32 fC; s32 f10; } Rec20;
 typedef struct { s32 a, b; s8 c; } __attribute__((packed, aligned(1))) Rec9;
-typedef struct {
-    /* 0x00 */ u16 f0;
-    /* 0x02 */ s16 f2;
-    /* 0x04 */ s16 f4;
-    /* 0x06 */ s16 f6;
-    /* 0x08 */ s16 f8;
-    /* 0x0A */ s16 fa;
-    /* 0x0C */ s16 fc;
-    /* 0x0E */ s16 fe;
-    /* 0x10 */ s16 f10;
-    /* 0x12 */ s16 f12;
-    /* 0x14 */ s16 f14;
-} S0_801347A0;
 typedef S0_801347A0 S0;
 typedef S10_80136C90 S10;
 typedef struct {
@@ -716,7 +689,7 @@ typedef struct {
 } M8_8016B6BC;
 
 /* --- lift_types.py fleet lift --- */
-typedef Pair_8013AD38 DVec_8016B6BC;
+typedef DVECTOR DVec_8016B6BC;
 /* S33: lifted from ov_SC01_077_after.c so guess_SpawnObject can propagate (the §100 draft-local-type
  * blocker). Layout read off the already-matched callee DEFINE_func_8014680C (§71 sibling-first):
  * it takes `short *` and touches +0x00/02/04/06 as halfwords and +0x08/0C/10 as words. */
@@ -1181,14 +1154,6 @@ typedef OtBlk_80180894 Ot_8018B23C_801865DC;
 typedef OtBlk_80180894 Ot_8018B23C_80187314;
 typedef OtBlk_80180894 Ot_8018B23C_8018B2C4;
 typedef OtBlk_80180894 Ot_8018B23C_8018EBCC;
-typedef struct {
-        s16 f0;     /* 0x00 */
-        s16 f2;     /* 0x02 */
-        s16 f4;     /* 0x04 */
-        s16 f6;     /* 0x06 */
-        s32 f8;     /* 0x08 */
-        s32 fC;     /* 0x0C */
-    } P;
 typedef PrimTag PTag_80140D68;
 typedef PrimTag PTag_8018478C;
 typedef DrTpage Drm_8018478C;
@@ -1256,20 +1221,20 @@ typedef struct Panel_8017E978_8017E1AC {
     s16 f10;                 /* 0x10 */
     s16 f12;                 /* 0x12 */
     void *f14;               /* 0x14 */
-    Pair_8013AD38 *f18;     /* 0x18 */
+    DVECTOR *f18;     /* 0x18 */
     void *f1C;               /* 0x1C */
 } Panel_8017E978_8017E1AC;
 typedef Panel_8017E978_8017E1AC Panel_8017E978;
-typedef Pair_8013AD38 Prim4_8017E978_8017E1AC;
-typedef Pair_8013AD38 Prim4_8017E978_8017E1D4;
+typedef DVECTOR Prim4_8017E978_8017E1AC;
+typedef DVECTOR Prim4_8017E978_8017E1D4;
 typedef Panel_8017E978_8017E1AC Panel_8017E978_8017E1D4;
-typedef Pair_8013AD38 Prim4_8017E978_8017E30C;
+typedef DVECTOR Prim4_8017E978_8017E30C;
 typedef Panel_8017E978_8017E1AC Panel_8017E978_8017E30C;
-typedef Pair_8013AD38 Prim4_8017E978_801880E0;
+typedef DVECTOR Prim4_8017E978_801880E0;
 typedef Panel_8017E978_8017E1AC Panel_8017E978_801880E0;
-typedef Pair_8013AD38 Prim4_8017E978_801886B8;
+typedef DVECTOR Prim4_8017E978_801886B8;
 typedef Panel_8017E978_8017E1AC Panel_8017E978_801886B8;
-typedef Pair_8013AD38 Prim4_8017E978_801889B8;
+typedef DVECTOR Prim4_8017E978_801889B8;
 typedef Panel_8017E978_8017E1AC Panel_8017E978_801889B8;
 typedef Unkstruct_8017C120 Panel_8017E978_8018B478;
 typedef struct {
@@ -1352,16 +1317,6 @@ typedef SVECTOR Rec_8018A6A4_80185A44;
 typedef SVECTOR Rec_8018A6A4_8018677C;
 typedef SVECTOR Rec_8018A6A4_8018A72C;
 typedef SVECTOR Rec_8018A6A4_8018E034;
-typedef struct {
-    u16 f0;  /* 0x00 */
-    s16 f2;  /* 0x02 */
-    s16 f4;  /* 0x04 */
-    s16 f6;  /* 0x06 */
-    s16 f8;  /* 0x08 */
-    u16 fA;  /* 0x0A */
-    s16 fC;  /* 0x0C */
-    u16 fE;  /* 0x0E */
-} Rec_8018B23C;
 typedef Rec_8018B23C Rec_8018B23C_8018234C;
 typedef Rec_8018B23C Rec_8018B23C_80182498;
 typedef Rec_8018B23C Rec_8018B23C_801829F8;
@@ -1822,11 +1777,8 @@ typedef MATRIX Blk32_8017F76C_80187780;
 typedef MATRIX Blk32_80180770;
 typedef MATRIX Blk32_80180908;
 typedef struct { s32 a[14]; } Blk38;
-typedef struct {
-    /* 0x0000 */ u8 d[4];
-} Blk4_8017CE90_8017CE90; /* size = 0x4 */
-typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90;
-typedef Blk4_8017CE90_8017CE90 Blk4_8017CE90_8017F32C;
+typedef CVECTOR Blk4_8017CE90;
+typedef CVECTOR Blk4_8017CE90_8017F32C;
 typedef CVECTOR Blk4_8017DF40;
 typedef CVECTOR Blk4_8017EBCC;
 typedef CVECTOR Blk4_8017FE90;
@@ -1840,7 +1792,6 @@ typedef CVECTOR Blk4_8018FF98_8018FCE8;
 typedef CVECTOR Blk4_80191320;
 typedef CVECTOR Blk4_80191320_8018D05C;
 typedef W_8016BFD0 Blk4_fc;
-typedef struct { u8 b[0x6C]; } Blk6C_80184CB0;
 typedef struct S80190C84 Blk8018057C;
 typedef SVECTOR Blk8U;
 typedef SVECTOR Blk8_80126940_8017D168;
@@ -2257,12 +2208,12 @@ typedef OtBlk_80180894 OtBlk_8018A974;
 typedef OtBlk_80180894 OtBlk_8018A974_8018BB48;
 typedef struct { s32 flag; u16 xy[2]; s32 sp1c; } Out_8017E910;
 typedef struct { u16 xy[2]; s32 sp1c; s32 flag; } Out_8017EC34;
-typedef PolyF3 PF3_C59C;
-typedef PolyF3 PF3_C6F4;
-typedef PolyF3 PF3_C974;
-typedef PolyF3 PF3_CF90;
-typedef PolyF3 PF3_D538;
-typedef PolyF3 PF3_DF98;
+typedef Unkstruct_8018234C PF3_C59C;
+typedef Unkstruct_8018234C PF3_C6F4;
+typedef Unkstruct_8018234C PF3_C974;
+typedef Unkstruct_8018234C PF3_CF90;
+typedef Unkstruct_8018234C PF3_D538;
+typedef Unkstruct_8018234C PF3_DF98;
 typedef PolyF4 PF4_C59C;
 typedef PolyF4 PF4_C6F4;
 typedef PolyF4 PF4_C974;
@@ -2388,7 +2339,7 @@ typedef struct {
     Q_8018562C tail;
     ROW_8018562C row;
 } BIG_8018562C;
-typedef Pair_8013AD38 Range_80189B1C;
+typedef DVECTOR Range_80189B1C;
 typedef struct {
     u16 tag;      /* 0x00 */
     u16 unk02;    /* 0x02 */
@@ -2845,14 +2796,6 @@ typedef struct EntFAAC {
     u16 fFC;        /* 0xFC */
     u16 fFE;        /* 0xFE */
 } EntFAAC;
-typedef struct {
-    u16 g0;
-    u16 g2;
-    s32 g4;
-    s32 g8;
-    s32 gC;
-    SubRec_801EB5C8 subs[16];
-} GroupRec_801EB5C8;
 typedef GroupRec_801EB5C8 GroupRec_801EB5C8_8017D7EC;
 typedef SubRec_801EB5C8_8017D7EC SubRec_801EB5C8_8017DC38;
 typedef GroupRec_801EB5C8 GroupRec_801EB5C8_8017DC38;
@@ -2928,7 +2871,7 @@ typedef struct {
 typedef Desc_80181574 Desc_80184F18;
 typedef struct {
     SVec_80185214 v[4];  /* 0x00-0x1F */
-    Pair_8013AD38 uv[4];   /* 0x20-0x2F */
+    DVECTOR uv[4];   /* 0x20-0x2F */
     u32 rgb[4];          /* 0x30-0x3F */
     u32 flags;           /* 0x40 */
     u8 clut;             /* 0x44 */

@@ -3554,7 +3554,7 @@ void func_8017C59C(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_C59C *)pkt)->rgbc = prim->a;
+                                    ((PF3_C59C *)pkt)->unk4.v1.unk0 = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);

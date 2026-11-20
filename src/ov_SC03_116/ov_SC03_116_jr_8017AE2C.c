@@ -3711,7 +3711,7 @@ void func_8017BF14(s32 arg0, s32 lim)
     part = *(Part **)(arg0 + 0xC);
     nparts = *(s32 *)(((Unkstruct_8017BEBC_7 *)arg0)->unk8 + 8);
     vtx = *(u8 **)(((Unkstruct_8017BEBC_7 *)arg0)->unk8 + 0x10);
-    ot = (u32)&D_800A6610[(((Unkstruct_80010178 *)base)->unkA3D2) << 14];
+    ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
     for (j = 0; j < nparts; j++, part++) {
         wx = part->xx;
@@ -4235,7 +4235,7 @@ void func_80180D40(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_80186318[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_80186318[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_80180DE0(a0, &sp10.vx);
@@ -4430,8 +4430,8 @@ void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4)
     s32            i;
 
     pr = &prim;
-    p = &D_80194EEC[((Pair_8013AD38 *)a1)->x];
-    q = &D_80194FC0[((Pair_8013AD38 *)a1)->x];
+    p = &D_80194EEC[((DVECTOR *)a1)->vx];
+    q = &D_80194FC0[((DVECTOR *)a1)->vx];
     if (a3 != 0) {
         func_80017DC4((void *)D_8018633C, &mtx);
     } else {
@@ -4443,7 +4443,7 @@ void func_801812AC(s32 a0, void *a1, void *a2, s32 a3, s32 a4)
     pr->f4 = 0x50000000;
     pr->f0 = pr->f1 = a4;
     pr->f2 = pr->f3 = 0;
-    for (i = ((Pair_8013AD38 *)a1)->x; i < ((Pair_8013AD38 *)a1)->y; i++) {
+    for (i = ((DVECTOR *)a1)->vx; i < ((DVECTOR *)a1)->vy; i++) {
         pr->v[0].vx = p[0].x;
         pr->v[0].vy = p[0].y;
         pr->v[0].vz = p[0].z;

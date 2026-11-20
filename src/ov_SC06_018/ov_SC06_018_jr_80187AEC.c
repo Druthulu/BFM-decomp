@@ -5050,10 +5050,10 @@ void func_8018A974(s32 arg0, s32 arg1, s32 arg2)
 void func_8018AB00(void)
 {
     extern void guess_BuildCircle12Points(void *, unsigned short);
-    extern Blk4_8017CE90_8017CE90 D_801D57B0;
-    extern Blk4_8017CE90_8017CE90 D_801D57B4;
-    extern Blk4_8017CE90_8017CE90 D_801D3B08;
-    extern Blk4_8017CE90_8017CE90 D_801D3B0C;
+    extern CVECTOR D_801D57B0;
+    extern CVECTOR D_801D57B4;
+    extern CVECTOR D_801D3B08;
+    extern CVECTOR D_801D3B0C;
 
     guess_BuildCircle12Points(&D_801D57B0, 0x80);
 
@@ -5062,12 +5062,12 @@ void func_8018AB00(void)
 }
 
 
-extern Blk4_8017CE90_8017CE90 D_801D57B0;
-extern Blk4_8017CE90_8017CE90 D_801D3B10;
-extern Blk4_8017CE90_8017CE90 D_801D3B08;
+extern CVECTOR D_801D57B0;
+extern CVECTOR D_801D3B10;
+extern CVECTOR D_801D3B08;
 
 void func_8018AB74(void) {
-    if (D_801D57B0.d[0] == 0xFF) {
+    if (D_801D57B0.r == 0xFF) {
         D_801D57B0 = D_801D3B10;
     } else {
         D_801D57B0 = D_801D3B08;
@@ -5607,7 +5607,7 @@ void func_8018B8B0(s32 param_1)
 
 
 
-extern Blk4_8017CE90_8017CE90 D_801D57B0;
+extern CVECTOR D_801D57B0;
 
 void func_8018B8F8(s32 param_1)
 {

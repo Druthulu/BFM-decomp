@@ -4513,14 +4513,14 @@ void func_80165240(void *param_1, void *param_2, void *param_3)
     ApplyMatrixSV(mat, &D_80180E78[0x10], prim + 0x10);
     ApplyMatrixSV(mat, &D_80180E78[0x18], prim + 0x18);
 
-    ((Unkstruct_80165240 *)prim)->unk4 = 3;
+    ((S16F18 *)prim)->v[0].z = 3;
     prim[0x38] = 0x2c;
-    ((Unkstruct_80165240 *)prim)->unk20 = D_80180EA0;
-    ((Unkstruct_80165240 *)prim)->unk24 = D_80180E98;
-    ((Unkstruct_80165240 *)prim)->unk28 = D_80180EA4;
-    ((Unkstruct_80165240 *)prim)->unk2C = D_80180E9C;
-    *(struct W4 *)(prim + 0x30) = *(struct W4 *)param_3;
-    ((Unkstruct_80165240 *)prim)->unk34 = 0x50000000;
+    ((S16F18 *)prim)->unk20.v1.unk0 = D_80180EA0;
+    ((S16F18 *)prim)->unk20.v1.unk4 = D_80180E98;
+    ((S16F18 *)prim)->unk20.v1.unk8 = D_80180EA4;
+    ((S16F18 *)prim)->unk20.v1.unkC = D_80180E9C;
+    *(CVECTOR *)(prim + 0x30) = *(CVECTOR *)param_3;
+    ((S16F18 *)prim)->attr = 0x50000000;
 
     func_80016ED4(p);
 }

@@ -4,7 +4,7 @@ void SHARED_FN(s32 param_1, s16 *param_2) {
     SVECTOR svec_in;
     SVECTOR svec_out;
 
-    ((Unkstruct_80126948 *)param_1)->unk8  = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x8),  (s32)((Unkstruct_80126948 *)param_1)->unkC.i.lo,  4);
+    ((Unkstruct_80126948 *)param_1)->unk8.v0.unk8  = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x8),  (s32)((Unkstruct_80126948 *)param_1)->unkC.v0.unkC.i.lo,  4);
     ((Unkstruct_80126948 *)param_1)->unk10 = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)CAST_WIDTH(s16, param_1, 0x14), 4);
     ((Unkstruct_80126948 *)param_1)->unk18.s = func_80012ABC((s32)((Unkstruct_80126948 *)param_1)->unk18.s, (s32)((Unkstruct_80126948 *)param_1)->unk20.s, 4);
     ((Unkstruct_80126948 *)param_1)->unk1A.s = func_80012ABC((s32)((Unkstruct_80126948 *)param_1)->unk1A.s, (s32)((Unkstruct_80126948 *)param_1)->unk22.s, 4);

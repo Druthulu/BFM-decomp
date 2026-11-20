@@ -96,7 +96,7 @@ void func_8018624C(void *arg0) {
     case 12:
         break;
     case 1:
-        if ((((Unkstruct_80010178 *)tbl)->unkA3AA & 3) == 0) {
+        if ((((Unkstruct_8012956C *)tbl)->unkA3AA & 3) == 0) {
             func_8013C9C4(D_8018EDF4);
             func_801871C0((void *)ent, 1, 1);
         }
@@ -108,7 +108,7 @@ void func_8018624C(void *arg0) {
         ((Unkstruct_801202A0 *)ent)->unk34.u += 1;
         /* fallthrough */
     case 4:
-        if ((u32)((Unkstruct_801202A0 *)ent)->unk94.s < 0x2C && (((Unkstruct_80010178 *)tbl)->unkA3AA & 3) == 0) {
+        if ((u32)((Unkstruct_801202A0 *)ent)->unk94.s < 0x2C && (((Unkstruct_8012956C *)tbl)->unkA3AA & 3) == 0) {
             func_8013C9C4(D_8018EDF4);
             func_801871C0((void *)ent, 1, 1);
         }
@@ -137,7 +137,7 @@ void func_8018624C(void *arg0) {
         if (((Unkstruct_801202A0 *)ent)->unk94.s == 0x5A) {
             func_801871C0((void *)ent, 0xF, 5);
         }
-        if (((Unkstruct_801202A0 *)ent)->unk94.s > 0x78 && (((Unkstruct_80010178 *)tbl)->unkA3AA & 0xF) == 0) {
+        if (((Unkstruct_801202A0 *)ent)->unk94.s > 0x78 && (((Unkstruct_8012956C *)tbl)->unkA3AA & 0xF) == 0) {
             t2 = rand();
             func_801871C0((void *)ent, t2 % 5 + 1, 2);
         }
@@ -170,7 +170,7 @@ void func_8018624C(void *arg0) {
         ((Unkstruct_801202A0 *)ent)->unk34.u += 1;
         break;
     }
-    if (((Unkstruct_801202A0 *)ent)->unk34.u >= 5 && (((Unkstruct_80010178 *)tbl)->unkA3AA & 0x7F) == 0) {
+    if (((Unkstruct_801202A0 *)ent)->unk34.u >= 5 && (((Unkstruct_8012956C *)tbl)->unkA3AA & 0x7F) == 0) {
         func_801871C0((void *)ent, 5, 5);
     }
     if (func_801789AC(ent) == 1) {

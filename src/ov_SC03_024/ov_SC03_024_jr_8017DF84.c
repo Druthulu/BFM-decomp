@@ -2852,25 +2852,25 @@ void func_8017DF84(s32 arg0)
                                 case 5:
                                     gte_stsxy3_f3(pkt);
                                     gte_stsz3(&g.sz0, &g.sz1, &g.sz2);
-                                    if (((PolyF3 *)pkt)->x0 > ((PolyF3 *)pkt)->x1) {
-                                        mx = ((PolyF3 *)pkt)->x0;
-                                        mn = ((PolyF3 *)pkt)->x1;
+                                    if (((Unkstruct_8018234C *)pkt)->unk8 > ((Unkstruct_8018234C *)pkt)->unkC) {
+                                        mx = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unkC;
                                     } else {
-                                        mn = ((PolyF3 *)pkt)->x0;
-                                        mx = ((PolyF3 *)pkt)->x1;
+                                        mn = ((Unkstruct_8018234C *)pkt)->unk8;
+                                        mx = ((Unkstruct_8018234C *)pkt)->unkC;
                                     }
-                                    if (((PolyF3 *)pkt)->x2 > mx) mx = ((PolyF3 *)pkt)->x2;
-                                    else if (((PolyF3 *)pkt)->x2 < mn) mn = ((PolyF3 *)pkt)->x2;
+                                    if (((Unkstruct_8018234C *)pkt)->unk10 > mx) mx = ((Unkstruct_8018234C *)pkt)->unk10;
+                                    else if (((Unkstruct_8018234C *)pkt)->unk10 < mn) mn = ((Unkstruct_8018234C *)pkt)->unk10;
                                     if (mx >= -0xA0 && mn < 0xA1) {
-                                        if (((PolyF3 *)pkt)->y0 > ((PolyF3 *)pkt)->y1) {
-                                            my = ((PolyF3 *)pkt)->y0;
-                                            mny = ((PolyF3 *)pkt)->y1;
+                                        if (((Unkstruct_8018234C *)pkt)->unkA > ((Unkstruct_8018234C *)pkt)->unkE) {
+                                            my = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkE;
                                         } else {
-                                            mny = ((PolyF3 *)pkt)->y0;
-                                            my = ((PolyF3 *)pkt)->y1;
+                                            mny = ((Unkstruct_8018234C *)pkt)->unkA;
+                                            my = ((Unkstruct_8018234C *)pkt)->unkE;
                                         }
-                                        if (((PolyF3 *)pkt)->y2 > my) my = ((PolyF3 *)pkt)->y2;
-                                        else if (((PolyF3 *)pkt)->y2 < mny) mny = ((PolyF3 *)pkt)->y2;
+                                        if (((Unkstruct_8018234C *)pkt)->unk12 > my) my = ((Unkstruct_8018234C *)pkt)->unk12;
+                                        else if (((Unkstruct_8018234C *)pkt)->unk12 < mny) mny = ((Unkstruct_8018234C *)pkt)->unk12;
                                         if (my >= -0x78 && mny < 0x79) {
                                             s32 za, zb;
                                             u32 *otp;
@@ -2883,7 +2883,7 @@ void func_8017DF84(s32 arg0)
                                             }
                                             g.opz = za;
                                             if (code != 4) g.opz = za + 0x200;
-                                            ((PolyF3 *)pkt)->rgbc = prim->a;
+                                            ((Unkstruct_8018234C *)pkt)->unk4.v1.unk0 = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                             *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -4529,7 +4529,7 @@ void func_80180D08(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_8018B080[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_8018B080[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_80180EA8(a0, &sp10.vx);
@@ -4550,7 +4550,7 @@ void func_80180DA8(s32 a0) {
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
         t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
         ((Unkstruct_80126948 *)a0)->unk5 = t;
-        ((Unkstruct_80126948 *)a0)->unk14 = D_8018B084[t];
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_8018B084[t];
     }
     sp10 = guess_g_CameraFollowPos;
 
@@ -4737,7 +4737,7 @@ void func_801812C4(s32 param_1)
     cond = guess_g_FrameCounter & 1;
     cnt = &D_801C1280;
     *cnt = cond ? 0xC0 : 0xB0;
-    if ((((Unkstruct_80010178 *)m)->unkA3AA & 3) == 0) {
+    if ((((Unkstruct_8012956C *)m)->unkA3AA & 3) == 0) {
         sp10[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
         for (i = 0; i < 2; i++) {
             r = rand();
@@ -5042,11 +5042,11 @@ void func_80181914(s32 *arg0)
             c = (rsin(((Unkstruct_80181914 *)p)->unkC) / 256) & 0xFF;
             c = c | ((c << 16) | (c << 8));
             ((Unkstruct_80181914 *)p)->unk8 = c;
-            if ((((Unkstruct_80010178 *)m)->unkA3AA & 1) == 0) {
-                e = ((Unkstruct_80181914 *)p)->unkE + 1;
-                ((Unkstruct_80181914 *)p)->unkE = e;
+            if ((((Unkstruct_8012956C *)m)->unkA3AA & 1) == 0) {
+                e = ((Unkstruct_80181914 *)p)->unkE.u + 1;
+                ((Unkstruct_80181914 *)p)->unkE.u = e;
                 if ((s16)e >= 0x40) {
-                    ((Unkstruct_80181914 *)p)->unkE = 0;
+                    ((Unkstruct_80181914 *)p)->unkE.u = 0;
                 }
             }
             h = ((Unkstruct_80181914 *)p)->unkC;
@@ -5173,8 +5173,8 @@ void func_80181C5C(void *arg0)
 
     q = &prim;
     p = *(u16 **)(a0 + 0x0);
-    dx = ((Unkstruct_80181C5C *)a0)->unk12;
-    dy = ((Unkstruct_80181C5C *)a0)->unk14;
+    dx = ((Unkstruct_80181C5C *)a0)->unk12.u;
+    dy = ((Unkstruct_80181C5C *)a0)->unk14.u;
     i = 0;
 
     prim.v[0].vz = 3;

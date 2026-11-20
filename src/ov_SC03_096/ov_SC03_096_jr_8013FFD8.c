@@ -907,7 +907,7 @@ extern short guess_g_MenuCategory; // Names ledger: config/names.tsv guess_g_Men
 s32 func_8013FFD8(s16 arg0, s32 arg1, s32 *arg2) {
 
     extern u8  D_80181B50[];
-    extern Pair_8013AD38 D_80181B68[];
+    extern DVECTOR D_80181B68[];
     extern u8 D_80181B74;
     extern u8  D_80181B7B[];
     extern u8  D_80181B7C[];

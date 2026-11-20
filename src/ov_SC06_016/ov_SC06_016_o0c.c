@@ -970,14 +970,14 @@ void func_8013BD74(void *a0, s32 a1) {
     D_801A010A = -0x78;
     D_801A010C = 0x140;
     D_801A010E = 0xF0;
-    ((E_13BD74 *)a0)->f8 = (s32)a1;
-    ((E_13BD74 *)a0)->fC = (void *)(a1 + 8);
+    ((Unkstruct_8017FA5C *)a0)->unk8 = (s32)a1;
+    ((Unkstruct_8017FA5C *)a0)->unkC = (void *)(a1 + 8);
     base = a1 + 0x4008;
     if (((u8 *)a1)[4] == 0) {
-        p = (s32 *)((E_13BD74 *)a0)->fC;
+        p = (s32 *)((Unkstruct_8017FA5C *)a0)->unkC;
         for (i = 0; i < 0x1000; i++) {
             if (*p != 0) {
-                *p += (s32)((E_13BD74 *)a0)->fC;
+                *p += (s32)((Unkstruct_8017FA5C *)a0)->unkC;
                 q = (s32 *)*p;
                 q[0] += (s32)q;
                 q[5] += (s32)q;

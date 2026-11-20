@@ -3362,7 +3362,7 @@ void func_80182BD0(u8 *a0) {
             ((Unkstruct_80126948 *)t0)->unk18.s = 0x71;
             ((Unkstruct_80126948 *)t0)->unk20.s = 0x71;
             ((Unkstruct_80126948 *)t0)->unk10 = 0x100;
-            ((Unkstruct_80126948 *)t0)->unk14 = 0x100;
+            ((Unkstruct_80126948 *)t0)->unk14.v0.unk14 = 0x100;
             ((Unkstruct_80126948 *)t0)->unk2A = 0x40;
             ((Unkstruct_80126948 *)t0)->unk30 = 0x40;
             ((Unkstruct_80126948 *)t0)->unk2C = 0;

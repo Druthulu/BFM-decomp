@@ -2944,7 +2944,7 @@ void func_8017DF98(s32 arg0)
                                     }
                                     g.opz = za;
                                     if (code != 4) g.opz = za + 0x200;
-                                    ((PF3_DF98 *)pkt)->rgbc = prim->a;
+                                    ((PF3_DF98 *)pkt)->unk4.v1.unk0 = prim->a;
                                     otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                     *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x4000000;
                                     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
@@ -3232,9 +3232,9 @@ void func_8017F0D0(s32 param_1)
 
     for (i = 0; i < 8; i++) {
         grp = &D_801EB5C8[i];
-        grp->g0 = 0;
-        grp->g2 = i << 9;
-        grp->gC = (rand() & 0xF) << 16;
+        grp->g0.u = 0;
+        grp->g2.u = i << 9;
+        grp->unkC.v0.gC = (rand() & 0xF) << 16;
         grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
         grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
 
@@ -3242,14 +3242,14 @@ void func_8017F0D0(s32 param_1)
             sub = &grp->subs[j];
             sub->f0 = 0;
             sub->f2 = (rand() & 3) + 4;
-            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->f8.u = (j << 8) + (rand() & 0xF) * 56;
             sub->fA = (rand() & 0xF) << 8;
-            sub->f14 = (rand() & 0xF) << 13;
+            sub->unk14.v0.f14 = (rand() & 0xF) << 13;
             sub->fC = ((rand() & 0xF) << 14) + 0x10000;
             sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
             sub->f4 = 0x200;
             sub->f6 = (rand() & 0xF) << 4;
-            sub->f18 = ((rand() & 3) << 5) + 0x40;
+            sub->f18.s = ((rand() & 3) << 5) + 0x40;
         }
     }
 
@@ -3278,18 +3278,18 @@ void func_8017F278(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         base = (s32)&D_801EB5C8[i];
-        if (((Unkstruct_8017F278_5 *)base)->unk0 == 0) {
-            ((Unkstruct_8017F278_5 *)base)->unkC = ((Unkstruct_8017F278_5 *)base)->unkC + 0x10000;
+        if (((Unkstruct_8017F278_5 *)base)->g0.s == 0) {
+            ((Unkstruct_8017F278_5 *)base)->unkC.v0.gC = ((Unkstruct_8017F278_5 *)base)->unkC.v0.gC + 0x10000;
         }
         for (j = 0; j < 16; j++) {
             p = base + 0x10 + j * 0x1C;
             switch (*(s16 *)(p)) {
             case 0:
                 vel = ((SubRec_801EB5C8_8017D7EC *)p)->fC + ((SubRec_801EB5C8_8017D7EC *)p)->f10;
-                pos = ((SubRec_801EB5C8_8017D7EC *)p)->f14;
+                pos = ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14;
                 life = ((SubRec_801EB5C8_8017D7EC *)p)->f2 - 1;
                 pos = pos + vel;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f14 = pos;
+                ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14 = pos;
                 ((SubRec_801EB5C8_8017D7EC *)p)->fC = vel;
                 ((SubRec_801EB5C8_8017D7EC *)p)->f2 = life;
                 if ((s16)life == -1) {
@@ -3300,10 +3300,10 @@ void func_8017F278(void *arg0) {
                 break;
             case 1:
                 ((SubRec_801EB5C8_8017D7EC *)p)->f4 = ((SubRec_801EB5C8_8017D7EC *)p)->f4 + 0x80;
-                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18 - 8;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f18 = f18;
+                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18.s - 8;
+                ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = f18;
                 if (f18 < 0) {
-                    ((SubRec_801EB5C8_8017D7EC *)p)->f18 = 0;
+                    ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = 0;
                     ((SubRec_801EB5C8_8017D7EC *)p)->f0 = ((SubRec_801EB5C8_8017D7EC *)p)->f0 + 1;
                 }
                 break;
@@ -3377,14 +3377,14 @@ void func_8017F40C(s32 a0, s32 a1) {
         do {
             rowPtr = a1 + off;
             {
-                u32 c = ((Unkstruct_8017F40C *)rowPtr)->unk18;
+                u32 c = ((Unkstruct_8017F40C *)rowPtr)->f18.u;
                 pp->bcast = c | ((c << 0x10) | (c << 8));
             }
-            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->unk4;
+            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->f4;
             func_80017DC4(ap, mp);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->unkA;
+            angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->fA;
             func_80017E30(ap, mp);
             ApplyMatrixSV(mp, &dv[0], &sv1);
             ApplyMatrixSV(mp, &dv[1], &sv2);
@@ -3392,8 +3392,8 @@ void func_8017F40C(s32 a0, s32 a1) {
             ApplyMatrixSV(mp, &dv[3], &sv4);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->unk16;
-            func_800139C8((s32) ((Unkstruct_8017F40C *)rowPtr)->unk8, ap, &sinOut);
+            angBuf.vz = ((Unkstruct_8017F40C *)rowPtr)->unk14.v1.unk2;
+            func_800139C8((s32) ((Unkstruct_8017F40C *)rowPtr)->f8.s, ap, &sinOut);
             sinOut.vx = sinOut.vx + vecB.vx;
             sinOut.vz = sinOut.vz + vecB.vy;
             pp->v[0].vx = sinOut.vx + sv1.vx;
@@ -3713,7 +3713,7 @@ void func_8017FBE0(s32 param_1) {
 
         {
             s16 v2 = func_800130D0(CAST_WIDTH(s16, param_1, 0x10), (s16)(0x4B0 - diff / 3), 4);
-            ((Unkstruct_80126948 *)param_1)->unk14 = (s16)v2;
+            ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = (s16)v2;
             ((Unkstruct_80126948 *)param_1)->unk10 = (s16)v2;
         }
     }
@@ -3804,7 +3804,7 @@ void func_8017FE18(s32 param_1) {
     guess_CopyVec3HighHalves(func_8012E544(0x82) + 4, sp18);
 
     var = func_80012F74(CAST_WIDTH(s16, param_1, 0x10), (s16)(((s32 (*)(s32 *, s32 *))func_80013294)((s32 *)buf, sp18) + 900), 10, 1);
-    ((Unkstruct_80126948 *)param_1)->unk14 = (s16)var;
+    ((Unkstruct_80126948 *)param_1)->unk14.v0.unk14 = (s16)var;
     ((Unkstruct_80126948 *)param_1)->unk10 = (s16)var;
     func_8017FF68(param_1, buf);
 }

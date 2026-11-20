@@ -3059,8 +3059,8 @@ void func_80185BE4(int param_1, int param_2)
         do {
             if (D_801B9AB0[i] == 0) {
                 D_801B9AB0[i] = 1;
-                ((Unkstruct_80182998 *)param_2)->unk10 = i | 0x80000000;
-                ((Unkstruct_80182998 *)param_2)->unk8 = CAST_SIGN(u16, param_1, 0x70);
+                ((struct S8012C658 *)param_2)->unk10 = i | 0x80000000;
+                ((struct S8012C658 *)param_2)->unk8.u = CAST_SIGN(u16, param_1, 0x70);
                 func_8012C51C(param_2, param_1);
                 return;
             }
@@ -3205,11 +3205,11 @@ void func_80185E28(void *a0) {
     u8 *vp;
     s16 ang;
 
-    ((Unkstruct_80185E28 *)buf)->unk30 = 0x50000000;
-    ((Unkstruct_80185E28 *)buf)->unk20 = 0x80;
-    ((Unkstruct_80185E28 *)buf)->unk24 = 0x80;
-    ((Unkstruct_80185E28 *)buf)->unk28 = 0;
-    ((Unkstruct_80185E28 *)buf)->unk2C = 0;
+    ((Unkstruct_80185E28 *)buf)->flags.s = 0x50000000;
+    ((Unkstruct_80185E28 *)buf)->rgb0.s = 0x80;
+    ((Unkstruct_80185E28 *)buf)->rgb1.s = 0x80;
+    ((Unkstruct_80185E28 *)buf)->rgb2.s = 0;
+    ((Unkstruct_80185E28 *)buf)->rgb3.s = 0;
 
     *(Blk8_80185E28 *)(buf + 0x00) = D_801B6F00;
     *(Blk8_80185E28 *)(buf + 0x08) = D_801B6F08;
@@ -3228,9 +3228,9 @@ void func_80185E28(void *a0) {
     vp = buf + 0x00;
     guess_AddPolyG4(vp, p);
 
-    ((Unkstruct_80185E28 *)buf)->unk30 = 0x60000000;
-    ((Unkstruct_80185E28 *)buf)->unk20 = 0x808080;
-    ((Unkstruct_80185E28 *)buf)->unk24 = 0x808080;
+    ((Unkstruct_80185E28 *)buf)->flags.s = 0x60000000;
+    ((Unkstruct_80185E28 *)buf)->rgb0.s = 0x808080;
+    ((Unkstruct_80185E28 *)buf)->rgb1.s = 0x808080;
 
     *(Blk8_80185E28 *)(buf + 0x00) = D_801B6F20;
     *(Blk8_80185E28 *)(buf + 0x08) = D_801B6F28;

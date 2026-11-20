@@ -27,7 +27,7 @@ void func_800CEE2C(void) {
         func_8001534C(3, D_800CFAD4, 0x60, 0x70, 0, 0);
     }
 
-    idx = ((Unkstruct_80010178 *)base)->unkA3B4;
+    idx = ((Unkstruct_8012956C *)base)->unkA3B4;
     if (idx < 4) {
         D_800CFADC[idx]();
     }

@@ -2732,9 +2732,9 @@ void func_8017D7EC(s32 param_1)
 
     for (i = 0; i < 8; i++) {
         grp = &D_801B9708[i];
-        grp->g0 = 0;
-        grp->g2 = i << 9;
-        grp->gC = (rand() & 0xF) << 16;
+        grp->g0.u = 0;
+        grp->g2.u = i << 9;
+        grp->unkC.v0.gC = (rand() & 0xF) << 16;
         grp->g4 = ((rand() & 0xF) << 15) + 0x10000;
         grp->g8 = ((rand() & 0xF) << 12) + 0x8000;
 
@@ -2742,14 +2742,14 @@ void func_8017D7EC(s32 param_1)
             sub = &grp->subs[j];
             sub->f0 = 0;
             sub->f2 = (rand() & 3) + 4;
-            sub->f8 = (j << 8) + (rand() & 0xF) * 56;
+            sub->f8.u = (j << 8) + (rand() & 0xF) * 56;
             sub->fA = (rand() & 0xF) << 8;
-            sub->f14 = (rand() & 0xF) << 13;
+            sub->unk14.v0.f14 = (rand() & 0xF) << 13;
             sub->fC = ((rand() & 0xF) << 14) + 0x10000;
             sub->f10 = ((rand() & 0xF) << 12) + 0x8000;
             sub->f4 = 0x200;
             sub->f6 = (rand() & 0xF) << 4;
-            sub->f18 = ((rand() & 3) << 5) + 0x40;
+            sub->f18.s = ((rand() & 3) << 5) + 0x40;
         }
     }
 
@@ -2790,18 +2790,18 @@ void func_8017D994(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         base = (s32)((u8 *)D_801B9708 + i * 0x1D0);
-        if (((Unkstruct_8017D994_4 *)base)->unk0 == 0) {
-            ((Unkstruct_8017D994_4 *)base)->unkC = ((Unkstruct_8017D994_4 *)base)->unkC + 0x10000;
+        if (((GroupRec_801EB5C8 *)base)->g0.s == 0) {
+            ((GroupRec_801EB5C8 *)base)->unkC.v0.gC = ((GroupRec_801EB5C8 *)base)->unkC.v0.gC + 0x10000;
         }
         for (j = 0; j < 16; j++) {
             p = base + 0x10 + j * 0x1C;
             switch (*(s16 *)(p)) {
             case 0:
                 vel = ((SubRec_801EB5C8_8017D7EC *)p)->fC + ((SubRec_801EB5C8_8017D7EC *)p)->f10;
-                pos = ((SubRec_801EB5C8_8017D7EC *)p)->f14;
+                pos = ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14;
                 life = ((SubRec_801EB5C8_8017D7EC *)p)->f2 - 1;
                 pos = pos + vel;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f14 = pos;
+                ((SubRec_801EB5C8_8017D7EC *)p)->unk14.v0.f14 = pos;
                 ((SubRec_801EB5C8_8017D7EC *)p)->fC = vel;
                 ((SubRec_801EB5C8_8017D7EC *)p)->f2 = life;
                 if ((s16)life == -1) {
@@ -2812,10 +2812,10 @@ void func_8017D994(void *arg0) {
                 break;
             case 1:
                 ((SubRec_801EB5C8_8017D7EC *)p)->f4 = ((SubRec_801EB5C8_8017D7EC *)p)->f4 + 0x80;
-                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18 - 8;
-                ((SubRec_801EB5C8_8017D7EC *)p)->f18 = f18;
+                f18 = ((SubRec_801EB5C8_8017D7EC *)p)->f18.s - 8;
+                ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = f18;
                 if (f18 < 0) {
-                    ((SubRec_801EB5C8_8017D7EC *)p)->f18 = 0;
+                    ((SubRec_801EB5C8_8017D7EC *)p)->f18.s = 0;
                     ((SubRec_801EB5C8_8017D7EC *)p)->f0 = ((SubRec_801EB5C8_8017D7EC *)p)->f0 + 1;
                 }
                 break;
@@ -2862,8 +2862,8 @@ void func_8017DB28(s32 a0, s32 a1) {
     guess_CopyVec3HighHalves(a0 + 4, (s32 *)&vecB);
     angBuf.vx = 0;
     angBuf.vy = 0;
-    angBuf.vz = ((Unkstruct_8017DB28_3 *)a1)->unkE;
-    func_800139C8((s32) ((Unkstruct_8017DB28_3 *)a1)->unk2, &angBuf, &angBuf);
+    angBuf.vz = ((GroupRec_801EB5C8 *)a1)->unkC.v1.unk2;
+    func_800139C8((s32) ((GroupRec_801EB5C8 *)a1)->g2.s, &angBuf, &angBuf);
     mask = ((u32(*)(void *, void *))guess_WorldToScreenFlag)(&vecB, &vecB);
     if ((mask & 0xffffefff) == 0) {
         Prim_8017F40C_8017DB28 *pp = &prim;
@@ -2891,14 +2891,14 @@ void func_8017DB28(s32 a0, s32 a1) {
         do {
             rowPtr = a1 + off;
             {
-                u32 c = ((Unkstruct_8017DB28_2 *)rowPtr)->unk18;
+                u32 c = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f18.u;
                 pp->bcast = c | ((c << 0x10) | (c << 8));
             }
-            angBuf.vx = angBuf.vy = angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk4;
+            angBuf.vx = angBuf.vy = angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f4;
             func_80017DC4(ap, mp);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unkA;
+            angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->fA;
             func_80017E30(ap, mp);
             ApplyMatrixSV(mp, &dv[0], &sv1);
             ApplyMatrixSV(mp, &dv[1], &sv2);
@@ -2906,8 +2906,8 @@ void func_8017DB28(s32 a0, s32 a1) {
             ApplyMatrixSV(mp, &dv[3], &sv4);
             angBuf.vx = 0;
             angBuf.vy = 0;
-            angBuf.vz = ((Unkstruct_8017DB28_2 *)rowPtr)->unk16;
-            func_800139C8((s32) ((Unkstruct_8017DB28_2 *)rowPtr)->unk8, ap, &sinOut);
+            angBuf.vz = ((SubRec_801EB5C8_8017D7EC *)rowPtr)->unk14.v1.unk2;
+            func_800139C8((s32) ((SubRec_801EB5C8_8017D7EC *)rowPtr)->f8.s, ap, &sinOut);
             sinOut.vx = sinOut.vx + vecB.vx;
             sinOut.vz = sinOut.vz + vecB.vy;
             pp->v[0].vx = sinOut.vx + sv1.vx;
