@@ -4447,11 +4447,11 @@ void func_8017F584(s32 a0) {
             func_8012AD50((void *)this);
             guess_StartPadVibration(&D_80062BE8);
         } else {
-            if (((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104 != 0) {
-                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104--;
+            if (((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017EB4C.unk104 != 0) {
+                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017EB4C.unk104--;
             } else {
                 guess_StartPadVibration(&D_80062BC0);
-                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017F584.unk104 = (rand() & 3) + 8;
+                ((Unkstruct_801202A0 *)this)->extD.kSC03_011_8017EB4C.unk104 = (rand() & 3) + 8;
             }
         }
     }

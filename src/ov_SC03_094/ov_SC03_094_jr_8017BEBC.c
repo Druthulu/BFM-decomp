@@ -6647,7 +6647,7 @@ extern void func_80183AC8(void *a0, s32 a1);
 extern void func_80183B60(s32 arg0);
 
 void func_8018379C(void *arg0) {
-    func_80183AC8(((Unkstruct_801202A0 *)arg0)->unkD4.val, 0);
+    func_80183AC8(((Unkstruct_801202A0 *)arg0)->unkD4.s, 0);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     ((Unkstruct_801202A0 *)arg0)->unk5C.s = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 2);
     ((Unkstruct_8018379C_2 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
@@ -6794,8 +6794,8 @@ void func_80183AC8(void *a0, s32 a1) {
     extern u16 D_801AE950[][2];
     if (a0 != 0) {
         u16 *tbl = D_801AE950[a1];
-        ((Unkstruct_801202A0 *)a0)->extA.kSC03_094_80183AC8.unk28 = tbl[0];
-        ((Unkstruct_801202A0 *)a0)->extA.kSC03_094_80183AC8.unk2A = tbl[1];
+        ((Unkstruct_800B5BD8 *)a0)->unk28.s = tbl[0];
+        ((Unkstruct_800B5BD8 *)a0)->unk2A.u = tbl[1];
     }
 }
 

@@ -4652,7 +4652,7 @@ void func_80181D04(int param_1) {
 
 
 void func_80181D60(void *arg0) {
-    func_8018208C(((Unkstruct_801202A0 *)arg0)->unkD4.p, 0);
+    func_8018208C(((Unkstruct_801202A0 *)arg0)->unkD4.s, 0);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     ((Unkstruct_801202A0 *)arg0)->unk5C.s = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 0x2);
     *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x18) =
@@ -4798,8 +4798,8 @@ void func_8018208C(void *arg0, s32 arg1)
 {
     if (arg0 != 0) {
         u16 *p = D_801A46AC[arg1];
-        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_093_8018208C.unk28 = p[0];
-        ((Unkstruct_801202A0 *)arg0)->extA.kSC03_093_8018208C.unk2A = p[1];
+        ((Unkstruct_800B5BD8 *)arg0)->unk28.s = p[0];
+        ((Unkstruct_800B5BD8 *)arg0)->unk2A.u = p[1];
     }
 }
 
