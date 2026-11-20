@@ -55,5 +55,6 @@
   "effortLevel": "medium",
   "showThinkingSummaries": true,
   "precomputeCompactionEnabled": false,
-  "autoContinueAtUsageLimit": true
+  "autoContinueAtUsageLimit": true,
+  "disableAgentView": true
 }

@@ -277,7 +277,7 @@
     },
     "tools/pa_ext.py": {
       "base": null,
-      "sha": "dc8583336f4d56d0692f8a1f58c8019622f9592eb369077651333c9fb23221b9",
+      "sha": "8351f49b959edb9efda6e3cb7e428bea48b850c31599a3be03ac23fa077fea85",
       "user": null
     },
     "tools/phaseend_index.py": {
@@ -337,9 +337,9 @@
     }
   },
   "format": 1,
-  "git": "e8df312e",
-  "installed": "2026-11-19T07:26:39Z",
+  "git": "cb4e458b",
+  "installed": "2026-11-20T17:26:03Z",
   "package": null,
-  "phase": "3.32.21",
-  "upstream_version": "3.32.21"
+  "phase": "3.32.22",
+  "upstream_version": "3.32.22"
 }
