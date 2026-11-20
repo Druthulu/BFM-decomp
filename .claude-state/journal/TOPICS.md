@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-20T17:28:16.286Z
+# filed through: 2026-11-20T20:52:30.940Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -244,3 +244,5 @@ R240 | 2026-11-19 | finding | in force | Unions in the consolidated structs | Un
 R241 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 resumes from its progress with fresh coders started from the tree state. | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
 R242 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | Before the stop, T18's applier committed E4 (f6989784d0). | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
 R243 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The developer's /tools-edit-kit-corpus was a misclick and was not run. | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
+R244 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 at its question stop (2026-11-20): 620 of A2's 621 ov_SC03 types are finished: 518 absorbed, 56… | .claude-state/journal/2026-11-20/140753-014r-claude-record.md
+R245 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The milestone's finishes gain "not a struct": disposition `scalar`, class text\|scalar. | .claude-state/journal/2026-11-20/140753-014r-claude-record.md
