@@ -2846,19 +2846,6 @@ typedef struct EntFAAC {
     u16 fFE;        /* 0xFE */
 } EntFAAC;
 typedef struct {
-    u16 f0;
-    u16 f2;
-    u16 f4;
-    u16 f6;
-    u16 f8;
-    u16 fA;
-    s32 fC;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-} SubRec_801EB5C8_8017D7EC;
-typedef SubRec_801EB5C8_8017D7EC SubRec_801EB5C8;
-typedef struct {
     u16 g0;
     u16 g2;
     s32 g4;

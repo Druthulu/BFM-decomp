@@ -3069,9 +3069,9 @@ extern s32 D_801B300C;
 
 void func_80180298(u8 *a0) {
     if (((Unkstruct_801202A0 *)a0)->unk70.u & 1) {
-        ((Unkstruct_80180298_2 *)D_801B300C)->unk4 = ((((Unkstruct_801202A0 *)a0)->unk4.i.hi.s - 0x40) & 0xFFFF) | (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s << 16);
+        ((Cmd_80178D40 *)D_801B300C)->a.w = ((((Unkstruct_801202A0 *)a0)->unk4.i.hi.s - 0x40) & 0xFFFF) | (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s << 16);
     } else {
-        ((Unkstruct_80180298_2 *)D_801B300C)->unk4 = ((((Unkstruct_801202A0 *)a0)->unk4.i.hi.s + 0x40) & 0xFFFF) | (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s << 16);
+        ((Cmd_80178D40 *)D_801B300C)->a.w = ((((Unkstruct_801202A0 *)a0)->unk4.i.hi.s + 0x40) & 0xFFFF) | (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s << 16);
     }
 }
 

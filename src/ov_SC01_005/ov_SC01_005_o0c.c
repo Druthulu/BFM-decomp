@@ -972,7 +972,7 @@ void func_8013BD74(void *a0, s32 a1) {
     D_801CDECA = -0x78;
     D_801CDECC = 0x140;
     D_801CDECE = 0xF0;
-    ((E_13BD74 *)a0)->f8 = (void *)a1;
+    ((E_13BD74 *)a0)->f8 = (s32)a1;
     ((E_13BD74 *)a0)->fC = (void *)(a1 + 8);
     base = a1 + 0x4008;
     if (((u8 *)a1)[4] == 0) {

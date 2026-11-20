@@ -865,7 +865,7 @@ typedef struct {
 } Unkstruct_80180CD4; /* size = 0x8 */
 typedef struct {
         u8    pad0[8];
-        void *f8;
+        s32   f8;   /* T18.c17: was void *; written only as `(s32)a1` (fold onto Unkstruct_8017FA5C unk8 s32) */
         void *fC;
     } E_13BD74;
 typedef Unkstruct_8017FA5C E_13C08C;
@@ -15010,6 +15010,20 @@ typedef struct {
     /* 0x0012 */ u8 pad12[0x2];
 } Unkstruct_8017DEF0_2; /* size = 0x14 */
 
+/* T18.c17: moved from src/shared/engine_types.h ahead of the GroupRec_801EB5C8 views (fold placement; byte-neutral) */
+typedef struct {
+    u16 f0;
+    u16 f2;
+    u16 f4;
+    u16 f6;
+    u16 f8;
+    u16 fA;
+    s32 fC;
+    s32 f10;
+    s32 f14;
+    s32 f18;
+} SubRec_801EB5C8_8017D7EC;
+typedef SubRec_801EB5C8_8017D7EC SubRec_801EB5C8;
 typedef struct {
     /* Unkstruct_1d8a0ad1: P3.40 T3 band rank 4930; 3 TNC sites in 1 bodies; struct map 3 sites; restruct.py --decide-band */
     /* 0x0000 */ s16 unk0;
@@ -17455,12 +17469,6 @@ typedef struct {
 } Unkstruct_801812AC_2; /* size = 0x38 */
 
 typedef Unkstruct_80181FAC_2 Unkstruct_80181900; /* size = 0x4 */
-
-typedef struct {
-    /* Unkstruct_2e075587: P3.40 T3 band rank 6366; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x4];
-    /* 0x0004 */ s32 unk4;
-} Unkstruct_80180298_2; /* size = 0x8 */
 
 typedef struct {
     /* Unkstruct_2e16f1a4: P3.40 T3 band rank 6369; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
