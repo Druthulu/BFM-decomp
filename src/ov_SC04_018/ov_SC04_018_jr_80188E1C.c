@@ -4294,14 +4294,14 @@ void func_8018A6C8(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
+    v1 = (u16)((SVECTOR *)a0)->pad >> 12;
     a2 = (s32 *)D_801E77E8[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801E7800[v1 * 16] = a1;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((Unkstruct_801343C4 *)a0)->unk0;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((Unkstruct_801343C4 *)a0)->unk2;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((Unkstruct_801343C4 *)a0)->unk4;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = (u16)((SVECTOR *)a0)->vx;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = (u16)((SVECTOR *)a0)->vy;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = (u16)((SVECTOR *)a0)->vz;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = ((u16)((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 
 

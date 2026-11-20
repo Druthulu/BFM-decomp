@@ -2204,18 +2204,18 @@ s16 *func_80015908(s32 a0, s32 a1)
 }
 
 void func_80015954(s32 a0, s32 a1) {
-    *(u16 *)(a1 + 0x2) = ((Unkstruct_801343C4 *)a0)->unk0;
-    *(u16 *)(a1 + 0x6) = ((Unkstruct_801343C4 *)a0)->unk2;
-    *(u16 *)(a1 + 0xA) = ((Unkstruct_801343C4 *)a0)->unk4;
+    *(u16 *)(a1 + 0x2) = (u16)((SVECTOR *)a0)->vx;
+    *(u16 *)(a1 + 0x6) = (u16)((SVECTOR *)a0)->vy;
+    *(u16 *)(a1 + 0xA) = (u16)((SVECTOR *)a0)->vz;
 }
 
 /* guess_CopyVec3HighHalves: copies the high halfwords of the three words at a0 (+0x2, +0x6, +0xA) to the s16 vector a1 (+0x0, +0x2, +0x4)
  * Confidence high, code inference: a1[0..2] = u16 at a0 +0x2/+0x6/+0xA; func_80015954 is the reverse
  * Names ledger: config/names.tsv guess_CopyVec3HighHalves */
 void guess_CopyVec3HighHalves(s32 *a0, s32 *a1) {
-    ((Unkstruct_801343C4 *)a1)->unk0 = *(u16 *)((s32)a0 + 0x2);
-    ((Unkstruct_801343C4 *)a1)->unk2 = *(u16 *)((s32)a0 + 0x6);
-    ((Unkstruct_801343C4 *)a1)->unk4 = *(u16 *)((s32)a0 + 0xA);
+    ((SVECTOR *)a1)->vx = *(u16 *)((s32)a0 + 0x2);
+    ((SVECTOR *)a1)->vy = *(u16 *)((s32)a0 + 0x6);
+    ((SVECTOR *)a1)->vz = *(u16 *)((s32)a0 + 0xA);
 }
 
 #define SHARED_FN func_8001599C

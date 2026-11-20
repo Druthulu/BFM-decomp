@@ -4979,8 +4979,8 @@ void func_8018BED0(void *ent, void *spr, u32 *q, u32 *ot)
         poly->y0 = ((u16 *)q)[i * 2 + 1];
         poly->x1 = ((u16 *)q)[i * 2 + 2];
         poly->y1 = ((u16 *)q)[i * 2 + 3];
-        poly->x2 = ((Unkstruct_8018BED0 *)q)->unk0;
-        poly->y2 = ((Unkstruct_8018BED0 *)q)->unk2;
+        poly->x2 = (u16)((SVECTOR *)q)->vx;
+        poly->y2 = (u16)((SVECTOR *)q)->vy;
         poly->x3 = ((u16 *)q)[i * 2 + 4];
         poly->y3 = ((u16 *)q)[i * 2 + 5];
         if (fl != 0) {
@@ -4989,8 +4989,8 @@ void func_8018BED0(void *ent, void *spr, u32 *q, u32 *ot)
             ADDPRIM_8018BED0(ot, poly);
         }
     }
-    poly[-1].x3 = ((Unkstruct_8018BED0 *)q)->unk4;
-    poly[-1].y3 = ((Unkstruct_8018BED0 *)q)->unk6;
+    poly[-1].x3 = (u16)((SVECTOR *)q)->vz;
+    poly[-1].y3 = (u16)((SVECTOR *)q)->pad;
     poly[-1].u3 = su + SR3_8018BED0(vtx + 0x10);
     poly[-1].v3 = sv + SR3_8018BED0(vtx + 0x12);
 

@@ -2508,9 +2508,9 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
     pac[0] = ((u16 *)p1)[0];
     pac[1] = ((u16 *)p1)[1];
     pac[2] = ((u16 *)p1)[2];
-    pb0[0] = ((Unkstruct_801343C4 *)p2)->unk0;
-    pb0[1] = ((Unkstruct_801343C4 *)p2)->unk2;
-    pb0[2] = ((Unkstruct_801343C4 *)p2)->unk4;
+    pb0[0] = (u16)((SVECTOR *)p2)->vx;
+    pb0[1] = (u16)((SVECTOR *)p2)->vy;
+    pb0[2] = (u16)((SVECTOR *)p2)->vz;
 
     a1v = pac[0]; a2v = pac[2];
     D_801DFE58 = 0;
@@ -2518,10 +2518,10 @@ s32 func_801343C4(s32 angle, s32 p1, s32 p2)
     if (((int (*)(int, s16, s16, int))func_80133AB0)(sangle, a1v, a2v, d94)) {
     setdst:
         pb0u = (u16 *)D_8018FD84;
-        ((Unkstruct_801343C4 *)p2)->unk0 = pb0u[0];
-        ((Unkstruct_801343C4 *)p2)->unk2 = pb0u[1];
-        ((Unkstruct_801343C4 *)p2)->unk4 = pb0u[2];
-        ((Unkstruct_801343C4 *)p2)->unk6 = D_801DFE58;
+        ((SVECTOR *)p2)->vx = pb0u[0];
+        ((SVECTOR *)p2)->vy = pb0u[1];
+        ((SVECTOR *)p2)->vz = pb0u[2];
+        ((SVECTOR *)p2)->pad = D_801DFE58;
         return 1;
     }
 
@@ -2882,9 +2882,9 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
 
     pb0 = D_8018FD84;
 
-    ax = ((Unkstruct_801343C4 *)p2)->unk0; pac = D_8018FD80; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_8018FD8C); pac[0] = bx; pb8[0] = ax - bx;
-    ay = ((Unkstruct_801343C4 *)p2)->unk2; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
-    az = ((Unkstruct_801343C4 *)p2)->unk4; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
+    ax = (u16)((SVECTOR *)p2)->vx; pac = D_8018FD80; pb0[0] = ax; bx = ((u16 *)p1)[0]; pb8 = (*(s16 * *)&D_8018FD8C); pac[0] = bx; pb8[0] = ax - bx;
+    ay = (u16)((SVECTOR *)p2)->vy; pb0[1] = ay; by = ((u16 *)p1)[1]; pac[1] = by; pb8[1] = ay - by;
+    az = (u16)((SVECTOR *)p2)->vz; pb0[2] = az; bz = ((u16 *)p1)[2]; pac[2] = bz; pb8[2] = az - bz;
 
     id = ((int)arg0) & 0xFFFF;
     a1v = pac[0]; a2v = pac[2];
@@ -2893,10 +2893,10 @@ s32 func_80135004(s32 arg0, s32 p1, s32 p2)
     if (func_80134A74(id, a1v, a2v, D_801DFE48)) {
     found:
         pb4 = (*(u16 * *)&D_8018FD88);
-        ((Unkstruct_801343C4 *)p2)->unk0 = pb4[0];
-        ((Unkstruct_801343C4 *)p2)->unk2 = pb4[1];
-        ((Unkstruct_801343C4 *)p2)->unk4 = pb4[2];
-        ((Unkstruct_801343C4 *)p2)->unk6 = D_801DFE58;
+        ((SVECTOR *)p2)->vx = pb4[0];
+        ((SVECTOR *)p2)->vy = pb4[1];
+        ((SVECTOR *)p2)->vz = pb4[2];
+        ((SVECTOR *)p2)->pad = D_801DFE58;
         return 1;
     }
     {

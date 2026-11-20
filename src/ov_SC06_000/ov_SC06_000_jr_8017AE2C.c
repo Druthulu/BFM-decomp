@@ -2761,7 +2761,7 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(SVECTOR *)&buf[0] = *(SVECTOR *)src;
         *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
@@ -2774,8 +2774,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801AE5FC;
         s16 *p78C = &D_801AE5F4;
-        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
-        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
+        *(SVECTOR *)p794 = *(SVECTOR *)&buf[0];
+        *(SVECTOR *)p78C = *(SVECTOR *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801B20D8 = 1;
@@ -3491,7 +3491,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     pSVar6 = r0_00 + 3;
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = ((Unkstruct_801343C4 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     gte_ldv0(e);
@@ -3506,7 +3506,7 @@ void func_8017C290(int a, s16 *b, SVECTOR_8017E72C *c, SVECTOR_8017E72C *d,
     gte_rtv0tr();
     gte_stsv(pSVar6);
 
-    r0_00->unk0.v1.unk4 = ((Unkstruct_801343C4 *)b)->unk4;
+    r0_00->unk0.v1.unk4 = (u16)((SVECTOR *)b)->vz;
     func_80017714(r0_00);
 
     *c = *f;

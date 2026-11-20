@@ -3338,6 +3338,8 @@
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80133CD4","base":"/bfm/E4"}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_801343C4","size":8,"packed":false,"fields":[{"off":0,"len":2,"name":"unk0","type":"/bfm/u16","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/u16","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/u16","comment":null},{"off":6,"len":2,"name":"unk6","type":"/bfm/u16","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_801343C4_2","base":"/bfm/Unkstruct_801343C4"}
+{"k":"type","kind":"typedef","path":"/bfm/Unkstruct_801343C4_3","base":"/bfm/Unkstruct_801343C4"}
+{"k":"type","kind":"typedef","path":"/bfm/Unkstruct_801343C4_4","base":"/bfm/Unkstruct_801343C4"}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80134C20_2","base":"/bfm/S0_801347A0"}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80135004_2","base":"/bfm/Unkstruct_801343C4"}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80135004_3","base":"/bfm/Unkstruct_801343C4"}

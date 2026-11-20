@@ -2743,7 +2743,7 @@ void func_8017B238(s32 param_1, s32 param_2)
 
     if (((u32)param_2) >= 0xB) {
         src = (u8 *)((u32)param_2);
-        *(Unkstruct_8013B83C *)&buf[0] = *(Unkstruct_8013B83C *)src;
+        *(SVECTOR *)&buf[0] = *(SVECTOR *)src;
         *(Unkstruct_8013B83C *)&buf[8] = *(Unkstruct_8013B83C *)(src + 8);
     } else {
         s32 a2addr;
@@ -2756,8 +2756,8 @@ void func_8017B238(s32 param_1, s32 param_2)
     {
         s16 *p794 = &D_801EE654;
         s16 *p78C = &D_801EE64C;
-        *(Unkstruct_8013B83C *)p794 = *(Unkstruct_8013B83C *)&buf[0];
-        *(Unkstruct_8013B83C *)p78C = *(Unkstruct_8013B83C *)&buf[8];
+        *(SVECTOR *)p794 = *(SVECTOR *)&buf[0];
+        *(SVECTOR *)p78C = *(SVECTOR *)&buf[8];
         guess_SetMainCameraHandler((s32)func_8017BE60, 0);
         D_8012694C = 0;
         D_801EF3F0 = 1;
@@ -5189,14 +5189,14 @@ void func_8017F750(void *a0, s32 a1) {
     s32 v1;
     s32 *a2;
 
-    v1 = ((Unkstruct_801343C4 *)a0)->unk6 >> 12;
+    v1 = (u16)((SVECTOR *)a0)->pad >> 12;
     a2 = (s32 *)D_801EE950[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801EE968[v1 * 16] = a1;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((Unkstruct_801343C4 *)a0)->unk0;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((Unkstruct_801343C4 *)a0)->unk2;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((Unkstruct_801343C4 *)a0)->unk4;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = (((Unkstruct_801343C4 *)a0)->unk6 & 0xF) << 10;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = (u16)((SVECTOR *)a0)->vx;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = (u16)((SVECTOR *)a0)->vy;
+    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = (u16)((SVECTOR *)a0)->vz;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk12.u = ((u16)((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 
 
