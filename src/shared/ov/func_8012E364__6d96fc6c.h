@@ -25,7 +25,7 @@ void func_8012E364(s32 arg0_)
         D_8018E694 = 0x1000;
     }
     a = ((0x90 - a) << 12) / 0x90;
-    ((Unkstruct_8012E364 *)arg0)->unk1C += 1;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s += 1;
     spd = 0x1000;
 
     diff = D_8018E690 - a;
@@ -36,15 +36,15 @@ void func_8012E364(s32 arg0_)
     }
 
     prev = D_8018E694;
-    e1 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
+    e1 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     v = D_8018E690 - prev + spd;
     D_8018E694 = spd;
     flags = ((Unkstruct_8012E364_2 *)e1)->unk2C;
     D_8018E690 = v;
     ((Unkstruct_8012E364_2 *)e1)->unk2C = flags | 0x10;
-    e2 = ((Unkstruct_8012E364 *)arg0)->unk20.val;
+    e2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     d = abs(v);
     ((Unkstruct_8012E364_3 *)e2)->unk1C = d;
     ((Unkstruct_8012E364_3 *)e2)->unk18 = d;
-    *(s16 *)(((Unkstruct_8012E364 *)arg0)->unk20.val + 0x1A) = 0x1000;
+    *(s16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x1A) = 0x1000;
 }

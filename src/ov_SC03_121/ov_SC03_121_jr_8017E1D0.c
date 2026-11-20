@@ -3420,14 +3420,14 @@ void func_8017F6D8(void *a0) {
     void *s0 = a0;
     u16 state;
 
-    state = ((Unkstruct_8017F6D8_2 *)s0)->unk34;
+    state = ((Unkstruct_801202A0 *)s0)->unk34.u;
     switch (state) {
     case 0:
         ((void (*)(void *, void *))guess_StartActorSequence)(s0, &D_801AAF54);
-        state = ((Unkstruct_8017F6D8_2 *)s0)->unk34;
-        ((Unkstruct_8017F6D8_2 *)s0)->unk98 = 0;
+        state = ((Unkstruct_801202A0 *)s0)->unk34.u;
+        ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
         state = state + 1;
-        ((Unkstruct_8017F6D8_2 *)s0)->unk34 = state;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = state;
         break;
 
     case 1:
@@ -3443,12 +3443,12 @@ void func_8017F6D8(void *a0) {
         ((Unkstruct_8017F6D8_3 *)*(s32 *)((s32)s0 + 0x20))->unk12 =
             ((Unkstruct_8017F6D8_3 *)*(s32 *)((s32)s0 + 0x20))->unk12 & 0xFFF;
 
-        ((Unkstruct_8017F6D8_2 *)s0)->unk14 = ((Unkstruct_8017F6D8_2 *)s0)->unk14 + (s32)0xFFFD8000;
+        ((Unkstruct_801202A0 *)s0)->unk14.val = ((Unkstruct_801202A0 *)s0)->unk14.val + (s32)0xFFFD8000;
 
-        if (*(s16 *)(((Unkstruct_8017F6D8_2 *)s0)->unk20.val + 0x10) == 0xC00) {
-            state = ((Unkstruct_8017F6D8_2 *)s0)->unk34;
+        if (*(s16 *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x10) == 0xC00) {
+            state = ((Unkstruct_801202A0 *)s0)->unk34.u;
             state = state + 1;
-            ((Unkstruct_8017F6D8_2 *)s0)->unk34 = state;
+            ((Unkstruct_801202A0 *)s0)->unk34.u = state;
             ((Unkstruct_8017F6D8_3 *)*(s32 *)((s32)s0 + 0x20))->unk2C =
                 ((Unkstruct_8017F6D8_3 *)*(s32 *)((s32)s0 + 0x20))->unk2C | 0x10;
         }
@@ -3458,8 +3458,8 @@ void func_8017F6D8(void *a0) {
         s32 v0;
 
         v0 = rsin(CAST_SIGN(s16, (s32)s0, 0xFE));
-        ((Unkstruct_8017F6D8_2 *)s0)->unkFE =
-            (((Unkstruct_8017F6D8_2 *)s0)->unkFE + 0x40) & 0xFFF;
+        ((Unkstruct_801202A0 *)s0)->unkFE.u =
+            (((Unkstruct_801202A0 *)s0)->unkFE.u + 0x40) & 0xFFF;
 
         if (v0 > 0) {
             v0 = (v0 >> 3) + 0x1000;

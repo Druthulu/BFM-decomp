@@ -3730,8 +3730,8 @@ void func_80181800(s32 a0) {
     for (i = 0; i < 3; i++) {
         func_8013B7AC(i);
     }
-    ((Unkstruct_80183C90 *)a0)->unk2 += 1;
-    ((Unkstruct_80183C90 *)a0)->unkCC.val = 0;
+    ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = 0;
 }
 
 
@@ -3759,7 +3759,7 @@ void func_80181858(s32 a0) {
     best1 = 0;
     best2 = 0;
     flag = 0;
-    t = ((Unkstruct_80181858 *)a0)->unkCC.val;
+    t = ((Unkstruct_801202A0 *)a0)->unkCC.val;
     if (t != 0) {
         func_80181AD0(t + 4, 0);
     } else {
@@ -4000,7 +4000,7 @@ void func_80181EA0(s32 arg0) {
     func_8012CBF4(arg0);
     if (func_80013478(arg0 + 4, arg0 + 0x88) < 0x101) {
         ((Unkstruct_80181EA0_4 *)*(s32 *)(arg0 + 0x20))->unk10 = 0;
-        ((Unkstruct_80181EA0_2 *)arg0)->unk2.s = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     }
 }
 

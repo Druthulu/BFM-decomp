@@ -3943,17 +3943,17 @@ void func_80180B2C(s32 a0) {
 
     extern s16 D_8019C176[];
     s32 a1 = a0;
-    s32 t = ((Unkstruct_8017D804 *)a1)->unk1C - 1;
-    ((Unkstruct_8017D804 *)a1)->unk1C = t;
+    s32 t = ((Unkstruct_801202A0 *)a1)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a1)->unk1C.s = t;
     if (t == 0) {
-        s16 idx = ((Unkstruct_8017D804 *)a1)->unkFC;
+        s16 idx = ((Unkstruct_801202A0 *)a1)->unkFC.s;
         s32 val = D_8019C176[idx * 4];
 
-        ((Unkstruct_8017D804 *)a1)->unk12 = -CAST_SIGN(u16, a1, 0x12);
-        ((Unkstruct_8017D804 *)a1)->unk16 = -CAST_SIGN(u16, a1, 0x16);
-        ((Unkstruct_8017D804 *)a1)->unk1A = -CAST_SIGN(u16, a1, 0x1A);
-        ((Unkstruct_8017D804 *)a1)->unk2 = 1;
-        ((Unkstruct_8017D804 *)a1)->unk1C = val;
+        ((Unkstruct_801202A0 *)a1)->unk10.i.hi.s = -CAST_SIGN(u16, a1, 0x12);
+        ((Unkstruct_801202A0 *)a1)->unk14.i.hi.s = -CAST_SIGN(u16, a1, 0x16);
+        ((Unkstruct_801202A0 *)a1)->unk18.i.hi.s = -CAST_SIGN(u16, a1, 0x1A);
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a1)->unk1C.s = val;
     }
     ((void (*)(u8 *))func_8012DFD4)((u8 *)a0);
 }
@@ -4341,17 +4341,17 @@ void func_80181430(s32 a0) {
     s32 sub;
     s32 t;
 
-    sub = ((Unkstruct_80181430 *)a0)->unk20.val;
-    t = rsin(((Unkstruct_80181430 *)a0)->unk1C << 6);
+    sub = ((Unkstruct_801202A0 *)a0)->unk20.val;
+    t = rsin(((Unkstruct_801202A0 *)a0)->unk1C.s << 6);
     ((Unkstruct_8001C9D0 *)sub)->unk1C.s = t;
     ((Unkstruct_8001C9D0 *)sub)->unk1A.s = t;
     ((Unkstruct_8001C9D0 *)sub)->unk18.s = t;
-    ((Unkstruct_80181430 *)a0)->unk1C = ((Unkstruct_80181430 *)a0)->unk1C + 1;
-    if (((Unkstruct_80181430 *)a0)->unk1C < 17) {
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s + 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s < 17) {
         return;
     }
-    ((Unkstruct_80181430 *)a0)->unk2.u = 1;
-    ((Unkstruct_80181430 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_80181430 *)a0)->unk78 + 2);
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = *(u16 *)(((Unkstruct_801202A0 *)a0)->unk78 + 2);
 }
 
 

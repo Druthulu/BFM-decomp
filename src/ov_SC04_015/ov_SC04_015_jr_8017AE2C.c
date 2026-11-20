@@ -3518,17 +3518,17 @@ void func_8017C2D0(s32 a0)
     s32 unused[2];              /* dead 8-byte local — frame 0x28, not 0x20 */
     s32 s0;
 
-    s0 = ((Unkstruct_8017C2B0 *)a0)->unk20.val;
+    s0 = ((Unkstruct_801202A0 *)a0)->unk20.val;
 
-    if ((s32)((Unkstruct_8017C2B0 *)a0)->unkA - (s32)(*(s16 *)&guess_g_PlayerPosY) >= 0x40) {
-        ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x40;
+    if ((s32)((Unkstruct_801202A0 *)a0)->unk8.i.hi.s - (s32)(*(s16 *)&guess_g_PlayerPosY) >= 0x40) {
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x40;
     } else {
-        ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x800;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x800;
     }
 
     if (((Unkstruct_8001C9D0 *)s0)->head.unk12.s != D_801C8B58) {
         ((Unkstruct_8001C9D0 *)s0)->head.unk12.s = D_801C8B58;
-        RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x34);
+        RotMatrixZYX(((Unkstruct_801202A0 *)a0)->unk20.val + 0x10, ((Unkstruct_801202A0 *)a0)->unk20.val + 0x34);
         ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x11;
     }
 }
@@ -6193,15 +6193,15 @@ extern u32 D_80189320;
 
 void func_80180558(s32 arg0) {
     s32 v0 = ((s32 (*)(s32))guess_AllocModelObject)(arg0);
-    ((Unkstruct_8017D62C *)arg0)->unk20.val = v0;
+    ((Unkstruct_801202A0 *)arg0)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(arg0);
     } else {
         guess_InitModelObject(v0, 0);
-        ((Unkstruct_8017D62C *)arg0)->unk2 = 1;
-        ((Unkstruct_8017D62C *)arg0)->unk5C = 0x20;
-        ((Unkstruct_8017D62C *)arg0)->unk58 = (u32)&D_80189320 | 0x40000000;
-        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20.val) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk5C.s = 0x20;
+        ((Unkstruct_801202A0 *)arg0)->unk58.s = (u32)&D_80189320 | 0x40000000;
+        *(s16*)((u8*)(((Unkstruct_801202A0 *)arg0)->unk20.val) + 0x12) = ((Unkstruct_801202A0 *)arg0)->unkFC.u;
     }
 }
 

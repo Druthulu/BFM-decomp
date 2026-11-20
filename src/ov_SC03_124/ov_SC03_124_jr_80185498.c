@@ -3130,19 +3130,19 @@ void func_801857E8(void *a0)
     u16 v0_2;
 
     v0 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8018242C *)a0)->unk20.val = v0;
+    ((Unkstruct_801202A0 *)a0)->unk20.val = v0;
 
     if (v0 == 0) {
         ((void (*)(void *))guess_FreeActorDuringSpawn)(a0);
     } else {
         ((void (*)(s32, s32))guess_InitModelObject)(v0, 0);
 
-        ((Unkstruct_8018242C *)a0)->unk58 = (s32)&D_801BC174 | 0x40000000;
-        v0_2 = ((Unkstruct_8018242C *)a0)->unk2;
-        ((Unkstruct_8018242C *)a0)->unk34 = 0;
-        ((Unkstruct_8018242C *)a0)->unk1C = 0;
-        ((Unkstruct_8018242C *)a0)->unk5C = 0x800;
-        ((Unkstruct_8018242C *)a0)->unk2 = v0_2 + 1;
+        ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_801BC174 | 0x40000000;
+        v0_2 = ((Unkstruct_801202A0 *)a0)->unk2.u;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = v0_2 + 1;
     }
 }
 

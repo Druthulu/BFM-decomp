@@ -2977,7 +2977,7 @@ void func_80181E34(void *a0) {
     s32 v0;
 
     v0 = func_8012E57C(0x61, 0xD);
-    ((Unkstruct_80180728 *)a0)->unkCC.val = v0;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = v0;
     v0 = func_80181D40();
 
     if (v0 != 0) {
@@ -2986,7 +2986,7 @@ void func_80181E34(void *a0) {
         v0 = 1;
     }
 
-    ((Unkstruct_80180728 *)a0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = v0;
 }
 
 
@@ -3033,7 +3033,7 @@ void func_80181F2C(void *a0) {
         v0 = func_801842D4(7, 0x13) != 0;
     }
     if (v0 != 0) {
-        ((Unkstruct_80181F2C *)a0)->unk2 = 1;
+        ((Unkstruct_80181F2C *)a0)->unk2.s = 1;
     }
 }
 
@@ -3120,7 +3120,7 @@ void func_8018211C(void *a0) {
     s32 v0;
 
     v0 = func_8012E57C(0x61, 0xC);
-    ((Unkstruct_80180A10 *)a0)->unkCC.val = v0;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = v0;
     v0 = func_80182044();
 
     if (v0 != 0) {
@@ -3129,7 +3129,7 @@ void func_8018211C(void *a0) {
         v0 = 2;
     }
 
-    ((Unkstruct_80180A10 *)a0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = v0;
 }
 
 
@@ -4142,15 +4142,15 @@ extern u32 D_801906F0;
 
 void func_80183858(s32 arg0) {
     s32 v0 = ((s32 (*)(s32))guess_AllocModelObject)(arg0);
-    ((Unkstruct_8017D62C *)arg0)->unk20.val = v0;
+    ((Unkstruct_801202A0 *)arg0)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(arg0);
     } else {
         guess_InitModelObject(v0, 0);
-        ((Unkstruct_8017D62C *)arg0)->unk2 = 1;
-        ((Unkstruct_8017D62C *)arg0)->unk5C = 0x20;
-        ((Unkstruct_8017D62C *)arg0)->unk58 = (u32)&D_801906F0 | 0x40000000;
-        *(s16*)((u8*)(((Unkstruct_8017D62C *)arg0)->unk20.val) + 0x12) = ((Unkstruct_8017D62C *)arg0)->unkFC;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk5C.s = 0x20;
+        ((Unkstruct_801202A0 *)arg0)->unk58.s = (u32)&D_801906F0 | 0x40000000;
+        *(s16*)((u8*)(((Unkstruct_801202A0 *)arg0)->unk20.val) + 0x12) = ((Unkstruct_801202A0 *)arg0)->unkFC.u;
     }
 }
 

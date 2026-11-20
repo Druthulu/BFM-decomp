@@ -3255,11 +3255,11 @@ void func_8017E6C0(s32 a0) {
     (void)&pad;
 
     s1 = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
-    if (((Unkstruct_8017E6C0_2 *)s1)->unk0 == 0) {
+    if (((Unkstruct_801202A0 *)s1)->unk0 == 0) {
         ((void (*)(s32))func_801292C8)(a0);
     }
     msk = 0x80000000;
-    if (*(s32 *)(((Unkstruct_8017E6C0_2 *)s1)->unk20.val + 4) < 0) {
+    if (*(s32 *)(((Unkstruct_801202A0 *)s1)->unk20.val + 4) < 0) {
         *(s32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) |= msk;
     } else {
         *(s32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
@@ -3691,7 +3691,7 @@ s32 func_8017F018(s32 a0) {
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_8018E138, (s32)out1);
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&D_8018E138 + 8, (s32)out2);
 
-    iVar1 = func_80135888(((Unkstruct_8017F018 *)a0)->unk20.val, ((Unkstruct_8017F018 *)a0)->unk58, (s32)out1, (s32)out2);
+    iVar1 = func_80135888(((Unkstruct_801202A0 *)a0)->unk20.val, ((Unkstruct_801202A0 *)a0)->unk58.s, (s32)out1, (s32)out2);
 
     if (iVar1 != 0) {
         guess_SetPlayerHit(1, 0x4201, 0, 0x30, (s32)out2, (s32)guess_g_BoxHitNormalX);
@@ -4500,21 +4500,21 @@ void func_801802E0(s32 a0) {
     s32 t;
     s32 v;
 
-    t = ((Unkstruct_801802E0 *)a0)->unk20.val;
+    t = ((Unkstruct_801202A0 *)a0)->unk20.val;
     ((Unkstruct_8001C9D0 *)t)->unk1A.u = 0x1800;
     ((Unkstruct_8001C9D0 *)t)->unk18.u = 0x1800;
-    v = ((Unkstruct_801802E0 *)a0)->unk78;
-    ((Unkstruct_801802E0 *)a0)->unk2 = 3;
-    ((Unkstruct_801802E0 *)a0)->unk34 = 5;
-    ((Unkstruct_801802E0 *)a0)->unk1C = 0x3F;
-    ((Unkstruct_801802E0 *)a0)->unk5C = *(u16 *)(v + 0x2);
+    v = ((Unkstruct_801202A0 *)a0)->unk78;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 5;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3F;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = *(u16 *)(v + 0x2);
     func_801824CC(a0, 0x1800, 0, -0x20, 0x800000);
     *(s16 *)&D_801BA5A0 = 0;
     *(s16 *)&D_801BA5A2 = 0;
     *(s16 *)&D_801BA5A4 = 0;
     func_8018373C((void *)a0, -0x40000);
     func_80184604(0);
-    ((Unkstruct_801802E0 *)a0)->unkCC.val = *(s32 *)((s32)&D_8018E610 + D_801BCBBC * 4);
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = *(s32 *)((s32)&D_8018E610 + D_801BCBBC * 4);
 }
 
 

@@ -1837,16 +1837,16 @@ void func_80142EC0(s32 param_1) {
 
     do { ret = ((s32 (*)(void))guess_AllocModelObject)(); } while (0);
     obj = ret;
-    ((Unkstruct_801431E8_2 *)d)->unk20.val = ret;
+    ((Unkstruct_801202A0 *)d)->unk20.val = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
         guess_InitModelObjectKind3(obj, 0);
-        sVar2 = (s16)((((Unkstruct_801431E8_2 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
+        sVar2 = (s16)((((Unkstruct_801202A0 *)d)->unk70.u & 0xf) * 0x600 + 0xc00);
         ((Unkstruct_8001C9D0 *)obj)->unk1A.s = sVar2;
         ((Unkstruct_8001C9D0 *)obj)->unk18.s = sVar2;
-        ((Unkstruct_801431E8_2 *)d)->unkFC = 0;
-        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_8018347C[((Unkstruct_801431E8_2 *)d)->unk70 & 0xf]);
+        ((Unkstruct_801202A0 *)d)->unkFC.s = 0;
+        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_8018347C[((Unkstruct_801202A0 *)d)->unk70.u & 0xf]);
         ((void (*)(s32))func_80142B2C)(d);
     }
 }
@@ -1927,23 +1927,23 @@ void func_801431E8(s32 param_1) {
     memcpy(buf, &D_801B8184, 4);
     iVar5 = ((s32 (*)(void))guess_AllocModelObject)();
     d = iVar5;
-    ((Unkstruct_801431E8_2 *)param_1)->unk20.val = iVar5;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, void *))func_8001CA88)(d, &D_801B8C48);
-        uVar2 = ((Unkstruct_801431E8_2 *)param_1)->unk70;
+        uVar2 = ((Unkstruct_801202A0 *)param_1)->unk70.u;
         ((Unkstruct_8001C9D0 *)d)->unk76 = -0x10;
         sVar4 = (uVar2 & 0xf) * 0x600 + 0xc00;
         ((Unkstruct_8001C9D0 *)d)->unk1A.s = sVar4;
         ((Unkstruct_8001C9D0 *)d)->unk18.s = sVar4;
         ((Unkstruct_8001C9D0 *)d)->head.unk4.u = ((Unkstruct_8001C9D0 *)d)->head.unk4.u | 0x50000000;
         if (func_8012E504(param_1, 0x33) == 0) {
-            ((Unkstruct_801431E8_2 *)param_1)->unkFC = 1;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = 1;
             guess_BuildCircle12Points(&D_801B8C48, 0x10);
             memcpy(&D_801B8C4C, buf, 4);
         } else {
-            ((Unkstruct_801431E8_2 *)param_1)->unkFC = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
         }
         ((void (*)(s32))func_80142B2C)(param_1);
     }

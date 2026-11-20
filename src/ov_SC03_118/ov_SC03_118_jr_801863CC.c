@@ -4430,12 +4430,12 @@ void func_80188DE4(void *a0) {
     extern void (*D_801D0A3C[])(void *);
     register s32 t __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
 
-    if (((Unkstruct_80188DE4 *)a0)->unkFC != 0) {
-        ((Unkstruct_80188DE4 *)a0)->unkFC = ((Unkstruct_80188DE4 *)a0)->unkFC - 1;
-        *(u32 *)(((Unkstruct_80188DE4 *)a0)->unk20.val + 4) ^= 0x80000000;
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = ((Unkstruct_801202A0 *)a0)->unkFC.s - 1;
+        *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 4) ^= 0x80000000;
     }
 
-    t = ((Unkstruct_80188DE4 *)a0)->unkA;
+    t = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
     t -= 0x30;
     if ((*(s16 *)&guess_g_PlayerPosY) < t) {
         t = (s32)D_801D094C;
@@ -4444,9 +4444,9 @@ void func_80188DE4(void *a0) {
     }
     t |= 0x40000000;
     t |= 0x20000000;
-    ((Unkstruct_80188DE4 *)a0)->unk58 = t;
+    ((Unkstruct_801202A0 *)a0)->unk58.u = t;
 
-    t = ((Unkstruct_80188DE4 *)a0)->unk2;
+    t = ((Unkstruct_801202A0 *)a0)->unk2.u;
     __asm__("" : "=r"(t) : "0"(t));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-hardreg-conflict
     D_801D0A3C[t](a0);
 }
@@ -4482,11 +4482,11 @@ void func_80188F14(void *arg0) {
 
     s32 p;
 
-    p = ((Unkstruct_80188F14 *)arg0)->unk20.val;
+    p = ((Unkstruct_801202A0 *)arg0)->unk20.val;
     *(s32 *)(p + 4) &= 0x7FFFFFFF;
-    ((Unkstruct_80188F14 *)arg0)->unkFC = 0;
-    func_800291C8(10, (s16)(((Unkstruct_80188F14 *)arg0)->unkFE | 0x100));
-    D_801D099C = ((Unkstruct_80188F14 *)arg0)->unk6;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.s = 0;
+    func_800291C8(10, (s16)(((Unkstruct_801202A0 *)arg0)->unkFE.u | 0x100));
+    D_801D099C = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     D_801D099E = CAST_ALIAS(u16, (s32)arg0, 0xA);
     D_801D09A0 = CAST_ALIAS(u16, (s32)arg0, 0xE);
 }
@@ -4949,13 +4949,13 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801D1088, sv0, &flag);
     RotTransSV(D_801D1088 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_801202A0 *)obj)->unk20.val, ((Unkstruct_801202A0 *)obj)->unk58.s, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
         return 0;
     }
-    ((Unkstruct_8017E75C *)obj)->unk2 = 3;
+    ((Unkstruct_801202A0 *)obj)->unk2.s = 3;
     func_80178BF8();
     return (s32)func_80172710;
 }

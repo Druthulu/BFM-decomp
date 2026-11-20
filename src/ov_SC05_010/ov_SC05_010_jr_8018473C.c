@@ -4477,9 +4477,9 @@ void func_80186F7C(s32 param_1)
 
         ((Unkstruct_8001C9D0 *)a1)->head.unk12.u = ((Unkstruct_8001C9D0 *)a1)->head.unk12.u - 0x100;
 
-        ((Unkstruct_8001C9D0 *)a1)->head.unk8.u = ((Unkstruct_80184214 *)param_1)->unk6 + ((Unkstruct_80184214 *)param_1)->unk50;
-        ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = ((Unkstruct_80184214 *)param_1)->unkA + ((Unkstruct_80184214 *)param_1)->unk52;
-        ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = ((Unkstruct_80184214 *)param_1)->unkE + ((Unkstruct_80184214 *)param_1)->unk54;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk8.u = ((Unkstruct_80184214 *)param_1)->unk4.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = ((Unkstruct_80184214 *)param_1)->unk8.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk52.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = ((Unkstruct_80184214 *)param_1)->unkC.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk54.u;
 
         ((Unkstruct_8001C9D0 *)a1)->unk18.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk18.u;
         ((Unkstruct_8001C9D0 *)a1)->unk1A.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk1A.u;

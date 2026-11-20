@@ -3739,13 +3739,13 @@ s32 aF8018A224(param_1)
     RotTransSV(D_80194EE8, sv0, &flag);
     RotTransSV(D_80194EE8 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E520_2 *)obj)->unk20.val, ((Unkstruct_8017E520_2 *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_8017E520_2 *)obj)->unk20.val, ((Unkstruct_8017E520_2 *)obj)->unk58.s, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
         return 0;
     }
-    ((Unkstruct_8017E520_2 *)obj)->unk2 = 3;
+    ((Unkstruct_8017E520_2 *)obj)->unk2.s = 3;
     func_80178BF8();
     return (s32)func_80172710;
 }

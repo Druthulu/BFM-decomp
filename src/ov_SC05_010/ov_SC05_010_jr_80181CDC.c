@@ -3950,7 +3950,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 
 extern void func_8012AD44(s32 *a0, s16 a1);
     void func_80184214(void *a0) {
-        ((Unkstruct_80184214 *)a0)->unkFC = 0x8;
+        ((Unkstruct_80184214 *)a0)->unkFC.sb = 0x8;
         ((void (*)(s32, s32))func_8012AD44)((s32)a0, 0x2);
     }
 

@@ -2699,7 +2699,7 @@ void func_80186D44(void) {
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
     extern s32 D_801EB518;
     void func_80186D4C(void *arg0) {
-        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_801EB518);
+        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_801202A0 *)arg0)->unkCC.val, &D_801EB518);
     }
 
 

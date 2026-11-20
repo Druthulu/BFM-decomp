@@ -2901,10 +2901,10 @@ void func_801822A0(s32 a0) {
 
 
 void func_801823F0(s32 a0) {
-    s32 v1 = ((Unkstruct_801823F0 *)a0)->unkCC.val;
-    ((Unkstruct_801823F0 *)a0)->unk2 = 9;
-    ((Unkstruct_801823F0 *)a0)->unk1C = 0x20;
-    ((Unkstruct_801823F0 *)a0)->unk34 = 0;
+    s32 v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 9;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x20;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
     if (v1 != 0) {
         *(s16 *)(v1 + 0xFC) = 1;
     }
@@ -4428,14 +4428,14 @@ void func_80184604(void *a0)
     u32 idx;
 
     s0 = (s32)a0;
-    idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
+    idx = ((Unkstruct_801202A0 *)s0)->unk70.u;
+    s1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_8019CA78 + idx * 12;
 
     func_80184934((void *)s1, (void *)s2);
 
-    v0 = ((Unkstruct_80180C68_2 *)s0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk70.u;
     if (v0 & 1) {
         ((Unkstruct_800B5BD8 *)s1)->unk14.u -= 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 + 1;

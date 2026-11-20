@@ -4799,21 +4799,21 @@ void func_8017EBD0(void *arg0) {
     a1 = (u8 *)arg0;
     if ((s16)guess_g_PlayerPosX * (s16)guess_g_PlayerPosX +
         ((s16)guess_g_PlayerPosZ - 2530) * ((s16)guess_g_PlayerPosZ - 2530) <= 0xD2400) {
-        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20.val + 4) &= 0x7FFFFFFF;
+        *(u32 *)(((Unkstruct_801202A0 *)a1)->unk20.val + 4) &= 0x7FFFFFFF;
     } else {
-        *(u32 *)(((Unkstruct_8017EBD0 *)a1)->unk20.val + 4) |= 0x80000000;
+        *(u32 *)(((Unkstruct_801202A0 *)a1)->unk20.val + 4) |= 0x80000000;
     }
 
-    if (((Unkstruct_8017EBD0 *)a1)->unkFE != 0) {
+    if (((Unkstruct_801202A0 *)a1)->unkFE.s != 0) {
         if (CAST_SIGN(s16, a1, 0xFC) <
-            *(s16 *)((u8 *)D_80188B66 + ((((Unkstruct_8017EBD0 *)a1)->unk70 & 0xF) * 8))) {
-            ((Unkstruct_8017EBD0 *)a1)->unk6 = ((Unkstruct_8017EBD0 *)a1)->unk6 +
-                *(u16 *)((u8 *)D_80188B60 + ((((Unkstruct_8017EBD0 *)a1)->unk70 & 0xF) * 8));
-            ((Unkstruct_8017EBD0 *)a1)->unkA = ((Unkstruct_8017EBD0 *)a1)->unkA +
-                *(u16 *)((u8 *)D_80188B62 + ((((Unkstruct_8017EBD0 *)a1)->unk70 & 0xF) * 8));
-            ((Unkstruct_8017EBD0 *)a1)->unkE = ((Unkstruct_8017EBD0 *)a1)->unkE +
-                *(u16 *)((u8 *)D_80188B64 + ((((Unkstruct_8017EBD0 *)a1)->unk70 & 0xF) * 8));
-            ((Unkstruct_8017EBD0 *)a1)->unkFC = ((Unkstruct_8017EBD0 *)a1)->unkFC + 1;
+            *(s16 *)((u8 *)D_80188B66 + ((((Unkstruct_801202A0 *)a1)->unk70.u & 0xF) * 8))) {
+            ((Unkstruct_801202A0 *)a1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a1)->unk4.i.hi.u +
+                *(u16 *)((u8 *)D_80188B60 + ((((Unkstruct_801202A0 *)a1)->unk70.u & 0xF) * 8));
+            ((Unkstruct_801202A0 *)a1)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a1)->unk8.i.hi.u +
+                *(u16 *)((u8 *)D_80188B62 + ((((Unkstruct_801202A0 *)a1)->unk70.u & 0xF) * 8));
+            ((Unkstruct_801202A0 *)a1)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a1)->unkC.i.hi.u +
+                *(u16 *)((u8 *)D_80188B64 + ((((Unkstruct_801202A0 *)a1)->unk70.u & 0xF) * 8));
+            ((Unkstruct_801202A0 *)a1)->unkFC.u = ((Unkstruct_801202A0 *)a1)->unkFC.u + 1;
         }
     }
 }

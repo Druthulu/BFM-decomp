@@ -2921,11 +2921,11 @@ extern s32 func_8012DFD4(u8 *a0);
 extern void func_8017D790(s16 *a0);
 
 void func_8017D694(s32 *a0) {
-    D_80181E64[((Unkstruct_8017D894 *)a0)->unk2]();
-    *(u16 *)(((Unkstruct_8017D894 *)a0)->unk20.val + 0x12) += ((Unkstruct_8017D894 *)a0)->unkFC;
+    D_80181E64[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12) += ((Unkstruct_801202A0 *)a0)->unkFC.u;
     func_8012DFD4((u8 *)a0);
-    if (((Unkstruct_8017D894 *)a0)->unk74 != 0) {
-        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_8017D894 *)a0)->unkFC;
+    if (((Unkstruct_801202A0 *)a0)->unk74 != 0) {
+        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_801202A0 *)a0)->unkFC.u;
     }
     func_8017D790(a0);
 }

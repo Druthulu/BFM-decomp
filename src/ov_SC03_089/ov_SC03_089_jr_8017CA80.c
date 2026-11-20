@@ -4879,17 +4879,17 @@ void func_80183950(s32 a0) {
 
     extern s16 D_801A1AE2[];
     s32 a1 = a0;
-    s32 t = ((Unkstruct_8017D804 *)a1)->unk1C - 1;
-    ((Unkstruct_8017D804 *)a1)->unk1C = t;
+    s32 t = ((Unkstruct_801202A0 *)a1)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a1)->unk1C.s = t;
     if (t == 0) {
-        s16 idx = ((Unkstruct_8017D804 *)a1)->unkFC;
+        s16 idx = ((Unkstruct_801202A0 *)a1)->unkFC.s;
         s32 val = D_801A1AE2[idx * 4];
 
-        ((Unkstruct_8017D804 *)a1)->unk12 = -CAST_SIGN(u16, a1, 0x12);
-        ((Unkstruct_8017D804 *)a1)->unk16 = -CAST_SIGN(u16, a1, 0x16);
-        ((Unkstruct_8017D804 *)a1)->unk1A = -CAST_SIGN(u16, a1, 0x1A);
-        ((Unkstruct_8017D804 *)a1)->unk2 = 1;
-        ((Unkstruct_8017D804 *)a1)->unk1C = val;
+        ((Unkstruct_801202A0 *)a1)->unk10.i.hi.s = -CAST_SIGN(u16, a1, 0x12);
+        ((Unkstruct_801202A0 *)a1)->unk14.i.hi.s = -CAST_SIGN(u16, a1, 0x16);
+        ((Unkstruct_801202A0 *)a1)->unk18.i.hi.s = -CAST_SIGN(u16, a1, 0x1A);
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a1)->unk1C.s = val;
     }
     func_8012DFD4((u8 *)a0);
 }
@@ -4999,8 +4999,8 @@ void func_80183C90(s32 arg0) {
     for (i = 0; i < 3; i++) {
         func_8013B7AC(i);
     }
-    ((Unkstruct_80183C90 *)arg0)->unk2 = ((Unkstruct_80183C90 *)arg0)->unk2 + 1;
-    ((Unkstruct_80183C90 *)arg0)->unkCC.val = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u = ((Unkstruct_801202A0 *)arg0)->unk2.u + 1;
+    ((Unkstruct_801202A0 *)arg0)->unkCC.val = 0;
 }
 
 
@@ -5258,7 +5258,7 @@ void func_80184330(s32 arg0) {
     func_8012CBF4(arg0);
     if (func_80013478(arg0 + 4, arg0 + 0x88) < 0x101) {
         ((Unkstruct_80181EA0_4 *)*(s32 *)(arg0 + 0x20))->unk10 = 0;
-        ((Unkstruct_80181EA0_2 *)arg0)->unk2.s = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     }
 }
 
@@ -5512,10 +5512,10 @@ void func_80184730(s32 a0) {
 void func_80184880(s32 arg0) {
     s32 v1;
 
-    v1 = ((Unkstruct_801823F0 *)arg0)->unkCC.val;
-    ((Unkstruct_801823F0 *)arg0)->unk2 = 9;
-    ((Unkstruct_801823F0 *)arg0)->unk1C = 0x20;
-    ((Unkstruct_801823F0 *)arg0)->unk34 = 0;
+    v1 = ((Unkstruct_801202A0 *)arg0)->unkCC.val;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 9;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x20;
+    ((Unkstruct_801202A0 *)arg0)->unk34.s = 0;
     if (v1 != 0) {
         *(s16 *)(v1 + 0xFC) = 1;
     }

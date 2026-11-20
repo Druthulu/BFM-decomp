@@ -3115,7 +3115,7 @@ void func_8017D8A0(void *a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80181808;
     void func_8017D8B0(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_80181808);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0)->unkCC.val, &D_80181808);
     }
 
 

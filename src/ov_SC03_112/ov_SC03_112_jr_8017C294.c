@@ -4680,15 +4680,15 @@ void func_80180388(s32 param_1) {
     s32 v1;
     u16 sp10[3];
 
-    temp_a0 = ((Unkstruct_80180388 *)param_1)->unk20.val;
+    temp_a0 = ((Unkstruct_801202A0 *)param_1)->unk20.val;
     if (((Unkstruct_8001C9D0 *)temp_a0)->unk24 == (s32)&D_801A4B78) {
         func_8001C924(temp_a0, &D_801A4B68);
     }
-    ((Unkstruct_80180388 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_80180388 *)param_1)->blkDC.f.unkDC.val &= ~0x10;
-    v1 = ((Unkstruct_80180388 *)param_1)->unk5E;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x18;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val &= ~0x10;
+    v1 = ((Unkstruct_801202A0 *)param_1)->unk5E.u;
     if (v1 == 0x23) {
-        ((Unkstruct_80180388 *)param_1)->unkFE = 1;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.u = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (v1 == 0x24) {
         sp10[0] = 0;
@@ -4954,19 +4954,19 @@ void func_80180808(s32 param_1) {
     s32 iVar1;
     s32 uVar2;
 
-    ((Unkstruct_8017E800 *)param_1)->unk5C = 0;
-    if (((Unkstruct_8017E800 *)param_1)->blkDC.f.unkDC.val & 2) {
-        ((Unkstruct_8017E800 *)param_1)->unk1C = 0x2D;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0;
+    if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val & 2) {
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x2D;
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_801A825C);
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
         ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 =
-            (((Unkstruct_8017E800 *)param_1)->unk62 + 0x800) & 0xFFF;
-        ((Unkstruct_8017E800 *)param_1)->unk52 = 0;
+            (((Unkstruct_801202A0 *)param_1)->unk62 + 0x800) & 0xFFF;
+        ((Unkstruct_801202A0 *)param_1)->unk52.s = 0;
     } else {
-        ((Unkstruct_8017E800 *)param_1)->unk1C = 0x37;
-        func_8001C924(((Unkstruct_8017E800 *)param_1)->unk20.val, &D_801A6518);
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x37;
+        func_8001C924(((Unkstruct_801202A0 *)param_1)->unk20.val, &D_801A6518);
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_801A817C);
-        ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E800 *)param_1)->unk62;
+        ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_801202A0 *)param_1)->unk62;
     }
     iVar1 = guess_DistSqToPlayer(param_1);
     uVar2 = 0x520;

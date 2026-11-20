@@ -3610,13 +3610,13 @@ void func_8017FDBC(s32 arg0) {
 
 
 void func_8017FE4C(s32 a0) {
-    if (*(s16 *)(((Unkstruct_8017FE4C *)a0)->unk64 + 0xFC) != 0) {
-        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20.val;
+    if (*(s16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0xFC) != 0) {
+        s32 *ptr = (s32 *)((Unkstruct_801202A0 *)a0)->unk20.val;
         s32 field = ptr[1];
         field |= 0x80000000;
         ptr[1] = field;
     } else {
-        s32 *ptr = (s32 *)((Unkstruct_8017FE4C *)a0)->unk20.val;
+        s32 *ptr = (s32 *)((Unkstruct_801202A0 *)a0)->unk20.val;
         s32 field = ptr[1];
         field &= 0x7FFFFFFF;
         ptr[1] = field;
@@ -4283,14 +4283,14 @@ void func_80180C68(void *a0)
     u32 idx;
 
     s0 = (s32)a0;
-    idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
+    idx = ((Unkstruct_801202A0 *)s0)->unk70.u;
+    s1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_8019AF4C + idx * 12;
 
     func_80180F98((void *)s1, (void *)s2);
 
-    v0 = ((Unkstruct_80180C68_2 *)s0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk70.u;
     if (v0 & 1) {
         ((Unkstruct_800B5BD8 *)s1)->unk14.u -= 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 + 1;

@@ -5119,10 +5119,10 @@ void func_8017FA6C(void *a0)
     void *ptr;
     s32 handle;
 
-    ptr = (void *)D_80186694[((Unkstruct_8017FA6C_2 *)a0)->unk70];
+    ptr = (void *)D_80186694[((Unkstruct_801202A0 *)a0)->unk70.s];
     handle = ((s32 (*)(void))guess_AllocSpriteObjectHigh)();
     if (handle != 0) {
-        ((Unkstruct_8017FA6C_2 *)a0)->unk20.val = handle;
+        ((Unkstruct_801202A0 *)a0)->unk20.val = handle;
         ((void (*)(s32, void *))func_8001CEC0)(handle, ptr);
         ((Unkstruct_800B5BD8 *)handle)->unk2E.s = 0;
         ((Unkstruct_800B5BD8 *)handle)->unk30.s = 0;

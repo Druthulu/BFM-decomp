@@ -5314,26 +5314,26 @@ void func_80181F7C(s32 a0) {
     extern s32 D_801C1358;
     s32 self;
     self = a0;
-    if (((Unkstruct_80181F7C *)self)->unk1C == 0x30) {
+    if (((Unkstruct_801202A0 *)self)->unk1C.s == 0x30) {
         func_8013CABC();
-    } else if (((Unkstruct_80181F7C *)self)->unk1C == 0x10) {
-        ((void (*)(void *))func_8018282C)((void *)((Unkstruct_80181F7C *)self)->unkD0.val);
+    } else if (((Unkstruct_801202A0 *)self)->unk1C.s == 0x10) {
+        ((void (*)(void *))func_8018282C)((void *)((Unkstruct_801202A0 *)self)->unkD0.val);
     }
-    if (((Unkstruct_80181F7C *)self)->unk84 & 1) {
+    if (((Unkstruct_801202A0 *)self)->unk84.u & 1) {
         ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 = ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 - 3;
         *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) =
             *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) - 3;
-        ((Unkstruct_80181F7C *)self)->unk6 = ((Unkstruct_80181F7C *)self)->unk6 - 3;
+        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u - 3;
     } else {
         ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 = ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 + 3;
         *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) =
             *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) + 3;
-        ((Unkstruct_80181F7C *)self)->unk6 = ((Unkstruct_80181F7C *)self)->unk6 + 3;
+        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u + 3;
     }
     {
         s32 t;
         t = D_801C1358;
-        ((Unkstruct_80181F7C *)self)->unk84 = ((Unkstruct_80181F7C *)self)->unk84 + 1;
+        ((Unkstruct_801202A0 *)self)->unk84.u = ((Unkstruct_801202A0 *)self)->unk84.u + 1;
         if (t == 0) {
             D_801C1358 = ((s32 (*)(void))func_80181070)();
         }
@@ -5341,8 +5341,8 @@ void func_80181F7C(s32 a0) {
     if (guess_TickWaitTimer(self) && D_801C1358) {
         func_801821D4(self);
     } else {
-        if (((Unkstruct_80181F7C *)self)->unk1C < 0x48) {
-            if ((((Unkstruct_80181F7C *)self)->unk84 & 3) == 0) {
+        if (((Unkstruct_801202A0 *)self)->unk1C.s < 0x48) {
+            if ((((Unkstruct_801202A0 *)self)->unk84.u & 3) == 0) {
                 func_80182108(self);
             }
         }
@@ -5829,7 +5829,7 @@ void func_80182A00(void *arg0) {
 extern s32 guess_StepPairSequence(s32 param_1, s32 *param_2);
     extern s32 D_801C1350;
     void func_80182A08(void *arg0) {
-        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_8017D8B0 *)arg0)->unkCC.val, &D_801C1350);
+        ((void (*)(s32, s32))guess_StepPairSequence)(((Unkstruct_801202A0 *)arg0)->unkCC.val, &D_801C1350);
     }
 
 

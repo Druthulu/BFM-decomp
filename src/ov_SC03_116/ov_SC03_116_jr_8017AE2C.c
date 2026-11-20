@@ -4978,10 +4978,10 @@ void func_801820AC(s32 a0) {
     s32 v0, v1;
 
     s0 = a0;
-    if (((Unkstruct_801820AC *)s0)->unkFE == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unkFE.s == 0) {
         if (func_8012E57C(0x1C0, 2) == 0) {
-            ((Unkstruct_801820AC *)s0)->unkFE = 1;
-            v1 = ((Unkstruct_801820AC *)s0)->unk20.val;
+            ((Unkstruct_801202A0 *)s0)->unkFE.s = 1;
+            v1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
             v1 = ((Unkstruct_8001C9D0 *)v1)->unk80;
             ((SVECTOR *)v1)->vz = -0x20;
             ((SVECTOR *)v1)->vy = -0x20;
@@ -4989,8 +4989,8 @@ void func_801820AC(s32 a0) {
         }
     }
     if (func_8012E544(0x1C0) == 0) {
-        ((Unkstruct_801820AC *)s0)->unk2 += 1;
-        ((Unkstruct_801820AC *)s0)->unk1C = 0x40;
+        ((Unkstruct_801202A0 *)s0)->unk2.u += 1;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x40;
         func_80178B18((s32)s0, (s32)&D_80186500);
     }
 }

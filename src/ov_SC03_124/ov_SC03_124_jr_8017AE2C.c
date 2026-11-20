@@ -3494,17 +3494,17 @@ void func_8017C2B0(s32 a0)
     s32 unused[2];              /* dead 8-byte local — frame 0x28, not 0x20 */
     s32 s0;
 
-    s0 = ((Unkstruct_8017C2B0 *)a0)->unk20.val;
+    s0 = ((Unkstruct_801202A0 *)a0)->unk20.val;
 
-    if ((s32)((Unkstruct_8017C2B0 *)a0)->unkA - (s32)(*(s16 *)&guess_g_PlayerPosY) >= 0x40) {
-        ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x40;
+    if ((s32)((Unkstruct_801202A0 *)a0)->unk8.i.hi.s - (s32)(*(s16 *)&guess_g_PlayerPosY) >= 0x40) {
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x40;
     } else {
-        ((Unkstruct_8017C2B0 *)a0)->unk5C = 0x800;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x800;
     }
 
     if (((Unkstruct_8001C9D0 *)s0)->head.unk12.s != D_801E19F8) {
         ((Unkstruct_8001C9D0 *)s0)->head.unk12.s = D_801E19F8;
-        RotMatrixZYX(((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x10, ((Unkstruct_8017C2B0 *)a0)->unk20.val + 0x34);
+        RotMatrixZYX(((Unkstruct_801202A0 *)a0)->unk20.val + 0x10, ((Unkstruct_801202A0 *)a0)->unk20.val + 0x34);
         ((Unkstruct_8001C9D0 *)s0)->unk2C.u |= 0x11;
     }
 }
@@ -5232,16 +5232,16 @@ void func_8017F884(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8017F884 *)param_1)->unk20.val = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         guess_InitModelObject(v0, (s32)&D_801BB9B0);
-        *(short *)(((Unkstruct_8017F884 *)param_1)->unk20.val + 0x12) = (short)D_8018FBE0;
-        *(short *)(((Unkstruct_8017F884 *)param_1)->unk68 + 0xC) = 0x7FFF;
-        ((Unkstruct_8017F884 *)param_1)->unk1C = 2;
-        ((Unkstruct_8017F884 *)param_1)->unk34 = 0;
-        ((Unkstruct_8017F884 *)param_1)->unk2 += 1;
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x12) = (short)D_8018FBE0;
+        *(short *)(((Unkstruct_801202A0 *)param_1)->unk68 + 0xC) = 0x7FFF;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 2;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u += 1;
     }
 }
 

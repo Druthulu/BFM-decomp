@@ -4251,9 +4251,9 @@ void func_8017DE40(s32 param_1)
 extern void (*D_8018BD14[])(void);
 
 void func_8017E0B4(void *a0) {
-    D_8018BD14[((Unkstruct_8017E0B4 *)a0)->unk2]();
-    if (((Unkstruct_8017E0B4 *)a0)->unk0 != 0) {
-        *(u16 *)(((Unkstruct_8017E0B4 *)a0)->unk20.val + 0x2C) |= 0x10;
+    D_8018BD14[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x2C) |= 0x10;
     }
 }
 
@@ -5413,11 +5413,11 @@ void func_8017F920(s32 param_1) {
     s32 q;
     u16 h;
 
-    p = ((Unkstruct_801838EC_3 *)param_1)->unk20.val;
+    p = ((Unkstruct_801202A0 *)param_1)->unk20.val;
     h = ((Unkstruct_8017E654_2 *)p)->unk2C;
     if (h & 0x10) {
         ((Unkstruct_8017E654_2 *)p)->unk2C = h & 0xFFEF;
-        q = ((Unkstruct_801838EC_3 *)param_1)->unk20.val;
+        q = ((Unkstruct_801202A0 *)param_1)->unk20.val;
         ((Unkstruct_8017E654_2 *)q)->unk1C = 0x1000;
         ((Unkstruct_8017E654_2 *)q)->unk1A = 0x1000;
         ((Unkstruct_8017E654_2 *)q)->unk18 = 0x1000;
@@ -7055,15 +7055,15 @@ void func_80181EC8(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181EC8 *)param_1)->unk20.val = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         guess_InitModelObject(v0, 0);
-        ((Unkstruct_80181EC8 *)param_1)->unk58 = (int)&D_8018C220;
-        ((Unkstruct_80181EC8 *)param_1)->unk5C = 0x80;
+        ((Unkstruct_801202A0 *)param_1)->unk58.s = (int)&D_8018C220;
+        ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0x80;
         *(unsigned short *)(param_1 + 2) += 1;
-        ((Unkstruct_80181EC8 *)param_1)->blkDC.f.unkDC.val = *(int *)(D_8018C1F0[*(unsigned short *)(param_1 + 0x70) & 0xf] + (rand() % 3));
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = *(int *)(D_8018C1F0[*(unsigned short *)(param_1 + 0x70) & 0xf] + (rand() % 3));
         *(unsigned short *)(param_1 + 0xfc) = (*(unsigned short *)(param_1 + 0x70) >> 12) << 9;
     }
 }

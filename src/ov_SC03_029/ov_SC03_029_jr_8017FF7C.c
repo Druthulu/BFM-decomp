@@ -3228,10 +3228,10 @@ void func_801809A4(s32 a0)
 
 
 void func_80180B44(void *a0) {
-    s32 v1 = ((Unkstruct_80180B44_4 *)a0)->unk20.val;
+    s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
 
     *(s32 *)(v1 + 0x4) = *(s32 *)(v1 + 0x4) & 0x7FFFFFFF;
-    ((Unkstruct_80180B44_4 *)a0)->unkFC = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
     func_800291C8(0xA, 0x3065);
 }
 
@@ -3372,13 +3372,13 @@ void func_80180D3C(s32 arg0) {
 extern void (*D_8018B8FC[])(void *);
 
 void func_80180E94(void *a0) {
-    s16 count = ((Unkstruct_80180E94 *)a0)->unkFC;
+    s16 count = ((Unkstruct_801202A0 *)a0)->unkFC.s;
     if (count != 0) {
-        s32 ptr = ((Unkstruct_80180E94 *)a0)->unk20.val;
-        ((Unkstruct_80180E94 *)a0)->unkFC = count - 1;
+        s32 ptr = ((Unkstruct_801202A0 *)a0)->unk20.val;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = count - 1;
         *(s32 *)(ptr + 4) = *(s32 *)(ptr + 4) ^ 0x80000000;
     }
-    D_8018B8FC[((Unkstruct_80180E94 *)a0)->unk2](a0);
+    D_8018B8FC[((Unkstruct_801202A0 *)a0)->unk2.u](a0);
 }
 
 
@@ -5198,11 +5198,11 @@ void func_801838EC(void *a0)
     s32 b;
     u16 v1;
 
-    a1 = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
+    a1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
     v1 = ((Unkstruct_8001C9D0 *)a1)->unk2C.u;
     if (v1 & 0x10) {
         ((Unkstruct_8001C9D0 *)a1)->unk2C.u = v1 & 0xFFEF;
-        b = ((Unkstruct_801838EC_3 *)a0)->unk20.val;
+        b = ((Unkstruct_801202A0 *)a0)->unk20.val;
         ((Unkstruct_8001C9D0 *)b)->unk1C.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk1A.u = 0x1000;
         ((Unkstruct_8001C9D0 *)b)->unk18.u = 0x1000;
@@ -6890,13 +6890,13 @@ s32 aF8018A224(param_1)
     RotTransSV(D_801C89E4, sv0, &flag);
     RotTransSV(D_801C89E4 + 8, sv1, &flag);
 
-    if (func_80135888(((Unkstruct_8017E75C *)obj)->unk20.val, ((Unkstruct_8017E75C *)obj)->unk58, (s32)sv0, (s32)sv1) == 0) {
+    if (func_80135888(((Unkstruct_801202A0 *)obj)->unk20.val, ((Unkstruct_801202A0 *)obj)->unk58.s, (s32)sv0, (s32)sv1) == 0) {
         return 0;
     }
     if (func_8012BDBC(obj, 0x300) == 0) {
         return 0;
     }
-    ((Unkstruct_8017E75C *)obj)->unk2 = 3;
+    ((Unkstruct_801202A0 *)obj)->unk2.s = 3;
     func_80178BF8();
     return (s32)func_80172710;
 }

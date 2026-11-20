@@ -4946,13 +4946,13 @@ extern int func_8001AAA0(s32 arg0);
 void func_80185F84(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_80185F84 *)arg0)->unk1C - 1;
-    ((Unkstruct_80185F84 *)arg0)->unk1C = temp_v0;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = temp_v0;
     if (temp_v0 == -1) {
-        ((Unkstruct_80185F84 *)arg0)->unk44.w.unk48 = 0x38000;
-        ((Unkstruct_80185F84 *)arg0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0x38000;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;
         ((void (*)(s32))func_8001AAA0)(0x9C);
-        ((Unkstruct_80185F84 *)arg0)->unk2 = 0xC;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xC;
     }
 }
 

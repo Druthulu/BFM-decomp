@@ -3135,11 +3135,11 @@ void func_80142EC0(s32 param_1) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(d);
     } else {
         guess_InitModelObjectKind3(obj, 0);
-        sVar2 = (s16)((((Unkstruct_80142EC0_4 *)d)->unk70 & 0xf) * 0x600 + 0xc00);
+        sVar2 = (s16)((((Unkstruct_80142EC0_4 *)d)->unk70.u & 0xf) * 0x600 + 0xc00);
         *(s16 *)(obj + 0x1a) = sVar2;
         *(s16 *)(obj + 0x18) = sVar2;
-        ((Unkstruct_80142EC0_4 *)d)->unkFC = 0;
-        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_80188140[((Unkstruct_80142EC0_4 *)d)->unk70 & 0xf]);
+        ((Unkstruct_80142EC0_4 *)d)->unkFC.s = 0;
+        ((void (*)(s32, s32))guess_StartActorSequence)(d, D_80188140[((Unkstruct_80142EC0_4 *)d)->unk70.u & 0xf]);
         ((void (*)(s32))func_80142B2C)(d);
     }
 }
@@ -3215,23 +3215,23 @@ void func_801431E8(s32 param_1) {
     memcpy(buf, &D_801D891C, 4);
     iVar5 = ((s32 (*)(void))guess_AllocModelObject)();
     d = iVar5;
-    ((Unkstruct_801431E8_2 *)param_1)->unk20.val = iVar5;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar5;
     if (iVar5 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((void (*)(s32, void *))func_8001CA88)(d, &D_801D95D0);
-        uVar2 = ((Unkstruct_801431E8_2 *)param_1)->unk70;
+        uVar2 = ((Unkstruct_801202A0 *)param_1)->unk70.u;
         ((Unkstruct_8001C9D0 *)d)->unk76 = -0x10;
         sVar4 = (uVar2 & 0xf) * 0x600 + 0xc00;
         ((Unkstruct_8001C9D0 *)d)->unk1A.s = sVar4;
         ((Unkstruct_8001C9D0 *)d)->unk18.s = sVar4;
         ((Unkstruct_8001C9D0 *)d)->head.unk4.u = ((Unkstruct_8001C9D0 *)d)->head.unk4.u | 0x50000000;
         if (func_8012E504(param_1, 0x33) == 0) {
-            ((Unkstruct_801431E8_2 *)param_1)->unkFC = 1;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = 1;
             guess_BuildCircle12Points(&D_801D95D0, 0x10);
             memcpy(&D_801D95D4, buf, 4);
         } else {
-            ((Unkstruct_801431E8_2 *)param_1)->unkFC = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
         }
         ((void (*)(s32))func_80142B2C)(param_1);
     }

@@ -4651,14 +4651,14 @@ void func_801884B8(void *a0)
     u32 idx;
 
     s0 = (s32)a0;
-    idx = ((Unkstruct_80180C68_2 *)s0)->unk70;
-    s1 = ((Unkstruct_80180C68_2 *)s0)->unk20.val;
+    idx = ((Unkstruct_801202A0 *)s0)->unk70.u;
+    s1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_801C3B90 + idx * 12;
 
     func_801887E8((void *)s1, (void *)s2);
 
-    v0 = ((Unkstruct_80180C68_2 *)s0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk70.u;
     if (v0 & 1) {
         ((Unkstruct_800B5BD8 *)s1)->unk14.u -= 4;
         v0 = ((Unkstruct_80180C68 *)s2)->unk4 + 1;
