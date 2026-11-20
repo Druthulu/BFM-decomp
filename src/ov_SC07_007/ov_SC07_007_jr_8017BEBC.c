@@ -7440,9 +7440,9 @@ void func_80182184(s32 arg0, s32 arg1) {
     *(s16 *)(p + F184_IDX + 0x16) = 0x100;
 
     ob = (u8 *)D_800A6618;
-    ((PTag *)(p + F184_IDX))->addr = ((PTag *)(ob + (aB9A02[0] << 14)))->addr;
+    ((PTag *)(p + F184_IDX))->b.addr = ((PTag *)(ob + (aB9A02[0] << 14)))->b.addr;
     ot1 = (PTag *)(ob + (aB9A02[0] << 14));
-    ot1->addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)p);
+    ot1->b.addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)p);
 
     r = D_801C7934;
     r4 = r + 4;
@@ -7461,9 +7461,9 @@ void func_80182184(s32 arg0, s32 arg1) {
     *(s16 *)(r + F184_IDX + 0x14) = 0x100;
     *(s16 *)(r + F184_IDX + 0x16) = 0xE0;
 
-    ((PTag *)(r + F184_IDX))->addr = ((PTag *)(ob + (aB9A02[0] << 14)))->addr;
+    ((PTag *)(r + F184_IDX))->b.addr = ((PTag *)(ob + (aB9A02[0] << 14)))->b.addr;
     ot2 = (PTag *)(ob + (aB9A02[0] << 14));
-    ot2->addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)r);
+    ot2->b.addr = n * 0x30 + (aB9A02[0] * 0x18 + (u32)r);
 }
 
 #undef F184_IDX

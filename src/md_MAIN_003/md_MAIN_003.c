@@ -250,8 +250,8 @@ extern s32 D_800EC68C;
 extern s16 D_800EC678;
 extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 D_800AA60C[];
-#define setaddr_(p, a) (((PTag_800CF3E8 *)(p))->addr = (u32)(a))
-#define getaddr_(p) ((u32)(((PTag_800CF3E8 *)(p))->addr))
+#define setaddr_(p, a) (((PTag_800CF3E8 *)(p))->b.addr = (u32)(a))
+#define getaddr_(p) ((u32)(((PTag_800CF3E8 *)(p))->b.addr))
 #define ADDPRIMB(ot, p) setaddr_((p), getaddr_(ot)); setaddr_((ot), (p));
 
 extern S16_800CF3E8 sD800B9A02 __asm__("guess_g_DoubleBufferIndex"); // Names ledger: config/names.tsv guess_g_DoubleBufferIndex

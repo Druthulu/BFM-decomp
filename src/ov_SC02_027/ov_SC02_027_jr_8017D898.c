@@ -4115,8 +4115,8 @@ epilogue:
 
 
 #define ADDPRIM_80180B3C(o, p)                                       \
-    (((PTag_80180B3C *)(p))->addr = ((PTag_80180B3C *)(o))->addr,   \
-     ((PTag_80180B3C *)(o))->addr = (u32)(p))
+    (((PTag_80180B3C *)(p))->b.addr = ((PTag_80180B3C *)(o))->b.addr,   \
+     ((PTag_80180B3C *)(o))->b.addr = (u32)(p))
 
 
 void func_80180B3C(s32 a0)
@@ -4204,7 +4204,7 @@ void func_80180B3C(s32 a0)
     shift = 2 - tp;
     pkt = (Ft4_80180B3C *)D_800A5E60;
     D_800A5E60 += 0x28;
-    pkt->tag.len = 9;
+    pkt->tag.b.len = 9;
     pkt->code = 0x2C;
     ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     x = ((Unkstruct_80185810 *)frame)->unk4;

@@ -4944,8 +4944,8 @@ void func_8018AC0C(void *a0, void *a1)
 
 
 #define ADDPRIM_8018B028(o, p)                                                \
-    (((PTag_8018B028 *)(p))->addr = ((PTag_8018B028 *)(o))->addr,             \
-     ((PTag_8018B028 *)(o))->addr = (u32)(p))
+    (((PTag_8018B028 *)(p))->b.addr = ((PTag_8018B028 *)(o))->b.addr,             \
+     ((PTag_8018B028 *)(o))->b.addr = (u32)(p))
 
 /* lhu / sll 16 / sra 19 : signed 13-bit field held at bit 3 of a u16 */
 #define SR3_8018B028(a) (((s32)(*(u16 *)(a) << 16)) >> 19)
@@ -5014,7 +5014,7 @@ void func_8018B028(void *ent, void *spr, u32 *q, u32 *ot)
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
         __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
-        poly->tag.len = 9;
+        poly->tag.b.len = 9;
         poly->code = code;
         poly->tpage = tpage;
         poly->u2 = su;

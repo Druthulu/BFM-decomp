@@ -6151,8 +6151,8 @@ void func_80181E04(void)
                     pkt[8] = 0;
                     pkt[0x12] = 0x10;
                     otp = (u32 *)((z >> 3) * 4 + (s32)ot);
-                    ((PTag_80181E04 *)pkt)->addr = ((PTag_80181E04 *)otp)->addr;
-                    ((PTag_80181E04 *)otp)->addr = (u32)pkt;
+                    ((PTag_80181E04 *)pkt)->b.addr = ((PTag_80181E04 *)otp)->b.addr;
+                    ((PTag_80181E04 *)otp)->b.addr = (u32)pkt;
                     pkt += 0x18;
                 }
             }

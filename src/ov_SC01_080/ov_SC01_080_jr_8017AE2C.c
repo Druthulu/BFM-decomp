@@ -5539,8 +5539,8 @@ void func_8017FD64(s32 arg0)
         q->uv2 = 0xFF30;
         q->uv3 = 0xFF3F;
         otp = (u32 *)((opz << 2) + ot);
-        ((P_TAG_FD64 *)pkt)->addr = ((P_TAG_FD64 *)otp)->addr;
-        ((P_TAG_FD64 *)otp)->addr = (u32)pkt;
+        ((P_TAG_FD64 *)pkt)->b.addr = ((P_TAG_FD64 *)otp)->b.addr;
+        ((P_TAG_FD64 *)otp)->b.addr = (u32)pkt;
         pkt += 0x28;
     }
     D_800A5E60 = pkt;

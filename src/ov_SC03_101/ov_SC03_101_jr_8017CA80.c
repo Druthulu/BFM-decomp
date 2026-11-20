@@ -5094,8 +5094,8 @@ void func_801814F8(void *a0, void *a1)
 
 
 #define ADDPRIM_801833F0(o, p)                                                 \
-    (((PTag_801833F0 *)(p))->addr = ((PTag_801833F0 *)(o))->addr,              \
-     ((PTag_801833F0 *)(o))->addr = (u32)(p))
+    (((PTag_801833F0 *)(p))->b.addr = ((PTag_801833F0 *)(o))->b.addr,              \
+     ((PTag_801833F0 *)(o))->b.addr = (u32)(p))
 #define SR3_801833F0(a) (((s32)(*(u16 *)(a) << 16)) >> 19)
 
 void func_80181914(void *ent, void *spr, u32 *q, u32 *ot)
@@ -5162,7 +5162,7 @@ void func_80181914(void *ent, void *spr, u32 *q, u32 *ot)
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
         __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
-        poly->tag.len = 9;
+        poly->tag.b.len = 9;
         poly->code = code;
         poly->tpage = tpage;
         poly->u2 = su;
@@ -5724,7 +5724,7 @@ void func_80182254(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    ((Unkstruct_80182254_3 *)ot)->unk40 = (((Unkstruct_80182254_3 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((PrimTag *)(ot + 0x40))->w = (((PrimTag *)(ot + 0x40))->w & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 
@@ -6167,9 +6167,9 @@ void func_801829F8(s32 a0) {
         Bidx_8018B23C_801829F8 *bp = (Bidx_8018B23C_801829F8 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
-        ((PTag_8018B23C_801829F8 *)q)->addr =
-            ((PTag_8018B23C_801829F8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr;
-        ((PTag_8018B23C_801829F8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr = (u32)q;
+        ((PTag_8018B23C_801829F8 *)q)->b.addr =
+            ((PTag_8018B23C_801829F8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
+        ((PTag_8018B23C_801829F8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

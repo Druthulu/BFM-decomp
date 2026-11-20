@@ -3555,8 +3555,8 @@ void func_8017E26C(void)
         p->r0 = 32;
         p->g1 = 64;
         p->b1 = 32;
-        ((PT_8017E26C_t *)p)->addr = ((PT_8017E26C_t *)&ot[z])->addr;
-        ((PT_8017E26C_t *)&ot[z])->addr = (u32)p;
+        ((PT_8017E26C_t *)p)->b.addr = ((PT_8017E26C_t *)&ot[z])->b.addr;
+        ((PT_8017E26C_t *)&ot[z])->b.addr = (u32)p;
         p++;
     }
     D_800A5E60 = p;

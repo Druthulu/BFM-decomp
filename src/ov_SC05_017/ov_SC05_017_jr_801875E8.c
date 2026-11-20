@@ -3681,9 +3681,9 @@ void func_80188478(void) {
     /* §36 bitfield-store OT link, exactly as in func_8018BCD4 next door. */
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
     ((W_S40_8018B238_80188478 *)ot)->w = 0x02000000;
-    ((PTag_S40_8018B238_80188478 *)ot)->addr =
-        ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr;
-    ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr = (u32)ot;
+    ((PTag_S40_8018B238_80188478 *)ot)->b.addr =
+        ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr;
+    ((PTag_S40_8018B238_80188478 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr = (u32)ot;
     ot += 10;
     guess_g_MenuPacketPtr.v = (s32)ot;
 }

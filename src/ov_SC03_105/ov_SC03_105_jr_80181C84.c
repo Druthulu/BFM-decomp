@@ -5434,8 +5434,8 @@ void func_80185810(s32 a0)
     }
 
     q = (PTag_85810 *)((otz << 2) + (u32)ob);
-    ((PTag_85810 *)p)->addr = q[1].addr;
-    q[1].addr = (u32)p;
+    ((PTag_85810 *)p)->b.addr = q[1].b.addr;
+    q[1].b.addr = (u32)p;
 }
 
 

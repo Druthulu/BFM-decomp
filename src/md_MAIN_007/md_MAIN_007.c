@@ -452,7 +452,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -473,7 +473,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -494,7 +494,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -515,7 +515,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -536,7 +536,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     *(u8 *)(p + 0x3) = 5;
@@ -557,7 +557,7 @@ void func_800CF6D0(s32 arg0, u32 arg1) {
         t |= v;
         *(u32 *)p = t;
     }
-    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)p;
+    ((P_TAG_md_MAIN_007_800CF6D0 *)(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)p;
     p += 0x18;
 
     D_800A5E60 = p;

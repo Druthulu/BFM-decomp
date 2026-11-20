@@ -1618,7 +1618,7 @@ typedef M8_801312D0 Vec8_801887E8;
 typedef M8_801312D0 Vec8_8018AC0C;
 typedef M8_801312D0 Vec8_8018BAB4;
 typedef SVECTOR Vec_8014A738;
-typedef W_S40_8018B238_80187EA0 W_8018BCD4;
+typedef PrimTag W_8018BCD4;
 typedef DVECTOR XDV2;
 typedef PolyFT3 XFT3;
 typedef PolyFT4 XFT4;
@@ -1638,8 +1638,8 @@ typedef SVECTOR XSV2;
 typedef OtBlk_80180894 Env_1412A8;
 typedef PrimTag PTag_1412A8;
 #define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
-#define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
-#define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
+#define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->b.addr)
+#define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->b.addr = (u32)(v))
 
 
 /* --- lift_types.py fleet lift --- */
@@ -3021,8 +3021,8 @@ typedef struct {
     s16 fFC;
     s16 fFE;
 } W_801810A0;
-typedef W_S40_8018B238_80187EA0 W_S40_8018B238_80188478;
-typedef W_S40_8018B238_80187EA0 W_S40_8018B238_80188778;
+typedef PrimTag W_S40_8018B238_80188478;
+typedef PrimTag W_S40_8018B238_80188778;
 typedef struct {
     u8 unk00[0x70];
     s16 unk70;

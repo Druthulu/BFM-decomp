@@ -744,7 +744,7 @@ void func_800CFAD0(void)
 
     u32 *ot;
 
-    ((PrimTag *)&D_80114E7C)->len = 5;
+    ((PrimTag *)&D_80114E7C)->b.len = 5;
     D_80114E80 = 0xE1000085;
     D_80114E87 = 0x64;
     D_80114E84 = D_80114E85 = D_80114E86 = 0x80;
@@ -758,7 +758,7 @@ void func_800CFAD0(void)
 
     ot = (u32 *)&D_800AA60C[guess_g_DoubleBufferIndex << 14];
 
-    ((P_TAG_800CFAD0 *)&D_80114E7C)->addr = *(u32 *)ot;
+    ((P_TAG_800CFAD0 *)&D_80114E7C)->b.addr = *(u32 *)ot;
     *(u32 *)ot = (*(u32 *)ot & 0xFF000000u) | ((u32)&D_80114E7C & 0x00FFFFFFu);
 }
 

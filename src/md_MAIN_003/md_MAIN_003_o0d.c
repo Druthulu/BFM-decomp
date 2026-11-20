@@ -308,9 +308,9 @@ void func_800D12D0(void) {
     D_800EC95A = 0x3C;
     D_800EC956 = 0x7A00;
 
-    ((PrimTag *)&D_800EC944)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC944)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC944;
 
     D_800EC98F = 5;
@@ -326,39 +326,39 @@ void func_800D12D0(void) {
     D_800EC9A2 = 0x14;
     D_800EC99E = 0x7A00;
 
-    ((PrimTag *)&D_800EC98C)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC98C)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC98C;
 
-    ((PrimTag *)&D_800EC92C)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC92C)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC92C;
 
-    ((PrimTag *)&D_800EC914)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC914)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC914;
 
-    ((PrimTag *)&D_800EC8FC)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC8FC)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC8FC;
 
-    ((PrimTag *)&D_800EC8E4)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC8E4)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC8E4;
 
-    ((PrimTag *)&D_800EC8CC)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC8CC)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC8CC;
 
-    ((PrimTag *)&D_800EC8B4)->addr =
-        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr;
-    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->addr =
+    ((PrimTag *)&D_800EC8B4)->b.addr =
+        ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr;
+    ((PrimTag *)(((Unkstruct_8012956C *)base)->unkA3D2 * 0x4000 + (u32)D_800AA60C))->b.addr =
         (u32)&D_800EC8B4;
 }
 

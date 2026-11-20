@@ -5139,7 +5139,7 @@ void func_801814DC(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_80181658 *)(p))->h)
-#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
+#define RW32(p) (((PrimTag *)(p))->w)
 
 void func_80181658(void *a0)
 {

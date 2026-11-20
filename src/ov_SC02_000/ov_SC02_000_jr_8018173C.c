@@ -4873,13 +4873,13 @@ void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
         tbl = (u32 *)((s8 *)D_800A6610 + ((u32)(u16)guess_g_DoubleBufferIndex << 14));
 
         ot = (u32 *)((otz << 2) + (s32)tbl);
-        ((PTAG_85910 *)p)->addr = ((PTAG_85910 *)ot)->addr;
-        ((PTAG_85910 *)ot)->addr = (u32)p;
+        ((PTAG_85910 *)p)->b.addr = ((PTAG_85910 *)ot)->b.addr;
+        ((PTAG_85910 *)ot)->b.addr = (u32)p;
         p += 0x24;
         func_8005A600((s32)p, 0, 0, (u16)GetTPage(0, 1, 0, 0), 0);
         ot2 = (u32 *)((otz << 2) + (s32)tbl);
-        ((PTAG_85910 *)p)->addr = ((PTAG_85910 *)ot2)->addr;
-        ((PTAG_85910 *)ot2)->addr = (u32)p;
+        ((PTAG_85910 *)p)->b.addr = ((PTAG_85910 *)ot2)->b.addr;
+        ((PTAG_85910 *)ot2)->b.addr = (u32)p;
         D_800A5E60 = (s32)(p + 0xC);
     }
 }

@@ -4467,7 +4467,7 @@ void func_80185944(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    ((Unkstruct_80185944_2 *)ot)->unk40 = (((Unkstruct_80185944_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((PrimTag *)(ot + 0x40))->w = (((PrimTag *)(ot + 0x40))->w & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 
@@ -4910,9 +4910,9 @@ void func_801860E8(s32 a0) {
         Bidx_8018B23C_801860E8 *bp = (Bidx_8018B23C_801860E8 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
-        ((PTag_8018B23C_801860E8 *)q)->addr =
-            ((PTag_8018B23C_801860E8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr;
-        ((PTag_8018B23C_801860E8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr = (u32)q;
+        ((PTag_8018B23C_801860E8 *)q)->b.addr =
+            ((PTag_8018B23C_801860E8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
+        ((PTag_8018B23C_801860E8 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

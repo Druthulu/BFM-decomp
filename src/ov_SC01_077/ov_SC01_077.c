@@ -2618,8 +2618,8 @@ int func_80141100(int param_1)
  * removed here because gcc-2.7.2 rejects a REPEATED typedef even when identical (the lesson
  * already recorded at the foot of engine_types.h); leaving both copies broke this very TU. */
 #define OT_1412A8            (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
-#define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->addr)
-#define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->addr = (u32)(v))
+#define getaddr_1412A8(t)    (((PTag_1412A8 *)(t))->b.addr)
+#define setaddr_1412A8(t, v) (((PTag_1412A8 *)(t))->b.addr = (u32)(v))
 #define addPrim_1412A8(ot, p) (setaddr_1412A8(p, getaddr_1412A8(ot)), setaddr_1412A8(ot, p))
 /* §37/§124 def-side asm-label alias (the S40 class lever). The TU declares
  *   extern int guess_DrawGaugeBar(int, int, int, int, int, int);            (ov_SC01_077.c:2720)

@@ -2109,10 +2109,10 @@ void func_801A293C(void *arg0)
                 func_8005A600(s0, 0, 0, 0x12A, 0);
                 e = (PTag293C *)(otz1 * 4 + base);
                 /* addPrim(e, p) */
-                ((PTag293C *)p)->addr = e->addr;
-                e->addr = (u32)p;
+                ((PTag293C *)p)->b.addr = e->b.addr;
+                e->b.addr = (u32)p;
                 /* addPrim(e, s0) */
-                ((PTag293C *)s0)->addr = e->addr;
+                ((PTag293C *)s0)->b.addr = e->b.addr;
                 s0 = (s32)s0 & 0xFFFFFF;
                 *(s32 *)e = (*(s32 *)e & 0xFF000000) | s0;
             }

@@ -8036,16 +8036,16 @@ void func_801843D8(void *a0)
         if (idx >= 0x1000) idx = 0xFFF;
         otp = (u32 *)((idx << 2) + (u32)ot);
 
-        ((PTag_801843D8 *)pkt)->addr = ((PTag_801843D8 *)otp)->addr;
-        ((PTag_801843D8 *)otp)->addr = (u32)pkt;
+        ((PTag_801843D8 *)pkt)->b.addr = ((PTag_801843D8 *)otp)->b.addr;
+        ((PTag_801843D8 *)otp)->b.addr = (u32)pkt;
 
         pkt2 = D_800A5E60;
         D_800A5E60 = pkt2 + 8;
         pkt2[3] = 1;
         *(u32 *)(pkt2 + 4) = 0xE100002A;
 
-        ((PTag_801843D8 *)pkt2)->addr = ((PTag_801843D8 *)otp)->addr;
-        ((PTag_801843D8 *)otp)->addr = (u32)pkt2;
+        ((PTag_801843D8 *)pkt2)->b.addr = ((PTag_801843D8 *)otp)->b.addr;
+        ((PTag_801843D8 *)otp)->b.addr = (u32)pkt2;
     }
 }
 

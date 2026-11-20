@@ -15550,9 +15550,9 @@ void func_8018EBCC(s32 a0) {
         Bidx_8018B23C_8018EBCC *bp = (Bidx_8018B23C_8018EBCC *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
-        ((PTag_8018B23C_8018EBCC *)q)->addr =
-            ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr;
-        ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr = (u32)q;
+        ((PTag_8018B23C_8018EBCC *)q)->b.addr =
+            ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
+        ((PTag_8018B23C_8018EBCC *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }
@@ -15605,7 +15605,7 @@ extern s32 rand(void);
 
 
 #define RD16(p) (((Unkstruct_8018F02C *)(p))->h)
-#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
+#define RW32(p) (((PrimTag *)(p))->w)
 
 void func_8018F02C(void *a0)
 {

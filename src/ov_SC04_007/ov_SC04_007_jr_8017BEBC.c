@@ -5079,8 +5079,8 @@ void func_8017FF08(void *a0, void *a1)
 
 
 #define ADDPRIM_801833F0(o, p)                                                 \
-    (((PTag_801833F0 *)(p))->addr = ((PTag_801833F0 *)(o))->addr,              \
-     ((PTag_801833F0 *)(o))->addr = (u32)(p))
+    (((PTag_801833F0 *)(p))->b.addr = ((PTag_801833F0 *)(o))->b.addr,              \
+     ((PTag_801833F0 *)(o))->b.addr = (u32)(p))
 #define SR3_801833F0(a) (((s32)(*(u16 *)(a) << 16)) >> 19)
 
 void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
@@ -5147,7 +5147,7 @@ void func_80180324(void *ent, void *spr, u32 *q, u32 *ot)
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
         __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus8) wall:flow-unused-result
-        poly->tag.len = 9;
+        poly->tag.b.len = 9;
         poly->code = code;
         poly->tpage = tpage;
         poly->u2 = su;
@@ -7071,16 +7071,16 @@ void func_80183438(void *a0)
         if (idx >= 0x1000) idx = 0xFFF;
         otp = (u32 *)((idx << 2) + (u32)ot);
 
-        ((PTag_801843D8_80183438 *)pkt)->addr = ((PTag_801843D8_80183438 *)otp)->addr;
-        ((PTag_801843D8_80183438 *)otp)->addr = (u32)pkt;
+        ((PTag_801843D8_80183438 *)pkt)->b.addr = ((PTag_801843D8_80183438 *)otp)->b.addr;
+        ((PTag_801843D8_80183438 *)otp)->b.addr = (u32)pkt;
 
         pkt2 = D_800A5E60;
         D_800A5E60 = pkt2 + 8;
         pkt2[3] = 1;
         *(u32 *)(pkt2 + 4) = 0xE100002A;
 
-        ((PTag_801843D8_80183438 *)pkt2)->addr = ((PTag_801843D8_80183438 *)otp)->addr;
-        ((PTag_801843D8_80183438 *)otp)->addr = (u32)pkt2;
+        ((PTag_801843D8_80183438 *)pkt2)->b.addr = ((PTag_801843D8_80183438 *)otp)->b.addr;
+        ((PTag_801843D8_80183438 *)otp)->b.addr = (u32)pkt2;
     }
 }
 

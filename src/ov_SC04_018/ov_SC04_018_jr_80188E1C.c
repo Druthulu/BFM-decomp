@@ -3978,10 +3978,10 @@ void func_80189EA0(void) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
 
     p = *pp;
-    ((PTag_8018C960_80189EA0 *)p)->len = 1;
+    ((PTag_8018C960_80189EA0 *)p)->b.len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960_80189EA0 *)p)->addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960_80189EA0 *)p)->tag  = 0x08000000;
@@ -4009,15 +4009,15 @@ void func_80189EA0(void) {
     ((PG4_8018C960_80189EA0 *)p)->y3 = 120;
     ((PG4_8018C960_80189EA0 *)p)->y2 = 120;
 
-    ((PTag_8018C960_80189EA0 *)p)->addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
-    ((PTag_8018C960_80189EA0 *)r)->len = 1;
+    ((PTag_8018C960_80189EA0 *)r)->b.len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960_80189EA0 *)r)->addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)r;
+    ((PTag_8018C960_80189EA0 *)r)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)r;
 
     p += 2;
     *pp = p;

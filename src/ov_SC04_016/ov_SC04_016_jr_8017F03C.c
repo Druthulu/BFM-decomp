@@ -3036,7 +3036,7 @@ void func_8017F72C(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_8017F8A8 *)(p))->h)
-#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
+#define RW32(p) (((PrimTag *)(p))->w)
 
 void func_8017F8A8(void *a0)
 {

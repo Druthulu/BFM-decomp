@@ -3425,10 +3425,10 @@ void func_8017FD50(s32 param_1) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
     p = (u32 *)func_80010A08(0x34);
 
-    ((PTag_8017FD50 *)p)->len = 1;
+    ((PTag_8017FD50 *)p)->b.len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8017FD50 *)p)->b.addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     p += 2;
     ((PG4_8017FD50 *)p)->tag = 0x08000000;
@@ -3456,15 +3456,15 @@ void func_8017FD50(s32 param_1) {
     ((PG4_8017FD50 *)p)->y3 = 120;
     ((PG4_8017FD50 *)p)->y2 = 120;
 
-    ((PTag_8017FD50 *)p)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8017FD50 *)p)->b.addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     r = p + 9;
     p = r;
-    ((PTag_8017FD50 *)r)->len = 1;
+    ((PTag_8017FD50 *)r)->b.len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8017FD50 *)r)->addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)r;
+    ((PTag_8017FD50 *)r)->b.addr = ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8017FD50 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)r;
 }
 
 

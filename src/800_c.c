@@ -3593,15 +3593,15 @@ void func_80039308(u8 **arg0, s16 arg1) {
                                 ((Unkstruct_80039308_3 *)q)->unk14 = prod >> 15;
                             }
                             p[0x5D] = 1;
-                            D_800A2B98 &= ~((W_S40_8018B238_80187EA0 *)q)->w;
-                            D_800C7D20 |= ((W_S40_8018B238_80187EA0 *)q)->w;
+                            D_800A2B98 &= ~((PrimTag *)q)->w;
+                            D_800C7D20 |= ((PrimTag *)q)->w;
                             D_800762B4[t7] = 1;
                             if (t9[1] & 4) {
-                                D_800A2BA0 &= ~((W_S40_8018B238_80187EA0 *)q)->w;
-                                D_800C7D2C |= ((W_S40_8018B238_80187EA0 *)q)->w;
+                                D_800A2BA0 &= ~((PrimTag *)q)->w;
+                                D_800C7D2C |= ((PrimTag *)q)->w;
                             } else {
-                                D_800C7D2C &= ~((W_S40_8018B238_80187EA0 *)q)->w;
-                                D_800A2BA0 |= ((W_S40_8018B238_80187EA0 *)q)->w;
+                                D_800C7D2C &= ~((PrimTag *)q)->w;
+                                D_800A2BA0 |= ((PrimTag *)q)->w;
                             }
                             idx1 = t7;
                             r = &D_800C6DD0[idx1 * 0x60];

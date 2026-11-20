@@ -3287,7 +3287,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     mlo = 0xFFFFFF;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)D_800AA60C + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
     ob = D_800AA60C;
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3314,7 +3314,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182718;
     *(s16 *)(pkt + 0x22) = D_8018271A;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)pkt;
     pkt += 0x28;
 
     *(u8 *)(pkt + 3) = 9;
@@ -3342,7 +3342,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182728;
     *(s16 *)(pkt + 0x22) = D_8018272A;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)pkt;
     pkt += 0x28;
     __asm__("" :: "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo), "r"(mlo));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B t8_tus2) wall:greg-priority
 
@@ -3370,7 +3370,7 @@ void func_8017DD04(s32 arg0, s32 arg1)
     *(s16 *)(pkt + 0x20) = D_80182730;
     *(s16 *)(pkt + 0x22) = D_80182732;
     *(u32 *)pkt = (*(u32 *)pkt & 0xFF000000) | (*(u32 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)) & mlo);
-    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->addr = (u32)pkt;
+    ((P_TAG_SC01_000_8017DD04 *)((s32)ob + (((u16)guess_g_DoubleBufferIndex) << 14)))->b.addr = (u32)pkt;
     pkt += 0x28;
 
     D_800A5E60 = pkt;

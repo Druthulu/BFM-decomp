@@ -3784,8 +3784,8 @@ void func_8017E4F4(void *a0, void *a1)
 
 
 #define ADDPRIM_801833F0(o, p)                                                 \
-    (((PTag_801833F0 *)(p))->addr = ((PTag_801833F0 *)(o))->addr,              \
-     ((PTag_801833F0 *)(o))->addr = (u32)(p))
+    (((PTag_801833F0 *)(p))->b.addr = ((PTag_801833F0 *)(o))->b.addr,              \
+     ((PTag_801833F0 *)(o))->b.addr = (u32)(p))
 #define SR3_801833F0(a) (((s32)(*(u16 *)(a) << 16)) >> 19)
 
 void func_8017E910(void *ent, void *spr, u32 *q, u32 *ot)
@@ -3852,7 +3852,7 @@ void func_8017E910(void *ent, void *spr, u32 *q, u32 *ot)
     for (; i < 13; i += 2, poly++) {
         s32 k = (i - 1) * 4;
         __asm__ __volatile__("" ::"r"(i));  // !FAKE: keepalive — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
-        poly->tag.len = 9;
+        poly->tag.b.len = 9;
         poly->code = code;
         poly->tpage = tpage;
         poly->u2 = su;

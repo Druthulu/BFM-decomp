@@ -3213,7 +3213,7 @@ s32 *func_8018893C(out, src, idx, w, col)
 
     c = D_80115138[idx];
 
-    ((W_S40_8018B238_80187EA0 *)out)->w = 0x04000000;
+    ((PrimTag *)out)->w = 0x04000000;
     *((u8 *)out + 0xC) = 0x30;
     *((u8 *)out + 0xD) = 0x48;
     *(s16 *)((u8 *)out + 0xE) = 0x4056;
@@ -3238,9 +3238,9 @@ s32 *func_8018893C(out, src, idx, w, col)
      * (lui+ori) BEFORE 0xFF000000 (lui) while the body ANDs the dest first. `volatile` on the
      * index read is what keeps the SECOND *pbh load alive (a plain read cse-folds and the
      * fn loses 5 ins). */
-    ((PTag_8018893C *)out)->addr =
-        ((PTag_8018893C *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr;
-    ((PTag_8018893C *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->addr = (u32)out;
+    ((PTag_8018893C *)out)->b.addr =
+        ((PTag_8018893C *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr;
+    ((PTag_8018893C *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr = (u32)out;
 
     out += 5;
     if (c < 10) {
@@ -3788,10 +3788,10 @@ void func_801895C8(void) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
 
     p = *pp;
-    ((PTag_8018C960_801895C8 *)p)->len = 1;
+    ((PTag_8018C960_801895C8 *)p)->b.len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960_801895C8 *)p)->addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8018C960_801895C8 *)p)->b.addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960_801895C8 *)p)->tag  = 0x08000000;
@@ -3819,15 +3819,15 @@ void func_801895C8(void) {
     ((PG4_8018C960_801895C8 *)p)->y3 = 120;
     ((PG4_8018C960_801895C8 *)p)->y2 = 120;
 
-    ((PTag_8018C960_801895C8 *)p)->addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)p;
+    ((PTag_8018C960_801895C8 *)p)->b.addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
-    ((PTag_8018C960_801895C8 *)r)->len = 1;
+    ((PTag_8018C960_801895C8 *)r)->b.len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960_801895C8 *)r)->addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr;
-    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->addr = (u32)r;
+    ((PTag_8018C960_801895C8 *)r)->b.addr = ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
+    ((PTag_8018C960_801895C8 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)r;
 
     p += 2;
     *pp = p;

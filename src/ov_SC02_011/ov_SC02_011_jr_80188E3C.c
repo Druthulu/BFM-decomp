@@ -1993,9 +1993,9 @@ void func_8018B2C4(s32 a0) {
         Bidx_8018B23C_8018B2C4 *bp = (Bidx_8018B23C_8018B2C4 *)&guess_g_DoubleBufferIndex;
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
-        ((PTag_8018B23C_8018B2C4 *)q)->addr =
-            ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr;
-        ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->addr = (u32)q;
+        ((PTag_8018B23C_8018B2C4 *)q)->b.addr =
+            ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
+        ((PTag_8018B23C_8018B2C4 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

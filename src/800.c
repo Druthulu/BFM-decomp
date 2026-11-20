@@ -3072,8 +3072,8 @@ void func_80016638(void *a0, s32 a1, s32 a2)
     p = func_80010A08(8);
     p->len = 1;                                  /* setlen(p, 1) */
     p->code = 0xE1000000 | ((a2 << 5) & 0x9FF);  /* setDrawTPage(p, 0, 0, a2 << 5) */
-    p->addr = env->ot[a1].addr;                  /* addPrim(&env->ot[a1], p): setaddr(p, getaddr(ot)) */
-    env->ot[a1].addr = (u32)p;                   /*                          setaddr(ot, p)           */
+    p->addr = env->ot[a1].b.addr;                  /* addPrim(&env->ot[a1], p): setaddr(p, getaddr(ot)) */
+    env->ot[a1].b.addr = (u32)p;                   /*                          setaddr(ot, p)           */
 }
 
 
@@ -7937,9 +7937,9 @@ void func_8001BC6C(s32 a0, s32 a1)
     *(u32 *)(p + 0xC) = ((u32)y1 << 16) | (u32)x1;
     *(u32 *)(p + 0x10) = (u32)(((s32)((u32)f1 << 16) >> 8) | (s32)t0);
     *(u32 *)(p + 0x14) = ((u32)f3 << 16) | (u32)f2;
-    ((PTag_8001BC6C *)p)->addr = ((PTag_8001BC6C *)(ot + 1))->addr;
+    ((PTag_8001BC6C *)p)->b.addr = ((PTag_8001BC6C *)(ot + 1))->b.addr;
     D_800A5E60 = p + 0x18;
-    ((PTag_8001BC6C *)(ot + 1))->addr = (u32)p;
+    ((PTag_8001BC6C *)(ot + 1))->b.addr = (u32)p;
 }
 
 extern s32 CdQueueBusy(void);
@@ -9087,8 +9087,8 @@ void func_8001D3FC(s32 arg0)
             ((Unkstruct_8001D3FC *)cur)->unk6 = ((Unkstruct_8001D3FC_2 *)arg0)->unk26;
             func_8001D8C4(arg0, rec, cur);
 
-            ((PTag_8001D3FC *)cur)->addr = slot->addr;
-            slot->addr = (u32)cur;
+            ((PTag_8001D3FC *)cur)->b.addr = slot->b.addr;
+            slot->b.addr = (u32)cur;
             rec += 0xC;
         } while ((id & 0xFF) != 0xFF);
     }
@@ -11594,8 +11594,8 @@ void func_80021284(s32 arg0)
         p->y2 = out[0].b;
         p->x3 = out[i + 2].a;
         p->y3 = out[i + 2].b;
-        ((PTag_80021284 *)p)->addr = ot->addr;
-        ot->addr = (u32)p;
+        ((PTag_80021284 *)p)->b.addr = ot->b.addr;
+        ot->b.addr = (u32)p;
         i += 2;
         p++;
     } while (i < 13);
@@ -11608,8 +11608,8 @@ void func_80021284(s32 arg0)
         dm->unk4.code0 = ((attr >> 23) & 0x60) | 0xE1000000;
         D_800A5E60 = D_800A5E60 + 8;
         dm->len = 1;
-        ((PTag_80021284 *)dm)->addr = ot->addr;
-        ot->addr = (u32)dm;
+        ((PTag_80021284 *)dm)->b.addr = ot->b.addr;
+        ot->b.addr = (u32)dm;
     }
 }
 
@@ -13085,8 +13085,8 @@ void func_80023570(s32 arg0)
         func_8005A600((s32)nxt, 0, 0, (u16)tp, 0);
 
         slot2 = (PTag_80023570 *)(((u32)idx << 2) + (u32)ot);
-        ((PTag_80023570 *)nxt)->addr = slot2->addr;
-        slot2->addr = (u32)nxt;
+        ((PTag_80023570 *)nxt)->b.addr = slot2->b.addr;
+        slot2->b.addr = (u32)nxt;
     }
 }
 
@@ -13522,8 +13522,8 @@ void func_80023BF0(s32 arg0)
                 *(u32 *)(pkt + 4) = code;
                 *(u16 *)(pkt + 0xC) = *prims++;
                 *(u16 *)(pkt + 0xE) = tpage;
-                ((PTag_80023BF0 *)pkt)->addr = otab[idx].addr;
-                otab[idx].addr = (u32)pkt;
+                ((PTag_80023BF0 *)pkt)->b.addr = otab[idx].b.addr;
+                otab[idx].b.addr = (u32)pkt;
                 pkt += 0x10;
             } while ((c = *prims) != 0xFFFF);
         }
@@ -13552,19 +13552,19 @@ void func_80023BF0(s32 arg0)
                     *(u16 *)(pkt + 0xC) = *prims++;
                     *(u16 *)(pkt + 0xE) = tpage;
                     *(u32 *)(pkt + 0x10) = 0x180010;
-                    ((PTag_80023BF0 *)pkt)->addr = otab[idx].addr;
-                    otab[idx].addr = (u32)pkt;
+                    ((PTag_80023BF0 *)pkt)->b.addr = otab[idx].b.addr;
+                    otab[idx].b.addr = (u32)pkt;
                     pkt += 0x14;
                 }
             } while ((c = *prims) != 0xFFFF);
         }
     }
 
-    ((PTag_80023BF0 *)pkt)->len = 1;
+    ((PTag_80023BF0 *)pkt)->b.len = 1;
     *(u32 *)(pkt + 4) = ((flags >> 23) & 0x60) | 0xE1000015;
-    ((PTag_80023BF0 *)pkt)->addr = otab[idx].addr;
+    ((PTag_80023BF0 *)pkt)->b.addr = otab[idx].b.addr;
     D_800A5E60 = pkt + 0x40;
-    otab[idx].addr = (u32)pkt;
+    otab[idx].b.addr = (u32)pkt;
 }
 
 
@@ -14008,7 +14008,7 @@ long *func_800249F0(char *f, s32 verts, s32 norms, long *prim, s32 count,
         if (D_800A2B78 != 0 && (p[-1].code & 2)) {
             d = (DRM *)p;
             tag = (u32 *)(ot + ((otz >> shift) << 2));
-            ((PrimTag *)d)->len = 1;
+            ((PrimTag *)d)->b.len = 1;
             d->code0 = 0xE100000A | ((D_800A2B78 & 3) << 5);
             d->tag = (*tag & 0xFFFFFF) | 0x01000000;
             *tag = (u32)d & 0xFFFFFF;

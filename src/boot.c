@@ -1137,8 +1137,8 @@ void func_8001212C(void) {
     p->v0 = 0xE0;
     p->w = 0x60;
     p->h = 0x18;
-    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
-    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    ((PrimTag *)p)->b.addr = ((PrimTag *)(ot + 1))->b.addr;
+    ((PrimTag *)(ot + 1))->b.addr = (u32)p;
     p++;
 
     p->len = 5;
@@ -1154,8 +1154,8 @@ void func_8001212C(void) {
     p->v0 = 0xE0;
     p->w = 0x60;
     p->h = 0x18;
-    ((PrimTag *)p)->addr = ((PrimTag *)(ot + 1))->addr;
-    ((PrimTag *)(ot + 1))->addr = (u32)p;
+    ((PrimTag *)p)->b.addr = ((PrimTag *)(ot + 1))->b.addr;
+    ((PrimTag *)(ot + 1))->b.addr = (u32)p;
     p++;
 
     D_800A5E60 = (s32)p;

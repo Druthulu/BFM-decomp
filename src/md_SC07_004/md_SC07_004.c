@@ -10333,7 +10333,7 @@ void func_801AF1EC(void *a0) {
 
 
 #define RD16(p) (((Unkstruct_801AF368 *)(p))->h)
-#define RW32(p) (((W_S40_8018B238_80187EA0 *)(p))->w)
+#define RW32(p) (((PrimTag *)(p))->w)
 
 void func_801AF368(void *a0)
 {

@@ -1309,15 +1309,15 @@ s32 *func_801F1520(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
-    ((PTag_801F1520 *)out)->addr =
-        ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr;
-    ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr = (u32)out;
+    ((PTag_801F1520 *)out)->b.addr =
+        ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
+    ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
-    ((PTag_801F1520 *)out)->addr =
-        ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->addr;
+    ((PTag_801F1520 *)out)->b.addr =
+        ((PTag_801F1520 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
