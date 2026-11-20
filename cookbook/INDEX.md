@@ -1104,3 +1104,4 @@ C0651 | Kind-reach tracing gaps: tables cut at data labels, tail calls, static-d
 C0652 | Reshape a struct with a host-gcc 'has no member named' probe; type shared-head readers as the head | struct,respell,gcc,head,union,survivor,t17 | 2026-11-19 | 3.45/T17 | P3.45 T17.c38/c39
 C0653 | Judging ov_SC03 views: event records, spawn callbacks, raw kind dispatches, OT tags | struct,parent,actor,kind,tracing,absorb,t18 | 2026-11-19 | 3.45/T18 | P3.45 T18 judges c1/c3
 C0654 | Applying absorbs after T17: nested sign-union leaves, clean-tree batches, dup_classes reruns | struct,absorb,fold-batch,union,gate,t18 | 2026-11-19 | 3.45/T18 | P3.45 T18.c10
+C0655 | Hand-fold views into nested gap-union variants: probe, plan, fold, per-file asm diff | struct,absorb,variant,union,actor,cc1,t18 | 2026-11-19 | 3.45/T18 | P3.45 T18.c15
