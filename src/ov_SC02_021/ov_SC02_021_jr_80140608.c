@@ -944,38 +944,38 @@ extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
 {
-    u8 *puVar1;
+    u16 *puVar1;
     s32 iVar2;
     u16 *puVar3;
 
-    puVar1 = D_80180B20;
+    puVar1 = (u16 *)D_80180B20;
     iVar2 = func_80028D58();
     puVar3 = D_80180B34[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
-    puVar1 = D_80180B24;
+    puVar1 = (u16 *)D_80180B24;
     iVar2 = func_80028DE0();
     puVar3 = D_80180B34[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
     iVar2 = RET_AS(s32, func_80028FBC, (void))();
     *(s16 *)(D_80180B28 + 0x18) = *D_80180B3C[iVar2];
     iVar2 = RET_AS(s32, func_80029000, (void))();
     *(s16 *)(D_80180B2C + 0x18) = *D_80180B3C[iVar2];
 
-    puVar1 = D_80180B30;
+    puVar1 = (u16 *)D_80180B30;
     iVar2 = RET_AS(s32, func_80028D9C, (void))();
     puVar3 = D_80180B5C[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk12 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk14 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1C = *puVar3++;
+    puVar1[9] = *puVar3++;
+    puVar1[0xA] = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
+    puVar1[0xE] = *puVar3++;
 }
 
 

@@ -928,7 +928,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 extern u8 *D_8018E26C;
 extern u8 *D_8018E270;
-extern u8 *D_8018E274;
+extern u16 *D_8018E274;
 extern u8 *D_8018E278;
 extern u8 *D_8018E27C;
 extern u16 *D_8018E280[];
@@ -943,38 +943,38 @@ extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
 {
-    u8 *puVar1;
+    u16 *puVar1;
     s32 iVar2;
     u16 *puVar3;
 
-    puVar1 = D_8018E26C;
+    puVar1 = (u16 *)D_8018E26C;
     iVar2 = func_80028D58();
     puVar3 = D_8018E280[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
-    puVar1 = D_8018E270;
+    puVar1 = (u16 *)D_8018E270;
     iVar2 = func_80028DE0();
     puVar3 = D_8018E280[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
     iVar2 = RET_AS(s32, func_80028FBC, (void))();
-    ((Unkstruct_801407F4 *)D_8018E274)->unk18 = *D_8018E288[iVar2];
+    D_8018E274[0xC] = *D_8018E288[iVar2];
     iVar2 = RET_AS(s32, func_80029000, (void))();
     CAST_ALIAS(s16, D_8018E278, 0x18) = *D_8018E288[iVar2];
 
-    puVar1 = D_8018E27C;
+    puVar1 = (u16 *)D_8018E27C;
     iVar2 = RET_AS(s32, func_80028D9C, (void))();
     puVar3 = D_8018E2A8[iVar2];
-    *(s16 *)(puVar1 + 0x12) = *puVar3++;
-    *(s16 *)(puVar1 + 0x14) = *puVar3++;
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
+    puVar1[9] = *puVar3++;
+    puVar1[0xA] = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
+    puVar1[0xE] = *puVar3++;
 }
 
 

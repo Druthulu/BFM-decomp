@@ -928,7 +928,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 extern u8 *D_801839D0;
 extern u8 *D_801839D4;
-extern u8 *D_801839D8;
+extern u16 *D_801839D8;
 extern u8 *D_801839DC;
 extern u8 *D_801839E0;
 extern u16 *D_801839E4[];
@@ -943,38 +943,38 @@ extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
 {
-    u8 *puVar1;
+    u16 *puVar1;
     s32 iVar2;
     u16 *puVar3;
 
-    puVar1 = D_801839D0;
+    puVar1 = (u16 *)D_801839D0;
     iVar2 = func_80028D58();
     puVar3 = D_801839E4[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
-    puVar1 = D_801839D4;
+    puVar1 = (u16 *)D_801839D4;
     iVar2 = func_80028DE0();
     puVar3 = D_801839E4[iVar2];
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
     iVar2 = RET_AS(s32, func_80028FBC, (void))();
-    ((Unkstruct_801407F4 *)D_801839D8)->unk18 = *D_801839EC[iVar2];
+    D_801839D8[0xC] = *D_801839EC[iVar2];
     iVar2 = RET_AS(s32, func_80029000, (void))();
     *(s16 *)(D_801839DC + 0x18) = *D_801839EC[iVar2];
 
-    puVar1 = D_801839E0;
+    puVar1 = (u16 *)D_801839E0;
     iVar2 = RET_AS(s32, func_80028D9C, (void))();
     puVar3 = D_80183A0C[iVar2];
-    *(s16 *)(puVar1 + 0x12) = *puVar3++;
-    *(s16 *)(puVar1 + 0x14) = *puVar3++;
-    *(s16 *)(puVar1 + 0x16) = *puVar3++;
-    *(s16 *)(puVar1 + 0x18) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1a) = *puVar3++;
-    *(s16 *)(puVar1 + 0x1c) = *puVar3++;
+    puVar1[9] = *puVar3++;
+    puVar1[0xA] = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
+    puVar1[0xE] = *puVar3++;
 }
 
 

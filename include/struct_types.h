@@ -3157,18 +3157,6 @@ typedef struct {
 } Unkstruct_8013B274; /* size = 0x20 */
 
 typedef struct {
-    /* Unkstruct_47470ce3: P37 struct map 1404 sites in 117 bodies; evidence {'L': 1}; type_folds.tsv evidence single-fn; P3.40 T2 */
-    /* 0x0000 */ u8 pad0[0x12];
-    /* 0x0012 */ s16 unk12;
-    /* 0x0014 */ s16 unk14;
-    /* 0x0016 */ s16 unk16;
-    /* 0x0018 */ s16 unk18;
-    /* 0x001a */ s16 unk1A;
-    /* 0x001c */ s16 unk1C;
-    /* 0x001e */ u8 pad1E[0x2];
-} Unkstruct_801407F4; /* size = 0x20 */
-
-typedef struct {
     /* static waypoint table (T17.c27, c25 notpool): count, then {x, z} points; read by func_80183480 (src/ov_SC03_002/ov_SC03_002_jr_80181D78.c:3932-3955), data ov_SC03_002 801BDC00 = {0xD, (-0x480,0x800), ...}; variable length, sized to the cited table (count 0xD) */
     /* 0x0000 */ s16 count;
     /* 0x0002 */ u8 pad2[0x2];
@@ -3859,8 +3847,6 @@ typedef struct {
 } Unkstruct_8017DF48_2; /* size = 0x24 */
 
 typedef Unkstruct_80126B58 Unkstruct_800CAE34; /* size = 0x198 */
-
-typedef Unkstruct_801407F4 Unkstruct_801407F4_2; /* size = 0x20 */
 
 typedef Unkstruct_8011D030 Unkstruct_801681FC_2; /* size = 0x34 */
 

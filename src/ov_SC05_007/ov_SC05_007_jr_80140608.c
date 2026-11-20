@@ -926,7 +926,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 
 extern u8 *D_80181AB4;
 extern u8 *D_80181AB8;
-extern u8 *D_80181ABC;
+extern u16 *D_80181ABC;
 extern u8 *D_80181AC0;
 extern u8 *D_80181AC4;
 extern u16 *D_80181AC8[];
@@ -941,38 +941,38 @@ extern u8 func_80028D9C(void);
 
 void func_801407F4(void)
 {
-    u8 *puVar1;
+    u16 *puVar1;
     s32 iVar2;
     u16 *puVar3;
 
-    puVar1 = D_80181AB4;
+    puVar1 = (u16 *)D_80181AB4;
     iVar2 = func_80028D58();
     puVar3 = D_80181AC8[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
-    puVar1 = D_80181AB8;
+    puVar1 = (u16 *)D_80181AB8;
     iVar2 = func_80028DE0();
     puVar3 = D_80181AC8[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
 
     iVar2 = RET_AS(s32, func_80028FBC, (void))();
-    ((Unkstruct_801407F4 *)D_80181ABC)->unk18 = *D_80181AD0[iVar2];
+    D_80181ABC[0xC] = *D_80181AD0[iVar2];
     iVar2 = RET_AS(s32, func_80029000, (void))();
     CAST_ALIAS(s16, D_80181AC0, 0x18) = *D_80181AD0[iVar2];
 
-    puVar1 = D_80181AC4;
+    puVar1 = (u16 *)D_80181AC4;
     iVar2 = RET_AS(s32, func_80028D9C, (void))();
     puVar3 = D_80181AF0[iVar2];
-    ((Unkstruct_801407F4 *)puVar1)->unk12 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk14 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk16 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk18 = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1A = *puVar3++;
-    ((Unkstruct_801407F4 *)puVar1)->unk1C = *puVar3++;
+    puVar1[9] = *puVar3++;
+    puVar1[0xA] = *puVar3++;
+    puVar1[0xB] = *puVar3++;
+    puVar1[0xC] = *puVar3++;
+    puVar1[0xD] = *puVar3++;
+    puVar1[0xE] = *puVar3++;
 }
 
 
