@@ -3109,10 +3109,10 @@ void func_80180110(void *a0) {
     CAST_ALIAS(u16, (s32)a0, 0xE0) = D_801B9F04;
     CAST_ALIAS(u16, (s32)a0, 0xE4) = D_801B9F08;
     CAST_ALIAS(u16, (s32)a0, 0xE6) = D_801B9F0A;
-    var_v1 = ((Unkstruct_80180110_2 *)a0)->unk2;
+    var_v1 = ((Unkstruct_801202A0 *)a0)->unk2.u;
     var_a1 = D_801B9F0C;
-    ((Unkstruct_80180110_2 *)a0)->unk2 = var_v1 + 1;
-    ((Unkstruct_80180110_2 *)a0)->unkE8 = var_a1;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = var_v1 + 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_030_801800D4.unkE8 = var_a1;
 }
 
 

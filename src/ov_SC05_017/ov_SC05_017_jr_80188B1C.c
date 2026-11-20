@@ -4767,7 +4767,7 @@ extern void func_8018B264(void *a0);
     void func_8018B360(s32 a0) {
         s32 *v1;
         v1 = *(s32 **)((s32)a0 + 0xCC);
-        ((Unkstruct_801806E8_2 *)v1)->unkB0 = 2;
+        ((Unkstruct_801202A0 *)v1)->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_8018B2AC() == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         }

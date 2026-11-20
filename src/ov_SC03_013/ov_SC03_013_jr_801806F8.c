@@ -2869,42 +2869,42 @@ void func_801806F8(void *a0)
 
     a1 = a0;
 
-    if (--((Unkstruct_8017F6C0 *)a1)->unk1C == 0) {
+    if (--((Unkstruct_801202A0 *)a1)->unk1C.s == 0) {
         idx = ((s32)D_801AD3E4 + 1) % 6;
         D_801AD3E4 = (s16 *)idx;
         switch (D_801A52C8[idx]) {
         case 0:
-            ((Unkstruct_8017F6C0 *)a1)->unk1C = 1;
+            ((Unkstruct_801202A0 *)a1)->unk1C.s = 1;
             return;
         case 1:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 2;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x16D;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 2;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x16D;
             break;
         case 2:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 3;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x361;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 3;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x361;
             break;
         case 3:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 4;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x561;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 4;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x561;
             break;
         case 4:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 7;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x16D;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 7;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x16D;
             break;
         case 5:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 6;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x361;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 6;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x361;
             break;
         case 6:
-            ((Unkstruct_8017F6C0 *)a1)->unk2 = 5;
-            ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
-            ((Unkstruct_8017F6C0 *)a1)->unkE2 = -0x561;
+            ((Unkstruct_801202A0 *)a1)->unk2.s = 5;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
+            ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -0x561;
             break;
         default:
             return;

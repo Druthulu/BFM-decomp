@@ -4361,7 +4361,7 @@ s32 func_80184660(s32 a0) {
 extern s32 func_80184660(s32 arg);
     extern void func_801847C4(void *a0);
     void func_80184790(void *a0) {
-        ((Unkstruct_80180CCC *)a0)->unkE0 = func_80184660((s32)a0);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_8018BB38.unkE0 = func_80184660((s32)a0);
         func_801847C4(a0);
     }
 

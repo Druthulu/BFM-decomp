@@ -3558,16 +3558,16 @@ extern void func_80184E4C(s32 arg0);
 void func_80184374(s32 a0) {
     s32 w;
 
-    w = ((u32)rsin(((Unkstruct_8017F794 *)a0)->unk1C << 4) >> 5) & 0xFF;
-    ((Unkstruct_8017F794 *)a0)->unk100 = w;
-    ((Unkstruct_8017F794 *)a0)->unkFE = w;
-    ((Unkstruct_8017F794 *)a0)->unkFC = w;
-    ((Unkstruct_8017F794 *)a0)->unk1C += 1;
-    if (((Unkstruct_8017F794 *)a0)->unk1C >= 0x41) {
-        ((Unkstruct_8017F794 *)a0)->unk2 = 3;
-        ((Unkstruct_8017F794 *)a0)->unk5C = *(u16 *)(((Unkstruct_8017F794 *)a0)->unk78 + 2);
-        ((Unkstruct_8017F794 *)a0)->unk1C = rand();
-        func_80184E4C(((Unkstruct_8017F794 *)a0)->unkD4);
+    w = ((u32)rsin(((Unkstruct_801202A0 *)a0)->unk1C.s << 4) >> 5) & 0xFF;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC03_093_801813E0.unk100 = w;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = w;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = w;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s >= 0x41) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = *(u16 *)((s32)((Unkstruct_801202A0 *)a0)->unk78 + 2);
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = rand();
+        func_80184E4C(((Unkstruct_801202A0 *)a0)->unkD4.val);
     }
 }
 

@@ -4518,7 +4518,7 @@ void func_801848A4(void *a0) {
         case 1:
         {
             s32 *p = *(s32 **)((u8 *)a0 + 0x40);
-            if ((((Unkstruct_801848A4_3 *)p)->unkE0 & 1) != 0) {
+            if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC03_105_80180100.unkE0 & 1) != 0) {
                 u16 t0 = ((Unkstruct_801848A4 *)a0)->unk34;
                 u16 t1 = ((Unkstruct_801848A4 *)a0)->unk36;
                 u16 t2 = ((Unkstruct_801848A4 *)a0)->unk38;
@@ -4818,7 +4818,7 @@ void func_80184E74(u8 *param_1)
     s32 b;
 
     s2 = *(u8 **)(s0 + 0x40);
-    if (((Unkstruct_80184E74 *)s2)->unkE0 & 0x10) {
+    if (((Unkstruct_801202A0 *)s2)->blkDC.f.extC.kSC03_105_80180100.unkE0 & 0x10) {
         func_80185218(s0);
         return;
     }
@@ -4830,7 +4830,7 @@ void func_80184E74(u8 *param_1)
         }
     }
 
-    b = ((Unkstruct_80184E74 *)s2)->unk102;
+    b = ((Unkstruct_801202A0 *)s2)->extD.kSC03_105_80180100.unk102;
     *(s16 *)(s1 + 0x14) = *(u16 *)(s0 + 0x52) * (b / 10);
 
     func_8018526C((s32)s0, -0x18, 0x48, 0x30);

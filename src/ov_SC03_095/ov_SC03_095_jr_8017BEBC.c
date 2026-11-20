@@ -4306,24 +4306,24 @@ void func_8017FC14(s32 a0) {
     extern s32 rand(void);
     extern void func_801806EC(s32 arg0);
 
-    ((Unkstruct_8017F794 *)a0)->unkFC = ((Unkstruct_8017F794 *)a0)->unkFE = ((Unkstruct_8017F794 *)a0)->unk100 =
-        (u32)rsin(((Unkstruct_8017F794 *)a0)->unk1C << 4) >> 5 & 0xFF;
-    ((Unkstruct_8017F794 *)a0)->unk1C += 1;
-    if (((Unkstruct_8017F794 *)a0)->unk1C < 0x41) {
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = ((Unkstruct_801202A0 *)a0)->unkFE.s = ((Unkstruct_801202A0 *)a0)->extD.kSC03_093_801813E0.unk100 =
+        (u32)rsin(((Unkstruct_801202A0 *)a0)->unk1C.s << 4) >> 5 & 0xFF;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s < 0x41) {
         return;
     }
-    ((Unkstruct_8017F794 *)a0)->unk2 = 3;
-    ((Unkstruct_8017F794 *)a0)->unk5C = *(u16 *)(((Unkstruct_8017F794 *)a0)->unk78 + 2);
-    ((Unkstruct_8017F794 *)a0)->unk1C = rand();
-    ((void (*)(s32))func_801806EC)(((Unkstruct_8017F794 *)a0)->unkD4);
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = *(u16 *)((s32)((Unkstruct_801202A0 *)a0)->unk78 + 2);
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = rand();
+    ((void (*)(s32))func_801806EC)(((Unkstruct_801202A0 *)a0)->unkD4.val);
 }
 
 
 extern s32 rand(void);
 
 void func_8017FC90(s32 a0) {
-    ((Unkstruct_8017F810 *)a0)->unk2 = 4;
-    ((Unkstruct_8017F810 *)a0)->unkE8 = rand() % 64 + 0x40;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_093_801813E0.unkE8 = rand() % 64 + 0x40;
 }
 
 

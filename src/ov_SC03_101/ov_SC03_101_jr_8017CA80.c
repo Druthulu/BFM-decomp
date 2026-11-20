@@ -3980,7 +3980,7 @@ void func_8017FEE0(s32 a0) {
 
         ((Unkstruct_801202A0 *)a0)->unkFE.s = D_80198A34[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_101_8017FEE0.unk100 = D_80198A36[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-        ((Unkstruct_801202A0 *)a0)->extD.kSC03_101_8017FEE0.unk102 = D_80198A38[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->extD.kSC03_101_8017FEE0.unk102.s = D_80198A38[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->extD.kSC03_101_8017FEE0.unk104 = D_80198A3A[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.p, 0x104, 0xDC);
 
@@ -4109,12 +4109,12 @@ void func_801801FC(s32 a0) {
 
     a1 = (u8 *)a0;
 
-    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk10 += ((Unkstruct_801801FC *)a1)->unkFE;
+    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk10 += ((Unkstruct_801202A0 *)a1)->unkFE.u;
     ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk12 += CAST_SIGN(u16, a1, 0x100);
-    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk14 += ((Unkstruct_801801FC *)a1)->unk102;
+    ((Unkstruct_80186710 *)*(u32 *)(a1 + 0x20))->unk14 += ((Unkstruct_801202A0 *)a1)->extD.kSC03_101_8017FEE0.unk102.u;
 
-    if (((Unkstruct_801801FC *)a1)->unk100 != 0 && ((Unkstruct_801801FC *)a1)->unk74 != 0) {
-        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_801801FC *)a1)->unk100;
+    if (((Unkstruct_801202A0 *)a1)->extD.kSC03_101_8017FEE0.unk100 != 0 && ((Unkstruct_801202A0 *)a1)->unk74 != 0) {
+        CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += ((Unkstruct_801202A0 *)a1)->extD.kSC03_101_8017FEE0.unk100;
     }
 }
 
@@ -4142,17 +4142,17 @@ extern s32 rcos(s32 a0);
 // The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
 // `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
 void func_80180290(s32 a0) {
-    if (((Unkstruct_8017D7A4 *)a0)->unk108 != 0) {
-        ((Unkstruct_8017D7A4 *)a0)->unk108 = ((Unkstruct_8017D7A4 *)a0)->unk108 - 1;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 != 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 - 1;
         return;
     }
-    ((Unkstruct_8017D7A4 *)a0)->unk106 = ((Unkstruct_8017D7A4 *)a0)->unk106 + ((Unkstruct_8017D7A4 *)a0)->unkFE;
-    ((Unkstruct_8017D7A4 *)a0)->unkE = ((Unkstruct_8017D7A4 *)a0)->unk8C +
-        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D7A4 *)a0)->unk104) >> 12);
-    ((Unkstruct_8017D7A4 *)a0)->unkA = ((Unkstruct_8017D7A4 *)a0)->unk8A +
-        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D7A4 *)a0)->unk104) >> 12);
-    if ((((Unkstruct_8017D7A4 *)a0)->unk106 & 0x7FF) == 0) {
-        ((Unkstruct_8017D7A4 *)a0)->unk108 = 0xF;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 + ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8C.u +
+        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8A.u +
+        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    if ((((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 & 0x7FF) == 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = 0xF;
     }
 }
 
@@ -4180,17 +4180,17 @@ extern s32 rcos(s32 a0);
 // The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
 // `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
 void func_80180348(s32 a0) {
-    if (((Unkstruct_8017D85C *)a0)->unk108 != 0) {
-        ((Unkstruct_8017D85C *)a0)->unk108 = ((Unkstruct_8017D85C *)a0)->unk108 - 1;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 != 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 - 1;
         return;
     }
-    ((Unkstruct_8017D85C *)a0)->unk106 = ((Unkstruct_8017D85C *)a0)->unk106 + ((Unkstruct_8017D85C *)a0)->unkFE;
-    ((Unkstruct_8017D85C *)a0)->unk6 = ((Unkstruct_8017D85C *)a0)->unk88 +
-        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D85C *)a0)->unk104) >> 12);
-    ((Unkstruct_8017D85C *)a0)->unkA = ((Unkstruct_8017D85C *)a0)->unk8A +
-        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D85C *)a0)->unk104) >> 12);
-    if ((((Unkstruct_8017D85C *)a0)->unk106 & 0x7FF) == 0) {
-        ((Unkstruct_8017D85C *)a0)->unk108 = 0xF;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 + ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk88.u +
+        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8A.u +
+        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    if ((((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 & 0x7FF) == 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = 0xF;
     }
 }
 

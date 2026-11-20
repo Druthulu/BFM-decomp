@@ -2964,7 +2964,7 @@ extern void func_80181CF8(void *a0);
     void func_80181DF4(s32 a0) {
         s32 *v1;
         v1 = *(s32 **)((s32)a0 + 0xCC);
-        ((Unkstruct_801806E8_2 *)v1)->unkB0 = 2;
+        ((Unkstruct_801202A0 *)v1)->extE.kSC03_001_80187DAC.unkB0 = 2;
         if (func_80181D40() == 0) {
             ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         }
@@ -3106,7 +3106,7 @@ s32 a0;
 {
     s32 *v1;
     v1 = *(s32 **)((s32)a0 + 0xCC);
-    ((Unkstruct_801820DC_3 *)v1)->unkB0 = 2;
+    ((Unkstruct_801202A0 *)v1)->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_80182044() != 0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
@@ -4691,7 +4691,7 @@ extern s32 func_80184088(s32 arg);
 extern void func_801841EC(void *a0);
 
 void func_801841B8(void *a0) {
-    ((Unkstruct_80180CCC *)a0)->unkE0 = func_80184088((s32)a0);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_124_8017E8AC.unkE0 = func_80184088((s32)a0);
     func_801841EC(a0);
 }
 

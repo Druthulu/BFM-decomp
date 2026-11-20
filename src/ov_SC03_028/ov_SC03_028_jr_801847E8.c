@@ -2935,36 +2935,36 @@ void func_801847E8(s32 param_1)
 
     switch (CAST_SIGN(s32, param_1, 0xF8)) {
     case 1:
-        ((Unkstruct_801847E8 *)param_1)->unkDC ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val ^= 1;
         break;
     case 2:
-        ((Unkstruct_801847E8 *)param_1)->unkE0 ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE0.u ^= 1;
         break;
     case 3:
-        ((Unkstruct_801847E8 *)param_1)->unkE4 ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE4.u ^= 1;
         break;
     case 4:
-        v0 = ((Unkstruct_801847E8 *)param_1)->unkE8 ^ 1;
-        ((Unkstruct_801847E8 *)param_1)->unkE8 = v0;
+        v0 = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u ^ 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u = v0;
         break;
     case 5:
-        v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
+        v1 = (s32)((Unkstruct_801202A0 *)param_1)->unk64;
         ((Unkstruct_801202A0 *)v1)->unk2.s = 1;
         break;
     case 6:
-        v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
+        v1 = (s32)((Unkstruct_801202A0 *)param_1)->unk64;
         ((Unkstruct_801202A0 *)v1)->unk2.s = 2;
         break;
     case 7:
         v0 = 6;
         goto set_all;
     case 8:
-        v1 = ((Unkstruct_801847E8 *)param_1)->unk64;
+        v1 = (s32)((Unkstruct_801202A0 *)param_1)->unk64;
         ((Unkstruct_801202A0 *)v1)->unk2.s = 0x28;
         break;
     case 9:
         func_800D0C48(1);
-        ((Unkstruct_801847E8 *)param_1)->unkF8 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkF8.val.u = 0;
         goto check;
     case 10:
         v0 = 7;
@@ -2972,18 +2972,18 @@ void func_801847E8(s32 param_1)
     case 11:
         v0 = 8;
     set_all:
-        ((Unkstruct_801847E8 *)param_1)->unkDC = v0;
-        ((Unkstruct_801847E8 *)param_1)->unkE0 = v0;
-        ((Unkstruct_801847E8 *)param_1)->unkE4 = v0;
-        ((Unkstruct_801847E8 *)param_1)->unkE8 = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE0.u = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE4.u = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u = v0;
         break;
     }
-    ((Unkstruct_801847E8 *)param_1)->unkF8 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unkF8.val.u = 0;
 check:
     if (func_801789AC(param_1) != 0) {
         ((void (*)(s32))func_80178D18)(param_1);
-        ((Unkstruct_801847E8 *)param_1)->unk2 = 1;
-        ((Unkstruct_801847E8 *)param_1)->unk100 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_028_80184A40.unk100 = 0;
         ((void (*)(void))func_80175414)();
     }
 }

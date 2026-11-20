@@ -5109,10 +5109,10 @@ extern void func_80184998(void *a0);
 void func_80183CCC(void *a0) {
 
     extern void (*D_801A2F84[])(void);
-    D_801A2F84[((Unkstruct_80181B60 *)a0)->unk2]();
-    if (((Unkstruct_80181B60 *)a0)->unk0 != 0) {
-        ((Unkstruct_80181B60 *)a0)->unkE4 = ((Unkstruct_80181B60 *)a0)->unkE4 + 1;
-        if ((((Unkstruct_80181B60 *)a0)->unkE4 & 0xF) == 0) {
+    D_801A2F84[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 + 1;
+        if ((((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 & 0xF) == 0) {
             func_80184998(a0);
         }
     }
@@ -7417,29 +7417,29 @@ void func_801873DC(s32 a0)
     s32 v1;
     s32 a1;
 
-    v0 = ((Unkstruct_801873DC *)a0)->unkE0;
+    v0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_80187378.unkE0;
     if (v0 == 0) {
         goto END;
     }
     v0 = v0 - 1;
-    ((Unkstruct_801873DC *)a0)->unkE0 = v0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_80187378.unkE0 = v0;
     if (v0 > 0) {
         goto END;
     }
 
-    v1 = ((Unkstruct_801873DC *)a0)->unkD0;
+    v1 = (s32)((Unkstruct_801202A0 *)a0)->unkD0.p;
     v1 = v1 + 8;
     a1 = ((Unkstruct_80180CD4 *)v1)->unk0;
     if ((a1 & 0x40000000) != 0) {
-        v1 = ((Unkstruct_801873DC *)a0)->unkCC;
+        v1 = (s32)((Unkstruct_801202A0 *)a0)->unkCC.p;
     } else if (a1 < 0) {
-        ((Unkstruct_801873DC *)a0)->unkE0 = 0;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_80187378.unkE0 = 0;
         goto END;
     }
 
     v0 = ((Unkstruct_80180CD4 *)v1)->unk0;
-    ((Unkstruct_801873DC *)a0)->unkD0 = v1;
-    ((Unkstruct_801873DC *)a0)->unkE0 = v0;
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = v1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_090_80187378.unkE0 = v0;
     guess_AllocRenderWorkRecord(((Unkstruct_80180CD4 *)v1)->unk4);
 
 END:

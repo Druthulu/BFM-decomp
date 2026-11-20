@@ -2845,7 +2845,7 @@ void func_80184058(Ent_80184058 *p) {
     func_8017DF84(&D_801EAFD0, D_8018F858[p->unkE4], p->unkDC, p->unkE2);
     func_80184354();
     if (p->unkEA == 0) {
-        ((Ent58_fx *)p)->unkE0 += 0x5CCCC;
+        ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC03_014_80183CF0.unkE0 += 0x5CCCC;
     } else {
         if (--p->unkEA == 0) {
             guess_RequestSound(0x81E, 0);

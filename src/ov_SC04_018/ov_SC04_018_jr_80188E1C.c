@@ -4977,7 +4977,7 @@ s32 a0;
 {
     s32 *v1;
     v1 = *(s32 **)((s32)a0 + 0xCC);
-    ((Unkstruct_801820DC_3 *)v1)->unkB0 = 2;
+    ((Unkstruct_801202A0 *)v1)->extE.kSC03_001_80187DAC.unkB0 = 2;
     if (func_8018B8B0() != 0) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }

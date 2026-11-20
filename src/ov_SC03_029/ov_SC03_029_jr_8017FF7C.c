@@ -4613,27 +4613,27 @@ void func_80182CA4(s32 param_1) {
     s32 cnt;
     s16 t;
 
-    dc = ((Unkstruct_80182CA4 *)param_1)->unkDC;
+    dc = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
     if ((dc & 1) != 0) {
-        if (((Unkstruct_80182CA4 *)param_1)->unk74 != 0) {
-            ((Unkstruct_80182CA4 *)param_1)->unkFC = func_8012B8A4((s16 *)param_1) + 0x400;
-            ((Unkstruct_80182CA4 *)param_1)->unkE0 = 0x10;
-            ((Unkstruct_80182CA4 *)param_1)->unkDC = ((Unkstruct_80182CA4 *)param_1)->unkDC & ~1;
+        if (((Unkstruct_801202A0 *)param_1)->unk74 != 0) {
+            ((Unkstruct_801202A0 *)param_1)->unkFC.s = func_8012B8A4((s16 *)param_1) + 0x400;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.u = 0x10;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val & ~1;
         }
     } else {
-        if (((Unkstruct_80182CA4 *)param_1)->unk74 == 0) {
-            ((Unkstruct_80182CA4 *)param_1)->unkDC = dc | 1;
+        if (((Unkstruct_801202A0 *)param_1)->unk74 == 0) {
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = dc | 1;
         }
     }
     func_80182D70(param_1);
     func_8012DFD4((u8 *)param_1);
-    cnt = (((Unkstruct_80182CA4 *)param_1)->unk1C + 1) & 0x1F;
-    ((Unkstruct_80182CA4 *)param_1)->unk1C = cnt;
+    cnt = (((Unkstruct_801202A0 *)param_1)->unk1C.s + 1) & 0x1F;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = cnt;
     if (cnt == 0) {
-        t = ((Unkstruct_80182CA4 *)param_1)->unkE0 - 1;
-        ((Unkstruct_80182CA4 *)param_1)->unkE0 = t;
+        t = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.u - 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.u = t;
         if (t == 0) {
-            ((Unkstruct_80182CA4 *)param_1)->unkE0 = 1;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.u = 1;
         }
     }
 }
@@ -4654,8 +4654,8 @@ void func_80182D70(s32 arg) {
     s32 vec[3];
     s32 out[3];
 
-    vec[0] = ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC03_029_80182B90.unkE0 * rcos(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
-    vec[1] = ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC03_029_80182B90.unkE0 * rsin(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
+    vec[0] = ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.s * rcos(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
+    vec[1] = ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC03_029_80182B90.unkE0.s * rsin(((Unkstruct_801202A0 *)s1)->unk1C.s << 7);
     vec[2] = 0;
     m = D_800AE620;
     RotMatrixY(((Unkstruct_801202A0 *)s1)->unkFC.s, &m);

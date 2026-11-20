@@ -4752,19 +4752,19 @@ void func_801883E4(s32 param_1) {
     if (((s32 (*)(s32, void *))guess_InitActorModel)(param_1, &D_801900C4) == 0) {
         return;
     }
-    ((Unkstruct_801883E4 *)param_1)->unkC0 = 1;
-    ((Unkstruct_801883E4 *)param_1)->unkB4 = 1;
+    ((Unkstruct_801202A0 *)param_1)->unkC0.u = 1;
+    ((Unkstruct_801202A0 *)param_1)->unkB4.s = 1;
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018BD04);
-    ((Unkstruct_801883E4 *)param_1)->unk2 = 1;
+    ((Unkstruct_801202A0 *)param_1)->unk2.u = 1;
     ((void (*)(s32))guess_ClearVelocityAndSetGravity)(param_1);
 
-    ((Unkstruct_801883E4 *)param_1)->unkFC = (rand() & 0xFF) - 0x80;
-    ((Unkstruct_801883E4 *)param_1)->unkFE = (rand() & 0xFF) - 0x80;
-    ((Unkstruct_801883E4 *)param_1)->unk100 = (rand() & 0xFF) - 0x80;
-    ((Unkstruct_801883E4 *)param_1)->unk12 = (rand() & 0xF) - 0x8;
-    ((Unkstruct_801883E4 *)param_1)->unk1A = (rand() & 0xF) - 0x8;
-    ((Unkstruct_801883E4 *)param_1)->unk16 = -0x38;
-    ((Unkstruct_801883E4 *)param_1)->unk1C = 0x5A;
+    ((Unkstruct_801202A0 *)param_1)->unkFC.s = (rand() & 0xFF) - 0x80;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = (rand() & 0xFF) - 0x80;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC03_028_80184568.unk100 = (rand() & 0xFF) - 0x80;
+    ((Unkstruct_801202A0 *)param_1)->unk10.i.hi.s = (rand() & 0xF) - 0x8;
+    ((Unkstruct_801202A0 *)param_1)->unk18.i.hi.s = (rand() & 0xF) - 0x8;
+    ((Unkstruct_801202A0 *)param_1)->unk14.i.hi.s = -0x38;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x5A;
 }
 
 

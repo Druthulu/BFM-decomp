@@ -3091,18 +3091,18 @@ void func_801887A8(s32 param_1)
 {
     s32 v0;
 
-    switch (((Unkstruct_801887A8 *)param_1)->unkF8) {
+    switch (((Unkstruct_801202A0 *)param_1)->unkF8.val.s) {
     case 1:
-        ((Unkstruct_801887A8 *)param_1)->unkDC ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val ^= 1;
         break;
     case 2:
-        ((Unkstruct_801887A8 *)param_1)->unkE0 ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE0.u ^= 1;
         break;
     case 3:
-        ((Unkstruct_801887A8 *)param_1)->unkE4 ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE4.u ^= 1;
         break;
     case 4:
-        ((Unkstruct_801887A8 *)param_1)->unkE8 ^= 1;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u ^= 1;
         break;
     case 5:
         ((Unkstruct_801887A8_2 *)*(s32 *)(param_1 + 0x64))->unk2 = 1;
@@ -3118,7 +3118,7 @@ void func_801887A8(s32 param_1)
         break;
     case 9:
         func_800D0C48(1);
-        ((Unkstruct_801887A8 *)param_1)->unkF8 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkF8.val.s = 0;
         return;
     case 10:
         v0 = 7;
@@ -3126,12 +3126,12 @@ void func_801887A8(s32 param_1)
     case 11:
         v0 = 8;
     block4:
-        ((Unkstruct_801887A8 *)param_1)->unkDC = v0;
-        ((Unkstruct_801887A8 *)param_1)->unkE0 = v0;
-        ((Unkstruct_801887A8 *)param_1)->unkE4 = v0;
-        ((Unkstruct_801887A8 *)param_1)->unkE8 = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE0.u = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE4.u = v0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u = v0;
     }
-    ((Unkstruct_801887A8 *)param_1)->unkF8 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unkF8.val.s = 0;
 }
 
 

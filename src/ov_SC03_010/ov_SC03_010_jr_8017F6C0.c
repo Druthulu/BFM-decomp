@@ -2827,8 +2827,8 @@ void func_8017F6C0(void *a0)
 
     a1 = a0;
 
-    v0 = ((Unkstruct_8017F6C0 *)a1)->unk1C - 1;
-    ((Unkstruct_8017F6C0 *)a1)->unk1C = v0;
+    v0 = ((Unkstruct_801202A0 *)a1)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a1)->unk1C.s = v0;
     if (v0 != 0) {
         return;
     }
@@ -2840,55 +2840,55 @@ void func_8017F6C0(void *a0)
 
     switch (v1) {
     case 0: {
-        ((Unkstruct_8017F6C0 *)a1)->unk1C = 1;
+        ((Unkstruct_801202A0 *)a1)->unk1C.s = 1;
         return;
     }
     case 1: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 2;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
         ret = -0x16D;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     case 2: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 3;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 3;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
         ret = -0x361;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     case 3: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 4;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 4;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0;
         ret = -0x561;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     case 4: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 7;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 7;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
         ret = -0x16D;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     case 5: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 6;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 6;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
         ret = -0x361;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     case 6: {
         s32 ret;
-        ((Unkstruct_8017F6C0 *)a1)->unk2 = 5;
-        ((Unkstruct_8017F6C0 *)a1)->unkDC = 0x800;
+        ((Unkstruct_801202A0 *)a1)->unk2.s = 5;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.unkDC.val = 0x800;
         ret = -0x561;
-        ((Unkstruct_8017F6C0 *)a1)->unkE2 = ret;
+        ((Unkstruct_801202A0 *)a1)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = ret;
         return;
     }
     }

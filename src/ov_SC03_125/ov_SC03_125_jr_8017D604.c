@@ -3758,11 +3758,11 @@ void func_8017F590(s32 param_1) {
     v &= 0xFF;
     guess_SetGameFlag(0xDE, 1);
     if (v == 0) {
-        ((Unkstruct_8017F590 *)param_1)->unkE4 = (s32)&D_801A81AC;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_002_80181054.unkE4 = (s32)&D_801A81AC;
     } else if (v & 1) {
-        ((Unkstruct_8017F590 *)param_1)->unkE4 = (s32)&D_801A8228;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_002_80181054.unkE4 = (s32)&D_801A8228;
     } else {
-        ((Unkstruct_8017F590 *)param_1)->unkE4 = (s32)&D_801A82C8;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_002_80181054.unkE4 = (s32)&D_801A82C8;
     }
     v = v + 1;
     if ((v & 0xFF) == 0) {
@@ -5300,7 +5300,7 @@ s32 func_80181790(s32 a0) {
 extern s32 func_80181790(s32 arg);
     extern void func_801818F4(void *a0);
     void func_801818C0(u8 *a0) {
-        ((Unkstruct_80180CCC *)a0)->unkE0 = func_80181790((s32)a0);
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_125_8017EDD8.unkE0 = func_80181790((s32)a0);
         func_801818F4(a0);
     }
 

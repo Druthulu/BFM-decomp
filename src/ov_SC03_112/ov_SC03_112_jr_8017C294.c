@@ -4298,7 +4298,7 @@ void func_8017FA44(s32 a0) {
     if (v0 != v1) {
         return;
     }
-    ((Unkstruct_801202A0 *)s0)->extD.kSC03_107_8017D92C.unk102 = (v0 = 1);
+    ((Unkstruct_801202A0 *)s0)->extD.kSC03_107_8017D92C.unk102.s = (v0 = 1);
     func_80180FC0(a0);
 }
 
@@ -4645,11 +4645,11 @@ extern s32 guess_TickWaitTimer(s32 arg);
 
 
 void func_801802CC(s32 a0) {
-    if (((Unkstruct_801802CC_3 *)a0)->unk76 <= 0) {
-        ((Unkstruct_801802CC_3 *)a0)->unkDC |= 2;
+    if (((Unkstruct_801802CC_3 *)a0)->unk76.s <= 0) {
+        ((Unkstruct_801802CC_3 *)a0)->blkDC.f.unkDC.val |= 2;
     }
-    ((Unkstruct_801802CC_3 *)a0)->unkE4 = 0;
-    ((Unkstruct_801802CC_3 *)a0)->unk52 = -0x30;
+    ((Unkstruct_801802CC_3 *)a0)->blkDC.f.extC.kSC03_107_8017D92C.unkE4 = 0;
+    ((Unkstruct_801802CC_3 *)a0)->unk52.s = -0x30;
 }
 
 
@@ -4736,20 +4736,20 @@ void func_80180440(s32 a0) {
 
 
 void func_80180530(s32 param_1) {
-    s32 cond = ((Unkstruct_8017E418 *)param_1)->unkAA;
-    ((Unkstruct_8017E418 *)param_1)->unk5C = 0;
-    ((Unkstruct_8017E418 *)param_1)->unk98 = 0;
-    ((Unkstruct_8017E418 *)param_1)->unk1C = 0;
+    s32 cond = ((Unkstruct_801202A0 *)param_1)->unkAA;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
     if (cond == 0) {
-        s32 w = ((Unkstruct_8017E418 *)param_1)->unkDC;
+        s32 w = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
         s32 h = ((Unkstruct_80180530_2 *)*(s32 *)(param_1 + 0x20))->unk18;
         w &= ~0x80;
-        ((Unkstruct_8017E418 *)param_1)->unkDC = w;
-        ((Unkstruct_8017E418 *)param_1)->unk100 = h;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = w;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100 = h;
     } else {
         s32 h = ((Unkstruct_80180530_2 *)*(s32 *)(param_1 + 0x20))->unk18;
-        ((Unkstruct_8017E418 *)param_1)->unkDC |= 0x80;
-        ((Unkstruct_8017E418 *)param_1)->unk104 = h;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val |= 0x80;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk104 = h;
     }
 }
 

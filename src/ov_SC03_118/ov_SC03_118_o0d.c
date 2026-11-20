@@ -3001,8 +3001,8 @@ void func_801837B0(s32 arg0)
     extern void func_80180A64(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
     func_80180A64(&D_801D47E0, &D_801B5D38,
-                  ((Args_801837B0 *)arg0)->fDC,
-                  ((Args_801837B0 *)arg0)->fE2);
+                  ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.i.lo.s,
+                  ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_118_80183280.unkE2);
     ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.i.lo.u += 7;
 }
 

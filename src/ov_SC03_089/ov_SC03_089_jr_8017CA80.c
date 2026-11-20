@@ -5129,10 +5129,10 @@ extern void func_80184CBC(void *a0);
 void func_80183FF0(void *a0) {
 
     extern void (*D_801A3ADC[])(void);
-    D_801A3ADC[((Unkstruct_80181B60 *)a0)->unk2]();
-    if (((Unkstruct_80181B60 *)a0)->unk0 != 0) {
-        ((Unkstruct_80181B60 *)a0)->unkE4 = ((Unkstruct_80181B60 *)a0)->unkE4 + 1;
-        if ((((Unkstruct_80181B60 *)a0)->unkE4 & 0xF) == 0) {
+    D_801A3ADC[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 + 1;
+        if ((((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_089_80183FF0.unkE4 & 0xF) == 0) {
             func_80184CBC(a0);
         }
     }

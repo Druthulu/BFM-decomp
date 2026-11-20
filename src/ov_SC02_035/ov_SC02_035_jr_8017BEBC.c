@@ -2918,8 +2918,8 @@ void func_8017D3F4(s32 a0) {
         *(u32 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x4) |= 0x8040;
 
         ((Unkstruct_801202A0 *)a0)->unkFE.s = D_801949A0[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk100 = D_801949A2[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
-        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk102 = D_801949A4[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk100.s = D_801949A2[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk102.s = D_801949A4[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104 = D_801949A6[((Unkstruct_801202A0 *)a0)->unkFC.s * 4];
         func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.p, 0x104, 0xDC);
 
@@ -3032,12 +3032,12 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 void func_8017D710(s32 a0) {
     s16 t;
 
-    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk10 += ((Unkstruct_8017D710 *)a0)->unkFE;
-    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk12 += ((Unkstruct_8017D710 *)a0)->unk100;
-    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk14 += ((Unkstruct_8017D710 *)a0)->unk102;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk10 += ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk12 += ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk100.u;
+    ((Unkstruct_80186710 *)*(u32 *)(a0 + 0x20))->unk14 += ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk102.u;
 
     t = CAST_SIGN(s16, a0, 0x100);
-    if (t != 0 && ((Unkstruct_8017D710 *)a0)->unk74 != 0) {
+    if (t != 0 && ((Unkstruct_801202A0 *)a0)->unk74 != 0) {
         CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12) += t;
     }
 }
@@ -3067,17 +3067,17 @@ extern s32 rcos(s32 a0);
 // The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
 // `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
 void func_8017D7A4(s32 a0) {
-    if (((Unkstruct_8017D7A4 *)a0)->unk108 != 0) {
-        ((Unkstruct_8017D7A4 *)a0)->unk108 = ((Unkstruct_8017D7A4 *)a0)->unk108 - 1;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 != 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 - 1;
         return;
     }
-    ((Unkstruct_8017D7A4 *)a0)->unk106 = ((Unkstruct_8017D7A4 *)a0)->unk106 + ((Unkstruct_8017D7A4 *)a0)->unkFE;
-    ((Unkstruct_8017D7A4 *)a0)->unkE = ((Unkstruct_8017D7A4 *)a0)->unk8C +
-        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D7A4 *)a0)->unk104) >> 12);
-    ((Unkstruct_8017D7A4 *)a0)->unkA = ((Unkstruct_8017D7A4 *)a0)->unk8A +
-        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D7A4 *)a0)->unk104) >> 12);
-    if ((((Unkstruct_8017D7A4 *)a0)->unk106 & 0x7FF) == 0) {
-        ((Unkstruct_8017D7A4 *)a0)->unk108 = 0xF;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 + ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8C.u +
+        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8A.u +
+        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    if ((((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 & 0x7FF) == 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = 0xF;
     }
 }
 
@@ -3105,17 +3105,17 @@ extern s32 rcos(s32 a0);
 // The shared `sh $v0,0x108($s0)` tail is gcc's own cross-jump merge of the
 // `- 1` arm and the `= 0xF` arm — do NOT hand-write it as a merged tail.
 void func_8017D85C(s32 a0) {
-    if (((Unkstruct_8017D85C *)a0)->unk108 != 0) {
-        ((Unkstruct_8017D85C *)a0)->unk108 = ((Unkstruct_8017D85C *)a0)->unk108 - 1;
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 != 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 - 1;
         return;
     }
-    ((Unkstruct_8017D85C *)a0)->unk106 = ((Unkstruct_8017D85C *)a0)->unk106 + ((Unkstruct_8017D85C *)a0)->unkFE;
-    ((Unkstruct_8017D85C *)a0)->unk6 = ((Unkstruct_8017D85C *)a0)->unk88 +
-        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D85C *)a0)->unk104) >> 12);
-    ((Unkstruct_8017D85C *)a0)->unkA = ((Unkstruct_8017D85C *)a0)->unk8A +
-        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_8017D85C *)a0)->unk104) >> 12);
-    if ((((Unkstruct_8017D85C *)a0)->unk106 & 0x7FF) == 0) {
-        ((Unkstruct_8017D85C *)a0)->unk108 = 0xF;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 = ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 + ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk88.u +
+        ((rsin(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)a0)->unk8A.u +
+        ((rcos(CAST_SIGN(s16, a0, 0x106)) * ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk104) >> 12);
+    if ((((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk106 & 0x7FF) == 0) {
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_035_8017D548.unk108 = 0xF;
     }
 }
 
@@ -6850,10 +6850,10 @@ extern void (*D_801B977C[])(void);
 extern void func_80183F2C(void *a0);
 
 void func_80183258(void *a0) {
-    D_801B977C[((Unkstruct_80183258 *)a0)->unk2]();
+    D_801B977C[((Unkstruct_80183258 *)a0)->unk2.u]();
     if (((Unkstruct_80183258 *)a0)->unk0 != 0) {
-        ((Unkstruct_80183258 *)a0)->unkE8 = ((Unkstruct_80183258 *)a0)->unkE8 + 1;
-        if ((((Unkstruct_80183258 *)a0)->unkE8 & 0xF) == 0) {
+        ((Unkstruct_80183258 *)a0)->blkDC.f.extC.kSC06_014_8017E220.unkE8 = ((Unkstruct_80183258 *)a0)->blkDC.f.extC.kSC06_014_8017E220.unkE8 + 1;
+        if ((((Unkstruct_80183258 *)a0)->blkDC.f.extC.kSC06_014_8017E220.unkE8 & 0xF) == 0) {
             func_80183F2C(a0);
         }
     }

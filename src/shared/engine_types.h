@@ -1954,14 +1954,6 @@ typedef Unkstruct_80181FAC_2 DVec_80184138;
 typedef Elem52_801B5094 D_80195D74_Entry;
 typedef DRM E8_8018E450;
 typedef struct Vec Elem_8018F086;
-typedef struct {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ u8  pad04[0xD8];
-    /* 0xDC */ s16 unkDC;
-    /* 0xDE */ s16 unkDE;
-    /* 0xE0 */ s32 unkE0;
-} Ent58_fx;
 typedef Unkstruct_800B5CB8 Ent_8014D820;
 typedef struct {
     u16 f0;                         /* 0x00 */
@@ -3230,12 +3222,6 @@ typedef H16 Unkstruct_8018CD04;
 typedef H16 Unkstruct_8018F02C;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-block) --- */
-typedef struct {
-    u8 _[0xDC];
-    s16 fDC;
-    u8 _2[4];
-    s16 fE2;
-} Args_801837B0;
 typedef Blk16_8018A8B8 B16_80183ED8;
 typedef MATRIX B20;
 typedef CVECTOR B4_80188094;

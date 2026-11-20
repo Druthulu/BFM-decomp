@@ -4410,16 +4410,16 @@ void func_80180100(void *a0)
 {
     void *s0 = a0;
 
-    D_8018E7E8[((Unkstruct_80180100 *)s0)->unk2]();
+    D_8018E7E8[((Unkstruct_801202A0 *)s0)->unk2.u]();
 
-    if (((Unkstruct_80180100 *)s0)->unk0 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk0 != 0) {
         s32 v0;
         s32 v1;
 
-        ((Unkstruct_80180100 *)s0)->unk5C &= 0xFFFE;
-        if (((Unkstruct_80180100 *)s0)->unkAC != 0) {
-            ((Unkstruct_80180100 *)s0)->unkAC--;
-            v0 = ((Unkstruct_80180100 *)s0)->unkAC;
+        ((Unkstruct_801202A0 *)s0)->unk5C.u &= 0xFFFE;
+        if (((Unkstruct_801202A0 *)s0)->extE.kSC03_105_80180100.unkAC != 0) {
+            ((Unkstruct_801202A0 *)s0)->extE.kSC03_105_80180100.unkAC--;
+            v0 = ((Unkstruct_801202A0 *)s0)->extE.kSC03_105_80180100.unkAC;
             v0 = rsin((s16)v0 << 8);
             v1 = (v0 * 3 << 6) >> 12;
             v1 += 0x40;

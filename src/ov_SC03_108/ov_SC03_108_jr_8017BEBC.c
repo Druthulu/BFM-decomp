@@ -3540,11 +3540,11 @@ void func_8017E3F8(void *a0)
     u16 t;
     s32 f;
 
-    mtx.t[0] = ((Unkstruct_8017E3F8_2 *)s0)->unk6;
-    mtx.t[1] = ((Unkstruct_8017E3F8_2 *)s0)->unkA;
-    mtx.t[2] = ((Unkstruct_8017E3F8_2 *)s0)->unkE;
+    mtx.t[0] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s;
+    mtx.t[1] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s;
+    mtx.t[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s;
 
-    ent = ((Unkstruct_8017E3F8_2 *)s0)->unk20;
+    ent = ((Unkstruct_801202A0 *)s0)->unk20.val;
     RotMatrixY(*(s16 *)(ent + 0x12), &mtx);
     SetRotMatrix(&mtx);
     SetTransMatrix(&mtx);
@@ -3556,9 +3556,9 @@ void func_8017E3F8(void *a0)
 
     t = *(u16 *)&sxy;
     f = flag;
-    ((Unkstruct_8017E3F8_2 *)s0)->unk100 = t;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC02_039_8017E794.unk100 = t;
     if (f < 0) {
-        ((Unkstruct_8017E3F8_2 *)s0)->unk100 = -0x3E7;
+        ((Unkstruct_801202A0 *)s0)->extD.kSC02_039_8017E794.unk100 = -0x3E7;
     }
 }
 

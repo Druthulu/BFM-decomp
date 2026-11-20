@@ -3060,28 +3060,28 @@ void func_8018631C(s32 a0) {
     idx = func_801877C0(a0);
     switch (idx) {
     case 0:
-        ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_80195268[0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_80195268[0];
         break;
     case 1:
         if ((guess_GetGameVarByte(0xDB) & 0xFF) == 0) {
-            ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_80195114[0];
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_80195114[0];
             func_800291A0(0xDB, 1);
         } else {
-            ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_8019515C;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_8019515C;
         }
         break;
     case 2:
-        ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_801951A8[0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_801951A8[0];
         break;
     case 3:
-        ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_801953B4;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_801953B4;
         break;
     case 4:
         t = guess_GetStoryProgress();
         if (t < 0x87) {
-            ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_801953B4;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_801953B4;
         } else {
-            ((Unkstruct_8018631C *)a0)->unkE4 = (s32)&D_80195214[0];
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = (s32)&D_80195214[0];
         }
         break;
     }
@@ -3204,7 +3204,7 @@ void func_80186674(s32 a0) {
 
     extern s32 D_80192A04[];
     s32 idx = func_801877C0(a0);
-    ((Unkstruct_80180D5C *)a0)->unkE4 = D_80192A04[idx];
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_801862B4.unkE4 = D_80192A04[idx];
 }
 
 

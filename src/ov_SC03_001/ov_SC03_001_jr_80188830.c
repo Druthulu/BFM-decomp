@@ -3201,10 +3201,10 @@ void aF80185EEC(s32 a0) {
     u16 v0;
     s32 v1;
 
-    v0 = ((Unkstruct_80182258 *)a0)->unkFE;
-    v1 = ((Unkstruct_80182258 *)a0)->unk20;
+    v0 = ((Unkstruct_801202A0 *)a0)->unkFE.u;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
     v0 = -v0;
-    ((Unkstruct_80182258 *)a0)->unkF4 = v0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_001_80187DAC.unkF4 = v0;
     ((Unkstruct_8001C9D0 *)v1)->unk20 = a0 + 0xEC;
     func_801889E0((void *)a0);
 }
@@ -3212,12 +3212,12 @@ void aF80185EEC(s32 a0) {
 
 
 void func_801889E0(void *a0) {
-    if (((Unkstruct_80182258 *)a0)->unk2 != 4) {
-        ((Unkstruct_80182258 *)a0)->unk5C = 0x800;
-    } else if (((Unkstruct_80182258 *)a0)->unkCC != 1) {
-        ((Unkstruct_80182258 *)a0)->unk5C = 0;
+    if (((Unkstruct_801202A0 *)a0)->unk2.u != 4) {
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x800;
+    } else if (((Unkstruct_801202A0 *)a0)->unkCC.val != 1) {
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
     } else {
-        ((Unkstruct_80182258 *)a0)->unk5C = 0x800;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0x800;
     }
 }
 

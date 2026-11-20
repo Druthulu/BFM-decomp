@@ -7203,7 +7203,7 @@ extern s32 func_80184344(s32 arg);
 extern void func_801844A8(void *a0);
 
 void func_80184474(void *a0) {
-    ((Unkstruct_80180CCC *)a0)->unkE0 = func_80184344((s32)a0);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_018_80182290.unkE0 = func_80184344((s32)a0);
     func_801844A8((s32)a0);
 }
 

@@ -3965,11 +3965,11 @@ void func_80180A38(s32 param_1)
         goto TAIL;
     }
 
-    d = ((Unkstruct_80180A38 *)param_1)->unkA - *(s16 *)&buf[1];
+    d = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.s - *(s16 *)&buf[1];
     if (d >= 0) {
         if (d > 0x200) goto TAIL;
     } else {
-        d = *(s16 *)&buf[1] - ((Unkstruct_80180A38 *)param_1)->unkA;
+        d = *(s16 *)&buf[1] - ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.s;
         if (d > 0x200) goto TAIL;
         /* §5a zero-byte cross-jump barrier: keeps this arm's slti/beqz test
          * a separate RTL block from the sibling arm's identical-looking test
@@ -3979,14 +3979,14 @@ void func_80180A38(s32 param_1)
         __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:jump2-crossjump
     }
 
-    timer = ((Unkstruct_80180A38 *)param_1)->unkE0;
+    timer = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_102_801809C4.unkE0;
     if (timer != 0) {
         timer -= 1;
-        ((Unkstruct_80180A38 *)param_1)->unkE0 = timer;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_102_801809C4.unkE0 = timer;
         goto INCR;
     }
 
-    if (((Unkstruct_80180A38 *)param_1)->unk1C % ((Unkstruct_80180A38 *)param_1)->unkFC == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk1C.s % ((Unkstruct_801202A0 *)param_1)->unkFC.s == 0) {
         pos = *(ElemK *)(param_1 + 0x88);
 
         func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
@@ -3997,23 +3997,23 @@ void func_80180A38(s32 param_1)
 
         func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
 
-        ((Unkstruct_80180A38 *)param_1)->unkFE += 1;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.s += 1;
     }
 
-    if (((Unkstruct_80180A38 *)param_1)->unkFE >= 3) {
-        ((Unkstruct_80180A38 *)param_1)->unkE0 = 0x1E;
-        ((Unkstruct_80180A38 *)param_1)->unkFE = 0;
+    if (((Unkstruct_801202A0 *)param_1)->unkFE.s >= 3) {
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_102_801809C4.unkE0 = 0x1E;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.s = 0;
     }
 
 TAIL:
-    timer = ((Unkstruct_80180A38 *)param_1)->unkE0;
+    timer = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_102_801809C4.unkE0;
     if (timer != 0) {
         timer -= 1;
-        ((Unkstruct_80180A38 *)param_1)->unkE0 = timer;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_102_801809C4.unkE0 = timer;
     }
 
 INCR:
-    ((Unkstruct_80180A38 *)param_1)->unk1C += 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s += 1;
 }
 
 
