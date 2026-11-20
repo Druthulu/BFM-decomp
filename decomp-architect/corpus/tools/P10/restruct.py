@@ -4764,6 +4764,22 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
                 return None
             out, o = {}, 0
             for f in rec["fields"]:
+                nd = f.get("nested")
+                if nd and nd.get("kind") == "union" and f["name"] and not f.get("bits") and not f["stars"] and not f["dims"] \
+                        and nd.get("fields") and all(not x.get("nested") and x["name"] and not x["stars"] and not x["dims"] for x in nd["fields"]):
+                    # T18.c10: a named inline scalar union of a nested record (RenderHead `union { u16 u; s16 s; } unk12;`): one leaf
+                    # per member width/sign, {(width, sign): path} under the "U" marker (leaf() in unify picks the view's)
+                    alts, w_, a_ = {}, 0, 1
+                    for x in nd["fields"]:
+                        Lx = res.layout(x["type"])
+                        if not (Lx and len(Lx[2]) == 1 and Lx[2][0][:2] == (0, Lx[0])):
+                            return None
+                        alts.setdefault(Lx[2][0][1:], f"{pre}.{f['name']}.{x['name']}")
+                        w_, a_ = max(w_, Lx[0]), max(a_, Lx[1])
+                    o = (o + a_ - 1) // a_ * a_
+                    out[off + o] = ("U", alts)
+                    o += w_
+                    continue
                 if f.get("nested") or not f["name"] or f.get("bits"):
                     return None
                 L_ = res.layout(f["type"], f["stars"], f["dims"])
@@ -4807,6 +4823,8 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
 
         def leaf(o, ws, tm, w):
             if o in hm:
+                if hm[o][0] == "U":                               # T18.c10: a nested scalar union's member of the view's width/sign
+                    return hm[o][1].get(ws)
                 return hm[o][0] if hm[o][1] == ws else None
             if o in syn:
                 return f"unk{o:X}" if syn[o][3] == ws else None
