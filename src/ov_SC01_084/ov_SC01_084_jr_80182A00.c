@@ -94,7 +94,7 @@ void func_80182A00(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         func_80130088((void *)a0);
-        ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
         ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
         break;
     case 0x11:
@@ -108,7 +108,7 @@ void func_80182A00(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
         func_80130088((void *)a0);
-        ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+        ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
         ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
         guess_SetLocalVelocity(a0, (s32)D_8018AAA8);
         break;
@@ -131,7 +131,7 @@ void func_80182A00(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             func_80130088((void *)a0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
             ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
             ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0x300;
             CAST_WIDTH(s32, a0, 8) = CAST_WIDTH(s32, a0, 8) - 0x240000;
@@ -153,7 +153,7 @@ void func_80182A00(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
             ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
             func_80130088((void *)a0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
             ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
             ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0x300;
             CAST_WIDTH(s32, a0, 8) = CAST_WIDTH(s32, a0, 8) - 0x240000;
@@ -3103,13 +3103,13 @@ void func_801867A4(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801A3058);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 

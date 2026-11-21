@@ -3457,7 +3457,7 @@ extern void guess_SetLocalVelocity(s32 a0, s32 a1);
 
 void func_801867E4(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unkB4.s = 0x8;
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_SetLocalVelocity(a0, (s32)&D_8018FEB0);
@@ -3471,7 +3471,7 @@ extern void (*D_8018FEBC)();
 
 void func_80186838(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unkB4.s = 0x80;
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_SetLocalVelocity(a0, (s32)&D_8018FEBC);

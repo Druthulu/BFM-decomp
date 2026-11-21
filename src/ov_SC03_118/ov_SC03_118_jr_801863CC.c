@@ -4466,7 +4466,7 @@ void func_80188EB0(void *arg0) {
     extern u8 D_801D0990[];
 
     ((Unkstruct_801202A0 *)arg0)->unkC1.s = 4;
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u &= ~1;
     guess_SetLocalVelocity((s32)arg0, (s32)D_801D0990);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;

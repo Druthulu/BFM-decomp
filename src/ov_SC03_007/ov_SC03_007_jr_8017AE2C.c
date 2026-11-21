@@ -5458,7 +5458,7 @@ void func_8017F99C(s32 param_1) {
     ((Unkstruct_8001C9D0 *)t1)->head.unk10.w.unk10.u = 0;
     guess_ClearVelocityAndSetGravity(s0);
 
-    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)s0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;

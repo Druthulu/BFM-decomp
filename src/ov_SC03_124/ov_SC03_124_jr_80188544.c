@@ -4181,7 +4181,7 @@ void func_80189F00(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
     }
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
         D_801E2440 = ((s32 (*)(s32))func_8012CBCC)(a0);
         if (D_801E2440 & 0x6000) {
@@ -4196,7 +4196,7 @@ void func_80189F00(s32 a0) {
             }
             guess_SpawnActorType1C(a0, 1);
             guess_RequestSound(0x754, 0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 1;
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             CAST_WIDTH(s32, a0, 0x10) = CAST_WIDTH(s32, a0, 0x10) >> 2;
@@ -4233,7 +4233,7 @@ void func_80189F00(s32 a0) {
                 guess_RequestSound(0x754, 0);
                 guess_SpawnActorType1C(a0, 1);
                 t = D_801E2444;
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
                 ((Unkstruct_801202A0 *)a0)->unk14.val = -t;
             }
@@ -4442,7 +4442,7 @@ void func_8018A5B8(s32 arg0) {
 
     ((Unkstruct_801202A0 *)arg0)->unk5C.u &= 0xFFFE;
     ((Unkstruct_801202A0 *)arg0)->unkC1.s = 4;
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0;
     guess_SetLocalVelocity(arg0, (s32)&D_801DE488);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;
     ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_801819C8.unk108 = 0x28;

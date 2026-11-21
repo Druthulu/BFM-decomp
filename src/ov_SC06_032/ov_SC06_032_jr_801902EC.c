@@ -3862,7 +3862,7 @@ void func_801917C8(s32 param_1)
     s32 dx;
     s32 dy;
 
-    CAST_WIDTH(u16, param_1, 0xE8) = (((Unkstruct_801202A0 *)param_1)->unkC2 << 4) + 0x100;
+    CAST_WIDTH(u16, param_1, 0xE8) = (((Unkstruct_801202A0 *)param_1)->unkC2.u << 4) + 0x100;
     switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
         eNew = guess_SpawnActor(0x318, 5, param_1);

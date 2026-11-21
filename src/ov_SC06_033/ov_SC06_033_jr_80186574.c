@@ -5000,7 +5000,7 @@ void func_801895AC(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
     }
 }
 
@@ -5079,7 +5079,7 @@ void func_80189B9C(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
         func_80189390(p);
     }
 }
@@ -5159,7 +5159,7 @@ void func_80189D30(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
         func_80189390(p);
     }
 }
@@ -5313,7 +5313,7 @@ void func_80189EC4(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
     }
 }
 
@@ -5498,7 +5498,7 @@ void func_8018A318(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
     }
 }
 
@@ -5691,7 +5691,7 @@ void func_8018A6F8(void *arg) {
         ((Unkstruct_801202A0 *)p)->unk5C.u = 0x8800;
         ((Unkstruct_801202A0 *)p)->unk60.s = 0;
         ((Unkstruct_801202A0 *)p)->unkC1.s = 0;
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0x10;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0x10;
     }
 }
 

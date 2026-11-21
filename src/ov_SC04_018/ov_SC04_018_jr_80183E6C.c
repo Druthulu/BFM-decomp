@@ -3666,13 +3666,13 @@ void func_80184B70(void *a0, s32 a1, s32 a2)
     if (!(v0 < a1)) {
         if (v0 < a2) {
             v0 = 1;
-            v1 = ((Unkstruct_80184B70 *)a0)->unkCC;
+            v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
         } else {
-            v1 = ((Unkstruct_80184B70 *)a0)->unkCC;
+            v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
             v0 = 2;
         }
     } else {
-        v1 = ((Unkstruct_80184B70 *)a0)->unkCC;
+        v1 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
         v0 = 2;
     }
     *(s32 *)(v1 + 0xB0) = v0;

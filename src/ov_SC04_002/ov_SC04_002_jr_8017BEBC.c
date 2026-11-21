@@ -4480,7 +4480,7 @@ void func_8017F55C(s32 a0, s32 a1)
     MTX_8017F55C mtx;
     s16 buf[4];
 
-    p = ((Unkstruct_8017F55C *)a0)->unk20;
+    p = ((Unkstruct_8017F55C *)a0)->unk20.val;
     *(s32 *)(a1 + 0x1c) = 0x50000000;
 
     func_80017DC4((void *)(p + 0x18), &mtx);
@@ -4490,20 +4490,20 @@ void func_8017F55C(s32 a0, s32 a1)
     func_80017168((void *)a1, &mtx);
 
     mtx.t[0] += ((Unkstruct_8017F55C *)a0)->unk38;
-    mtx.t[1] += ((Unkstruct_8017F55C *)a0)->unk3A;
+    mtx.t[1] += ((Unkstruct_8017F55C *)a0)->unk3A.s;
     mtx.t[2] += ((Unkstruct_8017F55C *)a0)->unk3C;
     func_80017168((void *)a1, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017F55C *)a0)->unk3E;
+    mtx.t[0] += ((Unkstruct_8017F55C *)a0)->unk3E.s;
     mtx.t[1] += ((Unkstruct_8017F55C *)a0)->unk40;
-    mtx.t[2] += ((Unkstruct_8017F55C *)a0)->unk42;
+    mtx.t[2] += ((Unkstruct_8017F55C *)a0)->unk42.s;
     func_80017168((void *)a1, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017F55C *)a0)->unk44;
-    mtx.t[1] += ((Unkstruct_8017F55C *)a0)->unk46;
-    mtx.t[2] += ((Unkstruct_8017F55C *)a0)->unk48;
+    mtx.t[0] += ((Unkstruct_8017F55C *)a0)->unk44.h.unk44;
+    mtx.t[1] += ((Unkstruct_8017F55C *)a0)->unk44.h.unk46;
+    mtx.t[2] += ((Unkstruct_8017F55C *)a0)->unk44.h.unk48;
     func_80017168((void *)a1, &mtx);
 }
 
@@ -4981,7 +4981,7 @@ extern void func_80172710(void);
 
 s32 func_80180258(void *a0)
 {
-    if (func_8012BE54(((Unkstruct_8017F3F4 *)a0)->unk64) >= 0x2401) {
+    if (func_8012BE54(((Unkstruct_801202A0 *)a0)->unk64) >= 0x2401) {
         return 0;
     }
     ((Unkstruct_8017F3F4_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
@@ -6535,7 +6535,7 @@ extern void func_80182CBC(s32 a0, void *a1);
 
 void func_801823BC(s32 arg0) {
     s32 ret;
-    if (((Unkstruct_801202A0 *)arg0)->unkC2 == 2) {
+    if (((Unkstruct_801202A0 *)arg0)->unkC2.u == 2) {
         *(s16 *)(arg0 + 0x52) = -0x18;
     }
     ret = func_801826E8(arg0);
@@ -6564,7 +6564,7 @@ extern M2C_UNK D_801A8C44;
 void func_80182424(void *a0) {
     s32 s0 = (s32)a0;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_ClearVelocityAndSetGravity(s0);
@@ -8040,13 +8040,13 @@ void func_801843D4(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801A94CC);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 
@@ -8360,11 +8360,11 @@ void func_80184A6C(void *a0) {
 extern void (*D_801A9618[])(void);
 
 void func_80184AA8(void *a0) {
-    D_801A9618[((Unkstruct_801805C0 *)a0)->unk2]();
-    if (((Unkstruct_801805C0 *)a0)->unk0 != 0) {
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unk8.u = ((Unkstruct_801805C0 *)a0)->unk6;
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkA.u = ((Unkstruct_801805C0 *)a0)->unkA;
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkC.u = ((Unkstruct_801805C0 *)a0)->unkE;
+    D_801A9618[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 }
 
@@ -9125,7 +9125,7 @@ void func_80185BA0(void *arg0) {
 
     extern s32 D_801BDBB0;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801BDBB0);
-    ((Unkstruct_8018257C *)arg0)->unk2 = 0xe;
+    ((Unkstruct_8018257C *)arg0)->unk2.s = 0xe;
 }
 
 
@@ -9168,7 +9168,7 @@ void func_80185C90(void *arg0) {
 
     extern s32 D_801BDC18;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801BDC18);
-    ((Unkstruct_8018266C *)arg0)->unk2 = 0x10;
+    ((Unkstruct_8018266C *)arg0)->unk2.s = 0x10;
 }
 
 
@@ -9207,7 +9207,7 @@ void func_80185CC8(s32 a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801BDCD0;
     void func_80185D7C(void * arg0) {
-        ((Unkstruct_80182758 *)arg0)->unk2 = 18;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 18;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801BDCD0);
     }
 
@@ -9840,7 +9840,7 @@ void func_80186AD8(void *a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_9 */
 void guess_NextStep_9(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 

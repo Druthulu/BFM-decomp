@@ -391,7 +391,7 @@ void func_801895CC(s32 a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801D458C;
     void func_80189620(void * arg0) {
-        ((Unkstruct_801834CC *)arg0)->unk2 = 12;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 12;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801D458C);
     }
 
@@ -2209,9 +2209,9 @@ extern s32 func_8012C098(void *param_1);
 
 
 void func_8018BAD8(u8 *a0) {
-    u16 v1 = ((Unkstruct_8018BAD8 *)a0)->unk5E;
+    u16 v1 = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (v1 == 0x23) {
-        ((Unkstruct_8018BAD8 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (v1 == 0x24) {
         s16 buf[3];
@@ -2428,8 +2428,8 @@ void func_8018BEF0(s32 param_1) {
 
 
 void func_8018BF4C(void *a0) {
-        ((Unkstruct_8018BF4C *)a0)->unk2 = 5;
-        ((Unkstruct_8018BF4C *)a0)->unk1C = 0x14;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x14;
     }
 
 
@@ -2510,12 +2510,12 @@ void func_8018C0B8(int param_1)
     int iVar1;
 
     iVar1 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80184944 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar1;
     if (iVar1 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((Unkstruct_80184944 *)param_1)->unk2 = 1;
-        func_8001CA88(((Unkstruct_80184944 *)param_1)->unk20, &D_801D6FE4);
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        func_8001CA88(((Unkstruct_801202A0 *)param_1)->unk20.val, &D_801D6FE4);
         func_80143994(param_1, 0x1000);
     }
 }
@@ -3417,7 +3417,7 @@ void func_8018D288(s32 param_1) {
     ((Unkstruct_8001C9D0 *)t1)->head.unk10.w.unk10.u = 0;
     guess_ClearVelocityAndSetGravity(s0);
 
-    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)s0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
@@ -3460,7 +3460,7 @@ void func_8018D370(void *a0) {
     s32 v1;
     s32 cnt;
 
-    if (((Unkstruct_801202A0 *)s0)->unkC2 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unkC2.u != 0) {
         goto L8018D470;
     }
 
@@ -3502,8 +3502,8 @@ L8018D444:
     if ((v1 & 0x4000) == 0) {
         return;
     }
-    v0 = ((Unkstruct_801202A0 *)s0)->unkC2 + 1;
-    ((Unkstruct_801202A0 *)s0)->unkC2 = v0;
+    v0 = ((Unkstruct_801202A0 *)s0)->unkC2.u + 1;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = v0;
     ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk10.u = 0;
     guess_ClearVelocityAndSetGravity((s32)s0);
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
@@ -5539,13 +5539,13 @@ void func_8018FDC4(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801E44CC);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 

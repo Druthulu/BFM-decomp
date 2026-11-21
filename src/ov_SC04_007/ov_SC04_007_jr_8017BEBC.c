@@ -5803,7 +5803,7 @@ extern s32 D_801A0CE4;
 
 void func_801815DC(void *arg0) {
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801A0CE4);
-    ((Unkstruct_801815DC *)arg0)->unk2 = 0xe;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xe;
 }
 
 
@@ -5855,7 +5855,7 @@ extern s32 D_801A0D4C;
 
 void func_801816CC(void *arg0) {
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801A0D4C);
-    ((Unkstruct_801816CC *)arg0)->unk2 = 0x10;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x10;
 }
 
 
@@ -6497,7 +6497,7 @@ void func_80182514(void *a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_3 */
 void guess_NextStep_3(void *a0) {
-        ((Unkstruct_801825AC *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     }
 
 
@@ -7288,7 +7288,7 @@ void func_80183C24(s32 a0) {
     V8_80183C24 sp18;
     u16 t;
 
-    if (((Unkstruct_801202A0 *)a0)->unkC2 < 3) {
+    if (((Unkstruct_801202A0 *)a0)->unkC2.u < 3) {
         if (((Unkstruct_801202A0 *)a0)->unk84.s == 0) {
             sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
             t = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;

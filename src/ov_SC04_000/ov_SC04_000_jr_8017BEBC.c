@@ -4384,7 +4384,7 @@ extern void func_80172710(void);
 
 s32 func_8017F3F4(void *a0)
 {
-    if (func_8012BE54(((Unkstruct_8017F3F4 *)a0)->unk64) >= 0x2401) {
+    if (func_8012BE54(((Unkstruct_801202A0 *)a0)->unk64) >= 0x2401) {
         return 0;
     }
     ((Unkstruct_8017F3F4_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
@@ -5072,12 +5072,12 @@ void func_801804B4(s32 a0) {
     extern u8 D_80199618[];
     s32 t;
 
-    t = ((Unkstruct_801804B4 *)a0)->unk1C - 1;
-    ((Unkstruct_801804B4 *)a0)->unk1C = t;
+    t = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
     if (t == 0) {
-        ((Unkstruct_801804B4 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
         func_80178B18(a0, (s32)D_80199618);
-        ((Unkstruct_801804B4 *)a0)->unk1C = 5;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 5;
     }
 }
 
@@ -5176,13 +5176,13 @@ extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerP
 
 s32 func_801806B8(void *a0)
 {
-    if ((s16)((Unkstruct_801806B8_3 *)a0)->unkE - (s16)guess_g_PlayerPosZ >= 0x50) {
+    if ((s16)((Unkstruct_801202A0 *)a0)->unkC.i.hi.s - (s16)guess_g_PlayerPosZ >= 0x50) {
         return 0;
     }
-    if ((u32)((s16)guess_g_PlayerPosX - ((Unkstruct_801806B8_3 *)a0)->unk6) >= 0x101) {
+    if ((u32)((s16)guess_g_PlayerPosX - ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s) >= 0x101) {
         return 0;
     }
-    *(s16 *)(((Unkstruct_801806B8_3 *)a0)->unk64 + 2) = 2;
+    ((Unkstruct_801202A0 *)a0)->unk64->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }
@@ -5665,8 +5665,8 @@ void func_801810B0(s32 arg0)
         return;
     }
 
-    ((Unkstruct_801810B0 *)arg0)->unk2.s = 2;
-    ((Unkstruct_801810B0 *)arg0)->unk1C = 0x10;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk4.s &= 0x7FFFFFFF;
 
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk2C.s |= 0x10;
@@ -5675,9 +5675,9 @@ void func_801810B0(s32 arg0)
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk1C.s = 1;
 
     v = ((s32 (*)(s32))func_80143970)(arg0);
-    p = (u16 *)((Unkstruct_801810B0 *)arg0)->unk78;
-    ((Unkstruct_801810B0 *)arg0)->unkCC = v;
-    ((Unkstruct_801810B0 *)arg0)->unk76 = *p;
+    p = (u16 *)((Unkstruct_801202A0 *)arg0)->unk78;
+    ((Unkstruct_801202A0 *)arg0)->unkCC.val = v;
+    ((Unkstruct_801202A0 *)arg0)->unk76.u = *p;
 }
 
 
@@ -5823,15 +5823,15 @@ void *a0;
     s32 x;
     s32 z;
 
-    ((Unkstruct_801813CC *)a0)->unk5C = 0;
-    ((Unkstruct_801813CC *)a0)->unk1C = 0x37;
-    *(s16 *)(((Unkstruct_801813CC *)a0)->unk20 + 0x10) = 0;
+    ((Unkstruct_801813CC *)a0)->unk5C.s = 0;
+    ((Unkstruct_801813CC *)a0)->unk1C.s = 0x37;
+    *(s16 *)(((Unkstruct_801813CC *)a0)->unk20.val + 0x10) = 0;
     ((void (*)(s32, void *))guess_StartActorSequence)((s32)a0, D_801A6C50);
-    ((Unkstruct_801813CC *)a0)->unk34 = 0;
+    ((Unkstruct_801813CC *)a0)->unk34.s = 0;
 
-    in[0] = ((Unkstruct_801813CC *)a0)->unk6;
-    in[1] = ((Unkstruct_801813CC *)a0)->unkA;
-    in[2] = ((Unkstruct_801813CC *)a0)->unkE;
+    in[0] = ((Unkstruct_801813CC *)a0)->unk4.i.hi.u;
+    in[1] = ((Unkstruct_801813CC *)a0)->unk8.i.hi.u;
+    in[2] = ((Unkstruct_801813CC *)a0)->unkC.i.hi.u;
     ((s32 (*)(void *, void *))guess_WorldToScreenFlag)(in, out);
 
     x = out[0];
@@ -5909,7 +5909,7 @@ void func_80181554(void) {
 
 void func_8018155C(s32 param_1) {
     s16 buf[3];
-    if (((Unkstruct_8017EDF4_2 *)param_1)->unk5E == 0x24) {
+    if (((Unkstruct_801202A0 *)param_1)->unk5E.u == 0x24) {
         buf[2] = 0;
         buf[0] = 0;
         buf[1] = -8;

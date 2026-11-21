@@ -3020,12 +3020,12 @@ void func_8017DF70(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         guess_RequestSound(0xA8F, 0);
         ((Unkstruct_801202A0 *)a0)->unk76.s = 0;
-    } else if (((Unkstruct_801202A0 *)a0)->unkC2 == 0) {
+    } else if (((Unkstruct_801202A0 *)a0)->unkC2.u == 0) {
         guess_RequestSound(0xA8E, 0);
     }
     func_8017C010(a0 + 0x76, (s32)D_80185D14, 0xD2);
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0x10;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0x10;
     ((Unkstruct_801202A0 *)a0)->unk60.s = 0;
     ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
     CAST_WIDTH(s16, a0, 0x5E) = 0;

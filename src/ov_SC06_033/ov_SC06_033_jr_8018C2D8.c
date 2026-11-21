@@ -3979,7 +3979,7 @@ void func_8018D7B4(void *arg)
     u8 *s0 = (u8 *)arg;
     u8 *p;
 
-    CAST_WIDTH(u16, s0, 0xE8) = (((Unkstruct_801202A0 *)s0)->unkC2 << 4) + 0x100;
+    CAST_WIDTH(u16, s0, 0xE8) = (((Unkstruct_801202A0 *)s0)->unkC2.u << 4) + 0x100;
 
     switch (((Unkstruct_801202A0 *)s0)->unk34.u) {
     case 0:

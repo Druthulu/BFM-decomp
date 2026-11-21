@@ -9089,7 +9089,7 @@ void func_80181500(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 1;
     }
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
         D_8019BBC8 = ((s32 (*)(s32))func_8012CBCC)(a0);
         if (D_8019BBC8 & 0x6000) {
@@ -9104,7 +9104,7 @@ void func_80181500(s32 a0) {
             }
             guess_SpawnActorType1C(a0, 1);
             guess_RequestSound(0x754, 0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 1;
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             CAST_WIDTH(s32, a0, 0x10) = CAST_WIDTH(s32, a0, 0x10) >> 2;
@@ -9141,7 +9141,7 @@ void func_80181500(s32 a0) {
                 guess_RequestSound(0x754, 0);
                 guess_SpawnActorType1C(a0, 1);
                 t = D_8019BBCC;
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
                 ((Unkstruct_801202A0 *)a0)->unk14.val = -t;
             }
@@ -9341,7 +9341,7 @@ extern s32 D_80198BA4;
 
 void func_80181BB8(void *arg0) {
     ((Unkstruct_801202A0 *)arg0)->unkC1.s = 4;
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u &= ~1;
     guess_SetLocalVelocity((s32)arg0, (s32)&D_80198BA4);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;

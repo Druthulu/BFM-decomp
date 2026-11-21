@@ -3024,7 +3024,7 @@ void func_8017E330(Actor_8017E330 *a0) {
         v.x.vy = (D_801F8428[i].y * D_801F8090) >> 12;
         v.x.vz = (D_801F8428[i].z * D_801F8090) >> 12;
 
-        if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 2) {
+        if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 2) {
             func_8017F824(&v, 0x200);
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
@@ -3099,7 +3099,7 @@ void func_8017E550(Actor_8017E550 *a0) {
         v.x.vy = (pp->y * D_801F8090) >> 12;
         v.x.vz = (pp->z * D_801F8090) >> 12;
 
-        if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 2) {
+        if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 2) {
             func_8017F824(&v, 0x200);
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
@@ -3215,7 +3215,7 @@ void func_8017E878(Actor_8017E550 *a0) {
         v.x.vy = (pp->y * D_801F8090) >> 12;
         v.x.vz = (pp->z * D_801F8090) >> 12;
 
-        if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 0xF) {
+        if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 0xF) {
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
             a0->f0E = v.x.vz;
@@ -3893,7 +3893,7 @@ void func_8017F5D0(void)
     s32 u;
     s32 c;
 
-    e = &D_801861EC[((Unkstruct_8017E330 *)D_801F8118)->unk2 * 0x14];
+    e = &D_801861EC[((Unkstruct_801202A0 *)D_801F8118)->unk2.u * 0x14];
     switch (((Unkstruct_8017F5D0 *)e)->unk0) {
     case 0:
         *p = 0;
@@ -3954,7 +3954,7 @@ extern void (*D_80186368)(void);
 
 void func_8017F8CC(void) {
 
-    if (((Unkstruct_8017E330 *)D_801F8118)->unk2 == 0x11) {
+    if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 0x11) {
         guess_g_BackgroundLayerPriority[0] = 0x7FFF;
         D_800B9B00 = (0xFFE);
     } else {
@@ -4233,7 +4233,7 @@ void func_801800B8(void *a0) {
     func_801802E0((s32 *)a0);
 
     u = ((Ctl801800B8 *)a0)->b[2];
-    t = D_801861F0[(((Unkstruct_8017E330 *)D_801F8118)->unk2) * 5];
+    t = D_801861F0[(((Unkstruct_801202A0 *)D_801F8118)->unk2.u) * 5];
     D_801F80A4 = 0;
     D_801F8084 = 0;
     D_801F8088 = -1;
@@ -4591,7 +4591,7 @@ void func_801808C0(s32 arg0)
     s32 obj;
 
     obj = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_8017E330 *)arg0)->unk20 = obj;
+    ((Unkstruct_801202A0 *)arg0)->unk20.val = obj;
     if (obj == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(arg0);
         return;

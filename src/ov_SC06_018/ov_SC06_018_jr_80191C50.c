@@ -3257,7 +3257,7 @@ void func_80192768(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk34.u = ((Unkstruct_801202A0 *)arg0)->unk34.u + 1;
         goto end;
     case 1:
-        ((Unkstruct_801202A0 *)arg0)->unkC2 = 0xA;
+        ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0xA;
         e = ((s32 (*)(s32))func_8012913C)(0x23);
         if (e != 0) {
             *(u16 *)(e + 6) = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u - rand() % 224 + 0x10;
@@ -3697,13 +3697,13 @@ void func_80192F64(s32 arg0) {
 
 void func_801932EC(void *arg0) {
     extern void (*D_801D12C8[])(void);
-    if (((Unkstruct_801932EC *)arg0)->unkC2 != 0) {
-        ((Unkstruct_801932EC *)arg0)->unkC2 -= 1;
-        if ((((Unkstruct_801932EC *)arg0)->unkC2 & 0xFF) == 0) {
-            ((Unkstruct_801932EC *)arg0)->unk5E = 0;
+    if (((Unkstruct_801202A0 *)arg0)->unkC2.u != 0) {
+        ((Unkstruct_801202A0 *)arg0)->unkC2.u -= 1;
+        if ((((Unkstruct_801202A0 *)arg0)->unkC2.u & 0xFF) == 0) {
+            ((Unkstruct_801202A0 *)arg0)->unk5E.u = 0;
         }
     }
-    D_801D12C8[((Unkstruct_801932EC *)arg0)->unk2]();
+    D_801D12C8[((Unkstruct_801202A0 *)arg0)->unk2.u]();
 }
 
 
@@ -3724,7 +3724,7 @@ extern void guess_FreeActor(void *a0);
 void func_80193458(s32 arg0) {
     s32 e;
 
-    CAST_WIDTH(u16, arg0, 0xE8) = ((Unkstruct_801202A0 *)arg0)->unkC2 * 0x10 + 0x100;
+    CAST_WIDTH(u16, arg0, 0xE8) = ((Unkstruct_801202A0 *)arg0)->unkC2.u * 0x10 + 0x100;
     switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
         e = guess_SpawnActor(0x318, 6, arg0);

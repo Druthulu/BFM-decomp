@@ -4700,9 +4700,9 @@ label_468:
     } else {
         ret = guess_StartActorSequenceById(s0, 4);
         if (ret != 0) {
-            ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
         } else {
-            ((Unkstruct_801202A0 *)s0)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)s0)->unkC2.u = 1;
             ((Unkstruct_801202A0 *)s0)->unk98.s = 0;
             ((Unkstruct_801202A0 *)s0)->unk1C.s = 0x10;
         }
@@ -4730,7 +4730,7 @@ void func_801804CC(s32 a0) {
     } else if (v1 == 0x1A) {
         ((void (*)(s32))func_801807F8)(a0);
     } else {
-        if (((Unkstruct_801202A0 *)a0)->unkC2 != 0) {
+        if (((Unkstruct_801202A0 *)a0)->unkC2.u != 0) {
             v0 = guess_TickWaitTimer(a0);
         } else {
             v0 = ((Unkstruct_801202A0 *)a0)->unk72 & 0x4000;

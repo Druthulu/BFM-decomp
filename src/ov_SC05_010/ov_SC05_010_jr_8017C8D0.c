@@ -3508,10 +3508,10 @@ void func_8017EDEC(s32 param_1) {
     volatile s32 pad2;
     u8 t;
 
-    t = (((Unkstruct_801202A0 *)param_1)->unkC2 + 2) & 0xF;
-    ((Unkstruct_801202A0 *)param_1)->unkC2 = t;
+    t = (((Unkstruct_801202A0 *)param_1)->unkC2.u + 2) & 0xF;
+    ((Unkstruct_801202A0 *)param_1)->unkC2.u = t;
     func_800599B8(D_80192480, D_801C39FC[t]);
-    func_800599B8(D_80192480 + 8, D_801C3A00[((Unkstruct_801202A0 *)param_1)->unkC2]);
+    func_800599B8(D_80192480 + 8, D_801C3A00[((Unkstruct_801202A0 *)param_1)->unkC2.u]);
 }
 
 
@@ -3881,7 +3881,7 @@ void func_8017F5B8(s32 param_1)
             guess_StartActorSequence(param_1, &D_801A3C44);
             t2 = D_801C7E78;
             CAST_ALIAS(s16, param_1, 0x34) = 2;
-            ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
             CAST_ALIAS(s32, param_1, 0x1C) = 3 - t2;
             if (D_801C7E64 != 0) {
                 guess_FreeActor((void *)D_801C7E64);
@@ -3925,17 +3925,17 @@ void func_8017F5B8(s32 param_1)
         }
         break;
     case 3:
-        t = (((Unkstruct_801202A0 *)param_1)->unkC2 + 2) & 0xF;
-        ((Unkstruct_801202A0 *)param_1)->unkC2 = t;
+        t = (((Unkstruct_801202A0 *)param_1)->unkC2.u + 2) & 0xF;
+        ((Unkstruct_801202A0 *)param_1)->unkC2.u = t;
         func_800599B8(D_80192480, D_801C39FC[t]);
-        func_800599B8(D_80192488, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2 + 1]);
+        func_800599B8(D_80192488, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u + 1]);
         if (((Unkstruct_801202A0 *)param_1)->unk72 & 0x4000) {
             if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
                 ((Unkstruct_801202A0 *)param_1)->unk34.u = 4;
                 guess_StartActorSequence(param_1, &D_801A3D94);
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
-                func_800599B8(D_80192480_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2]);
-                func_800599B8(D_80192488_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2 + 1]);
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
+                func_800599B8(D_80192480_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u]);
+                func_800599B8(D_80192488_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u + 1]);
             }
         }
         break;
@@ -4066,7 +4066,7 @@ void func_8017FAF4(s32 param_1)
         if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
             ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
             guess_StartActorSequence(param_1, &D_801A3E2C);
-            ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
             guess_RequestSound(4, 0x89F);
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 7 - D_801C7E78 * 2;
         }
@@ -4074,17 +4074,17 @@ void func_8017FAF4(s32 param_1)
     case 2: {
         u8 t;
 
-        t = (((Unkstruct_801202A0 *)param_1)->unkC2 + 2) & 0xF;
-        ((Unkstruct_801202A0 *)param_1)->unkC2 = t;
+        t = (((Unkstruct_801202A0 *)param_1)->unkC2.u + 2) & 0xF;
+        ((Unkstruct_801202A0 *)param_1)->unkC2.u = t;
         func_800599B8(D_80192480, D_801C39FC[t]);
-        func_800599B8(D_80192488, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2 + 1]);
+        func_800599B8(D_80192488, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u + 1]);
         if (((Unkstruct_801202A0 *)param_1)->unk72 & 0x4000) {
             if (--((Unkstruct_801202A0 *)param_1)->unk1C.s == 0) {
                 ((Unkstruct_801202A0 *)param_1)->unk34.u = 3;
                 guess_StartActorSequence(param_1, &D_801A3D94);
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
-                func_800599B8(D_80192480_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2]);
-                func_800599B8(D_80192488_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2 + 1]);
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
+                func_800599B8(D_80192480_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u]);
+                func_800599B8(D_80192488_b, D_801C39FC[((Unkstruct_801202A0 *)param_1)->unkC2.u + 1]);
             }
         }
         break;

@@ -3334,8 +3334,8 @@ void func_8017BF34(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
     v0 = ((s32 (*)(void *))func_8012C750)(&buf);
     if (v0 != 0) {
-        ((Unkstruct_8017BF34 *)v0)->unkD4 = arg0;
-        ((Unkstruct_8017BF34 *)v0)->unkD8 = arg1;
+        ((Unkstruct_801202A0 *)v0)->unkD4.val = arg0;
+        ((Unkstruct_801202A0 *)v0)->unkD8.val = arg1;
     }
 }
 

@@ -2930,13 +2930,13 @@ s32 func_8017F1B4(s32 param_1) {
     s32 ptr2;
     s32 result;
 
-    ptr = ((Unkstruct_8017F1B4 *)obj)->unk64;
+    ptr = ((Unkstruct_801202A0 *)obj)->unk64;
     if (*(u16 *)((char *)ptr + 0x2) != 1) {
         return 0;
     }
     do { result = func_8012BD14(ptr); } while (0);
     if (result < 0x4001) {
-        ptr2 = ((Unkstruct_8017F1B4 *)obj)->unk64;
+        ptr2 = ((Unkstruct_801202A0 *)obj)->unk64;
         *(u16 *)((char *)ptr2 + 0x2) = 3;
         func_80178BF8();
         return (s32)func_80172710;

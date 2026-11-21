@@ -6615,9 +6615,9 @@ extern void (*D_80188FB8[])(void);
 extern void func_801832D0(s32 arg0, s32 arg1);
 
 void func_80182078(void *a0) {
-    D_80188FB8[((Unkstruct_80182078 *)a0)->unk2]();
-    if (((Unkstruct_80182078 *)a0)->unk0 != 0) {
-        func_801832D0(((Unkstruct_80182078 *)a0)->unkA - 0x380, ((Unkstruct_80182078 *)a0)->unkFE);
+    D_80188FB8[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        func_801832D0(((Unkstruct_801202A0 *)a0)->unk8.i.hi.s - 0x380, ((Unkstruct_801202A0 *)a0)->unkFE.s);
     }
 }
 
@@ -6969,7 +6969,7 @@ void func_801829F8(void *a0) {
 extern void guess_FreeActor(void *a0);
     void func_80182A7C(s32 arg0) {
         s32 v0;
-        if (((Unkstruct_80181B48 *)arg0)->unkFC != ((Unkstruct_80181B48_2 *)*(s32 *)(arg0 + 0x64))->unk36) {
+        if (((Unkstruct_801202A0 *)arg0)->unkFC.s != ((Unkstruct_80181B48_2 *)*(s32 *)(arg0 + 0x64))->unk36) {
             ((void (*)(void))guess_FreeActor)();
         }
     }
@@ -7983,10 +7983,10 @@ extern void func_80172710(void);
 
 s32 func_80184358(void *param_1)
 {
-    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_80184358 *)param_1)->unk64) > 0x1000) {
+    if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801202A0 *)param_1)->unk64) > 0x1000) {
         return 0;
     }
-    *(s16 *)(((Unkstruct_80184358 *)param_1)->unk64 + 0x2) = 2;
+    ((Unkstruct_801202A0 *)param_1)->unk64->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

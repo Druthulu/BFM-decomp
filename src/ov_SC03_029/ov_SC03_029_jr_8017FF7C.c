@@ -2929,7 +2929,7 @@ void func_801802C4(s32 arg0) {
     }
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 1;
     ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x10;
 }
@@ -2975,7 +2975,7 @@ extern s32 D_801C0028;
 void func_80180444(void *arg0) {
     ((Unkstruct_8001C9D0 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk10.w.unk10.u = 0;
     ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0;
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0;
     guess_SetLocalVelocity((s32)arg0, (s32)D_8018B8CC);
     guess_StartActorSequence((s32)arg0, (void *)&D_801C0028);
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;
@@ -3016,7 +3016,7 @@ void func_801804A0(s32 a0) {
     s32 r2;
     s16 *ent;
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
         D_801D9758 = D = func_8012CBCC(a0);
         if (D & 0x2000) {
@@ -3032,7 +3032,7 @@ void func_801804A0(s32 a0) {
                 return;
             }
             guess_SpawnActorType1C(a0, 1);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 1;
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
         }
@@ -3074,7 +3074,7 @@ void func_801804A0(s32 a0) {
             {
                 s32 n;
                 n = D_801D975C;
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
                 ((Unkstruct_801202A0 *)a0)->unk14.val = -n;
             }
@@ -5261,7 +5261,7 @@ void func_801839D8(s32 param_1) {
     ((Unkstruct_8001C9D0 *)t1)->head.unk10.w.unk10.u = 0;
     guess_ClearVelocityAndSetGravity(s0);
 
-    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)s0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
@@ -5304,7 +5304,7 @@ void func_80183AC0(void *a0) {
     s32 v1;
     s32 cnt;
 
-    if (((Unkstruct_801202A0 *)s0)->unkC2 != 0) {
+    if (((Unkstruct_801202A0 *)s0)->unkC2.u != 0) {
         goto L80183BC0;
     }
 
@@ -5346,8 +5346,8 @@ L80183B94:
     if ((v1 & 0x4000) == 0) {
         return;
     }
-    v0 = ((Unkstruct_801202A0 *)s0)->unkC2 + 1;
-    ((Unkstruct_801202A0 *)s0)->unkC2 = v0;
+    v0 = ((Unkstruct_801202A0 *)s0)->unkC2.u + 1;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = v0;
     ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk10.u = 0;
     guess_ClearVelocityAndSetGravity((s32)s0);
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
@@ -7377,7 +7377,7 @@ void func_801866CC(s32 param_1) {
     s32 s0 = param_1;
     s32 v1;
 
-    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
     func_80186F9C(s0, (s32)&D_801C9234, 0);
@@ -7432,7 +7432,7 @@ void func_80186758(s32 a0)
         func_8012DBD0(a0, 0x50, *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
         ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u -= 0x100;
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
@@ -7441,7 +7441,7 @@ void func_80186758(s32 a0)
         }
         var_s1 = ((s32 (*)(s32, s32))func_8012CC64)(a0, (s32)&D_801C92DC);
         if (var_s1 & 0x2000) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 1;
             guess_SpawnActorType1C(a0, 1);
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
@@ -7459,11 +7459,11 @@ void func_80186758(s32 a0)
         if (var_s1 & 0x2000) {
             guess_SpawnActorType1C(a0, 1);
             ((Unkstruct_801202A0 *)a0)->unk14.val = var_s2;
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0;
         } else if (var_s1 & 0x8000) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0;
             CAST_WIDTH(s32, a0, 0x18) = 0;

@@ -2969,13 +2969,13 @@ void func_8017D598(s32 a0) {
     if (((s32 (*)(s32, s32))guess_InitActorModel)(a0, (s32)&D_801947F0) != 0) {
         ((void (*)(s32, s32))guess_StartActorSequence)(a0, (s32)D_801847FC);
 
-        ((Unkstruct_8017D598_5 *)a0)->unk2 = 1;
-        ((Unkstruct_8017D598_5 *)a0)->unk75 = 8;
-        func_8001D0E8(((Unkstruct_8017D598_5 *)a0)->unk20, 0x104, 0xDC);
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk75 = 8;
+        func_8001D0E8(((Unkstruct_801202A0 *)a0)->unk20.val, 0x104, 0xDC);
 
-        t = ((Unkstruct_8017D598_5 *)a0)->unkFC;
-        ((Unkstruct_8017D598_5 *)a0)->unkFC = 0x60;
-        ((Unkstruct_8017D598_5 *)a0)->unkFE = t;
+        t = ((Unkstruct_801202A0 *)a0)->unkFC.u;
+        ((Unkstruct_801202A0 *)a0)->unkFC.u = 0x60;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = t;
     }
 }
 
@@ -3601,18 +3601,18 @@ void func_8017E960(void *a0) {
     extern u8 D_801969B4[];
     extern u8 D_801968D0[];
     if (((s32 (*)(s32, s32))guess_InitActorModel)((s32)a0, (s32)D_801969B4) != 0) {
-        void *a2 = ((Unkstruct_8017E960 *)a0)->unk20.p;
+        void *a2 = ((Unkstruct_801202A0 *)a0)->unk20.p;
 
         *(s32 *)((char *)a2 + 0x4) |= 0x80000000;
-        ((Unkstruct_8017E960 *)a0)->unkC0 = 1;
+        ((Unkstruct_801202A0 *)a0)->unkC0.u = 1;
 
-        ((Unkstruct_8017E960 *)a0)->unkBC = (s32)D_801968D0;
-        ((Unkstruct_8017E960 *)a0)->unkC4 |= 0x2;
+        ((Unkstruct_801202A0 *)a0)->unkBC = (s32)D_801968D0;
+        ((Unkstruct_801202A0 *)a0)->unkC4 |= 0x2;
 
         ((void (*)(s32, s32))guess_StartActorSequence)((s32)a0, (s32)D_801847FC);
 
-        ((Unkstruct_8017E960 *)a0)->unk2 = 1;
-        ((Unkstruct_8017E960 *)a0)->unk75 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
+        ((Unkstruct_801202A0 *)a0)->unk75 = 0;
     }
 }
 
@@ -4233,8 +4233,8 @@ void func_8017F4DC(s32 a0) {
 
 extern s32 guess_SnapActorToGround(u8 *a0);
     void func_8017F874(s32 arg0) {
-        ((Unkstruct_8017F874 *)arg0)->unk1C = 1;
-        ((Unkstruct_8017F874 *)arg0)->unk2 = 0x4;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
         ((s32 (*)(void *))guess_SnapActorToGround)((void *)arg0);
     }
 

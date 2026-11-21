@@ -3690,7 +3690,7 @@ void func_801877C0(s32 a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801E1A04;
     void func_80187814(void * arg0) {
-        ((Unkstruct_801834CC *)arg0)->unk2 = 12;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 12;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801E1A04);
     }
 
@@ -4016,13 +4016,13 @@ void func_80187E9C(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801E2034);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 
@@ -4036,10 +4036,10 @@ extern s32 func_8012C098(void *param_1);
 void func_80187F18(s32 arg0) {
     s16 sp10[3];
 
-    if (((Unkstruct_80187F18 *)arg0)->unk5E == 0x23) {
-        ((Unkstruct_80187F18 *)arg0)->unkFE = 1;
+    if (((Unkstruct_801202A0 *)arg0)->unk5E.u == 0x23) {
+        ((Unkstruct_801202A0 *)arg0)->unkFE.u = 1;
         guess_RequestSound(0xAA1, 0);
-    } else if (((Unkstruct_80187F18 *)arg0)->unk5E == 0x24) {
+    } else if (((Unkstruct_801202A0 *)arg0)->unk5E.u == 0x24) {
         sp10[0] = 2;
         sp10[1] = 0xF;
         sp10[2] = -2;
@@ -4248,8 +4248,8 @@ void func_80188330(s32 param_1) {
 
 
 void func_8018838C(void *a0) {
-        ((Unkstruct_80183588 *)a0)->unk2 = 0x5;
-        ((Unkstruct_80183588 *)a0)->unk1C = 0x14;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x5;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x14;
     }
 
 
@@ -4332,12 +4332,12 @@ void func_801884F8(int param_1)
     int iVar1;
 
     iVar1 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80184944 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar1;
     if (iVar1 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((Unkstruct_80184944 *)param_1)->unk2 = 1;
-        func_8001CA88(((Unkstruct_80184944 *)param_1)->unk20, &D_801E2158);
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        func_8001CA88(((Unkstruct_801202A0 *)param_1)->unk20.val, &D_801E2158);
         func_80143994(param_1, 0x1000);
     }
 }

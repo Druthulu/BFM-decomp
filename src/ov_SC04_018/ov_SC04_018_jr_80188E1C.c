@@ -5444,7 +5444,7 @@ void func_8018C368(void *a0) {
 extern void func_80178CBC(s32*, s32);
     extern short D_801E070C;
     void func_8018C3A4(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_801E070C);
     }
 

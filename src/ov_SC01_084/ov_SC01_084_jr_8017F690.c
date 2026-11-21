@@ -4816,7 +4816,7 @@ void func_801826C4(s32 param_1) {
     func_8012DBD0(param_1, 0x50,
                   *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12) + 0x800, 0x1D);
 
-    switch (((Unkstruct_801202A0 *)param_1)->unkC2) {
+    switch (((Unkstruct_801202A0 *)param_1)->unkC2.u) {
     case 0:
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u -= 0x100;
         if (++((Unkstruct_801202A0 *)param_1)->unk1C.s < 0x29) {
@@ -4826,7 +4826,7 @@ void func_801826C4(s32 param_1) {
                 r = func_8012CC64(param_1, &D_8018AAB4);
             }
             if (r & 0x2000) {
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 1;
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 1;
                 guess_SpawnActorType1C(param_1, 1);
                 ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFF30000;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
@@ -4842,7 +4842,7 @@ void func_801826C4(s32 param_1) {
             if (func_8012CC64(param_1, &D_8018AAB4) & 0x2000) {
                 guess_SpawnActorType1C(param_1, 1);
                 ((Unkstruct_801202A0 *)param_1)->unk14.val = saved;
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 2;
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 2;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
                 ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u = 0;
             }

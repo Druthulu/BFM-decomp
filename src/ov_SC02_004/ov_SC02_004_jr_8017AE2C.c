@@ -3918,9 +3918,9 @@ void func_8017D8B0(void *a0) {
     extern u16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
     extern s32 D_801817E0;
 
-    if (((Unkstruct_8017D8B0_2 *)a0)->unkE > (*(s16 *)&guess_g_PlayerPosZ)) {
-        ((Unkstruct_8017D8B0_2 *)a0)->unk1C = 0x10;
-        ((Unkstruct_8017D8B0_2 *)a0)->unk2 += 1;
+    if (((Unkstruct_801202A0 *)a0)->unkC.i.hi.s > (*(s16 *)&guess_g_PlayerPosZ)) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
         func_8013C9C4(&D_801817E0);
         guess_RequestSound(0x4e8, 0);
     }
@@ -3931,14 +3931,14 @@ extern void func_8017D9C4(void *a0);
 
 void func_8017D910(void *a0) {
     s32 var_s0;
-    for (var_s0 = 0; var_s0 < ((Unkstruct_8017D910 *)a0)->unk1C; var_s0++) {
+    for (var_s0 = 0; var_s0 < ((Unkstruct_801202A0 *)a0)->unk1C.s; var_s0++) {
         func_8017D9C4(a0);
     }
     func_8017D9C4(a0);
     func_8017D9C4(a0);
-    ((Unkstruct_8017D910 *)a0)->unk1C = ((Unkstruct_8017D910 *)a0)->unk1C >> 1;
-    if (((Unkstruct_8017D910 *)a0)->unk1C == 0) {
-        ((Unkstruct_8017D910 *)a0)->unk2 += 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s >> 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s == 0) {
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }
 

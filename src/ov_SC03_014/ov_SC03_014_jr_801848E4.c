@@ -4796,7 +4796,7 @@ void func_801881CC(void *a0) {
     } else {
         func_80182D04((s32)a0 + 0x76, (s32)D_80190490, 0x96);
         if (guess_StartActorSequenceById((s32)a0, 4) != 0) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
         }
         guess_RequestSound((rand() & 1) ? 0xA85 : 0xA86, 0);
     }
@@ -5269,9 +5269,9 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 void func_80188F80(void* arg0)
 {
         s32 *p = *(s32 **)((s32)arg0 + 0xcc);
-        ((Unkstruct_8017BB34 *)p)->unk8 = ((Unkstruct_801865B0 *)arg0)->unk6;
-        ((Unkstruct_8017BB34 *)p)->unkA = ((Unkstruct_801865B0 *)arg0)->unkA - 0xe4;
-        ((Unkstruct_8017BB34 *)p)->unkC = ((Unkstruct_801865B0 *)arg0)->unkE - 0x8;
+        ((Unkstruct_8017BB34 *)p)->unk8 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+        ((Unkstruct_8017BB34 *)p)->unkA = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0xe4;
+        ((Unkstruct_8017BB34 *)p)->unkC = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - 0x8;
     }
 
 

@@ -4779,7 +4779,7 @@ void func_8017EEA8(void *a0) {
 extern void func_80178CBC(s32*, s32);
     extern short D_80191438;
     void func_8017EEE4(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_80191438);
     }
 

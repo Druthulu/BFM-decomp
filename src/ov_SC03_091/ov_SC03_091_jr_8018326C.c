@@ -5055,8 +5055,8 @@ void func_80186A8C(s32 a0) {
 
 extern s32 guess_SnapActorToGround(u8 *a0);
     void func_80186E24(s32 arg0) {
-        ((Unkstruct_8017F874 *)arg0)->unk1C = 1;
-        ((Unkstruct_8017F874 *)arg0)->unk2 = 0x4;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
         ((s32 (*)(void *))guess_SnapActorToGround)((void *)arg0);
     }
 

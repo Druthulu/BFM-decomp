@@ -3332,7 +3332,7 @@ void func_8017DB80(s32 a0, s32 a1)
     MTX_8017DB80 mtx;
     s16 buf[4];
 
-    p = ((Unkstruct_8017DB80 *)a0)->unk20;
+    p = ((Unkstruct_801202A0 *)a0)->unk20.val;
     *(s32 *)(a1 + 0x1c) = 0x50000000;
 
     func_80017DC4((void *)(p + 0x18), &mtx);
@@ -3341,21 +3341,21 @@ void func_8017DB80(s32 a0, s32 a1)
     func_80017E68((void *)buf, &mtx);
     func_80017168((void *)a1, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)a0)->unk38;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)a0)->unk3A;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)a0)->unk3C;
+    mtx.t[0] += ((Unkstruct_801202A0 *)a0)->unk38;
+    mtx.t[1] += ((Unkstruct_801202A0 *)a0)->unk3A.s;
+    mtx.t[2] += ((Unkstruct_801202A0 *)a0)->unk3C;
     func_80017168((void *)a1, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)a0)->unk3E;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)a0)->unk40;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)a0)->unk42;
+    mtx.t[0] += ((Unkstruct_801202A0 *)a0)->unk3E.s;
+    mtx.t[1] += ((Unkstruct_801202A0 *)a0)->unk40;
+    mtx.t[2] += ((Unkstruct_801202A0 *)a0)->unk42.s;
     func_80017168((void *)a1, &mtx);
     func_80017E68((void *)buf, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)a0)->unk44;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)a0)->unk46;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)a0)->unk48;
+    mtx.t[0] += ((Unkstruct_801202A0 *)a0)->unk44.h.unk44;
+    mtx.t[1] += ((Unkstruct_801202A0 *)a0)->unk44.h.unk46;
+    mtx.t[2] += ((Unkstruct_801202A0 *)a0)->unk44.h.unk48;
     func_80017168((void *)a1, &mtx);
 }
 
@@ -4689,9 +4689,9 @@ extern s32 func_801659CC(void);
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_8017FABC(s32 a0) {
-    D_8019AD84[((Unkstruct_8017FABC *)a0)->unk2]();
-    if (((a0 != 0) && (((Unkstruct_8017FABC *)a0)->unk70 == 3)) && (func_801659CC() != 0)) {
-        ((Unkstruct_8017FABC *)a0)->unk70 = 0;
+    D_8019AD84[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((a0 != 0) && (((Unkstruct_801202A0 *)a0)->unk70.s == 3)) && (func_801659CC() != 0)) {
+        ((Unkstruct_801202A0 *)a0)->unk70.s = 0;
         guess_RequestSound(0xB6B, 0);
     }
 }
@@ -5187,11 +5187,11 @@ void func_80180584(void *a0) {
 extern void (*D_801A3DFC[])(void);
 
 void func_801805C0(void *a0) {
-    D_801A3DFC[((Unkstruct_801805C0 *)a0)->unk2]();
-    if (((Unkstruct_801805C0 *)a0)->unk0 != 0) {
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unk8.u = ((Unkstruct_801805C0 *)a0)->unk6;
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkA.u = ((Unkstruct_801805C0 *)a0)->unkA;
-        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkC.u = ((Unkstruct_801805C0 *)a0)->unkE;
+    D_801A3DFC[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ((RenderHead *)*(s32 *)((s32)a0 + 0xCC))->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 }
 
@@ -6556,7 +6556,7 @@ void func_8018257C(void *arg0) {
 
     extern s32 D_801B5E24;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801B5E24);
-    ((Unkstruct_8018257C *)arg0)->unk2 = 0xe;
+    ((Unkstruct_8018257C *)arg0)->unk2.s = 0xe;
 }
 
 
@@ -6597,7 +6597,7 @@ void func_8018266C(void *arg0) {
 
     extern s32 D_801B5E8C;
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801B5E8C);
-    ((Unkstruct_8018266C *)arg0)->unk2 = 0x10;
+    ((Unkstruct_8018266C *)arg0)->unk2.s = 0x10;
 }
 
 
@@ -6638,7 +6638,7 @@ void func_801826A4(void *a0) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short D_801B5F44;
     void func_80182758(void * arg0) {
-        ((Unkstruct_80182758 *)arg0)->unk2 = 18;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 18;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801B5F44);
     }
 
@@ -7331,7 +7331,7 @@ void func_801834B4(void *a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_4 */
 void guess_NextStep_4(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 

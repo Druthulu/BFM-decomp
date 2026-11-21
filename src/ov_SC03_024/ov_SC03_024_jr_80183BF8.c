@@ -3911,7 +3911,7 @@ void func_801853BC(void *a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_6 */
 void guess_NextStep_6(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 
@@ -3944,7 +3944,7 @@ void func_801854B0(s32 a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_7 */
 void guess_NextStep_7(void *a0) {
-        ((Unkstruct_801825AC *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     }
 
 

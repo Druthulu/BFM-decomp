@@ -3037,7 +3037,7 @@ extern s32 D_801A680C;
 
 void func_801816CC(s32 a0) {
     s32 s0 = a0;
-    ((Unkstruct_801202A0 *)s0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
     KR_AS(void, func_80131B14)();
@@ -3079,10 +3079,10 @@ void func_80181738(s32 a0) {
                       *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
         func_80181B24(a0, (s32)&D_801A681C);
-        ((Unkstruct_801202A0 *)a0)->unkC2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unkC2.u += 1;
     case 1:
         ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u -= 0x100;
         ((Unkstruct_801202A0 *)a0)->unk1C.s += 1;
@@ -3097,9 +3097,9 @@ void func_80181738(s32 a0) {
         }
         if (s1 & 0x4000) {
             guess_ClearVelocityAndSetGravity(a0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
         } else if (s1 & 0x2000) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
             guess_SpawnActorType1C(a0, 1);
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
@@ -3125,12 +3125,12 @@ void func_80181738(s32 a0) {
             }
             if (s1 & 0x4000) {
                 guess_ClearVelocityAndSetGravity(a0);
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
             } else if (s1 & 0x2000) {
                 guess_SpawnActorType1C(a0, 1);
                 ((Unkstruct_801202A0 *)a0)->unk14.val = (-s2) / 3;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 3;
                 ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0;
             }
         }
@@ -3157,7 +3157,7 @@ void func_80181738(s32 a0) {
             }
             if (s1 & 0x4000) {
                 guess_ClearVelocityAndSetGravity(a0);
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
                 break;
             } else if (s1 & 0x2000) {
                 ((Unkstruct_801202A0 *)a0)->unkC3 |= 1;

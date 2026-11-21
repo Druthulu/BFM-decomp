@@ -4912,13 +4912,13 @@ void func_80183E84(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801B0A14);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 
@@ -4980,7 +4980,7 @@ s32 func_80183F10(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
     ((Unkstruct_8001C9D0 *)iVar5)->head.unk4.s |= 0x50000040;
     ((Unkstruct_8001C9D0 *)iVar5)->head.unk2C.u |= 1;
-    iVar8 = ((Unkstruct_80181C18_3 *)((Unkstruct_80181C18_4 *)param_1)->unk64)->unk20 + 0x34;
+    iVar8 = ((Unkstruct_80181C18_3 *)((Unkstruct_801202A0 *)param_1)->unk64)->unk20 + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801B4960, &s60);
     s50 = s60;
     sStack_58.vz = 0x1800;

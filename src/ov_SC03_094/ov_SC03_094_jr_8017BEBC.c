@@ -3724,13 +3724,13 @@ void func_8017E52C(s32 a0) {
 extern void (*D_8018B604[])(void);
 
 void func_8017E7B0(void *a0) {
-    if (((Unkstruct_801932EC *)a0)->unkC2 != 0) {
-        ((Unkstruct_801932EC *)a0)->unkC2 -= 1;
-        if (((Unkstruct_801932EC *)a0)->unkC2 == 0) {
-            ((Unkstruct_801932EC *)a0)->unk5E = 0;
+    if (((Unkstruct_801202A0 *)a0)->unkC2.u != 0) {
+        ((Unkstruct_801202A0 *)a0)->unkC2.u -= 1;
+        if (((Unkstruct_801202A0 *)a0)->unkC2.u == 0) {
+            ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
         }
     }
-    D_8018B604[((Unkstruct_801932EC *)a0)->unk2]();
+    D_8018B604[((Unkstruct_801202A0 *)a0)->unk2.u]();
 }
 
 
@@ -5021,8 +5021,8 @@ void func_80180864(s32 a0) {
 
 extern s32 guess_SnapActorToGround(u8 *a0);
     void func_80180BFC(s32 arg0) {
-        ((Unkstruct_8017F874 *)arg0)->unk1C = 1;
-        ((Unkstruct_8017F874 *)arg0)->unk2 = 0x4;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x4;
         ((s32 (*)(void *))guess_SnapActorToGround)((void *)arg0);
     }
 

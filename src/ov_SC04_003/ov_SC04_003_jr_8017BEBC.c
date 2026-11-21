@@ -4344,7 +4344,7 @@ extern void func_801801EC(s32, s32);
 
 void func_8017F8EC(s32 arg0) {
     s32 ret;
-    if (((Unkstruct_801202A0 *)arg0)->unkC2 == 2) {
+    if (((Unkstruct_801202A0 *)arg0)->unkC2.u == 2) {
         *(s16 *)(arg0 + 0x52) = -0x18;
     }
     ret = func_8017FC18(arg0);
@@ -4370,7 +4370,7 @@ extern void func_80131B14(u8 *a0v);
 void func_8017F954(void *a0) {
     s32 s0 = (s32)a0;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_ClearVelocityAndSetGravity(s0);
@@ -5775,13 +5775,13 @@ void func_80181904(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_8019852C);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 

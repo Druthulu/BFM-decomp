@@ -3607,7 +3607,7 @@ void func_80184410(int param_1)
     s32 ptr;
     u16 *o;
 
-    p = ((Unkstruct_8017DB64 *)param_1)->unk20;
+    p = ((Unkstruct_801202A0 *)param_1)->unk20.val;
     o = (u16 *)param_1;
     v.y = 0;
     v.x = 0;
@@ -3623,7 +3623,7 @@ void func_80184410(int param_1)
     o[0xC] = o[0xC] + *(unsigned short *)(ptr + 2);
     o[0xD] = o[0xD] - o[0xC];
 
-    if (D_801EB134 < ((Unkstruct_8017DB64 *)param_1)->unkA) {
+    if (D_801EB134 < ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.s) {
         o[1] = o[1] + 1;
     }
 }

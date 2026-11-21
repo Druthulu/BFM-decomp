@@ -7700,7 +7700,7 @@ void func_80184840(void) {
 
 s32 func_80184884(void) {
     extern s32 D_801EFC4C;
-    return ((Unkstruct_80184884 *)D_801EFC4C)->unk76;
+    return ((Unkstruct_801202A0 *)D_801EFC4C)->unk76.s;
 }
 
 
@@ -8961,13 +8961,13 @@ void func_80186518(void *a0, void *a1, s32 a2) {
     s32 base2;
 
     self0 = a0;
-    flag = ((Unkstruct_80186518 *)a1)->unk86;
+    flag = ((Unkstruct_801202A0 *)a1)->unk86.u;
     tbl = D_801DEC8C;
     if (flag & 8) {
         base = a2 * 12 + (s32)tbl;
-        ((Unkstruct_80186518 *)a1)->unk6 = *(u16 *)(base + 0) - *(u16 *)(base - 0xC);
-        ((Unkstruct_80186518 *)a1)->unkA = *(u16 *)(base + 2) - *(u16 *)(base - 0xA);
-        ((Unkstruct_80186518 *)a1)->unkE = *(u16 *)(base + 4) - *(u16 *)(base - 8);
+        ((Unkstruct_801202A0 *)a1)->unk4.i.hi.s = *(u16 *)(base + 0) - *(u16 *)(base - 0xC);
+        ((Unkstruct_801202A0 *)a1)->unk8.i.hi.s = *(u16 *)(base + 2) - *(u16 *)(base - 0xA);
+        ((Unkstruct_801202A0 *)a1)->unkC.i.hi.s = *(u16 *)(base + 4) - *(u16 *)(base - 8);
         ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk10 =
             *(u16 *)(base + 6) - *(u16 *)(base - 6);
         ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk12 =
@@ -8976,7 +8976,7 @@ void func_80186518(void *a0, void *a1, s32 a2) {
             *(u16 *)(base + 0xA) - *(u16 *)(base - 2);
 
         func_8001C1E4(CAST_SIGN(void *, (s32)a1, 0x20),
-                      *(s32 *)(((Unkstruct_80186518 *)a1)->unk64 + 0x20));
+                      ((Unkstruct_801202A0 *)a1)->unk64->unk20.val);
     } else {
         u16 *dst;
         s32 i;
@@ -8990,9 +8990,9 @@ void func_80186518(void *a0, void *a1, s32 a2) {
             ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk14 = *(u16 *)(row2 + 0xA);
         }
 
-        ((Unkstruct_80186518 *)a1)->unk6 = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk48;
-        ((Unkstruct_80186518 *)a1)->unkA = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk4C;
-        ((Unkstruct_80186518 *)a1)->unkE = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk50;
+        ((Unkstruct_801202A0 *)a1)->unk4.i.hi.s = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk48;
+        ((Unkstruct_801202A0 *)a1)->unk8.i.hi.s = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk4C;
+        ((Unkstruct_801202A0 *)a1)->unkC.i.hi.s = ((Unkstruct_80186518_2 *)*(s32 *)((s32)a1 + 0x20))->unk50;
 
         dst = (u16 *)((s32)a1 + 0xE4);
         for (i = 0; i < 4; i++) {
@@ -9009,12 +9009,12 @@ void func_80186518(void *a0, void *a1, s32 a2) {
 
 void func_801866C4(void *a0)
 {
-    if (((Unkstruct_801866C4 *)a0)->unk86 & 8) {
+    if (((Unkstruct_801202A0 *)a0)->unk86.u & 8) {
         ((Unkstruct_801866C4_2 *)*(s32 *)((s32)a0 + 0x20))->unk78 = 0;
     }
-    ((Unkstruct_801866C4 *)a0)->unk6 = 0;
-    ((Unkstruct_801866C4 *)a0)->unkA = 0;
-    ((Unkstruct_801866C4 *)a0)->unkE = 0;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = 0;
     ((Unkstruct_801866C4_2 *)*(s32 *)((s32)a0 + 0x20))->unk10 = 0;
     ((Unkstruct_801866C4_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = 0;
     ((Unkstruct_801866C4_2 *)*(s32 *)((s32)a0 + 0x20))->unk14 = 0;
@@ -13854,7 +13854,7 @@ extern s32 func_8018CF10(void);
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_11 */
 void guess_NextStep_11(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 
@@ -14117,16 +14117,16 @@ extern void (*D_80194D5C[])(void);
 extern void (*D_80194D6C[])(void);
 
 void func_8018D554(s32 a0) {
-    s16 tag = ((Unkstruct_801822F0 *)a0)->unk70;
+    s16 tag = ((Unkstruct_801202A0 *)a0)->unk70.s;
 
     switch (tag) {
         case 0: {
-            u16 idx = ((Unkstruct_801822F0 *)a0)->unk2;
+            u16 idx = ((Unkstruct_801202A0 *)a0)->unk2.u;
             D_80194D5C[idx]();
             break;
         }
         case 1: {
-            u16 idx = ((Unkstruct_801822F0 *)a0)->unk2;
+            u16 idx = ((Unkstruct_801202A0 *)a0)->unk2.u;
             D_80194D6C[idx]();
             break;
         }

@@ -2735,7 +2735,7 @@ void func_8017F65C(s32 a0)
     s32 i;
     extern s16 guess_g_PlayerPosZ; // Names ledger: config/names.tsv guess_g_PlayerPosZ
 
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0x10;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0x10;
     switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
         v1 = rsin(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x100);
@@ -2954,23 +2954,23 @@ extern void guess_RequestSound(s32, s32);
 
 void func_8017FCF4(void *param_1) {
     u16 *q;
-    D_80185DDC[((Unkstruct_8017FCF4 *)param_1)->unk2]();
-    if (((Unkstruct_8017FCF4 *)param_1)->unk0 != 0) {
-        ((Unkstruct_8017FCF4 *)param_1)->unkA = CAST_SIGN(u16, (s32)param_1, 0xa) - 0x40;
-        if (((Unkstruct_8017FCF4 *)param_1)->unk2 >= 5) {
+    D_80185DDC[((Unkstruct_801202A0 *)param_1)->unk2.u]();
+    if (((Unkstruct_801202A0 *)param_1)->unk0 != 0) {
+        ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.s = CAST_SIGN(u16, (s32)param_1, 0xa) - 0x40;
+        if (((Unkstruct_801202A0 *)param_1)->unk2.u >= 5) {
             if (((s32 (*)(void *, s32, s32))func_8012D624)(param_1, 0xA0, 0x78) == 1) {
                 q = &D_80126B96;
                 *q |= 0x4000;
             }
         } else {
             if (((s32 (*)(void *, s32, s32))func_8012D624)(param_1, 0x10, 0x78) == 1) {
-                ((Unkstruct_8017FCF4 *)param_1)->unk2 = 4;
+                ((Unkstruct_801202A0 *)param_1)->unk2.u = 4;
                 guess_RequestSound(0x941, 0);
                 q = &D_80126B96;
                 *q |= 0x4000;
             }
         }
-        ((Unkstruct_8017FCF4 *)param_1)->unkA = CAST_SIGN(u16, (s32)param_1, 0xa) + 0x40;
+        ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.s = CAST_SIGN(u16, (s32)param_1, 0xa) + 0x40;
     }
 }
 

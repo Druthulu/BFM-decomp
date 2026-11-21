@@ -22,7 +22,7 @@ void SHARED_FN(s32 arg0) {
     ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk10.u = 0;
     guess_UpdateActorModelMatrix(arg0);
     guess_ClearVelocityAndSetGravity(arg0);
-    ((Unkstruct_801202A0 *)arg0)->unkC2 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unkC2.u = 1;
     ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
     ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x3C;
     guess_RequestSound(0x526, 0);

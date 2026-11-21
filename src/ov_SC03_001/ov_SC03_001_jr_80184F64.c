@@ -3866,6 +3866,6 @@ void func_801862B4(void *a0) {
 extern void func_80178CBC(s32*, s32);
     extern short D_8019299C;
     void func_801862F0(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_8019299C);
     }

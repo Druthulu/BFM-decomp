@@ -3597,12 +3597,12 @@ void func_80184944(int param_1)
     int iVar1;
 
     iVar1 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80184944 *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar1;
     if (iVar1 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        ((Unkstruct_80184944 *)param_1)->unk2 = 1;
-        func_8001CA88(((Unkstruct_80184944 *)param_1)->unk20, &D_8018AFC0);
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        func_8001CA88(((Unkstruct_801202A0 *)param_1)->unk20.val, &D_8018AFC0);
         func_80143994(param_1, 0x1000);
     }
 }
@@ -4239,13 +4239,13 @@ void func_80185814(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_801B1560);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 

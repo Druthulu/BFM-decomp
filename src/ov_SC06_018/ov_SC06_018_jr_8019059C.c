@@ -3570,7 +3570,7 @@ void func_80191A78(s32 arg0) {
     s32 d0;
     s32 d1;
 
-    CAST_WIDTH(u16, arg0, 0xE8) = (((Unkstruct_801202A0 *)arg0)->unkC2 << 4) + 0x100;
+    CAST_WIDTH(u16, arg0, 0xE8) = (((Unkstruct_801202A0 *)arg0)->unkC2.u << 4) + 0x100;
     switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
         r = guess_SpawnActor(0x318, 5, arg0);

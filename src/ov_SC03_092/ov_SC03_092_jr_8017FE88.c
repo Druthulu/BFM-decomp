@@ -3553,15 +3553,15 @@ void func_80180DD0(s32 a0)
 {
     s32 temp;
 
-    ((Unkstruct_8017DC8C *)a0)->unkC1 = 0;
-    ((Unkstruct_8017DC8C *)a0)->unk5E = 0;
-    ((Unkstruct_8017DC8C *)a0)->unk5C = 0;
-    guess_SetGameFlag(D_801AC610[((Unkstruct_8017DC8C *)a0)->unk70], 1);
+    ((Unkstruct_801202A0 *)a0)->unkC1.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
+    guess_SetGameFlag(D_801AC610[((Unkstruct_801202A0 *)a0)->unk70.s], 1);
     temp = ((Unkstruct_8017DC8C *)a0)->unkDC;
     if (temp != 0) {
         temp = *(s32 *)(temp + 4);
         if (temp != 0) {
-            func_8001C924((void *)((Unkstruct_8017DC8C *)a0)->unk20, (s32 *)temp);
+            func_8001C924((void *)((Unkstruct_801202A0 *)a0)->unk20.val, (s32 *)temp);
         }
     }
     ((s32 (*)(s32))func_80180E50)(a0);

@@ -5224,7 +5224,7 @@ void func_8017FA1C(s32 param_1, s32 param_2)
     s32 buf2[2];
     s32 obj;
 
-    obj = ((Unkstruct_8017DB80 *)param_1)->unk20;
+    obj = ((Unkstruct_801202A0 *)param_1)->unk20.val;
     ((Unkstruct_80175AB8_2 *)param_2)->unk1C.s = 0x50000000;
 
     func_80017DC4((void *)(obj + 0x18), &mtx);
@@ -5234,21 +5234,21 @@ void func_8017FA1C(s32 param_1, s32 param_2)
     func_80017E68((void *)buf2, &mtx);
     func_80017168((void *)param_2, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)param_1)->unk38;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)param_1)->unk3A;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)param_1)->unk3C;
+    mtx.t[0] += ((Unkstruct_801202A0 *)param_1)->unk38;
+    mtx.t[1] += ((Unkstruct_801202A0 *)param_1)->unk3A.s;
+    mtx.t[2] += ((Unkstruct_801202A0 *)param_1)->unk3C;
     func_80017168((void *)param_2, &mtx);
     func_80017E68((void *)buf2, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)param_1)->unk3E;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)param_1)->unk40;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)param_1)->unk42;
+    mtx.t[0] += ((Unkstruct_801202A0 *)param_1)->unk3E.s;
+    mtx.t[1] += ((Unkstruct_801202A0 *)param_1)->unk40;
+    mtx.t[2] += ((Unkstruct_801202A0 *)param_1)->unk42.s;
     func_80017168((void *)param_2, &mtx);
     func_80017E68((void *)buf2, &mtx);
 
-    mtx.t[0] += ((Unkstruct_8017DB80 *)param_1)->unk44;
-    mtx.t[1] += ((Unkstruct_8017DB80 *)param_1)->unk46;
-    mtx.t[2] += ((Unkstruct_8017DB80 *)param_1)->unk48;
+    mtx.t[0] += ((Unkstruct_801202A0 *)param_1)->unk44.h.unk44;
+    mtx.t[1] += ((Unkstruct_801202A0 *)param_1)->unk44.h.unk46;
+    mtx.t[2] += ((Unkstruct_801202A0 *)param_1)->unk44.h.unk48;
     func_80017168((void *)param_2, &mtx);
 }
 
@@ -5845,7 +5845,7 @@ void func_80180948(s32 arg0) {
     extern void func_80181248(s32 a0, s32 a1);
     s32 pe;
 
-    if (((Unkstruct_801202A0 *)arg0)->unkC2 == 0x2) {
+    if (((Unkstruct_801202A0 *)arg0)->unkC2.u == 0x2) {
         *(s16 *)(arg0 + 0x52) = -0x18;
     }
     pe = func_80180C74(arg0);
@@ -5871,7 +5871,7 @@ extern void func_80131B14(u8 *a0v);
 void func_801809B0(void *a0) {
     s32 s0 = (s32)a0;
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_801202A0 *)a0)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)a0)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)a0)->unkC3 = 0;
     ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
     guess_ClearVelocityAndSetGravity(s0);
@@ -7292,13 +7292,13 @@ void func_80182960(int param_1)
     int v0;
 
     v0 = ((int (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_80181904 *)param_1)->unk20 = v0;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = v0;
     if (v0 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         ((int (*)(int, void *))guess_InitModelObject)(v0, &D_8019A42C);
-        ((Unkstruct_80181904 *)param_1)->unk2 = 1;
-        ((Unkstruct_80181904 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     }
 }
 
@@ -7469,7 +7469,7 @@ void func_80182ED4(s32 arg0) {
     u16 y;
     u16 z;
 
-    if ((u32) ((Unkstruct_80182ED4 *)arg0)->unkC2 < 3U) {
+    if ((u32) ((Unkstruct_80182ED4 *)arg0)->unkC2.u < 3U) {
         t = ((Unkstruct_80182ED4 *)arg0)->unk84.s;
         tmp = (s16)t;
         u = tmp;
@@ -7787,8 +7787,8 @@ void func_8018352C(s32 param_1) {
 
 
 void func_80183588(void *a0) {
-        ((Unkstruct_80183588 *)a0)->unk2 = 0x5;
-        ((Unkstruct_80183588 *)a0)->unk1C = 0x14;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x5;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x14;
     }
 
 

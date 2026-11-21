@@ -3859,8 +3859,8 @@ void func_8017E948(void *a0) {
     ret = func_8012BD14((s32)a0);
     if (ret > 0x18FFF) {
         mask = 0x7FFFFFFF;
-        ((Unkstruct_801810B0 *)a0)->unk2.u = 2;
-        ((Unkstruct_801810B0 *)a0)->unk1C = 0x10;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
         CAST_NONSTRUCT(s32, (s32)(*(s32 **)((s32)a0 + 0x20)), 4) &= mask;
         obj = *(s32 **)((s32)a0 + 0x20);
         ((Unkstruct_8001C9D0 *)obj)->head.unk2C.u |= 0x10;
@@ -3869,9 +3869,9 @@ void func_8017E948(void *a0) {
         ((Unkstruct_8001C9D0 *)obj)->head.unk18.w.unk1A.u = 1;
         ((Unkstruct_8001C9D0 *)obj)->head.unk18.w.unk18.u = 1;
         ret = func_80143970((s32)a0);
-        ((Unkstruct_801810B0 *)a0)->unkCC = ret;
+        ((Unkstruct_801202A0 *)a0)->unkCC.val = ret;
         tail = *(s32 **)((s32)a0 + 0x78);
-        ((Unkstruct_801810B0 *)a0)->unk76 = *(u16 *)tail;
+        ((Unkstruct_801202A0 *)a0)->unk76.u = *(u16 *)tail;
     }
 }
 
@@ -4008,15 +4008,15 @@ void func_8017EC64(void *a0) {
     s32 x;
     s32 z;
 
-    ((Unkstruct_8017EC64 *)a0)->unk5C = 0;
-    ((Unkstruct_8017EC64 *)a0)->unk1C = 0x37;
-    *(s16 *)(((Unkstruct_8017EC64 *)a0)->unk20 + 0x10) = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x37;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x10) = 0;
     ((void (*)(s32, void *))guess_StartActorSequence)((s32)a0, D_8019B094);
-    ((Unkstruct_8017EC64 *)a0)->unk34 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
 
-    in[0] = ((Unkstruct_8017EC64 *)a0)->unk6;
-    in[1] = ((Unkstruct_8017EC64 *)a0)->unkA;
-    in[2] = ((Unkstruct_8017EC64 *)a0)->unkE;
+    in[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    in[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    in[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     ((s32 (*)(void *, void *))guess_WorldToScreenFlag)(in, out);
 
     x = out[0];
@@ -4082,7 +4082,7 @@ void func_8017EDEC(void) {
 
 void func_8017EDF4(s32 param_1) {
     s16 buf[3];
-    if (((Unkstruct_8017EDF4_2 *)param_1)->unk5E == 0x24) {
+    if (((Unkstruct_801202A0 *)param_1)->unk5E.u == 0x24) {
         buf[2] = 0;
         buf[0] = 0;
         buf[1] = -8;

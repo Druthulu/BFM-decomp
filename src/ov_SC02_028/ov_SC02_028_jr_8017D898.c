@@ -5766,14 +5766,14 @@ void func_80182CA4(void *a0)
     u32 idx;
 
     s0 = (s32)a0;
-    idx = ((Unkstruct_80182CA4_3 *)s0)->unk70;
-    s1 = ((Unkstruct_80182CA4_3 *)s0)->unk20;
+    idx = ((Unkstruct_801202A0 *)s0)->unk70.u;
+    s1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
     idx &= 3;
     s2 = D_801A4F08 + idx * 12;
 
     func_80182FD4((void *)s1, (void *)s2);
 
-    v0 = ((Unkstruct_80182CA4_3 *)s0)->unk70;
+    v0 = ((Unkstruct_801202A0 *)s0)->unk70.u;
     if (v0 & 1) {
         CAST_WIDTH(u16, s1, 0x14) -= 4;
         v0 = ((Unkstruct_80182CA4_2 *)s2)->unk4 + 1;

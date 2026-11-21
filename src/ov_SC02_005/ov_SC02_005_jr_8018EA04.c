@@ -4130,13 +4130,13 @@ void func_8018F944(void *a0)
     s32 *s0;
     s32 *p;
 
-    v0 = ((Unkstruct_8018F944 *)a0)->unk1C - 1;
-    ((Unkstruct_8018F944 *)a0)->unk1C = v0;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = v0;
     if (v0 != 0) {
         return;
     }
 
-    ((Unkstruct_8018F944 *)a0)->unk2 = 4;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
     s0 = &D_800A5E88;
     s0[0] = 0;
     D_800A5E8C = -4;

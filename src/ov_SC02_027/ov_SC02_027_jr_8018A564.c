@@ -3033,8 +3033,8 @@ void func_8018A8B8(s32 a0) {
     Blk16_8018A8B8 *s1 = &D_800A5E88;
 
     *s1 = D_801D69B4;
-    D_800A5E90 = rsin(((Unkstruct_8018A8B8 *)a0)->unkFE) * 20 / 4096 - 10;
-    ((Unkstruct_8018A8B8 *)a0)->unkFE = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
+    D_800A5E90 = rsin(((Unkstruct_801202A0 *)a0)->unkFE.s) * 20 / 4096 - 10;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(0, s1);
 }
 
@@ -3056,8 +3056,8 @@ void func_8018A970(s32 a0) {
     Blk16_8018A8B8 *s1 = &D_800A5E88;
 
     *s1 = D_801D69EC;
-    D_800A5E90 = rsin(((Unkstruct_8018A970_2 *)a0)->unkFE) / 512 + 8;
-    ((Unkstruct_8018A970_2 *)a0)->unkFE = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
+    D_800A5E90 = rsin(((Unkstruct_801202A0 *)a0)->unkFE.s) / 512 + 8;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s = (CAST_SIGN(u16, a0, 0xFE) + 0x71) & 0xFFF;
     guess_SetFlatLightOrDefault(0, s1);
 }
 

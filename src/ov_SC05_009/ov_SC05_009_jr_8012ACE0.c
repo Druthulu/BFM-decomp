@@ -1087,7 +1087,7 @@ void func_80131340(s32 a0)
                       *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.p + 0x12) + 0x800, 0x1D);
     }
 
-    switch (((Unkstruct_801202A0 *)a0)->unkC2) {
+    switch (((Unkstruct_801202A0 *)a0)->unkC2.u) {
     case 0:
     case 1:
         if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
@@ -1098,8 +1098,8 @@ void func_80131340(s32 a0)
             func_80131E00(a0, 0xD);
             return;
         }
-        if (((Unkstruct_801202A0 *)a0)->unkC2 == 0) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
+        if (((Unkstruct_801202A0 *)a0)->unkC2.u == 0) {
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 1;
             sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
             sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
             sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
@@ -1126,17 +1126,17 @@ void func_80131340(s32 a0)
         }
         if (D_80195778 & 0x4000) {
             guess_ClearVelocityAndSetGravity(a0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
         } else if (D_80195778 & 0x2000) {
             if (guess_HandleActorEventDefault(a0, D_80195778) == 1) {
                 return;
             }
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
             guess_SpawnActorType1C(a0, 1);
             ((Unkstruct_801202A0 *)a0)->unk14.val = 0xFFF30000;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
         } else if (D_80195778 & 0x8000) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 2;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 2;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             CAST_WIDTH(s32, a0, 0x18) = 0;
             CAST_WIDTH(s32, a0, 0x10) = 0;
@@ -1160,7 +1160,7 @@ void func_80131340(s32 a0)
         }
         if (D_80195778 & 0x4000) {
             guess_ClearVelocityAndSetGravity(a0);
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
         } else if (D_80195778 & 0x2000) {
             if (guess_HandleActorEventDefault(a0, D_80195778) == 1) {
                 return;
@@ -1169,10 +1169,10 @@ void func_80131340(s32 a0)
             /* MUST precede the 0x1C/0xC2 stores — see the header note on the /3 block. */
             ((Unkstruct_801202A0 *)a0)->unk14.val = (-D_8019577C) / 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 3;
             ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.u = 0;
         } else if (D_80195778 & 0x8000) {
-            ((Unkstruct_801202A0 *)a0)->unkC2 = 3;
+            ((Unkstruct_801202A0 *)a0)->unkC2.u = 3;
             ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.u = 0;
             CAST_WIDTH(s32, a0, 0x18) = 0;
@@ -1204,7 +1204,7 @@ void func_80131340(s32 a0)
             }
             if (D_80195778 & 0x4000) {
                 guess_ClearVelocityAndSetGravity(a0);
-                ((Unkstruct_801202A0 *)a0)->unkC2 = 4;
+                ((Unkstruct_801202A0 *)a0)->unkC2.u = 4;
                 break;
             } else if (D_80195778 & 0x2000) {
                 if (guess_HandleActorEventDefault(a0, D_80195778) == 1) {

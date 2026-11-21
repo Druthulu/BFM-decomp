@@ -4365,7 +4365,7 @@ void func_8017E810(void *a0) {
 extern void func_80178CBC(s32*, s32);
     extern short D_801910A0;
     void func_8017E84C(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_801910A0);
     }
 
@@ -4720,7 +4720,7 @@ extern void func_80184CB8(s32*, s32);
 extern void func_80178CBC(s32*, s32);
     extern short D_80191304;
     void func_8017F094(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_80191304);
     }
 
@@ -6357,7 +6357,7 @@ extern void func_80184CB8(s32*, s32);
 extern void func_80178CBC(s32*, s32);
     extern short D_80191AE8;
     void func_80181338(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_80191AE8);
     }
 
@@ -7986,7 +7986,7 @@ void func_80183438(void *a0) {
 extern void func_80178CBC(s32*, s32);
     extern short D_80192070;
     void func_80183474(void * arg0) {
-        ((Unkstruct_8017E84C *)arg0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_80192070);
     }
 
@@ -8004,7 +8004,7 @@ extern void func_80178CBC(s32*, s32);
 extern void func_80178CBC(s32*, s32);
     extern short D_801920C4;
     void func_801834CC(void * arg0) {
-        ((Unkstruct_801834CC *)arg0)->unk2 = 12;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 12;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_801920C4);
     }
 

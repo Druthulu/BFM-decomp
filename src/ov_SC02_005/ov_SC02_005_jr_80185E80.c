@@ -739,8 +739,8 @@ void func_80186CA8(void *a0) {
     p = ((s32 *)D_801E43CC);
     while (i < 0x13) {
         s32 ent = *p;
-        if (*(u16 *)(((Unkstruct_80186CA8 *)ent)->unk78 + 2) & 0x400) {
-            ((Unkstruct_80186CA8 *)ent)->unk5C |= 0x400;
+        if (*(u16 *)(((Unkstruct_801202A0 *)ent)->unk78 + 2) & 0x400) {
+            ((Unkstruct_801202A0 *)ent)->unk5C.u |= 0x400;
         }
         i++;
         p++;
@@ -757,7 +757,7 @@ void func_80186D00(void) {
     CAST_ALIAS(u16, D_801E43DC, 0x5C) &= ~0x800;
     CAST_ALIAS(u16, D_801E43E0, 0x5C) &= ~0x800;
     CAST_ALIAS(u16, D_801E43E4, 0x5C) &= ~0x800;
-    ((Unkstruct_80186D00 *)D_801E43E8)->unk5C &= ~0x800;
+    ((Unkstruct_801202A0 *)D_801E43E8)->unk5C.u &= ~0x800;
 }
 
 
@@ -777,7 +777,7 @@ void func_80186D74(void)
     CAST_ALIAS(u16, D_801E43DC, 0x5C) |= 0x800;
     CAST_ALIAS(u16, D_801E43E0, 0x5C) |= 0x800;
     CAST_ALIAS(u16, D_801E43E4, 0x5C) |= 0x800;
-    ((Unkstruct_80186D00 *)D_801E43E8)->unk5C |= 0x800;
+    ((Unkstruct_801202A0 *)D_801E43E8)->unk5C.u |= 0x800;
 }
 
 
@@ -1510,7 +1510,7 @@ void func_80187D4C(s32 param_1) {
 void func_80187D90(void *a0) {
 
     extern void (*D_80196250[])(void);
-    D_80196250[((Unkstruct_80187D90 *)a0)->unk34]();
+    D_80196250[((Unkstruct_801202A0 *)a0)->unk34.u]();
 }
 
 
@@ -1625,7 +1625,7 @@ void func_80187FCC(void *a0)
 void func_8018802C(void *a0) {
 
     extern void (*D_80196274[])(void);
-    D_80196274[((Unkstruct_80187D90 *)a0)->unk34]();
+    D_80196274[((Unkstruct_801202A0 *)a0)->unk34.u]();
 }
 
 
@@ -1677,8 +1677,8 @@ void func_80188150(void *a0) {
     s32 s0 = (s32)a0;
 
     guess_TickWaitTimer(s0);
-    if (((Unkstruct_80188150 *)s0)->unk1C == 1) {
-        ((Unkstruct_80188150 *)s0)->unk76 = 0x1E;
+    if (((Unkstruct_801202A0 *)s0)->unk1C.s == 1) {
+        ((Unkstruct_801202A0 *)s0)->unk76.u = 0x1E;
         D_801E4398 = 0x1E;
     }
 }
@@ -1754,7 +1754,7 @@ void func_801882E0(void) {
 void func_801882E8(void *a0) {
 
     extern void (*D_801962A0[])(void);
-    D_801962A0[((Unkstruct_80187D90 *)a0)->unk34]();
+    D_801962A0[((Unkstruct_801202A0 *)a0)->unk34.u]();
 }
 
 
@@ -2322,9 +2322,9 @@ void func_80188D1C(s32 a0)
 
 extern void func_80188F38(s32 a0);
     void func_80188F08(u8 *a0) {
-        ((Unkstruct_80188F08 *)a0)->unkC1 = 0;
-        ((Unkstruct_80188F08 *)a0)->unkC2 = 0;
-        ((Unkstruct_80188F08 *)a0)->unk5C &= 0xFFFE;
+        ((Unkstruct_801202A0 *)a0)->unkC1.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unkC2.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5C.u &= 0xFFFE;
         func_80188F38((s32)a0);
     }
 
@@ -3459,7 +3459,7 @@ s32 func_8018AC48(s32 a0) {
         if (*(s16 *)(ent + 0xFC) != 0) {
             continue;
         }
-        if ((u16)(((Unkstruct_801860F4_2 *)a0)->unkE - *(u16 *)(ent + 0xE) - 0xC1) < 0xFF) {
+        if ((u16)(((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - *(u16 *)(ent + 0xE) - 0xC1) < 0xFF) {
             return i;
         }
     }
@@ -3507,7 +3507,7 @@ s32 func_8018AD20(s32 a0) {
         if (*(s16 *)(ent + 0xFC) != 0) {
             continue;
         }
-        if ((u16)(((Unkstruct_801860F4_2 *)a0)->unkE - *(u16 *)(ent + 0xE) + 3) < 7) {
+        if ((u16)(((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - *(u16 *)(ent + 0xE) + 3) < 7) {
             return res;
         }
     }
@@ -3826,7 +3826,7 @@ void func_8018B408(void) {
 
 extern void func_80132784(s32 a0, s32 a1, u32 a2);
     void func_8018B410(u8 *a0) {
-        ((void (*)(u8 *, u8 *, u16))func_80132784)(a0, *(u8 **)(a0 + 0x64), ((Unkstruct_8018B410 *)a0)->unkFE);
+        ((void (*)(u8 *, u8 *, u16))func_80132784)(a0, *(u8 **)(a0 + 0x64), ((Unkstruct_801202A0 *)a0)->unkFE.u);
     }
 
 
@@ -5537,7 +5537,7 @@ void func_8018D73C(void *a0)
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_12 */
 void guess_NextStep_12(void *a0) {
-        ((Unkstruct_801825AC *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     }
 
 
@@ -5556,8 +5556,8 @@ void func_8018D7F0(void *a0)
     } buf;
 
     if (D_801270C8[0] != 0x14) {
-        s32 v = ((Unkstruct_8018D7F0 *)a0)->unk1C;
-        ((Unkstruct_8018D7F0 *)a0)->unk1C = v - 1;
+        s32 v = ((Unkstruct_801202A0 *)a0)->unk1C.u;
+        ((Unkstruct_801202A0 *)a0)->unk1C.u = v - 1;
         if ((v & 7) == 0) {
             func_8013C9C4(&D_80196BEC);
         }
@@ -5578,7 +5578,7 @@ void func_8018D7F0(void *a0)
 
         guess_RequestSound(0x4FA, 0);
 
-        ((Unkstruct_8018D7F0 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }
 
@@ -5592,8 +5592,8 @@ void func_8018D8A8(void *a0)
     if (D_801270C8[0] == 0x15) {
         func_8018EA04(2);
         guess_RequestSound(5, 0);
-        ((Unkstruct_8018D8A8 *)a0)->unk1C = 0xE;
-        ((Unkstruct_8018D8A8 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk1C.u = 0xE;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }
 
@@ -5602,7 +5602,7 @@ void func_8018D8A8(void *a0)
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_13 */
 void guess_NextStep_13(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 
@@ -6116,7 +6116,7 @@ void func_8018E400(void *a0) {
  * Confidence medium, xref chain: +0x2 += 1; guess_SetState writes the state at +0x0 and resets this counter to 0; state set-up handlers end with it
  * Names ledger: config/names.tsv guess_NextStep_14 */
 void guess_NextStep_14(void *a0) {
-        ((Unkstruct_8018354C *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s += 1;
     }
 
 

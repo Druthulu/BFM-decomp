@@ -3221,16 +3221,16 @@ extern void (*D_801A6E58[])(void);
 extern void (*D_801A6E68[])(void);
 
 void func_801822F0(s32 a0) {
-    s16 tag = ((Unkstruct_801822F0 *)a0)->unk70;
+    s16 tag = ((Unkstruct_801202A0 *)a0)->unk70.s;
 
     switch (tag) {
         case 0: {
-            u16 idx = ((Unkstruct_801822F0 *)a0)->unk2;
+            u16 idx = ((Unkstruct_801202A0 *)a0)->unk2.u;
             D_801A6E58[idx]();
             break;
         }
         case 1: {
-            u16 idx = ((Unkstruct_801822F0 *)a0)->unk2;
+            u16 idx = ((Unkstruct_801202A0 *)a0)->unk2.u;
             D_801A6E68[idx]();
             break;
         }

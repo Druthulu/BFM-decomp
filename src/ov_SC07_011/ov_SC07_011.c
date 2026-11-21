@@ -1686,10 +1686,10 @@ void func_8012FCC4(int param_1) {
             return;
         }
         if (guess_StartActorSequenceById(param_1, 4) != 0) {
-            ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
         } else {
             ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
-            ((Unkstruct_801202A0 *)param_1)->unkC2 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unkC2.u = 1;
         }
         ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, &D_8017EA08);
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
@@ -1964,7 +1964,7 @@ void func_80131170(s32 p, s32 b, s32 c) {
     extern u8 D_8017E9E4[];
 
     KR_AS(void, func_80131B14)();
-    ((Unkstruct_801202A0 *)p)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)p)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)p)->unkC3 = 0;
     ((Unkstruct_801202A0 *)p)->unk98.s = 0;
     if (((u8 *)b) == 0) {

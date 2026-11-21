@@ -2738,7 +2738,7 @@ void func_8017FD80(int param_1) {
     guess_ClearVelocityAndSetGravity(param_1);
     ((void (*)(int, void *))guess_SetLocalVelocity)(param_1, ((unsigned char *)&D_8018E6EC));
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
-    ((Unkstruct_801202A0 *)param_1)->unkC2 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unkC2.u = 0;
     ((Unkstruct_801202A0 *)param_1)->unkC3 = 0;
 }
 
@@ -2834,7 +2834,7 @@ void func_8017FF18(int param_1)
     s32 uVar4;
 
     func_8012DBD0(param_1, 0x50, *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x12) + 0x800, 0x1D);
-    bVar1 = ((Unkstruct_801202A0 *)param_1)->unkC2;
+    bVar1 = ((Unkstruct_801202A0 *)param_1)->unkC2.u;
     switch (bVar1) {
     case 0:
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u -= 0x100;
@@ -2847,7 +2847,7 @@ void func_8017FF18(int param_1)
             if ((uVar3 & 0x2000) == 0)
                 return;
             if ((uVar3 & 0xFF) != 2) {
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 1;
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 1;
                 guess_SpawnActorType1C(param_1, 1);
                 ((Unkstruct_801202A0 *)param_1)->unk14.val = 0xFFF30000;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
@@ -2867,7 +2867,7 @@ void func_8017FF18(int param_1)
             if ((uVar3 & 0xFF) != 2) {
                 guess_SpawnActorType1C(param_1, 1);
                 ((Unkstruct_801202A0 *)param_1)->unk14.val = uVar4;
-                ((Unkstruct_801202A0 *)param_1)->unkC2 = 2;
+                ((Unkstruct_801202A0 *)param_1)->unkC2.u = 2;
                 ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
                 ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u = 0;
                 return;

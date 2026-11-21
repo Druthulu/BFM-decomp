@@ -3292,7 +3292,7 @@ s32 arg0;
         ((Unkstruct_801202A0 *)arg0)->unk34.u = ((Unkstruct_801202A0 *)arg0)->unk34.u + 1;
         goto end;
     case 1:
-        ((Unkstruct_801202A0 *)arg0)->unkC2 = 0xA;
+        ((Unkstruct_801202A0 *)arg0)->unkC2.u = 0xA;
         e = ((s32 (*)(s32))func_8012913C)(0x23);
         if (e != 0) {
             *(u16 *)(e + 6) = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u - rand() % 224 + 0x10;
@@ -3412,7 +3412,7 @@ void func_8018E89C(void *arg) {
         break;
 
     case 1:
-        ((Unkstruct_801202A0 *)p)->unkC2 = 0xA;
+        ((Unkstruct_801202A0 *)p)->unkC2.u = 0xA;
         iv = (s32)func_8012913C(0x23);
         if (iv != 0) {
             *(u16 *)(iv + 0x06) = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u + rand() % 0xE0 + 0x10;
@@ -3708,7 +3708,7 @@ extern void func_80189390(void *a0);
 void func_8018F194(s32 arg0) {
     s32 e;
 
-    CAST_WIDTH(u16, arg0, 0xE8) = (((Unkstruct_801202A0 *)arg0)->unkC2 << 4) + 0x100;
+    CAST_WIDTH(u16, arg0, 0xE8) = (((Unkstruct_801202A0 *)arg0)->unkC2.u << 4) + 0x100;
 
     switch (((Unkstruct_801202A0 *)arg0)->unk34.u) {
     case 0:
