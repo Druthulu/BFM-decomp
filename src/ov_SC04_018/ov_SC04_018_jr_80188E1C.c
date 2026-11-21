@@ -5218,10 +5218,10 @@ void func_8018BE74(s32 a0) {
 
     if (v1 < 0xC8) {
         s32 v0 = KR_AS(s32, func_80184D00)();
-        ((Unkstruct_8018BE74 *)a0)->unkE4 = D_801E05E0[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_8018BB38.unkE4 = D_801E05E0[v0];
     } else {
         s32 v0 = ((s32 (*)(void))func_80184DD0)();
-        ((Unkstruct_8018BE74 *)a0)->unkE4 = D_801E05F4[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_8018BB38.unkE4 = D_801E05F4[v0];
     }
 }
 

@@ -2963,10 +2963,10 @@ void func_80180970(s32 param_1) {
 extern s32 func_80180A98(s32 *a0);
 
 void func_801809C0(s32 a0) {
-    ((Unkstruct_801809C0 *)a0)->unk52 = 0;
-    ((Unkstruct_801809C0 *)a0)->unkE0 |= 0x28;
-    ((Unkstruct_801809C0 *)a0)->unkAE |= 1;
-    ((Unkstruct_801809C0 *)a0)->unkC4 |= 4;
+    ((Unkstruct_801202A0 *)a0)->unk50.w.unk52.u = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_018_80183A00.unkE0.u |= 0x28;
+    ((Unkstruct_801202A0 *)a0)->extE.kSC06_018_80183A00.unkAE.u |= 1;
+    ((Unkstruct_801202A0 *)a0)->unkC4 |= 4;
     func_80180A98(a0);
 }
 

@@ -3041,7 +3041,7 @@ void func_80186858(s32 param_1)
 
                     ((Unkstruct_801202A0 *)param_1)->unkFC.s = (s8)*(u8 *)(a1 + 0x63);
                     ((Unkstruct_801202A0 *)param_1)->unkFE.s = (s8)*(u8 *)(a1 + 0x64);
-                    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk100 = (s8)*(u8 *)(a1 + 0x65);
+                    ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk100.s = (s8)*(u8 *)(a1 + 0x65);
                 } else {
                     CAST_WIDTH(UAlign12_80186858, param_1, 0xFC) = *(UAlign12_80186858 *)(a2 + 0x90);
                 }

@@ -3817,10 +3817,10 @@ extern void guess_FreeActor(void *a0);
 
 void func_8017EBF4(void *a0)
 {
-    *(s16 *)(((Unkstruct_8017EBF4 *)a0)->unkD4 + 0xA) = -0x202;
-    guess_FreeActor(((Unkstruct_8017EBF4 *)a0)->unkD8);
-    guess_FreeActor(((Unkstruct_8017EBF4 *)a0)->unkF8);
-    *(s16 *)(((Unkstruct_8017EBF4 *)a0)->unkF4 + 0xFC) = 1;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unkD4.val + 0xA) = -0x202;
+    guess_FreeActor(((Unkstruct_801202A0 *)a0)->unkD8.p);
+    guess_FreeActor(((Unkstruct_801202A0 *)a0)->unkF8.val.s);
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_016_8017DCDC.unkF4 + 0xFC) = 1;
 }
 
 
@@ -3831,9 +3831,9 @@ void func_8017EC48(void *arg0) {
     extern s32 D_801849BC;
     s32 *s0 = M2C_FIELD(arg0, s32 *, 0xD4);
     ((void (*)(s32, s32))guess_StartActorSequence)(s0, &D_801844E4);
-    ((Unkstruct_8017EC90_2 *)s0)->unk1C = 0;
-    ((Unkstruct_8017EC90_2 *)s0)->unkDC = (s32)&D_801849BC;
-    ((Unkstruct_8017EC90_2 *)s0)->unkEC = 0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val = (s32)&D_801849BC;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_016_8017DCDC.unkEC = 0;
 }
 
 
@@ -3848,9 +3848,9 @@ void func_8017EC90(void *arg0) {
     extern s32 D_80184174;
     s32 *s0 = M2C_FIELD(arg0, s32 *, 0xD0);
     ((void (*)(s32, s32))guess_StartActorSequence)(s0, &D_80184174);
-    ((Unkstruct_8017EC90_2 *)s0)->unkDC = (s32)&D_801849AC;
-    ((Unkstruct_8017EC90_2 *)s0)->unk1C = 0;
-    ((Unkstruct_8017EC90_2 *)s0)->unkEC = (s32)&D_8018430C;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val = (s32)&D_801849AC;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_016_8017DCDC.unkEC = (s32)&D_8018430C;
 }
 
 
@@ -3863,13 +3863,13 @@ void func_8017ECE0(void *arg0) {
     extern s32 D_8018435C;
     s32 *s0 = M2C_FIELD(arg0, s32 *, 0xD0);
 
-    ((Unkstruct_8017ECE0 *)s0)->unk6 = 0xE0;
-    ((Unkstruct_8017ECE0 *)s0)->unkE = 0;
-    *(s16 *)(((Unkstruct_8017ECE0 *)s0)->unk20 + 0x12) = 0x400;
+    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = 0xE0;
+    ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = 0;
+    *(s16 *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x12) = 0x400;
     ((void (*)(s32, s32))guess_StartActorSequence)(s0, &D_80184174);
-    ((Unkstruct_8017ECE0 *)s0)->unkDC = (s32)&D_801849B4;
-    ((Unkstruct_8017ECE0 *)s0)->unk1C = 0;
-    ((Unkstruct_8017ECE0 *)s0)->unkEC = (s32)&D_8018435C;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val = (s32)&D_801849B4;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)s0)->blkDC.f.extC.kSC04_016_8017DCDC.unkEC = (s32)&D_8018435C;
 }
 
 
@@ -3883,9 +3883,9 @@ void func_8017ED48(void *arg0) {
     extern s32 D_801840EC;
     s32 *s0 = M2C_FIELD(arg0, s32 *, 0xD0);
     ((void (*)(s32, s32))guess_StartActorSequence)(s0, &D_80184174);
-    ((Unkstruct_8017ED48 *)s0)->unkDC = (s32)&D_801849CC;
-    ((Unkstruct_8017ED48 *)s0)->unk1C = 0;
-    ((Unkstruct_8017ED48 *)s0)->unkEC = (s32)&D_801840EC;
+    ((Unkstruct_8017ED48 *)s0)->blkDC.f.unkDC.val = (s32)&D_801849CC;
+    ((Unkstruct_8017ED48 *)s0)->unk1C.s = 0;
+    ((Unkstruct_8017ED48 *)s0)->blkDC.f.extC.kSC04_016_8017DCDC.unkEC = (s32)&D_801840EC;
 }
 
 

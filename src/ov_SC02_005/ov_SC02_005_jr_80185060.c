@@ -451,12 +451,12 @@ extern s32 func_80185A88(s32 arg0, s32 arg1);
 void func_80185A04(s32 param_1, s32 param_2, s16 param_3) {
     s32 ret;
 
-    if ((((Unkstruct_80185A04 *)param_2)->unkE8 & 4) == 0) {
-        ((Unkstruct_80185A04 *)param_2)->unkE8 |= 0x10;
+    if ((((Unkstruct_801202A0 *)param_2)->blkDC.f.extC.kSC02_005_801831A4.unkE8.u & 4) == 0) {
+        ((Unkstruct_801202A0 *)param_2)->blkDC.f.extC.kSC02_005_801831A4.unkE8.u |= 0x10;
         ret = func_80185A88(param_2, param_3);
-        ((Unkstruct_80185A04 *)param_2)->unk60 = ((Unkstruct_80185A04 *)param_2)->unk60 + ret;
+        ((Unkstruct_801202A0 *)param_2)->unk60.u = ((Unkstruct_801202A0 *)param_2)->unk60.u + ret;
         func_8016AA50(param_1, (s16)ret);
-        ((Unkstruct_80185A04 *)param_2)->unkDE = 8;
+        ((Unkstruct_801202A0 *)param_2)->blkDC.f.unkDC.i.hi.s = 8;
         func_801869E0((s32 *)param_2);
     }
 }
@@ -471,15 +471,15 @@ s32 func_80185A88(s32 param_1, s32 param_2) {
     u16 m;
     int h;
     int d;
-    t = (u16)((Unkstruct_80185A04 *)param_1)->unk76 - (u16)((Unkstruct_80185A04 *)param_1)->unk60;
+    t = (u16)((Unkstruct_801202A0 *)param_1)->unk76.u - (u16)((Unkstruct_801202A0 *)param_1)->unk60.u;
     x = t - param_2;
     d = t + 0;
     m = x + 0;
     if (D_801E4BBC == 2) {
-        if (((Unkstruct_80185A04 *)param_1)->unkE8 & 0x800) goto RET;
+        if (((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC02_005_801831A4.unkE8.u & 0x800) goto RET;
         if ((s16)x < 0x80) m = 0x80;
     } else {
-        if (((Unkstruct_80185A04 *)param_1)->unkE8 & 0x80000) goto RET;
+        if (((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC02_005_801831A4.unkE8.u & 0x80000) goto RET;
         h = (s16)D_80195B24[D_801E4BBC] >> 1;
         if ((s16)x < h) m = h;
     }

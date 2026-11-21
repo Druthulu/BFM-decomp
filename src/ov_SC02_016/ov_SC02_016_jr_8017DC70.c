@@ -3637,15 +3637,15 @@ void func_8017F8C0(void *a0) {
 
     angle[2] = 0;
     angle[0] = 0;
-    angle[1] = ((Unkstruct_8017F8C0 *)s0)->unkFC;
+    angle[1] = ((Unkstruct_801202A0 *)s0)->unkFC.u;
 
     vec0[1] = 0;
     vec0[0] = 0;
-    vec0[2] = ((Unkstruct_8017F8C0 *)s0)->unkDC;
+    vec0[2] = ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.i.lo.u;
 
-    mtx.t[0] = ((Unkstruct_8017F8C0 *)s0)->unkFE;
-    mtx.t[1] = ((Unkstruct_8017F8C0 *)s0)->unk100;
-    mtx.t[2] = ((Unkstruct_8017F8C0 *)s0)->unk102;
+    mtx.t[0] = ((Unkstruct_801202A0 *)s0)->unkFE.s;
+    mtx.t[1] = ((Unkstruct_801202A0 *)s0)->extD.kSC02_016_8017F1C8.unk100;
+    mtx.t[2] = ((Unkstruct_801202A0 *)s0)->extD.kSC02_016_8017F1C8.unk102;
 
     func_8004978C(angle, &mtx);
 
@@ -3657,12 +3657,12 @@ void func_8017F8C0(void *a0) {
 
     gte_stflg(&flags);
 
-    ((Unkstruct_8017F8C0 *)s0)->unk4 <<= 16;
-    ((Unkstruct_8017F8C0 *)s0)->unk8 <<= 16;
-    ((Unkstruct_8017F8C0 *)s0)->unkC <<= 16;
+    ((Unkstruct_801202A0 *)s0)->unk4.val <<= 16;
+    ((Unkstruct_801202A0 *)s0)->unk8.val <<= 16;
+    ((Unkstruct_801202A0 *)s0)->unkC.val <<= 16;
 
-    *(s16 *)(((Unkstruct_8017F8C0 *)s0)->unk20 + 0x12) = ((Unkstruct_8017F8C0 *)s0)->unkFC - 0x400;
-    ((Unkstruct_8017F8C0 *)s0)->unkFC = ((Unkstruct_8017F8C0 *)s0)->unkFC + 0x40;
+    *(s16 *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x12) = ((Unkstruct_801202A0 *)s0)->unkFC.u - 0x400;
+    ((Unkstruct_801202A0 *)s0)->unkFC.u = ((Unkstruct_801202A0 *)s0)->unkFC.u + 0x40;
     KR_AS(void, func_8017F228)(s0);
 }
 

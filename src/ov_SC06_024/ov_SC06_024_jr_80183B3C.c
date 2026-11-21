@@ -3104,7 +3104,7 @@ extern s32 rand(void);
 
 void func_80183F24(s32 a0) {
     if (func_80183940(a0, 0x2001)) {
-        ((Unkstruct_80183940 *)a0)->unkE6 = (rand() & 0x7F) + 0x10;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_022_801813C8.unkE6.u = (rand() & 0x7F) + 0x10;
     }
 }
 

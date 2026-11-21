@@ -4456,11 +4456,11 @@ void func_8018087C(s32 a0)
     v1 = tmp0 & 0xFF;
     guess_SetGameFlag(0xDE, 1);
     if (v1 == 0) {
-        ((Unkstruct_8018087C *)a0)->unkE4 = (s32)D_801AA148;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_020_80180840.unkE4 = (s32)D_801AA148;
     } else if (v1 & 1) {
-        ((Unkstruct_8018087C *)a0)->unkE4 = (s32)D_801AA1C4;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_020_80180840.unkE4 = (s32)D_801AA1C4;
     } else {
-        ((Unkstruct_8018087C *)a0)->unkE4 = (s32)D_801AA264;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_020_80180840.unkE4 = (s32)D_801AA264;
     }
     v1 = v1 + 1;
     if ((v1 & 0xFF) == 0) {

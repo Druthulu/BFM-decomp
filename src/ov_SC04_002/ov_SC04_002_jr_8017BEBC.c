@@ -9349,13 +9349,13 @@ s32 a0;
 
 
 void func_801860F8(void *a0) {
-    if (((Unkstruct_80182AD4 *)a0)->unkC4.u & 4) {
-        ((Unkstruct_80182AD4 *)a0)->unk2.s = 0x13;
+    if (((Unkstruct_801202A0 *)a0)->unkC4 & 4) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x13;
     } else {
-        ((Unkstruct_80182AD4 *)a0)->unk2.s = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
-    ((Unkstruct_80182AD4 *)a0)->unk5C.s = *(unsigned short *)(((Unkstruct_80182AD4 *)a0)->unk78.s + 2);
-    ((Unkstruct_80182AD4 *)a0)->unkE0.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.s = *(unsigned short *)((s32)((Unkstruct_801202A0 *)a0)->unk78 + 2);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_80181B04.unkE0.s = 0;
 }
 
 
@@ -9903,35 +9903,35 @@ void func_80186B84(s32 a0) {
     s16 *v;
     s32 d;
 
-    ((Unkstruct_801825C0 *)a0)->unkFC  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFC;
-    ((Unkstruct_801825C0 *)a0)->unkFE  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFE;
-    ((Unkstruct_801825C0 *)a0)->unk100 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk100;
-    ((Unkstruct_801825C0 *)a0)->unk104 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk104;
-    ((Unkstruct_801825C0 *)a0)->unk106 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk106;
-    ((Unkstruct_801825C0 *)a0)->unk108 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk108;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFC;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFE;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk100 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk100;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk104 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk104;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk106 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk106;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk108 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk108;
 
-    ((Unkstruct_801825C0 *)a0)->unkEC = (((Unkstruct_801825C0 *)a0)->unkFC  + ((Unkstruct_801825C0 *)a0)->unkDC) >> 1;
-    ((Unkstruct_801825C0 *)a0)->unkEE = (((Unkstruct_801825C0 *)a0)->unkFE  + ((Unkstruct_801825C0 *)a0)->unkDE) >> 1;
-    ((Unkstruct_801825C0 *)a0)->unkF0 = (((Unkstruct_801825C0 *)a0)->unk100 + ((Unkstruct_801825C0 *)a0)->unkE0) >> 1;
-    ((Unkstruct_801825C0 *)a0)->unkF4 = (((Unkstruct_801825C0 *)a0)->unk104 + ((Unkstruct_801825C0 *)a0)->unkE4) >> 1;
-    ((Unkstruct_801825C0 *)a0)->unkF6 = (((Unkstruct_801825C0 *)a0)->unk106 + ((Unkstruct_801825C0 *)a0)->unkE6) >> 1;
-    ((Unkstruct_801825C0 *)a0)->unkF8 = (((Unkstruct_801825C0 *)a0)->unk108 + ((Unkstruct_801825C0 *)a0)->unkE8) >> 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC = (((Unkstruct_801202A0 *)a0)->unkFC.s  + ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s) >> 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE = (((Unkstruct_801202A0 *)a0)->unkFE.s  + ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) >> 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF0 = (((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk100 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkE0) >> 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF4 = (((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk104 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkE4) >> 1;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF6 = (((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk106 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkE6) >> 1;
+    ((Unkstruct_801202A0 *)a0)->unkF8.i.lo = (((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk108 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkE8) >> 1;
 
-    ((Unkstruct_801825C0 *)a0)->unkEC = ((Unkstruct_801825C0 *)a0)->unkEC - ((Unkstruct_801825C0 *)a0)->unkF4;
-    ((Unkstruct_801825C0 *)a0)->unkEE = ((Unkstruct_801825C0 *)a0)->unkEE - ((Unkstruct_801825C0 *)a0)->unkF6;
-    ((Unkstruct_801825C0 *)a0)->unkF0 = ((Unkstruct_801825C0 *)a0)->unkF0 - ((Unkstruct_801825C0 *)a0)->unkF8;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC - ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF4;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE - ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF6;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF0 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF0 - ((Unkstruct_801202A0 *)a0)->unkF8.i.lo;
 
     v = (s16 *)(a0 + 0xEC);
     VectorNormalSS(v, v);
 
-    d = D_801B5118[((Unkstruct_801825C0 *)a0)->unk70 & 0xF];
+    d = D_801B5118[((Unkstruct_801202A0 *)a0)->unk70.u & 0xF];
 
-    ((Unkstruct_801825C0 *)a0)->unk1C = 0x10;
-    (((Unkstruct_801825C0 *)a0)->unk2)++;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
+    (((Unkstruct_801202A0 *)a0)->unk2.s)++;
 
-    ((Unkstruct_801825C0 *)a0)->unkEC = ((Unkstruct_801825C0 *)a0)->unkF4 + ((Unkstruct_801825C0 *)a0)->unkEC / d;
-    ((Unkstruct_801825C0 *)a0)->unkEE = ((Unkstruct_801825C0 *)a0)->unkF6 + ((Unkstruct_801825C0 *)a0)->unkEE / d;
-    ((Unkstruct_801825C0 *)a0)->unkF0 = ((Unkstruct_801825C0 *)a0)->unkF8 + ((Unkstruct_801825C0 *)a0)->unkF0 / d;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF4 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC / d;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF6 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE / d;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF0 = ((Unkstruct_801202A0 *)a0)->unkF8.i.lo + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkF0 / d;
 }
 
 

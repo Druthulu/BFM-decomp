@@ -4755,21 +4755,21 @@ void func_801857B0(s32 param_1) {
     s16 val16;
     u16 val;
 
-    val = ((Unkstruct_801857B0 *)param_1)->unkDC;
+    val = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.lo.u;
     val--;
-    ((Unkstruct_801857B0 *)param_1)->unkDC = val;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.lo.u = val;
     val16 = (s16)val;
     if (val16 == 0) {
-        ((Unkstruct_801857B0 *)param_1)->unkDC = 0x10;
-        ((Unkstruct_801857B0 *)param_1)->unk18 = (s32)0xFFFE0000;
-        ((Unkstruct_801857B0 *)param_1)->unk4C = -0x4000;
-        ((Unkstruct_801857B0 *)param_1)->unkE2 = 2;
-        ((Unkstruct_801857B0 *)param_1)->unkDE = 0;
-        ((Unkstruct_801857B0 *)param_1)->unkE0 = 0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.lo.u = 0x10;
+        ((Unkstruct_801202A0 *)param_1)->unk18.val = (s32)0xFFFE0000;
+        ((Unkstruct_801202A0 *)param_1)->unk4C = -0x4000;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC02_000_80183F64.unkE2 = 2;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.hi.s = 0;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC02_000_80183F64.unkE0 = 0;
         D_801E873C = 1;
         D_801E8750 = 0;
         func_8013D164();
-        ((Unkstruct_801857B0 *)param_1)->unk2 = CAST_SIGN(u16, param_1, 0x2) + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = CAST_SIGN(u16, param_1, 0x2) + 1;
     }
 }
 

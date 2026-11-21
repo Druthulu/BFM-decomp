@@ -7251,14 +7251,14 @@ void func_80182614(void *a0) {
     *p += 0xFFFEE000;
     if (D_801AEAFE < 0) {
         *p = 0;
-        (((Unkstruct_80182614 *)a0)->unk2)++;
+        (((Unkstruct_801202A0 *)a0)->unk2.u)++;
     }
-    val = ((Unkstruct_80182614 *)a0)->unkE0;
+    val = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_000_80182348.unkE0;
     val--;
-    ((Unkstruct_80182614 *)a0)->unkE0 = val;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_000_80182348.unkE0 = val;
     if ((val << 0x10) == 0) {
         func_8013C9C4(&D_801889E4);
-        ((Unkstruct_80182614 *)a0)->unkE0 = (D_800B99DC & 7) + 3;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_000_80182348.unkE0 = (D_800B99DC & 7) + 3;
     }
     base = (s32)&D_801B20E0;
     q = &D_801AEBCC;

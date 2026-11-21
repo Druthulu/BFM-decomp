@@ -2823,7 +2823,7 @@ void func_801851E0(s32 p)
         if (((Unkstruct_801202A0 *)p)->unk72 & 0x4000) {
             if (func_8012E778(p, 0xA000C8) == 0) {
                 ((Unkstruct_801202A0 *)p)->unk2.s = 0x14;
-                if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0 & 0x400) == 0) {
+                if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0.s & 0x400) == 0) {
                     ((Unkstruct_801202A0 *)p)->unk34.u = 1;
                     guess_StartActorSequence(p, D_801D35CC);
                 } else {
@@ -2833,10 +2833,10 @@ void func_801851E0(s32 p)
                 return;
             }
             s0 = guess_DistSqToPlayer(p);
-            if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0 & 0x400) == 0) {
+            if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0.s & 0x400) == 0) {
                 if (0x63FFF < s0) {
                     ((Unkstruct_801202A0 *)p)->unk2.s = 0x14;
-                    if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0 & 0x400) == 0) {
+                    if ((((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0.s & 0x400) == 0) {
                         ((Unkstruct_801202A0 *)p)->unk34.u = 1;
                         guess_StartActorSequence(p, D_801D35CC);
                     } else {
@@ -3667,7 +3667,7 @@ void func_801864C4(s32 p) {
                 func_801898EC(p, D_801BC200 + 8, buf20, 0xC);
                 func_80189888(p, buf20, 0x27F, 0, 0, 0);
                 ((Unkstruct_801202A0 *)p)->unk58.s = (s32)D_801BC120 | 0x40000000 | 0x20000000;
-                ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0 = CAST_SIGN(u32, p, 0xE0) & 0xFFFFFFFE;
+                ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0.s = CAST_SIGN(u32, p, 0xE0) & 0xFFFFFFFE;
                 func_8001C924(((Unkstruct_801202A0 *)p)->unk20.p, &D_801C2718);
             }
             guess_SetLocalVelocity(p, (s32)D_801BC288);
@@ -3744,8 +3744,8 @@ void func_801864C4(s32 p) {
     case 0x2A:
         ptr = D_801BC278;
         guess_StartActorSequence(p, D_801D3E04);
-        ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0 = CAST_SIGN(u32, p, 0xE0) | 8;
-        ((Unkstruct_801202A0 *)p)->extE.kSC06_018_80183A00.unkAE = CAST_SIGN(u16, p, 0xAE) | 1;
+        ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC06_018_80183A00.unkE0.s = CAST_SIGN(u32, p, 0xE0) | 8;
+        ((Unkstruct_801202A0 *)p)->extE.kSC06_018_80183A00.unkAE.s = CAST_SIGN(u16, p, 0xAE) | 1;
         func_80187A50(p, -0x8000);
         break;
     default:

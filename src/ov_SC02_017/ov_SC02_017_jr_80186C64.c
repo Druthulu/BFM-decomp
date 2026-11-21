@@ -4066,14 +4066,14 @@ void func_80187F18(s32 arg0) {
 
 
 void func_8018800C(s32 arg0) {
-    s32 temp = ((Unkstruct_8018BBCC *)arg0)->unkAA;
-    ((Unkstruct_8018BBCC *)arg0)->unk5C = 0;
-    ((Unkstruct_8018BBCC *)arg0)->unk98 = 0;
-    ((Unkstruct_8018BBCC *)arg0)->unk1C = 0;
+    s32 temp = ((Unkstruct_801202A0 *)arg0)->unkAA;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;
     if (temp == 0) {
-        ((Unkstruct_8018BBCC *)arg0)->unk100 = *(u16 *)(((Unkstruct_8018BBCC *)arg0)->unk20 + 0x18);
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC02_011_8018BFBC.unk100 = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x18);
     } else {
-        ((Unkstruct_8018BBCC *)arg0)->unk102 = *(u16 *)(((Unkstruct_8018BBCC *)arg0)->unk20 + 0x18);
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC02_011_8018BFBC.unk102 = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x18);
     }
 }
 

@@ -3828,34 +3828,34 @@ void func_8017EBA0(void *param) {
     s32 vp;
     s32 count;
 
-    if (((Unkstruct_8017EBA0 *)param)->unk5E != 0x1D) {
-        ((Unkstruct_8017EBA0 *)param)->unk5C = 0;
+    if (((Unkstruct_801202A0 *)param)->unk5E.u != 0x1D) {
+        ((Unkstruct_801202A0 *)param)->unk5C.u = 0;
         snd = 0xADC;
-        if (*(s32 *)(((Unkstruct_8017EBA0 *)param)->unk20 + 4) < 0) {
-            ((Unkstruct_8017EBA0 *)param)->unk2 = 3;
-            *(s32 *)(((Unkstruct_8017EBA0 *)param)->unk20 + 4) &= 0x7FFFFFFF;
+        if (*(s32 *)(((Unkstruct_801202A0 *)param)->unk20.val + 4) < 0) {
+            ((Unkstruct_801202A0 *)param)->unk2.u = 3;
+            *(s32 *)(((Unkstruct_801202A0 *)param)->unk20.val + 4) &= 0x7FFFFFFF;
             snd = 0xC45;
-            vp = ((Unkstruct_8017EBA0 *)param)->unk64;
-            ((Unkstruct_8017EBA0 *)param)->unkAE = -9;
+            vp = (s32)((Unkstruct_801202A0 *)param)->unk64;
+            ((Unkstruct_801202A0 *)param)->extE.kSC06_014_8017E164.unkAE = -9;
             count = ((Unkstruct_801202A0 *)vp)->unkFC.u + 1;
             vol = 0;
             ((Unkstruct_801202A0 *)vp)->unkFC.u = count;
             guess_RequestSound(snd, vol);
         } else {
-            vp = ((Unkstruct_8017EBA0 *)param)->unk64;
-            ((Unkstruct_8017EBA0 *)param)->unk2 = 2;
-            ((Unkstruct_8017EBA0 *)param)->unkAE = -5;
+            vp = (s32)((Unkstruct_801202A0 *)param)->unk64;
+            ((Unkstruct_801202A0 *)param)->unk2.u = 2;
+            ((Unkstruct_801202A0 *)param)->extE.kSC06_014_8017E164.unkAE = -5;
             count = ((Unkstruct_801202A0 *)vp)->unkFC.u - 1;
             vol = 0;
             ((Unkstruct_801202A0 *)vp)->unkFC.u = count;
             guess_RequestSound(snd, vol);
         }
-        ((Unkstruct_8017EBA0 *)param)->unkC1 = 0;
+        ((Unkstruct_801202A0 *)param)->unkC1.u = 0;
     } else {
-        ((Unkstruct_8017EBA0 *)param)->unk5C = 0x8000;
-        ((Unkstruct_8017EBA0 *)param)->unkC1 = 0;
+        ((Unkstruct_801202A0 *)param)->unk5C.u = 0x8000;
+        ((Unkstruct_801202A0 *)param)->unkC1.u = 0;
     }
-    ((Unkstruct_8017EBA0 *)param)->unk5E = 0;
+    ((Unkstruct_801202A0 *)param)->unk5E.u = 0;
 }
 
 

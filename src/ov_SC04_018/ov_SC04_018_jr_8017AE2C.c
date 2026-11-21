@@ -6068,12 +6068,12 @@ void *a0;
     v1 = guess_GetStoryProgress();
     if (s1 == 2) {
         if (v1 < 0x276) {
-            ((Unkstruct_80180C38 *)a0)->unkE4 = (s32)D_801E2344;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_80180B6C.unkE4 = (s32)D_801E2344;
         } else {
-            ((Unkstruct_80180C38 *)a0)->unkE4 = (s32)D_801E22B4;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_80180B6C.unkE4 = (s32)D_801E22B4;
         }
     } else {
-        ((Unkstruct_80180C38 *)a0)->unkE4 = D_80191A04[s1];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_80180B6C.unkE4 = D_80191A04[s1];
     }
 }
 
@@ -7199,12 +7199,12 @@ void *a0;
     v1 = guess_GetStoryProgress();
     if (s1 == 2) {
         if (v1 < 0x276) {
-            ((Unkstruct_80180C38 *)a0)->unkE4 = (s32)D_801E24BC;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_8018233C.unkE4 = (s32)D_801E24BC;
         } else {
-            ((Unkstruct_80180C38 *)a0)->unkE4 = (s32)D_801E2428;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_8018233C.unkE4 = (s32)D_801E2428;
         }
     } else {
-        ((Unkstruct_80180C38 *)a0)->unkE4 = D_80191C2C[s1];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC04_018_8018233C.unkE4 = D_80191C2C[s1];
     }
 }
 

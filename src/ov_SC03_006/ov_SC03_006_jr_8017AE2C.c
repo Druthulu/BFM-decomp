@@ -13357,13 +13357,13 @@ void func_8018AD9C(void *a0) {
 
 
 void func_8018AE90(s32 param_1) {
-    ((Unkstruct_8018BBCC *)param_1)->unk5C = 0;
-    ((Unkstruct_8018BBCC *)param_1)->unk98 = 0;
-    ((Unkstruct_8018BBCC *)param_1)->unk1C = 0;
-    if (((Unkstruct_8018BBCC *)param_1)->unkAA == 0) {
-        ((Unkstruct_8018BBCC *)param_1)->unk100 = *(u16 *)(((Unkstruct_8018BBCC *)param_1)->unk20 + 0x18);
+    ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
+    if (((Unkstruct_801202A0 *)param_1)->unkAA == 0) {
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC02_011_8018BFBC.unk100 = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x18);
     } else {
-        ((Unkstruct_8018BBCC *)param_1)->unk102 = *(u16 *)(((Unkstruct_8018BBCC *)param_1)->unk20 + 0x18);
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC02_011_8018BFBC.unk102 = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x18);
     }
 }
 

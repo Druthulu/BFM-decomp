@@ -4321,21 +4321,21 @@ extern void func_8013240C(s32 a0);
 void func_80180F70(void *a0) {
     /* +0xE8 timer; the two arms share the decrement+expire tail, which
      * cross_jump merges back into one block (law 10 / §186). */
-    if (((Unkstruct_80180F70 *)a0)->unkE8 != 0) {
-        (((Unkstruct_80180F70 *)a0)->unkE8)--;
-        if (((Unkstruct_80180F70 *)a0)->unkE8 == 0) {
-            ((Unkstruct_80180F70 *)a0)->unk5E = 0;
-            ((Unkstruct_80180F70 *)a0)->unk5C &= 0xFFFE;
+    if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 != 0) {
+        (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8)--;
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 == 0) {
+            ((Unkstruct_801202A0 *)a0)->unk5E.s = 0;
+            ((Unkstruct_801202A0 *)a0)->unk5C.u &= 0xFFFE;
         }
     } else {
-        if (((Unkstruct_80180F70 *)a0)->unk5C & 1) {
-            ((Unkstruct_80180F70 *)a0)->unkE8 = 0x14;
+        if (((Unkstruct_801202A0 *)a0)->unk5C.u & 1) {
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 = 0x14;
         }
-        if (((Unkstruct_80180F70 *)a0)->unkE8 != 0) {
-            (((Unkstruct_80180F70 *)a0)->unkE8)--;
-            if (((Unkstruct_80180F70 *)a0)->unkE8 == 0) {
-                ((Unkstruct_80180F70 *)a0)->unk5E = 0;
-                ((Unkstruct_80180F70 *)a0)->unk5C &= 0xFFFE;
+        if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 != 0) {
+            (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8)--;
+            if (((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC06_025_80181260.unkE8 == 0) {
+                ((Unkstruct_801202A0 *)a0)->unk5E.s = 0;
+                ((Unkstruct_801202A0 *)a0)->unk5C.u &= 0xFFFE;
             }
         }
     }
@@ -4359,40 +4359,40 @@ void func_80180F70(void *a0) {
         do {
             if (target == D_801891F4[i].vx) {
                 if (base[i].vx == 1) {
-                    ((Unkstruct_80180F70 *)a0)->unkFC = 1;   /* +0xFC = pending anim id */
+                    ((Unkstruct_801202A0 *)a0)->unkFC.s = 1;   /* +0xFC = pending anim id */
                 } else {
-                    ((Unkstruct_80180F70 *)a0)->unkFC = 2;
+                    ((Unkstruct_801202A0 *)a0)->unkFC.s = 2;
                 }
             }
             i++;
         } while (base[i].vx != -1);
     }
 
-    if (((Unkstruct_80180F70 *)a0)->unk70 != 1 && ((Unkstruct_80180F70 *)a0)->unk70 != 3) {
-        s16 fc = ((Unkstruct_80180F70 *)a0)->unkFC;
+    if (((Unkstruct_801202A0 *)a0)->unk70.s != 1 && ((Unkstruct_801202A0 *)a0)->unk70.s != 3) {
+        s16 fc = ((Unkstruct_801202A0 *)a0)->unkFC.s;
         switch (fc) {
         case 1:
-            if (((Unkstruct_80180F70 *)a0)->unk70 == 0) {
+            if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
                 func_80132288((s32 *)D_801B1B90, (s32 *)D_80189174, D_8019AB90);
             } else {
                 func_80132288(
-                    (s32 *)(D_801B1B90 + (((Unkstruct_80180F70 *)a0)->unk70 << 4)),
+                    (s32 *)(D_801B1B90 + (((Unkstruct_801202A0 *)a0)->unk70.s << 4)),
                     (s32 *)D_801891B4, D_8019B030);
             }
-            ((Unkstruct_80180F70 *)a0)->unkFC = 0;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
             break;
         case 2:
-            if (((Unkstruct_80180F70 *)a0)->unk70 == 0) {
+            if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
                 func_80132288((s32 *)D_801B1B90, (s32 *)D_80189194, D_8019AB90);
             } else {
                 func_80132288(
-                    (s32 *)(D_801B1B90 + (((Unkstruct_80180F70 *)a0)->unk70 << 4)),
+                    (s32 *)(D_801B1B90 + (((Unkstruct_801202A0 *)a0)->unk70.s << 4)),
                     (s32 *)D_801891D4, D_8019B030);
             }
-            ((Unkstruct_80180F70 *)a0)->unkFC = 0;
+            ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
             break;
         }
-        func_8013240C((s32)(D_801B1B90 + (((Unkstruct_80180F70 *)a0)->unk70 << 4)));
+        func_8013240C((s32)(D_801B1B90 + (((Unkstruct_801202A0 *)a0)->unk70.s << 4)));
     }
 }
 

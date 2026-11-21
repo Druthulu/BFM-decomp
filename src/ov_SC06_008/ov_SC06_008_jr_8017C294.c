@@ -3277,13 +3277,13 @@ void func_8017E204(u8 *s1)
     s32 v0, v1, s0;
     s16 t;
     s32 pad[8];
-    v0 = ((Unkstruct_8017E204 *)s1)->unkDC;
+    v0 = ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.lo.s;
     t = (s16)v0;
     v1 = t;
     if (v0 != 0) goto dec1;
-    v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unkFC, 0);
+    v0 = func_8017E37C(s1, ((Unkstruct_801202A0 *)s1)->unkFC.s, 0);
     if (v0 != 0) {
-        ((Unkstruct_8017E204 *)s1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)s1)->unkFC.s = 0;
         s0 = rand();
         v0 = rand();
         s0 &= 0xF;
@@ -3291,22 +3291,22 @@ void func_8017E204(u8 *s1)
         s0 += v0;
         s0 <<= 1;
         s0 += 0x20;
-        ((Unkstruct_8017E204 *)s1)->unkDC = s0;
+        ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.lo.s = s0;
     } else {
         v0 = CAST_SIGN(u16, s1, 0xFC) + 1;
-        ((Unkstruct_8017E204 *)s1)->unkFC = v0;
+        ((Unkstruct_801202A0 *)s1)->unkFC.s = v0;
     }
     goto next1;
 dec1:
-    ((Unkstruct_8017E204 *)s1)->unkDC = v1 - 1;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.lo.s = v1 - 1;
 next1:
-    v0 = ((Unkstruct_8017E204 *)s1)->unkDE;
+    v0 = ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.hi.s;
     t = (s16)v0;
     v1 = t;
     if (v0 != 0) goto dec2;
-    v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unkFE, 0x80);
+    v0 = func_8017E37C(s1, ((Unkstruct_801202A0 *)s1)->unkFE.s, 0x80);
     if (v0 != 0) {
-        ((Unkstruct_8017E204 *)s1)->unkFE = 0;
+        ((Unkstruct_801202A0 *)s1)->unkFE.s = 0;
         s0 = rand();
         v0 = rand();
         s0 &= 0xF;
@@ -3314,22 +3314,22 @@ next1:
         s0 += v0;
         s0 <<= 1;
         s0 += 0x20;
-        ((Unkstruct_8017E204 *)s1)->unkDE = s0;
+        ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.hi.s = s0;
     } else {
         v0 = CAST_SIGN(u16, s1, 0xFE) + 1;
-        ((Unkstruct_8017E204 *)s1)->unkFE = v0;
+        ((Unkstruct_801202A0 *)s1)->unkFE.s = v0;
     }
     goto next2;
 dec2:
-    ((Unkstruct_8017E204 *)s1)->unkDE = v1 - 1;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.unkDC.i.hi.s = v1 - 1;
 next2:
-    v0 = ((Unkstruct_8017E204 *)s1)->unkE0;
+    v0 = ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_008_8017E1A0.unkE0;
     t = (s16)v0;
     v1 = t;
     if (v0 != 0) goto dec3;
-    v0 = func_8017E37C(s1, ((Unkstruct_8017E204 *)s1)->unk100, 0x100);
+    v0 = func_8017E37C(s1, ((Unkstruct_801202A0 *)s1)->extD.kSC06_008_8017E1A0.unk100, 0x100);
     if (v0 != 0) {
-        ((Unkstruct_8017E204 *)s1)->unk100 = 0;
+        ((Unkstruct_801202A0 *)s1)->extD.kSC06_008_8017E1A0.unk100 = 0;
         s0 = rand();
         v0 = rand();
         s0 &= 0xF;
@@ -3337,14 +3337,14 @@ next2:
         s0 += v0;
         s0 <<= 1;
         s0 += 0x20;
-        ((Unkstruct_8017E204 *)s1)->unkE0 = s0;
+        ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_008_8017E1A0.unkE0 = s0;
     } else {
         v0 = CAST_SIGN(u16, s1, 0x100) + 1;
-        ((Unkstruct_8017E204 *)s1)->unk100 = v0;
+        ((Unkstruct_801202A0 *)s1)->extD.kSC06_008_8017E1A0.unk100 = v0;
     }
     goto next3;
 dec3:
-    ((Unkstruct_8017E204 *)s1)->unkE0 = v1 - 1;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_008_8017E1A0.unkE0 = v1 - 1;
 next3:
     ;
 }

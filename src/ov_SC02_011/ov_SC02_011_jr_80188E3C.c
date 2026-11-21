@@ -375,7 +375,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 
 void func_801895CC(s32 a0) {
     s32 v0;
-    if (((Unkstruct_801895CC *)a0)->unk100 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC02_011_801894E0.unk100.s == 0) {
         v0 = 0xB;
     } else {
         if (func_8012BD3C(a0, 0x400, 0x40000) == 0) {
@@ -383,7 +383,7 @@ void func_801895CC(s32 a0) {
         }
         v0 = 0xD;
     }
-    ((Unkstruct_801895CC *)a0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = v0;
 }
 
 
@@ -2246,14 +2246,14 @@ void func_8018BAD8(u8 *a0) {
 void func_8018BBCC(s32 *param_1) {
     int v1;
 
-    v1 = ((Unkstruct_8018BBCC *)param_1)->unkAA;
-    ((Unkstruct_8018BBCC *)param_1)->unk5C = 0;
-    ((Unkstruct_8018BBCC *)param_1)->unk98 = 0;
-    ((Unkstruct_8018BBCC *)param_1)->unk1C = 0;
+    v1 = ((Unkstruct_801202A0 *)param_1)->unkAA;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
     if (v1 == 0) {
-        ((Unkstruct_8018BBCC *)param_1)->unk100 = *(unsigned short *)(((Unkstruct_8018BBCC *)param_1)->unk20 + 0x18);
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC02_011_8018BFBC.unk100 = *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x18);
     } else {
-        ((Unkstruct_8018BBCC *)param_1)->unk102 = *(unsigned short *)(((Unkstruct_8018BBCC *)param_1)->unk20 + 0x18);
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC02_011_8018BFBC.unk102 = *(unsigned short *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x18);
     }
 }
 
