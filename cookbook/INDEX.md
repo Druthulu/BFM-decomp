@@ -1111,3 +1111,4 @@ C0658 | Applying pool absorbs (A3): nested named unions, walker misses, cite rem
 C0659 | Applying actor-common absorbs (A3): unk64 trap by asm diff, actor form restore, nested-path reads | struct,absorb,actor,fold-batch,gate,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c10
 C0660 | Census nested-path reads; engine misses via base casts and aliases; hidden-cast respell trap | struct,absorb,census,metric,fold-batch,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c11
 C0661 | Merging per-overlay actor variants on compiled asm; per-source alias renames | struct,absorb,variant,actor,cc1,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c12
+C0662 | Folding packet and value views (A3): kept REINTERP rows, not raw casts; engine_types.h cite remaps | struct,fold,packet,psyq,kept,gate,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c13
