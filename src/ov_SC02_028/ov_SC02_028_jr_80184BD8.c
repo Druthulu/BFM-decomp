@@ -3703,10 +3703,10 @@ void func_80186740(void *a0) {
     func_8012E9C0((s32)a0);
 
     if (CAST_WIDTH(u16, (u8 *)a0, 0x5E) != 0x1D) {
-        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_028_80186144.unkC8) {
+        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_026_8017E130.unkC8) {
             func_8002A520(a0);
         }
-        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_028_80186144.unkC9) {
+        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_026_8017E130.unkC9) {
             func_8002A790(a0);
         }
     }
@@ -3738,13 +3738,13 @@ void func_80186740(void *a0) {
 
             speed += 8;
             {
-                s32 p0 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk102;
-                s32 p1 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk104;
-                s32 p2 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk106;
+                s32 p0 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk102;
+                s32 p1 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk104;
+                s32 p2 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk106;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk102 = p0 >> 12;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk104 = p1 >> 12;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_80186144.unk106 = p2 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk102 = p0 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk104 = p1 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk106 = p2 >> 12;
             }
         }
     }
@@ -4578,7 +4578,7 @@ void func_80187AD4(s32 a0) {
         guess_ClearVelocityAndSetGravity((void *)a0);
 
         ((Unkstruct_801202A0 *)a0)->unkFE.s = (rand() & 0x1F) + 0x20;
-        ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_801881C8.unk100 = (rand() & 0x1F) + 0x20;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_801877E4.unk100 = (rand() & 0x1F) + 0x20;
 
         v1 = ((Unkstruct_801202A0 *)a0)->unk64;
         if (*(s16 *)(*(s32 *)(v1 + 0x20) + 0x12) != 0) {
@@ -4834,7 +4834,7 @@ void func_80188204(s32 a0)
     ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
 
     ((Unkstruct_801202A0 *)a0)->unkFE.s = (rand() & 0x7F) + 0x80;
-    ((Unkstruct_801202A0 *)a0)->extD.kSC02_028_801881C8.unk100 = (rand() & 0x7F) + 0x80;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_801877E4.unk100 = (rand() & 0x7F) + 0x80;
 
     ang = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u + (rand() & 0x3FF) + 0x600;
 

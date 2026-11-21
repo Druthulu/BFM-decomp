@@ -5431,7 +5431,7 @@ void func_8018694C(void *a0)
 
     func_8001C2C4(v0);
 
-    ((Unkstruct_801202A0 *)s1)->extD.kSC06_032_80186CF0.unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x36);
+    ((Unkstruct_801202A0 *)s1)->extD.kSC06_018_8018BB18.unk100 = *(u16 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x36);
 
     SetRotMatrix((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x20) + 0x34));
     SetTransMatrix((void *)(*(s32 *)((s32)((Unkstruct_801202A0 *)s1)->unk64 + 0x20) + 0x34));
@@ -5441,8 +5441,8 @@ void func_8018694C(void *a0)
     ((Unkstruct_801202A0 *)s1)->unk4.i.hi.u = v[0];
     ((Unkstruct_801202A0 *)s1)->unk8.i.hi.u = v[1];
     ((Unkstruct_801202A0 *)s1)->unkC.i.hi.u = v[2];
-    ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_032_80186CF0.unkE0 = ((Unkstruct_801202A0 *)s1)->unk64->blkDC.f.extC.kSC06_018_8018A61C.unkE0.val;
-    ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_032_80186CF0.unkE4 = ((Unkstruct_801202A0 *)s1)->unk64->blkDC.f.extC.kSC06_018_8018A61C.unkE4.val;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_018_8018BB18.unkE0 = ((Unkstruct_801202A0 *)s1)->unk64->blkDC.f.extC.kSC06_018_8018A61C.unkE0.val;
+    ((Unkstruct_801202A0 *)s1)->blkDC.f.extC.kSC06_018_8018BB18.unkE4 = ((Unkstruct_801202A0 *)s1)->unk64->blkDC.f.extC.kSC06_018_8018A61C.unkE4.val;
 
     s0 = (s32)s1 + 0xE0;
     func_80187180((s32)&flg[2], (s32)v, s0);
@@ -8867,7 +8867,7 @@ s32 a0;
     ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = ((Unkstruct_801202A0 *)a0)->unk14.val;
     if ((((s32 (*)(s32))func_8012CBCC)(a0)) & 0x6000) {
         ((Unkstruct_801202A0 *)a0)->unk14.val = -((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
-        if (--((Unkstruct_801202A0 *)a0)->extE.kSC06_032_8018C77C.unkAC == 0) {
+        if (--((Unkstruct_801202A0 *)a0)->extE.kSC06_024_8018EDC4.unkAC == 0) {
             guess_FreeActor((void *)a0);
         }
     }

@@ -3579,13 +3579,13 @@ void func_80181C5C(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = iVar;
         if (iVar >= 4) {
             if ((((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u & 0xFFFU) > 0x800U) {
-                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_020_80181A94.unk102 = 0xC00;
+                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk102 = 0xC00;
             } else {
-                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_020_80181A94.unk102 = 0x400;
+                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk102 = 0x400;
             }
             t = CAST_SIGN(u16, param_1, 0x70) & 0xF;
             if (t < 4 && t != 0) {
-                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_020_80181A94.unk102 = CAST_SIGN(u16, param_1, 0x102) + 0x400;
+                ((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk102 = CAST_SIGN(u16, param_1, 0x102) + 0x400;
             }
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1E;
             ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
@@ -3596,7 +3596,7 @@ void func_80181C5C(s32 param_1)
         return;
     case 1:
         iVar = guess_GetAngleStepToward((s32)*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x10),
-                             (s32)((Unkstruct_801202A0 *)param_1)->extD.kSC06_020_80181A94.unk102, 4);
+                             (s32)((Unkstruct_801202A0 *)param_1)->extD.kSC06_018_80187924.unk102, 4);
         ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u =
             ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u + iVar;
         if (guess_TickWaitTimer(param_1) == 0) {
@@ -3620,14 +3620,14 @@ void func_80181C5C(s32 param_1)
         return;
     case 3:
         if (((Unkstruct_801202A0 *)param_1)->unk64->unk36.s != ((Unkstruct_801202A0 *)param_1)->unk10A.s &&
-            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_020_80181A94.unkE0 == 0) {
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_018_80187924.unkE0 == 0) {
             ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x1E;
             uVar1 = 2;
             if ((CAST_SIGN(u16, param_1, 0x70) & 0xF) == 4) {
                 uVar1 = 4;
             }
             ((Unkstruct_801202A0 *)param_1)->unk34.u = uVar1;
-            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_020_80181A94.unkE0 = 1;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC06_018_80187924.unkE0 = 1;
         }
         return;
     case 4:

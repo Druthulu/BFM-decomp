@@ -7377,10 +7377,10 @@ void func_80185D5C(void *a0) {
     func_8012E9C0((s32)a0);
 
     if (CAST_WIDTH(u16, (u8 *)a0, 0x5E) != 0x1D) {
-        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_027_80185760.unkC8) {
+        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_026_8017E130.unkC8) {
             func_8002A520(a0);
         }
-        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_027_80185760.unkC9) {
+        if (((Unkstruct_801202A0 *)a0)->extF.kSC02_026_8017E130.unkC9) {
             func_8002A790(a0);
         }
     }
@@ -7412,13 +7412,13 @@ void func_80185D5C(void *a0) {
 
             speed += 8;
             {
-                s32 p0 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk102;
-                s32 p1 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk104;
-                s32 p2 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk106;
+                s32 p0 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk102;
+                s32 p1 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk104;
+                s32 p2 = speed * ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk106;
                 ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x10;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk102 = p0 >> 12;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk104 = p1 >> 12;
-                ((Unkstruct_801202A0 *)a0)->extD.kSC02_027_80185760.unk106 = p2 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk102 = p0 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk104 = p1 >> 12;
+                ((Unkstruct_801202A0 *)a0)->extD.kSC02_026_8017E130.unk106 = p2 >> 12;
             }
         }
     }
