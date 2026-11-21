@@ -2892,7 +2892,7 @@ int func_8017D368(int param_1)
 extern void (*D_80194854[])(void);
 
 void func_8017D3B8(void *a0) {
-    D_80194854[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80194854[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3529,7 +3529,7 @@ void func_8017E724(void *a0) {
 extern void (*D_80196DBC[])(void);
 
 void func_8017E810(void *a0) {
-    D_80196DBC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196DBC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3537,7 +3537,7 @@ void func_8017E810(void *a0) {
 extern void (*D_80196E70[])(void);
 
 void func_8017E84C(void *a0) {
-    D_80196E70[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196E70[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4743,7 +4743,7 @@ s32 func_801803F8(void *a0, s32 a1, s32 a2, s32 a3) {
 extern void (*D_80198E30[])(void);
 
 void func_801805FC(void *a0) {
-    D_80198E30[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80198E30[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4972,7 +4972,7 @@ s32 func_80180B38(s32 a0, s32 a1)
 extern void (*D_80198EC4[])(void);
 
 void func_80180C70(void *a0) {
-    D_80198EC4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80198EC4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7321,5 +7321,5 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern void (*D_801BBE9C[])(void);
 
 void func_80183F98(void *a0) {
-    D_801BBE9C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801BBE9C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

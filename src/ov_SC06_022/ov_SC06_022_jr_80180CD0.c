@@ -2898,7 +2898,7 @@ void func_80180CD0(s32 s0)
 extern void (*D_801AD420[])(void);
 
 void func_80180EA4(void *a0) {
-    D_801AD420[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AD420[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2970,7 +2970,7 @@ extern void SetTransMatrix(void *a0);
 extern void (*D_801AD44C[])(void);
 
 void func_80181168(void *a0) {
-    D_801AD44C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AD44C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

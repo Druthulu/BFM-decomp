@@ -224,7 +224,7 @@ void func_801E805C(s32 param_1, s16 *param_2) {
 void func_801E8284(void *a0) {
 
     extern void (*D_801E87F0[])(void);
-    D_801E87F0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E87F0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

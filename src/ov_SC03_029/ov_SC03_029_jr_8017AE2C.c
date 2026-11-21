@@ -3302,7 +3302,7 @@ void func_8017BE60(void *a0) {
 extern void (*D_8018B214[])(void);
 
 void func_8017BEBC(void *a0) {
-    D_8018B214[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B214[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3376,7 +3376,7 @@ void func_8017BEF8(s32 param_1) {
 extern void (*D_8018B21C[])(void);
 
 void func_8017C150(void *a0) {
-    D_8018B21C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B21C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3916,7 +3916,7 @@ void func_8017CB10(s32 a0) {
 extern void (*D_8018B334[])(void);
 
 void func_8017CC90(void *a0) {
-    D_8018B334[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B334[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4039,7 +4039,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void (*D_8018B38C[])(void);
 
 void func_8017D0E8(void *a0) {
-    D_8018B38C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B38C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4259,7 +4259,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_8018B3B4[])(void);
 
 void func_8017D9B4(void *a0) {
-    D_8018B3B4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B3B4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

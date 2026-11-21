@@ -7,7 +7,7 @@
  * Confidence medium, xref chain: if (guess_StepPairSequence(+0x20, a0 + 0x24) != 0) guess_FreeSmallObject(a0)
  * Names ledger: config/names.tsv guess_StepPairSequenceAndFree, guess_StepPairSequenceAndFree_2 */
 void SHARED_FN(s32 a0) {
-    if (((s32 (*)(void *, void *))guess_StepPairSequence)((void *)((Unkstruct_80169FE0 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
+    if (((s32 (*)(void *, void *))guess_StepPairSequence)(((Unkstruct_8011D030 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
     }
 }

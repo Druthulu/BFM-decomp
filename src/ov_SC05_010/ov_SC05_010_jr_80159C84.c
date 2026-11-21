@@ -1278,7 +1278,7 @@ void func_80159C84(u8 *p) {
     }
 
     if ((((Unkstruct_80126B58 *)p)->unk44.u & 0x200) == 0 && ((Unkstruct_80126B58 *)p)->unkD4 == 0x8000) {
-        if (((Unkstruct_80126B58 *)p)->unk234 >= 3) {
+        if (((Unkstruct_80126B58 *)p)->unk234.val >= 3) {
             t = (s32)&D_800D5F44;
             if (((Unkstruct_80126B58 *)p)->unkD0 == t) {
                 guess_SetTexAnimScript(p, (s32)&D_800D5F34);
@@ -1300,14 +1300,14 @@ after_b4c:
     if (((Unkstruct_80126B58 *)p)->unkB8.u & 0x8000) {
         if ((((Unkstruct_80126B58 *)p)->unk44.u & 0x200) == 0) {
             if (guess_GetPlayerControlScript() != 0) {
-                ((Unkstruct_80126B58 *)p)->unk234 = 0;
-                ((Unkstruct_80126B58 *)p)->unk238 = 0;
+                ((Unkstruct_80126B58 *)p)->unk234.val = 0;
+                ((Unkstruct_80126B58 *)p)->unk238.val = 0;
             }
-            switch (((Unkstruct_80126B58 *)p)->unk234) {
+            switch (((Unkstruct_80126B58 *)p)->unk234.val) {
             case 0:
-                if ((((Unkstruct_80126B58 *)p)->unk238)++ >= 4) {
-                    ((Unkstruct_80126B58 *)p)->unk238 = 0;
-                    ((Unkstruct_80126B58 *)p)->unk234 = ((Unkstruct_80126B58 *)p)->unk234 + 1;
+                if ((((Unkstruct_80126B58 *)p)->unk238.val)++ >= 4) {
+                    ((Unkstruct_80126B58 *)p)->unk238.val = 0;
+                    ((Unkstruct_80126B58 *)p)->unk234.val = ((Unkstruct_80126B58 *)p)->unk234.val + 1;
                     guess_SetAnim((s32)p, 1);
                     break;
                 }
@@ -1315,20 +1315,20 @@ after_b4c:
                 func_80154190(p, 0);
                 break;
             case 1:
-                ((Unkstruct_80126B58 *)p)->unk238 = 0;
-                ((Unkstruct_80126B58 *)p)->unk234 = ((Unkstruct_80126B58 *)p)->unk234 + 1;
+                ((Unkstruct_80126B58 *)p)->unk238.val = 0;
+                ((Unkstruct_80126B58 *)p)->unk234.val = ((Unkstruct_80126B58 *)p)->unk234.val + 1;
                 guess_SetAnim((s32)p, 0);
                 break;
             case 2:
-                if ((((Unkstruct_80126B58 *)p)->unk238)++ >= 2) {
+                if ((((Unkstruct_80126B58 *)p)->unk238.val)++ >= 2) {
                     if ((((Unkstruct_80126B58 *)p)->unk44.u & 4) != 0) {
-                        ((Unkstruct_80126B58 *)p)->unk234 = 0;
-                        ((Unkstruct_80126B58 *)p)->unk238 = 0;
+                        ((Unkstruct_80126B58 *)p)->unk234.val = 0;
+                        ((Unkstruct_80126B58 *)p)->unk238.val = 0;
                         guess_SetAnim((s32)p, 0);
                         break;
                     }
-                    ((Unkstruct_80126B58 *)p)->unk238 = 0;
-                    ((Unkstruct_80126B58 *)p)->unk234 = ((Unkstruct_80126B58 *)p)->unk234 + 1;
+                    ((Unkstruct_80126B58 *)p)->unk238.val = 0;
+                    ((Unkstruct_80126B58 *)p)->unk234.val = ((Unkstruct_80126B58 *)p)->unk234.val + 1;
                     guess_SetAnim((s32)p, 2);
                     break;
                 }
@@ -1336,7 +1336,7 @@ after_b4c:
                 break;
             case 3:
                 guess_PlaySoundUnlessSkipped(0x445);
-                ((Unkstruct_80126B58 *)p)->unk234 = ((Unkstruct_80126B58 *)p)->unk234 + 1;
+                ((Unkstruct_80126B58 *)p)->unk234.val = ((Unkstruct_80126B58 *)p)->unk234.val + 1;
                 func_80155440((s32 *)p);
                 guess_SetAnim((s32)p, 3);
                 guess_SetTexAnim((s32)p, 0x13);
@@ -1377,7 +1377,7 @@ after_b4c:
 extern void (*D_8018B18C[])(void);
 
 void func_8015A264(void *a0) {
-    D_8018B18C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018B18C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

@@ -1294,9 +1294,9 @@ void func_800D2318(s32 *p) {
     s32 s0f = (s32)(((masked >> 4) & 0xFFC0) << 16) >> 19;
     s32 r1 = func_80047D3C(s1f * s1f + s2f * s2f);
 
-    ((Unkstruct_800D2318 *)p)->unk12 = -ratan2(s0f, (s16)r1);
-    ((Unkstruct_800D2318 *)p)->unk16 = ratan2(s1f, s2f);
-    ((Unkstruct_800D2318 *)p)->unk1A = 0;
+    ((Unkstruct_8011D030 *)p)->unk10.i.hi.s = -ratan2(s0f, (s16)r1);
+    ((Unkstruct_8011D030 *)p)->unk14.i.hi.s = ratan2(s1f, s2f);
+    ((Unkstruct_8011D030 *)p)->unk18.i.hi.s = 0;
 }
 
 extern s32 func_80047D3C(s32 arg0);

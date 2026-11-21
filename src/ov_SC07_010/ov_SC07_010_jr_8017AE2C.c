@@ -4092,11 +4092,11 @@ extern u8 D_80185B70[];
 extern s32 D_80185C10;
 
 void func_8017DA30(void *arg0) {
-    if (((Unkstruct_8017DA30_5 *)arg0)->unkB8 & 0x4000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x4000) {
         guess_PlaySoundUnlessSkipped(0xC12);
         func_8013C9C4(&D_80185C10);
     }
-    if (((Unkstruct_8017DA30_5 *)arg0)->unkB8 & 0x8000) {
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x8000) {
         func_8017EBB8((void *)3, D_80185B70);
         func_8017EBB8((void *)4, D_80185B70);
         ((void (*)(s32))func_8017F5FC)(0);
@@ -4317,7 +4317,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 void func_8017E084(void *a0) {
 
     extern void (*D_80185CE8[])(void);
-    D_80185CE8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80185CE8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4419,7 +4419,7 @@ void func_8017E290(void) {
 void func_8017E298(void *a0) {
 
     extern void (*D_80185CFC[])(void);
-    D_80185CFC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80185CFC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6795,7 +6795,7 @@ void func_80181B2C(void *a0) {
     extern void (*D_80186070[])(void);
     switch (((Unkstruct_80126B58 *)a0)->unk34) {
     case 0:
-        D_80186070[((Unkstruct_80126B58 *)a0)->unk2]();
+        D_80186070[((Unkstruct_80126B58 *)a0)->unk2.u]();
         break;
     case 1:
         func_80181E20(a0);

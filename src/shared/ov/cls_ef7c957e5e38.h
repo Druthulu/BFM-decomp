@@ -10,7 +10,7 @@ void SHARED_FN(s32 param) {
     s1 = (s32 *)(((Unkstruct_80126B58 *)param)->unk20.m);
     v0 = rsin(a0 << 6);
 
-    v1 = ((Unkstruct_80126B58 *)param)->unk10;
+    v1 = ((Unkstruct_80126B58 *)param)->unk10.val;
     if (v0 < 0) {
         v0 += 0x7F;
     }
@@ -21,11 +21,11 @@ void SHARED_FN(s32 param) {
     *(s16 *)((u8 *)s1 + 0x1A) = v0;
     *(s16 *)((u8 *)s1 + 0x18) = v0;
 
-    v0 = ((Unkstruct_80126B58 *)param)->unk10;
-    ((Unkstruct_80126B58 *)param)->unk10 = v0 + 0x20;
+    v0 = ((Unkstruct_80126B58 *)param)->unk10.val;
+    ((Unkstruct_80126B58 *)param)->unk10.val = v0 + 0x20;
 
     if (guess_TickWaitTimer_2(param) != 0) {
-        v0 = ((Unkstruct_80126B58 *)param)->unk2;
-        ((Unkstruct_80126B58 *)param)->unk2 = v0 + 1;
+        v0 = ((Unkstruct_80126B58 *)param)->unk2.u;
+        ((Unkstruct_80126B58 *)param)->unk2.u = v0 + 1;
     }
 }

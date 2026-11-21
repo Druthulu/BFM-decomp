@@ -1855,7 +1855,7 @@ extern void (*D_801814B4[])(void);
 extern void (*D_801814BC[])(void);
 
 void func_80131FDC(void *a0) {
-    D_801814BC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801814BC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

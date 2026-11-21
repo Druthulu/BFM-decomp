@@ -4961,7 +4961,7 @@ s32 func_8017EF68(void)
 extern void (*D_8018BEF0[])(void);
 
 void func_8017EF98(void *a0) {
-    D_8018BEF0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018BEF0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6178,7 +6178,7 @@ s32 func_80180838(void *a0, s32 a1, s32 a2)
 extern void (*D_8018BFC8[])(void);
 
 void func_80180990(void *a0) {
-    D_8018BFC8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018BFC8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6606,7 +6606,7 @@ void func_801813D0(s32 a0) {
         goto end;
     }
 
-    ((Unkstruct_80126B58 *)s0)->unk2 = 2;
+    ((Unkstruct_80126B58 *)s0)->unk2.u = 2;
     guess_StartActorSequence(s0, D_801B0ED4);
 
     dur = 0xB4;
@@ -6916,7 +6916,7 @@ void func_80181B04(s32 a0) {
 extern void (*D_8018C0EC[])(void);
 
 void func_80181BE8(void *a0) {
-    D_8018C0EC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018C0EC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6952,7 +6952,7 @@ void func_80181CB4(void) {
 extern void (*D_8018C150[])(void);
 
 void func_80181CBC(void *a0) {
-    D_8018C150[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018C150[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7039,7 +7039,7 @@ s32 func_80181E30(void *a0)
 extern void (*D_8018C230[])(void);
 
 void func_80181E8C(void *a0) {
-    D_8018C230[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018C230[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

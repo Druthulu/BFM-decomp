@@ -3373,7 +3373,7 @@ void func_8017C03C(void *a0) {
 extern void (*D_8018F024[])(void);
 
 void func_8017C0C8(void *a0) {
-    D_8018F024[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F024[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3652,12 +3652,12 @@ void func_8017C6A0(void *a0) {
         *(s16 *)(s3 + 0x1A) = 0;
         *(s16 *)(s3 + 0x18) = 0;
 
-        ((Unkstruct_80126B58 *)a0)->unk10 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk10.val = 0;
         func_8017CE10(a0, ((Unkstruct_80126B58 *)a0)->unk2C, 0x8F);
 
         guess_PlaySoundUnlessSkipped(D_8018EFC0[((Unkstruct_80126B58 *)a0)->unk2C][0]);
 
-        ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }
@@ -3786,7 +3786,7 @@ void func_8017C8FC(void *a0) {
         idx = ((Unkstruct_80126B58 *)a0)->unk2C;
         guess_PlaySoundUnlessSkipped(D_8018EFD4[idx][0]);
 
-        ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
     }
 }
 
@@ -3983,7 +3983,7 @@ void func_8017CFBC(void *a0)
 extern void (*D_8018F094[])(void);
 
 void func_8017D0DC(void *a0) {
-    D_8018F094[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F094[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4082,7 +4082,7 @@ void func_8017D1E0(void *a0)
     }
 
     if (guess_TickWaitTimer_2((s32)a0)) {
-        ((Unkstruct_80126B58 *)a0)->unk18 += t;
+        ((Unkstruct_80126B58 *)a0)->unk18.val += t;
 
         v = *(u16 *)((s32)a0 + 0x12) - *(u16 *)((s32)a0 + 0x1A);
         *(s16 *)((s32)a0 + 0x12) = v;
@@ -4099,7 +4099,7 @@ void func_8017D1E0(void *a0)
     vec2.unk0.v1.unk4 = 1;
     func_8017D318((int)a0, &vec1, &vec2, ((Unkstruct_80126B58 *)a0)->unk24.i.lo);
 
-    if (((Unkstruct_80126B58 *)a0)->unk10 == 0) {
+    if (((Unkstruct_80126B58 *)a0)->unk10.val == 0) {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }
 }
@@ -4216,7 +4216,7 @@ void func_8017D318(int a0, SVECTOR_8017C290 *a1, SVECTOR_8017C290 *a2, s32 a3)
 extern void (*D_8018F0A0[])(void);
 
 void func_8017D63C(void *a0) {
-    D_8018F0A0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F0A0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4281,7 +4281,7 @@ void func_8017D678(void *a0)
 
         *(s16 *)((u8 *)s1 + 0x1A) = 0;
         *(s16 *)((u8 *)s1 + 0x18) = 0;
-        ((Unkstruct_80126B58 *)a0)->unk10 = 0x80;
+        ((Unkstruct_80126B58 *)a0)->unk10.val = 0x80;
         *(s16 *)((u8 *)s1 + 0x2C) = 0x10;
 
         *(u8 *)s0 = 0xFF;
@@ -4292,7 +4292,7 @@ void func_8017D678(void *a0)
         D_801EA886 = 0;
 
         guess_SetWaitTimer_2((s32 *)a0, 0xC0);
-        ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);
     }
@@ -4315,7 +4315,7 @@ void func_8017D75C(s32 param) {
     s1 = (s32 *)(((Unkstruct_80126B58 *)param)->unk20.m);
     v0 = rsin(a0 << 6);
 
-    v1 = ((Unkstruct_80126B58 *)param)->unk10;
+    v1 = ((Unkstruct_80126B58 *)param)->unk10.val;
     if (v0 < 0) {
         v0 += 0x7F;
     }
@@ -4334,8 +4334,8 @@ void func_8017D75C(s32 param) {
         v0 = D_8018F010[v0 << 1];
         guess_PlaySoundUnlessSkipped(v0);
 
-        v0 = ((Unkstruct_80126B58 *)param)->unk2;
-        ((Unkstruct_80126B58 *)param)->unk2 = v0 + 1;
+        v0 = ((Unkstruct_80126B58 *)param)->unk2.u;
+        ((Unkstruct_80126B58 *)param)->unk2.u = v0 + 1;
     }
 }
 

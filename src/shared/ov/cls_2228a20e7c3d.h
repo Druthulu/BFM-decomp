@@ -2,5 +2,5 @@
  * exemplar src/ov_SC07_001/ov_SC07_001_after.c:2794 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0 */
 extern void (*D_801832CC[])(void);
 void SHARED_FN(void *a0) {
-    D_801832CC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801832CC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

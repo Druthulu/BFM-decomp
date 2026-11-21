@@ -3066,7 +3066,7 @@ void func_8017F15C(s32 s0)
 extern void (*D_80186560[])(void);
 
 void func_8017F3C0(void *a0) {
-    D_80186560[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186560[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

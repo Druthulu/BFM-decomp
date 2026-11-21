@@ -3,5 +3,5 @@
 void SHARED_FN(s32 *a0) {
 
     extern void (*D_80180CEC[])(void);
-    D_80180CEC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180CEC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

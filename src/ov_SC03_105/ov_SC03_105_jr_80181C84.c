@@ -4375,7 +4375,7 @@ void func_80184604(s32 arg0) {
 extern void (*D_8018E8DC[])(void);
 
 void func_8018465C(void *a0) {
-    D_8018E8DC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018E8DC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

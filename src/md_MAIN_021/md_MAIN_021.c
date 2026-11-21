@@ -94,7 +94,7 @@ void func_800CAF94(s32 arg0) {
         sv[2] = 0;
         sv[0] = 0;
         sv[1] = -0x2C;
-        guess_RotTransSVWithMatrix(((Unkstruct_800CAF94_3 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
+        guess_RotTransSVWithMatrix(((Unkstruct_80126B58 *)ent)->unk20.val + 0x34, (s32)sv, (s32)sv);
         q = rot;
         func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
         q = sv;
@@ -109,8 +109,8 @@ void func_800CAF94(s32 arg0) {
         q = (void *)(arg0 + 0x38);
         func_80048D9C(q, mtx);
 
-        v = ((Unkstruct_8011D030 *)arg0)->unk1C - 1;
-        ((Unkstruct_8011D030 *)arg0)->unk1C = v;
+        v = ((Unkstruct_8011D030 *)arg0)->unk1C.s - 1;
+        ((Unkstruct_8011D030 *)arg0)->unk1C.s = v;
         if (v == -1) {
             ((Unkstruct_8011D030 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
         }
@@ -149,12 +149,12 @@ void func_800CB0C8(s32 arg0) {
     s16 t;
     void *q;
 
-    node = ((Unkstruct_800CB0C8 *)arg0)->unk20;
+    node = ((Unkstruct_8011D030 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
         t = ((Unkstruct_800CB0C8_3 *)node)->unk1E + 0x100;
         ((Unkstruct_800CB0C8_3 *)node)->unk1E = t;
         if (t < 0x1000) {
-            ent = ((Unkstruct_800CB0C8 *)arg0)->unk34;
+            ent = ((Unkstruct_8011D030 *)arg0)->unk34;
             sv[2] = 0x1000;
             sv[1] = 0x1000;
             sv[0] = 0x1000;
@@ -162,13 +162,13 @@ void func_800CB0C8(s32 arg0) {
             sv[2] = 0;
             sv[0] = 0;
             sv[1] = -0x2C;
-            guess_RotTransSVWithMatrix(((Unkstruct_800CB0C8_2 *)ent)->unk20 + 0x34, (s32)sv, (s32)sv);
+            guess_RotTransSVWithMatrix(((Unkstruct_80126B58 *)ent)->unk20.val + 0x34, (s32)sv, (s32)sv);
             q = rot;
             func_800D20C0((Pos800D20C0 *)sv, (SVECTOR_800 *)q, 5);
             q = sv;
             CAST_ALIAS(s16, arg0, 6)   = ((u16 *)q)[0];
             CAST_ALIAS(s16, arg0, 0xA) = ((u16 *)q)[1];
-            ((Unkstruct_800CB0C8 *)arg0)->unkE = ((u16 *)q)[2];
+            ((Unkstruct_8011D030 *)arg0)->unkE.s = ((u16 *)q)[2];
             q = rot;
             func_800D23D0(q);
             q = mtx;
@@ -204,7 +204,7 @@ void func_800CB0C8(s32 arg0) {
 void func_800CB33C(void *a0) {
 
     extern void (*D_800CB508[])(void);
-    D_800CB508[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB508[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -231,7 +231,7 @@ void func_800CB378(s32 arg0) {
         guess_FreeSmallObject(arg0);
         return;
     }
-    if ((((Unkstruct_800CB378 *)arg0)->unk2C & 0x8000) == 0) {
+    if ((((Unkstruct_8011D030 *)arg0)->unk2C.val.u & 0x8000) == 0) {
         v1 = &D_800CB559;
         a0p = v1 - 1;
         D_800CB55A = 0xA0;
@@ -241,7 +241,7 @@ void func_800CB378(s32 arg0) {
         D_800CB55C = 0;
         a0p[0] = 0;
         guess_BuildCircle12Points(a0p, 0x60);
-        ((Unkstruct_800CB378 *)arg0)->unk2 = (3);
+        ((Unkstruct_8011D030 *)arg0)->unk2.s = (3);
     } else {
         s0 = ((s32 (*)(void))guess_AllocSpriteObject)();
         if (s0 == 0) {
@@ -253,9 +253,9 @@ void func_800CB378(s32 arg0) {
         ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.s = 0;
         ((Unkstruct_800B5BD8 *)s0)->head.unk4.u = ((Unkstruct_800B5BD8 *)s0)->head.unk4.u | 0x50000000;
         ten = 0x10;
-        ((Unkstruct_800CB378 *)arg0)->unk20 = s0;
-        ((Unkstruct_800CB378 *)arg0)->unk1C = ten;
-        ((Unkstruct_800CB378 *)arg0)->unk2 = (CAST_SIGN(u16, arg0, 2) + 1);
+        ((Unkstruct_8011D030 *)arg0)->unk20 = s0;
+        ((Unkstruct_8011D030 *)arg0)->unk1C.s = ten;
+        ((Unkstruct_8011D030 *)arg0)->unk2.s = (CAST_SIGN(u16, arg0, 2) + 1);
     }
 }
 
@@ -268,13 +268,13 @@ void func_800CB478(s32 param_1)
     s32 a1;
     s32 counter;
 
-    a1 = ((Unkstruct_800CB478 *)param_1)->unk34;
+    a1 = ((Unkstruct_8011D030 *)param_1)->unk34;
     if (D_80078EC1 == 2) {
-        counter = ((Unkstruct_800CB478 *)param_1)->unk1C - 1;
-        ((Unkstruct_800CB478 *)param_1)->unk1C = counter;
+        counter = ((Unkstruct_8011D030 *)param_1)->unk1C.s - 1;
+        ((Unkstruct_8011D030 *)param_1)->unk1C.s = counter;
         if (counter == -1) {
             guess_SpawnSmallObject(0x21, (void *)a1, 0, 0, 0, 0x8000, 0);
-            ((Unkstruct_800CB478 *)param_1)->unk1C = 0x20;
+            ((Unkstruct_8011D030 *)param_1)->unk1C.s = 0x20;
         }
     } else {
         guess_FreeSmallObject(param_1);

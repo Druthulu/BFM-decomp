@@ -3320,7 +3320,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void (*D_80184110[])(void);
 
 void func_8017D5B8(void *a0) {
-    D_80184110[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80184110[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4958,7 +4958,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern void (*D_801925E4[])(void);
 
 void func_8017FD8C(void *a0) {
-    D_801925E4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801925E4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

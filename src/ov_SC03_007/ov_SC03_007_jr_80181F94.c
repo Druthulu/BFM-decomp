@@ -3422,7 +3422,7 @@ void func_8018283C(s32 *self)
 extern void (*D_8018C37C[])(void);
 
 void func_801829DC(void *a0) {
-    D_8018C37C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018C37C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3795,7 +3795,7 @@ void func_801830C0(s32 param_1) {
             return;
         }
 
-        ((Unkstruct_80126B58 *)pv)->unk2 = 3;
+        ((Unkstruct_80126B58 *)pv)->unk2.u = 3;
         CAST_WIDTH(s16, pv, 0x34) = 0;
         CAST_WIDTH(u16, pv, 0x5C) = 0xAA10;
 

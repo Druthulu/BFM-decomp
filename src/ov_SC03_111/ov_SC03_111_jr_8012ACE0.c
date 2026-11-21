@@ -1823,7 +1823,7 @@ void func_80131E00(Unkstruct_801202A0 *a0, s32 a1) {
 extern void (*D_80184E48[])(void);
 
 void func_80131EEC(void *a0) {
-    D_80184E48[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80184E48[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

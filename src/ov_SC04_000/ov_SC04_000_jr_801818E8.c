@@ -2992,7 +2992,7 @@ void func_80181ABC(s32 a0, void* _arg1, s32 _arg2, s32 _arg3)
 extern void (*D_801A6E0C[])(void);
 
 void func_80181C1C(void *a0) {
-    D_801A6E0C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A6E0C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3708,7 +3708,7 @@ void func_80182D78(void) {
 extern void (*D_801A700C[])(void);
 
 void func_80182DAC(void *a0) {
-    D_801A700C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A700C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

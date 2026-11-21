@@ -3176,7 +3176,7 @@ check:
 extern void (*D_80190594[])(void);
 
 void func_80184E00(void *a0) {
-    D_80190594[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190594[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3487,21 +3487,21 @@ check:
 extern void (*D_8019066C[])(void);
 
 void func_801854D8(void *a0) {
-    D_8019066C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019066C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
 extern void (*D_801906C8[])(void);
 
 void func_80185514(void *a0) {
-    D_801906C8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801906C8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
 extern void (*D_80190724[])(void);
 
 void func_80185550(void *a0) {
-    D_80190724[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190724[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

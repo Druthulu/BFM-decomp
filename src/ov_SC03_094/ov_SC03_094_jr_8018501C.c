@@ -4525,6 +4525,6 @@ extern void guess_FreeActor(void *a0);
 extern void (*D_801D06B8[])(void);
 
 void func_8018739C(void *a0) {
-    D_801D06B8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801D06B8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 

@@ -3309,7 +3309,7 @@ end:
 extern void (*D_8018C2EC[])(void);
 
 void func_8017EFEC(void *a0) {
-    D_8018C2EC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018C2EC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

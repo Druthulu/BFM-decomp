@@ -7,6 +7,6 @@ void SHARED_FN(void) {
 
     t = func_8014C050((s32)&guess_g_PlayerActor, 0x28);
     if (t != 0) {
-        ((Unkstruct_8014C050 *)t)->unk2 += 1;
+        ((Unkstruct_8011D030 *)t)->unk2.u += 1;
     }
 }

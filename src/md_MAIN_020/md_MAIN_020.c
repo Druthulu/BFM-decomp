@@ -73,7 +73,7 @@ void func_800CAF6C(s32 *a0) {
 void func_800CAFA0(void *a0) {
 
     extern void (*D_800CB26C[])(void);
-    D_800CB26C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB26C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

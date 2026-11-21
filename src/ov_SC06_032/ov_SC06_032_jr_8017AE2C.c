@@ -3306,7 +3306,7 @@ void func_8017BE60(void *a0) {
 extern void (*D_80196D1C[])(void);
 
 void func_8017BEBC(void *a0) {
-    D_80196D1C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196D1C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3369,11 +3369,11 @@ void func_8017BEF8(void *a0) {
         ang = ang32 + (r3 & 7) * 113;
         CAST_WIDTH(s16, node, 0x14) = ang;
         func_8001382C(ang, D_80196D30, vec);
-        ((Unkstruct_80126B58 *)a0)->unk10 = vec[0];
-        ((Unkstruct_80126B58 *)a0)->unk18 = vec[2];
+        ((Unkstruct_80126B58 *)a0)->unk10.val = vec[0];
+        ((Unkstruct_80126B58 *)a0)->unk18.val = vec[2];
         ((Unkstruct_80126B58 *)a0)->unk14 = 0xFFFC0000;
         guess_SetWaitTimer_2(a0, (rand() & 7) | 8);
-        ((Unkstruct_80126B58 *)a0)->unk2 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u += 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }
@@ -3418,7 +3418,7 @@ s32 param_1;
     ((Unkstruct_80126B58 *)param_1)->unk1C = cnt;
     if (cnt == -1) {
         guess_SetWaitTimer_2(param_1, 0x10);
-        ((Unkstruct_80126B58 *)param_1)->unk2 += 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u += 1;
     }
 }
 

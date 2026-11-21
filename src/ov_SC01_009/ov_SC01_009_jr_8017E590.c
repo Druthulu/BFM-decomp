@@ -3438,7 +3438,7 @@ s32 a0;
 extern void (*D_801E9A18[])(void);
 
 void func_8017F360(void *a0) {
-    D_801E9A18[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E9A18[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4272,6 +4272,6 @@ void func_801803E4(s32 param_1) {
 extern void (*D_801EEDBC[])(void);
 
 void func_80180540(void *a0) {
-    D_801EEDBC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801EEDBC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 

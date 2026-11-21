@@ -305,7 +305,7 @@ void func_801EE11C(void *a0) {
 void func_801EE278(void *a0) {
 
     extern void (*D_801EE64C[])(void);
-    D_801EE64C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801EE64C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

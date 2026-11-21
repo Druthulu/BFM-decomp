@@ -4530,7 +4530,7 @@ void func_80182DB4(void *a0) {
 extern void (*D_801A0FC4[])(void);
 
 void func_80182EA0(void *a0) {
-    D_801A0FC4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A0FC4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4538,7 +4538,7 @@ void func_80182EA0(void *a0) {
 extern void (*D_801A1078[])(void);
 
 void func_80182EDC(void *a0) {
-    D_801A1078[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A1078[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4953,7 +4953,7 @@ void func_80183858(s32 a0) {
 extern void (*D_801A2EF8[])(void);
 
 void func_80183930(void *a0) {
-    D_801A2EF8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A2EF8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5715,7 +5715,7 @@ extern u8 D_80078EC1[0];
 extern void (*D_801A3030[])(void);
 
 void func_80184A1C(void *a0) {
-    D_801A3030[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A3030[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5784,7 +5784,7 @@ void func_80184B30(void *a0)
     s1 = CAST_WIDTH(s32, s0, 0x64);
 
     if (((Unkstruct_80126B58 *)s0)->unkFC != 0) {
-        ((Unkstruct_80126B58 *)s0)->unk2 = 2;
+        ((Unkstruct_80126B58 *)s0)->unk2.u = 2;
         guess_ClearVelocityAndSetGravity((void *)s0);
         ((Unkstruct_80126B58 *)s0)->unk1C = 0x5A;
         return;
@@ -6057,7 +6057,7 @@ void func_801851B8(s32 arg0) {
 extern void (*D_801A31A8[])(void);
 
 void func_8018525C(void *a0) {
-    D_801A31A8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A31A8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6184,7 +6184,7 @@ s32 func_80185484_body(s32 a0) {
 extern void (*D_801A31B8[])(void);
 
 void func_8018555C(void *a0) {
-    D_801A31B8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A31B8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7162,7 +7162,7 @@ s32 func_80186B00(void *a0, s32 a1, s32 a2, s32 a3) {
 extern void (*D_801A5C14[])(void);
 
 void func_80186D04(void *a0) {
-    D_801A5C14[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A5C14[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7388,7 +7388,7 @@ s32 func_80187240(s32 param_1, s32 param_2)
 extern void (*D_801A5CA8[])(void);
 
 void func_80187378(void *a0) {
-    D_801A5CA8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A5CA8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

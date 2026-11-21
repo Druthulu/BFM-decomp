@@ -3638,7 +3638,7 @@ SKIP:
 extern void (*D_80182280[])(void);
 
 void func_8017D698(void *a0) {
-    D_80182280[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182280[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3763,7 +3763,7 @@ s32 func_8017D930(void) {
 extern void (*D_801822B0[])(void);
 
 void func_8017D960(void *a0) {
-    D_801822B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801822B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4082,7 +4082,7 @@ void func_8017E060(s32 *param_1)
 extern void (*D_801822C4[])(void);
 
 void func_8017E090(void *a0) {
-    D_801822C4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801822C4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

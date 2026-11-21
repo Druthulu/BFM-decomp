@@ -2837,7 +2837,7 @@ void func_8017F2AC(int param_1)
 extern void (*D_801A35AC[])(void);
 
 void func_8017F320(void *a0) {
-    D_801A35AC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A35AC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2877,7 +2877,7 @@ void func_8017F35C(s32 s1)
 extern void (*D_801A35BC[])(void);
 
 void func_8017F464(void *a0) {
-    D_801A35BC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A35BC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

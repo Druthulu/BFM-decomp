@@ -1767,7 +1767,7 @@ extern void (*D_80181914[])(void *);
 s32 func_8015EE08(s32 a0) {
 
     extern void (*D_80181C08[])(void);
-    D_80181C08[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181C08[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -1892,7 +1892,7 @@ extern void guess_GetPlayerFramePointsB(s32, s32);
 s32 func_8015F7D4(s32 a0) {
 
     extern void (*D_80181C50[])(void);
-    D_80181C50[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181C50[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3092,7 +3092,7 @@ extern void (*D_80182158[])(void);
 extern void (*D_80182160[])(void);
 
 void func_801663FC(void *a0) {
-    D_80182160[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182160[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3104,7 +3104,7 @@ void func_801663FC(void *a0) {
 extern void (*D_80182228[])(void);
 
 void func_80166618(void *a0) {
-    D_80182228[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182228[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3483,7 +3483,7 @@ extern void (*D_80182390[])(void);
 extern void (*D_8018239C[])(void);
 
 void func_8016A700(void *a0) {
-    D_8018239C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018239C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

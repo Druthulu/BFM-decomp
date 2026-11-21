@@ -3358,7 +3358,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void (*D_80181E10[])(void);
 
 void func_8017D6D0(void *a0) {
-    D_80181E10[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181E10[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3429,7 +3429,7 @@ void func_8017D820(void) {
 extern void (*D_80181E5C[])(void);
 
 void func_8017D828(void *a0) {
-    D_80181E5C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181E5C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3462,7 +3462,7 @@ void func_8017D8CC(void) {
 extern void (*D_80181ED8[])(void);
 
 void func_8017D8DC(void *a0) {
-    D_80181ED8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181ED8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3587,7 +3587,7 @@ void func_8017DB10(s32 a0) {
 extern void (*D_80181F54[])(void);
 
 void func_8017DC9C(void *a0) {
-    D_80181F54[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181F54[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3707,7 +3707,7 @@ void *a0;
 extern void (*D_80181FD0[])(void);
 
 void func_8017DECC(void *a0) {
-    D_80181FD0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181FD0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3808,7 +3808,7 @@ void func_8017E098(s32 param_1)
     guess_AddVertSpeed(param_1, 0x18000);
     guess_ApplyVertSpeed(param_1);
 
-    if (((Unkstruct_80126B58 *)param_1)->unk234 == 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk234.val == 0) {
         if (((Unkstruct_80126B58 *)param_1)->unk34 >= 0) {
             if (((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) {
                 ((Unkstruct_80126B58 *)param_1)->unkB8.u = ((Unkstruct_80126B58 *)param_1)->unkBA;

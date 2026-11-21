@@ -3110,7 +3110,7 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 extern void (*D_801B89F8[])(void);
 
 void func_80185D84(void *a0) {
-    D_801B89F8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801B89F8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

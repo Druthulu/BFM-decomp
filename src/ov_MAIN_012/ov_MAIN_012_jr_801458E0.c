@@ -3704,7 +3704,7 @@ void func_80151878(void) {
 void func_80151944(void *a0) {
 
     extern void (*D_80180090[])(void);
-    D_80180090[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180090[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3728,7 +3728,7 @@ void func_80151944(void *a0) {
 void func_80151D24(void *a0) {
 
     extern void (*D_801800A0[])(void);
-    D_801800A0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801800A0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3755,7 +3755,7 @@ void func_80151D24(void *a0) {
 void func_80152058(void *a0) {
 
     extern void (*D_801800C4[])(void);
-    D_801800C4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801800C4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3880,7 +3880,7 @@ void func_801523F4(s32 arg0)
 void func_80152698(void *a0) {
 
     extern void (*D_801800F4[])(void);
-    D_801800F4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801800F4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3898,7 +3898,7 @@ void func_80152698(void *a0) {
 void func_8015282C(void *a0) {
 
     extern void (*D_8018010C[])(void);
-    D_8018010C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018010C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3954,7 +3954,7 @@ void func_801528B0(s32 arg0)
 void func_80152B6C(void *a0) {
 
     extern void (*D_80180120[])(void);
-    D_80180120[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180120[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3975,7 +3975,7 @@ void func_80152B6C(void *a0) {
 void func_80152D24(void *a0) {
 
     extern void (*D_8018013C[])(void);
-    D_8018013C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018013C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4032,7 +4032,7 @@ void func_80152DA8(s32 arg0)
 void func_80153060(void *a0) {
 
     extern void (*D_80180150[])(void);
-    D_80180150[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180150[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4059,7 +4059,7 @@ void func_80153060(void *a0) {
 void func_80153320(void *a0) {
 
     extern void (*D_80180164[])(void);
-    D_80180164[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180164[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

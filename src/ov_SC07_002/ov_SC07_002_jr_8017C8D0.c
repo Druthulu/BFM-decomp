@@ -3368,7 +3368,7 @@ void func_8017E5D4(s32 param_1)
 extern void (*D_8018A230[])(void);
 
 void func_8017E604(void *a0) {
-    D_8018A230[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A230[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5593,7 +5593,7 @@ void func_8018206C(void *a0)
 extern void (*D_8018A444[])(void);
 
 void func_80182228(void *a0) {
-    D_8018A444[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A444[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5788,7 +5788,7 @@ void func_8018267C(void *a0)
 extern void (*D_8018A484[])(void);
 
 void func_801827DC(void *a0) {
-    D_8018A484[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A484[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5835,7 +5835,7 @@ void func_801828FC(void) {
 extern void (*D_8018A4A0[])(void);
 
 void func_80182904(void *a0) {
-    D_8018A4A0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A4A0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6566,7 +6566,7 @@ kill:
 extern void (*D_8018A528[])(void);
 
 void func_80183A34(void *a0) {
-    D_8018A528[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A528[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6574,7 +6574,7 @@ void func_80183A34(void *a0) {
 extern void (*D_8018A53C[])(void);
 
 void func_80183A70(void *a0) {
-    D_8018A53C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A53C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -8142,7 +8142,7 @@ s32 func_80185AE8(u32 a0v)
 extern void (*D_801987F8[])(void);
 
 void func_80185B94(void *a0) {
-    D_801987F8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801987F8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -8229,7 +8229,7 @@ void func_80185D40(s32 param_1)
     guess_AddVertSpeed(param_1, 0x18000);
     guess_ApplyVertSpeed(param_1);
 
-    if (((Unkstruct_80126B58 *)param_1)->unk234 == 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk234.val == 0) {
         if (((Unkstruct_80126B58 *)param_1)->unk34 >= 0) {
             if (((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) {
                 ((Unkstruct_80126B58 *)param_1)->unkB8.u = ((Unkstruct_80126B58 *)param_1)->unkBA;
@@ -8511,7 +8511,7 @@ void func_801863B0(s32 param_1) {
 extern void (*D_80198BA0[])(void);
 
 void func_80186458(void *a0) {
-    D_80198BA0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80198BA0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

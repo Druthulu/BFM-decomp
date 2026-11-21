@@ -3609,7 +3609,7 @@ extern void guess_RotTransSVWithMatrix(int a0, int a1, int a2);
 extern void (*D_8018DE08[])(void);
 
 void func_80181E1C(void *a0) {
-    D_8018DE08[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018DE08[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3897,7 +3897,7 @@ extern void func_8013CAE8(void);
 extern void (*D_8018E0E4[])(void);
 
 void func_801825B0(void *a0) {
-    D_8018E0E4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018E0E4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

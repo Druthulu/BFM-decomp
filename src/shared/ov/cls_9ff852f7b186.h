@@ -2,9 +2,9 @@
  * exemplar src/ov_SC03_013/ov_SC03_013_jr_8017C730.c:2992 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_80170068.h rejected by type_census --check */
 void SHARED_FN(u8 *a0) {
-    if (guess_GetTextWindowResult(((Unkstruct_8017DE70 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017DE70 *)a0)->unk198);
-        ((Unkstruct_8017DE70 *)a0)->unk198 = 0;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk198 = 0;
         func_80171928(a0);
     }
 }

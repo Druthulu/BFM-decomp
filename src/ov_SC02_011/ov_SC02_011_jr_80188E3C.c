@@ -333,7 +333,7 @@ void func_80189324(s32 a0) {
 extern void (*D_801960D4[])(void);
 
 void func_801894E0(void *a0) {
-    D_801960D4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801960D4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -647,7 +647,7 @@ void func_80189A50(void) {
 extern void (*D_801961D4[])(void);
 
 void func_80189B28(void *a0) {
-    D_801961D4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801961D4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -1021,7 +1021,7 @@ void func_8018A438(s32 param_1) {
 extern void (*D_801D626C[])(void);
 
 void func_8018A5E4(void *a0) {
-    D_801D626C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801D626C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2483,7 +2483,7 @@ void func_8018BFBC(u16 *s0)
 extern void (*D_801D6FDC[])(void);
 
 void func_8018C040(void *a0) {
-    D_801D6FDC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801D6FDC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2491,7 +2491,7 @@ void func_8018C040(void *a0) {
 extern void (*D_801D7024[])(void);
 
 void func_8018C07C(void *a0) {
-    D_801D7024[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801D7024[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4043,7 +4043,7 @@ s32 func_8018DE30(void *a0, SVECTOR *a1)
 extern void (*D_801DF7B0[])(void);
 
 void func_8018DF08(void *a0) {
-    D_801DF7B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801DF7B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4301,7 +4301,7 @@ s32 func_8018E208(void *a0)
 extern void (*D_801DF818[])(void);
 
 void func_8018E358(void *a0) {
-    D_801DF818[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801DF818[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4362,7 +4362,7 @@ void func_8018E420(s32 a0, u8 *a1) {
 extern void (*D_801DF84C[])(void);
 
 void func_8018E4BC(void *a0) {
-    D_801DF84C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801DF84C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4705,7 +4705,7 @@ void func_8018E8A0(void *a0)
 extern void (*D_801DF89C[])(void);
 
 void func_8018EBEC(void *a0) {
-    D_801DF89C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801DF89C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4740,7 +4740,7 @@ void func_8018EC28(void *a0)
 extern void (*D_801E33D8[])(void);
 
 void func_8018ECA8(void *a0) {
-    D_801E33D8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E33D8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4994,7 +4994,7 @@ s32 func_8018F138(void) {
 extern void (*D_801E3400[])(void);
 
 void func_8018F19C(void *a0) {
-    D_801E3400[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E3400[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5340,7 +5340,7 @@ s32 func_8018F6FC(s32 param_1) {
 extern void (*D_801E3B1C[])(void);
 
 void func_8018F99C(void *a0) {
-    D_801E3B1C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E3B1C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5425,7 +5425,7 @@ void func_8018F9D8(s32 param_1) {
 extern void (*D_801E4210[])(void);
 
 void func_8018FB50(void *a0) {
-    D_801E4210[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E4210[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5433,7 +5433,7 @@ void func_8018FB50(void *a0) {
 extern void (*D_801E4224[])(void);
 
 void func_8018FB8C(void *a0) {
-    D_801E4224[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E4224[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5673,7 +5673,7 @@ void func_8018FE94(void *a0)
 extern void (*D_801E4858[])(void);
 
 void func_801900B4(void *a0) {
-    D_801E4858[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E4858[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5691,7 +5691,7 @@ extern void guess_FreeActor(void *a0);
 extern void (*D_801E8654[])(void);
 
 void func_80190184(void *a0) {
-    D_801E8654[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E8654[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5891,7 +5891,7 @@ s32 func_801904BC(void *param_1)
 extern void (*D_801E86CC[])(void);
 
 void func_80190610(void *a0) {
-    D_801E86CC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E86CC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

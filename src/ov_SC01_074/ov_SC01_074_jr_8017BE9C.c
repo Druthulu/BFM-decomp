@@ -3370,14 +3370,14 @@ s32 a0;
     int s1byte;
 
     p = a0;
-    do { v = ((Unkstruct_8017D528 *)p)->unk20E; } while (0);
-    (((Unkstruct_8017D528 *)p)->unk20E) = v + 1;
+    do { v = ((Unkstruct_80126B58 *)p)->unk20E.u; } while (0);
+    (((Unkstruct_80126B58 *)p)->unk20E.u) = v + 1;
     s1byte = D_80182200[(s16)v];
     if (s1byte == 0) {
         guess_RequestSound(0xBE7, 0);
         func_80171990((u8 *)p);
     }
-    func_8017D98C((void *)p, ((Unkstruct_8017D528 *)p)->unk20C, ((Unkstruct_8017D528 *)p)->unk200, s1byte);
+    func_8017D98C((void *)p, ((Unkstruct_80126B58 *)p)->unk20C.s, ((Unkstruct_80126B58 *)p)->unk200, s1byte);
 }
 
 
@@ -3499,8 +3499,8 @@ void func_8017D80C(s32 a0)
 extern s32 func_80171990(u8 *a0);
 /* $v0 at exit: result of func_80171990 or addiu $v0, $v0, -0x1 at ov_SC01_074:0x8017D8B8; no byte-neutral return: `return 0;` moved `move v0,zero` at +0x28, ov_SC01_074 objdump */
     s32 func_8017D8A8(s32 arg0) {
-        ((Unkstruct_8017D1E0 *)arg0)->unk200 = ((Unkstruct_8017D1E0 *)arg0)->unk200 - 1;
-        if (((Unkstruct_8017D1E0 *)arg0)->unk200 == -1) {
+        ((Unkstruct_80126B58 *)arg0)->unk200 = ((Unkstruct_80126B58 *)arg0)->unk200 - 1;
+        if (((Unkstruct_80126B58 *)arg0)->unk200 == -1) {
             ((void (*)(void))func_80171990)();
         }
     }
@@ -3758,7 +3758,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void (*D_8018223C[])(void);
 
 void func_8017E020(void *a0) {
-    D_8018223C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018223C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

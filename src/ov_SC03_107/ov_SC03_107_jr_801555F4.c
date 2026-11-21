@@ -2309,7 +2309,7 @@ void func_8015795C(int param_1)
             ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_800D5178);
             ((void (*)(int, void *))guess_SetMoveVector)(param_1, &D_801847A4);
             ((void (*)(int, int))guess_SetVertSpeed)(param_1, 0xfff40000);
-            ((Unkstruct_80126B58 *)param_1)->unk2 = 4;
+            ((Unkstruct_80126B58 *)param_1)->unk2.u = 4;
         }
         ((void (*)(int))func_801725A4)(param_1);
     }
@@ -2381,7 +2381,7 @@ void func_80157D20(void *param_1, s32 param_2)
 void func_80157DC4(void *a0) {
 
     extern void (*D_801847F4[])(void);
-    D_801847F4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801847F4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2402,7 +2402,7 @@ void func_80157DC4(void *a0) {
 void func_80157FC4(void *a0) {
 
     extern void (*D_801847FC[])(void);
-    D_801847FC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801847FC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2430,7 +2430,7 @@ void func_80158038(void * param)
     guess_SetAnimScript((s32 *)param, (s32)&D_800D51E0);
     guess_SetTexAnim(param, 0x15);
     guess_SetMoveVector((s32 *)param, &D_801847C8);
-    ((Unkstruct_80126B58 *)param)->unk234 = 0;
+    ((Unkstruct_80126B58 *)param)->unk234.val = 0;
     guess_SpawnSmallObjectAtOrigin(5, param, 0xc, 0);
     guess_PlaySoundUnlessSkipped(0x455);
     guess_NextStep((void *)param);
@@ -2448,7 +2448,7 @@ void func_80158038(void * param)
 void func_8015824C(void *a0) {
 
     extern void (*D_80184808[])(void);
-    D_80184808[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80184808[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2492,13 +2492,13 @@ void func_80158434(s32 param_1)
 
     ((Unkstruct_80126B58 *)param_1)->unk44.u = ((Unkstruct_80126B58 *)param_1)->unk44.u | 2;
     if ((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x4000) != 0) {
-        ((Unkstruct_80126B58 *)param_1)->unk234 = ((Unkstruct_80126B58 *)param_1)->unk234 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk234.val = ((Unkstruct_80126B58 *)param_1)->unk234.val + 1;
         ((s32 (*)(void))guess_ClearStoodOnActor)();
         ((void (*)(s32))guess_ClearTiltVectors)(param_1);
         ((void (*)(s32, s32))guess_SetVertSpeed)(param_1, 0xFFFA0000);
         ((void (*)(s32, s32))guess_SetMoveVector)(param_1, (s32)&D_801847D8);
     }
-    if (((Unkstruct_80126B58 *)param_1)->unk234 != 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk234.val != 0) {
         guess_AddVertSpeed(param_1, 0x10000);
         guess_ApplyVertSpeed(param_1);
         guess_AddMoveVectorThenSetVelocity(param_1, 0, 0, 0);
@@ -2736,7 +2736,7 @@ void func_80158BB0(void *arg0) {
     guess_PlaySoundUnlessSkipped(0x456);
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
-    ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
+    ((Unkstruct_80126B58 *)arg0)->unk234.val = 0xE30000;
     ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk10.u = 0;
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);

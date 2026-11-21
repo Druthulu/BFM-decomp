@@ -3316,7 +3316,7 @@ void func_8017DDC4(void *a0)
 extern void (*D_801A4308[])(void);
 
 void func_8017DFE0(void *a0) {
-    D_801A4308[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A4308[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3869,7 +3869,7 @@ void func_8017ED0C(s32 a0) {
 extern void (*D_801A5124[])(void);
 
 void func_8017ED80(void *a0) {
-    D_801A5124[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A5124[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3913,7 +3913,7 @@ extern void guess_FreeActor(void *a0);
 extern void (*D_801A5440[])(void);
 
 void func_8017EEB0(void *a0) {
-    D_801A5440[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A5440[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4888,14 +4888,14 @@ extern void (*D_801AA28C[])(void);
 
 /* $v0 at exit: leftover of the void (*D_801AA28C[])(void) callee; no byte-neutral return: `return 0;` puts `move v0,zero` at +0x30 and moves `addiu sp` into the jr delay slot +0x38, ov_SC02_026 objdump */
 s32 func_801809BC(void *a0) {
-    D_801AA28C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AA28C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
 extern void (*D_801AA340[])(void);
 
 void func_801809F8(void *a0) {
-    D_801AA340[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AA340[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6098,7 +6098,7 @@ s32 func_801825A4(void *a0, s32 a1, s32 a2, s32 a3) {
 extern void (*D_801AC300[])(void);
 
 void func_801827A8(void *a0) {
-    D_801AC300[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AC300[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6322,7 +6322,7 @@ extern s32 rsin(s32 a0);
 extern void (*D_801AC394[])(void);
 
 void func_80182E1C(void *a0) {
-    D_801AC394[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AC394[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -8121,5 +8121,5 @@ extern s32 func_8012CBCC(s32 a0);
 extern void (*D_801CCCB0[])(void);
 
 void func_80185404(void *a0) {
-    D_801CCCB0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801CCCB0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

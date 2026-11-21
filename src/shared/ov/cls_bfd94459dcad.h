@@ -9,9 +9,9 @@ void SHARED_FN(s32 param_1)
     CAST_WIDTH(u16, param_1, 0x10) = 0x200;
     *(u16 *)(param_1 + 0x12) = 0x200;
     ((Unkstruct_80126B58 *)param_1)->unk24.i.lo = (r & 0x1FF) + (CAST_WIDTH(u8, param_1, 0x30) << 9);
-    ((Unkstruct_80126B58 *)param_1)->unk18 = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk18.val = 0;
     ((Unkstruct_80126B58 *)param_1)->unk14 = 0;
     ((Unkstruct_80126B58 *)param_1)->unk30 = CAST_SIGN(u32, param_1, 0x30) >> 8;
     guess_SetWaitTimer_2((s32 *)param_1, rand() & 7);
-    ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+    ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
 }

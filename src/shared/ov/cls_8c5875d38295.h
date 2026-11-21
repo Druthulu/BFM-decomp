@@ -6,9 +6,9 @@
         u8 *s0 = (u8 *)a0;
         s32 v0;
         s32 v1;
-        v0 = guess_GetTextWindowResult(((Unkstruct_8017F2C4 *)s0)->unk198);
+        v0 = guess_GetTextWindowResult(((Unkstruct_80126B58 *)s0)->unk198);
         if (v0 != 0) {
-            guess_CloseTextWindow(((Unkstruct_8017F2C4 *)s0)->unk198);
+            guess_CloseTextWindow(((Unkstruct_80126B58 *)s0)->unk198);
             v1 = s0[0x214];
             s0[0x4D] = (s0[0x4D]) - 1;
             s0[0x214] = v1 + 1;

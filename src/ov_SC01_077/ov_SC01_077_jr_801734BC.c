@@ -2885,7 +2885,7 @@ extern void (*D_8018A1A4[])(void*);
 extern s32 func_80175268(s32);
 
 void func_80175184(s32* arg0) {
-    u16 v1 = ((Unkstruct_80126B58 *)arg0)->unk2;
+    u16 v1 = ((Unkstruct_80126B58 *)arg0)->unk2.u;
     if (v1 < 2) {
         D_8018A1A4[v1](arg0);
     } else {
@@ -3266,7 +3266,7 @@ void func_80175DA8(param_1)
 
     {
         u8 *q2 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
-        t = (s32)(((Unkstruct_80175DA8 *)base)->unk2E << 16);
+        t = (s32)(((Unkstruct_80078E78 *)base)->tiredness_raw.i.hi << 16);
         if (t != 0) {
             q2[0x49] = D_8018A2CC[t >> 20];
         } else {
@@ -3276,7 +3276,7 @@ void func_80175DA8(param_1)
 
     {
         u8 *q3 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
-        v = ((Unkstruct_80175DA8 *)base)->unk40;
+        v = ((Unkstruct_80078E78 *)base)->bp_current.u;
         if (v < 100) {
             q3[0x5D] = D_8018A2B8[v / 5];
         } else {
@@ -3284,7 +3284,7 @@ void func_80175DA8(param_1)
         }
     }
 
-    do { fl = ((Unkstruct_80175DA8 *)base)->unk1E & 0x8000; } while (0);
+    do { fl = ((Unkstruct_80078E78 *)base)->unk1C.i.hi & 0x8000; } while (0);
     /* §5a zero-byte sched fence: without it sched1 hoists the `la D_800D43D4`
        into the lh's load-delay slot, dropping the target's nop (-1 ins). */
     arg = (s32)&D_800D43D4;

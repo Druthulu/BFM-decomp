@@ -1999,7 +1999,7 @@ lout:
     }
     ((Unkstruct_8011D030 *)arg0)->unk2A.s = 4 - (var_s0 * 4);
     ((Unkstruct_8011D030 *)arg0)->unk28.s = var_s0;
-    ((Unkstruct_8011D030 *)arg0)->unk1C = 0xB;
+    ((Unkstruct_8011D030 *)arg0)->unk1C.s = 0xB;
     ((Unkstruct_8011D030 *)arg0)->unk2.u++;
 }
 
@@ -2348,7 +2348,7 @@ s32 func_8016B9F8(s32 param_1)
 extern void (*D_8018D580[])(void);
 
 void func_8016BBA4(void *a0) {
-    D_8018D580[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D580[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2423,7 +2423,7 @@ void func_8016BCC0(void *arg0) {
         ((Unkstruct_800B5BD8 *)temp_s0)->head.unk18.w.unk18.u = 0x1000U;
         ((Unkstruct_800B5BD8 *)temp_s0)->head.unk18.w.unk1A.u = 0x1000U;
         guess_SetWaitTimer_2(arg0, ((Unkstruct_80126B58 *)arg0)->unk30);
-        ((Unkstruct_80126B58 *)arg0)->unk2 = (u16) (((Unkstruct_80126B58 *)arg0)->unk2 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk2.u = (u16) (((Unkstruct_80126B58 *)arg0)->unk2.u + 1);
     }
 }
 
@@ -2576,7 +2576,7 @@ void func_8016BFD0(s32 a0, s32 a1, s32 a2, s32 a3, void *a4) {
 extern void (*D_8018D5B0[])(void);
 
 void func_8016C14C(void *a0) {
-    D_8018D5B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D5B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2808,7 +2808,7 @@ void func_8016C998(s32 param_1)
     if ((D_80126B9C & 0x20) == 0) {
         return;
     }
-    if ((((Unkstruct_8011D030 *)param_1)->unk1C == 0) ||
+    if ((((Unkstruct_8011D030 *)param_1)->unk1C.s == 0) ||
         (((Unkstruct_8011D030 *)param_1)->unk10.i.hi.s < D_80126CE0)) {
         ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.s = D_80126CE0;
         i = 0;
@@ -2832,9 +2832,9 @@ void func_8016C998(s32 param_1)
         *(s16 *)(r + 6) = ((Unkstruct_8011D030 *)param_1)->unk6.s;
         *(s16 *)(r + 0xa) = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.s;
         *(s16 *)(r + 0xe) = ((Unkstruct_8011D030 *)param_1)->unkE.s;
-        ((Unkstruct_8011D030 *)param_1)->unk1C = 0x10;
+        ((Unkstruct_8011D030 *)param_1)->unk1C.s = 0x10;
     } else {
-        ((Unkstruct_8011D030 *)param_1)->unk1C = ((Unkstruct_8011D030 *)param_1)->unk1C - 1;
+        ((Unkstruct_8011D030 *)param_1)->unk1C.s = ((Unkstruct_8011D030 *)param_1)->unk1C.s - 1;
     }
 }
 
@@ -2843,7 +2843,7 @@ void func_8016C998(s32 param_1)
 extern void (*D_8018D5B8[])(void);
 
 void func_8016CB84(void *a0) {
-    D_8018D5B8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D5B8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3057,7 +3057,7 @@ short func_8016CF04(s32 param_1, s32 param_2) {
 extern void (*D_8018D5D4[])(void);
 
 void func_8016D19C(void *a0) {
-    D_8018D5D4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D5D4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3114,7 +3114,7 @@ void func_8016D1D8(int param_1) {
             ((Unkstruct_8011D030 *)param_1)->unk2.u = ((Unkstruct_8011D030 *)param_1)->unk2.u + 1;
             *(u16 *)(param_1 + 0x1a) = uVar1;
         }
-        ((Unkstruct_8011D030 *)param_1)->unk1C = 8;
+        ((Unkstruct_8011D030 *)param_1)->unk1C.s = 8;
         guess_PlaySoundUnlessSkipped(0x647);
     } else {
         D_801B8AE0[1] = 0xE0;
@@ -3147,7 +3147,7 @@ void func_8016D1D8(int param_1) {
             ((Unkstruct_8011D030 *)param_1)->unk18.val = (int)sv.vz << 0xc;
             *(short *)(iVar2 + 0x1a) = sVar4;
             *(short *)(iVar2 + 0x18) = sVar4;
-            ((Unkstruct_8011D030 *)param_1)->unk1C = 0x10;
+            ((Unkstruct_8011D030 *)param_1)->unk1C.s = 0x10;
             ((Unkstruct_8011D030 *)param_1)->unk2.u = 2;
         }
     }
@@ -3158,7 +3158,7 @@ void func_8016D1D8(int param_1) {
 extern void (*D_8018D5DC[])(void);
 
 void func_8016D428(void *a0) {
-    D_8018D5DC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D5DC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3360,7 +3360,7 @@ end:
 extern void (*D_8018D678[])(void);
 
 void func_8016DEA4(void *a0) {
-    D_8018D678[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D678[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3484,7 +3484,7 @@ void func_8016DF5C(s32 param_1)
 extern void (*D_8018D6D4[])(void);
 
 void func_8016E5B8(void *a0) {
-    D_8018D6D4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018D6D4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

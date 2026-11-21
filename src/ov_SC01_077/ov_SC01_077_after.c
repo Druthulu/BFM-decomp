@@ -2768,7 +2768,7 @@ extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_co
 void func_80151944(void *a0) {
 
     extern void (*D_8018882C[])(void);
-    D_8018882C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018882C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2809,7 +2809,7 @@ extern void (*D_8018883C[])(void *);
 
 void func_80151D24(void *a0)
 {
-    D_8018883C[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_8018883C[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80151D60.h"
@@ -2831,7 +2831,7 @@ extern void (*D_80188860[])(void *);
 
 void func_80152058(void *a0)
 {
-    D_80188860[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188860[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80152094.h"
@@ -2879,7 +2879,7 @@ extern void (*D_80188874[])(void *);
 
 void func_80152370(void *a0)
 {
-    D_80188874[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188874[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_801523AC.h"
@@ -2944,7 +2944,7 @@ extern void (*D_80188890[])(void *);
 
 void func_80152698(void *a0)
 {
-    D_80188890[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188890[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_801526D4.h"
@@ -2957,7 +2957,7 @@ extern void (*D_801888A8[])(void *);
 
 void func_8015282C(void *a0)
 {
-    D_801888A8[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801888A8[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80152868.h"
@@ -3018,7 +3018,7 @@ extern void (*D_801888D8[])(void *);
 
 void func_80152D24(void *a0)
 {
-    D_801888D8[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801888D8[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80152D60.h"
@@ -3065,7 +3065,7 @@ extern void (*D_801888EC[])(void *);
 
 void func_80153060(void *a0)
 {
-    D_801888EC[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801888EC[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_8015309C.h"
@@ -3084,7 +3084,7 @@ extern void (*D_80188900[])(void *);
 
 void func_80153320(void *a0)
 {
-    D_80188900[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188900[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_8015335C.h"

@@ -2736,9 +2736,9 @@ void func_8017CD9C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 mnc, mxc;
     s16 my, mny, mx, mn;
 
-    if (((Unkstruct_8017CD9C_4 *)arg0)->unk0 != 0) return;
+    if (((Unkstruct_8017FA5C *)arg0)->unk0 != 0) return;
 
-    lim = func_800491EC() + ((Unkstruct_8017CD9C_4 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017FA5C *)arg0)->unk64;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
 
@@ -3058,7 +3058,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_8018636C[])(void);
 
 void func_8017DC94(void *a0) {
-    D_8018636C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018636C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5082,7 +5082,7 @@ void func_80180F44(void)
 extern void (*D_801A4770[])(void);
 
 void func_80181020(void *a0) {
-    D_801A4770[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A4770[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5480,7 +5480,7 @@ ret0:
 extern void (*D_801A47C4[])(void);
 
 void func_8018187C(void *a0) {
-    D_801A47C4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A47C4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5655,7 +5655,7 @@ s32 func_80181CDC(s32 a0, s32 a1) {
 extern void (*D_801A9F5C[])(void);
 
 void func_80181E40(void *a0) {
-    D_801A9F5C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A9F5C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

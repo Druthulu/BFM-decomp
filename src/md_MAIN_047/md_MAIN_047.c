@@ -34,7 +34,7 @@ void *a0;
 void func_800CCB84(void *a0) {
 
     extern void (*D_800CD6C8[])(void);
-    D_800CD6C8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CD6C8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -133,7 +133,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
 
 
     Trail_md_MAIN_047_800CCDE8 *p = (Trail_md_MAIN_047_800CCDE8 *)D_800CD6E0;
-    s32 node = ((Unkstruct_800CCDE8 *)param_1)->unk34;
+    s32 node = ((Unkstruct_8011D030 *)param_1)->unk34;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];
@@ -243,8 +243,8 @@ void func_800CD314(void *arg0) {
     s32 idx;
 
     s0 = (s32)arg0;
-    cnt = ((Unkstruct_800CD314 *)s0)->unk1C;
-    p = ((Unkstruct_800CD314 *)s0)->unk20;
+    cnt = ((Unkstruct_8011D030 *)s0)->unk1C.s;
+    p = ((Unkstruct_8011D030 *)s0)->unk20;
 
     if (cnt < 0x20) {
         if ((cnt & 7) == 0) {
@@ -252,20 +252,20 @@ void func_800CD314(void *arg0) {
             CAST_ALIAS(s32, p, 4) = (((Unkstruct_800CD314_2 *)p)->unk4 & 0x7FFFFFFF) | (((Unkstruct_800CD314_2 *)D_8011F758)->unk4 & (s32)0x80000000);
             CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800CD314_2 *)D_8011F758)->unk18;
             ((Unkstruct_800CD314_2 *)p)->unk1A = ((Unkstruct_800CD314_2 *)D_8011F758)->unk1A;
-            t = ((Unkstruct_800CD314 *)s0)->unk4C;
-            ((Unkstruct_800CD314 *)s0)->unk6 = t;
-            tb = ((Unkstruct_800CD314 *)s0)->unk54;
-            ((Unkstruct_800CD314 *)s0)->unkE = tb;
-            ((Unkstruct_800CD314 *)s0)->unk30 = 0;
-            t = ((Unkstruct_800CD314 *)s0)->unk50;
-            ((Unkstruct_800CD314 *)s0)->unkA = t - 8;
+            t = ((Unkstruct_8011D030 *)s0)->unk4C;
+            ((Unkstruct_8011D030 *)s0)->unk6.s = t;
+            tb = ((Unkstruct_8011D030 *)s0)->unk54;
+            ((Unkstruct_8011D030 *)s0)->unkE.s = tb;
+            ((Unkstruct_8011D030 *)s0)->unk30.val.s = 0;
+            t = ((Unkstruct_8011D030 *)s0)->unk50;
+            ((Unkstruct_8011D030 *)s0)->unk8.i.hi.s = t - 8;
             guess_PlaySoundUnlessSkipped(0x8E2);
         }
-        idx = ((Unkstruct_800CD314 *)s0)->unk30;
+        idx = ((Unkstruct_8011D030 *)s0)->unk30.val.s;
         idx += 0x10;
-        ((Unkstruct_800CD314 *)s0)->unk30 = idx;
+        ((Unkstruct_8011D030 *)s0)->unk30.val.s = idx;
         guess_BuildCircle12Points((void *)&D_800CD7A4, idx);
-        ((Unkstruct_800CD314 *)s0)->unk1C = ((Unkstruct_800CD314 *)s0)->unk1C + 1;
+        ((Unkstruct_8011D030 *)s0)->unk1C.s = ((Unkstruct_8011D030 *)s0)->unk1C.s + 1;
         return;
     }
     __asm__ __volatile__("" ::: "a0");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
@@ -278,7 +278,7 @@ void func_800CD314(void *arg0) {
 void func_800CD458(void *a0) {
 
     extern void (*D_800CD6D0[])(void);
-    D_800CD6D0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CD6D0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -287,7 +287,7 @@ void func_800CD458(void *a0) {
 void func_800CD494(void *a0) {
 
     extern void (*D_800CD6D8[])(void);
-    D_800CD6D8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CD6D8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -301,7 +301,7 @@ void func_800CD4D0(void *arg0) {
     short i;
     s32 k;
 
-    ((Unkstruct_800CCDE8 *)arg0)->unk2C = 0;
+    ((Unkstruct_8011D030 *)arg0)->unk2C.val.s = 0;
     i = 0;
     p = (unsigned short *)&guess_g_SmallObjectPool;
     k = 0x3B;
@@ -317,7 +317,7 @@ void func_800CD4D0(void *arg0) {
 
     guess_ZeroMemory(D_800CD6E0, 0xC4);
     func_800CCDE8(arg0, 0, 0);
-    ((Unkstruct_800CCDE8 *)arg0)->unk2 = ((Unkstruct_800CCDE8 *)arg0)->unk2 + 1;
+    ((Unkstruct_8011D030 *)arg0)->unk2.u = ((Unkstruct_8011D030 *)arg0)->unk2.u + 1;
 }
 
 
@@ -326,10 +326,10 @@ void func_800CD58C(void *arg0) {
     extern void guess_ZeroMemory(void *a0, s32 a1);
     extern s32 func_800CCBC0(void);
 
-    if (((Unkstruct_800CCDE8 *)arg0)->unk2C != 0) {
+    if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s != 0) {
         func_800CCDE8(arg0, 1, 0x37);
         func_800CCBC0();
-        ((Unkstruct_800CCDE8 *)arg0)->unk2C = 0;
+        ((Unkstruct_8011D030 *)arg0)->unk2C.val.s = 0;
     } else {
         guess_ZeroMemory(D_800CD6E0, 0xC4);
         func_800CCDE8(arg0, 0, 0);
@@ -356,7 +356,7 @@ void func_800CD5F8(void *arg0) {
     if (s1 != 0) {
         s0 = (s32)&D_800CD7A4;
         func_8001CD50(s1, s0);
-        ((Unkstruct_800CD5F8_2 *)arg0)->unk20 = s1;
+        ((Unkstruct_8011D030 *)arg0)->unk20 = s1;
         ((Unkstruct_800CD5F8 *)s1)->unk34 = (s32)arg0 + 0x38;
         ((Unkstruct_800CD5F8 *)s1)->unk1E = -0x7400;
         CAST_ALIAS(s32, s1, 4) |= 0x50000000;
@@ -367,7 +367,7 @@ void func_800CD5F8(void *arg0) {
         D_800CD7A6 = 0;
         D_800CD7AA = 0x50;
         func_800CD314(arg0);
-        ((Unkstruct_800CD5F8_2 *)arg0)->unk2 = ((Unkstruct_800CD5F8_2 *)arg0)->unk2 + 1;
+        ((Unkstruct_8011D030 *)arg0)->unk2.u = ((Unkstruct_8011D030 *)arg0)->unk2.u + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(arg0);
     }

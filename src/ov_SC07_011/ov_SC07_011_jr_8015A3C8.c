@@ -2318,7 +2318,7 @@ void func_8015AC48(s32 arg0)
 void func_8015AD3C(void *a0) {
 
     extern void (*D_80180E74[])(void);
-    D_80180E74[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180E74[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2475,8 +2475,8 @@ s32 arg0;
     if (((Unkstruct_80126B58 *)arg0)->unk44.u & 2) {
         ((void (*)(s32, s32))func_80155FF8)(arg0, ((Unkstruct_80126B58 *)arg0)->unk1AA);
     } else {
-        if ((((Unkstruct_80126B58 *)arg0)->unk240 == 0) && (((s32 (*)(s32))func_8015B858)(arg0) != 0)) {
-            ((Unkstruct_80126B58 *)arg0)->unk240 += 1;
+        if ((((Unkstruct_80126B58 *)arg0)->unk240.val == 0) && (((s32 (*)(s32))func_8015B858)(arg0) != 0)) {
+            ((Unkstruct_80126B58 *)arg0)->unk240.val += 1;
         }
         if ((((Unkstruct_80126B58 *)arg0)->unkB4.val == (s32)&(*(s32 *)&D_800D4BE0)) && (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x8000)) {
             ((void (*)(s32))func_8015B8F8)(arg0);
@@ -2545,9 +2545,9 @@ s32 arg0;
             (*(u16 *)&guess_g_CameraRelativeYaw) = guess_GetCameraRelativeYaw(arg0);
             guess_ClearMoveVector(arg0);
             guess_AddMoveVectorThenSetVelocity(arg0, 0, 0, 0xFFFF4000);
-            ((Unkstruct_80126B58 *)arg0)->unk50 += ((Unkstruct_80126B58 *)arg0)->unk10;
+            ((Unkstruct_80126B58 *)arg0)->unk50 += ((Unkstruct_80126B58 *)arg0)->unk10.val;
             ((Unkstruct_80126B58 *)arg0)->unk54 += ((Unkstruct_80126B58 *)arg0)->unk14;
-            ((Unkstruct_80126B58 *)arg0)->unk58 += ((Unkstruct_80126B58 *)arg0)->unk18;
+            ((Unkstruct_80126B58 *)arg0)->unk58 += ((Unkstruct_80126B58 *)arg0)->unk18.val;
             if (((Unkstruct_80126B58 *)arg0)->unk50 > 0xBA000) {
                 ((Unkstruct_80126B58 *)arg0)->unk50 = 0xBA000;
             } else if (((Unkstruct_80126B58 *)arg0)->unk50 < -0xBA000) {
@@ -2563,9 +2563,9 @@ s32 arg0;
             } else if (((Unkstruct_80126B58 *)arg0)->unk58 < -0xBA000) {
                 ((Unkstruct_80126B58 *)arg0)->unk58 = -0xBA000;
             }
-            ((Unkstruct_80126B58 *)arg0)->unk10 = ((Unkstruct_80126B58 *)arg0)->unk50;
+            ((Unkstruct_80126B58 *)arg0)->unk10.val = ((Unkstruct_80126B58 *)arg0)->unk50;
             ((Unkstruct_80126B58 *)arg0)->unk14 = ((Unkstruct_80126B58 *)arg0)->unk54;
-            ((Unkstruct_80126B58 *)arg0)->unk18 = ((Unkstruct_80126B58 *)arg0)->unk58;
+            ((Unkstruct_80126B58 *)arg0)->unk18.val = ((Unkstruct_80126B58 *)arg0)->unk58;
             ((void (*)(s32))guess_ApplyVelocity)(arg0);
         } else {
             doit = 0;
@@ -2612,9 +2612,9 @@ s32 arg0;
                 }
             }
             if (doit != 0) {
-                ((Unkstruct_80126B58 *)arg0)->unk10 = ((Unkstruct_80126B58 *)arg0)->unk50;
+                ((Unkstruct_80126B58 *)arg0)->unk10.val = ((Unkstruct_80126B58 *)arg0)->unk50;
                 ((Unkstruct_80126B58 *)arg0)->unk14 = ((Unkstruct_80126B58 *)arg0)->unk54;
-                ((Unkstruct_80126B58 *)arg0)->unk18 = ((Unkstruct_80126B58 *)arg0)->unk58;
+                ((Unkstruct_80126B58 *)arg0)->unk18.val = ((Unkstruct_80126B58 *)arg0)->unk58;
                 ((void (*)(s32))guess_ApplyVelocity)(arg0);
             }
             if (!(((Unkstruct_80126B58 *)arg0)->unk44.u & 2)) {

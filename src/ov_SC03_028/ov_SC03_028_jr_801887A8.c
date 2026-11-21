@@ -4647,7 +4647,7 @@ int func_8018ADF8(int param_1)
 extern void (*D_80190CAC[])(void);
 
 void func_8018AE14(void *a0) {
-    D_80190CAC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190CAC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4717,7 +4717,7 @@ void func_8018AF04(void *a0) {
 extern void (*D_80190E28[])(void);
 
 void func_8018AF60(void *a0) {
-    D_80190E28[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190E28[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4853,7 +4853,7 @@ extern s32 func_8014C050(s32 a0, s32 a1);
 extern void (*D_80190E8C[])(void);
 
 void func_8018B2A4(void *a0) {
-    D_80190E8C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190E8C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4883,7 +4883,7 @@ void func_8018B310(s32 *a0) {
     guess_StartPadVibration(&D_80062C14);
     func_801511E0((s32)a0);
     guess_SetAnimScript(a0, (s32)&D_80190E34);
-    ((Unkstruct_80126B58 *)a0)->unk234 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk234.val = 0;
     guess_SetVertSpeed(a0, -0x400000);
     func_80149020(a0);
     guess_PlaySoundUnlessSkipped(0x451);
@@ -4928,7 +4928,7 @@ void func_8018B390(void *a0) {
     guess_AddVertSpeed((s32)s0, 0x10000);
     guess_ApplyVertSpeed((s32)s0);
 
-    if (s0->unk234 == 0 && s0->unk34 >= 0 && (s0->unkB8.u & 0x8000)) {
+    if (s0->unk234.val == 0 && s0->unk34 >= 0 && (s0->unkB8.u & 0x8000)) {
         s0->unkB8.u = s0->unkBA;
     }
 
@@ -4977,7 +4977,7 @@ void func_8018B540(s32 a0)
 extern void (*D_80190EB4[])(void);
 
 void func_8018B588(void *a0) {
-    D_80190EB4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190EB4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5075,7 +5075,7 @@ void func_8018B774(s32 param_1)
     guess_AddVertSpeed(param_1, 0x18000);
     guess_ApplyVertSpeed(param_1);
 
-    if (((Unkstruct_80126B58 *)param_1)->unk234 == 0) {
+    if (((Unkstruct_80126B58 *)param_1)->unk234.val == 0) {
         if (((Unkstruct_80126B58 *)param_1)->unk34 >= 0) {
             if (((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) {
                 ((Unkstruct_80126B58 *)param_1)->unkB8.u = ((Unkstruct_80126B58 *)param_1)->unkBA;
@@ -5119,7 +5119,7 @@ void func_8018B87C(s32 a0)
 extern void (*D_80190EC4[])(void);
 
 void func_8018B8C4(void *a0) {
-    D_80190EC4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190EC4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5142,7 +5142,7 @@ void func_8018B900(s32 param_1) {
     guess_StartPadVibration(&D_80062C14);
     func_801511E0(param_1);
     guess_SetAnimScript((s32 *)param_1, (s32)D_80190E34);
-    ((Unkstruct_80126B58 *)param_1)->unk234 = 0;
+    ((Unkstruct_80126B58 *)param_1)->unk234.val = 0;
     guess_SetVertSpeed((s32 *)param_1, -0x400000);
     func_80149020((s32 *)param_1);
     guess_PlaySoundUnlessSkipped(0x451);

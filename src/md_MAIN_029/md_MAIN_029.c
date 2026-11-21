@@ -191,24 +191,24 @@ void func_800CB2AC(void *a0)
     s1 = (u8 *)a0;
     p = *(u8 **)(s1 + 0x20);
     if (D_80078EC1 == 0x14) {
-        ((Unkstruct_800CB2AC *)s1)->unk2C += 4;
-        if (((Unkstruct_800CB2AC *)s1)->unk2C < 0x1C1) {
-            t = (((Unkstruct_800CB2AC *)s1)->unk1C)++;
+        ((Unkstruct_8011D030 *)s1)->unk2C.val.u += 4;
+        if (((Unkstruct_8011D030 *)s1)->unk2C.val.u < 0x1C1) {
+            t = (((Unkstruct_8011D030 *)s1)->unk1C.u)++;
             ((Unkstruct_800CB2AC_2 *)p)->unk18 = ((Unkstruct_800CB2AC_2 *)p)->unk1A = D_800CB4B4[t & 3];
-            ((Unkstruct_800CB2AC *)s1)->unk30 += 0xA00000 / (((Unkstruct_800CB2AC *)s1)->unk2C * 804);
+            ((Unkstruct_8011D030 *)s1)->unk30.val.u += 0xA00000 / (((Unkstruct_8011D030 *)s1)->unk2C.val.u * 804);
             m = D_800AE620;
-            RotMatrixY(((Unkstruct_800CB2AC *)s1)->unk30, &m);
+            RotMatrixY(((Unkstruct_8011D030 *)s1)->unk30.val.u, &m);
             vec.x = 0;
-            vec.y = -((Unkstruct_800CB2AC *)s1)->unk2C;
-            t = ((Unkstruct_800CB2AC *)s1)->unk2C;
+            vec.y = -((Unkstruct_8011D030 *)s1)->unk2C.val.u;
+            t = ((Unkstruct_8011D030 *)s1)->unk2C.val.u;
             m.t[0] = guess_g_PlayerPosX;
             m.t[1] = guess_g_PlayerPosY - 0x1C;
             m.t[2] = guess_g_PlayerPosZ;
             vec.z = t - (t >> 2);
             guess_RotTransSVWithMatrix((s32)&m, (s32)&vec, (s32)&vec);
-            ((Unkstruct_800CB2AC *)s1)->unk6 = vec.x;
-            ((Unkstruct_800CB2AC *)s1)->unkA = vec.y;
-            ((Unkstruct_800CB2AC *)s1)->unkE = vec.z;
+            ((Unkstruct_8011D030 *)s1)->unk6.u = vec.x;
+            ((Unkstruct_8011D030 *)s1)->unk8.i.hi.u = vec.y;
+            ((Unkstruct_8011D030 *)s1)->unkE.u = vec.z;
             return;
         }
     }
@@ -221,6 +221,6 @@ void func_800CB2AC(void *a0)
 void func_800CB460(void *a0) {
 
     extern void (*D_800CB4BC[])(void);
-    D_800CB4BC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB4BC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 

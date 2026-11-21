@@ -1457,7 +1457,7 @@ void func_8015AC48(s32 arg0)
 extern void (*D_80189BCC[])(void);
 
 void func_8015AD3C(void *a0) {
-    D_80189BCC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80189BCC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

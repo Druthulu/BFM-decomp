@@ -3552,7 +3552,7 @@ void func_8017D618(s32 a0) {
 extern void (*D_80186D80[])(void);
 
 void func_8017D798(void *a0) {
-    D_80186D80[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186D80[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3677,7 +3677,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void (*D_80186DD8[])(void);
 
 void func_8017DBF0(void *a0) {
-    D_80186DD8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186DD8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3839,7 +3839,7 @@ void func_8017DF10(int param_1)
 extern void (*D_80186DEC[])(void);
 
 void func_8017E21C(void *a0) {
-    D_80186DEC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186DEC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3896,7 +3896,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_80186E00[])(void);
 
 void func_8017E4BC(void *a0) {
-    D_80186E00[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186E00[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4750,14 +4750,14 @@ void func_8017F98C(s32 a0) {
 extern void (*D_80199760[])(void);
 
 void func_8017FC8C(void *a0) {
-    D_80199760[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80199760[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
 extern void (*D_8019977C[])(void);
 
 void func_8017FCC8(void *a0) {
-    D_8019977C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019977C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5224,7 +5224,7 @@ extern void func_80178D18(void);
 extern void (*D_8019D328[])(void);
 
 void func_801807DC(void *a0) {
-    D_8019D328[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019D328[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5471,7 +5471,7 @@ s32 func_80180C6C(void) {
 extern void (*D_8019D350[])(void);
 
 void func_80180CD0(void *a0) {
-    D_8019D350[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019D350[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5617,7 +5617,7 @@ s32 aF8018A224(param_1)
 extern void (*D_801A1380[])(void);
 
 void func_80180FBC(void *a0) {
-    D_801A1380[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A1380[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

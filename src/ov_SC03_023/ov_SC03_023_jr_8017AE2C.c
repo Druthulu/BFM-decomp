@@ -4109,7 +4109,7 @@ void func_8017DBC4(int param_1, short *param_2) {
 extern void (*D_80182A64[])(void);
 
 void func_8017DDBC(void *a0) {
-    D_80182A64[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182A64[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4215,7 +4215,7 @@ void func_8017E014(s32 a0)
 extern void (*D_80182B04[])(void);
 
 void func_8017E1F4(void *a0) {
-    D_80182B04[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182B04[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

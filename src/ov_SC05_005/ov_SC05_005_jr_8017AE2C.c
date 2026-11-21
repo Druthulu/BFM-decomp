@@ -3314,7 +3314,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void (*D_80185E58[])(void);
 
 void func_8017BEF8(void *a0) {
-    D_80185E58[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80185E58[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3506,7 +3506,7 @@ extern void (*D_80185E6C[])(void);
 extern void (*D_80185E80[])(void);
 
 void func_8017C7C4(void *a0) {
-    D_80185E80[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80185E80[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4054,7 +4054,7 @@ void func_8017D2FC(s32 a0) {
 extern void (*D_80185F98[])(void);
 
 void func_8017D47C(void *a0) {
-    D_80185F98[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80185F98[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

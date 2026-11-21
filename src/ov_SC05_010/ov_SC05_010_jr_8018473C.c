@@ -3146,7 +3146,7 @@ void func_80184E4C(s32 a0) {
 extern void (*D_801942B4[])(void);
 
 void func_80185020(void *a0) {
-    D_801942B4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801942B4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4815,7 +4815,7 @@ s32 func_801878A4(void) {
 extern void (*D_801C3CF0[])(void);
 
 void func_801878AC(void *a0) {
-    D_801C3CF0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3CF0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4949,7 +4949,7 @@ extern s32 func_8014C050(s32 a0, s32 a1);
 extern void (*D_801C3CFC[])(void);
 
 void func_80187BF0(void *a0) {
-    D_801C3CFC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3CFC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5088,7 +5088,7 @@ s32 func_80187F48(s32 arg0)
     guess_StartPadVibration(&D_80062C14);
     guess_SetAnimScript((s32 *)arg0, (s32)&D_800D5904);
     guess_SetTexAnim(arg0, 0x20);
-    ((Unkstruct_80126B58 *)arg0)->unk234 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234.val = 0;
     ((void (*)(s32, s32))guess_SetVertSpeed)((s32 *)arg0, 0xFFC00000);
     func_80149020((s32 *)arg0);
     guess_PlaySoundUnlessSkipped(0x451);
@@ -5132,7 +5132,7 @@ void func_80187FCC(s32 arg0)
     guess_AddVertSpeed((s32)s0, 0x10000);
     guess_ApplyVertSpeed((s32)s0);
 
-    if (((Unkstruct_80126B58 *)s0)->unk234 == 0) {
+    if (((Unkstruct_80126B58 *)s0)->unk234.val == 0) {
         if (((Unkstruct_80126B58 *)s0)->unk34 >= 0) {
             if ((((Unkstruct_80126B58 *)s0)->unkB8.u & 0x8000) != 0) {
                 ((Unkstruct_80126B58 *)s0)->unkB8.u = ((Unkstruct_80126B58 *)s0)->unkBA;
@@ -5198,7 +5198,7 @@ void func_80188168(s32 a0)
 extern void (*D_801C3D3C[])(void);
 
 void func_801881B0(void *a0) {
-    D_801C3D3C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3D3C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5316,7 +5316,7 @@ extern void func_80151664(s32 a0v);
 extern void (*D_801C3DD8[])(void);
 
 void func_801884A8(void *a0) {
-    D_801C3DD8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3DD8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5411,7 +5411,7 @@ extern void func_80151664(s32 a0v);
 extern void (*D_801C3E40[])(void);
 
 void func_80188734(void *a0) {
-    D_801C3E40[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3E40[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5482,8 +5482,8 @@ void func_80188848(void *a0) {
 
 
 void func_8018890C(s32 a0) {
-    guess_TransformPosByObjMatrix(((Unkstruct_8017DBD4 *)a0)->unk34, (s32)((char *)a0 + 0x4));
-    if (((Unkstruct_8017DBD4 *)a0)->unk2C != 0) {
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)a0)->unk34, (s32)((char *)a0 + 0x4));
+    if (((Unkstruct_8011D030 *)a0)->unk2C.val.s != 0) {
         return;
     }
     func_800D1FC8(a0, 5);

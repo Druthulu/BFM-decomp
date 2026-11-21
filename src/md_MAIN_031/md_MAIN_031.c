@@ -103,7 +103,7 @@ void func_800CAFE4(u8 *a0) {
     guess_AllocRenderWorkRecord((s32)&D_800CC05C);
     CAST_WIDTH(u16, a0, 0x234) = 0;
     *(u16 *)(a0 + 0x236) = 0x10;
-    ((Unkstruct_80126B58 *)a0)->unk238 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk238.val = 0;
     ((Unkstruct_80126B58 *)a0)->unkBE = 0;
     ((Unkstruct_80126B58 *)a0)->unkBF = 0;
     guess_SetWaitTimer_2((s32 *)a0, 0x10);
@@ -127,31 +127,31 @@ void func_800CB0B0(void *arg) {
     sp10[0] = 0;
     sp10[1] = 0;
     sp10[2] = 0;
-    sp18[0] = ((Unkstruct_800CB0B0 *)arg)->unk234;
-    sp18[2] = ((Unkstruct_800CB0B0 *)arg)->unk236;
+    sp18[0] = ((Unkstruct_80126B58 *)arg)->unk234.i.lo;
+    sp18[2] = ((Unkstruct_80126B58 *)arg)->unk234.i.hi;
     sp18[1] = sp18[2];
     KR_AS(void, func_800CB428)(arg, sp10, sp18);
     func_800CB6A0(arg, sp10, sp18, 1);
     func_800CB6A0(arg, sp10, sp18, 0);
     func_800CB964(arg, sp10, sp18);
     if (CAST_SIGN(s16, (u8 *)arg, 0x234) != 0x2000) {
-        temp = ((Unkstruct_800CB0B0 *)arg)->unk238 + 0x100;
+        temp = ((Unkstruct_80126B58 *)arg)->unk238.i.lo + 0x100;
         cur = *(volatile u16 *)((u8 *)arg + 0x234) + temp;
-        ((Unkstruct_800CB0B0 *)arg)->unk234 = cur;
-        ((Unkstruct_800CB0B0 *)arg)->unk238 = temp;
+        ((Unkstruct_80126B58 *)arg)->unk234.i.lo = cur;
+        ((Unkstruct_80126B58 *)arg)->unk238.i.lo = temp;
         if ((s16)cur >= 0x2001) {
             guess_PlaySoundUnlessSkipped(0x8EB);
-            ((Unkstruct_800CB0B0 *)arg)->unk234 = 0x2000;
+            ((Unkstruct_80126B58 *)arg)->unk234.i.lo = 0x2000;
         }
     } else {
-        temp = ((Unkstruct_800CB0B0 *)arg)->unk23A + 0x200;
-        cur = ((Unkstruct_800CB0B0 *)arg)->unk236 + temp;
-        ((Unkstruct_800CB0B0 *)arg)->unk236 = cur;
-        ((Unkstruct_800CB0B0 *)arg)->unk23A = temp;
+        temp = ((Unkstruct_80126B58 *)arg)->unk238.i.hi + 0x200;
+        cur = ((Unkstruct_80126B58 *)arg)->unk234.i.hi + temp;
+        ((Unkstruct_80126B58 *)arg)->unk234.i.hi = cur;
+        ((Unkstruct_80126B58 *)arg)->unk238.i.hi = temp;
         if ((s16)cur >= 0x2001) {
-            b = ((Unkstruct_800CB0B0 *)arg)->unk197;
-            ((Unkstruct_800CB0B0 *)arg)->unk236 = 0x2000;
-            ((Unkstruct_800CB0B0 *)arg)->unk197 = b + 1;
+            b = ((Unkstruct_80126B58 *)arg)->unk197;
+            ((Unkstruct_80126B58 *)arg)->unk234.i.hi = 0x2000;
+            ((Unkstruct_80126B58 *)arg)->unk197 = b + 1;
         }
     }
 }
@@ -168,7 +168,7 @@ void func_800CB1CC(void *arg0) {
     u16 sp18[3];
 
     if (guess_GetPadPressed((s32 *) arg0) & 0x20) {
-        ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk238.val = 0;
         ((Unkstruct_80126B58 *)arg0)->unk197 = ((Unkstruct_80126B58 *)arg0)->unk197 + 1;
         guess_PlaySoundUnlessSkipped(0x991);
     }
@@ -553,9 +553,9 @@ void func_800CBCD4(u8 *s0) {
         *(s16 *)(s1 + 0x14) = v0;
         func_80162F08(s0, 0, 0xC00, 0);
         func_80013B64(*(s16 *)(s1 + 0x14), s0 + 0x24, sp10);
-        ((Unkstruct_80126B58 *)s0)->unk10 = sp10[0];
+        ((Unkstruct_80126B58 *)s0)->unk10.val = sp10[0];
         ((Unkstruct_80126B58 *)s0)->unk14 = sp10[1];
-        ((Unkstruct_80126B58 *)s0)->unk18 = sp10[2];
+        ((Unkstruct_80126B58 *)s0)->unk18.val = sp10[2];
         guess_AddVelocityToPos_2(s0);
         func_800CBED8(s0);
         flag = ((Unkstruct_80126B58 *)s0)->unk28 >= (s32)0xFFFE0000;

@@ -4,6 +4,6 @@ void SHARED_FN(void *a0) {
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
         guess_SetWaitTimer_2((s32 *)a0, 8);
         CAST_WIDTH(s16, (u8 *)a0, 0x28) = 0x20;
-        ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
     }
 }

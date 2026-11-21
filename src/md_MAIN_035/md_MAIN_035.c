@@ -59,7 +59,7 @@ void func_800CAF14(s32 *a0) {
 void func_800CAF48(void *a0) {
 
     extern void (*D_800CB284[])(void);
-    D_800CB284[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB284[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -155,16 +155,16 @@ void func_800CB13C(s32 param_1) {
 
     iVar2 = ((Unkstruct_80126B58 *)param_1)->unk178;
 
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
+    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234.val;
+    ((Unkstruct_80126B58 *)param_1)->unk234.val = iVar1 + 1;
     *(s16 *)(iVar2 + 6) = (s16)D_800CB290[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xc);
 
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
+    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234.val;
+    ((Unkstruct_80126B58 *)param_1)->unk234.val = iVar1 + 1;
     *(s16 *)(iVar2 + 10) = (s16)D_800CB290[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0xe);
 
-    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234;
-    ((Unkstruct_80126B58 *)param_1)->unk234 = iVar1 + 1;
+    iVar1 = ((Unkstruct_80126B58 *)param_1)->unk234.val;
+    ((Unkstruct_80126B58 *)param_1)->unk234.val = iVar1 + 1;
     *(s16 *)(iVar2 + 0xe) = (s16)D_800CB290[iVar1] + *(s16 *)(*(s32 *)(iVar2 + 0x78) + 0x10);
 
     guess_TransformPosByObjMatrix(param_1, iVar2 + 4);

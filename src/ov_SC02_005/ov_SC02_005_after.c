@@ -2162,7 +2162,7 @@ extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_co
 void func_80151944(void *a0) {
 
     extern void (*D_801925F0[])(void);
-    D_801925F0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801925F0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2180,7 +2180,7 @@ void func_80151944(void *a0) {
 extern void (*D_80192600[])(void);
 
 void func_80151D24(void *a0) {
-    D_80192600[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192600[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2251,7 +2251,7 @@ void func_801520DC(s32 arg0)
 extern void (*D_80192638[])(void);
 
 void func_80152370(void *a0) {
-    D_80192638[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192638[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2331,7 +2331,7 @@ extern void (*D_80192654[])(void);
 extern void (*D_8019266C[])(void);
 
 void func_8015282C(void *a0) {
-    D_8019266C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019266C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2380,7 +2380,7 @@ void func_801528B0(s32 arg0)
 extern void (*D_80192680[])(void);
 
 void func_80152B6C(void *a0) {
-    D_80192680[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192680[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2396,7 +2396,7 @@ void func_80152B6C(void *a0) {
 extern void (*D_8019269C[])(void);
 
 void func_80152D24(void *a0) {
-    D_8019269C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019269C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

@@ -157,7 +157,7 @@ void func_800CCE24(void *a0) {
 
 
 s32 func_800CCEA0(void *a0) {
-    ((Unkstruct_80126B58 *)a0)->unk234 = 150;
+    ((Unkstruct_80126B58 *)a0)->unk234.val = 150;
     return 150;
 }
 
@@ -169,8 +169,8 @@ s32 func_800CCEAC(void *a0)
     extern s16 currentLocationId;
 
     if (currentLocationId == 0x306F) {
-        if (((Unkstruct_80126B58 *)a0)->unk234 != 0) {
-            (((Unkstruct_80126B58 *)a0)->unk234)--;
+        if (((Unkstruct_80126B58 *)a0)->unk234.val != 0) {
+            (((Unkstruct_80126B58 *)a0)->unk234.val)--;
             return 0;
         }
         func_801599A4(a0);
@@ -186,7 +186,7 @@ s32 func_800CCEAC(void *a0)
 void func_800CCF14(void *a0) {
 
     extern void (*D_800CD6EC[])(void);
-    D_800CD6EC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CD6EC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -389,7 +389,7 @@ void func_800CD31C(s32 arg0) {
 void func_800CD3C8(void *a0) {
 
     extern void (*D_800CD6F8[])(void);
-    D_800CD6F8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CD6F8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

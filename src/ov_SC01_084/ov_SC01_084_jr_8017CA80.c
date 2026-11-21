@@ -3381,16 +3381,16 @@ void func_8017E94C(u8 *a0) {
     extern SV4 D_801A32A4;
     s32 v0;
 
-    if (guess_GetTextWindowResult(((Unkstruct_8017E94C_2 *)a0)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017E94C_2 *)a0)->unk198);
-        ((Unkstruct_8017E94C_2 *)a0)->unk198 = guess_OpenTextWindow((s32)&D_801A32A4);
-        ((Unkstruct_8017E94C_2 *)a0)->unk214 += 1;
-    } else if (((Unkstruct_8017E94C_2 *)a0)->unk20C != 0) {
-        v0 = ((Unkstruct_8017E94C_2 *)a0)->unk204;
-        ((Unkstruct_8017E94C_2 *)a0)->unk204 = v0 + 1;
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)a0)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)a0)->unk198);
+        ((Unkstruct_80126B58 *)a0)->unk198 = guess_OpenTextWindow((s32)&D_801A32A4);
+        ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
+    } else if (((Unkstruct_80126B58 *)a0)->unk20C.s != 0) {
+        v0 = ((Unkstruct_80126B58 *)a0)->unk204.s;
+        ((Unkstruct_80126B58 *)a0)->unk204.s = v0 + 1;
         if ((v0 & 0xF) == 0) {
-            ((Unkstruct_8017E94C_2 *)a0)->unkAC = 0x40;
-            ((Unkstruct_8017E94C_2 *)a0)->unkAA = 0x40;
+            ((Unkstruct_80126B58 *)a0)->unkAC.s = 0x40;
+            ((Unkstruct_80126B58 *)a0)->unkAA.s = 0x40;
         }
         CAST_SIGN(u16, a0, 0x20C) -= 1;
     }
@@ -3819,7 +3819,7 @@ extern void func_8017484C(s32 a0);
 extern void (*D_8018A798[])(void);
 
 void func_8017F294(void *a0) {
-    D_8018A798[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018A798[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

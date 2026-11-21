@@ -3339,7 +3339,7 @@ extern void (*D_80188440[])(void *);
 
 void func_80143B30(void *a0)
 {
-    D_80188440[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188440[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80143B6C.h"
@@ -3358,7 +3358,7 @@ extern void (*D_80188454[])(void *);
 
 void func_80143C98(void *a0)
 {
-    D_80188454[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188454[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80143CD4.h"
@@ -3417,7 +3417,7 @@ extern void (*D_8018849C[])(void *);
 
 void func_80143E68(void *a0)
 {
-    D_8018849C[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_8018849C[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80143EA4.h"
@@ -3432,7 +3432,7 @@ extern void (*D_801884B0[])(void *);
 
 void func_80144054(void *a0)
 {
-    D_801884B0[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801884B0[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 // @class: regalloc-order
@@ -3645,7 +3645,7 @@ extern void (*D_801884C8[])(void *);
 
 void func_80144A2C(void *a0)
 {
-    D_801884C8[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801884C8[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_80144A68.h"

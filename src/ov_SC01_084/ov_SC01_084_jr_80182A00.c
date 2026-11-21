@@ -1362,7 +1362,7 @@ void func_80184138(SVec_80184138 *arg0) {
 extern void (*D_8018AC2C[])(void);
 
 void func_80184424(void *a0) {
-    D_8018AC2C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018AC2C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -1611,7 +1611,7 @@ void func_801846B4(int param_1)
 extern void (*D_8018AC38[])(void);
 
 void func_801847F8(void *a0) {
-    D_8018AC38[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018AC38[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2376,7 +2376,7 @@ extern s32 guess_AllocRenderWorkRecord(s32 a0);
 extern void (*D_8018AC44[])(void);
 
 void func_8018592C(void *a0) {
-    D_8018AC44[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018AC44[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2500,7 +2500,7 @@ void func_8018599C(s32 param_1)
 extern void (*D_8018AC50[])(void);
 
 void func_80185AF8(void *a0) {
-    D_8018AC50[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018AC50[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2904,7 +2904,7 @@ s32 func_801860DC(s32 param_1) {
 extern void (*D_8018ACBC[])(void);
 
 void func_8018637C(void *a0) {
-    D_8018ACBC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018ACBC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2989,7 +2989,7 @@ void func_801863B8(s32 param_1) {
 extern void (*D_801A2D9C[])(void);
 
 void func_80186530(void *a0) {
-    D_801A2D9C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A2D9C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2997,7 +2997,7 @@ void func_80186530(void *a0) {
 extern void (*D_801A2DB0[])(void);
 
 void func_8018656C(void *a0) {
-    D_801A2DB0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A2DB0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

@@ -4278,7 +4278,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void (*D_80188214[])(void);
 
 void func_8017DBF0(void *a0) {
-    D_80188214[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80188214[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4440,7 +4440,7 @@ void func_8017DF10(int param_1)
 extern void (*D_80188228[])(void);
 
 void func_8017E21C(void *a0) {
-    D_80188228[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80188228[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4497,7 +4497,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_8018823C[])(void);
 
 void func_8017E4BC(void *a0) {
-    D_8018823C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018823C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4844,7 +4844,7 @@ void func_8017EF54(void *a0) {
     extern u8 D_80188354;
     extern void (*D_80188378[])(void *);
     guess_StartPadVibration(&D_80188354);
-    D_80188378[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80188378[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 
@@ -4923,7 +4923,7 @@ extern void func_80151664(s32 a0v);
 extern void (*D_801883B0[])(void);
 
 void func_8017F130(void *a0) {
-    D_801883B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801883B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4957,7 +4957,7 @@ void func_8017F16C(s32 a0) {
 
         guess_SetWaitTimer_2((s32 *)a0, 0x5A);
 
-        ((Unkstruct_80126B58 *)a0)->unk2 += 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u += 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
     }
@@ -5140,9 +5140,9 @@ void func_8017F65C(s32 param_1) {
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val = vel.a;
         ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val = vel.c;
 
         q = (s16 *)(param_1 + 0x38);
         i = 0;
@@ -5158,7 +5158,7 @@ void func_8017F65C(s32 param_1) {
         } while (i < 3);
 
         guess_SetWaitTimer_2((s32 *)param_1, 2);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
@@ -5178,7 +5178,7 @@ void func_8017F930(s32 *a0) {
         CAST_MISALIGNED(s32, a0, 5) >>= 2;
         CAST_MISALIGNED(s32, a0, 6) >>= 2;
         guess_SetWaitTimer_2(a0, 0x40);
-        ((Unkstruct_80126B58 *)a0)->unk2 = ((Unkstruct_80126B58 *)a0)->unk2 + 1;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
     }
 }
 
@@ -6347,7 +6347,7 @@ void func_801812B8(s32 param_1) {
 extern void (*D_80192E8C[])(void);
 
 void func_801813F0(void *a0) {
-    D_80192E8C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192E8C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7178,7 +7178,7 @@ void func_80182574(s32 param_1) {
 extern void (*D_8019A170[])(void);
 
 void func_801826EC(void *a0) {
-    D_8019A170[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019A170[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7186,7 +7186,7 @@ void func_801826EC(void *a0) {
 extern void (*D_8019A184[])(void);
 
 void func_80182728(void *a0) {
-    D_8019A184[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019A184[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7951,7 +7951,7 @@ void func_80183798(void *a0) {
 extern void (*D_801A8C90[])(void);
 
 void func_801838E4(void *a0) {
-    D_801A8C90[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A8C90[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -8245,7 +8245,7 @@ void func_80183E2C(void *a0) {
 extern void (*D_801B0DF4[])(void);
 
 void func_80183FA0(void *a0) {
-    D_801B0DF4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801B0DF4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

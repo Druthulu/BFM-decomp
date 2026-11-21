@@ -84,15 +84,15 @@ void func_800CAFA0(void *a0) {
         guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
-        RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s, &m);
+        RotMatrixY((((Unkstruct_8011D030 *)a0)->unk1C.s << 5) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s, &m);
         m.t[0] = ((Unkstruct_801202A0 *)s2)->unk4.i.hi.s;
         m.t[1] = ((Unkstruct_801202A0 *)s2)->unk8.i.hi.s;
         m.t[2] = ((Unkstruct_801202A0 *)s2)->unkC.i.hi.s;
         sv.x = 0;
-        sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s) >> 9) - 0x14;
+        sv.y = (rcos(((((Unkstruct_8011D030 *)a0)->unk1C.s & 0xF) << 8) + ((Unkstruct_8011D030 *)a0)->unk2C.val.s) >> 9) - 0x14;
         sv.z = -0x40;
         guess_RotTransSVWithMatrix((s32)&m, (s32)&sv, (s32)&sv);
-        if (((Unkstruct_8011D030 *)a0)->unk1C == 0) {
+        if (((Unkstruct_8011D030 *)a0)->unk1C.s == 0) {
             guess_SpawnSmallObject(3, a0, sv.x, sv.y, sv.z, 0xAAAFFFA, 0xE000B800);
         } else {
             *(s32 *)((s32)s3 + 4) &= 0x7FFFFFFF;
@@ -101,7 +101,7 @@ void func_800CAFA0(void *a0) {
             ((Unkstruct_8011D030 *)a0)->unkE.s = sv.z;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
-        (((Unkstruct_8011D030 *)a0)->unk1C)++;
+        (((Unkstruct_8011D030 *)a0)->unk1C.s)++;
     }
 }
 
@@ -111,7 +111,7 @@ void func_800CAFA0(void *a0) {
 void func_800CB190(void *a0) {
 
     extern void (*D_800CB350[])(void);
-    D_800CB350[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB350[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

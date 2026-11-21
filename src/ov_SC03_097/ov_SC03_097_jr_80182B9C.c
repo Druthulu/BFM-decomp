@@ -3027,14 +3027,14 @@ void func_8018358C(void *a0) {
 extern void (*D_8019CA28[])(void);
 
 void func_80183678(void *a0) {
-    D_8019CA28[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019CA28[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
 extern void (*D_8019CADC[])(void);
 
 void func_801836B4(void *a0) {
-    D_8019CADC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019CADC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4121,5 +4121,5 @@ extern void func_80180E14(void);
 extern void (*D_801A73D0[])(void);
 
 void func_8018517C(void *a0) {
-    D_801A73D0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A73D0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

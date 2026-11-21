@@ -5,11 +5,11 @@
 void SHARED_FN(s32 a0, s32 a1)
 {
     s32 q;
-    q = ((Unkstruct_800CDF84 *)a0)->unk20;
+    q = ((Ent_80164930_80164930 *)a0)->unk20;
     func_80013F3C(a1);
-    func_800126C4(a1, ((Unkstruct_800CDF84 *)a0)->unk60);
-    func_800123F0(a1, ((Unkstruct_800CDF84 *)a0)->unk64);
-    func_80012558(a1, ((Unkstruct_800CDF84 *)a0)->unk62);
+    func_800126C4(a1, ((Ent_80164930_80164930 *)a0)->unk60.s);
+    func_800123F0(a1, ((Ent_80164930_80164930 *)a0)->unk64.s);
+    func_80012558(a1, ((Ent_80164930_80164930 *)a0)->unk62.s);
     func_80012558(a1, ((RenderHead *)q)->unk10.w.unk12.s);
     func_800126C4(a1, ((RenderHead *)q)->unk10.w.unk10.s);
     func_800123F0(a1, ((RenderHead *)q)->unk10.w.unk14.s);

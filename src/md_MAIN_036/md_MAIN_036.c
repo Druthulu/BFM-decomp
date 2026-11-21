@@ -72,7 +72,7 @@ void func_800CAFD4(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBFB8[])(void);
     if (D_80078EC1 == 0x17) {
-        u16 v0 = ((Unkstruct_800CAFD4 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CBFB8[v0]();
     } else {
         func_800CB5A8();
@@ -321,7 +321,7 @@ void func_800CB5D8(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBFD4[])(void);
     if (D_80078EC1 == 0x17) {
-        u16 v0 = ((Unkstruct_800CAFD4 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CBFD4[v0]();
     } else {
         guess_FreeObjectAndSubObject_14();
@@ -384,9 +384,9 @@ void func_800CB708(void *arg0) {
     v1 = ((Unkstruct_80126B58 *)arg0)->unk28;
     a1 = ((Unkstruct_80126B58 *)arg0)->unk2C;
 
-    ((Unkstruct_80126B58 *)arg0)->unk10 = v0;
+    ((Unkstruct_80126B58 *)arg0)->unk10.val = v0;
     ((Unkstruct_80126B58 *)arg0)->unk14 = v1;
-    ((Unkstruct_80126B58 *)arg0)->unk18 = a1;
+    ((Unkstruct_80126B58 *)arg0)->unk18.val = a1;
 
     guess_AddVelocityToPos_2((s32 *)arg0);
 
@@ -536,9 +536,9 @@ void func_800CB910(s32 param_1) {
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val = vel.a;
         ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val = vel.c;
 
         q = (s16 *)(param_1 + 0x38);
         i = 0;
@@ -554,7 +554,7 @@ void func_800CB910(s32 param_1) {
         } while (i < 3);
 
         guess_SetWaitTimer_2((s32 *)param_1, 2);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
@@ -570,11 +570,11 @@ void func_800CBC14(s32 arg0) {
     func_800CBD2C(arg0);
     func_800CBEB0(arg0);
     if (guess_TickWaitTimer_2(arg0) != 0) {
-        ((Unkstruct_80126B58 *)arg0)->unk10 >>= 2;
+        ((Unkstruct_80126B58 *)arg0)->unk10.val >>= 2;
         ((Unkstruct_80126B58 *)arg0)->unk14 >>= 2;
-        ((Unkstruct_80126B58 *)arg0)->unk18 >>= 2;
+        ((Unkstruct_80126B58 *)arg0)->unk18.val >>= 2;
         guess_SetWaitTimer_2((s32 *)arg0, 0x40);
-        ((Unkstruct_80126B58 *)arg0)->unk2 += 1;
+        ((Unkstruct_80126B58 *)arg0)->unk2.u += 1;
     }
 }
 
@@ -655,9 +655,9 @@ void func_800CBD54(s32 param_1, s32 *param_2)
 
 void func_800CBEB0(s32 a0) {
     s32 p;
-    CAST_WIDTH(s32, a0, 0x4) += ((Unkstruct_80126B58 *)a0)->unk10;
+    CAST_WIDTH(s32, a0, 0x4) += ((Unkstruct_80126B58 *)a0)->unk10.val;
     CAST_WIDTH(s32, a0, 0x8) += ((Unkstruct_80126B58 *)a0)->unk14;
-    CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18;
+    CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18.val;
     p = ((Unkstruct_80126B58 *)a0)->unk20.val;
     *(u16 *)(p + 0x10) += *(s32 *)(a0 + 0x4C);
     *(u16 *)(p + 0x12) += ((Unkstruct_80126B58 *)a0)->unk50;

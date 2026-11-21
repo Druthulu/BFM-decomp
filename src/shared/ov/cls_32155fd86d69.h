@@ -14,8 +14,8 @@ void SHARED_FN(s32 *a0) {
         CAST_WIDTH(s32, (s32)s1, 0x4) = v0;
         guess_SetWaitTimer_2(a0, 0x10);
 
-        v0 = ((Unkstruct_80126B58 *)a0)->unk2;
+        v0 = ((Unkstruct_80126B58 *)a0)->unk2.u;
         v0 = v0 + 1;
-        ((Unkstruct_80126B58 *)a0)->unk2 = v0;
+        ((Unkstruct_80126B58 *)a0)->unk2.u = v0;
     }
 }

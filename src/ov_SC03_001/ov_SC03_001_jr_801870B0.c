@@ -3374,7 +3374,7 @@ extern short D_800BA2BA;
 extern void (*D_801C0B00[])(void);
 
 void func_801875EC(void *a0) {
-    D_801C0B00[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C0B00[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3693,7 +3693,7 @@ s32 func_80187C2C(s32 a0) {
 extern void (*D_801C0B20[])(void);
 
 void func_80187C74(void *a0) {
-    D_801C0B20[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C0B20[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

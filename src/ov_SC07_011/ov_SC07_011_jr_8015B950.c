@@ -2224,7 +2224,7 @@ s32 func_8015B950(s32 arg0)
         } else {
             ((void (*)(s32, s32, s32))guess_SetAnimFromIndex)(arg0, 0xD, 6);
         }
-        ((Unkstruct_80126B58 *)arg0)->unk238 = 1;
+        ((Unkstruct_80126B58 *)arg0)->unk238.val = 1;
         return;
     }
     if (((s32 (*)(s32))guess_IsDirectionHeld)(arg0) != 0) {
@@ -2298,7 +2298,7 @@ join:
 void func_8015BE38(Unkstruct_80126B58 *a0) {
 
     extern void (*D_80180E90[])(void);
-    D_80180E90[((Unkstruct_8015BE38 *)a0)->unk2]();
+    D_80180E90[((Unkstruct_8015BE38 *)a0)->unk2.u]();
 }
 
 
@@ -2390,8 +2390,8 @@ s32 func_8015C128(s32 param_1) {
         sp10[1] = 0;
         sp10[2] = -0x4000;
         ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_8015C128_5 *)*(int *)(((int)param_1) + 0x20))->unk12, sp10, sp20);
-        ((Unkstruct_8015C128_2 *)param_1)->unk234 += sp20[0];
-        ((Unkstruct_8015C128_2 *)param_1)->unk238 += sp20[1];
+        ((Unkstruct_8015C128_2 *)param_1)->unk234.val += sp20[0];
+        ((Unkstruct_8015C128_2 *)param_1)->unk238.val += sp20[1];
         ((Unkstruct_8015C128_2 *)param_1)->unk23C += sp20[2];
     }
     ((void(*)(int, int *, int *))func_8001382C)((short)(-((Unkstruct_8015C128_2 *)param_1)->unk20.m->head.unk10.w.unk12.u),

@@ -2769,7 +2769,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_80182494[])(void);
 
 void func_8017D030(void *a0) {
-    D_80182494[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182494[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3382,7 +3382,7 @@ void func_8017DCD0(s32 param_1)
 extern void (*D_8018F8A4[])(void);
 
 void func_8017E044(void *a0) {
-    D_8018F8A4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F8A4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3504,7 +3504,7 @@ void func_8017E1C8(void *a0) {
 extern void (*D_8018F920[])(void);
 
 void func_8017E378(void *a0) {
-    D_8018F920[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F920[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3512,7 +3512,7 @@ void func_8017E378(void *a0) {
 extern void (*D_8018F95C[])(void);
 
 void func_8017E3B4(void *a0) {
-    D_8018F95C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018F95C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

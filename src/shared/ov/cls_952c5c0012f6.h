@@ -3,8 +3,8 @@
  * rank 2 src/shared/ov/func_8017BF34__952c5c00.h rejected by type_census --check */
 void SHARED_FN(void *a0)
 {
-    if (((Unkstruct_8017CE14 *)a0)->unk30 == 0) {
-        guess_PlaySoundUnlessSkipped(((Unkstruct_8017CE14 *)a0)->unk2E);
+    if (((Unkstruct_8011D030 *)a0)->unk30.val.s == 0) {
+        guess_PlaySoundUnlessSkipped(((Unkstruct_8011D030 *)a0)->unk2C.i.hi);
     }
-    ((Unkstruct_8017CE14 *)a0)->unk2 = ((Unkstruct_8017CE14 *)a0)->unk2 + 1;
+    ((Unkstruct_8011D030 *)a0)->unk2.u = ((Unkstruct_8011D030 *)a0)->unk2.u + 1;
 }

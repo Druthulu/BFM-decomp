@@ -3320,7 +3320,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_80183A08[])(void);
 
 void func_8017BFC8(void *a0) {
-    D_80183A08[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183A08[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3380,7 +3380,7 @@ void func_8017C004(s32 arg0) {
     ((Unkstruct_8017C004_4 *)arg0)->unk10.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk14.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk18.val = 0;
-    ((Unkstruct_8017C004_4 *)arg0)->unk1C = 0;
+    ((Unkstruct_8017C004_4 *)arg0)->unk1C.s = 0;
 
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (p != 0) {
@@ -3421,7 +3421,7 @@ void func_8017C004(s32 arg0) {
 
                     p = ((s32 (*)(void))guess_AllocSpriteObject)();
                     if (p != 0) {
-                        ((Unkstruct_8017C004_4 *)arg0)->unk1C = p;
+                        ((Unkstruct_8017C004_4 *)arg0)->unk1C.s = p;
                         guess_SjisToGlyphCodes(D_80183A00, D_8019FF94);
                         func_8001CE28(p, D_8019FF94);
                         ((Unkstruct_8017C004_3 *)p)->head.unk8.s = -0x68;

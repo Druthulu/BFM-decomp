@@ -2,8 +2,8 @@
  * exemplar src/md_MAIN_041/md_MAIN_041.c:328 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_80168640.h rejected by type_census --check */
 void SHARED_FN(s32 a0) {
-    ((Unkstruct_800CB634 *)a0)->unk1C = 0x20;
-    ((Unkstruct_800CB634 *)a0)->unk12 = 0;
-    ((Unkstruct_800CB634 *)a0)->unk10 = 0x80;
-    ((Unkstruct_800CB634 *)a0)->unk2 = ((Unkstruct_800CB634 *)a0)->unk2 + 1;
+    ((Unkstruct_8011D030 *)a0)->unk1C.s = 0x20;
+    ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u = 0;
+    ((Unkstruct_8011D030 *)a0)->unk10.i.lo.u = 0x80;
+    ((Unkstruct_8011D030 *)a0)->unk2.u = ((Unkstruct_8011D030 *)a0)->unk2.u + 1;
 }

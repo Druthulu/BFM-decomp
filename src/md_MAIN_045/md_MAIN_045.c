@@ -13,7 +13,7 @@ void func_800CCB28(s32 *param_1)
 
     func_80149020(param_1);
     s0 = param_1;
-    idx = ((Unkstruct_80126B58 *)s0)->unk2 - 2;
+    idx = ((Unkstruct_80126B58 *)s0)->unk2.u - 2;
     D_800CD668[idx](s0);
 }
 
@@ -46,12 +46,12 @@ extern void guess_FreeObjectAndSubObject_20(void);
 void func_800CCC54(s32 param_1)
 {
     s32 iVar1;
-    iVar1 = ((Unkstruct_800CCC54 *)param_1)->unk4C;
-    D_800CD684[((Unkstruct_800CCC54 *)param_1)->unk2]();
+    iVar1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
+    D_800CD684[((Ent_80164930_80164930 *)param_1)->unk2.u]();
     ((Unkstruct_800CCC54_3 *)*(s32 *)(param_1 + 0x20))->unk4 &= 0x7FFFFFFF;
-    ((Unkstruct_800CCC54_3 *)*(s32 *)(param_1 + 0x20))->unk4 |= *(s32 *)(((Unkstruct_800CCC54_2 *)iVar1)->unk20 + 4) & 0x80000000;
-    ((Unkstruct_800CCC54 *)param_1)->unk60 = 0;
-    D_800CE050 = func_80012ABC(D_800CE050, *(s16 *)(((Unkstruct_800CCC54_2 *)iVar1)->unk20 + 0x12), 10);
+    ((Unkstruct_800CCC54_3 *)*(s32 *)(param_1 + 0x20))->unk4 |= *(s32 *)(((Unkstruct_80126B58 *)iVar1)->unk20.val + 4) & 0x80000000;
+    ((Ent_80164930_80164930 *)param_1)->unk60.u = 0;
+    D_800CE050 = func_80012ABC(D_800CE050, *(s16 *)(((Unkstruct_80126B58 *)iVar1)->unk20.val + 0x12), 10);
     func_8014ACC0(iVar1, 1);
     if (func_80161A00(iVar1) == 0) {
         func_80147364(0x4, 0x8E0);
@@ -99,7 +99,7 @@ void func_800CCDD8(s32 a0) {
     u8 *v1;
     u16 w;
 
-    flag = ((Unkstruct_800CCDD8_2 *)a0)->unk60;
+    flag = ((Ent_80164930_80164930 *)a0)->unk60.s;
     v1 = *(u8 **)(a0 + 0x20);
     if (flag != 0) {
         ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u = w = ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u + 0x100;
@@ -139,13 +139,13 @@ void func_800CCE80(void *arg0) {
     void *s0;
     void *p;
 
-    s2 = ((Unkstruct_800CCDD8_2 *)arg0)->unk4C;
+    s2 = ((Ent_80164930_80164930 *)arg0)->unk4C;
     p = ((Unkstruct_800CCE80_2 *)s2)->unk20;
-    s1 = ((Unkstruct_800CCDD8_2 *)arg0)->unk20;
-    ((Unkstruct_800CCDD8_2 *)arg0)->unk6 = ((Unkstruct_80136A94 *)p)->unk48;
-    ((Unkstruct_800CCDD8_2 *)arg0)->unkA = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
+    s1 = ((Ent_80164930_80164930 *)arg0)->unk20;
+    ((Ent_80164930_80164930 *)arg0)->unk6.s = ((Unkstruct_80136A94 *)p)->unk48;
+    ((Ent_80164930_80164930 *)arg0)->unkA.s = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
     s0 = (void *)((u8 *)s1 + 0x34);
-    ((Unkstruct_800CCDD8_2 *)arg0)->unkE = ((Unkstruct_80136A94 *)p)->unk50;
+    ((Ent_80164930_80164930 *)arg0)->unkE.s = ((Unkstruct_80136A94 *)p)->unk50;
     func_80013F3C(s0);
     RotMatrixY(((Unkstruct_8001C9D0 *)s1)->head.unk10.w.unk12.s, s0);
     func_80048D9C(s0, (void *)((u8 *)((Unkstruct_800CCE80_2 *)s2)->unk20 + 0x34));
@@ -186,8 +186,8 @@ extern void func_800CD1A8(void *arg0);
 void func_800CCFA8(s32 param_1)
 {
     s32 iVar1;
-    iVar1 = ((Unkstruct_800CCFA8 *)param_1)->unk4C;
-    D_800CD6B0[((Unkstruct_800CCFA8 *)param_1)->unk2]();
+    iVar1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
+    D_800CD6B0[((Ent_80164930_80164930 *)param_1)->unk2.u]();
     if (func_80161A00(iVar1) == 0) {
         ((void (*)(s32))func_800CD1A8)(param_1);
     }
@@ -244,10 +244,10 @@ void func_800CD0CC(s32 param_1)
     s16 tmp;
 
     v1 = *(u16 **)(param_1 + 0x20);
-    s1 = ((Unkstruct_800CD0CC *)param_1)->unk4C;
-    *(u16 *)(v1 + 0x14) = D_800CD690[(((Unkstruct_800CD0CC *)param_1)->unk1C & 7) * 2];
-    CAST_MISALIGNED(u16, v1, 0x15) = D_800CD692[(((Unkstruct_800CD0CC *)param_1)->unk1C & 7) * 2];
-    (((Unkstruct_800CD0CC *)param_1)->unk1C)++;
+    s1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
+    *(u16 *)(v1 + 0x14) = D_800CD690[(((Ent_80164930_80164930 *)param_1)->unk1C & 7) * 2];
+    CAST_MISALIGNED(u16, v1, 0x15) = D_800CD692[(((Ent_80164930_80164930 *)param_1)->unk1C & 7) * 2];
+    (((Ent_80164930_80164930 *)param_1)->unk1C)++;
     tmp = *(s16 *)(s1 + 0x1C8) * 16 + 0x1000;
     CAST_MISALIGNED(u16, v1, 0xD) = tmp;
     *(u16 *)(v1 + 0xC) = tmp;
@@ -266,9 +266,9 @@ extern void guess_ClearObjectAndSubObject(u8 *);
 void func_800CD1A8(void *arg0) {
 
     guess_SpawnSmallObject(3, arg0,
-                  ((Ent_80164930_80164930 *)arg0)->unk6,
-                  ((Ent_80164930_80164930 *)arg0)->unkA,
-                  ((Ent_80164930_80164930 *)arg0)->unkE,
+                  ((Ent_80164930_80164930 *)arg0)->unk6.s,
+                  ((Ent_80164930_80164930 *)arg0)->unkA.s,
+                  ((Ent_80164930_80164930 *)arg0)->unkE.s,
                   0x8880000, 0x1800A000);
     ((void (*)(void *))guess_ClearObjectAndSubObject)(arg0);
 }
@@ -291,8 +291,8 @@ void func_800CD204(s32 arg0) {
     s32 v1;
     s16 ang;
 
-    y = ((Unkstruct_800CD204 *)arg0)->unk4C;
-    x = ((Unkstruct_800CD204 *)arg0)->unk20;
+    y = ((Ent_80164930_80164930 *)arg0)->unk4C;
+    x = ((Ent_80164930_80164930 *)arg0)->unk20;
     ang = func_8012A758();
     func_80013694(*(s16 *)(x + 0x10), D_800CD6BC, sp10);
     func_800139C8((s16)(ang + 0x400), sp10, sp10);
@@ -301,17 +301,17 @@ void func_800CD204(s32 arg0) {
     t = sp10[1] - 0x20;
     sp10[1] = t + ((Unkstruct_80136A94 *)w)->unk4C;
     sp10[2] = sp10[2] + ((Unkstruct_80136A94 *)w)->unk50;
-    v1 = rcos(((Unkstruct_800CD204 *)arg0)->unk60);
+    v1 = rcos(((Ent_80164930_80164930 *)arg0)->unk60.s);
     if (v1 < 0) {
         v1 += 0x1FF;
     }
     sp10[0] = sp10[0] + (v1 >> 9);
-    v1 = rsin(((Unkstruct_800CD204 *)arg0)->unk60);
+    v1 = rsin(((Ent_80164930_80164930 *)arg0)->unk60.s);
     if (v1 < 0) {
         v1 += 0xFF;
     }
     sp10[1] = sp10[1] + (v1 >> 8);
-    ((Unkstruct_800CD204 *)arg0)->unk60 = (CAST_SIGN(u16, arg0, 0x60) + 0x38) & 0xFFF;
+    ((Ent_80164930_80164930 *)arg0)->unk60.s = (CAST_SIGN(u16, arg0, 0x60) + 0x38) & 0xFFF;
     func_80015954(sp10, arg0 + 4);
 }
 
@@ -323,8 +323,8 @@ extern void guess_FreeObjectAndSubObject_24(void);
 void func_800CD328(s32 param_1)
 {
     s32 iVar1;
-    iVar1 = ((Unkstruct_800CCFA8 *)param_1)->unk4C;
-    D_800CD6C4[((Unkstruct_800CCFA8 *)param_1)->unk2]();
+    iVar1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
+    D_800CD6C4[((Ent_80164930_80164930 *)param_1)->unk2.u]();
     if (func_80161A00(iVar1) == 0) {
         ((void (*)(s32))guess_FreeObjectAndSubObject_24)(param_1);
     }

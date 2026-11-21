@@ -65,7 +65,7 @@ void func_800CAF5C(s32 *a0) {
 void func_800CAF90(void *a0) {
 
     extern void (*D_800CC140[])(void);
-    D_800CC140[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CC140[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -192,7 +192,7 @@ void func_800CB270(int param_1)
     if (D_80078EC1 != 24) {
         KR_AS(void, func_800CB7FC)();
     } else {
-        D_800CC180[((Unkstruct_800CB270 *)param_1)->unk2]();
+        D_800CC180[((Ent_80164930_80164930 *)param_1)->unk2.u]();
     }
 }
 
@@ -404,9 +404,9 @@ void func_800CB4A4(s32 a0) {
 tail:
     func_800CBCB4((void *)s1);
     dig = (s16 *)D_800CC298;
-    v0 = func_80012F74(dig[0], ((Ent_80164930_80164930 *)s1)->unk6, 0xA, 1);
+    v0 = func_80012F74(dig[0], ((Ent_80164930_80164930 *)s1)->unk6.s, 0xA, 1);
     dig[0] = v0;
-    v0 = func_80012F74(D_800CC29A, ((Ent_80164930_80164930 *)s1)->unkA, 0xA, 1);
+    v0 = func_80012F74(D_800CC29A, ((Ent_80164930_80164930 *)s1)->unkA.s, 0xA, 1);
     D_800CC29A = v0;
     v0 = func_80012F74(D_800CC29C, CAST_ALIAS(s16, s1, 0xE), 0xA, 1);
     D_800CC29C = v0;
@@ -649,7 +649,7 @@ void func_800CBECC(int param_1)
     if (D_80078EC1 != 24) {
         guess_FreeObjectAndSubObject_18();
     } else {
-        D_800CC1C4[((Unkstruct_800CB270 *)param_1)->unk2]();
+        D_800CC1C4[((Ent_80164930_80164930 *)param_1)->unk2.u]();
     }
 }
 
@@ -723,21 +723,21 @@ void func_800CC024(s32 a0p) {
         obj = a0p;
     }
 
-    s2 = ((Unkstruct_800CC024 *)obj)->unk4C;
-    s3 = ((Unkstruct_800CC024 *)obj)->unk20;
+    s2 = ((Ent_80164930_80164930 *)obj)->unk4C;
+    s3 = ((Ent_80164930_80164930 *)obj)->unk20;
     if (s2 == 0) {
         return;
     }
 
     func_80015954((s32)D_800CC290, obj + 4);
 
-    v = ((Unkstruct_800CC024 *)obj)->unk60;
-    t = ((Unkstruct_800CC024 *)obj)->unkA;
+    v = ((Ent_80164930_80164930 *)obj)->unk60.u;
+    t = ((Ent_80164930_80164930 *)obj)->unkA.u;
     do { m = v & 0x1F; ang = ((m << 8) & 0x7F00) >> 1; } while (0);  // !FAKE: do-while
-    ((Unkstruct_800CC024 *)obj)->unkA = t - 0x10;
-    ((Unkstruct_800CC024 *)obj)->unk60 = v + 1;
+    ((Ent_80164930_80164930 *)obj)->unkA.u = t - 0x10;
+    ((Ent_80164930_80164930 *)obj)->unk60.u = v + 1;
 
-    if (((Unkstruct_800CC024 *)obj)->unk50 == 0) {
+    if (((Ent_80164930_80164930 *)obj)->f50 == 0) {
         r = rcos(m << 7);
     } else {
         r = 0x1000 - rcos(m << 7);
@@ -745,8 +745,8 @@ void func_800CC024(s32 a0p) {
     d[0] = r / 1024;
     d[1] = rsin(ang) / 512;
 
-    ((Unkstruct_800CC024 *)obj)->unk6 += d[0];
-    ((Unkstruct_800CC024 *)obj)->unkA += d[1];
+    ((Ent_80164930_80164930 *)obj)->unk6.u += d[0];
+    ((Ent_80164930_80164930 *)obj)->unkA.u += d[1];
     ((Unkstruct_800CC024_3 *)s3)->unk18 = ((Unkstruct_800CC024_4 *)*(s32 *)(s2 + 0x20))->unk18;
 }
 

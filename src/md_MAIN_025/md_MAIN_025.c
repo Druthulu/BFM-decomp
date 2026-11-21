@@ -437,19 +437,19 @@ void func_800CB8A4(void *a0) {
     void *s1;
 
     s1 = a0;
-    ((Unkstruct_800CB8A4_3 *)s1)->unk20 = 0;
-    ((Unkstruct_800CB8A4_3 *)s1)->unk4C = 0;
+    ((Ent_80164930_80164930 *)s1)->unk20 = 0;
+    ((Ent_80164930_80164930 *)s1)->unk4C = 0;
     s0 = ((s32 (*)(void))func_80146578)();
     if (s0) {
-        ((Unkstruct_800CB8A4_3 *)s1)->unk20 = s0;
+        ((Ent_80164930_80164930 *)s1)->unk20 = s0;
         func_8001CEC0(s0, D_800CBECC);
         ((Unkstruct_800B5BD8 *)s0)->head.unk2C.u = 1;
         ((Unkstruct_800B5BD8 *)s0)->head.unk4.s |= 0x80000000;
-        ((Unkstruct_800CB8A4_3 *)s1)->unk6 = -0x28;
-        ((Unkstruct_800CB8A4_3 *)s1)->unkA = -0x40;
+        ((Ent_80164930_80164930 *)s1)->unk6.s = -0x28;
+        ((Ent_80164930_80164930 *)s1)->unkA.s = -0x40;
         s0 = ((s32 (*)(void))func_80146578)();
         if (s0) {
-            ((Unkstruct_800CB8A4_3 *)s1)->unk10 = s0;
+            ((Ent_80164930_80164930 *)s1)->unk10 = s0;
             func_8001CB00(s0, D_800CBF20, 0x1A0, 0x170);
             func_800CBB50(s0);
             ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = 0;
@@ -533,7 +533,7 @@ void func_800CBAF4(void *a0)
     extern s32 guess_TickWaitTimer_2(s32 a0);
     extern void func_800CBBF8(void);
 
-    s0 = ((Unkstruct_80126B58 *)a0)->unk10;
+    s0 = ((Unkstruct_80126B58 *)a0)->unk10.val;
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
         func_800CBBF8();
     } else if (s0 != 0) {
@@ -581,8 +581,8 @@ void func_800CBBF8(void) {
     u8 *p;
 
     for (p = (u8 *)&(*(s32 *)D_8011F9D0); p < (u8 *)&(*(s32 *)D_8011F9D0) + 0x820; p += 0x68) {
-        if (((Unkstruct_800CBBF8_2 *)p)->unk0 == 0x27) {
-            if (((Unkstruct_800CBBF8_2 *)p)->unk10 != 0) {
+        if (((Ent_80164930_80164930 *)p)->f0 == 0x27) {
+            if (((Ent_80164930_80164930 *)p)->unk10 != 0) {
                 guess_ZeroMemory(CAST_SIGN(s8 *, p, 0x10), 0x38);
             }
             ((void (*)(u8 *))guess_ClearObjectAndSubObject)(p);

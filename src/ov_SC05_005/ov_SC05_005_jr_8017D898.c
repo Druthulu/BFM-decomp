@@ -4305,7 +4305,7 @@ void func_8018104C(void) {
 extern void (*D_801A6294[])(void);
 
 void func_80181128(void *a0) {
-    D_801A6294[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A6294[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4704,7 +4704,7 @@ ret0:
 extern void (*D_801A62E8[])(void);
 
 void func_80181984(void *a0) {
-    D_801A62E8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A62E8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4878,7 +4878,7 @@ s32 func_80181DE4(s32 a0, s32 a1) {
 extern void (*D_801ABAB4[])(void);
 
 void func_80181F48(void *a0) {
-    D_801ABAB4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801ABAB4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4971,7 +4971,7 @@ extern void func_80151664(s32 a0v);
 extern void (*D_801ABB1C[])(void);
 
 void func_801821D4(void *a0) {
-    D_801ABB1C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801ABB1C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5040,8 +5040,8 @@ void func_801822E8(void *a0)
 
 void func_801823AC(s32 arg0)
 {
-    guess_TransformPosByObjMatrix(((Unkstruct_8017DBD4 *)arg0)->unk34, arg0 + 4);
-    if (((Unkstruct_8017DBD4 *)arg0)->unk2C == 0) {
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)arg0)->unk34, arg0 + 4);
+    if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 0) {
         func_800D1FC8(arg0, 5);
     }
 }

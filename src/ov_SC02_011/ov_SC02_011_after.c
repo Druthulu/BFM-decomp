@@ -2162,7 +2162,7 @@ extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_co
 void func_80151944(void *a0) {
 
     extern void (*D_80192A40[])(void);
-    D_80192A40[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192A40[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2200,7 +2200,7 @@ extern void (*D_80192A50[])(void);
 extern void (*D_80192A74[])(void);
 
 void func_80152058(void *a0) {
-    D_80192A74[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192A74[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2251,7 +2251,7 @@ void func_801520DC(s32 arg0)
 extern void (*D_80192A88[])(void);
 
 void func_80152370(void *a0) {
-    D_80192A88[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192A88[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2317,7 +2317,7 @@ void func_801523F4(s32 arg0)
 extern void (*D_80192AA4[])(void);
 
 void func_80152698(void *a0) {
-    D_80192AA4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192AA4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2331,7 +2331,7 @@ void func_80152698(void *a0) {
 extern void (*D_80192ABC[])(void);
 
 void func_8015282C(void *a0) {
-    D_80192ABC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192ABC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2380,7 +2380,7 @@ void func_801528B0(s32 arg0)
 extern void (*D_80192AD0[])(void);
 
 void func_80152B6C(void *a0) {
-    D_80192AD0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192AD0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2396,7 +2396,7 @@ void func_80152B6C(void *a0) {
 extern void (*D_80192AEC[])(void);
 
 void func_80152D24(void *a0) {
-    D_80192AEC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192AEC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2446,7 +2446,7 @@ void func_80152DA8(s32 arg0)
 extern void (*D_80192B00[])(void);
 
 void func_80153060(void *a0) {
-    D_80192B00[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192B00[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2466,7 +2466,7 @@ void func_80153060(void *a0) {
 extern void (*D_80192B14[])(void);
 
 void func_80153320(void *a0) {
-    D_80192B14[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80192B14[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

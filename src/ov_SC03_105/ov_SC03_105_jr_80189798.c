@@ -2945,7 +2945,7 @@ void func_80189BA4(void *a0) {
 extern void (*D_801B68E8[])(void);
 
 void func_80189C48(void *a0) {
-    D_801B68E8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801B68E8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

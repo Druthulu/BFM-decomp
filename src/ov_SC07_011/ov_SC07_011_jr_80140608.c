@@ -2021,7 +2021,7 @@ void func_8014358C(s32 param_1)
 void func_80143C38(void *a0) {
 
     extern void (*D_8017FFB0[])(void);
-    D_8017FFB0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8017FFB0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2329,7 +2329,7 @@ void func_80144880(s32 param_1)
 void func_801449C8(void *a0) {
 
     extern void (*D_80180024[])(void);
-    D_80180024[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180024[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

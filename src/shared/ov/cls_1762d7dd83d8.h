@@ -3,5 +3,5 @@
 void SHARED_FN(void *a0) {
 
     extern void (*D_801854BC[])(void);
-    D_801854BC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801854BC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

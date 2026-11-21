@@ -2162,7 +2162,7 @@ extern void func_80153C18(void);  /* fleet canon: K&R empty prototype (engine_co
 void func_80151944(void *a0) {
 
     extern void (*D_80183A7C[])(void);
-    D_80183A7C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183A7C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2180,7 +2180,7 @@ void func_80151944(void *a0) {
 extern void (*D_80183A8C[])(void);
 
 void func_80151D24(void *a0) {
-    D_80183A8C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183A8C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2331,7 +2331,7 @@ extern void (*D_80183AE0[])(void);
 extern void (*D_80183AF8[])(void);
 
 void func_8015282C(void *a0) {
-    D_80183AF8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183AF8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2446,7 +2446,7 @@ void func_80152DA8(s32 arg0)
 extern void (*D_80183B3C[])(void);
 
 void func_80153060(void *a0) {
-    D_80183B3C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183B3C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

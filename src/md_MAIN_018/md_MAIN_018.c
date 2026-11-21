@@ -246,12 +246,12 @@ void func_800CB328(void *a0) {
     s32 cnt;
     u16 t18;
 
-    pf20 = ((Unkstruct_800CB328 *)obj)->unk20;
-    pf34 = ((Unkstruct_800CB328 *)obj)->unk34;
+    pf20 = ((Unkstruct_8011D030 *)obj)->unk20;
+    pf34 = ((Unkstruct_8011D030 *)obj)->unk34;
 
     if (D_80078EC1 == 3) {
-        cnt = ((Unkstruct_800CB328 *)obj)->unk2C - 4;
-        ((Unkstruct_800CB328 *)obj)->unk2C = cnt;
+        cnt = ((Unkstruct_8011D030 *)obj)->unk2C.val.s - 4;
+        ((Unkstruct_8011D030 *)obj)->unk2C.val.s = cnt;
         if ((u32)cnt < 0x1C) {
             guess_SpawnSmallObject(3, obj,
                           CAST_SIGN(s16, (s32)obj, 0x6),
@@ -269,14 +269,14 @@ void func_800CB328(void *a0) {
             ((Unkstruct_800CB328_3 *)pf20)->unk1A = t18;
             ((Unkstruct_800CB328_3 *)pf20)->unk18 = t18;
 
-            ((Unkstruct_800CB328 *)obj)->unk30 +=
-                0xA00000u / (((Unkstruct_800CB328 *)obj)->unk2C * 804);
+            ((Unkstruct_8011D030 *)obj)->unk30.val.s +=
+                0xA00000u / (((Unkstruct_8011D030 *)obj)->unk2C.val.s * 804);
 
             m = D_800AE620;
-            RotMatrixY(((Unkstruct_800CB328 *)obj)->unk30, &m);
+            RotMatrixY(((Unkstruct_8011D030 *)obj)->unk30.val.s, &m);
             rot.x = 0;
             rot.y = -(CAST_SIGN(u32, (s32)obj, 0x2C) >> 1);
-            rot.z = ((Unkstruct_800CB328 *)obj)->unk2C;
+            rot.z = ((Unkstruct_8011D030 *)obj)->unk2C.val.s;
             m.t[0] = guess_g_PlayerPosX;
             m.t[1] = guess_g_PlayerPosY - 0x1C;
             m.t[2] = guess_g_PlayerPosZ;
@@ -284,14 +284,14 @@ void func_800CB328(void *a0) {
 
             CAST_ALIAS(u16, (s32)obj, 0x6) = *(u16 *)&rot.x;
             CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.y;
-            ((Unkstruct_800CB328 *)obj)->unkE = *(u16 *)&rot.z;
+            ((Unkstruct_8011D030 *)obj)->unkE.u = *(u16 *)&rot.z;
 
             ((Unkstruct_800CB328_2 *)pf34)->unk4 &= mask;
             ((Unkstruct_800CB328_2 *)pf34)->unk18 = ((Unkstruct_800CB328_3 *)pf20)->unk18;
             ((Unkstruct_800CB328_2 *)pf34)->unk1A = ((Unkstruct_800CB328_3 *)pf20)->unk1A;
-            ((Unkstruct_800CB328_2 *)pf34)->unk8 = ((Unkstruct_800CB328 *)obj)->unk6;
-            ((Unkstruct_800CB328_2 *)pf34)->unkA = ((Unkstruct_800CB328 *)obj)->unkA;
-            ((Unkstruct_800CB328_2 *)pf34)->unkC = ((Unkstruct_800CB328 *)obj)->unkE;
+            ((Unkstruct_800CB328_2 *)pf34)->unk8 = ((Unkstruct_8011D030 *)obj)->unk6.u;
+            ((Unkstruct_800CB328_2 *)pf34)->unkA = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
+            ((Unkstruct_800CB328_2 *)pf34)->unkC = ((Unkstruct_8011D030 *)obj)->unkE.u;
             return;
         }
     }
@@ -307,6 +307,6 @@ void func_800CB328(void *a0) {
 void func_800CB5AC(void *a0) {
 
     extern void (*D_800CB614[])(void);
-    D_800CB614[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_800CB614[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 

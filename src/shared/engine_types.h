@@ -2992,13 +2992,6 @@ typedef struct {
     u8 pad78[0x84];
     s16 unkFC;
 } Work;
-typedef struct {
-    u8 pad0[8];
-    s32 f08;
-    s32 f0C;
-    u8 pad10[0x20];
-    s16 f30;
-} Work_80126948;
 typedef Pair16 Work_8017E550;
 typedef Pair16 Work_8017E878;
 typedef struct {

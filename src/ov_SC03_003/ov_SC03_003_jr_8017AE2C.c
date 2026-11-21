@@ -3339,7 +3339,7 @@ void func_8017BEF8(s32 param_1)
     *(s16 *)(s0 + 0x14) = -0xE3;
     *(s32 *)(s0 + 4) |= 0x8000000;
     guess_SetWaitTimer_2((s32 *)param_1, 4);
-    ((Unkstruct_80126B58 *)param_1)->unk2 += 1;
+    ((Unkstruct_80126B58 *)param_1)->unk2.u += 1;
 }
 
 

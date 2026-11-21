@@ -2631,7 +2631,7 @@ extern void (*D_80185A38[])(void*);
 extern s32 func_80175268(s32);
 
 void func_80175184(s32* arg0) {
-    u16 v1 = ((Unkstruct_80126B58 *)arg0)->unk2;
+    u16 v1 = ((Unkstruct_80126B58 *)arg0)->unk2.u;
     if (v1 < 2) {
         D_80185A38[v1](arg0);
     } else {
@@ -3150,7 +3150,7 @@ L340:
             if (d > 10)  nc = CAST_SIGN(u16, cach, 0x40) - 2;
             else         nc = CAST_SIGN(u16, cach, 0x40) - 1;
         }
-        ((Unkstruct_80078E78 *)cach)->bp_current = nc;
+        ((Unkstruct_80078E78 *)cach)->bp_current.s = nc;
         *(u16 *)(flag + 0x40) = 1;
         ((Unkstruct_80078E78 *)cach)->bp_max = ((Unkstruct_80078E78 *)cur)->bp_max;
         goto L3E8;

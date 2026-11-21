@@ -136,7 +136,7 @@ void func_800CB1C0(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB38[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CBB38[v0]();
     } else {
         guess_FreeObjectAndSubObject_8();
@@ -256,7 +256,7 @@ void func_800CB494(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB58[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
+        u16 v0 = ((Unkstruct_8011D030 *)arg0)->unk2.u;
         D_800CBB58[v0]();
     } else {
         KR_AS(s32, guess_FreeSmallObject)();
@@ -298,7 +298,7 @@ void func_800CB4F0(void *arg0) {
     sv[2] = *(u16 *)((char *)arg0 + 0xE) - 0x24;
     KR_AS(void, guess_ObjRotTransSV)(s3, sv, sv);
 
-    t = ((Unkstruct_800CB4F0 *)s3)->unk20;
+    t = ((Unkstruct_80126B58 *)s3)->unk20.val;
     *(Blk16 *)((char *)arg0 + 0x38) = *(Blk16 *)(t + 0x34);
     *(Blk16 *)((char *)arg0 + 0x48) = *(Blk16 *)(t + 0x44);
 
@@ -313,7 +313,7 @@ void func_800CB4F0(void *arg0) {
     func_80017DC4(sv, mtx);
 
     RotMatrixZ(rand() & 0xFFF, mtx);
-    MulMatrix0(((Unkstruct_800CB4F0 *)s3)->unk20 + 0x34, mtx, s2 + 0x34);
+    MulMatrix0(((Unkstruct_80126B58 *)s3)->unk20.val + 0x34, mtx, s2 + 0x34);
 
     guess_SpawnSmallObject(0x13, arg0,
                   *(short *)((char *)arg0 + 6),
@@ -399,7 +399,7 @@ void func_800CB830(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB60[])(void);
     if (D_80078EC1 == 0x8) {
-        u16 v0 = ((Unkstruct_800CB1C0 *)arg0)->unk2;
+        u16 v0 = ((Unkstruct_8011D030 *)arg0)->unk2.u;
         D_800CBB60[v0]();
     } else {
         KR_AS(s32, guess_FreeSmallObject)();

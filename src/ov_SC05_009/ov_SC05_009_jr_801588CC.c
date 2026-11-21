@@ -1193,7 +1193,7 @@ void func_80158BB0(void *arg0) {
     guess_PlaySoundUnlessSkipped(0x456);
     guess_SetAnimScript(arg0, &D_800D58D8);
     guess_SetTexAnim(arg0, 0x16);
-    ((Unkstruct_80126B58 *)arg0)->unk234 = 0xE30000;
+    ((Unkstruct_80126B58 *)arg0)->unk234.val = 0xE30000;
     ((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk10.u = 0;
     guess_ClearTiltVectors(arg0);
     func_801474D8(arg0);

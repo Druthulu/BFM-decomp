@@ -3302,7 +3302,7 @@ void func_8017BE60(void *a0) {
 extern void (*D_8018DED8[])(void);
 
 void func_8017BEBC(void *a0) {
-    D_8018DED8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018DED8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4039,7 +4039,7 @@ extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 
 extern void (*D_8018E050[])(void);
 
 void func_8017D0E8(void *a0) {
-    D_8018E050[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018E050[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4259,7 +4259,7 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 extern void (*D_8018E078[])(void);
 
 void func_8017D9B4(void *a0) {
-    D_8018E078[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018E078[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4382,7 +4382,7 @@ void func_8017DD3C(s32 a0) {
 extern void (*D_8018E08C[])(void);
 
 void func_8017DE98(void *a0) {
-    D_8018E08C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018E08C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4411,9 +4411,9 @@ void func_8017DED4(void *a0)
 {
     s32 val;
 
-    val = ((Unkstruct_8011D030 *)a0)->unk1C;
+    val = ((Unkstruct_8011D030 *)a0)->unk1C.s;
     val--;
-    ((Unkstruct_8011D030 *)a0)->unk1C = val;
+    ((Unkstruct_8011D030 *)a0)->unk1C.s = val;
 
     if (val != -1) {
         guess_AddVelocityToPos_4((s32)a0);

@@ -1623,7 +1623,7 @@ extern void guess_TransformPosByObjMatrix(s32 a0, s32 a1);
 s32 func_8015E1B8(s32 a0) {
 
     extern void (*D_80181418[])(void);
-    D_80181418[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181418[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -1835,7 +1835,7 @@ extern int func_80155FF8(int arg, int a1);
 void func_8015F324(s32 *a0) {
 
     extern void (*D_80181464[])(void);
-    D_80181464[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181464[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2159,7 +2159,7 @@ extern void (*D_80181160[])(void*);
 s32 func_80160B34(s32 a0) {
 
     extern void (*D_8018155C[])(void);
-    D_8018155C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018155C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3867,7 +3867,7 @@ extern void func_80048EAC(void *a0, void *a1);
 extern void (*D_80181A94[])(void);
 
 void func_801678B4(void *a0) {
-    D_80181A94[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80181A94[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

@@ -786,7 +786,7 @@ void func_800CC298(void *a0) {
     } else {
         func_800CC968(a0);
         func_800CC9AC(a0);
-        D_800CCA24[((Unkstruct_800CC298 *)a0)->unk2](a0);
+        D_800CCA24[((Ent_80164930_80164930 *)a0)->unk2.u](a0);
     }
 }
 
@@ -1069,9 +1069,9 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
 
 void func_800CC968(void *a0) {
     s32 *t = *(s32 **)((u8 *)a0 + 0x4C);
-    ((Unkstruct_800CC298 *)a0)->unk6 = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x48);
-    ((Unkstruct_800CC298 *)a0)->unkA = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x4C);
-    ((Unkstruct_800CC298 *)a0)->unkE = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x50);
+    ((Ent_80164930_80164930 *)a0)->unk6.u = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x48);
+    ((Ent_80164930_80164930 *)a0)->unkA.u = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x4C);
+    ((Ent_80164930_80164930 *)a0)->unkE.u = CAST_NONSTRUCT(u32, (u8 *)*(s32 **)((u8 *)t + 0x20), 0x50);
 }
 
 

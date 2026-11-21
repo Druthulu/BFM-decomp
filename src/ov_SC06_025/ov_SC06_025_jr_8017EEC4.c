@@ -4256,7 +4256,7 @@ void func_80180E30(void *a0) {
 extern void (*D_8018908C[])(void);
 
 void func_80180E98(void *a0) {
-    D_8018908C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018908C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4450,7 +4450,7 @@ void func_80181148(void *a0)
 extern void (*D_8018923C[])(void);
 
 void func_80181260(void *a0) {
-    D_8018923C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018923C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4521,7 +4521,7 @@ void func_801812FC(s32 a0) {
 extern void (*D_801893F4[])(void);
 
 void func_80181488(void *a0) {
-    D_801893F4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801893F4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4614,7 +4614,7 @@ void func_80181668(void) {
 extern void (*D_801894F0[])(void);
 
 void func_801816C4(void *a0) {
-    D_801894F0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801894F0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6098,7 +6098,7 @@ void func_801836CC(void *a0) {
     extern u8 D_801AD9E4;
     extern void (*D_801ADA0C[])(void *);
     guess_StartPadVibration(&D_801AD9E4);
-    D_801ADA0C[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_801ADA0C[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 
@@ -6353,7 +6353,7 @@ done:
 extern void (*D_801ADA18[])(void);
 
 void func_801839F0(void *a0) {
-    D_801ADA18[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801ADA18[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6523,7 +6523,7 @@ s32 func_80183C34(s32 *a0, s32 a1) {
 extern void (*D_801ADA50[])(void);
 
 void func_80183C9C(void *a0) {
-    D_801ADA50[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801ADA50[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6711,7 +6711,7 @@ void func_80183ED8(int a, s16 *b, M8_801312D0 *c, M8_801312D0 *d,
 extern void (*D_801ADAC8[])(void);
 
 void func_80184254(void *a0) {
-    D_801ADAC8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801ADAC8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6791,7 +6791,7 @@ void func_80184410(s32 a0)
 extern void (*D_801AE188[])(void);
 
 void func_80184468(void *a0) {
-    D_801AE188[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AE188[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -7038,7 +7038,7 @@ s32 func_801848F8(void) {
 extern void (*D_801AE1B0[])(void);
 
 void func_8018495C(void *a0) {
-    D_801AE1B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801AE1B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

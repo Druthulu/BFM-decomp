@@ -3541,7 +3541,7 @@ s32 func_8017EFEC(s32 param_1)
 extern void (*D_80182FC8[])(void);
 
 void func_8017F1A0(void *a0) {
-    D_80182FC8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80182FC8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

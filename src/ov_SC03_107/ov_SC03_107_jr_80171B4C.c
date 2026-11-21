@@ -3895,7 +3895,7 @@ extern s32 func_80175268(s32);
 void func_80175184(s32* arg0) {
 
     extern void (*D_80185B30[])(void*);
-    u16 v1 = ((Unkstruct_80175184_2 *)arg0)->unk2;
+    u16 v1 = ((Unkstruct_80175184_2 *)arg0)->unk2.u;
     if (v1 < 2) {
         D_80185B30[v1](arg0);
     } else {

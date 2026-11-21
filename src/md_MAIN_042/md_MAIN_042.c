@@ -72,7 +72,7 @@ void func_800CCBF0(u8 *a0) {
         }
     }
 
-    switch (((Unkstruct_80126B58 *)a0)->unk234) {
+    switch (((Unkstruct_80126B58 *)a0)->unk234.val) {
     case 0:
         if (((Unkstruct_80126B58 *)a0)->unkB8.u & 0x8000) {
             if (CAST_SIGN(s16, a0, 0x246) < 0x1000) {
@@ -85,7 +85,7 @@ void func_800CCBF0(u8 *a0) {
             } else {
                 ((Unkstruct_80126B58 *)a0)->unkB8.u = 1;
                 ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.w.unk12.u = ((Unkstruct_80126B58 *)a0)->unk244.u;
-                ((Unkstruct_80126B58 *)a0)->unk234 += 1;
+                ((Unkstruct_80126B58 *)a0)->unk234.val += 1;
             }
         }
         break;

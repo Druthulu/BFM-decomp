@@ -3634,7 +3634,7 @@ void func_8017C974(s32 arg0)
     func_800491EC();
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
-    func_8017C294(D_801DA9A0, rect, ((Unkstruct_8017C974 *)arg0)->unk60);
+    func_8017C294(D_801DA9A0, rect, ((Unkstruct_8017FA5C *)arg0)->unk60);
 
     pkt = D_800A5E60;
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
@@ -3648,7 +3648,7 @@ void func_8017C974(s32 arg0)
     cy0 = (cy0 < 0) ? 0 : ((cy0 > 0x3F) ? 0x3F : cy0);
     cy1 = (cy1 < 0) ? 0 : ((cy1 > 0x3F) ? 0x3F : cy1);
 
-    rowptr = (CellC974 **)(((Unkstruct_8017C974 *)arg0)->unkC) + (cy0 * 64 + cx0);
+    rowptr = (CellC974 **)(((Unkstruct_8017FA5C *)arg0)->unkC) + (cy0 * 64 + cx0);
 
     for (y = cy0; y < cy1; y++, rowptr += 0x40) {
         for (col = cx0, p = rowptr; col < cx1; col++, p++) {
@@ -4311,16 +4311,16 @@ void func_8017DFD8(int param_1) {
     }
     if (func_8016F410(1) != 0) {
         ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_8018A69C);
-        ((Unkstruct_8017DFD8 *)param_1)->unk20C = 1;
+        ((Unkstruct_80126B58 *)param_1)->unk20C.s = 1;
     }
-    if (((Unkstruct_8017DFD8 *)param_1)->unk20C == 1 && (*(unsigned short *)(param_1 + 0xb8) & 0x8000) != 0) {
-        ((Unkstruct_8017DFD8 *)param_1)->unk20C = 2;
+    if (((Unkstruct_80126B58 *)param_1)->unk20C.s == 1 && (*(unsigned short *)(param_1 + 0xb8) & 0x8000) != 0) {
+        ((Unkstruct_80126B58 *)param_1)->unk20C.s = 2;
         ((void (*)(int, void *))guess_SetAnimScript)(param_1, &D_8018A6E4);
     }
-    if (guess_GetTextWindowResult(((Unkstruct_8017DFD8 *)param_1)->unk198) != 0) {
-        guess_CloseTextWindow(((Unkstruct_8017DFD8 *)param_1)->unk198);
+    if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
+        guess_CloseTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
         ((void (*)(int))func_80147060)(param_1);
-        ((Unkstruct_8017DFD8 *)param_1)->unk214 = ((Unkstruct_8017DFD8 *)param_1)->unk214 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk214.s = ((Unkstruct_80126B58 *)param_1)->unk214.s + 1;
     }
 }
 

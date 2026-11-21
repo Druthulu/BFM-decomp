@@ -129,7 +129,7 @@ void func_800CB134(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB24[])(void);
     if (D_80078EC1 == 0x16) {
-        u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CBB24[v0]();
     } else {
         guess_FreeObjectAndSubObject_12();
@@ -316,7 +316,7 @@ void func_800CB62C(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBB48[])(void);
     if (D_80078EC1 == 0x16) {
-        u16 v0 = ((Unkstruct_800CB134 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CBB48[v0]();
     } else {
         guess_FreeObjectAndSubObject_15();

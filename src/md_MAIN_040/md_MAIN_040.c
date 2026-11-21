@@ -337,12 +337,12 @@ void func_800CB4E4(s32 param_1) {
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val = vel.a;
         ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val = vel.c;
 
         guess_SetWaitTimer_2((s32 *)param_1, 4);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
@@ -364,11 +364,11 @@ void func_800CB710(s32 param_1) {
     guess_AddVelocityToPos_6(param_1);
     ((void (*)(s32, s32))func_800CB8A8)(param_1, 0x30);
     if (guess_TickWaitTimer_2(param_1) != 0) {
-        ((Unkstruct_80126B58 *)param_1)->unk10 = ((Unkstruct_80126B58 *)param_1)->unk10 >> 2;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val = ((Unkstruct_80126B58 *)param_1)->unk10.val >> 2;
         ((Unkstruct_80126B58 *)param_1)->unk14 = ((Unkstruct_80126B58 *)param_1)->unk14 >> 2;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = ((Unkstruct_80126B58 *)param_1)->unk18 >> 2;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val = ((Unkstruct_80126B58 *)param_1)->unk18.val >> 2;
         guess_SetWaitTimer_2((s32 *)param_1, 8);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
     }
 }
 
@@ -402,9 +402,9 @@ void func_800CB7B8(s32 param_1) {
  * Confidence medium, xref chain: +0x4 += +0x10, +0x8 += +0x14, +0xC += +0x18; guess_SetVelocityXZFromLocal writes +0x10/+0x18
  * Names ledger: config/names.tsv guess_AddVelocityToPos_6 */
 void guess_AddVelocityToPos_6(s32 param_1) {
-    CAST_WIDTH(s32, param_1, 0x4) += ((Unkstruct_80126B58 *)param_1)->unk10;
+    CAST_WIDTH(s32, param_1, 0x4) += ((Unkstruct_80126B58 *)param_1)->unk10.val;
     CAST_WIDTH(s32, param_1, 0x8) += ((Unkstruct_80126B58 *)param_1)->unk14;
-    CAST_WIDTH(s32, param_1, 0xC) += ((Unkstruct_80126B58 *)param_1)->unk18;
+    CAST_WIDTH(s32, param_1, 0xC) += ((Unkstruct_80126B58 *)param_1)->unk18.val;
 }
 
 

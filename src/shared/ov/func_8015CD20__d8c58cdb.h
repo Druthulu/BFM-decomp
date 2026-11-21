@@ -23,7 +23,7 @@ s32 func_8015CD20(s32 arg0) {
         }
         return;
     }
-    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk234;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk234.val;
     if (temp_v0 == 0) {
         if (((s32(*)(Unkstruct_80126B58 *))guess_IsDownHeld)(((Unkstruct_80126B58 *)arg0)) != 0) {
             ((void(*)(Unkstruct_80126B58 *, u8 *))guess_SetMoveVector)(((Unkstruct_80126B58 *)arg0), &D_80181AB8);
@@ -53,7 +53,7 @@ block_13:
             sp->head.unk10.w.unk12.u = var_v0 & 0xFFF;
         }
     } else {
-        ((Unkstruct_80126B58 *)arg0)->unk234 = temp_v0 - 1;
+        ((Unkstruct_80126B58 *)arg0)->unk234.val = temp_v0 - 1;
     }
     ((void(*)(Unkstruct_80126B58 *))func_8014FA04)(((Unkstruct_80126B58 *)arg0));
     if (((s32(*)(Unkstruct_80126B58 *))func_8014E434)(((Unkstruct_80126B58 *)arg0)) == 0) {

@@ -4125,7 +4125,7 @@ void func_80185428(s32 param_1) {
 extern void (*D_801B12A4[])(void);
 
 void func_801855A0(void *a0) {
-    D_801B12A4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801B12A4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 // @class: struct

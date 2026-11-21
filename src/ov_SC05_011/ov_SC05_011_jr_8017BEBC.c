@@ -2809,9 +2809,9 @@ void func_8017D04C(s32 a0) {
     u8 t;
 
     if (guess_GetPadPressed(&guess_g_PlayerActor) & 3) {
-        t = (((Unkstruct_8017D04C *)a0)->unk5 + 1) & 1;
-        ((Unkstruct_8017D04C *)a0)->unk5 = t;
-        ((Unkstruct_8017D04C *)a0)->unk14 = D_8018177C[t];
+        t = (((Unkstruct_80126948 *)a0)->unk5 + 1) & 1;
+        ((Unkstruct_80126948 *)a0)->unk5 = t;
+        ((Unkstruct_80126948 *)a0)->unk14.v0.unk14 = D_8018177C[t];
     }
     sp10 = guess_g_CameraFollowPos;
     func_8017D0EC(a0, &sp10.vx);
@@ -2819,12 +2819,12 @@ void func_8017D04C(s32 a0) {
 
 
 void func_8017D0EC(s32 param_1, s16 *param_2) {
-    ((Unkstruct_8017D04C *)param_1)->unk40 = -0x341;
-    ((Unkstruct_8017D04C *)param_1)->unk44 = -0x612;
-    ((Unkstruct_8017D04C *)param_1)->unk4C = -0x26b;
-    ((Unkstruct_8017D04C *)param_1)->unk3C = 0;
-    ((Unkstruct_8017D04C *)param_1)->unk48 = 0;
-    ((Unkstruct_8017D04C *)param_1)->unk50 = -0x171;
+    ((Unkstruct_80126948 *)param_1)->unk40 = -0x341;
+    ((Unkstruct_80126948 *)param_1)->unk44 = -0x612;
+    ((Unkstruct_80126948 *)param_1)->unk4C = -0x26b;
+    ((Unkstruct_80126948 *)param_1)->unk3C = 0;
+    ((Unkstruct_80126948 *)param_1)->unk48 = 0;
+    ((Unkstruct_80126948 *)param_1)->unk50 = -0x171;
 }
 
 

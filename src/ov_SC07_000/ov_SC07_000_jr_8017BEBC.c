@@ -3826,13 +3826,13 @@ void func_8017EAD8(s32 arg0) {
     if (((Unkstruct_801202A0 *)arg0)->unk70.s == 0) {
         ((Unkstruct_801202A0 *)arg0)->unkFE.s -= 0x40;
         func_800234E4(var_s0, 0x100, (u16)((Unkstruct_801202A0 *)arg0)->unkFE.s);
-        ((Unkstruct_8017EAD8_4 *)var_s0)->unk2 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 8) + 0x10;
+        ((Poly12Obj *)var_s0)->c0.b = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 8) + 0x10;
     } else {
         ((Unkstruct_801202A0 *)arg0)->unkFE.s += 0x40;
         ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk18 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 3) + 0x1000;
         ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk1A = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 3) + 0x1600;
         func_800234E4(var_s0, 0x100, (u16)((Unkstruct_801202A0 *)arg0)->unkFE.s);
-        ((Unkstruct_8017EAD8_4 *)var_s0)->unk1 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 8) + 0x10;
+        ((Poly12Obj *)var_s0)->c0.g = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 8) + 0x10;
     }
 }
 
@@ -3841,7 +3841,7 @@ void func_8017EAD8(s32 arg0) {
 extern void (*D_80186548[])(void);
 
 void func_8017EBC4(void *a0) {
-    D_80186548[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186548[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

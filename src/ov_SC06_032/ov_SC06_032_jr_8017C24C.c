@@ -2915,7 +2915,7 @@ extern s16 D_80126CB0;
 extern void (*D_80196DE0[])(void);
 
 void func_8017D894(void *a0) {
-    D_80196DE0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196DE0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3090,7 +3090,7 @@ void func_8017DBFC(void *a0) {
     extern u8 D_80196DE8;
     extern void (*D_80196E10[])(void *);
     guess_StartPadVibration(&D_80196DE8);
-    D_80196E10[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80196E10[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 
@@ -3276,7 +3276,7 @@ done:
 extern void (*D_80196E1C[])(void);
 
 void func_8017DF40(void *a0) {
-    D_80196E1C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196E1C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3446,7 +3446,7 @@ s32 func_8017E184(s32 *a0, s32 a1) {
 extern void (*D_80196E54[])(void);
 
 void func_8017E1EC(void *a0) {
-    D_80196E54[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196E54[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

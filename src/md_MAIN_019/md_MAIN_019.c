@@ -173,7 +173,7 @@ void func_800CB2C8(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CC124[])(void);
     if (D_80078EC1 == 0xd) {
-        u16 v0 = ((Unkstruct_800CB2C8 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CC124[v0]();
     } else {
         guess_FreeObjectAndSubObject_9();
@@ -264,8 +264,8 @@ void func_800CB4C8(void *arg0) {
     u8 *dst;
     s32 i;
 
-    s2 = ((Unkstruct_800CB4C8 *)s1)->unk4C;
-    off = ((Unkstruct_800CB4C8 *)s1)->unk50 * 160;
+    s2 = ((Ent_80164930_80164930 *)s1)->unk4C;
+    off = ((Ent_80164930_80164930 *)s1)->f50 * 160;
     dst = D_800CC5B0 + off;
     guess_CopyVec3HighHalves(s1 + 4, (s32 *)(s1 + 0x10));
     for (i = 0; i < 20; i++) {
@@ -273,9 +273,9 @@ void func_800CB4C8(void *arg0) {
         dst += 8;
     }
     guess_TransformPosByObjMatrix(s2, s1 + 4);
-    t = ((Unkstruct_800CB4C8 *)s1)->unk50;
-    ((Unkstruct_800CB4C8 *)s1)->unk60 = 0;
-    ((Unkstruct_800CB4C8 *)s1)->unk64 = t << 10;
+    t = ((Ent_80164930_80164930 *)s1)->f50;
+    ((Ent_80164930_80164930 *)s1)->unk60.u = 0;
+    ((Ent_80164930_80164930 *)s1)->unk64.u = t << 10;
 }
 
 
@@ -459,7 +459,7 @@ void func_800CBD0C(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CC130[])(void);
     if (D_80078EC1 == 0xd) {
-        u16 v0 = ((Unkstruct_800CB2C8 *)arg0)->unk2;
+        u16 v0 = ((Ent_80164930_80164930 *)arg0)->unk2.u;
         D_800CC130[v0]();
     } else {
         KR_AS(void, guess_ClearObjectAndSubObject)();

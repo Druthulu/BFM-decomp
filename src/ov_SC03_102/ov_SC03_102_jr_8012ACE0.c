@@ -1839,7 +1839,7 @@ extern void (*D_801866F0[])(void);
 extern void (*D_801866F8[])(void);
 
 void func_80131F64(void *a0) {
-    D_801866F8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801866F8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -1847,7 +1847,7 @@ void func_80131F64(void *a0) {
 extern void (*D_80186700[])(void);
 
 void func_80131FA0(void *a0) {
-    D_80186700[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80186700[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

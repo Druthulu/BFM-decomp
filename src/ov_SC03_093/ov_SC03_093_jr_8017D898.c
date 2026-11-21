@@ -3071,7 +3071,7 @@ int func_8017F0B8(int param_1)
 extern void (*D_80189C74[])(void);
 
 void func_8017F0E8(void *a0) {
-    D_80189C74[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80189C74[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3334,7 +3334,7 @@ extern s32 D_801CC560;
 extern void (*D_801A1234[])(void);
 
 void func_8017F72C(void *a0) {
-    D_801A1234[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A1234[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3365,7 +3365,7 @@ extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_Objec
 extern void (*D_801A124C[])(void);
 
 void func_8017F89C(void *a0) {
-    D_801A124C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A124C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3851,7 +3851,7 @@ void func_80180864(void *a0) {
 extern void (*D_801A2608[])(void);
 
 void func_80180950(void *a0) {
-    D_801A2608[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A2608[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3859,7 +3859,7 @@ void func_80180950(void *a0) {
 extern void (*D_801A26BC[])(void);
 
 void func_8018098C(void *a0) {
-    D_801A26BC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801A26BC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

@@ -4023,7 +4023,7 @@ K:
 extern void (*D_80187174[])(void);
 
 void func_8017F4A0(void *a0) {
-    D_80187174[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80187174[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5653,7 +5653,7 @@ void func_80181F18(s32 a0) {
 extern void (*D_8019F340[])(void);
 
 void func_80181FFC(void *a0) {
-    D_8019F340[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019F340[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

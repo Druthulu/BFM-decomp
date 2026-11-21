@@ -5,5 +5,5 @@
 s32 SHARED_FN(s32 a0) {
 
     extern void (*D_801888B0[])(void);
-    D_801888B0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801888B0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }

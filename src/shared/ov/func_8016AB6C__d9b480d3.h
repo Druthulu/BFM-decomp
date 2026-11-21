@@ -108,6 +108,6 @@ lout:
     }
     ((Unkstruct_8011D030 *)arg0)->unk2A.s = 4 - (var_s0 * 4);
     ((Unkstruct_8011D030 *)arg0)->unk28.s = var_s0;
-    ((Unkstruct_8011D030 *)arg0)->unk1C = 0xB;
+    ((Unkstruct_8011D030 *)arg0)->unk1C.s = 0xB;
     ((Unkstruct_8011D030 *)arg0)->unk2.u++;
 }

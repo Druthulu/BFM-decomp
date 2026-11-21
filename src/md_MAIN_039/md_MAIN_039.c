@@ -387,7 +387,7 @@ void func_800CB804(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBEAC[])(void);
     if (D_80078EC1 == 0x1c) {
-        u16 v0 = ((Unkstruct_800CB804 *)arg0)->unk2;
+        u16 v0 = ((Unkstruct_8011D030 *)arg0)->unk2.u;
         D_800CBEAC[v0]();
     } else {
         KR_AS(s32, guess_FreeSmallObject)();
@@ -443,16 +443,16 @@ void func_800CB860(s32 param_1) {
         RotMatrixZYX((s32)&rot, (s32)&m);
         ApplyMatrixLV((s32)&m, (s32)&vel, (s32)&vel);
 
-        ((Unkstruct_80126B58 *)param_1)->unk10 = vel.a;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val = vel.a;
         ((Unkstruct_80126B58 *)param_1)->unk14 = vel.b;
-        ((Unkstruct_80126B58 *)param_1)->unk18 = vel.c;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val = vel.c;
 
         *(u8 *)(pb + 0x24) = 0xC0;
         *(u8 *)(pb + 0x25) = 0xC0;
         *(u8 *)(pb + 0x26) = 0x40;
 
         guess_SetWaitTimer_2((s32 *)param_1, 4);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(param_1);
     }
@@ -475,11 +475,11 @@ void func_800CBAAC(s32 param_1)
     guess_AddVelocityToPos_5(param_1);
     ((void (*)(s32, s32))func_800CBC40)(param_1, 0x30);
     if (guess_TickWaitTimer_2(param_1) != 0) {
-        ((Unkstruct_80126B58 *)param_1)->unk10 >>= 2;
+        ((Unkstruct_80126B58 *)param_1)->unk10.val >>= 2;
         ((Unkstruct_80126B58 *)param_1)->unk14 >>= 2;
-        ((Unkstruct_80126B58 *)param_1)->unk18 >>= 2;
+        ((Unkstruct_80126B58 *)param_1)->unk18.val >>= 2;
         guess_SetWaitTimer_2((s32 *)param_1, 8);
-        ((Unkstruct_80126B58 *)param_1)->unk2 = CAST_SIGN(s16, param_1, 2) + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk2.u = CAST_SIGN(s16, param_1, 2) + 1;
     }
 }
 
@@ -515,9 +515,9 @@ s32 param_1;
  * Confidence medium, xref chain: +0x4 += +0x10, +0x8 += +0x14, +0xC += +0x18; guess_SetVelocityXZFromLocal writes +0x10/+0x18
  * Names ledger: config/names.tsv guess_AddVelocityToPos_5 */
 void guess_AddVelocityToPos_5(s32 a0) {
-    CAST_WIDTH(s32, a0, 4) += ((Unkstruct_80126B58 *)a0)->unk10;
+    CAST_WIDTH(s32, a0, 4) += ((Unkstruct_80126B58 *)a0)->unk10.val;
     CAST_WIDTH(s32, a0, 8) += ((Unkstruct_80126B58 *)a0)->unk14;
-    CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18;
+    CAST_WIDTH(s32, a0, 0xC) += ((Unkstruct_80126B58 *)a0)->unk18.val;
 }
 
 
@@ -546,7 +546,7 @@ void func_800CBC60(void *arg0) {
     extern u8 D_80078EC1;
     extern void (*D_800CBEF8[])(void);
     if (D_80078EC1 == 0x1c) {
-        u16 v0 = ((Unkstruct_800CB804 *)arg0)->unk2;
+        u16 v0 = ((Unkstruct_8011D030 *)arg0)->unk2.u;
         D_800CBEF8[v0]();
     } else {
         KR_AS(s32, guess_FreeSmallObject)();

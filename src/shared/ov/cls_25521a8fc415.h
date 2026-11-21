@@ -4,5 +4,5 @@ void SHARED_FN(s32 param_1)
     u8 pad[0x28];
     func_801495C4(((Unkstruct_80126B58 *)param_1)->unk34, param_1 + 0x4);
     guess_SetWaitTimer_2((s32 *)param_1, 3);
-    ((Unkstruct_80126B58 *)param_1)->unk2 = ((Unkstruct_80126B58 *)param_1)->unk2 + 1;
+    ((Unkstruct_80126B58 *)param_1)->unk2.u = ((Unkstruct_80126B58 *)param_1)->unk2.u + 1;
 }

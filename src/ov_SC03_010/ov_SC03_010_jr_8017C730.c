@@ -3495,7 +3495,7 @@ L474:
 extern void (*D_80183C88[])(void);
 
 void func_8017E660(void *a0) {
-    D_80183C88[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183C88[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3862,7 +3862,7 @@ extern s32 guess_GetGameVarByte(s32 arg);
 extern void (*D_80183D58[])(void);
 
 void func_8017F054(void *a0) {
-    D_80183D58[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80183D58[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

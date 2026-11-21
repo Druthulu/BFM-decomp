@@ -3540,7 +3540,7 @@ void func_8018EB60(s16 arg0, u16 *arg1, void *arg2, s16 arg3) {
 extern void (*D_80196CD4[])(void);
 
 void func_8018ECB8(void *a0) {
-    D_80196CD4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CD4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3595,7 +3595,7 @@ void func_8018ED84(s32 arg0) {
 extern void (*D_80196CDC[])(void);
 
 void func_8018EDF8(void *a0) {
-    D_80196CDC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CDC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3663,7 +3663,7 @@ extern void guess_FreeActor(void *a0);
 extern void (*D_80196CE8[])(void);
 
 void func_8018EFB0(void *a0) {
-    D_80196CE8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CE8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3752,7 +3752,7 @@ extern void guess_FreeActor(void *a0);
 extern void (*D_80196CF4[])(void);
 
 void func_8018F1F4(void *a0) {
-    D_80196CF4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CF4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4519,7 +4519,7 @@ void func_80190068(s32 *a0) {
 extern void (*D_80196CFC[])(void);
 
 void func_80190074(void *a0) {
-    D_80196CFC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CFC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4556,7 +4556,7 @@ void func_801900F4(void) {
 extern void (*D_80196EA4[])(void);
 
 void func_80190108(void *a0) {
-    D_80196EA4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196EA4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4690,7 +4690,7 @@ extern s32 func_8014C050(s32 a0, s32 a1);
 extern void (*D_80196F00[])(void);
 
 void func_8019044C(void *a0) {
-    D_80196F00[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196F00[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4820,9 +4820,9 @@ void func_80190538(s32 arg0) {
     guess_AddVertSpeed(s0, 0x18000);
     guess_ApplyVertSpeed(s0);
 
-    if (((Unkstruct_80126B58 *)s0)->unk234 == 0 && ((Unkstruct_80126B58 *)s0)->unk34 >= 0 && (((Unkstruct_80126B58 *)s0)->unkB8.u & 0x8000)) {
+    if (((Unkstruct_80126B58 *)s0)->unk234.val == 0 && ((Unkstruct_80126B58 *)s0)->unk34 >= 0 && (((Unkstruct_80126B58 *)s0)->unkB8.u & 0x8000)) {
         ((Unkstruct_80126B58 *)s0)->unkB8.u = ((Unkstruct_80126B58 *)s0)->unkBA;
-        ((Unkstruct_80126B58 *)s0)->unk234 += 1;
+        ((Unkstruct_80126B58 *)s0)->unk234.val += 1;
     }
 
     r = func_801535F4((void *)s0);

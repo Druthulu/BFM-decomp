@@ -1088,7 +1088,7 @@ extern void guess_PlaySoundUnlessSkipped(s32 arg0);
 extern void (*D_8018155C[])(void);
 
 void func_80157544(void *a0) {
-    D_8018155C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018155C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

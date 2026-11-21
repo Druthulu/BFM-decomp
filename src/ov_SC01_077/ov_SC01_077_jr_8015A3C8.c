@@ -1504,7 +1504,7 @@ extern void (*D_80189310[])(void *);
 
 void func_8015AD3C(void *a0)
 {
-    D_80189310[((Unkstruct_80126B58 *)a0)->unk2](a0);
+    D_80189310[((Unkstruct_80126B58 *)a0)->unk2.u](a0);
 }
 
 #include "../shared/ov/func_8015AD78.h"

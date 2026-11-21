@@ -2860,7 +2860,7 @@ extern void guess_RotTransSVWithMatrix(s32 a0, s32 a1, s32 a2);
 extern void (*D_801844F8[])(void);
 
 void func_8017D380(void *a0) {
-    D_801844F8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801844F8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3033,7 +3033,7 @@ s32 func_8017D68C(void *a0) {
 extern void (*D_80184634[])(void);
 
 void func_8017D764(void *a0) {
-    D_80184634[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80184634[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3109,7 +3109,7 @@ extern s32 func_8017D904(void);
 extern void (*D_8019092C[])(void);
 
 void func_8017D90C(void *a0) {
-    D_8019092C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019092C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3201,7 +3201,7 @@ extern void func_80151664(s32 a0v);
 extern void (*D_80190994[])(void);
 
 void func_8017DB98(void *a0) {
-    D_80190994[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80190994[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3269,8 +3269,8 @@ void *a0;
 
 
 void func_8017DD70(s32 param_1) {
-    guess_TransformPosByObjMatrix(((Unkstruct_8017DBD4 *)param_1)->unk34, param_1 + 4);
-    if (((Unkstruct_8017DBD4 *)param_1)->unk2C == 0) {
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)param_1)->unk34, param_1 + 4);
+    if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         func_800D1FC8(param_1, 5);
     }
 }
@@ -4814,7 +4814,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern void (*D_8019A360[])(void);
 
 void func_8018033C(void *a0) {
-    D_8019A360[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019A360[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

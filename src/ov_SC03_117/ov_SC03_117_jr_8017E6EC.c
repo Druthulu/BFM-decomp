@@ -3718,7 +3718,7 @@ L_state1:
 extern void (*D_801887DC[])(void);
 
 void func_8017FE68(void *a0) {
-    D_801887DC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801887DC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3797,7 +3797,7 @@ void func_8017FED8(s32 a0) {
 extern void (*D_801887E8[])(void);
 
 void func_80180010(void *a0) {
-    D_801887E8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801887E8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

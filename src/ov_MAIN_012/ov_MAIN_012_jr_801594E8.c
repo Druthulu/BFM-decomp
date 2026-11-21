@@ -2312,7 +2312,7 @@ void func_80159A20(unsigned char *param_1)
             }
             return;
         }
-        if (((Unkstruct_80126B58 *)param_1)->unk2 == 3) {
+        if (((Unkstruct_80126B58 *)param_1)->unk2.u == 3) {
             goto mask;
         }
         return;
@@ -2332,7 +2332,7 @@ mask:
 void func_80159B70(void *a0) {
 
     extern void (*D_80180B64[])(void);
-    D_80180B64[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80180B64[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2369,8 +2369,8 @@ void func_80159BE4(s32 arg0)
         guess_SetAnim(arg0, 4);
         guess_SetTexAnim(arg0, 0x11);
     }
-    ((Unkstruct_80126B58 *)arg0)->unk234 = 0;
-    ((Unkstruct_80126B58 *)arg0)->unk238 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk234.val = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk238.val = 0;
     func_801553C0(arg0);
     ((void (*)(int))func_801553A8)(arg0);
     ((void (*)(int))func_80172590)(arg0);

@@ -277,7 +277,7 @@ u8 func_801E824C(u32 a0) {
 void func_801E827C(void *a0) {
 
     extern void (*D_801E8708[])(void);
-    D_801E8708[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801E8708[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

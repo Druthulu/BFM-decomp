@@ -3144,7 +3144,7 @@ s16 func_8017CF40(void) {
     extern void (*D_801883A0[])(void);
     extern void func_80162D28(s32*);
     void func_8017CF50(void *a0) {
-        D_801883A0[((Ent_80164930_80164930 *)a0)->unk2]();
+        D_801883A0[((Ent_80164930_80164930 *)a0)->unk2.u]();
         if (((Ent_80164930_80164930 *)a0)->unk20 != 0) {
             ((void (*)(void *))func_80162D28)(a0);
         }
@@ -3477,9 +3477,9 @@ void func_8017D840(void *a0)
 {
     s32 val;
 
-    val = ((Unkstruct_8011D030 *)a0)->unk1C;
+    val = ((Unkstruct_8011D030 *)a0)->unk1C.s;
     val--;
-    ((Unkstruct_8011D030 *)a0)->unk1C = val;
+    ((Unkstruct_8011D030 *)a0)->unk1C.s = val;
 
     if (val != -1) {
         guess_AddVelocityToPos_4((s32)a0);
@@ -3494,7 +3494,7 @@ void func_8017D840(void *a0)
 extern void (*D_8018841C[])(void);
 
 void func_8017D8A0(void *a0) {
-    D_8018841C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8018841C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3569,7 +3569,7 @@ void func_8017DAA0(u8 *p) {
     s32 b;
     q = *(u8 **)(p + 0x20);
     ((Unkstruct_8011D030 *)p)->unk14.i.hi.u = ((Unkstruct_8011D030 *)p)->unk14.i.hi.u + ((Unkstruct_8011D030 *)p)->unk14.i.lo;
-    if (((Unkstruct_8011D030 *)p)->unk1C < 8) {
+    if (((Unkstruct_8011D030 *)p)->unk1C.s < 8) {
         ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x200;
     } else {
         ((Unkstruct_8011D030 *)p)->unk14.i.lo = ((Unkstruct_8011D030 *)p)->unk14.i.lo - 0x51;
@@ -3579,8 +3579,8 @@ void func_8017DAA0(u8 *p) {
     ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk26 = b;
     ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk25.s = b;
     ((Unkstruct_800B5BD8 *)q)->head.unk24.b.unk24.s = b;
-    t = ((Unkstruct_8011D030 *)p)->unk1C;
-    ((Unkstruct_8011D030 *)p)->unk1C = t + 1;
+    t = ((Unkstruct_8011D030 *)p)->unk1C.s;
+    ((Unkstruct_8011D030 *)p)->unk1C.s = t + 1;
     if (t >= 0x1E) {
         ((void (*)(u8 *))guess_FreeSmallObject)(p);
     }
@@ -3628,10 +3628,10 @@ void func_8017DB70(s32 a0) {
 
 extern s32 guess_FreeSmallObject(u8 *a0);
 void func_8017DC14(int a0) {
-    int v0 = ((Unkstruct_8011D030 *)a0)->unk1C;
+    int v0 = ((Unkstruct_8011D030 *)a0)->unk1C.s;
     unsigned char *p;
     do { p = *(unsigned char **)(a0 + 0x20); } while (0);
-    ((Unkstruct_8011D030 *)a0)->unk1C = v0 + 1;
+    ((Unkstruct_8011D030 *)a0)->unk1C.s = v0 + 1;
     if (v0 >= 0x1F) {
         KR_AS(s32, guess_FreeSmallObject)();
     } else {

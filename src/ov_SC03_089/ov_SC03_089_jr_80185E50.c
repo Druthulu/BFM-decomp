@@ -4633,7 +4633,7 @@ void func_80188428(void *arg0) {
 extern void (*D_801C3C2C[])(void);
 
 void func_8018847C(void *a0) {
-    D_801C3C2C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801C3C2C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 

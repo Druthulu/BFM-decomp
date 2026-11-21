@@ -2176,7 +2176,7 @@ void func_80188A7C(void *a0)
 extern void (*D_801964FC[])(void);
 
 void func_80188BB4(void *a0) {
-    D_801964FC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801964FC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2563,7 +2563,7 @@ s32 func_801892CC(s32 arg0)
 extern void (*D_801965C0[])(void);
 
 void func_801894C8(void *a0) {
-    D_801965C0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801965C0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2588,7 +2588,7 @@ void func_80189504(void *a0) {
 extern void (*D_801965D4[])(void);
 
 void func_801895A4(void *a0) {
-    D_801965D4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801965D4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2767,7 +2767,7 @@ void func_801898F4(void *a0) {
 extern void (*D_8019660C[])(void);
 
 void func_80189AF4(void *a0) {
-    D_8019660C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_8019660C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2822,7 +2822,7 @@ void func_80189B30(s32 arg0)
 extern void (*D_801966A0[])(void);
 
 void func_80189C90(void *a0) {
-    D_801966A0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801966A0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2830,7 +2830,7 @@ void func_80189C90(void *a0) {
 extern void (*D_801966B8[])(void);
 
 void func_80189CCC(void *a0) {
-    D_801966B8[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801966B8[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2838,7 +2838,7 @@ void func_80189CCC(void *a0) {
 extern void (*D_80196760[])(void);
 
 void func_80189D08(void *a0) {
-    D_80196760[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196760[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2846,7 +2846,7 @@ void func_80189D08(void *a0) {
 extern void (*D_801967C4[])(void);
 
 void func_80189D44(void *a0) {
-    D_801967C4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801967C4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2854,7 +2854,7 @@ void func_80189D44(void *a0) {
 extern void (*D_801967CC[])(void);
 
 void func_80189D80(void *a0) {
-    D_801967CC[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801967CC[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -2862,7 +2862,7 @@ void func_80189D80(void *a0) {
 extern void (*D_80196814[])(void);
 
 void func_80189DBC(void *a0) {
-    D_80196814[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196814[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -3382,15 +3382,15 @@ void func_8018AAAC(void) {
     p = D_801E4A58;
     do {
         ent = *p;
-        if (ent != 0 && ((Unkstruct_80126B58 *)ent)->unk2 == 2) {
+        if (ent != 0 && ((Unkstruct_80126B58 *)ent)->unk2.u == 2) {
             func_80132784(ent, CAST_WIDTH(s32, ent, 0x64), *(u16 *)(ent + 0xFE));
             ((Unkstruct_80126B58 *)ent)->unk6.s = ((Unkstruct_80126B58 *)ent)->unk20.m->unk48;
             ((Unkstruct_80126B58 *)ent)->unkA.s = ((Unkstruct_80126B58 *)ent)->unk20.m->unk4C;
             ((Unkstruct_80126B58 *)ent)->unkE.s = ((Unkstruct_80126B58 *)*(s32 *)(ent + 0x20))->unk50;
             guess_ClearVelocityAndSetGravity(ent);
-            ((Unkstruct_80126B58 *)ent)->unk10 = 0x100000;
+            ((Unkstruct_80126B58 *)ent)->unk10.val = 0x100000;
             ((Unkstruct_80126B58 *)ent)->unk14 = 0xFFE00000;
-            ((Unkstruct_80126B58 *)ent)->unk18 = 0xFFFC0000;
+            ((Unkstruct_80126B58 *)ent)->unk18.val = 0xFFFC0000;
             ((Unkstruct_80126B58 *)ent)->unk1C = 0x20;
             func_8012AD44((s32 *)ent, 5);
         }
@@ -3556,9 +3556,9 @@ void func_8018ADF0(s32 arg0) {
         ((Unkstruct_80126B58 *)s0)->unk20.m->head.unk10.w.unk12.s = 0x200;
         ((Unkstruct_80126B58 *)s0)->unk20.m->head.unk10.w.unk14.s = 0;
         func_8012B200((u8 *)s0);
-        ((Unkstruct_80126B58 *)s0)->unk18 = 0xFFE00000;
+        ((Unkstruct_80126B58 *)s0)->unk18.val = 0xFFE00000;
         ((Unkstruct_80126B58 *)s0)->unk14 = 0x200000;
-        ((Unkstruct_80126B58 *)s0)->unk10 = 0xFFF00000;
+        ((Unkstruct_80126B58 *)s0)->unk10.val = 0xFFF00000;
         func_8012AD44((s32 *)s0, 3);
     }
 }
@@ -4398,7 +4398,7 @@ void func_8018C008(s32 arg0) {
 extern void (*D_801968F4[])(void);
 
 void func_8018C08C(void *a0) {
-    D_801968F4[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_801968F4[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4419,7 +4419,7 @@ void func_8018C0C8(void *arg0) {
 extern void (*D_80196B80[])(void);
 
 void func_8018C108(void *a0) {
-    D_80196B80[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196B80[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4499,7 +4499,7 @@ void func_8018C204(void *a0) {
 extern void (*D_80196B8C[])(void);
 
 void func_8018C274(void *a0) {
-    D_80196B8C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196B8C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4551,7 +4551,7 @@ void func_8018C2B0(u8 *a0, s8 a1) {
 extern void (*D_80196B98[])(void);
 
 void func_8018C358(void *a0) {
-    D_80196B98[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196B98[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4601,7 +4601,7 @@ void func_8018C3EC(void)
 extern void (*D_80196BA0[])(void);
 
 void func_8018C418(void *a0) {
-    D_80196BA0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196BA0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -4679,7 +4679,7 @@ L_end:
 extern void (*D_80196BB0[])(void);
 
 void func_8018C66C(void *a0) {
-    D_80196BB0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196BB0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5690,7 +5690,7 @@ void func_8018DAD8(void) {
 extern void (*D_80196C9C[])(void);
 
 void func_8018DAE0(void *a0) {
-    D_80196C9C[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196C9C[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -5910,7 +5910,7 @@ void func_8018DEB8(s16 param_1) {
 extern void (*D_80196CB0[])(void);
 
 void func_8018DF88(void *a0) {
-    D_80196CB0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CB0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
@@ -6108,7 +6108,7 @@ void func_8018E288(void *a0) {
 extern void (*D_80196CC0[])(void);
 
 void func_8018E400(void *a0) {
-    D_80196CC0[((Unkstruct_80126B58 *)a0)->unk2]();
+    D_80196CC0[((Unkstruct_80126B58 *)a0)->unk2.u]();
 }
 
 
