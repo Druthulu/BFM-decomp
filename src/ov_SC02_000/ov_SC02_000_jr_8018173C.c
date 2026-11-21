@@ -3893,16 +3893,16 @@ void func_80183C9C(s32 a0) {
     extern u8 D_801A7CB0;
     s16 v;
     s16 d;
-    v = D_8018EDD8[((Unkstruct_80183C9C *)a0)->unk20C];
+    v = D_8018EDD8[((Unkstruct_80126B58 *)a0)->unk20C.b.lo];
     if (v != 0) {
-        d = v - ((Unkstruct_80183C9C *)a0)->unkE;
+        d = v - ((Unkstruct_80126B58 *)a0)->unkE.u;
         v = d;
         if (d < 0) {
             v = -d;
         }
         if (v < 0x180) {
-            ((Unkstruct_80183C9C *)a0)->unk198 = guess_OpenTextWindow((s32)&D_801A7CB0);
-            switch (((Unkstruct_80183C9C *)a0)->unk20C) {
+            ((Unkstruct_80126B58 *)a0)->unk198 = guess_OpenTextWindow((s32)&D_801A7CB0);
+            switch (((Unkstruct_80126B58 *)a0)->unk20C.b.lo) {
             case 0:
                 guess_PlaySoundUnlessSkipped(0x5A1);
                 break;
@@ -3913,7 +3913,7 @@ void func_80183C9C(s32 a0) {
                 guess_PlaySoundUnlessSkipped(0x5F2);
                 break;
             }
-            ((Unkstruct_80183C9C *)a0)->unk20C += 1;
+            ((Unkstruct_80126B58 *)a0)->unk20C.b.lo += 1;
         }
     }
 }

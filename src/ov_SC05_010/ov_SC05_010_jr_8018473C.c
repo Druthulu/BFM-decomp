@@ -4737,8 +4737,8 @@ void func_80187644(s32 arg0)
     q = rand();
     ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk14 = q % 0x1000;
     ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_80187644 *)arg0)->unk2 = ((Unkstruct_80187644 *)arg0)->unk2 + 1;
-    ((Unkstruct_80187644 *)arg0)->unk1C = ((Unkstruct_80187644 *)arg0)->unk36;
+    ((Unkstruct_80187644 *)arg0)->unk2.u = ((Unkstruct_80187644 *)arg0)->unk2.u + 1;
+    ((Unkstruct_80187644 *)arg0)->unk1C.s = ((Unkstruct_80187644 *)arg0)->unk34.i.hi.s;
 }
 
 

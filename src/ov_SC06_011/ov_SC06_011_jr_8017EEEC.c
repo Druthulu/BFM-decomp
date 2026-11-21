@@ -228,7 +228,7 @@ extern s32 D_801ABBD8;
 
 void func_8017F3C8(void *a0)
 {
-    void *s2 = ((Unkstruct_8017E6A4_2 *)a0)->unk20.m;
+    void *s2 = ((Unkstruct_80126B58 *)a0)->unk20.m;
     void *p;
     s32 rot;
     s32 flag;
@@ -348,10 +348,10 @@ loop:
     if (i < 0x60) {
         goto loop;
     }
-    ((Unkstruct_8017E6A4_2 *)arg0)->unk208 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk208.i.lo = 0;
     guess_CopyVec3HighHalves(arg0 + 4, buf);
     func_8012F2E8(D_801ABBD8, (s32)buf, arg0 + 0x20C);
-    ((Unkstruct_8017E6A4_2 *)arg0)->unk204 = D_801ABBD8;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s = D_801ABBD8;
     guess_RequestSound(0x8B0, 0);
 }
 

@@ -4216,10 +4216,10 @@ extern void func_801292C8(u8*);
 
 void func_8018BC48(s32 a0) {
     guess_AddVelocityToPos((void *)a0);
-    if (((s32 (*)(s32, void *))guess_StepPairSequence)(((Unkstruct_8018BC48 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
+    if (((s32 (*)(s32, void *))guess_StepPairSequence)(((Unkstruct_8011DB30 *)a0)->unk20, (void *)(a0 + 0x24)) != 0) {
         ((void (*)(s32))func_801292C8)(a0);
     } else {
-        *(u8 *)(((Unkstruct_8018BC48 *)a0)->unk20 + 0x27) = ((Unkstruct_8018BC48 *)a0)->unk28 - 0x70;
+        *(u8 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x27) = ((Unkstruct_8011DB30 *)a0)->unk28.b - 0x70;
     }
 }
 

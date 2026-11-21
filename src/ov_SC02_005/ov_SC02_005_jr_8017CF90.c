@@ -5403,13 +5403,13 @@ void func_8018141C(void *a0) {
     s32 s0 = (s32)a0;
 
     buffer = D_801E2E18;
-    ((Unkstruct_8018141C *)s0)->unk208 = 0x160000;
-    ((Unkstruct_8018141C *)s0)->unk20C = 8;
-    ((Unkstruct_8018141C *)s0)->unk204 = 0xFFFF4000;
-    ((Unkstruct_8018141C *)s0)->unk20D = 3;
+    ((Unkstruct_80126B58 *)s0)->unk208.val = 0x160000;
+    ((Unkstruct_80126B58 *)s0)->unk20C.b.lo = 8;
+    ((Unkstruct_80126B58 *)s0)->unk204.s = 0xFFFF4000;
+    ((Unkstruct_80126B58 *)s0)->unk20C.b.hi = 3;
     guess_SetAnimScript((s32 *)s0, (s32)D_800D488C);
     func_8014706C((void *)s0);
-    ((Unkstruct_8018141C *)s0)->unk214 += 1;
+    ((Unkstruct_80126B58 *)s0)->unk214.u += 1;
 }
 
 
