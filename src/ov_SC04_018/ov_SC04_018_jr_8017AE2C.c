@@ -4172,21 +4172,21 @@ void func_8017E26C(void *a0, u8 *a1)
     dir = *a1;
     held = ((s32(*)(s32 *))guess_GetPadHeld)(&guess_g_PlayerActor);
     cur = ((s32(*)(s32 *))guess_GetPadPressed)(&guess_g_PlayerActor);
-    ((Unkstruct_8017E26C *)a0)->unk9C = 0x5B;
+    ((Unkstruct_80126948 *)a0)->unk9C.v1.unk0 = 0x5B;
 
     lim = 0;
     if (cur & 3) {
         lim = 0x555;
         flags = cur;
-        ((Unkstruct_8017E26C *)a0)->unkA2 = 8;
-    } else if (((Unkstruct_8017E26C *)a0)->unkA2 == 0) {
+        ((Unkstruct_80126948 *)a0)->unkA2.s = 8;
+    } else if (((Unkstruct_80126948 *)a0)->unkA2.s == 0) {
         if (held & 3) {
             lim = 0x555;
             flags = held;
-            ((Unkstruct_8017E26C *)a0)->unk9C = 0x2D;
+            ((Unkstruct_80126948 *)a0)->unk9C.v1.unk0 = 0x2D;
         }
     } else {
-        ((Unkstruct_8017E26C *)a0)->unkA2 = ((Unkstruct_8017E26C *)a0)->unkA2 - 1;
+        ((Unkstruct_80126948 *)a0)->unkA2.s = ((Unkstruct_80126948 *)a0)->unkA2.s - 1;
     }
 
     if (lim != 0) {
@@ -4195,12 +4195,12 @@ void func_8017E26C(void *a0, u8 *a1)
         } else if (flags & 2) {
             dir = (dir + 1) & 7;
         }
-        if ((s16)func_80012A60(((Unkstruct_8017E26C *)a0)->unk1A, D_8018D530[dir]) < lim) {
+        if ((s16)func_80012A60(((Unkstruct_80126948 *)a0)->unk1A.s, D_8018D530[dir]) < lim) {
             *a1 = dir;
         }
     }
 
-    ((Unkstruct_8017E26C *)a0)->unk22 = D_8018D530[*a1];
+    ((Unkstruct_80126948 *)a0)->unk22.s = D_8018D530[*a1];
 }
 
 

@@ -3447,9 +3447,9 @@ void func_8017D098(s32 param_1) {
 
     func_8014BF8C(4);
     func_800291A0(0xE0, 0);
-    ((Unkstruct_80126B58 *)param_1)->unk136 = 3;
+    ((Unkstruct_80126B58 *)param_1)->unk136.u = 3;
     ((Unkstruct_80126B58 *)param_1)->unk130 = 0;
-    ((Unkstruct_80126B58 *)param_1)->unk132 = 0x800;
+    ((Unkstruct_80126B58 *)param_1)->unk132.s = 0x800;
     func_8014706C((void *)param_1);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
@@ -3652,9 +3652,9 @@ void func_8017D4E8(void *param_1) {
 
     func_8014BF8C(4);
     func_800291A0(0xE0, 1);
-    ((Unkstruct_80126B58 *)param_1)->unk136 = 3;
+    ((Unkstruct_80126B58 *)param_1)->unk136.u = 3;
     ((Unkstruct_80126B58 *)param_1)->unk130 = 0;
-    ((Unkstruct_80126B58 *)param_1)->unk132 = 0x800;
+    ((Unkstruct_80126B58 *)param_1)->unk132.s = 0x800;
     func_8014706C(param_1);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
@@ -3704,9 +3704,9 @@ void func_8017D668(void *param_1) {
 
     func_8014BF8C(4);
     func_800291A0(0xE0, 2);
-    ((Unkstruct_80126B58 *)param_1)->unk136 = 3;
+    ((Unkstruct_80126B58 *)param_1)->unk136.u = 3;
     ((Unkstruct_80126B58 *)param_1)->unk130 = 0;
-    ((Unkstruct_80126B58 *)param_1)->unk132 = 0x800;
+    ((Unkstruct_80126B58 *)param_1)->unk132.s = 0x800;
     func_8014706C(param_1);
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80186404);
 
@@ -4402,9 +4402,9 @@ void func_8017E850(s32 arg0, s32 arg1) {
     if (D_801A12E4 >= 3) {
         D_801A12E4 = 2;
     }
-    ((Unkstruct_80185020 *)obj)->unk14 = func_80012DBC(((Unkstruct_80185020 *)obj)->unk14, (s16)(D_801A12E4 * 455), 4, 1);
-    ((Unkstruct_80185020 *)obj)->unk10 = ratan2(rec[1] - rec2[1], rec2[2] - rec[2]);
-    ((Unkstruct_80185020 *)obj)->unk12 = ratan2(rec2[0] - rec[0], rec2[2] - rec[2]);
+    ((RenderHead *)obj)->unk10.w.unk14.s = func_80012DBC(((RenderHead *)obj)->unk10.w.unk14.s, (s16)(D_801A12E4 * 455), 4, 1);
+    ((RenderHead *)obj)->unk10.w.unk10.s = ratan2(rec[1] - rec2[1], rec2[2] - rec[2]);
+    ((RenderHead *)obj)->unk10.w.unk12.s = ratan2(rec2[0] - rec[0], rec2[2] - rec[2]);
 }
 
 

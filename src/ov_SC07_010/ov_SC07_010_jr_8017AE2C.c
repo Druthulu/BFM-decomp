@@ -3932,7 +3932,7 @@ void func_8017D688(void *a0) {
 void func_8017D6C4(s32 *a0) {
     func_8017DCB8(2);
     func_80171A80(a0, 0x12C);
-    ((Unkstruct_80126B58 *)a0)->unk20C = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20C.s = 0;
     func_80171990((u8 *)a0);
 }
 
@@ -3955,15 +3955,15 @@ void func_8017D708(s32 param_1) {
 
     if ((guess_g_FrameCounter & 3) == 0) {
         sVar1 = CAST_SIGN(u16, param_1, 0x20c) + 1;
-        ((Unkstruct_80126B58 *)param_1)->unk20C = sVar1;
-        sum = ((Unkstruct_80126B58 *)param_1)->unk204 + (s16)sVar1;
-        ((Unkstruct_80126B58 *)param_1)->unk204 = sum;
+        ((Unkstruct_80126B58 *)param_1)->unk20C.s = sVar1;
+        sum = ((Unkstruct_80126B58 *)param_1)->unk204.s + (s16)sVar1;
+        ((Unkstruct_80126B58 *)param_1)->unk204.s = sum;
         if (sum > 0x800) {
-            ((Unkstruct_80126B58 *)param_1)->unk204 = 0x800;
+            ((Unkstruct_80126B58 *)param_1)->unk204.s = 0x800;
         }
         base = &D_80185C00;
-        *base = (s8)(((Unkstruct_80126B58 *)param_1)->unk204 >> 8);
-        D_80185C02 = (s8)(-(((Unkstruct_80126B58 *)param_1)->unk204 >> 8));
+        *base = (s8)(((Unkstruct_80126B58 *)param_1)->unk204.s >> 8);
+        D_80185C02 = (s8)(-(((Unkstruct_80126B58 *)param_1)->unk204.s >> 8));
         func_8013C9C4(base);
         *(u8 *)&D_80185C08 = (u8)((u8)*base * 0x10 + 0x3F);
         guess_StartPadVibration(&D_80185C08);

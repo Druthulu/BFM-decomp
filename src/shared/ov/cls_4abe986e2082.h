@@ -5,7 +5,7 @@ s32 arg0;
 {
     s32 *ptr = (s32 *) guess_g_ActiveCamera;
 
-    ((Unkstruct_80126B58 *)arg0)->unk204 += 0x30000;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s += 0x30000;
     ptr[4] -= *(s16 *) (arg0 + 0x206);
     ptr[5] = ptr[4];
     if (ptr[4] < 0x12C) {

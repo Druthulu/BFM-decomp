@@ -4286,7 +4286,7 @@ void func_8017DF5C(int param_1)
             ((int (*)(int, int))guess_SetAnimScript)(param_1, (int)&D_800D5A34);
             ((int (*)(int))func_8014706C)(param_1);
             cVar1 = CAST_SIGN(char, param_1, 0x214) + 1;
-            ((Unkstruct_80126B58 *)param_1)->unk20C = 0;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = 0;
         }
         ((Unkstruct_80126B58 *)param_1)->unk214.u = cVar1;
     }
@@ -4446,15 +4446,15 @@ void func_8017E350(void *arg0) {
     s32 temp_v0;
     s32 temp_v0_2;
 
-    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
-    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204.s - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s = temp_v0;
     if (temp_v0 != -1) {
         temp_v0_2 = D_80126958 + 8;
         D_80126958 = temp_v0_2;
         D_8012695C = temp_v0_2;
         return;
     }
-    ((Unkstruct_80126B58 *)arg0)->unk204 = 0;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s = 0;
     ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17AC);
     guess_SetAnimScript(arg0, &D_8018A59C);
     ((Unkstruct_80126B58 *)arg0)->unk4D = (u8) (((Unkstruct_80126B58 *)arg0)->unk4D + 1);
@@ -4475,8 +4475,8 @@ void func_8017E3EC(s32 param_1)
     if (guess_GetTextWindowResult(((Unkstruct_80126B58 *)param_1)->unk198) != 0) {
         ((s32 (*)(s32))guess_CloseTextWindow)(((Unkstruct_80126B58 *)param_1)->unk198);
         ((s32 (*)(s32, s32))guess_SetAnimScript)(param_1, (s32)&D_8018A5E4);
-        D_8012695C = ((Unkstruct_80126B58 *)param_1)->unk208;
-        ((Unkstruct_80126B58 *)param_1)->unk204 = 0x20;
+        D_8012695C = ((Unkstruct_80126B58 *)param_1)->unk208.val;
+        ((Unkstruct_80126B58 *)param_1)->unk204.s = 0x20;
         *(unsigned char *)(param_1 + 0x214) = *(unsigned char *)(param_1 + 0x214) + 1;
     }
 }
@@ -4486,11 +4486,11 @@ void func_8017F240();                            /* extern */
 void func_8017E460(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
-    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204.s - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s = temp_v0;
     if (temp_v0 == -1) {
         func_8017F240();
-        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x40;
+        ((Unkstruct_80126B58 *)arg0)->unk204.s = 0x40;
         ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
@@ -4501,12 +4501,12 @@ extern M2C_UNK D_801B17F0;
 void func_8017E4B4(void *arg0) {
     s32 temp_v0;
 
-    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204 - 1;
-    ((Unkstruct_80126B58 *)arg0)->unk204 = temp_v0;
+    temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk204.s - 1;
+    ((Unkstruct_80126B58 *)arg0)->unk204.s = temp_v0;
     if (temp_v0 == -1) {
         ((Unkstruct_80126B58 *)arg0)->unk4D = (u8) (((Unkstruct_80126B58 *)arg0)->unk4D - 1);
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_801B17F0);
-        ((Unkstruct_80126B58 *)arg0)->unk204 = 0x20;
+        ((Unkstruct_80126B58 *)arg0)->unk204.s = 0x20;
         ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
@@ -4674,7 +4674,7 @@ extern s32 func_80171B4C(s32 a0, s32 a1);
 void func_8017E924(int param_1)
 {
     if (func_80171B4C(param_1, 8) != 0) {
-        ((Unkstruct_80126B58 *)param_1)->unk204 = 0x20;
+        ((Unkstruct_80126B58 *)param_1)->unk204.s = 0x20;
         *(unsigned short *)(param_1 + 0xac) = 0xc040;
         *(unsigned short *)(param_1 + 0xaa) = 0xc040;
         *(unsigned char *)(param_1 + 0x214) = *(unsigned char *)(param_1 + 0x214) + 1;
@@ -4690,8 +4690,8 @@ extern s32 func_80172664(s32 *a0);
 void func_8017E974(s32 param_1)
 {
     if (((s32 (*)(void))func_80172664)() != 0) {
-        ((Unkstruct_80126B58 *)param_1)->unkAC = 0xc040;
-        ((Unkstruct_80126B58 *)param_1)->unkAA = 0xc040;
+        ((Unkstruct_80126B58 *)param_1)->unkAC.u = 0xc040;
+        ((Unkstruct_80126B58 *)param_1)->unkAA.u = 0xc040;
     } else {
         ((Unkstruct_80126B58 *)param_1)->unk214.u = ((Unkstruct_80126B58 *)param_1)->unk214.u + 1;
     }

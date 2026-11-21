@@ -3610,7 +3610,7 @@ void func_80180D4C(void *a0) {
     s32 s0 = (s32)a0;
 
     if ((u32)guess_GetStoryProgress() >= 0xE6) {
-        ((Unkstruct_80188D78 *)*(s32 *)(s0 + 0x20))->unk4 |= 0x80000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk4.s |= 0x80000000;
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = 0x800;
         ((Unkstruct_801202A0 *)s0)->unk2.s = ((Unkstruct_801202A0 *)s0)->unk2.s + 1;
         ((Unkstruct_801202A0 *)s0)->unk10A.s = 2;
@@ -3628,11 +3628,11 @@ void func_80180D4C(void *a0) {
         }
     }
 
-    ((Unkstruct_80188D78 *)*(s32 *)(s0 + 0x20))->unk18 =
+    ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk18.w.unk18.s =
         ((rsin(((Unkstruct_801202A0 *)s0)->unkFC.s - 0x400) * ((Unkstruct_801202A0 *)s0)->extD.kSC03_111_80180FB4.unk100) >> 14) + 0x1000;
-    ((Unkstruct_80188D78 *)*(s32 *)(s0 + 0x20))->unk1A =
+    ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk18.w.unk1A.s =
         0x1000 - (rsin(((Unkstruct_801202A0 *)s0)->unkFC.s - 0x400) >> 2);
-    ((Unkstruct_80188D78 *)*(s32 *)(s0 + 0x20))->unk1C =
+    ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk18.w.unk1C.s =
         ((rsin(((Unkstruct_801202A0 *)s0)->unkFC.s - 0x400) * ((Unkstruct_801202A0 *)s0)->extD.kSC03_111_80180FB4.unk100) >> 14) + 0x1000;
 
     switch (((Unkstruct_801202A0 *)s0)->unkFE.s) {
@@ -3660,7 +3660,7 @@ void func_80180D4C(void *a0) {
         }
         if (((Unkstruct_801202A0 *)s0)->unk10A.s == 1) {
             if (((s32 (*)(void))func_80174774)() != 0) {
-                ((Unkstruct_80188D78 *)*(s32 *)(s0 + 0x20))->unk4 |= 0x80000000;
+                ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk4.s |= 0x80000000;
                 ((Unkstruct_801202A0 *)s0)->unk10A.s = 2;
                 ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = 0x800;
             }

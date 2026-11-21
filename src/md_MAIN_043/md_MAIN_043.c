@@ -225,7 +225,7 @@ void func_800CCF50(void *a0) {
         *(u16 *)(s0 + 0x12) = ((Unkstruct_80126B58 *)s2)->unk20.m->head.unk10.w.unk12.u;
         guess_SetWaitTimer_2((s32 *)a0, 0x10);
         ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
-        ((Unkstruct_80126B58 *)a0)->unk62 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = 0;
         func_800CD1F4((void *)a0, (void *)s3);
         func_800CD258((void *)a0, (void *)s3);
         func_800CD27C(a0);
@@ -261,10 +261,10 @@ void func_800CD054(void *a0) {
     func_800CD27C((s32)a0);
     if ((CAST_SIGN(u32, (s32)a0, 0x1C) & 7) == 0) {
         guess_SpawnObject(6, (s32)a0, 0, 0, 0, CAST_SIGN(s16, (s32)a0, 0x62), 0, 1);
-        w = ((Unkstruct_80126B58 *)a0)->unk62 + 1;
-        ((Unkstruct_80126B58 *)a0)->unk62 = w;
+        w = ((Unkstruct_80126B58 *)a0)->unk62.u + 1;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = w;
         if ((s16)w >= 8) {
-            ((Unkstruct_80126B58 *)a0)->unk62 = 0;
+            ((Unkstruct_80126B58 *)a0)->unk62.u = 0;
         }
         guess_PlaySoundUnlessSkipped(0x47E);
     }
@@ -445,7 +445,7 @@ void func_800CD404(void *a0) {
         ((Unkstruct_80126B58 *)a0)->unkA.s = v;
         ((Unkstruct_80126B58 *)a0)->unk60.u = v;
         ((Unkstruct_80126B58 *)a0)->unkE.s = CAST_SIGN(u16, s2, 0xE);
-        ((Unkstruct_80126B58 *)a0)->unk62 = ((Unkstruct_80126B58 *)s2)->unk1C;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = ((Unkstruct_80126B58 *)s2)->unk1C;
         guess_SetWaitTimer_2((s32 *)a0, 0x20);
         func_800CD670(a0, (void *)s3);
         ((void (*)(void *, void *))func_800CD6D4)((void *)a0, (void *)s3);

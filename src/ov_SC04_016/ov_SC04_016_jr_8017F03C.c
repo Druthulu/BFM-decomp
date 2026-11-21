@@ -3214,7 +3214,7 @@ extern int func_8017FF08(short*, int, int);
 s32 func_8017FED4(void) {
     s32 v1 = ((s32 (*)(void))func_8017FF08)();
     if (v1 != 0) {
-        ((Unkstruct_8017DE80_4 *)v1)->unk32 = 1;
+        ((Unkstruct_8011DB30 *)v1)->unk30.i.hi.s = 1;
     }
     return v1;
 }

@@ -4720,21 +4720,21 @@ void func_8017EB64(s32 param_1) {
     s32 angle;
     s32 v0;
 
-    v1[0] = ((Unkstruct_80188988_2 *)param_1)->unk48;
+    v1[0] = ((Unkstruct_80126948 *)param_1)->unk48;
     v1[1] = 0;
-    v1[2] = ((Unkstruct_80188988_2 *)param_1)->unk50;
-    v2[0] = ((Unkstruct_80188988_2 *)param_1)->unk3C;
+    v1[2] = ((Unkstruct_80126948 *)param_1)->unk50;
+    v2[0] = ((Unkstruct_80126948 *)param_1)->unk3C;
     v2[1] = 0;
-    v2[2] = ((Unkstruct_80188988_2 *)param_1)->unk44;
+    v2[2] = ((Unkstruct_80126948 *)param_1)->unk44;
     dist = func_80013200(v1, v2);
-    angle = ratan2(((Unkstruct_80188988_2 *)param_1)->unk4C - ((Unkstruct_80188988_2 *)param_1)->unk40, dist);
+    angle = ratan2(((Unkstruct_80126948 *)param_1)->unk4C - ((Unkstruct_80126948 *)param_1)->unk40, dist);
     if (angle >= 0x801) {
         angle = 0x1000 - angle;
     }
     v0 = angle * 300 / 1024 + 0xC8;
     D_800B9ABA[0] = (s16)v0;
 
-    v0 = ((Unkstruct_80188988_2 *)param_1)->unk48 * 640 / 4096;
+    v0 = ((Unkstruct_80126948 *)param_1)->unk48 * 640 / 4096;
     D_800B9AB8[0] = (s16)v0;
 }
 
@@ -4893,7 +4893,7 @@ void func_8017EF58(int param_1)
             ((int (*)(int))func_8014706C)(param_1);
             ((Unkstruct_80126B58 *)param_1)->unk198 = guess_OpenTextWindow(((Unkstruct_80126B58 *)param_1)->unk198);
             ((Unkstruct_80126B58 *)param_1)->unk214.u = CAST_SIGN(char, param_1, 0x214) + 1;
-            ((Unkstruct_80126B58 *)param_1)->unk20C = 0;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = 0;
         }
     }
 }
@@ -4912,35 +4912,35 @@ extern u8 D_8018954C[];
 extern u8 D_800D5A34[];
 
 void func_8017EFDC(int param_1) {
-    switch (((Unkstruct_80126B58 *)param_1)->unk20C) {
+    switch (((Unkstruct_80126B58 *)param_1)->unk20C.s) {
     case 0:
         if (func_8016F410(0) != 0) {
-            ((Unkstruct_80126B58 *)param_1)->unk20C = CAST_SIGN(u16, param_1, 0x20C) + 1;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = CAST_SIGN(u16, param_1, 0x20C) + 1;
             guess_SetAnimScript((s32 *)param_1, (s32)&D_800D599C);
         }
         break;
     case 2:
         if (func_8016F410(1) != 0) {
             guess_SetAnimScript((s32 *)param_1, (s32)&D_801894CC);
-            ((Unkstruct_80126B58 *)param_1)->unk20E = 0;
-            ((Unkstruct_80126B58 *)param_1)->unk20C = CAST_SIGN(u16, param_1, 0x20C) + 1;
+            ((Unkstruct_80126B58 *)param_1)->unk20E.s = 0;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = CAST_SIGN(u16, param_1, 0x20C) + 1;
         }
         break;
     case 3:
-        if (((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) != 0) && (((Unkstruct_80126B58 *)param_1)->unk20E == 0)) {
-            ((Unkstruct_80126B58 *)param_1)->unk20E = 1;
+        if (((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) != 0) && (((Unkstruct_80126B58 *)param_1)->unk20E.s == 0)) {
+            ((Unkstruct_80126B58 *)param_1)->unk20E.s = 1;
             guess_SetAnimScript((s32 *)param_1, (s32)&D_801895CC);
         }
         if (func_8016F410(2) != 0) {
             guess_SetAnimScript((s32 *)param_1, (s32)&D_8018954C);
-            ((Unkstruct_80126B58 *)param_1)->unk20C = CAST_SIGN(u16, param_1, 0x20C) + 1;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = CAST_SIGN(u16, param_1, 0x20C) + 1;
         }
         break;
     case 1:
     case 4:
         if ((((Unkstruct_80126B58 *)param_1)->unkB8.u & 0x8000) != 0) {
             guess_SetAnimScript((s32 *)param_1, (s32)&D_800D5A34);
-            ((Unkstruct_80126B58 *)param_1)->unk20C = CAST_SIGN(u16, param_1, 0x20C) + 1;
+            ((Unkstruct_80126B58 *)param_1)->unk20C.s = CAST_SIGN(u16, param_1, 0x20C) + 1;
         }
         break;
     case 5:

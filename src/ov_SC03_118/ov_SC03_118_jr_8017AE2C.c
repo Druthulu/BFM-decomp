@@ -4793,7 +4793,7 @@ void func_8017E324(s32 a0) {
             s32 *tbl = &D_8018D8B4;
 
             ((Unkstruct_801202A0 *)a0)->unk10A.s = 0;
-            *tbl = ((Unkstruct_80126B58 *)a0)->unk88 | (CAST_SIGN(s16, a0, 0x8C) << 16);
+            *tbl = ((Unkstruct_80126B58 *)a0)->unk88.u | (CAST_SIGN(s16, a0, 0x8C) << 16);
             func_80178B70(a0, (s32)tbl - 0x1C);
             ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
             ((Unkstruct_80126B58 *)a0)->unk1C = 0x14;
@@ -4804,7 +4804,7 @@ void func_8017E324(s32 a0) {
     }
 
     if (CAST_WIDTH(u16, a0, 0x5E) != 0) {
-        ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.w.unk12.s = ((Unkstruct_80126B58 *)a0)->unk62;
+        ((Unkstruct_80126B58 *)a0)->unk20.m->head.unk10.w.unk12.s = ((Unkstruct_80126B58 *)a0)->unk62.u;
         func_8017E8D4(a0, -0xF, 0);
         func_8017E948((s16 *)a0);
         CAST_WIDTH(s16, a0, 0x5E) = 0;

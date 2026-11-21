@@ -4894,9 +4894,9 @@ void func_801826D0(void *a0) {
     if (t < 0xC) {
         ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u += 0xE0;
     } else {
-        ((Unkstruct_8017E778_2 *)p)->unk64 = 0;
-        ((Unkstruct_8017E778_2 *)p)->unk60 = 0;
-        ((Unkstruct_8017E778_2 *)p)->unk62 = 0x3000;
+        ((Unkstruct_80126B58 *)p)->unk64.s = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.s = 0;
+        ((Unkstruct_80126B58 *)p)->unk62.s = 0x3000;
         ((Unkstruct_8011D030 *)a0)->unk1C = 0;
         ((Unkstruct_8011D030 *)a0)->unk2.u += 1;
     }
@@ -4953,10 +4953,10 @@ void func_801827CC(void *a0)
     ((Unkstruct_8011D030 *)a0)->unk1C = t + 1;
     if (t < 0x20) {
         v = ((Unkstruct_80126B58 *)obj)->unk64.u + 0x80;
-        w = ((Unkstruct_80126B58 *)obj)->unk62 - 0x100;
+        w = ((Unkstruct_80126B58 *)obj)->unk62.u - 0x100;
         ((Unkstruct_80126B58 *)obj)->unk64.u = v;
         ((Unkstruct_80126B58 *)obj)->unk60.s = v;
-        ((Unkstruct_80126B58 *)obj)->unk62 = w;
+        ((Unkstruct_80126B58 *)obj)->unk62.u = w;
         i = 0;
         do {
             guess_SpawnSmallObject(0x1B, obj, 0, 0, 0, 1, 0);

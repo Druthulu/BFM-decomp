@@ -4844,7 +4844,7 @@ void func_8017EF54(void *a0) {
     extern u8 D_80188354;
     extern void (*D_80188378[])(void *);
     guess_StartPadVibration(&D_80188354);
-    D_80188378[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_80188378[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 
@@ -4897,8 +4897,8 @@ void func_8017F07C(s32 a0)
     u8 v1;
 
     do { func_80149020((s32 *)s0); } while (0);
-    v1 = ((Unkstruct_8017F07C *)s0)->unkDE;
-    ((Unkstruct_8017F07C *)s0)->unkDE = v1 + 0xFF;
+    v1 = ((Unkstruct_80126B58 *)s0)->unkDE.u;
+    ((Unkstruct_80126B58 *)s0)->unkDE.u = v1 + 0xFF;
     if (v1 == 0) {
         func_8017F0E0(s0);
         func_80159B3C((void *)s0);
@@ -5482,7 +5482,7 @@ void func_8017FF70(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8017D928 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80188728, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;
@@ -5490,7 +5490,7 @@ void func_8017FF70(int param_1)
     *(unsigned char *)(p + 0x25) = 0x40;
     *(unsigned char *)(p + 0x24) = 0x40;
     *(unsigned int *)(p + 4) = *(unsigned int *)(p + 4) | 0xd0000000;
-    ((Unkstruct_8017D928 *)param_1)->unk2C = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s = 0;
     *(unsigned short *)(param_1 + 0x30) = (rand() & 3) + 1;
     r1 = rand();
     r2 = rand();

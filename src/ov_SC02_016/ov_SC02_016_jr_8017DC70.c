@@ -3682,7 +3682,7 @@ void func_8017F9F4(s32 a0) {
     s32 *a0_ptr;
 
     s1 = (s32 *)a0;
-    s0 = (u8 *)&D_801B41C8 + (((Unkstruct_8017F9F4 *)s1)->unk2C << 6);
+    s0 = (u8 *)&D_801B41C8 + (((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.s << 6);
 
     guess_BuildCircle12Points(s0, 0x20);
 
@@ -3697,8 +3697,8 @@ void func_8017F9F4(s32 a0) {
     v1 = (s32 *)s1[8];
     *(u16 *)((u8 *)v1 + 0x2C) = 0xC020;
 
-    ((Unkstruct_8017F9F4 *)s1)->unk1C = ((Unkstruct_8017F9F4 *)s1)->unk2C;
-    ((Unkstruct_8017F9F4 *)s1)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)s1)->unk1C.s = ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.s;
+    ((Unkstruct_8011DB30 *)s1)->unk2.u += 1;
 }
 
 
@@ -3786,16 +3786,16 @@ void func_8017FC1C(s32 a0) {
     s32 idx;
     s32 *entry;
 
-    idx = ((Unkstruct_8017F1B8 *)a0)->unk2C;
+    idx = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
     entry = &D_80188450[idx * 3];
 
     if (((Unkstruct_8017F1B8_2 *)entry)->unk6 != 0) {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
     } else {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
     }
 
-    ((Unkstruct_8017F1B8 *)a0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
 }
 
 

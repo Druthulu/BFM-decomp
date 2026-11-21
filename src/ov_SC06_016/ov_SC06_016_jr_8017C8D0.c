@@ -3812,8 +3812,8 @@ void func_8017F154(s32 arg0) {
 
     m = D_800AE620;
     blk = D_8019E290;
-    f = ((Unkstruct_80188094 *)arg0)->unk2C & 1;
-    guess_InitObjectKind6(((Unkstruct_80188094 *)arg0)->unk20, &D_8019F95C[f << 6]);
+    f = ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u & 1;
+    guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20, &D_8019F95C[f << 6]);
     ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
     ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
     if (f == 0) {
@@ -3831,16 +3831,16 @@ void func_8017F154(s32 arg0) {
         sv.unk0.v1.unk4 = 0;
         sv.unk0.v1.unk2 = 0;
         ApplyMatrixSV(&m, &sv, &sv);
-        ((Unkstruct_80188094 *)arg0)->unk6 += sv.unk0.v1.unk0;
-        ((Unkstruct_80188094 *)arg0)->unkA += sv.unk0.v1.unk2;
-        ((Unkstruct_80188094 *)arg0)->unkE += sv.unk0.v1.unk4;
-        ((Unkstruct_80188094 *)arg0)->unk10 = -((s32)(s16)sv.unk0.v1.unk0 << 12);
-        ((Unkstruct_80188094 *)arg0)->unk14 = -((s32)(s16)sv.unk0.v1.unk2 << 12);
+        ((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.u += sv.unk0.v1.unk0;
+        ((Unkstruct_8011DB30 *)arg0)->unk8.i.hi.u += sv.unk0.v1.unk2;
+        ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u += sv.unk0.v1.unk4;
+        ((Unkstruct_8011DB30 *)arg0)->unk10.val.s = -((s32)(s16)sv.unk0.v1.unk0 << 12);
+        ((Unkstruct_8011DB30 *)arg0)->unk14.val.s = -((s32)(s16)sv.unk0.v1.unk2 << 12);
         ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0;
         ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk1A = 0;
-        ((Unkstruct_80188094 *)arg0)->unk1C = 0xC;
+        ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 0xC;
     }
-    ((Unkstruct_80188094 *)arg0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk2.u += 1;
 }
 
 
@@ -4473,18 +4473,18 @@ void func_801803FC(void)
     for (i = 0; i < 4; i++) {
         p = D_8019FA00[i];
         if (p != NULL) {
-            ((Unkstruct_801803FC_3 *)p)->unk4 = ((Unkstruct_801803FC_3 *)p)->unk4 | 0x80000000;
+            ((Unkstruct_800B5BD8 *)p)->head.unk4.s = ((Unkstruct_800B5BD8 *)p)->head.unk4.s | 0x80000000;
         }
     }
 
     p = D_8019FAD0;
     if (p != NULL) {
-        ((Unkstruct_801803FC_3 *)p)->unk4 = ((Unkstruct_801803FC_3 *)p)->unk4 | 0x80000000;
+        ((Unkstruct_800B5BD8 *)p)->head.unk4.s = ((Unkstruct_800B5BD8 *)p)->head.unk4.s | 0x80000000;
     }
 
     p = D_8019FAD4;
     if (p != NULL) {
-        ((Unkstruct_801803FC_3 *)p)->unk4 = ((Unkstruct_801803FC_3 *)p)->unk4 | 0x80000000;
+        ((Unkstruct_800B5BD8 *)p)->head.unk4.s = ((Unkstruct_800B5BD8 *)p)->head.unk4.s | 0x80000000;
     }
 }
 

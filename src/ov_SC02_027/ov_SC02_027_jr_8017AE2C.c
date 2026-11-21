@@ -3342,9 +3342,9 @@ void func_8017BEBC(s32 param_1, s32 param_2)
         mode = 0x50000000;
         val = 0x1333;
     }
-    code = ((Unkstruct_8017BEBC_6 *)prim)->unk4 & 0xCFFFFFFF;
+    code = ((RenderHead *)prim)->unk4.s & 0xCFFFFFFF;
     hi = 0x40000000;
-    ((Unkstruct_8017BEBC_6 *)prim)->unk4 = code | (mode | hi);
+    ((RenderHead *)prim)->unk4.s = code | (mode | hi);
 
     if (((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk0.u != 0) {
         ((Unkstruct_800B5BD8 *)obj)->head.unk18.w.unk1A.s = val;
@@ -3640,7 +3640,7 @@ void func_8017C378(s32 a0) {
         }
     }
 
-    ((Unkstruct_8017BEBC_6 *)s0)->unk12 += 0x20;
+    ((RenderHead *)s0)->unk10.w.unk12.u += 0x20;
     rand_val = rand();
     func_8017BEBC(a0, rand_val & 0xF);
 
@@ -3767,9 +3767,9 @@ void func_8017C738(s32 a0) {
         }
     }
 
-    val = ((Unkstruct_8017C738_4 *)s1)->unk1A + 0x80;
-    ((Unkstruct_8017C738_4 *)s1)->unk1A = val;
-    ((Unkstruct_8017C738_4 *)s1)->unk18 = val;
+    val = ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u + 0x80;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u = val;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.s = val;
 
     t = ((Unkstruct_8017BEBC_2 *)a0)->unk1C.s - 1;
     ((Unkstruct_8017BEBC_2 *)a0)->unk1C.s = t;
@@ -3789,7 +3789,7 @@ void func_8017C738(s32 a0) {
             p++;
         }
     } else {
-        ((Unkstruct_8017BEBC_6 *)s4)->unk0 = 0;
+        ((RenderHead *)s4)->unk0.s = 0;
         ((Unkstruct_8017BEBC_2 *)a0)->unk2.u += 1;
     }
 }

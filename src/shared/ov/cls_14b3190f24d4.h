@@ -9,11 +9,11 @@ void SHARED_FN(s32 a0) {
     ((Unkstruct_80180068 *)a0)->unk2 = 5;
     ((Unkstruct_80180068 *)a0)->unk34 = 0;
     ((Unkstruct_80180068 *)a0)->unk1C = 0x12C;
-    ((Unkstruct_80180068_2 *)p)->unk4 |= 0x80000000;
+    ((Unkstruct_8001C9D0 *)p)->head.unk4.s |= 0x80000000;
     q = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068_2 *)q)->unk1C = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk1A = 0x1000;
-    ((Unkstruct_80180068_2 *)q)->unk18 = 0x1000;
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1C.u = 0x1000;
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1A.u = 0x1000;
+    ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk18.u = 0x1000;
     ((Unkstruct_80180068 *)a0)->unk76 = 0x1E0;
     ((Unkstruct_80180068 *)a0)->unk5C = 0x8810;
 }

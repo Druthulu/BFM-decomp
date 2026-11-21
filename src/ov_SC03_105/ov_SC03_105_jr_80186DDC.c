@@ -4113,10 +4113,10 @@ void func_80188C34(s32 param_1)
     extern u8 D_801B82E4;
     func_8001CD50(((Unkstruct_80188C34 *)param_1)->unk20, (s32)&D_801BCA08);
 
-    ((Unkstruct_80188C34 *)param_1)->unkA -= 0x100;
+    ((Unkstruct_80188C34 *)param_1)->unk8.i.hi.u -= 0x100;
     ((Unkstruct_80188C34_2 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
     ((Unkstruct_80188C34_2 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.s = 0x400;
-    ((Unkstruct_80188C34 *)param_1)->unk2C = 0x10;
+    ((Unkstruct_80188C34 *)param_1)->unk2C.i.lo.s = 0x10;
 
     guess_BuildCircle12Points(&D_801BCA08, 0x10);
 
@@ -4124,7 +4124,7 @@ void func_80188C34(s32 param_1)
     *(CVECTOR *)&D_801BCA0C = *(CVECTOR *)&D_801B82E4;
 
     ((Unkstruct_80188C34_2 *)*(s32 *)(param_1 + 0x20))->head.unk18.w.unk1E.s = 0xC00;
-    ((Unkstruct_80188C34 *)param_1)->unk2 += 1;
+    ((Unkstruct_80188C34 *)param_1)->unk2.u += 1;
 }
 
 

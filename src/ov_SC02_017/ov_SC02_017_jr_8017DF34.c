@@ -3301,7 +3301,7 @@ void func_8017F3B0(s32 param_1) {
     guess_StartPadVibration(&D_8018E140);
     func_8017F4AC(param_1);
     if (func_8017F474(param_1) != 0) {
-        v0 = ((Unkstruct_80126B58 *)param_1)->unk210;
+        v0 = ((Unkstruct_80126B58 *)param_1)->unk210.s;
         switch (D_8018E19A[v0 << 2]) {
         case 0:
             break;
@@ -3312,7 +3312,7 @@ void func_8017F3B0(s32 param_1) {
             func_80171928(param_1);
             return;
         }
-        ((Unkstruct_80126B58 *)param_1)->unk210 = CAST_SIGN(u16, param_1, 0x210) + 1;
+        ((Unkstruct_80126B58 *)param_1)->unk210.s = CAST_SIGN(u16, param_1, 0x210) + 1;
         func_8017F474(param_1);
     }
 }
@@ -3322,7 +3322,7 @@ s32 func_8017F474(void *a0)
 {
     extern struct { void *f0; void *f1; } D_8018E194[];
     extern s32 func_8017209C(void *arg0, void *arg1, s32 arg2, s32 arg3);
-    return func_8017209C(a0, &D_8018E194[((Unkstruct_80126B58 *)a0)->unk210], 0x80, 0xA);
+    return func_8017209C(a0, &D_8018E194[((Unkstruct_80126B58 *)a0)->unk210.s], 0x80, 0xA);
 }
 
 
@@ -5565,16 +5565,16 @@ void func_80182A90(s32 a0) {
     s32 idx;
     s32 *entry;
 
-    idx = ((Unkstruct_8017F1B8 *)a0)->unk2C;
+    idx = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
     entry = &D_8018E768[idx * 3];
 
     if (((Unkstruct_8017F1B8_2 *)entry)->unk6 != 0) {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
     } else {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
     }
 
-    ((Unkstruct_8017F1B8 *)a0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
 }
 
 

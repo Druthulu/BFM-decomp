@@ -325,7 +325,7 @@ void func_800CB578(void *arg0) {
     pos[1] += (sn * t) / 4096;
 
     ((Unkstruct_80126B58 *)arg0)->unk60.u = (((Unkstruct_80126B58 *)arg0)->unk60.u + 0xE3) & 0xFFF;
-    ((Unkstruct_80126B58 *)arg0)->unk62 = (((Unkstruct_80126B58 *)arg0)->unk62 + 0x38) & 0xFFF;
+    ((Unkstruct_80126B58 *)arg0)->unk62.u = (((Unkstruct_80126B58 *)arg0)->unk62.u + 0x38) & 0xFFF;
 
     p = D_800CC5B0 + ((Unkstruct_80126B58 *)arg0)->unk50 * 160;
     clr[0] = *(CVECTOR *)(D_800CC114 + ((Unkstruct_80126B58 *)arg0)->unk50 * 4);

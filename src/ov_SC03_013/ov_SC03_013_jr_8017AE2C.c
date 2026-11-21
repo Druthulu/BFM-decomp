@@ -3588,9 +3588,9 @@ void func_8017C6B8(s32 arg0, s32 arg1) {
     s16 temp;
 
     temp = CAST_SIGN(u16, arg0, 0x20E) + D_80184A60[arg1];
-    ((Unkstruct_80126B58 *)arg0)->unk20E = temp;
+    ((Unkstruct_80126B58 *)arg0)->unk20E.s = temp;
     if (temp > 0x60) {
-        ((Unkstruct_80126B58 *)arg0)->unk20E = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk20E.s = 0;
     }
 }
 
@@ -3622,9 +3622,9 @@ void func_8017C6F4(s32 arg0, s32 arg1) {
     s16 temp;
 
     temp = CAST_SIGN(u16, arg0, 0x20C) + D_80184A68[arg1];
-    ((Unkstruct_80126B58 *)arg0)->unk20C = temp;
+    ((Unkstruct_80126B58 *)arg0)->unk20C.s = temp;
     if (temp > 0x60) {
-        ((Unkstruct_80126B58 *)arg0)->unk20C = 0x60;
+        ((Unkstruct_80126B58 *)arg0)->unk20C.s = 0x60;
     }
 }
 

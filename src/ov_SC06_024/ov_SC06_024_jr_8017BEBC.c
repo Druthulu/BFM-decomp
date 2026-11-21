@@ -4408,8 +4408,8 @@ void func_8017FC34(void *a0) {
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk28 = 0x2D1;
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2A = 0x160;
     ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2C = 0xC020U;
-    ((Unkstruct_801AB748 *)a0)->unk2 = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
-    ((Unkstruct_801AB748 *)a0)->unk1C = 7;
+    ((Unkstruct_8011DB30 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk1C.s = 7;
 }
 
 
@@ -5255,7 +5255,7 @@ void func_801811AC(void *a0) {
     extern u8 D_801937E0;
     extern void (*D_80193808[])(void *);
     guess_StartPadVibration(&D_801937E0);
-    D_80193808[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_80193808[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 

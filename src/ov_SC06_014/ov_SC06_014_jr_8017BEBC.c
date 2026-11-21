@@ -3665,9 +3665,9 @@ void func_8017E80C(void *arg0) {
     *(s16 *)((char *)v1 + 0x12) = 0;
     *(s16 *)((char *)v1 + 0x10) = 0;
     guess_HideObjectModel((u8 *)arg0);
-    ((Unkstruct_80126B58 *)arg0)->unk6.s = ((Unkstruct_80126B58 *)arg0)->unk88;
-    ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk8A;
-    ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk8C;
+    ((Unkstruct_80126B58 *)arg0)->unk6.s = ((Unkstruct_80126B58 *)arg0)->unk88.u;
+    ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk8A.u;
+    ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk8C.u;
 }
 
 
@@ -4464,7 +4464,7 @@ void func_8017FB4C(void *a0)
     func_8017FD74(a0);
     p = (void *)D_801A14A8;
     if (p != 0) {
-        rot = ((Unkstruct_8017E6A4 *)s2)->unk12 + 0x800;
+        rot = ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u + 0x800;
         p = ((Unkstruct_8017E6A4_3 *)p)->unk20;
         flag = ((Unkstruct_8017E6A4_3 *)p)->unk12 & 0x400;
         angle = rot & 0xFFF;
@@ -4472,17 +4472,17 @@ void func_8017FB4C(void *a0)
             a = func_80012A60(angle, 0x400);
             b = func_80012A60(angle, 0xC00);
             if ((s16)a <= (s16)b) {
-                ((Unkstruct_8017E6A4 *)s2)->unk12 = 0x400;
+                ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = 0x400;
             } else {
-                ((Unkstruct_8017E6A4 *)s2)->unk12 = 0xC00;
+                ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = 0xC00;
             }
         } else {
             a = func_80012A60(angle, 0);
             b = func_80012A60(angle, 0x800);
             if ((s16)a <= (s16)b) {
-                ((Unkstruct_8017E6A4 *)s2)->unk12 = 0;
+                ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = 0;
             } else {
-                ((Unkstruct_8017E6A4 *)s2)->unk12 = 0x800;
+                ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = 0x800;
             }
         }
     }
@@ -4598,17 +4598,17 @@ s32 func_8017FE50(s32 param_1) {
     s32 v0;
     s32 v1;
 
-    v0 = ((Unkstruct_8017EAEC *)param_1)->unk204;
+    v0 = ((Unkstruct_80126B58 *)param_1)->unk204.s;
     v1 = *(s32 *)(v0 + 0x20);
     if (v0 != 0) {
         ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk12.s = CAST_SIGN(u16, v1, 0x12) + 0x80;
         guess_RotTransSVWithMatrix(v1 + 0x34, param_1 + 0x20C, (s32)sp10);
         func_80015954((s32)sp10, param_1 + 4);
     }
-    v1 = ((Unkstruct_8017EAEC *)param_1)->unk20;
+    v1 = (s32)((Unkstruct_80126B58 *)param_1)->unk20.m;
     ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk12.s = CAST_SIGN(u16, v1, 0x12) + 0x80;
-    v0 = ((Unkstruct_8017EAEC *)param_1)->unk208 + 0x80;
-    ((Unkstruct_8017EAEC *)param_1)->unk208 = v0;
+    v0 = ((Unkstruct_80126B58 *)param_1)->unk208.i.lo + 0x80;
+    ((Unkstruct_80126B58 *)param_1)->unk208.i.lo = v0;
     return (s16)v0 == 0x800;
 }
 

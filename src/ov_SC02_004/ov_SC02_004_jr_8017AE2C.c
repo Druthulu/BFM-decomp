@@ -3855,12 +3855,12 @@ void func_8017D6F0(s32 param_1) {
 
     if (((s32 (*)(s32, s32))func_801724EC)(param_1, (s32)&buf18)) {
         if (func_80172664((s32 *)param_1) == 0) {
-            ((Unkstruct_80126B58 *)param_1)->unkAC = 0x40;
-            ((Unkstruct_80126B58 *)param_1)->unkAA = 0x40;
+            ((Unkstruct_80126B58 *)param_1)->unkAC.u = 0x40;
+            ((Unkstruct_80126B58 *)param_1)->unkAA.u = 0x40;
         }
     }
     if (func_80171D78(param_1, (s32)&buf10)) {
-        ((Unkstruct_80126B58 *)param_1)->unk204 = 0x20;
+        ((Unkstruct_80126B58 *)param_1)->unk204.s = 0x20;
         ((Unkstruct_80126B58 *)param_1)->unk214.u += 1;
     }
 }

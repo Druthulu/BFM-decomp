@@ -6855,7 +6855,7 @@ void func_801654A8(s32 arg0)
         return;
     }
     if (((Unkstruct_801654A8_2 *)arg0)->unk0 != 0x1A) {
-        if ((((Unkstruct_801654A8_2 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
+        if ((((Unkstruct_801654A8_2 *)arg0)->unk1F8.s & 0x80FFFFFF) == 0) {
             if (func_80165658(arg0, D_80078EC1) & 0x80) {
                 ((void (*)(s32))D_80186870[D_80078EC1 & 0x7F])(arg0);
             }
@@ -7996,16 +7996,16 @@ void func_80168664(s32 param_1)
     extern Mat32 D_800AE620;
     s32 node;
 
-    node = ((Unkstruct_80168664_4 *)param_1)->unk34;
-    ((Unkstruct_80168664_4 *)param_1)->unk1C = 0x20;
-    ((Unkstruct_80168664_4 *)param_1)->unk10 = 0x80;
-    ((Unkstruct_80168664_4 *)param_1)->unk12 = 0;
-    ((Unkstruct_80168664_4 *)param_1)->unk30 = 0x1800;
+    node = ((Unkstruct_8011D030 *)param_1)->unk34;
+    ((Unkstruct_8011D030 *)param_1)->unk1C = 0x20;
+    ((Unkstruct_8011D030 *)param_1)->unk10.i.lo.u = 0x80;
+    ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u = 0;
+    ((Unkstruct_8011D030 *)param_1)->unk30.val.s = 0x1800;
     *(Blk20 *)(param_1 + 0x38) = (*(Blk20 *)&D_800AE620);
     ((s32 (*)(s32, void *))RotMatrixX)(0x400, (void *)(param_1 + 0x38));
     func_80048EAC((void *)(*(s32 *)(node + 0x20) + 0x34), (void *)(param_1 + 0x38));
     func_801670E4(param_1, -6, -0x44, -0x18);
-    ((Unkstruct_80168664_4 *)param_1)->unk2 = ((Unkstruct_80168664_4 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011D030 *)param_1)->unk2.s = ((Unkstruct_8011D030 *)param_1)->unk2.s + 1;
 }
 
 

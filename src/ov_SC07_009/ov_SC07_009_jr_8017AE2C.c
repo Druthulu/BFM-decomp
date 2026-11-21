@@ -3561,12 +3561,12 @@ void func_8017D374(int param_1) {
 
 
 void func_8017D39C(int param_1, short *param_2, short *param_3) {
-    ((Unkstruct_80188988_2 *)param_1)->unk48 = param_3[0];
-    ((Unkstruct_80188988_2 *)param_1)->unk4C = param_3[1];
-    ((Unkstruct_80188988_2 *)param_1)->unk50 = param_3[2];
-    ((Unkstruct_80188988_2 *)param_1)->unk3C = param_2[0];
-    ((Unkstruct_80188988_2 *)param_1)->unk40 = param_2[1];
-    ((Unkstruct_80188988_2 *)param_1)->unk44 = param_2[2];
+    ((Unkstruct_80126948 *)param_1)->unk48 = param_3[0];
+    ((Unkstruct_80126948 *)param_1)->unk4C = param_3[1];
+    ((Unkstruct_80126948 *)param_1)->unk50 = param_3[2];
+    ((Unkstruct_80126948 *)param_1)->unk3C = param_2[0];
+    ((Unkstruct_80126948 *)param_1)->unk40 = param_2[1];
+    ((Unkstruct_80126948 *)param_1)->unk44 = param_2[2];
 }
 
 

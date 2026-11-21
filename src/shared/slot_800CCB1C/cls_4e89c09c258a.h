@@ -10,7 +10,7 @@ void SHARED_FN(s32 a0, s32 a1)
     func_800126C4(a1, ((Unkstruct_800CDF84 *)a0)->unk60);
     func_800123F0(a1, ((Unkstruct_800CDF84 *)a0)->unk64);
     func_80012558(a1, ((Unkstruct_800CDF84 *)a0)->unk62);
-    func_80012558(a1, ((Unkstruct_80185020 *)q)->unk12);
-    func_800126C4(a1, ((Unkstruct_80185020 *)q)->unk10);
-    func_800123F0(a1, ((Unkstruct_80185020 *)q)->unk14);
+    func_80012558(a1, ((RenderHead *)q)->unk10.w.unk12.s);
+    func_800126C4(a1, ((RenderHead *)q)->unk10.w.unk10.s);
+    func_800123F0(a1, ((RenderHead *)q)->unk10.w.unk14.s);
 }

@@ -5198,9 +5198,9 @@ void func_8017E778(void *a0) {
     if (t < 0xC) {
         ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u += 0xE0;
     } else {
-        ((Unkstruct_8017E778_2 *)p)->unk64 = 0;
-        ((Unkstruct_8017E778_2 *)p)->unk60 = 0;
-        ((Unkstruct_8017E778_2 *)p)->unk62 = 0x3000;
+        ((Unkstruct_80126B58 *)p)->unk64.s = 0;
+        ((Unkstruct_80126B58 *)p)->unk60.s = 0;
+        ((Unkstruct_80126B58 *)p)->unk62.s = 0x3000;
         ((Unkstruct_8011D030 *)a0)->unk1C = 0;
         ((Unkstruct_8011D030 *)a0)->unk2.u += 1;
     }
@@ -5257,10 +5257,10 @@ void func_8017E874(void *a0)
     ((Unkstruct_8011D030 *)a0)->unk1C = t + 1;
     if (t < 0x20) {
         v = ((Unkstruct_80126B58 *)obj)->unk64.u + 0x80;
-        w = ((Unkstruct_80126B58 *)obj)->unk62 - 0x100;
+        w = ((Unkstruct_80126B58 *)obj)->unk62.u - 0x100;
         ((Unkstruct_80126B58 *)obj)->unk64.u = v;
         ((Unkstruct_80126B58 *)obj)->unk60.s = v;
-        ((Unkstruct_80126B58 *)obj)->unk62 = w;
+        ((Unkstruct_80126B58 *)obj)->unk62.u = w;
         i = 0;
         do {
             guess_SpawnSmallObject(0x1B, obj, 0, 0, 0, 1, 0);
@@ -5280,15 +5280,15 @@ void func_8017E948(void *a0)
 {
     void *obj;
     s16 v;
-    v = ((Unkstruct_8017E948 *)a0)->unk12 - 0x100;
-    obj = ((Unkstruct_8017E948 *)a0)->unk34;
-    ((Unkstruct_8017E948 *)a0)->unk12 = v;
+    v = ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u - 0x100;
+    obj = ((Unkstruct_8011D030 *)a0)->unk34;
+    ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u = v;
     if (v > 0) {
         ((void (*)(void *))func_8017E3F0)(a0);
     } else {
-        ((Unkstruct_8017E778_2 *)obj)->unk64 = 0x1000;
-        ((Unkstruct_8017E778_2 *)obj)->unk62 = 0x1000;
-        ((Unkstruct_8017E778_2 *)obj)->unk60 = 0x1000;
+        ((Unkstruct_80126B58 *)obj)->unk64.s = 0x1000;
+        ((Unkstruct_80126B58 *)obj)->unk62.s = 0x1000;
+        ((Unkstruct_80126B58 *)obj)->unk60.s = 0x1000;
         KR_AS(s32, guess_FreeSmallObject)();
     }
 }

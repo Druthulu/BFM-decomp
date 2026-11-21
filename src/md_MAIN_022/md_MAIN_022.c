@@ -182,7 +182,7 @@ void func_800CB1BC(void *a0)
             *(s16 *)((u8 *)s2 + 0x18) = 0;
             *(s32 *)((u8 *)s2 + 4) = vtemp | 0x50000000;
 
-            ((Unkstruct_80126B58 *)a0)->unk62 = 0x1000;
+            ((Unkstruct_80126B58 *)a0)->unk62.u = 0x1000;
             ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
             *(s16 *)((u8 *)s2 + 0x14) = -0x155;
 
@@ -234,8 +234,8 @@ void func_800CB354(void *a0) {
     s16 v0;
 
     v1 = CAST_SIGN(void *, (s32)a0, 0x20);
-    v0 = ((Unkstruct_80126B58 *)a0)->unk62 - 0x40;
-    ((Unkstruct_80126B58 *)a0)->unk62 = v0;
+    v0 = ((Unkstruct_80126B58 *)a0)->unk62.u - 0x40;
+    ((Unkstruct_80126B58 *)a0)->unk62.u = v0;
     if (v0 < 0) {
         guess_NextStep((s32)a0);
         return;

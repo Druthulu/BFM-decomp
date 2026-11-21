@@ -7681,17 +7681,17 @@ void func_801AB748(s32 a0) {
     s32 v0;
     s32 v1;
 
-    v0 = ((Unkstruct_801AB748 *)a0)->unk1C;
+    v0 = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
     if (v0 != 0) {
         v0 = v0 - 1;
-        ((Unkstruct_801AB748 *)a0)->unk1C = v0;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = v0;
     } else {
-        v1 = ((Unkstruct_801AB748 *)a0)->unk20;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
         ((Unkstruct_801AB748_2 *)v1)->unk1A = 0x400;
         ((Unkstruct_801AB748_2 *)v1)->unk18 = 0x400;
-        v1 = ((Unkstruct_801AB748 *)a0)->unk20;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
         ((Unkstruct_801AB748_2 *)v1)->unk2C = 0xC020;
-        ((Unkstruct_801AB748 *)a0)->unk2 = 1;
+        ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
     }
 }
 

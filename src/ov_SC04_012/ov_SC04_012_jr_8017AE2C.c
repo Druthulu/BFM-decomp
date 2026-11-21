@@ -3383,8 +3383,8 @@ extern void func_8002931C(s32 a0);
 
 s32 func_8017D028(s32 param_1) {
     func_8002931C(0x30C0000);
-    ((Unkstruct_8017D028 *)param_1)->unk28 = 0xA;
-    ((Unkstruct_8017D028 *)param_1)->unk15 = ((Unkstruct_8017D028 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 0xA;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -3976,7 +3976,7 @@ void func_8017DD84(int param_1)
     v.y = 0;
     v.x = 0;
     v.z = o[0x16];
-    func_800139C8(((Unkstruct_8017DB64_2 *)p)->unk12 = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
+    func_800139C8(((RenderHead *)p)->unk10.w.unk12.s = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
 
     o[3] = o[9] + v.x;
     o[7] = o[0xD] + v.z;
@@ -4240,7 +4240,7 @@ void func_8017E378(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8017D928 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_801822F4, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;
@@ -4248,7 +4248,7 @@ void func_8017E378(int param_1)
     *(unsigned char *)(p + 0x25) = 0x40;
     *(unsigned char *)(p + 0x24) = 0x40;
     *(unsigned int *)(p + 4) = *(unsigned int *)(p + 4) | 0xd0000000;
-    ((Unkstruct_8017D928 *)param_1)->unk2C = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s = 0;
     *(unsigned short *)(param_1 + 0x30) = (rand() & 3) + 1;
     r1 = rand();
     r2 = rand();

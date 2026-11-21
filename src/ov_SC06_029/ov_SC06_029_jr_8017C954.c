@@ -5563,16 +5563,16 @@ void func_80181708(int param_1) {
     SV *p1 = (SV *)D_801DFD8C;
     SV *p2 = (SV *)D_801DFD90;
 
-    ((Unkstruct_80188988_2 *)param_1)->unk48 = p1->vx;
-    ((Unkstruct_80188988_2 *)param_1)->unk50 = p1->vz;
-    ((Unkstruct_80188988_2 *)param_1)->unk3C = p2->vx;
-    ((Unkstruct_80188988_2 *)param_1)->unk44 = p2->vz;
-    ((Unkstruct_80188988_2 *)param_1)->unk4C += (s16)func_80012CB8(D_801904C6_a[0], p1->vy, 0xC0);
-    ((Unkstruct_80188988_2 *)param_1)->unk40 += (s16)func_80012CB8(D_801904CE_a[0], ((SV *)D_801DFD90)->vy, 0xC0);
-    if (((Unkstruct_80188988_2 *)param_1)->unk4C < ((SV *)D_801DFD8C)->vy)
-        ((Unkstruct_80188988_2 *)param_1)->unk4C = ((SV *)D_801DFD8C)->vy;
-    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((SV *)D_801DFD90)->vy)
-        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((SV *)D_801DFD90)->vy;
+    ((Unkstruct_80126948 *)param_1)->unk48 = p1->vx;
+    ((Unkstruct_80126948 *)param_1)->unk50 = p1->vz;
+    ((Unkstruct_80126948 *)param_1)->unk3C = p2->vx;
+    ((Unkstruct_80126948 *)param_1)->unk44 = p2->vz;
+    ((Unkstruct_80126948 *)param_1)->unk4C += (s16)func_80012CB8(D_801904C6_a[0], p1->vy, 0xC0);
+    ((Unkstruct_80126948 *)param_1)->unk40 += (s16)func_80012CB8(D_801904CE_a[0], ((SV *)D_801DFD90)->vy, 0xC0);
+    if (((Unkstruct_80126948 *)param_1)->unk4C < ((SV *)D_801DFD8C)->vy)
+        ((Unkstruct_80126948 *)param_1)->unk4C = ((SV *)D_801DFD8C)->vy;
+    if (((Unkstruct_80126948 *)param_1)->unk40 < ((SV *)D_801DFD90)->vy)
+        ((Unkstruct_80126948 *)param_1)->unk40 = ((SV *)D_801DFD90)->vy;
 }
 
 

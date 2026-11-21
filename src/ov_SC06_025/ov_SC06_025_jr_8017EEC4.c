@@ -4625,11 +4625,11 @@ void func_80181700(void *a0)
     s32 r, t;
 
     q1 = *(s32 **)((u8 *)p + 0x20);
-    r = guess_GetAngleStepToward(((Unkstruct_80181700 *)q1)->unk12, 0, 4);
+    r = guess_GetAngleStepToward(((Unkstruct_8001C9D0 *)q1)->head.unk10.w.unk12.s, 0, 4);
     q2 = *(s32 **)((u8 *)p + 0x20);
     t = CAST_SIGN(u16, (u8 *)q2, 0x12);
     t += r;
-    ((Unkstruct_80181700 *)q2)->unk12 = t;
+    ((Unkstruct_8001C9D0 *)q2)->head.unk10.w.unk12.s = t;
 }
 
 
@@ -4641,11 +4641,11 @@ void func_80181750(void *a0)
 
     t = guess_YawToPoint(p + 1);
     q1 = *(s32 **)((u8 *)p + 0x20);
-    r = guess_GetAngleStepToward(((Unkstruct_80181750 *)q1)->unk12, t, 4);
+    r = guess_GetAngleStepToward(((Unkstruct_8001C9D0 *)q1)->head.unk10.w.unk12.s, t, 4);
     q2 = *(s32 **)((u8 *)p + 0x20);
     t = CAST_SIGN(u16, (u8 *)q2, 0x12);
     t += r;
-    ((Unkstruct_80181750 *)q2)->unk12 = t;
+    ((Unkstruct_8001C9D0 *)q2)->head.unk10.w.unk12.s = t;
 }
 
 
@@ -6098,7 +6098,7 @@ void func_801836CC(void *a0) {
     extern u8 D_801AD9E4;
     extern void (*D_801ADA0C[])(void *);
     guess_StartPadVibration(&D_801AD9E4);
-    D_801ADA0C[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_801ADA0C[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 

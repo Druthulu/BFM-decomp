@@ -295,7 +295,7 @@ void func_800CD1D4(s32 *s1) {
         v0 = *(s32 *)((s32)s2 + 0x20);
         { RenderHead *d = (RenderHead *)s0, *s = (RenderHead *)v0; d->unk10.m = s->unk10.m; }
         ((Unkstruct_80126B58 *)s1)->unk60.u = *(u16 *)((s32)s2 + 0x100);
-        ((Unkstruct_80126B58 *)s1)->unk62 = *(u16 *)((s32)s2 + 0x102);
+        ((Unkstruct_80126B58 *)s1)->unk62.u = *(u16 *)((s32)s2 + 0x102);
         ((Unkstruct_80126B58 *)s1)->unk64.u = *(u16 *)((s32)s2 + 0x104);
         func_800CD834(s1);
         guess_SetMoveVector(s1, D_800CE230);

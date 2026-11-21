@@ -1102,7 +1102,7 @@ s32 func_80149FB0(s32 a0) {
     if (((Unkstruct_80126B58 *)a0)->unk1C8.s != 0) {
         return 0;
     }
-    if ((((Unkstruct_80126B58 *)a0)->unkAC & 0x100) == 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unkAC.u & 0x100) == 0) {
     ret0:
         return 0;
     }

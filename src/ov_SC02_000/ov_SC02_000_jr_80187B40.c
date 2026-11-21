@@ -3508,7 +3508,7 @@ void func_80188AEC(void *a0) {
     s32 v, r1, r2, r3;
     u16 *counter;
 
-    s0 = ((Unkstruct_80188AEC *)a0)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)a0)->unk20;
 
     v = rand() & 3;
     ((void (*)(void *, void *, s32, s32))func_8001CB6C)(s0, &((void (**)())D_8018F560)[v * 3], 0x3F0, 0x100);
@@ -3518,13 +3518,13 @@ void func_80188AEC(void *a0) {
     ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = 0x1000;
 
     r1 = rand();
-    ((Unkstruct_80188AEC *)a0)->unk14 = (r1 + 0xC000) << 1;
+    ((Unkstruct_8011DB30 *)a0)->unk14.val.s = (r1 + 0xC000) << 1;
 
     r2 = rand();
-    ((Unkstruct_80188AEC *)a0)->unk10 = ((r2 & 0x3FFF) << 1) - 0x4000;
+    ((Unkstruct_8011DB30 *)a0)->unk10.val.s = ((r2 & 0x3FFF) << 1) - 0x4000;
 
     r3 = rand();
-    ((Unkstruct_80188AEC *)a0)->unk18 = ((r3 & 0x3FFF) << 1) - 0x4000;
+    ((Unkstruct_8011DB30 *)a0)->unk18.val.s = ((r3 & 0x3FFF) << 1) - 0x4000;
 
     counter = (u16 *)(a0 + 0x2);
     *counter = *counter + 1;
@@ -4547,13 +4547,13 @@ void func_8018A2A0(void) {
                 hv = ph[i];
                 p0 = (s16)x * hv;
                 p1 = y * hv;
-                w = ((Unkstruct_8018A2A0 *)h)->unk4;
-                ((Unkstruct_8018A2A0 *)h)->unk4 = w & 0x7FFFFFFF;
-                ((Unkstruct_8018A2A0 *)h)->unk8 = p0 >> 12;
-                ((Unkstruct_8018A2A0 *)h)->unkA = p1 >> 12;
+                w = ((Unkstruct_8018A2A0 *)h)->head.unk4.u;
+                ((Unkstruct_8018A2A0 *)h)->head.unk4.u = w & 0x7FFFFFFF;
+                ((Unkstruct_8018A2A0 *)h)->head.unk8.s = p0 >> 12;
+                ((Unkstruct_8018A2A0 *)h)->head.unkA.s = p1 >> 12;
             } else {
-                w = ((Unkstruct_8018A2A0 *)h)->unk4;
-                ((Unkstruct_8018A2A0 *)h)->unk4 = w | 0x80000000;
+                w = ((Unkstruct_8018A2A0 *)h)->head.unk4.u;
+                ((Unkstruct_8018A2A0 *)h)->head.unk4.u = w | 0x80000000;
             }
         }
     }
@@ -4731,8 +4731,8 @@ s32 func_8018A690(s32 param_1) {
     ((void(*)(s32, void *))guess_StartActorSequence)(param_1, &(D_8018AF28[0]));
     iVar5 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
-    ((Unkstruct_80185E98_2 *)iVar5)->unk4 |= 0x50000040;
-    ((Unkstruct_80185E98_2 *)iVar5)->unk2C |= 1;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk4.s |= 0x50000040;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk2C.u |= 1;
     iVar8 = ((Unkstruct_80185E98_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801E8668, &s60);
     s50 = s60;

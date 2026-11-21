@@ -4225,7 +4225,7 @@ void func_80180290(s32 arg0) {
     func_8014706C((void *)arg0);
     guess_SetAnimScript((s32 *)arg0, (s32)&D_80189760);
     func_80146DE8((s32 *)arg0, 0, 0x60000, 0);
-    ((Unkstruct_80126B58 *)arg0)->unk20C = 1;
+    ((Unkstruct_80126B58 *)arg0)->unk20C.s = 1;
     ((Unkstruct_80126B58 *)arg0)->unk200 = 0x50;
     func_80171990((u8 *)arg0);
 }
@@ -4243,7 +4243,7 @@ void func_801802F4(s32 arg0) {
         guess_ApplyVelocity((s32 *)arg0);
     } else {
         ((Unkstruct_80126B58 *)arg0)->unk200 = 6;
-        ((Unkstruct_80126B58 *)arg0)->unk20C = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk20C.s = 0;
         ((Unkstruct_80126B58 *)arg0)->unk28 = 0xA0000;
         guess_SetVelocityFromMoveVector(arg0);
         func_80171990((u8 *)arg0);

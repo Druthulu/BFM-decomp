@@ -2795,13 +2795,13 @@ void func_8017D390(void *a0)
 {
     s32 val;
 
-    val = ((Unkstruct_8017C4F8 *)a0)->unk1C;
+    val = ((Unkstruct_8011D030 *)a0)->unk1C;
     val--;
-    ((Unkstruct_8017C4F8 *)a0)->unk1C = val;
+    ((Unkstruct_8011D030 *)a0)->unk1C = val;
 
     if (val != -1) {
         guess_AddVelocityToPos_4((s32)a0);
-        ((Unkstruct_8017C4F8 *)a0)->unk14 += 0x1A000;
+        ((Unkstruct_8011D030 *)a0)->unk14.val += 0x1A000;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }
@@ -3559,7 +3559,7 @@ void func_8017E784(void *a0) {
     extern u8 D_8019539C;
     extern void (*D_801953C4[])(void *);
     guess_StartPadVibration(&D_8019539C);
-    D_801953C4[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_801953C4[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 

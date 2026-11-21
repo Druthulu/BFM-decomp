@@ -3319,7 +3319,7 @@ void func_8017BF00(s32 *a0) {
     guess_SetAnim((s32)a0, 0x26);
     guess_SetTexAnim((s32)a0, 0x1E);
     CAST_NONSTRUCT(s16, (u8 *)(CAST_SIGN(s32 *, (u8 *)a0, 0x20)), 0x10) = 0xFE9;
-    ((Unkstruct_80126B58 *)a0)->unk208 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk208.val = 0;
     func_80171A1C((u8 *)a0);
     func_8017BF70(a0);
 }

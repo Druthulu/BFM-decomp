@@ -4230,9 +4230,9 @@ void func_80183D90(void *arg0) {
     }
 
     if (((Unkstruct_80183D90 *)p)->unkE >= 0x13 || *(s32 *)(((Unkstruct_80183D90 *)p)->unk20 + 4) < 0) {
-        ((Unkstruct_80183D90_2 *)s1)->unk4 |= 0x80000000;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk4.s |= 0x80000000;
     } else {
-        ((Unkstruct_80183D90_2 *)s1)->unk4 &= 0x7FFFFFFF;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk4.s &= 0x7FFFFFFF;
         SetRotMatrix((void *)(((Unkstruct_80183D90 *)p)->unk20 + 0x34));
         SetTransMatrix((void *)(((Unkstruct_80183D90 *)p)->unk20 + 0x34));
 
@@ -4243,11 +4243,11 @@ void func_80183D90(void *arg0) {
 
         t = ((Unkstruct_80183D90 *)p)->unkE;
         if (t < 8) {
-            ((Unkstruct_80183D90_2 *)s1)->unk1A = (8 - t) * 0x240;
-            ((Unkstruct_80183D90_2 *)s1)->unk18 = (8 - t) * 0x240;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.s = (8 - t) * 0x240;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.s = (8 - t) * 0x240;
         } else {
-            ((Unkstruct_80183D90_2 *)s1)->unk1A = 0;
-            ((Unkstruct_80183D90_2 *)s1)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.s = 0;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.s = 0;
         }
 
         g = D_800B99D8;

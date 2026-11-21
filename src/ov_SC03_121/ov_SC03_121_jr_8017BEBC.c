@@ -2708,7 +2708,7 @@ void func_8017CD9C(void *a0) {
     extern u8 D_80185B70;
     extern void (*D_80185B98[])(void *);
     guess_StartPadVibration(&D_80185B70);
-    D_80185B98[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_80185B98[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 
@@ -2865,7 +2865,7 @@ void func_8017D064(void *a0) {
     extern u8 D_80185BA4;
     extern void (*D_80185BCC[])(void *);
     guess_StartPadVibration(&D_80185BA4);
-    D_80185BCC[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_80185BCC[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 

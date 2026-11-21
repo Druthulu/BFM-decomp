@@ -5644,7 +5644,7 @@ void func_801654A8(s32 arg0)
         return;
     }
     if (((Unkstruct_801654A8_2 *)arg0)->unk0 != 0x1A) {
-        if ((((Unkstruct_801654A8_2 *)arg0)->unk1F8 & 0x80FFFFFF) == 0) {
+        if ((((Unkstruct_801654A8_2 *)arg0)->unk1F8.s & 0x80FFFFFF) == 0) {
             if (func_80165658(arg0, D_80078EC1) & 0x80) {
                 ((void (*)(s32))D_801812E4[D_80078EC1 & 0x7F])(arg0);
             }

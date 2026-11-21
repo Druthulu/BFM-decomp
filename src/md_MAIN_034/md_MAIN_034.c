@@ -843,7 +843,7 @@ void func_800CC310(void *a0)
         *(s16 *)((u8 *)a0 + 0x5A) = 0;
         CAST_WIDTH(s16, (u8 *)a0, 0x58) = 0;
         ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
-        ((Unkstruct_80126B58 *)a0)->unk62 = 0;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = 0;
 
         (*(Quad4_800CCAD0 *)&D_800CCB14).r = 0x20;
         (*(Quad4_800CCAD0 *)&D_800CCB14).g = 0;

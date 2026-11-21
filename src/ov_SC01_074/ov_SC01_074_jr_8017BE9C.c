@@ -3236,7 +3236,7 @@ void func_8017D1D8(void *a0) {
     guess_SetAnimScript((s32 *)a0, (s32)&D_80182168);
     func_80146DE8((s32 *)a0, 0, 0x20000, 0);
     ((Unkstruct_80126B58 *)a0)->unk200 = 0x40;
-    ((Unkstruct_80126B58 *)a0)->unk20C = 1;
+    ((Unkstruct_80126B58 *)a0)->unk20C.s = 1;
     guess_PlaySoundUnlessSkipped(0xBCA);
     func_80171990((u8 *)a0);
 }
@@ -3335,10 +3335,10 @@ void func_8017D460(void *a0) {
     func_8014708C(a0);
     func_801472C8(a0);
     ((Unkstruct_80126B58 *)a0)->unk200 = 0x316;
-    ((Unkstruct_80126B58 *)a0)->unk204 = 0;
-    ((Unkstruct_80126B58 *)a0)->unk20C = 1;
+    ((Unkstruct_80126B58 *)a0)->unk204.s = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20C.s = 1;
     func_8017D98C(a0, 1, ((Unkstruct_80126B58 *)a0)->unk200, 0);
-    ((Unkstruct_80126B58 *)a0)->unk20E = 30;
+    ((Unkstruct_80126B58 *)a0)->unk20E.s = 30;
     func_80171990(a0);
 }
 
@@ -3346,12 +3346,12 @@ void func_8017D460(void *a0) {
 void func_8017D4D0(void *param_1) {
     s16 v;
 
-    v = ((Unkstruct_80126B58 *)param_1)->unk20E;
+    v = ((Unkstruct_80126B58 *)param_1)->unk20E.s;
     v = v - 1;
-    ((Unkstruct_80126B58 *)param_1)->unk20E = v;
+    ((Unkstruct_80126B58 *)param_1)->unk20E.s = v;
     if (v == -1) {
         guess_RequestSound(0xBE8, 0);
-        ((Unkstruct_80126B58 *)param_1)->unk20E = 0;
+        ((Unkstruct_80126B58 *)param_1)->unk20E.s = 0;
         func_80171990((u8 *)param_1);
     }
 }
@@ -3451,7 +3451,7 @@ void func_8017D738(void *a0) {
     func_8014708C(a0);
     func_801472C8(a0);
     ((Unkstruct_80126B58 *)a0)->unk200 = 400;
-    ((Unkstruct_80126B58 *)a0)->unk20C = 1;
+    ((Unkstruct_80126B58 *)a0)->unk20C.s = 1;
     func_8017D98C(a0, 1, ((Unkstruct_80126B58 *)a0)->unk200, 0);
     guess_PlaySoundUnlessSkipped(0xC26);
     func_80171990(a0);

@@ -3465,8 +3465,8 @@ void func_8017E894(s32 a0) {
     func_8012B0B4((unsigned int *)auStack_18, rand() % 0x1000,
                   rand() % CAST_WIDTH(s32, a0, 0xDC));
     tmp = *(s32 *)auStack_18;
-    ((Unkstruct_80126B58 *)a0)->unk102 = ((Unkstruct_80126B58 *)a0)->unk88 + tmp;
-    *(s16 *)(a0 + 0x106) = ((Unkstruct_80126B58 *)a0)->unk8C + (tmp >> 16);
+    ((Unkstruct_80126B58 *)a0)->unk102 = ((Unkstruct_80126B58 *)a0)->unk88.u + tmp;
+    *(s16 *)(a0 + 0x106) = ((Unkstruct_80126B58 *)a0)->unk8C.u + (tmp >> 16);
     if (CAST_SIGN(u16, a0, 0x70) & 0x20) {
         off = rand() % 256;
         base = ((Unkstruct_80126B58 *)a0)->unkFC;
@@ -3508,7 +3508,7 @@ void func_8017EA28(s32 a0) {
     if ((CAST_SIGN(u16, a0, 0x70) & 0x20) == 0) {
         *(s16 *)((s32)sp10 + 0x6) = q + guess_g_PlayerPosY;
     } else {
-        *(s16 *)((s32)sp10 + 0x6) = q + ((Unkstruct_80126B58 *)a0)->unk8A;
+        *(s16 *)((s32)sp10 + 0x6) = q + ((Unkstruct_80126B58 *)a0)->unk8A.u;
     }
 
     func_8012B77C((s32)sp28, a0 + 4, (s32)sp10);
@@ -3530,8 +3530,8 @@ void func_8017EA28(s32 a0) {
         func_8012B0B4((unsigned int *)sp28, rand() % 0x1000,
                       rand() % CAST_WIDTH(s32, a0, 0xDC));
         t = *(s32 *)sp28;
-        ((Unkstruct_80126B58 *)a0)->unk102 = ((Unkstruct_80126B58 *)a0)->unk88 + t;
-        *(s16 *)(a0 + 0x106) = ((Unkstruct_80126B58 *)a0)->unk8C + (t >> 16);
+        ((Unkstruct_80126B58 *)a0)->unk102 = ((Unkstruct_80126B58 *)a0)->unk88.u + t;
+        *(s16 *)(a0 + 0x106) = ((Unkstruct_80126B58 *)a0)->unk8C.u + (t >> 16);
         if (CAST_SIGN(u16, a0, 0x70) & 0x20) {
             off = rand() % 256;
             base = ((Unkstruct_80126B58 *)a0)->unkFC;
@@ -3703,9 +3703,9 @@ void func_8017EFE0(void *arg0) {
         *(s16 *)((char *)v1 + 0x12) = 0;
         *(s16 *)((char *)v1 + 0x10) = 0;
         guess_HideObjectModel((u8 *)arg0);
-        ((Unkstruct_80126B58 *)arg0)->unk6.s = ((Unkstruct_80126B58 *)arg0)->unk88;
-        ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk8A;
-        ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk8C;
+        ((Unkstruct_80126B58 *)arg0)->unk6.s = ((Unkstruct_80126B58 *)arg0)->unk88.u;
+        ((Unkstruct_80126B58 *)arg0)->unkA.s = ((Unkstruct_80126B58 *)arg0)->unk8A.u;
+        ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk8C.u;
     } else {
         guess_FreeActor(arg0);
     }

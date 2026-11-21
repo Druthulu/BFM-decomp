@@ -4289,7 +4289,7 @@ void func_801883FC(u16 *s0)
         
         temp = CAST_ALIAS(s32, s0, 0x10);
         
-        ((Unkstruct_801883FC *)temp)->unk2C = ((Unkstruct_801883FC *)temp)->unk2C | 0x10;
+        ((Unkstruct_8001C9D0 *)temp)->head.unk2C.u = ((Unkstruct_8001C9D0 *)temp)->head.unk2C.u | 0x10;
 
         
         v0 = func_8012C044((s32)s0);
@@ -5078,8 +5078,8 @@ s32 func_80189384(s32 param_1) {
     ((void(*)(s32, void *))guess_StartActorSequence)(param_1, &(*(s32 *)&D_8018A800));
     iVar5 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
-    ((Unkstruct_80180384_2 *)iVar5)->unk4 |= 0x50000040;
-    ((Unkstruct_80180384_2 *)iVar5)->unk2C |= 1;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk4.s |= 0x50000040;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk2C.u |= 1;
     iVar8 = ((Unkstruct_80180384_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801EFBC0, &s60);
     s50 = s60;

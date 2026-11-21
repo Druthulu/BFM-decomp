@@ -161,7 +161,7 @@ void func_800CB270(s32 a0) {
         *(s32 *)(iVar2 + 4) |= 0x58000000;
         guess_TransformPosByObjMatrix(iVar1, a0 + 4);
         ((Unkstruct_80126B58 *)a0)->unk60.u = ((Unkstruct_80126B58 *)iVar1)->unk100;
-        ((Unkstruct_80126B58 *)a0)->unk62 = ((Unkstruct_80126B58 *)iVar1)->unk104;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = ((Unkstruct_80126B58 *)iVar1)->unk104;
         uVar1 = ((Unkstruct_80126B58 *)iVar1)->unk20.m->head.unk10.w.unk12.u;
         ((Unkstruct_80126B58 *)a0)->unk64.u = (uVar1 + ((Unkstruct_80126B58 *)a0)->unk50 * 0xAA - 0xAA) & 0xFFF;
         func_80146DE8((s32 *)a0, 0, 0, 0xFFC00000);

@@ -2740,7 +2740,7 @@ extern void func_800D0C48(s32 a0);
 extern void func_800D1E28(void);
 
 s32 func_8017D294(u8 *a0) {
-    if (--(((Unkstruct_8017D294 *)a0)->unk28) == -1) {
+    if (--(((Dst *)a0)->unk28) == -1) {
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         guess_RequestSound(0x1D, 0);
@@ -2748,7 +2748,7 @@ s32 func_8017D294(u8 *a0) {
         func_800D1E28();
         guess_RequestSound(4, 0x574);
         guess_RequestSound(0x20, 0);
-        ((Unkstruct_8017D294 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }
@@ -2773,7 +2773,7 @@ extern void func_800D0C74(u16 a0);
 extern void func_800D1E28(void);
 
 s32 func_8017D384(u8 *a0) {
-    if (--(((Unkstruct_8017D294 *)a0)->unk28) == -1) {
+    if (--(((Dst *)a0)->unk28) == -1) {
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         guess_RequestSound(0x1D, 0);
@@ -2781,7 +2781,7 @@ s32 func_8017D384(u8 *a0) {
         func_800D1E28();
         guess_RequestSound(4, 0x574);
         guess_RequestSound(0x20, 0);
-        ((Unkstruct_8017D294 *)a0)->unk15 += 1;
+        ((Dst *)a0)->unk15 += 1;
     }
     return 0;
 }

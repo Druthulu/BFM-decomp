@@ -4,10 +4,10 @@
     void SHARED_FN(void *a0) {
             s32 *p = *(s32 **)((s32)a0 + 0x20);
             p[1] = p[1] | 0x58000000;
-            ((Unkstruct_801812B8 *)p)->unk1E = 0;
-            ((Unkstruct_801812B8 *)p)->unk18 = 0;
-            ((Unkstruct_801812B8 *)p)->unk1A = 0;
-            ((Unkstruct_801812B8 *)p)->unk1C = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1E.s = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.s = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.s = 0;
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1C.s = 0;
             ((Unkstruct_801812B8_2 *)a0)->unk2C = 0x400;
             ((Unkstruct_801812B8_2 *)a0)->unk2 = ((Unkstruct_801812B8_2 *)a0)->unk2 + 1;
         }

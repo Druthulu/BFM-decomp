@@ -3297,11 +3297,11 @@ extern u8 D_801C8610[];
 extern s32 func_80171990(u8 *a0);
 
 void func_8017F1A4(u8 *a0) {
-    ((Unkstruct_8017F1A4 *)a0)->unkB0 = (u32)D_801C8570;
-    ((Unkstruct_8017F1A4 *)a0)->unkCC = (u32)D_801C8610;
-    ((Unkstruct_8017F1A4 *)a0)->unk20C = 0;
-    ((Unkstruct_8017F1A4 *)a0)->unk20E = 0;
-    ((Unkstruct_8017F1A4 *)a0)->unk210 = 0;
+    ((Unkstruct_80126B58 *)a0)->unkB0.u = (u32)D_801C8570;
+    ((Unkstruct_80126B58 *)a0)->unkCC.u = (u32)D_801C8610;
+    ((Unkstruct_80126B58 *)a0)->unk20C.u = 0;
+    ((Unkstruct_80126B58 *)a0)->unk20E.u = 0;
+    ((Unkstruct_80126B58 *)a0)->unk210.u = 0;
     func_80171990(a0);
 }
 
@@ -3319,9 +3319,9 @@ void func_8017F1E4(s32 param_1) {
     guess_StartPadVibration(&D_8018B5B0);
     func_8017F3AC(param_1);
     if (func_8017F378(param_1) != 0) {
-        v0 = ((Unkstruct_80126B58 *)param_1)->unk210;
+        v0 = ((Unkstruct_80126B58 *)param_1)->unk210.s;
         if (D_8018B602[v0 << 2] != 0) {
-            ((Unkstruct_80126B58 *)param_1)->unkB0 = (u32)&D_800D6078;
+            ((Unkstruct_80126B58 *)param_1)->unkB0.s = (u32)&D_800D6078;
             ((Unkstruct_80126B58 *)param_1)->unkCC.u = (u32)&D_800D6118;
             ((Unkstruct_80126B58 *)param_1)->unk12E = 0;
             func_8014BF48();
@@ -3329,7 +3329,7 @@ void func_8017F1E4(s32 param_1) {
             func_80171990((u8 *)param_1);
         } else {
             v0++;
-            ((Unkstruct_80126B58 *)param_1)->unk210 = v0;
+            ((Unkstruct_80126B58 *)param_1)->unk210.s = v0;
             func_8017F378(param_1);
         }
     }
@@ -3377,7 +3377,7 @@ extern s8 D_8018B5FC;
 s32 func_8017F378(param_1)
 s32 param_1;
 {
-    return func_80171E08(param_1, (s32)&D_8018B5FC + (((Unkstruct_80126B58 *)param_1)->unk210 << 3), 0xA);
+    return func_80171E08(param_1, (s32)&D_8018B5FC + (((Unkstruct_80126B58 *)param_1)->unk210.s << 3), 0xA);
 }
 
 

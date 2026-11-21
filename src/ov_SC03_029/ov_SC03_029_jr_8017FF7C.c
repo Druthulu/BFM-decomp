@@ -3856,16 +3856,16 @@ void func_8018197C(s32 a0) {
     s32 idx;
     s32 *entry;
 
-    idx = ((Unkstruct_8017F1B8 *)a0)->unk2C;
+    idx = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
     entry = &D_8018BAF0[idx * 3];
 
     if (((Unkstruct_8017F1B8_2 *)entry)->unk6 != 0) {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = rand() % ((Unkstruct_8017F1B8_2 *)entry)->unk6;
     } else {
-        ((Unkstruct_8017F1B8 *)a0)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
     }
 
-    ((Unkstruct_8017F1B8 *)a0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
 }
 
 

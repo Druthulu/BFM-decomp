@@ -4273,13 +4273,13 @@ void func_8018865C(void)
         vec.b = ((rand() % 9) << 16) - 0x300000;
         p = ((s32 (*)(s32))func_8012913C)(0x22);
         if (p != 0) {
-            ((Unkstruct_8018865C *)p)->unk6 = zz;
-            ((Unkstruct_8018865C *)p)->unkA = -0x102;
-            ((Unkstruct_8018865C *)p)->unkE = (rand() % 128) - 0x40;
+            ((Unkstruct_8011DB30 *)p)->unk4.i.hi.s = zz;
+            ((Unkstruct_8011DB30 *)p)->unk8.i.hi.s = -0x102;
+            ((Unkstruct_8011DB30 *)p)->unkC.i.hi.s = (rand() % 128) - 0x40;
             r0 = rand();
             r1 = rand();
-            ((Unkstruct_8018865C *)p)->unk34 = (((r0 % 4) << 12) + 0x4000) | (r1 & 1);
-            *(s32 *)(((Unkstruct_8018865C *)p)->unk20 + 4) |= 0x60000000;
+            ((Unkstruct_8011DB30 *)p)->unk34.i.lo.s = (((r0 % 4) << 12) + 0x4000) | (r1 & 1);
+            *(s32 *)(((Unkstruct_8011DB30 *)p)->unk20 + 4) |= 0x60000000;
             ApplyMatrixLV((s32)&mtx, (s32)&vec, p + 0x10);
         }
         i++;
@@ -4363,21 +4363,21 @@ void func_80188988(int param_1) {
 
     psVar1 = (s16 *)D_801DFFE0;
     psVar2 = (s16 *)D_801DFFE4;
-    ((Unkstruct_80188988_2 *)param_1)->unk4C = psVar1[1];
-    ((Unkstruct_80188988_2 *)param_1)->unk50 = psVar1[2];
-    ((Unkstruct_80188988_2 *)param_1)->unk40 = psVar2[1];
+    ((Unkstruct_80126948 *)param_1)->unk4C = psVar1[1];
+    ((Unkstruct_80126948 *)param_1)->unk50 = psVar1[2];
+    ((Unkstruct_80126948 *)param_1)->unk40 = psVar2[1];
     psVar3 = (s16 *)D_801DFFE8;
-    ((Unkstruct_80188988_2 *)param_1)->unk44 = psVar2[2];
+    ((Unkstruct_80126948 *)param_1)->unk44 = psVar2[2];
     sVar4 = func_80012CB8(*psVar3, *psVar1, 0x80);
     ((Unkstruct_80188988 *)(param_1 + 0x48))->f0 += sVar4;
     sVar4 = func_80012CB8(*(s16 *)D_801DFFEC, ((DVECTOR *)D_801DFFE4)->vx, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
-    ((Unkstruct_80188988_2 *)param_1)->unk3C += sVar4;
-    if (psVar5[0] < ((Unkstruct_80188988_2 *)param_1)->unk48) {
-        ((Unkstruct_80188988_2 *)param_1)->unk48 = psVar5[0];
+    ((Unkstruct_80126948 *)param_1)->unk3C += sVar4;
+    if (psVar5[0] < ((Unkstruct_80126948 *)param_1)->unk48) {
+        ((Unkstruct_80126948 *)param_1)->unk48 = psVar5[0];
     }
-    if (((DVECTOR *)D_801DFFE4)->vx < ((Unkstruct_80188988_2 *)param_1)->unk3C) {
-        ((Unkstruct_80188988_2 *)param_1)->unk3C = ((DVECTOR *)D_801DFFE4)->vx;
+    if (((DVECTOR *)D_801DFFE4)->vx < ((Unkstruct_80126948 *)param_1)->unk3C) {
+        ((Unkstruct_80126948 *)param_1)->unk3C = ((DVECTOR *)D_801DFFE4)->vx;
     }
 }
 
@@ -4398,21 +4398,21 @@ void func_80188A90(int param_1) {
 
     psVar2 = (s16 *)D_801DFFE4;
     psVar1 = (s16 *)D_801DFFE0;
-    ((Unkstruct_80188988_2 *)param_1)->unk48 = psVar1[0];
-    ((Unkstruct_80188988_2 *)param_1)->unk50 = psVar1[2];
-    ((Unkstruct_80188988_2 *)param_1)->unk3C = psVar2[0];
+    ((Unkstruct_80126948 *)param_1)->unk48 = psVar1[0];
+    ((Unkstruct_80126948 *)param_1)->unk50 = psVar1[2];
+    ((Unkstruct_80126948 *)param_1)->unk3C = psVar2[0];
     D_801DFFE8 = (s32)&D_801913E4;
-    ((Unkstruct_80188988_2 *)param_1)->unk44 = psVar2[2];
+    ((Unkstruct_80126948 *)param_1)->unk44 = psVar2[2];
     D_801DFFEC = (s32)&D_801913E4 + 8;
     sVar4 = func_80012CB8((s16)D_801913E4[1], psVar1[1], 0x80);
     ((Unkstruct_80188A90 *)(param_1 + 0x4C))->f0 += sVar4;
     sVar4 = func_80012CB8(*(s16 *)(D_801DFFEC + 2), ((DVECTOR *)D_801DFFE4)->vy, 0x80);
     psVar5 = (s16 *)D_801DFFE0;
-    ((Unkstruct_80188988_2 *)param_1)->unk40 += sVar4;
-    if (((Unkstruct_80188988_2 *)param_1)->unk4C < psVar5[1])
-        ((Unkstruct_80188988_2 *)param_1)->unk4C = psVar5[1];
-    if (((Unkstruct_80188988_2 *)param_1)->unk40 < ((DVECTOR *)D_801DFFE4)->vy)
-        ((Unkstruct_80188988_2 *)param_1)->unk40 = ((DVECTOR *)D_801DFFE4)->vy;
+    ((Unkstruct_80126948 *)param_1)->unk40 += sVar4;
+    if (((Unkstruct_80126948 *)param_1)->unk4C < psVar5[1])
+        ((Unkstruct_80126948 *)param_1)->unk4C = psVar5[1];
+    if (((Unkstruct_80126948 *)param_1)->unk40 < ((DVECTOR *)D_801DFFE4)->vy)
+        ((Unkstruct_80126948 *)param_1)->unk40 = ((DVECTOR *)D_801DFFE4)->vy;
 }
 
 

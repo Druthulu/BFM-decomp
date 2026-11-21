@@ -3612,7 +3612,7 @@ void func_80184410(int param_1)
     v.y = 0;
     v.x = 0;
     v.z = o[0x16];
-    func_800139C8(((Unkstruct_8017DB64_2 *)p)->unk12 = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
+    func_800139C8(((RenderHead *)p)->unk10.w.unk12.s = *(unsigned short *)(p + 0x12) + o[0x17], &v, &v);
 
     o[3] = o[9] + v.x;
     o[7] = o[0xD] + v.z;

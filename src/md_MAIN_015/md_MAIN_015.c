@@ -212,9 +212,9 @@ void func_800CB2E0(void *arg0) {
         u8 *bp;
         bp = buf + 0x20;
         func_80013F3C(bp);
-        func_800126C4((s32)bp, ((Unkstruct_80185020 *)fp)->unk10);
-        func_800123F0((s32)bp, ((Unkstruct_80185020 *)fp)->unk14);
-        func_80012558((s32)bp, ((Unkstruct_80185020 *)fp)->unk12);
+        func_800126C4((s32)bp, ((RenderHead *)fp)->unk10.w.unk10.s);
+        func_800123F0((s32)bp, ((RenderHead *)fp)->unk10.w.unk14.s);
+        func_80012558((s32)bp, ((RenderHead *)fp)->unk10.w.unk12.s);
         func_80163194((s32)a0v, 0, 0, 0, (s32)bp);
         guess_AddVelocityToPos_2((s32 *)a0v);
         func_80163408((s32)a0v, 0x10, 0x80, 0x200);

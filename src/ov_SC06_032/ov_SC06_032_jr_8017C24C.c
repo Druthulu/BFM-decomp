@@ -3090,7 +3090,7 @@ void func_8017DBFC(void *a0) {
     extern u8 D_80196DE8;
     extern void (*D_80196E10[])(void *);
     guess_StartPadVibration(&D_80196DE8);
-    D_80196E10[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_80196E10[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 

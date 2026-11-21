@@ -5414,13 +5414,13 @@ void func_8017F920(s32 param_1) {
     u16 h;
 
     p = ((Unkstruct_801202A0 *)param_1)->unk20.val;
-    h = ((Unkstruct_8017E654_2 *)p)->unk2C;
+    h = ((Unkstruct_8001C9D0 *)p)->head.unk2C.u;
     if (h & 0x10) {
-        ((Unkstruct_8017E654_2 *)p)->unk2C = h & 0xFFEF;
+        ((Unkstruct_8001C9D0 *)p)->head.unk2C.u = h & 0xFFEF;
         q = ((Unkstruct_801202A0 *)param_1)->unk20.val;
-        ((Unkstruct_8017E654_2 *)q)->unk1C = 0x1000;
-        ((Unkstruct_8017E654_2 *)q)->unk1A = 0x1000;
-        ((Unkstruct_8017E654_2 *)q)->unk18 = 0x1000;
+        ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1C.s = 0x1000;
+        ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1A.s = 0x1000;
+        ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk18.s = 0x1000;
     }
 }
 

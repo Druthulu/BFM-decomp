@@ -4439,8 +4439,8 @@ s32 func_80188C28(s32 param_1) {
     ((void(*)(s32, void *))guess_StartActorSequence)(param_1, &(D_80191B60[0]));
     iVar5 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
-    ((Unkstruct_80188C28_2 *)iVar5)->unk4 |= 0x50000040;
-    ((Unkstruct_80188C28_2 *)iVar5)->unk2C |= 1;
+    ((Unkstruct_80188C28_2 *)iVar5)->head.unk4.s |= 0x50000040;
+    ((Unkstruct_80188C28_2 *)iVar5)->head.unk2C.u |= 1;
     iVar8 = ((Unkstruct_80188C28_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801D0C38, &s60);
     s50 = s60;

@@ -610,7 +610,7 @@ int func_80148AFC(void *a0) {
 
     switch (((Unkstruct_80126B58 *)p)->unkA9) {
     case 0x41:
-        return D_801950CC[((Unkstruct_80126B58 *)p)->unkAA >> 12](a0, tmp) & 0xFF;
+        return D_801950CC[((Unkstruct_80126B58 *)p)->unkAA.u >> 12](a0, tmp) & 0xFF;
     case 0x53:
     case 0x73:
         if ((((Unkstruct_80126B58 *)p)->unkAE & 0xFF) == 0x80 && (((Unkstruct_80126B58 *)p)->unkAE >> 8) == 0x80) {
@@ -920,7 +920,7 @@ s32 func_80149FB0(s32 a0) {
     if (((Unkstruct_80126B58 *)a0)->unk1C8.s != 0) {
         return 0;
     }
-    if ((((Unkstruct_80126B58 *)a0)->unkAC & 0x100) == 0) {
+    if ((((Unkstruct_80126B58 *)a0)->unkAC.u & 0x100) == 0) {
     ret0:
         return 0;
     }

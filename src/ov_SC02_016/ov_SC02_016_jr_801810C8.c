@@ -3529,7 +3529,7 @@ void func_801821CC(void *a0) {
     extern u8 D_801886BC;
     extern void (*D_801886E4[])(void *);
     guess_StartPadVibration(&D_801886BC);
-    D_801886E4[((Unkstruct_8017CD9C *)a0)->unk2](a0);
+    D_801886E4[((Unkstruct_80126B58 *)a0)->unk2](a0);
 }
 
 
@@ -4978,8 +4978,8 @@ s32 func_80183F10(s32 param_1) {
     ((void(*)(s32, void *))guess_StartActorSequence)(param_1, &(*(s32 *)&D_801847A8));
     iVar5 = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
-    ((Unkstruct_80181C18_2 *)iVar5)->unk4 |= 0x50000040;
-    ((Unkstruct_80181C18_2 *)iVar5)->unk2C |= 1;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk4.s |= 0x50000040;
+    ((Unkstruct_8001C9D0 *)iVar5)->head.unk2C.u |= 1;
     iVar8 = ((Unkstruct_80181C18_3 *)((Unkstruct_80181C18_4 *)param_1)->unk64)->unk20 + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801B4960, &s60);
     s50 = s60;

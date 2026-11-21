@@ -5404,7 +5404,7 @@ extern void GsGetLw(s32 a0, s32 a1);
 
 extern void func_8017F510(s32 arg0, s32 arg1, s32 arg2);
     void func_8017F4EC(s32 arg0) {
-        func_8017F510(arg0, ((Unkstruct_8017F590_2 *)arg0)->unk8, arg0 + 0x10);
+        func_8017F510(arg0, ((Unkstruct_8017FA5C *)arg0)->unk8, arg0 + 0x10);
     }
 
 
@@ -5663,11 +5663,11 @@ void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
 
     base = guess_g_RenderWork;
 
-    if (((Unkstruct_8017F590_2 *)arg0)->unk0 != 0) {
+    if (((Unkstruct_8017FA5C *)arg0)->unk0 != 0) {
         return;
     }
 
-    lim = func_800491EC() + ((Unkstruct_8017F590_2 *)arg0)->unk64;
+    lim = func_800491EC() + ((Unkstruct_8017FA5C *)arg0)->unk64;
     func_800547D8(arg2, &mtx);
     func_80052E38(&mtx);
 
@@ -13579,7 +13579,7 @@ void func_8018B280(u16 *s0)
         
         temp = CAST_ALIAS(s32, s0, 0x10);
         
-        ((Unkstruct_801883FC *)temp)->unk2C = ((Unkstruct_801883FC *)temp)->unk2C | 0x10;
+        ((Unkstruct_8001C9D0 *)temp)->head.unk2C.u = ((Unkstruct_8001C9D0 *)temp)->head.unk2C.u | 0x10;
 
         
         v0 = func_8012C044((s32)s0);
@@ -14160,7 +14160,7 @@ void func_8018C154(s32 *a0) {
     guess_SetTexAnim((s32)a0, 0x1E);
     v1 = CAST_SIGN(s32 *, (u8 *)a0, 0x20);
     *(u16 *)((u8 *)v1 + 0x10) = 0xFE9;
-    ((Unkstruct_80126B58 *)a0)->unk208 = 0;
+    ((Unkstruct_80126B58 *)a0)->unk208.val = 0;
     func_80171A1C((u8 *)a0);
     func_8018C1C4(a0);
 }

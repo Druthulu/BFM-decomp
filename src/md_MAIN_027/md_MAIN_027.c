@@ -229,7 +229,7 @@ void func_800CB2CC(s32 arg0) {
         guess_TransformPosByObjMatrix(s2, arg0 + 4);
         ((Unkstruct_80126B58 *)arg0)->unk58 = (u32)&D_800CC150[0];
         ((Unkstruct_80126B58 *)arg0)->unk60.u = 0;
-        ((Unkstruct_80126B58 *)arg0)->unk62 = 0;
+        ((Unkstruct_80126B58 *)arg0)->unk62.u = 0;
         ((Unkstruct_80126B58 *)arg0)->unk64.u = 0;
         func_801466B4(0x28, arg0, 0, 0, 1);
         func_801466B4(0x28, arg0, 1, 0, 1);
@@ -507,7 +507,7 @@ void func_800CB82C(s32 a0, s32 a1)
         func_800CBBF8(plo, p);
         a1 = (void *)((s8 *)a1 + 0x18);
         hb.hB0 = rcos((CAST_SIGN(s16, (s8 *)a0, 0x62)) << 8) / 1024;
-        ((Unkstruct_80126B58 *)a0)->unk62 = (((Unkstruct_80126B58 *)a0)->unk62 + 1) & 0xF;
+        ((Unkstruct_80126B58 *)a0)->unk62.u = (((Unkstruct_80126B58 *)a0)->unk62.u + 1) & 0xF;
         hb.hB2 = 0;
         if (func_800CBA44(out1, (P2_CBA44_t *)D_800CC1A0, (Base_CBA44_t *)a1, (P2_CBA44_t *)&hb.hB0,
                           plo, p6) != 0) {

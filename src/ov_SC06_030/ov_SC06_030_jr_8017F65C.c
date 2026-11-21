@@ -3628,10 +3628,10 @@ void func_80180CE0(void *a0) {
     void *s0 = a0;
 
     func_80180FF4(a0);
-    if (((Unkstruct_80126B58 *)s0)->unk210 >= 0) {
-        ((Unkstruct_80126B58 *)s0)->unk210 = 0x30;
+    if (((Unkstruct_80126B58 *)s0)->unk210.s >= 0) {
+        ((Unkstruct_80126B58 *)s0)->unk210.s = 0x30;
     } else {
-        ((Unkstruct_80126B58 *)s0)->unk210 = -0x30;
+        ((Unkstruct_80126B58 *)s0)->unk210.s = -0x30;
     }
     func_80171990((u8 *)s0);
 }
@@ -3691,7 +3691,7 @@ void func_80180DCC(void *a0)
     if (p == 0) {
         goto END;
     }
-    v0 = ((Unkstruct_80180DCC *)s2)->unk12 + 0x800;
+    v0 = ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u + 0x800;
     p = *(void **)((s32)p + 0x20);
     bits = *(u16 *)((s32)p + 0x12) & 0x400;
     s0 = v0 & 0xFFF;
@@ -3720,12 +3720,12 @@ ELSE:
     if (v0 != 0) {
         goto TRUE2;
     }
-    ((Unkstruct_80180DCC *)s2)->unk12 = 0;
+    ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = 0;
     goto END;
 TRUE2:
     v0 = 0x800;
 STORE:
-    ((Unkstruct_80180DCC *)s2)->unk12 = v0;
+    ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u = v0;
 END:
     func_80171990((u8 *)s3);
 }
@@ -3828,17 +3828,17 @@ s32 param_1;
     s32 q;
     short v;
 
-    p = ((Unkstruct_8017EAEC *)param_1)->unk204;
+    p = ((Unkstruct_80126B58 *)param_1)->unk204.s;
     q = *(s32 *)(p + 0x20);
     if (p != 0) {
-        ((Unkstruct_801810D0_2 *)q)->unk12 = ((Unkstruct_801810D0_2 *)q)->unk12 + 0x80;
+        ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk12.u + 0x80;
         guess_RotTransSVWithMatrix(q + 0x34, param_1 + 0x20C, (s32)sp10);
         func_80015954((s32)sp10, param_1 + 4);
     }
-    q = ((Unkstruct_8017EAEC *)param_1)->unk20;
-    ((Unkstruct_801810D0_2 *)q)->unk12 = ((Unkstruct_801810D0_2 *)q)->unk12 + 0x80;
-    v = ((Unkstruct_8017EAEC *)param_1)->unk208 + 0x80;
-    ((Unkstruct_8017EAEC *)param_1)->unk208 = v;
+    q = (s32)((Unkstruct_80126B58 *)param_1)->unk20.m;
+    ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk12.u + 0x80;
+    v = ((Unkstruct_80126B58 *)param_1)->unk208.i.lo + 0x80;
+    ((Unkstruct_80126B58 *)param_1)->unk208.i.lo = v;
     return v == 0x800;
 }
 
