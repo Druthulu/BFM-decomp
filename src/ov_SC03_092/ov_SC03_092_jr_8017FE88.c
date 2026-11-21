@@ -3557,7 +3557,7 @@ void func_80180DD0(s32 a0)
     ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0;
     guess_SetGameFlag(D_801AC610[((Unkstruct_801202A0 *)a0)->unk70.s], 1);
-    temp = ((Unkstruct_8017DC8C *)a0)->unkDC;
+    temp = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val;
     if (temp != 0) {
         temp = *(s32 *)(temp + 4);
         if (temp != 0) {

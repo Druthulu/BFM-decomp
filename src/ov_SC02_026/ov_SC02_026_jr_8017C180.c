@@ -3186,7 +3186,7 @@ void func_8017DC8C(void *a0)
     ((Unkstruct_801202A0 *)s0)->unk5C.u = 0;
     guess_SetGameFlag((s32)D_801A429C[((Unkstruct_801202A0 *)s0)->unk70.s], 1);
 
-    a1 = ((Unkstruct_8017DC8C *)s0)->unkDC;
+    a1 = ((Unkstruct_801202A0 *)s0)->blkDC.f.unkDC.val;
     if (a1 != 0) {
         a1 = *(s32 *)(a1 + 4);
         if (a1 != 0) {

@@ -7655,7 +7655,7 @@ void func_80184728(void *a0) {
     if (!(v0 & 0x10)) {
         if (!(D_801EFD40 & 0x4)) {
             s32 tmp = D_801EFC48;
-            ptr = ((Unkstruct_80184728 *)s0)->unk20;
+            ptr = ((Unkstruct_80184728 *)s0)->unk20.p;
             CAST_ALIAS(s16, (s32)s0, 0xE) = 0;
             ((Unkstruct_80184728 *)s0)->unkA = 0;
             ((Unkstruct_80184728 *)s0)->unk6 = 0;
@@ -7919,9 +7919,9 @@ void func_80184B3C(void *a0)
 
     if (((Unkstruct_80184B3C *)a0)->unk10A != 1) {
         for (i = 0; i < 4; i++) {
-            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20) + 0x10);
-            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20) + 0x12);
-            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20) + 0x14);
+            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20.p) + 0x10);
+            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20.p) + 0x12);
+            *wp++ = *(u16 *)((s32)(((Unkstruct_80184B3C *)a0)->unk20.p) + 0x14);
         }
         ((Unkstruct_80184B3C *)a0)->unk10B = 0;
         ((Unkstruct_80184B3C *)a0)->unk10A = 1;
@@ -7965,9 +7965,9 @@ void func_80184BAC(void *a0, void *a1)
     off = idx * 6 + 0xE4;
     wp = (s16 *)((s32)a0 + off);
 
-    wp[0] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20) + 0x10);
-    wp[1] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20) + 0x12);
-    wp[2] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20) + 0x14);
+    wp[0] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20.p) + 0x10);
+    wp[1] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20.p) + 0x12);
+    wp[2] = *(u16 *)((s32)(((Unkstruct_80184BAC_2 *)a1)->unk20.p) + 0x14);
 }
 
 

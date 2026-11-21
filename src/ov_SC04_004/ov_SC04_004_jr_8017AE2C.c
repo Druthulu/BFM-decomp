@@ -6834,7 +6834,7 @@ void func_80181EE8(s32 param_1)
     s32 t;
 
     m = D_800AE620;
-    t = (*(s16 *)(((Unkstruct_80181EE8_2 *)param_1)->unk20 + 0x18) * 9) >> 9;
+    t = (*(s16 *)(((Unkstruct_80181EE8_2 *)param_1)->unk20.val + 0x18) * 9) >> 9;
     sv.vx = sv.vy = 0;
     sv.vz = -t;
     r = func_8012B8A4((s16 *)param_1);
@@ -7073,7 +7073,7 @@ void func_801824B0(s32 a0) {
     result = ((s32 (*)(s32))func_8012CBF4)(a0);
     field_a = ((Unkstruct_801824B0 *)a0)->unkA;
     if (field_a >= 0x81) {
-        d0 = ((Unkstruct_801824B0 *)a0)->unkD0;
+        d0 = ((Unkstruct_801824B0 *)a0)->unkD0.p;
         if (d0 != NULL) {
             ((void (*)(void *))func_801439C0)(d0);
         }
@@ -7960,11 +7960,11 @@ extern void (*D_801A8CA4[])(void);
 void func_80183920(void *a0) {
     D_801A8CA4[((Unkstruct_80183920 *)a0)->unk2]();
     if (((Unkstruct_80183920 *)a0)->unk0 != 0) {
-        void *ptr = ((Unkstruct_80183920 *)a0)->unkCC;
+        void *ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
         ((RenderHead *)ptr)->unk8.u = ((Unkstruct_80183920 *)a0)->unk6;
-        ptr = ((Unkstruct_80183920 *)a0)->unkCC;
+        ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
         ((RenderHead *)ptr)->unkA.u = ((Unkstruct_80183920 *)a0)->unkA;
-        ptr = ((Unkstruct_80183920 *)a0)->unkCC;
+        ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
         ((RenderHead *)ptr)->unkC.u = ((Unkstruct_80183920 *)a0)->unkE;
     }
 }

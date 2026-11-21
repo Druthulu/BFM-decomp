@@ -9977,7 +9977,7 @@ void func_801879E4(s32 a0) {
     result = ((s32 (*)(s32))func_8012CBF4)(a0);
     field_a = ((Unkstruct_801824B0 *)a0)->unkA;
     if (field_a >= 0x81) {
-        d0 = ((Unkstruct_801824B0 *)a0)->unkD0;
+        d0 = ((Unkstruct_801824B0 *)a0)->unkD0.p;
         if (d0 != NULL) {
             ((void (*)(void *))func_801439C0)(d0);
         }
