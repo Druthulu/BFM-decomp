@@ -5272,10 +5272,10 @@ s32 func_80180D50(s32 arg0) {
 
 
 s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
-    s32 d = ((Unkstruct_80180E34_2 *)a1)->unk2 - CAST_SIGN(s16, a0, 6);
+    s32 d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unk6.s - CAST_SIGN(s16, a0, 6);
     if (d < 0) d = -d;
     if (a2 < d) return 0;
-    d = ((Unkstruct_80180E34_2 *)a1)->unkA - CAST_SIGN(s16, a0, 0xE);
+    d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unkE.s - CAST_SIGN(s16, a0, 0xE);
     if (d < 0) d = -d;
     return !(a2 < d);
 }

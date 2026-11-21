@@ -6214,7 +6214,7 @@ Unkstruct_08fe6f81	define	SVECTOR	owner:func_80184334	no E1/E2 evidence; flat la
 Unkstruct_09e2bc6a	define	Unkstruct_801800DC	owner:func_801800DC	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_0a486d93	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
 Unkstruct_0a8a78e5	residual	TYPE-SCALAR	layout:one-field@0	layout class TYPE-SCALAR (struct_map record)
-Unkstruct_0a8ab2df	define	Unkstruct_80180E34_2	owner:func_80180E34	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
+Unkstruct_0a8ab2df	define	Unkstruct_80126B58	owner:func_80180E34	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_0a950371	define	Unkstruct_8017DE30_2	owner:func_8017DE30	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_0ac38d3a	define	Rec8_8018A390_8018523C	owner:func_80181EA0	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies
 Unkstruct_0b060f29	define	Unkstruct_801202A0	owner:func_80183804	no E1/E2 evidence; flat layout of the struct map record; 2 TNC sites in 1 bodies

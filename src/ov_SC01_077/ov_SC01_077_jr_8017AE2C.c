@@ -4790,7 +4790,7 @@ void func_8017EB2C(int param_1, int param_2)
             v = (s32)CAST_SIGN(u16, base, 0xa) - 0xc0;
         }
         ((Unkstruct_8011DB30 *)p)->unk8.i.hi.u = v;
-        ((Unkstruct_8011DB30 *)p)->unk34.i.hi = (s32)CAST_SIGN(u16, base, 0xa) - 0x50;
+        ((Unkstruct_8011DB30 *)p)->unk34.i.hi.u = (s32)CAST_SIGN(u16, base, 0xa) - 0x50;
     }
 }
 

@@ -175,7 +175,7 @@ void func_800CB168(void *arg0) {
 
 L1B0:
         r = rand();
-        ((Unkstruct_8011D030 *)obj)->unk18.i.hi = r & 0xFFF;
+        ((Unkstruct_8011D030 *)obj)->unk18.i.hi.u = r & 0xFFF;
         ((Unkstruct_8011D030 *)obj)->unk2A.u = (r & 1) + 2;
         CAST_ALIAS(s32, obj, 12) = CAST_ALIAS(s32, obj, 12) + 1;
         goto L288;

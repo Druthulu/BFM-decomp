@@ -825,12 +825,6 @@ cause: 2 names (12 B, all members placeholders) bound to 268 distinct objects, n
 - `Rec12`: 134 obj — 0x8017DC68, 0x8017E644, 0x8017E680, 0x8017E70C, 0x8017E93C, 0x8017EAB0, 0x8017EB04, 0x8017EBAC (+126)
 - `S801563EC`: 134 obj — 0x801563EC(ret), 0x8017F364, 0x8017FD40, 0x8017FD7C, 0x8017FE08, 0x80180038, 0x801801AC, 0x80180200 (+126)
 
-### 2bdd04e56667
-names: Unkstruct_800159E4, Unkstruct_80180E34_2
-cause: 2 names (12 B, all members placeholders) bound to 2 distinct objects, none bound to two names: main/0x800159E4:a1, ov_SC04_003/0x80180E34:a1; full list: tools/struct_twins.py --show 2bdd04e56667
-- `Unkstruct_800159E4`: 1 obj — main/0x800159E4:a1
-- `Unkstruct_80180E34_2`: 1 obj — ov_SC04_003/0x80180E34:a1
-
 ### 2e145b722f20
 names: Unkstruct_80181F5C, Unkstruct_80182B30
 cause: 2 names (256 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC01_080/0x80181F5C:s0, ov_SC01_080/0x80182B30:param_1; full list: tools/struct_twins.py --show 2e145b722f20

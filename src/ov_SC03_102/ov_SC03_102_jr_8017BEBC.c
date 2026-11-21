@@ -4331,7 +4331,7 @@ s32 func_80181260(s32 param_1, s16 param_2)
     ((Unkstruct_800B5BD8 *)sub)->head.unk18.w.unk1A.u = 0x3800;
     ((Unkstruct_800B5BD8 *)sub)->head.unk10.w.unk10.u = 0x400;
     CAST_WIDTH(s16, sub, 0x14) = v;
-    ((Unkstruct_8011DB30 *)obj)->unk28 = v;
+    ((Unkstruct_8011DB30 *)obj)->unk28.s = v;
 
     RotMatrixY(param_2, &mtx);
 

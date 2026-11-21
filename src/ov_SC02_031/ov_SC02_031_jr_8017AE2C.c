@@ -7789,7 +7789,7 @@ void func_80183DC0(void *a0) {
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s = 0x18000;
             CAST_WIDTH(s32, (s32)a0, 0x18) = 0;
             CAST_WIDTH(s32, (s32)a0, 0x10) = 0;
-            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi += 1;
+            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.u += 1;
         }
     } else {
         ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.w.unk10.u += 0x80;
@@ -7800,7 +7800,7 @@ void func_80183DC0(void *a0) {
              * merged pseudo a whole-function live range, and global_alloc then
              * seats it in $a0 instead of $v0 (§186c). */
             s32 t = rand();
-            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi = 0;
+            ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.u = 0;
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s = -0x100000 - ((t % 9) << 16);
         }
     }

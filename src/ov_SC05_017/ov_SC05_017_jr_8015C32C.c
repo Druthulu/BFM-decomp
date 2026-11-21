@@ -5637,7 +5637,7 @@ void func_80168828(s32 param_1)
 
     svec[0] = ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u;
     svec[1] = ((Unkstruct_8011D030 *)param_1)->unk14.i.hi.u;
-    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi.u;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);

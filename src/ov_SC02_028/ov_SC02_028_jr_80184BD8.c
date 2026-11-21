@@ -4532,7 +4532,7 @@ void func_801879E8(S800D22E4 *arg0) {
         if (--((Unkstruct_8011DB30 *)arg0)->unk1C.s == 0) {
             s16 t = CAST_SIGN(u16, (s32)arg0, 0x28);
             t--;
-            ((Unkstruct_8011DB30 *)arg0)->unk28 = t;
+            ((Unkstruct_8011DB30 *)arg0)->unk28.s = t;
             if (t != 0) {
                 ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 10;
                 ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += (s32)0xFFFF0000;

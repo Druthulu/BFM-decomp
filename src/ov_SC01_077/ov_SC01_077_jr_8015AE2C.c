@@ -1757,7 +1757,7 @@ s32 func_8015B950(s32 arg0)
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = 0;
-        t = ((Unkstruct_80126B58 *)arg0)->unk26;
+        t = ((Unkstruct_80126B58 *)arg0)->unk24.i.hi;
         sp18[0] = t;
         sp18[1] = 0;
         t = *(s16 *)(arg0 + 0x2E);

@@ -228,7 +228,7 @@ extern s32 D_801ABBD8;
 
 void func_8017F3C8(void *a0)
 {
-    void *s2 = ((Unkstruct_8017E6A4_2 *)a0)->unk20;
+    void *s2 = ((Unkstruct_8017E6A4_2 *)a0)->unk20.m;
     void *p;
     s32 rot;
     s32 flag;

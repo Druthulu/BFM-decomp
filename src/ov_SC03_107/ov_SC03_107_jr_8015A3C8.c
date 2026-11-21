@@ -3008,7 +3008,7 @@ s32 func_8015B950(s32 arg0)
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = 0;
-        t = ((Unkstruct_80126B58 *)arg0)->unk26;
+        t = ((Unkstruct_80126B58 *)arg0)->unk24.i.hi;
         sp18[0] = t;
         sp18[1] = 0;
         t = *(s16 *)(arg0 + 0x2E);
@@ -8086,7 +8086,7 @@ void func_80168828(s32 param_1)
 
     svec[0] = ((Unkstruct_8011D030 *)param_1)->unk10.i.hi.u;
     svec[1] = ((Unkstruct_8011D030 *)param_1)->unk14.i.hi.u;
-    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi;
+    svec[2] = ((Unkstruct_8011D030 *)param_1)->unk18.i.hi.u;
     RotMatrixYXZ(svec, matB);
 
     func_80048EAC(matA, matB);

@@ -2614,11 +2614,11 @@ void func_8016C188(s32 param)
     if (s2 != 0) {
         ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u = ((Unkstruct_8011D030 *)s1)->unk6.u;
         ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u = ((Unkstruct_8011D030 *)s1)->unk8.i.hi.u;
-        ((Unkstruct_8011D030 *)s1)->unk18.i.hi = ((Unkstruct_8011D030 *)s1)->unkE.u;
+        ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u = ((Unkstruct_8011D030 *)s1)->unkE.u;
         t34 = ((Unkstruct_8011D030 *)s1)->unk34;
         buf[0] = ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u;
         buf[1] = ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u;
-        buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi;
+        buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u;
         ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(t34, buf, buf);
         ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
         s0 = D_801B8A04;
@@ -2673,7 +2673,7 @@ void func_8016C2C4(s32 param)
     arg = ((Unkstruct_8011D030 *)s1)->unk34;
     buf[0] = ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u;
     buf[1] = ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u;
-    buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi;
+    buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u;
     ((void (*)(s32, void *, void *))guess_ObjRotTransSV)(arg, buf, buf);
     ((void (*)(void *, s32))func_80015954)(buf, s1 + 4);
     v = ((Unkstruct_8011D030 *)s1)->unk10.i.lo.s + 0x10;

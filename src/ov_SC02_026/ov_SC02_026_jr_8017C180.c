@@ -4436,7 +4436,7 @@ s32 a0;
         if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
-        if (--((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
+        if (--((Unkstruct_8011DB30 *)a0)->unk28.s != 0) {
             ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0xA;
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s -= 0x10000;
             ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = CAST_WIDTH(s32, a0, 0x2C);

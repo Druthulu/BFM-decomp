@@ -3794,8 +3794,8 @@ void func_8017CD10(void *a0) {
     *(u16 *)((s32)s2 + 0x12) = v0;
 
     if (v0 == 0 || v0 == 0x800) {
-        if (((Unkstruct_80126B58 *)a0)->unk24 != 0) {
-            ((Unkstruct_80126B58 *)a0)->unk24 = ((Unkstruct_80126B58 *)a0)->unk24 - 1;
+        if (((Unkstruct_80126B58 *)a0)->unk24.i.lo != 0) {
+            ((Unkstruct_80126B58 *)a0)->unk24.i.lo = ((Unkstruct_80126B58 *)a0)->unk24.i.lo - 1;
         }
     }
 
@@ -4023,7 +4023,7 @@ void func_8017D1E0(void *a0)
     vec2.unk0.v1.unk0 = 0;
     vec2.unk0.v1.unk2 = *(u16 *)((s32)a0 + 0x12);
     vec2.unk0.v1.unk4 = 1;
-    func_8017D318((int)a0, &vec1, &vec2, ((Unkstruct_80126B58 *)a0)->unk24);
+    func_8017D318((int)a0, &vec1, &vec2, ((Unkstruct_80126B58 *)a0)->unk24.i.lo);
 
     if (((Unkstruct_80126B58 *)a0)->unk10 == 0) {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);

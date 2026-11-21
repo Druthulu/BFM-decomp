@@ -6440,12 +6440,12 @@ void func_801810E4(void *a0) {
     CAST_WIDTH(s32, (u8 *)a0, 0x2C) = 0x1000 - (s32)((u32)(r2 & 0x7FF0) >> 4);
     ((Unkstruct_8011DB30 *)a0)->unk30.val.s = 0x88;
     q = r2 & 0x803C;
-    ((Unkstruct_8011DB30 *)a0)->unk28 = q;
+    ((Unkstruct_8011DB30 *)a0)->unk28.s = q;
     if (q == 0) {
         ((Unkstruct_8011DB30 *)a0)->unk1C.s <<= 1;
     }
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    if (((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
+    if (((Unkstruct_8011DB30 *)a0)->unk28.s != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0xF000;
     } else {
@@ -6651,7 +6651,7 @@ extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
 void func_801817CC(s32 *a0) {
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    if (((Unkstruct_8011DB30 *)a0)->unk28 != 0) {
+    if (((Unkstruct_8011DB30 *)a0)->unk28.s != 0) {
         func_80169A4C((s32)a0, CAST_WIDTH(s32, (u8 *)a0, 0x34));
         ((Unkstruct_8011DB30 *)a0)->unk14.val.s += 0xF000;
     } else {

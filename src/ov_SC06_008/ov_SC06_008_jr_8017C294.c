@@ -6497,7 +6497,7 @@ void func_8018309C(s32 arg0) {
         rv = rand();
         ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 0x10;
         CAST_WIDTH(s32, arg0, 0x2c) = 0x200;
-        ((Unkstruct_8011DB30 *)arg0)->unk28 = rv % 15;
+        ((Unkstruct_8011DB30 *)arg0)->unk28.s = rv % 15;
         ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk18.u = 0x1200;
         ((Unkstruct_800B5BD8 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk1A.u = 0x1200;
         ((Unkstruct_8011DB30 *)arg0)->unk2.s = CAST_SIGN(u16, arg0, 2) + 1;
