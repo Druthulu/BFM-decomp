@@ -3236,7 +3236,7 @@ void func_8017D490(void)
  */
 void func_8017DD04(s32 arg0, s32 arg1)
 {
-    extern void func_8017E1A8(Unkstruct_8017C8B0 *p, s32 arg1, s32 arg2, s32 arg3);
+    extern void func_8017E1A8(RECT *p, s32 arg1, s32 arg2, s32 arg3);
     extern u8 *D_800A5E60;
     extern u8 D_800AA60C[];
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
@@ -3392,18 +3392,18 @@ void func_8017DD04(s32 arg0, s32 arg1)
  * first-class dial"), here reached by plain variable reuse — no asm re-tie.
  */
 
-void func_8017E1A8(Unkstruct_8017C8B0 *p, s32 arg1, s32 arg2, s32 arg3) {
+void func_8017E1A8(RECT *p, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
     s32 ax;
     s32 ay;
 
     for (i = 0; i < 9; i++) {
-        ax = p[i].unk0 - 0xA0;
-        ay = p[i].unk2 - 0x78;
+        ax = p[i].x - 0xA0;
+        ay = p[i].y - 0x78;
         ax = (ax * arg3) / 0x1000;
         ay = (ay * arg3) / 0x1000;
-        p[i].unk4 = ax + arg1;
-        p[i].unk6 = ay + arg2;
+        p[i].w = ax + arg1;
+        p[i].h = ay + arg2;
     }
 }
 

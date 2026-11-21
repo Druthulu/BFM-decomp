@@ -785,19 +785,19 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         m1 = (((Unkstruct_80135EB0 *)arg0)->unk6 < t1) << 1;
     }
     t2 = (*(s16 **)&D_80182C0C)[2];
-    if (t2 < ((Unkstruct_80135EB0 *)arg0)->unkC) {
+    if (t2 < ((Unkstruct_80135EB0 *)arg0)->unkC.s) {
         m1 |= 4;
-    } else if (((Unkstruct_80135EB0 *)arg0)->unkE < t2) {
+    } else if (((Unkstruct_80135EB0 *)arg0)->unkE.s < t2) {
         m1 |= 8;
     }
     t3 = (*(s16 **)&D_80182C0C)[1];
     /* The do-while(0) is NOT inert: flow.c counts every ref inside it at loop depth 2 (flow.c:2067), which
      * lifts m2 to 11 refs and ranks it above arg1 in global.c allocno_compare -> m2 $s2, arg1 $s3. */
     do {
-        if (t3 < ((Unkstruct_80135EB0 *)arg0)->unk8) {
+        if (t3 < ((Unkstruct_80135EB0 *)arg0)->unk8.s) {
             m2 = 0x10;
         } else {
-            m2 = -(((Unkstruct_80135EB0 *)arg0)->unkA < t3);
+            m2 = -(((Unkstruct_80135EB0 *)arg0)->unkA.s < t3);
             m2 &= 0x20;
         }
     } while (0);
@@ -819,11 +819,11 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         (*(s16 *)guess_g_BoxHitNormalX) = c0 - h0;
         c1 = ac[2];
         b4[2] = c1;
-        h1 = (((Unkstruct_80135EB0 *)arg0)->unkC + ((Unkstruct_80135EB0 *)arg0)->unkE) >> 1;
+        h1 = (((Unkstruct_80135EB0 *)arg0)->unkC.s + ((Unkstruct_80135EB0 *)arg0)->unkE.s) >> 1;
         guess_g_BoxHitCenterZ[0] = h1;
         guess_g_BoxHitNormalZ[0] = c1 - h1;
         b4[1] = ac[1];
-        guess_g_BoxHitCenterY[0] = (((Unkstruct_80135EB0 *)arg0)->unk8 + ((Unkstruct_80135EB0 *)arg0)->unkA) >> 1;
+        guess_g_BoxHitCenterY[0] = (((Unkstruct_80135EB0 *)arg0)->unk8.s + ((Unkstruct_80135EB0 *)arg0)->unkA.s) >> 1;
         VectorNormalSS(guess_g_BoxHitNormalX, guess_g_BoxHitNormalX);
         guess_g_BoxHitFlags |= 1;
         return 1;
@@ -836,16 +836,16 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         n1 = (((Unkstruct_80135EB0 *)arg0)->unk6 < t4) << 1;
     }
     t5 = (*(s16 **)&D_80182C10)[2];
-    if (t5 < ((Unkstruct_80135EB0 *)arg0)->unkC) {
+    if (t5 < ((Unkstruct_80135EB0 *)arg0)->unkC.s) {
         n1 |= 4;
-    } else if (((Unkstruct_80135EB0 *)arg0)->unkE < t5) {
+    } else if (((Unkstruct_80135EB0 *)arg0)->unkE.s < t5) {
         n1 |= 8;
     }
     t6 = (*(s16 **)&D_80182C10)[1];
-    if (t6 < ((Unkstruct_80135EB0 *)arg0)->unk8) {
+    if (t6 < ((Unkstruct_80135EB0 *)arg0)->unk8.s) {
         n2 = 0x10;
     } else {
-        n2 = (((Unkstruct_80135EB0 *)arg0)->unkA < t6) << 5;
+        n2 = (((Unkstruct_80135EB0 *)arg0)->unkA.s < t6) << 5;
     }
     if (((m1 | m2) & (n1 | n2)) != 0) {
         goto ret0;
@@ -862,7 +862,7 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
 
     switch (m1) {
     case 4:
-        r = func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC);
+        r = func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC.s);
         goto test;
     case 1:
         if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unk4) != 0) goto ret1;
@@ -871,18 +871,18 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unk6) != 0) goto ret1;
         break;
     case 5:
-        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC.s) != 0) goto ret1;
         if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unk4) != 0) goto ret1;
         break;
     case 6:
-        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unkC.s) != 0) goto ret1;
         if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unk6) != 0) goto ret1;
         break;
     case 9:
         if (func_801365B8(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unk4) != 0) goto ret1;
         /* fallthrough */
     case 8:
-        r = func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkE);
+        r = func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkE.s);
     test:
         if (r != 0) goto ret1;
         break;
@@ -890,7 +890,7 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         return 0;
     case 10:
         if (func_801365B8(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unk6) != 0) goto ret1;
-        if (func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkE) != 0) goto ret1;
+        if (func_80136334(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkE.s) != 0) goto ret1;
         break;
     case 0:
         break;
@@ -901,11 +901,11 @@ s32 func_80135EB0(void *arg0, s32 arg1) {
         goto ret0;
     }
     if (m2 == 0x10) {
-        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unk8) == 0) {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) arg1, ((Unkstruct_80135EB0 *)arg0)->unk8.s) == 0) {
             goto ret0;
         }
     } else {
-        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkA) == 0) {
+        if (((s32 (*)(void *, s32, s32))func_80136824)(arg0, (s16) (arg1 | 1), ((Unkstruct_80135EB0 *)arg0)->unkA.s) == 0) {
             goto ret0;
         }
     }
@@ -954,8 +954,8 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
 
     if (b4[0] < ((Unkstruct_80135EB0 *)arg0)->unk4) return 0;
     if (((Unkstruct_80135EB0 *)arg0)->unk6 < b4[0]) return 0;
-    if (b4[1] < ((Unkstruct_80135EB0 *)arg0)->unk8) return 0;
-    if (((Unkstruct_80135EB0 *)arg0)->unkA < b4[1]) return 0;
+    if (b4[1] < ((Unkstruct_80135EB0 *)arg0)->unk8.s) return 0;
+    if (((Unkstruct_80135EB0 *)arg0)->unkA.s < b4[1]) return 0;
     if (a1v & 0x8000) {
         u16 *b0 = *(u16 **)&D_80182C10;
         b4[0] = b0[0];
@@ -971,7 +971,7 @@ s32 func_80136334(void *arg0, s32 arg1, s32 arg2) {
         D_80182C14[2] = a2v - 2;
     }
     (*(s16 *)guess_g_BoxHitCenterX) = (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1;
-    guess_g_BoxHitCenterY = (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
+    guess_g_BoxHitCenterY = (((Unkstruct_80135EB0 *)arg0)->unk8.s + M2C_FIELD(arg0, s16 *, 0xA)) >> 1;
     result = 1;
     guess_g_BoxHitCenterZ = (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1;
     return result;
@@ -1032,17 +1032,17 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
     temp_v0 = ac[2] + (temp_a1 * b8[2]) / var_a3;
     b4[2] = temp_v0;
     var_v0 = 0;
-    if (temp_v0 < ((Unkstruct_80135EB0 *)arg0)->unkC) {
+    if (temp_v0 < ((Unkstruct_80135EB0 *)arg0)->unkC.s) {
         return var_v0;
     }
-    if (((Unkstruct_80135EB0 *)arg0)->unkE < temp_v0) {
+    if (((Unkstruct_80135EB0 *)arg0)->unkE.s < temp_v0) {
         return var_v0;
     }
     temp_v1 = b4[1];
-    if (temp_v1 < ((Unkstruct_80135EB0 *)arg0)->unk8) {
+    if (temp_v1 < ((Unkstruct_80135EB0 *)arg0)->unk8.s) {
         return var_v0;
     }
-    if (((Unkstruct_80135EB0 *)arg0)->unkA < temp_v1) {
+    if (((Unkstruct_80135EB0 *)arg0)->unkA.s < temp_v1) {
         return var_v0;
     }
     if (a1c & 0x8000) {
@@ -1059,7 +1059,7 @@ s32 func_801365B8(void *arg0, s32 arg1, s32 arg2) {
         ((SVECTOR *)D_80182C14)->vx = a2c - 2;
     }
     *(s16 *)guess_g_BoxHitCenterX = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1);
-    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8.s + M2C_FIELD(arg0, s16 *, 0xA)) >> 1);
     guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(arg0, s16 *, 0xC) + M2C_FIELD(arg0, s16 *, 0xE)) >> 1);
     return (1);
 }
@@ -1124,10 +1124,10 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
     if (((Unkstruct_80135EB0 *)arg0)->unk6 < temp_v1) {
         return 0;
     }
-    if (temp_v0 < ((Unkstruct_80135EB0 *)arg0)->unkC) {
+    if (temp_v0 < ((Unkstruct_80135EB0 *)arg0)->unkC.s) {
         return 0;
     }
-    if (((Unkstruct_80135EB0 *)arg0)->unkE < temp_v0) {
+    if (((Unkstruct_80135EB0 *)arg0)->unkE.s < temp_v0) {
         return 0;
     }
     if (a1v & 0x8000) {
@@ -1147,7 +1147,7 @@ s32 func_80136824(s32 arg0, s32 arg1, s32 arg2) {
         b4b[1] = pos - 2;
     }
     (*(s16 *)guess_g_BoxHitCenterX) = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk4 + ((Unkstruct_80135EB0 *)arg0)->unk6) >> 1);
-    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8 + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
+    guess_g_BoxHitCenterY = (s16) ((s32) (((Unkstruct_80135EB0 *)arg0)->unk8.s + M2C_FIELD(((void *)arg0), s16 *, 0xA)) >> 1);
     guess_g_BoxHitCenterZ = (s16) ((s32) (M2C_FIELD(((void *)arg0), s16 *, 0xC) + M2C_FIELD(((void *)arg0), s16 *, 0xE)) >> 1);
     return 1;
 }

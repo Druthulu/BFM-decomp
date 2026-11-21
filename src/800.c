@@ -2776,7 +2776,7 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
     i4 = arg7 * 4;
     for (; i < 4; i++) {
         cb = 3;
-        p->len = cb;
+        p->unk0.v0.len = cb;
         cb = 0x40;
         p->code = cb;
         if (semi) {
@@ -2786,10 +2786,10 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p->r0 = arg4;
         p->g0 = arg5;
         p->b0 = arg6;
-        p->x0 = pts[i].vx;
-        p->y0 = pts[i].vy;
-        p->x1 = pts[i + 1].vx;
-        p->y1 = pts[i + 1].vy;
+        p->x0.s = pts[i].vx;
+        p->y0.s = pts[i].vy;
+        p->x1.s = pts[i + 1].vx;
+        p->y1.s = pts[i + 1].vy;
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
@@ -2800,8 +2800,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         p++;
     }
 
-    p[-1].x1 = pts[0].vx;
-    p[-1].y1 = pts[0].vy;
+    p[-1].x1.s = pts[0].vx;
+    p[-1].y1.s = pts[0].vy;
 
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[((Unkstruct_8012956C *)base)->unkA3D2 * 20], arg7, arg8);

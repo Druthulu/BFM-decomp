@@ -208,13 +208,13 @@ void func_801E855C(void) {
 
     switch (*(s16 *)&D_801E79D8) {
     case 0:
-        ((Unkstruct_8017E8FC *)D_801E7AAC)->unk4 = (s32)&D_801E89F0;
+        ((Cmd_80178D40 *)D_801E7AAC)->a.w = (s32)&D_801E89F0;
         break;
     case 1:
-        ((Unkstruct_8017E8FC *)D_801E7AAC)->unk4 = (s32)&D_801E8A28;
+        ((Cmd_80178D40 *)D_801E7AAC)->a.w = (s32)&D_801E8A28;
         break;
     case 2:
-        ((Unkstruct_8017E8FC *)D_801E7AAC)->unk4 = (s32)&D_801E8A5C;
+        ((Cmd_80178D40 *)D_801E7AAC)->a.w = (s32)&D_801E8A5C;
         break;
     }
 }
@@ -224,7 +224,7 @@ void func_801E855C(void) {
 void func_801E85E8(void) {
     extern s32 D_801E7AAC;
     extern S10_80136C90 D_801E79DC;
-    ((Unkstruct_8017E8FC *)D_801E7AAC)->unk4 = *(s32 *)&D_801E79DC;
+    ((Cmd_80178D40 *)D_801E7AAC)->a.w = *(s32 *)&D_801E79DC;
 }
 
 

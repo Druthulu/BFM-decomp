@@ -5961,7 +5961,7 @@ void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018AD9C *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -5997,7 +5997,7 @@ void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018AD9C *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -6033,7 +6033,7 @@ void func_8018AD9C(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018AD9C *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {

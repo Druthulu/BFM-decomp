@@ -4571,10 +4571,10 @@ void func_8017D8B8(void *a0, void *a1, s32 a2)
     mxz = u;
     if (mxz < eye.vz) mxz = eye.vz;
 
-    ((Unkstruct_8017C8B0 *)a1)->unk0 = mnx;
-    ((Unkstruct_8017C8B0 *)a1)->unk2 = mnz;
-    ((Unkstruct_8017C8B0 *)a1)->unk4 = mxx - mnx;
-    ((Unkstruct_8017C8B0 *)a1)->unk6 = mxz - mnz;
+    ((RECT *)a1)->x = mnx;
+    ((RECT *)a1)->y = mnz;
+    ((RECT *)a1)->w = mxx - mnx;
+    ((RECT *)a1)->h = mxz - mnz;
 }
 
 

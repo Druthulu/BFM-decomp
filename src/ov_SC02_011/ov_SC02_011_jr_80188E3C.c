@@ -1521,8 +1521,8 @@ void func_8018AB20(s32 arg0)
     by = (u16)D_801EB6DE;
     RotMatrixZ(ang, mp);
 
-    ((Unkstruct_8018AB20_3 *)v)->unk8 = D_801EB6E0;
-    v[1] = ((Unkstruct_8018AB20_3 *)v)->unk8;
+    ((Unkstruct_8018AB20_3 *)v)->vz = D_801EB6E0;
+    v[1] = ((Unkstruct_8018AB20_3 *)v)->vz;
     v[0] = v[1];
     func_8004901C(mp, v);
 

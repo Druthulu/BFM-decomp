@@ -494,8 +494,8 @@ RET:
 
 
 
-extern Unkstruct_8017C8B0 D_80195AF4[];
-extern Unkstruct_8017C8B0 D_80195AF6[];
+extern RECT D_80195AF4[];
+extern RECT D_80195AF6[];
 extern s16 D_80126CB4;
 extern s16 D_80126CB8;
 extern s16 D_80195ACC;
@@ -552,8 +552,8 @@ void func_80185B38(s32 a0)
             ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = nE;
         }
     } else {
-        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = D_80195AF4[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].unk0;
-        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = D_80195AF6[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].unk0;
+        ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = D_80195AF4[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].x;
+        ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = D_80195AF6[((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_005_801831A4.unkE0].x;
     }
 }
 

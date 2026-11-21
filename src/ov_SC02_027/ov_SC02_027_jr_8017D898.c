@@ -5307,7 +5307,7 @@ void func_80182868(void *a0)
     extern Unkstruct_801343C4 D_801AB670[];
     extern Unkstruct_801343C4 D_801AB672[];
     extern Unkstruct_801343C4 D_801AB674[];
-    extern Unkstruct_8017C8B0 D_801AB676[];
+    extern s16 D_801AB676[][4]; /* 4 x s16 records, not a RECT (judge c1: decided apart, T19.c13) */
     extern s16 D_801AB624[];
 
     s32 v0;
@@ -5356,7 +5356,7 @@ void func_80182868(void *a0)
             id = D_801AB624[i + 1];
             if (id == state) {
                 if (id >= 2) {
-                    if (D_801AB676[id].unk0 != 0) {
+                    if (D_801AB676[id][0] != 0) {
                         CAST_SIGN(s16, (s32)a0, 0x6) -= 0x200;
                     } else {
                         CAST_SIGN(s16, (s32)a0, 0x6) += 0x200;
@@ -5387,12 +5387,12 @@ void func_80182A44(void *arg0) {
 
 
 void func_80182AA4(void *a0) {
-    extern Unkstruct_8017C8B0 D_801AB676[];
+    extern s16 D_801AB676[][4]; /* 4 x s16 records, not a RECT (judge c1: decided apart, T19.c13) */
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern void guess_RequestSound(s32 a0, s32 a1);
     s32 v0;
 
-    v0 = D_801AB676[((Unkstruct_801202A0 *)a0)->unk70.s].unk0;
+    v0 = D_801AB676[((Unkstruct_801202A0 *)a0)->unk70.s][0];
     if (v0 == 0) {
         v0 = 0x8000;
     } else {
@@ -5418,7 +5418,7 @@ extern void func_80182C78(s32 a0);
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 D_801AB660[];
 extern Unkstruct_801343C4 D_801AB670[];
-extern Unkstruct_8017C8B0 D_801AB676[];
+extern s16 D_801AB676[][4]; /* 4 x s16 records, not a RECT (judge c1: decided apart, T19.c13) */
 extern s16 D_801AB668[];
 
 void func_80182AFC(s32 arg0)
@@ -5439,7 +5439,7 @@ void func_80182AFC(s32 arg0)
         func_80182D4C((u8 *)s0, (u8 *)D_801AB660, -1);
     } else {
         st = *(s16 *)(s0 + 0x70);
-        func_80182D4C((u8 *)s0, (u8 *)D_801AB660, D_801AB676[st].unk0);
+        func_80182D4C((u8 *)s0, (u8 *)D_801AB660, D_801AB676[st][0]);
     }
 
     s2 = 0x200;
@@ -5448,7 +5448,7 @@ void func_80182AFC(s32 arg0)
         s2 = 0x180;
     }
 
-    v1 = D_801AB676[st].unk0;
+    v1 = D_801AB676[st][0];
     a0v = D_801AB670[st].unk0;
     ok = 1;
     if (v1 != 0) {

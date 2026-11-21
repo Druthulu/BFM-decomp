@@ -4654,7 +4654,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 guess_TickWaitTimer(s32 a0);
 extern void func_8017F88C(s32 a0);
 
-extern Unkstruct_8017C8B0 D_801897BC[];
+extern s16 D_801897BC[][4]; /* 4 x s16 records, not a RECT (judge c1: decided apart, T19.c13) */
 
 void func_8017F744(s32 param_1)
 {
@@ -4669,7 +4669,7 @@ void func_8017F744(s32 param_1)
             ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u + CAST_SIGN(u16, param_1, 0x100);
 
         idx = ((Unkstruct_801202A0 *)param_1)->unk70.s;
-        if (((Unkstruct_801202A0 *)param_1)->unk64->unkC.i.hi.s + D_801897BC[idx].unk0 <
+        if (((Unkstruct_801202A0 *)param_1)->unk64->unkC.i.hi.s + D_801897BC[idx][0] <
             CAST_SIGN(s16, param_1, 0xE)) {
             goto CHECK_MSG_8017F818;
         }

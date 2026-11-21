@@ -4081,7 +4081,7 @@ void func_80180970(void *a0)
     extern Unkstruct_801343C4 D_801A4D0C[];
     extern Unkstruct_801343C4 D_801A4D0E[];
     extern Unkstruct_801343C4 D_801A4D10[];
-    extern Unkstruct_8017C8B0 D_801A4D12[];
+    extern RECT D_801A4D12[];
     extern s16 D_801A4CC0[];
 
     s32 v0;
@@ -4130,7 +4130,7 @@ void func_80180970(void *a0)
             id = D_801A4CC0[i + 1];
             if (id == state) {
                 if (id >= 2) {
-                    if (D_801A4D12[id].unk0 != 0) {
+                    if (D_801A4D12[id].x != 0) {
                         CAST_SIGN(s16, (s32)a0, 0x6) -= 0x200;
                     } else {
                         CAST_SIGN(s16, (s32)a0, 0x6) += 0x200;
@@ -4164,11 +4164,11 @@ void func_80180BAC(void *a0)
 {
     extern void func_8012AD44(s32 *a0, s16 a1);
     extern void guess_RequestSound(s32 a0, s32 a1);
-    extern Unkstruct_8017C8B0 D_801A4D12[];
+    extern RECT D_801A4D12[];
 
     s32 v;
 
-    v = D_801A4D12[((Unkstruct_801202A0 *)a0)->unk70.s].unk0;
+    v = D_801A4D12[((Unkstruct_801202A0 *)a0)->unk70.s].x;
     ((Unkstruct_801202A0 *)a0)->unk44.w.unk44 = (v == 0) ? 0x8000 : -0x8000;
     func_8012AD44(a0, 2);
     guess_RequestSound(0x686, 0);
@@ -4203,7 +4203,7 @@ void func_80180C04(void *arg0)
 
     extern s16 D_801A4D04;
     extern Unkstruct_801343C4 D_801A4D0C[];
-    extern Unkstruct_8017C8B0 D_801A4D12[];
+    extern RECT D_801A4D12[];
 
 
 
@@ -4225,7 +4225,7 @@ void func_80180C04(void *arg0)
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC, -1);
     } else {
         func_80180E54((u8 *)s0, (u8 *)D_801A4CFC,
-                      D_801A4D12[((Unkstruct_801202A0 *)s0)->unk70.s].unk0);
+                      D_801A4D12[((Unkstruct_801202A0 *)s0)->unk70.s].x);
     }
 
     lim = 0x200;
@@ -4234,7 +4234,7 @@ void func_80180C04(void *arg0)
         lim = 0x180;
     }
 
-    b = D_801A4D12[id].unk0;
+    b = D_801A4D12[id].x;
     val = D_801A4D0C[id].unk0;
     flag = 1;
 
@@ -6749,8 +6749,8 @@ void func_80183D30(s32 arg0)
     by = (u16)D_801D328E;
     RotMatrixZ(ang, mp);
 
-    ((Unkstruct_80183D30_3 *)v)->unk8 = D_801D3290;
-    v[1] = ((Unkstruct_80183D30_3 *)v)->unk8;
+    ((VECTOR *)v)->vz = D_801D3290;
+    v[1] = ((VECTOR *)v)->vz;
     v[0] = v[1];
     func_8004901C(mp, v);
 

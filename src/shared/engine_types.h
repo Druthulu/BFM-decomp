@@ -278,12 +278,6 @@ typedef struct {
     u16 hC;
 } DstB964;
 
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-} RECT;                 /* libgpu RECT */
 typedef RECT Rect;
 
 
@@ -386,11 +380,6 @@ struct Sub2_80167540 {
     u8 pad0[0x44];
     s32 unk44;        /* 0x44 */
 };
-typedef struct {
-    u8 r, g, b, pad_3;
-    u8 dr, dg, db, pad_7;
-    s16 vx, vy, vz, tm;
-} Blip_8018F694;
 typedef struct { u8 d[0x60]; } Blk60;
 typedef Unkstruct_8013B83C Blk8_8017B238;
 /* T7.c11: moved up from below so the C13 fold target (next) can name Rec_8016CBC0 */
@@ -408,15 +397,6 @@ typedef struct {
 } Blk_8016CF04_8016CF04; /* size = 0xc4 */
 typedef Blk_8016CF04_8016CF04 Blk_8016CF04;
 typedef SVECTOR Box;
-typedef struct {
-    s32 op;
-    union {
-        s32 w;
-        void *p;
-        s16 h[2];
-        u16 uh[2];
-    } a;
-} Cmd_80178D40;
 typedef DVECTOR DVECTOR2;
 typedef struct { DrawEnv_8013DD68 env; u8 pad[0x0C]; } Buf_8013DD68;
 typedef SVECTOR Elem;
@@ -2345,18 +2325,9 @@ typedef struct {
 } Rec8_8017DD64;
 typedef struct { s16 x; u16 y; u16 z; s16 w; } Rec8_8018A31C;
 typedef struct {
-    u8 mode;                 /* 0x00 */
-    u8 pad01;
-    u16 f02;                 /* 0x02 */
-    u16 f04, f06, f08;
-    u16 f0A;                 /* 0x0A */
-    u8 pad0C[0x14 - 0x0C];
-} Rec_80180AE8;
-typedef struct {
     void *tag;
     s16 flag;
 } Rec_80181170;
-typedef struct { void *tag; s16 flag; u8 b6; u8 b7; } Rec_80181DF8;
 typedef SVECTOR Rot_8017E330;
 typedef struct {
     u8            pad00[0x10];

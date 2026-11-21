@@ -5961,18 +5961,18 @@ void func_80187980(u16 *a0, u16 *a1, u8 *a2, u32 *a3)
     p = (u8 *)func_80010A08(0x10);
     p[3] = 3;
     p[7] = 0x42;
-    w = ((Unkstruct_8018C7A8 *)p)->unk0;
+    w = ((LineF2_80015F04 *)p)->unk0.v1.unk0;
     p[4] = a2[0];
     p[5] = a2[1];
     p[6] = a2[2];
-    ((Unkstruct_8018C7A8 *)p)->unk8 = a0[0];
-    ((Unkstruct_8018C7A8 *)p)->unkA = a0[1];
-    ((Unkstruct_8018C7A8 *)p)->unkC = a1[0];
-    ((Unkstruct_8018C7A8 *)p)->unkE = a1[1];
+    ((LineF2_80015F04 *)p)->x0.u = a0[0];
+    ((LineF2_80015F04 *)p)->y0.u = a0[1];
+    ((LineF2_80015F04 *)p)->x1.u = a1[0];
+    ((LineF2_80015F04 *)p)->y1.u = a1[1];
     mA = 0xFFFFFF;
     mB = 0xFF000000;
     t = *a3;
-    ((Unkstruct_8018C7A8 *)p)->unk0 = (w & mB) | (t & mA);
+    ((LineF2_80015F04 *)p)->unk0.v1.unk0 = (w & mB) | (t & mA);
     r2 = *a3;
     ps = (u32)p & mA;
     r2 = (r2 & mB) | ps;
@@ -10650,7 +10650,7 @@ void func_8018EDB0(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -10686,7 +10686,7 @@ void func_8018EDB0(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {
@@ -10722,7 +10722,7 @@ void func_8018EDB0(Unkstruct_801202A0 *param_1, u32 param_2, u16 *param_3, u32 p
     gte_avsz4();
     gte_stotz(&otz);
     oz = otz;
-    ((Unkstruct_8018EDB0 *)pkt)->unk4 = (s16)oz;
+    ((Src_80017294 *)pkt)->v[0].z = (s16)oz;
     if (oz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 < (u32)(*(s32 *)((u8 *)&D_800A651C
             + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14) + oz * 4))) {

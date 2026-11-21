@@ -3371,8 +3371,8 @@ void func_80184174(s32 arg0)
     by = (u16)D_801A0016;
     RotMatrixZ(ang, mp);
 
-    ((Unkstruct_80184174 *)v)->unk8 = D_801A0018;
-    v[1] = ((Unkstruct_80184174 *)v)->unk8;
+    ((VECTOR *)v)->vz = D_801A0018;
+    v[1] = ((VECTOR *)v)->vz;
     v[0] = v[1];
     func_8004901C(mp, v);
 

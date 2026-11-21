@@ -1710,17 +1710,17 @@ void func_8018576C(u8 *vb)
 #define RS(o) (*(s16 *)((s32)vb + (o)))
 
     p = (u8 *)(((*(u32 *)((s32)vb + 0x58)) & 0xFFFFFFF) | 0x80000000);
-    vv[1] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unk8 - 0x40;
-    vv[5] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unk8 - 0x40;
-    vv[9] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unkA + 0x40;
-    vv[13] = RS(0x8A) + ((Unkstruct_8018576C *)p)->unkA + 0x40;
+    vv[1] = RS(0x8A) + ((Unkstruct_80135EB0 *)p)->unk8.u - 0x40;
+    vv[5] = RS(0x8A) + ((Unkstruct_80135EB0 *)p)->unk8.u - 0x40;
+    vv[9] = RS(0x8A) + ((Unkstruct_80135EB0 *)p)->unkA.u + 0x40;
+    vv[13] = RS(0x8A) + ((Unkstruct_80135EB0 *)p)->unkA.u + 0x40;
     vz0 = RS(0x8C) - 0x50;
     ot = (u32 *)&D_800A6610[((u16)guess_g_DoubleBufferIndex) << 14];
     vv[14] = vz0;
     vv[10] = vz0;
     vv[6] = vz0;
     vv[2] = vz0;
-    d = ((Unkstruct_8018576C *)p)->unk4;
+    d = ((Unkstruct_80135EB0 *)p)->unk4;
     if ((d - 0x20) >= 0) {
         z = (d - 0x20) / 2;
     } else {
@@ -2378,14 +2378,14 @@ int func_801865E4(int a0, void* a1)
     s32 result;
     s32 ret;
 
-    v0 = ((Unkstruct_801826E8 *)a1)->unk4;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk4;
     stack_buf[0] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unk6;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk6;
     stack_buf[4] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unkA;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkA.s;
     stack_buf[5] = v0;
     stack_buf[1] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unkC;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkC.s;
     stack_buf[6] = v0;
     stack_buf[2] = v0;
 
@@ -2394,7 +2394,7 @@ int func_801865E4(int a0, void* a1)
     if (result != 0) {
         ret = 1;
     } else {
-        v0 = ((Unkstruct_801826E8 *)a1)->unkE;
+        v0 = ((Unkstruct_80135EB0 *)a1)->unkE.s;
         stack_buf[6] = v0;
         stack_buf[2] = v0;
         result = func_80186680((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);
@@ -3426,11 +3426,11 @@ void func_80187E08(s32 param_1)
                 if (ok2 && flag >= 0) {
                     v = ((Unkstruct_801202A0 *)param_1)->unk1C.s;
                     if (v == 0) {
-                        first = ((Unkstruct_80187E08_2 *)rec)->unk6;
+                        first = ((Rec8_8018A390_8018523C *)rec)->w;
                         while (first != 0xFF) {
                             func_80187FA0((u8 *)param_1, (u8 *)rec);
                             rec = (s32 *)((s8 *)rec + 8);
-                            first = ((Unkstruct_80187E08_2 *)rec)->unk6;
+                            first = ((Rec8_8018A390_8018523C *)rec)->w;
                         }
                         ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val;
                         v = *(volatile s32 *)((s8 *)param_1 + 0x1C);
@@ -3493,9 +3493,9 @@ void func_80188034(s32 a0) {
     s0 = D_80195FC8 + idx * 8;
     base = (s32)&guess_g_PlayerActor;
 
-    if (((Unkstruct_80188034_2 *)s0)->unk6 != 0 && (s16)guess_g_PlayerPosY >= -0x8FF) {
+    if (((Rec8_8018A390_8018523C *)s0)->w != 0 && (s16)guess_g_PlayerPosY >= -0x8FF) {
         guess_CopyVec3HighHalves(base + 4, (s32 *)buf);
-        buf[1] = ((Unkstruct_80188034_2 *)s0)->unk2;
+        buf[1] = ((Rec8_8018A390_8018523C *)s0)->y;
         sVar1 = (s16)func_80013294((void *)buf, (void *)s0);
         if (sVar1 < 0x800) {
             q = (0x800 - sVar1) * 0x7F / 0x800;

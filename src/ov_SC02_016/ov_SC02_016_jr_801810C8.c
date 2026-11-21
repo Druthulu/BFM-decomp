@@ -4146,12 +4146,12 @@ void func_80182D54(void *a0)
     func_8012A418();
     KR_AS(void, func_8012A598)();
 
-    D_80126954 = ((Unkstruct_80182D54 *)s0)->unk0;
+    D_80126954 = ((Unkstruct_80182E70 *)s0)->unk0;
     D_8012695C = CAST_ALIAS(s32, s0, 4);
 
     guess_g_MainCameraPitchTarget = *(Blk8 *)(s0 + 8);
 
-    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80182D54 *)s0)->unk10;
+    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80182E70 *)s0)->unk10;
     guess_g_MainCameraRefOffsetTargetY = CAST_ALIAS(s16, s0, 0x12);
     guess_g_MainCameraRefOffsetTargetZ = CAST_ALIAS(s16, s0, 0x14);
 

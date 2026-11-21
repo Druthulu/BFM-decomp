@@ -4592,10 +4592,10 @@ void func_8018454C(s32 a0)
 #include "common.h"
 
 /* D_80195AF4_t moved to ov_SC02_005_shared.h (S74 §431 split). */
-extern Unkstruct_8017C8B0 D_80195AF4[];
+extern RECT D_80195AF4[];
 
 
-extern Unkstruct_8017C8B0 D_80195AF6[];
+extern RECT D_80195AF6[];
 
 extern s16 D_80126CB4;
 extern s16 D_80126CB8;
@@ -4629,9 +4629,9 @@ void func_801846CC(void *a0)
             local.f2 = *(u16 *)((u8 *)p + 0xA) + 0x80;
             local.f4 = *(u16 *)((u8 *)p + 0xE);
         } else {
-            local.f0 = D_80195AF4[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_801846CC.unk100].unk0;
+            local.f0 = D_80195AF4[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_801846CC.unk100].x;
             local.f2 = CAST_NONSTRUCT(u16, (u8 *)(*(void **)((u8 *)a0 + 0x64)), 0xA);
-            local.f4 = D_80195AF6[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_801846CC.unk100].unk0;
+            local.f4 = D_80195AF6[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_801846CC.unk100].x;
         }
     }
 
@@ -4705,7 +4705,7 @@ extern void func_8013C9C4(void *a0);
 extern void (*D_80191060[])(void);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 
-extern Unkstruct_8017C8B0 D_80195AF6[];
+extern RECT D_80195AF6[];
 
 void func_80184828(void *a0)
 {
@@ -4750,8 +4750,8 @@ void func_80184828(void *a0)
                 func_8018AEB4(((Unkstruct_801202A0 *)a0)->extD.kSC02_005_80184D44.unk100.s, 0);
             }
         } else {
-            Unkstruct_8017C8B0 *p = D_80195AF6;
-            s16 newval = D_80195AF6[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_80184D44.unk100.s].unk0;
+            RECT *p = D_80195AF6;
+            s16 newval = D_80195AF6[((Unkstruct_801202A0 *)a0)->extD.kSC02_005_80184D44.unk100.s].x;
 
             if (newval >= CAST_SIGN(s16, (u8 *)a0, 0xE)) {
                 __asm__("" : "=r"(p) : "0"(p));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:combine-operand-order

@@ -4276,9 +4276,9 @@ void func_80189D10(s32 _arg0)
         dead = dead * 9 + 1;
         p = (s32)&D_801E82A0[i * 4];
         v = -(rsin((i << 15) / 0x50) * 0x110 / 4096 + 0x100);
-        ((Unkstruct_80189D10 *)p)->unk2 = v;
+        ((SVECTOR *)p)->vy = v;
         if ((s16)v > 0) {
-            ((Unkstruct_80189D10 *)p)->unk2 = 0;
+            ((SVECTOR *)p)->vy = 0;
         }
     }
 }

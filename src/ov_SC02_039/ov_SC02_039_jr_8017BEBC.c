@@ -3509,25 +3509,25 @@ s32 func_8017E2F4(s32 a0, s32 a1) {
 
     p2addr = (s32)&p2;
     p1.unk0 = p2.unk0 = CAST_SIGN(u16, a1, 0x4);
-    p1.unk2 = p2.unk2 = ((Unkstruct_8017DDDC *)a1)->unk8 - 0x10;
-    p1.unk4 = ((Unkstruct_8017DDDC *)a1)->unkC;
-    p2.unk4 = ((Unkstruct_8017DDDC *)a1)->unkE;
+    p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)a1)->unk8.u - 0x10;
+    p1.unk4 = ((Unkstruct_80135EB0 *)a1)->unkC.u;
+    p2.unk4 = ((Unkstruct_80135EB0 *)a1)->unkE.u;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    avg = (((Unkstruct_8017DDDC *)a1)->unk4 + ((Unkstruct_8017DDDC *)a1)->unk6) >> 1;
+    avg = (((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 1;
     p1.unk0 = p2.unk0 = avg;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_8017DDDC *)a1)->unk4 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4 + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_8017DDDC *)a1)->unk6 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk6 + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }

@@ -5810,7 +5810,7 @@ void func_801831FC(s32 arg0) {
 
     base = (s32)&guess_g_PlayerActor;
     s1 = (s32)D_8018E8EC + (((Unkstruct_801202A0 *)arg0)->unkFC.s) * 8;
-    if (((Unkstruct_801831FC *)s1)->unk6 == 0) {
+    if (((Rec8_8018A390_8018523C *)s1)->w == 0) {
         return;
     }
     guess_CopyVec3HighHalves(base + 4, (s32 *)buf);
@@ -5818,7 +5818,7 @@ void func_801831FC(s32 arg0) {
         if (buf[1] < -0xB00) {
             return;
         }
-        buf[1] = ((Unkstruct_801831FC *)s1)->unk2;
+        buf[1] = ((Rec8_8018A390_8018523C *)s1)->y;
     }
     dist = func_80013294((void *)buf, (void *)s1);
     if (dist >= 0x800) {
@@ -5956,9 +5956,9 @@ extern s32 D_801EFCBC;
 
 void func_801835F4(void) {
     if ((s16) guess_g_PlayerPosX < 0) {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0xFE40;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0xFE40;
     } else {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0x1C0;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0x1C0;
     }
 }
 
@@ -5968,9 +5968,9 @@ extern s32 D_801EFCBC;
 
 void func_80183628(void) {
     if ((s16) guess_g_PlayerPosX < 0) {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0xFE70;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0xFE70;
     } else {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0x190;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0x190;
     }
 }
 
@@ -5980,9 +5980,9 @@ extern s32 D_801EFCBC;
 
 void func_8018365C(void) {
     if ((s16) guess_g_PlayerPosX < 0) {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0xFD80;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0xFD80;
     } else {
-        ((Unkstruct_801835F4 *)D_801EFCBC)->unk4 = 0x280;
+        ((Cmd_80178D40 *)D_801EFCBC)->a.w = 0x280;
     }
 }
 

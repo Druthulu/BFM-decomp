@@ -11311,7 +11311,7 @@ void * func_80189A60(void)
     s32 v1;
     v1 = (s32)D_801EFF20;
     for (a0 = 0; a0 < 0x4; a0++, v1 += 0x40) {
-        if (((Unkstruct_80189A60 *)v1)->unkB == 0) {
+        if (((Poly12Obj *)v1)->unkB == 0) {
             return (u8 *)v1;
         }
     }

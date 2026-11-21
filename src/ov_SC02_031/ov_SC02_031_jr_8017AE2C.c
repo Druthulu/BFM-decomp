@@ -5605,7 +5605,7 @@ void func_8017F5B4(s32 arg0, s32 arg1, s32 arg2)
 
     pkt = D_800A5E60;
     part = (Part *)(arg1 + 0x14);
-    nparts = ((Unkstruct_8017F5B4_2 *)arg1)->unk8;
+    nparts = ((Unkstruct_8017FA5C_2 *)arg1)->unk8;
     vtx = *(u8 **)(arg1 + 0x10);
     ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
@@ -6901,11 +6901,11 @@ void func_80182848(void *a0, u8 *a1, s32 a2, s32 a3, s32 a4) {
     sp = *(SVECTOR *)a1;
     for (i = 0; i < a2; i++) {
         t = rand() % 320;
-        b1 = ((Unkstruct_80182848 *)a1)->unk0;
+        b1 = ((SVECTOR *)a1)->vx;
         sp.vx = (rand() & 1) ? b1 + t : b1 - t;
         if (a3 != 0) {
             m = rand() % 64;
-            b2 = ((Unkstruct_80182848 *)a1)->unk4;
+            b2 = ((SVECTOR *)a1)->vz;
             sp.vz = (rand() & 1) ? b2 + m : b2 - m;
         }
         func_8017BEBC(a0, (s16 *)&sp, (s16)a4);

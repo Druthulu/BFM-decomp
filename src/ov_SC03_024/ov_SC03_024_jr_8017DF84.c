@@ -5674,14 +5674,14 @@ int func_801826E8(int a0, void* a1)
     s32 result;
     s32 ret;
 
-    v0 = ((Unkstruct_801826E8 *)a1)->unk4;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk4;
     stack_buf[0] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unk6;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk6;
     stack_buf[4] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unkA;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkA.s;
     stack_buf[5] = v0;
     stack_buf[1] = v0;
-    v0 = ((Unkstruct_801826E8 *)a1)->unkC;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkC.s;
     stack_buf[6] = v0;
     stack_buf[2] = v0;
 
@@ -5690,7 +5690,7 @@ int func_801826E8(int a0, void* a1)
     if (result != 0) {
         ret = 1;
     } else {
-        v0 = ((Unkstruct_801826E8 *)a1)->unkE;
+        v0 = ((Unkstruct_80135EB0 *)a1)->unkE.s;
         stack_buf[6] = v0;
         stack_buf[2] = v0;
         result = func_80182784((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);

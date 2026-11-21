@@ -6410,7 +6410,7 @@ void func_80181A60(SVec_80181A60 *v)
 
     p = (LineF2_80181A60 *)func_80010A08(0x10);
     m24 = 0x00FFFFFF;
-    p->len = 3;
+    p->unk0.v0.len = 3;
     mx = guess_g_CameraWsMatrix;
     *(u32 *)&p->r0 = m24;
     p->code = 0x40;
@@ -6418,14 +6418,14 @@ void func_80181A60(SVec_80181A60 *v)
     gte_SetRotTransMatrix(mx);
     gte_ldv0(v);
     gte_rtps();
-    gte_stsxy(&p->x0);
+    gte_stsxy(&p->x0.s);
     gte_stflg(&flag);
     gte_stszotz(&otz);
     if ((flag & ~0x1000) == 0) {
         v++;
         { gte_ldv0(v); }
         gte_rtps();
-        gte_stsxy(&p->x1);
+        gte_stsxy(&p->x1.s);
         gte_stflg(&flag);
         if ((flag & ~0x1000) == 0) {
             do { mFF = 0xFF000000; } while (0);

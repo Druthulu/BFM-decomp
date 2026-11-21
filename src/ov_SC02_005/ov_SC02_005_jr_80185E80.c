@@ -138,7 +138,7 @@ s32 func_801860F4(s16 *arg0) {
 
 
 
-extern Unkstruct_8017C8B0 D_80195AF8[];
+extern RECT D_80195AF8[];
 
 extern u16 D_801E43B4;
 
@@ -146,7 +146,7 @@ s32 func_80186144(void *a0, s32 a1)
 {
     s16 idx = D_801E43B4;
 
-    if (D_80195AF8[idx].unk0 == a1)
+    if (D_80195AF8[idx].x == a1)
         return idx;
     return -1;
 }
@@ -451,7 +451,7 @@ extern u8 D_80195AC4[];
 extern s16 D_80195ACE;
 
 
-extern Unkstruct_8017C8B0 D_80195AF4[];
+extern RECT D_80195AF4[];
 
 s32 func_8018675C(void *a0)
 {
@@ -591,9 +591,9 @@ void func_80186A04(s32 arg0) {
     s16 idx;
     s32 flags;
     u32 key;
-    Unkstruct_8017C8B0 *t0;
-    Unkstruct_8017C8B0 *a2;
-    Unkstruct_8017C8B0 *p;
+    RECT *t0;
+    RECT *a2;
+    RECT *p;
     s32 a1;
     s32 j;
     s16 v0;
@@ -608,17 +608,17 @@ void func_80186A04(s32 arg0) {
     }
     do { key = D_80195B4C[idx]; } while (0);
     if (key >= 0x16) {
-        t0 = (Unkstruct_8017C8B0 *)&D_801961E0;
+        t0 = (RECT *)&D_801961E0;
         key -= 0x16;
     } else {
-        t0 = (Unkstruct_8017C8B0 *)&D_801961B8;
+        t0 = (RECT *)&D_801961B8;
     }
     /* zero-byte allocno-priority ref-boost (cookbook regalloc "ref-boost", global.c:594):
      * lifts `key`'s n_refs 7 -> 8 across the floor_log2 step so it allocates before the
      * table base -> key=$a3 / base=$t0 as in the target. Emits no instruction. */
     for (a1 = 0; a1 < 4; a1++) {
         a2 = &t0[a1];
-        v0 = a2->unk6;
+        v0 = a2->h;
         if (v0 != -1) {
             if (v0 == (s32)(key & 0xFFFF)) {
                 return;
@@ -628,10 +628,10 @@ void func_80186A04(s32 arg0) {
             }
             for (j = 3; a1 < j; j--) {
                 p = &t0[j];
-                p->unk6 = p[-1].unk6;
+                p->h = p[-1].h;
             }
         }
-        a2->unk6 = key;
+        a2->h = key;
         return;
     }
 }
@@ -1103,18 +1103,18 @@ s32 func_801873FC(s32 a0) {
     box = (u8 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
 
     p1.unk0 = ((Unkstruct_80135EB0 *)box)->unk4;
-    p1.unk4 = ((Unkstruct_80135EB0 *)box)->unkC;
+    p1.unk4 = ((Unkstruct_80135EB0 *)box)->unkC.s;
     p2.unk0 = ((Unkstruct_80135EB0 *)box)->unk4;
-    p2.unk4 = ((Unkstruct_80135EB0 *)box)->unkE;
+    p2.unk4 = ((Unkstruct_80135EB0 *)box)->unkE.s;
     step = (u32)(((Unkstruct_80135EB0 *)box)->unk6 - CAST_SIGN(s16, box, 4)) >> 1;
 
     for (i = 0; i < 3; i++) {
-        p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)box)->unk8;
+        p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)box)->unk8.s;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }
 
-        p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)box)->unkA;
+        p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)box)->unkA.s;
         if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
             return 1;
         }

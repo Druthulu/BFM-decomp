@@ -3536,8 +3536,8 @@ void func_8017EBA0(s32 a0, s32 a1) {
     in[2] = guess_g_PlayerPosZ;
     func_8012F2E8(a0, (s32)in, (s32)out);
     if (out[0] < ((Unkstruct_80135EB0 *)a1)->unk4 || ((Unkstruct_80135EB0 *)a1)->unk6 < out[0] ||
-        out[1] < ((Unkstruct_80135EB0 *)a1)->unk8 || ((Unkstruct_80135EB0 *)a1)->unkA < out[1] ||
-        out[2] < ((Unkstruct_80135EB0 *)a1)->unkC || ((Unkstruct_80135EB0 *)a1)->unkE < out[2]) {
+        out[1] < ((Unkstruct_80135EB0 *)a1)->unk8.s || ((Unkstruct_80135EB0 *)a1)->unkA.s < out[1] ||
+        out[2] < ((Unkstruct_80135EB0 *)a1)->unkC.s || ((Unkstruct_80135EB0 *)a1)->unkE.s < out[2]) {
         return;
     }
     if (out[0] < 0) {

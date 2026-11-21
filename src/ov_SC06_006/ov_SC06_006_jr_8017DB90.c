@@ -3539,10 +3539,10 @@ void func_8017EEA4(void *arg)
 
     (((Unkstruct_80180C34 *)arg)->unk6.u)++;
     rec = &D_80185FA0_recs[((Unkstruct_80180C34 *)arg)->unk4C * 20];
-    func_8017F4C0(work, ((Unkstruct_8017EEA4_2 *)rec)->unk2, (u16)((rand() & 0x7F) - 0x3F));
-    RET_AS(void, aF8017ED24, (void *, s32))(&t1, ((Unkstruct_8017EEA4_2 *)rec)->unkC);
+    func_8017F4C0(work, ((Rec_80180AE8 *)rec)->f02, (u16)((rand() & 0x7F) - 0x3F));
+    RET_AS(void, aF8017ED24, (void *, s32))(&t1, ((Rec_80180AE8 *)rec)->unkC);
     *(Blk4 *)((u8 *)arg + 0xC) = t1;
-    RET_AS(void, aF8017ED24, (void *, s32))(&t2, ((Unkstruct_8017EEA4_2 *)rec)->unk10);
+    RET_AS(void, aF8017ED24, (void *, s32))(&t2, ((Rec_80180AE8 *)rec)->unk10);
     *(Blk4 *)((u8 *)arg + 0x10) = t2;
     *(Blk8 *)(*(u8 **)((u8 *)arg + 8) + 8) = *(Blk8 *)D_80185F94;
 
@@ -3550,7 +3550,7 @@ void func_8017EEA4(void *arg)
     switch (phase)
     {
     case 0:
-        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Unkstruct_8017EEA4_2 *)rec)->unk1)
+        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Rec_80180AE8 *)rec)->unk1)
             break;
         (((Unkstruct_80180C34 *)arg)->unk4)++;
         ((Unkstruct_80180C34 *)arg)->unk6.u = 0;
@@ -3558,14 +3558,14 @@ void func_8017EEA4(void *arg)
     case 1:
         ((Unkstruct_800B5BD8 *)*(u8 **)((u8 *)arg + 8))->head.unk4.s &= 0x7FFFFFFF;
         ((Unkstruct_800B5BD8 *)*(u8 **)((u8 *)arg + 8))->head.unk18.w.unk18.s = ((Unkstruct_800B5BD8 *)*(u8 **)((u8 *)arg + 8))->head.unk18.w.unk1A.s =
-            ((Unkstruct_80180C34 *)arg)->unk6.u * ((Unkstruct_8017EEA4_2 *)rec)->unk6;
-        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Unkstruct_8017EEA4_2 *)rec)->unk4)
+            ((Unkstruct_80180C34 *)arg)->unk6.u * ((Rec_80180AE8 *)rec)->f06;
+        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Rec_80180AE8 *)rec)->f04.s)
             break;
         (((Unkstruct_80180C34 *)arg)->unk4)++;
         ((Unkstruct_80180C34 *)arg)->unk6.u = 0;
         break;
     case 2:
-        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Unkstruct_8017EEA4_2 *)rec)->unk8)
+        if (CAST_SIGN(s16, (u8 *)arg, 6) < ((Rec_80180AE8 *)rec)->f08.s)
             break;
         (((Unkstruct_80180C34 *)arg)->unk6.u = 0, (((Unkstruct_80180C34 *)arg)->unk4)++);
         break;

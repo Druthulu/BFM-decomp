@@ -5930,7 +5930,7 @@ void func_8018C334(s32 param_1, s32 param_2)
     i = 0;
     do {
         i++;
-        if (((Unkstruct_8018C334 *)p)->unkE == 0) {
+        if (((Blip_8018F694 *)p)->tm == 0) {
             *(Unkstruct_8013B83C *)(p + 8) = *(Unkstruct_8013B83C *)(((u8 *)param_1) + 0);
             *(CVECTOR *)p = CAST_NONSTRUCT(CVECTOR, ((u8 *)&param_2), 0);
             c = p[0] >> 3;
@@ -6098,14 +6098,14 @@ void func_8018C7A8(u16 *param_1, u16 *param_2, u8 *param_3, u32 *param_4)
     p[4] = param_3[0];
     p[5] = param_3[1];
     p[6] = param_3[2];
-    ((Unkstruct_8018C7A8 *)p)->unk8 = param_1[0];
-    ((Unkstruct_8018C7A8 *)p)->unkA = param_1[1];
-    ((Unkstruct_8018C7A8 *)p)->unkC = param_2[0];
-    ((Unkstruct_8018C7A8 *)p)->unkE = param_2[1];
-    tag = ((Unkstruct_8018C7A8 *)p)->unk0;
+    ((LineF2_80015F04 *)p)->x0.u = param_1[0];
+    ((LineF2_80015F04 *)p)->y0.u = param_1[1];
+    ((LineF2_80015F04 *)p)->x1.u = param_2[0];
+    ((LineF2_80015F04 *)p)->y1.u = param_2[1];
+    tag = ((LineF2_80015F04 *)p)->unk0.v1.unk0;
     mask1 = 0xFFFFFF;
     mask2 = 0xFF000000;
-    ((Unkstruct_8018C7A8 *)p)->unk0 = (tag & mask2) | (*param_4 & mask1);
+    ((LineF2_80015F04 *)p)->unk0.v1.unk0 = (tag & mask2) | (*param_4 & mask1);
     *param_4 = (*param_4 & mask2) | ((u32)p & mask1);
 }
 
