@@ -86,7 +86,9 @@ failure modes are different:
    copy, the 3.45 T2 evidence; `twin`: an exact layout twin of 3+ fields, G62 as amended; `value`: a small dense value shape,
    onto its PsyQ type where one fits), **absorb** into its real parent (at its offset, or in the parent's variant overlay or
    union; per pointer source when a type's sources point to different parents), **survivor** (a real root type, its object
-   cited; a type seen only through views of another type's objects is never a survivor) or **wall** (a fold, absorption or
+   cited; a type seen only through views of another type's objects is never a survivor), **scalar** ("not a struct", class
+   `text`|`scalar`: the object is shown not to be a record, so its sources are retyped to the true scalar type and the
+   placeholder deleted, the data object and retyped sources cited; never a way to finish a hard struct) or **wall** (a fold, absorption or
    retype the byte gate refused after its second attempt up the lever ladder, with object, offset, residual class and both
    attempts). `apart`, `no-evidence` and `undisposed` are pending, not finishes. Why: 3.40 gave each union-find cluster of
    raw-cast bases its own definition, so one real type split into many wherever no edge joined its uses (4,112
