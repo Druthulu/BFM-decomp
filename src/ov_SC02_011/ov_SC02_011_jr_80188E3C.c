@@ -897,7 +897,7 @@ void func_8018A1A4(void *a0) {
     /* Direct struct assignment for 8-byte unaligned copy */
     *(Unkstruct_801343C4 *)(void *)a1 = *(Unkstruct_801343C4 *)(void *)(s0 + 8);
 
-    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80185020 *)s0)->unk10;
+    guess_g_MainCameraRefOffsetTargetX = ((Unkstruct_80182E70 *)s0)->unk10;
     guess_g_MainCameraRefOffsetTargetY = CAST_ALIAS(s16, s0, 0x12);
     guess_g_MainCameraRefOffsetTargetZ = CAST_ALIAS(s16, s0, 0x14);
 
@@ -1553,7 +1553,7 @@ void func_8018AB20(s32 arg0)
                 (CAST_NONSTRUCT(u32, *(s32 *)((u8 *)&D_800A651C +
                                    (*bidx * 20)), 0x40) & 0xFFFFFF);
     ot = *(s32 *)((u8 *)&D_800A651C + (*bidx * 20));
-    ((Unkstruct_8018AB20_2 *)ot)->unk40 = (((Unkstruct_8018AB20_2 *)ot)->unk40 & 0xFF000000) | ((u32)p & 0xFFFFFF);
+    ((PrimTag *)(ot + 0x40))->w = (((PrimTag *)(ot + 0x40))->w & 0xFF000000) | ((u32)p & 0xFFFFFF);
     func_80016638(&guess_g_OrderingTables[*bidx * 20], 0x10, 1);
 }
 

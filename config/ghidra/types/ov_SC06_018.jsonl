@@ -1403,9 +1403,7 @@
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_8018234C__unk4__v1","size":4,"packed":false,"fields":[{"off":0,"len":4,"name":"unk0","type":"/bfm/u32","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80182C98","base":"/bfm/Unkstruct_801202A0"}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80182C98_2","base":"/bfm/Unkstruct_801202A0"}
-{"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80182C98_3","base":"/bfm/Unkstruct_80185020"}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80184178","size":36,"packed":false,"fields":[{"off":0,"len":2,"name":"pad0","type":"/bfm/u8[2]","comment":null},{"off":2,"len":2,"name":"unk2","type":"/bfm/u16","comment":null},{"off":4,"len":28,"name":"pad4","type":"/bfm/u8[28]","comment":null},{"off":32,"len":4,"name":"unk20","type":"/bfm/s32","comment":null}]}
-{"k":"type","kind":"struct","path":"/bfm/Unkstruct_80185020","size":24,"packed":false,"fields":[{"off":0,"len":16,"name":"pad0","type":"/bfm/u8[16]","comment":null},{"off":16,"len":2,"name":"unk10","type":"/bfm/s16","comment":null},{"off":18,"len":2,"name":"unk12","type":"/bfm/s16","comment":null},{"off":20,"len":2,"name":"unk14","type":"/bfm/s16","comment":null},{"off":22,"len":2,"name":"pad16","type":"/bfm/u8[2]","comment":null}]}
 {"k":"type","kind":"struct","path":"/bfm/Unkstruct_80185680_2","size":8,"packed":false,"fields":[{"off":0,"len":4,"name":"unk0","type":"/bfm/s32","comment":null},{"off":4,"len":2,"name":"unk4","type":"/bfm/s16","comment":null},{"off":6,"len":2,"name":"unk6","type":"/bfm/s16","comment":null}]}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_80186928","base":"/bfm/Unkstruct_801202A0"}
 {"k":"type","kind":"typedef","path":"/bfm/Unkstruct_8018868C","base":"/bfm/Unkstruct_801202A0"}

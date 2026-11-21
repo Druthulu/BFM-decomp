@@ -4851,25 +4851,25 @@ void func_80185910(SVECTOR *a0, SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
         gte_stsxy3c(xy);
         gte_ldv0(a3);
         gte_rtps();
-        ((Unkstruct_80185910 *)p)->unk7 = 0x3A;
-        ((Unkstruct_80185910 *)p)->unk3 = 8;
+        ((POLY_G4 *)p)->code = 0x3A;
+        p[3] = 8; /* len byte of the POLY_G4 tag */
         CAST_ALIAS(u32, p, 0x08) = *(u32 *)&xy[0];
         CAST_ALIAS(u32, p, 0x10) = *(u32 *)&xy[2];
-        ((Unkstruct_80185910 *)p)->unk18 = *(u32 *)&xy[4];
+        LOWU(((POLY_G4 *)p)->x2) = *(u32 *)&xy[4];
         gte_stsxy(p + 0x20);
         gte_stszotz(&otz);
-        ((Unkstruct_80185910 *)p)->unkC = 0xFF;
-        ((Unkstruct_80185910 *)p)->unk1C = 0xFF;
-        ((Unkstruct_80185910 *)p)->unk4 = 0;
-        ((Unkstruct_80185910 *)p)->unk14 = 0;
-        ((Unkstruct_80185910 *)p)->unk5 = 0;
-        ((Unkstruct_80185910 *)p)->unkD = 0;
-        ((Unkstruct_80185910 *)p)->unk15 = 0;
-        ((Unkstruct_80185910 *)p)->unk1D = 0;
-        ((Unkstruct_80185910 *)p)->unk6 = 0;
-        ((Unkstruct_80185910 *)p)->unkE = 0;
-        ((Unkstruct_80185910 *)p)->unk16 = 0;
-        ((Unkstruct_80185910 *)p)->unk1E = 0;
+        ((POLY_G4 *)p)->r1 = 0xFF;
+        ((POLY_G4 *)p)->r3 = 0xFF;
+        ((POLY_G4 *)p)->r0 = 0;
+        ((POLY_G4 *)p)->r2 = 0;
+        ((POLY_G4 *)p)->g0 = 0;
+        ((POLY_G4 *)p)->g1 = 0;
+        ((POLY_G4 *)p)->g2 = 0;
+        ((POLY_G4 *)p)->g3 = 0;
+        ((POLY_G4 *)p)->b0 = 0;
+        ((POLY_G4 *)p)->b1 = 0;
+        ((POLY_G4 *)p)->b2 = 0;
+        ((POLY_G4 *)p)->b3 = 0;
         tbl = (u32 *)((s8 *)D_800A6610 + ((u32)(u16)guess_g_DoubleBufferIndex << 14));
 
         ot = (u32 *)((otz << 2) + (s32)tbl);
@@ -5743,12 +5743,12 @@ void func_8018762C(s32 a0, s32 a1)
     s2 = D_800B99D8;
     i = 0;
     s1 = 0;
-    spr.f4 = ((Unkstruct_8018762C *)a1)->unk4;
+    spr.f4 = ((SVECTOR *)a1)->vz;
 
     do {
-        t = ((Unkstruct_8018762C *)a1)->unk0;
+        t = ((SVECTOR *)a1)->vx;
         spr.f0 = (i & 1) ? (t + 0xC) : (t - 0xC);
-        spr.f2 = ((Unkstruct_8018762C *)a1)->unk2 - s1;
+        spr.f2 = ((SVECTOR *)a1)->vy - s1;
         spr.f6 = 0x4D;
         if (i >= 2) spr.f8 = 0;
         spr.fA = s2;

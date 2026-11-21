@@ -3057,12 +3057,12 @@ void func_8017F424(s16 *param_1)
 
     s = (u8 *)param_1;
     p = (u8 *)func_80010A08(0x28);
-    ((Unkstruct_8017F424 *)p)->unkE = GetClut(0, 0x1F0);
-    ((Unkstruct_8017F424 *)p)->unk16 = GetTPage(2, 0,
+    ((POLY_FT4 *)p)->clut = GetClut(0, 0x1F0);
+    ((POLY_FT4 *)p)->tpage = GetTPage(2, 0,
                                   (s16)(((Quad_8017EF94 *)s)->x.u & 0xFFC0),
                                   (s16)(((Quad_8017EF94 *)s)->y.u & 0xFF00));
     *(p + 3) = 9;
-    ((Unkstruct_8017F424 *)p)->unk4 = 0x606060;
+    LOW(((POLY_FT4 *)p)->r0) = 0x606060;
     *(p + 7) = 0x2C;
 
     u0 = s[0] & 0x3F;
@@ -3076,10 +3076,10 @@ void func_8017F424(s16 *param_1)
     p[0x24] = u0 + s[4];
     p[0x25] = v0 + s[6];
 
-    ((Unkstruct_8017F424 *)p)->unk8 = ((Quad_8017EF94 *)s)->v[0].w32;
-    ((Unkstruct_8017F424 *)p)->unk10 = ((Quad_8017EF94 *)s)->v[1].w32;
-    ((Unkstruct_8017F424 *)p)->unk18 = ((Quad_8017EF94 *)s)->v[2].w32;
-    ((Unkstruct_8017F424 *)p)->unk20 = ((Quad_8017EF94 *)s)->v[3].w32;
+    LOW(((POLY_FT4 *)p)->x0) = ((Quad_8017EF94 *)s)->v[0].w32;
+    LOW(((POLY_FT4 *)p)->x1) = ((Quad_8017EF94 *)s)->v[1].w32;
+    LOW(((POLY_FT4 *)p)->x2) = ((Quad_8017EF94 *)s)->v[2].w32;
+    LOW(((POLY_FT4 *)p)->x3) = ((Quad_8017EF94 *)s)->v[3].w32;
 
     otz = func_801823D4(((Quad_8017EF94 *)s)->unk1C, -0x1A);
     AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, p);

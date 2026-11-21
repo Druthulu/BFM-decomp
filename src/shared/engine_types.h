@@ -1116,7 +1116,7 @@ typedef struct Obj_8018A550 {
     s16 f1E;     /* 0x1E */
 } Obj_8018A550;
 typedef struct Ctl_8018A550 {
-    s32 f0;              /* 0x00 */
+    union { s32 w; struct { s16 lo; s16 hi; } h; } f0; /* 0x00: two s16 halves zeroed by the init func_8018A3C8 (T19.c13) */
     s16 ids[8];          /* 0x04 */
     Obj_8018A550 *slots[8]; /* 0x14 */
 } Ctl_8018A550;

@@ -3384,9 +3384,9 @@ void func_801843C0(int param_1)
     ((Unkstruct_801843C0 *)param_1)->unk58 = (int)&D_8018AE70;
     ((Unkstruct_801843C0 *)param_1)->unk5C = 0x1800;
     ((Unkstruct_801843C0 *)param_1)->unk2 = 1;
-    ((Unkstruct_80185020 *)*(int *)(param_1 + 0x20))->unk10 = 0;
-    ((Unkstruct_80185020 *)*(int *)(param_1 + 0x20))->unk12 = 0;
-    ((Unkstruct_80185020 *)*(int *)(param_1 + 0x20))->unk14 = 0;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk10.s = 0;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s = 0;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s = 0;
     ((Unkstruct_801843C0 *)param_1)->unkFC = ((Unkstruct_801843C0 *)param_1)->unkE;
     return;
 }

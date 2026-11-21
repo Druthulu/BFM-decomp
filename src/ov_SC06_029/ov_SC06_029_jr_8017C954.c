@@ -3040,7 +3040,7 @@ void func_8017C954(s32 arg0)
                                             if (code != 4) g.opz = za + 0x200;
                                             ((Unkstruct_8018234C *)pkt)->unk4.v1.unk0 = prim->a;
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                            ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x4000000;
+                                            ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x4000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                             pkt += 0x14;
                                         }
@@ -3089,7 +3089,7 @@ void func_8017C954(s32 arg0)
                                             ((PolyFT3 *)pkt)->uvp1 = tp[2];
                                             ((PolyFT3 *)pkt)->uv2 = tp[3];
                                             otp = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                            ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x7000000;
+                                            ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x7000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                             pkt += 0x20;
                                         }
@@ -3138,7 +3138,7 @@ void func_8017C954(s32 arg0)
                                                 g.opz = za;
                                                 LOWU(((POLY_F4 *)pkt)->r0) = prim->a;
                                                 otp = (u32 *)(((za >> 2) << 2) + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x5000000;
+                                                ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x5000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x18;
                                             }
@@ -3199,7 +3199,7 @@ void func_8017C954(s32 arg0)
                                                 LOHU(((POLY_FT4 *)pkt)->u2) = uvw;
                                                 LOHU(((POLY_FT4 *)pkt)->u3) = uvw >> 16;
                                                 otp = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x9000000;
+                                                ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x28;
                                             }
@@ -3262,7 +3262,7 @@ void func_8017C954(s32 arg0)
                                                 LOHU(((POLY_FT4 *)pkt)->u3) = uvw >> 16;
                                                 {
                                                 u32 *op1 = (u32 *)(((za >> 2) << 2) + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op1 & 0xFFFFFF) | 0x9000000;
+                                                ((PrimTag *)pkt)->w = (*op1 & 0xFFFFFF) | 0x9000000;
                                                 *op1 = (*op1 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x28;
@@ -3272,10 +3272,10 @@ void func_8017C954(s32 arg0)
                                                 CAST_ALIAS(u32, pkt, 4) = 0xE1000040;
                                                 CAST_ALIAS(u32, pkt, 0x10) = *(u32 *)&tmpxy[1];
                                                 CAST_ALIAS(u32, pkt, 0x14) = *(u32 *)&tmpxy[2];
-                                                ((Unkstruct_8017C954 *)pkt)->unk18 = *(u32 *)&tmpxy[3];
+                                                LOWU(((POLY_G3 *)pkt)->x2) = *(u32 *)&tmpxy[3];
                                                 {
                                                 u32 *op2 = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op2 & 0xFFFFFF) | 0x6000000;
+                                                ((PrimTag *)pkt)->w = (*op2 & 0xFFFFFF) | 0x6000000;
                                                 *op2 = (*op2 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x1C;
@@ -7584,11 +7584,11 @@ void func_80184C68(u8 *v, s32 idx)
     D_800A5E60 = pkt + 0x24;
     ot = (u32 *)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
     pkt[3] = 8;
-    ((Unkstruct_80184C68 *)pkt)->unk4 = col;
+    ((G4P *)pkt)->rgb0 = col;
     pkt[7] = 0x38;
-    ((Unkstruct_80184C68 *)pkt)->unkC = col;
-    ((Unkstruct_80184C68 *)pkt)->unk14 = col;
-    ((Unkstruct_80184C68 *)pkt)->unk1C = col;
+    ((G4P *)pkt)->rgb1 = col;
+    ((G4P *)pkt)->rgb2 = col;
+    ((G4P *)pkt)->rgb3 = col;
 
     gte_ldv3(v, v + 8, v + 0x10);
     gte_rtpt();
@@ -8266,7 +8266,7 @@ void func_801859F4(SVec_59F4 *vtx, u32 tx, u32 ty, u32 cx, u16 cy, u8 uw,
     {
         register u32 c0 __asm__("$4");      /* L2 — see header */  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus10) wall:combine-copy-merge
         c0 = 0x808080;
-        ((Unkstruct_801859F4_2 *)pkt)->unk4 = c0;
+        LOWU(((POLY_FT4 *)pkt)->r0) = c0;
     }
     pkt[7] = 0x2C;
 
@@ -8297,7 +8297,7 @@ void func_801859F4(SVec_59F4 *vtx, u32 tx, u32 ty, u32 cx, u16 cy, u8 uw,
     CAST_ALIAS(u32, pkt, 0x08) = *(u32 *)&sxy[0];
     CAST_ALIAS(u32, pkt, 0x10) = *(u32 *)&sxy[1];
     CAST_ALIAS(u32, pkt, 0x18) = *(u32 *)&sxy[2];
-    ((Unkstruct_801859F4_2 *)pkt)->unk20 = *(u32 *)&sxy[3];
+    LOWU(((POLY_FT4 *)pkt)->x3) = *(u32 *)&sxy[3];
     tp = ((depth & 3) << 7) | ((ty & 0x100) >> 4) | ((tx & 0x3C0) >> 6) |
          ((ty & 0x200) << 2);
     u0 = ((tx & 0xFFFF) - ((tp & 0xF) << 6)) << (2 - depth);
@@ -8328,7 +8328,7 @@ void func_801859F4(SVec_59F4 *vtx, u32 tx, u32 ty, u32 cx, u16 cy, u8 uw,
     }
 
     otp = (u32 *)((z1 << 2) + ot);
-    ((Unkstruct_801859F4_2 *)pkt)->unk0 = (((Unkstruct_801859F4_2 *)pkt)->unk0 & 0xFF000000) | (*otp & 0xFFFFFF);
+    ((POLY_FT4 *)pkt)->tag = (((POLY_FT4 *)pkt)->tag & 0xFF000000) | (*otp & 0xFFFFFF);
     *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
 }
 

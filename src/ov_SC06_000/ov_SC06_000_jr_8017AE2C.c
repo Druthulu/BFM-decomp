@@ -5452,7 +5452,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                             za >>= 2;
                                             za <<= 2;
                                             otp = (u32 *)(za + ot);
-                                            ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x7000000;
+                                            ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x7000000;
                                             *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                             pkt += 0x28;
                                         }
@@ -5517,7 +5517,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 za >>= 2;
                                             za <<= 2;
                                             otp = (u32 *)(za + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*otp & 0xFFFFFF) | 0x9000000;
+                                                ((PrimTag *)pkt)->w = (*otp & 0xFFFFFF) | 0x9000000;
                                                 *otp = (*otp & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 pkt += 0x28;
                                             }
@@ -5585,7 +5585,7 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 za >>= 2;
                                                 za <<= 2;
                                                 op1 = (u32 *)(za + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op1 & 0xFFFFFF) | 0x9000000;
+                                                ((PrimTag *)pkt)->w = (*op1 & 0xFFFFFF) | 0x9000000;
                                                 *op1 = (*op1 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x28;
@@ -5595,10 +5595,10 @@ void func_8017EF68(s32 arg0, s32 arg1, s32 arg2)
                                                 CAST_ALIAS(u32, pkt, 4) = 0xE1000040;
                                                 CAST_ALIAS(u32, pkt, 0x10) = *(u32 *)&tmpxy[1];
                                                 CAST_ALIAS(u32, pkt, 0x14) = *(u32 *)&tmpxy[2];
-                                                ((Unkstruct_8017C954 *)pkt)->unk18 = *(u32 *)&tmpxy[3];
+                                                LOWU(((POLY_G3 *)pkt)->x2) = *(u32 *)&tmpxy[3];
                                                 {
                                                 u32 *op2 = (u32 *)(((g.opz >> 2) << 2) + ot);
-                                                ((Unkstruct_8017C954 *)pkt)->unk0 = (*op2 & 0xFFFFFF) | 0x6000000;
+                                                ((PrimTag *)pkt)->w = (*op2 & 0xFFFFFF) | 0x6000000;
                                                 *op2 = (*op2 & 0xFF000000) | ((u32)pkt & 0xFFFFFF);
                                                 }
                                                 pkt += 0x1C;
@@ -10931,11 +10931,11 @@ void func_80187720(u8 *a0)
 
     a1 = 0;
     v1 = a0;
-    ((Unkstruct_8018A3C8_2 *)a0)->unk2 = 0;
-    ((Unkstruct_8018A3C8_2 *)a0)->unk0 = 0;
+    ((Ctl_8018A550 *)a0)->f0.h.hi = 0;
+    ((Ctl_8018A550 *)a0)->f0.h.lo = 0;
     do {
-        ((Unkstruct_8018A3C8_2 *)a0)->unk4 = 0;
-        ((Unkstruct_8018A3C8_2 *)v1)->unk14 = 0;
+        ((Ctl_8018A550 *)a0)->ids[0] = 0;
+        ((Ctl_8018A550 *)v1)->slots[0] = 0;
         v1 += 4;
         a1 += 1;
         a0 += 2;

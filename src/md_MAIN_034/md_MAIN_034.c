@@ -94,7 +94,7 @@ void func_800CB00C(s32 arg0, s32 arg1, s32 arg2)
     extern F3_27058_t * func_800CB1F8(Face10_800CB1F8 *f, SVEC8_800CB1F8 *verts, SVEC8_800CB1F8 *norms, F3_27058_t *prims, s32 count, s32 shift, s32 ot);
     extern F4_27200_t * func_800CB3C0(FaceF4_800CB3C0 *face, SVEC8_800CB3C0 *vtx, SVEC8_800CB3C0 *nrm, F4_27200_t *prims, s32 count, s32 shift, s32 ot);
     extern Ft4_800CBA18 * func_800CBA18(Face20_800CBA18 *f, SVEC8_800CBA18 *verts, SVEC8_800CBA18 *norms, Ft4_800CBA18 *prims, s32 count, s32 shift, u32 *ot);
-    extern Unkstruct_8017C954 * func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts, SVEC8_800CB5D0 *norms, Unkstruct_8017C954 *prims, s32 count, s32 shift, s32 ot);
+    extern G3P * func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts, SVEC8_800CB5D0 *norms, G3P *prims, s32 count, s32 shift, s32 ot);
     extern PktGT4_800CB7BC * func_800CB7BC(FaceGT4_800CB7BC *face, SVEC8_800CB7BC *vtx, SVEC8_800CB7BC *nrm, PktGT4_800CB7BC *prims, s32 count, s32 shift, s32 ot);
     extern GT3P * func_800CBC2C(FaceT3 *f, SVEC2 *verts, SVEC2 *norms, GT3P *prims, s32 count, s32 shift, s32 ot);
     extern PktGT4_800CBE28 * func_800CBE28(FaceGT4_800CBE28 *face, SVEC8_800CBE28 *vtx, SVEC8_800CBE28 *nrm, PktGT4_800CBE28 *arg3, s32 count, s32 shift, s32 ot);
@@ -347,12 +347,12 @@ extern u32 D_800CCA08;      /* flat colour used when func_800CC0A0() says so */
 extern s32 func_800CC0A0(void *prim);
 extern void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code);
 
-Unkstruct_8017C954 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
-                               SVEC8_800CB5D0 *norms, Unkstruct_8017C954 *prims,
+G3P *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
+                               SVEC8_800CB5D0 *norms, G3P *prims,
                                s32 count, s32 shift, s32 ot)
 {
     struct { s32 flag, opz; } g;
-    Unkstruct_8017C954 *prim;
+    G3P *prim;
 
     prim = &prims[D_800C7C74];
 
@@ -368,9 +368,9 @@ Unkstruct_8017C954 *func_800CB5D0(Face14_800CB5D0 *f, SVEC8_800CB5D0 *verts,
                 gte_avsz3();
                 gte_stotz(&g.opz);
                 if (func_800CC0A0(prim) != 0) {
-                    prim->unk4 = D_800CCA08;
-                    prim->unkC = D_800CCA08;
-                    prim->unk14 = D_800CCA08;
+                    prim->rgb0 = D_800CCA08;
+                    prim->rgb1 = D_800CCA08;
+                    prim->rgb2 = D_800CCA08;
                 } else {
                     gte_ldrgb(&f->rgb);
                     gte_ldv3(&norms[f->n0], &norms[f->n0], &norms[f->n0]);

@@ -4556,10 +4556,10 @@ s32 func_8017F644(s32 param_1)
 {
     s32 iVar1;
 
-    if (((Unkstruct_8017E9E8 *)param_1)->unk6 == 0x31 || ((Unkstruct_8017E9E8 *)param_1)->unk6 == 0x32) {
+    if (((struct S8012C658 *)param_1)->unk6.u == 0x31 || ((struct S8012C658 *)param_1)->unk6.u == 0x32) {
         return 1;
     }
-    if (((Unkstruct_8017E9E8 *)param_1)->unk6 == 0x33 || ((Unkstruct_8017E9E8 *)param_1)->unk6 == 0x27B) {
+    if (((struct S8012C658 *)param_1)->unk6.u == 0x33 || ((struct S8012C658 *)param_1)->unk6.u == 0x27B) {
         return 1;
     }
     iVar1 = func_800132BC((s32)&D_80126CAC, param_1);

@@ -8300,19 +8300,19 @@ void func_80187288(void *arg0) {
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = ((Unkstruct_801202A0 *)v1)->unk4.i.hi.u -
             *(u16 *)((u8 *)D_801B4518 + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
 
-        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_801819B4_2 *)*(s32 *)(s0 + 0x64))->unkA +
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk8.i.hi.u +
             *(u16 *)((u8 *)D_801B451A + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
 
-        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_801819B4_2 *)*(s32 *)(s0 + 0x64))->unkE -
+        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkC.i.hi.u -
             *(u16 *)((u8 *)D_801B451C + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
     } else {
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = ((Unkstruct_801202A0 *)v1)->unk4.i.hi.u +
             *(u16 *)((u8 *)D_801B4518 + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
 
-        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_801819B4_2 *)*(s32 *)(s0 + 0x64))->unkA +
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk8.i.hi.u +
             *(u16 *)((u8 *)D_801B451A + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
 
-        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_801819B4_2 *)*(s32 *)(s0 + 0x64))->unkE +
+        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkC.i.hi.u +
             *(u16 *)((u8 *)D_801B451C + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
     }
 

@@ -4563,8 +4563,8 @@ void func_8018A2A0(void) {
 void func_8018A3C8(void *arg0) {
     s32 i;
 
-    ((Unkstruct_8018A3C8_2 *)arg0)->unk2 = 0;
-    ((Unkstruct_8018A3C8_2 *)arg0)->unk0 = 0;
+    ((Ctl_8018A550 *)arg0)->f0.h.hi = 0;
+    ((Ctl_8018A550 *)arg0)->f0.h.lo = 0;
     for (i = 0; i < 8; i++) {
         ((s16 *)arg0)[2 + i] = 0;
         ((s32 *)arg0)[5 + i] = 0;

@@ -6393,11 +6393,11 @@ void func_80182C98(s32 a0) {
             ((Unkstruct_80182C98 *)a0)->unk4.val = ((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk4.val;
             ((Unkstruct_80182C98 *)a0)->unk8.val = ((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk8.val;
             ((Unkstruct_80182C98 *)a0)->unkC.val = ((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unkC.val;
-            ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk10 =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.s =
                 *(s16 *)(((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk20.val + 0x10);
-            ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk12 =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s =
                 *(s16 *)(((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk20.val + 0x12);
-            ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk14 =
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.s =
                 *(s16 *)(((Unkstruct_80182C98_2 *)*(s32 *)(a0 + 0x64))->unk20.val + 0x14);
         }
         if (((Unkstruct_80182C98 *)a0)->unk76.s < 5 && (rand() & 3) == 0 &&
@@ -6405,9 +6405,9 @@ void func_80182C98(s32 a0) {
             *(s32 *)(iVar3 + 0x10) = ((rand() & 0x7FF) - 0x400) << 8;
             *(s32 *)(iVar3 + 0x14) = 0xFFF00000;
             *(s32 *)(iVar3 + 0x18) = ((rand() & 0x7FF) - 0x400) << 8;
-            iVar4 = rcos((s32) ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk12);
+            iVar4 = rcos((s32) ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s);
             *(s32 *)(iVar3 + 4) = *(s32 *)(iVar3 + 4) - iVar4 * 0x400;
-            iVar4 = rsin((s32) ((Unkstruct_80182C98_3 *)*(s32 *)(a0 + 0x20))->unk12);
+            iVar4 = rsin((s32) ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s);
             *(s32 *)(iVar3 + 0xC) = *(s32 *)(iVar3 + 0xC) + iVar4 * 0x400;
             r = rand();
             {

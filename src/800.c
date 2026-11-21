@@ -3767,7 +3767,7 @@ void func_800173BC(void *arg0, void *arg1)
  /* 0x1C */
 
 extern s32 func_80010A08(s32 size);
-extern void SetPolyG3(Unkstruct_8017C954 *p);
+extern void SetPolyG3(G3P *p);
 extern void func_80017E8C(s32 arg0);
 extern s32 RotTransPers3(void *v0, void *v1, void *v2,
                           s32 *sxy0, s32 *sxy1, s32 *sxy2,
@@ -3779,26 +3779,26 @@ extern void func_80018094(void *a0, s32 a1, u32 a2);
 
 void func_800173DC(Src_800173DC *arg0, s32 arg1)
 {
-    Unkstruct_8017C954 *p;
+    G3P *p;
     s32 otzp;
     s32 flg;
     s32 otz;
 
-    p = (Unkstruct_8017C954 *)func_80010A08(0x1C);
-    p->unk4 = arg0->rgbc0;
-    p->unkC = arg0->rgbc1;
-    p->unk14 = arg0->rgbc2;
+    p = (G3P *)func_80010A08(0x1C);
+    p->rgb0 = arg0->rgbc0;
+    p->rgb1 = arg0->rgbc1;
+    p->rgb2 = arg0->rgbc2;
     SetPolyG3(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
         otz = RotTransPers3(&arg0->v0, &arg0->v1, &arg0->v2,
-                             (s32 *)&p->unk8, (s32 *)&p->unk10, (s32 *)&p->unk18,
+                             (s32 *)&p->x0, (s32 *)&p->x1, (s32 *)&p->x2,
                              &otzp, &flg);
     } else {
-        p->unk8 = arg0->v0.xy;
-        p->unk10 = arg0->v1.xy;
-        p->unk18 = arg0->v2.xy;
+        LOWU(p->x0) = arg0->v0.xy;
+        LOWU(p->x1) = arg0->v1.xy;
+        LOWU(p->x2) = arg0->v2.xy;
         do { otz = arg0->v0.z; } while (0);
         flg = 0;
     }
