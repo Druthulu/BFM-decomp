@@ -1110,3 +1110,4 @@ C0657 | Judging SC02/SC04/SC06 views: header +0x58/+0x5C tables, false kind edge
 C0658 | Applying pool absorbs (A3): nested named unions, walker misses, cite remaps, alignment holds | struct,absorb,fold-batch,union,restruct,gate,t19 | 2026-11-20 | 3.45/T19 | P3.45 T19.c9
 C0659 | Applying actor-common absorbs (A3): unk64 trap by asm diff, actor form restore, nested-path reads | struct,absorb,actor,fold-batch,gate,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c10
 C0660 | Census nested-path reads; engine misses via base casts and aliases; hidden-cast respell trap | struct,absorb,census,metric,fold-batch,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c11
+C0661 | Merging per-overlay actor variants on compiled asm; per-source alias renames | struct,absorb,variant,actor,cc1,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c12
