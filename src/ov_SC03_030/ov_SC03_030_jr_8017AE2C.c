@@ -6195,9 +6195,9 @@ void func_801814F4(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->extD.kSC03_030_801814F4.unk100.s =
         (u16)(CAST_SIGN(u16, param_1, 0x100) + D_80186A08[CAST_SIGN(u16, param_1, 0x70) & 1]) & 0xfff;
     ((void (*)(s32))func_80181708)(param_1);
-    s0.x = ((Unkstruct_801202A0 *)param_1)->unk3A;
-    s0.y = ((Unkstruct_801202A0 *)param_1)->unk3E;
-    s0.z = ((Unkstruct_801202A0 *)param_1)->unk42;
+    s0.x = ((Unkstruct_801202A0 *)param_1)->unk3A.u;
+    s0.y = ((Unkstruct_801202A0 *)param_1)->unk3E.u;
+    s0.z = ((Unkstruct_801202A0 *)param_1)->unk42.u;
     s1.x = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
     s1.y = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
     s1.z = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;

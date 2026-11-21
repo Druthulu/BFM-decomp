@@ -4018,9 +4018,9 @@ void func_8017EFE0(s32 arg0) {
     for (; i < 0x60; i++, p += 0x10C) {
         kind = ((Unkstruct_801202A0 *)p)->unk0;
         if (kind == 0x27A) {
-            buf1[0] = ((Unkstruct_801202A0 *)p)->unk3A;
-            buf1[1] = ((Unkstruct_801202A0 *)p)->unk3E;
-            buf1[2] = ((Unkstruct_801202A0 *)p)->unk42;
+            buf1[0] = ((Unkstruct_801202A0 *)p)->unk3A.u;
+            buf1[1] = ((Unkstruct_801202A0 *)p)->unk3E.u;
+            buf1[2] = ((Unkstruct_801202A0 *)p)->unk42.u;
             buf2[0] = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
             buf2[1] = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
             buf2[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;

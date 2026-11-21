@@ -8411,9 +8411,9 @@ void func_80187400(s32 a0)
     switch (((Unkstruct_801202A0 *)a0)->unkC2) {
     case 0:
         ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
-        sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-        sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-        sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+        sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+        sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+        sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
         sp20 = sp18;
         sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
         sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
@@ -8423,9 +8423,9 @@ void func_80187400(s32 a0)
         sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
         sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
         sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
-        ((Unkstruct_801202A0 *)a0)->unk3A = sp20.unk0.v1.unk0;
-        ((Unkstruct_801202A0 *)a0)->unk3E = sp20.unk0.v1.unk2;
-        ((Unkstruct_801202A0 *)a0)->unk42 = sp20.unk0.v1.unk4;
+        ((Unkstruct_801202A0 *)a0)->unk3A.u = sp20.unk0.v1.unk0;
+        ((Unkstruct_801202A0 *)a0)->unk3E.u = sp20.unk0.v1.unk2;
+        ((Unkstruct_801202A0 *)a0)->unk42.u = sp20.unk0.v1.unk4;
         /* fallthrough */
     case 1:
         ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u += CAST_SIGN(u16, a0, 0xFE);
@@ -9736,9 +9736,9 @@ void func_80189100(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
         guess_SetVelocityXZFromLocal(a0, (s32)D_801B55A8);
         if ((((s32 (*)(s32))func_8012CBA4)(a0) & 0x6000) == 0) {
-            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-            sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+            sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
             sp18 = sp10;
             sp18.unk2 += 8;
             if (func_80133784(1, &sp10, (s32)&sp18) != 0) {
@@ -9843,9 +9843,9 @@ void func_80189320(s32 *s0) {
     }
 
     // Load halfwords from s0
-    buf_src.unk0 = ((Unkstruct_801202A0 *)s0)->unk3A;
-    buf_src.unk2 = ((Unkstruct_801202A0 *)s0)->unk3E;
-    buf_src.unk4 = ((Unkstruct_801202A0 *)s0)->unk42;
+    buf_src.unk0 = ((Unkstruct_801202A0 *)s0)->unk3A.u;
+    buf_src.unk2 = ((Unkstruct_801202A0 *)s0)->unk3E.u;
+    buf_src.unk4 = ((Unkstruct_801202A0 *)s0)->unk42.u;
 
     // Struct assignment generates lwl/lwr + swl/swr
     buf_dst = buf_src;

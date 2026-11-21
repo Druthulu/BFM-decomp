@@ -3671,9 +3671,9 @@ s32 func_8017D5F0(s32 a0, s32 a1) {
     SVECTOR spB;  /* sp+0x18 (src) */
     SVECTOR spC;  /* sp+0x20 (dst) */
 
-    spA[0] = ((Unkstruct_801202A0 *)s0)->unk3A;
-    spA[1] = ((Unkstruct_801202A0 *)s0)->unk3E;
-    spA[2] = ((Unkstruct_801202A0 *)s0)->unk42;
+    spA[0] = ((Unkstruct_801202A0 *)s0)->unk3A.u;
+    spA[1] = ((Unkstruct_801202A0 *)s0)->unk3E.u;
+    spA[2] = ((Unkstruct_801202A0 *)s0)->unk42.u;
     spB.vx = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
     spB.vy = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u;
     spB.vz = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;

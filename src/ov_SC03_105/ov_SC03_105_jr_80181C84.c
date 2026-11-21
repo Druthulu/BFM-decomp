@@ -3986,9 +3986,9 @@ s32 func_80183CA4(s32 a0) {
     s32 ret;
     s16 sp[7];
 
-    sp[0] = ((Unkstruct_801202A0 *)s0)->unk3A;
-    sp[1] = ((Unkstruct_801202A0 *)s0)->unk3E;
-    sp[2] = ((Unkstruct_801202A0 *)s0)->unk42;
+    sp[0] = ((Unkstruct_801202A0 *)s0)->unk3A.u;
+    sp[1] = ((Unkstruct_801202A0 *)s0)->unk3E.u;
+    sp[2] = ((Unkstruct_801202A0 *)s0)->unk42.u;
     guess_ApplyAccelAndVelocity(s0);
     sp[4] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
     sp[5] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u;

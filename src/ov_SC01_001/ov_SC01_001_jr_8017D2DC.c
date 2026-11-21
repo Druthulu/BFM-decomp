@@ -6808,9 +6808,9 @@ s32 func_80183128(void *a0, s32 a1, s32 a2) {
     s16 arr1[3];
     s16 arr2[3];
     s32 res_val;
-    arr1[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    arr1[1] = ((Unkstruct_801202A0 *)a0)->unk3E + a2;
-    arr1[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    arr1[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    arr1[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u + a2;
+    arr1[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
     guess_ApplyAccelAndVelocity((s32)a0);
     arr2[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     arr2[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + a2;

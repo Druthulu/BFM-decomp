@@ -4271,9 +4271,9 @@ s32 func_8017F230(s32 arg0) {
                 out.vz = pz;
                 out.vx = px + d;
                 out.vz = pz + (d >> 16);
-                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A;
-                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E;
-                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42;
+                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A.u;
+                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E.u;
+                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42.u;
                 if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
                     goto lose;
                 }
@@ -4303,9 +4303,9 @@ s32 func_8017F42C(s32 a0, s32 a1) {
 
     ApplyMatrixLV(((Unkstruct_801202A0 *)a0)->unk20.p + 0x34, (s32)sp20, (s32)sp10);
 
-    buf[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    buf[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-    buf[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    buf[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    buf[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
 
     sp10[0] = sp10[0] + ((Unkstruct_801202A0 *)a0)->unk44.w.unk44;
     sp10[1] = sp10[1] + ((Unkstruct_801202A0 *)a0)->unk44.w.unk48;

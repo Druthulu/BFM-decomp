@@ -5,9 +5,9 @@ s32 SHARED_FN(s32 a0, s32 a1, s32 a2) {
     SV3_8012CC88 sp18;
     s32 v0;
 
-    sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42.u;
     sp10.vx += *(u16*)(a1 + 0);
     sp10.vy += *(u16*)(a1 + 2);
     sp10.vz += *(u16*)(a1 + 4);

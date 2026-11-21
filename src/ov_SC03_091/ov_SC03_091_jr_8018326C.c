@@ -5471,9 +5471,9 @@ void func_801877EC(s32 a0) {
             sp18.vz = e->z;
             sp18.vx += off;
             sp18.vz += (off >> 16);
-            sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A;
-            sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E;
-            sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42;
+            sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+            sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+            sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42.u;
             v0 = func_8012CEB0((s32)&sp10, (s32)&sp18, 0);
             if ((v0 & 0x2000) == 0) {
                 func_8012ADE4((u8 *)a0);

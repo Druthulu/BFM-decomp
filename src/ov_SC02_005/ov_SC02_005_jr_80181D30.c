@@ -4718,9 +4718,9 @@ void func_80184828(void *a0)
     s32 off;
     s32 s1;
 
-    local.v1.vx = ((Unkstruct_801202A0 *)a0)->unk3A;
-    local.v1.vy = ((Unkstruct_801202A0 *)a0)->unk3E;
-    local.v1.vz = ((Unkstruct_801202A0 *)a0)->unk42;
+    local.v1.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    local.v1.vy = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    local.v1.vz = ((Unkstruct_801202A0 *)a0)->unk42.u;
     guess_ApplyAccelAndVelocity((s32)a0);
     local.v2.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     local.v2.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;

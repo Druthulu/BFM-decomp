@@ -5186,9 +5186,9 @@ s32 func_80180C88(s32 param_1)
                 v18[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
                 v18[0] += sp20[0];
                 v18[2] += sp20[0] >> 16;
-                v10[0] = ((Unkstruct_801202A0 *)param_1)->unk3A;
-                v10[1] = ((Unkstruct_801202A0 *)param_1)->unk3E;
-                v10[2] = ((Unkstruct_801202A0 *)param_1)->unk42;
+                v10[0] = ((Unkstruct_801202A0 *)param_1)->unk3A.u;
+                v10[1] = ((Unkstruct_801202A0 *)param_1)->unk3E.u;
+                v10[2] = ((Unkstruct_801202A0 *)param_1)->unk42.u;
                 if ((func_8012CEB0((s32)v10, (s32)v18, 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)param_1);
                     return 1;
@@ -5230,9 +5230,9 @@ s32 func_80180E84(s32 a0, s32 a1) {
 
     ApplyMatrixLV(((Unkstruct_801202A0 *)a0)->unk20.p + 0x34, (s32)sp20, (s32)sp10);
 
-    buf[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    buf[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-    buf[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    buf[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    buf[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
 
     sp10[0] = sp10[0] + ((Unkstruct_801202A0 *)a0)->unk44.w.unk44;
     sp10[1] = sp10[1] + ((Unkstruct_801202A0 *)a0)->unk44.w.unk48;

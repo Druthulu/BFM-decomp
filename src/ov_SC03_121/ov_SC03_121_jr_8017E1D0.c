@@ -3321,9 +3321,9 @@ void func_8017F374(s32 arg0) {
     ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)arg0)->unk8C.u +
         ((((Unkstruct_801202A0 *)arg0)->extD.kSC03_121_8017F4C8.unk100 * ((Unkstruct_801202A0 *)arg0)->extD.kSC03_121_8017F4C8.unk102) >> 5);
 
-    buf[0] = ((Unkstruct_801202A0 *)arg0)->unk3A;
-    buf[1] = ((Unkstruct_801202A0 *)arg0)->unk3E;
-    buf[2] = ((Unkstruct_801202A0 *)arg0)->unk42;
+    buf[0] = ((Unkstruct_801202A0 *)arg0)->unk3A.u;
+    buf[1] = ((Unkstruct_801202A0 *)arg0)->unk3E.u;
+    buf[2] = ((Unkstruct_801202A0 *)arg0)->unk42.u;
     buf[4] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     buf[5] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
     buf[6] = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;

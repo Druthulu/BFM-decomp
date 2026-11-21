@@ -4907,9 +4907,9 @@ s32 func_801808E8(s32 a0, void *a1, s32 a2, s32 a3) {
     s32 v0;
 
     if (a3 == 0) {
-        sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A;
-        sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E;
-        sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42;
+        sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+        sp10.vy = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+        sp10.vz = ((Unkstruct_801202A0 *)a0)->unk42.u;
         guess_ApplyAccelAndVelocity((S800D22E4 *)a0);
     } else {
         sp10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;

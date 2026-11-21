@@ -5225,9 +5225,9 @@ void func_80181068(s32 arg0) {
         case 0x263:
         case 0x25D:
         case 0x27A:
-            buf1[0] = ((Unkstruct_801202A0 *)p)->unk3A;
-            buf1[1] = ((Unkstruct_801202A0 *)p)->unk3E;
-            buf1[2] = ((Unkstruct_801202A0 *)p)->unk42;
+            buf1[0] = ((Unkstruct_801202A0 *)p)->unk3A.u;
+            buf1[1] = ((Unkstruct_801202A0 *)p)->unk3E.u;
+            buf1[2] = ((Unkstruct_801202A0 *)p)->unk42.u;
             buf2[0] = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
             buf2[1] = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
             buf2[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;

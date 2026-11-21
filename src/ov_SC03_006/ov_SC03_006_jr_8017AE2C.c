@@ -9530,9 +9530,9 @@ void func_801859E4(s32 a0) {
 
     /* obj+0x38/0x3C/0x40 are the 16.16 position; these are their integer
      * halves (cookbook §194-G), i.e. where the entity is standing now. */
-    from.vx = ((Unkstruct_801202A0 *)obj)->unk3A;
-    from.vy = ((Unkstruct_801202A0 *)obj)->unk3E;
-    from.vz = ((Unkstruct_801202A0 *)obj)->unk42;
+    from.vx = ((Unkstruct_801202A0 *)obj)->unk3A.u;
+    from.vy = ((Unkstruct_801202A0 *)obj)->unk3E.u;
+    from.vz = ((Unkstruct_801202A0 *)obj)->unk42.u;
 
     if (func_80185EFC(obj) == 0) {
         ((Unkstruct_801202A0 *)obj)->unk4.i.hi.u = ((Unkstruct_801202A0 *)obj)->unk88.u;
@@ -11775,7 +11775,7 @@ s32 func_80188AF4(s32 a0, s32 a1) {
         u16 roz;
         u16 riz;
 
-        rix = ((Unkstruct_801202A0 *)a0)->unk3A;
+        rix = ((Unkstruct_801202A0 *)a0)->unk3A.u;
         roy = *((u16 *)&pos[1] + 1);
         roz = *((u16 *)&pos[2] + 1);
         *(u16 *)(rotIn + 0) = rix;
@@ -12680,9 +12680,9 @@ s32 func_80189E88(s32 a0) {
         kind = ((Unkstruct_801202A0 *)p)->unk0;
         if (kind == 0xAF || kind == 0x6F || kind == 0x100) {
             if (((Unkstruct_801202A0 *)p)->unk58.s != 0 && a0 != (s32)p) {
-                buf1[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-                buf1[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-                buf1[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+                buf1[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+                buf1[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+                buf1[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
                 buf2[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
                 buf2[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
                 buf2[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;

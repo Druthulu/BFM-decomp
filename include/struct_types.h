@@ -441,12 +441,12 @@ typedef struct Unkstruct_801202A0 {
     /* 0x0034 */ union { u16 u; s16 s; } unk34;
     /* 0x0036 */ union { u16 u; s16 s; } unk36;
     /* 0x0038 */ u8 pad38[0x2];
-    /* 0x003a */ u16 unk3A;
+    /* 0x003a */ union { u16 u; s16 s; } unk3A;
     /* 0x003c */ u8 pad3C[0x2];
-    /* 0x003e */ u16 unk3E;
+    /* 0x003e */ union { u16 u; s16 s; } unk3E;
     /* 0x0040 */ u8 pad40[0x2];
-    /* 0x0042 */ u16 unk42;
-    /* 0x0044 */ union { struct { s32 unk44; s32 unk48; } w; Unkstruct_8013B83C m; } unk44; /* m: 8-byte record copy (func_8016380C.h) */
+    /* 0x0042 */ union { u16 u; s16 s; } unk42;
+    /* 0x0044 */ union { struct { s32 unk44; s32 unk48; } w; Unkstruct_8013B83C m; struct { s16 unk44; s16 unk46; s16 unk48; s16 unk4A; } h; } unk44; /* m: 8-byte record copy (func_8016380C.h) */
     /* 0x004c */ s32 unk4C;
     /* 0x0050 */ union { struct { union { u16 u; s16 s; } unk50; union { u16 u; s16 s; } unk52; union { u16 u; s16 s; } unk54; u8 pad56[0x2]; } w; Unkstruct_801343C4 m; } unk50; /* m: 8-byte copy unit (T18.c20; copied actor to actor, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3784) */
     /* 0x0058 */ union { s32 s; u32 u; } unk58;
@@ -6355,7 +6355,7 @@ typedef struct {
     /* 0x0018 */ u8 pad18[0x2];
     /* 0x001a */ u16 unk1A;
     /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ void * unk20;
+    /* 0x0020 */ union { void *p; Unkstruct_8001C9D0 *m; struct Unkstruct_800B5BD8 *s; RenderHead *h; s32 val; } unk20;
     /* 0x0024 */ u8 pad24[0x64];
     /* 0x0088 */ u16 unk88;
     /* 0x008a */ u16 unk8A;
@@ -7547,8 +7547,8 @@ typedef struct {
     /* Unkstruct_3ed86d6d: P3.40 T3 band rank 1712; 10 TNC sites in 1 bodies; struct map 10 sites; restruct.py --decide-band */
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ union {
-        s16 s;
         u16 u;
+        s16 s;
     } unk2;
     /* 0x0004 */ u8 pad4[0x18];
     /* 0x001c */ s32 unk1C;
@@ -10532,7 +10532,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ u16 unk2;
     /* 0x0004 */ u8 pad4[0x1c];
-    /* 0x0020 */ void * unk20;
+    /* 0x0020 */ union { void *p; Unkstruct_8001C9D0 *m; struct Unkstruct_800B5BD8 *s; RenderHead *h; s32 val; } unk20;
     /* 0x0024 */ u8 pad24[0x51];
     /* 0x0075 */ u8 unk75;
     /* 0x0076 */ u8 pad76[0x46];
@@ -12020,7 +12020,7 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0xa];
     /* 0x000a */ s16 unkA;
     /* 0x000c */ u8 padC[0x8];
-    /* 0x0014 */ u32 unk14;
+    /* 0x0014 */ s32 unk14;
     /* 0x0018 */ u8 pad18[0x1c];
     /* 0x0034 */ u16 unk34;
     /* 0x0036 */ u8 pad36[0x2];

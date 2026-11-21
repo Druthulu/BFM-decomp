@@ -4698,9 +4698,9 @@ s32 func_8017E83C(s32 arg0) {
                 out.vz = pz;
                 out.vx = px + d;
                 out.vz = pz + (d >> 16);
-                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A;
-                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E;
-                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42;
+                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A.u;
+                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E.u;
+                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42.u;
                 if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)arg0);
                     goto done;
@@ -5674,9 +5674,9 @@ void func_8017FE04(s32 a0) {
 
     guess_ClearVelocityAndSetGravity(a0);
 
-    sp30[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp30[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp30[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp30[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    sp30[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    sp30[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
 
     if (func_80180AF4() != 1) {
         goto armB;
@@ -5812,9 +5812,9 @@ s32 func_80180064(s32 arg0, s32 arg1) {
                 out.vz = pz;
                 out.vx = px + d;
                 out.vz = pz + (d >> 16);
-                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A;
-                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E;
-                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42;
+                in.vx = ((Unkstruct_801202A0 *)arg0)->unk3A.u;
+                in.vy = ((Unkstruct_801202A0 *)arg0)->unk3E.u;
+                in.vz = ((Unkstruct_801202A0 *)arg0)->unk42.u;
                 if ((func_8012CEB0((s32)&in, (s32)&out, 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)arg0);
                     goto after_loop;

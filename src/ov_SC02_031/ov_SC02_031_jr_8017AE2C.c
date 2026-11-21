@@ -6732,9 +6732,9 @@ void func_80182328(void *a0)
 
     guess_ApplyAccelAndVelocity((s32)a0);
 
-    sp18[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp18[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp18[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp18[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    sp18[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    sp18[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
 
     sp20[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     sp20[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;

@@ -2897,9 +2897,9 @@ void func_80180EF0(s32 a0, s32 a1)
     V8_80180EF0 sp18;
     V8_80180EF0 sp20;
 
-    sp10.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp10.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp10.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp10.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    sp10.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    sp10.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
     sp18 = sp10;
     sp18.unk0.v1.unk0 += *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 += *(u16 *)(a1 + 0x2);
@@ -2909,9 +2909,9 @@ void func_80180EF0(s32 a0, s32 a1)
     sp18.unk0.v1.unk0 -= *(u16 *)(a1 + 0x0);
     sp18.unk0.v1.unk2 -= *(u16 *)(a1 + 0x2);
     sp18.unk0.v1.unk4 -= *(u16 *)(a1 + 0x4);
-    ((Unkstruct_801202A0 *)a0)->unk3A = sp18.unk0.v1.unk0;
-    ((Unkstruct_801202A0 *)a0)->unk3E = sp18.unk0.v1.unk2;
-    ((Unkstruct_801202A0 *)a0)->unk42 = sp18.unk0.v1.unk4;
+    ((Unkstruct_801202A0 *)a0)->unk3A.u = sp18.unk0.v1.unk0;
+    ((Unkstruct_801202A0 *)a0)->unk3E.u = sp18.unk0.v1.unk2;
+    ((Unkstruct_801202A0 *)a0)->unk42.u = sp18.unk0.v1.unk4;
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = sp18.unk0.v1.unk0;
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = sp18.unk0.v1.unk2;
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = sp18.unk0.v1.unk4;
@@ -3192,9 +3192,9 @@ void func_80181490(s32 a0) {
                     v18[0] += sp20[0];
                     v18[2] += sp20[0] >> 16;
                     v18[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-                    v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-                    v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-                    v10[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+                    v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+                    v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+                    v10[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
                     if ((func_8012CEB0(v10, v18, 0) & 0x2000) == 0) {
                         func_8012ADE4((u8 *)a0);
                         return;

@@ -3503,7 +3503,7 @@ s32 func_80187118(s32 a0, s32 a1)
         u16 roz;
         u16 riz;
 
-        rix = ((Unkstruct_801202A0 *)a0)->unk3A;
+        rix = ((Unkstruct_801202A0 *)a0)->unk3A.u;
         roy = *((u16 *)&pos[1] + 1);
         roz = *((u16 *)&pos[2] + 1);
         *(u16 *)(rotIn + 0) = rix;

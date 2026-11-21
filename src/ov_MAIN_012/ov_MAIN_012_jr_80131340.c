@@ -673,9 +673,9 @@ void func_80131340(s32 a0)
         }
         if (((Unkstruct_801202A0 *)a0)->unkC2 == 0) {
             ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
-            sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-            sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-            sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+            sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+            sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+            sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
             sp20 = sp18;
             sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
             sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
@@ -685,9 +685,9 @@ void func_80131340(s32 a0)
             sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
             sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
             sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
-            ((Unkstruct_801202A0 *)a0)->unk3A = sp20.unk0.v1.unk0;
-            ((Unkstruct_801202A0 *)a0)->unk3E = sp20.unk0.v1.unk2;
-            ((Unkstruct_801202A0 *)a0)->unk42 = sp20.unk0.v1.unk4;
+            ((Unkstruct_801202A0 *)a0)->unk3A.u = sp20.unk0.v1.unk0;
+            ((Unkstruct_801202A0 *)a0)->unk3E.u = sp20.unk0.v1.unk2;
+            ((Unkstruct_801202A0 *)a0)->unk42.u = sp20.unk0.v1.unk4;
             ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = sp20.unk0.v1.unk0;
             ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = sp20.unk0.v1.unk2;
             ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = sp20.unk0.v1.unk4;

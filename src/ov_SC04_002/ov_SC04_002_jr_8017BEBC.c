@@ -9648,9 +9648,9 @@ void func_80186638(s32 a0) {
                     v18[2] = *(u16 *)(p + 0xE);
                     v18[0] += sp20[0];
                     v18[2] += sp20[0] >> 16;
-                    v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-                    v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-                    v10[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+                    v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+                    v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+                    v10[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
                     if (func_8012CEB0(v10, v18, 0) & 0x2000) {
                         ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = v18[0];
                         ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v18[1];

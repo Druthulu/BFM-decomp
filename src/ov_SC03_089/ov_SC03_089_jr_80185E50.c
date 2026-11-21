@@ -3881,9 +3881,9 @@ void func_8018745C(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
         guess_SetVelocityXZFromLocal(a0, (s32)D_801A662C);
         if ((((s32 (*)(s32))func_8012CBA4)(a0) & 0x6000) == 0) {
-            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-            sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+            sp10.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+            sp10.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+            sp10.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
             sp18 = sp10;
             sp18.unk2 += 8;
             if (func_80133784(1, &sp10, (s32)&sp18) != 0) {
@@ -3987,9 +3987,9 @@ void func_8018767C(s32 *s0) {
     }
 
     // Load halfwords from s0
-    buf_src.unk0 = ((Unkstruct_801202A0 *)s0)->unk3A;
-    buf_src.unk2 = ((Unkstruct_801202A0 *)s0)->unk3E;
-    buf_src.unk4 = ((Unkstruct_801202A0 *)s0)->unk42;
+    buf_src.unk0 = ((Unkstruct_801202A0 *)s0)->unk3A.u;
+    buf_src.unk2 = ((Unkstruct_801202A0 *)s0)->unk3E.u;
+    buf_src.unk4 = ((Unkstruct_801202A0 *)s0)->unk42.u;
 
     // Struct assignment generates lwl/lwr + swl/swr
     buf_dst = buf_src;

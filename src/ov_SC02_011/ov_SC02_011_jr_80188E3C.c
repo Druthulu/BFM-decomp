@@ -3760,9 +3760,9 @@ void func_8018D8B8(s32 a0) {
 
     guess_ClearVelocityAndSetGravity(a0);
 
-    sp30[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-    sp30[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-    sp30[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+    sp30[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+    sp30[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+    sp30[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
 
     if (func_8018DDD0(a0) != 0) {
         goto body;

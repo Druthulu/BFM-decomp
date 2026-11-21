@@ -4363,9 +4363,9 @@ s32 func_80180CEC(s32 param_1, s32 param_2) {
     s16 out[3];
     s32 v0;
 
-    in[0] = ((Unkstruct_801202A0 *)param_1)->unk3A;
-    in[1] = ((Unkstruct_801202A0 *)param_1)->unk3E;
-    in[2] = ((Unkstruct_801202A0 *)param_1)->unk42;
+    in[0] = ((Unkstruct_801202A0 *)param_1)->unk3A.u;
+    in[1] = ((Unkstruct_801202A0 *)param_1)->unk3E.u;
+    in[2] = ((Unkstruct_801202A0 *)param_1)->unk42.u;
     guess_ApplyAccelAndVelocity(param_1);
     out[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
     out[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
@@ -7818,9 +7818,9 @@ s32 func_80185D10(s32 a0) {
         kind = ((Unkstruct_801202A0 *)p)->unk0;
         if (kind == 0xAF || kind == 0x6F || kind == 0x100) {
             if (((Unkstruct_801202A0 *)p)->unk58.s != 0 && a0 != (s32)p) {
-                buf1[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-                buf1[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-                buf1[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+                buf1[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+                buf1[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+                buf1[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
                 buf2[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
                 buf2[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
                 buf2[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
@@ -7904,9 +7904,9 @@ s32 func_80185F88(s32 a0)
                 v18[2] = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
                 v18[0] += sp20[0];
                 v18[2] += sp20[0] >> 16;
-                v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A;
-                v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E;
-                v10[2] = ((Unkstruct_801202A0 *)a0)->unk42;
+                v10[0] = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+                v10[1] = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+                v10[2] = ((Unkstruct_801202A0 *)a0)->unk42.u;
                 if ((func_8012CEB0((s32)&v10[0], (s32)&v18[0], 0) & 0x2000) == 0) {
                     func_8012ADE4((u8 *)a0);
                     return 1;

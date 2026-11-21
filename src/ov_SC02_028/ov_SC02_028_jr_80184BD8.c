@@ -4737,9 +4737,9 @@ void func_80187DE4(s32 a0)
     switch (((Unkstruct_801202A0 *)a0)->unkC2) {
     case 0:
         ((Unkstruct_801202A0 *)a0)->unkC2 = 1;
-        sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A;
-        sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E;
-        sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42;
+        sp18.unk0.v1.unk0 = ((Unkstruct_801202A0 *)a0)->unk3A.u;
+        sp18.unk0.v1.unk2 = ((Unkstruct_801202A0 *)a0)->unk3E.u;
+        sp18.unk0.v1.unk4 = ((Unkstruct_801202A0 *)a0)->unk42.u;
         sp20 = sp18;
         sp20.unk0.v1.unk0 += sp10.unk0.v1.unk0;
         sp20.unk0.v1.unk2 += sp10.unk0.v1.unk2;
@@ -4749,9 +4749,9 @@ void func_80187DE4(s32 a0)
         sp20.unk0.v1.unk0 -= sp10.unk0.v1.unk0;
         sp20.unk0.v1.unk2 -= sp10.unk0.v1.unk2;
         sp20.unk0.v1.unk4 -= sp10.unk0.v1.unk4;
-        ((Unkstruct_801202A0 *)a0)->unk3A = sp20.unk0.v1.unk0;
-        ((Unkstruct_801202A0 *)a0)->unk3E = sp20.unk0.v1.unk2;
-        ((Unkstruct_801202A0 *)a0)->unk42 = sp20.unk0.v1.unk4;
+        ((Unkstruct_801202A0 *)a0)->unk3A.u = sp20.unk0.v1.unk0;
+        ((Unkstruct_801202A0 *)a0)->unk3E.u = sp20.unk0.v1.unk2;
+        ((Unkstruct_801202A0 *)a0)->unk42.u = sp20.unk0.v1.unk4;
         /* fallthrough */
     case 1:
         ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u += CAST_SIGN(u16, a0, 0xFE);
