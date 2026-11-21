@@ -4803,8 +4803,8 @@ void func_8018234C(s32 a0) {
     ((Unkstruct_8018234C *)q)->unk4.v0.unk6 = D_801D097A;
 
     p = (Rec_8018B23C_8018234C *)((s32)&D_801D097C + (a0 << 4));
-    x = p->fA + (u16)D_801D0970;
-    y = p->fE + (u16)D_801D0972;
+    x = p->f8.i.hi + (u16)D_801D0970;
+    y = p->fC.i.hi + (u16)D_801D0972;
     RotMatrixZ(p->f6, m);
 
     scale[0] = ((Rec_8018B23C *)p)->f2;

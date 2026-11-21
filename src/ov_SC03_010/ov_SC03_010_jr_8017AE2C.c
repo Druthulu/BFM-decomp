@@ -3074,9 +3074,10 @@ extern s16 D_8019FF08;
 void func_8017B940(void *arg0)
 {
     s32 buf[3];
+    extern s16 aD8019FF14 __asm__("D_8019FF14"); /* saved player x, signed read (T19.c13 scalar) */
 
     D_8012694C = 2;
-    buf[0] = (*(s16 *)&guess_g_PlayerPosX) - (((Unkstruct_801847C8 *)&D_8019FF14)->unk0);
+    buf[0] = (*(s16 *)&guess_g_PlayerPosX) - aD8019FF14;
     buf[1] = (*(s16 *)&guess_g_PlayerPosY) - (*(s16 *)&D_8019FF16);
     buf[2] = (*(s16 *)&guess_g_PlayerPosZ) - (*(s16 *)&D_8019FF18);
     (D_8019FF1C[0]) = buf[0];

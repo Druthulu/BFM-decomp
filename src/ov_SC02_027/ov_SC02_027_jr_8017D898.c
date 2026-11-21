@@ -6156,16 +6156,16 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 
 
 s32 func_80183A88(s32 a0) {
-    s32 h;
+    s32 (**h)(void); /* callback table D_801AB53C (3 function words; T19.c13 scalar) */
 
-    h = *(s32 *)(*(s32 *)(a0 + 0x64) + 0xDC);
+    h = (s32 (**)(void))*(s32 *)(*(s32 *)(a0 + 0x64) + 0xDC);
     if (h == 0) {
         return 1;
     }
-    if (((Unkstruct_80183A88 *)h)->unk4 == 0) {
+    if (h[1] == 0) {
         return 1;
     }
-    return ((s32 (*)(void)) ((Unkstruct_80183A88 *)h)->unk4)();
+    return h[1]();
 }
 
 

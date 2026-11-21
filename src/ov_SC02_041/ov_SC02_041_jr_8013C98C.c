@@ -2117,7 +2117,8 @@ void func_8013EF88(void)
                 *s -= 1;
             }
             {
-                u16 *w = &(((Unkstruct_80186144 *)&D_80186144)->unk0);
+                extern u16 aD80186144 __asm__("D_80186144"); /* s16 counter read as lhu (T19.c13 scalar) */
+                u16 *w = &aD80186144;
                 *w -= 2;
                 if ((s16)*w < 0) {
                     *w = 0;
