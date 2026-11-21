@@ -4127,7 +4127,7 @@ void func_8017F178(s32 param_1)
      * ranks pri = floor_log2(R)*R/L*1e4*size; without this, diff (R=7,L=46) = 3043 outranks
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
-    if (((Unkstruct_80126B58 *)(obj - 0xA))->unkA.s < -0x4E0) {
+    if (*(s16 *)obj < -0x4E0) {
         diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s;
         if (diff < 0x140) {
             uVar2 = ((Unkstruct_801202A0 *)param_1)->unkFC.u - 0x10;
