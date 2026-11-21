@@ -12,3 +12,4 @@ T15 | done | the typing engine: pointers typed at their source, casts spelled as
 T16 | review | the tracing pilot: the largest family's model and the wave projection | - | tasks/T16.md | logs/T16.md | R3.45-013,R3.45-007,R3.45-008,R3.45-010,R3.45-011
 T17 | done | absorption wave A1: the largest family, first half | - | tasks/T17.md | logs/T17.md | R3.45-007,R3.45-008,R3.45-010,R3.45-013
 T18 | done | absorption wave A2: the largest family, second half | - | tasks/T18.md | logs/T18.md | R3.45-007,R3.45-008
+T19 | done | absorption wave A3: the next families by size | - | tasks/T19.md | logs/T19.md | -
