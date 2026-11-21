@@ -3815,7 +3815,7 @@ def _fold_fields(res, d, masked):
             return None, span, f"{d['file']}:{line}: field `{f['name']}` has an unknown layout"
         sz, al, lv = r
         o = (off + al - 1) // al * al
-        out.append(dict(name=f["name"], off=o, size=sz, al=al, leaves=tuple(sorted(set(lv))), tmpl=tmpl, cite=f"{d['file']}:{line}"))
+        out.append(dict(name=f["name"], off=o, size=sz, al=al, leaves=tuple(sorted(set(lv))), tmpl=tmpl, cite=f"{d['file']}:{line}", nested=None if f.get("dims") else f.get("nested")))
         off = o + sz
     return out, span, None
 
@@ -4740,6 +4740,42 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         k = bkey(x)
         return k[0][1][1:] if k[0][0] == "S" and not k[1] and re.fullmatch(r"\[[^\[\]]+\]", k[2]) else None
 
+    def nalts(nd, at, pre_, depth=0):
+        """(T19.c9) {absolute offset: {(width, sign): path}} of a named inline union/struct of a nested record, members
+        followed (RenderHead `union { struct { union { s16 s; u16 u; } unk12; … } w; Unkstruct_801343C4 m; } unk10;`): the
+        first member spelling a width/sign at an offset wins; pad arrays give no leaves; None when a member has no path."""
+        if depth > 6:
+            return None
+        res_ = {}
+        o_ = 0
+        for x in nd.get("fields") or []:
+            if not x["name"] or x.get("bits"):
+                return None
+            xn = x.get("nested")
+            Lx = res.layout_of_fields(xn["fields"], xn["kind"]) if xn else res.layout(x["type"], x["stars"], x["dims"])
+            if not Lx:
+                return None
+            if nd["kind"] == "struct":
+                o_ = (o_ + Lx[1] - 1) // Lx[1] * Lx[1]
+            xat, xp = at + (o_ if nd["kind"] == "struct" else 0), f"{pre_}.{x['name']}"
+            if xn:
+                if x["dims"] or xn.get("kind") not in ("struct", "union"):
+                    return None
+                sub = nalts(xn, xat, xp, depth + 1)
+            elif re.match(r"pad[0-9A-Fa-f]*$", x["name"]):
+                sub = {}
+            else:
+                tl = tleaves(x["type"], x["stars"], x["dims"], xat, xp, depth + 1)
+                sub = None if tl is None else {k: (v[1] if v[0] == "U" else {v[1]: v[0]}) for k, v in tl.items()}
+            if sub is None:
+                return None
+            for k, a in sub.items():
+                for ws, pth in a.items():
+                    res_.setdefault(k, {}).setdefault(ws, pth)
+            if nd["kind"] == "struct":
+                o_ += Lx[0]
+        return res_
+
     def tleaves(t, stars, dims, off, pre, depth=0):
         """(T7.c15) {absolute offset: (access path, (width, sign))} of every scalar leaf of a type spelled t (records followed,
         arrays per element); None when a leaf has no path (a union, a bit-field, an unknown type)."""
@@ -4759,12 +4795,25 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
                 out.update(sub)
             return out
         rec = _fold_resolve(g, re.sub(r"^(?:struct|union)\s+", "", re.sub(r"\s+", " ", t).strip()))
+
         if rec:
             if rec["kind"] != "struct":
                 return None
             out, o = {}, 0
             for f in rec["fields"]:
                 nd = f.get("nested")
+                if nd and nd.get("kind") == "union" and f["name"] and not f.get("bits") and not f["stars"] and not f["dims"] \
+                        and any(x.get("nested") for x in nd.get("fields") or []):
+                    # T19.c9: a named inline union with record members (RenderHead unk10/unk18/unk24): leaves through its members
+                    Lu = res.layout_of_fields(nd["fields"], "union")
+                    na = nalts(nd, 0, f"{pre}.{f['name']}", depth + 1) if Lu else None
+                    if na is None:
+                        return None
+                    o = (o + Lu[1] - 1) // Lu[1] * Lu[1]
+                    for k, a in na.items():
+                        out[off + o + k] = ("U", a)
+                    o += Lu[0]
+                    continue
                 if nd and nd.get("kind") == "union" and f["name"] and not f.get("bits") and not f["stars"] and not f["dims"] \
                         and nd.get("fields") and all(not x.get("nested") and x["name"] and not x["stars"] and not x["dims"] for x in nd["fields"]):
                     # T18.c10: a named inline scalar union of a nested record (RenderHead `union { u16 u; s16 s; } unk12;`): one leaf
@@ -4796,6 +4845,10 @@ def _fold_merge(clusters, keys, resub, res, g, mp=None, absorb_nopath=False, tsp
         return {off: (pre, L_[2][0][1:])} if L_ and len(L_[2]) == 1 and L_[2][0][:2] == (0, L_[0]) else None
 
     def hleaves(e):                                               # (T7.c15) tleaves of one entry from its template
+        nd = e[1].get("nested")
+        if nd and nd.get("kind") == "union" and e[1]["name"]:     # T19.c9: a named inline union host field (RenderHead unk10, camera unk9C)
+            na = nalts(nd, e[2], e[1]["name"])
+            return None if na is None else {k: ("U", a) for k, a in na.items()}
         b_, rest = e[1]["tmpl"].split(FOLD_N)
         b_ = resub(b_).strip()
         st_ = b_.count("*")

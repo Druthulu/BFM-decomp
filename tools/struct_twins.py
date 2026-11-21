@@ -2708,8 +2708,9 @@ PCAST_TAIL = re.compile(r"\(\s*(?:const\s+)?(?:struct\s+|union\s+)?[A-Za-z_]\w*[
 M2C_TAIL = re.compile(r"M2C_FIELD\s*\(\s*$")
 LEAD_CAST = re.compile(r"^\(\s*(?:struct\s+|union\s+)?[A-Za-z_]\w*\s*\**\s*\)\s*")
 # P3.45 T17.c26c: an optional pointer union leaf (`->unk20.p|.m|.s`) is still that field's read (measurement fix: 21 sources mixed->arith)
-RHS_CV = re.compile(r"^\(\s*\(\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\)\s*([A-Za-z_]\w*)\s*\)\s*->\s*([A-Za-z_]\w*)(?:\s*\.\s*[pms])?$")
-RHS_ARROW = re.compile(r"^([A-Za-z_]\w*)\s*->\s*([A-Za-z_]\w*)(?:\s*\.\s*[pms])?$")
+# P3.45 T19.c11: so is a nested member path after the field (`->blkDC.f.unkDC.p`, `->unk3A.u`): any `.member` chain
+RHS_CV = re.compile(r"^\(\s*\(\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\)\s*([A-Za-z_]\w*)\s*\)\s*->\s*([A-Za-z_]\w*)(?:\s*\.\s*[A-Za-z_]\w*)*$")
+RHS_ARROW = re.compile(r"^([A-Za-z_]\w*)\s*->\s*([A-Za-z_]\w*)(?:\s*\.\s*[A-Za-z_]\w*)*$")
 RHS_PP = re.compile(r"^\*\s*\(\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\*\s*\)")
 RHS_MPP = re.compile(r"^M2C_FIELD\s*\(.*,\s*(?:struct\s+|union\s+)?([A-Za-z_]\w*)\s*\*\s*\*\s*,", re.S)
 RHS_CALL = re.compile(r"^([A-Za-z_]\w*)\s*\(.*\)$", re.S)
