@@ -4917,14 +4917,14 @@ extern u8 D_80078EBA;
 
 void func_8018B798(void *a0) {
     s32 v0;
-    *(s32 *)(((Unkstruct_8018B798 *)a0)->unkCC + 0xB0) = 2;
+    *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 2;
     if (D_80078EBA == 3) {
         v0 = 0;
     } else {
         v0 = func_80184BAC(7, 0x13) != 0;
     }
     if (v0 != 0) {
-        ((Unkstruct_8018B798 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
     }
 }
 
@@ -5183,7 +5183,7 @@ void func_8018BD58(void *a0) {
 extern void func_80184CB8(s32*, s32);
     extern short D_801E05C4;
     void func_8018BDE0(void * arg0) {
-        ((Unkstruct_8018BAE0 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_801E05C4);
     }
 
@@ -5192,7 +5192,7 @@ extern void func_80184CB8(s32*, s32);
 extern void func_80184CB8(s32*, s32);
     extern short D_801E05C4;
     void func_8018BE0C(void * arg0) {
-        ((Unkstruct_8017E294 *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_801E05C4);
     }
 
@@ -5365,7 +5365,7 @@ tail:;
 extern void func_80184CB8(s32*, s32);
     extern short D_801E06A8;
     void func_8018C24C(void * arg0) {
-        ((Unkstruct_8018BAE0 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_801E06A8);
     }
 
@@ -5637,8 +5637,8 @@ void func_8018C730(s32 a0r)
     s32 ret;
 
     base = (s32)a0r;
-    if (func_8012BD14(((Unkstruct_8018C730 *)base)->unk64) <= 0x1000) {
-        *(s16 *)(((Unkstruct_8018C730 *)base)->unk64 + 0x2) = 2;
+    if (func_8012BD14(((Unkstruct_801202A0 *)base)->unk64) <= 0x1000) {
+        ((Unkstruct_801202A0 *)base)->unk64->unk2.s = 2;
         func_80178BF8();
         __asm__ __volatile__("" : "=r"(ret) : "0"((s32)func_80172710));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B tus9) wall:flow-unused-result
         return;

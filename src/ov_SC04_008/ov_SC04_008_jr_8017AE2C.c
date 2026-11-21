@@ -3574,15 +3574,15 @@ void func_8017D3F8(s32 param_1)
     s32 prim;
     s32 line;
 
-    if (((Unkstruct_8017D3F8 *)param_1)->unk2 == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk2.u == 0) {
         guess_RequestSound(0x98C, 0);
         p = (u16 *)(param_1 + 0xDC);
         i = 0;
-        ((Unkstruct_8017D3F8 *)param_1)->unk2 = ((Unkstruct_8017D3F8 *)param_1)->unk2 + 1;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u = ((Unkstruct_801202A0 *)param_1)->unk2.u + 1;
         do {
             i++;
-            p[0] = ((Unkstruct_8017D3F8 *)param_1)->unk6 + rand() % 2432 - 0x4C0;
-            p[1] = ((Unkstruct_8017D3F8 *)param_1)->unkA + rand() % 511;
+            p[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + rand() % 2432 - 0x4C0;
+            p[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u + rand() % 511;
             p += 2;
         } while (i < 8);
     } else {
@@ -3592,8 +3592,8 @@ void func_8017D3F8(s32 param_1)
         do {
             p[0] -= 0x40;
             if ((s16)p[0] < -0x4E0) {
-                p[0] = ((Unkstruct_8017D3F8 *)param_1)->unk6 + rand() % 2432 - 0x4C0;
-                p[1] = ((Unkstruct_8017D3F8 *)param_1)->unkA;
+                p[0] = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u + rand() % 2432 - 0x4C0;
+                p[1] = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
             } else {
                 p[1] += 0x20;
             }
@@ -3708,7 +3708,7 @@ void func_8017D77C(s32 a0) {
     D_8019334C = (s32)(D_80182544 + ((s16 *)a0)[0x70 / 2] * 8);
 
     guess_CopyVec3HighHalves((s32)&D_80126B5C, (s32 *)buf);
-    buf[1] = ((Unkstruct_8017D77C_3 *)a0)->unkA;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
 
     p = &D_80191F3F;
     for (i = 0x4F; i >= 0; i--) {
@@ -3995,7 +3995,7 @@ void func_8017DEE0(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017DC9C_2 *)a0)->unk70;
+    v1 = ((Unkstruct_8017DC9C_2 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {

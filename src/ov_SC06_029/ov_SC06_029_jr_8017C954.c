@@ -4007,9 +4007,9 @@ void func_8017EDA8(s32 param_1) {
     if (guess_GetPlayerControlScript() == 0) {
         func_801746DC();
         func_80178B18(param_1, (s32)&D_80190534);
-        ((Unkstruct_80183554 *)param_1)->unk2 = 2;
-        ((Unkstruct_80183554 *)param_1)->unk34 = 0;
-        ((Unkstruct_80183554 *)param_1)->unk1C = 3;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 3;
     }
     func_80016450(0xFF, 0);
 }
@@ -4028,7 +4028,7 @@ void func_8017EE10(s32 param_1) {
 
     s32 iVar1;
 
-    if (((Unkstruct_8017EE10 *)param_1)->unk34 == 0) {
+    if (((Unkstruct_801202A0 *)param_1)->unk34.u == 0) {
         iVar1 = ((s32 (*)(void))guess_TickWaitTimer)();
         if (iVar1 == 0) {
             func_80016450(0xFF, 0);
@@ -4038,15 +4038,15 @@ void func_8017EE10(s32 param_1) {
             ((void (*)(s32))func_80178D18)(param_1);
             func_8017BF08((void *)(param_1 + 0x76), &D_801904A0, 9, 0xF0);
             func_8012A568(func_8017E6E0);
-            ((Unkstruct_8017EE10 *)param_1)->unk1C = 0x60;
-            ((Unkstruct_8017EE10 *)param_1)->unk34 = ((Unkstruct_8017EE10 *)param_1)->unk34 + 1;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x60;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = ((Unkstruct_801202A0 *)param_1)->unk34.u + 1;
         }
     } else {
         s32 i;
         s32 *p;
         iVar1 = ((s32 (*)(void *))guess_TickWaitTimer)((void *)param_1);
         if (iVar1 != 0) {
-            ((Unkstruct_8017EE10 *)param_1)->unk2 = 4;
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 4;
             i = 0;
             p = &D_801DDB2C;
             do {
@@ -5007,8 +5007,8 @@ void func_801809D4(s32 param_1) {
     if (func_8012E544(0x2EF) != 0) {
         return;
     }
-    ((Unkstruct_801809D4 *)param_1)->unk2 = 0xE;
-    ((Unkstruct_801809D4 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 0xE;
+    ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     if ((guess_TestGameFlag(0x11D) & 0xFF) == 0) {
         D_80190680 = D_801904F4;
         func_8002959C();
@@ -5402,11 +5402,11 @@ s32 func_801812AC(s32 a0)
             break;
         }
         ent = (s32 *)D_801DDB2C[idx];
-        val = ((Unkstruct_801812AC_2 *)ent)->unk2;
+        val = ((Unkstruct_801202A0 *)ent)->unk2.u;
         if ((u32)(val - 2) >= 2) {
             return 0;
         }
-        if (((Unkstruct_801812AC_2 *)ent)->unk34 != 1) {
+        if (((Unkstruct_801202A0 *)ent)->unk34.u != 1) {
             return 0;
         }
     }
@@ -8601,8 +8601,8 @@ extern void func_8018653C(s32 *a0, s32 *a1);
 
 void func_801861A4(s32 param_1) {
     extern void (*D_80190D64[])(void *);
-    ((void (*)(s32))D_80190D64[((Unkstruct_801861A4 *)param_1)->unk2])(param_1);
-    if (((Unkstruct_801861A4 *)param_1)->unk0 != 0) {
+    ((void (*)(s32))D_80190D64[((Unkstruct_801202A0 *)param_1)->unk2.u])(param_1);
+    if (((Unkstruct_801202A0 *)param_1)->unk0 != 0) {
         func_8018653C((s32 *)param_1, *(s32 **)(param_1 + 0xCC));
         func_8018653C((s32 *)param_1, *(s32 **)(param_1 + 0xD0));
     }
@@ -8739,9 +8739,9 @@ s32 func_80186470(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4)
 
 
 void func_8018653C(s32 *a0, s32 *a1) {
-        ((RenderHead *)a1)->unk8.u = ((Unkstruct_801861A4 *)a0)->unk6;
-        ((RenderHead *)a1)->unkA.u = ((Unkstruct_801861A4 *)a0)->unkA + *(u16 *)(((Unkstruct_801861A4 *)a0)->unk64 + 0xA);
-        ((RenderHead *)a1)->unkC.u = ((Unkstruct_801861A4 *)a0)->unkE;
+        ((RenderHead *)a1)->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((RenderHead *)a1)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u;
+        ((RenderHead *)a1)->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 
 

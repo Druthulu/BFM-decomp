@@ -4347,10 +4347,10 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 void func_8017E7CC(int param_1)
 {
     extern short D_801B9AA8;   /* S62 T2d: was undeclared here; gcc's limbo entry then rejected every later block-scope extern */
-    ((Unkstruct_80183554 *)param_1)->unk2 = 3;   /* S62 T2d: retail `li v0,3; sh v0,2(s0)` — the committed text had offset and value swapped */
-    ((Unkstruct_80183554 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 3;   /* S62 T2d: retail `li v0,3; sh v0,2(s0)` — the committed text had offset and value swapped */
+    ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, (char *)&D_801B9AA8);   /* S62 T2d: was `&((char *)&D_…)` — address of a cast, never valid C */
-    ((Unkstruct_80183554 *)param_1)->unk1C = 0x10;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x10;
 }
 
 
@@ -4618,18 +4618,18 @@ s32 func_8017EDA4(void *a0)
     void *p;
     u16 st;
 
-    p = ((Unkstruct_8017EDA4 *)a0)->unk64;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
     st = *(u16 *)((s32)p + 2);
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801848DC)(a0) == 0) {
             return 0;
         }
-        p = ((Unkstruct_8017EDA4 *)a0)->unk64;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
         if (func_8018625C(p) != 0) {
             return 0;
         }
-        *(u16 *)((s32)((Unkstruct_8017EDA4 *)a0)->unk64 + 2) = 3;
+        *(u16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 2) = 3;
         break;
     case 5:
         if (*(u16 *)((s32)p + 0x34) != 2) {
@@ -4638,7 +4638,7 @@ s32 func_8017EDA4(void *a0)
         if (func_8012BD14((s32)p) >= 0x4001) {
             return 0;
         }
-        *(u16 *)((s32)((Unkstruct_8017EDA4 *)a0)->unk64 + 2) = 6;
+        *(u16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 2) = 6;
         break;
     default:
         return 0;
@@ -4938,22 +4938,22 @@ s32 func_8017F418(void *a0)
     void *p;
     u16 st;
 
-    p = ((Unkstruct_8017F418_2 *)a0)->unk64;
-    st = ((Unkstruct_8017F418 *)p)->unk2;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801848DC)(a0) == 0) {
             return 0;
         }
-        p = ((Unkstruct_8017F418_2 *)a0)->unk64;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
         goto hit;
     case 5:
-        if (((Unkstruct_8017F418 *)p)->unk34 != 1) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 1) {
             goto ret0;
         }
         goto check;
     case 0xB:
-        if (((Unkstruct_8017F418 *)p)->unk34 != 0) {
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 0) {
             goto ret0;
         }
         goto check;
@@ -4970,10 +4970,10 @@ s32 func_8017F418(void *a0)
 
 hit:
     {
-        void *p2 = ((Unkstruct_8017F418_2 *)a0)->unk64;
-        u16 v = ((Unkstruct_8017F418 *)p2)->unk2;
+        void *p2 = ((Unkstruct_801202A0 *)a0)->unk64;
+        u16 v = ((Unkstruct_801202A0 *)p2)->unk2.u;
         v = v + 1;
-        ((Unkstruct_8017F418 *)p2)->unk2 = v;
+        ((Unkstruct_801202A0 *)p2)->unk2.u = v;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -5324,13 +5324,13 @@ void func_8017FBB0(void *a0) {
     s32 v0;
     u16 v1;
 
-    v1 = ((Unkstruct_8017FBB0_2 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
     switch (v1) {
         case 0:
             v0 = ((s32 (*)(void *))func_80184FA4)(a0);
             if (v0 != 0) {
                 ((void (*)(void *, void *, s32, s32))func_80184ED4)(a0, D_801E396C, 1, 0x60);
-                ((Unkstruct_8017FBB0_2 *)a0)->unk34 = 1;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
             }
             break;
         case 1:
@@ -5338,7 +5338,7 @@ void func_8017FBB0(void *a0) {
             if (v0 != 0) {
                 v0 = ((s32 (*)(void *))func_80184FA4)(a0);
                 if (v0 != 0) {
-                    ((Unkstruct_8017FBB0_2 *)a0)->unk2 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
                     ((void (*)(void *, void *))func_80184CB8)(a0, ((u8 *)&D_80191570));
                 }
             }
@@ -5485,11 +5485,11 @@ void *a0;
 {
     u16 v1;
 
-    v1 = ((Unkstruct_8017FF70_2 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
     switch (v1) {
         case 0:
             if ((D_80126B9C & 0x8000000) != 0) {
-                ((Unkstruct_8017FF70_2 *)a0)->unk34 = 1;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
                 func_80178B18((s32)a0, (s32)&D_80191744);
             }
             break;
@@ -5497,7 +5497,7 @@ void *a0;
             if (((s32 (*)(s32))func_80178970)((s32)a0) != 0) {
                 ((void (*)(s32))func_80178D18)((s32)a0);
                 func_80029514(0x2B2);
-                ((Unkstruct_8017FF70_2 *)a0)->unk34 = 2;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 2;
                 ((void (*)(s32, s32))func_80184CB8)((s32)a0, (s32)&D_8019171C);
             }
             break;
@@ -5578,7 +5578,7 @@ void func_80180134(void) {
 extern void func_80178CBC(s32*, s32);
     extern short D_80191874;
     void func_80180164(void * arg0) {
-        ((Unkstruct_8017E294 *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))func_80178CBC)((int)arg0, (int)&D_80191874);
     }
 
@@ -5798,7 +5798,7 @@ void * arg0;
     extern s32 D_801B9DF8;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8018067C *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801B9DF8);
     }
 }
@@ -6292,7 +6292,7 @@ void *arg0;
     s32 a0val;
 
     state = 2;
-    *(s32 *)(((Unkstruct_80181124 *)s2)->unkCC + 0xB0) = state;
+    *(s32 *)(((Unkstruct_801202A0 *)s2)->unkCC.val + 0xB0) = state;
     dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
@@ -6314,13 +6314,13 @@ ladder_done:
 
     switch (code) {
     case 0:
-        ((Unkstruct_80181124 *)s2)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s2)->unk2.s = 1;
         func_80184CB8((s32 *)s2, (s32)&D_801919E0);
         break;
     case 1:
         break;
     case 2:
-        ((Unkstruct_80181124 *)s2)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s2)->unk2.s = 1;
         func_80184CB8((s32 *)s2, (s32)&D_801919E0);
         break;
     }
@@ -7478,7 +7478,7 @@ void func_801829AC(void *arg0) {
     s32 a0val;
 
     state = 2;
-    *(s32 *)(((Unkstruct_801829AC *)s2)->unkCC + 0xB0) = state;
+    *(s32 *)(((Unkstruct_801202A0 *)s2)->unkCC.val + 0xB0) = state;
     dd = KR_AS(s32, func_80184DD0)((s32)arg0);
     sel = guess_GetStoryProgress();
 
@@ -7500,13 +7500,13 @@ ladder_done:
 
     switch (code) {
     case 0:
-        ((Unkstruct_801829AC *)s2)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s2)->unk2.s = 1;
         func_80184CB8((s32 *)s2, (s32)&D_80191C08);
         break;
     case 1:
         break;
     case 2:
-        ((Unkstruct_801829AC *)s2)->unk2 = 1;
+        ((Unkstruct_801202A0 *)s2)->unk2.s = 1;
         func_80184CB8((s32 *)s2, (s32)&D_80191C08);
         break;
     }
@@ -7806,7 +7806,7 @@ void *a0;
     s32 other;
 
     ptr = *(s32 *)((s32)a0 + 0x64);
-    st = ((Unkstruct_801830F4 *)ptr)->unk2;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 3) {
         return 0;
     }
@@ -7829,9 +7829,9 @@ void *a0;
         s32 p;
         u16 st2;
         p = *(s32 *)((s32)a0 + 0x64);
-        st2 = ((Unkstruct_801830F4 *)p)->unk2;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_801830F4 *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;
@@ -8325,7 +8325,7 @@ void * arg0;
     extern s32 D_801B9C50;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8018067C *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801B9C50);
     }
 }

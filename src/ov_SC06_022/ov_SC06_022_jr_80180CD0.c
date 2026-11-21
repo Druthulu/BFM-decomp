@@ -3276,7 +3276,7 @@ void func_801817D8(s32 a0) {
          * sll21/sra16 shift pair — see the wave-P31V index_gap note). */
         tmp = ((((Unkstruct_801202A0 *)a0)->unk70.s - 3) * 7) << 5;
         objData = ((Unkstruct_801202A0 *)a0)->unk64;
-        matSrc = ((Unkstruct_801817D8_3 *)objData)->unk20;
+        matSrc = ((Unkstruct_801202A0 *)objData)->unk20.val;
         m = *(MATRIX *)(matSrc + 0x54);
         RotMatrixY(tmp, &m);
 
@@ -3840,8 +3840,8 @@ void func_80182554(void *arg0) {
     extern s32 D_801D4430;
 
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801D4430);
-    ((Unkstruct_80182554 *)arg0)->unk2 = 0xD;
-    ((Unkstruct_80182554 *)arg0)->unk1C = 0x28;
+    ((Unkstruct_80182554 *)arg0)->unk2.s = 0xD;
+    ((Unkstruct_80182554 *)arg0)->unk1C.s = 0x28;
 }
 
 

@@ -2907,8 +2907,8 @@ extern void func_801830B4(void *a0);
     void func_80183D24(s32 arg0) {
         s32 temp_v0;
         KR_AS(void, func_801830B4)();
-        temp_v0 = ((Unkstruct_8017E51C_2 *)arg0)->unk1C + 1;
-        ((Unkstruct_8017E51C_2 *)arg0)->unk1C = temp_v0;
+        temp_v0 = ((Unkstruct_801202A0 *)arg0)->unk1C.s + 1;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = temp_v0;
     }
 
 

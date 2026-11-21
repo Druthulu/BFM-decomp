@@ -240,7 +240,7 @@ void func_8017F3C8(void *a0)
     p = (void *)D_801ABBD8;
     if (p != 0) {
         rot = ((Unkstruct_8001C9D0 *)s2)->head.unk10.w.unk12.u + 0x800;
-        p = ((Unkstruct_8017E6A4_3 *)p)->unk20.p;
+        p = ((Unkstruct_801202A0 *)p)->unk20.p;
         flag = ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk12.u & 0x400;
         angle = rot & 0xFFF;
         if (flag) {

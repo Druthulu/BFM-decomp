@@ -4456,10 +4456,10 @@ void func_8018A61C(s32 arg0)
     extern u16 D_801DE496;
     extern u16 D_801DE498;
 
-    *(s32 *)(((Unkstruct_80191C50 *)arg0)->unk20 + 4) &= 0x7FFFFFFF;
-    ((Unkstruct_80191C50 *)arg0)->unkFC = 0;
-    func_800291C8(0xA, (s16)(((Unkstruct_80191C50 *)arg0)->unkFE | 0x100));
-    D_801DE494 = ((Unkstruct_80191C50 *)arg0)->unk6;
+    *(s32 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 4) &= 0x7FFFFFFF;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.u = 0;
+    func_800291C8(0xA, (s16)(((Unkstruct_801202A0 *)arg0)->unkFE.u | 0x100));
+    D_801DE494 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     D_801DE496 = CAST_ALIAS(u16, arg0, 0xA);
     D_801DE498 = CAST_ALIAS(u16, arg0, 0xE);
 }

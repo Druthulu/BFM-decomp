@@ -3053,7 +3053,7 @@ void * arg0;
     extern short D_80191C44;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_80182EB4 *)arg0)->unk2 = 12;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 12;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_80191C44);
     }
 }
@@ -3439,13 +3439,13 @@ void func_801835FC(void *a0) {
     s32 v0;
     u16 v1;
 
-    v1 = ((Unkstruct_8017FBB0_2 *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
     switch (v1) {
         case 0:
             v0 = ((s32 (*)(void *))func_80184CA4)(a0);
             if (v0 != 0) {
                 ((void (*)(void *, void *, s32, s32))func_80184BD4)(a0, D_801B6800, 1, 0x60);
-                ((Unkstruct_8017FBB0_2 *)a0)->unk34 = 1;
+                ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
             }
             break;
         case 1:
@@ -3453,7 +3453,7 @@ void func_801835FC(void *a0) {
             if (v0 != 0) {
                 v0 = ((s32 (*)(void *))func_80184CA4)(a0);
                 if (v0 != 0) {
-                    ((Unkstruct_8017FBB0_2 *)a0)->unk2 = 2;
+                    ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
                     ((void (*)(void *, void *))func_801849B8)(a0, ((u8 *)&D_80191EC0));
                 }
             }

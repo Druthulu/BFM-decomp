@@ -3067,9 +3067,9 @@ extern void func_80183EE8(void);
 extern void func_80184604(s32 arg0);
 
 void func_80182220(s32 a0) {
-    ((Unkstruct_80183554 *)a0)->unk2 = 0xB;
-    ((Unkstruct_80183554 *)a0)->unk1C = 0x3C;
-    ((Unkstruct_80183554 *)a0)->unk34 = 0;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 0xB;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3C;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
     guess_RequestSound(0x72C, 0);
     func_80183EE8();
     func_80184604(-1);

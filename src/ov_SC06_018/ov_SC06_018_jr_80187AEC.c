@@ -3441,9 +3441,9 @@ LAB_tail:
 void func_8018868C(s32 arg0) {
     s32 temp;
     temp = ((Unkstruct_8018868C *)arg0)->unk64;
-    ((Unkstruct_8018868C *)arg0)->unk2 = 6;
-    ((Unkstruct_8018868C *)arg0)->unk34 = 0;
-    *(u16 *)(((Unkstruct_8018868C *)arg0)->unk20 + 0x12) = *(u16 *)(*(s32 *)(temp + 0x20) + 0x12);
+    ((Unkstruct_8018868C *)arg0)->unk2.u = 6;
+    ((Unkstruct_8018868C *)arg0)->unk34.u = 0;
+    *(u16 *)(((Unkstruct_8018868C *)arg0)->unk20.val + 0x12) = *(u16 *)(*(s32 *)(temp + 0x20) + 0x12);
 }
 
 
@@ -5502,12 +5502,12 @@ void func_8018B698(s32 arg0)
     s32 s0 = arg0;
     u16 sp10[4];
 
-    sp10[0] = ((Unkstruct_8018B698 *)s0)->unk6;
-    sp10[1] = ((Unkstruct_8018B698 *)s0)->unkA - 0x40;
-    sp10[2] = ((Unkstruct_8018B698 *)s0)->unkE;
+    sp10[0] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
+    sp10[1] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u - 0x40;
+    sp10[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;
     sp10[3] = 0x3000;
     func_801437D8(s0 + 0xFE, (s32)sp10, (s32)D_801CD4C0, 0);
-    if ((((Unkstruct_8018B698 *)s0)->unkFE & 3) == 0) {
+    if ((((Unkstruct_801202A0 *)s0)->unkFE.u & 3) == 0) {
         guess_RequestSound(0xA9F, 0);
     }
 }

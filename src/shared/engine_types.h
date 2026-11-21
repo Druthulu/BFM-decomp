@@ -3622,8 +3622,6 @@ typedef M8_801312D0 UV_85810;
 typedef M8_801312D0 UVec8;
 typedef H16 Unkstruct_80126B96;
 typedef E4 Unkstruct_80133CD4;
-typedef struct { u8 pad[2]; u16 f; } Unkstruct_801824D4;
-typedef struct { u8 pad[2]; u16 f; } Unkstruct_80182560;
 typedef H16 Unkstruct_8018528C;
 typedef E4 Unkstruct_8018528C_2;
 typedef E4 Unkstruct_80188988;

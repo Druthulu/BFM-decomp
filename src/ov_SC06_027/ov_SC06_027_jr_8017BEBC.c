@@ -2991,18 +2991,18 @@ void func_8017D3A0(s32 a0)
         func_8005A600((s32)p, 0, 0, (u16)tp, 0);
 
         /* r0,r1,r2,r3 then g0..g3 then b0..b3 -- one load each */
-        ((Unkstruct_801813E8_2 *)p)->unk10 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk18 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk20 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk28 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk11 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk19 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk21 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk29 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk12 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk1A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk22 = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
-        ((Unkstruct_801813E8_2 *)p)->unk2A = ((Unkstruct_8017D3A0_2 *)a0)->unk1C;
+        ((Unkstruct_801813E8_2 *)p)->unk10 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk18 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk20 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk28 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk11 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk19 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk21 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk29 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk12 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk1A = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk22 = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801813E8_2 *)p)->unk2A = ((Unkstruct_801202A0 *)a0)->unk1C.s;
 
         ((Unkstruct_801813E8_2 *)p)->unkF = 8;      /* tag len  */
         ((Unkstruct_801813E8_2 *)p)->unk13 = 0x3A;  /* code     */
@@ -3088,12 +3088,12 @@ void func_8017D688(s32 arg0)
 {
     void *p = &guess_g_PlayerActor;
 
-    if (((Unkstruct_8017D3A0_2 *)arg0)->unk2 == 0) goto body0;
-    if (((Unkstruct_8017D3A0_2 *)arg0)->unk2 == 1) goto body1;
+    if (((Unkstruct_801202A0 *)arg0)->unk2.u == 0) goto body0;
+    if (((Unkstruct_801202A0 *)arg0)->unk2.u == 1) goto body1;
     goto end;
 body0:
-    ((Unkstruct_8017D3A0_2 *)arg0)->unk1C = 0x7F;
-    ((Unkstruct_8017D3A0_2 *)arg0)->unk2 = 1;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x7F;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u = 1;
     func_8014706C(p);
     func_8014708C(p);
     func_801472C8(p);
@@ -3266,8 +3266,8 @@ s32 func_8017DA3C(s32 arg0)
     s32 var;
 
     func_8017D3A0(arg0);
-    var = ((Unkstruct_8017D3A0_2 *)arg0)->unk1C - 3;
-    ((Unkstruct_8017D3A0_2 *)arg0)->unk1C = var;
+    var = ((Unkstruct_801202A0 *)arg0)->unk1C.s - 3;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = var;
     return var < 1;
 }
 

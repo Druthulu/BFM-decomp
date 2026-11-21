@@ -5514,9 +5514,9 @@ void func_80181ED8(s32 a0) {
 
 
 void func_80181F98(s32 *a0, s32 *a1) {
-    ((Unkstruct_801819B4_2 *)a0)->unk6 = ((Rec_80166690_80166690 *)a1)->h[0];
-    ((Unkstruct_801819B4_2 *)a0)->unkA = ((Rec_80166690_80166690 *)a1)->h[1];
-    ((Unkstruct_801819B4_2 *)a0)->unkE = ((Rec_80166690_80166690 *)a1)->h[2];
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Rec_80166690_80166690 *)a1)->h[0];
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Rec_80166690_80166690 *)a1)->h[1];
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Rec_80166690_80166690 *)a1)->h[2];
     ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk10.w.unk10.u = ((Rec_80166690_80166690 *)a1)->h[3];
     ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk10.w.unk12.u = ((Rec_80166690_80166690 *)a1)->h[4];
     ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk10.w.unk14.u = ((Rec_80166690_80166690 *)a1)->h[5];

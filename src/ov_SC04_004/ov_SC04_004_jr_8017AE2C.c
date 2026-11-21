@@ -5353,7 +5353,7 @@ void func_8017FCF8(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017DC9C *)a0)->unk70;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {
@@ -5830,12 +5830,12 @@ void func_801808B4(s32 arg0) {
     s32 *s0 = (s32 *)arg0;
     s32 v1;
 
-    D_80192E38[((Unkstruct_8017F858 *)s0)->unk2]();
+    D_80192E38[((Unkstruct_801202A0 *)s0)->unk2.u]();
 
-    if ((((Unkstruct_8017F858 *)s0)->unk0 == 0x1FC) && (((Unkstruct_8017F858 *)s0)->unkAA == 0)) {
-        v1 = ((Unkstruct_8017F858 *)s0)->unk20;
+    if ((((Unkstruct_801202A0 *)s0)->unk0 == 0x1FC) && (((Unkstruct_801202A0 *)s0)->unkAA == 0)) {
+        v1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
         ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u |= 0x10;
-        v1 = ((Unkstruct_8017F858 *)s0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)s0)->unk20.val;
         ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u = ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk1A.u = ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk1C.u = 0x1800;
     }
 }
@@ -6258,12 +6258,12 @@ void func_801811E8(u8 *a0)
 {
     u16 buf[4];
 
-    if (((Unkstruct_8018018C *)a0)->unk0 != 0x1FC) {
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0x1FC) {
         return;
     }
-    buf[0] = ((Unkstruct_8018018C *)a0)->unk6;
-    buf[1] = ((Unkstruct_8018018C *)a0)->unkA - 0x20;
-    buf[2] = ((Unkstruct_8018018C *)a0)->unkE;
+    buf[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    buf[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u - 0x20;
+    buf[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     buf[3] = 0x1800;
     func_801437D8((s32)(a0 + 0x102), (s32)buf, (s32)&D_80192E84, 0);
 }
@@ -6834,15 +6834,15 @@ void func_80181EE8(s32 param_1)
     s32 t;
 
     m = D_800AE620;
-    t = (*(s16 *)(((Unkstruct_80181EE8_2 *)param_1)->unk20.val + 0x18) * 9) >> 9;
+    t = (*(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x18) * 9) >> 9;
     sv.vx = sv.vy = 0;
     sv.vz = -t;
     r = func_8012B8A4((s16 *)param_1);
     RotMatrixY(r, &m);
     ApplyMatrixSV(&m, &sv, &out);
-    out.vx += ((Unkstruct_80181EE8_2 *)param_1)->unk6;
-    out.vy += ((Unkstruct_80181EE8_2 *)param_1)->unkA - t;
-    out.vz += ((Unkstruct_80181EE8_2 *)param_1)->unkE;
+    out.vx += ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+    out.vy += ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u - t;
+    out.vz += ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
     guess_SetPlayerHit(1, 0x4002, 0, 0x14, (s32)&out, (s32)guess_g_BoxHitNormalX);
 }
 
@@ -7071,9 +7071,9 @@ void func_801824B0(s32 a0) {
     void *t;
 
     result = ((s32 (*)(s32))func_8012CBF4)(a0);
-    field_a = ((Unkstruct_801824B0 *)a0)->unkA;
+    field_a = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
     if (field_a >= 0x81) {
-        d0 = ((Unkstruct_801824B0 *)a0)->unkD0.p;
+        d0 = ((Unkstruct_801202A0 *)a0)->unkD0.p;
         if (d0 != NULL) {
             ((void (*)(void *))func_801439C0)(d0);
         }
@@ -7958,14 +7958,14 @@ void func_801838E4(void *a0) {
 extern void (*D_801A8CA4[])(void);
 
 void func_80183920(void *a0) {
-    D_801A8CA4[((Unkstruct_80183920 *)a0)->unk2]();
-    if (((Unkstruct_80183920 *)a0)->unk0 != 0) {
-        void *ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
-        ((RenderHead *)ptr)->unk8.u = ((Unkstruct_80183920 *)a0)->unk6;
-        ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
-        ((RenderHead *)ptr)->unkA.u = ((Unkstruct_80183920 *)a0)->unkA;
-        ptr = ((Unkstruct_80183920 *)a0)->unkCC.p;
-        ((RenderHead *)ptr)->unkC.u = ((Unkstruct_80183920 *)a0)->unkE;
+    D_801A8CA4[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
+        void *ptr = ((Unkstruct_801202A0 *)a0)->unkCC.p;
+        ((RenderHead *)ptr)->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ptr = ((Unkstruct_801202A0 *)a0)->unkCC.p;
+        ((RenderHead *)ptr)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ptr = ((Unkstruct_801202A0 *)a0)->unkCC.p;
+        ((RenderHead *)ptr)->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 }
 

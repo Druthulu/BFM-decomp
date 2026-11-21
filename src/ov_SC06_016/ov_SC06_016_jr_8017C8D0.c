@@ -3062,8 +3062,8 @@ void func_8017E114(s32 arg0)
     func_8017EEFC(arg0, 3, (s32)D_80188A04, &D_801947F4);
     CAST_ALIAS(s32, arg0, 0x1C) = D_80188A12;
     v0 = D_80188A06;
-    ((Unkstruct_8017E114 *)arg0)->unk8 = 0;
-    ((Unkstruct_8017E114 *)arg0)->unkA = v0;
+    ((Unkstruct_801202A0 *)arg0)->unk8.i.lo = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s = v0;
     guess_RequestSound(0x97D, 0);
     guess_RequestSound(0xA90, 0);
     func_8017F5B4(arg0, arg0);
@@ -4758,9 +4758,9 @@ s32 func_80180BF0(void *a0)
     s32 ret;
     s16 ang;
 
-    v10.vx = ((Unkstruct_80180BF0 *)a0)->unk6;
-    v10.vy = ((Unkstruct_80180BF0 *)a0)->unkA;
-    v10.vz = ((Unkstruct_80180BF0 *)a0)->unkE;
+    v10.vx = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    v10.vy = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    v10.vz = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
     v18.vx = guess_g_PlayerPosX;
     v18.vy = guess_g_PlayerPosY;
     v18.vz = guess_g_PlayerPosZ;
@@ -4831,8 +4831,8 @@ s32 func_80180D24(s32 arg0, s32 arg1, s32 arg2, s16 arg3)
     Pt_80187940_80180D24 a;
     Pt_80187940_80180D24 b;
 
-    ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_80180BF0 *)arg0)->unk20 + 0x54, arg1, &a);
-    ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_80180BF0 *)arg0)->unk20 + 0x54, arg2, &b);
+    ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x54, arg1, &a);
+    ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x54, arg2, &b);
 
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&a, (s32)&b) != 0) {
         guess_SetPlayerHit(1, 0x4201, arg3, 0x5a, &b, guess_g_BoxHitNormalX);

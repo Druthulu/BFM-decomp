@@ -4455,7 +4455,7 @@ void func_8017F4D8(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017D6B0_2 *)a0)->unk70;
+    v1 = ((Unkstruct_8017D6B0_2 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {

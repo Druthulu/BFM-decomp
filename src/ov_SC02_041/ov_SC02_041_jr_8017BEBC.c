@@ -3767,7 +3767,7 @@ void func_8017E654(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017E654_3 *)a0)->unk70;
+    v1 = ((Unkstruct_8017E654_3 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {

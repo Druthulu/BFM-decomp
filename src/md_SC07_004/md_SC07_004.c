@@ -3337,11 +3337,11 @@ void func_801A4EBC(u8 *a0)
         m = *(Mat32_801A4EBC *)&D_800AE620;
         mp = &m;
 
-        RotMatrixY(*(s16 *)(((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unk20 + 0x12), mp);
+        RotMatrixY(*(s16 *)(((Unkstruct_801202A0 *)*(s32 *)(s1 + 0x64))->unk20.val + 0x12), mp);
 
-        m.t0 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unk6;
-        m.t1 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unkA;
-        m.t2 = ((Unkstruct_80180BF0 *)*(s32 *)(s1 + 0x64))->unkE;
+        m.t0 = ((Unkstruct_801202A0 *)*(s32 *)(s1 + 0x64))->unk4.i.hi.s;
+        m.t1 = ((Unkstruct_801202A0 *)*(s32 *)(s1 + 0x64))->unk8.i.hi.s;
+        m.t2 = ((Unkstruct_801202A0 *)*(s32 *)(s1 + 0x64))->unkC.i.hi.s;
 
         SetRotMatrix(mp);
         SetTransMatrix(mp);

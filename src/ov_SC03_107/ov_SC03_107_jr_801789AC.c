@@ -9356,11 +9356,11 @@ void func_80181C1C(s32 a0) {
     extern u16 D_80198BB4;
     s32 ptr;
 
-    ptr = ((Unkstruct_80191C50 *)a0)->unk20;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk20.val;
     *(s32 *)(ptr + 4) &= 0x7FFFFFFF;
-    ((Unkstruct_80191C50 *)a0)->unkFC = 0;
-    func_800291C8(0xA, (s16)(((Unkstruct_80191C50 *)a0)->unkFE | 0x100));
-    D_80198BB0 = ((Unkstruct_80191C50 *)a0)->unk6;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
+    func_800291C8(0xA, (s16)(((Unkstruct_801202A0 *)a0)->unkFE.u | 0x100));
+    D_80198BB0 = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
     D_80198BB2 = CAST_ALIAS(u16, (s32)a0, 0xA);
     D_80198BB4 = CAST_ALIAS(u16, (s32)a0, 0xE);
 }

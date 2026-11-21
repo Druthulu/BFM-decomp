@@ -4096,8 +4096,8 @@ void *arg0;
     extern s32 D_801BD968;
 
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801BD968);
-    ((Unkstruct_8017E630 *)arg0)->unk2 = 0xd;
-    ((Unkstruct_8017E630 *)arg0)->unk1C = 0x28;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xd;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x28;
 }
 
 

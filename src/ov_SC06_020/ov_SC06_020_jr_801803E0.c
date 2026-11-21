@@ -3007,11 +3007,11 @@ extern s32 D_8019EBAC;
 s32 func_80180A98(s32 *a0)
 {
     s32 s0 = a0;
-    ((Unkstruct_80180A98 *)s0)->unkC2 = 0;
-    ((Unkstruct_80180A98 *)s0)->unkC3 = 0;
-    ((Unkstruct_80180A98 *)s0)->unk1C = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
     KR_AS(void, func_80131B14)();
-    if ((((Unkstruct_80180A98 *)s0)->unk5E == 9) || (((Unkstruct_80180A98 *)s0)->unk5E == 0x1C)) {
+    if ((((Unkstruct_801202A0 *)s0)->unk5E.u == 9) || (((Unkstruct_801202A0 *)s0)->unk5E.u == 0x1C)) {
         guess_SetLocalVelocity(s0, (s32)&D_8019EB9C);
     } else {
         guess_SetLocalVelocity(s0, (s32)&D_8019EBAC);

@@ -3500,8 +3500,8 @@ void *arg0;
     extern s32 D_801B5D08;
 
     ((void (*)(void *, void *))guess_StartActorSequence)(arg0, &D_801B5D08);
-    ((Unkstruct_8017E630 *)arg0)->unk2 = 0xd;
-    ((Unkstruct_8017E630 *)arg0)->unk1C = 0x28;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0xd;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x28;
 }
 
 
@@ -4146,9 +4146,9 @@ s32 p;
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short aD801B5B88_8017F630 __asm__("D_801B5B88");
     void func_8017F630(short *a0) {
-        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
-        ((Unkstruct_80183554 *)a0)->unk34 = 0;
-        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x1D;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xf;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (int)&aD801B5B88_8017F630);
     }
 

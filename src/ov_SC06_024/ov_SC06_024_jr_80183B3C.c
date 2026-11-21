@@ -2945,10 +2945,10 @@ void func_80183B3C(void *a0) {
 
 
 void func_80183C1C(s32 a0) {
-    s16 v = ((Unkstruct_80183C1C *)a0)->unk54;
+    s16 v = ((Unkstruct_801202A0 *)a0)->unk50.w.unk54.s;
 
     if (v != 0) {
-        ((Unkstruct_80183C1C *)a0)->unk54 = v - 0x10;
+        ((Unkstruct_801202A0 *)a0)->unk50.w.unk54.s = v - 0x10;
     } else {
         func_80182EAC(a0);
     }
@@ -3020,7 +3020,7 @@ void func_80183CB0(s32 a0) {
          * sll21/sra16 shift pair — see the wave-P31V index_gap note). */
         tmp = ((((Unkstruct_801202A0 *)a0)->unk70.s - 3) * 7) << 5;
         objData = ((Unkstruct_801202A0 *)a0)->unk64;
-        matSrc = ((Unkstruct_801817D8_3 *)objData)->unk20;
+        matSrc = ((Unkstruct_801202A0 *)objData)->unk20.val;
         m = *(MATRIX *)(matSrc + 0x54);
         RotMatrixY(tmp, &m);
 

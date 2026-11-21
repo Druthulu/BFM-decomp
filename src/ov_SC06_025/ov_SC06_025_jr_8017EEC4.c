@@ -3511,16 +3511,16 @@ void func_8017FF4C(s32 arg0, s16 *arg1, s32 arg2) {
     if (a3 <= 0) {
         a3 = 1;
     }
-    a1 = ((arg1[0] - ((Unkstruct_8017FF4C *)t0)->unk6) << 16) / a3;
-    a0r = ((arg1[2] - ((Unkstruct_8017FF4C *)t0)->unkE) << 16) / a3;
+    a1 = ((arg1[0] - ((Unkstruct_801202A0 *)t0)->unk4.i.hi.s) << 16) / a3;
+    a0r = ((arg1[2] - ((Unkstruct_801202A0 *)t0)->unkC.i.hi.s) << 16) / a3;
     a2v = D_80188A00;
     var = (-a2v / 2) * a3;
-    ((Unkstruct_8017FF4C *)t0)->unk44 = 0;
-    ((Unkstruct_8017FF4C *)t0)->unk4C = 0;
-    ((Unkstruct_8017FF4C *)t0)->unk48 = a2v;
-    ((Unkstruct_8017FF4C *)t0)->unk14 = var;
-    ((Unkstruct_8017FF4C *)t0)->unk10 = a1;
-    ((Unkstruct_8017FF4C *)t0)->unk18 = a0r;
+    ((Unkstruct_801202A0 *)t0)->unk44.w.unk44 = 0;
+    ((Unkstruct_801202A0 *)t0)->unk4C = 0;
+    ((Unkstruct_801202A0 *)t0)->unk44.w.unk48 = a2v;
+    ((Unkstruct_801202A0 *)t0)->unk14.val = var;
+    ((Unkstruct_801202A0 *)t0)->unk10.val = a1;
+    ((Unkstruct_801202A0 *)t0)->unk18.val = a0r;
 }
 
 
@@ -5437,7 +5437,7 @@ void func_801828A0(s32 a0) {
 s32 func_80182938(u8 *param_1)
 {
     *(u16 *)(*(u8 **)(param_1 + 0x20) + 0x10) = 0;
-    ((Unkstruct_80182938 *)param_1)->unk1C = 0xFF;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.u = 0xFF;
     return 0xFF;
 }
 
@@ -5446,8 +5446,8 @@ void func_80182950(u8 *param_1)
 {
     s32 x;
 
-    x = ((Unkstruct_80182950 *)param_1)->unk1C - 0x10;
-    ((Unkstruct_80182950 *)param_1)->unk1C = x;
+    x = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 0x10;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = x;
     if (x < 0) {
         x = 0;
     }
@@ -5467,11 +5467,11 @@ void func_801829B4(void *a0)
     s32 v1;
 
     s0 = a0;
-    v1 = ((Unkstruct_801829B4 *)s0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)s0)->unk34.u;
 
     switch (v1) {
     case 0:
-        ((Unkstruct_801829B4 *)s0)->unk34 = ((Unkstruct_801829B4 *)s0)->unk34 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
         return;
 
     case 1:
@@ -5480,12 +5480,12 @@ void func_801829B4(void *a0)
         }
         ((void (*)(void *))func_80178D18)(s0);
 
-        ((Unkstruct_801829B4 *)s0)->unk34 = ((Unkstruct_801829B4 *)s0)->unk34 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
         return;
 
     case 2:
         func_8017DB6C(1);
-        ((Unkstruct_801829B4 *)s0)->unk34 = ((Unkstruct_801829B4 *)s0)->unk34 + 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.u = ((Unkstruct_801202A0 *)s0)->unk34.u + 1;
         return;
 
     case 3:
@@ -5862,8 +5862,8 @@ void func_80183228(void *a0) {
     ((Unkstruct_8017F858_2 *)v0)->unk18 = 0xC00;
     if (((s32 (*)(s32))func_8012BE54)(a0) < 0x6401) {
         func_80178B18((s32)a0, (s32)&D_801892CC);
-        ((Unkstruct_80183228_3 *)a0)->unk2 = 2;
-        ((Unkstruct_80183228_3 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
         guess_RequestSound(0xB01, 0);
     }
 }

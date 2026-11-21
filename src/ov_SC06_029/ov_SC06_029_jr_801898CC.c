@@ -3664,19 +3664,19 @@ void func_8018A314(s32 arg0)
     s32 v0;
 
     v1 = *(s32 **)(arg0 + 0x64);
-    a0 = ((Unkstruct_8018A314 *)arg0)->unk20;
+    a0 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
 
-    ((Unkstruct_8018A314 *)arg0)->unk4 = v1[1];
-    ((Unkstruct_8018A314 *)arg0)->unk8 = v1[2];
-    ((Unkstruct_8018A314 *)arg0)->unkC = v1[3];
+    ((Unkstruct_801202A0 *)arg0)->unk4.val = v1[1];
+    ((Unkstruct_801202A0 *)arg0)->unk8.val = v1[2];
+    ((Unkstruct_801202A0 *)arg0)->unkC.val = v1[3];
 
     { RenderHead *d = (RenderHead *)a0, *s = (RenderHead *)v1[8]; d->unk10.m = s->unk10.m; }
 
-    if (((Unkstruct_8018A314 *)arg0)->unk90 == (s32)&D_801D4D0C && ((Unkstruct_8018A314 *)arg0)->unk98 == 0) {
-        ((Unkstruct_8018A314 *)arg0)->unk48 = 0x2000;
-        ((Unkstruct_8018A314 *)arg0)->unk1C = 0x80;
-        v0 = ((Unkstruct_8018A314 *)arg0)->unk2;
-        ((Unkstruct_8018A314 *)arg0)->unk2 = v0 + 1;
+    if (((Unkstruct_801202A0 *)arg0)->unk90 == (s32)&D_801D4D0C && ((Unkstruct_801202A0 *)arg0)->unk98.s == 0) {
+        ((Unkstruct_801202A0 *)arg0)->unk44.w.unk48 = 0x2000;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0x80;
+        v0 = ((Unkstruct_801202A0 *)arg0)->unk2.u;
+        ((Unkstruct_801202A0 *)arg0)->unk2.u = v0 + 1;
         guess_RequestSound(0xB5C, 0);
     }
 }

@@ -3555,28 +3555,28 @@ s32 func_8017F24C(void *a0)
     void *p;
     u16 st;
 
-    p = ((Unkstruct_8017F24C_2 *)a0)->unk64;
-    st = ((Unkstruct_8017F24C *)p)->unk2;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801810B8)(a0) == 0) {
             return 0;
         }
-        p = ((Unkstruct_8017F24C_2 *)a0)->unk64;
-        if (((Unkstruct_8017F24C *)p)->unk34 != 0) {
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 0) {
             return 0;
         }
-        ((Unkstruct_8017F24C *)p)->unk34 = ((Unkstruct_8017F24C *)p)->unk34 + 1;
+        ((Unkstruct_801202A0 *)p)->unk34.u = ((Unkstruct_801202A0 *)p)->unk34.u + 1;
         goto hit;
     case 3:
         if (func_8012BD14((s32)p) >= 0x4001) {
             return 0;
         }
-        p = ((Unkstruct_8017F24C_2 *)a0)->unk64;
-        if (((Unkstruct_8017F24C *)p)->unk34 != 2) {
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        if (((Unkstruct_801202A0 *)p)->unk34.u != 2) {
             return 0;
         }
-        ((Unkstruct_8017F24C *)p)->unk34 = 5;
+        ((Unkstruct_801202A0 *)p)->unk34.u = 5;
         goto hit;
     default:
         return 0;

@@ -7963,7 +7963,7 @@ extern s32 D_80189484;
 
 void func_801842E0(void *arg0) {
     ((void (*)(void *, void *))func_80178CBC)(arg0, &D_80189484);
-    ((Unkstruct_8017D620 *)arg0)->unk2 = 0x3;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 0x3;
 }
 
 

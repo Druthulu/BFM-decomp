@@ -3808,13 +3808,13 @@ s32 func_801862CC(s32 a0, s32 a1) {
     s16 v20[4];   /* sp+0x20 SVECTOR — segment end */
     s32 r;
 
-    ApplyMatrixSV((void *)(((Unkstruct_801819B4_2 *)s0)->unk20 + 0x34), D_801AFBD8[a1], v10);
-    v18[0] = ((Unkstruct_801819B4_2 *)s0)->unk6;
-    v18[1] = ((Unkstruct_801819B4_2 *)s0)->unkA;
-    v18[2] = ((Unkstruct_801819B4_2 *)s0)->unkE;
-    v20[0] = ((Unkstruct_801819B4_2 *)s0)->unk6;
-    v20[1] = ((Unkstruct_801819B4_2 *)s0)->unkA;
-    v20[2] = ((Unkstruct_801819B4_2 *)s0)->unkE;
+    ApplyMatrixSV((void *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x34), D_801AFBD8[a1], v10);
+    v18[0] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
+    v18[1] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u;
+    v18[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;
+    v20[0] = ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u;
+    v20[1] = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u;
+    v20[2] = ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u;
     v20[0] = v20[0] + v10[0];
     v20[1] = v20[1] + v10[1];
     v20[2] = v20[2] + v10[2];

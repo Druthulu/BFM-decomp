@@ -208,9 +208,9 @@ void func_801A04D4(s32 arg0) {
 
     if (guess_GetPlayerControlScript() == 0) {
         func_80178B18((s32)s0, (s32)&D_801A698C);
-        ((Unkstruct_80183554 *)s0)->unk2 = 2;
-        ((Unkstruct_80183554 *)s0)->unk34 = 0;
-        ((Unkstruct_80183554 *)s0)->unk1C = 0;
+        ((Unkstruct_801202A0 *)s0)->unk2.s = 2;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)s0)->unk1C.s = 0;
     }
 }
 

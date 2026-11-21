@@ -2860,7 +2860,7 @@ void func_801820DC(void *a0) {
     s16 v1;
 
     v0 = guess_GetStoryProgress();
-    v1 = ((Unkstruct_801820DC_2 *)s2)->unk70;
+    v1 = ((Unkstruct_801202A0 *)s2)->unk70.s;
     s0 = D_801B2C04[v1];
     v1 -= 8;
     switch (v1) {

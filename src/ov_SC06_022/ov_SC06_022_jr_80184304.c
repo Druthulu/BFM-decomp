@@ -3056,11 +3056,11 @@ extern s32 D_801BD2D4;
 
 void func_801849BC(s32 *a0) {
     s32 s0 = a0;
-    ((Unkstruct_801849BC *)s0)->unkC2 = 0;
-    ((Unkstruct_801849BC *)s0)->unkC3 = 0;
-    ((Unkstruct_801849BC *)s0)->unk1C = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC3 = 0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.u = 0;
     KR_AS(void, func_80131B14)();
-    switch (((Unkstruct_801849BC *)s0)->unk5E) {
+    switch (((Unkstruct_801202A0 *)s0)->unk5E.u) {
     case 9:
     case 0x1C:
         guess_SetLocalVelocity(s0, (s32)&D_801BD2C4);

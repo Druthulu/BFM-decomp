@@ -3042,13 +3042,13 @@ void func_801919A0(s32 _arg0) {
         ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
         dst = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
-        ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-        ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-        ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-            ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-            ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+        ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+        ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+        ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+            ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+            ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
         func_8018D264(((Unkstruct_801202A0 *)arg0)->unkD0.val);
         src = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
         guess_UpdateActorModelMatrix(src);
@@ -3056,13 +3056,13 @@ void func_801919A0(s32 _arg0) {
         ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
         dst = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
-        ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-        ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-        ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-            ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-            ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+        ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+        ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+        ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+            ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+            ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
         func_8018D264(((Unkstruct_801202A0 *)arg0)->unkD4.p);
         src = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
         guess_UpdateActorModelMatrix(src);
@@ -3105,26 +3105,26 @@ void func_801919A0(s32 _arg0) {
         ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
         dst = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
-        ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-        ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-        ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-            ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-            ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+        ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+        ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+        ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+            ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+            ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
         src = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
         guess_UpdateActorModelMatrix(src);
         mp = D_801CC7CC;
         ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
         dst = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
-        ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-        ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-        ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-            ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-        *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-            ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+        ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+        ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+        ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+            ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+        *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+            ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
         src = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
         guess_UpdateActorModelMatrix(src);
         mp = D_801CC7CC;
@@ -3238,26 +3238,26 @@ void func_801919A0(s32 _arg0) {
     ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
     dst = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
-    ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-    ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-    ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-    *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-        ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-    *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-        ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+    ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+    ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+    ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+    *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+        ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+    *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+        ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
     src = ((Unkstruct_801202A0 *)arg0)->unkD0.val;
     guess_UpdateActorModelMatrix(src);
     mp = D_801CC7CC;
     ((void (*)(s32, void *, void *))guess_RotTransSVWithMatrix)(((Unkstruct_801202A0 *)src)->unk20.p + 0x34, mp, sp10);
         mp = 0;
     dst = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
-    ((Unkstruct_80191C50 *)dst)->unk6 = sp10[0];
-    ((Unkstruct_80191C50 *)dst)->unkA = sp10[1];
-    ((Unkstruct_80191C50 *)dst)->unkE = sp10[2];
-    *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x10) =
-        ((Unkstruct_80191C50 *)dst)->unkFC + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
-    *(u16 *)(((Unkstruct_80191C50 *)dst)->unk20 + 0x12) =
-        ((Unkstruct_80191C50 *)dst)->unkFE + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
+    ((Unkstruct_801202A0 *)dst)->unk4.i.hi.u = sp10[0];
+    ((Unkstruct_801202A0 *)dst)->unk8.i.hi.u = sp10[1];
+    ((Unkstruct_801202A0 *)dst)->unkC.i.hi.u = sp10[2];
+    *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x10) =
+        ((Unkstruct_801202A0 *)dst)->unkFC.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk10.u;
+    *(u16 *)(((Unkstruct_801202A0 *)dst)->unk20.val + 0x12) =
+        ((Unkstruct_801202A0 *)dst)->unkFE.u + ((Unkstruct_8001C9D0 *)*(s32 *)(src + 0x20))->head.unk10.w.unk12.u;
     src = ((Unkstruct_801202A0 *)arg0)->unkD4.p;
     guess_UpdateActorModelMatrix(src);
     mp = D_801CC7CC;

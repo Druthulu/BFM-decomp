@@ -3518,10 +3518,10 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 void func_8017EA34(param_1)
 s32 param_1;
 {
-    ((Unkstruct_8017EE10 *)param_1)->unk2 = 6;
+    ((Unkstruct_801202A0 *)param_1)->unk2.u = 6;
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, (void *)&D_801A411C);
-    ((Unkstruct_8017EE10 *)param_1)->unk1C = 0x17;
-    ((Unkstruct_8017EE10 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x17;
+    ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
 }
 
 

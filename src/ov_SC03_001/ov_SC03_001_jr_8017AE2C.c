@@ -6773,9 +6773,9 @@ s32 func_80181948(s32 a0) {
 
 
 void func_80181988(void *a0) {
-        ((Unkstruct_80183554 *)a0)->unk2 = 4;
-        ((Unkstruct_80183554 *)a0)->unk34 = 0;
-        ((Unkstruct_80183554 *)a0)->unk1C = 0x3c;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x3c;
     }
 
 
@@ -9270,7 +9270,7 @@ void * arg0;
     extern s32 D_801C3990;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8018067C *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&D_801C3990);
     }
 }

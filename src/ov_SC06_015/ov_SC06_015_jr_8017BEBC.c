@@ -3152,7 +3152,7 @@ void func_8017D8AC(param_1)
 
     {
         s32 *p =
-            (s32 *)(((Unkstruct_8017D8AC_2 *)param_1)->unk20 + 0x34);
+            (s32 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x34);
         gte_SetRotTransMatrix(p);
     }
 
@@ -3309,7 +3309,7 @@ void func_8017DCD0(s32 param_1)
     u16 uVar2;
 
     ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 + ((Unkstruct_8017DCD0 *)param_1)->unkFC;
+        ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
 
     obj = (s32)&guess_g_PlayerPosY;
     /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare
@@ -3317,18 +3317,18 @@ void func_8017DCD0(s32 param_1)
      * obj (R=11,L=109) = 3027 and takes $s2. This adds ONE reference to obj (R 11->12,
      * L 109->110 => 3272) with no emitted bytes, so obj wins $s2 and diff falls to $s3. */
     if (((Unkstruct_80126B58 *)(obj - 0xA))->unkA.s < -0x4E0) {
-        diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_8017DCD0 *)param_1)->unkE;
+        diff = (s32)(s16)guess_g_PlayerPosZ - ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s;
         if (diff < 0x140) {
-            uVar2 = ((Unkstruct_8017DCD0 *)param_1)->unkFC - 0x10;
-            ((Unkstruct_8017DCD0 *)param_1)->unkFC = uVar2;
+            uVar2 = ((Unkstruct_801202A0 *)param_1)->unkFC.u - 0x10;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.u = uVar2;
             if ((s16)uVar2 < 0) {
-                ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0;
+                ((Unkstruct_801202A0 *)param_1)->unkFC.u = 0;
             }
         } else {
-            sVar1 = ((Unkstruct_8017DCD0 *)param_1)->unkFC + 0x10;
-            ((Unkstruct_8017DCD0 *)param_1)->unkFC = sVar1;
+            sVar1 = ((Unkstruct_801202A0 *)param_1)->unkFC.u + 0x10;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.u = sVar1;
             if (sVar1 > 0x300) {
-                ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0x300;
+                ((Unkstruct_801202A0 *)param_1)->unkFC.u = 0x300;
             }
             if ((diff < 0x900) && (func_800CF8B4() != 0) && (func_8014CB8C() == 0)) {
                 quotient = (CAST_SIGN(s16, param_1, 0xFC) * 0xD) / 0x300;
@@ -3338,42 +3338,42 @@ void func_8017DCD0(s32 param_1)
                 }
                 guess_g_PlayerPosZ = guess_g_PlayerPosZ + quotient;
                 guess_RequestSound(0x978, ((quotient * 0x7F / 0xD) | 0x1000) & 0xFFFF);
-                ((Unkstruct_8017DCD0 *)param_1)->unkFE = 1;
+                ((Unkstruct_801202A0 *)param_1)->unkFE.u = 1;
             }
         }
     } else {
-        sVar1 = ((Unkstruct_8017DCD0 *)param_1)->unkFC + 0x10;
-        ((Unkstruct_8017DCD0 *)param_1)->unkFC = sVar1;
+        sVar1 = ((Unkstruct_801202A0 *)param_1)->unkFC.u + 0x10;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.u = sVar1;
         if (sVar1 > 0x300) {
-            ((Unkstruct_8017DCD0 *)param_1)->unkFC = 0x300;
+            ((Unkstruct_801202A0 *)param_1)->unkFC.u = 0x300;
         }
     }
 
-    if (((Unkstruct_8017DCD0 *)param_1)->unk1C != 0) {
-        ((Unkstruct_8017DCD0 *)param_1)->unk1C = ((Unkstruct_8017DCD0 *)param_1)->unk1C - 1;
+    if (((Unkstruct_801202A0 *)param_1)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = ((Unkstruct_801202A0 *)param_1)->unk1C.s - 1;
     } else {
         if (CAST_SIGN(s16, param_1, 0xFC) > 0x40) {
-            ((Unkstruct_8017DCD0 *)param_1)->unk1C = 3;
+            ((Unkstruct_801202A0 *)param_1)->unk1C.s = 3;
             obj = func_80143C74(param_1, 0);
             if (obj != 0) {
-                ((Unkstruct_8017DCD0_2 *)obj)->unk6 = rand() % 0x120 - 0xE0;
-                do { ((Unkstruct_8017DCD0_2 *)obj)->unkA = -(rand() & 0x3F) - 0x502; } while (0);
+                ((Unkstruct_801202A0 *)obj)->unk4.i.hi.s = rand() % 0x120 - 0xE0;
+                do { ((Unkstruct_801202A0 *)obj)->unk8.i.hi.u = -(rand() & 0x3F) - 0x502; } while (0);
                 diff = rand() % 0x560 + 0x140;
-                ((Unkstruct_8017DCD0_2 *)obj)->unkE = ((Unkstruct_8017DCD0_2 *)obj)->unkE + diff;
+                ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u = ((Unkstruct_801202A0 *)obj)->unkC.i.hi.u + diff;
                 quotient = (CAST_SIGN(s16, param_1, 0xFC) * 0xD) / 0x300;
                 quotient = (quotient * (0x800 - diff)) / 0x800;
-                ((Unkstruct_8017DCD0_2 *)obj)->unk1A = quotient * 2;
-                ((Unkstruct_8017DCD0_2 *)obj)->unk48 = -((rand() & 0x1FF) << 7);
+                ((Unkstruct_801202A0 *)obj)->unk18.i.hi.s = quotient * 2;
+                ((Unkstruct_801202A0 *)obj)->unk44.w.unk48 = -((rand() & 0x1FF) << 7);
             }
         }
     }
 
     if (CAST_SIGN(s16, param_1, 0xFE) == 2) {
-        ((Unkstruct_8017DCD0 *)param_1)->unkFE = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.u = 0;
         guess_RequestSound(4, 0x978);
     }
     if (CAST_SIGN(s16, param_1, 0xFE) == 1) {
-        ((Unkstruct_8017DCD0 *)param_1)->unkFE = 2;
+        ((Unkstruct_801202A0 *)param_1)->unkFE.u = 2;
     }
 }
 
@@ -3567,8 +3567,8 @@ extern void func_8017D8AC(s32);
     void func_8017E51C(s32 arg0) {
         s32 temp_v0;
         KR_AS(void, func_8017D8AC)();
-        temp_v0 = ((Unkstruct_8017E51C_2 *)arg0)->unk1C + 1;
-        ((Unkstruct_8017E51C_2 *)arg0)->unk1C = temp_v0;
+        temp_v0 = ((Unkstruct_801202A0 *)arg0)->unk1C.s + 1;
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s = temp_v0;
     }
 
 
@@ -3655,7 +3655,7 @@ void func_8017E6A4(void *a0)
     p = (void *)D_80194888;
     if (p != 0) {
         rot = *(u16 *)((s32)s2 + 0x12) + 0x800;
-        p = ((Unkstruct_8017E6A4_3 *)p)->unk20.p;
+        p = ((Unkstruct_801202A0 *)p)->unk20.p;
         flag = ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk12.u & 0x400;
         angle = rot & 0xFFF;
         if (flag) {
@@ -3713,7 +3713,7 @@ void func_8017E7EC(void *arg0) {
     best = 0x7FFFFFFF;
     for (k = 0; k < 0x60; k++) {
         s0 = (u8 *)guess_g_ObjectTable + k * 0x10C;
-        if (((Unkstruct_8017E7EC *)s0)->unk0 != 0 && (((Unkstruct_8017E7EC *)s0)->unk5C & 0x80)) {
+        if (((Unkstruct_801202A0 *)s0)->unk0 != 0 && (((Unkstruct_801202A0 *)s0)->unk5C.u & 0x80)) {
             s16 ret = func_80013328((s32)s5 + 4, (s32)s0 + 4);
             if (ret < best) {
                 best = ret;

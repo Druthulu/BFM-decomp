@@ -3711,15 +3711,15 @@ void func_8017D7F0(s32 param_1)
     u16 var;
 
     if ((s16)guess_g_PlayerPosZ >= 0x6D0) {
-        if (((Unkstruct_8017D7F0_2 *)param_1)->unk34 == 0) {
+        if (((Unkstruct_801202A0 *)param_1)->unk34.u == 0) {
             guess_RequestSound(0xB40, 0);
-            ((Unkstruct_8017D7F0_2 *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
-        *(s16 *)(((Unkstruct_8017D7F0_2 *)param_1)->unk20 + 0x12) = -(rsin(CAST_SIGN(s16, param_1, 0xFC)) * 0x300 >> 12);
-        var = ((Unkstruct_8017D7F0_2 *)param_1)->unkFC + 0x10;
-        ((Unkstruct_8017D7F0_2 *)param_1)->unkFC = var;
+        *(s16 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x12) = -(rsin(CAST_SIGN(s16, param_1, 0xFC)) * 0x300 >> 12);
+        var = ((Unkstruct_801202A0 *)param_1)->unkFC.u + 0x10;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.u = var;
         if ((s16)var >= 0x400) {
-            ((Unkstruct_8017D7F0_2 *)param_1)->unk2 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk2.u = 1;
         }
     }
 }
@@ -4111,7 +4111,7 @@ void func_8017E100(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017DC9C_2 *)a0)->unk70;
+    v1 = ((Unkstruct_8017DC9C_2 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {

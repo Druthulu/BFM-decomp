@@ -4347,7 +4347,7 @@ void func_8017F180(void *a0)
     if (v0 == 0)
         return;
 
-    v1 = ((Unkstruct_8017D6B0 *)a0)->unk70;
+    v1 = ((Unkstruct_8017D6B0 *)a0)->unk70.s;
 
     if (v1 != 0) {
         if (v1 != 1) {
@@ -7434,16 +7434,16 @@ extern u8 D_801A15A4[];
 extern u8 D_801ABDA0[];
 
 void func_80183F4C(s32 a0) {
-    if (((Unkstruct_80183F4C *)a0)->unk94 < 0x3D) {
+    if (((Unkstruct_801202A0 *)a0)->unk94.s < 0x3D) {
         if (func_8012D5E4(a0, (s32)D_801A159C, (s32)D_801A15A4, 0x20) == 1) {
             D_80126B96 = 4;
         }
     }
     if (((s32 (*)(s32))func_8012CBCC)(a0) & 0x6000) {
-        ((Unkstruct_80183F4C *)a0)->unk2 = 5;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
         ((void (*)(s32, void *))guess_StartActorSequence)(a0, D_801ABDA0);
-        ((Unkstruct_80183F4C *)a0)->unkFC = 0;
-        ((Unkstruct_80183F4C *)a0)->unk58 = ((s32)D_801A1464 | 0x40000000) | 0x20000000;
+        ((Unkstruct_801202A0 *)a0)->unkFC.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk58.s = ((s32)D_801A1464 | 0x40000000) | 0x20000000;
     }
 }
 
@@ -7633,14 +7633,14 @@ extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 
 void func_80184688(s32 a0)
 {
-    s32 d = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_80184688 *)a0)->unk20 + 0x12),
+    s32 d = guess_GetAngleStepToward(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12),
                           guess_YawToPoint((void *)(a0 + 4), (void *)(a0 + 0x88)), 8);
     ((Unkstruct_80184688_2 *)*(s32 *)(a0 + 0x20))->unk12 =
         ((Unkstruct_80184688_2 *)*(s32 *)(a0 + 0x20))->unk12 + d;
     ((Unkstruct_80184688_2 *)*(s32 *)(a0 + 0x20))->unk12 =
         ((Unkstruct_80184688_2 *)*(s32 *)(a0 + 0x20))->unk12 & 0xFFF;
     if ((u32)(d + 0x1F) < 0x3F) {
-        ((Unkstruct_80184688 *)a0)->unk2 = 8;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 8;
     }
 }
 

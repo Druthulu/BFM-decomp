@@ -3069,9 +3069,9 @@ void func_801834D4(s32 p) {
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern short aD801D42B0_80183554 __asm__("D_801D42B0");
     void func_80183554(short *a0) {
-        ((Unkstruct_80183554 *)a0)->unk2 = 0x1D;
-        ((Unkstruct_80183554 *)a0)->unk34 = 0;
-        ((Unkstruct_80183554 *)a0)->unk1C = 0xf;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x1D;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xf;
         ((void (*)(s32 *, s32))guess_StartActorSequence)((s32 *)a0, (int)&aD801D42B0_80183554);
     }
 
