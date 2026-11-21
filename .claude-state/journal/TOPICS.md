@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-20T20:52:30.940Z
+# filed through: 2026-11-21T13:32:42.781Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -241,8 +241,11 @@ R237 | 2026-11-19 | decision | in force | Phase 3.45 T17 absorption wave A1 prog
 R238 | 2026-11-19 | finding | in force | Phase 3.45 T17 absorption wave A1 progress (2026-11-17) | T17 is done (final commit 585da71c07). | .claude-state/journal/2026-11-19.md#195312-021r-claude-record
 R239 | 2026-11-19 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | As of 19:37 on 2026-11-19, T18 is in progress. | .claude-state/journal/2026-11-19.md#195312-021r-claude-record
 R240 | 2026-11-19 | finding | in force | Unions in the consolidated structs | Union count at 2026-11-19: 189 lines mention `union` in include/struct_types.h, and 259 in include/… | .claude-state/journal/2026-11-19.md#195312-021r-claude-record
-R241 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 resumes from its progress with fresh coders started from the tree state. | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
-R242 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | Before the stop, T18's applier committed E4 (f6989784d0). | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
-R243 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The developer's /tools-edit-kit-corpus was a misclick and was not run. | .claude-state/journal/2026-11-20/104349-007r-claude-record.md
-R244 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 at its question stop (2026-11-20): 620 of A2's 621 ov_SC03 types are finished: 518 absorbed, 56… | .claude-state/journal/2026-11-20/140753-014r-claude-record.md
-R245 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The milestone's finishes gain "not a struct": disposition `scalar`, class text\|scalar. | .claude-state/journal/2026-11-20/140753-014r-claude-record.md
+R241 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 resumes from its progress with fresh coders started from the tree state. | .claude-state/journal/2026-11-20.md#104349-007r-claude-record
+R242 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | Before the stop, T18's applier committed E4 (f6989784d0). | .claude-state/journal/2026-11-20.md#104349-007r-claude-record
+R243 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The developer's /tools-edit-kit-corpus was a misclick and was not run. | .claude-state/journal/2026-11-20.md#104349-007r-claude-record
+R244 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 at its question stop (2026-11-20): 620 of A2's 621 ov_SC03 types are finished: 518 absorbed, 56… | .claude-state/journal/2026-11-20.md#140753-014r-claude-record
+R245 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | The milestone's finishes gain "not a struct": disposition `scalar`, class text\|scalar. | .claude-state/journal/2026-11-20.md#140753-014r-claude-record
+R246 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | docs/gen3-standards.md rule 4's disposition list now names **scalar** ("not a struct", class text\|s… | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
+R247 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 is done: A2's 621 ov_SC03 types have 0 pending (518 absorbed, 56 folded, 45 survivors, 1 wall E… | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
+R248 | 2026-11-20 | finding | in force | Reading raw pointer casts in decompiled C | The developer is learning C pointer syntax through the phase's examples. | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
