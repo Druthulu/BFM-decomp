@@ -3612,21 +3612,21 @@ void func_8017EC00(s32 arg0) {
     u16 t1;
     u16 t2;
 
-    p = ((Unkstruct_8017EC00 *)arg0)->unk20;
-    ((Unkstruct_8017EC00 *)arg0)->unk5C = 0;
-    ((Unkstruct_8017EC00 *)arg0)->unk98 = 0;
-    ((Unkstruct_8017EC00 *)arg0)->unk1C = 0;
+    p = ((Unkstruct_801202A0 *)arg0)->unk20.val;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk98.s = 0;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = 0;
     ((Unkstruct_8001C9D0 *)p)->head.unk2C.u |= 0x10;
-    if (((Unkstruct_8017EC00 *)arg0)->unkAA == 0) {
-        q1 = ((Unkstruct_8017EC00 *)arg0)->unk20;
+    if (((Unkstruct_801202A0 *)arg0)->unkAA == 0) {
+        q1 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
         t1 = ((Unkstruct_8001C9D0 *)q1)->head.unk18.w.unk18.u;
-        ((Unkstruct_8017EC00 *)arg0)->unk106 = 0;
-        ((Unkstruct_8017EC00 *)arg0)->unk100 = t1;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_006_801838FC.unk106 = 0;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_006_801838FC.unk100.s = t1;
     } else {
-        q2 = ((Unkstruct_8017EC00 *)arg0)->unk20;
+        q2 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
         t2 = ((Unkstruct_8001C9D0 *)q2)->head.unk18.w.unk18.u;
-        ((Unkstruct_8017EC00 *)arg0)->unk106 = 1;
-        ((Unkstruct_8017EC00 *)arg0)->unk104 = t2;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_006_801838FC.unk106 = 1;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_006_801838FC.unk104.s = t2;
     }
 }
 

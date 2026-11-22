@@ -6824,12 +6824,12 @@ void func_80183E2C(s32 a0)
     s0 = (u8)guess_GetGameVarByte(0xDC);
     guess_SetGameFlag(0xDE, 1);
     if (s0 == 0) {
-        ((Unkstruct_80183E2C_2 *)a0)->unkE4 = (s32)&D_801A0DBC;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_018_80183DF0.unkE4 = (s32)&D_801A0DBC;
     } else {
         if (s0 & 1) {
-            ((Unkstruct_80183E2C_2 *)a0)->unkE4 = (s32)&D_801A0E38;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_018_80183DF0.unkE4 = (s32)&D_801A0E38;
         } else {
-            ((Unkstruct_80183E2C_2 *)a0)->unkE4 = (s32)&D_801A0ED8;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_018_80183DF0.unkE4 = (s32)&D_801A0ED8;
         }
     }
     s0 = s0 + 1;

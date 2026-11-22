@@ -3,10 +3,10 @@
  * rank 2 src/ov_SC04_005/ov_SC04_005_jr_8017BEBC.c:7730 rejected by type_census --check */
 void SHARED_FN(s32 arg0) {
         s32 var_v1;
-        ((Unkstruct_8017E754 *)arg0)->unkC1 = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk5E = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk5C = 0;
-        ((Unkstruct_8017E754 *)arg0)->unk102 = 3;
-        var_v1 = ((Unkstruct_8017E754 *)arg0)->unk20;
+        ((Unkstruct_801202A0 *)arg0)->unkC1.s = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk5E.s = 0;
+        ((Unkstruct_801202A0 *)arg0)->unk5C.s = 0;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC04_008_8017E628.unk102 = 3;
+        var_v1 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
         ((RenderHead *)var_v1)->unk2C.s |= 0x10;
     }

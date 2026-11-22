@@ -4351,7 +4351,7 @@ void func_8017E850(s32 arg0, s32 arg1) {
     s32 flags = arg1;
 
     q = &guess_g_PlayerActor;
-    obj = ((Unkstruct_8017E850 *)self)->unk20;
+    obj = ((Unkstruct_801202A0 *)self)->unk20.val;
     rec = (s16 *)(D_8012697C + (D_80126980[0] + 8) * 6);
     rec2 = rec + 3;
 
@@ -4361,10 +4361,10 @@ void func_8017E850(s32 arg0, s32 arg1) {
         break;
     case 0x53:
     case 0x73:
-        oldx = ((Unkstruct_8017E850 *)self)->unkE0;
-        oldy = ((Unkstruct_8017E850 *)self)->unkE2;
+        oldx = ((Unkstruct_801202A0 *)self)->blkDC.f.extC.kSC05_008_8017E318.unkE0;
+        oldy = ((Unkstruct_801202A0 *)self)->blkDC.f.extC.kSC05_008_8017E318.unkE2;
         newx = func_80148818(q) & 0xFF;
-        ((Unkstruct_8017E850 *)self)->unkE0 = newx;
+        ((Unkstruct_801202A0 *)self)->blkDC.f.extC.kSC05_008_8017E318.unkE0 = newx;
         newy = CAST_ALIAS(s16, self, 0xE2) = func_8014880C(q) & 0xFF;
         flags = 0;
         if (oldx == 0x80) {
@@ -5639,30 +5639,30 @@ void func_80180BD0(s32 arg0) {
     extern void *D_80186740[];
     void *temp;
 
-    temp = D_801866C0[((Unkstruct_80180BD0 *)arg0)->unkFC];
+    temp = D_801866C0[((Unkstruct_801202A0 *)arg0)->unkFC.s];
     if (temp == NULL) {
-        ((Unkstruct_80180BD0 *)arg0)->unkFC = 0;
+        ((Unkstruct_801202A0 *)arg0)->unkFC.s = 0;
         temp = D_801866C0[0];
     }
     guess_AllocRenderWorkRecord(temp);
-    (((Unkstruct_80180BD0 *)arg0)->unkFC)++;
+    (((Unkstruct_801202A0 *)arg0)->unkFC.s)++;
 
-    temp = D_801866FC[((Unkstruct_80180BD0 *)arg0)->unkFE];
+    temp = D_801866FC[((Unkstruct_801202A0 *)arg0)->unkFE.s];
     if (temp == NULL) {
-        ((Unkstruct_80180BD0 *)arg0)->unkFE = 0;
+        ((Unkstruct_801202A0 *)arg0)->unkFE.s = 0;
         temp = D_801866FC[0];
     }
     guess_AllocRenderWorkRecord(temp);
-    (((Unkstruct_80180BD0 *)arg0)->unkFE)++;
+    (((Unkstruct_801202A0 *)arg0)->unkFE.s)++;
 
-    temp = D_80186708[((Unkstruct_80180BD0 *)arg0)->unk100];
+    temp = D_80186708[((Unkstruct_801202A0 *)arg0)->extD.kcls_c30f155148f0.unk100];
     if (temp == NULL) {
-        ((Unkstruct_80180BD0 *)arg0)->unk100 = 0;
+        ((Unkstruct_801202A0 *)arg0)->extD.kcls_c30f155148f0.unk100 = 0;
         temp = D_80186708[0];
     }
     guess_AllocRenderWorkRecord(temp);
-    guess_AllocRenderWorkRecord(D_80186740[((Unkstruct_80180BD0 *)arg0)->unk100]);
-    (((Unkstruct_80180BD0 *)arg0)->unk100)++;
+    guess_AllocRenderWorkRecord(D_80186740[((Unkstruct_801202A0 *)arg0)->extD.kcls_c30f155148f0.unk100]);
+    (((Unkstruct_801202A0 *)arg0)->extD.kcls_c30f155148f0.unk100)++;
 }
 
 

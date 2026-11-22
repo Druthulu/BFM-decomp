@@ -3221,33 +3221,33 @@ extern void func_80028428(s32, s32, s32, s32);
 s32 func_8017F790(s32 a0) {
     u8 c;
 
-    if (((Unkstruct_8017F790 *)a0)->unkFE != 0) goto L818;
-    c = D_801BBA7F[((Unkstruct_8017F790 *)a0)->unk100];
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s != 0) goto L818;
+    c = D_801BBA7F[((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk100];
     if (c >= 0x2C) {
-        ((Unkstruct_8017F790 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
         goto L818;
     }
     if (func_8017D9F4(c) != 0) {
-        ((Unkstruct_8017F790 *)a0)->unkFE = 1;
-        if (((Unkstruct_8017F790 *)a0)->unk100 == 0x1C && (guess_GetGameVarByte(0x7E) & 0x20)) {
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
+        if (((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk100 == 0x1C && (guess_GetGameVarByte(0x7E) & 0x20)) {
             func_800D0C48(1);
         }
     }
 L818:
-    if (((Unkstruct_8017F790 *)a0)->unk10A < 0x31) goto L874;
+    if (((Unkstruct_801202A0 *)a0)->unk10A.s < 0x31) goto L874;
     {
         u16 n = CAST_SIGN(u16, a0, 0x106) + 0x10;
-        ((Unkstruct_8017F790 *)a0)->unk106 = n;
-        ((Unkstruct_8017F790 *)a0)->unk108 = n;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = n;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = n;
         if ((s16)n >= 0x100) {
-            ((Unkstruct_8017F790 *)a0)->unk106 = 0xFF;
-            ((Unkstruct_8017F790 *)a0)->unk108 = 0xFF;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = 0xFF;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = 0xFF;
         }
-        ((Unkstruct_8017F790 *)a0)->unk10A = CAST_SIGN(u16, a0, 0x10A) - 3;
+        ((Unkstruct_801202A0 *)a0)->unk10A.s = CAST_SIGN(u16, a0, 0x10A) - 3;
         return 0;
     }
 L874:
-    if (((Unkstruct_8017F790 *)a0)->unkFE == 0) return 0;
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) return 0;
     func_8013C938();
     {
         struct S80190C84 sp;
@@ -3262,9 +3262,9 @@ L874:
         sp.f2 = -0x400;
         sp.f4 = 0;
         sp.f8 = f18v;
-        ((Unkstruct_8017F790 *)a0)->unkD4 = func_8012C51C(&sp, a0);
+        ((Unkstruct_801202A0 *)a0)->unkD4.val = func_8012C51C(&sp, a0);
     }
-    ((Unkstruct_8017F790 *)a0)->unk104 = 0;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk104 = 0;
     D_801CE030 = D_800A5E88;
     D_801CE040 = D_800A5E98;
     D_801CE050 = D_800A5EA8;
@@ -3293,34 +3293,34 @@ s32 func_8017F9F8(s32 a0in) {
     B16_SC01_005_8017ED5C *d;
 
     a0 = a0in;
-    *(s16 *)(((Unkstruct_8017F9F8 *)a0)->unkD4 + 0xFC) = 0;
-    if (((Unkstruct_8017F9F8 *)a0)->unkFE == 0 && KR_AS(s32, func_8017D9A0)((void *)a0) != 0) {
-        ((Unkstruct_8017F9F8 *)a0)->unkFE = 1;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unkD4.val + 0xFC) = 0;
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0 && KR_AS(s32, func_8017D9A0)((void *)a0) != 0) {
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
     }
-    if (((Unkstruct_8017F9F8 *)a0)->unk10A >= 0x31) {
+    if (((Unkstruct_801202A0 *)a0)->unk10A.s >= 0x31) {
         u16 n = CAST_SIGN(u16, a0, 0x106) + 0x10;
-        ((Unkstruct_8017F9F8 *)a0)->unk106 = n;
-        ((Unkstruct_8017F9F8 *)a0)->unk108 = n;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = n;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = n;
         if ((s16)n >= 0x100) {
-            ((Unkstruct_8017F9F8 *)a0)->unk106 = 0xFF;
-            ((Unkstruct_8017F9F8 *)a0)->unk108 = 0xFF;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = 0xFF;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = 0xFF;
         }
-        ((Unkstruct_8017F9F8 *)a0)->unk10A -= 3;
+        ((Unkstruct_801202A0 *)a0)->unk10A.s -= 3;
         return 0;
     }
-    if (((Unkstruct_8017F9F8 *)a0)->unkFE == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
         return 0;
     }
     func_8013C964();
     d = &D_800A5E88;
-    *(s16 *)(((Unkstruct_8017F9F8 *)a0)->unkD4 + 0x108) = 2;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unkD4.val + 0x108) = 2;
     d[0] = D_801CE030;
     d[1] = D_801CE040;
     d[2] = D_801CE050;
     guess_SetFlatLightOrDefault(0, d);
     guess_SetFlatLightOrDefault(1, d + 1);
     guess_SetFlatLightOrDefault(2, d + 2);
-    if (((Unkstruct_8017F9F8 *)a0)->unk100 != 0x1C) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk100 != 0x1C) {
         return 1;
     }
     if (guess_GetGameVarByte(0x7E) & 0x20) {
@@ -3773,16 +3773,16 @@ extern s32 func_8017DAAC(s32 a0, s32 a1);
 s32 func_80180614(s32 a0) {
     if (CAST_SIGN(s16, a0, 0x10A) != 0) {
         u16 next = CAST_SIGN(u16, a0, 0x106) - 0x10;
-        ((Unkstruct_80180614 *)a0)->unk106 = next;
-        ((Unkstruct_80180614 *)a0)->unk108 = next;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = next;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = next;
         if ((s16)next < 0) {
-            ((Unkstruct_80180614 *)a0)->unk106 = 0;
-            ((Unkstruct_80180614 *)a0)->unk108 = 0;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = 0;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = 0;
         }
-        ((Unkstruct_80180614 *)a0)->unk10A = ((Unkstruct_80180614 *)a0)->unk10A - 3;
+        ((Unkstruct_801202A0 *)a0)->unk10A.u = ((Unkstruct_801202A0 *)a0)->unk10A.u - 3;
         return 0;
     }
-    *(s16 *)(((Unkstruct_80180614 *)a0)->unkD4 + 0xFC) = 1;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unkD4.val + 0xFC) = 1;
     return 1;
 }
 
@@ -3802,16 +3802,16 @@ s32 func_80180674(s32 a0) {
 s32 func_801806B8(s32 a0) {
     if (CAST_SIGN(s16, a0, 0x10A) != 0) {
         u16 next = CAST_SIGN(u16, a0, 0x106) - 0x10;
-        ((Unkstruct_801806B8 *)a0)->unk106 = next;
-        ((Unkstruct_801806B8 *)a0)->unk108 = next;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = next;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = next;
         if ((s16)next < 0) {
-            ((Unkstruct_801806B8 *)a0)->unk106 = 0;
-            ((Unkstruct_801806B8 *)a0)->unk108 = 0;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk106 = 0;
+            ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk108 = 0;
         }
-        ((Unkstruct_801806B8 *)a0)->unk10A = ((Unkstruct_801806B8 *)a0)->unk10A - 3;
+        ((Unkstruct_801202A0 *)a0)->unk10A.u = ((Unkstruct_801202A0 *)a0)->unk10A.u - 3;
         return 0;
     }
-    ((Unkstruct_801806B8 *)a0)->unk100 = 0;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC01_005_8017FF74.unk100 = 0;
     return 1;
 }
 

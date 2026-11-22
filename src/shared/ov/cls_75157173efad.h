@@ -6,7 +6,7 @@
 void SHARED_FN(arg0)
 s32 arg0;
 {
-    if (((Unkstruct_801825C8_2 *)arg0)->unkCC != 0) {
-        *(u16*)(((Unkstruct_801825C8_2 *)arg0)->unkCC + 0xFC) = 1;
+    if (((Unkstruct_801202A0 *)arg0)->unkCC.val != 0) {
+        *(u16*)(((Unkstruct_801202A0 *)arg0)->unkCC.val + 0xFC) = 1;
     }
 }

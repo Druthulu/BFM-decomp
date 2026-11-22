@@ -365,21 +365,21 @@ void func_801E56A8(s32 a0) {
     eval:
         if (flag != 0) {
             s32 v0 = KR_AS(s32, func_80184428)();
-            ((Unkstruct_801E56A8 *)a0)->unkE4 = D_801E6754[v0];
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801E6754[v0];
         } else {
             s32 w = guess_GetStoryProgress();
             if ((u32)w < 0x12C) {
-                ((Unkstruct_801E56A8 *)a0)->unkE4 = (s32)&D_801E6DF4;
+                ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = (s32)&D_801E6DF4;
             } else {
-                ((Unkstruct_801E56A8 *)a0)->unkE4 = (s32)&D_801E6E40;
+                ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = (s32)&D_801E6E40;
             }
         }
     } else if (v1 < 0x384) {
         s32 v0 = func_801844F8();
-        ((Unkstruct_801E56A8 *)a0)->unkE4 = D_801E6768[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801E6768[v0];
     } else {
         s32 v0 = func_8018456C();
-        ((Unkstruct_801E56A8 *)a0)->unkE4 = D_801E6784[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801E6784[v0];
         func_801845C8();
     }
 }

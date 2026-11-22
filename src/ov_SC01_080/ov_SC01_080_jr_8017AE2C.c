@@ -4105,7 +4105,7 @@ void func_8017DCF8(s32 arg0) {
 
     ret = ((s32 (*)(void))guess_AllocModelObject)();
     iVar1 = ret;
-    ((Unkstruct_8017DCF8 *)param_1)->unk20 = ret;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -4115,26 +4115,26 @@ void func_8017DCF8(s32 arg0) {
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk18.w.unk1A.u = 0x1c00;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk18.w.unk18.u = 0x1c00;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->head.unk2C.u | 0x10;
-        ((Unkstruct_8017DCF8 *)param_1)->unk76 = 4;
-        ((Unkstruct_8017DCF8 *)param_1)->unk78 = (s32)&D_80186FC4;
-        ((Unkstruct_8017DCF8 *)param_1)->unkDC = ((Unkstruct_8017DCF8 *)param_1)->unk6;
-        ((Unkstruct_8017DCF8 *)param_1)->unkDE = ((Unkstruct_8017DCF8 *)param_1)->unkE;
+        ((Unkstruct_801202A0 *)param_1)->unk76.u = 4;
+        ((Unkstruct_801202A0 *)param_1)->unk78 = (s32)&D_80186FC4;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.lo.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+        ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.hi.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
         ((void (*)(s32, s32))guess_StartActorSequence)(param_1, D_80186FB0[CAST_SIGN(s16, param_1, 0x76)]);
-        ((Unkstruct_8017DCF8 *)param_1)->unk2 = 1;
-        if (((Unkstruct_8017DCF8 *)param_1)->unk70 == 4) {
-            ((Unkstruct_8017DCF8 *)param_1)->unk58 = (s32)&D_80186F6C;
+        ((Unkstruct_801202A0 *)param_1)->unk2.u = 1;
+        if (((Unkstruct_801202A0 *)param_1)->unk70.s == 4) {
+            ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)&D_80186F6C;
         } else {
-            ((Unkstruct_8017DCF8 *)param_1)->unk58 = (s32)&D_80186F5C;
+            ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)&D_80186F5C;
         }
-        iVar2 = ((Unkstruct_8017DCF8 *)param_1)->unk20;
-        ((Unkstruct_8017DCF8 *)param_1)->unk58 = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
+        iVar2 = ((Unkstruct_801202A0 *)param_1)->unk20.val;
+        ((Unkstruct_801202A0 *)param_1)->unk58.s = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
         ((RenderHead *)iVar2)->unk18.w.unk1C.u = 0x1c00;
         ((RenderHead *)iVar2)->unk18.w.unk1A.u = 0x1c00;
         ((RenderHead *)iVar2)->unk18.w.unk18.u = 0x1c00;
-        ((Unkstruct_8017DCF8 *)param_1)->unk5E = 0;
-        ((Unkstruct_8017DCF8 *)param_1)->unk5C = ((Unkstruct_8017DCF8 *)param_1)->unk5C | 0x8800;
-        ((Unkstruct_8017DCF8 *)param_1)->unk6 = ((Unkstruct_8017DCF8 *)param_1)->unkDC;
-        ((Unkstruct_8017DCF8 *)param_1)->unkE = ((Unkstruct_8017DCF8 *)param_1)->unkDE;
+        ((Unkstruct_801202A0 *)param_1)->unk5E.u = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk5C.u = ((Unkstruct_801202A0 *)param_1)->unk5C.u | 0x8800;
+        ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.lo.u;
+        ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.i.hi.u;
     }
 }
 
@@ -5393,16 +5393,16 @@ extern void func_80175414(s32);
 void func_8017FC04(s32 arg0) {
     Blk8 buf;
     buf = *(Blk8 *)&D_801C46E8;
-    if (((Unkstruct_8017FC04 *)arg0)->unkE0 < 0x4000) {
-        if (--((Unkstruct_8017FC04 *)arg0)->unkDC == 0) {
+    if (((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC01_080_8017F500.unkE0 < 0x4000) {
+        if (--((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val == 0) {
             D_80127188 = 4;
             func_8017E4F4();
             func_8016F0AC();
             ((void (*)(void))func_80175414)();
         }
-        if (--((Unkstruct_8017FC04 *)arg0)->unkE0 == 0) {
-            ((Unkstruct_8017FC04 *)arg0)->unkE0 = 0x4000;
-            ((Unkstruct_8017FC04 *)arg0)->unkDC = 8;
+        if (--((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC01_080_8017F500.unkE0 == 0) {
+            ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC01_080_8017F500.unkE0 = 0x4000;
+            ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = 8;
         }
     }
 }

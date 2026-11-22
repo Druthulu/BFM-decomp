@@ -261,18 +261,18 @@ void func_801F24DC(s32 a0) {
             flag = 0;
         }
         if (flag) {
-            ((Unkstruct_801F24DC *)a0)->unkE4 = D_801F35EC[func_801877C0()];
+            ((Unkstruct_801F24DC *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801F35EC[func_801877C0()];
         } else {
             if (guess_GetStoryProgress() < 0x12CU) {
-                ((Unkstruct_801F24DC *)a0)->unkE4 = (s32)&D_801F3D68;
+                ((Unkstruct_801F24DC *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = (s32)&D_801F3D68;
             } else {
-                ((Unkstruct_801F24DC *)a0)->unkE4 = (s32)&D_801F3DB4;
+                ((Unkstruct_801F24DC *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = (s32)&D_801F3DB4;
             }
         }
     } else if (v1 < 0x384) {
-        ((Unkstruct_801F24DC *)a0)->unkE4 = D_801F3600[func_80187890()];
+        ((Unkstruct_801F24DC *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801F3600[func_80187890()];
     } else {
-        ((Unkstruct_801F24DC *)a0)->unkE4 = D_801F361C[func_80187904()];
+        ((Unkstruct_801F24DC *)a0)->blkDC.f.extC.kSC03_076_801F22D8.unkE4 = D_801F361C[func_80187904()];
         func_80187960();
     }
 }

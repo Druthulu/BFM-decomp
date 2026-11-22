@@ -2,22 +2,22 @@
  * exemplar src/ov_SC02_011/ov_SC02_011_jr_8017AE2C.c:4122 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_8017CA34.h rejected by type_census --check */
 void SHARED_FN(void *a0) {
-    void *v1 = ((Unkstruct_8017D0D0 *)a0)->unkDC;
+    void *v1 = ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.p;
     s16 v0;
 
     if (((Unkstruct_8017D0D0_2 *)v1)->unk1 == 0) {
         v0 = 1;
     } else {
-        v0 = ((Unkstruct_8017D0D0 *)a0)->unk108;
+        v0 = ((Unkstruct_801202A0 *)a0)->extD.kcls_0dc7d970a3a5.unk108;
         if (v0 == 0) {
             u16 arg = ((Unkstruct_8017D0D0_2 *)v1)->unk2;
             v0 = func_80128CFC(arg);
-            ((Unkstruct_8017D0D0 *)a0)->unk108 = v0;
+            ((Unkstruct_801202A0 *)a0)->extD.kcls_0dc7d970a3a5.unk108 = v0;
         }
-        v0 = ((Unkstruct_8017D0D0 *)a0)->unk108;
+        v0 = ((Unkstruct_801202A0 *)a0)->extD.kcls_0dc7d970a3a5.unk108;
     }
 
     if (v0 != 0) {
-        ((Unkstruct_8017D0D0 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }

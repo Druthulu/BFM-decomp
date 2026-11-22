@@ -3,18 +3,18 @@
  * rank 2 src/ov_SC03_099/ov_SC03_099_jr_8017BEBC.c:5832 rejected by type_census --check */
 void SHARED_FN(s32 a0) {
     s32 s0 = a0;
-    u16 v0 = ((Unkstruct_801810AC *)s0)->unk100;
-    u16 v1 = ((Unkstruct_801810AC *)s0)->unk60;
+    u16 v0 = ((Unkstruct_801202A0 *)s0)->extD.kSC03_099_80181474.unk100;
+    u16 v1 = ((Unkstruct_801202A0 *)s0)->unk60.u;
 
     v0 |= 0x8000;
     v1 <<= 2;
 
-    ((Unkstruct_801810AC *)s0)->unk100 = v0;
-    ((Unkstruct_801810AC *)s0)->unk60 = v1;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC03_099_80181474.unk100 = v0;
+    ((Unkstruct_801202A0 *)s0)->unk60.u = v1;
     KR_AS(void, func_80131B14)();
 
-    ((Unkstruct_801810AC *)s0)->unkC2 = 0;
-    ((Unkstruct_801810AC *)s0)->unk98 = 0;
+    ((Unkstruct_801202A0 *)s0)->unkC2.u = 0;
+    ((Unkstruct_801202A0 *)s0)->unk98.u = 0;
     ((void (*)(void *))guess_ClearVelocityAndSetGravity)((void *)s0);
 
     guess_StartActorSequenceById(s0, 0x8);

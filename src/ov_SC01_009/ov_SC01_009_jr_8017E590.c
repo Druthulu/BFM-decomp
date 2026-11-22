@@ -3450,7 +3450,7 @@ void func_8017F39C(s32 arg0)
     struct S80190C84 rec;
 
     rec.f6 = 0x1AB;
-    rec.f8 = ((Unkstruct_8017F39C *)arg0)->unk10A;
+    rec.f8 = ((Unkstruct_801202A0 *)arg0)->unk10A.u;
     rec.fA = 0;
     rec.fC = -0x400;
     rec.fE = 0;
@@ -3459,13 +3459,13 @@ void func_8017F39C(s32 arg0)
         rec.f0 = -0x1C0;
         rec.f2 = -0xB2;
         rec.f4 = 0x188;
-        ((Unkstruct_8017F39C *)arg0)->unk108 = 1;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC01_009_8017F360.unk108 = 1;
     } else {
         rec.f0 = -0x18;
         rec.f2 = -0x82;
         rec.f4 = -0x200;
     }
-    ((Unkstruct_8017F39C *)arg0)->unkD4 = func_8012C51C(&rec, arg0);
+    ((Unkstruct_801202A0 *)arg0)->unkD4.val = func_8012C51C(&rec, arg0);
 }
 
 
@@ -3951,7 +3951,7 @@ void func_8017FE10(s32 param_1) {
     }
     ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u = 0;
     ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u = 0x100;
-    ((Unkstruct_801202A0 *)param_1)->extD.kSC01_009_8017FE10.unk108 = 0;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC01_009_8017F360.unk108 = 0;
     guess_StartActorSequence(param_1, &D_801E9088);
     func_80178CBC(param_1, (s32)&D_801E9178);
     ((Unkstruct_801202A0 *)param_1)->unk2.s = 3;

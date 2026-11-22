@@ -1185,15 +1185,15 @@ void func_801A1E94(s32 a0)
     p = a0;
     s0 = (s32 *)p;
     s1 = &D_801BF01C;
-    func_8001C924(((Unkstruct_801A1E94 *)p)->unk20, s1);
+    func_8001C924(((Unkstruct_801202A0 *)p)->unk20.val, s1);
     func_80132288(&D_801F8724, &D_801AFB58, *s1);
-    ((Unkstruct_801A1E94 *)p)->unkA = -0x240;
-    ((Unkstruct_801A1E94 *)p)->unkE = 0x30;
-    ((Unkstruct_801A1E94 *)p)->unkD4 = func_801A8528(p);
+    ((Unkstruct_801202A0 *)p)->unk8.i.hi.s = -0x240;
+    ((Unkstruct_801202A0 *)p)->unkC.i.hi.s = 0x30;
+    ((Unkstruct_801202A0 *)p)->unkD4.val = func_801A8528(p);
     func_80178B18(p, (s32)&D_801AFCF8);
-    ((Unkstruct_801A1E94 *)p)->unk1C = 0x60;
-    ((Unkstruct_801A1E94 *)p)->unk100 = 0xFF;
-    ((Unkstruct_801A1E94 *)p)->unk84 = 0;
+    ((Unkstruct_801202A0 *)p)->unk1C.s = 0x60;
+    ((Unkstruct_801202A0 *)p)->extD.kSC07_004_801A2D78.unk100.s = 0xFF;
+    ((Unkstruct_801202A0 *)p)->unk84.s = 0;
     func_8012AD44((s32 *)p, 0xE);
 }
 

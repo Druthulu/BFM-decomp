@@ -5,9 +5,9 @@ void SHARED_FN(s32 *arg0) {
     s32 *a1 = arg0;
 
     a1[2] += a1[5];
-    if (((Unkstruct_80180E00 *)arg0)->unkA >= -365 - ((Unkstruct_80180E00 *)arg0)->unk16) {
-        ((Unkstruct_80180E00 *)arg0)->unk2 = 10;
-        ((Unkstruct_80180E00 *)arg0)->unkDC = 0xC00;
-        ((Unkstruct_80180E00 *)arg0)->unkE2 = -365;
+    if (((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s >= -365 - ((Unkstruct_801202A0 *)arg0)->unk14.i.hi.s) {
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 10;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = 0xC00;
+        ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_010_8017F7E0.unkE2 = -365;
     }
 }

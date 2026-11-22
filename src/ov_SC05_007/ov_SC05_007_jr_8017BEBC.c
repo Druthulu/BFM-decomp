@@ -3401,7 +3401,7 @@ void func_8017E078(void *arg0) {
         CAST_SIGN(s32 *, (char *)arg0, 0xBC) = &D_80192824;
         ((Unkstruct_801202A0 *)arg0)->unkB4.s = val;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = 0;
-        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk100 = 0x1000;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk100.s = 0x1000;
         ((Unkstruct_801202A0 *)arg0)->unkC4 |= 1;
         func_80143970(arg0);
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
@@ -3852,7 +3852,7 @@ s32 arg0;
         f = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
         v = ((Unkstruct_8001C9D0 *)t)->head.unk18.w.unk18.u;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = f & mask;
-        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk100 = v;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk100.s = v;
     } else {
         s32 q;
         s32 g;
@@ -3860,7 +3860,7 @@ s32 arg0;
         g = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
         g |= 0x80;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = g;
-        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk104 = q;
+        ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk104.s = q;
     }
 }
 
@@ -3897,9 +3897,9 @@ void func_8017EB30(s32 param_1) {
 
     v = rsin(0x400 - (D_80126CE0 * 8));
     if (((Unkstruct_801202A0 *)param_1)->unkAA == 0) {
-        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100;
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100.s;
     } else {
-        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk104;
+        m = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk104.s;
     }
     p = ((Unkstruct_801202A0 *)param_1)->unk20.p;
     t = (v * m) / 0x1000;
@@ -3990,7 +3990,7 @@ void func_8017EBE4(s32 param_1) {
     } else {
         a = ((Unkstruct_801202A0 *)param_1)->unk20.p;
         x = *(s16 *)(a + 0x18);
-        t = x + (((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100 - x) / 4;
+        t = x + (((Unkstruct_801202A0 *)param_1)->extD.kSC03_107_8017D92C.unk100.s - x) / 4;
         *(s16 *)(a + 0x1C) = t;
         *(s16 *)(a + 0x18) = t;
     }

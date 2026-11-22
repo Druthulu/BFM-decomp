@@ -5528,7 +5528,7 @@ extern void func_80182464(void *a0);
 extern void func_8012AD44(s32 *a0, s16 a1);
 
 void func_80181FE8(void *arg0) {
-    ((Unkstruct_80181FE8 *)arg0)->unk1C = D_8018A438[((Unkstruct_80181FE8 *)arg0)->unk70];
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = D_8018A438[((Unkstruct_801202A0 *)arg0)->unk70.s];
     func_80182464(arg0);
     ((void (*)(void *, s32))func_8012AD44)((void *)arg0, 2);
 }
@@ -5578,7 +5578,7 @@ void func_8018206C(void *a0)
         return;
     }
     v = CAST_SIGN(u16, s0, 0x104) + 0x30;
-    ((Unkstruct_801202A0 *)s0)->extD.kSC07_002_80182228.unk104 = v;
+    ((Unkstruct_801202A0 *)s0)->extD.kSC07_002_80182228.unk104.s = v;
     v = rsin((s16)v);
     ((Unkstruct_801202A0 *)s0)->extD.kSC07_002_80182228.unk102.s = v >> 4;
     func_801829F0((void *)s0);
@@ -5609,19 +5609,19 @@ void func_80182270(void *a0) {
     u16 t1;
     u16 t2;
 
-    t1 = ((Unkstruct_80181FE8 *)a0)->unkE4;
-    ((Unkstruct_80181FE8 *)a0)->unkE4 = t1 + 1;
+    t1 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE4;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE4 = t1 + 1;
     if ((s16)(t1 + 1) >= 0x30) {
-        ((Unkstruct_80181FE8 *)a0)->unkE4 = 0;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE4 = 0;
     }
     if (CAST_SIGN(s16, (s32)a0, 0xE4) != 0) {
         rect[0] = CAST_SIGN(s16, (s32)a0, 0xE4) + 0x340;
         rect[1] = 0;
-        rect[2] = 0x30 - ((Unkstruct_80181FE8 *)a0)->unkE4;
+        rect[2] = 0x30 - ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE4;
         rect[3] = 0x80;
         MoveImage(rect, 0x340, 0x80);
         rect[0] = 0x340;
-        rect[2] = ((Unkstruct_80181FE8 *)a0)->unkE4;
+        rect[2] = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE4;
         MoveImage(rect, 0x370 - CAST_SIGN(s16, (s32)a0, 0xE4), 0x80);
     } else {
         rect[0] = 0x340;
@@ -5631,19 +5631,19 @@ void func_80182270(void *a0) {
         MoveImage(rect, 0x340, 0x80);
     }
 
-    t2 = ((Unkstruct_80181FE8 *)a0)->unkE6;
-    ((Unkstruct_80181FE8 *)a0)->unkE6 = t2 - 1;
+    t2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE6;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE6 = t2 - 1;
     if ((s16)(t2 - 1) < 0) {
-        ((Unkstruct_80181FE8 *)a0)->unkE6 = t2 + 0xF;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE6 = t2 + 0xF;
     }
     if (CAST_SIGN(s16, (s32)a0, 0xE6) != 0) {
         rect[0] = CAST_SIGN(s16, (s32)a0, 0xE6) + 0x2F0;
         rect[1] = 0x100;
-        rect[2] = 0x10 - ((Unkstruct_80181FE8 *)a0)->unkE6;
+        rect[2] = 0x10 - ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE6;
         rect[3] = 0x40;
         MoveImage(rect, 0x2F0, 0x140);
         rect[0] = 0x2F0;
-        rect[2] = ((Unkstruct_80181FE8 *)a0)->unkE6;
+        rect[2] = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE6;
         MoveImage(rect, 0x300 - CAST_SIGN(s16, (s32)a0, 0xE6), 0x140);
     } else {
         rect[0] = 0x2F0;
@@ -5656,17 +5656,17 @@ void func_80182270(void *a0) {
 
 
 void func_8018241C(void *a0) {
-    s16 v = (s16)(((Unkstruct_80181FE8 *)a0)->unkE8 + 0x30);
-    ((Unkstruct_80181FE8 *)a0)->unkE8 = v;
-    ((Unkstruct_80181FE8 *)a0)->unk52 = rsin(v) >> 8;
+    s16 v = (s16)(((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE8 + 0x30);
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_80182228.unkE8 = v;
+    ((Unkstruct_801202A0 *)a0)->unk50.w.unk52.u = rsin(v) >> 8;
 }
 
 
 void func_80182464(void *a0) {
-        s32 v0 = ((Unkstruct_80181FE8 *)a0)->unkA;
-        s32 v1 = ((Unkstruct_80181FE8 *)a0)->unk52;
-        ((Unkstruct_80181FE8 *)a0)->unk52 = 0;
-        ((Unkstruct_80181FE8 *)a0)->unkA = v0 + v1;
+        s32 v0 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        s32 v1 = ((Unkstruct_801202A0 *)a0)->unk50.w.unk52.u;
+        ((Unkstruct_801202A0 *)a0)->unk50.w.unk52.u = 0;
+        ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = v0 + v1;
     }
 
 
@@ -5720,7 +5720,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 extern u16 D_8018A464[];
 
 void func_8018260C(s32 a0) {
-    ((Unkstruct_8018260C *)a0)->unk1C = D_8018A464[((Unkstruct_8018260C *)a0)->unk70];
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = D_8018A464[((Unkstruct_801202A0 *)a0)->unk70.s];
     ((void (*)(void *, s32))func_8012AD44)((void *)a0, 2);
 }
 
@@ -5804,8 +5804,8 @@ void func_80182818(void *a0)
     u8 buf[36];
 
     sv.vx = 0;
-    sv.vy = ((Unkstruct_8018260C *)a0)->unkE4;
-    sv.vz = ((Unkstruct_8018260C *)a0)->unkE6;
+    sv.vy = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_801827DC.unkE4;
+    sv.vz = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_801827DC.unkE6;
 
     RotMatrixZYX((s32)&sv, (s32)buf);
 
@@ -5822,9 +5822,9 @@ void func_80182818(void *a0)
 
     RotTransSV(&sv, &sv, buf + 0x20);
 
-    ((Unkstruct_8018260C *)a0)->unk6 = sv.vx;
-    ((Unkstruct_8018260C *)a0)->unkA = sv.vy;
-    ((Unkstruct_8018260C *)a0)->unkE = sv.vz;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = sv.vx;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = sv.vy;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = sv.vz;
 }
 
 
@@ -5854,20 +5854,20 @@ void func_80182940(s32 param_1)
     s32 t;
 
     v0 = func_80182AD4(param_1);
-    ((Unkstruct_80182940 *)param_1)->unkCC = v0;
+    ((Unkstruct_801202A0 *)param_1)->unkCC.val = v0;
     if (v0 == 0) {
         return;
     }
     s1 = v0 + 4;
     s0 = param_1 + 4;
-    ((Unkstruct_80182940 *)param_1)->unk100 = func_8012B6D4(s1, s0);
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80182228.unk100.u = func_8012B6D4(s1, s0);
     t = rand() & 0xFFF;
-    ((Unkstruct_80182940 *)param_1)->unk104 = t;
-    ((Unkstruct_80182940 *)param_1)->unk102 = rsin(t) >> 4;
-    ((Unkstruct_80182940 *)param_1)->unkE0 = func_80047D3C(func_8012BC60(s1, s0));
-    ((Unkstruct_80182940 *)param_1)->unkFE = -(rand() & 0x1F);
-    ((Unkstruct_80182940 *)param_1)->unk106 = rand() & 0xF0;
-    ((Unkstruct_80182940 *)param_1)->unk108 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80182228.unk104.u = t;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80182228.unk102.s = rsin(t) >> 4;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC07_002_80182228.unkE0 = func_80047D3C(func_8012BC60(s1, s0));
+    ((Unkstruct_801202A0 *)param_1)->unkFE.s = -(rand() & 0x1F);
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80182228.unk106 = rand() & 0xF0;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80182228.unk108 = rand() & 0xF0;
 }
 
 
@@ -6074,7 +6074,7 @@ void func_80182D50(void *a0) {
     u8 *p = *(u8 **)((s32)a0 + 0x20);
     *(u16 *)(p + 0x12) = *(u16 *)(p + 0x12) - 0x20;
     KR_AS(void, func_8018247C)();
-    if (((Unkstruct_80181FE8 *)a0)->unk70 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
         func_80182270(a0);
     }
     func_8018241C(a0);
@@ -6136,10 +6136,10 @@ void func_80182F2C(void *a0)
     u16 g;
 
     func_80182818(a0);
-    q = ((Unkstruct_8018260C *)a0)->unk20;
+    q = ((Unkstruct_801202A0 *)a0)->unk20.val;
     *(u16 *)(q + 0x12) = *(u16 *)(q + 0x12) + 0x80;
     g = D_8019FF8A;
-    ((Unkstruct_8018260C *)a0)->unkE4 = ((Unkstruct_8018260C *)a0)->unkE4 + ((Unkstruct_8018260C *)a0)->unkE8;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_801827DC.unkE4 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_801827DC.unkE4 + ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_002_801827DC.unkE8;
     if (g & 0x4000) {
         func_8018260C((s32)a0);
     }
@@ -6702,8 +6702,8 @@ void func_80183AAC(s32 param_1) {
     }
     p[2] = w;
 
-    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80183A70.unk104 = (rand() % 4) * 0x20;
-    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80183A70.unk106 = (rand() % 8) * 0x20;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80183A70.unk104.s = (rand() % 4) * 0x20;
+    ((Unkstruct_801202A0 *)param_1)->extD.kSC07_002_80183A70.unk106.s = (rand() % 8) * 0x20;
     ((Unkstruct_801202A0 *)param_1)->unk2.s = CAST_SIGN(u16, param_1, 2) + 1;
 }
 

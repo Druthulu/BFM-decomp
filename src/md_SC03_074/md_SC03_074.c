@@ -268,17 +268,17 @@ void func_801EFC6C(s32 a0) {
 
     if (v1 < 0xC8) {
         s32 v0 = func_801877C0();
-        ((Unkstruct_801E2E04 *)a0)->unkE4 = D_801F0094[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_074_801EFB84.unkE4 = D_801F0094[v0];
     } else if (v1 < 0x384) {
         if ((u32)(v1 - 0x136) < 0x122) {
-            ((Unkstruct_801E2E04 *)a0)->unkE4 = (s32)&D_801F0734;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_074_801EFB84.unkE4 = (s32)&D_801F0734;
         } else {
             s32 v0 = func_80187890();
-            ((Unkstruct_801E2E04 *)a0)->unkE4 = D_801F00A8[v0];
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_074_801EFB84.unkE4 = D_801F00A8[v0];
         }
     } else {
         s32 v0 = func_80187904();
-        ((Unkstruct_801E2E04 *)a0)->unkE4 = D_801F00C4[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_074_801EFB84.unkE4 = D_801F00C4[v0];
         func_80187960();
     }
 }

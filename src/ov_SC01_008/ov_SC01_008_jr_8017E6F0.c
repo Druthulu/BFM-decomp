@@ -3486,14 +3486,14 @@ void func_8017F470(s32 a0)
 
 case1:
     func_80178CBC(a0, (s32)D_8019F234);
-    result = ((Unkstruct_8017F470 *)a0)->unk2 + 1;
+    result = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
     goto store;
 
 case2:
-    if (((Unkstruct_8017F470 *)a0)->unk108 == 0) {
+    if (((Unkstruct_801202A0 *)a0)->extD.kSC01_008_8017F124.unk108 == 0) {
         mode = guess_GetGameVarByte(0xDF) & 0xFF;
         cnt = mode + 1;
-        ((Unkstruct_8017F470 *)a0)->unk108 = cnt;
+        ((Unkstruct_801202A0 *)a0)->extD.kSC01_008_8017F124.unk108 = cnt;
         mode = cnt + zr;
         if (cnt >= 0xD) {
             mode = 0;
@@ -3509,7 +3509,7 @@ case3:
     result = 5;
 
 store:
-    ((Unkstruct_8017F470 *)a0)->unk2 = result;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = result;
 end:
     return;
 }

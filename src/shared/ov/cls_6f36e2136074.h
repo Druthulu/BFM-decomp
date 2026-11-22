@@ -14,6 +14,6 @@ void SHARED_FN(s32 a0) {
         if ((u32)func_8002953C() >= 0x23U) {
             func_8002AC00(0x25);
         }
-        ((Unkstruct_8017CE98 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }

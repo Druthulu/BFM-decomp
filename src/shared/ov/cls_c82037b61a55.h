@@ -3,5 +3,5 @@ void SHARED_FN(s32 a0) {
 
     extern s32 D_80191C68[];
     s32 idx = ((s32 (*)(s32))func_80184B44)(a0);
-    ((Unkstruct_8017ED94_2 *)a0)->unkE4 = D_80191C68[idx];
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_80182BB0.unkE4 = D_80191C68[idx];
 }

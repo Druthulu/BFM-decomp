@@ -3613,25 +3613,25 @@ void func_8017EDBC(u8 *a0) {
     s32 base;
     s32 ret;
 
-    base = D_801C7748[0] + D_8018A6E0 + (((Unkstruct_8017EDBC *)a0)->unk70 - 1) * D_8018A6EA;
+    base = D_801C7748[0] + D_8018A6E0 + (((Unkstruct_801202A0 *)a0)->unk70.b - 1) * D_8018A6EA;
     func_8018072C(base, D_801C774A + D_8018A6E2, buf);
 
-    buf[1] -= D_8018A6E4 + D_8018A6E8 * ((Unkstruct_8017EDBC *)a0)->unk1C;
+    buf[1] -= D_8018A6E4 + D_8018A6E8 * ((Unkstruct_801202A0 *)a0)->unk1C.s;
 
-    ((Unkstruct_8017EDBC *)a0)->unkE2 = ((Unkstruct_8017EDBC *)a0)->unkE2 + 0x70;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC01_084_8017F198.unkE2 = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC01_084_8017F198.unkE2 + 0x70;
     ret = rsin(CAST_SIGN(s16, a0, 0xE2));
 
     buf[1] += ret >> 8;
-    ((Unkstruct_8017EDBC *)a0)->unk6 = buf[0];
-    ((Unkstruct_8017EDBC *)a0)->unkA = buf[1];
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = buf[0];
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = buf[1];
 
-    ((Unkstruct_8017EDBC *)a0)->unkE = buf[2];
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = buf[2];
     ret = func_80180720(base);
 
-    *(s16 *)(((Unkstruct_8017EDBC *)a0)->unk20 + 0x12) = ret + 0x400;
+    *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12) = ret + 0x400;
 
     CAST_ALIAS(s32, a0, 0x1C) += 1;
-    if (((Unkstruct_8017EDBC *)a0)->unk1C >= D_8018A6E6) {
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s >= D_8018A6E6) {
         func_8017EEF4(a0);
     }
 }
@@ -3644,12 +3644,12 @@ void func_8017EEF4(u8 *a0) {
 
     (void)&frame_pad;
 
-    ((Unkstruct_8017EDBC *)a0)->unk2 = 2;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 2;
     temp = D_801C7748[0];
-    ((Unkstruct_8017EDBC *)a0)->unk1C = 0;
-    ((Unkstruct_8017EDBC *)a0)->unk34 = 0;
-    ((Unkstruct_8017EDBC *)a0)->unkE0 = 0;
-    ((Unkstruct_8017EDBC *)a0)->unkDC = temp + 0x600;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
+    ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC01_084_8017F198.unkE0 = 0;
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s = temp + 0x600;
 }
 
 

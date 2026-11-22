@@ -2041,11 +2041,11 @@ void func_801A293C(void *arg0)
         f5 = 1;
     }
 
-    if (((Unkstruct_801A293C *)w)->unkE0 & 4) {
+    if (((Unkstruct_801202A0 *)w)->blkDC.f.extC.kSC07_003_801A01D4.unkE0.s & 4) {
         i = 0;
         s3 = 0x38E38E39;
         for (; i < 3; i++) {
-            if (D_801F4360[i] % ((Unkstruct_801A293C *)w)->unkE4 == 0) {
+            if (D_801F4360[i] % ((Unkstruct_801202A0 *)w)->blkDC.f.extC.kSC07_003_801A01D4.unkE4 == 0) {
                 if ((rand() & 1) == 0) {
                     s0 = (s32)(D_801A6C50 + (rand() % 9) * 8);
                     guess_RotTransSVWithMatrix((s32)sp18, s0, (s32)sp58);

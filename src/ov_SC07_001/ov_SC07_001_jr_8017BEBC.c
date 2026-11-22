@@ -3135,10 +3135,10 @@ void func_8017E448(s32 a0) {
     extern u16 D_801AAD64;
     extern u16 D_801AAD68;
 
-    D_8018533C[((Unkstruct_8017E448_2 *)a0)->unk2]();
-    if (((Unkstruct_8017E448_2 *)a0)->unk0 != 0) {
+    D_8018533C[((Unkstruct_801202A0 *)a0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         func_8017ED50(a0);
-        if ((((Unkstruct_8017E448_2 *)a0)->unkE0 & 0x10) != 0) {
+        if ((((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_001_8017E448.unkE0 & 0x10) != 0) {
             guess_g_PlayerPosX = D_801AAD64;
             guess_g_PlayerPosZ = D_801AAD68;
         }
@@ -3555,7 +3555,7 @@ void func_8017EDC0(s32 a0, s32 a1, s32 a2, s32 a3)
     u16 sp18[4];
 
     rec = &D_801AAD6C[a3];
-    if ((((Unkstruct_8017EDC0 *)a0)->unkE0 & a2) != 0) {
+    if ((((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_001_8017E448.unkE0 & a2) != 0) {
         *(s32 *)a1 += 0x1000;
         rec->y = rec->y + *(u16 *)(a1 + 2);
         if ((s16)rec->y >= 0x400) {
@@ -3577,7 +3577,7 @@ void func_8017EDC0(s32 a0, s32 a1, s32 a2, s32 a3)
         sp18[1] = 0;
         sp18[2] = D_80185098[a3].x;
         if (func_800132BC((s32)sp10, (s32)sp18) < 0x9001) {
-            ((Unkstruct_8017EDC0 *)a0)->unkE0 |= a2;
+            ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC07_001_8017E448.unkE0 |= a2;
             func_8013C9C4(&D_80181CAC);
         }
         func_8017E3E8(a3, (s16 *)rec, 1);

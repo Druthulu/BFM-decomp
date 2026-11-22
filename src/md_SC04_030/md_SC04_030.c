@@ -353,13 +353,13 @@ void func_801E849C(s32 a0) {
 
     if (v1 < 0xC8) {
         s32 v0 = ((s32 (*)(void))func_80184D00)();
-        ((Unkstruct_801E2D84 *)a0)->unkE4 = D_801E8738[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_079_801EFCF0.unkE4 = D_801E8738[v0];
     } else if (v1 < 0x384) {
         s32 v0 = func_80184DD0();
-        ((Unkstruct_801E2D84 *)a0)->unkE4 = D_801E874C[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_079_801EFCF0.unkE4 = D_801E874C[v0];
     } else {
         s32 v0 = func_80184E44();
-        ((Unkstruct_801E2D84 *)a0)->unkE4 = D_801E8768[v0];
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_079_801EFCF0.unkE4 = D_801E8768[v0];
         func_80184EA0();
     }
 }

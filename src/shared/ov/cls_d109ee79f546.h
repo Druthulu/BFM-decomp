@@ -40,17 +40,17 @@ void SHARED_FN(s32 p)
 
     r0 = (MTX_8017FE38 *)&guess_g_CameraWsMatrix;
     gte_SetRotMatrix(r0);
-    gte_ldclmv(((Unkstruct_8017FE38 *)p)->unk20 + 0x34);
+    gte_ldclmv(((Unkstruct_801202A0 *)p)->unk20.val + 0x34);
     gte_rtir();
     gte_stclmv((s16 *)&mat);
-    gte_ldclmv(((Unkstruct_8017FE38 *)p)->unk20 + 0x36);
+    gte_ldclmv(((Unkstruct_801202A0 *)p)->unk20.val + 0x36);
     gte_rtir();
     gte_stclmv((s16 *)&mat + 1);
-    gte_ldclmv(((Unkstruct_8017FE38 *)p)->unk20 + 0x38);
+    gte_ldclmv(((Unkstruct_801202A0 *)p)->unk20.val + 0x38);
     gte_rtir();
     gte_stclmv((s16 *)&mat + 2);
     gte_SetTransMatrix(r0);
-    gte_ldlv0(((Unkstruct_8017FE38 *)p)->unk20 + 0x48);
+    gte_ldlv0(((Unkstruct_801202A0 *)p)->unk20.val + 0x48);
     gte_rtv0tr();
     gte_stlvnl(&mat.t[0]);
     gte_SetRotMatrix(&mat);
@@ -68,8 +68,8 @@ void SHARED_FN(s32 p)
     gte_stotz(&g.otz);
 
     if ((g.flag & ~0x1000) == 0) {
-        x = ((Unkstruct_8017FE38 *)p)->unk104;
-        y = ((Unkstruct_8017FE38 *)p)->unk106;
+        x = ((Unkstruct_801202A0 *)p)->extD.kSC07_002_80183A70.unk104.u;
+        y = ((Unkstruct_801202A0 *)p)->extD.kSC07_002_80183A70.unk106.u;
         x = x + 0x140;
         a = (y & 0x100) >> 4;
         b = ((x & 0x3C0) >> 6) | 0x80;

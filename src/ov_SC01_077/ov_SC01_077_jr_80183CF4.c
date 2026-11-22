@@ -3128,21 +3128,21 @@ void func_80183DE0(int param)
     int src;
     short sVar1;
 
-    iVar7 = ((Unkstruct_80183DE0 *)param)->unkCC;
+    iVar7 = ((Unkstruct_801202A0 *)param)->unkCC.val;
     if (iVar7 != 0) {
         ((Unkstruct_8001C9D0 *)iVar7)->head.unk18.w.unk18.s = 0x1800;
         *(unsigned short *)(iVar7 + 0x2c) |= 0x10;
-        src = ((Unkstruct_80183DE0 *)param)->unk20;
+        src = ((Unkstruct_801202A0 *)param)->unk20.val;
         *(Blk8 *)(iVar7 + 8) = *(Blk8 *)(src + 8);
         *(unsigned short *)(iVar7 + 0xa) -= 0x10;
         *(unsigned short *)(iVar7 + 0x10) =
-            *(unsigned short *)(iVar7 + 0x10) + ((Unkstruct_80183DE0 *)param)->unk1A * -0x10;
+            *(unsigned short *)(iVar7 + 0x10) + ((Unkstruct_801202A0 *)param)->unk18.i.hi.s * -0x10;
     }
 
-    sVar1 = ((Unkstruct_80183DE0 *)param)->unkFE;
+    sVar1 = ((Unkstruct_801202A0 *)param)->unkFE.s;
     if (sVar1 != 1) {
         if (sVar1 < 2 && sVar1 == 0 && (*(short *)&guess_g_PlayerPosZ) >= 0x6e0) {
-            ((Unkstruct_80183DE0 *)param)->unkFE = 1;
+            ((Unkstruct_801202A0 *)param)->unkFE.s = 1;
             i = 0;
             puVar8 = (unsigned char *)&D_8018AE0C;
             do {
@@ -3153,7 +3153,7 @@ void func_80183DE0(int param)
         }
     } else {
         if ((*(short *)&guess_g_PlayerPosZ) >= 0x900) {
-            ((Unkstruct_80183DE0 *)param)->unkFE = 2;
+            ((Unkstruct_801202A0 *)param)->unkFE.s = 2;
             i = 2;
             puVar8 = (unsigned char *)&D_8018AE34;
             do {
@@ -3164,7 +3164,7 @@ void func_80183DE0(int param)
         }
     }
 
-    if (((Unkstruct_80183DE0 *)param)->unkFC != ((Unkstruct_80183DE0 *)param)->unkE) {
+    if (((Unkstruct_801202A0 *)param)->unkFC.s != ((Unkstruct_801202A0 *)param)->unkC.i.hi.s) {
         func_80183F4C(param);
     }
 }
@@ -3176,18 +3176,18 @@ void func_80183DE0(int param)
 extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 
 void func_80183F4C(int param_1) {
-    ((Unkstruct_80183DE0 *)param_1)->unk2 = 2;
-    ((Unkstruct_80183DE0 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 2;
+    ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     ((void (*)(void))guess_ClearVelocityAndSetGravity)();
-    ((Unkstruct_80183DE0 *)param_1)->unk5C = 0x800;
-    ((Unkstruct_80183DE0 *)param_1)->unk84 = 0;
-    if (((Unkstruct_80183DE0 *)param_1)->unkFC < ((Unkstruct_80183DE0 *)param_1)->unkE) {
-        ((Unkstruct_80183DE0 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.s = 0x800;
+    ((Unkstruct_801202A0 *)param_1)->unk84.s = 0;
+    if (((Unkstruct_801202A0 *)param_1)->unkFC.s < ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.s) {
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     } else {
-        ((Unkstruct_80183DE0 *)param_1)->unk34 = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 1;
     }
-    ((Unkstruct_80183DE0 *)param_1)->unk1C = 0x100;
-    ((Unkstruct_80183DE0 *)param_1)->unkDC = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x100;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val = 0;
 }
 
 
@@ -4690,7 +4690,7 @@ void func_80186434(s32 arg0) {
 
     ret = ((s32 (*)(void))guess_AllocModelObject)();
     iVar1 = ret;
-    ((Unkstruct_80186434 *)param_1)->unk20 = ret;
+    ((Unkstruct_80186434 *)param_1)->unk20.val = ret;
     if (ret == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
     } else {
@@ -4700,26 +4700,26 @@ void func_80186434(s32 arg0) {
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk18.w.unk1A.u = 0x1c00;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk18.w.unk18.u = 0x1c00;
         ((Unkstruct_8001C9D0 *)iVar1)->head.unk2C.u = ((Unkstruct_8001C9D0 *)iVar1)->head.unk2C.u | 0x10;
-        ((Unkstruct_80186434 *)param_1)->unk76 = 4;
+        ((Unkstruct_80186434 *)param_1)->unk76.u = 4;
         ((Unkstruct_80186434 *)param_1)->unk78 = (s32)&D_801D55C0;
-        ((Unkstruct_80186434 *)param_1)->unkDC = ((Unkstruct_80186434 *)param_1)->unk6;
-        ((Unkstruct_80186434 *)param_1)->unkDE = ((Unkstruct_80186434 *)param_1)->unkE;
+        ((Unkstruct_80186434 *)param_1)->blkDC.f.unkDC.i.lo.u = ((Unkstruct_80186434 *)param_1)->unk4.i.hi.u;
+        ((Unkstruct_80186434 *)param_1)->blkDC.f.unkDC.i.hi.u = ((Unkstruct_80186434 *)param_1)->unkC.i.hi.u;
         ((void (*)(s32, s32))guess_StartActorSequence)(param_1, D_801D55AC[CAST_SIGN(s16, param_1, 0x76)]);
-        ((Unkstruct_80186434 *)param_1)->unk2 = 1;
-        if (((Unkstruct_80186434 *)param_1)->unk70 == 4) {
-            ((Unkstruct_80186434 *)param_1)->unk58 = (s32)&D_801D5568;
+        ((Unkstruct_80186434 *)param_1)->unk2.u = 1;
+        if (((Unkstruct_80186434 *)param_1)->unk70.s == 4) {
+            ((Unkstruct_80186434 *)param_1)->unk58.s = (s32)&D_801D5568;
         } else {
-            ((Unkstruct_80186434 *)param_1)->unk58 = (s32)&D_801D5558;
+            ((Unkstruct_80186434 *)param_1)->unk58.s = (s32)&D_801D5558;
         }
-        iVar2 = ((Unkstruct_80186434 *)param_1)->unk20;
-        ((Unkstruct_80186434 *)param_1)->unk58 = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
+        iVar2 = ((Unkstruct_80186434 *)param_1)->unk20.val;
+        ((Unkstruct_80186434 *)param_1)->unk58.s = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
         ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk1C.u = 0x1c00;
         ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk1A.u = 0x1c00;
         ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk18.u = 0x1c00;
-        ((Unkstruct_80186434 *)param_1)->unk5E = 0;
-        ((Unkstruct_80186434 *)param_1)->unk5C = ((Unkstruct_80186434 *)param_1)->unk5C | 0x8800;
-        ((Unkstruct_80186434 *)param_1)->unk6 = ((Unkstruct_80186434 *)param_1)->unkDC;
-        ((Unkstruct_80186434 *)param_1)->unkE = ((Unkstruct_80186434 *)param_1)->unkDE;
+        ((Unkstruct_80186434 *)param_1)->unk5E.u = 0;
+        ((Unkstruct_80186434 *)param_1)->unk5C.u = ((Unkstruct_80186434 *)param_1)->unk5C.u | 0x8800;
+        ((Unkstruct_80186434 *)param_1)->unk4.i.hi.u = ((Unkstruct_80186434 *)param_1)->blkDC.f.unkDC.i.lo.u;
+        ((Unkstruct_80186434 *)param_1)->unkC.i.hi.u = ((Unkstruct_80186434 *)param_1)->blkDC.f.unkDC.i.hi.u;
     }
 }
 

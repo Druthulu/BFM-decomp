@@ -7,10 +7,10 @@ void SHARED_FN(s32 arg0)
     s16 temp;
     s32 q;
 
-    sp20 = ((Unkstruct_8017DE30 *)arg0)->unk20;
-    temp = ((Unkstruct_8017DE30 *)arg0)->unkFC + 0x22;
-    ((Unkstruct_8017DE30 *)arg0)->unkFC = temp;
+    sp20 = ((Unkstruct_801202A0 *)arg0)->unk20.val;
+    temp = ((Unkstruct_801202A0 *)arg0)->unkFC.u + 0x22;
+    ((Unkstruct_801202A0 *)arg0)->unkFC.u = temp;
     q = rsin(temp) / 0x100;
-    ((Unkstruct_8017DE30 *)arg0)->unkA = ((Unkstruct_8017DE30 *)arg0)->unk16 + q;
+    ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)arg0)->unk14.i.hi.u + q;
     ((RenderHead *)sp20)->unk10.w.unk12.u = ((RenderHead *)sp20)->unk10.w.unk12.u + 8;
 }

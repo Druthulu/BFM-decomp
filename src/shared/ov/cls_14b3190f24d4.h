@@ -3,17 +3,17 @@ void SHARED_FN(s32 a0) {
     s32 p;
     s32 q;
 
-    p = ((Unkstruct_80180068 *)a0)->unk20;
-    ((Unkstruct_80180068 *)a0)->unk6 = 0x7FFF;
-    ((Unkstruct_80180068 *)a0)->unkA = -0x1000;
-    ((Unkstruct_80180068 *)a0)->unk2 = 5;
-    ((Unkstruct_80180068 *)a0)->unk34 = 0;
-    ((Unkstruct_80180068 *)a0)->unk1C = 0x12C;
+    p = ((Unkstruct_801202A0 *)a0)->unk20.val;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0x7FFF;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = -0x1000;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 5;
+    ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x12C;
     ((Unkstruct_8001C9D0 *)p)->head.unk4.s |= 0x80000000;
-    q = ((Unkstruct_80180068 *)a0)->unk20;
+    q = ((Unkstruct_801202A0 *)a0)->unk20.val;
     ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1C.u = 0x1000;
     ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk1A.u = 0x1000;
     ((Unkstruct_8001C9D0 *)q)->head.unk18.w.unk18.u = 0x1000;
-    ((Unkstruct_80180068 *)a0)->unk76 = 0x1E0;
-    ((Unkstruct_80180068 *)a0)->unk5C = 0x8810;
+    ((Unkstruct_801202A0 *)a0)->unk76.u = 0x1E0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8810;
 }

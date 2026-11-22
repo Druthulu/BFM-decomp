@@ -3210,7 +3210,7 @@ void func_80180EFC(s32 a0) {
 
     extern s32 D_80191554[];
     s32 idx = ((s32 (*)(s32))func_80184B44)(a0);
-    ((Unkstruct_8017ED94_2 *)a0)->unkE4 = D_80191554[idx];
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_80180DA4.unkE4 = D_80191554[idx];
 }
 
 
@@ -3852,7 +3852,7 @@ void func_80181B98(s32 a0) {
 
     extern s32 D_801919E4[];
     s32 idx = ((s32 (*)(s32))func_80184B44)(a0);
-    ((Unkstruct_8017ED94_2 *)a0)->unkE4 = D_801919E4[idx];
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_80181B30.unkE4 = D_801919E4[idx];
 }
 
 
@@ -4193,7 +4193,7 @@ void func_8018229C(s32 a0) {
 
     extern s32 D_80191ADC[];
     s32 idx = ((s32 (*)(s32))func_80184B44)(a0);
-    ((Unkstruct_8017ED94_2 *)a0)->unkE4 = D_80191ADC[idx];
+    ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC05_017_80182234.unkE4 = D_80191ADC[idx];
 }
 
 
