@@ -1114,3 +1114,4 @@ C0661 | Merging per-overlay actor variants on compiled asm; per-source alias ren
 C0662 | Folding packet and value views (A3): kept REINTERP rows, not raw casts; engine_types.h cite remaps | struct,fold,packet,psyq,kept,gate,t19 | 2026-11-21 | 3.45/T19 | P3.45 T19.c13
 C0663 | Judging md modules, main and shared views (A4): special-move slots, five pool tables, dead bodies | struct,parent,pool,kind,tracing,md,main,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20 judges c1-c9
 C0664 | Applying A4 pool absorbs: scalar-to-union probes, gcc column trap, stamp-last rule, hand folds onto new unions | struct,absorb,fold-batch,union,probe,ledger,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20.c10
+C0665 | Applying A4 fx/sprite/model/RenderHead/Dst absorbs: render-head pointer-member trap, two-object locals | struct,absorb,fold-batch,union,renderhead,probe,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20.c11
