@@ -6675,7 +6675,7 @@ typedef struct {
     /* 0x0024 */ u8 pad24[0x3a];
     /* 0x005e */ u16 unk5E;
     /* 0x0060 */ u8 pad60[0x7c];
-    /* 0x00dc */ u32 unkDC;
+    /* 0x00dc */ s32 unkDC; /* T20.c12: was u32 (actor blkDC.f.unkDC.val is s32; only `&= ~0x10`) */
     /* 0x00e0 */ u8 padE0[0x1e];
     /* 0x00fe */ s16 unkFE;
 } Unkstruct_8017E930; /* size = 0x100 */
