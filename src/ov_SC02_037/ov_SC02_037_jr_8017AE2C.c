@@ -4937,7 +4937,7 @@ void func_8017D030(int param_1)
     s16   i;
     s32   c;
 
-    obj = ((Unkstruct_8017D030_3 *)param_1)->unk34;
+    obj = ((Unkstruct_8017D030_3 *)param_1)->unk34.val;
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017D030_3 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
@@ -5044,7 +5044,7 @@ void func_8017D588(void *a0)
     void *obj;
     s16 v;
     v = ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u - 0x100;
-    obj = ((Unkstruct_8011D030 *)a0)->unk34;
+    obj = ((Unkstruct_8011D030 *)a0)->unk34.val;
     ((Unkstruct_8011D030 *)a0)->unk10.i.hi.u = v;
     if (v > 0) {
         ((void (*)(void *))func_8017D030)(a0);

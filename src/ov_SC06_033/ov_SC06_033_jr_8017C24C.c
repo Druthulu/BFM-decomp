@@ -3818,8 +3818,8 @@ void func_8017EC50(s32 *a0)
     table_base = (s32)D_801D05BC + param * 0x40;
 
     if (param != 0) {
-        ((Unkstruct_8011D030 *)a0)->unk6.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
-        ((Unkstruct_8011D030 *)a0)->unkE.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unkC.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
 
         if (func_8017ED0C(a0, table_base) == 0) {
             return;

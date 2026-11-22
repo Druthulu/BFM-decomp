@@ -80,7 +80,7 @@ void func_800CAFA0(void *a0) {
     s32 *s3 = *(s32 **)((s32)a0 + 0x20);
 
     if (D_80078EC1 != 0x11) {
-        guess_SpawnSmallObject(3, a0, ((Unkstruct_8011D030 *)a0)->unk6.s, ((Unkstruct_8011D030 *)a0)->unk8.i.hi.s, ((Unkstruct_8011D030 *)a0)->unkE.s, 0xAAAFFFA, 0xE000B400);
+        guess_SpawnSmallObject(3, a0, ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s, ((Unkstruct_8011D030 *)a0)->unk8.i.hi.s, ((Unkstruct_8011D030 *)a0)->unkC.i.hi.s, 0xAAAFFFA, 0xE000B400);
         guess_FreeSmallObject(a0);
     } else {
         m = D_800AE620;
@@ -96,9 +96,9 @@ void func_800CAFA0(void *a0) {
             guess_SpawnSmallObject(3, a0, sv.x, sv.y, sv.z, 0xAAAFFFA, 0xE000B800);
         } else {
             *(s32 *)((s32)s3 + 4) &= 0x7FFFFFFF;
-            ((Unkstruct_8011D030 *)a0)->unk6.s = sv.x;
+            ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s = sv.x;
             ((Unkstruct_8011D030 *)a0)->unk8.i.hi.s = sv.y;
-            ((Unkstruct_8011D030 *)a0)->unkE.s = sv.z;
+            ((Unkstruct_8011D030 *)a0)->unkC.i.hi.s = sv.z;
             guess_StepPairSequence((s32)s3, (s32 *)((s32)a0 + 0x24));
         }
         (((Unkstruct_8011D030 *)a0)->unk1C.s)++;

@@ -217,16 +217,16 @@ void func_800CB1EC(void *a0) {
 
         guess_RotTransSVWithMatrix((s32)&buf, (s32)out, (s32)out);
 
-        ((Unkstruct_8011D030 *)a0)->unk6.u = out[0];
+        ((Unkstruct_8011D030 *)a0)->unk4.i.hi.u = out[0];
         ((Unkstruct_8011D030 *)a0)->unk8.i.hi.u = out[1];
-        ((Unkstruct_8011D030 *)a0)->unkE.u = out[2];
+        ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u = out[2];
 
         ((Unkstruct_800CB1EC_3 *)s4)->unk4 &= mask;
         ((Unkstruct_800CB1EC_3 *)s4)->unk18 = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk18.u;
         ((Unkstruct_800CB1EC_3 *)s4)->unk1A = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk1A.u;
-        ((Unkstruct_800CB1EC_3 *)s4)->unk8 = ((Unkstruct_8011D030 *)a0)->unk6.u;
+        ((Unkstruct_800CB1EC_3 *)s4)->unk8 = ((Unkstruct_8011D030 *)a0)->unk4.i.hi.u;
         ((Unkstruct_800CB1EC_3 *)s4)->unkA = ((Unkstruct_8011D030 *)a0)->unk8.i.hi.u;
-        ((Unkstruct_800CB1EC_3 *)s4)->unkC = ((Unkstruct_8011D030 *)a0)->unkE.u;
+        ((Unkstruct_800CB1EC_3 *)s4)->unkC = ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u;
         ((Unkstruct_8011D030 *)a0)->unk1C.s += 1;
     } else {
         if (s4 != NULL) {

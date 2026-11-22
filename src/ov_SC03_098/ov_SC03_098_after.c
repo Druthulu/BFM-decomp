@@ -2552,7 +2552,7 @@ void func_80153D7C(s32 param_1)
     guess_SetAnimScript((s32 *)param_1, (s32)&D_80187120);
     func_80149020((s32 *)param_1);
     CAST_ALIAS(u16, param_1, 0x244) = CAST_SIGN(u16, param_1, 6);
-    ((Unkstruct_80126B58 *)param_1)->unk246 = CAST_SIGN(u16, param_1, 10);
+    ((Unkstruct_80126B58 *)param_1)->unk246.u = CAST_SIGN(u16, param_1, 10);
     CAST_ALIAS(u16, param_1, 0x248) = CAST_SIGN(u16, param_1, 0xe);
     if (currentLocationId == 0x3075) ((Unkstruct_80126B58 *)param_1)->unkDE.s = 0x14;
     else ((Unkstruct_80126B58 *)param_1)->unkDE.s = 10;

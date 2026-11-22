@@ -83,7 +83,7 @@ void func_800CCD50(void *a0) {
     guess_SetAnimScript((s32 *)s0, (s32)&D_800CE010);
     v0 = ((Unkstruct_80126B58 *)s0)->unk20.val;
     v1 = ((Unkstruct_800CCD50_2 *)v0)->unk12;
-    ((Unkstruct_80126B58 *)s0)->unk246 = 0x200;
+    ((Unkstruct_80126B58 *)s0)->unk246.u = 0x200;
     ((Unkstruct_80126B58 *)s0)->unk244.u = v1;
     guess_ClearMoveVector(s0);
     func_800CCDB0((s32 *)s0);
@@ -424,14 +424,14 @@ s32 func_800CD494(void *a0) {
     v0 = guess_GetPadHeld((s32 *)s0);
     if (v0 & 0x90) {
         func_800CDA14(s0);
-        v0 = ((Unkstruct_80126B58 *)s0)->unk246;
+        v0 = ((Unkstruct_80126B58 *)s0)->unk246.u;
         v0 = v0 + 8;
-        ((Unkstruct_80126B58 *)s0)->unk246 = v0;
+        ((Unkstruct_80126B58 *)s0)->unk246.u = v0;
         if ((s16)v0 >= 0x201) {
-            ((Unkstruct_80126B58 *)s0)->unk246 = 0x200;
+            ((Unkstruct_80126B58 *)s0)->unk246.u = 0x200;
         }
         v0 = CAST_WIDTH(u16, s0, 0x240);
-        v1 = ((Unkstruct_80126B58 *)s0)->unk246;
+        v1 = ((Unkstruct_80126B58 *)s0)->unk246.u;
         v0 = v0 + v1;
         CAST_WIDTH(u16, s0, 0x240) = v0;
         if ((s16)v0 >= 0x1000) {
@@ -439,15 +439,15 @@ s32 func_800CD494(void *a0) {
             guess_PlaySoundUnlessSkipped(0x8E4);
         }
     } else {
-        v0 = ((Unkstruct_80126B58 *)s0)->unk246;
+        v0 = ((Unkstruct_80126B58 *)s0)->unk246.u;
         v0 = v0 - 0x20;
-        ((Unkstruct_80126B58 *)s0)->unk246 = v0;
+        ((Unkstruct_80126B58 *)s0)->unk246.u = v0;
         if ((s16)v0 <= 0) {
-            ((Unkstruct_80126B58 *)s0)->unk246 = 0;
+            ((Unkstruct_80126B58 *)s0)->unk246.u = 0;
         }
     }
     v0 = ((Unkstruct_80126B58 *)s0)->unk244.u;
-    v1 = ((Unkstruct_80126B58 *)s0)->unk246;
+    v1 = ((Unkstruct_80126B58 *)s0)->unk246.u;
     v0 = v0 + v1;
     v0 = v0 & 0xFFF;
     ((Unkstruct_80126B58 *)s0)->unk244.u = v0;
@@ -526,8 +526,8 @@ void func_800CD708(s32 param_1)
     s0 = ((Ent_80164930_80164930 *)param_1)->unk4C;
     D_800CE080[((Ent_80164930_80164930 *)param_1)->unk2.u]();
 
-    *(s32 *)(((Ent_80164930_80164930 *)param_1)->unk20 + 4) &= 0x7FFFFFFF;
-    *(s32 *)(((Ent_80164930_80164930 *)param_1)->unk20 + 4) |= (*(s32 *)(((Unkstruct_80126B58 *)s0)->unk20.val + 4)) & 0x80000000;
+    *(s32 *)(((Ent_80164930_80164930 *)param_1)->unk20.val + 4) &= 0x7FFFFFFF;
+    *(s32 *)(((Ent_80164930_80164930 *)param_1)->unk20.val + 4) |= (*(s32 *)(((Unkstruct_80126B58 *)s0)->unk20.val + 4)) & 0x80000000;
 
     ((Ent_80164930_80164930 *)param_1)->unk60.s = 0;
 

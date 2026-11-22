@@ -3417,7 +3417,7 @@ void func_8017C218(int param_1)
     s16   i;
     s32   c;
 
-    obj = ((Unkstruct_8017C218_3 *)param_1)->unk34;
+    obj = ((Unkstruct_8017C218_3 *)param_1)->unk34.val;
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017C218_3 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 

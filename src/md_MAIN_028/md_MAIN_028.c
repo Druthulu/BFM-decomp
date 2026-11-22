@@ -404,7 +404,7 @@ void func_800CBAD0(s32 a0) {
     s32 s;
     s32 v;
 
-    s = ((Unkstruct_8011D030 *)a0)->unk34;
+    s = ((Unkstruct_8011D030 *)a0)->unk34.val;
     if (((Unkstruct_8011D030 *)a0)->unk2C.val.s & 0x8000) {
         goto L_inc;
     }
@@ -431,7 +431,7 @@ void func_800CBBA0(void *a0) {
     s32 n;
     s32 m;
     s32 v0;
-    a1 = ((Unkstruct_8011D030 *)a0)->unk34;
+    a1 = ((Unkstruct_8011D030 *)a0)->unk34.val;
     if ((((Unkstruct_8011D030 *)a0)->unk1C.s)++ < 10) {
         ((Unkstruct_8011D030 *)a0)->unk28.u += 0x120;
     } else {
@@ -476,9 +476,9 @@ void func_800CBC7C(s32 param_1) {
     ((Unkstruct_8011D030 *)param_1)->unk1C.s = iVar2;
 LAB_800CBCFC:
     ((Unkstruct_8011D030 *)param_1)->unk28.u = ((Unkstruct_8011D030 *)param_1)->unk28.u + ((Unkstruct_8011D030 *)param_1)->unk1C.s;
-    ((Unkstruct_8011D030 *)param_1)->unk4C = ((Unkstruct_8011D030 *)param_1)->unk4C + CAST_SIGN(s16, param_1, 0x12);
-    ((Unkstruct_8011D030 *)param_1)->unk50 -= 3;
-    ((Unkstruct_8011D030 *)param_1)->unk54 = ((Unkstruct_8011D030 *)param_1)->unk54 + CAST_SIGN(s16, param_1, 0x1A);
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk4C = ((Unkstruct_8011D030 *)param_1)->unk38.f.unk4C + CAST_SIGN(s16, param_1, 0x12);
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk50 -= 3;
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk54 = ((Unkstruct_8011D030 *)param_1)->unk38.f.unk54 + CAST_SIGN(s16, param_1, 0x1A);
     func_800CB8A0(param_1);
     iVar3 = ((Unkstruct_8011D030 *)param_1)->unk30.val.s;
     ((Unkstruct_8011D030 *)param_1)->unk30.val.s = iVar3 - 1;
@@ -495,7 +495,7 @@ void func_800CBD78(s32 param_1) {
     var = ((Unkstruct_8011D030 *)param_1)->unk28.u - 0x100;
     ((Unkstruct_8011D030 *)param_1)->unk28.u = var;
     if (var > 0) {
-        ((Unkstruct_8011D030 *)param_1)->unk50 -= 3;
+        ((Unkstruct_8011D030 *)param_1)->unk38.f.unk50 -= 3;
         func_800CB8A0(param_1);
     } else {
         KR_AS(s32, guess_FreeSmallObject)();
@@ -512,7 +512,7 @@ void func_800CBDD0(s32 a0) {
     s32 v0;
     s32 var1C;
 
-    s1 = ((Unkstruct_8011D030 *)a0)->unk34;
+    s1 = ((Unkstruct_8011D030 *)a0)->unk34.val;
     v0 = ((Unkstruct_80126B58 *)s1)->unk20.val;
     *(Blk16_956C *)(a0 + 0x38) = *(Blk16_956C *)(v0 + 0x34);
     *(Blk16_956C *)(a0 + 0x48) = *(Blk16_956C *)(v0 + 0x44);

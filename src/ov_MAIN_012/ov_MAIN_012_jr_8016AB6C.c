@@ -2886,13 +2886,13 @@ lout:
             ((void(*)(Unkstruct_8011D030 *))guess_FreeSmallObject)(((Unkstruct_8011D030 *)arg0));
             return;
         }
-        sp10.vx = ((Unkstruct_8011D030 *)arg0)->unk6.u;
+        sp10.vx = ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.u;
         sp10.vy = ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.u - 0x18;
-        sp10.vz = ((Unkstruct_8011D030 *)arg0)->unkE.u;
+        sp10.vz = ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.u;
         ((void(*)(SVec_8016AB6C *, SVec_8016AB6C *, s32))func_800D20C0)(&sp10, &sp18, 6);
-        ((Unkstruct_8011D030 *)arg0)->unk6.u = sp10.vx;
+        ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.u = sp10.vx;
         ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.u = sp10.vy;
-        ((Unkstruct_8011D030 *)arg0)->unkE.u = sp10.vz;
+        ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.u = sp10.vz;
         if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 6) {
             var_s3 = guess_SjisToGlyphCodes(D_801814AC, D_80184668) + 3;
             func_8001CE28(obj, D_80184668);

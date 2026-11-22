@@ -7,9 +7,9 @@ void SHARED_FN(u8 *a0) {
     u16 v0;
     (void)&frame_pad;
     v1 = ((Unkstruct_8011D030 *)a0)->unk2.u;
-    v0 = ((Unkstruct_8011D030 *)a0)->unkE.u;
+    v0 = ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u;
     v1 += 0x1;
     v0 += 0x10;
-    ((Unkstruct_8011D030 *)a0)->unkE.u = v0;
+    ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u = v0;
     ((Unkstruct_8011D030 *)a0)->unk2.u = v1;
 }

@@ -322,7 +322,7 @@ void func_800CB56C(s32 arg0) {
 
     obj = ((Unkstruct_8011D030 *)arg0)->unk20;
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-    ent = ((Unkstruct_8011D030 *)arg0)->unk34;
+    ent = ((Unkstruct_8011D030 *)arg0)->unk34.val;
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     { register Blk20_8016DF5C *s __asm__("$5") = &D_800AE620; s32 t0, t1, t2;  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       __asm__ __volatile__("" : "=r"(s) : "0"(s));  // !FAKE: launder — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
@@ -340,11 +340,11 @@ void func_800CB56C(s32 arg0) {
     { void *q = &blk; ApplyMatrixSV(q, vec, vec); __asm__ __volatile__("" : "=r"(q)); }  // !FAKE: launder out-only — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     ent += 0x38;
     guess_RotTransSVWithMatrix(ent, (s32)vec, (s32)vec);
-    ((Unkstruct_8011D030 *)arg0)->unk6.s   = vec[0];
+    ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.s   = vec[0];
     ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.s = vec[1];
     ang2 = ang + 0x200;
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
-    ((Unkstruct_8011D030 *)arg0)->unkE.s = vec[2];
+    ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s = vec[2];
     __asm__ __volatile__("" : : : "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-const-addr
     { register Blk20_8016DF5C *s __asm__("$7") = &D_800AE620;  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
       s32 t0, t1; register s32 t2 __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
@@ -376,9 +376,9 @@ void func_800CB6E4(void *arg0) {
         } else {
             var = -0x30;
         }
-        ((Unkstruct_8011D030 *)arg0)->unk4C = ((Unkstruct_800CB6E4_2 *)a0)->unk6;
-        ((Unkstruct_8011D030 *)arg0)->unk50 = ((Unkstruct_800CB6E4_2 *)a0)->unkA + (s16)var;
-        ((Unkstruct_8011D030 *)arg0)->unk54 = ((Unkstruct_800CB6E4_2 *)a0)->unkE;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk4C = ((Unkstruct_800CB6E4_2 *)a0)->unk6;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk50 = ((Unkstruct_800CB6E4_2 *)a0)->unkA + (s16)var;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk54 = ((Unkstruct_800CB6E4_2 *)a0)->unkE;
     }
     if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0x18 && ((Unkstruct_800CB6E4_2 *)a0)->unk0 != 0) {
         if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0xE) {

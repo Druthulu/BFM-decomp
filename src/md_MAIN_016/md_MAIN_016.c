@@ -134,7 +134,7 @@ void func_800CB158(s32 arg0) {
 
     s32 cnt;
 
-    a0 = ((Unkstruct_8011D030 *)arg0)->unk34;
+    a0 = ((Unkstruct_8011D030 *)arg0)->unk34.val;
 
     if ((((Unkstruct_8011D030 *)arg0)->unk2C.val.s & 0x8000) == 0) {
         cnt = ((Unkstruct_8011D030 *)arg0)->unk1C.s;
@@ -169,7 +169,7 @@ void func_800CB228(s32 arg0) {
 
     ent = arg0;
     cnt = ((Unkstruct_8011D030 *)ent)->unk1C.s;
-    oth = ((Unkstruct_8011D030 *)ent)->unk34;
+    oth = ((Unkstruct_8011D030 *)ent)->unk34.val;
     ((Unkstruct_8011D030 *)ent)->unk1C.s = cnt + 1;
     if (cnt < 10) {
         ((Unkstruct_8011D030 *)ent)->unk28.u = ((Unkstruct_8011D030 *)ent)->unk28.u + 0x120;
@@ -214,9 +214,9 @@ void func_800CB304(s32 arg0) {
     }
 
     ((Unkstruct_8011D030 *)s0)->unk28.s = CAST_SIGN(u16, s0, 0x28) + ((Unkstruct_8011D030 *)s0)->unk1C.s;
-    ((Unkstruct_8011D030 *)s0)->unk4C += ((Unkstruct_8011D030 *)s0)->unk10.i.hi.s;
-    ((Unkstruct_8011D030 *)s0)->unk50 -= 2;
-    ((Unkstruct_8011D030 *)s0)->unk54 += ((Unkstruct_8011D030 *)s0)->unk18.i.hi.s;
+    ((Unkstruct_8011D030 *)s0)->unk38.f.unk4C += ((Unkstruct_8011D030 *)s0)->unk10.i.hi.s;
+    ((Unkstruct_8011D030 *)s0)->unk38.f.unk50 -= 2;
+    ((Unkstruct_8011D030 *)s0)->unk38.f.unk54 += ((Unkstruct_8011D030 *)s0)->unk18.i.hi.s;
 
     func_800CAF84(s0);
 
@@ -236,7 +236,7 @@ void func_800CB400(void *a0)
     var = ((Unkstruct_8011D030 *)a0)->unk28.u - 0x100;
     ((Unkstruct_8011D030 *)a0)->unk28.u = var;
     if (var > 0) {
-        ((Unkstruct_8011D030 *)a0)->unk50 -= 2;
+        ((Unkstruct_8011D030 *)a0)->unk38.f.unk50 -= 2;
         func_800CAF84();
     } else {
         KR_AS(s32, guess_FreeSmallObject)();
@@ -252,7 +252,7 @@ void func_800CB458(s32 arg0) {
     Blk16_956C *v0;
     s32 id;
 
-    s1 = ((Unkstruct_8011D030 *)s0)->unk34;
+    s1 = ((Unkstruct_8011D030 *)s0)->unk34.val;
     v0 = ((Unkstruct_800CB458_2 *)s1)->unk20;
 
     *(Blk16_956C *)(s0 + 0x38) = *(Blk16_956C *)((u8 *)v0 + 0x34);

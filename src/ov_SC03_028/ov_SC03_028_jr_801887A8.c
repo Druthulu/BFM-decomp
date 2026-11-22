@@ -4759,7 +4759,7 @@ void func_8018AF9C(void *a0) {
         uVar1 = D_80190CE0[((Unkstruct_8011D030 *)a0)->unk2C.val.s];
         s1->head.unk2C.s = 3;
         s1->head.unk24.b.unk27.u = uVar1;
-        ((Unkstruct_8011D030 *)a0)->unk6.s = 0;
+        ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s = 0;
         ((Unkstruct_8011D030 *)a0)->unk8.i.hi.s = 0x50;
 
         /* The shift chain below needs a BASIC-BLOCK BOUNDARY before every copy

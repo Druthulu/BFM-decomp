@@ -3933,7 +3933,7 @@ void func_8017CE90(void *a0)
         D_801EA846 = 0;
 
         ((Unkstruct_8017CE90_3 *)a0)->unk30.val.s = CAST_ALIAS(s32, (u8 *)a0, 0x30) & 0x7F;
-        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.s = ((Unkstruct_8017CE90_3 *)a0)->unkE.u + 0x10;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk2C.s = ((Unkstruct_8017CE90_3 *)a0)->unkC.i.hi.u + 0x10;
         ((Unkstruct_8017CE90_3 *)a0)->unk2.u = ((Unkstruct_8017CE90_3 *)a0)->unk2.u + 1;
     } else {
         ((void (*)(void *))guess_FreeSmallObject)(a0);

@@ -206,9 +206,9 @@ void func_800CB2AC(void *a0)
             m.t[2] = guess_g_PlayerPosZ;
             vec.z = t - (t >> 2);
             guess_RotTransSVWithMatrix((s32)&m, (s32)&vec, (s32)&vec);
-            ((Unkstruct_8011D030 *)s1)->unk6.u = vec.x;
+            ((Unkstruct_8011D030 *)s1)->unk4.i.hi.u = vec.x;
             ((Unkstruct_8011D030 *)s1)->unk8.i.hi.u = vec.y;
-            ((Unkstruct_8011D030 *)s1)->unkE.u = vec.z;
+            ((Unkstruct_8011D030 *)s1)->unkC.i.hi.u = vec.z;
             return;
         }
     }

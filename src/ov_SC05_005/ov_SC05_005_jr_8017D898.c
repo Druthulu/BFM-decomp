@@ -5040,7 +5040,7 @@ void func_801822E8(void *a0)
 
 void func_801823AC(s32 arg0)
 {
-    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)arg0)->unk34, arg0 + 4);
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)arg0)->unk34.val, arg0 + 4);
     if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 0) {
         func_800D1FC8(arg0, 5);
     }

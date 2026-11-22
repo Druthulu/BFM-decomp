@@ -141,11 +141,11 @@ void func_800CCE80(void *arg0) {
 
     s2 = ((Ent_80164930_80164930 *)arg0)->unk4C;
     p = ((Unkstruct_800CCE80_2 *)s2)->unk20;
-    s1 = ((Ent_80164930_80164930 *)arg0)->unk20;
-    ((Ent_80164930_80164930 *)arg0)->unk6.s = ((Unkstruct_80136A94 *)p)->unk48;
-    ((Ent_80164930_80164930 *)arg0)->unkA.s = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
+    s1 = ((Ent_80164930_80164930 *)arg0)->unk20.val;
+    ((Ent_80164930_80164930 *)arg0)->unk4.i.hi.s = ((Unkstruct_80136A94 *)p)->unk48;
+    ((Ent_80164930_80164930 *)arg0)->unk8.i.hi.s = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
     s0 = (void *)((u8 *)s1 + 0x34);
-    ((Ent_80164930_80164930 *)arg0)->unkE.s = ((Unkstruct_80136A94 *)p)->unk50;
+    ((Ent_80164930_80164930 *)arg0)->unkC.i.hi.s = ((Unkstruct_80136A94 *)p)->unk50;
     func_80013F3C(s0);
     RotMatrixY(((Unkstruct_8001C9D0 *)s1)->head.unk10.w.unk12.s, s0);
     func_80048D9C(s0, (void *)((u8 *)((Unkstruct_800CCE80_2 *)s2)->unk20 + 0x34));
@@ -266,9 +266,9 @@ extern void guess_ClearObjectAndSubObject(u8 *);
 void func_800CD1A8(void *arg0) {
 
     guess_SpawnSmallObject(3, arg0,
-                  ((Ent_80164930_80164930 *)arg0)->unk6.s,
-                  ((Ent_80164930_80164930 *)arg0)->unkA.s,
-                  ((Ent_80164930_80164930 *)arg0)->unkE.s,
+                  ((Ent_80164930_80164930 *)arg0)->unk4.i.hi.s,
+                  ((Ent_80164930_80164930 *)arg0)->unk8.i.hi.s,
+                  ((Ent_80164930_80164930 *)arg0)->unkC.i.hi.s,
                   0x8880000, 0x1800A000);
     ((void (*)(void *))guess_ClearObjectAndSubObject)(arg0);
 }
@@ -292,7 +292,7 @@ void func_800CD204(s32 arg0) {
     s16 ang;
 
     y = ((Ent_80164930_80164930 *)arg0)->unk4C;
-    x = ((Ent_80164930_80164930 *)arg0)->unk20;
+    x = ((Ent_80164930_80164930 *)arg0)->unk20.val;
     ang = func_8012A758();
     func_80013694(*(s16 *)(x + 0x10), D_800CD6BC, sp10);
     func_800139C8((s16)(ang + 0x400), sp10, sp10);

@@ -86,7 +86,7 @@ void func_800CAF94(s32 arg0) {
         t = ((Unkstruct_800CAF94_2 *)node)->unk1A + 0xC0;
         ((Unkstruct_800CAF94_2 *)node)->unk1A = t;
         ((Unkstruct_800CAF94_2 *)node)->unk18 = t;
-        ent = ((Unkstruct_8011D030 *)arg0)->unk34;
+        ent = ((Unkstruct_8011D030 *)arg0)->unk34.val;
         sv[2] = 0x1000;
         sv[1] = 0x1000;
         sv[0] = 0x1000;
@@ -100,7 +100,7 @@ void func_800CAF94(s32 arg0) {
         q = sv;
         CAST_ALIAS(s16, arg0, 6)   = ((u16 *)q)[0];
         CAST_ALIAS(s16, arg0, 0xA) = ((u16 *)q)[1];
-        ((Unkstruct_8011D030 *)arg0)->unkE.s = ((u16 *)q)[2];
+        ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s = ((u16 *)q)[2];
         q = rot;
         func_800D23D0(q);
         q = mtx;
@@ -154,7 +154,7 @@ void func_800CB0C8(s32 arg0) {
         t = ((Unkstruct_800CB0C8_3 *)node)->unk1E + 0x100;
         ((Unkstruct_800CB0C8_3 *)node)->unk1E = t;
         if (t < 0x1000) {
-            ent = ((Unkstruct_8011D030 *)arg0)->unk34;
+            ent = ((Unkstruct_8011D030 *)arg0)->unk34.val;
             sv[2] = 0x1000;
             sv[1] = 0x1000;
             sv[0] = 0x1000;
@@ -168,7 +168,7 @@ void func_800CB0C8(s32 arg0) {
             q = sv;
             CAST_ALIAS(s16, arg0, 6)   = ((u16 *)q)[0];
             CAST_ALIAS(s16, arg0, 0xA) = ((u16 *)q)[1];
-            ((Unkstruct_8011D030 *)arg0)->unkE.s = ((u16 *)q)[2];
+            ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s = ((u16 *)q)[2];
             q = rot;
             func_800D23D0(q);
             q = mtx;
@@ -268,7 +268,7 @@ void func_800CB478(s32 param_1)
     s32 a1;
     s32 counter;
 
-    a1 = ((Unkstruct_8011D030 *)param_1)->unk34;
+    a1 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     if (D_80078EC1 == 2) {
         counter = ((Unkstruct_8011D030 *)param_1)->unk1C.s - 1;
         ((Unkstruct_8011D030 *)param_1)->unk1C.s = counter;

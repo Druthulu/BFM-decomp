@@ -3907,7 +3907,7 @@ void func_8017E22C(int param_1)
     s16   i;
     s32   c;
 
-    obj = ((Unkstruct_8017E22C *)param_1)->unk34;
+    obj = ((Unkstruct_8017E22C *)param_1)->unk34.val;
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017E22C *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
@@ -5554,8 +5554,8 @@ void func_80180C8C(s32 *a0)
     table_base = (s32)D_801C100C + param * 0x40;
 
     if (param != 0) {
-        ((Unkstruct_8011D030 *)a0)->unk6.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
-        ((Unkstruct_8011D030 *)a0)->unkE.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unkC.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
 
         if (func_80180D48(a0, table_base) == 0) {
             return;

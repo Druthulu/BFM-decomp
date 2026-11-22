@@ -3676,7 +3676,7 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
     extern s32 VectorNormalSS(void *a0, void *a1);
 
     Trail *p = &((Trail *)D_80190F18)[param_3];
-    s32 uVar6 = ((Unkstruct_8011D030 *)param_1)->unk34;
+    s32 uVar6 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];

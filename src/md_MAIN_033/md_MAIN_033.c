@@ -347,7 +347,7 @@ void func_800CB5DC(void *arg0) {
     void *s0;
     u16 v1;
 
-    s3 = ((Unkstruct_8011D030 *)arg0)->unk34;
+    s3 = ((Unkstruct_8011D030 *)arg0)->unk34.val;
     s1 = ((void *(*)(void))guess_AllocSpriteObject)();
     ((Unkstruct_8011D030 *)arg0)->unk20 = s1;
 
@@ -381,7 +381,7 @@ void func_800CB6D4(void *a0)
 {
     extern void func_800CB76C(void *arg0);
 
-    if (*(u16 *)((Unkstruct_8011D030 *)a0)->unk34 == 0) {
+    if (*(u16 *)((Unkstruct_8011D030 *)a0)->unk34.val == 0) {
         ((Unkstruct_8011D030 *)a0)->unk2.u = ((Unkstruct_8011D030 *)a0)->unk2.u + 1;
     } else {
         func_800CB76C(a0);
@@ -414,9 +414,9 @@ void func_800CB76C(void *arg0) {
     s32 v;
     s32 q;
 
-    s3 = ((Unkstruct_8011D030 *)s2)->unk34;
+    s3 = ((Unkstruct_8011D030 *)s2)->unk34.val;
     s0 = ((Unkstruct_8011D030 *)s2)->unk20;
-    s1 = ((Ent_80164930_80164930 *)s3)->unk20;
+    s1 = ((Ent_80164930_80164930 *)s3)->unk20.val;
     if (s0 != 0) {
         ((Unkstruct_800B5BD8 *)s0)->head.unk10.w.unk12.u = *(u16 *)(s1 + 0x12);
         RotMatrixZYX((s32)s0 + 0x10, ((Unkstruct_800B5BD8 *)s0)->unk34.s);
@@ -425,9 +425,9 @@ void func_800CB76C(void *arg0) {
         ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1A.s = q;
         ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.s = q;
         func_800139C8(CAST_SIGN(s16, s0, 0x12), D_800CB8FC, (s32)&sp10[0]);
-        ((Unkstruct_8011D030 *)s2)->unk6.u = ((Ent_80164930_80164930 *)s3)->unk6.s + sp10[0];
-        ((Unkstruct_8011D030 *)s2)->unk8.i.hi.u = ((Ent_80164930_80164930 *)s3)->unkA.s + sp10[1];
-        ((Unkstruct_8011D030 *)s2)->unkE.u = ((Ent_80164930_80164930 *)s3)->unkE.s + sp10[2];
+        ((Unkstruct_8011D030 *)s2)->unk4.i.hi.u = ((Ent_80164930_80164930 *)s3)->unk4.i.hi.s + sp10[0];
+        ((Unkstruct_8011D030 *)s2)->unk8.i.hi.u = ((Ent_80164930_80164930 *)s3)->unk8.i.hi.s + sp10[1];
+        ((Unkstruct_8011D030 *)s2)->unkC.i.hi.u = ((Ent_80164930_80164930 *)s3)->unkC.i.hi.s + sp10[2];
     }
 }
 

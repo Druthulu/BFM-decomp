@@ -4646,8 +4646,8 @@ void func_8018B6FC(s32 *a0)
     table_base = (s32)D_801E19A4 + param * 0x40;
 
     if (param != 0) {
-        ((Unkstruct_8011D030 *)a0)->unk6.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
-        ((Unkstruct_8011D030 *)a0)->unkE.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unk4.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk10.i.hi.s;
+        ((Unkstruct_8011D030 *)a0)->unkC.i.hi.s += ((Unkstruct_8011D030 *)a0)->unk18.i.hi.s;
 
         if (func_8018B7B8(a0, table_base) == 0) {
             return;

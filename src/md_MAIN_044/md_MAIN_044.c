@@ -62,7 +62,7 @@ void func_800CCCA0(s32 param_1) {
     s32 iVar1; /* $s0 */
 
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20.val = iVar1;
     if (iVar1 != 0) {
         func_8001C810(iVar1, &D_800CEBEC);
         *(u32 *)(iVar1 + 4) |= 0x40010000;
@@ -86,7 +86,7 @@ void func_800CCD2C(s32 param_1) {
     param_12 = param_1;
 
     p1 = param_12;
-    s0 = ((Ent_80164930_80164930 *)p1)->unk20;
+    s0 = ((Ent_80164930_80164930 *)p1)->unk20.val;
     if (func_800CCF30((void *)param_12) == 0) {
         v0 = CAST_SIGN(u16, s0, 0x18) + 0x100;
         ((Unkstruct_800CCD2C *)s0)->unk18 = v0;
@@ -109,7 +109,7 @@ extern void func_800CCE88(s32 a0);
 
 void func_800CCDB0(s32 param_1) {
     s32 s2 = ((Ent_80164930_80164930 *)param_1)->unk4C;
-    s32 s1 = ((Ent_80164930_80164930 *)param_1)->unk20;
+    s32 s1 = ((Ent_80164930_80164930 *)param_1)->unk20.val;
     s32 a1val;
     s32 v0;
 
@@ -145,11 +145,11 @@ void guess_FreeObjectAndSubObject_21(void) {
 void func_800CCE88(s32 param_1) {
     s32 s2 = ((Ent_80164930_80164930 *)param_1)->unk4C;
     s32 a0 = *(s32 *)(s2 + 0x20);
-    s32 s1 = ((Ent_80164930_80164930 *)param_1)->unk20;
+    s32 s1 = ((Ent_80164930_80164930 *)param_1)->unk20.val;
     s32 s0 = s1 + 0x34;
-    ((Ent_80164930_80164930 *)param_1)->unk6.s = ((Unkstruct_80136A94 *)a0)->unk48;
-    ((Ent_80164930_80164930 *)param_1)->unkA.s = ((Unkstruct_80136A94 *)a0)->unk4C - 0x20;
-    ((Ent_80164930_80164930 *)param_1)->unkE.s = ((Unkstruct_80136A94 *)a0)->unk50;
+    ((Ent_80164930_80164930 *)param_1)->unk4.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk48;
+    ((Ent_80164930_80164930 *)param_1)->unk8.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk4C - 0x20;
+    ((Ent_80164930_80164930 *)param_1)->unkC.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk50;
     func_80013F3C((void *)s0);
     RotMatrixY(*(s16 *)(s1 + 0x12), (void *)s0);
     func_80048D9C((void *)s0, (void *)(*(s32 *)(s2 + 0x20) + 0x34));
@@ -672,7 +672,7 @@ void func_800CDBA8(s32 param_1) {
     s32 a0;
     s32 v1;
 
-    v1 = ((Unkstruct_8011D030 *)param_1)->unk34;
+    v1 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         s4 = 0;
         sp20[0] = ((Unkstruct_80126B58 *)v1)->unk6.u;

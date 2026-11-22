@@ -133,7 +133,7 @@ s32 func_800CCDE8(param_1, param_2, param_3, param_4)
 
 
     Trail_md_MAIN_047_800CCDE8 *p = (Trail_md_MAIN_047_800CCDE8 *)D_800CD6E0;
-    s32 node = ((Unkstruct_8011D030 *)param_1)->unk34;
+    s32 node = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     s16 v10[4];
     s16 v18[4];
     s16 v20[4];
@@ -252,12 +252,12 @@ void func_800CD314(void *arg0) {
             CAST_ALIAS(s32, p, 4) = (((Unkstruct_800CD314_2 *)p)->unk4 & 0x7FFFFFFF) | (((Unkstruct_800CD314_2 *)D_8011F758)->unk4 & (s32)0x80000000);
             CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800CD314_2 *)D_8011F758)->unk18;
             ((Unkstruct_800CD314_2 *)p)->unk1A = ((Unkstruct_800CD314_2 *)D_8011F758)->unk1A;
-            t = ((Unkstruct_8011D030 *)s0)->unk4C;
-            ((Unkstruct_8011D030 *)s0)->unk6.s = t;
-            tb = ((Unkstruct_8011D030 *)s0)->unk54;
-            ((Unkstruct_8011D030 *)s0)->unkE.s = tb;
+            t = ((Unkstruct_8011D030 *)s0)->unk38.f.unk4C;
+            ((Unkstruct_8011D030 *)s0)->unk4.i.hi.s = t;
+            tb = ((Unkstruct_8011D030 *)s0)->unk38.f.unk54;
+            ((Unkstruct_8011D030 *)s0)->unkC.i.hi.s = tb;
             ((Unkstruct_8011D030 *)s0)->unk30.val.s = 0;
-            t = ((Unkstruct_8011D030 *)s0)->unk50;
+            t = ((Unkstruct_8011D030 *)s0)->unk38.f.unk50;
             ((Unkstruct_8011D030 *)s0)->unk8.i.hi.s = t - 8;
             guess_PlaySoundUnlessSkipped(0x8E2);
         }

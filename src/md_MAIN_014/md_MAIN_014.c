@@ -152,7 +152,7 @@ void func_800CB164(void *a0) {
     s32 obj;
     s32 cnt;
 
-    src = ((Unkstruct_8011D030 *)a0)->unk34;
+    src = ((Unkstruct_8011D030 *)a0)->unk34.val;
     if (*(u8 *)&D_80078EC1 == 5) {
         if ((((Unkstruct_8011D030 *)a0)->unk2C.val.u & 0x8000) == 0) {
             cnt = ((Unkstruct_8011D030 *)a0)->unk1C.s;
@@ -184,7 +184,7 @@ void func_800CB254(void *a0) {
     s32 n;
     s32 m;
     s32 v0;
-    a1 = ((Unkstruct_8011D030 *)a0)->unk34;
+    a1 = ((Unkstruct_8011D030 *)a0)->unk34.val;
     if (D_80078EC1 == 5) {
         if ((((Unkstruct_8011D030 *)a0)->unk1C.s)++ < 10) {
             ((Unkstruct_8011D030 *)a0)->unk28.u += 0x120;
@@ -233,9 +233,9 @@ void func_800CB358(void *param_1) {
     ((Unkstruct_8011D030 *)param_1)->unk1C.s = iVar2;
 LAB_800CB3ec:
     ((Unkstruct_8011D030 *)param_1)->unk28.u = ((Unkstruct_8011D030 *)param_1)->unk28.u + ((Unkstruct_8011D030 *)param_1)->unk1C.s;
-    ((Unkstruct_8011D030 *)param_1)->unk4C = ((Unkstruct_8011D030 *)param_1)->unk4C + CAST_SIGN(s16, (s32)param_1, 0x12);
-    ((Unkstruct_8011D030 *)param_1)->unk50 = ((Unkstruct_8011D030 *)param_1)->unk50 - 3;
-    ((Unkstruct_8011D030 *)param_1)->unk54 = ((Unkstruct_8011D030 *)param_1)->unk54 + CAST_SIGN(s16, (s32)param_1, 0x1a);
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk4C = ((Unkstruct_8011D030 *)param_1)->unk38.f.unk4C + CAST_SIGN(s16, (s32)param_1, 0x12);
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk50 = ((Unkstruct_8011D030 *)param_1)->unk38.f.unk50 - 3;
+    ((Unkstruct_8011D030 *)param_1)->unk38.f.unk54 = ((Unkstruct_8011D030 *)param_1)->unk38.f.unk54 + CAST_SIGN(s16, (s32)param_1, 0x1a);
     func_800CAF90(param_1);
 
     cnt = ((Unkstruct_8011D030 *)param_1)->unk30.val.s;
@@ -258,7 +258,7 @@ void func_800CB470(void *a0) {
         uVar1 = ((Unkstruct_8011D030 *)a0)->unk28.u - 0x100;
         ((Unkstruct_8011D030 *)a0)->unk28.u = uVar1;
         if ((s16)uVar1 > 0) {
-            ((Unkstruct_8011D030 *)a0)->unk50 -= 3;
+            ((Unkstruct_8011D030 *)a0)->unk38.f.unk50 -= 3;
             func_800CAF90(a0);
         } else {
             guess_FreeSmallObject(a0);
@@ -279,7 +279,7 @@ void func_800CB4D8(void *a0) {
     s32 s1;
     s32 src;
 
-    s1 = ((Unkstruct_8011D030 *)a0)->unk34;
+    s1 = ((Unkstruct_8011D030 *)a0)->unk34.val;
     src = ((Unkstruct_80126B58 *)s1)->unk20.val;
     *(Blk16_956C *)((s32)a0 + 0x38) = *(Blk16_956C *)(src + 0x34);
     *(Blk16_956C *)((s32)a0 + 0x48) = *(Blk16_956C *)(src + 0x44);

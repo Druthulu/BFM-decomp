@@ -4117,7 +4117,7 @@ void func_8017D2F4(int param_1)
     s16   i;
     s32   c;
 
-    obj = ((Unkstruct_8017D060 *)param_1)->unk34;
+    obj = ((Unkstruct_8017D060 *)param_1)->unk34.val;
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017D060 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
@@ -4388,7 +4388,7 @@ extern s16 D_80126B0C;
     extern void func_80162D28(s32*);
     void func_8017DD10(void *a0) {
         D_80188900[((Ent_80164930_80164930 *)a0)->unk2.u]();
-        if (((Ent_80164930_80164930 *)a0)->unk20 != 0) {
+        if (((Ent_80164930_80164930 *)a0)->unk20.val != 0) {
             ((void (*)(void *))func_80162D28)(a0);
         }
     }
@@ -4533,7 +4533,7 @@ void func_8017E064(void) {
     {
         KR_AS(void, func_8017E358)();
         D_80188944[*(unsigned short *)(param_1 + 2)](param_1);
-        if (((Ent_80164930_80164930 *)param_1)->unk20 != 0) {
+        if (((Ent_80164930_80164930 *)param_1)->unk20.val != 0) {
             ((void (*)(int))func_80162D28)(param_1);
         }
     }
@@ -4550,7 +4550,7 @@ void func_8017E124(int param_1) {
     extern s32 D_80188924[];
     s32 iVar1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20.val = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_801888C8;

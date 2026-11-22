@@ -1964,13 +1964,13 @@ lout:
             ((void(*)(Unkstruct_8011D030 *))guess_FreeSmallObject)(((Unkstruct_8011D030 *)arg0));
             return;
         }
-        sp10.vx = ((Unkstruct_8011D030 *)arg0)->unk6.u;
+        sp10.vx = ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.u;
         sp10.vy = ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.u - 0x18;
-        sp10.vz = ((Unkstruct_8011D030 *)arg0)->unkE.u;
+        sp10.vz = ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.u;
         ((void(*)(SVec_8016AB6C *, SVec_8016AB6C *, s32))func_800D20C0)(&sp10, &sp18, 6);
-        ((Unkstruct_8011D030 *)arg0)->unk6.u = sp10.vx;
+        ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.u = sp10.vx;
         ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.u = sp10.vy;
-        ((Unkstruct_8011D030 *)arg0)->unkE.u = sp10.vz;
+        ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.u = sp10.vz;
         if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 6) {
             var_s3 = guess_SjisToGlyphCodes(D_801869F4, D_8019CF60) + 3;
             func_8001CE28(obj, D_8019CF60);
@@ -2040,9 +2040,9 @@ void func_8016B234(s32 param_1) {
     dp = &guess_g_CameraWsMatrix;
     SetRotMatrix(dp);
     SetTransMatrix(dp);
-    input[0] = ((Unkstruct_8011D030 *)param_1)->unk6.u;
+    input[0] = ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.u;
     input[1] = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u;
-    input[2] = ((Unkstruct_8011D030 *)param_1)->unkE.u;
+    input[2] = ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.u;
     RotTransPers((s32)input, (s32)out.xy, &out.sp1c, &out.flag);
     if ((out.flag & 0xffffefff) == 0) {
         sxy = *(s32 *)out.xy;
@@ -2612,10 +2612,10 @@ void func_8016C188(s32 param)
     s2 = ((s32 (*)(void))guess_AllocSpriteObject)();
     ((Unkstruct_8011D030 *)s1)->unk20 = s2;
     if (s2 != 0) {
-        ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u = ((Unkstruct_8011D030 *)s1)->unk6.u;
+        ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u = ((Unkstruct_8011D030 *)s1)->unk4.i.hi.u;
         ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u = ((Unkstruct_8011D030 *)s1)->unk8.i.hi.u;
-        ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u = ((Unkstruct_8011D030 *)s1)->unkE.u;
-        t34 = ((Unkstruct_8011D030 *)s1)->unk34;
+        ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u = ((Unkstruct_8011D030 *)s1)->unkC.i.hi.u;
+        t34 = ((Unkstruct_8011D030 *)s1)->unk34.val;
         buf[0] = ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u;
         buf[1] = ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u;
         buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u;
@@ -2670,7 +2670,7 @@ void func_8016C2C4(s32 param)
 
     s1 = param;
     s0 = ((Unkstruct_8011D030 *)s1)->unk20;
-    arg = ((Unkstruct_8011D030 *)s1)->unk34;
+    arg = ((Unkstruct_8011D030 *)s1)->unk34.val;
     buf[0] = ((Unkstruct_8011D030 *)s1)->unk10.i.hi.u;
     buf[1] = ((Unkstruct_8011D030 *)s1)->unk14.i.hi.u;
     buf[2] = ((Unkstruct_8011D030 *)s1)->unk18.i.hi.u;
@@ -2829,9 +2829,9 @@ void func_8016C998(s32 param_1)
         D_8019D1C8[i].f0 = 1;
         *(MATRIX *)(r + 0x38) = *(MATRIX *)(param_1 + 0x38);
         *(s16 *)(r + 0x2a) = i;
-        *(s16 *)(r + 6) = ((Unkstruct_8011D030 *)param_1)->unk6.s;
+        *(s16 *)(r + 6) = ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.s;
         *(s16 *)(r + 0xa) = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.s;
-        *(s16 *)(r + 0xe) = ((Unkstruct_8011D030 *)param_1)->unkE.s;
+        *(s16 *)(r + 0xe) = ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.s;
         ((Unkstruct_8011D030 *)param_1)->unk1C.s = 0x10;
     } else {
         ((Unkstruct_8011D030 *)param_1)->unk1C.s = ((Unkstruct_8011D030 *)param_1)->unk1C.s - 1;
@@ -3039,15 +3039,15 @@ short func_8016CF04(s32 param_1, s32 param_2) {
     rot[1] = 0;
     rot[2] = 0;
     ApplyMatrixSV(mtx, rot, out);
-    p->unk4.v0.ent[(u8)p->f1].a = ((Unkstruct_8011D030 *)param_1)->unk6.u   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].a = ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.u   + out[0];
     p->unk4.v0.ent[(u8)p->f1].b = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u + out[1];
-    p->unk4.v0.ent[(u8)p->f1].c = ((Unkstruct_8011D030 *)param_1)->unkE.u + out[2];
+    p->unk4.v0.ent[(u8)p->f1].c = ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.u + out[2];
     rot[0] = -rot[0];
     rot[1] = -rot[1];
     ApplyMatrixSV(mtx, rot, out);
-    p->unk4.v0.ent[(u8)p->f1].d = ((Unkstruct_8011D030 *)param_1)->unk6.u   + out[0];
+    p->unk4.v0.ent[(u8)p->f1].d = ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.u   + out[0];
     p->unk4.v0.ent[(u8)p->f1].e = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u + out[1];
-    p->unk4.v0.ent[(u8)p->f1].g = ((Unkstruct_8011D030 *)param_1)->unkE.u + out[2];
+    p->unk4.v0.ent[(u8)p->f1].g = ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.u + out[2];
     return 0;
 }
 
@@ -3090,7 +3090,7 @@ void func_8016D1D8(int param_1) {
     SVEC_L1 sv;
     MATRIX mtx;
 
-    iVar5 = ((Unkstruct_8011D030 *)param_1)->unk34;
+    iVar5 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         D_8019D148[1] = 0xE0;
         D_8019D148[2] = 0xE0;
@@ -3129,9 +3129,9 @@ void func_8016D1D8(int param_1) {
             ((void (*)(void *, int))guess_BuildCircle12Points)(D_8019D188, 0x18);
             ((void (*)(void *, void *))guess_InitObjectKind6)((void *)iVar2, D_8019D188);
             *(u32 *)(iVar2 + 4) |= 0x50000000;
-            ((Unkstruct_8011D030 *)param_1)->unk6.u = *(u16 *)(iVar5 + 6);
+            ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.u = *(u16 *)(iVar5 + 6);
             ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u = *(u16 *)(iVar5 + 0xa);
-            ((Unkstruct_8011D030 *)param_1)->unkE.u = *(u16 *)(iVar5 + 0xe);
+            ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.u = *(u16 *)(iVar5 + 0xe);
             uVar3 = rand();
             sv.vx = ((uVar3 & 0x7F) * 8) - 0x80;
             sv.vy = (uVar3 & 0x7F00) >> 3;
@@ -3402,7 +3402,7 @@ void func_8016DF5C(s32 param_1)
 
     s32 iVar8;
 
-    iVar8 = ((Unkstruct_8011D030 *)param_1)->unk34;
+    iVar8 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     if ((((Unkstruct_8011D030 *)param_1)->unk2C.val.u & 0x8000) == 0) {
         unsigned short uVar7 = 0;
         u16 *psVar6 = (u16 *)&guess_g_SmallObjectPool;
@@ -3454,7 +3454,7 @@ void func_8016DF5C(s32 param_1)
         ApplyMatrixSV(&localMatrix, asStack_60, asStack_60);
         *(s16 *)((u8 *)((void *)param_1) + 6) = guess_g_PlayerPosX + asStack_60[0];
         ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.s = guess_g_PlayerPosY - ((u16)uVar2 & 0x3f);
-        ((Unkstruct_8011D030 *)param_1)->unkE.s = guess_g_PlayerPosZ + asStack_60[2];
+        ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.s = guess_g_PlayerPosZ + asStack_60[2];
         *(MATRIX *)((u8 *)((void *)param_1) + 0x38) = *(MATRIX *)((u8 *)iVar8 + 0x38);
         ((Unkstruct_8011D030 *)param_1)->unk2C.val.u = 0x1000;
         ((Unkstruct_8011D030 *)param_1)->unk30.val.s = 0xff;
@@ -3524,9 +3524,9 @@ void func_8016E7C8(int param_1, short *param_2, unsigned int *param_3)
     Prim_8016E7C8 *pp;   /* $s2 — force &prim into a saved reg */
 
     ((void (*)(void *, void *))func_80017DC4)(param_2, &m);
-    m.t[0] = ((Unkstruct_8011D030 *)param_1)->unk6.s;
+    m.t[0] = ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.s;
     m.t[1] = ((Unkstruct_8011D030 *)param_1)->unk8.i.hi.s;
-    m.t[2] = ((Unkstruct_8011D030 *)param_1)->unkE.s;
+    m.t[2] = ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.s;
     SetRotMatrix(&m);
     SetTransMatrix(&m);
     pp = &prim;

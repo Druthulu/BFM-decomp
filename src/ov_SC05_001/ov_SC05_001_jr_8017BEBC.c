@@ -3156,7 +3156,7 @@ void func_8017D0F8(int param_1)
     s16   i;
     s32   c;
 
-    obj = ((Unkstruct_8017D0F8 *)param_1)->unk34;
+    obj = ((Unkstruct_8017D0F8 *)param_1)->unk34.val;
     rot.vx = rot.vy = rot.vz = ((Unkstruct_8017D0F8 *)param_1)->unk10.i.hi.u;
     func_80017DC4(&rot, &mtx);
 
@@ -5672,7 +5672,7 @@ void *a0;
 
 
 void func_80180F50(s32 param_1) {
-    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)param_1)->unk34, param_1 + 4);
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)param_1)->unk34.val, param_1 + 4);
     if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         func_800D1FC8(param_1, 5);
     }

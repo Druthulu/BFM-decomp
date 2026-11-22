@@ -3376,7 +3376,7 @@ void func_8017C004(s32 arg0) {
     s32 p;
 
     ((Unkstruct_8017C004_4 *)arg0)->unk20 = 0;
-    ((Unkstruct_8017C004_4 *)arg0)->unk34 = 0;
+    ((Unkstruct_8017C004_4 *)arg0)->unk34.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk10.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk14.val = 0;
     ((Unkstruct_8017C004_4 *)arg0)->unk18.val = 0;
@@ -3384,7 +3384,7 @@ void func_8017C004(s32 arg0) {
 
     p = ((s32 (*)(void))guess_AllocSpriteObject)();
     if (p != 0) {
-        ((Unkstruct_8017C004_4 *)arg0)->unk34 = p;
+        ((Unkstruct_8017C004_4 *)arg0)->unk34.val = p;
         func_8001CEC0(p, D_801838E4);
         ((Unkstruct_8017C004_3 *)p)->head.unk8.s = 0x40;
         ((Unkstruct_8017C004_3 *)p)->head.unkA.s = -0x20;

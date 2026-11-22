@@ -3145,7 +3145,7 @@ s16 func_8017CF40(void) {
     extern void func_80162D28(s32*);
     void func_8017CF50(void *a0) {
         D_801883A0[((Ent_80164930_80164930 *)a0)->unk2.u]();
-        if (((Ent_80164930_80164930 *)a0)->unk20 != 0) {
+        if (((Ent_80164930_80164930 *)a0)->unk20.val != 0) {
             ((void (*)(void *))func_80162D28)(a0);
         }
     }
@@ -3296,7 +3296,7 @@ void func_8017D2A4(void) {
     {
         KR_AS(void, func_8017D598)();
         D_801883E4[*(unsigned short *)(param_1 + 2)](param_1);
-        if (((Ent_80164930_80164930 *)param_1)->unk20 != 0) {
+        if (((Ent_80164930_80164930 *)param_1)->unk20.val != 0) {
             ((void (*)(int))func_80162D28)(param_1);
         }
     }
@@ -3313,7 +3313,7 @@ void func_8017D364(int param_1) {
     extern s32 D_801883C4[];
     s32 iVar1;
     iVar1 = ((s32 (*)(void))func_8014659C)();
-    ((Ent_80164930_80164930 *)param_1)->unk20 = iVar1;
+    ((Ent_80164930_80164930 *)param_1)->unk20.val = iVar1;
     if (iVar1 != 0) {
         ((void (*)(s32, void *))func_8001C810)(iVar1, &D_800DF2E0);
         *(s32 **)(iVar1 + 0x80) = &D_80188368;

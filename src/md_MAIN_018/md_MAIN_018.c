@@ -247,7 +247,7 @@ void func_800CB328(void *a0) {
     u16 t18;
 
     pf20 = ((Unkstruct_8011D030 *)obj)->unk20;
-    pf34 = ((Unkstruct_8011D030 *)obj)->unk34;
+    pf34 = ((Unkstruct_8011D030 *)obj)->unk34.val;
 
     if (D_80078EC1 == 3) {
         cnt = ((Unkstruct_8011D030 *)obj)->unk2C.val.s - 4;
@@ -284,14 +284,14 @@ void func_800CB328(void *a0) {
 
             CAST_ALIAS(u16, (s32)obj, 0x6) = *(u16 *)&rot.x;
             CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.y;
-            ((Unkstruct_8011D030 *)obj)->unkE.u = *(u16 *)&rot.z;
+            ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u = *(u16 *)&rot.z;
 
             ((Unkstruct_800CB328_2 *)pf34)->unk4 &= mask;
             ((Unkstruct_800CB328_2 *)pf34)->unk18 = ((Unkstruct_800CB328_3 *)pf20)->unk18;
             ((Unkstruct_800CB328_2 *)pf34)->unk1A = ((Unkstruct_800CB328_3 *)pf20)->unk1A;
-            ((Unkstruct_800CB328_2 *)pf34)->unk8 = ((Unkstruct_8011D030 *)obj)->unk6.u;
+            ((Unkstruct_800CB328_2 *)pf34)->unk8 = ((Unkstruct_8011D030 *)obj)->unk4.i.hi.u;
             ((Unkstruct_800CB328_2 *)pf34)->unkA = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
-            ((Unkstruct_800CB328_2 *)pf34)->unkC = ((Unkstruct_8011D030 *)obj)->unkE.u;
+            ((Unkstruct_800CB328_2 *)pf34)->unkC = ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u;
             return;
         }
     }

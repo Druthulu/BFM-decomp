@@ -327,7 +327,7 @@ typedef struct {
     /* 0x01a0 */ u8 unk1A0;
     /* 0x01a1 */ u8 pad1A1[0x7];
     /* 0x01a8 */ u8 unk1A8;
-    /* 0x01a9 */ u8 pad1A9[0x1];
+    /* 0x01a9 */ u8 unk1A9;
     /* 0x01aa */ u8 unk1AA;
     /* 0x01ab */ u8 unk1AB;
     /* 0x01ac */ union { s32 s; u32 u; } unk1AC;
@@ -381,9 +381,9 @@ typedef struct {
     /* 0x0238 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk238;
     /* 0x023c */ s32 unk23C;
     /* 0x0240 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk240;
-    /* 0x0244 */ union { u16 u; struct { u8 lo; u8 hi; } b; } unk244;
-    /* 0x0246 */ u16 unk246;
-    /* 0x0248 */ u16 unk248;
+    /* 0x0244 */ union { u16 u; s16 s; struct { u8 lo; u8 hi; } b; } unk244;
+    /* 0x0246 */ union { u16 u; s16 s; } unk246;
+    /* 0x0248 */ union { u16 u; s16 s; } unk248;
     /* 0x024a */ union { s16 s; u16 u; } unk24A;
     /* 0x024c */ u8 pad24C[0x8];
 } Unkstruct_80126B58; /* size = 0x254 */
@@ -574,6 +574,10 @@ typedef struct {
     } unk34;
 } Unkstruct_8011DB30; /* size = 0x38 */
 
+/* T17.c24b: MATRIX moved ahead of its aliases (byte-neutral) */
+/* T20.c10: and ahead of the small object (unk38.mat) */
+typedef struct { short m[3][3]; long t[3]; } MATRIX;
+
 /* Unkstruct_8011D030 — the small object (guess_g_SmallObjectPool 0x8011D030 x 30, 0x58 each; +0x0 kind -> D_80126728 handler,
    +0x20 pointer: src/shared/ov/func_80165CA0.h:14-23). */
 typedef struct {
@@ -583,20 +587,12 @@ typedef struct {
         u16 u;
         s16 s;
     } unk2;
-    /* 0x0004 */ u8 pad4[0x2];
-    /* 0x0006 */ union {
-        s16 s;
-        u16 u;
-    } unk6;
+    /* 0x0004 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk4; /* position words: s32 writes (T20.c10, judge c4 8017F04C) */
     /* 0x0008 */ union {
         s32 val;
         struct { u16 lo; union { s16 s; u16 u; } hi; } i;
     } unk8;
-    /* 0x000c */ u8 padC[0x2];
-    /* 0x000e */ union {
-        s16 s;
-        u16 u;
-    } unkE;
+    /* 0x000c */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unkC;
     /* 0x0010 */ union {
         s32 val;
         struct { union { u16 u; s16 s; } lo; union { s16 s; u16 u; u8 b; } hi; } i;
@@ -636,11 +632,8 @@ typedef struct {
         union { s32 s; u32 u; } val;
         struct { u16 lo; u16 hi; } i;
     } unk30;
-    /* 0x0034 */ s32 unk34;
-    /* 0x0038 */ u8 pad38[0x14];
-    /* 0x004c */ s32 unk4C; /* T18.c19: +0x4C/+0x50/+0x54 from Unkstruct_801670E4 (judge c7 absorb, func_801670E4) */
-    /* 0x0050 */ s32 unk50;
-    /* 0x0054 */ s32 unk54;
+    /* 0x0034 */ union { s32 val; struct Ent_80164930_80164930 *e; struct Node_80167540 *n; struct SubA_8016A73C *a; } unk34; /* owner / linked record per kind (T20.c10) */
+    /* 0x0038 */ union { struct { u8 pad0[0x14]; s32 unk4C; s32 unk50; s32 unk54; } f; MATRIX mat; } unk38; /* mat: kinds keeping a MATRIX (RotMatrixYXZ into +0x38; t[] = f.unk4C..54, T18.c19 func_801670E4) (T20.c10) */
 } Unkstruct_8011D030; /* size = 0x58 */
 
 /* Unkstruct_80078E78 — the player record at 0x80078E78 (guess_g_PlayerRecord; 0x98 bytes; was Blk98_80029274 in src/800.c, Blk80078E78 in
@@ -709,8 +702,6 @@ typedef struct {
     /* 0x0094 */ s32 posZ;          /* D_80078F0C; verified live + code width 4 */
 } Unkstruct_80078E78; /* size = 0x98 */
 
-/* T17.c24b: MATRIX moved ahead of its aliases (byte-neutral) */
-typedef struct { short m[3][3]; long t[3]; } MATRIX;
 /* --- lift_types.py --census (P38 T5.1.c2, batch ov-file) --- */
 /* T17.c24b: survivor word view: md_MAIN_013 func_800CB2D8-family 8-word copies, SC03_030 func_8017E7D4, md_MAIN_003 D_800D942C */
 typedef struct {
@@ -3213,20 +3204,17 @@ typedef struct {
 /* provenance (restruct-band): T3 (P3.40) band defs by tools/restruct.py --decide-band --write, ordered by band rank, last ran at 3cf41bbd60 (P3.40 T3.c3, --ranks 1835-6676); generator retired P3.45 T6; hand-edited since */
 
 
-typedef struct {
+typedef struct Ent_80164930_80164930 {
     /* 0x0000 */ u16 f0;
     /* 0x0002 */ union { u16 u; s16 s; } unk2;
-    /* 0x0004 */ u8 pad4[0x2];
-    /* 0x0006 */ union { s16 s; u16 u; } unk6;
-    /* 0x0008 */ u8 pad8[0x2];
-    /* 0x000a */ union { s16 s; u16 u; } unkA;
-    /* 0x000c */ u8 padC[0x2];
-    /* 0x000e */ union { s16 s; u16 u; } unkE; /* T18.c19: md_MAIN_045 func_800CD1A8 reads +0x6/+0xA/+0xE (judge c12) */
+    /* 0x0004 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk4; /* position words: s32 writes (T20.c10, judges c2/c4 800CB188/8017D598) */
+    /* 0x0008 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk8;
+    /* 0x000c */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unkC; /* T18.c19: md_MAIN_045 func_800CD1A8 reads +0x6/+0xA/+0xE (judge c12) */
     /* 0x0010 */ s32 unk10;
     /* 0x0014 */ s32 unk14;
     /* 0x0018 */ s32 unk18;
     /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ s32 unk20;
+    /* 0x0020 */ union { s32 val; struct Src_80167540 *p; } unk20; /* p: render record (T20.c10, judge 800CB2E0) */
     /* 0x0024 */ u8 pad24[0x8];
     /* 0x002c */ s16 unk2C;
     /* 0x002e */ s16 unk2E;
