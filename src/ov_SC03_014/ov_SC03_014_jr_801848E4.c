@@ -5281,8 +5281,8 @@ int func_80188FB4(int a0, void* a1)
     u16 v0;
     s32 result;
 
-    stack_buf[0] = ((Unkstruct_80135EB0 *)a1)->unk4;
-    v0 = ((Unkstruct_80135EB0 *)a1)->unk6;
+    stack_buf[0] = ((Unkstruct_80135EB0 *)a1)->unk4.s;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk6.s;
     stack_buf[4] = v0;
     v0 = ((Unkstruct_80135EB0 *)a1)->unkA.s;
     stack_buf[5] = v0;

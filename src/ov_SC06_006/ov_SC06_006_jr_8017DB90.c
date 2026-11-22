@@ -2864,12 +2864,12 @@ void func_8017DD64(void *obj) {
         for (i = 0; i < n; i++) {
             func_8017E078(&sp10, rec->f0, i);
             func_8017E078(&sp20, rec2->f0, i);
-            out->unk0 = func_8017DFA4(sp10.unk0, sp20.unk0, den, rem);
-            out->unk2 = func_8017DFA4(sp10.unk2, sp20.unk2, den, rem);
-            out->unk4 = func_8017DFA4(sp10.unk4, sp20.unk4, den, rem);
-            out->unk6 = func_8017DFEC(sp10.unk6, sp20.unk6, den, rem);
-            out->unk8 = func_8017DFEC(sp10.unk8, sp20.unk8, den, rem);
-            out->unkA = func_8017DFEC(sp10.unkA, sp20.unkA, den, rem);
+            out->unk0.v0.unk0 = func_8017DFA4(sp10.unk0.v0.unk0, sp20.unk0.v0.unk0, den, rem);
+            out->unk0.v0.unk2 = func_8017DFA4(sp10.unk0.v0.unk2, sp20.unk0.v0.unk2, den, rem);
+            out->unk0.v0.unk4 = func_8017DFA4(sp10.unk0.v0.unk4, sp20.unk0.v0.unk4, den, rem);
+            out->unk0.v0.unk6 = func_8017DFEC(sp10.unk0.v0.unk6, sp20.unk0.v0.unk6, den, rem);
+            out->unk0.v0.unk8 = func_8017DFEC(sp10.unk0.v0.unk8, sp20.unk0.v0.unk8, den, rem);
+            out->unk0.v0.unkA = func_8017DFEC(sp10.unk0.v0.unkA, sp20.unk0.v0.unkA, den, rem);
             out++;
         }
         ((Unkstruct_801202A0 *)obj)->unk98.s = 0;
@@ -2910,13 +2910,13 @@ void func_8017E078(Key12_8017DD64 *dst, void *src, s32 idx) {
 
     if ((s32)src & 0x01000000) {
         p = (u8 *)(((s32)src & 0xFEFFFFFF) + idx * 8);
-        dst->unk0 = (s8)p[3];
-        dst->unk2 = (s8)p[4];
-        dst->unk4 = (s8)p[5];
+        dst->unk0.v0.unk0 = (s8)p[3];
+        dst->unk0.v0.unk2 = (s8)p[4];
+        dst->unk0.v0.unk4 = (s8)p[5];
         w = *(u32 *)p;
-        dst->unk8 = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
-        dst->unkA = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
-        dst->unk6 = *(u16 *)(p + 6);
+        dst->unk0.v0.unk8 = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
+        dst->unk0.v0.unkA = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
+        dst->unk0.v0.unk6 = *(u16 *)(p + 6);
     } else {
         *dst = ((Key12_8017DD64 *)src)[idx];
     }
@@ -4942,12 +4942,12 @@ s32 func_80180FE8(u8 *a0, u8 *a1, s32 a2) {
         (((Unkstruct_80126948 *)a0)->unk38.u)--;
         p -= 14;
     }
-    ((Unkstruct_80126948 *)a0)->unk3C = (((Unkstruct_80180FE8 *)p)->unk0 * D_801F89E0 >> 12) + pa->x;
-    ((Unkstruct_80126948 *)a0)->unk40 = (((Unkstruct_80180FE8 *)p)->unk2 * D_801F89E0 >> 12) + pa->y;
-    ((Unkstruct_80126948 *)a0)->unk44 = (((Unkstruct_80180FE8 *)p)->unk4 * D_801F89E0 >> 12) + pa->z;
-    ((Unkstruct_80126948 *)a0)->unk48 = (((Unkstruct_80180FE8 *)p)->unk6 * D_801F89E0 >> 12) + pa->x;
-    ((Unkstruct_80126948 *)a0)->unk4C = (((Unkstruct_80180FE8 *)p)->unk8 * D_801F89E0 >> 12) + D_801F8A12;
-    ((Unkstruct_80126948 *)a0)->unk50 = (((Unkstruct_80180FE8 *)p)->unkA * D_801F89E0 >> 12) + D_801F8A14;
+    ((Unkstruct_80126948 *)a0)->unk3C = (((Unkstruct_80180FE8 *)p)->unk0.s * D_801F89E0 >> 12) + pa->x;
+    ((Unkstruct_80126948 *)a0)->unk40 = (((Unkstruct_80180FE8 *)p)->unk2.s * D_801F89E0 >> 12) + pa->y;
+    ((Unkstruct_80126948 *)a0)->unk44 = (((Unkstruct_80180FE8 *)p)->unk4.s * D_801F89E0 >> 12) + pa->z;
+    ((Unkstruct_80126948 *)a0)->unk48 = (((Unkstruct_80180FE8 *)p)->unk6.s * D_801F89E0 >> 12) + pa->x;
+    ((Unkstruct_80126948 *)a0)->unk4C = (((Unkstruct_80180FE8 *)p)->unk8.s * D_801F89E0 >> 12) + D_801F8A12;
+    ((Unkstruct_80126948 *)a0)->unk50 = (((Unkstruct_80180FE8 *)p)->unkA.s * D_801F89E0 >> 12) + D_801F8A14;
     aec = D_801F8AEC;
     ((Unkstruct_80126948 *)a0)->unk54 = ((Unkstruct_80180FE8 *)p)->unkC << 5;
     ((Unkstruct_80126948 *)a0)->unk8.v0.unk8 = aec;

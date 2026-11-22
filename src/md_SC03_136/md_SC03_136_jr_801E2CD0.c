@@ -229,7 +229,7 @@ void func_801E2FF4(void) {
 void func_801E3080(void) {
     extern s32 D_801E256C;
     extern s32 D_801E249C;
-    ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = D_801E249C;
+    ((Cmd_80178D40 *)D_801E256C)->a.w = D_801E249C;
 }
 
 
@@ -253,9 +253,9 @@ extern s32 D_801E34A8;
 void func_801E30C8(void) {
     func_8018A788();
     if (D_801E2498 == 0) {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)&D_801E3488;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)&D_801E3488;
     } else {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)&D_801E34A8;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)&D_801E34A8;
     }
 }
 

@@ -199,7 +199,7 @@ s32 func_801E5514(void) {
         p = D_801E256C;
         v = (s32)&D_801E6828;
     }
-    ((Unkstruct_801E5514 *)p)->unk4 = v;
+    ((Cmd_80178D40 *)p)->a.w = v;
     return v;
 }
 

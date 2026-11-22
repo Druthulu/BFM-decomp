@@ -3995,14 +3995,14 @@ void func_80175DA8(param_1)
         p->code = *(u32 *)src;
         src += 2;
         if (i < 2) {
-            p->x = *src++ + ((Unkstruct_80175DA8_3 *)s)->unkC;
-            p->y = *src++ + ((Unkstruct_80175DA8_3 *)s)->unkE;
+            p->x = *src++ + ((Unkstruct_8011F7A8 *)s)->unkC;
+            p->y = *src++ + ((Unkstruct_8011F7A8 *)s)->unkE;
         } else if (i == 2) {
-            p->x = *src++ + ((Unkstruct_80175DA8_3 *)s)->unk10;
-            p->y = *src++ + ((Unkstruct_80175DA8_3 *)s)->unk12;
+            p->x = *src++ + ((Unkstruct_8011F7A8 *)s)->unk10;
+            p->y = *src++ + ((Unkstruct_8011F7A8 *)s)->unk12;
         } else {
-            p->x = *src++ + ((Unkstruct_80175DA8_3 *)s)->unk14;
-            p->y = *src++ + ((Unkstruct_80175DA8_3 *)s)->unk16;
+            p->x = *src++ + ((Unkstruct_8011F7A8 *)s)->unk14;
+            p->y = *src++ + ((Unkstruct_8011F7A8 *)s)->unk16;
         }
         p->uv = *(u32 *)src;
         src += 2;
@@ -4012,10 +4012,10 @@ void func_80175DA8(param_1)
         i++;
     } while (i < 5);
 
-    ((Unkstruct_80175DA8_3 *)s)->unk7 = guess_g_ActiveMenu;
+    ((Unkstruct_8011F7A8 *)s)->unk7 = guess_g_ActiveMenu;
     p = (Sp_80175DA8 *)func_8017742C((u32 *)p,
-                                     (s16)(((Unkstruct_80175DA8_3 *)s)->unk10 - 0x98),
-                                     (s16)(((Unkstruct_80175DA8_3 *)s)->unk12 + 9));
+                                     (s16)(((Unkstruct_8011F7A8 *)s)->unk10 - 0x98),
+                                     (s16)(((Unkstruct_8011F7A8 *)s)->unk12 + 9));
     func_8005A600((s32)p, 0, 0, 0x16, 0);
     p->tag = ((u32)(p - 1) & 0xFFFFFF) | 0x2000000;
     *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x30) = p;

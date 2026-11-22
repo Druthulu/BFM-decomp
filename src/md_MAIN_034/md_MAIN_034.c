@@ -701,7 +701,7 @@ s32 func_800CC0A0(void *prim)
 {
     s32 val;
 
-    val = ((Unkstruct_800CC0A0 *)prim)->unkA;
+    val = ((F3_27058_t *)prim)->unk8.v1.unk2;
     if (D_800CC9E8 < val && val < D_800CC9EA) {
         goto ret1;
     }
@@ -719,7 +719,7 @@ void func_800CC110(s32 ot, s32 otz, s32 shift, void *prim, u32 code)
     s32 *entry;
 
     entry = (s32 *)ot + (otz >> shift);
-    ((Unkstruct_800CC0A0 *)prim)->unk0 = (*entry & 0xFFFFFF) | code;
+    ((F3_27058_t *)prim)->tag = (*entry & 0xFFFFFF) | code;
     *entry = (s32)prim & 0xFFFFFF;
 }
 
@@ -1035,7 +1035,7 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     Vec3s v1;
     Vec3s v2;
 
-    ((Unkstruct_800CC7FC *)a4)->unk30 = 0x50000000;
+    ((Src_80016C28 *)a4)->flags.u = 0x50000000;
     *(W *)((s32)a4 + 0x20) = *(W *)a1;
     *(W *)((s32)a4 + 0x24) = *(W *)a1;
     *(W *)((s32)a4 + 0x28) = *(W *)a2;
@@ -1059,10 +1059,10 @@ void func_800CC7FC(s32 a0, void *a1, void *a2, void *a3, void *a4) {
     guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA4C, (s32)a4 + 0x10);
     guess_RotTransSVWithMatrix((s32)&buf, (s32)&D_800CCA54, (s32)a4 + 0x18);
 
-    ((Unkstruct_800CC7FC *)a4)->unk4 = 0;
-    ((Unkstruct_800CC7FC *)a4)->unkC = 0;
-    ((Unkstruct_800CC7FC *)a4)->unk14 = 0;
-    ((Unkstruct_800CC7FC *)a4)->unk1C = 0;
+    ((Src_80016C28 *)a4)->v[0].vz = 0;
+    ((Src_80016C28 *)a4)->v[1].vz = 0;
+    ((Src_80016C28 *)a4)->v[2].vz = 0;
+    ((Src_80016C28 *)a4)->v[3].vz = 0;
     func_80017714(a4);
 }
 

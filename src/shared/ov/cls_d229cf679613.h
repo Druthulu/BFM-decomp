@@ -4,14 +4,14 @@
 s32 SHARED_FN(u8 *a0, s32 a1, u8 *a2, u8 *a3) {
     a1 = (s16)a1;
     a0 = a0 + a1 * 14;
-    if (((Unkstruct_80181120 *)a0)->unkC == 0x7FFF) {
+    if (((Unkstruct_80180FE8 *)a0)->unkC == 0x7FFF) {
         return 1;
     }
-    *(u16 *)(a2 + 0) = ((Unkstruct_80181120 *)a0)->unk0;
-    *(u16 *)(a2 + 2) = ((Unkstruct_80181120 *)a0)->unk2;
-    *(u16 *)(a2 + 4) = ((Unkstruct_80181120 *)a0)->unk4;
-    *(u16 *)(a3 + 0) = ((Unkstruct_80181120 *)a0)->unk6;
-    *(u16 *)(a3 + 2) = ((Unkstruct_80181120 *)a0)->unk8;
-    *(u16 *)(a3 + 4) = ((Unkstruct_80181120 *)a0)->unkA;
+    *(u16 *)(a2 + 0) = ((Unkstruct_80180FE8 *)a0)->unk0.u;
+    *(u16 *)(a2 + 2) = ((Unkstruct_80180FE8 *)a0)->unk2.u;
+    *(u16 *)(a2 + 4) = ((Unkstruct_80180FE8 *)a0)->unk4.u;
+    *(u16 *)(a3 + 0) = ((Unkstruct_80180FE8 *)a0)->unk6.u;
+    *(u16 *)(a3 + 2) = ((Unkstruct_80180FE8 *)a0)->unk8.u;
+    *(u16 *)(a3 + 4) = ((Unkstruct_80180FE8 *)a0)->unkA.u;
     return 0;
 }

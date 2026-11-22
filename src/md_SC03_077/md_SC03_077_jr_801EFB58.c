@@ -219,7 +219,7 @@ void func_801EFE7C(void) {
 void func_801EFF08(void) {
     extern s32 D_801EF3EC;
     extern s32 D_801EF31C;
-    ((Unkstruct_801EFBC0 *)D_801EF3EC)->unk4 = D_801EF31C;
+    ((Cmd_80178D40 *)D_801EF3EC)->a.w = D_801EF31C;
 }
 
 
@@ -250,7 +250,7 @@ void func_801EFF50(void) {
         p = D_801EF3EC;
         v = (s32)&D_801F0360;
     }
-    ((Unkstruct_801EFBC0 *)p)->unk4 = v;
+    ((Cmd_80178D40 *)p)->a.w = v;
 }
 
 

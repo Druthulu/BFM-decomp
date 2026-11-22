@@ -4,9 +4,9 @@ extern void Square12(s32 *a0, s32 *a1);
 s32 func_8013E22C(VecA *a0, Vec3s *a1) {
     s32 d[3];
     s32 sq[3];
-    d[0] = a0->unk2 - a1->x;
-    d[1] = a0->unk6 - a1->y;
-    d[2] = a0->unkA - a1->z;
+    d[0] = a0->unk0.v0.unk2 - a1->x;
+    d[1] = a0->unk0.v0.unk6 - a1->y;
+    d[2] = a0->unk0.v0.unkA - a1->z;
     Square12(d, sq);
     return sq[0] + sq[1] + sq[2];
 }

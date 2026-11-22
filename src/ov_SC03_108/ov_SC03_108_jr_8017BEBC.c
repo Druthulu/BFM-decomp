@@ -3295,17 +3295,17 @@ s32 func_8017DDDC(s32 a0, s32 a1) {
         return 1;
     }
 
-    p2.unk0 = p1.unk0 = mid = (((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 1;
+    p2.unk0 = p1.unk0 = mid = (((Unkstruct_80135EB0 *)a1)->unk4.s + ((Unkstruct_80135EB0 *)a1)->unk6.s) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_80135EB0 *)a1)->unk4 + mid) >> 1;
+    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_80135EB0 *)a1)->unk4.s + mid) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }
 
-    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_80135EB0 *)a1)->unk6 + mid) >> 1;
+    p2.unk0 = p1.unk0 = (u32)(((Unkstruct_80135EB0 *)a1)->unk6.s + mid) >> 1;
     if (func_8012DEB8(a0, (s32)&p2, rp1) != 0) {
         return 1;
     }

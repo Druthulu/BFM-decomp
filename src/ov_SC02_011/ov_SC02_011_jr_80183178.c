@@ -1720,7 +1720,7 @@ void func_8018576C(u8 *vb)
     vv[10] = vz0;
     vv[6] = vz0;
     vv[2] = vz0;
-    d = ((Unkstruct_80135EB0 *)p)->unk4;
+    d = ((Unkstruct_80135EB0 *)p)->unk4.s;
     if ((d - 0x20) >= 0) {
         z = (d - 0x20) / 2;
     } else {
@@ -2378,9 +2378,9 @@ int func_801865E4(int a0, void* a1)
     s32 result;
     s32 ret;
 
-    v0 = ((Unkstruct_80135EB0 *)a1)->unk4;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk4.s;
     stack_buf[0] = v0;
-    v0 = ((Unkstruct_80135EB0 *)a1)->unk6;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk6.s;
     stack_buf[4] = v0;
     v0 = ((Unkstruct_80135EB0 *)a1)->unkA.s;
     stack_buf[5] = v0;

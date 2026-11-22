@@ -3007,7 +3007,7 @@ extern s32 D_801B8748[][2];
 extern u32 D_801B8760;
 extern u32 D_801B877C;
 extern s16 D_801B8788[];
-extern Blk12_801854C4 D_801B8770;
+extern struct Vec D_801B8770;
 extern void func_801854C4(s32 a0);
 extern void func_80185D70(void *a0);
 extern void func_80185664(void *a0);

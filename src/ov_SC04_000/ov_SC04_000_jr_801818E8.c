@@ -3350,13 +3350,13 @@ void func_80182564(int param_1, int param_2)
     if (rand() & 1) {
         dx = -dx;
     }
-    ((Unkstruct_80182564 *)param_1)->unk3C = dx;
+    ((Unkstruct_80182564 *)param_1)->unk3C.s = dx;
 
     dz = rand() % CAST_SIGN(s16, param_1, 0x6);
     if (rand() & 1) {
         dz = -dz;
     }
-    ((Unkstruct_80182564 *)param_1)->unk3E = dz;
+    ((Unkstruct_80182564 *)param_1)->unk3E.s = dz;
 
     ((Unkstruct_80182564 *)param_1)->unk40 = 0;
     ((Unkstruct_80182564 *)param_1)->unkC = -CAST_SIGN(u16, param_1, 0x3E);

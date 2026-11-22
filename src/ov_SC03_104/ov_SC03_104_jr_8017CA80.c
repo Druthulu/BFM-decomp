@@ -3142,9 +3142,9 @@ void func_8017D960(s32 arg0)
                                                 ATTEN(a2v, f2, x2, y2, z2, cx2, cy2, cz2, r2, r2lo);
                                                 CLAMP80(c2, a0v, a1v, a2v);
 
-                                                *(u32 *)&((PolyGT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
-                                                *(u32 *)&((PolyGT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
-                                                *(u32 *)&((PolyGT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk8.v0.x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk14.v0.x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk20.v0.x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
                                                 cb = 0x34000000;
                                                 rgbw = (c0 | cb) | (c0 << 8) | (c0 << 16);
@@ -3153,8 +3153,8 @@ void func_8017D960(s32 arg0)
                                                 ((PolyGT3 *)pkt)->rgb1 = rgbw;
                                                 rgbw = (c2 | cb) | (c2 << 8) | (c2 << 16);
                                                 ((PolyGT3 *)pkt)->rgb2 = rgbw;
-                                                ((PolyGT3 *)pkt)->uv0 = tp[1];
-                                                ((PolyGT3 *)pkt)->uv1 = tp[2];
+                                                ((PolyGT3 *)pkt)->unkC.v0.uv0 = tp[1];
+                                                ((PolyGT3 *)pkt)->unk18.v0.uv1 = tp[2];
                                                 ((PolyGT3 *)pkt)->uv2 = tp[3];
                                                 otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;

@@ -189,7 +189,7 @@ s32 func_801F2348(void) {
         p = D_801EF3EC;
         v = (s32)&D_801F379C;
     }
-    ((Unkstruct_801E5514 *)p)->unk4 = v;
+    ((Cmd_80178D40 *)p)->a.w = v;
     return v;
 }
 
@@ -220,7 +220,7 @@ s32 func_801F23D0(void) {
         p = D_801EF3EC;
         v = (s32)&D_801F3864;
     }
-    ((Unkstruct_801E5514 *)p)->unk4 = v;
+    ((Cmd_80178D40 *)p)->a.w = v;
     return v;
 }
 

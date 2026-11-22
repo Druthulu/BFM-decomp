@@ -4098,7 +4098,7 @@ extern u32 D_801B8760;
 extern u32 D_801B877C;
 extern s16 D_801B8788[];
 
-extern Blk12_801854C4 D_801B8770;
+extern struct Vec D_801B8770;
 
 void func_801854C4(s32 a0) {
     s32 v0;
@@ -4133,7 +4133,7 @@ void func_801854C4(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x800;
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk20.s = (s32)&D_801B877C;
     CAST_WIDTH(s16, a0, 0xE8) = 0;
-    CAST_WIDTH(Blk12_801854C4, a0, 0xEC) = D_801B8770;
+    CAST_WIDTH(struct Vec, a0, 0xEC) = D_801B8770;
     ((Unkstruct_801202A0 *)a0)->unk10A.s = 6;
     func_8018589C(a0);
     ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val = (s32)func_80185C6C;

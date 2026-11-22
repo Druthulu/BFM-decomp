@@ -5841,9 +5841,9 @@ void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
                                                 ATTEN(c1, x1, y1, z1);
                                                 ATTEN(c2, x2, y2, z2);
 
-                                                *(u32 *)&((PolyGT3 *)pkt)->x0 = *(u32 *)&tmpxy[0];
-                                                *(u32 *)&((PolyGT3 *)pkt)->x1 = *(u32 *)&tmpxy[1];
-                                                *(u32 *)&((PolyGT3 *)pkt)->x2 = *(u32 *)&tmpxy[2];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk8.v0.x0 = *(u32 *)&tmpxy[0];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk14.v0.x1 = *(u32 *)&tmpxy[1];
+                                                *(u32 *)&((PolyGT3 *)pkt)->unk20.v0.x2 = *(u32 *)&tmpxy[2];
                                                 tp = (u32 *)prim->a;
                                                 cb = (tp[0] & 0x2000000) | 0x34000000;
                                                 rgbw = cb | c0 | (c0 << 8) | 0x800000;
@@ -5852,8 +5852,8 @@ void func_8017F510(s32 arg0, s32 arg1, s32 arg2)
                                                 ((PolyGT3 *)pkt)->rgb1 = rgbw;
                                                 rgbw = cb | c2 | (c2 << 8) | 0x800000;
                                                 ((PolyGT3 *)pkt)->rgb2 = rgbw;
-                                                ((PolyGT3 *)pkt)->uv0 = tp[1];
-                                                ((PolyGT3 *)pkt)->uv1 = tp[2];
+                                                ((PolyGT3 *)pkt)->unkC.v0.uv0 = tp[1];
+                                                ((PolyGT3 *)pkt)->unk18.v0.uv1 = tp[2];
                                                 ((PolyGT3 *)pkt)->uv2 = tp[3];
                                                 otp = (u32 *)(((g.opz >> 2) << 2) + ot);
                                                 *(u32 *)pkt = (*otp & 0xFFFFFF) | 0x9000000;
@@ -6447,10 +6447,10 @@ s32 func_801818D8(s32 a0, s32 a1) {
     Vec4h_801818D8 p2;
     s32 result;
 
-    p1.unk4 = ((Unkstruct_80135480_6 *)a1)->unkC;
-    p2.unk4 = ((Unkstruct_80135480_6 *)a1)->unkE;
-    p1.unk0 = p2.unk0 = ((Unkstruct_80135480_6 *)a1)->unk4;
-    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135480_6 *)a1)->unk8 >> 1;
+    p1.unk4 = ((Unkstruct_80135EB0 *)a1)->unkC.u;
+    p2.unk4 = ((Unkstruct_80135EB0 *)a1)->unkE.u;
+    p1.unk0 = p2.unk0 = ((Unkstruct_80135EB0 *)a1)->unk4.u;
+    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135EB0 *)a1)->unk8.u >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
@@ -6462,13 +6462,13 @@ s32 func_801818D8(s32 a0, s32 a1) {
         goto save;
     }
 
-    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135480_6 *)a1)->unkA >> 1;
+    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135EB0 *)a1)->unkA.u >> 1;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
     }
 
-    p1.unk0 = p2.unk0 = ((Unkstruct_80135480_6 *)a1)->unk6;
+    p1.unk0 = p2.unk0 = ((Unkstruct_80135EB0 *)a1)->unk6.u;
     if (func_8012DEB8(a0, (s32)&p1, (s32)&p2)) {
         result = 1;
         goto save;
@@ -6480,7 +6480,7 @@ s32 func_801818D8(s32 a0, s32 a1) {
         goto save;
     }
 
-    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135480_6 *)a1)->unk8 >> 1;
+    p1.unk2 = p2.unk2 = (s16)((Unkstruct_80135EB0 *)a1)->unk8.u >> 1;
     result = func_8012DEB8(a0, (s32)&p1, (s32)&p2) != 0;
 
 save:

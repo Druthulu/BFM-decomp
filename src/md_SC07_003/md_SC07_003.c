@@ -2306,12 +2306,12 @@ void func_801A31CC(void *arg0) {
     case 0: {
         s32 link;
         link = (s32)(a1 + 0x10);
-        ((Unkstruct_80135888 *)a1)->unk0 = link;
+        ((Unkstruct_80135EB0 *)a1)->unk0 = link;
         a1 = (u8 *)link;
         link = (s32)(a1 + 0x10);
-        ((Unkstruct_80135888 *)a1)->unk0 = link;
+        ((Unkstruct_80135EB0 *)a1)->unk0 = link;
         a1 = (u8 *)link;
-        ((Unkstruct_80135888 *)a1)->unk0 = 0;
+        ((Unkstruct_80135EB0 *)a1)->unk0 = 0;
         ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0xC800;
         ((Unkstruct_801202A0 *)arg0)->extE.kSC07_003_801A3190.unkAE = -1;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
@@ -2336,12 +2336,12 @@ void func_801A31CC(void *arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0x800;
         ((Unkstruct_801202A0 *)arg0)->extE.kSC07_003_801A3190.unkAE = -1;
         ((Unkstruct_801202A0 *)arg0)->unk2.s = 5;
-        ((Unkstruct_80135888 *)a1)->unk4 = -0x10;
-        ((Unkstruct_80135888 *)a1)->unk6 = 0x10;
-        ((Unkstruct_80135888 *)a1)->unk8 = -0x100;
-        ((Unkstruct_80135888 *)a1)->unkA = 0;
-        ((Unkstruct_80135888 *)a1)->unkC = -0x10;
-        ((Unkstruct_80135888 *)a1)->unkE = 0x10;
+        ((Unkstruct_80135EB0 *)a1)->unk4.s = -0x10;
+        ((Unkstruct_80135EB0 *)a1)->unk6.s = 0x10;
+        ((Unkstruct_80135EB0 *)a1)->unk8.s = -0x100;
+        ((Unkstruct_80135EB0 *)a1)->unkA.s = 0;
+        ((Unkstruct_80135EB0 *)a1)->unkC.s = -0x10;
+        ((Unkstruct_80135EB0 *)a1)->unkE.s = 0x10;
         break;
     }
 }
@@ -2719,11 +2719,11 @@ void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
         RotTransSV((s32)&sv0, (s32)&o0, &flag);
         RotTransSV((s32)&sv1, (s32)&o1, &flag);
         if (o0.vx > o1.vx) {
-            ((Unkstruct_80135EB0 *)a1)->unk6 = o0.vx;
-            ((Unkstruct_80135EB0 *)a1)->unk4 = o1.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk6.s = o0.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk4.s = o1.vx;
         } else {
-            ((Unkstruct_80135EB0 *)a1)->unk6 = o1.vx;
-            ((Unkstruct_80135EB0 *)a1)->unk4 = o0.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk6.s = o1.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk4.s = o0.vx;
         }
 
         sv0.vy = p[1];
@@ -2763,11 +2763,11 @@ void func_801A38E4(void *a0, void *a1, s32 a2, s32 a3, s32 a4)
         RotTransSV((s32)q, (s32)&o0, &flag);
         RotTransSV((s32)p, (s32)&o1, &flag);
         if (o0.vx > o1.vx) {
-            ((Unkstruct_80135EB0 *)a1)->unk6 = o0.vx;
-            ((Unkstruct_80135EB0 *)a1)->unk4 = o1.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk6.s = o0.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk4.s = o1.vx;
         } else {
-            ((Unkstruct_80135EB0 *)a1)->unk6 = o1.vx;
-            ((Unkstruct_80135EB0 *)a1)->unk4 = o0.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk6.s = o1.vx;
+            ((Unkstruct_80135EB0 *)a1)->unk4.s = o0.vx;
         }
         if (o0.vy > o1.vy) {
             ((Unkstruct_80135EB0 *)a1)->unkA.s = o0.vy;

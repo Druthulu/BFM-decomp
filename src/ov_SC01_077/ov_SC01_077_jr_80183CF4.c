@@ -4462,7 +4462,7 @@ void func_80185E68(s32 arg0) {
     extern u8 D_80062BDC;
     extern s32 D_801D55AC[];
     extern u8 D_801D5588[];
-    extern Blk12_801854C4 D_801DA910[];
+    extern struct Vec D_801DA910[];
     extern u8 D_801D5578;
     extern u8 D_801D6F8C[];
     extern s16 D_801DA98A[];
@@ -4493,7 +4493,7 @@ void func_80185E68(s32 arg0) {
     idx = ((Unkstruct_801202A0 *)arg0)->unkFC.s = D_801D5588[((Unkstruct_801202A0 *)arg0)->unk76.s];
 
     for (i = 0; i < 10; i++) {
-        D_801DA910[i] = ((Blk12_801854C4 *)(*(s32 *)D_801D55AC[((Unkstruct_801202A0 *)arg0)->unk76.s]))[i];
+        D_801DA910[i] = ((struct Vec *)(*(s32 *)D_801D55AC[((Unkstruct_801202A0 *)arg0)->unk76.s]))[i];
     }
 
     guess_StartActorSequence(arg0, &D_801D5578);

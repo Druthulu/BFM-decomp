@@ -1102,11 +1102,11 @@ s32 func_801873FC(s32 a0) {
 
     box = (u8 *)((CAST_SIGN(u32, a0, 0x58) & 0xFFFFFFF) | 0x80000000);
 
-    p1.unk0 = ((Unkstruct_80135EB0 *)box)->unk4;
+    p1.unk0 = ((Unkstruct_80135EB0 *)box)->unk4.s;
     p1.unk4 = ((Unkstruct_80135EB0 *)box)->unkC.s;
-    p2.unk0 = ((Unkstruct_80135EB0 *)box)->unk4;
+    p2.unk0 = ((Unkstruct_80135EB0 *)box)->unk4.s;
     p2.unk4 = ((Unkstruct_80135EB0 *)box)->unkE.s;
-    step = (u32)(((Unkstruct_80135EB0 *)box)->unk6 - CAST_SIGN(s16, box, 4)) >> 1;
+    step = (u32)(((Unkstruct_80135EB0 *)box)->unk6.s - CAST_SIGN(s16, box, 4)) >> 1;
 
     for (i = 0; i < 3; i++) {
         p1.unk2 = p2.unk2 = ((Unkstruct_80135EB0 *)box)->unk8.s;

@@ -217,9 +217,9 @@ void func_801EFBC0(void) {
 
     D_801F6CA4 = 0;
     if (D_80078EBA == 4) {
-        ((Unkstruct_801EFBC0 *)D_801EF3EC)->unk4 = (s32)D_801F0940;
+        ((Cmd_80178D40 *)D_801EF3EC)->a.w = (s32)D_801F0940;
     } else {
-        ((Unkstruct_801EFBC0 *)D_801EF3EC)->unk4 = (s32)D_801F0900;
+        ((Cmd_80178D40 *)D_801EF3EC)->a.w = (s32)D_801F0900;
     }
 }
 

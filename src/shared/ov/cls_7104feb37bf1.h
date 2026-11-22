@@ -5,13 +5,13 @@ s32 SHARED_FN(void *a0, void *a1) {
     s32 result;
     s32 ret;
 
-    v0 = ((Unkstruct_801818A4 *)a1)->unkC;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkC.s;
     stack_buf[2] = v0;
-    v0 = ((Unkstruct_801818A4 *)a1)->unkE;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unkE.s;
     stack_buf[5] = 0;
     stack_buf[1] = 0;
     stack_buf[6] = v0;
-    v0 = ((Unkstruct_801818A4 *)a1)->unk4;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk4.s;
     stack_buf[4] = v0;
     stack_buf[0] = v0;
 
@@ -20,7 +20,7 @@ s32 SHARED_FN(void *a0, void *a1) {
     if (result != 0) {
         ret = 1;
     } else {
-        v0 = ((Unkstruct_801818A4 *)a1)->unk6;
+        v0 = ((Unkstruct_80135EB0 *)a1)->unk6.s;
         stack_buf[4] = v0;
         stack_buf[0] = v0;
         result = func_8012DEB8((s32)a0, (s32)&stack_buf[0], (s32)&stack_buf[4]);

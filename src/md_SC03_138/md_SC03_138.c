@@ -249,9 +249,9 @@ void func_801E2D50(void) {
     var = D_801E2460;
     D_801EC2C4 = var;
     if (var == 1) {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)D_801E3904;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)D_801E3904;
     } else {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)D_801E3920;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)D_801E3920;
     }
 }
 
@@ -268,9 +268,9 @@ void func_801E2D9C(void) {
     var = D_801E2460;
     D_801EC2C4 = var;
     if (var == 1) {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)D_801E3904;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)D_801E3904;
     } else {
-        ((Unkstruct_801E2D50 *)D_801E256C)->unk4 = (s32)D_801E394C;
+        ((Cmd_80178D40 *)D_801E256C)->a.w = (s32)D_801E394C;
     }
 }
 

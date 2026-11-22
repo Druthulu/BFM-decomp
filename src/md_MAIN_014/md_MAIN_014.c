@@ -98,31 +98,31 @@ void func_800CAF90(void *a0) {
     func_800D20C0(vecA, rot, 5);
     func_800D23D0(rot);
 
-    ((Unkstruct_800CAF90_2 *)info)->unkC = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unkA = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk8 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk1C = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk14 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk4 = 0;
+    ((Src_80016C28 *)info)->v[1].vz = 0;
+    ((Src_80016C28 *)info)->v[1].vy = 0;
+    ((Src_80016C28 *)info)->v[1].vx = 0;
+    ((Src_80016C28 *)info)->v[3].vz = 0;
+    ((Src_80016C28 *)info)->v[2].vz = 0;
+    ((Src_80016C28 *)info)->v[0].vz = 0;
 
     fld2 = ((Unkstruct_8011D030 *)a0)->unk28.u;
 
-    ((Unkstruct_800CAF90_2 *)info)->unk25 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk22 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk21 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk20 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk2A = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk29 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk28 = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk2E = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk2D = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk2C = 0;
-    ((Unkstruct_800CAF90_2 *)info)->unk30 = 0x50000000;
+    ((Src_80016C28 *)info)->unk24.v1.unk1 = 0;
+    ((Src_80016C28 *)info)->unk20.v1.unk2 = 0;
+    ((Src_80016C28 *)info)->unk20.v1.unk1 = 0;
+    ((Src_80016C28 *)info)->unk20.v1.unk0 = 0;
+    ((Src_80016C28 *)info)->unk28.v1.unk2 = 0;
+    ((Src_80016C28 *)info)->unk28.v1.unk1 = 0;
+    ((Src_80016C28 *)info)->unk28.v1.unk0 = 0;
+    ((Src_80016C28 *)info)->unk2C.v1.unk2 = 0;
+    ((Src_80016C28 *)info)->unk2C.v1.unk1 = 0;
+    ((Src_80016C28 *)info)->unk2C.v1.unk0 = 0;
+    ((Src_80016C28 *)info)->flags.u = 0x50000000;
 
     ang = (s16)fld2 >> 6;
     ang = ang + 0x70;
-    ((Unkstruct_800CAF90_2 *)info)->unk26 = (s8)ang;
-    ((Unkstruct_800CAF90_2 *)info)->unk24 = (s8)ang;
+    ((Src_80016C28 *)info)->unk24.v1.unk2 = (s8)ang;
+    ((Src_80016C28 *)info)->unk24.v1.unk0 = (s8)ang;
     func_80017E68(vecA, s2vec);
 
     RotMatrixYXZ(rot, mtx);
@@ -130,13 +130,13 @@ void func_800CAF90(void *a0) {
 
     tbl = D_800CB5C8;
     for (i = 0; i < 4; i++) {
-        ((Unkstruct_800CAF90_2 *)info)->unk0 = (s8)*tbl; tbl++;
-        ((Unkstruct_800CAF90_2 *)info)->unk2 = (s8)*tbl; tbl++;
-        ((Unkstruct_800CAF90_2 *)info)->unk10 = (s8)*tbl; tbl++;
-        ((Unkstruct_800CAF90_2 *)info)->unk12 = (s8)*tbl; tbl++;
-        ((Unkstruct_800CAF90_2 *)info)->unk18 = (s8)*tbl; tbl++;
+        ((Src_80016C28 *)info)->v[0].vx = (s8)*tbl; tbl++;
+        ((Src_80016C28 *)info)->v[0].vy = (s8)*tbl; tbl++;
+        ((Src_80016C28 *)info)->v[2].vx = (s8)*tbl; tbl++;
+        ((Src_80016C28 *)info)->v[2].vy = (s8)*tbl; tbl++;
+        ((Src_80016C28 *)info)->v[3].vx = (s8)*tbl; tbl++;
         last = (s8)*tbl; tbl--;
-        ((Unkstruct_800CAF90_2 *)info)->unk1A = last;
+        ((Src_80016C28 *)info)->v[3].vy = last;
         guess_AddPolyG4(info, s2vec);
     }
 }

@@ -4787,10 +4787,10 @@ void func_8018AC00(void *a0) {
     s16 ang;
 
     ((Unkstruct_8018AC00 *)buf)->flags.s = 0x50000000;
-    ((Unkstruct_8018AC00 *)buf)->rgb0.s = 0x80;
-    ((Unkstruct_8018AC00 *)buf)->rgb1.s = 0x80;
-    ((Unkstruct_8018AC00 *)buf)->rgb2.s = 0;
-    ((Unkstruct_8018AC00 *)buf)->rgb3.s = 0;
+    ((Unkstruct_8018AC00 *)buf)->unk20.v0.rgb0.s = 0x80;
+    ((Unkstruct_8018AC00 *)buf)->unk24.v0.rgb1.s = 0x80;
+    ((Unkstruct_8018AC00 *)buf)->unk28.v0.rgb2.s = 0;
+    ((Unkstruct_8018AC00 *)buf)->unk2C.v0.rgb3.s = 0;
 
     *(Blk8_8018AC00 *)(buf + 0x00) = D_801CC9D0;
     *(Blk8_8018AC00 *)(buf + 0x08) = D_801CC9D8;
@@ -4810,8 +4810,8 @@ void func_8018AC00(void *a0) {
     guess_AddPolyG4(vp, p);
 
     ((Unkstruct_8018AC00 *)buf)->flags.s = 0x60000000;
-    ((Unkstruct_8018AC00 *)buf)->rgb0.s = 0x808080;
-    ((Unkstruct_8018AC00 *)buf)->rgb1.s = 0x808080;
+    ((Unkstruct_8018AC00 *)buf)->unk20.v0.rgb0.s = 0x808080;
+    ((Unkstruct_8018AC00 *)buf)->unk24.v0.rgb1.s = 0x808080;
 
     *(Blk8_8018AC00 *)(buf + 0x00) = D_801CC9F0;
     *(Blk8_8018AC00 *)(buf + 0x08) = D_801CC9F8;

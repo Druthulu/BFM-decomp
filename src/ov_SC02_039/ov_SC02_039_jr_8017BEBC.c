@@ -3516,18 +3516,18 @@ s32 func_8017E2F4(s32 a0, s32 a1) {
         return 1;
     }
 
-    avg = (((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 1;
+    avg = (((Unkstruct_80135EB0 *)a1)->unk4.s + ((Unkstruct_80135EB0 *)a1)->unk6.s) >> 1;
     p1.unk0 = p2.unk0 = avg;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4.s + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk6 + avg) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk6.s + avg) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }

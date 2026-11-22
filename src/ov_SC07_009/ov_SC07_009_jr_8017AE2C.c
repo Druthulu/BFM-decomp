@@ -3860,10 +3860,10 @@ void func_8017D978(void) {
 }
 
 void func_8017D980(s32 *a0) {
-        ((Unkstruct_8017D980_3 *)a0)->unk30 = 0;
-        ((Unkstruct_8017D980_3 *)a0)->unk34 = 0;
-        ((Unkstruct_8017D980_3 *)a0)->unk38 = 0;
-        ((Unkstruct_8017D980_3 *)a0)->unk3C = 0;
+        ((Src_80017930 *)a0)->unk30.v1.unk0 = 0;
+        ((Src_80017930 *)a0)->unk30.v1.unk4 = 0;
+        ((Src_80017930 *)a0)->unk30.v1.unk8 = 0;
+        ((Src_80017930 *)a0)->unk30.v1.unkC = 0;
     }
 
 

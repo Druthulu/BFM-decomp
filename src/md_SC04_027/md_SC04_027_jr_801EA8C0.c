@@ -221,7 +221,7 @@ s32 func_801EAA7C(void) {
         p = D_801E7AAC;
         v = (s32)&D_801EBD90;
     }
-    ((Unkstruct_801E5514 *)p)->unk4 = v;
+    ((Cmd_80178D40 *)p)->a.w = v;
     return v;
 }
 

@@ -25,7 +25,7 @@ void func_80175308(void) {
     D_8011F7BA = 0x37;
     (*(s16 *)&guess_g_HudHpPanelY) = 0x37;
     guess_g_HudGoldPanelX = 0x37;
-    *(Blk152 *)(p + 0x48) = (*(Blk152 *)guess_g_PlayerRecord);
+    *(Unkstruct_80078E78 *)(p + 0x48) = (*(Unkstruct_80078E78 *)guess_g_PlayerRecord);
     guess_ZeroMemory(p + 0xE0, 0x98);
     {
         s16 *q = &guess_g_DoubleBufferIndex;

@@ -4858,7 +4858,7 @@ void func_801820F8(s32 a0) {
     s32 m = ((Unkstruct_801202A0 *)a0)->unkFE.s;
     s32 *src = (s32 *)D_801C339C[k];
     s32 base = *(s32 *)(D_801C36F8[m] + k * 4);
-    Blk12_801854C4 *pd12;
+    struct Vec *pd12;
     Unkstruct_8013B83C *pd8;
     u8 *t0;
     u8 *t1;
@@ -4868,7 +4868,7 @@ void func_801820F8(s32 a0) {
     base = *(s32 *)base;
     cond = base & 0x1000000;
     if (cond == 0) {
-        pd12 = (Blk12_801854C4 *)&D_801CDD30;
+        pd12 = (struct Vec *)&D_801CDD30;
         t0 = (u8 *)base;
     } else {
         pd8 = (Unkstruct_8013B83C *)&D_801CDE20;
@@ -4878,7 +4878,7 @@ void func_801820F8(s32 a0) {
         if (cond == 0) {
             if ((u16)(*(u16 *)(t0 + 2) + 0x1FF) < 0x3FF) {
                 *dst++ = *src;
-                *pd12 = *(Blk12_801854C4 *)t0;
+                *pd12 = *(struct Vec *)t0;
                 pd12++;
             }
         } else {

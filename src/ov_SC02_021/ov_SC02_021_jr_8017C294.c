@@ -3400,7 +3400,7 @@ s32 func_8017E4DC(s32 arg0, s32 arg1, s32 *arg2)
     if ((r << 16) < 0) {
         r = -r;
     }
-    ((Unkstruct_80135EB0 *)arg1)->unk6 = r;
+    ((Unkstruct_80135EB0 *)arg1)->unk6.s = r;
     i1 = arg2[1];
     if (i1 <= arg2[2]) {
         mx = arg2[0];
@@ -3456,17 +3456,17 @@ s32 func_8017E608(s32 a0, s32 a1, s16 a2) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 2;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4.s + ((Unkstruct_80135EB0 *)a1)->unk6.s) >> 2;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 1;
+    p1.unk0 = p2.unk0 = (((Unkstruct_80135EB0 *)a1)->unk4.s + ((Unkstruct_80135EB0 *)a1)->unk6.s) >> 1;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }
 
-    p1.unk0 = p2.unk0 = ((((Unkstruct_80135EB0 *)a1)->unk4 + ((Unkstruct_80135EB0 *)a1)->unk6) >> 2) * 3;
+    p1.unk0 = p2.unk0 = ((((Unkstruct_80135EB0 *)a1)->unk4.s + ((Unkstruct_80135EB0 *)a1)->unk6.s) >> 2) * 3;
     if (func_8012DEB8(a0, (s32)&p1, p2addr)) {
         return 1;
     }

@@ -4879,13 +4879,13 @@ void func_80184FBC(s32 param_1, s32 param_2, s32 *param_3)
         param_3[7] = *(s8 *)(p + 5);
     } else {
         param_1 = param_1 + param_2 * 0xc;
-        buf.x.vx = ((struct Vec *)param_1)->unk6;
-        buf.x.vy = ((struct Vec *)param_1)->unk8;
-        buf.x.vz = ((struct Vec *)param_1)->unkA;
+        buf.x.vx = ((struct Vec *)param_1)->unk0.v0.unk6;
+        buf.x.vy = ((struct Vec *)param_1)->unk0.v0.unk8;
+        buf.x.vz = ((struct Vec *)param_1)->unk0.v0.unkA;
         RotMatrixZYX((s32)&buf, (s32)param_3);
-        param_3[5] = ((struct Vec *)param_1)->unk0;
-        param_3[6] = ((struct Vec *)param_1)->unk2;
-        param_3[7] = ((struct Vec *)param_1)->unk4;
+        param_3[5] = ((struct Vec *)param_1)->unk0.v0.unk0;
+        param_3[6] = ((struct Vec *)param_1)->unk0.v0.unk2;
+        param_3[7] = ((struct Vec *)param_1)->unk0.v0.unk4;
     }
 }
 

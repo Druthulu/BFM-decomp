@@ -7736,7 +7736,7 @@ void func_801AB818(void *a0) {
     u8 *s1 = *(u8 **)((s32)a0 + 0x24);
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
-        U16x2 tmp;
+        CVECTOR tmp;
 
         *(s32 *)((s32)a0 + 0x1C) -= 1;
         func_801A8440((s32)a0);
@@ -7748,7 +7748,7 @@ void func_801AB818(void *a0) {
          * last_mem_set; as ((s32 *)a0)[12] it is an in-struct access, which sched1 hoists above the frame store. */
         *(s32 *)&tmp = *(s32 *)(s1 + 0);
         *(s32 *)&tmp += ((s32 *)a0)[12];
-        *(U16x2 *)(s1 + 0) = tmp;
+        *(CVECTOR *)(s1 + 0) = tmp;
     } else {
         func_801292C8((u8 *)a0);
     }
@@ -9755,7 +9755,7 @@ void func_801AE408(void *a0) {
         /* §193-I: an aggregate local gets an 8-byte frame stride (ceil(size,8)),
          * not its raw size — declaring the reinterpret temp AS the struct type
          * (rather than s32+&cast) is what supplies the target's extra 8 bytes. */
-        U16x2 tmp;
+        CVECTOR tmp;
         s32 idx2;
         /* unused, but required to reach the target's 0x30 frame (§193-I
          * padding math accounts for 0x28; this local supplies the last 8
@@ -9773,11 +9773,11 @@ void func_801AE408(void *a0) {
 
         *(s32 *)&tmp = *(s32 *)(s1 + 0);
         *(s32 *)&tmp += D_801B07FC[idx2];
-        *(U16x2 *)(s1 + 0) = tmp;
+        *(CVECTOR *)(s1 + 0) = tmp;
 
         *(s32 *)&tmp = *(s32 *)(s1 + 4);
         *(s32 *)&tmp += D_801B0800[idx2];
-        *(U16x2 *)(s1 + 4) = tmp;
+        *(CVECTOR *)(s1 + 4) = tmp;
 
     } else {
         func_801292C8((u8 *)a0);
@@ -9799,7 +9799,7 @@ void func_801AE520(void *a0) {
     u8 *s1 = D_801F8D98 + ((*(u16 *)((s32)a0 + 0x2E) & 3) << 6);
 
     if (*(s32 *)((s32)a0 + 0x1C) != 0) {
-        U16x2 tmp;
+        CVECTOR tmp;
 
         *(s32 *)((s32)a0 + 0x1C) -= 1;
         func_801AD55C(a0);
@@ -9810,11 +9810,11 @@ void func_801AE520(void *a0) {
 
         *(s32 *)&tmp = *(s32 *)(s1 + 0);
         *(s32 *)&tmp -= D_801B07FC[0];
-        *(U16x2 *)(s1 + 0) = tmp;
+        *(CVECTOR *)(s1 + 0) = tmp;
 
         *(s32 *)&tmp = *(s32 *)(s1 + 4);
         *(s32 *)&tmp -= D_801B0800[0];
-        *(U16x2 *)(s1 + 4) = tmp;
+        *(CVECTOR *)(s1 + 4) = tmp;
 
     } else {
         func_801292C8((u8 *)a0);
@@ -10167,7 +10167,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
         u32 bv = (u32)&D_800A6610;
         pot = (u32 *)((tv << 14) + bv);
     }
-    s3 = ((Unkstruct_801AEC38 *)a1)->unk20;
+    s3 = ((Unkstruct_801AE734 *)a1)->unk20;
 
     RotMatrixYXZ(((u8 *)a1) + 4, &mtx);
 
@@ -10196,17 +10196,17 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
     sv[0].vz = 0;
     sv[0].vy = 0;
     sv[0].vx = 0;
-    w1 = ((Unkstruct_801AEC38 *)a1)->unk2 >> 5;
+    w1 = ((Unkstruct_801AE734 *)a1)->unk2 >> 5;
     sv[1].vy = 0;
     sv[1].vx = w1;
-    w2 = ((Unkstruct_801AEC38 *)a1)->unk2 * 3 >> 2;
+    w2 = ((Unkstruct_801AE734 *)a1)->unk2 * 3 >> 2;
     sv[2].vx = -w1;
     sv[2].vy = 0;
     sv[3].vy = 0;
     sv[3].vx = 0;
     sv[1].vz = w2;
     sv[2].vz = w2;
-    sv[3].vz = ((Unkstruct_801AEC38 *)a1)->unk2;
+    sv[3].vz = ((Unkstruct_801AE734 *)a1)->unk2;
 
     pkt = func_80010A08(0x24);
     pkt[3] = 8;
@@ -10233,7 +10233,7 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
         s32 d;
 
         pz = otz + 1;
-        w = ((Unkstruct_801AEC38 *)a1)->unk12;
+        w = ((Unkstruct_801AE734 *)a1)->unk12;
         raw = w;
         w &= 0xC000;
         if (w != 0) {
@@ -10250,18 +10250,18 @@ void func_801AEC38(s32 a0, s32 a1, s32 a2)
             }
         }
         if ((u32)pz < 0x1000) {
-            pkt[4] = ((Unkstruct_801AEC38 *)a1)->unk14;
-            pkt[5] = ((Unkstruct_801AEC38 *)a1)->unk15;
-            pkt[6] = ((Unkstruct_801AEC38 *)a1)->unk16;
-            pkt[0xC] = ((Unkstruct_801AEC38 *)a1)->unk18;
-            pkt[0xD] = ((Unkstruct_801AEC38 *)a1)->unk19;
-            pkt[0xE] = ((Unkstruct_801AEC38 *)a1)->unk1A;
-            pkt[0x14] = ((Unkstruct_801AEC38 *)a1)->unk18;
-            pkt[0x15] = ((Unkstruct_801AEC38 *)a1)->unk19;
-            pkt[0x16] = ((Unkstruct_801AEC38 *)a1)->unk1A;
-            pkt[0x1C] = ((Unkstruct_801AEC38 *)a1)->unk1C;
-            pkt[0x1D] = ((Unkstruct_801AEC38 *)a1)->unk1D;
-            pkt[0x1E] = ((Unkstruct_801AEC38 *)a1)->unk1E;
+            pkt[4] = ((Unkstruct_801AE734 *)a1)->unk14;
+            pkt[5] = ((Unkstruct_801AE734 *)a1)->unk15;
+            pkt[6] = ((Unkstruct_801AE734 *)a1)->unk16;
+            pkt[0xC] = ((Unkstruct_801AE734 *)a1)->unk18;
+            pkt[0xD] = ((Unkstruct_801AE734 *)a1)->unk19;
+            pkt[0xE] = ((Unkstruct_801AE734 *)a1)->unk1A;
+            pkt[0x14] = ((Unkstruct_801AE734 *)a1)->unk18;
+            pkt[0x15] = ((Unkstruct_801AE734 *)a1)->unk19;
+            pkt[0x16] = ((Unkstruct_801AE734 *)a1)->unk1A;
+            pkt[0x1C] = ((Unkstruct_801AE734 *)a1)->unk1C;
+            pkt[0x1D] = ((Unkstruct_801AE734 *)a1)->unk1D;
+            pkt[0x1E] = ((Unkstruct_801AE734 *)a1)->unk1E;
 
             otp = (u32 *)(pz * 4 + (u32)pot);
             ((PTag_801AEC38 *)pkt)->addr = ((PTag_801AEC38 *)otp)->addr;

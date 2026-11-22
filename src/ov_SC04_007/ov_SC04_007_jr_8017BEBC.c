@@ -7041,9 +7041,9 @@ void func_80183438(void *a0)
     D_800A5E60 = pkt + 0x24;
 
     *(u32 *)(pkt + 4) = CAST_ALIAS(u32, (u8 *)a0, 0x20);
-    *(u32 *)(pkt + 0xC) = ((Src_80016C28 *)a0)->rgb1.u;
-    *(u32 *)(pkt + 0x14) = ((Src_80016C28 *)a0)->rgb2.u;
-    *(u32 *)(pkt + 0x1C) = ((Src_80016C28 *)a0)->rgb3.u;
+    *(u32 *)(pkt + 0xC) = ((Src_80016C28 *)a0)->unk24.v0.rgb1.u;
+    *(u32 *)(pkt + 0x14) = ((Src_80016C28 *)a0)->unk28.v0.rgb2.u;
+    *(u32 *)(pkt + 0x1C) = ((Src_80016C28 *)a0)->unk2C.v0.rgb3.u;
     pkt[3] = 8;
     pkt[7] = 0x3A;
 

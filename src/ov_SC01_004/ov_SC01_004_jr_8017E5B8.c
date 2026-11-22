@@ -3065,7 +3065,7 @@ s32 *func_8017E804(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 q[-8] = 0x78;
                 *((u32 *)(q - 0x10)) = 0x64808080;
                 *(s16 *)(q - 6) = 0x4056;
-                *(s16 *)(q - 0xC) = ((Unkstruct_8017E804 *)a3p)->unk8 + ((Unkstruct_8017E804 *)a3p)->unkC - 0xD;
+                *(s16 *)(q - 0xC) = ((Unkstruct_8018893C *)a3p)->unk8 + ((Unkstruct_8018893C *)a3p)->unkC - 0xD;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
                 *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (LOWU(aFrontOrderingTables[*pb2].org[2]) & m24);

@@ -2635,7 +2635,7 @@ extern void func_800415A8(s32);
 
 
 
-extern Blk12_801854C4 D_80064D49[];
+extern struct Vec D_80064D49[];
 extern u8    D_80064D4D[];
 extern Ent24 D_800A463C[];
 extern Rsc24 D_800A4640[];
@@ -2660,7 +2660,7 @@ int func_8002FB08(int entry) {
         return 0;
     }
     idx12 = entry * 12;
-    b = D_80064D49[entry].b[0];
+    b = D_80064D49[entry].unk0.v1.unk0[0];
     idx24 = b * 24;
     D_800A46C8 = *(s32 *)((u8 *)D_800A463C + idx24);
     if (D_800A4650[idx24] == 0) {
@@ -2860,7 +2860,7 @@ s32 func_8002FDE8(s32 idx, s32 data) {
 #ifndef BFM_800_SHARED_H
 #endif
 
-extern Blk12_801854C4 D_80064D49[];
+extern struct Vec D_80064D49[];
 extern u8    D_80064D4A[];
 extern u8    D_80064D4E[];
 extern Ent24 D_800A463C[];
@@ -2905,7 +2905,7 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
     s32 res;
 
     if (D_800A46CC == 0) {
-        b = D_80064D49[a0].b[0];
+        b = D_80064D49[a0].unk0.v1.unk0[0];
         i = b * 24;
         v1 = *(s16 *)((u8 *)D_800A4644 + i);
         if (v1 != 0 && v1 != D_80064D4A[a0 * 12]) {
@@ -2990,7 +2990,7 @@ s32 func_800301A4(void)
 
 /* Every one of these is copied verbatim from src/800_b.c's own file-scope block (~L3489-3505,
  * above the stub), so the spliced draft re-declares nothing incompatibly. */
-extern Blk12_801854C4 D_80064D49[];
+extern struct Vec D_80064D49[];
 extern u8    D_80064D4A[];
 extern Ent24 D_800A463C[];
 extern Rsc24 D_800A4640[];
@@ -3039,7 +3039,7 @@ int func_800301C8(int entry, s32 a1, s32 a2) {
 
     if (D_800A46CC == 0) {
         D_800A46C4 = 0;
-        D_800A46CE[0] = D_80064D49[entry].b[0];
+        D_800A46CE[0] = D_80064D49[entry].unk0.v1.unk0[0];
         D_800A46C0 = a2;
         D_800A46BC = a1;
         b = D_800A46CE[0];
@@ -6894,15 +6894,15 @@ s32 func_80034CF0(u8 *p) {
 
     self = D_80076118 + D_8006AEFC * 0x30;
 
-    ((Unkstruct_80034DFC *)self)->unk8 = ((Unkstruct_80034CF0_2 *)p)->unk8;
-    ((Unkstruct_80034DFC *)self)->unkC = ((Unkstruct_80034CF0_2 *)p)->unkC;
-    ((Unkstruct_80034DFC *)self)->unk10 = ((Unkstruct_80034CF0_2 *)p)->unk10;
-    ((Unkstruct_80034DFC *)self)->unk14 = ((Unkstruct_80034CF0_2 *)p)->unk14;
-    ((Unkstruct_80034DFC *)self)->unk18 = ((Unkstruct_80034CF0_2 *)p)->unk18;
-    ((Unkstruct_80034DFC *)self)->unk1C = ((Unkstruct_80034CF0_2 *)p)->unk1C;
-    ((Unkstruct_80034DFC *)self)->unk20 = ((Unkstruct_80034CF0_2 *)p)->unk20;
-    ((Unkstruct_80034DFC *)self)->unk24 = ((Unkstruct_80034CF0_2 *)p)->unk24;
-    f28 = ((Unkstruct_80034CF0_2 *)p)->unk28;
+    ((Unkstruct_80034DFC *)self)->unk8 = ((Unkstruct_80034DFC *)p)->unk8;
+    ((Unkstruct_80034DFC *)self)->unkC = ((Unkstruct_80034DFC *)p)->unkC;
+    ((Unkstruct_80034DFC *)self)->unk10 = ((Unkstruct_80034DFC *)p)->unk10;
+    ((Unkstruct_80034DFC *)self)->unk14 = ((Unkstruct_80034DFC *)p)->unk14;
+    ((Unkstruct_80034DFC *)self)->unk18 = ((Unkstruct_80034DFC *)p)->unk18;
+    ((Unkstruct_80034DFC *)self)->unk1C = ((Unkstruct_80034DFC *)p)->unk1C;
+    ((Unkstruct_80034DFC *)self)->unk20 = ((Unkstruct_80034DFC *)p)->unk20;
+    ((Unkstruct_80034DFC *)self)->unk24 = ((Unkstruct_80034DFC *)p)->unk24;
+    f28 = ((Unkstruct_80034DFC *)p)->unk28;
 
     self[0] = 1;
     self[1] = 0;

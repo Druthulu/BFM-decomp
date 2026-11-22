@@ -305,7 +305,7 @@ s32 func_8002B0B4(s32 sel, s32 idx, u8 *out) {
             guess_ZeroMemory(m, 0x80);
             D_80075FC0[0] = 0xFF;
             p = &D_80075FC0[0x10];
-            *(Blk152 *)p = *(Blk152 *)&D_80075CC0[0x24];
+            *(Unkstruct_80078E78 *)p = *(Unkstruct_80078E78 *)&D_80075CC0[0x24];
             D_800760BC = func_8002B064(p);
             cp = (s32)D_80075CC0;
             cp = D_800760C0 = func_8002B08C(cp);

@@ -4984,12 +4984,12 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
         p->timer = 0xf4;
         break;
     case 1:
-        v20[0] = p->e[p->idx].unk0;
-        v20[1] = p->e[p->idx].unk2;
-        v20[2] = p->e[p->idx].unk4;
-        v28[0] = p->e[p->idx].unk6;
-        v28[1] = p->e[p->idx].unk8;
-        v28[2] = p->e[p->idx].unkA;
+        v20[0] = p->e[p->idx].unk0.v0.unk0;
+        v20[1] = p->e[p->idx].unk0.v0.unk2;
+        v20[2] = p->e[p->idx].unk0.v0.unk4;
+        v28[0] = p->e[p->idx].unk0.v0.unk6;
+        v28[1] = p->e[p->idx].unk0.v0.unk8;
+        v28[2] = p->e[p->idx].unk0.v0.unkA;
         c = p->idx;
         p->idx = c + 1;
         if ((u8)(c + 1) > 0xf) {
@@ -5039,12 +5039,12 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
         v20[0] = v28[0] + v20[0] / param_4;
         v20[1] = v28[1] + v20[1] / param_4;
         v20[2] = v28[2] + v20[2] / param_4;
-        p->e[p->idx].unk0 = v20[0];
-        p->e[p->idx].unk2 = v20[1];
-        p->e[p->idx].unk4 = v20[2];
-        p->e[p->idx].unk6 = v28[0];
-        p->e[p->idx].unk8 = v28[1];
-        p->e[p->idx].unkA = v28[2];
+        p->e[p->idx].unk0.v0.unk0 = v20[0];
+        p->e[p->idx].unk0.v0.unk2 = v20[1];
+        p->e[p->idx].unk0.v0.unk4 = v20[2];
+        p->e[p->idx].unk0.v0.unk6 = v28[0];
+        p->e[p->idx].unk0.v0.unk8 = v28[1];
+        p->e[p->idx].unk0.v0.unkA = v28[2];
         c = p->idx;
         p->idx = c + 1;
         if ((u8)(c + 1) > 0xf) {
@@ -5055,12 +5055,12 @@ s32 func_80166994(param_1, param_2, param_3, param_4)
         }
     }
 
-    p->e[p->idx].unk0 = v10[0];
-    p->e[p->idx].unk2 = v10[1];
-    p->e[p->idx].unk4 = v10[2];
-    p->e[p->idx].unk6 = v18[0];
-    p->e[p->idx].unk8 = v18[1];
-    p->e[p->idx].unkA = v18[2];
+    p->e[p->idx].unk0.v0.unk0 = v10[0];
+    p->e[p->idx].unk0.v0.unk2 = v10[1];
+    p->e[p->idx].unk0.v0.unk4 = v10[2];
+    p->e[p->idx].unk0.v0.unk6 = v18[0];
+    p->e[p->idx].unk0.v0.unk8 = v18[1];
+    p->e[p->idx].unk0.v0.unkA = v18[2];
     return 0;
 }
 

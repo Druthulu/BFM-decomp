@@ -8641,9 +8641,9 @@ int func_801848A4(int a0, void* a1)
     s32 result;
     s32 ret;
 
-    v0 = ((Unkstruct_80135EB0 *)a1)->unk4;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk4.s;
     stack_buf[0] = v0;
-    v0 = ((Unkstruct_80135EB0 *)a1)->unk6;
+    v0 = ((Unkstruct_80135EB0 *)a1)->unk6.s;
     stack_buf[4] = v0;
     v0 = ((Unkstruct_80135EB0 *)a1)->unkA.s;
     stack_buf[5] = v0;

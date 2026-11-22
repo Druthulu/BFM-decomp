@@ -3,25 +3,25 @@ void SHARED_FN(u8 *a0) {
     s32 v0, v1;
     s32 stack_vals[3];
 
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk1C;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk2C;
+    v0 = ((Unkstruct_80182564 *)a0)->unk1C;
+    v1 = ((Unkstruct_80182564 *)a0)->unk2C;
     v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk1C = v0;
+    ((Unkstruct_80182564 *)a0)->unk1C = v0;
     stack_vals[0] = v0;
 
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk20;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk30;
+    v0 = ((Unkstruct_80182564 *)a0)->unk20;
+    v1 = ((Unkstruct_80182564 *)a0)->unk30;
     v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk20 = v0;
+    ((Unkstruct_80182564 *)a0)->unk20 = v0;
     stack_vals[1] = v0;
 
-    v0 = ((Unkstruct_8017FED8 *)a0)->unk24;
-    v1 = ((Unkstruct_8017FED8 *)a0)->unk34;
+    v0 = ((Unkstruct_80182564 *)a0)->unk24;
+    v1 = ((Unkstruct_80182564 *)a0)->unk34;
     v0 = v0 + v1;
-    ((Unkstruct_8017FED8 *)a0)->unk24 = v0;
+    ((Unkstruct_80182564 *)a0)->unk24 = v0;
     stack_vals[2] = v0;
 
-    ((Unkstruct_8017FED8 *)a0)->unk3C += HIHU(((VECTOR *)stack_vals)->vx);
-    ((Unkstruct_8017FED8 *)a0)->unk3E += HIHU(((VECTOR *)stack_vals)->vy);
-    ((Unkstruct_8017FED8 *)a0)->unk40 += HIHU(((VECTOR *)stack_vals)->vz);
+    ((Unkstruct_80182564 *)a0)->unk3C.u += HIHU(((VECTOR *)stack_vals)->vx);
+    ((Unkstruct_80182564 *)a0)->unk3E.u += HIHU(((VECTOR *)stack_vals)->vy);
+    ((Unkstruct_80182564 *)a0)->unk40 += HIHU(((VECTOR *)stack_vals)->vz);
 }

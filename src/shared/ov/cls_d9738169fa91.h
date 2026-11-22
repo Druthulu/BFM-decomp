@@ -2,6 +2,6 @@
 /* $v0 at exit: addiu $v0, $v0, 0x1 at ov_SC07_007:0x8017E25C; no byte-neutral return: `return 0;` moved `sh v0,4(a0)` at +0xC, ov_SC07_007 objdump */
 s32 SHARED_FN(void * arg0)
 {
-    ((Unkstruct_8017E254_2 *)arg0)->unk6 = 0;
-    ((Unkstruct_8017E254_2 *)arg0)->unk4 = (u16) (((Unkstruct_8017E254_2 *)arg0)->unk4 + 1);
+    ((Unkstruct_8017E634 *)arg0)->unk6.s = 0;
+    ((Unkstruct_8017E634 *)arg0)->unk4 = (u16) (((Unkstruct_8017E634 *)arg0)->unk4 + 1);
 }

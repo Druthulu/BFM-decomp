@@ -10598,10 +10598,10 @@ void func_8018A21C(void *a0) {
     s16 ang;
 
     ((Src_80016C28 *)buf)->flags.s = 0x50000000;
-    ((Src_80016C28 *)buf)->rgb0.s = 0x80;
-    ((Src_80016C28 *)buf)->rgb1.s = 0x80;
-    ((Src_80016C28 *)buf)->rgb2.s = 0;
-    ((Src_80016C28 *)buf)->rgb3.s = 0;
+    ((Src_80016C28 *)buf)->unk20.v0.rgb0.s = 0x80;
+    ((Src_80016C28 *)buf)->unk24.v0.rgb1.s = 0x80;
+    ((Src_80016C28 *)buf)->unk28.v0.rgb2.s = 0;
+    ((Src_80016C28 *)buf)->unk2C.v0.rgb3.s = 0;
 
     *(Blk8 *)(buf + 0x00) = D_801D2B30;
     *(Blk8 *)(buf + 0x08) = D_801D2B38;
@@ -10621,8 +10621,8 @@ void func_8018A21C(void *a0) {
     guess_AddPolyG4(vp, p);
 
     ((Src_80016C28 *)buf)->flags.s = 0x60000000;
-    ((Src_80016C28 *)buf)->rgb0.s = 0x808080;
-    ((Src_80016C28 *)buf)->rgb1.s = 0x808080;
+    ((Src_80016C28 *)buf)->unk20.v0.rgb0.s = 0x808080;
+    ((Src_80016C28 *)buf)->unk24.v0.rgb1.s = 0x808080;
 
     *(Blk8 *)(buf + 0x00) = D_801D2B50;
     *(Blk8 *)(buf + 0x08) = D_801D2B58;

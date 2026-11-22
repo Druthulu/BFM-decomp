@@ -4625,7 +4625,7 @@ void func_80180BE0(s32 arg0, s32 arg1, s16 *arg2)
         out[3] = *(u16 *)(p + 6);
     } else {
         out = arg2;
-        *(Blk12_801854C4 *)out = *(Blk12_801854C4 *)(v + idx * 12);
+        *(struct Vec *)out = *(struct Vec *)(v + idx * 12);
     }
 }
 
