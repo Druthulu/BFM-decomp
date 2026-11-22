@@ -4476,11 +4476,11 @@ void func_801813B4(s32 a0) {
         }
         s0 = func_80132EF4(obj, 0x50);
         if (s0 != 0) {
-            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20)->head.unk10.w.unk10.u =
+            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20.val)->head.unk10.w.unk10.u =
                 ratan2(s1[2], s1[1]) + 0x400;
-            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20)->head.unk10.w.unk12.u =
+            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20.val)->head.unk10.w.unk12.u =
                 ratan2(s1[0], -func_80047D3C(s1[2] * s1[2] + s1[1] * s1[1]));
-            *(s16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x14) = 0;
+            *(s16 *)(((Unkstruct_8011DB30 *)s0)->unk20.val + 0x14) = 0;
         }
         func_80181DE4(obj, 0x7FB);
         guess_FreeActor((void *)obj);
@@ -4562,8 +4562,8 @@ void func_801816A8(void *arg0) {
     p[0x24] = 0x80;
     ((Unkstruct_800B5BD8 *)p)->head.unk0.u = 2;
     ((Unkstruct_800B5BD8 *)p)->head.unk2.u = 2;
-    ((Unkstruct_800B5BD8 *)p)->head.unk28.u = 0x2F0;
-    ((Unkstruct_800B5BD8 *)p)->head.unk2A.u = 0x100;
+    ((Unkstruct_800B5BD8 *)p)->head.unk28.w.unk28.u = 0x2F0;
+    ((Unkstruct_800B5BD8 *)p)->head.unk28.w.unk2A.u = 0x100;
     ((Unkstruct_800B5BD8 *)p)->head.unk20.s = (s32)&D_801A62C0;
     *(volatile u16 *)(p + 0x2C) = 0;
     ((Unkstruct_800B5BD8 *)p)->head.unk2C.u = 0xC006;

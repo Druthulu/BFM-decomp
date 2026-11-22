@@ -3363,8 +3363,8 @@ void func_8017BEF8(s32 param_1) {
         ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
-        ((Unkstruct_800B5BD8 *)node)->head.unk28.s = 0x240;
-        ((Unkstruct_800B5BD8 *)node)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk28.s = 0x240;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk2A.u = 0x180;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk10.u = w.vx;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
@@ -3406,8 +3406,8 @@ void func_8017C18C(s32 a0) {
         ((Unkstruct_800B5BD8 *)r)->head.unk10.w.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk1A.u = 0x3000;
-        ((Unkstruct_800B5BD8 *)r)->head.unk28.s = 0x248;
-        ((Unkstruct_800B5BD8 *)r)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk28.s = 0x248;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
@@ -4010,7 +4010,7 @@ void func_8017DB98(s32 arg0)
     if (func_80172664((s32 *)arg0) != 0) {
         func_80171990((u8 *)arg0);
     }
-    if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0xE00) {
+    if (((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s < -0xE00) {
         func_80171928(arg0);
     }
 }
@@ -4062,7 +4062,7 @@ void func_8017DD08(s32 param_1) {
     func_8017E204(param_1);
     func_8017E090(param_1);
     func_8017E1BC(param_1);
-    if (((Unkstruct_80126B58 *)param_1)->unkE.s < -0x1120) {
+    if (((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s < -0x1120) {
         guess_ClearMoveVector(param_1);
         func_80171990(param_1);
     }
@@ -4085,8 +4085,8 @@ void func_8017DD80(void *a0)
 
     guess_ClearMoveVector((s32)a0);
 
-    if (((Unkstruct_80126B58 *)a0)->unkE.s < -0x1180) {
-        ((Unkstruct_80126B58 *)a0)->unkE.s = -0x1180;
+    if (((Unkstruct_80126B58 *)a0)->unkC.i.hi.s < -0x1180) {
+        ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s = -0x1180;
     }
 
     guess_StartPadVibration(&D_801858EC);
@@ -4095,7 +4095,7 @@ void func_8017DD80(void *a0)
     func_8017E090(a0);
     func_8017E1E8(a0);
 
-    if (((Unkstruct_80126B58 *)a0)->unkA.s >= -0x302) {
+    if (((Unkstruct_80126B58 *)a0)->unk8.i.hi.s >= -0x302) {
         p = &D_801E1ABE;
         *p = 0x10E;
         guess_CopyVec3HighHalves((s32)a0 + 4, (s32 *)(p - 3));
@@ -4947,7 +4947,7 @@ void func_8017F5D8(s32 arg0)
     a2 = ((Unkstruct_8011DB30 *)s1)->unk34.val.s;
 
     /* Load s0 pointer from offset 0x20 */
-    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20.val;
 
     /* Add velocity to position at 0x10 */
     v0 = v0 + v1;

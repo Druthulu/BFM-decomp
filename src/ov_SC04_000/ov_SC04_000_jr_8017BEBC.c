@@ -4583,7 +4583,7 @@ void func_8017F750(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80187120, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;
@@ -5101,7 +5101,7 @@ void func_80180548(int param_1)
     int p;
 
     cnt = ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s;
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     cnt = cnt + 0x20;
     ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s = cnt;
     if (cnt >= 0x400) {
@@ -5125,7 +5125,7 @@ void func_801805B0(s32 param_1)
     s32 p;
 
     v0 = ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s - 0x20;
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s = v0;
     if (v0 <= 0) {
         ((void (*)(s32))func_801292C8)(param_1);

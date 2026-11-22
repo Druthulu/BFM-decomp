@@ -5188,7 +5188,7 @@ void func_801868C0(s32 a0)
         {
             s32 t4 = D_801BA59C[*(s16 *)((u8 *)s0 + 0x100)].value - 1;
             s32 t5 = *(u16 *)((u8 *)s0 + 0xA) + t4;
-            ((Unkstruct_80126B58 *)anchor)->unkA.s = t5;   /* guess_g_PlayerActor + 0xA */
+            ((Unkstruct_80126B58 *)anchor)->unk8.i.hi.s = t5;   /* guess_g_PlayerActor + 0xA */
         }
     }
 

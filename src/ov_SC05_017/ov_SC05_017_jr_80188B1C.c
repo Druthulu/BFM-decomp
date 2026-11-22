@@ -4598,9 +4598,9 @@ void func_8018AE9C(u8 *arg0)
     }
     {
         s32 obj = CAST_SIGN(s32, param_1, 0xCC);
-        ((Unkstruct_80126B58 *)obj)->unk8 = CAST_SIGN(u16, param_1, 6);
-        ((Unkstruct_80126B58 *)obj)->unkA.s = CAST_SIGN(u16, param_1, 0xA);
-        ((Unkstruct_80126B58 *)obj)->unkC = CAST_SIGN(u16, param_1, 0xE);
+        ((Unkstruct_80126B58 *)obj)->unk8.i.lo = CAST_SIGN(u16, param_1, 6);
+        ((Unkstruct_80126B58 *)obj)->unk8.i.hi.s = CAST_SIGN(u16, param_1, 0xA);
+        ((Unkstruct_80126B58 *)obj)->unkC.i.lo = CAST_SIGN(u16, param_1, 0xE);
     }
     raw = ((Unkstruct_80126B58 *)param_1)->unk70;
     ((Unkstruct_80126B58 *)param_1)->unk1C = 0x5A;

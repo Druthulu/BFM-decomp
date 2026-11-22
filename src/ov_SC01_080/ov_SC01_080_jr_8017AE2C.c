@@ -5028,8 +5028,8 @@ void func_8017F2A4(s32 *param_1)
 
     if (func_80172658(param_1) != 0) {
         idx = CAST_WIDTH(s32, (s32)param_1, 0x218);
-        curx = ((Unkstruct_80126B58 *)param_1)->unk6.s;
-        curz = ((Unkstruct_80126B58 *)param_1)->unkE.s;
+        curx = ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s;
+        curz = ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s;
         CAST_ALIAS(s16, (s32)param_1, 0x20C) = ratan2(curx - D_80189664[idx][0], curz - D_80189668[idx][0]) & 0xFFF;
         CAST_ALIAS(s16, (s32)param_1, 0x20E) = guess_g_MainCameraPitchTarget;
         guess_g_MainCameraPitchTarget = 0x38E;
@@ -6328,7 +6328,7 @@ void func_80181040(void *a0) {
     s32 v1;
 
     ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = D_80127190 - 0x150;
-    v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    v1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     v0 = ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk18.u + 0x80;
     ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk18.u = v0;
     ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk1A.u = v0;

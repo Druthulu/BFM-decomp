@@ -3945,7 +3945,7 @@ void func_80189A40(int param_1)
     unsigned short uVar1;
     int iVar2;
 
-    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8001CB00(iVar2, &D_801D52C4, 0x280, 0x100);
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x70000000;
     uVar1 = *(unsigned short *)(param_1 + 0x2c);

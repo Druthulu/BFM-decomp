@@ -4122,7 +4122,7 @@ void func_8017F4DC(s32 arg0) {
         if (t < 0) {
             dist = 0;
         }
-        camAng = ((Unkstruct_80126B58 *)cam)->unkA.s;
+        camAng = ((Unkstruct_80126B58 *)cam)->unk8.i.hi.s;
         ang = tbl2[idx];
 
         if (ang > camAng) {
@@ -5671,7 +5671,7 @@ void func_80182038(void *a0)
         ((Unkstruct_8011DB30 *)v1)->unk4.i.hi.u = *(u16 *)((s32)a0 + 6);
         ((Unkstruct_8011DB30 *)v1)->unk8.i.hi.u = *(u16 *)((s32)a0 + 0xA);
         ((Unkstruct_8011DB30 *)v1)->unkC.i.hi.u = *(u16 *)((s32)a0 + 0xE);
-        func_8001CD50(((Unkstruct_8011DB30 *)v1)->unk20, (s32)D_801A5A40);
+        func_8001CD50(((Unkstruct_8011DB30 *)v1)->unk20.val, (s32)D_801A5A40);
     }
 }
 
@@ -6126,7 +6126,7 @@ void func_80182B80(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     p = D_801A5A80 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = 0xCCC;

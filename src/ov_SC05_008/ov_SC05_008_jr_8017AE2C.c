@@ -4624,7 +4624,7 @@ void func_8017F0E4(int param_1)
     int iVar2;
     int iVar3;
 
-    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8001CC3C(iVar2, (int)D_80186578, 0x280, 0x1C0);
     *(unsigned char *)(iVar2 + 0x27) = 0x59;
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x58000000;
@@ -4646,14 +4646,14 @@ void func_8017F17C(s32 param_1) {
     s32 i;
     s16 val;
 
-    s1 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    s1 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8017F20C(param_1);
     val = D_80186584[((Unkstruct_8011DB30 *)param_1)->unk30.val.s][0];
     if (val != 0) {
-        ((Unkstruct_800B5BD8 *)s1)->head.unk28.s = val;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk28.s = val;
         i = ((Unkstruct_8011DB30 *)param_1)->unk30.val.s;
         ((Unkstruct_8011DB30 *)param_1)->unk30.val.s = i + 1;
-        ((Unkstruct_800B5BD8 *)s1)->head.unk2A.u = D_80186586[i][0];
+        ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk2A.u = D_80186586[i][0];
     } else {
         func_801292C8(param_1);
     }
@@ -6715,14 +6715,14 @@ void func_80182694(s32 a0, s32 a1) {
     if (s0 == 0) goto L8273C;
     if (s1 < 0) goto L82734;
     if (s1 < 2) {
-        ((Unkstruct_8011DB30 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        ((Unkstruct_8011DB30 *)s0)->unk20.val = v0 = ((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (v0 == 0) goto L82734;
         func_8001CF00(v0);
         a0 = s2;
         goto L82718;
     }
     if (s1 >= 4) goto L82734;
-    ((Unkstruct_8011DB30 *)s0)->unk20 = v0 = ((s32 (*)(s32, s32))func_8001CFDC)(0x86, 0xC0);
+    ((Unkstruct_8011DB30 *)s0)->unk20.val = v0 = ((s32 (*)(s32, s32))func_8001CFDC)(0x86, 0xC0);
     if (v0 == 0) goto L82734;
     func_8001C2C4(v0);
     a0 = s2;
@@ -6808,7 +6808,7 @@ extern void func_801292C8(void *a0);
 void func_801828E0(s32 param_1) {
     s32 v0;
 
-    guess_StepPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20, (s32 *)(param_1 + 0x24));
+    guess_StepPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20.val, (s32 *)(param_1 + 0x24));
     v0 = ((Unkstruct_8011DB30 *)param_1)->unk1C.s - 1;
     ((Unkstruct_8011DB30 *)param_1)->unk1C.s = v0;
     if (v0 == -1) {

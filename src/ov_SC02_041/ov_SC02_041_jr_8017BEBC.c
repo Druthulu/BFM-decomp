@@ -3900,7 +3900,7 @@ void func_8017E8CC(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80188CC0, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;

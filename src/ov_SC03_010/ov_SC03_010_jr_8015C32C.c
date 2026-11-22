@@ -1823,7 +1823,7 @@ void func_8015D414(int param_1)
     ((Unkstruct_80126B58 *)param_1)->unk13A = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13C = 0;
     ((Unkstruct_80126B58 *)param_1)->unk13E = 0;
-    ((Unkstruct_80126B58 *)param_1)->unkA.s = ((Unkstruct_80126B58 *)param_1)->unkA.s + 0x48;
+    ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s + 0x48;
     ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->head.unk10.w.unk10.u = 0;
     ((void (*)(void))func_801553C0)();
     guess_SetTexAnim(param_1, 0x11);
@@ -2588,12 +2588,12 @@ void func_8015F448(s32 arg0) {
             guess_PlaySoundUnlessSkipped(0x56E);
         }
         ((void (*)(s32 *))guess_StartPadVibration)(&(*(s32 *)&guess_g_RumblePatternShort));
-        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s,
-                      (s16)(((Unkstruct_80126B58 *)arg0)->unkA.u - 0x14),
-                      ((Unkstruct_80126B58 *)arg0)->unkE.s, 0, 0);
-        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s,
-                      (s16)(((Unkstruct_80126B58 *)arg0)->unkA.u - 0x14),
-                      ((Unkstruct_80126B58 *)arg0)->unkE.s, 1, 0);
+        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
+                      (s16)(((Unkstruct_80126B58 *)arg0)->unk8.i.hi.u - 0x14),
+                      ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s, 0, 0);
+        ((void (*)(s32, s32, s32, s32, s32, s32, s32))guess_SpawnSmallObject)(0x25, arg0, ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
+                      (s16)(((Unkstruct_80126B58 *)arg0)->unk8.i.hi.u - 0x14),
+                      ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s, 1, 0);
     }
 
     if (((Unkstruct_80126B58 *)arg0)->unkB8.u & 0x8000) {
@@ -2608,14 +2608,14 @@ void func_8015F448(s32 arg0) {
         }
     } else {
         ((Unkstruct_80126B58 *)arg0)->unk246.u = CAST_SIGN(u16, arg0, 6);
-        ((Unkstruct_80126B58 *)arg0)->unk248.u = ((Unkstruct_80126B58 *)arg0)->unkA.u;
+        ((Unkstruct_80126B58 *)arg0)->unk248.u = ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.u;
         ((Unkstruct_80126B58 *)arg0)->unk24A.u = CAST_SIGN(u16, arg0, 0xE);
         guess_SetVelocityFromMoveVector(arg0);
         ((void (*)(s32))guess_ApplyVelocity)(arg0);
         if (((s32 (*)(s32))func_8014F1F4)(arg0) != 0) {
-            ((Unkstruct_80126B58 *)arg0)->unk6.s = ((Unkstruct_80126B58 *)arg0)->unk246.u;
-            ((Unkstruct_80126B58 *)arg0)->unkA.u = ((Unkstruct_80126B58 *)arg0)->unk248.u;
-            ((Unkstruct_80126B58 *)arg0)->unkE.s = ((Unkstruct_80126B58 *)arg0)->unk24A.u;
+            ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s = ((Unkstruct_80126B58 *)arg0)->unk246.u;
+            ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.u = ((Unkstruct_80126B58 *)arg0)->unk248.u;
+            ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s = ((Unkstruct_80126B58 *)arg0)->unk24A.u;
         }
     }
 

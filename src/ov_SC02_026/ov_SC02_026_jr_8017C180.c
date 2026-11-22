@@ -4362,8 +4362,8 @@ s32 func_8017F76C(s16 *a0, s32 a1, s32 a2, s32 a3) {
     sub = *(s32 *)(obj + 0x20);
     ((Unkstruct_800B5BD8 *)sub)->head.unk20.s = (s32) D_801A5488;
     ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = 0x56;
-    ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = 0x2A0;
-    ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = 0x1A0;
+    ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = 0x2A0;
+    ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = 0x1A0;
 
     base = rand() % 200;
     if ((rand() & 1) == 0) {
@@ -6046,8 +6046,8 @@ s32 func_801825A4(void *a0, s32 a1, s32 a2, s32 a3) {
         {
             u16 *tbl = D_801AC2F0[idx];
             ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = (u8) tbl[2];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = tbl[0];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = tbl[1];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = tbl[0];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = tbl[1];
         }
 
         if ((a3 & 0x8000) != 0) {

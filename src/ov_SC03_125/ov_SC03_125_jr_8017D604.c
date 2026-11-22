@@ -4295,7 +4295,7 @@ void func_801805A8(void *a0)
     s32 v0;
     s32 v1;
 
-    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20.val;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_801881E8, 0x240, 0x1D0);
 
     v0 = 0x54;
@@ -4327,7 +4327,7 @@ s32 *a0;
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
     s32 p;
 
-    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u == -1) {
         func_801292C8((u8 *)a0);
         return;

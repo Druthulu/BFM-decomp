@@ -4211,9 +4211,9 @@ void func_801859D8(void *a0)
     }
 
     do { guess_RotTransSVWithObjMatrix(s1, (s32)&D_801A606C, (s32)&out); } while (0);
-    ((Unkstruct_80126B58 *)s0)->unk6.s = out.x;
-    ((Unkstruct_80126B58 *)s0)->unkA.s = out.y;
-    ((Unkstruct_80126B58 *)s0)->unkE.s = out.z;
+    ((Unkstruct_80126B58 *)s0)->unk4.i.hi.s = out.x;
+    ((Unkstruct_80126B58 *)s0)->unk8.i.hi.s = out.y;
+    ((Unkstruct_80126B58 *)s0)->unkC.i.hi.s = out.z;
     func_80185D2C(s0);
 
     ((Unkstruct_80126B58 *)*(s32 *)(s0 + 0x20))->unk20.val = ((Unkstruct_80126B58 *)*(s32 *)(s1 + 0x20))->unk20.val;
@@ -5529,8 +5529,8 @@ s32 func_801879A8(void *a0, s32 a1, s32 a2, s32 a3) {
         {
             u16 *tbl = D_801A8C30[idx];
             ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = (u8) tbl[2];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = tbl[0];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = tbl[1];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = tbl[0];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = tbl[1];
         }
 
         if ((a3 & 0x8000) != 0) {
@@ -6384,7 +6384,7 @@ void func_80188C18(s32 a0) {
             CAST_WIDTH(s32, (s32)ent, 0x10) = buf1[0];
             ((Unkstruct_8011DB30 *)ent)->unk14.val.s = buf1[1];
             CAST_WIDTH(s32, (s32)ent, 0x18) = buf1[2];
-            *(u16 *)(((Unkstruct_8011DB30 *)ent)->unk20 + 0x14) =
+            *(u16 *)(((Unkstruct_8011DB30 *)ent)->unk20.val + 0x14) =
                 *(u16 *)(*(s32 *)((s32)a0 + 0x20) + 0x14);
             ((Unkstruct_8011DB30 *)ent)->unk1C.s = i << 3;
         }
@@ -6444,7 +6444,7 @@ void * func_80188E80(s32 a0)
         return 0;
     }
     arg = (s32)obj + 0x24;
-    sub = ((Unkstruct_8011DB30 *)obj)->unk20;
+    sub = ((Unkstruct_8011DB30 *)obj)->unk20.val;
     *(s32 *)(sub + 0x20) = (s32)D_801AC0B8;
     *(u8 *)(sub + 0x27) = 0x66;
     *(u16 *)(sub + 0x1A) = 0x2000;
@@ -6463,13 +6463,13 @@ void func_80188F04(s32 a0)
         t = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
         if (t == 0) {
             (CAST_SIGN(u16, a0, 2))++;
-            *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) &= 0x7FFFFFFF;
+            *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 4) &= 0x7FFFFFFF;
         } else {
             ((Unkstruct_8011DB30 *)a0)->unk1C.s = t - 1;
         }
     } else {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        if (guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)((s32)a0 + 0x24)) != 0) {
+        if (guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32 *)((s32)a0 + 0x24)) != 0) {
             func_801292C8((u8 *)a0);
         }
     }

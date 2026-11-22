@@ -627,9 +627,9 @@ void func_800CD96C(s32 param_1) {
     work = *(s32 *)(param_1 + 0x4C);
     hdr = ((Unkstruct_80126B58 *)work)->unk20.val;
     model = ((Unkstruct_80126B58 *)param_1)->unk20.val;
-    ((Unkstruct_80126B58 *)param_1)->unk6.s = *(s32 *)(hdr + 0x48);
-    ((Unkstruct_80126B58 *)param_1)->unkA.s = *(s32 *)(hdr + 0x4C) - 0x20;
-    ((Unkstruct_80126B58 *)param_1)->unkE.s = *(s32 *)(hdr + 0x50);
+    ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = *(s32 *)(hdr + 0x48);
+    ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = *(s32 *)(hdr + 0x4C) - 0x20;
+    ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = *(s32 *)(hdr + 0x50);
     func_80013F3C((void *)(model + 0x34));
     RotMatrixY(*(s16 *)(model + 0x12), (void *)(model + 0x34));
     func_80048D9C((void *)(model + 0x34), (void *)(((Unkstruct_80126B58 *)work)->unk20.val + 0x34));

@@ -3924,7 +3924,7 @@ void func_8017E884(s32 a0, s32 a1) {
         return;
     }
     v0 = *(s32 *)(s0 + 0xC);
-    v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    v1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     v0 = v0 << 12;
     ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u = v0;
     ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk1A.u = v0;
@@ -4376,10 +4376,10 @@ void func_8017F370(s32 arg0) {
     v.vy = ((Unkstruct_8011DB30 *)arg0)->unk2C.val.s;
     v.vz = ((Unkstruct_8011DB30 *)arg0)->unk30.val.s;
 
-    *(s16 *)(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x12) =
+    *(s16 *)(((Unkstruct_8011DB30 *)arg0)->unk20.val + 0x12) =
         (ratan2(-(s32)((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.s, (s32)((Unkstruct_8011DB30 *)arg0)->unk4.i.hi.s) + 0x400) & 0xFFF;
 
-    RotMatrixZYX(((Unkstruct_8011DB30 *)arg0)->unk20 + 0x10, (s32)&m);
+    RotMatrixZYX(((Unkstruct_8011DB30 *)arg0)->unk20.val + 0x10, (s32)&m);
     ApplyMatrixLV((s32)&m, (s32)&v, arg0 + 0x10);
 }
 

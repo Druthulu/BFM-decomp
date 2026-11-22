@@ -4915,7 +4915,7 @@ void func_80180474(s32 arg0) {
                 t4 = rand();
                 ((Unkstruct_8011DB30 *)q)->unk34.i.lo.u = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
                 ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0x20))->head.unk2C.u = 0xC010;
-                *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20 + 0x4) |= 0x40000000;
+                *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20.val + 0x4) |= 0x40000000;
             }
         }
         r = ((Unkstruct_801202A0 *)arg0)->unkCC.val;

@@ -3348,7 +3348,7 @@ void func_8017DBFC(s32 arg0)
         s1 = func_80132EF4(&guess_g_PlayerActor, 0x5B);
         if (s1 != 0) {
             v0 = ((Unkstruct_801202A0 *)s0)->unk1C.s;
-            v1 = ((Unkstruct_8011DB30 *)s1)->unk20;
+            v1 = ((Unkstruct_8011DB30 *)s1)->unk20.val;
             *(s16 *)(v1 + 0x1A) = v0 << 12;
             *(s16 *)(v1 + 0x18) = v0 << 12;
             ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u = ((Unkstruct_8011DB30 *)s1)->unk8.i.hi.u - 0x30;

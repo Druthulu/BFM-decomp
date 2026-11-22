@@ -4251,7 +4251,7 @@ void func_80180C04(void *arg0)
     }
 
     if ((s16)d >= lim - 0x18 && flag != 0 &&
-        CAST_SIGN(s16, (s32)s0, 0xA) + D_801A4D04 <= ((Unkstruct_80126B58 *)base)->unkA.s) {
+        CAST_SIGN(s16, (s32)s0, 0xA) + D_801A4D04 <= ((Unkstruct_80126B58 *)base)->unk8.i.hi.s) {
         func_8012DB84();
     }
 
@@ -4361,7 +4361,7 @@ void func_80180E54(u8 *a0, u8 *a1, s32 a2)
 
     tmp = *(u16 *)(a0 + 0xA) + *(u16 *)(a1 + 0x8);
     tmp -= 1;
-    ((Unkstruct_80126B58 *)base)->unkA.s = tmp;
+    ((Unkstruct_80126B58 *)base)->unk8.i.hi.s = tmp;
 }
 
 

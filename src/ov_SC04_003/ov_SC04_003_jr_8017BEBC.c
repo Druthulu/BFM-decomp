@@ -3190,7 +3190,7 @@ void func_8017D9E4(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_80185CFC, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;
@@ -5272,10 +5272,10 @@ s32 func_80180D50(s32 arg0) {
 
 
 s32 func_80180E34(s32 a0, s32 a1, u16 a2) {
-    s32 d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unk6.s - CAST_SIGN(s16, a0, 6);
+    s32 d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unk4.i.hi.s - CAST_SIGN(s16, a0, 6);
     if (d < 0) d = -d;
     if (a2 < d) return 0;
-    d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unkE.s - CAST_SIGN(s16, a0, 0xE);
+    d = ((Unkstruct_80126B58 *)((s32)a1 - 4))->unkC.i.hi.s - CAST_SIGN(s16, a0, 0xE);
     if (d < 0) d = -d;
     return !(a2 < d);
 }
@@ -5514,7 +5514,7 @@ void func_80181398(s32 param_1) {
 
     ret = ((s32 (*)(s32))func_8012CBF4)(param_1);
     s0 = param_1;
-    h = ((Unkstruct_80126B58 *)s0)->unkA.s;
+    h = ((Unkstruct_80126B58 *)s0)->unk8.i.hi.s;
     p = ((Unkstruct_80126B58 *)s0)->unkD0;
     if (h >= 0x81) {
         if (p != 0) {

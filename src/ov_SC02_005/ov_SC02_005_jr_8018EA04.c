@@ -3552,7 +3552,7 @@ extern u8 D_800D387C[];
 void func_8018ECF4(s32 arg0) {
     s32 iVar1;
 
-    iVar1 = ((Unkstruct_8011DB30 *)arg0)->unk20;
+    iVar1 = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)(iVar1, (s32)&D_800D387C, 0x270, 0x120);
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk24.b.unk27.u = 0x9C;
     ((Unkstruct_800B5BD8 *)iVar1)->head.unk18.w.unk1A.u = 0x7000;
@@ -3578,7 +3578,7 @@ void func_8018ED84(s32 arg0) {
 
     v0 = ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u - 1;
     ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u = v0;
-    s0 = ((Unkstruct_8011DB30 *)arg0)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
     if ((s16)v0 == -1) {
         func_801292C8((u8 *)arg0);
         return;
@@ -4770,10 +4770,10 @@ void func_80190538(s32 arg0) {
     if (D_801270C8 < 0x1B) {
         s32 dx, dz, q;
 
-        dx = CAST_SIGN(s16, t, 6) - ((Unkstruct_80126B58 *)s0)->unk6.s;
+        dx = CAST_SIGN(s16, t, 6) - ((Unkstruct_80126B58 *)s0)->unk4.i.hi.s;
         d.a = dx;
         v.a = dx;
-        q = ((Unkstruct_80126B58 *)s0)->unkE.s + 0x180;
+        q = ((Unkstruct_80126B58 *)s0)->unkC.i.hi.s + 0x180;
         dz = CAST_SIGN(s16, t, 0xE) - q;
         d.c = dz;
         v.c = dz;
@@ -4793,10 +4793,10 @@ void func_80190538(s32 arg0) {
     } else {
         s32 dx, dz, q;
 
-        dz = CAST_SIGN(s16, t, 0xE) - ((Unkstruct_80126B58 *)s0)->unkE.s;
+        dz = CAST_SIGN(s16, t, 0xE) - ((Unkstruct_80126B58 *)s0)->unkC.i.hi.s;
         d.c = dz;
         v.c = dz;
-        q = ((Unkstruct_80126B58 *)s0)->unk6.s - 0x180;
+        q = ((Unkstruct_80126B58 *)s0)->unk4.i.hi.s - 0x180;
         dx = CAST_SIGN(s16, t, 6) - q;
         d.a = dx;
         v.a = dx;

@@ -3039,8 +3039,8 @@ void func_8017DA3C(s32 param_1) {
         ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
-        ((Unkstruct_800B5BD8 *)node)->head.unk28.s = 0x240;
-        ((Unkstruct_800B5BD8 *)node)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk28.s = 0x240;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk2A.u = 0x180;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk10.u = w.vx;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
@@ -3084,8 +3084,8 @@ void func_8017DCD0(s32 a0) {
         ((Unkstruct_800B5BD8 *)r)->head.unk10.w.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk1A.u = 0x3000;
-        ((Unkstruct_800B5BD8 *)r)->head.unk28.s = 0x248;
-        ((Unkstruct_800B5BD8 *)r)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk28.s = 0x248;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
@@ -5256,11 +5256,11 @@ void func_801812AC(s32 a0) {
         }
         s0 = func_80132EF4(obj, 0x50);
         if (s0 != 0) {
-            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20)->head.unk10.w.unk10.u =
+            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20.val)->head.unk10.w.unk10.u =
                 ratan2(s1[2], s1[1]) + 0x400;
-            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20)->head.unk10.w.unk12.u =
+            ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)s0)->unk20.val)->head.unk10.w.unk12.u =
                 ratan2(s1[0], -func_80047D3C(s1[2] * s1[2] + s1[1] * s1[1]));
-            *(s16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x14) = 0;
+            *(s16 *)(((Unkstruct_8011DB30 *)s0)->unk20.val + 0x14) = 0;
         }
         func_80181CDC(obj, 0x7FB);
         guess_FreeActor((void *)obj);

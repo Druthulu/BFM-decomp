@@ -2861,7 +2861,7 @@ void func_801520DC(s32 arg0)
     guess_SetVertSpeed(arg0, 0x40000);
     guess_ClearStoodOnActor(arg0);
     guess_ClearTiltVectors(arg0);
-    guess_SpawnSmallObject(0x10, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s, ((Unkstruct_80126B58 *)arg0)->unkA.s, (s32) ((Unkstruct_80126B58 *)arg0)->unkE.s, 0, 0);
+    guess_SpawnSmallObject(0x10, arg0, ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s, ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s, (s32) ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s, 0, 0);
     guess_PlaySoundUnlessSkipped(0x441);
     guess_NextStep(arg0);
 }

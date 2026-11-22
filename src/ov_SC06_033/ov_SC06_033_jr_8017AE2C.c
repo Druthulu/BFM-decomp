@@ -3336,8 +3336,8 @@ void func_8017BEF8(void *a0) {
     node = func_800D21C4((s32)a0, D_80195220, 0x26);
     ((Unkstruct_80126B58 *)a0)->unk20.val = node;
     if (node != 0) {
-        ((Unkstruct_800B5BD8 *)node)->head.unk28.s = 0x234;
-        ((Unkstruct_800B5BD8 *)node)->head.unk2A.u = 0x1C0;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk28.s = 0x234;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk2A.u = 0x1C0;
         CAST_WIDTH(u32, node, 4) |= 0x8000000;
         r1 = rand();
         r2 = rand();
@@ -3413,8 +3413,8 @@ int param_1;
     }
     *p = (s16)(iVar1 >> 8);
     func_800139C8(*(short *)(addr + 0x14), p - 2, local);
-    ((Unkstruct_80126B58 *)param_1)->unk6.s = *(u16 *)(param_1 + 0x12) + local[0];
-    ((Unkstruct_80126B58 *)param_1)->unkE.s = *(u16 *)(param_1 + 0x1A) + local[2];
+    ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = *(u16 *)(param_1 + 0x12) + local[0];
+    ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = *(u16 *)(param_1 + 0x1A) + local[2];
     cnt = ((Unkstruct_80126B58 *)param_1)->unk1C - 1;
     ((Unkstruct_80126B58 *)param_1)->unk1C = cnt;
     if (cnt == -1) {

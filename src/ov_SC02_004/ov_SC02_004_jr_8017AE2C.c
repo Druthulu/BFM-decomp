@@ -4019,7 +4019,7 @@ void func_8017DB2C(s32 a0) {
     u16 vecA[4];
     u16 vecB[4];
 
-    ret = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
+    ret = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32 *)(a0 + 0x24));
     if (ret != 0) {
         func_801292C8((u8 *)a0);
     } else {

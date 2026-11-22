@@ -3508,7 +3508,7 @@ void func_80188AEC(void *a0) {
     s32 v, r1, r2, r3;
     u16 *counter;
 
-    s0 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
 
     v = rand() & 3;
     ((void (*)(void *, void *, s32, s32))func_8001CB6C)(s0, &((void (**)())D_8018F560)[v * 3], 0x3F0, 0x100);
@@ -4462,12 +4462,12 @@ void func_8018A128(int param_1)
         in.y = 0;
         in.z = 0x10;
         ((void (*)(int, void *, void *))guess_RotTransSVWithObjMatrix)(param_1, &in, &out);
-        ((Unkstruct_80126B58 *)param_1)->unk6.s = out.x;
-        ((Unkstruct_80126B58 *)param_1)->unkA.s = out.y;
+        ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = out.x;
+        ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = out.y;
         c = out.z;
         ((Unkstruct_80126B58 *)param_1)->unk1C = 0x5a;
         CAST_WIDTH(short, param_1, 0x34) = 1;
-        ((Unkstruct_80126B58 *)param_1)->unkE.s = c;
+        ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = c;
     }
     ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.w.unk10.s =
         ((Unkstruct_80126B58 *)param_1)->unk20.m->head.unk10.w.unk10.s - 0x80;

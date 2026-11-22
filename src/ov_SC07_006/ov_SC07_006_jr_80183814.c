@@ -6049,7 +6049,7 @@ void func_80189FDC(s32 param_1)
     s32 s0;
 
     s1 = param_1;
-    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     switch (((Unkstruct_8011DB30 *)param_1)->unk2C.val.s) {
     case 0:
         ((Unkstruct_800B5BD8 *)s0)->head.unk10.w.unk12.s = 0x400;
@@ -6140,7 +6140,7 @@ void func_8018A150(void *a0)
     case 2:
         ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk18.w.unk18.u += 0x200;
         ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk18.w.unk1A.u += 0x200;
-        if (*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x18) >= 0x2000) {
+        if (*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x18) >= 0x2000) {
             func_801292C8((u8 *)a0);
         }
         break;

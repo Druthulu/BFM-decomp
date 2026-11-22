@@ -6756,8 +6756,8 @@ void func_80184340(s32 *a0) {
         guess_SpawnSmallObjectType2((s32)a0, 2);
     }
     func_801535F4(a0);
-    if (((Unkstruct_80126B58 *)a0)->unkE.s < -0x38) {
-        ((Unkstruct_80126B58 *)a0)->unkE.s = -0x38;
+    if (((Unkstruct_80126B58 *)a0)->unkC.i.hi.s < -0x38) {
+        ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s = -0x38;
         guess_NextStep(a0);
     }
 }

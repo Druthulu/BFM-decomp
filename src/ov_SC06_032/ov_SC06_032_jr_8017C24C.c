@@ -3127,7 +3127,7 @@ extern u8 D_80196DF0[];
 void func_8017DCA4(s32 a0)
 {
     if (currentLocationId == 0x3083) {
-        ((Unkstruct_80126B58 *)a0)->unkA.s = ((Unkstruct_80126B58 *)a0)->unkA.s - 8;
+        ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s = ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s - 8;
     }
     guess_PlaySoundUnlessSkipped(0x451);
     ((void (*)(s32))func_801511E0)(a0);
@@ -4997,9 +4997,9 @@ void func_80180730(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->unk6.u + tmp;
-        psVar7[1] = b58->unkA.u;
-        psVar7[2] = b58->unkE.u + (tmp >> 16);
+        psVar7[0] = b58->unk4.i.hi.u + tmp;
+        psVar7[1] = b58->unk8.i.hi.u;
+        psVar7[2] = b58->unkC.i.hi.u + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x80;

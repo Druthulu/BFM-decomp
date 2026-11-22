@@ -5972,7 +5972,7 @@ void func_801804DC(s32 a0)
     vel[0] = 0;
     vel[2] = 0xFFFE8000;
     m = D_800AE620;
-    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x12), &m);
     ApplyMatrixLV((s32)&m, (s32)&vel[0], a0 + 0x10);
     ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.s = 0x3C;
     ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
@@ -6852,7 +6852,7 @@ void func_80181A44(s32 a0) {
     s0 = a0;
     guess_StartActorSequence(s0, D_801B101C);
 
-    v1 = ((Unkstruct_80126B58 *)s0)->unk6.s - CAST_WIDTH(s16, s0, 0xDC);
+    v1 = ((Unkstruct_80126B58 *)s0)->unk4.i.hi.s - CAST_WIDTH(s16, s0, 0xDC);
     if (v1 < -0x60) {
         ((Unkstruct_80126B58 *)s0)->unk20.m->head.unk10.w.unk12.s = 0xC00;
     } else if (!(v1 < 0x61)) {

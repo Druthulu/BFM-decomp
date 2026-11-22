@@ -4277,9 +4277,9 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         v40.vx = arg0->unk4.i.hi.u;
         v40.vy = arg0->unk8.i.hi.u;
         v40.vz = arg0->unkC.i.hi.u;
-        v48.vx = pv->unk6.u;
-        v48.vy = pv->unkA.u;
-        v48.vz = pv->unkE.u;
+        v48.vx = pv->unk4.i.hi.u;
+        v48.vy = pv->unk8.i.hi.u;
+        v48.vz = pv->unkC.i.hi.u;
         ((void (*)(void *, void *))guess_WorldToScreen)(out50, &v40);
         w1 = out50[0];
         ((void (*)(void *, void *))guess_WorldToScreen)(out50, &v48);
@@ -4294,9 +4294,9 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         v58.vx = arg0->unk4.i.hi.u;
         v58.vy = arg0->unk8.i.hi.u;
         v58.vz = arg0->unkC.i.hi.u;
-        v60.vx = pv->unk6.u;
-        v60.vy = pv->unkA.u;
-        v60.vz = pv->unkE.u;
+        v60.vx = pv->unk4.i.hi.u;
+        v60.vy = pv->unk8.i.hi.u;
+        v60.vz = pv->unkC.i.hi.u;
         ((void (*)(void *, void *))guess_WorldToScreen)(out50, &v58);
         w1 = out50[0];
         ((void (*)(void *, void *))guess_WorldToScreen)(out50, &v60);
@@ -8416,7 +8416,7 @@ s32 a0;
         ((Unkstruct_8011DB30 *)result)->unk4.i.hi.u = *(u16 *)(a0 + 0x6);
         ((Unkstruct_8011DB30 *)result)->unk8.i.hi.u = *(u16 *)(a0 + 0xA);
         ((Unkstruct_8011DB30 *)result)->unkC.i.hi.u = *(u16 *)(a0 + 0xE);
-        func_8001CD50(((Unkstruct_8011DB30 *)result)->unk20, (s32)D_8019BA88);
+        func_8001CD50(((Unkstruct_8011DB30 *)result)->unk20.val, (s32)D_8019BA88);
     }
 }
 
@@ -8884,7 +8884,7 @@ void func_80181140(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     p = D_8019BAC8 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = 0xCCC;
@@ -8988,7 +8988,7 @@ void func_801812F8(void *a0) {
     s32 s0;
 
     v0 = CAST_WIDTH(s32, (s32)a0, 0x2C);
-    s0 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     v0 = v0 - 0x80;
     CAST_WIDTH(s32, (s32)a0, 0x2C) = v0;
     if (v0 <= 0) {

@@ -3641,8 +3641,8 @@ void func_8017FAB8(void *a0) {
     s32 t;
 
     s0 = *(s32 *)((s32)a0 + 0x20);
-    ((Unkstruct_800B5BD8 *)s0)->head.unk28.s = 0x340;
-    ((Unkstruct_800B5BD8 *)s0)->head.unk2A.u = 0x100;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk28.w.unk28.s = 0x340;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk28.w.unk2A.u = 0x100;
     ((Unkstruct_800B5BD8 *)s0)->head.unk20.s = (s32)&D_80186194;
     ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk27.u = 0x65;
     CAST_WIDTH(s32, (s32)s0, 4) |= 0x70000000;
@@ -3669,7 +3669,7 @@ void func_8017FB84(void *a0) {
     v0 = ((Unkstruct_8011DB30 *)a0)->unk1C.s;
     if (v0 == 0) {
         guess_AddVelocityToPos((S800D22E4 *)a0);
-        v0 = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)((s32)a0 + 0x24));
+        v0 = guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32 *)((s32)a0 + 0x24));
         if (v0 != 0) {
             func_801292C8((u8 *)a0);
         }

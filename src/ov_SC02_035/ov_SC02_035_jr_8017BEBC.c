@@ -4692,8 +4692,8 @@ s32 func_801803F8(void *a0, s32 a1, s32 a2, s32 a3) {
         {
             u16 *tbl = D_80198E20[idx];
             ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = (u8) tbl[2];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = tbl[0];
-            ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = tbl[1];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = tbl[0];
+            ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = tbl[1];
         }
 
         if ((a3 & 0x8000) != 0) {

@@ -3211,7 +3211,7 @@ void func_8017F904(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     p = D_80193530 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = 0xCCC;

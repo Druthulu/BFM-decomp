@@ -4047,7 +4047,7 @@ void func_8017DED4(s32 param_1)
     ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u += v.vy;
     ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u += v.vz;
 
-    ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi = (rand() & 7) + 8;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi.u = (rand() & 7) + 8;
 }
 
 
@@ -4240,7 +4240,7 @@ void func_8017E378(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_801822F4, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;

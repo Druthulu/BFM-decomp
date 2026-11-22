@@ -4137,7 +4137,7 @@ void func_8017DCB4(s32 a0) {
                 val2c = (s16)((adj >> 2) + 3);
             store_vals:
                 do { ((Unkstruct_8011DB30 *)result)->unk2C.i.lo.u = val2c; } while (0);
-                ptr = ((Unkstruct_8011DB30 *)result)->unk20;
+                ptr = ((Unkstruct_8011DB30 *)result)->unk20.val;
                 magv = magw;
                 CAST_WIDTH(u16, ptr, 0x1C) = magv;
                 ((Unkstruct_800B5BD8 *)ptr)->head.unk18.w.unk1A.u = magv;
@@ -4246,7 +4246,7 @@ void func_8017E008(s32 param_1)
 
     ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x9c;
 
-    guess_StartPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20, param_1 + 0x24, (s32)&D_800D3888);
+    guess_StartPairSequence(((Unkstruct_8011DB30 *)param_1)->unk20.val, param_1 + 0x24, (s32)&D_800D3888);
 
     ((Unkstruct_8011DB30 *)param_1)->unk10.val.s = 0;
     ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0xffa40000;

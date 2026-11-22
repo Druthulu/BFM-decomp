@@ -4715,13 +4715,13 @@ void func_801803BC(s32 param_1) {
     buf = D_801E2DF8;
     v = *(s16 *)&buf;
     ((Unkstruct_80126B58 *)param_1)->unk88.s = v;
-    ((Unkstruct_80126B58 *)param_1)->unk6.s = v;
+    ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = v;
     v = *((s16 *)&buf + 1);
     ((Unkstruct_80126B58 *)param_1)->unk8A.s = v;
-    ((Unkstruct_80126B58 *)param_1)->unkA.s = v;
+    ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = v;
     v = *((s16 *)&buf + 2);
     ((Unkstruct_80126B58 *)param_1)->unk8C.s = v;
-    ((Unkstruct_80126B58 *)param_1)->unkE.s = v;
+    ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = v;
     func_8017DE5C();
     func_8018D488();
     ((Unkstruct_80126B58 *)param_1)->unk214.u += 1;
@@ -4990,13 +4990,13 @@ void func_801808B0(s32 param_1)
         }
         v = D_801944FC[((Unkstruct_80126B58 *)param_1)->unk20C.s][0];
         ((Unkstruct_80126B58 *)param_1)->unk88.s = v;
-        ((Unkstruct_80126B58 *)param_1)->unk6.s = v;
+        ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = v;
         v = D_801944FE[((Unkstruct_80126B58 *)param_1)->unk20C.s][0];
         ((Unkstruct_80126B58 *)param_1)->unk8A.s = v;
-        ((Unkstruct_80126B58 *)param_1)->unkA.s = v;
+        ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = v;
         v = D_80194500[((Unkstruct_80126B58 *)param_1)->unk20C.s][0];
         ((Unkstruct_80126B58 *)param_1)->unk8C.s = v;
-        ((Unkstruct_80126B58 *)param_1)->unkE.s = v;
+        ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = v;
         *(s16 *)(((Unkstruct_80126B58 *)param_1)->unk20.val + 0x12) = D_80194502[((Unkstruct_80126B58 *)param_1)->unk20C.s][0];
         ((Unkstruct_80126B58 *)param_1)->unk214.u += 1;
     }

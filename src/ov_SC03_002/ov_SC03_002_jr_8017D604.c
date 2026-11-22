@@ -3532,7 +3532,7 @@ void func_8017F3E0(void *a0)
     s32 v0;
     s32 v1;
 
-    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20.val;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_801893DC, 0x240, 0x1D0);
 
     v0 = 0x54;
@@ -3566,7 +3566,7 @@ s32 *a0;
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
     s32 p;
 
-    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u == -1) {
         func_801292C8((u8 *)a0);
         return;
@@ -4381,9 +4381,9 @@ int param_1;
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {
-        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_80126B58 *)param_1)->unk6.s,
-                      (s16)(((Unkstruct_80126B58 *)param_1)->unkA.u - 0x40),
-                      ((Unkstruct_80126B58 *)param_1)->unkE.s, out, 0);
+        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s,
+                      (s16)(((Unkstruct_80126B58 *)param_1)->unk8.i.hi.u - 0x40),
+                      ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s, out, 0);
     }
 }
 
@@ -5011,7 +5011,7 @@ s32 func_801813E4(void *a0)
     switch (st) {
     case 7:
     case 0xB:
-        if ((((Unkstruct_80126B58 *)base)->unk6.s < -0x580) && ((u32)(CAST_SIGN(u16, base, 0xE) - 0x181) < 0x27F)) {
+        if ((((Unkstruct_80126B58 *)base)->unk4.i.hi.s < -0x580) && ((u32)(CAST_SIGN(u16, base, 0xE) - 0x181) < 0x27F)) {
             goto ret0;
         }
         goto call;

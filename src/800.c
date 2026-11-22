@@ -8515,8 +8515,8 @@ void func_8001C9D0(s32 a0v) {
     ((Unkstruct_8001C9D0 *)a0v)->head.unk8.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unk4.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unk20.s = 0;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk28.s = v;
-    ((Unkstruct_8001C9D0 *)a0v)->head.unk2A.s = v;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk28.w.unk28.s = v;
+    ((Unkstruct_8001C9D0 *)a0v)->head.unk28.w.unk2A.s = v;
     ((Unkstruct_8001C9D0 *)a0v)->head.unk2C.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->head.unk2E.s = 0;
     ((Unkstruct_8001C9D0 *)a0v)->unk80 = 0;
@@ -8585,8 +8585,8 @@ extern void func_8001CF48(s32 a0);
 void func_8001CB00(s32 a0, void *a1, s32 a2, s32 a3) {
     func_8001CF48(a0);
     ((Unkstruct_800B5BD8 *)a0)->head.unk2.s = 1;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk28.s = (s16)a2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk2A.u = (s16)a3;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk28.s = (s16)a2;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk2A.u = (s16)a3;
     ((Unkstruct_800B5BD8 *)a0)->head.unk20.s = (s32)a1;
     CAST_WIDTH(s32, a0, 0x4) = 0x8000000;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 0;
@@ -8597,8 +8597,8 @@ extern void func_8001CF48(s32 a0);
 void func_8001CB6C(u8 *a0, s32 a1, s32 a2, s32 a3) {
     func_8001CF48(a0);
     ((Unkstruct_800B5BD8 *)a0)->head.unk2.s = 2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk28.s = (s16)a2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk2A.u = (s16)a3;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk28.s = (s16)a2;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk2A.u = (s16)a3;
     ((Unkstruct_800B5BD8 *)a0)->head.unk20.s = (s32)a1;
     CAST_WIDTH(s32, a0, 0x4) = 0xC000040;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 0;
@@ -8610,8 +8610,8 @@ extern void func_8001CF48(s32 a0);
 void func_8001CBDC(s32 a0, void *a1, s32 a2, s32 a3) {
     func_8001CF48(a0);
     ((Unkstruct_800B5BD8 *)a0)->head.unk2.s = 0;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk28.s = (s16)a2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk2A.u = (s16)a3;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk28.s = (s16)a2;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk2A.u = (s16)a3;
     ((Unkstruct_800B5BD8 *)a0)->head.unk20.s = (s32)a1;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 0;
 }
@@ -8622,8 +8622,8 @@ extern void func_8001CF48(s32 a0);
 void func_8001CC3C(s32 a0, void *a1, s32 a2, s32 a3) {
     func_8001CF48(a0);
     ((Unkstruct_800B5BD8 *)a0)->head.unk2.s = 3;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk28.s = (s16)a2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk2A.u = (s16)a3;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk28.s = (s16)a2;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk2A.u = (s16)a3;
     ((Unkstruct_800B5BD8 *)a0)->head.unk20.s = (s32)a1;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 0;
 }
@@ -8634,8 +8634,8 @@ extern void func_8001CF48(s32 a0);
 void func_8001CCA0(s32 a0, s32 a1, s32 a2, s32 a3) {
     func_8001CF48(a0);
     ((Unkstruct_800B5BD8 *)a0)->head.unk2.s = 0x9;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk28.s = (s16)a2;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk2A.u = (s16)a3;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk28.s = (s16)a2;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk28.w.unk2A.u = (s16)a3;
     ((Unkstruct_800B5BD8 *)a0)->head.unk20.s = a1;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 0;
 }
@@ -8834,8 +8834,8 @@ ret0:
 }
 
 void func_8001D0E8(s32 arg0, s32 arg1, s32 arg2) {
-    ((Unkstruct_8001C9D0 *)arg0)->head.unk28.s = arg1;
-    ((Unkstruct_8001C9D0 *)arg0)->head.unk2A.u = arg2;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk28.w.unk28.s = arg1;
+    ((Unkstruct_8001C9D0 *)arg0)->head.unk28.w.unk2A.u = arg2;
 }
 
 void func_8001D0F4(s32 *a0)
@@ -9299,10 +9299,10 @@ void func_8001DA34(s32 param_1)
         id = rec->id;
         dxv = rec->dx;
         __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P37 S+A t5_main_S1) wall:dbr-delay-fill
-        pxv = ((Unkstruct_800B5BD8 *)param_1)->head.unk28.u;
+        pxv = ((Unkstruct_800B5BD8 *)param_1)->head.unk28.w.unk28.u;
         x = pxv + (dxv >> sh);
         sx = x;
-        y = ((Unkstruct_800B5BD8 *)param_1)->head.unk2A.u + rec->dy;
+        y = ((Unkstruct_800B5BD8 *)param_1)->head.unk28.w.unk2A.u + rec->dy;
         sy = y;
         D_800A5E60 = prim + 0x28;
         prim[3] = 9;
@@ -9598,9 +9598,9 @@ void func_8001E7E0(u8 *arg0)
         otp = &guess_g_OrderingTables[(u16)guess_g_DoubleBufferIndex * 20];
         do {
             id = ((RecDA34 *)p)->id;
-            sx = ((Unkstruct_800B5BD8 *)arg0)->head.unk28.u + (((RecDA34 *)p)->dx >> shift);
+            sx = ((Unkstruct_800B5BD8 *)arg0)->head.unk28.w.unk28.u + (((RecDA34 *)p)->dx >> shift);
             vx = sx;
-            sy = ((Unkstruct_800B5BD8 *)arg0)->head.unk2A.u + ((RecDA34 *)p)->dy;
+            sy = ((Unkstruct_800B5BD8 *)arg0)->head.unk28.w.unk2A.u + ((RecDA34 *)p)->dy;
             vy = sy;
             if (attr & 0x40000000) {
                 tpage = (mode << 7) | (((attr >> 28) & 3) << 5) | ((sy & 0x100) >> 4) |

@@ -2864,11 +2864,11 @@ void func_8017DA90(s32 a0) {
         uVar1 = ((Unkstruct_80126B58 *)a0)->unk60.u;
         ((Unkstruct_80126B58 *)a0)->unk60.u = uVar1 + 1;
     }
-    sVar1 = ((Unkstruct_80126B58 *)iVar1)->unkA.s;
-    if (sVar1 < ((Unkstruct_80126B58 *)a0)->unkA.s) {
+    sVar1 = ((Unkstruct_80126B58 *)iVar1)->unk8.i.hi.s;
+    if (sVar1 < ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s) {
         u16 uVar1;
         s32 uVar2;
-        ((Unkstruct_80126B58 *)a0)->unkA.s = sVar1;
+        ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s = sVar1;
         func_8013C9C4(D_8018C4F0);
         ((Unkstruct_80126B58 *)a0)->unk60.u = *(u16 *)(iVar2 + 0x18);
         func_8001C810(iVar2, (s32)&D_80192200);

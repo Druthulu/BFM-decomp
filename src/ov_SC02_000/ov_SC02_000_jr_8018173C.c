@@ -3541,13 +3541,13 @@ void func_80183098(s32 arg0)
     Unkstruct_8013B83C buf;
 
     buf = D_801E6C9C;
-    if (((Unkstruct_80126B58 *)arg0)->unkA.s >= -0xBFF) {
+    if (((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s >= -0xBFF) {
         CAST_ALIAS(u16, arg0, 0x88) = *(u16 *)&buf.unk0;
         CAST_ALIAS(u16, arg0, 0x06) = *(u16 *)&buf.unk0;
         CAST_ALIAS(u16, arg0, 0x8A) = *(u16 *)&buf.unk2;
         CAST_ALIAS(u16, arg0, 0x0A) = *(u16 *)&buf.unk2;
         ((Unkstruct_80126B58 *)arg0)->unk8C.u = *(u16 *)&buf.unk4;
-        ((Unkstruct_80126B58 *)arg0)->unkE.s = *(u16 *)&buf.unk4;
+        ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s = *(u16 *)&buf.unk4;
         ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk10.w.unk12.u = 0;
         ((Unkstruct_80126B58 *)arg0)->unk4D -= 1;
         ((Unkstruct_80126B58 *)arg0)->unk214.u += 1;
@@ -3649,7 +3649,7 @@ void func_80183310(s32 param_1)
   *(unsigned short *)(param_1 + 0xaa) = *(unsigned short *)(param_1 + 0xaa) & 0x5fff;
   *(unsigned short *)(param_1 + 0xac) = *(unsigned short *)(param_1 + 0xac) & 0x5fff;
   *(unsigned short *)(param_1 + 0xae) = *(unsigned short *)(param_1 + 0xae) & 0xff00 | 0x80;
-  if (((Unkstruct_80126B58 *)param_1)->unkE.s < 0x2a00) {
+  if (((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s < 0x2a00) {
     *(unsigned int *)(param_1 + 0x1f8) = *(unsigned int *)(param_1 + 0x1f8) | 0x1000000;
     v = guess_g_MainCameraPitchTarget + 0x22;
     guess_g_MainCameraPitchTarget = v;
@@ -3666,10 +3666,10 @@ void func_80183310(s32 param_1)
       D_80126974 = 0;
     }
   }
-  if (((Unkstruct_80126B58 *)param_1)->unkE.s < 0x28e0) {
+  if (((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s < 0x28e0) {
     *(unsigned short *)(param_1 + 0xaa) = *(unsigned short *)(param_1 + 0xaa) | 0x40;
     *(unsigned short *)(param_1 + 0xac) = *(unsigned short *)(param_1 + 0xac) | 0x40;
-    if ((((Unkstruct_80126B58 *)param_1)->unkE.s < 0x28e0) && (0 < ((Unkstruct_80126B58 *)param_1)->unk34)) {
+    if ((((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s < 0x28e0) && (0 < ((Unkstruct_80126B58 *)param_1)->unk34)) {
       D_800B9ABA[0] = 0x1e0;
       func_80185EC8();
       func_80188F08();
@@ -3677,11 +3677,11 @@ void func_80183310(s32 param_1)
       ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->head.unk10.w.unk10.u = 0x400;
       ((Unkstruct_8001C9D0 *)*(int *)(param_1 + 0x20))->head.unk10.w.unk12.u = 0;
       CAST_ALIAS(short, param_1, 0x8a) = 0xf940;
-      ((Unkstruct_80126B58 *)param_1)->unkA.s = 0xf940;
+      ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = 0xf940;
       ((Unkstruct_80126B58 *)param_1)->unk88.u = 0;
-      ((Unkstruct_80126B58 *)param_1)->unk6.s = 0;
+      ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s = 0;
       ((Unkstruct_80126B58 *)param_1)->unk8C.u = 0x1c7f;
-      ((Unkstruct_80126B58 *)param_1)->unkE.s = 0x1c7f;
+      ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s = 0x1c7f;
       func_80146DE8((s32 *)param_1,0,0,0xfff00000);
       *(unsigned int *)(param_1 + 0x204) = 0x10;
       func_80181A94();
@@ -3895,7 +3895,7 @@ void func_80183C9C(s32 a0) {
     s16 d;
     v = D_8018EDD8[((Unkstruct_80126B58 *)a0)->unk20C.b.lo];
     if (v != 0) {
-        d = v - ((Unkstruct_80126B58 *)a0)->unkE.u;
+        d = v - ((Unkstruct_80126B58 *)a0)->unkC.i.hi.u;
         v = d;
         if (d < 0) {
             v = -d;

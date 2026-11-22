@@ -3054,8 +3054,8 @@ void func_80183DBC(s32 param_1) {
     r = func_8012CBCC(s0);
     if (func_8012D5E4(s0, (s32)&D_801AC588, (s32)&D_800D3918, 0x40) == 0) {
         if (r != 0) {
-            guess_SpawnSmallObject(6, (void *)s0, ((Unkstruct_80126B58 *)s0)->unk6.s, ((Unkstruct_80126B58 *)s0)->unkA.s,
-                          ((Unkstruct_80126B58 *)s0)->unkE.s, 0, 0);
+            guess_SpawnSmallObject(6, (void *)s0, ((Unkstruct_80126B58 *)s0)->unk4.i.hi.s, ((Unkstruct_80126B58 *)s0)->unk8.i.hi.s,
+                          ((Unkstruct_80126B58 *)s0)->unkC.i.hi.s, 0, 0);
             v = func_80132EF4(s0, 0x22);
             if (v != 0) {
                 *(s16 *)(v + 0x34) = 0x2000;
@@ -3086,8 +3086,8 @@ void func_80183E74(void *arg0) {
     *(u16 *)(a1 + 0x14) = *(u16 *)(a1 + 0x14) + val;
     guess_ApplyAccelAndVelocity(s0);
 
-    if (((Unkstruct_80126B58 *)s0)->unkA.s >= ((Unkstruct_80126B58 *)s0)->unkE0) {
-        ((Unkstruct_80126B58 *)s0)->unkA.s = ((Unkstruct_80126B58 *)s0)->unkE0;
+    if (((Unkstruct_80126B58 *)s0)->unk8.i.hi.s >= ((Unkstruct_80126B58 *)s0)->unkE0) {
+        ((Unkstruct_80126B58 *)s0)->unk8.i.hi.s = ((Unkstruct_80126B58 *)s0)->unkE0;
         ((Unkstruct_80126B58 *)s0)->unk20.m->head.unk10.w.unk10.u = 0x400;
 
         if (rand() & 1) {

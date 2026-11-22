@@ -3569,7 +3569,7 @@ void func_8017E940(s32 a0) {
     s1 = (s32 *)a0;
     s0 = (u8 *)func_8017E908();
     if (s0 != 0) {
-        func_8001CD50(((Unkstruct_8011DB30 *)s1)->unk20, (s32)s0);
+        func_8001CD50(((Unkstruct_8011DB30 *)s1)->unk20.val, (s32)s0);
         *(CVECTOR *)(s0 + 0) = D_80191968;
         *(CVECTOR *)(s0 + 4) = D_8019196C;
 

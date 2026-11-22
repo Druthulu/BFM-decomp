@@ -4279,7 +4279,7 @@ void func_8018865C(void)
             r0 = rand();
             r1 = rand();
             ((Unkstruct_8011DB30 *)p)->unk34.i.lo.s = (((r0 % 4) << 12) + 0x4000) | (r1 & 1);
-            *(s32 *)(((Unkstruct_8011DB30 *)p)->unk20 + 4) |= 0x60000000;
+            *(s32 *)(((Unkstruct_8011DB30 *)p)->unk20.val + 4) |= 0x60000000;
             ApplyMatrixLV((s32)&mtx, (s32)&vec, p + 0x10);
         }
         i++;

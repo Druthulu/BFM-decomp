@@ -3903,16 +3903,16 @@ void func_801805EC(s32 a0)
     s32 obj;
     s32 *cam;
 
-    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi;
+    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi.u;
     svec_in.vy = *(u16 *)(a0 + 0x16);
-    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi;
+    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi.u;
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&svec_in, (s32)&svec_out);
 
     ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = svec_out.vx;
     ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = svec_out.vy;
     ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = svec_out.vz;
 
-    obj = ((Unkstruct_8011DB30 *)a0)->unk20;
+    obj = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     cam = guess_g_PlayerModelPtr;
     CAST_WIDTH(u16, obj, 0x14) = CAST_WIDTH(u16, obj, 0x14) +
         (((Unkstruct_8011DB30 *)a0)->unk2A - *(u16 *)((u8 *)cam + 0x12));
@@ -3928,7 +3928,7 @@ void func_801805EC(s32 a0)
             CAST_WIDTH(s32, a0, 0x2C) = t + 1;
         }
     } else {
-        *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 4) ^= 0x80000000;
+        *(u32 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 4) ^= 0x80000000;
         if (--((Unkstruct_8011DB30 *)a0)->unk1C.s != 0) {
             return;
         }
@@ -5467,7 +5467,7 @@ void func_80182AFC(s32 arg0)
         s32 vt;
         vt = ok + 0;
         if (vt != 0) {
-            if (((Unkstruct_80126B58 *)base)->unkA.s >= *(s16 *)(s0 + 0xA) + D_801AB668[0]) {
+            if (((Unkstruct_80126B58 *)base)->unk8.i.hi.s >= *(s16 *)(s0 + 0xA) + D_801AB668[0]) {
                 func_8012DB84();
             }
         }
@@ -5575,7 +5575,7 @@ void func_80182D4C(u8 *a0, u8 *a1, s32 a2)
 
     tmp = *(u16 *)(a0 + 0xA) + *(u16 *)(a1 + 0x8);
     tmp -= 1;
-    ((Unkstruct_80126B58 *)base)->unkA.s = tmp;
+    ((Unkstruct_80126B58 *)base)->unk8.i.hi.s = tmp;
 }
 
 
@@ -8139,8 +8139,8 @@ s32 func_80186D9C(s16 *a0, s32 a1, s32 a2, s32 a3) {
     sub = *(s32 *)(obj + 0x20);
     ((Unkstruct_800B5BD8 *)sub)->head.unk20.s = (s32) D_801AFC00;
     ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = 0x56;
-    ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = 0x2A0;
-    ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = 0x1A0;
+    ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = 0x2A0;
+    ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = 0x1A0;
 
     base = rand() % 200;
     if ((rand() & 1) == 0) {

@@ -5069,7 +5069,7 @@ void func_801A7B08(s32 arg0) {
         s16 t = ((Unkstruct_801A7B08_2 *)*(s32 *)((s32)s0 + 0x20))->unk18;
         if (t >= 0x401) {
             ((Unkstruct_801A7B08_2 *)*(s32 *)((s32)s0 + 0x20))->unk18 = t - 0xA0;
-            ((Unkstruct_801A7B08_2 *)*(s32 *)((s32)s0 + 0x20))->unk1A = *(u16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x18);
+            ((Unkstruct_801A7B08_2 *)*(s32 *)((s32)s0 + 0x20))->unk1A = *(u16 *)(((Unkstruct_8011DB30 *)s0)->unk20.val + 0x18);
         }
         p = &D_801F88BA;
         if (*p < 0xF0) {
@@ -6360,8 +6360,8 @@ void func_801A9810(void *a0) {
         guess_StartPairSequence(s1, (s32)a0 + 0xF0, (s32)D_801B0694);
     }
     ((Unkstruct_800B5BD8 *)s1)->head.unk20.s = (s32)D_801B0604;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk28.s = 0x340;
-    ((Unkstruct_800B5BD8 *)s1)->head.unk2A.u = 0x100;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk28.s = 0x340;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk2A.u = 0x100;
     func_8012AD44((s32 *)a0, 2);
 }
 
@@ -7011,7 +7011,7 @@ void func_801AA91C(s32 param_1, s32 param_2, s32 param_3)
         ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.u += *(u16 *)(s1 + 0x52);
         ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk10.u = s2;
         ((Unkstruct_800B5BD8 *)*(s32 *)(s0 + 0x20))->head.unk10.w.unk12.u = s3;
-        *(u16 *)(((Unkstruct_8011DB30 *)s0)->unk20 + 0x14) = 0;
+        *(u16 *)(((Unkstruct_8011DB30 *)s0)->unk20.val + 0x14) = 0;
         CAST_WIDTH(u16, s0, 0x30) = 5;
         *(u16 *)(s0 + 0x32) = 0;
         if (rand() & 1) {
@@ -7036,9 +7036,9 @@ void func_801AA9D4(s32 a0, s32 a1) {
         ((Unkstruct_8011DB30 *)work)->unk4.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
         ((Unkstruct_8011DB30 *)work)->unk8.i.hi.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
         ((Unkstruct_8011DB30 *)work)->unkC.i.hi.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
-        ptr = ((Unkstruct_8011DB30 *)work)->unk20;
+        ptr = ((Unkstruct_8011DB30 *)work)->unk20.val;
         { RenderHead *d = (RenderHead *)ptr; d->unk10.m = *(Unkstruct_801343C4 *)a1; }
-        ((Unkstruct_8011DB30 *)work)->unk30.i.lo = 5;
+        ((Unkstruct_8011DB30 *)work)->unk30.i.lo.u = 5;
         ((Unkstruct_8011DB30 *)work)->unk30.i.hi.u = 1;
         ((Unkstruct_8011DB30 *)work)->unk34.val.u = 0x180F0F0;
     }
@@ -7575,12 +7575,12 @@ void func_801AB54C(void *a0) {
         return;
     }
 
-    if (CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20, 0x18) < 0x600) {
-        CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20, 0x18) += 0x100;
+    if (CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20.val, 0x18) < 0x600) {
+        CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20.val, 0x18) += 0x100;
     }
 
-    if (CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20, 0x1A) < 0xA00) {
-        CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20, 0x1A) += 0x140;
+    if (CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20.val, 0x1A) < 0xA00) {
+        CAST_SIGN(s16, ((Unkstruct_8011DB30 *)a0)->unk20.val, 0x1A) += 0x140;
     }
 }
 
@@ -7686,10 +7686,10 @@ void func_801AB748(s32 a0) {
         v0 = v0 - 1;
         ((Unkstruct_8011DB30 *)a0)->unk1C.s = v0;
     } else {
-        v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
         ((Unkstruct_801AB748_2 *)v1)->unk1A = 0x400;
         ((Unkstruct_801AB748_2 *)v1)->unk18 = 0x400;
-        v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
         ((Unkstruct_801AB748_2 *)v1)->unk2C = 0xC020;
         ((Unkstruct_8011DB30 *)a0)->unk2.s = 1;
     }
@@ -8179,7 +8179,7 @@ void func_801AC234(void *a0)
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
 
     guess_AddVelocityToPos((S800D22E4 *)a0);
-    if (guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)((char *)a0 + 0x24)) != 0 ||
+    if (guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32 *)((char *)a0 + 0x24)) != 0 ||
         (CAST_SIGN(s16, (char *)a0, 0x2C) != 2 && CAST_SIGN(s16, (char *)a0, 0xA) >= -0x200)) {
         func_801292C8((u8 *)a0);
     }

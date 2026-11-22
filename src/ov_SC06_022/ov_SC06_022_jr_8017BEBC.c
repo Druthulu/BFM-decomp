@@ -3969,7 +3969,7 @@ void func_8017EBE8(s32 p) {
                     ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u = w4;
                     ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u -= 0x80;
                     ((Unkstruct_8011DB30 *)obj)->unk14.val.s = (rand() % 3) * -0x10000;
-                    *(u32 *)(((Unkstruct_8011DB30 *)obj)->unk20 + 4) |= 0x40000000;
+                    *(u32 *)(((Unkstruct_8011DB30 *)obj)->unk20.val + 4) |= 0x40000000;
                 }
             }
             guess_RequestSound(0x9D6, 0);
@@ -4065,7 +4065,7 @@ s32 func_8017F0D4(param_1)
             ptr = func_80132EF4(param_1, 0x22);
             if (ptr != 0) {
                 func_80129374(ptr, param_1);
-                prim = ((Unkstruct_8011DB30 *)ptr)->unk20;
+                prim = ((Unkstruct_8011DB30 *)ptr)->unk20.val;
                 ((Unkstruct_800B5BD8 *)prim)->head.unk18.w.unk1A.u = 0x4000;
                 ((Unkstruct_800B5BD8 *)prim)->head.unk18.w.unk18.u = 0x4000;
             }

@@ -5158,7 +5158,7 @@ void func_801805A4(int param_1)
     int r1;
     int r2;
 
-    p = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((void (*)(int, int))func_800159E4)(param_1 + 4, param_1 + 0x10);
     ((void (*)(int, int, int, int))func_8001CC3C)(p, (int)D_8018C5A0, 0x270, 0x100);
     *(unsigned char *)(p + 0x27) = 0x9c;
@@ -9726,11 +9726,11 @@ s32 func_801867A0(s32 a0) {
         s32 v0, v1;
 
         if (rand() & 1) {
-            v1 = ((Unkstruct_8011DB30 *)s2)->unk20;
+            v1 = ((Unkstruct_8011DB30 *)s2)->unk20.val;
             v0 = -0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         } else {
-            v1 = ((Unkstruct_8011DB30 *)s2)->unk20;
+            v1 = ((Unkstruct_8011DB30 *)s2)->unk20.val;
             v0 = 0x2000;
             CAST_WIDTH(s16, v1, 0x1C) = v0;
         }

@@ -3209,9 +3209,9 @@ void func_8018505C(void *a0) {
         /* the pointer is re-loaded per statement: each `sh` kills the CSE
          * of `*(s32 *)(a0+0x20)` (§193-E), which is why the target has three
          * `lw $a0,0x20($s0)`. */
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.w.unk10.u += CAST_WIDTH(u16, (s32)a0, 0x30);
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.w.unk12.u += *(u16 *)((s32)a0 + 0x32);
-        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += ((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u;
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20.val)->head.unk10.w.unk10.u += CAST_WIDTH(u16, (s32)a0, 0x30);
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20.val)->head.unk10.w.unk12.u += *(u16 *)((s32)a0 + 0x32);
+        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) += ((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u;
 
         if (d.vx + d.vz > 0x9000) {
             ((Unkstruct_8011DB30 *)a0)->unk14.val.s = 0x18000;
@@ -3220,8 +3220,8 @@ void func_8018505C(void *a0) {
             ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.u += 1;
         }
     } else {
-        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20)->head.unk10.w.unk10.u += 0x80;
-        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) += 0x80;
+        ((Unkstruct_800B5BD8 *)((Unkstruct_8011DB30 *)a0)->unk20.val)->head.unk10.w.unk10.u += 0x80;
+        *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) += 0x80;
 
         if (d.vx + d.vz < 0x4001) {
             /* its OWN pseudo: sharing `v` with the abs() block below gives the
@@ -4371,7 +4371,7 @@ void func_80186D40(s32 param_1)
     extern u8 D_801C7E80;
     extern u8 D_801C5B80;
     extern u8 D_801C5B84;
-    func_8001CD50(((Unkstruct_8011DB30 *)param_1)->unk20, (s32)&D_801C7E7C);
+    func_8001CD50(((Unkstruct_8011DB30 *)param_1)->unk20.val, (s32)&D_801C7E7C);
 
     ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u -= 0x100;
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
@@ -5023,12 +5023,12 @@ void func_80187D70(s32 a0)
 
     *sp0 = KR_AS(s32, func_8017EC7C)(a0);
     func_80149020((s32 *)a0);
-    CAST_ALIAS(s16, a0, 0x6) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk6.s, *sp0, 8);
-    CAST_ALIAS(s16, a0, 0xA) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkA.s, D_801C3D12, 8);
-    ((Unkstruct_80126B58 *)a0)->unkE.s = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkE.s, D_801C3D14, 8);
-    if ((((Unkstruct_80126B58 *)a0)->unk6.s == *sp0) &&
-        (((Unkstruct_80126B58 *)a0)->unkA.s == D_801C3D12) &&
-        (((Unkstruct_80126B58 *)a0)->unkE.s == D_801C3D14)) {
+    CAST_ALIAS(s16, a0, 0x6) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk4.i.hi.s, *sp0, 8);
+    CAST_ALIAS(s16, a0, 0xA) = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unk8.i.hi.s, D_801C3D12, 8);
+    ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s = guess_EaseToward(((Unkstruct_80126B58 *)a0)->unkC.i.hi.s, D_801C3D14, 8);
+    if ((((Unkstruct_80126B58 *)a0)->unk4.i.hi.s == *sp0) &&
+        (((Unkstruct_80126B58 *)a0)->unk8.i.hi.s == D_801C3D12) &&
+        (((Unkstruct_80126B58 *)a0)->unkC.i.hi.s == D_801C3D14)) {
         ((Unkstruct_80126B58 *)a0)->unkDE.s = 0;
         ((Unkstruct_80126B58 *)a0)->unkDF = 0;
         guess_NextStep((void *)a0);
@@ -5280,9 +5280,9 @@ void func_80188334(s32 arg0)
     guess_SetVelocityFromMoveVector(arg0);
     guess_ApplyVelocity(arg0);
     guess_AddVertSpeed(arg0, 0x8000);
-    guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk6.s,
+    guess_SpawnSmallObject(3, arg0, ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
                   ((s32)(CAST_SIGN(u16, arg0, 0xA) - 0x10) << 16) >> 16,
-                  ((Unkstruct_80126B58 *)arg0)->unkE.s, 0x080FFFF8, 0xE000B000);
+                  ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s, 0x080FFFF8, 0xE000B000);
     guess_ApplyVertSpeed(arg0);
     iVar1 = func_801535F4(arg0);
     if (iVar1 == 1) goto LAB_80188418;

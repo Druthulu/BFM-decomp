@@ -6949,7 +6949,7 @@ void func_80181EEC(int param_1)
     unsigned short *p;
     unsigned short val;
 
-    base = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    base = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     p = (unsigned short *)(base + 0x1A);
     val = *p - 0x100;
     p[0] = val;

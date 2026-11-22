@@ -3172,9 +3172,9 @@ void func_801874D0(void *a0)
     guess_RotTransSVWithMatrix((s32)buf, (s32)&D_8018F140, (s32)out);
 
     v1 = CAST_SIGN(s32, (s32)a0, 0xCC);
-    ((Unkstruct_80126B58 *)v1)->unk6.s = out[0];
-    ((Unkstruct_80126B58 *)v1)->unkA.s = out[1] + 0x10;
-    ((Unkstruct_80126B58 *)v1)->unkE.s = out[2];
+    ((Unkstruct_80126B58 *)v1)->unk4.i.hi.s = out[0];
+    ((Unkstruct_80126B58 *)v1)->unk8.i.hi.s = out[1] + 0x10;
+    ((Unkstruct_80126B58 *)v1)->unkC.i.hi.s = out[2];
 }
 
 
@@ -3928,9 +3928,9 @@ void func_801886C8(s32 a0) {
         if ((((Unkstruct_80126B58 *)a0)->unk70 & 0x8000) == 0) {
             ((Unkstruct_80126B58 *)a0)->unk18.val = 0xFFFE0000;
             *(s32 *)(a0 + 0x48) = 0x4000;
-            ((Unkstruct_80126B58 *)a0)->unk6.s = -0x3D;
-            ((Unkstruct_80126B58 *)a0)->unkA.s = -0x166;
-            ((Unkstruct_80126B58 *)a0)->unkE.s = -0xB0;
+            ((Unkstruct_80126B58 *)a0)->unk4.i.hi.s = -0x3D;
+            ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s = -0x166;
+            ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s = -0xB0;
             func_8012B260((u8 *)a0);
             ((Unkstruct_80126B58 *)a0)->unk2.u = ((Unkstruct_80126B58 *)a0)->unk2.u + 1;
         } else {
@@ -3966,17 +3966,17 @@ void func_80188828(s32 arg0)
                 *(s32 *)(arg0 + 0x48) = 0;
                 CAST_WIDTH(u16, arg0, 0x34) += 1;
             }
-            if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0x1E9) {
-                ((Unkstruct_80126B58 *)arg0)->unkE.s = -0x1EA;
+            if (((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s < -0x1E9) {
+                ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s = -0x1EA;
             }
             guess_RequestSound(0x773, 0);
         }
         break;
     case 1:
         ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.w.unk10.s += 0x20;
-        if (((Unkstruct_80126B58 *)arg0)->unkE.s < -0x1E9) {
+        if (((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s < -0x1E9) {
             ((Unkstruct_80126B58 *)arg0)->unk18.val = 0;
-            ((Unkstruct_80126B58 *)arg0)->unkE.s = -0x1EA;
+            ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s = -0x1EA;
             CAST_WIDTH(u16, arg0, 0x34) += 1;
         }
         break;
@@ -4111,7 +4111,7 @@ void func_80188C34(s32 param_1)
     extern u8 D_801BCA0C;
     extern u8 D_801B82E0;
     extern u8 D_801B82E4;
-    func_8001CD50(((Unkstruct_80188C34 *)param_1)->unk20, (s32)&D_801BCA08);
+    func_8001CD50(((Unkstruct_80188C34 *)param_1)->unk20.val, (s32)&D_801BCA08);
 
     ((Unkstruct_80188C34 *)param_1)->unk8.i.hi.u -= 0x100;
     ((Unkstruct_80188C34_2 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;

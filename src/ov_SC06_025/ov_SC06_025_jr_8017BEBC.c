@@ -3641,8 +3641,8 @@ void func_8017E18C(s32 arg0, s16 *arg1, s32 arg2, s32 arg3)
     if (arg2 <= 0) {
         arg2 = 1;
     }
-    q1 = ((arg1[0] - ((Unkstruct_80126B58 *)arg3)->unk6.s) << 16) / arg2;
-    q2 = ((arg1[2] - ((Unkstruct_80126B58 *)arg3)->unkE.s) << 16) / arg2;
+    q1 = ((arg1[0] - ((Unkstruct_80126B58 *)arg3)->unk4.i.hi.s) << 16) / arg2;
+    q2 = ((arg1[2] - ((Unkstruct_80126B58 *)arg3)->unkC.i.hi.s) << 16) / arg2;
     ((Unkstruct_80126B58 *)arg3)->unk28 = arg2 * -0x100000;
     ((Unkstruct_80126B58 *)arg3)->unk24.val = q1;
     ((Unkstruct_80126B58 *)arg3)->unk2C = q2;

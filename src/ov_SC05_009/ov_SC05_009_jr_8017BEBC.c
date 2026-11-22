@@ -3433,7 +3433,7 @@ void func_8017DF5C(s32 a0)
         {
             s32 t4 = D_8019387C[((Unkstruct_801202A0 *)s0)->extD.kcls_4a3ca2577184.unk100].value - 1;
             s32 t5 = ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u + t4;
-            ((Unkstruct_80126B58 *)anchor)->unkA.s = t5;   /* guess_g_PlayerActor + 0xA */
+            ((Unkstruct_80126B58 *)anchor)->unk8.i.hi.s = t5;   /* guess_g_PlayerActor + 0xA */
         }
     }
 

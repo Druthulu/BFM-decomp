@@ -831,7 +831,7 @@ s32 func_801845F4(s32 param_1) {
     if (func_80172670(s1) == 0 && func_80172658(s1) == 0) {
         return 0;
     }
-    if (func_80172658(s1) != 0 && ((Unkstruct_80126B58 *)s1)->unkA.s < -0xA01) {
+    if (func_80172658(s1) != 0 && ((Unkstruct_80126B58 *)s1)->unk8.i.hi.s < -0xA01) {
         if ((*(u32 *)((s32)s0 + 0xDC) & 0x80) == 0) {
             func_801746DC();
             *(u32 *)((s32)s0 + 0xDC) |= 0x80;

@@ -3209,7 +3209,7 @@ void func_801843FC(s32 param_1)
     extern u8 D_801903C0;
     s32 s0;
 
-    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8001CD50(s0, (s32)&D_801903C0);
     ((Unkstruct_800B5BD8 *)s0)->head.unk10.w.unk10.s = 0x400;
     ((Unkstruct_800B5BD8 *)s0)->head.unk4.u |= 0x50000000;
@@ -3229,7 +3229,7 @@ void func_8018449C(s32 param_1) {
     s32 prim;
     s32 var;
 
-    prim = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    prim = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     var = ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s;
     ((Unkstruct_800B5BD8 *)prim)->head.unk18.w.unk18.s = CAST_SIGN(u16, prim, 0x18) + var;
     if (((Unkstruct_800B5BD8 *)prim)->head.unk18.w.unk18.s >= 0x2000) {

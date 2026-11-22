@@ -3564,7 +3564,7 @@ void func_8017ECE0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20;
+        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20.val;
         if (tmp != 0) {
             ((Unkstruct_800B5BD8 *)tmp)->head.unk2C.u = 0xC040;
         }
@@ -3592,7 +3592,7 @@ void func_8017EDA0(s32 arg0) {
         if (sp1C == 0) {
             break;
         }
-        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20;
+        tmp = ((Unkstruct_8011DB30 *)sp1C)->unk20.val;
         if (tmp != 0) {
             ((Unkstruct_800B5BD8 *)tmp)->head.unk2C.u = 0xC040;
         }
@@ -3813,7 +3813,7 @@ void func_8017F154(s32 arg0) {
     m = D_800AE620;
     blk = D_8019E290;
     f = ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u & 1;
-    guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20, &D_8019F95C[f << 6]);
+    guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20.val, &D_8019F95C[f << 6]);
     ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
     ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
     if (f == 0) {
@@ -3905,7 +3905,7 @@ void func_8017F3B8(s32 a0)
             return;
         }
     } else {
-        s16 h = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x18);
+        s16 h = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x18);
         s32 t;
 
         if (h < 0x1000) {
@@ -4938,10 +4938,10 @@ void func_80180E24(void *a0)
         ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = 0x2800;
         ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = 0x2800;
 
-        guess_StartPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32)s0, (s32)&D_801890C8);
+        guess_StartPairSequence(((Unkstruct_8011DB30 *)s1)->unk20.val, (s32)s0, (s32)&D_801890C8);
 
         ((Unkstruct_8011DB30 *)s1)->unk2.s = CAST_SIGN(u16, (u8 *)s1, 0x2) + 1;
-        guess_StepPairSequence(((Unkstruct_8011DB30 *)s1)->unk20, (s32 *)s0);
+        guess_StepPairSequence(((Unkstruct_8011DB30 *)s1)->unk20.val, (s32 *)s0);
         ((Unkstruct_8011DB30 *)s1)->unk1C.s = 0;         /* +0x1C: frame timer */
     }
 
@@ -5095,8 +5095,8 @@ void func_801810A4(s32 a0) {
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk20.s = (s32) D_801890F0;
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk24.b.unk27.u = 0x44;
         ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk1A.u = 0xC00;
-        guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, a0 + 0x24, (s32) D_801890FC);
-        guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20, (s32 *)(a0 + 0x24));
+        guess_StartPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, a0 + 0x24, (s32) D_801890FC);
+        guess_StepPairSequence(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32 *)(a0 + 0x24));
         ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
     }
         /* fallthrough */
@@ -5113,12 +5113,12 @@ void func_801810A4(s32 a0) {
              * lw one slot too late; omitting the fence lets sched1 hoist the lw above the `addu`,
              * where n ($v1) is still live -- that conflict is what costs p its $v1. */
             v = n * 3;
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;        /* obj->model */
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;        /* obj->model */
             v = v * 128;
             ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = v;
         } else if (n < 0x16) {
             v = 0xC00;
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = v;
         } else if (*(s32 *)(obj + 0x1C) == 0) {
             /* Raw (unnamed) pointer for the 0x1A store, so the sh kills the cse and `p` costs its
@@ -5127,7 +5127,7 @@ void func_801810A4(s32 a0) {
              * first load's pseudo. */
             ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk1A.u = 0x600;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             v = 0x1200;
         } else if (*(s32 *)(obj + 0x1C) < 0x11) {
             ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk1A.u = 0xC00;
@@ -5136,7 +5136,7 @@ void func_801810A4(s32 a0) {
              * `+ 0x600` below it -- target order is sll / lw / addiu. */
             v = *(s32 *)(obj + 0x1C) * 3 * 32;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-order
             v = v + 0x600;
         } else {

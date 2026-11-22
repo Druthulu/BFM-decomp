@@ -3233,7 +3233,7 @@ void func_8018308C(s32 param_1)
     } else {
         switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
         case 0:
-            if (((Unkstruct_80126B58 *)base)->unkE.s > D_8018AB94) {
+            if (((Unkstruct_80126B58 *)base)->unkC.i.hi.s > D_8018AB94) {
                 ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
                 guess_SetForwardVelocity(param_1, 0xfff60000);
             }
@@ -3247,7 +3247,7 @@ void func_8018308C(s32 param_1)
             }
             func_8012CBA4(param_1);
             y = CAST_SIGN(s16, param_1, 0xe);
-            if ((y < D_8018AB96) || ((y - ((Unkstruct_80126B58 *)base)->unkE.s) < 0x80)) {
+            if ((y < D_8018AB96) || ((y - ((Unkstruct_80126B58 *)base)->unkC.i.hi.s) < 0x80)) {
                 ((Unkstruct_801202A0 *)param_1)->unk70.s = 0;
                 ((Unkstruct_801202A0 *)param_1)->unkC1.s = 0;
                 ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;

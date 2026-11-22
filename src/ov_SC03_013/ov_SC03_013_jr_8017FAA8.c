@@ -3289,7 +3289,7 @@ extern s32 guess_GetGameVarByte(s32 arg);
 
 void func_8018063C(s32 arg0) {
     if (((Unkstruct_8011DB30 *)arg0)->unk2.u == 0) {
-        guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20, D_801AD358);
+        guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20.val, D_801AD358);
         ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
         (((Unkstruct_8011DB30 *)arg0)->unk2.u)++;
     } else {

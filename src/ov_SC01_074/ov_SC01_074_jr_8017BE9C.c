@@ -3306,9 +3306,9 @@ void func_8017D364(int param_1)
     func_80013E94(&vec, &out);
     out |= 0x80000000;
     if ((guess_g_FrameCounter & 3) == 0) {
-        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_80126B58 *)param_1)->unk6.s,
-                      (s16)(((Unkstruct_80126B58 *)param_1)->unkA.u - 0x40),
-                      ((Unkstruct_80126B58 *)param_1)->unkE.s, out, 0);
+        guess_SpawnSmallObject(6, (void *)param_1, ((Unkstruct_80126B58 *)param_1)->unk4.i.hi.s,
+                      (s16)(((Unkstruct_80126B58 *)param_1)->unk8.i.hi.u - 0x40),
+                      ((Unkstruct_80126B58 *)param_1)->unkC.i.hi.s, out, 0);
     }
 }
 

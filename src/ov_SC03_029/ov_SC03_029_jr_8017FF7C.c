@@ -3571,7 +3571,7 @@ void func_80181338(void *a0)
     s32 s1;
     u8 *p;
 
-    s1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    s1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     p = D_801D9760 + ((Unkstruct_8011DB30 *)a0)->unk2C.val.s * 0x40;
     func_8001CD50(s1, (s32)p);
     ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = 0xCCC;
@@ -5953,7 +5953,7 @@ void func_80184694(void *a0)
     m = aD800AE620_80184694;
     mp = &m;
 
-    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12), mp);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x12), mp);
 
     ApplyMatrixLV((s32)mp, (s32)&vec, (s32)a0 + 0x10);
 }
@@ -6108,7 +6108,7 @@ s32 func_80184958(void *a0)
     s32  hit;
 
     cfg = (s32 *)&guess_g_PlayerActor;
-    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20;
+    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20.val;
 
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);

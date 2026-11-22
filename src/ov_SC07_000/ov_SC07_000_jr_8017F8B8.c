@@ -3737,11 +3737,11 @@ void func_80181228(void *a0) {
     s16 v;
 
     p = &D_801D0678[CAST_SIGN(s16, (s32)a0, 0x2C) * 0x40];
-    a1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+    a1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     v = CAST_SIGN(s16, a1, 0x18);
     if (v < 0x1000) {
         ((Unkstruct_800B5BD8 *)a1)->head.unk18.w.unk18.u = v + 0x200;
-        v1 = ((Unkstruct_8011DB30 *)a0)->unk20;
+        v1 = ((Unkstruct_8011DB30 *)a0)->unk20.val;
         ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk1A.u += 0x300;
         p[0] += D_801865BC >> 3;
         p[1] += D_801865BD >> 3;

@@ -5,7 +5,7 @@ void SHARED_FN(s32 arg0)
     s32 v;
     s32 timer;
 
-    obj = ((Unkstruct_8011DB30 *)arg0)->unk20;
+    obj = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
     CAST_WIDTH(s32, arg0, 0x10) += CAST_WIDTH(s32, arg0, 0x2C);
     ((Unkstruct_8011DB30 *)arg0)->unk14.val.s += ((Unkstruct_8011DB30 *)arg0)->unk30.val.s;
     CAST_WIDTH(s32, arg0, 0x18) += CAST_WIDTH(s32, arg0, 0x34);

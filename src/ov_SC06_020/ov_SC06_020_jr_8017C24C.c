@@ -4398,9 +4398,9 @@ void func_8017FAFC(s32 param_1) {
         func_8012B0B4(p28, coord, rand() % 0x200 + 0x200);
 
         tmp = *(s32 *)auStack_28;
-        psVar7[0] = b58->unk6.u + tmp;
-        psVar7[1] = b58->unkA.u;
-        psVar7[2] = b58->unkE.u + (tmp >> 16);
+        psVar7[0] = b58->unk4.i.hi.u + tmp;
+        psVar7[1] = b58->unk8.i.hi.u;
+        psVar7[2] = b58->unkC.i.hi.u + (tmp >> 16);
 
         r3 = rand();
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x80;

@@ -3880,9 +3880,9 @@ void func_8017F990(s32 arg0, s32 arg1) {
     buf[2] = t;
     if ((guess_g_FrameCounter & 3) == 0) {
         guess_SpawnSmallObject(6, arg0,
-                      ((Unkstruct_80126B58 *)arg0)->unk6.s,
-                      ((Unkstruct_80126B58 *)arg0)->unkA.s,
-                      ((Unkstruct_80126B58 *)arg0)->unkE.s,
+                      ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
+                      ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s,
+                      ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s,
                       t, 0);
     }
 }
@@ -4551,14 +4551,14 @@ void func_801809B8(s32 arg0, s32 arg1, s32 arg2)
     if (res == 0) {
         return;
     }
-    if (((Unkstruct_8011DB30 *)res)->unk20 != 0) {
+    if (((Unkstruct_8011DB30 *)res)->unk20.val != 0) {
         ((Unkstruct_800B5BD8 *)*(s32 *)(res + 0x20))->head.unk2C.u = 0xC010;
     }
     CAST_WIDTH(s32, res, 0x10) = (rand() & 0x7FFF) * 8 - 0x20000;
     ((Unkstruct_8011DB30 *)res)->unk14.val.s = (rand() & 0x7FFF) * 4 - 0x60000;
     CAST_WIDTH(s32, res, 0x18) = (rand() & 0x7FFF) * 8 - 0x20000;
     ((Unkstruct_8011DB30 *)res)->unk34.i.lo.u = 0x3001;
-    *(s32 *)(((Unkstruct_8011DB30 *)res)->unk20 + 4) |= 0x50000000;
+    *(s32 *)(((Unkstruct_8011DB30 *)res)->unk20.val + 4) |= 0x50000000;
     tbl = (s32)D_8018A9A4 + arg1 * 8;
     ((Unkstruct_8011DB30 *)res)->unk4.i.hi.u = *(u16 *)(tbl + 0);
     ((Unkstruct_8011DB30 *)res)->unk8.i.hi.u = *(u16 *)(tbl + 2);
@@ -6037,7 +6037,7 @@ void func_80182F04(s32 *a0)
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
     s32 p;
 
-    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     if (--CAST_SIGN(s16, (s32)a0, 0x2C) == -1) {
         func_801292C8((u8 *)a0);
         return;
@@ -6089,7 +6089,7 @@ void func_80183054(void *a0)
     s32 v0;
     s32 v1;
 
-    s0 = ((Unkstruct_8011DB30 *)s1)->unk20;
+    s0 = ((Unkstruct_8011DB30 *)s1)->unk20.val;
     ((void (*)(s32, s32, s32, s32))func_8001CC3C)((s32)s0, (s32)&D_8018B174, 0x240, 0x1D0);
 
     v0 = 0x54;
@@ -6119,7 +6119,7 @@ void func_801830D8(s32 *a0)
     extern void guess_AddVelocityToPos(S800D22E4 *a0);
     s32 p;
 
-    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     if ((s16)--((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u == -1) {
         func_801292C8((u8 *)a0);
         return;

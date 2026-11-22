@@ -4363,7 +4363,7 @@ void func_8018A724(s32 param_1)
     extern u8 D_801EC45C;
     extern u8 D_801EA170;
     extern u8 D_801EA174;
-    func_8001CD50(((Unkstruct_8018A724 *)param_1)->unk20, (s32)&D_801EC458);
+    func_8001CD50(((Unkstruct_8018A724 *)param_1)->unk20.val, (s32)&D_801EC458);
 
     ((Unkstruct_8018A724 *)param_1)->unk8.i.hi.u -= 0x100;
     ((Unkstruct_8018A724_2 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
@@ -5046,10 +5046,10 @@ void func_8018B698(s32 *s0) {
     guess_NextStep(s0);
     return;
 clamp:
-    if (((Unkstruct_80126B58 *)s0)->unkE.s >= 0x240) {
+    if (((Unkstruct_80126B58 *)s0)->unkC.i.hi.s >= 0x240) {
         return;
     }
-    ((Unkstruct_80126B58 *)s0)->unkE.s = 0x240;
+    ((Unkstruct_80126B58 *)s0)->unkC.i.hi.s = 0x240;
 }
 
 

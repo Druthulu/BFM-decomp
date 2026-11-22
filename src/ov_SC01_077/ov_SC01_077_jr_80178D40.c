@@ -3290,9 +3290,9 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         v40.vx = arg0->unk4.i.hi.u;
         v40.vy = arg0->unk8.i.hi.u;
         v40.vz = arg0->unkC.i.hi.u;
-        v48.vx = pv->unk6.u;
-        v48.vy = pv->unkA.u;
-        v48.vz = pv->unkE.u;
+        v48.vx = pv->unk4.i.hi.u;
+        v48.vy = pv->unk8.i.hi.u;
+        v48.vz = pv->unkC.i.hi.u;
         guess_WorldToScreen(out50, &v40);
         w1 = out50[0];
         guess_WorldToScreen(out50, &v48);
@@ -3307,9 +3307,9 @@ void func_80178D40(Unkstruct_801202A0 *arg0, s32 arg1)
         v58.vx = arg0->unk4.i.hi.u;
         v58.vy = arg0->unk8.i.hi.u;
         v58.vz = arg0->unkC.i.hi.u;
-        v60.vx = pv->unk6.u;
-        v60.vy = pv->unkA.u;
-        v60.vz = pv->unkE.u;
+        v60.vx = pv->unk4.i.hi.u;
+        v60.vy = pv->unk8.i.hi.u;
+        v60.vz = pv->unkC.i.hi.u;
         guess_WorldToScreen(out50, &v58);
         w1 = out50[0];
         guess_WorldToScreen(out50, &v60);

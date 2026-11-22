@@ -217,8 +217,8 @@ void func_800CB304(void *a0) {
     if (pad == NULL) {}
     var_s2 = ((Unkstruct_80126B58 *)a0)->unk20.val;
     for (i = 0; i < 6; i++) {
-        guess_SpawnSmallObject(0x4D, a0, ((Unkstruct_80126B58 *)a0)->unk6.s, ((Unkstruct_80126B58 *)a0)->unkA.s,
-                      ((Unkstruct_80126B58 *)a0)->unkE.s, i, 1);
+        guess_SpawnSmallObject(0x4D, a0, ((Unkstruct_80126B58 *)a0)->unk4.i.hi.s, ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s,
+                      ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s, i, 1);
     }
     if (guess_TickWaitTimer_2((s32)a0) != 0) {
         guess_NextStep(a0);

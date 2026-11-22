@@ -3656,16 +3656,16 @@ void func_8017EA58(s32 param_1) {
     s32 var_s0;
 
     if (((Unkstruct_8011DB30 *)param_1)->unk2.u == 0) {
-        guess_InitObjectKind6(((Unkstruct_8011DB30 *)param_1)->unk20, &D_8019FFA0);
-        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20) + 4) |= 0x50000000;
+        guess_InitObjectKind6(((Unkstruct_8011DB30 *)param_1)->unk20.val, &D_8019FFA0);
+        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20.val) + 4) |= 0x50000000;
         ((Unkstruct_8011DB30 *)param_1)->unk2.u += 1;
         return;
     }
     var_s0 = ((Unkstruct_8011DB30 *)param_1)->unk34.i.lo.s;
     if ((guess_GetGameVarByte(0xCE) & 0xFF) >= var_s0) {
-        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20) + 0x20) = (s32)&D_8019FFE0;
+        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20.val) + 0x20) = (s32)&D_8019FFE0;
     } else {
-        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20) + 0x20) = (s32)&D_8019FFA0;
+        *(s32 *)((((Unkstruct_8011DB30 *)param_1)->unk20.val) + 0x20) = (s32)&D_8019FFA0;
     }
 }
 

@@ -102,7 +102,7 @@ void func_800CB030(s32 param_1) {
         *(u32 *)(p + 4) |= 0x08000000;
         guess_TransformPosByObjMatrix(obj, param_1 + 4);
         ((Unkstruct_80126B58 *)param_1)->unk60.u = CAST_SIGN(u16, param_1, 0xA);
-        ((Unkstruct_80126B58 *)param_1)->unkA.s = CAST_SIGN(u16, param_1, 0xA) - 0x200;
+        ((Unkstruct_80126B58 *)param_1)->unk8.i.hi.s = CAST_SIGN(u16, param_1, 0xA) - 0x200;
         ((Unkstruct_80126B58 *)param_1)->unk58 = 0;
         if (((Unkstruct_80126B58 *)param_1)->unk50 == 0) {
             guess_SetWaitTimer_2((s32 *)param_1, 0);
@@ -134,9 +134,9 @@ void func_800CB11C(u8 *arg0) {
     CAST_WIDTH(s32, arg0, 8) += var;
 
     cur = CAST_SIGN(s16, arg0, 0x60);
-    max = ((Unkstruct_80126B58 *)arg0)->unkA.s;
+    max = ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s;
     if (cur < max) {
-        ((Unkstruct_80126B58 *)arg0)->unkA.s = cur;
+        ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s = cur;
         if (CAST_SIGN(s16, arg0, 0x62) == 0) {
             ((Unkstruct_80126B58 *)arg0)->unk62.u = CAST_SIGN(s16, arg0, 0x62) + 1;
             guess_PlaySoundUnlessSkipped(0x8EC);

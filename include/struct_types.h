@@ -141,11 +141,10 @@ typedef struct {
     /* T18.c19: grown 0x14 -> 0x30 over the span model and sprite share (judge c12 + expert x: +0x14..+0x1D agree; +0x1E is
        sprite unk1E, unread by the model; +0x24 is model s32 / sprite 4 x u8, held as a union). Was size 0x14. */
     /* 0x0010 */ union { struct { union { s16 s; u16 u; } unk10; union { s16 s; u16 u; } unk12; union { s16 s; u16 u; } unk14; u8 pad16[0x2]; } w; Unkstruct_801343C4 m; } unk10; /* m: 8-byte copy unit (T18.c20; copied head to head, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3789) */
-    /* 0x0018 */ union { struct { union { s16 s; u16 u; } unk18; union { s16 s; u16 u; } unk1A; union { s16 s; u16 u; } unk1C; union { s16 s; u16 u; } unk1E; } w; Unkstruct_801343C4 m; } unk18; /* m: 8-byte copy unit (T18.c20; copied head to head, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3794) */
-    /* 0x0020 */ union { s32 s; u32 u; } unk20;
+    /* 0x0018 */ union { struct { union { s16 s; u16 u; } unk18; union { s16 s; u16 u; } unk1A; union { s16 s; u16 u; } unk1C; union { s16 s; u16 u; } unk1E; } w; Unkstruct_801343C4 m; s32 val; } unk18; /* m: 8-byte copy unit (T18.c20; copied head to head, e.g. src/ov_SC06_024/ov_SC06_024_jr_80186F00.c:3794); val: word copy of unk18/unk1A (T20.c11, judge 800CC024_3) */
+    /* 0x0020 */ union { s32 s; u32 u; void *p; } unk20; /* p: pointer views (T20.c11, judges 80182AC0_3/Ent_80021284) */
     /* 0x0024 */ union { s32 w; struct { union { u8 u; s8 s; } unk24; union { u8 u; s8 s; } unk25; u8 unk26; union { u8 u; s8 s; } unk27; } b; } unk24;
-    /* 0x0028 */ union { s16 s; u16 u; } unk28;
-    /* 0x002a */ union { s16 s; u16 u; } unk2A;
+    /* 0x0028 */ union { s32 val; struct { union { s16 s; u16 u; } unk28; union { s16 s; u16 u; } unk2A; } w; } unk28; /* val: packed screen xy word (0x7FFF7FFF = none, func_80021174; T20.c11, judge 8001EFE0) */
     /* 0x002c */ union { u16 u; s16 s; } unk2C;
     /* 0x002e */ union { u16 u; s16 s; } unk2E;
 } RenderHead; /* size = 0x30 */
@@ -162,8 +161,7 @@ typedef struct {
     /* 0x0068 */ s32 unk68;
     /* 0x006c */ s32 unk6C;
     /* 0x0070 */ s32 unk70;
-    /* 0x0074 */ u8 pad74[0x2];
-    /* 0x0076 */ s16 unk76;
+    /* 0x0074 */ union { s32 val; struct { u8 pad0[0x2]; s16 unk76; } w; } unk74; /* val: word store (T20.c11, judge 8001CA88) */
     /* 0x0078 */ s32 unk78;
     /* 0x007c */ u8 pad7C[0x4];
     /* 0x0080 */ SVECTOR *unk80;
@@ -174,12 +172,9 @@ typedef struct {
     /* T16.c5: 0x254 bytes: guess_ZeroMemory(&guess_g_PlayerActor, 0x254) (src/shared/ov/func_80145CEC__05c7cfc4.h:51) */
     /* 0x0000 */ u16 unk0;
     /* 0x0002 */ union { u16 u; s16 s; } unk2;
-    /* 0x0004 */ u16 unk4;
-    /* 0x0006 */ union { s16 s; u16 u; } unk6;
-    /* 0x0008 */ u16 unk8;
-    /* 0x000a */ union { s16 s; u16 u; } unkA;
-    /* 0x000c */ u16 unkC;
-    /* 0x000e */ union { s16 s; u16 u; } unkE;
+    /* 0x0004 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk4; /* position words: s32 reads (T20.c11, judge c9 8017D598_2) */
+    /* 0x0008 */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unk8;
+    /* 0x000c */ union { s32 val; struct { u16 lo; union { s16 s; u16 u; } hi; } i; } unkC;
     /* 0x0010 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk10;
     /* 0x0014 */ s32 unk14;
     /* 0x0018 */ union { s32 val; struct { u16 lo; u16 hi; } i; } unk18;
@@ -501,6 +496,11 @@ typedef struct Unkstruct_801202A0 {
     /* 0x010a */ union { s16 s; u16 u; struct { u8 lo; u8 hi; } b; } unk10A;
 } Unkstruct_801202A0; /* size = 0x10c */
 
+/* T17.c24b: MATRIX moved ahead of its aliases (byte-neutral) */
+/* T20.c10: and ahead of the small object (unk38.mat) */
+/* T20.c11: and ahead of the sprite record (unk34.mat) */
+typedef struct { short m[3][3]; long t[3]; } MATRIX;
+
 /* Unkstruct_800B5BD8 — the sprite record (0x38, guess_g_RenderWork+0x65A8; render head +0x0..+0x10 shared with the 0x84 model record
    Unkstruct_8001C9D0; P3.45 T16.c1 model). */
 typedef struct Unkstruct_800B5BD8 {
@@ -517,6 +517,7 @@ typedef struct Unkstruct_800B5BD8 {
     /* 0x0034 */ union {
         s32 s;
         u32 u;
+        MATRIX *mat; /* rotation matrix pointer (T20.c11, judge 800CB190: md_MAIN_033 func_800CB3D8) */
     } unk34;
 } Unkstruct_800B5BD8; /* size = 0x38 */
 
@@ -542,21 +543,21 @@ typedef struct {
     } unkC;
     /* 0x0010 */ union {
         union { s32 s; u32 u; } val;
-        struct { u16 lo; u16 hi; } i;
+        struct { u16 lo; union { u16 u; s16 s; } hi; } i; /* hi.s: T20.c11 sign views */
     } unk10;
     /* 0x0014 */ union {
         union { s32 s; u32 u; } val;
-        struct { u16 lo; u16 hi; } i;
+        struct { u16 lo; union { u16 u; s16 s; } hi; } i; /* hi.s: T20.c11 sign views */
     } unk14;
     /* 0x0018 */ union {
         union { s32 s; u32 u; } val;
-        struct { u16 lo; u16 hi; } i;
+        struct { u16 lo; union { u16 u; s16 s; } hi; } i; /* hi.s: T20.c11 sign views */
     } unk18;
     /* 0x001c */ union {
         s32 s;
         u32 u;
     } unk1C;
-    /* 0x0020 */ s32 unk20;
+    /* 0x0020 */ union { s32 val; void *p; Unkstruct_800B5BD8 *spr; } unk20; /* spr: the fx's sprite record; p: untyped pointer views (T20.c11) */
     /* 0x0024 */ u8 pad24[0x4];
     /* 0x0028 */ union { s16 s; u8 b; } unk28;
     /* 0x002a */ u16 unk2A;
@@ -566,17 +567,13 @@ typedef struct {
     } unk2C;
     /* 0x0030 */ union {
         union { s32 s; u32 u; } val;
-        struct { u16 lo; union { s16 s; u16 u; } hi; } i;
+        struct { union { u16 u; s16 s; } lo; union { s16 s; u16 u; } hi; } i; /* lo.s: T20.c11 sign views */
     } unk30;
     /* 0x0034 */ union {
         union { s32 s; u32 u; } val;
         struct { union { u16 u; s16 s; } lo; union { u16 u; s16 s; } hi; } i;
     } unk34;
 } Unkstruct_8011DB30; /* size = 0x38 */
-
-/* T17.c24b: MATRIX moved ahead of its aliases (byte-neutral) */
-/* T20.c10: and ahead of the small object (unk38.mat) */
-typedef struct { short m[3][3]; long t[3]; } MATRIX;
 
 /* Unkstruct_8011D030 — the small object (guess_g_SmallObjectPool 0x8011D030 x 30, 0x58 each; +0x0 kind -> D_80126728 handler,
    +0x20 pointer: src/shared/ov/func_80165CA0.h:14-23). */

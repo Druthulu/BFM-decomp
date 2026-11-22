@@ -342,8 +342,8 @@ void func_800CD2EC(s32 *s1) {
         if ((*(u16 *)&guess_g_FrameCounter & 3) == 0) {
             func_800CD57C(s1);
         }
-        guess_SpawnSmallObject(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk6.s, ((Unkstruct_80126B58 *)s1)->unkA.s,
-                      ((Unkstruct_80126B58 *)s1)->unkE.s, *(s16 *)(s2 + 0x12), 0);
+        guess_SpawnSmallObject(0x26, s1, ((Unkstruct_80126B58 *)s1)->unk4.i.hi.s, ((Unkstruct_80126B58 *)s1)->unk8.i.hi.s,
+                      ((Unkstruct_80126B58 *)s1)->unkC.i.hi.s, *(s16 *)(s2 + 0x12), 0);
         func_800CD848((s32)s1);
         func_800CD780((s32)s1);
         p = buf + 0x20;
@@ -433,9 +433,9 @@ extern s32 func_801469C8(s32, void *, s32, s32, u16, s32, s32, s32);
 void func_800CD57C(void *arg0) {
     if (((s32 (*)(void *, void *, s32, s32, s32, s32, s32, s32))func_801469C8)(
             (void *)0x27, arg0,
-            ((Unkstruct_80126B58 *)arg0)->unk6.s,
-            ((Unkstruct_80126B58 *)arg0)->unkA.s,
-            ((Unkstruct_80126B58 *)arg0)->unkE.s,
+            ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
+            ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s,
+            ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s,
             ((Unkstruct_80126B58 *)arg0)->unk50 & 7,
             0, 8) != 0) {
         (((Unkstruct_80126B58 *)arg0)->unk50) += 1;
@@ -675,9 +675,9 @@ void func_800CDBA8(s32 param_1) {
     v1 = ((Unkstruct_8011D030 *)param_1)->unk34.val;
     if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         s4 = 0;
-        sp20[0] = ((Unkstruct_80126B58 *)v1)->unk6.u;
-        sp20[1] = ((Unkstruct_80126B58 *)v1)->unkA.u - 0x28;
-        sp20[2] = ((Unkstruct_80126B58 *)v1)->unkE.u;
+        sp20[0] = ((Unkstruct_80126B58 *)v1)->unk4.i.hi.u;
+        sp20[1] = ((Unkstruct_80126B58 *)v1)->unk8.i.hi.u - 0x28;
+        sp20[2] = ((Unkstruct_80126B58 *)v1)->unkC.i.hi.u;
         do {
             s0 = rand();
             sp28[0] = ((s0 & 0x7F) << 3) - 0x40;

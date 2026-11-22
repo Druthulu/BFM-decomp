@@ -4106,19 +4106,19 @@ void func_80180C38(void *a0)
 
             /* (1) above: the `p = ...` statement is the to_rtx, the `base = ...`
              * statement is the post-call reload.  Both reads are written out. */
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x10);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x10);
             *(s16 *)(p + 0x10) = (rand() & 1) ? base + r : base - r;
 
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x12);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x12);
             *(s16 *)(p + 0x12) = (rand() & 1) ? base + r : base - r;
 
-            p = ((Unkstruct_8011DB30 *)a0)->unk20;
+            p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
             r = rand() % 256;
-            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14);
+            base = *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14);
             *(s16 *)(p + 0x14) = (rand() & 1) ? base + r : base - r;
             return;
         }
@@ -4129,7 +4129,7 @@ void func_80180C38(void *a0)
     m.t[1] = CAST_SIGN(s16, (s32)a0, 0xA);
     m.t[2] = CAST_SIGN(s16, (s32)a0, 0xE);
 
-    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14), &m);
+    RotMatrixY(*(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14), &m);
     gte_SetRotMatrix(&m);
     gte_SetTransMatrix(&m);
 
@@ -4137,14 +4137,14 @@ void func_80180C38(void *a0)
     RotTransSV(&D_80189C10[8], &sv_b, flag);
 
     if (func_80135888((s32)guess_g_PlayerModelPtr, (s32)D_80126B90, (s32)&sv_a, (s32)&sv_b) != 0) {
-        guess_SetPlayerHit(1, 1, *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) + 0x800, 30,
+        guess_SetPlayerHit(1, 1, *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) + 0x800, 30,
                       (s32)&sv_b, (s32)guess_g_BoxHitNormalX);
         if (func_8014A454((s32)&guess_g_PlayerActor) != 0) {
             goto kill;
         }
         func_8012F038((s32)guess_g_PlayerModelPtr + 0x34, (short *)&sv_b, (short *)&sv_a);
 
-        ((Unkstruct_8011DB30 *)a0)->unk10.i.hi = sv_a.vx;
+        ((Unkstruct_8011DB30 *)a0)->unk10.i.hi.u = sv_a.vx;
         *(s16 *)((s32)a0 + 0x16) = sv_a.vy;
         CAST_ALIAS(s16, (s32)a0, 0x1A) = sv_a.vz;
         CAST_ALIAS(s32, (s32)a0, 0x1C) = 60;
@@ -4164,8 +4164,8 @@ void func_80180C38(void *a0)
             ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk10.u + d;
         ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u =
             ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u + d;
-        *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) =
-            *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20 + 0x14) + d;
+        *(s16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) =
+            *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) + d;
         return;
     }
 
@@ -4238,16 +4238,16 @@ void func_8018110C(s32 a0)
     SVECTOR svec_out;
     s32 obj;
 
-    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi;
+    svec_in.vx = ((Unkstruct_8011DB30 *)a0)->unk10.i.hi.u;
     svec_in.vy = *(u16 *)(a0 + 0x16);
-    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi;
+    svec_in.vz = ((Unkstruct_8011DB30 *)a0)->unk18.i.hi.u;
     guess_RotTransSVWithMatrix((s32)guess_g_PlayerModelPtr + 0x34, (s32)&svec_in, (s32)&svec_out);
 
     ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = svec_out.vx;
     ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = svec_out.vy;
     ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = svec_out.vz;
 
-    obj = ((Unkstruct_8011DB30 *)a0)->unk20;
+    obj = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     *(u16 *)(obj + 0x14) = *(u16 *)(obj + 0x14) +
         (((Unkstruct_8011DB30 *)a0)->unk2A - *(u16 *)((u8 *)guess_g_PlayerModelPtr + 0x12));
     __asm__ __volatile__("" ::: "memory");  // !FAKE: barrier memory — NEEDED DIFFERS (P36 rung B t8_tus2) wall:cse-value-forward

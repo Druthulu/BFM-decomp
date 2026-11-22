@@ -3353,8 +3353,8 @@ void func_8017BEF8(s32 param_1) {
         ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u = 0x200;
         *(s16 *)(param_1 + 0x16) = 0x200;
         *(s16 *)(param_1 + 0x14) = 0x1000;
-        ((Unkstruct_800B5BD8 *)node)->head.unk28.s = 0x240;
-        ((Unkstruct_800B5BD8 *)node)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk28.s = 0x240;
+        ((Unkstruct_800B5BD8 *)node)->head.unk28.w.unk2A.u = 0x180;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk10.u = w.vx;
         ((Unkstruct_800B5BD8 *)node)->head.unk10.w.unk12.u = w.vy;
         *(s16 *)(param_1 + 2) = *(s16 *)(param_1 + 2) + 1;
@@ -3396,8 +3396,8 @@ void func_8017C18C(s32 a0) {
         ((Unkstruct_800B5BD8 *)r)->head.unk10.w.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk18.u = 0x3000;
         ((Unkstruct_800B5BD8 *)r)->head.unk18.w.unk1A.u = 0x3000;
-        ((Unkstruct_800B5BD8 *)r)->head.unk28.s = 0x248;
-        ((Unkstruct_800B5BD8 *)r)->head.unk2A.u = 0x180;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk28.s = 0x248;
+        ((Unkstruct_800B5BD8 *)r)->head.unk28.w.unk2A.u = 0x180;
         *(s16 *)(a0 + 2) = *(s16 *)(a0 + 2) + 1;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)(a0);
@@ -5237,11 +5237,11 @@ void func_8017EF38(s32 a0) {
         uVar1 = ((Unkstruct_80126B58 *)a0)->unk60.u;
         ((Unkstruct_80126B58 *)a0)->unk60.u = uVar1 + 1;
     }
-    sVar1 = ((Unkstruct_80126B58 *)iVar1)->unkA.s;
-    if (sVar1 < ((Unkstruct_80126B58 *)a0)->unkA.s) {
+    sVar1 = ((Unkstruct_80126B58 *)iVar1)->unk8.i.hi.s;
+    if (sVar1 < ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s) {
         u16 uVar1;
         s32 uVar2;
-        ((Unkstruct_80126B58 *)a0)->unkA.s = sVar1;
+        ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s = sVar1;
         func_8013C9C4(D_8019058C);
         ((Unkstruct_80126B58 *)a0)->unk60.u = ((Unkstruct_8001C9D0 *)iVar2)->head.unk18.w.unk18.u;
         func_8001C810(iVar2, (s32)&D_801F16C0);
@@ -9863,7 +9863,7 @@ void func_80186070(s32 a0) {
 
     m = D_800AE620;
 
-    p = ((Unkstruct_8011DB30 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     RotMatrixY(*(s16 *)(p + 0x12), &m);
 
     ApplyMatrixLV((s32)&m, (s32)vec, a0 + 0x10);
@@ -9990,7 +9990,7 @@ s32 func_80186334(void *a0)
     s32  hit;
 
     cfg = (s32 *)&guess_g_PlayerActor;
-    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20;
+    p0 = (u8 *)((Unkstruct_8011DB30 *)a0)->unk20.val;
 
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);

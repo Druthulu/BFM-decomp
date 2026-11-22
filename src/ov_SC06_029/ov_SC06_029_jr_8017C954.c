@@ -5540,7 +5540,7 @@ void func_801814B0(u16 *param_1, s32 param_2)
                         (((rand() % 4) << 12) + 0x2000) | (rand() & 1);
                     ((Unkstruct_800B5BD8 *)*(s32 *)(sub + 0x20))->head.unk2C.u =
                         ((Unkstruct_800B5BD8 *)*(s32 *)(ent + 0x20))->head.unk2C.u;
-                    *(s32 *)(((Unkstruct_8011DB30 *)sub)->unk20 + 0x4) |= 0x40000000;
+                    *(s32 *)(((Unkstruct_8011DB30 *)sub)->unk20.val + 0x4) |= 0x40000000;
                 }
             }
             do { i--; } while (0);

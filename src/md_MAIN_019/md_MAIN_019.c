@@ -230,9 +230,9 @@ void func_800CB3FC(void *arg0)
         func_80015954((s32)arg0 + 0x10, (s32)arg0 + 4);
         guess_TransformPosByObjMatrix((s32)arg0, (s32)arg0 + 4);
         guess_SpawnSmallObject(3, arg0,
-                      ((Unkstruct_80126B58 *)arg0)->unk6.s,
-                      ((Unkstruct_80126B58 *)arg0)->unkA.s,
-                      ((Unkstruct_80126B58 *)arg0)->unkE.s,
+                      ((Unkstruct_80126B58 *)arg0)->unk4.i.hi.s,
+                      ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s,
+                      ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s,
                       0,
                       0x80001C00);
         guess_NextStep(arg0);
@@ -429,7 +429,7 @@ void func_800CBC0C(void *a0) {
     r04 = (u8 *)a0 + 4;
     guess_CopyVec3HighHalves((s32)r04, (s32 *)buf18);
     func_80015954((s32)a0 + 0x10, (s32)r04);
-    ((Unkstruct_80126B58 *)a0)->unkA.s = 0;
+    ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s = 0;
     guess_TransformPosByObjMatrix((s32)a0, (s32)r04);
     p = guess_g_ObjectTable;
     if (p < p + 0x6480) {

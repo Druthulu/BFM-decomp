@@ -201,8 +201,8 @@ alloc:
         *(u16 *)((s32)t + 0x10) = 0x400;
         guess_SetWaitTimer_2((s32 *)a0, 0x20);
         for (t = 0; t < 4; t++) {
-            guess_SpawnSmallObject(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk6.s, ((Unkstruct_80126B58 *)a0)->unkA.s,
-                          ((Unkstruct_80126B58 *)a0)->unkE.s, t, 0);
+            guess_SpawnSmallObject(0x45, a0, ((Unkstruct_80126B58 *)a0)->unk4.i.hi.s, ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s,
+                          ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s, t, 0);
         }
         guess_PlaySoundUnlessSkipped(0x913);
         guess_NextStep(a0);

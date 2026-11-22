@@ -4515,8 +4515,8 @@ void func_801801D4(s32 arg0, s32 arg1) {
     u16 *src;
     if (arg0 != 0) {
         src = (u16 *)&D_80193AA4[arg1];
-        ((Unkstruct_800B5BD8 *)arg0)->head.unk28.s = src[0];
-        ((Unkstruct_800B5BD8 *)arg0)->head.unk2A.u = src[1];
+        ((Unkstruct_800B5BD8 *)arg0)->head.unk28.w.unk28.s = src[0];
+        ((Unkstruct_800B5BD8 *)arg0)->head.unk28.w.unk2A.u = src[1];
     }
 }
 
@@ -4621,8 +4621,8 @@ void func_801803D0(s16 *param_1, s32 param_2)
     if (obj != 0) {
         sub = *(s32 *)(obj + 0x20);
         ((Unkstruct_800B5BD8 *)sub)->head.unk20.s = (s32)D_80193AAC;
-        ((Unkstruct_800B5BD8 *)sub)->head.unk28.s = 0x290;
-        ((Unkstruct_800B5BD8 *)sub)->head.unk2A.u = 0x1A0;
+        ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk28.s = 0x290;
+        ((Unkstruct_800B5BD8 *)sub)->head.unk28.w.unk2A.u = 0x1A0;
         ((Unkstruct_800B5BD8 *)sub)->head.unk24.b.unk27.u = 0x70;
         ((Unkstruct_800B5BD8 *)sub)->head.unk18.w.unk1A.u = 1;
         ((Unkstruct_800B5BD8 *)sub)->head.unk18.w.unk18.u = 1;

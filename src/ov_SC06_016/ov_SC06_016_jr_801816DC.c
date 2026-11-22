@@ -3099,7 +3099,7 @@ void func_80181B68(s32 arg0) {
 
     switch (*(u16 *)(s0 + 0x34)) {
     case 0:
-        if (((Unkstruct_80126B58 *)a0)->unkE.s >= 0x81) {
+        if (((Unkstruct_80126B58 *)a0)->unkC.i.hi.s >= 0x81) {
             func_80178B18(s0, (s32)&D_80188AC4);
             *(u16 *)(s0 + 0x34) = *(u16 *)(s0 + 0x34) + 1;
         }
@@ -3666,10 +3666,10 @@ void func_80182744(s32 param_1) {
     guess_ApplyAccelAndVelocity(s0);
     ((Unkstruct_80126B58 *)s0)->unk1C = ((Unkstruct_80126B58 *)s0)->unk1C + 1;
 
-    if (((Unkstruct_80126B58 *)s0)->unkA.s >= -0x27F) {
+    if (((Unkstruct_80126B58 *)s0)->unk8.i.hi.s >= -0x27F) {
         v1 = ((Unkstruct_80126B58 *)s0)->unk14;
-        ((Unkstruct_80126B58 *)s0)->unkA.s = -0x280;
-        ((Unkstruct_80126B58 *)s0)->unk8 = 0;
+        ((Unkstruct_80126B58 *)s0)->unk8.i.hi.s = -0x280;
+        ((Unkstruct_80126B58 *)s0)->unk8.i.lo = 0;
         ((Unkstruct_80126B58 *)s0)->unk1C = 0;
         ((Unkstruct_80126B58 *)s0)->unk14 = -v1;
         guess_RequestSound(0x983, 0);

@@ -757,7 +757,7 @@ extern s32 D_80078EC8;
 void func_800CC1E8(s32 arg0) {
     func_801655E4(arg0);
     D_80078EC8 = 0x1C2;
-    guess_SpawnObject(0x1A, arg0, CAST_ALIAS(s16, arg0, 6), ((Unkstruct_80126B58 *)arg0)->unkA.s, ((Unkstruct_80126B58 *)arg0)->unkE.s, 0, 0, 1);
+    guess_SpawnObject(0x1A, arg0, CAST_ALIAS(s16, arg0, 6), ((Unkstruct_80126B58 *)arg0)->unk8.i.hi.s, ((Unkstruct_80126B58 *)arg0)->unkC.i.hi.s, 0, 0, 1);
     guess_PlaySoundUnlessSkipped(0xA63);
     ((Unkstruct_80126B58 *)arg0)->unk197 += 1;
 }

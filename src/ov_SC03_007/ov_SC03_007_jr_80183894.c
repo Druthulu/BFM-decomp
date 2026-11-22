@@ -3691,7 +3691,7 @@ void func_80184560(s32 param_1)
     ((Unkstruct_8011DB30 *)param_1)->unk8.i.hi.u += v.vy;
     ((Unkstruct_8011DB30 *)param_1)->unkC.i.hi.u += v.vz;
 
-    ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi = (rand() & 7) + 8;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.i.hi.u = (rand() & 7) + 8;
 }
 
 
@@ -5475,7 +5475,7 @@ void func_80186BE8(int param_1)
     unsigned short uVar1;
     int iVar2;
 
-    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20;
+    iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8001CB00(iVar2, &D_801E4D78, 0x280, 0x100);
     *(unsigned int *)(iVar2 + 4) = *(unsigned int *)(iVar2 + 4) | 0x70000000;
     uVar1 = *(unsigned short *)(param_1 + 0x2c);
@@ -5602,7 +5602,7 @@ void func_80186DF0(s32 arg0) {
                 t4 = rand();
                 ((Unkstruct_8011DB30 *)q)->unk34.i.lo.u = ((t3 % 0x1800 + 0x1000) & ~0xF) | (t4 & 1);
                 ((Unkstruct_800B5BD8 *)*(s32 *)(q + 0x20))->head.unk2C.u = 0xC010;
-                *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20 + 0x4) |= 0x40000000;
+                *(s32 *)(((Unkstruct_8011DB30 *)q)->unk20.val + 0x4) |= 0x40000000;
             }
         }
         r = ((Unkstruct_801202A0 *)arg0)->unkCC.val;

@@ -4346,8 +4346,8 @@ void func_8018431C(void *a0)
     } else {
         func_8001CF00(s1);
         ((Unkstruct_800B5BD8 *)s1)->head.unk20.s = (s32)D_801C00F0;
-        ((Unkstruct_800B5BD8 *)s1)->head.unk28.s = 0x300;
-        ((Unkstruct_800B5BD8 *)s1)->head.unk2A.u = 0x110;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk28.s = 0x300;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk28.w.unk2A.u = 0x110;
         ((Unkstruct_800B5BD8 *)s1)->head.unk24.b.unk27.u = 0x78;
         ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u = 0x400;
         ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u = 0x800;
@@ -4671,8 +4671,8 @@ void func_80184D50(void *ent, void *spr, u32 *q, u32 *ot)
     flags = ((Unkstruct_800B5BD8 *)ent)->head.unk4.u;
     tp = (flags >> 24) & 3;
     shift = 2 - tp;
-    x = ((Unkstruct_800B5BD8 *)ent)->head.unk28.u + (((Unkstruct_801813B4_2 *)spr)->unk4.s >> shift);
-    y = ((Unkstruct_800B5BD8 *)ent)->head.unk2A.u + ((Unkstruct_801813B4_2 *)spr)->unk6;
+    x = ((Unkstruct_800B5BD8 *)ent)->head.unk28.w.unk28.u + (((Unkstruct_801813B4_2 *)spr)->unk4.s >> shift);
+    y = ((Unkstruct_800B5BD8 *)ent)->head.unk28.w.unk2A.u + ((Unkstruct_801813B4_2 *)spr)->unk6;
     vtx = CAST_SIGN(s32, (s32)ent, 0x20);
     D_800A5E60 += 0xF0;
     if (flags & 0x40000000) {
