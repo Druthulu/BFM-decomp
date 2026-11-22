@@ -1115,3 +1115,4 @@ C0662 | Folding packet and value views (A3): kept REINTERP rows, not raw casts; 
 C0663 | Judging md modules, main and shared views (A4): special-move slots, five pool tables, dead bodies | struct,parent,pool,kind,tracing,md,main,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20 judges c1-c9
 C0664 | Applying A4 pool absorbs: scalar-to-union probes, gcc column trap, stamp-last rule, hand folds onto new unions | struct,absorb,fold-batch,union,probe,ledger,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20.c10
 C0665 | Applying A4 fx/sprite/model/RenderHead/Dst absorbs: render-head pointer-member trap, two-object locals | struct,absorb,fold-batch,union,renderhead,probe,t20 | 2026-11-21 | 3.45/T20 | P3.45 T20.c11
+C0666 | Applying A4 actor-common absorbs: --fold-row reads pre-decrement as pointer arithmetic | struct,absorb,actor,fold-batch,restruct,t20 | 2026-11-22 | 3.45/T20 | P3.45 T20.c12
