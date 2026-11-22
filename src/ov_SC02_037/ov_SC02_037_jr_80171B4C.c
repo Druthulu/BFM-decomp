@@ -3522,7 +3522,7 @@ void func_80173294(void) {
 #include "../shared/ov/func_801733CC.h"
 
 
-extern struct S80126B38 D_80126B38;
+extern SVECTOR D_80126B38;
 extern s16 D_80126B3E;
 extern s16 D_80126B40;
 void func_801734BC(s32 a0, s32 a1);

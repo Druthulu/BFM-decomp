@@ -8,7 +8,7 @@ s32 SHARED_FN(void *arg0, s32 arg1) {
 
     best = 0xFFFF;
     p = arg0;
-    while (((Unkstruct_801801E8 *)p)->unk6 == 0) {
+    while (((SVECTOR *)p)->pad == 0) {
         lim = (s16)arg1;
         w = func_80013294(&D_80126CB4, p);
         val = w & 0xFFFF;

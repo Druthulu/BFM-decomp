@@ -192,13 +192,6 @@ cause: 3 names (8 B, all members placeholders) bound to 3 distinct objects, none
 - `Unkstruct_800CCC54_3`: 1 obj — md_MAIN_045/0x800CCC54:param_1
 - `Unkstruct_80183130_2`: 1 obj — ov_SC06_000/0x80183130:cur
 
-### 8da756678e6d
-names: Packed8, S80126B38, UnalignedPair
-cause: 3 names (8 B, all members placeholders) bound to 8 distinct objects, none bound to two names: 0x80126B38, 0x80126C98, 0x8014CB9C(arg0), shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src, shared/ov/0x8014C8F0:arg0, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1; full list: tools/struct_twins.py --show 8da756678e6d
-- `Packed8`: 2 obj — 0x80126C98, 0x8014CB9C(arg0)
-- `S80126B38`: 3 obj — 0x80126B38, shared/ov/0x801733FC:a1, shared/ov/0x80173460:a1
-- `UnalignedPair`: 3 obj — shared/ov/0x8014C8C8:dst, shared/ov/0x8014C8C8:src, shared/ov/0x8014C8F0:arg0
-
 ### b6fddf30f98f
 names: Unkstruct_801852BC_2, Unkstruct_801853D0_3, Unkstruct_80185648_2
 cause: 3 names (52 B, all members placeholders) bound to 3 distinct objects, none bound to two names: ov_SC04_011/0x801852BC:obj, ov_SC04_011/0x801853D0:obj, ov_SC04_011/0x80185648:s0; full list: tools/struct_twins.py --show b6fddf30f98f
@@ -226,15 +219,9 @@ cause: 2 names (72 B, all members placeholders) bound to 3 distinct objects, non
 
 ### 1146b31f105c
 names: MATRIX, U_80187714
-cause: 2 names (32 B, all members placeholders) bound to 204 distinct objects, none bound to two names: 0x80017DC4(arg1), 0x80052E38(arg0), 0x800547D8(arg1), 0x800AE620, 0x801832EC(arg3), 0x8018428C(arg3), 0x80186C80(arg3), 0x801878B0(arg3) …; same layout as PsyQ MATRIX, no name of the row bound to it; full list: tools/struct_twins.py --show 1146b31f105c
-- `MATRIX`: 203 obj — 0x80017DC4(arg1), 0x80052E38(arg0), 0x800547D8(arg1), 0x800AE620, 0x801832EC(arg3), 0x8018428C(arg3), 0x80186C80(arg3), 0x801878B0(arg3) (+195)
+cause: 2 names (32 B, all members placeholders) bound to 234 distinct objects, none bound to two names: 0x80017DC4(arg1), 0x80052E38(arg0), 0x800547D8(arg1), 0x800AE620, 0x801832EC(arg3), 0x8018428C(arg3), 0x80186C80(arg3), 0x801878B0(arg3) …; same layout as PsyQ MATRIX, no name of the row bound to it; full list: tools/struct_twins.py --show 1146b31f105c
+- `MATRIX`: 233 obj — 0x80017DC4(arg1), 0x80052E38(arg0), 0x800547D8(arg1), 0x800AE620, 0x801832EC(arg3), 0x8018428C(arg3), 0x80186C80(arg3), 0x801878B0(arg3) (+225)
 - `U_80187714`: 1 obj — ov_SC04_005/0x80187714:u
-
-### 142564f85464
-names: Ent_80186AE4, Unkstruct_801A7C58
-cause: 2 names (4 B, all members placeholders) bound to 4 distinct objects, none bound to two names: md_SC07_004/0x801AB5D4:a1, md_SC07_004/0x801AB694:a1, ov_SC02_000/0x80186AE4:guess_g_ObjectTable, ov_SC02_000/0x80186AE4:p; full list: tools/struct_twins.py --show 142564f85464
-- `Ent_80186AE4`: 2 obj — ov_SC02_000/0x80186AE4:guess_g_ObjectTable, ov_SC02_000/0x80186AE4:p
-- `Unkstruct_801A7C58`: 2 obj — md_SC07_004/0x801AB5D4:a1, md_SC07_004/0x801AB694:a1
 
 ### 1dd90dc86138
 names: Ent80183F28, Ent_80184058
@@ -253,12 +240,6 @@ names: Obj800D302C, Struct800D2FEC
 cause: 2 names (44 B, all members placeholders) bound to 2 distinct objects, none bound to two names: 0x800D2FEC(arg0), 0x800D302C(arg0); full list: tools/struct_twins.py --show 2816963b1259
 - `Obj800D302C`: 1 obj — 0x800D302C(arg0)
 - `Struct800D2FEC`: 1 obj — 0x800D2FEC(arg0)
-
-### 28b2c3cc39dc
-names: Unkstruct_8017DB30_2, Unkstruct_801801E8
-cause: 2 names (8 B, all members placeholders) bound to 2 distinct objects, none bound to two names: ov_SC06_011/0x8017DB30:s0, shared/ov/0x801801E8:p; full list: tools/struct_twins.py --show 28b2c3cc39dc
-- `Unkstruct_8017DB30_2`: 1 obj — ov_SC06_011/0x8017DB30:s0
-- `Unkstruct_801801E8`: 1 obj — shared/ov/0x801801E8:p
 
 ### 40ceed3b78b3
 names: Unkstruct_8017E150, Unkstruct_8017E160
@@ -298,9 +279,9 @@ cause: 2 names (16 B, all members placeholders) bound to 3 distinct objects, non
 
 ### 8d605044e3bf
 names: Tbl8_801AFF3C, Unkstruct_801343C4
-cause: 2 names (8 B, all members placeholders) bound to 84 distinct objects, none bound to two names: 0x800599B8(arg0), 0x801850D8(arg4), 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E, 0x801897B8 …; full list: tools/struct_twins.py --show 8d605044e3bf
+cause: 2 names (8 B, all members placeholders) bound to 85 distinct objects, none bound to two names: 0x800599B8(arg0), 0x801850D8(arg4), 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E, 0x801897B8 …; full list: tools/struct_twins.py --show 8d605044e3bf
 - `Tbl8_801AFF3C`: 2 obj — 0x801AFF3C, ov_SC06_025/0x8017EA74:tbl
-- `Unkstruct_801343C4`: 82 obj — 0x800599B8(arg0), 0x801850D8(arg4), 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E, 0x801897B8 (+74)
+- `Unkstruct_801343C4`: 83 obj — 0x800599B8(arg0), 0x801850D8(arg4), 0x801888CC, 0x801888EC, 0x80188B88, 0x80189748, 0x8018974E, 0x801897B8 (+75)
 
 ### 98bfca6c8ee0
 names: Unkstruct_80181AD0_3, Unkstruct_801E5CA8_3

@@ -7,7 +7,7 @@ void func_80173A60(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg5) {
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s32 D_80127508;
     extern s16 D_80126B30;
-    extern struct S80126B38 D_80126B38;
+    extern SVECTOR D_80126B38;
     extern s16 D_80126B3A;
     extern s16 D_80126B3C;
     extern s16 D_8011F9C8;

@@ -9,59 +9,59 @@ void SHARED_FN(void *a0, void *a1) {
 
     p = buf + 0x38;
 
-    ((Unkstruct_800CBB38 *)buf)->unk0 = 7;
-    ((Unkstruct_800CBB38 *)buf)->unk10 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk8 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk18 = -7;
-    ((Unkstruct_800CBB38 *)buf)->unkA = 3;
-    ((Unkstruct_800CBB38 *)buf)->unk1A = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk2 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk12 = -3;
-    ((Unkstruct_800CBB38 *)buf)->unk1C = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk14 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unkC = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk4 = 0;
+    ((Src_80016C28 *)buf)->v[0].vx = 7;
+    ((Src_80016C28 *)buf)->v[2].vx = 0;
+    ((Src_80016C28 *)buf)->v[1].vx = 0;
+    ((Src_80016C28 *)buf)->v[3].vx = -7;
+    ((Src_80016C28 *)buf)->v[1].vy = 3;
+    ((Src_80016C28 *)buf)->v[3].vy = 0;
+    ((Src_80016C28 *)buf)->v[0].vy = 0;
+    ((Src_80016C28 *)buf)->v[2].vy = -3;
+    ((Src_80016C28 *)buf)->v[3].vz = 0;
+    ((Src_80016C28 *)buf)->v[2].vz = 0;
+    ((Src_80016C28 *)buf)->v[1].vz = 0;
+    ((Src_80016C28 *)buf)->v[0].vz = 0;
 
     c  = *(u8 *)((s32)a0 + 0x30);
     c2 = c >> 2;
     c4 = c2 >> 2;
 
-    ((Unkstruct_800CBB38 *)buf)->unk2A = c;
-    ((Unkstruct_800CBB38 *)buf)->unk26 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk28 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk24 = c;
-    ((Unkstruct_800CBB38 *)buf)->unk29 = c2;
-    ((Unkstruct_800CBB38 *)buf)->unk25 = c2;
-    ((Unkstruct_800CBB38 *)buf)->unk2C = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk20 = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk2E = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk22 = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk2D = c4;
-    ((Unkstruct_800CBB38 *)buf)->unk21 = c4;
+    ((Src_80016C28 *)buf)->unk28.v1.unk2 = c;
+    ((Src_80016C28 *)buf)->unk24.v1.unk2 = c;
+    ((Src_80016C28 *)buf)->unk28.v1.unk0 = c;
+    ((Src_80016C28 *)buf)->unk24.v1.unk0 = c;
+    ((Src_80016C28 *)buf)->unk28.v1.unk1 = c2;
+    ((Src_80016C28 *)buf)->unk24.v1.unk1 = c2;
+    ((Src_80016C28 *)buf)->unk2C.v1.unk0 = c4;
+    ((Src_80016C28 *)buf)->unk20.v1.unk0 = c4;
+    ((Src_80016C28 *)buf)->unk2C.v1.unk2 = c4;
+    ((Src_80016C28 *)buf)->unk20.v1.unk2 = c4;
+    ((Src_80016C28 *)buf)->unk2C.v1.unk1 = c4;
+    ((Src_80016C28 *)buf)->unk20.v1.unk1 = c4;
 
-    ((Unkstruct_800CBB38 *)buf)->unk30 = 0x50000000;
+    ((Src_80016C28 *)buf)->flags.u = 0x50000000;
 
     ang = *(u16 *)((s32)a0 + 0x2C);
-    ((Unkstruct_800CBB38 *)buf)->unk5A = ang;
-    ((Unkstruct_800CBB38 *)buf)->unk58 = ang;
+    ((SVECTOR *)(buf + 0x58))->vy = ang;
+    ((SVECTOR *)(buf + 0x58))->vx = ang;
     func_80017DC4((void *)(buf + 0x58), p);
 
     func_80048EAC(a1, p);
 
-    ((Unkstruct_800CBB38 *)buf)->unk4C = *(s16 *)((s32)a0 + 0x6);
-    ((Unkstruct_800CBB38 *)buf)->unk50 = *(s16 *)((s32)a0 + 0xA);
-    ((Unkstruct_800CBB38 *)buf)->unk54 = *(s16 *)((s32)a0 + 0xE);
+    ((MATRIX *)(buf + 0x38))->t[0] = *(s16 *)((s32)a0 + 0x6);
+    ((MATRIX *)(buf + 0x38))->t[1] = *(s16 *)((s32)a0 + 0xA);
+    ((MATRIX *)(buf + 0x38))->t[2] = *(s16 *)((s32)a0 + 0xE);
 
     guess_AddPolyG4(buf, p);
 
-    ((Unkstruct_800CBB38 *)buf)->unk0 = 3;
-    ((Unkstruct_800CBB38 *)buf)->unk10 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk8 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk18 = -3;
-    ((Unkstruct_800CBB38 *)buf)->unkA = 7;
-    ((Unkstruct_800CBB38 *)buf)->unk1A = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk2 = 0;
-    ((Unkstruct_800CBB38 *)buf)->unk12 = -7;
+    ((Src_80016C28 *)buf)->v[0].vx = 3;
+    ((Src_80016C28 *)buf)->v[2].vx = 0;
+    ((Src_80016C28 *)buf)->v[1].vx = 0;
+    ((Src_80016C28 *)buf)->v[3].vx = -3;
+    ((Src_80016C28 *)buf)->v[1].vy = 7;
+    ((Src_80016C28 *)buf)->v[3].vy = 0;
+    ((Src_80016C28 *)buf)->v[0].vy = 0;
+    ((Src_80016C28 *)buf)->v[2].vy = -7;
 
     guess_AddPolyG4(buf, p);
 }

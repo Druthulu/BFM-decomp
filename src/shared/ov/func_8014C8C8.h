@@ -2,6 +2,6 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 void func_8014C8C8(s32 dst, s32 * src)
 {
-    *(struct UnalignedPair *)(dst + 0x15c) = *(struct UnalignedPair *)(src + 0);
+    *(SVECTOR *)(dst + 0x15c) = *(SVECTOR *)(src + 0);
     *(s16 *)(dst + 0x162) = 0;
 }

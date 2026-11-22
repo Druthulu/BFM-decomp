@@ -3107,17 +3107,17 @@ void func_80182AC0(void *a0) {
             CAST_SIGN(u16, (s32)a0, 0xFC) + CAST_SIGN(u16, (s32)a0, 0xFE);
 
         ((Unkstruct_80126B58 *)a0)->unk4.i.hi.s =
-            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x6) + ((Unkstruct_80182AC0_2 *)s0)->unk0;
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x6) + ((Rec_80166690_80166690 *)s0)->h[0];
         ((Unkstruct_80126B58 *)a0)->unk8.i.hi.s =
-            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xA) + ((Unkstruct_80182AC0_2 *)s0)->unk2;
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xA) + ((Rec_80166690_80166690 *)s0)->h[1];
         ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s =
-            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xE) + ((Unkstruct_80182AC0_2 *)s0)->unk4;
+            CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0xE) + ((Rec_80166690_80166690 *)s0)->h[2];
 
         ((Unkstruct_80126B58 *)a0)->unk4.i.hi.s = CAST_SIGN(u16, (s32)a0, 0x6) +
-            ((rsin(((Unkstruct_80182AC0_2 *)s0)->unk8) << 6) >> 12);
+            ((rsin(LOH(((Rec_80166690_80166690 *)s0)->h[4])) << 6) >> 12);
 
         ((Unkstruct_80126B58 *)a0)->unkC.i.hi.s = CAST_SIGN(u16, (s32)a0, 0xE) +
-            ((rcos(((Unkstruct_80182AC0_2 *)s0)->unk6) << 6) >> 12);
+            ((rcos(LOH(((Rec_80166690_80166690 *)s0)->h[3])) << 6) >> 12);
 
         func_8012B370((int)a0);
     }
@@ -3858,11 +3858,11 @@ void func_80183D5C(s32 arg0)
     CAST_ALIAS(u16, r, 8) = *(u16 *)&scr[0];
     CAST_ALIAS(u16, r, 0x10) = *(volatile u16 *)&scr[0];
     CAST_ALIAS(u16, r, 0x18) = *(u16 *)&scr[1];
-    ((Unkstruct_8001F730 *)r)->unk20 = *(u16 *)&scr[2];
-    ((Unkstruct_8001F730 *)r)->unkA = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
-    ((Unkstruct_8001F730 *)r)->unk12 = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
-    ((Unkstruct_8001F730 *)r)->unk1A = CAST_MISALIGNED(u16, (u16 *)&scr[1], 1);
-    ((Unkstruct_8001F730 *)r)->unk22 = CAST_MISALIGNED(u16, (u16 *)&scr[2], 1);
+    ((POLY_G4 *)r)->x3 = *(u16 *)&scr[2];
+    ((POLY_G4 *)r)->y0 = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
+    ((POLY_G4 *)r)->y1 = CAST_MISALIGNED(u16, (u16 *)&scr[0], 1);
+    ((POLY_G4 *)r)->y2 = CAST_MISALIGNED(u16, (u16 *)&scr[1], 1);
+    ((POLY_G4 *)r)->y3 = CAST_MISALIGNED(u16, (u16 *)&scr[2], 1);
     AddPrim(ot, r);
     AddPrim(ot, q);
 }

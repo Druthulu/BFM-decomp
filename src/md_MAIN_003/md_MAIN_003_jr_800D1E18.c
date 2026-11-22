@@ -212,7 +212,7 @@ void func_800D1E9C(void *arg0) {
                       p[7]);
         if (p[1] != 0) {
             *((u8 *) sp18 + 0x11) = p[1];
-            ((Unkstruct_800D1E9C *)sp18)->unk4 = (((Unkstruct_800D1E9C *)sp18)->unk4 * 2) / 3;
+            ((DISPENV *)sp18)->disp.w = (((DISPENV *)sp18)->disp.w * 2) / 3;
         }
         func_80059FC0((u8 *) sp18);
         func_80059658(1);

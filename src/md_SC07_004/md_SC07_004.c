@@ -3945,22 +3945,22 @@ void func_801A5E60(s32 a0, u8 *v)
             pz = ozt - 8;
         }
         if ((u32)pz < 0x1000) {
-            if (((Unkstruct_801A5E60 *)pv)->unk4 & 1) {
+            if (((Unkstruct_801343C4 *)pv)->unk4 & 1) {
                 pkt[4] = 0; pkt[5] = 0; pkt[6] = 0;
             } else {
                 pkt[4] = D_801F8744[0]; pkt[5] = D_801F8745[0]; pkt[6] = D_801F8746[0];
             }
-            if (((Unkstruct_801A5E60 *)pv)->unkC & 1) {
+            if (((Unkstruct_801343C4 *)pv + 1)->unk4 & 1) {
                 pkt[0xC] = 0; pkt[0xD] = 0; pkt[0xE] = 0;
             } else {
                 pkt[0xC] = D_801F8744[0]; pkt[0xD] = D_801F8745[0]; pkt[0xE] = D_801F8746[0];
             }
-            if (((Unkstruct_801A5E60 *)pv)->unk14 & 1) {
+            if (((Unkstruct_801343C4 *)pv + 2)->unk4 & 1) {
                 pkt[0x14] = 0; pkt[0x15] = 0; pkt[0x16] = 0;
             } else {
                 pkt[0x14] = D_801F8744[0]; pkt[0x15] = D_801F8745[0]; pkt[0x16] = D_801F8746[0];
             }
-            if (((Unkstruct_801A5E60 *)pv)->unk1C & 1) {
+            if (((Unkstruct_801343C4 *)pv + 3)->unk4 & 1) {
                 pkt[0x1C] = 0; pkt[0x1D] = 0; pkt[0x1E] = 0;
             } else {
                 pkt[0x1C] = D_801F8744[0]; pkt[0x1D] = D_801F8745[0]; pkt[0x1E] = D_801F8746[0];
@@ -7604,8 +7604,8 @@ void func_801AB5D4(void *arg0) {
             a1 = D_801F88C8;
             do {
                 a0 = (a2 >> 1) << 2;
-                ((Unkstruct_801A7C58 *)a1)->unk0 += *(u16 *)(D_801F8A38 + a0);
-                ((Unkstruct_801A7C58 *)a1)->unk2 += *(u16 *)(D_801F8A3A + a0);
+                LOHU(((DVECTOR *)a1)->vx) += *(u16 *)(D_801F8A38 + a0);
+                LOHU(((DVECTOR *)a1)->vy) += *(u16 *)(D_801F8A3A + a0);
                 a2 += 2;
                 a1 += 8;
             } while (a2 < 0xC);
@@ -7649,8 +7649,8 @@ void func_801AB694(void *arg0) {
         a1 = D_801F88C8;
         do {
             a0 = (a2 >> 1) << 2;
-            ((Unkstruct_801A7C58 *)a1)->unk0 -= *(u16 *)(D_801F8A38 + a0);
-            ((Unkstruct_801A7C58 *)a1)->unk2 -= *(u16 *)(D_801F8A3A + a0);
+            LOHU(((DVECTOR *)a1)->vx) -= *(u16 *)(D_801F8A38 + a0);
+            LOHU(((DVECTOR *)a1)->vy) -= *(u16 *)(D_801F8A3A + a0);
             a2 += 2;
             a1 += 8;
         } while (a2 < 0xC);

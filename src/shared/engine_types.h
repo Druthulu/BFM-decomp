@@ -45,7 +45,6 @@ struct S8013A4C4;
 
 
 struct S8014C010;
-struct UnalignedPair;
 struct Packed8;
 struct SubE6F8;
 struct SubF24C;
@@ -57,7 +56,6 @@ struct S80153150;
 
 
 
-struct S80126B38;
 struct S8013A0A4;
 struct S8013A164;
 struct S_80149744;
@@ -110,11 +108,6 @@ typedef struct S8014C010 S_8014AD30;
 
 
 typedef BlockData S8_tag;
-
-struct UnalignedPair {
-    int a;
-    int b;
-} __attribute__((packed, aligned(1)));
 
 struct Packed8 {
     int a;
@@ -181,7 +174,6 @@ struct S80153150 {
 
 typedef ElemK S8_80172894;
 
-struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
 
 typedef Unkstruct_80126948 BigCopy;
 
@@ -445,23 +437,6 @@ typedef MATRIX Mat_8016A73C;
 typedef struct { u32 addr : 24; u8 len; } PTag_8018F694;
 typedef DVECTOR Pair;
 typedef struct { u32 xx, yy, zz; u32 nprim; u32 *prim; } Part;
-/* T18.c18: POLY_FT4 moved here from below (packet views fold into it; byte-neutral) */
-typedef struct {
-    /* 0x00 */ u32 tag;
-    /* 0x04 */ u8  r0, g0, b0, code;
-    /* 0x08 */ s16 x0, y0;
-    /* 0x0C */ u8  u0, v0;
-    /* 0x0E */ u16 clut;
-    /* 0x10 */ s16 x1, y1;
-    /* 0x14 */ u8  u1, v1;
-    /* 0x16 */ u16 tpage;
-    /* 0x18 */ s16 x2, y2;
-    /* 0x1C */ u8  u2, v2;
-    /* 0x1E */ u16 pad_1E;
-    /* 0x20 */ s16 x3, y3;
-    /* 0x24 */ u8  u3, v3;
-    /* 0x26 */ u16 pad_26;
-} POLY_FT4;             /* libgpu POLY_FT4; SDK pad1/pad2 spelled by offset (pad-name invariant) */
 typedef struct { u32 tag, rgbc; s16 x0, y0; u32 uvc0; s16 x1, y1; u32 uvp1; s16 x2, y2; u16 uv2, p2; } PolyFT3;
 typedef struct {
     u16 dist;
@@ -2193,11 +2168,6 @@ typedef struct {
     u8 pad18[0x4];
     s32 unk1C; /* D_801B1B74 (asm/ov_SC06_025/data/tail19.data.s:5432) */
 } Quad_8017EF94;
-typedef union {
-    u8 b;
-    u16 h[0x1C];
-    s16 s[0x1C];
-} R38;
 typedef struct {
     Q_8018562C rot;
     s32 t0, t1, t2, t3;
@@ -2385,7 +2355,6 @@ typedef SVECTOR SVEC_BEBC;
 typedef SVECTOR SVEC_E83C;
 typedef SVECTOR SVEC_EB70;
 typedef SVECTOR SVEC_EDF8;
-typedef struct { u16 vx, vy, vz; s16 pad; } SVEC_FD64;
 typedef SVECTOR SVFD98;
 typedef SVECTOR SV_;
 typedef SVECTOR SV_189440;

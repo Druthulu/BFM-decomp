@@ -5418,9 +5418,9 @@ void func_8017FCC0(void) {
     i = 0;
     do {
         i = i + 1;
-        ((Unkstruct_8017FCC0 *)p)->unk6 = 0;
-        ((Unkstruct_8017FCC0 *)p)->unk4 = 0;
-        ((Unkstruct_8017FCC0 *)p)->unk2 = 0;
+        ((SVECTOR *)p)->pad = 0;
+        ((SVECTOR *)p)->vz = 0;
+        ((SVECTOR *)p)->vy = 0;
         p[0] = 0;
         p = p + 4;
     } while (i < 0x100);
@@ -5474,7 +5474,7 @@ void func_8017FCFC(u16 *a0) {
  *     (close=10 either way).
  *
  * D_801C7600 is declared with the TU's own file-scope spelling (`u16 []`, :5486) and cast;
- * a block-scope `SVEC_FD64 []` re-declaration would be a hard C89 conflict there.
+ * a block-scope `SVECTOR []` re-declaration would be a hard C89 conflict there.
  */
 
 
@@ -5490,18 +5490,18 @@ void func_8017FD64(s32 arg0)
     extern u16 D_801C7600[];   /* TU file-scope spelling, ov_SC01_080_jr_8017AE2C.c:5486 */
 
     MTX_FD64 mtx;
-    SVEC_FD64 v;
-    SVEC_FD64 sxy[3];
+    SVECTOR v;
+    SVECTOR sxy[3];
     s32 opz;
 
-    SVEC_FD64 *p;
+    SVECTOR *p;
     u8 *pkt;
     u32 ot;
     s32 i;
     u32 *otp;
     PFT4_FD64 *q;
 
-    p = (SVEC_FD64 *)D_801C7600;
+    p = (SVECTOR *)D_801C7600;
     func_800547D8(arg0 + 0x10, &mtx);
     func_80052E38(&mtx);
     ot = (u32)&D_800A6610[(*(u16 *)&guess_g_DoubleBufferIndex) << 14];
@@ -5522,7 +5522,7 @@ void func_8017FD64(s32 arg0)
         q = (PFT4_FD64 *)pkt;
         q->len = 9;
         q->code = 0x2C;
-        *(u32 *)&q->x0 = *(u32 *)&sxy[0];
+        *(u32 *)&q->x0 = LOWU(sxy[0].vx);
         sxy[2].vx = sxy[0].vx + sxy[1].vx;
         sxy[2].vy = sxy[0].vy + sxy[1].vy;
         q->x1 = sxy[2].vx;
@@ -7565,8 +7565,8 @@ void func_80182CB8(void *a0, Unkstruct_8013B83C *a1, Unkstruct_8013B83C *a2, s16
     m.t[0] = ((SVECTOR *)a1)->vx;
     m.t[1] = ((SVECTOR *)a1)->vy;
     m.t[2] = ((SVECTOR *)a1)->vz;
-    delta.vx = ((Unkstruct_80182CB8_2 *)a2)->unk0 - ((SVECTOR *)a1)->vx;
-    delta.vz = ((Unkstruct_80182CB8_2 *)a2)->unk4 - ((SVECTOR *)a1)->vz;
+    delta.vx = ((SVECTOR *)a2)->vx - ((SVECTOR *)a1)->vx;
+    delta.vz = ((SVECTOR *)a2)->vz - ((SVECTOR *)a1)->vz;
     q = (SV_80182CB8 *)D_801C7560;
     c.vz = 0;
     c.vy = 0;

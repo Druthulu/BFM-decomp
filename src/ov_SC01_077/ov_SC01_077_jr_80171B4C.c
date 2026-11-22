@@ -2636,11 +2636,6 @@ extern s32 func_80174650(s32);
 
 #include "common.h"
 
-#ifndef BFM_ENGINE_TYPES_H
-/* standalone (match_one) only — the real TU gets this from src/shared/engine_types.h:310 */
-struct S80126B38 { s32 a; s32 b; } __attribute__((packed));
-#endif
-
 #include "../shared/ov/func_801733FC.h"
 
 

@@ -2046,15 +2046,15 @@ void func_8018B60C(s32 param_1, s32 *param_2)
 
     /* Build rotation matrix on stack */
     v1 = 0x7FF8;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk4 = sin_val;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk0 = cos_val;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk2 = 0;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk6 = 0;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk8 = v1;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unkA = 0;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unkC = -sin_val;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unkE = 0;
-    ((Unkstruct_8017D7D0 *)matrix_stack)->unk10 = cos_val;
+    ((MATRIX *)matrix_stack)->m[0][2] = sin_val;
+    ((MATRIX *)matrix_stack)->m[0][0] = cos_val;
+    ((MATRIX *)matrix_stack)->m[0][1] = 0;
+    ((MATRIX *)matrix_stack)->m[1][0] = 0;
+    ((MATRIX *)matrix_stack)->m[1][1] = v1;
+    ((MATRIX *)matrix_stack)->m[1][2] = 0;
+    ((MATRIX *)matrix_stack)->m[2][0] = -sin_val;
+    ((MATRIX *)matrix_stack)->m[2][1] = 0;
+    ((MATRIX *)matrix_stack)->m[2][2] = cos_val;
 
     gte_lwx2_ctc2x2_lwx3_ctc2x3_2c4d(s1, s1);
 }

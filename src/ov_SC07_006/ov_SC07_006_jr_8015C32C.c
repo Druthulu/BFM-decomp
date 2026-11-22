@@ -7462,7 +7462,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
 
     fr.center.vx = (*((s16 *)param_2) + *((s16 *)param_3)) >> 1;
     fr.center.vy = (((s16 *)param_2)[1] + ((s16 *)param_3)[1]) >> 1;
-    fr.center.vz = (((Unkstruct_8016A290_2 *)param_2)->unk4 + ((Unkstruct_8016A290_2 *)param_3)->unk4) >> 1;
+    fr.center.vz = (((SVECTOR *)param_2)->vz + ((SVECTOR *)param_3)->vz) >> 1;
     ((void(*)(s32, void *, void *))guess_ObjRotTransSV)(iVar3, &fr.center, &fr.center);
 
     CAST_ALIAS(u16, param_1, 0x6) = *(u16 *)&fr.center.vx;
@@ -7471,7 +7471,7 @@ void func_8016A290(s32 param_1, void *param_2, void *param_3) {
     func_800D20C0(&fr.center, &fr.diff, 8);
     func_80017E68(&fr.center, fr.mtx);
 
-    fr.diff.vx = ((Unkstruct_8016A290_2 *)param_3)->unk0 - ((Unkstruct_8016A290_2 *)param_2)->unk0;
+    fr.diff.vx = LOHU(((SVECTOR *)param_3)->vx) - LOHU(((SVECTOR *)param_2)->vx);
     fr.diff.vy = CAST_MISALIGNED(u16, ((s16 *)param_3), 1) - CAST_MISALIGNED(u16, ((s16 *)param_2), 1);
     fr.diff.vz = CAST_ALIAS(u16, ((s16 *)param_3), 2) - CAST_ALIAS(u16, ((s16 *)param_2), 2);
     ((void(*)(s32, void *, void *))ApplyMatrixSV)(((Unkstruct_80126B58 *)iVar3)->unk20.val + 0x34, &fr.diff, &fr.diff);

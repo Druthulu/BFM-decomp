@@ -6880,13 +6880,13 @@ void func_801832BC(s32 param_1) {
 
     if (((Unkstruct_801202A0 *)param_1)->unk90 != 0) {
         s32 temp = *(s32 *) (((Unkstruct_801202A0 *)param_1)->unk20.val + 0x20);
-        l.vec[0] = ((Unkstruct_801832BC_2 *)temp)->unk10E;
-        l.vec[1] = ((Unkstruct_801832BC_2 *)temp)->unk110;
-        l.vec[2] = ((Unkstruct_801832BC_2 *)temp)->unk112;
+        l.vec[0] = ((Rec_80166690_80166690 *)temp + 22)->h[3];
+        l.vec[1] = ((Rec_80166690_80166690 *)temp + 22)->h[4];
+        l.vec[2] = ((Rec_80166690_80166690 *)temp + 22)->h[5];
         RotMatrixZYX(l.vec, l.mat);
-        l.pos[0] = ((Unkstruct_801832BC_2 *)temp)->unk108;
-        l.pos[1] = ((Unkstruct_801832BC_2 *)temp)->unk10A;
-        l.pos[2] = ((Unkstruct_801832BC_2 *)temp)->unk10C;
+        l.pos[0] = LOH(((Rec_80166690_80166690 *)temp + 22)->h[0]);
+        l.pos[1] = LOH(((Rec_80166690_80166690 *)temp + 22)->h[1]);
+        l.pos[2] = LOH(((Rec_80166690_80166690 *)temp + 22)->h[2]);
         guess_RotTransSVWithMatrix(l.mat, &D_80188E68, &D_801ED9A8);
         guess_RotTransSVWithMatrix(l.mat, &D_80188E68 + 8, &D_801ED9A8 + 8);
         ((void (*)(s32, s32, s32))func_801833A0)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x34, &D_801ED9A8, &D_801ED9A8 + 8);

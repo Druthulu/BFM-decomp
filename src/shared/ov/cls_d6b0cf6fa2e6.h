@@ -2,7 +2,7 @@
  * exemplar src/ov_SC06_000/ov_SC06_000_jr_8017AE2C.c:11051 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_8018A650.h rejected by type_census --check */
 void SHARED_FN(s32 *a0, s8 a1, s8 a2, s8 a3) {
-        ((Unkstruct_801879A8 *)a0)->unk4 = a1;
-        ((Unkstruct_801879A8 *)a0)->unk5 = a2;
-        ((Unkstruct_801879A8 *)a0)->unk6 = a3;
+        ((P_TAG *)a0)->r0 = a1;
+        ((P_TAG *)a0)->g0 = a2;
+        ((P_TAG *)a0)->b0 = a3;
     }

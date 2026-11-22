@@ -2431,7 +2431,7 @@ extern void func_80173374(s32 *a0);
 extern void func_801733A4(void);
 extern void func_801733CC(s32 a0);
 extern void func_801734BC(s32 a0, s32 a1);
-extern struct S80126B38 D_80126B38;
+extern SVECTOR D_80126B38;
 extern s16 D_80126B3E;
 extern void func_80173460(s32 a0, s32 a1);
 
@@ -2521,7 +2521,7 @@ extern void func_80174684(void *);
 extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
 extern s32 D_80127508;
 extern s16 D_80126B30;
-extern struct S80126B38 D_80126B38;
+extern SVECTOR D_80126B38;
 extern s16 D_80126B3A;
 extern s16 D_80126B3C;
 extern s16 D_8011F9C8;
