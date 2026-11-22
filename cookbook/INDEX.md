@@ -1119,3 +1119,4 @@ C0666 | Applying A4 actor-common absorbs: --fold-row reads pre-decrement as poin
 C0667 | Applying A4 actor-common absorbs (2): union-compare misses, unk64 by asm offsets, cast_views REINTERP rows | struct,absorb,actor,union,reinterp,cast_views,t20 | 2026-11-22 | 3.45/T20 | P3.45 T20.c13
 C0668 | Applying A4 actor variants: #line-shifted probes, alias-only files, stale asm caches, merge evidence from data | struct,absorb,variant,actor,probe,cc1,t20 | 2026-11-22 | 3.45/T20 | P3.45 T20.c14
 C0669 | Applying A4 survivors, scalars and main roots: dup-class survivors, PsyQ rows, unicode probes, asm-name rebases | struct,survivor,scalar,psyq,probe,gate,t20 | 2026-11-22 | 3.45/T20 | P3.45 T20.c15
+C0670 | Rebasing globals through asm names across binaries; wall rows for struct-view levers; macro and KEPT-row traps | struct,rebase,asm-name,wall,kept,gate,t20 | 2026-11-22 | 3.45/T20 | P3.45 T20.c16
