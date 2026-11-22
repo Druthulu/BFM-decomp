@@ -1659,45 +1659,6 @@ typedef struct {
     /* 0x0A */ u16 unk0A;
     /* 0x0C */ u16 unk0C;
     /* 0x0E */ u16 unk0E;
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    /* 0x14 */ s32 unk14;
-    /* 0x18 */ u8  pad18[0xC];
-    /* 0x24 */ s32 unk24;
-    /* 0x28 */ u8  pad28[0xC];
-    /* 0x34 */ u8  unk34;
-    /* 0x35 */ u8  unk35;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  pad37[9];
-    /* 0x40 */ s32 unk40;
-    /* 0x44 */ s32 unk44;
-    /* 0x48 */ s16 unk48;
-    /* 0x4A */ s16 unk4A;
-    /* 0x4C */ u8  unk4C;
-    /* 0x4D */ u8  unk4D;
-    /* 0x4E */ u8  unk4E;
-    /* 0x4F */ u8  unk4F;
-    /* 0x50 */ u8  pad50[2];
-    /* 0x52 */ u8  unk52;
-    /* 0x53 */ u8  unk53;
-} Chan32A74;
-typedef struct {
-    /* 0x00 */ u8 pad00[0x0A];
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u8 pad0C[0x28];
-    /* 0x34 */ u8 unk34;
-    /* 0x35 */ u8 unk35;
-    /* 0x36 */ u8 pad36[0x1C];
-    /* 0x52 */ u8 unk52;
-    /* 0x53 */ u8 pad53[1];
-} Chan336A8;
-typedef struct {
-    /* 0x00 */ s32 unk00;
-    /* 0x04 */ s32 unk04;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u16 unk0A;
-    /* 0x0C */ u16 unk0C;
-    /* 0x0E */ u16 unk0E;
     /* 0x10 */ u16 unk10;
     /* 0x12 */ u16 unk12;
     /* 0x14 */ s32 unk14;
@@ -1791,14 +1752,6 @@ typedef struct {
     /* 0x0028 */ s32 unk28;
 } Dst; /* size = 0x2c */
 typedef struct { u8 pad[4]; PTag *ot; } Env;
-typedef struct F1ccRec {
-    u8 pad[0x0E];
-    u8 flg[8];
-    u8 unk16[0x24];
-    u8 flg3A[8];     /* S54's flg */
-    u8 tail[0x12];
-} F1ccRec;
-typedef F1ccRec F150Rec;
 typedef struct F1ccSlot {
     u8 pad[0x20];
     u32 u20;
@@ -2119,45 +2072,68 @@ typedef struct {
     } unkD;
     /* 0x000e */ u8 padE[0x2];
 } Obj_80015760; /* size = 0x10 */
-typedef struct Ent30D80 {
-    /* 0x0000 */ union { s32 val; u16 u; } unk00; /* T20.c15: request slots read +0 as u16 flags (absorbed views) */
-    /* 0x0004 */ union { s32 val; struct { u16 lo; u16 hi; } h; } unk4;
-    /* 0x0008 */ u8 pad8[0x2];
-    /* 0x000a */ union { u16 u; u8 b; } unk0A;
-    /* 0x000c */ u16 unkC;
-    /* 0x000e */ u8 padE[0x2];
-    /* 0x0010 */ u16 unk10;
-    /* 0x0012 */ u16 unk12;
-    /* 0x0014 */ u8 pad14[0x4];
-    /* 0x0018 */ union { s32 val; struct { u16 lo; u16 hi; } h; } unk18;
-    /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ s32 unk20;
-    /* 0x0024 */ union { s32 val; struct { u16 lo; s16 hi; } h; } unk24;
-    /* 0x0028 */ union { s32 val; struct { s16 lo; union { u8 u; s8 s; } b2; u8 b3; } h; } unk28;
-    /* 0x002c */ union { s32 val; struct { u16 lo; s16 hi; } h; } unk2C;
-    /* 0x0030 */ u16 unk30;
-    /* 0x0032 */ union { u16 u; u8 b; s8 s; } unk32;
-    /* 0x0034 */ u8 pad34[0x3];
+typedef struct {
+    /* 0x00 */ u16 cur;
+    /* 0x02 */ u16 step;
+    /* 0x04 */ u16 tgt;
+    /* 0x06 */ u8  act;
+    /* 0x07 */ u8  pad07;
+} Ramp388C;
+typedef struct Ent30D80 { /* T20.c17: the sound slot record D_800A46E8[16] x 0x54; folded views Unkstruct_80031BE0, Slot54, Snd54, Chan32A74, Chan336A8, F1ccRec (per-offset width/sign leaves; the 8-byte flag arrays at +0x0E / +0x3A are v1 arms of 12-byte unions at +0x0C / +0x38) */
+    /* 0x0000 */ union { s32 val; u16 u; s16 s; struct { s16 lo; s16 hi; } h; } unk00; /* T20.c15: request slots read +0 as u16 flags (absorbed views) */
+    /* 0x0004 */ union { s32 val; struct { u16 lo; u16 hi; } h; struct { s16 lo; s16 hi; } s; } unk4;
+    /* 0x0008 */ u16 unk08;
+    /* 0x000a */ union { u16 u; u8 b; s8 s; } unk0A;
+    /* 0x000c */ union {
+        struct {
+            /* 0x000c */ union { struct { u16 lo; u16 hi; } h; s32 val; u32 *p; } unkC;
+            /* 0x0010 */ union { struct { u16 lo; u16 hi; } h; struct { s16 lo; s16 hi; } s; s32 val; u8 *p; } unk10;
+            /* 0x0014 */ union { struct { s16 lo; u8 b2; u8 b3; } h; struct { u16 lo; } u; s32 val; } unk14;
+        } v0;
+        struct { u8 padC[0x2]; u8 flg[8]; u8 pad16[0x2]; } v1;
+    } unkC;
+    /* 0x0018 */ union { s32 val; struct { u16 lo; u16 hi; } h; struct { s16 lo; s16 hi; } s; } unk18;
+    /* 0x001c */ union {
+        struct {
+            /* 0x001c */ s32 unk1C;
+            /* 0x0020 */ s32 unk20;
+            /* 0x0024 */ union { s32 val; struct { u16 lo; s16 hi; } h; } unk24;
+            /* 0x0028 */ union { s32 val; struct { s16 lo; union { u8 u; s8 s; } b2; u8 b3; } h; } unk28;
+            /* 0x002c */ union { s32 val; struct { u16 lo; s16 hi; } h; } unk2C;
+            /* 0x0030 */ u16 unk30;
+            /* 0x0032 */ union { u16 u; u8 b; s8 s; } unk32;
+        } f;
+        SVECTOR sv[3];
+        Ramp388C r[3];
+        u16 h[12];
+    } unk1C;
+    /* 0x0034 */ union { u16 u; s16 s; struct { u8 b0; u8 b1; } b; } unk34;
+    /* 0x0036 */ u8 unk36;
     /* 0x0037 */ u8 unk37;
-    /* 0x0038 */ u8 unk38;
-    /* 0x0039 */ u8 pad39[0x1];
-    /* 0x003a */ s16 unk3A;
-    /* 0x003c */ s16 unk3C;
-    /* 0x003e */ u8 pad3E[0x2];
-    /* 0x0040 */ union {
-        struct { void (*unk40)(s32, s32); } v0;
-        struct { s32 unk0; } v1;
-        struct { u32 unk0; } v2;
-    } unk40;
-    /* 0x0044 */ s32 unk44;
-    /* 0x0048 */ s16 unk48;
-    /* 0x004a */ u16 unk4A;
-    /* 0x004c */ u8 pad4C[0x2];
+    /* 0x0038 */ union {
+        struct {
+            /* 0x0038 */ u8 unk38;
+            /* 0x0039 */ u8 unk39;
+            /* 0x003a */ s16 unk3A;
+            /* 0x003c */ s16 unk3C;
+            /* 0x003e */ u8 pad3E[0x2];
+            /* 0x0040 */ union {
+                struct { void (*unk40)(s32, s32); } v0;
+                struct { s32 unk0; } v1;
+                struct { u32 unk0; } v2;
+            } unk40;
+        } v0;
+        struct { u8 pad38[0x2]; u8 flg[8]; u8 pad42[0x2]; } v1;
+    } unk38;
+    /* 0x0044 */ union { s32 val; u32 *p; } unk44;
+    /* 0x0048 */ union { s16 s; u8 b; } unk48;
+    /* 0x004a */ union { u16 u; s16 s; } unk4A;
+    /* 0x004c */ u8 unk4C;
+    /* 0x004d */ u8 unk4D;
     /* 0x004e */ u8 unk4E;
-    /* 0x004f */ u8 pad4F[0x1];
-    /* 0x0050 */ u8 unk50;
-    /* 0x0051 */ u8 unk51;
-    /* 0x0052 */ u8 pad52[0x2];
+    /* 0x004f */ u8 unk4F;
+    /* 0x0050 */ union { struct { u8 b0; u8 b1; } b; u16 u; s16 s; } unk50;
+    /* 0x0052 */ union { s16 s; struct { u8 b0; u8 b1; } b; } unk52;
 } Ent30D80; /* size = 0x54 */
 typedef struct {
     u32 tag;
@@ -2218,53 +2194,6 @@ typedef struct {            /* 0x24 — POLY_G4 */
     RGBC c3;
     u32  xy3;
 } PG4;
-typedef struct {
-    /* 0x00 */ u16 cur;
-    /* 0x02 */ u16 step;
-    /* 0x04 */ u16 tgt;
-    /* 0x06 */ u8  act;
-    /* 0x07 */ u8  pad07;
-} Ramp388C;
-typedef struct {
-    /* Unkstruct_2bb2ade7: P3.40 T3 band rank 2804; 6 TNC sites in 1 bodies; struct map 6 sites; restruct.py --decide-band */
-    /* 0x0000 */ union {
-        u16 u;
-        s16 s;
-    } unk0;
-    /* 0x0002 */ u8 pad2[0x2];
-    /* 0x0004 */ u16 unk4;
-    /* 0x0006 */ u16 unk6;
-    /* 0x0008 */ u16 unk8;
-    /* 0x000a */ u8 padA[0x2];
-    /* 0x000c */ u32 *unkC;
-    /* 0x0010 */ u8 *unk10;
-    /* 0x0014 */ u16 unk14;
-    /* 0x0016 */ u8 unk16;
-    /* 0x0017 */ u8 unk17;
-    /* 0x0018 */ u16 unk18;
-    /* 0x001a */ u16 unk1A;
-    /* 0x001c */ union {
-        struct { Ramp388C unk0[3]; } v0;
-        struct { u16 unk0[12]; } v1;
-    } unk1C;
-    /* 0x0034 */ u16 unk34;
-    /* 0x0036 */ u8 unk36;
-    /* 0x0037 */ u8 pad37[0x1];
-    /* 0x0038 */ u8 unk38;
-    /* 0x0039 */ u8 unk39;
-    /* 0x003a */ u8 unk3A[8];
-    /* 0x0042 */ u8 pad42[0x2];
-    /* 0x0044 */ u32 *unk44;
-    /* 0x0048 */ u8 unk48;
-    /* 0x0049 */ u8 pad49[0x1];
-    /* 0x004a */ u16 unk4A;
-    /* 0x004c */ u8 unk4C;
-    /* 0x004d */ u8 unk4D;
-    /* 0x004e */ u8 unk4E;
-    /* 0x004f */ u8 unk4F;
-    /* 0x0050 */ u16 unk50;
-    /* 0x0052 */ s16 unk52;
-} Unkstruct_80031BE0; /* size = 0x54 */
 typedef struct Rec12_800_b_2 {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ u16 unk04;
@@ -2321,7 +2250,6 @@ typedef struct {
     /* 0x0C */ u16 unk0C;
     /* 0x0E */ u8  unk0E[8];
 } Req32A74;
-typedef F1ccRec S54;
 typedef struct {
     u8 pad[0x14];
     u8 f14;   /* 0x14 */
@@ -2429,33 +2357,6 @@ typedef struct Slot54View {
     /* 0x0B */ u8  unk0B;
     /* 0x0C */ u8  pad0C[0x48];
 } Slot54View;
-typedef struct Snd54 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ s16 unk06;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ u8  pad0A[2];
-    /* 0x0C */ s32 unk0C;
-    /* 0x10 */ s32 unk10;
-    /* 0x14 */ s16 unk14;
-    /* 0x16 */ u8  unk16;
-    /* 0x17 */ u8  unk17;
-    /* 0x18 */ s16 unk18;
-    /* 0x1A */ s16 unk1A;
-    /* 0x1C */ SVECTOR unk1C[3];
-    /* 0x34 */ s16 unk34;
-    /* 0x36 */ u8  unk36;
-    /* 0x37 */ u8  unk37;
-    /* 0x38 */ u8  unk38;
-    /* 0x39 */ u8  unk39;
-    /* 0x3A */ u8  unk3A[8];
-    /* 0x42 */ u8  pad42[6];
-    /* 0x48 */ u8  unk48;
-    /* 0x49 */ u8  pad49[7];
-    /* 0x50 */ s16 unk50;
-    /* 0x52 */ s16 unk52;
-} Snd54;
 typedef struct {
     /* 0x00 */ u32 tag;
     /* 0x04 */ u8  r0, g0, b0, code;
@@ -2910,14 +2811,6 @@ typedef struct {              /* base 0x80076240, stride 0x10 */
     s32 unk08;
     s32 unk0C;
 } Slot16A;
-typedef struct Slot54 {
-    /* 0x00 */ s16 unk00;
-    /* 0x02 */ s16 unk02;
-    /* 0x04 */ s16 unk04;
-    /* 0x06 */ s16 unk06;
-    /* 0x08 */ u16 unk08;
-    /* 0x0A */ s8  unk0A;
-} Slot54;
 typedef struct Slot_800_shared {
     /* 0x00 */ s32 unk00;
     /* 0x04 */ s32 unk04;
