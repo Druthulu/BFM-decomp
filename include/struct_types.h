@@ -777,6 +777,14 @@ typedef struct { s16 x, y, z; } Vec3s;
 typedef struct packed_word W; /* T18.c19: was W_8016BFD0 (char b[4], folded onto packed_word) */
 typedef void (*code)(unsigned short *);
 typedef struct { long vx, vy, vz; unsigned char r, g, b; } GsF_LIGHT; /* PsyQ libgs.h */
+typedef struct { unsigned p : 24; unsigned char num : 8; } GsOT_TAG; /* PsyQ libgs.h (T20.c15) */
+typedef struct {                /* PsyQ libgs.h GsOT, 0x14 (T20.c15): guess_g_OrderingTables / guess_g_FrontOrderingTables [2] */
+    unsigned long length;
+    GsOT_TAG *org;
+    unsigned long offset;
+    unsigned long point;
+    GsOT_TAG *tag;
+} GsOT;
 struct S80190C84 {
     s16 f0, f2, f4, f6, f8, fA, fC, fE;
     s32 f10;
@@ -5379,11 +5387,6 @@ typedef struct {
     /* 0x0012 */ s16 unk12;
 } Unkstruct_80184B50; /* size = 0x14 */
 
-typedef struct {
-    /* Unkstruct_a39fca17: P3.40 T3 band rank 2501; 7 TNC sites in 1 bodies; struct map 7 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x4];
-    /* 0x0004 */ s32 unk4;
-} Unkstruct_800CB00C; /* size = 0x8 */
 
 typedef Unkstruct_801343C4 Unkstruct_801343C4_4; /* size = 0x8 */
 
@@ -7469,11 +7472,6 @@ typedef struct {
     /* 0x000c */ s32 unkC;
 } Unkstruct_8001FC08; /* size = 0x10 */
 
-typedef struct {
-    /* Unkstruct_508ef0ad: P3.40 T3 band rank 6529; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */
-    /* 0x0000 */ u8 pad0[0x4];
-    /* 0x0004 */ s32 unk4;
-} Unkstruct_80027C10_2; /* size = 0x8 */
 
 typedef struct {
     /* Unkstruct_50e4ca73: P3.40 T3 band rank 6532; 2 TNC sites in 1 bodies; struct map 2 sites; restruct.py --decide-band */

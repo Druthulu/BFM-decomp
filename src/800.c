@@ -15660,11 +15660,11 @@ void func_80027C10(void *a0, void *a1, s32 a2)
         opc = (w0 >> 24) & 0xFC;
         switch (opc) {
         case 0x30:
-            func_80027D20(f, verts, norms, p, cnt, a2, ((Unkstruct_80027C10_2 *)a1)->unk4);
+            func_80027D20(f, verts, norms, p, cnt, a2, ((GsOT *)a1)->org);
             f = (Face2 *)((s32)f + cnt * 20);
             break;
         case 0x38:
-            func_80027F4C((Face3 *)f, verts, norms, (G4P *)p, cnt, a2, ((Unkstruct_80027C10_2 *)a1)->unk4);
+            func_80027F4C((Face3 *)f, verts, norms, (G4P *)p, cnt, a2, ((GsOT *)a1)->org);
             f = (Face2 *)((s32)f + cnt * 24);
             break;
         }
