@@ -4,7 +4,7 @@
 metric	count	task	note
 pending_types	611	T8	-
 casts_C	289755	T8	-
-casts_P	94012	T8	-
+casts_P	94010	T8	-
 casts_I	43673	T8	T19: +6 obj-0xA sites T19.c11 4dab4ddf4b hid from the census (casts_C -6, same sites); net 0
 casts_X	10268	T8	-
 casts_M	3897	T8	-
