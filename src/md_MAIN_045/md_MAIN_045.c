@@ -140,7 +140,7 @@ void func_800CCE80(void *arg0) {
     void *p;
 
     s2 = ((Ent_80164930_80164930 *)arg0)->unk4C;
-    p = ((Unkstruct_800CCE80_2 *)s2)->unk20;
+    p = ((Unkstruct_80126B58 *)s2)->unk20.m;
     s1 = ((Ent_80164930_80164930 *)arg0)->unk20.val;
     ((Ent_80164930_80164930 *)arg0)->unk4.i.hi.s = ((Unkstruct_80136A94 *)p)->unk48;
     ((Ent_80164930_80164930 *)arg0)->unk8.i.hi.s = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
@@ -148,7 +148,7 @@ void func_800CCE80(void *arg0) {
     ((Ent_80164930_80164930 *)arg0)->unkC.i.hi.s = ((Unkstruct_80136A94 *)p)->unk50;
     func_80013F3C(s0);
     RotMatrixY(((Unkstruct_8001C9D0 *)s1)->head.unk10.w.unk12.s, s0);
-    func_80048D9C(s0, (void *)((u8 *)((Unkstruct_800CCE80_2 *)s2)->unk20 + 0x34));
+    func_80048D9C(s0, (void *)((u8 *)((Unkstruct_80126B58 *)s2)->unk20.m + 0x34));
     func_80020F34((s32)s0, (s32)((u8 *)s1 + 0x18));
     ((Unkstruct_8001C9D0 *)s1)->head.unk2C.u |= 1;
 }

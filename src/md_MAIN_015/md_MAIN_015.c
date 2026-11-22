@@ -204,10 +204,10 @@ void func_800CB2E0(void *arg0) {
     s32 cmd;
 
     a0v = arg0;
-    fp = ((Unkstruct_800CB2E0 *)a0v)->unk20;
+    fp = ((Ent_80164930_80164930 *)a0v)->unk20.p;
 
     if (guess_TickWaitTimer_2((s32)a0v)) {
-        do { guess_SpawnSmallObject(3, a0v, ((Unkstruct_800CB2E0 *)a0v)->unk6, ((Unkstruct_800CB2E0 *)a0v)->unkA, ((Unkstruct_800CB2E0 *)a0v)->unkE, 0, 0x80001C00); } while (0);
+        do { guess_SpawnSmallObject(3, a0v, ((Ent_80164930_80164930 *)a0v)->unk4.i.hi.s, ((Ent_80164930_80164930 *)a0v)->unk8.i.hi.s, ((Ent_80164930_80164930 *)a0v)->unkC.i.hi.s, 0, 0x80001C00); } while (0);
     } else {
         u8 *bp;
         bp = buf + 0x20;

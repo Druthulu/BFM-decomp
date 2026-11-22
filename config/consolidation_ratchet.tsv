@@ -3,7 +3,7 @@
 # "ratchet stale" when below it (lower it with --gate --write-ratchet, which never raises a row). --final: every count 0.
 metric	count	task	note
 pending_types	1100	T8	-
-casts_C	289799	T8	-
+casts_C	289784	T8	-
 casts_P	94021	T8	-
 casts_I	43673	T8	T19: +6 obj-0xA sites T19.c11 4dab4ddf4b hid from the census (casts_C -6, same sites); net 0
 casts_X	10268	T8	-

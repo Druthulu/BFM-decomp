@@ -141,11 +141,11 @@ void func_800CB188(void *arg0) {
     s32 v0;
     s32 v1;
 
-    s0 = ((Unkstruct_800CB188 *)arg0)->unk4C;
-    s1 = ((Unkstruct_800CB188 *)arg0)->unk20;
-    ((Unkstruct_800CB188 *)arg0)->unkC = 0;
-    ((Unkstruct_800CB188 *)arg0)->unk8 = 0;
-    ((Unkstruct_800CB188 *)arg0)->unk4 = 0;
+    s0 = ((Ent_80164930_80164930 *)arg0)->unk4C;
+    s1 = ((Ent_80164930_80164930 *)arg0)->unk20.val;
+    ((Ent_80164930_80164930 *)arg0)->unkC.val = 0;
+    ((Ent_80164930_80164930 *)arg0)->unk8.val = 0;
+    ((Ent_80164930_80164930 *)arg0)->unk4.val = 0;
     guess_TransformPosByObjMatrix(s0, (s32)arg0 + 4);
     v0 = *(s32 *)(s0 + 0x20);
     *(Blk16_956C *)(s1 + 0x34) = *(Blk16_956C *)(v0 + 0x34);

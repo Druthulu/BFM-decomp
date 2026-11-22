@@ -5047,12 +5047,12 @@ void func_8017F344(void *arg0) {
     s32 temp_v0;
     void *temp_a0;
 
-    temp_v0 = func_80012B04(((Unkstruct_8017F344_2 *)M2C_FIELD(arg0, void **, 0x20))->unk12, ((Unkstruct_8017F344 *)arg0)->unk20C, 4);
-    temp_a0 = ((Unkstruct_8017F344 *)arg0)->unk20;
+    temp_v0 = func_80012B04(((Unkstruct_8017F344_2 *)M2C_FIELD(arg0, void **, 0x20))->unk12, ((Unkstruct_80126B58 *)arg0)->unk20C.s, 4);
+    temp_a0 = ((Unkstruct_80126B58 *)arg0)->unk20.m;
     ((Unkstruct_8017F344_2 *)temp_a0)->unk12 = (s16) (((u16) ((Unkstruct_8017F344_2 *)temp_a0)->unk12 + temp_v0) & 0xFFF);
     if ((temp_v0 << 0x10) == 0) {
-        ((Unkstruct_8017F344 *)arg0)->unk198 = guess_OpenTextWindow(&D_8018A6A8);
-        ((Unkstruct_8017F344 *)arg0)->unk214 = (u8) (((Unkstruct_8017F344 *)arg0)->unk214 + 1);
+        ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_8018A6A8);
+        ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
 }
 

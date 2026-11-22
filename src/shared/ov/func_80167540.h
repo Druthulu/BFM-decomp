@@ -4,35 +4,35 @@
 s32 func_80167540(s32 arg0) {
 
     struct Node_80167540 *node;
-    struct Entity_80167540 *ent;
+    Unkstruct_8011D030 *ent;
     s32 v;
 
-    node = ((struct Entity_80167540 *)arg0)->unk34;
+    node = ((Unkstruct_8011D030 *)arg0)->unk34.n;
     if (node->unk0 == 1) {
-        if (((struct Entity_80167540 *)arg0)->unk12 > ((struct Entity_80167540 *)arg0)->unk10) {
-            if (((struct Entity_80167540 *)arg0)->unk1C > 0) {
-                ((struct Entity_80167540 *)arg0)->unk10 = (s16) (rand() & 0x30);
+        if (((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s > ((Unkstruct_8011D030 *)arg0)->unk10.i.lo.s) {
+            if (((Unkstruct_8011D030 *)arg0)->unk1C.s > 0) {
+                ((Unkstruct_8011D030 *)arg0)->unk10.i.lo.s = (s16) (rand() & 0x30);
                 v = -0x30;
                 goto shared;
             }
-        } else if (((struct Entity_80167540 *)arg0)->unk1C < 0) {
-            ((struct Entity_80167540 *)arg0)->unk10 = (s16) ((rand() & 0x30) + 0x40);
+        } else if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0) {
+            ((Unkstruct_8011D030 *)arg0)->unk10.i.lo.s = (s16) ((rand() & 0x30) + 0x40);
             v = 0x30;
 shared:
-            ((struct Entity_80167540 *)arg0)->unk1C = v;
+            ((Unkstruct_8011D030 *)arg0)->unk1C.s = v;
         }
-        ((struct Entity_80167540 *)arg0)->unk12 = (s16) (((struct Entity_80167540 *)arg0)->unk12 + ((struct Entity_80167540 *)arg0)->unk1C);
-        ((struct Entity_80167540 *)arg0)->mat = node->unk20->mat;
-        ((void (*)(struct Entity_80167540 *, s32, s32, s32))func_801670E4)(((struct Entity_80167540 *)arg0), 0, 0, 0);
-        ent = ((struct Entity_80167540 *(*)(s32, struct Entity_80167540 *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, ((struct Entity_80167540 *)arg0), node->unk6, node->unkA, node->unkE, 0, 0);
+        ((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s = (s16) (((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s + ((Unkstruct_8011D030 *)arg0)->unk1C.s);
+        ((Unkstruct_8011D030 *)arg0)->unk38.mat = node->unk20->mat;
+        ((void (*)(Unkstruct_8011D030 *, s32, s32, s32))func_801670E4)(((Unkstruct_8011D030 *)arg0), 0, 0, 0);
+        ent = ((Unkstruct_8011D030 *(*)(s32, Unkstruct_8011D030 *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, ((Unkstruct_8011D030 *)arg0), node->unk6, node->unkA, node->unkE, 0, 0);
         if (ent != 0) {
-            ent->mat = node->unk20->mat;
+            ent->unk38.mat = node->unk20->mat;
         }
-        if (((struct Entity_80167540 *)arg0)->unk34->unk4C->unk44 & 0x20) {
-            ((struct Entity_80167540 *)arg0)->unk30 = 0x600;
-            ((struct Entity_80167540 *)arg0)->unk2 = (u16) (((struct Entity_80167540 *)arg0)->unk2 + 1);
+        if (((Unkstruct_8011D030 *)arg0)->unk34.n->unk4C->unk44 & 0x20) {
+            ((Unkstruct_8011D030 *)arg0)->unk30.val.s = 0x600;
+            ((Unkstruct_8011D030 *)arg0)->unk2.u = (u16) (((Unkstruct_8011D030 *)arg0)->unk2.u + 1);
         }
     } else {
-        ((void(*)(struct Entity_80167540 *))guess_FreeSmallObject)(((struct Entity_80167540 *)arg0));
+        ((void(*)(Unkstruct_8011D030 *))guess_FreeSmallObject)(((Unkstruct_8011D030 *)arg0));
     }
 }

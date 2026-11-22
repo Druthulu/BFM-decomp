@@ -28,33 +28,33 @@ s32 func_80155800(s32 arg0) {
     u8 temp_v0;
     u8 temp_v1;
     s32 var_v1;
-    ((Ent_80155800_80155800 *)arg0)->unk44 |= 2;
-    if (((Ent_80155800_80155800 *)arg0)->unkB8 == 0x8000) {
-        ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
-        ((void(*)(void *))func_80159B3C)(((Ent_80155800_80155800 *)arg0));
+    ((Unkstruct_80126B58 *)arg0)->unk44.s |= 2;
+    if (((Unkstruct_80126B58 *)arg0)->unkB8.u == 0x8000) {
+        ((void(*)(void *))func_801599A4)(((Unkstruct_80126B58 *)arg0));
+        ((void(*)(void *))func_80159B3C)(((Unkstruct_80126B58 *)arg0));
         return;
     }
-    ((void (*)(void *))func_80155A44)(((Ent_80155800_80155800 *)arg0));
-    if (((s32(*)(void *))guess_GetPadPressed)(((Ent_80155800_80155800 *)arg0)) & 0x80) {
-        temp_v1 = ((Ent_80155800_80155800 *)arg0)->unk1A9;
+    ((void (*)(void *))func_80155A44)(((Unkstruct_80126B58 *)arg0));
+    if (((s32(*)(void *))guess_GetPadPressed)(((Unkstruct_80126B58 *)arg0)) & 0x80) {
+        temp_v1 = ((Unkstruct_80126B58 *)arg0)->unk1A9;
         if (temp_v1 >= 4U) {
-            if (((Ent_80155800_80155800 *)arg0)->unk1C0 != 0) {
-                ((void(*)(void *))func_80148AFC)(((Ent_80155800_80155800 *)arg0));
-                ((void (*)(void *))func_80155F80)(((Ent_80155800_80155800 *)arg0));
-                ((void(*)(void *))func_80154134)(((Ent_80155800_80155800 *)arg0));
-                temp_v0 = ((Ent_80155800_80155800 *)arg0)->unk1AA;
+            if (((Unkstruct_80126B58 *)arg0)->unk1C0 != 0) {
+                ((void(*)(void *))func_80148AFC)(((Unkstruct_80126B58 *)arg0));
+                ((void (*)(void *))func_80155F80)(((Unkstruct_80126B58 *)arg0));
+                ((void(*)(void *))func_80154134)(((Unkstruct_80126B58 *)arg0));
+                temp_v0 = ((Unkstruct_80126B58 *)arg0)->unk1AA;
                 var_v1 = temp_v0 + 1;
                 if (temp_v0 == 0) {
                     var_v1 = 2;
                 } else if (var_v1 >= 5U) {
                     var_v1 = 1;
                 }
-                ((Ent_80155800_80155800 *)arg0)->unk1AA = var_v1;
-                ((void(*)(void *))func_80149B14)(((Ent_80155800_80155800 *)arg0));
+                ((Unkstruct_80126B58 *)arg0)->unk1AA = var_v1;
+                ((void(*)(void *))func_80149B14)(((Unkstruct_80126B58 *)arg0));
                 return;
             }
-            if (((Ent_80155800_80155800 *)arg0)->unk1AA >= 2U) {
-                if (((Ent_80155800_80155800 *)arg0)->unk1A8 == 0) {
+            if (((Unkstruct_80126B58 *)arg0)->unk1AA >= 2U) {
+                if (((Unkstruct_80126B58 *)arg0)->unk1A8 == 0) {
                     if (temp_v1 != 0) {
                         goto block_13;
                     }
@@ -63,36 +63,36 @@ s32 func_80155800(s32 arg0) {
                 goto block_22;
             }
 block_13:
-            ((void(*)(void *))func_80148AFC)(((Ent_80155800_80155800 *)arg0));
-            ((void (*)(void *))func_80155F80)(((Ent_80155800_80155800 *)arg0));
-            ((void(*)(void *))func_80154134)(((Ent_80155800_80155800 *)arg0));
-            ((void(*)(void *))guess_StartSquareAction)(((Ent_80155800_80155800 *)arg0));
+            ((void(*)(void *))func_80148AFC)(((Unkstruct_80126B58 *)arg0));
+            ((void (*)(void *))func_80155F80)(((Unkstruct_80126B58 *)arg0));
+            ((void(*)(void *))func_80154134)(((Unkstruct_80126B58 *)arg0));
+            ((void(*)(void *))guess_StartSquareAction)(((Unkstruct_80126B58 *)arg0));
             D_8011F730 |= 3;
             return;
         }
     }
 block_15:
-    if ((((Ent_80155800_80155800 *)arg0)->unk1A8 == 0) && (((Ent_80155800_80155800 *)arg0)->unk1A9 != 0)) {
-        if (((s32(*)(void *))guess_IsConfirmPressed)(((Ent_80155800_80155800 *)arg0)) != 0) {
-            ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
-            ((void(*)(void *))guess_EnterJumpState)(((Ent_80155800_80155800 *)arg0));
+    if ((((Unkstruct_80126B58 *)arg0)->unk1A8 == 0) && (((Unkstruct_80126B58 *)arg0)->unk1A9 != 0)) {
+        if (((s32(*)(void *))guess_IsConfirmPressed)(((Unkstruct_80126B58 *)arg0)) != 0) {
+            ((void(*)(void *))func_801599A4)(((Unkstruct_80126B58 *)arg0));
+            ((void(*)(void *))guess_EnterJumpState)(((Unkstruct_80126B58 *)arg0));
             return;
         }
-        if (!(((s32(*)(void *))guess_GetPadHeld)(((Ent_80155800_80155800 *)arg0)) & 8) && (((s32(*)(void *))guess_IsDirectionHeld)(((Ent_80155800_80155800 *)arg0)) != 0)) {
-            ((void(*)(void *))func_801599A4)(((Ent_80155800_80155800 *)arg0));
-            ((void (*)(void *))func_8015A230)(((Ent_80155800_80155800 *)arg0));
+        if (!(((s32(*)(void *))guess_GetPadHeld)(((Unkstruct_80126B58 *)arg0)) & 8) && (((s32(*)(void *))guess_IsDirectionHeld)(((Unkstruct_80126B58 *)arg0)) != 0)) {
+            ((void(*)(void *))func_801599A4)(((Unkstruct_80126B58 *)arg0));
+            ((void (*)(void *))func_8015A230)(((Unkstruct_80126B58 *)arg0));
             return;
         }
         goto block_22;
     }
 block_22:
-    if (((s32(*)(void *))guess_TickWaitTimer_2)(((Ent_80155800_80155800 *)arg0)) == 0) {
-        ((void(*)(s16, void *, void *))func_8001382C)((s16) -(s32) ((Ent_80155800_80155800 *)arg0)->unk20->unk12, &((Ent_80155800_80155800 *)arg0)->unk234, &sp10);
-        ((void(*)(void *, void *))guess_SetMoveVector)(((Ent_80155800_80155800 *)arg0), &sp10);
-        ((void(*)(void *))guess_SetVelocityFromMoveVector)(((Ent_80155800_80155800 *)arg0));
-        ((void(*)(void *))guess_ApplyVelocity)(((Ent_80155800_80155800 *)arg0));
+    if (((s32(*)(void *))guess_TickWaitTimer_2)(((Unkstruct_80126B58 *)arg0)) == 0) {
+        ((void(*)(s16, void *, void *))func_8001382C)((s16) -(s32) ((Unkstruct_80126B58 *)arg0)->unk20.m->head.unk10.w.unk12.u, &((Unkstruct_80126B58 *)arg0)->unk234, &sp10);
+        ((void(*)(void *, void *))guess_SetMoveVector)(((Unkstruct_80126B58 *)arg0), &sp10);
+        ((void(*)(void *))guess_SetVelocityFromMoveVector)(((Unkstruct_80126B58 *)arg0));
+        ((void(*)(void *))guess_ApplyVelocity)(((Unkstruct_80126B58 *)arg0));
     }
-    if (func_80161208(((Ent_80155800_80155800 *)arg0)) == 0) {
-        ((void (*)(void *, u8))func_80155FF8)(((Ent_80155800_80155800 *)arg0), ((Ent_80155800_80155800 *)arg0)->unk1AA);
+    if (func_80161208(((Unkstruct_80126B58 *)arg0)) == 0) {
+        ((void (*)(void *, u8))func_80155FF8)(((Unkstruct_80126B58 *)arg0), ((Unkstruct_80126B58 *)arg0)->unk1AA);
     }
 }

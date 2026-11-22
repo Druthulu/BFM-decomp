@@ -752,8 +752,8 @@ void func_800CDE04(s32 param_1) {
     s16 i;
     s32 p;
 
-    q = ((Unkstruct_800CE004 *)param_1)->unk34;
-    if (((Unkstruct_800CE004 *)param_1)->unk2C.s == 0) {
+    q = ((Unkstruct_8011D030 *)param_1)->unk34.val;
+    if (((Unkstruct_8011D030 *)param_1)->unk2C.val.s == 0) {
         sp20[0] = ((Unkstruct_801202A0 *)q)->unk4.i.hi.u;
         sp20[1] = ((Unkstruct_801202A0 *)q)->unk8.i.hi.u - 0x28;
         sp20[2] = ((Unkstruct_801202A0 *)q)->unkC.i.hi.u;
@@ -784,8 +784,8 @@ void func_800CDE04(s32 param_1) {
         func_800D23D0(sp30);
         RotMatrixYXZ(sp30, (void *)(param_1 + 0x38));
         p = param_1;
-        ((Unkstruct_800CE004 *)p)->unk1C = 0x18;
-        ((Unkstruct_800CE004 *)p)->unk2 += 1;
+        ((Unkstruct_8011D030 *)p)->unk1C.s = 0x18;
+        ((Unkstruct_8011D030 *)p)->unk2.u += 1;
         func_800CE004(p);
     }
 }
@@ -806,9 +806,9 @@ void func_800CE004(s32 param_1)
     s32 *p;
     s32 *q;
 
-    ((Unkstruct_800CE004 *)param_1)->unk30 = ((Unkstruct_800CE004 *)param_1)->unk1C * 8;
+    ((Unkstruct_8011D030 *)param_1)->unk30.val.s = ((Unkstruct_8011D030 *)param_1)->unk1C.s * 8;
     func_80169A4C(param_1, param_1 + 0x38);
-    if (--((Unkstruct_800CE004 *)param_1)->unk1C == 0)
+    if (--((Unkstruct_8011D030 *)param_1)->unk1C.s == 0)
         goto L_c3c;
     p = (s32 *)(param_1 + 4);
     guess_CopyVec3HighHalves((s32)p, (s32 *)sp20);
@@ -820,18 +820,18 @@ void func_800CE004(s32 param_1)
     func_80015954((s32)q, (s32)p);
     if (*(u8 *)((s32)q + 6) != 2)
         goto L_cnt;
-    if (((Unkstruct_800CE004 *)param_1)->unk2C.u < 0x1E01)
+    if (((Unkstruct_8011D030 *)param_1)->unk2C.val.u < 0x1E01)
         goto L_c3c;
-    guess_SpawnSmallObject(0x11, (void *)param_1, ((Unkstruct_800CE004 *)param_1)->unk6,
-                  (s16)(((Unkstruct_800CE004 *)param_1)->unkA - 8),
-                  ((Unkstruct_800CE004 *)param_1)->unkE, 0, 0);
+    guess_SpawnSmallObject(0x11, (void *)param_1, ((Unkstruct_8011D030 *)param_1)->unk4.i.hi.s,
+                  (s16)(((Unkstruct_8011D030 *)param_1)->unk8.i.hi.u - 8),
+                  ((Unkstruct_8011D030 *)param_1)->unkC.i.hi.s, 0, 0);
     goto L_c3c;
 
 L_cnt:
-    ((Unkstruct_800CE004 *)param_1)->unk2 += 1;
+    ((Unkstruct_8011D030 *)param_1)->unk2.u += 1;
     return;
 L_ret0:
-    ((Unkstruct_800CE004 *)param_1)->unk14 += 0x10000;
+    ((Unkstruct_8011D030 *)param_1)->unk14.val += 0x10000;
     return;
 L_c3c:
     guess_FreeSmallObject((void *)param_1);

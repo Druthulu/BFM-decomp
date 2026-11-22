@@ -254,7 +254,7 @@ void func_800CB300(s32 arg0) {
     s32 st;
 
     s1 = arg0;
-    s0 = ((Unkstruct_800CB300_2 *)s1)->unk20;
+    s0 = ((Ent_80164930_80164930 *)s1)->unk20.val;
     work[0] = *(W8_md_MAIN_025_800CB300 *)D_800CAE0C;
     s2 = (s32)&work;
     if (guess_TickWaitTimer_2(s1) != 0) {
@@ -267,7 +267,7 @@ void func_800CB300(s32 arg0) {
     *(Blk16_956C *)(s0 + 0x34) = *(Blk16_956C *)&mat[0];
     *(Blk16_956C *)(s0 + 0x44) = *(Blk16_956C *)&mat[4];
     ((Unkstruct_8001C9D0 *)s0)->head.unk2C.u = ((Unkstruct_8001C9D0 *)s0)->head.unk2C.u | 1;
-    func_80163194(s1, -(((((Unkstruct_800CB300_2 *)s1)->unk50 - 0x28) << 14) / 40), 0, 0, (s32)&mat);
+    func_80163194(s1, -(((((Ent_80164930_80164930 *)s1)->f50 - 0x28) << 14) / 40), 0, 0, (s32)&mat);
     guess_AddVelocityToPos_2((s32 *)s1);
     func_80163950(s1);
     hv = ((Unkstruct_8001C9D0 *)s0)->head.unk18.w.unk1A.u + 0x200;
@@ -327,8 +327,8 @@ void func_800CB300(s32 arg0) {
     if (st != 2) {
         return;
     }
-    guess_SpawnSmallObject(0x10, (void *)s1, ((Unkstruct_800CB300_2 *)s1)->unk6, ((Unkstruct_800CB300_2 *)s1)->unkA,
-                  ((Unkstruct_800CB300_2 *)s1)->unkE, 0, 0);
+    guess_SpawnSmallObject(0x10, (void *)s1, ((Ent_80164930_80164930 *)s1)->unk4.i.hi.s, ((Ent_80164930_80164930 *)s1)->unk8.i.hi.s,
+                  ((Ent_80164930_80164930 *)s1)->unkC.i.hi.s, 0, 0);
     guess_SetWaitTimer_2((s32 *)s1, 0x1E);
     func_80147364(4, 0x649);
     guess_PlaySoundUnlessSkipped(0x441);

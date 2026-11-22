@@ -12,22 +12,22 @@ s32 func_8016A73C(s32 arg0) {
     v[0] = ((unsigned)(r & 0x7F00) >> 5) - 0x300;
     v[2] = 0;
     ((void(*)(short *, void *))RotMatrixYXZ)(v, sp10);
-    ((void(*)(int, void *))func_80048EAC)(((Obj_8016A73C *)arg0)->unk34->unk34->unk20 + 0x34, sp10);
+    ((void(*)(int, void *))func_80048EAC)(((Unkstruct_8011D030 *)arg0)->unk34.a->unk34->unk20 + 0x34, sp10);
     v[0] = 0;
     v[1] = 0;
     v[2] = -0x50;
     ((int(*)(void *, short *, short *))ApplyMatrixSV)(sp10, v, v);
 
-    ((Obj_8016A73C *)arg0)->mat = (*(Mat_8016A73C*)&D_800AE620);
+    ((Unkstruct_8011D030 *)arg0)->unk38.mat = (*(Mat_8016A73C*)&D_800AE620);
 
-    tmp = ((Obj_8016A73C *)arg0)->unk6 + v[0];
-    ((Obj_8016A73C *)arg0)->unk6 = tmp;
-    ((Obj_8016A73C *)arg0)->mat.t[0] = tmp;
-    tmp = ((Obj_8016A73C *)arg0)->unkA + v[1];
-    ((Obj_8016A73C *)arg0)->unkA = tmp;
-    ((Obj_8016A73C *)arg0)->mat.t[1] = tmp;
-    tmp = ((Obj_8016A73C *)arg0)->unkE + v[2];
-    ((Obj_8016A73C *)arg0)->unkE = tmp;
-    ((Obj_8016A73C *)arg0)->unk2 = ((Obj_8016A73C *)arg0)->unk2 + 1;
-    ((Obj_8016A73C *)arg0)->mat.t[2] = tmp;
+    tmp = ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.s + v[0];
+    ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.s = tmp;
+    ((Unkstruct_8011D030 *)arg0)->unk38.mat.t[0] = tmp;
+    tmp = ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.s + v[1];
+    ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.s = tmp;
+    ((Unkstruct_8011D030 *)arg0)->unk38.mat.t[1] = tmp;
+    tmp = ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s + v[2];
+    ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s = tmp;
+    ((Unkstruct_8011D030 *)arg0)->unk2.s = ((Unkstruct_8011D030 *)arg0)->unk2.s + 1;
+    ((Unkstruct_8011D030 *)arg0)->unk38.mat.t[2] = tmp;
 }

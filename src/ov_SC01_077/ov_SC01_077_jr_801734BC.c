@@ -3246,10 +3246,10 @@ void func_80175DA8(param_1)
     }
 
     {
-        u8 *q1 = *(u8 **)(s + (s16)param_1 * 4 + 0x28);
-        ((Unkstruct_80175DA8_8 *)q1)->unk22 = 0x6CD6;
+        Sp_80175DA8 *q1 = *(Sp_80175DA8 **)(s + (s16)param_1 * 4 + 0x28); /* the 5 x 0x14 sprite packets (T20.c10) */
+        HIHU(q1[1].uv) = 0x6CD6;
         if (base[0x48] & 0x80) {
-            ((Unkstruct_80175DA8_8 *)q1)->unk20 = D_8018A238;
+            LOHU(q1[1].uv) = D_8018A238;
             arg = (s32)&D_800D45D4;
         } else {
             u16 *tt = D_8018A22C;
@@ -3258,7 +3258,7 @@ void func_80175DA8(param_1)
                 k--;
                 tt += k;
             }
-            ((Unkstruct_80175DA8_8 *)q1)->unk20 = *tt;
+            LOHU(q1[1].uv) = *tt;
             arg = D_8018A2E4[base[0x48]];
         }
     }

@@ -442,19 +442,6 @@ struct Node_80167540 {
     u8 pad24[0x28];
     /* 0x4C */ struct Sub2_80167540 *unk4C;
 };
-struct Entity_80167540 {
-    /* 0x0 */ s16 unk0;
-    /* 0x2 */ u16 unk2;
-    u8 pad4[0xC];
-    /* 0x10 */ s16 unk10;
-    /* 0x12 */ s16 unk12;
-    u8 pad14[0x8];
-    /* 0x1C */ s32 unk1C;
-    u8 pad20[0x10];
-    /* 0x30 */ s32 unk30;
-    /* 0x34 */ struct Node_80167540 *unk34;
-    /* 0x38 */ MATRIX mat;
-};
 typedef MATRIX Mat_8016A73C;
 typedef struct { u32 addr : 24; u8 len; } PTag_8018F694;
 typedef DVECTOR Pair;
@@ -509,39 +496,6 @@ typedef struct { Unkstruct_8013B83C a; CVECTOR b; s32 used; } Slot_80165140;
 typedef Slot_80165140 Slot;
 typedef struct SubB_8016A73C { char pad[0x20]; int unk20; } SubB_8016A73C;
 typedef struct SubA_8016A73C { char pad[0x34]; SubB_8016A73C *unk34; } SubA_8016A73C;
-typedef struct Obj_8016A73C {
-    short unk0;
-    short unk2;
-    short unk4;
-    short unk6;
-    short unk8;
-    short unkA;
-    short unkC;
-    short unkE;
-    char pad10[0x24];   /* 0x10 .. 0x33 */
-    SubA_8016A73C *unk34;         /* 0x34 */
-    Mat_8016A73C mat;             /* 0x38 .. 0x57 */
-} Obj_8016A73C;
-typedef struct {
-    u8   pad00[0x12];
-    u16  unk12;              /* 0x12 */
-} Sub_80155800_80155800;
-typedef struct {
-    u8            pad00[0x20];
-    Sub_80155800_80155800 *unk20;     /* 0x20 */
-    u8            pad24[0x44 - 0x24];
-    s32           unk44;     /* 0x44 */
-    u8            pad48[0xB8 - 0x48];
-    u16           unkB8;     /* 0xB8 */
-    u8            padBA[0x1A8 - 0xBA];
-    u8            unk1A8;    /* 0x1A8 */
-    u8            unk1A9;    /* 0x1A9 */
-    u8            unk1AA;    /* 0x1AA */
-    u8            pad1AB[0x1C0 - 0x1AB];
-    u8            unk1C0;    /* 0x1C0 */
-    u8            pad1C1[0x234 - 0x1C1];
-    u8            unk234;    /* 0x234 */
-} Ent_80155800_80155800;
 typedef struct {
     u32 addr : 24;
     u8 len;
@@ -3757,21 +3711,6 @@ typedef SVECTOR SVECTOR_801EDED4_801EF98C;
 typedef SVECTOR SVec_800CB3BC;
 typedef Fr_801670E4 Fr_800CB3BC;
 typedef struct Src_80167540 Src_800CB658;
-struct Entity_800CB658 {
-    u8 pad0[0x6];
-    s16 unk6;
-    u8 pad8[0x2];
-    s16 unkA;
-    u8 padC[0x2];
-    s16 unkE;
-    s16 unk10;
-    s16 unk12;
-    u8 pad14[0x8];
-    s32 unk1C;
-    u8 pad20[0x14];
-    Unkstruct_800CB2E0 *unk34;
-    Mat_800CB658 mat;
-};
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch headers) --- */
 typedef Blk8_80133CD4 Blk8_80133CD4_de6ea26c;

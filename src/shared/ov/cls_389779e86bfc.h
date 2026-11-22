@@ -2,9 +2,9 @@
  * exemplar src/ov_SC03_028/ov_SC03_028_jr_8017DF98.c:3206 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/shared/ov/func_8016DBD8.h rejected by type_census --check */
 void SHARED_FN(u8 *a0) {
-    ((Unkstruct_8017F04C *)a0)->unk4 = 0;
-    ((Unkstruct_8017F04C *)a0)->unk8 = 0;
-    ((Unkstruct_8017F04C *)a0)->unkC = 0;
-    guess_TransformPosByObjMatrix(((Unkstruct_8017F04C *)a0)->unk34, (s32)(a0 + 0x4));
+    ((Unkstruct_8011D030 *)a0)->unk4.val = 0;
+    ((Unkstruct_8011D030 *)a0)->unk8.val = 0;
+    ((Unkstruct_8011D030 *)a0)->unkC.val = 0;
+    guess_TransformPosByObjMatrix(((Unkstruct_8011D030 *)a0)->unk34.val, (s32)(a0 + 0x4));
     func_800D1FC8((s32)a0, 5);
 }
