@@ -2958,8 +2958,8 @@ extern s32 func_80184B44(void);
 extern void func_80178CBC(s32, s32);
     extern short D_80191CF4;
     void func_80182D0C(short *a0) {
-        ((Unkstruct_80182D0C_2 *)a0)->unk2 = 0x8;
-        ((Unkstruct_80182D0C_2 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x8;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         ((void (*)(s32 *, s32))func_80178CBC)((s32 *)a0, (s32)&D_80191CF4);
     }
 
@@ -2969,8 +2969,8 @@ extern void func_80178CBC(s32, s32);
 extern void func_80178CBC(s32, s32);
     extern short D_80191D4C;
     void func_80182D3C(short *a0) {
-        ((Unkstruct_80182D3C_2 *)a0)->unk2 = 0xe;
-        ((Unkstruct_80182D3C_2 *)a0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0xe;
+        ((Unkstruct_801202A0 *)a0)->unk34.s = 0;
         ((void (*)(s32 *, s32))func_80178CBC)((s32 *)a0, (s32)&D_80191D4C);
     }
 
@@ -3185,7 +3185,7 @@ s32 func_80183100(void *a0)
         if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.u != 2) {
             return 0;
         }
-        ok = func_8012BD14(((Unkstruct_80183100_2 *)a0)->unk64) < 0x4001;
+        ok = func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) < 0x4001;
         break;
     default:
         return 0;
@@ -3194,7 +3194,7 @@ s32 func_80183100(void *a0)
         return 0;
     }
     {
-        s32 p2 = ((Unkstruct_80183100_2 *)a0)->unk64;
+        s32 p2 = ((Unkstruct_801202A0 *)a0)->unk64;
         ((Unkstruct_801202A0 *)p2)->unk2.u = ((Unkstruct_801202A0 *)p2)->unk2.u + 1;
     }
     func_80178BF8();
@@ -3215,14 +3215,14 @@ s32 func_801831C8(void *a0)
     void *p;
     u16 st;
 
-    p = ((Unkstruct_801831C8_3 *)a0)->unk64;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
     st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
             return 0;
         }
-        p = ((Unkstruct_801831C8_3 *)a0)->unk64;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
         if (func_80185F5C(p) != 0) {
             return 0;
         }
@@ -3250,7 +3250,7 @@ s32 func_801831C8(void *a0)
 
 hit:
     {
-        void *p2 = ((Unkstruct_801831C8_3 *)a0)->unk64;
+        void *p2 = ((Unkstruct_801202A0 *)a0)->unk64;
         u16 v = ((Unkstruct_801202A0 *)p2)->unk2.u;
         v = v + 1;
         ((Unkstruct_801202A0 *)p2)->unk2.u = v;
@@ -3494,7 +3494,7 @@ void func_80183724(void * arg0) {
     extern short D_80191EC0;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_80191EC0);
     }
 }
@@ -3902,7 +3902,7 @@ void func_80184004(void * arg0) {
     extern short D_80191FD0;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_80191FD0);
     }
 }
@@ -3948,14 +3948,14 @@ s32 func_801840DC(void *a0)
     void *p;
     u16 st;
 
-    p = ((Unkstruct_801840DC *)a0)->unk64;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
     st = ((Unkstruct_801202A0 *)p)->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801845DC)(a0) == 0) {
             return 0;
         }
-        p = ((Unkstruct_801840DC *)a0)->unk64;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
         if (func_80185F5C(p) != 0) {
             return 0;
         }
@@ -4057,7 +4057,7 @@ void func_80184310(void * arg0) {
     extern short D_80192160;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_80192160);
     }
 }

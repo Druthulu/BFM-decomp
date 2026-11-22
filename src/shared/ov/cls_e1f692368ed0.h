@@ -4,8 +4,8 @@ s32 SHARED_FN(void *a0)
     s32 ptr;
     u16 st;
 
-    ptr = ((Unkstruct_801805F0_2 *)a0)->unk64;
-    st = ((Unkstruct_801805F0 *)ptr)->unk2;
+    ptr = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)ptr)->unk2.u;
     if (st != 3) {
         return 0;
     }
@@ -17,10 +17,10 @@ s32 SHARED_FN(void *a0)
     {
         s32 p;
         u16 st2;
-        p = ((Unkstruct_801805F0_2 *)a0)->unk64;
-        st2 = ((Unkstruct_801805F0 *)p)->unk2;
+        p = ((Unkstruct_801202A0 *)a0)->unk64;
+        st2 = ((Unkstruct_801202A0 *)p)->unk2.u;
         st2++;
-        ((Unkstruct_801805F0 *)p)->unk2 = st2;
+        ((Unkstruct_801202A0 *)p)->unk2.u = st2;
     }
     func_80178BF8();
     return (s32)func_80172710;

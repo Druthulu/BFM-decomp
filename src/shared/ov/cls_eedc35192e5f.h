@@ -2,6 +2,6 @@
 void SHARED_FN(arg0)
 s32 arg0;
 {
-    ((Unkstruct_8017EDD8 *)arg0)->unk2 = 7;
-    ((Unkstruct_8017EDD8 *)arg0)->unk5C = 0xAA10;
+    ((Unkstruct_801202A0 *)arg0)->unk2.u = 7;
+    ((Unkstruct_801202A0 *)arg0)->unk5C.u = 0xAA10;
 }

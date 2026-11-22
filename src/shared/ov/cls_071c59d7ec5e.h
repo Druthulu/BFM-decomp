@@ -3,7 +3,7 @@
  * rank 2 src/ov_SC02_027/ov_SC02_027_jr_8017D898.c:7553 rejected by type_census --check
  * rank 3 src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c:3828 rejected by type_census --check */
 void SHARED_FN(void *a0) {
-        ((Unkstruct_8017EA78 *)a0)->unk5C = 0;
-        ((Unkstruct_8017EA78 *)a0)->unk98 = 0;
-        ((Unkstruct_8017EA78 *)a0)->unk1C = 0;
+        ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk98.s = 0;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
     }

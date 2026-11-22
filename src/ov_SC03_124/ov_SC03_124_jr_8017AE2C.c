@@ -4553,7 +4553,7 @@ void func_8017EAB4(void * arg0) {
     extern short D_8018F038;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801843E0)((int)arg0, (int)&D_8018F038);
     }
 }

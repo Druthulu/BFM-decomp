@@ -4831,7 +4831,7 @@ void func_8017F28C(void * arg0) {
     extern short D_801912D8;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_801912D8);
     }
 }
@@ -5382,7 +5382,7 @@ void func_8017FCD8(void * arg0) {
     extern short D_80191570;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191570);
     }
 }
@@ -6425,7 +6425,7 @@ void func_80181474(void * arg0) {
     extern short D_80191AB0;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80191AB0);
     }
 }
@@ -8110,7 +8110,7 @@ void func_8018370C(void * arg0) {
     extern short D_80192030;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80184CB8)((int)arg0, (int)&D_80192030);
     }
 }

@@ -3501,9 +3501,9 @@ void func_8018340C(void *a0)
     register s32 bb __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
     register s32 cc __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-copy-pref
 
-    in[0] = ((Unkstruct_8018340C *)a0)->unk6;
-    in[1] = ((Unkstruct_8018340C *)a0)->unkA;
-    in[2] = ((Unkstruct_8018340C *)a0)->unkE;
+    in[0] = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+    in[1] = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s;
+    in[2] = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
 
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
@@ -3512,19 +3512,19 @@ void func_8018340C(void *a0)
     if ((ret > 0) && (o.flag >= 0)) {
         ot = *(s32 *)((s8 *)&D_800A651C + (u16)guess_g_DoubleBufferIndex * 0x14) + ret * 4;
         m = D_80192CC0;
-        t = rsin(((Unkstruct_8018340C *)a0)->unkDE) * 3;
+        t = rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3;
         if (t < 0) {
             t += 7;
         }
         t = (t >> 3) - 0x800;
         if (t < 0) {
-            u = rsin(((Unkstruct_8018340C *)a0)->unkDE) * 3;
+            u = rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3;
             if (u < 0) {
                 u += 7;
             }
             t = 0x800 - (u >> 3);
         } else {
-            t = rsin(((Unkstruct_8018340C *)a0)->unkDE) * 3;
+            t = rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) * 3;
             if (t < 0) {
                 t += 7;
             }
@@ -3764,15 +3764,15 @@ extern u8 D_80192D50[];
 extern void (*D_80192DC4[])(void *);
 
 void func_80183C84(void *a0) {
-    if (*(s32 *)(((Unkstruct_8018340C *)a0)->unk20 + 4) >= 0) {
-        ((Unkstruct_8018340C *)a0)->unkDC = (CAST_SIGN(u16, (s32)a0, 0xDC) + 0x88) & 0xFFF;
-        *(s16 *)&D_80192D4C = (rsin(((Unkstruct_8018340C *)a0)->unkDC) >> 6) + 0xC0;
+    if (*(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 4) >= 0) {
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s = (CAST_SIGN(u16, (s32)a0, 0xDC) + 0x88) & 0xFFF;
+        *(s16 *)&D_80192D4C = (rsin(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s) >> 6) + 0xC0;
         *(s16 *)&D_80192D4E = (rsin(CAST_ALIAS(s16, (s32)a0, 0xDC)) >> 6) + 0xC0;
         *(s16 *)&D_80192D50 = (rsin(CAST_ALIAS(s16, (s32)a0, 0xDC)) >> 6) + 0xC0;
-        ((Unkstruct_8018340C *)a0)->unkDE = (CAST_SIGN(u16, (s32)a0, 0xDE) - 0x88) & 0xFFF;
+        ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s = (CAST_SIGN(u16, (s32)a0, 0xDE) - 0x88) & 0xFFF;
         func_8018340C(a0);
     }
-    D_80192DC4[((Unkstruct_8018340C *)a0)->unk2](a0);
+    D_80192DC4[((Unkstruct_801202A0 *)a0)->unk2.u](a0);
 }
 
 

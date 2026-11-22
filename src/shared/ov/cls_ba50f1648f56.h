@@ -2,6 +2,6 @@
 void SHARED_FN(s32 a0) {
     s32 v0 = guess_DistSqToPlayer(a0);
     if (v0 <= 0x18000) {
-        ((Unkstruct_8017E9F4_3 *)a0)->unk2 = 5;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 5;
     }
 }

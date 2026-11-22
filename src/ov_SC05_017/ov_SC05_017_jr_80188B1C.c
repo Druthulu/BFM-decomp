@@ -4899,9 +4899,9 @@ void func_8018B604(void *a0) {
 extern s32 func_8018B5B0(void);
 
 void func_8018B648(void *a0) {
-    *(s32 *)(((Unkstruct_8018B648 *)a0)->unkCC + 0xB0) = 2;
+    *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 2;
     if (func_8018B5B0() != 0) {
-        ((Unkstruct_8018B648 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 }
 
@@ -4962,14 +4962,14 @@ extern u8 D_80078EBA;
 
 void func_8018B780(void *a0) {
     s32 v0;
-    *(s32 *)(((Unkstruct_8018B780 *)a0)->unkCC + 0xB0) = 2;
+    *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 2;
     if (D_80078EBA == 0) {
         v0 = 0;
     } else {
         v0 = func_801848AC(0xB, 0x10) != 0;
     }
     if (v0 != 0) {
-        ((Unkstruct_8018B780 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 }
 
@@ -5065,10 +5065,10 @@ void func_8018B978(void *a0) {
     extern u8 D_801ED8F6;
 
     if (func_8018B850()) {
-        *(s32 *)(((Unkstruct_8018B978 *)a0)->unkCC + 0xB0) = 1;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 1;
         D_801ED8F6 = 1;
     } else {
-        *(s32 *)(((Unkstruct_8018B978 *)a0)->unkCC + 0xB0) = 2;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 2;
         D_801ED8F6 = 0;
     }
 }
@@ -5079,13 +5079,13 @@ extern s32 func_8012E57C(s32 a0, s32 a1);
 extern s32 func_8018B850(void);
 
 void func_8018B9DC(void *a0) {
-    ((Unkstruct_8018B9DC *)a0)->unk2 = 1;
-    ((Unkstruct_8018B9DC *)a0)->unkCC = func_8012E57C(0x61, 0xE);
+    ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = func_8012E57C(0x61, 0xE);
     if (func_8018B850()) {
-        *(s32 *)(((Unkstruct_8018B9DC *)a0)->unkCC + 0xB0) = 1;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 1;
         D_801ED8F6 = 1;
     } else {
-        *(s32 *)(((Unkstruct_8018B9DC *)a0)->unkCC + 0xB0) = 2;
+        *(s32 *)(((Unkstruct_801202A0 *)a0)->unkCC.val + 0xB0) = 2;
         D_801ED8F6 = 0;
     }
 }
@@ -5541,7 +5541,7 @@ void func_8018C2AC(void * arg0) {
     extern short D_801E6968;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_801E6968);
     }
 }

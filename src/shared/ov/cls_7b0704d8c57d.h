@@ -2,8 +2,8 @@
 void SHARED_FN(u8 *a0) {
     guess_RequestSound(0xA9C, 0);
     func_8002AC00(0x15);
-    if ((a0[0x5E] != 0x33) && (((Unkstruct_8017FBA0 *)a0)->unk70 == 3)) {
-        ((Unkstruct_8017FBA0 *)a0)->unk70 = 0;
+    if ((a0[0x5E] != 0x33) && (((Unkstruct_801202A0 *)a0)->unk70.s == 3)) {
+        ((Unkstruct_801202A0 *)a0)->unk70.s = 0;
         guess_RequestSound(0xB6B, 0);
     }
 }

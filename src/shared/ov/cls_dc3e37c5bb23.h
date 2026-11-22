@@ -2,5 +2,5 @@
  * exemplar src/ov_SC04_003/ov_SC04_003_jr_8017BEBC.c:3452 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC03_092/ov_SC03_092_jr_8017AE2C.c:5182 rejected by type_census --check */
 s32 SHARED_FN(s32 arg0) {
-        return ((Unkstruct_8017E02C *)arg0)->unk2 == 0x3;
+        return ((Unkstruct_801202A0 *)arg0)->unk2.u == 0x3;
     }

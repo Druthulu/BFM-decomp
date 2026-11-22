@@ -5409,7 +5409,7 @@ extern void func_8012AD44(s32 *a0, s16 a1);
 void func_80181C80(a0)
 s32 a0;
 {
-    ((Unkstruct_80181C80_3 *)a0)->unk1C = D_8018A3E4[((Unkstruct_80181C80_3 *)a0)->unk70];
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = D_8018A3E4[((Unkstruct_801202A0 *)a0)->unk70.s];
     ((void (*)(void *, s32))func_8012AD44)((void *)a0, 2);
 }
 

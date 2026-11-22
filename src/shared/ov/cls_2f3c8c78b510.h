@@ -5,7 +5,7 @@ void SHARED_FN(void *a0)
 {
     s32 result;
 
-    ((Unkstruct_8018C5E8 *)a0)->unk34 = ((Unkstruct_8018C5E8 *)a0)->unk34 + 1;
+    ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
 
     guess_RequestSound(0x7A0, 0);
     guess_SetGameFlag(0xF6, 1);

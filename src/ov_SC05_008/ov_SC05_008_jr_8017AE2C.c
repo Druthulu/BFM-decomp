@@ -5072,7 +5072,7 @@ void func_8017FE64(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186658[((Unkstruct_8017FE64_2 *)p)->unk2]();
+    D_80186658[((Unkstruct_8017FE64_2 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5141,7 +5141,7 @@ void func_8018000C(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186664[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186664[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5197,7 +5197,7 @@ void func_80180164(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186670[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186670[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5303,7 +5303,7 @@ void func_801803B8(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_8018667C[((Unkstruct_8018000C *)p)->unk2]();
+    D_8018667C[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5356,7 +5356,7 @@ void func_80180510(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186688[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186688[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5462,7 +5462,7 @@ void func_80180764(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186694[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186694[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5517,7 +5517,7 @@ void func_801808BC(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801866A0[((Unkstruct_8018000C *)p)->unk2]();
+    D_801866A0[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5575,7 +5575,7 @@ void func_80180A14(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801866AC[((Unkstruct_8018000C *)p)->unk2]();
+    D_801866AC[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5676,7 +5676,7 @@ void func_80180CDC(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186778[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186778[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5776,7 +5776,7 @@ void func_80180F84(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186788[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186788[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5875,7 +5875,7 @@ void func_8018122C(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_80186798[((Unkstruct_8018000C *)p)->unk2]();
+    D_80186798[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -5972,7 +5972,7 @@ void func_801814D4(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867A8[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867A8[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6068,7 +6068,7 @@ void func_8018177C(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867B8[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867B8[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6152,7 +6152,7 @@ void func_801819D8(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867C8[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867C8[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6236,7 +6236,7 @@ void func_80181C38(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867D8[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867D8[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6299,7 +6299,7 @@ void func_80181DBC(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867E4[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867E4[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6358,7 +6358,7 @@ void func_80181F40(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867F0[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867F0[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;
@@ -6421,7 +6421,7 @@ void func_801820C0(s32 *p) {
     s32 *q;
 
     q = &guess_g_PlayerActor;
-    D_801867FC[((Unkstruct_8018000C *)p)->unk2]();
+    D_801867FC[((Unkstruct_801202A0 *)p)->unk2.u]();
     if (p[8] != 0) {
         if (func_80013328((s32)p + 4, (s32)(q + 1)) >= 0xA01) {
             *(s32 *)(p[8] + 4) |= 0x80000000;

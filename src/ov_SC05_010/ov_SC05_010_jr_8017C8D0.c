@@ -4530,15 +4530,15 @@ extern s32 func_8012DFD4(u8 *a0);
 void func_80180AA0(short *param_1) {
     s32 pad[4];
     s32 val;
-    D_80192770[((Unkstruct_80180AA0 *)param_1)->unk2]();
-    if (((Unkstruct_80180AA0 *)param_1)->unk0 != 0) {
+    D_80192770[((Unkstruct_801202A0 *)param_1)->unk2.u]();
+    if (((Unkstruct_801202A0 *)param_1)->unk0 != 0) {
         u8 *arg = (u8 *)param_1;
         __asm__("" ::: "$4");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-birth-boost
-        val = (s32)*(s16 *)(*(s32 *)(((Unkstruct_80180AA0 *)arg)->unk64 + 0x20) + 0x1A) * (s32)D_80192734;
+        val = (s32)*(s16 *)(((Unkstruct_801202A0 *)arg)->unk64->unk20.val + 0x1A) * (s32)D_80192734;
         if (val < 0) {
             val += 0xFFF;
         }
-        ((Unkstruct_80180AA0 *)arg)->unkA = (s16)(((Unkstruct_80180AA0 *)arg)->unk8A + (val >> 12) - D_80192734);
+        ((Unkstruct_801202A0 *)arg)->unk8.i.hi.s = (s16)(((Unkstruct_801202A0 *)arg)->unk8A.u + (val >> 12) - D_80192734);
         func_8012DFD4(arg);
     }
 }

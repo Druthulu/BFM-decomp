@@ -5,11 +5,11 @@ void SHARED_FN(s32 a0) {
     s16 t;
 
     for (p = guess_g_ObjectTable, i = 0; i < 0x60; p += 0x10C, i++) {
-        if (((Unkstruct_80183094_2 *)p)->unk0 == 0x210) {
-            if ((u16)(((Unkstruct_80183094_2 *)p)->unk6 - ((Unkstruct_80183094 *)a0)->unk6 + 0x9F) < 0x13F) {
-                if ((u16)(((Unkstruct_80183094_2 *)p)->unkE - ((Unkstruct_80183094 *)a0)->unkE + 0x9F) < 0x11F) {
-                    if (((Unkstruct_80183094_2 *)p)->unkA - ((Unkstruct_80183094 *)a0)->unkA < 0xC0) {
-                        ((Unkstruct_80183094_2 *)p)->unkFE = 1;
+        if (((Unkstruct_801202A0 *)p)->unk0 == 0x210) {
+            if ((u16)(((Unkstruct_801202A0 *)p)->unk4.i.hi.u - ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u + 0x9F) < 0x13F) {
+                if ((u16)(((Unkstruct_801202A0 *)p)->unkC.i.hi.u - ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u + 0x9F) < 0x11F) {
+                    if (((Unkstruct_801202A0 *)p)->unk8.i.hi.s - ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s < 0xC0) {
+                        ((Unkstruct_801202A0 *)p)->unkFE.u = 1;
                     }
                 }
             }
@@ -17,23 +17,23 @@ void SHARED_FN(s32 a0) {
     }
 
     t = CAST_SIGN(u16, a0, 0xA) - 2;
-    ((Unkstruct_80183094 *)a0)->unkA = t;
-    if (((Unkstruct_80183094 *)a0)->unk8A >= t) {
-        ((Unkstruct_80183094 *)a0)->unk2 = 1;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s = t;
+    if (((Unkstruct_801202A0 *)a0)->unk8A.s >= t) {
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
     }
 
     {
         s32 obj;
-        obj = ((Unkstruct_80183094 *)a0)->unk6C;
+        obj = ((Unkstruct_801202A0 *)a0)->unk6C;
         if (obj != 0) {
             s32 diff;
-            diff = ((Unkstruct_80183094 *)a0)->unkA - ((Unkstruct_80183094 *)a0)->unk8A;
+            diff = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s - ((Unkstruct_801202A0 *)a0)->unk8A.s;
             if (diff > 0) {
                 s32 dst;
                 s32 v;
                 s16 result;
                 v = (diff << 5) + 0x4000;
-                dst = ((Unkstruct_80183094_4 *)obj)->unkCC;
+                dst = ((Unkstruct_801202A0 *)obj)->unkCC.val;
                 if (v > 0x7000) {
                     v = 0x7000;
                 }

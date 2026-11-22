@@ -3986,13 +3986,13 @@ void func_8017DC40(s32 param_1)
 {
     void *p;
 
-    p = &D_80181A00[((Unkstruct_8017DC40 *)param_1)->unkFC * 8];
+    p = &D_80181A00[((Unkstruct_801202A0 *)param_1)->unkFC.s * 8];
     if (*(s16 *)p == 0) {
         p = D_80181A00;
-        ((Unkstruct_8017DC40 *)param_1)->unkFC = 0;
+        ((Unkstruct_801202A0 *)param_1)->unkFC.s = 0;
     }
     MoveImage(p, 0x1E8, 0x190);
-    ((Unkstruct_8017DC40 *)param_1)->unkFC = CAST_SIGN(u16, param_1, 0xFC) + 1;
+    ((Unkstruct_801202A0 *)param_1)->unkFC.s = CAST_SIGN(u16, param_1, 0xFC) + 1;
 }
 
 

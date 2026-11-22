@@ -3,7 +3,7 @@
  * rank 2 src/ov_SC02_028/ov_SC02_028_jr_80184BD8.c:4002 rejected by type_census --check */
     void SHARED_FN(s32 arg0) {
         s32 v0;
-        if (((Unkstruct_8017EE74_2 *)*(s32 *)(arg0 + 0x64))->unk36 != ((Unkstruct_8017EE74 *)arg0)->unkFC) {
+        if (((Unkstruct_8017EE74_2 *)*(s32 *)(arg0 + 0x64))->unk36 != ((Unkstruct_801202A0 *)arg0)->unkFC.s) {
             ((void (*)(void))guess_FreeActor)();
         }
     }

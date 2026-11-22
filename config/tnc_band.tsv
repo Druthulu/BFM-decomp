@@ -5342,7 +5342,7 @@ rank	map_type	sites	bodies	cum_pct
 5338	Unkstruct_8017C120	3	1	92.751
 5339	Unkstruct_8017C560	3	1	92.753
 5340	Unkstruct_8017C66C	3	1	92.755
-5341	Unkstruct_8017CE64	3	1	92.757
+5341	Unkstruct_801202A0	3	1	92.757
 5342	Unkstruct_8017CF58	3	1	92.759
 5343	Unkstruct_8017D000	3	1	92.762
 5344	Unkstruct_8017D038	3	1	92.764
@@ -5350,7 +5350,7 @@ rank	map_type	sites	bodies	cum_pct
 5346	Unkstruct_8017D5F8	3	1	92.768
 5347	Unkstruct_801202A0	3	1	92.770
 5348	Unkstruct_8017DF98	3	1	92.772
-5349	Unkstruct_8017EA78	3	1	92.775
+5349	Unkstruct_801202A0	3	1	92.775
 5350	Unkstruct_8017EACC	3	1	92.777
 5351	Unkstruct_8017EB4C	3	1	92.779
 5352	Unkstruct_8017FAAC	3	1	92.781
@@ -6915,7 +6915,7 @@ rank	map_type	sites	bodies	cum_pct
 6911	Unkstruct_801202A0	2	1	95.337
 6912	Unkstruct_80181CF8	2	1	95.338
 6913	Unkstruct_80181F88	2	1	95.340
-6914	Unkstruct_80182190	2	1	95.341
+6914	Unkstruct_801202A0	2	1	95.341
 6915	Unkstruct_80182584	2	1	95.343
 6916	Unkstruct_801826C4	2	1	95.344
 6917	Unkstruct_80182704	2	1	95.345
@@ -9539,7 +9539,7 @@ rank	map_type	sites	bodies	cum_pct
 9535	Unkstruct_80180624	1	1	97.701
 9536	Unkstruct_80180664	1	1	97.702
 9537	Unkstruct_80180734	1	1	97.703
-9538	Unkstruct_80180754	1	1	97.704
+9538	Unkstruct_801202A0	1	1	97.704
 9539	Unkstruct_80180768	1	1	97.704
 9540	Unkstruct_80180798	1	1	97.705
 9541	Unkstruct_801807B4	1	1	97.706
@@ -9553,7 +9553,7 @@ rank	map_type	sites	bodies	cum_pct
 9549	Unkstruct_80180A1C	1	1	97.711
 9550	Unkstruct_80180A6C	1	1	97.712
 9551	Unkstruct_80180A8C	1	1	97.713
-9552	Unkstruct_80180AA0	1	1	97.714
+9552	Unkstruct_801202A0	1	1	97.714
 9553	Unkstruct_80180AC0	1	1	97.714
 9554	Unkstruct_801202A0	1	1	97.715
 9555	Unkstruct_80180AE4	1	1	97.716
@@ -10134,7 +10134,7 @@ rank	map_type	sites	bodies	cum_pct
 10130	Unkstruct_801860A0	1	1	98.128
 10131	Unkstruct_801860D4	1	1	98.129
 10132	Unkstruct_801860D8	1	1	98.129
-10133	Unkstruct_801860F4	1	1	98.130
+10133	Unkstruct_801202A0	1	1	98.130
 10134	Unkstruct_8018611C	1	1	98.131
 10135	Unkstruct_80186120	1	1	98.131
 10136	Unkstruct_80186124	1	1	98.132

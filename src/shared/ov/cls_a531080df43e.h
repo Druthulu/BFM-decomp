@@ -4,8 +4,8 @@
 s32 SHARED_FN(s32 a0) {
     s32 ret;
     ret = 0xA810;
-    do { ((Unkstruct_80183228_2 *)a0)->unkC1 = 0; } while (0);
-    ((Unkstruct_80183228_2 *)a0)->unk5E = 0;
-    ((Unkstruct_80183228_2 *)a0)->unk5C = ret;
+    do { ((Unkstruct_801202A0 *)a0)->unkC1.u = 0; } while (0);
+    ((Unkstruct_801202A0 *)a0)->unk5E.u = 0;
+    ((Unkstruct_801202A0 *)a0)->unk5C.u = ret;
     return ret;
 }

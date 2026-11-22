@@ -7,10 +7,10 @@ void SHARED_FN(void *a0) {
     ((Unkstruct_8017DCEC_2 *)*(s32 *)((s32)a0 + 0x20))->unk4 |= 0x60000000;
     ((Unkstruct_8017DCEC_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 =
         *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.val + 0x12);
-    ((Unkstruct_8017DCEC *)a0)->unk4 = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk4.val -
+    ((Unkstruct_801202A0 *)a0)->unk4.val = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk4.val -
         (rsin(((Unkstruct_8017DCEC_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 & 0xFFF) << 8);
-    ((Unkstruct_8017DCEC *)a0)->unk8 = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk8.val;
-    ((Unkstruct_8017DCEC *)a0)->unkC = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkC.val -
+    ((Unkstruct_801202A0 *)a0)->unk8.val = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk8.val;
+    ((Unkstruct_801202A0 *)a0)->unkC.val = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkC.val -
         (rcos(((Unkstruct_8017DCEC_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 & 0xFFF) << 8);
     ((Unkstruct_8017DCEC_2 *)*(s32 *)((s32)a0 + 0x20))->unk18 =
         (s16) * (u16 *)(((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk20.val + 0x18) / 2;

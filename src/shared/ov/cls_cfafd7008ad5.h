@@ -4,6 +4,6 @@
 void SHARED_FN(s32 a0) {
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)(a0);
-        ((Unkstruct_8017CE64 *)a0)->unk2 = 7;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 7;
     }
 }

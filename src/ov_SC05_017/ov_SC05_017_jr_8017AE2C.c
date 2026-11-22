@@ -4714,22 +4714,22 @@ s32 func_8017EE10(void *a0)
     s32 p2;
     u16 st;
 
-    p = ((Unkstruct_8017EE10_2 *)a0)->unk64;
-    st = ((Unkstruct_8017EE10_3 *)p)->unk2;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
+    st = ((Unkstruct_801202A0 *)p)->unk2.u;
 
     switch (st) {
     case 3:
         if (func_8012BD14(p) > 0x4000) {
             return 0;
         }
-        *(u16 *)((((Unkstruct_8017EE10_2 *)a0)->unk64) + 0x2) += 1;
+        ((Unkstruct_801202A0 *)a0)->unk64->unk2.u += 1;
         break;
     case 9:
         if (func_8012BD14(p) > 0x4000) {
             return 0;
         }
-        p2 = ((Unkstruct_8017EE10_2 *)a0)->unk64;
-        ((Unkstruct_8017EE10_3 *)p2)->unk34 += 1;
+        p2 = ((Unkstruct_801202A0 *)a0)->unk64;
+        ((Unkstruct_801202A0 *)p2)->unk34.u += 1;
         break;
     default:
         return 0;
@@ -4812,7 +4812,7 @@ void * arg0;
     extern s32 D_801B9DB4;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EFFC *)arg0)->unk2 = 3;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 3;
         ((void (*)(s32, s32))guess_StartActorSequence)((int)arg0, (int)&(*(short *)&D_801B9DB4));
     }
 }
@@ -5034,7 +5034,7 @@ void func_8017F53C(void * arg0) {
     extern short D_801912E8;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_801849B8)((int)arg0, (int)&D_801912E8);
     }
 }

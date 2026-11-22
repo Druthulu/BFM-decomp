@@ -4828,7 +4828,7 @@ extern s32 func_80181048(void *a0, void *a1);
 void func_8017F070(s32 a0) {
     s32 s0;
     s0 = a0;
-    if (((Unkstruct_8017F070 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         ((void (*)(s32, void *))func_80181048)(s0, &D_80187020);
         ((s32 (*)(s32))func_8012AD50)(s0);
     }
@@ -5656,7 +5656,7 @@ extern void func_8018122C(s32, void*);
 void func_8017FF74(s32 a0) {
     s32 s0;
     s0 = a0;
-    if (((Unkstruct_8017F070 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         ((void (*)(s32, void *))func_8018122C)(s0, &D_80188B5C);
         ((s32 (*)(s32))func_8012AD50)(s0);
     }
@@ -5990,7 +5990,7 @@ extern void *D_80187B90;
 void func_801805C4(s32 a0) {
     s32 s0;
     s0 = a0;
-    if (((Unkstruct_8017F070 *)s0)->unk98 == 0) {
+    if (((Unkstruct_801202A0 *)s0)->unk98.s == 0) {
         ((void (*)(s32, void *))func_80181048)(s0, &D_80187B90);
         ((s32 (*)(s32))func_8012AD50)(s0);
     }

@@ -3,5 +3,5 @@
  * rank 2 src/ov_SC02_026/ov_SC02_026_jr_8017C180.c:3457 rejected by type_census --check
  * rank 3 src/ov_SC03_011/ov_SC03_011_jr_8017C730.c:5032 rejected by type_census --check */
 void SHARED_FN(void *a0) {
-        ((Unkstruct_801859D0 *)a0)->unk2 = 4;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 4;
     }

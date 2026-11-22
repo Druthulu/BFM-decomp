@@ -8,5 +8,5 @@
  * Confidence high, xref chain: *(a0 + 0x1C) = a1; guess_TickWaitTimer counts that word down to 0
  * Names ledger: config/names.tsv guess_SetWaitTimer, guess_SetWaitTimer_2 */
 void SHARED_FN(s32 *a0, s32 a1) {
-    ((Unkstruct_8012BF4C *)a0)->unk1C = a1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = a1;
 }

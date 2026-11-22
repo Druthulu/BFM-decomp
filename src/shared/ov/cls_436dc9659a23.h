@@ -3,6 +3,6 @@
  * rank 2 src/ov_SC04_002/ov_SC04_002_jr_8017BEBC.c:9101 rejected by type_census --check */
     void SHARED_FN(s32 arg0) {
         if ((((s32 (*)(void))func_8012CBCC)() & 0x2000) != 0) {
-            ((Unkstruct_801814E4 *)arg0)->unk2 = 1;
+            ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
         }
     }

@@ -3,7 +3,7 @@ s32 SHARED_FN(void *a0) {
     u8 *a0_byte = (u8 *)a0;
     s32 *v0 = *(s32 **)(a0_byte + 0x64);
     s16 v1 = ((Unkstruct_801805D4 *)a0_byte)->unk108;
-    s16 v2 = ((Unkstruct_801805D4_3 *)v0)->unk36;
+    s16 v2 = ((Unkstruct_801202A0 *)v0)->unk36.s;
 
     if (v1 == v2) {
         return 0;

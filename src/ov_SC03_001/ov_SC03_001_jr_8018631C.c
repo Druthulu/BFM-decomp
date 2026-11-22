@@ -3129,7 +3129,7 @@ void func_80186498(void * arg0) {
     extern short D_80192970;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_80192970);
     }
 }
@@ -3244,7 +3244,7 @@ void func_80186758(void * arg0) {
     extern short D_801929E8;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_8017EAB4 *)arg0)->unk2 = 2;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 2;
         ((void (*)(s32, s32))func_80187778)((int)arg0, (int)&D_801929E8);
     }
 }

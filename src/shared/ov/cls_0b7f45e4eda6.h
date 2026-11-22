@@ -4,7 +4,7 @@ void SHARED_FN(void * arg0) {
     extern short D_8018FC3C;
     if (func_80178970() != 0) {
         ((void (*)(s32))func_80178D18)((s32)arg0);
-        ((Unkstruct_801807D8 *)arg0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)arg0)->unk2.s = 1;
         ((void (*)(s32, s32))func_801843E0)((int)arg0, (int)&D_8018FC3C);
     }
 }

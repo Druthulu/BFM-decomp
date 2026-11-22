@@ -2805,7 +2805,7 @@ void func_8017F8B8(s32 a0)
 {
     s32 s0 = a0;
 
-    switch ((s16)(((Unkstruct_8017F8B8 *)s0)->unkFE - 0x2E)) {
+    switch ((s16)(((Unkstruct_801202A0 *)s0)->unkFE.u - 0x2E)) {
         case 6:
             func_8017F958(0);
             break;
@@ -2817,10 +2817,10 @@ void func_8017F8B8(s32 a0)
             func_8017F958(2);
             break;
         case 0x2A:
-            ((Unkstruct_8017F8B8 *)s0)->unkFE = 0;
+            ((Unkstruct_801202A0 *)s0)->unkFE.u = 0;
             break;
     }
-    ((Unkstruct_8017F8B8 *)s0)->unkFE = ((Unkstruct_8017F8B8 *)s0)->unkFE + 1;
+    ((Unkstruct_801202A0 *)s0)->unkFE.u = ((Unkstruct_801202A0 *)s0)->unkFE.u + 1;
 }
 
 
@@ -3429,11 +3429,11 @@ void func_80180AA4(void *a0) {
     s32 a1;
     s32 v1;
     short v;
-    a1 = ((Unkstruct_80180AA4_2 *)a0)->unk20;
+    a1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
     v = ((RenderHead *)a1)->unk10.w.unk12.s;
     if (v != 0) {
         ((RenderHead *)a1)->unk10.w.unk12.s = v - 0x100;
-        v1 = ((Unkstruct_80180AA4_2 *)a0)->unk20;
+        v1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
         if (((RenderHead *)v1)->unk10.w.unk12.s < 0) {
             ((RenderHead *)v1)->unk10.w.unk12.s = 0;
         }

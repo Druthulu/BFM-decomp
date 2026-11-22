@@ -3163,7 +3163,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80181D80;
     void func_8017D9B8(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D9B8 *)arg0)->unkD4, &D_80181D80);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0)->unkD4.val, &D_80181D80);
     }
 
 
@@ -3171,7 +3171,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80181CA0;
     void func_8017D9E4(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D9B8 *)arg0)->unkD4, &D_80181CA0);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0)->unkD4.val, &D_80181CA0);
     }
 
 
@@ -3179,7 +3179,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80181EF0;
     void func_8017DA10(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D9B8 *)arg0)->unkD4, &D_80181EF0);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0)->unkD4.val, &D_80181EF0);
     }
 
 
@@ -3187,7 +3187,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
     extern s32 D_80181FB8;
     void func_8017DA3C(void *arg0) {
-        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_8017D9B8 *)arg0)->unkD4, &D_80181FB8);
+        ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)arg0)->unkD4.val, &D_80181FB8);
     }
 
 
@@ -3197,8 +3197,8 @@ extern void (*D_80182230[])(void);
 
 void func_8017DA68(void *a0)
 {
-    if (((Unkstruct_8017DA68 *)a0)->unk1C != 0) {
-        ((Unkstruct_8017DA68 *)a0)->unk1C -= 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s -= 1;
     } else {
         guess_SetGameFlag(0x125, 0);
         guess_SetGameFlag(0x126, 0);
@@ -3213,7 +3213,7 @@ void func_8017DA68(void *a0)
         guess_SetGameFlag(0x131, 0);
         guess_SetGameFlag(0x133, 0);
         func_80178B18((s32)a0, (s32)D_80182230);
-        ((Unkstruct_8017DA68 *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }
 
@@ -3242,8 +3242,8 @@ void func_8017DB54(int param_1)
         }
         if ((u8)guess_TestGameFlag(0x12B) != 0) {
             guess_SetGameFlag(0x12B, 0);
-            guess_StartActorSequence(((Unkstruct_8017DB54 *)param_1)->unkD0, &D_80181878);
-            guess_StartActorSequence(((Unkstruct_8017DB54 *)param_1)->unkD4, &D_80181CA0);
+            guess_StartActorSequence(((Unkstruct_801202A0 *)param_1)->unkD0.p, &D_80181878);
+            guess_StartActorSequence(((Unkstruct_801202A0 *)param_1)->unkD4.p, &D_80181CA0);
         }
         if (func_801789AC(param_1) == 0) {
             return;

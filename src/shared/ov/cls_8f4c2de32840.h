@@ -5,11 +5,11 @@ s32 a0;
     s32 t;
 
     func_8012CBA4(a0);
-    t = ((Unkstruct_8017D704 *)a0)->unk1C - 1;
-    ((Unkstruct_8017D704 *)a0)->unk1C = t;
+    t = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
     if (t == 0) {
-        ((Unkstruct_8017D704 *)a0)->unk1C = 0x1e;
-        ((Unkstruct_8017D704 *)a0)->unk2 = 0x4;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1e;
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x4;
     }
     func_8012DFD4((u8 *)a0);
 }

@@ -3,5 +3,5 @@
  * rank 2 src/ov_SC03_024/ov_SC03_024_jr_8017DF84.c:5539 rejected by type_census --check
  * rank 3 src/shared/ov/func_8018248C__7dae7530.h rejected by type_census --check */
 s32 SHARED_FN(s32 arg0) {
-        return ((Unkstruct_801845B8 *)arg0)->unk2 == 0x6;
+        return ((Unkstruct_801202A0 *)arg0)->unk2.u == 0x6;
     }

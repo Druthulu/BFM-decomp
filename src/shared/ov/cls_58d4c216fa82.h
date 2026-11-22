@@ -4,14 +4,14 @@ s32 SHARED_FN(void *a0) {
     u16 val;
     long x;
 
-    p1 = ((Unkstruct_8017DF48 *)a0)->unk20;
-    p2 = ((Unkstruct_8017DF48 *)a0)->unk6C;
+    p1 = ((Unkstruct_801202A0 *)a0)->unk20.p;
+    p2 = ((Unkstruct_801202A0 *)a0)->unk6C;
     val = ((RenderHead *)p1)->unk10.w.unk12.u;
-    p2 = ((Unkstruct_8017DF48_2 *)p2)->unk20;
+    p2 = ((Unkstruct_801202A0 *)p2)->unk20.p;
     val += 0x800;
     val &= 0xFFF;
     ((RenderHead *)p2)->unk10.w.unk12.u = val;
     x = 2;
-    ((Unkstruct_8017DF48 *)a0)->unk2 = x;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = x;
     return x;
 }

@@ -10,7 +10,7 @@ s32 SHARED_FN(void *a0) {
     s16 in[3];
     void *p;
 
-    p = ((Unkstruct_80180C48_3 *)a0)->unk64;
+    p = ((Unkstruct_801202A0 *)a0)->unk64;
     if (((Unkstruct_80180C48_2 *)*(s32 *)((char *)p + 0xCC))->unk2 != 0x2) {
         return 0;
     }
@@ -18,6 +18,6 @@ s32 SHARED_FN(void *a0) {
     in[0] = guess_g_PlayerPosX;
     in[1] = guess_g_PlayerPosY;
     in[2] = guess_g_PlayerPosZ;
-    func_8012F2E8(((Unkstruct_80180C48 *)p)->unkCC, (s32)in, (s32)out);
+    func_8012F2E8(((Unkstruct_801202A0 *)p)->unkCC.val, (s32)in, (s32)out);
     return func_8012CB64((s32)out, -0xC0, 0x40, -0x60, 0);
 }

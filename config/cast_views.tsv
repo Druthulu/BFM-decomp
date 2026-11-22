@@ -4,3 +4,4 @@
 # WALL residual:<CLASS> attempt1:<...> attempt2:<...> (CLASS one of restruct's X classes, docs/levers.md section 4). Every cite must hold
 # (the line names the ctype; the address is a symbol of that binary) and the row must have a current site, else the gate FAILs.
 source	ctype	form	cause	task	cites
+src/shared/ov/cls_b039ed440779.h:SHARED_FN:a0	Unkstruct_801202A0 *	C	REINTERP the s32 timer at +0x1C is set through one actor view for every pool that calls guess_SetWaitTimer/_2 (actor, small, player, fx, POOL68: same width at +0x1C, .run/3.45/t20/c9/notes.md); func_800CB300 passes an Ent_80164930_80164930 record (src/md_MAIN_025/md_MAIN_025.c lines 330-332)	P3.45 T20.c13	src/shared/ov/cls_b039ed440779.h:11 md_MAIN_025/0x800CB300
