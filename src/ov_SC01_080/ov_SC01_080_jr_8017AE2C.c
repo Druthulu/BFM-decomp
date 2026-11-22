@@ -7509,18 +7509,18 @@ extern void func_80182CB8(void *a0, Unkstruct_8013B83C *a1, Unkstruct_8013B83C *
 
 
 void func_80182B90(void *a0, s32 a1, s16 a2) {
-    LoopVar i;
+    s32 i;
     Entry16 *p1;
     Entry16 *p2;
 
-    i.plain = 0;
+    i = 0;
     p1 = D_8018A414;
     p2 = (Entry16 *)((u8 *)D_8018A414 + 8);
 
-    for (; i.plain < 4; i.plain++) {
-        if (D_801C7550[i.plain] != 0 && D_801C7550[(i.plain + 1) & 3] != 0) {
-            Unkstruct_8013B83C la = p1[i.bf.idx].a;
-            Unkstruct_8013B83C lb = p2[i.bf.idx].a;
+    for (; i < 4; i++) {
+        if (D_801C7550[i] != 0 && D_801C7550[(i + 1) & 3] != 0) {
+            Unkstruct_8013B83C la = p1[(i << 17) >> 17].a;
+            Unkstruct_8013B83C lb = p2[(i << 17) >> 17].a;
             func_80182CB8(a0, &la, &lb, (s16)a1, a2);
         }
     }

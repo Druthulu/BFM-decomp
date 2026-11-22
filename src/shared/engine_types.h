@@ -1904,10 +1904,6 @@ typedef struct {
     u16 f7;
     s32 f8;
 } Local_8017EE34;
-typedef union {
-    s32 plain;
-    struct { s32 idx : 15; } bf;
-} LoopVar;
 typedef MATRIX MATRIX_8017D5C8;
 typedef MATRIX MATRIX_8017D5C8_8017D5C8;
 typedef MATRIX MATRIX_8017D5C8_8017EE98;
