@@ -563,8 +563,8 @@ void func_800D185C(void *arg0) {
     Dst *d = (Dst *)&D_800AE6A8;
     u8 b3;
     *(Blob36 *)&D_80078E50 = *(Blob36 *)arg0;
-    d->b16 = ((Src *)arg0)->b2;
-    b3 = ((Src *)arg0)->b3;
+    d->b16 = ((Blob36 *)arg0)->unk0.v1.unk2;
+    b3 = ((Blob36 *)arg0)->unk0.v1.unk3;
     d->w8 = (s32)arg0 | (d->w8 & 0x1000000);
     d->b19 = b3;
 }

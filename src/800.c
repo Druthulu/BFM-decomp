@@ -10996,36 +10996,36 @@ void func_80020598(s32 *a0, OBJ598 *a1, MTX_80020248 *a2, MTX_80020248 *a3)
     while (*a0 != 0) {
         switch (i) {
         case 0:
-            local[0] = a1[3].h;
+            local[0] = a1[3].f.h;
             w = *(u32 *)&a1[3];
             local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
             local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
             func_80020DA4((s32)local, (s32)&lm);
             func_80012558((s32)&lm, 0x800);
-            lm.t[0] = (s8)a1->b0;
-            lm.t[1] = (s8)a1->b1;
-            lm.t[2] = (s8)a1->b2;
+            lm.t[0] = (s8)a1->f.b0;
+            lm.t[1] = (s8)a1->f.b1;
+            lm.t[2] = (s8)a1->f.b2;
             break;
         case 1:
-            local[0] = a1[3].h;
+            local[0] = a1[3].f.h;
             w = *(u32 *)&a1[3];
             local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
             local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
             func_80020DA4((s32)local, (s32)&lm);
-            lm.t[0] = a1->t[0];
-            lm.t[1] = a1->t[1];
-            lm.t[2] = a1->t[2];
+            lm.t[0] = a1->f.t[0];
+            lm.t[1] = a1->f.t[1];
+            lm.t[2] = a1->f.t[2];
             a1++;
             break;
         default:
-            local[0] = a1->h;
-            w = ((Unkstruct_80020598 *)a1)->unk0;
+            local[0] = a1->f.h;
+            w = a1->w;
             local[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
             local[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);
             func_80020DA4((s32)local, (s32)&lm);
-            lm.t[0] = a1->t[0];
-            lm.t[1] = a1->t[1];
-            lm.t[2] = a1->t[2];
+            lm.t[0] = a1->f.t[0];
+            lm.t[1] = a1->f.t[1];
+            lm.t[2] = a1->f.t[2];
             a1++;
             if (i == 0x19) {
                 v = D_80126C4E;
@@ -11150,7 +11150,7 @@ s32 func_80020A28(s32 *a0, OBJ_80020A28 *a1, MTX_80020248 *a2, MTX_80020248 *a3,
     }
 
     while (--n != -1) {
-        src[0] = ((Unkstruct_80020598 *)a1)->unk6;
+        src[0] = a1->unk6;
         w = a1->xy;
         src[1] = ((w >> 8) & 0xFF) | ((w & 0xF) << 8);
         src[2] = ((w >> 16) & 0xFF) | ((w & 0xF0) << 4);

@@ -448,10 +448,10 @@ found:
         ret = sp10[0];
         g = *(u16*)&D_800D9488;
         CAST_ALIAS(u16, arg0, 0x24) = t;
-        ((Unkstruct_800D27A0 *)arg0)->unk1C = t;
-        ((Unkstruct_800D27A0 *)arg0)->unk26 = g;
-        ((Unkstruct_800D27A0 *)arg0)->unk1E = g;
-        ((Unkstruct_800D27A0 *)arg0)->unk32 = g;
+        ((S_D2394 *)arg0)->f1C = t;
+        ((S_D2394 *)arg0)->f26 = g;
+        ((S_D2394 *)arg0)->f1E = g;
+        ((S_D2394 *)arg0)->f32 = g;
     }
     return ret;
 }

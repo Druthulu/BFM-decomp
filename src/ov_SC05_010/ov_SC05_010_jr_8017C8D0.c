@@ -3099,8 +3099,8 @@ void func_8017E1D4(void *arg0) {
     cnt2 = 0;
     for (i = 0; i < 8; i++) {
         base = (s32)((u8 *)D_801C6FA8 + i * 0x1D0);
-        if (((Unkstruct_8017E1D4_3 *)base)->unk0 == 0) {
-            ((Unkstruct_8017E1D4_3 *)base)->unkC = ((Unkstruct_8017E1D4_3 *)base)->unkC + 0x10000;
+        if (((GroupRec_801EB5C8 *)base)->g0.s == 0) {
+            ((GroupRec_801EB5C8 *)base)->unkC.v0.gC = ((GroupRec_801EB5C8 *)base)->unkC.v0.gC + 0x10000;
         }
         for (j = 0; j < 16; j++) {
             p = base + 0x10 + j * 0x1C;
