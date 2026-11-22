@@ -1,5 +1,5 @@
 # Journal records -- rebuilt by tools/records.py index; one line per outcome
-# filed through: 2026-11-21T13:32:42.781Z
+# filed through: 2026-11-21T21:17:43.498Z
 # id | date | kind | status | topic | first sentence | entry
 R1 | 2026-11-05 | finding | in force | T11 coder routing: DeepSeek cracks, in-house banks | T11 banks run on one in-house coder, with every DeepSeek cracking lane idle until the bank commits. | .claude-state/journal/2026-11-05.md#183347-014r-claude-record
 R2 | 2026-11-05 | finding | in force | DeepSeek learning mode in T11 | DeepSeek's re-entry into learning mode is earned friction, not a PA3 bug. | .claude-state/journal/2026-11-05.md#195407-017r-claude-record
@@ -249,3 +249,7 @@ R245 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 prog
 R246 | 2026-11-20 | decision | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | docs/gen3-standards.md rule 4's disposition list now names **scalar** ("not a struct", class text\|s… | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
 R247 | 2026-11-20 | finding | in force | Phase 3.45 T18 absorption wave A2 progress (2026-11-19) | T18 is done: A2's 621 ov_SC03 types have 0 pending (518 absorbed, 56 folded, 45 survivors, 1 wall E… | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
 R248 | 2026-11-20 | finding | in force | Reading raw pointer casts in decompiled C | The developer is learning C pointer syntax through the phase's examples. | .claude-state/journal/2026-11-20.md#205231-021r-claude-record
+R249 | 2026-11-21 | finding | in force | Phase 3.45 close docs and day-1 lessons | T12's done-when (phase-ends/current/PHASE_PLAN.md:140) does not yet name the "not a struct" (scalar… | .claude-state/journal/2026-11-21/143326-007r-claude-record.md
+R250 | 2026-11-21 | open | in force | Phase 3.45 close docs and day-1 lessons | Whether T12's lessons include the "not a struct" finish (R245) -> T12 via plan_edit, if the develop… | .claude-state/journal/2026-11-21/143326-007r-claude-record.md
+R251 | 2026-11-21 | decision | in force | Phase 3.45 absorption waves | Work resumed after the 3.32.23 restart on the developer's "continue with work". | .claude-state/journal/2026-11-21/143326-007r-claude-record.md
+R252 | 2026-11-21 | open | in force | Phase 3.45 absorption waves | The Ghidra MCP is not connected this session (ECONNREFUSED). | .claude-state/journal/2026-11-21/143326-007r-claude-record.md
