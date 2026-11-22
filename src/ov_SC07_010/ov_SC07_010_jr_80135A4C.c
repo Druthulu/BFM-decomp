@@ -262,7 +262,7 @@ extern s32 guess_TurnStepToTarget(s32 arg0, s32 arg1);
 extern s32 func_8012BA10(s32 arg0, s32 arg1);
 extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
 extern void Square0(s32 *a0, s32 *a1);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s16 D_80126CBA;
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 func_80013350(s32 a0, void *a1);

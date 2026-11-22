@@ -2706,7 +2706,7 @@ extern void ReadGeomOffset(s32 *a0, s32 *a1);
 extern s32 RotTransPers(s32 a0, s32 a1, s32 *a2, s32 *a3);
 extern void func_8004921C(s32 a0, s32 a1);
 extern void func_8017D4CC(s32 a0, s32 a1);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 ratan2(s32, s32);
 extern void func_8012B0B4(SVEC *, s32, s32);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

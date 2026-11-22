@@ -2989,7 +2989,7 @@ extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 guess_SpawnActorType1C(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
 extern void func_80131C78(s32 a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
@@ -3246,7 +3246,7 @@ extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 guess_SnapActorToGround(void *a0);
 extern s32 func_80143970(s32 a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
@@ -3447,7 +3447,7 @@ extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void guess_UpdateActorModelMatrix(s32 a0);
 extern void guess_SetVelocityXZFromLocal(s32 a0, s32 a1);
 extern s32 func_8012CBCC(s32 a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 guess_SnapActorToGround(void *a0);
 extern void guess_StartActorSequence(Unkstruct_801202A0 *a0, void * a1);
 extern s32 D_8018B8C0;
@@ -3471,7 +3471,7 @@ void func_801810BC(void *a0) {
     if (func_8012CBCC((s32)s0) & 0xA000) {
         *(u16 *)((u8 *)s0 + 0x16) -= 2;
     }
-    if (func_8012BC60((struct Vec *)s2, (struct Vec *)s1) < 0x900) {
+    if (func_8012BC60((VECTOR *)s2, (VECTOR *)s1) < 0x900) {
         guess_SnapActorToGround(s0);
         ((Unkstruct_801202A0 *)s0)->unk2.s = 3;
         guess_StartActorSequence((s32)s0, (void *)&D_801C02A8);
@@ -5682,7 +5682,7 @@ tail:
 extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 
 extern void func_8012ADE4(s32 a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 
@@ -5710,7 +5710,7 @@ s32 func_801841F8(s32 a0, s32 a1) {
 
     for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p != 0 && ((Unkstruct_801202A0 *)a0)->unk0 == *(u16 *)p && a0 != (s32)p) {
-            if (func_8012BC60((struct Vec *)(a0 + 4), (struct Vec *)(p + 4)) < 0x1000) {
+            if (func_8012BC60((VECTOR *)(a0 + 4), (VECTOR *)(p + 4)) < 0x1000) {
                 CAST_WIDTH(s32, a0, 4) = CAST_WIDTH(s32, a0, 0x38);
                 CAST_WIDTH(s32, a0, 8) = *(s32 *)(a0 + 0x3C);
                 CAST_WIDTH(s32, a0, 0xC) = *(s32 *)(a0 + 0x40);

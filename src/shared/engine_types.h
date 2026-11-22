@@ -3314,17 +3314,6 @@ typedef struct {
     s16 x2, y2; u32 uv2;
     s16 x3, y3; u32 uv3;
 } FT4;
-typedef struct {
-    s32 tag;   /* 0x00 */
-    s32 rgb0;  /* 0x04   code byte lives at +3 of this word */
-    s32 xy0;   /* 0x08 */
-    s32 rgb1;  /* 0x0C */
-    s32 xy1;   /* 0x10 */
-    s32 rgb2;  /* 0x14 */
-    s32 xy2;   /* 0x18 */
-    s32 rgb3;  /* 0x1C */
-    s32 xy3;   /* 0x20 */
-} G4;
 typedef struct { Blk8L_SC06_027_8017D104 pad; Blk8L_SC06_027_8017D104 a; Blk8L_SC06_027_8017D104 b; } Locs;
 typedef MATRIX M32_8017F154;
 typedef MATRIX M32_80188094;

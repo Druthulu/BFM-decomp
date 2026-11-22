@@ -2684,7 +2684,7 @@ extern void func_8017CA6C(s32 a0);
 extern void func_8012ADE4(u8 *a0);
 extern void func_8012B200(u8 *a0);
 extern s32 func_8012B864(s32 a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);

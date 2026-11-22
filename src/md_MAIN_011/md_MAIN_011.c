@@ -359,7 +359,7 @@ void func_800CFDB4(void) {
     SP18 *sp18 = (SP18 *)guess_g_PlayerRecord;
     u8 sp1C;
 
-    sp1C = func_800D0828(((SW20 *)(D_800D4B70[D_800D4C88 * 5].f0 + D_800D4C8C * 36))->f20);
+    sp1C = func_800D0828(((Blk36_800296F8 *)(D_800D4B70[D_800D4C88 * 5].f0 + D_800D4C8C * 36))->w[8]);
     func_800D0858();
     func_800152F4(0x11);
     if (D_800D4C9C & 0x820) {

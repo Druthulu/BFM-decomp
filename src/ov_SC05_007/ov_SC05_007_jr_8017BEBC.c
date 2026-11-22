@@ -4215,7 +4215,7 @@ void func_8017F1C4(s32 a0) {
 
 
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 extern void func_8012ADE4(u8 *a0);

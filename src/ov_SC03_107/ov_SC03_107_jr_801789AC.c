@@ -288,7 +288,7 @@ extern s32 guess_TurnStepToTarget(s32 arg0, s32 arg1);
 extern s32 func_8012BA10(s32 arg0, s32 arg1);
 extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
 extern void Square0(s32 *a0, s32 *a1);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s16 D_80126CBA;
 extern s32 guess_DistSqToPlayer(s32 a0);
 extern s32 func_80013350(s32 a0, void *a1);
@@ -6501,7 +6501,7 @@ extern void func_80178D18(void);
 
 struct Vec;
 
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012BD14(s32 a0);
 extern void func_80172710(void);
 extern void func_80178BF8();  // K&R: 0/2 of 2 args (P37 rung D t4_D1)
@@ -7429,7 +7429,7 @@ extern s32 func_8012CBA4(s32 a0);                 /* TU decl is void -> cast at 
 extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
 extern void func_8017EEA8(void *a0);
 extern void func_8012ADE4(u8 *a0);
-extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32  func_8012CEB0(s32 a0, s32 a1, s32 a2);

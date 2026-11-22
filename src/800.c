@@ -3322,24 +3322,24 @@ extern void func_80018094(void *p, s32 otz, u32 flags);
 
 void func_80016A7C(Src_80016A7C *arg0, s32 arg1)
 {
-    F3_27058_t *p;
+    Unkstruct_8017E3A0 *p;
     s32 opz;
     s32 flag;
     s32 otz;
 
-    p = (F3_27058_t *)func_80010A08(0x14);
-    p->rgb = arg0->rgb0;
-    p->xy1 = arg0->rgb1;
+    p = (Unkstruct_8017E3A0 *)func_80010A08(0x14);
+    p->rgb0 = arg0->rgb0;
+    p->rgb1 = arg0->rgb1;
     SetLineG2(p);
 
     if (arg1 != 0) {
         func_80017E8C(arg1);
         otz = RotTransPers3(&arg0->v[0], &arg0->v[1], &arg0->v[1],
-                             (s32 *)&p->xy0, (s32 *)&p->xy2, (s32 *)&p->xy2,
+                             (s32 *)&p->unk8.w, (s32 *)&p->unk10.w, (s32 *)&p->unk10.w,
                              &opz, &flag);
     } else {
-        p->xy0 = arg0->v[0].xy;
-        p->xy2 = arg0->v[1].xy;
+        p->unk8.w = arg0->v[0].xy;
+        p->unk10.w = arg0->v[1].xy;
         do { otz = arg0->v[0].z; } while (0);
         flag = 0;
     }

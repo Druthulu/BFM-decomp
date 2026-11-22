@@ -3059,7 +3059,7 @@ extern void func_80186A64(void *a0);
 extern void func_8018626C(void);
 extern void func_80186A9C(s32 *param_1);
 extern s32 D_801E801C;
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012BD14(s32 a0);
 extern void func_80186AE4(s32 self);
 extern void guess_InitModelObject(s32, s32);

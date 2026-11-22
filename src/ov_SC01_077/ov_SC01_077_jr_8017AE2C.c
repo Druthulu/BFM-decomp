@@ -5314,7 +5314,7 @@ extern u8 D_8018A940[];
 extern u8 D_8018A942[];
 extern u8 D_8018A944[];
 extern void (*D_8018A9D4[])(void);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B77C(s32 a0, s32 a1, s32 a2);
 extern s32 guess_GetAngleStepToward(s32 a0, s32 a1, s32 a2);
 extern void guess_UpdateActorModelMatrix(s32 a0);
@@ -5884,7 +5884,7 @@ void func_80180930(void)
 // @class: regalloc-order
 // @unstuck(P36): none — MATCH (relocation-masked, 70 ins). pins $s0/$s1 + precomputed a0v anchored in a zero-byte barrier fix the prologue schedule.
 
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 ratan2(s32, s32);
 extern void func_8012B0B4(SVEC *, s32, s32);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

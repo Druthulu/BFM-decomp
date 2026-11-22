@@ -4470,7 +4470,7 @@ extern void func_8012ADE4(u8 *a0);
 extern void func_8012B200(u8 *a0);
 extern s32 func_8012B864(s32 a0);
 extern s32 func_8012BB3C(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012BD14(s32 a0);
 extern s32 func_8012BDBC(s32 a0, s32 a1);
 extern s32 func_8012CBA4(s32 a0);
@@ -9621,7 +9621,7 @@ sync:
 
 extern s32 func_8012CC1C(s32 arg0, s32 arg1);
 extern void func_8012ADE4(u8 *a0);
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1);
@@ -9648,7 +9648,7 @@ s32 func_80185BD4(s32 a0, s32 a1) {
 
     for (i = 0, p = guess_g_ObjectTable; i < 0x60; i++, p += 0x10C) {
         if (*(u16 *)p != 0 && ((Unkstruct_801202A0 *)a0)->unk0 == *(u16 *)p && a0 != (s32)p) {
-            if (func_8012BC60((struct Vec *)(a0 + 4), (struct Vec *)(p + 4)) < 0x1000) {
+            if (func_8012BC60((VECTOR *)(a0 + 4), (VECTOR *)(p + 4)) < 0x1000) {
                 CAST_WIDTH(s32, a0, 4) = CAST_WIDTH(s32, a0, 0x38);
                 CAST_WIDTH(s32, a0, 8) = *(s32 *)(a0 + 0x3C);
                 CAST_WIDTH(s32, a0, 0xC) = *(s32 *)(a0 + 0x40);
@@ -13028,7 +13028,7 @@ s32 func_8018A698(s32 a0) {
 
 extern u8   guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 
-extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern void func_8012ADE4(u8 *a0);
@@ -13052,7 +13052,7 @@ s32 func_80188250_body(s32 a0) {
     sc = (unsigned int *)sp20;
     do {
         if (*(u16 *)a0 == ((Unkstruct_801202A0 *)p)->unk0 && (u8 *)a0 != p) {
-            if (func_8012BC60(self4, (struct Vec *)(p + 4)) < 0x1000) {
+            if (func_8012BC60(self4, (VECTOR *)(p + 4)) < 0x1000) {
                 ang = func_8012B6D4(self4, (s16 *)(p + 4));
                 func_8012B0B4(sc, ang, 0x41);
                 v18[0] = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;

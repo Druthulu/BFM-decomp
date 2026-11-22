@@ -5438,7 +5438,7 @@ extern s32 func_8012CC88(s32 a0, s32 a1, s32 a2);
  * for func_8012BC60 / func_8012B6D4 / func_8012B0B4 / func_8012CEB0 / func_8012ADE4.
  */
 
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *param_1, int param_2, int param_3);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
@@ -5463,7 +5463,7 @@ void func_801877EC(s32 a0) {
     offp = (unsigned int *)&off;
     for (; i < 0x60; i++, e++) {
         if (e->f0 == 0x17F && a0 != (s32)e &&
-            func_8012BC60((struct Vec *)mover, (struct Vec *)&e->f4) < 0x1000) {
+            func_8012BC60((VECTOR *)mover, (VECTOR *)&e->f4) < 0x1000) {
             ang = func_8012B6D4(mover, (s16 *)&e->f4);
             func_8012B0B4(offp, ang, 0x41);
             sp18.vx = e->x;

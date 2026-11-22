@@ -3439,7 +3439,7 @@ out:
 
 extern u8   guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
 
-extern s32  func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32  func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32  func_8012B6D4(s16 *a0, s16 *a1);
 extern void func_8012B0B4(unsigned int *p, int a1, int a2);
 extern s32  func_8012CEB0(void *a0, void *a1, s32 a2);
@@ -3466,7 +3466,7 @@ void func_801820C4(s32 a0) {
         if ((u8 *)a0 != p) {
             switch (*(u16 *)p) {
             case 0x27A:
-                if (func_8012BC60((struct Vec *)self4, (struct Vec *)(p + 4)) < 0x6400) {
+                if (func_8012BC60((VECTOR *)self4, (VECTOR *)(p + 4)) < 0x6400) {
                     ang = func_8012B6D4(self4, (s16 *)(p + 4));
                     func_8012B0B4(sc, ang, 0xA1);
                     v18[0] = *(u16 *)(p + 6);

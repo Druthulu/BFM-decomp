@@ -3514,11 +3514,11 @@ void func_8017E3A0(s32 a0, s32 a1, s32 a2, s32 a3, s32 arg4, s32 arg5)
     }
     do { prim[5] = 0; } while (0);  // !FAKE: do-while — a LOOP-note scheduling barrier (sched.c:2058-2074; P36 R7)
     mlo = 0xFFFFFF;
-    ((Unkstruct_8017E3A0 *)prim)->unkA = a1;
+    ((Unkstruct_8017E3A0 *)prim)->unk8.h.hi = a1;
     mhi = 0xFF000000;
-    ((Unkstruct_8017E3A0 *)prim)->unk8 = a0;
-    ((Unkstruct_8017E3A0 *)prim)->unk10 = a2;
-    ((Unkstruct_8017E3A0 *)prim)->unk12 = a3;
+    ((Unkstruct_8017E3A0 *)prim)->unk8.h.lo = a0;
+    ((Unkstruct_8017E3A0 *)prim)->unk10.h.lo = a2;
+    ((Unkstruct_8017E3A0 *)prim)->unk10.h.hi = a3;
     ((Unkstruct_8017E3A0 *)prim)->unk0 = (((Unkstruct_8017E3A0 *)prim)->unk0 & mhi) | (*(u32 *)&D_800AA608[((Unkstruct_8012956C *)fl)->unkA3D2 << 14] & mlo);
     q = (u32 *)D_800AA608;
     addrw = (u32 *)((s32)q + (((Unkstruct_8012956C *)fl)->unkA3D2 << 14));

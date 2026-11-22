@@ -5415,7 +5415,7 @@ extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_Objec
 extern u8 guess_g_BoxHitCenterX[]; // Names ledger: config/names.tsv guess_g_BoxHitCenterX
 
 struct Vec;
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 func_8012BD14(s32 a0);
 
 /* the 0x10C-byte entity-table record type (only the two u16 fields this function
@@ -5445,7 +5445,7 @@ void func_80186AE4(s32 self)
     for (p = (Ent_80186AE4 *)guess_g_ObjectTable; p < (Ent_80186AE4 *)(guess_g_ObjectTable + 0x6480);
          p = (Ent_80186AE4 *)((u8 *)p + 0x10C)) {
         if (p->f0 == 0x2F && p->f2 != 6 && p->f2 != 4) {
-            if (func_8012BC60((struct Vec *)(self + 4), (struct Vec *)((u8 *)p + 4)) < 0xC41) {
+            if (func_8012BC60((VECTOR *)(self + 4), (VECTOR *)((u8 *)p + 4)) < 0xC41) {
                 D_801270C8 = 1;
                 return;
             }

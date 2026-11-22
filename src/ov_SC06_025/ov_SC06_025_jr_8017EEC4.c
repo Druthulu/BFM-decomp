@@ -4719,7 +4719,7 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
     s32 v[2];   /* sp+0x30 */
     s32 p;      /* sp+0x38 */
     s32 flag;   /* sp+0x3C */
-    G4 *q;
+    Blk36_800296F8 *q;  /* POLY_G4 packet (tag, rgb0, xy0 .. rgb3, xy3) */
     s32 i, ang, t, r, sc, dy, otz;
 
     if (n >= 1 && n <= 9) {
@@ -4746,20 +4746,20 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
             sv[3].vy = pv[1] - dy;
             sv[3].vz = pv[2] + (((t >> 16) * sc) >> 12);
 
-            q = (G4 *)func_80010A08(0x24);
+            q = (Blk36_800296F8 *)func_80010A08(0x24);
             /* chained, neighbour-verified store order (see func_80181E08 in this TU):
              * rgb1=rgb0=col emits 0x4 then 0xC; rgb2=rgb3=0 emits 0x1C then 0x14.
              * The two zero stores MUST follow the colour pair in source order --
              * leading with them costs 4 insns of SCHEDULE-REORDER (the lw of the
              * spilled `col` and the li 0x3A no longer hoist above them). */
-            q->rgb1 = q->rgb0 = col;
-            q->rgb2 = q->rgb3 = 0;
+            q->w[3] = q->w[1] = col;
+            q->w[5] = q->w[7] = 0;
             *((u8 *)q + 7) = 0x3A;   /* POLY_G4 | semi-transparent */
-            q->tag = 0x08000000;     /* 8 words */
-            otz = RotTransPers((s32)&sv[0], (s32)&q->xy0, &p, &flag);
-            RotTransPers((s32)&sv[1], (s32)&q->xy1, &p, &flag);
-            RotTransPers((s32)&sv[2], (s32)&q->xy2, &p, &flag);
-            RotTransPers((s32)&sv[3], (s32)&q->xy3, &p, &flag);
+            q->w[0] = 0x08000000;     /* 8 words */
+            otz = RotTransPers((s32)&sv[0], (s32)&q->w[2], &p, &flag);
+            RotTransPers((s32)&sv[1], (s32)&q->w[4], &p, &flag);
+            RotTransPers((s32)&sv[2], (s32)&q->w[6], &p, &flag);
+            RotTransPers((s32)&sv[3], (s32)&q->w[8], &p, &flag);
             otz = func_801823D4(otz, -0x1A);
             AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, q);
             func_8012E28C(otz, 1);
@@ -4919,7 +4919,7 @@ void func_80181E08(s32 arg0) {
     extern short guess_g_DoubleBufferIndex;      /* TU's own spelling (see line 2466/2820 of the TU) */ // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     V8_SC06_025_80181E08 *pa, *pb;
-    G4 *q;
+    Blk36_800296F8 *q;  /* POLY_G4 packet (tag, rgb0, xy0 .. rgb3, xy3) */
     S800D22E4 *t;
     s32 p;                        /* sp+0x28 : RotTransPers* `p`   out-param */
     s32 flag;                     /* sp+0x2C : RotTransPers* `flag` out-param */
@@ -4942,13 +4942,13 @@ void func_80181E08(s32 arg0) {
     zpush = ((Unkstruct_80181E08 *)arg0)->unk6;
 
     for (; i < 12; ) {
-        q = (G4 *)func_80010A08(0x24);
+        q = (Blk36_800296F8 *)func_80010A08(0x24);
         c = ((Unkstruct_80181E08 *)arg0)->unkEC;
-        q->rgb0 = q->rgb1 = c;          /* chained: stores 0xC then 0x4 */
+        q->w[1] = q->w[3] = c;          /* chained: stores 0xC then 0x4 */
         c2 = ((Unkstruct_80181E08 *)arg0)->unkF0;
         *((u8 *)q + 7) = 0x3A;
-        q->tag = 0x08000000;
-        q->rgb2 = q->rgb3 = c2;         /* chained: stores 0x1C then 0x14 */
+        q->w[0] = 0x08000000;
+        q->w[5] = q->w[7] = c2;         /* chained: stores 0x1C then 0x14 */
         if (i != 11) {
             v0p = (s32)pa;
             v1p = (s32)pa + 8;
@@ -4962,7 +4962,7 @@ void func_80181E08(s32 arg0) {
         }
         do {
             otz = RotTransPers4(v0p, v1p, v2p, v3p,
-                            &q->xy0, &q->xy1, &q->xy2, &q->xy3, pp, pf);
+                            &q->w[2], &q->w[4], &q->w[6], &q->w[8], pp, pf);
         } while (0);  // !FAKE: do-while
         __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries) wall:combine-copy-merge
         otz = func_801823D4(otz, -0x1A);

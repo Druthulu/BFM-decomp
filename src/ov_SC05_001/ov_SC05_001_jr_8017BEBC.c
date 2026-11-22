@@ -6859,7 +6859,7 @@ s32 func_801829B0(s32 arg0) {
     extern void func_80131E00(Unkstruct_801202A0 *a0, s32 a1); /* TU spelling, :5692 */
     extern void func_8012ADE4(u8 *a0);         /* TU spelling, :5688 */
     extern void func_80182CE8(void *a0);         /* TU spelling, :5107 */
-    extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);  /* sibling-TU house form */
+    extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);  /* sibling-TU house form */
     extern s32 func_8012B6D4(s16 *a0, s16 *a1);
     extern void func_8012B0B4(u32 *a0, s32 a1, s32 a2);
     extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);

@@ -2988,7 +2988,7 @@ extern u32 D_801DA9AC;
 extern u16 D_8018AA2C[];
 extern u16 D_801DA9E8[];
 extern s32 D_8018AA4C;
-extern s32 func_8012BC60(struct Vec *a0, struct Vec *a1);
+extern s32 func_8012BC60(VECTOR *a0, VECTOR *a1);
 extern s32 ratan2(s32, s32);
 extern void func_8012B0B4(SVEC *, s32, s32);
 extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
