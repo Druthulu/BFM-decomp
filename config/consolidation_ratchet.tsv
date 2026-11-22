@@ -2,8 +2,8 @@
 # tools/struct_twins.py --gate (docs/ops/p345-t14-source-census.md "The gate (T8)"): FAIL when a count is above its row, and
 # "ratchet stale" when below it (lower it with --gate --write-ratchet, which never raises a row). --final: every count 0.
 metric	count	task	note
-pending_types	686	T8	-
-casts_C	289783	T8	-
+pending_types	632	T8	-
+casts_C	289757	T8	-
 casts_P	94012	T8	-
 casts_I	43673	T8	T19: +6 obj-0xA sites T19.c11 4dab4ddf4b hid from the census (casts_C -6, same sites); net 0
 casts_X	10268	T8	-
