@@ -2586,7 +2586,6 @@ typedef union {
     u16 h[2];
 } UV16D78;
 typedef UV16D78 UV16F18;
-typedef Unkstruct_8017D2A4 Unkstruct_800A46D2;
 typedef V16F18 V0_80017294;
 typedef struct {
     V0_80017294 v[4];  /* 0x00 */
@@ -2881,7 +2880,6 @@ typedef struct Slot_800_shared {
     /* 0x44 */ u8 unk44;
     /* 0x45 */ u8 unk45[3];
 } Slot_800_shared;
-typedef Unkstruct_8017D2A4 W16;
 
 /* provenance (head_types-hand): T2 (P3.40) canonical definitions, one per `define` target of config/type_folds.tsv, flat max-site layout renamed to the target, by tools/head_types.py --type <map type> --map .run/P37/census/struct_map.json --header .run/P40/t2/per/<map type>.h, one run per type, hand-copied at 504802c32e (P3.40 T2.c2); order: by name; generator retired P3.45 T6; hand-edited since */
 typedef struct {

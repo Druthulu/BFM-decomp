@@ -4576,7 +4576,7 @@ void func_8018A3C8(void *arg0) {
 
 void func_8018A3FC(S_8018A3FC *arg0) {
     s32 i;
-    Sub_8018A3FC *ptr;
+    s16 *ptr;
     arg0->unk02 = 0;
     arg0->unk00 = 0;
     for (i = 0; i < 8; i++) {
@@ -4584,7 +4584,7 @@ void func_8018A3FC(S_8018A3FC *arg0) {
         ptr = arg0->unk14[i];
         arg0->unk14[i] = 0;
         if (ptr != 0) {
-            ptr->h = 0;
+            *ptr = 0;
         }
     }
 }

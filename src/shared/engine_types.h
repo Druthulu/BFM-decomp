@@ -2680,12 +2680,11 @@ typedef struct {
     s32 param;
     s32 ptr;
 } Sub_80180A54;
-typedef Unkstruct_8017D2A4 Sub_8018A3FC;
 typedef struct {
     s16 unk00;
     s16 unk02;
     s16 unk04[8];
-    Sub_8018A3FC *unk14[8];
+    s16 *unk14[8];
 } S_8018A3FC;
 typedef SVECTOR Sv_8017D278;
 typedef SVECTOR Sv_8017DECC;

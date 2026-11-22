@@ -2886,6 +2886,7 @@ extern s32  func_80030A14(void);
 extern void func_800415A8(s32);
 
 s32 func_8002FF0C(s32 a0, s32 a1) {
+    extern s16 aD800A46D2 __asm__("D_800A46D2");  /* T20.c16: second declaration of the s16, read once below (was a {s16 h} struct view; bare D_800A46D2 differs: cse forwards the store) */
     /* block scope: src/800_b.c declares this symbol `extern s16 D_800A46D2[]`
      * further down the TU, and the ARRAY spelling materialises the address into
      * a register (`la`) for both the store and the re-read -- the target keeps
@@ -2938,9 +2939,9 @@ s32 func_8002FF0C(s32 a0, s32 a1) {
         base = (u8 *)q - 0x96;
         w = idx24 + base;
         *(s16 *)(w + 0xA) = r;
-        /* read through a struct-typed pointer: expand forces the constant address into a pseudo (explow.c
-           memory_address), so cse does not forward the `D_800A46D2 = r` store and the value is re-read */
-        if (r == -1 || func_800419B0(((Unkstruct_800A46D2 *)&D_800A46D2)->h) == -1) {
+        /* re-read through the asm-name alias aD800A46D2 (T20.c16; was a struct-typed view): cse does not forward
+           the `D_800A46D2 = r` store, the value is re-read */
+        if (r == -1 || func_800419B0(aD800A46D2) == -1) {
             D_800A4650[idx24] = 1;
             return 1;
         }
