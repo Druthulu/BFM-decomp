@@ -4,6 +4,7 @@ extern s32 guess_TestGameFlag(s32 arg);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern s32 D_80078EA4;
 extern u16 D_80078EA6;
+extern s16 aD80078EA6 __asm__("D_80078EA6"); /* T20.c15: the signed reread (was ((union U2 *)&D_80078EA6)->s) */
 void func_8014B944(s32 a0, s32 a1, s32 a2)
 {
     u8 *base = guess_g_PlayerRecord;
@@ -29,7 +30,7 @@ do {  // !FAKE: do-while
                 D_80078EA4 += a1;
 
 do {  // !FAKE: do-while
-                if (((union U2 *)&D_80078EA6)->s >= 0x81) {
+                if (aD80078EA6 >= 0x81) {
                     D_80078EA4 = 0x800000;
                 }
 } while (0);

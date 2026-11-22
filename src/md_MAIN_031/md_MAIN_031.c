@@ -21,8 +21,8 @@ extern s32 guess_TestGameFlag(s32 arg0);
 
 void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     s32 base;
-    s32 p;
-    s32 z;
+    u8 *p; /* T20.c15: byte table (was Unkstruct_800CAE74_3 view of an s32) */
+    u8 *z;
     s32 *iter;
     s32 s;
 
@@ -37,18 +37,18 @@ void func_800CAE74(s32 arg0, s32 arg1, s32 *arg2) {
     p = base;
     s = ((Unkstruct_800CAE74 *)arg0)->unkC;
     do {
-        ((Unkstruct_800CAE74_3 *)p)->unk0 = *(u8 *)s;
+        *p = *(u8 *)s;
         p += 1;
         s += 1;
-    } while (p < base + 0x1F);
+    } while ((s32)p < base + 0x1F);
     s = *arg2;
     if (s != 0) {
         iter = arg2;
         z = base;
         do {
             if ((guess_TestGameFlag(s) & 0xFF) == 0) {
-                ((Unkstruct_800CAE74_3 *)z)->unk0 = 0;
-                ((Unkstruct_800CAE74_3 *)z)->unk1 = 0;
+                z[0] = 0;
+                z[1] = 0;
             }
             iter += 1;
             s = *iter;

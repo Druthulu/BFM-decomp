@@ -5942,8 +5942,8 @@ void func_8018DFC4(void *a0) {
        and carry an anonymous struct typedef that cannot be forward-referenced
        or re-spelled here.  At block scope gcc-2.7.2 downgrades the clash to a
        warning; at file scope it is a hard "conflicting types" error. */
-    extern Pair8 D_801E4998[];
-    extern Pair8 D_801E499C[];
+    extern u32 D_801E4998[][2]; /* T20.c15: {TMD address, 0} lists, stride 8 (was Pair8) */
+    extern u32 D_801E499C[][2];
     struct { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; u8 pad14[0x14]; } sp18;
     struct { s16 f00, f02, f04, f06, f08, f0A, f0C, f0E; s32 f10; u8 pad14[0x14]; } sp40;
     void *s0;
@@ -5994,8 +5994,8 @@ void func_8018DFC4(void *a0) {
         guess_RequestSound(0x500, 0);
         for (i = 0; i < count; i++) {
             val = tbl[i];
-            D_801E499C[i].tag = 0;
-            D_801E4998[i].tag = val;
+            D_801E499C[i][0] = 0;
+            D_801E4998[i][0] = val;
         }
         sp18.f0C = 0;
         sp18.f0A = 0;
@@ -6137,8 +6137,8 @@ extern u32 D_801F01D4[];
 extern u8 D_801F0220[];
 extern u8 D_80196C00[];
 
-extern E8_8018E450 D_801E499C[];
-extern E8_8018E450 D_801E4998[];
+extern u32 D_801E499C[][2]; /* T20.c15: {TMD address, 0} lists, stride 8 (was E8_8018E450) */
+extern u32 D_801E4998[][2];
 
 void func_8018E450(void *a0)
 {
@@ -6200,8 +6200,8 @@ void func_8018E450(void *a0)
         arr[2] = 0x73E;
         do {
             u32 v = p[i];
-            D_801E499C[i].tag = 0;
-            D_801E4998[i].tag = v;
+            D_801E499C[i][0] = 0;
+            D_801E4998[i][0] = v;
             i++;
         } while (i < bound);
         buf.f0C = 0;

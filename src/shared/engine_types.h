@@ -1818,7 +1818,7 @@ typedef DVECTOR DVec_59F4;
 typedef DVECTOR DVec_80180894;
 typedef DVECTOR DVec_80184138;
 typedef Elem52_801B5094 D_80195D74_Entry;
-typedef DRM E8_8018E450;
+/* T20.c15: typedef DRM E8_8018E450 dropped (scalar: same u32 TMD-list pairs as Pair8) */
 typedef struct Vec Elem_8018F086;
 typedef Unkstruct_800B5CB8 Ent_8014D820;
 typedef struct {
@@ -3410,7 +3410,7 @@ typedef PrimTag PTag_8018C960_80189BA0;
 typedef PrimTag PTag_8018C960_80189EA0;
 typedef PrimTag PTag_85810;
 typedef PrimTag P_TAG_SC01_000_8017DD04;
-typedef DRM Pair8;
+/* T20.c15: typedef DRM Pair8 dropped (scalar: ov_SC02_005 D_801E4998/D_801E499C are u32 TMD-list pairs) */
 typedef SVECTOR PosFCA8;
 typedef Unkstruct_8017C120 Panel_8017DD28;
 typedef Blk12 Prim_SC01_004_8017BE9C;
@@ -3747,7 +3747,7 @@ typedef struct {
     s32 vx, vy, vz;
     s32 ax, ay, az;
 } Spark_8017E26C_t;
-union U2 { u16 u; s16 s; };
+/* T20.c15: union U2 dropped (scalar: D_80078EA6 is a plain u16; the signed reread is the aD80078EA6 alias in func_8014B944.h) */
 typedef union { s32 w; s16 h[2]; } W4_8018020C;
 
 #endif /* BFM_ENGINE_TYPES_H */   /* SESSION-19: moved here — 11 typedefs (the

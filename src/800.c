@@ -2392,8 +2392,8 @@ extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 
 void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 c5, u8 c6)
 {
-    extern struct { s32 a; s32 b[4]; } D_800A651C[];   /* block scope, like func_80016450's sibling at src/800.c:3454 */
-    s32 otp;
+    extern struct { u32 *a; s32 b[4]; } D_800A651C[];   /* block scope, like func_80016450's sibling at src/800.c:3454 */
+    u32 *otp; /* T20.c15: the OT org (u32 tags); tag 0xFFF at +0x3FFC (was s32 + Unkstruct_80015B6C view) */
     u8 *p;
     register u32 mFF __asm__("$7");  // !FAKE: pin $7 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
     s16 vx, vy;
@@ -2406,8 +2406,8 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
 
     p[3] = 1;
     *(u32 *)(p + 4) = 0xE1000000;
-    *(u32 *)p = (*(u32 *)p & mFF) | (((Unkstruct_80015B6C *)otp)->unk3FFC & 0xFFFFFF);
-    ((Unkstruct_80015B6C *)otp)->unk3FFC = (((Unkstruct_80015B6C *)otp)->unk3FFC & mFF) | ((u32)p & 0xFFFFFF);
+    *(u32 *)p = (*(u32 *)p & mFF) | (otp[0xFFF] & 0xFFFFFF);
+    otp[0xFFF] = (otp[0xFFF] & mFF) | ((u32)p & 0xFFFFFF);
 
     p += 8;
     p[3] = 8;
@@ -2433,16 +2433,16 @@ void func_80015B6C(s32 x, s32 y, s32 w_, s32 h_, u8 c1, u8 c2, u8 c3, u8 c4, u8 
     *(s16 *)(p + 0x20) = x;
     *(s16 *)(p + 0x22) = y;
     pmask = (u32)p & 0xFFFFFF;
-    *(u32 *)p = (tag2 & mFF) | (((Unkstruct_80015B6C *)otp)->unk3FFC & 0xFFFFFF);
+    *(u32 *)p = (tag2 & mFF) | (otp[0xFFF] & 0xFFFFFF);
     __asm__ __volatile__("");  // !FAKE: barrier — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-order
     tag2 = 0xE1000200;
-    ((Unkstruct_80015B6C *)otp)->unk3FFC = (((Unkstruct_80015B6C *)otp)->unk3FFC & mFF) | pmask;
+    otp[0xFFF] = (otp[0xFFF] & mFF) | pmask;
 
     p += 0x24;
     p[3] = 1;
     *(u32 *)(p + 4) = tag2;
-    *(u32 *)p = (*(u32 *)p & mFF) | (((Unkstruct_80015B6C *)otp)->unk3FFC & 0xFFFFFF);
-    ((Unkstruct_80015B6C *)otp)->unk3FFC = (((Unkstruct_80015B6C *)otp)->unk3FFC & mFF) | ((u32)p & 0xFFFFFF);
+    *(u32 *)p = (*(u32 *)p & mFF) | (otp[0xFFF] & 0xFFFFFF);
+    otp[0xFFF] = (otp[0xFFF] & mFF) | ((u32)p & 0xFFFFFF);
 }
 
 
@@ -13235,7 +13235,7 @@ void func_8002374C(s32 arg0)
             }
             p[2] = t;
             {
-                s32 q = ((Unkstruct_8002374C_2 *)src)->unk8 + t;
+                s32 q = LOHU(src[2]) + t;
                 t &= 0xFFFF0000;
                 t |= (q & 0xFFFF);
             }
@@ -13243,11 +13243,11 @@ void func_8002374C(s32 arg0)
             {
                 s32 q = t >> 16;
                 t &= 0xFFFF;
-                t |= (((Unkstruct_8002374C_2 *)src)->unkA + q) << 16;
+                t |= (HIHU(src[2]) + q) << 16;
             }
             p[8] = t;
             {
-                s32 q = t - ((Unkstruct_8002374C_2 *)src)->unk8;
+                s32 q = t - LOHU(src[2]);
                 t &= 0xFFFF0000;
                 t |= (q & 0xFFFF);
             }

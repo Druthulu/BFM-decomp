@@ -2423,7 +2423,7 @@ s16 func_80135480(void *param_1, s32 param_2, s16 *param_3, s16 *param_4)
     {
         s16 *p = *(s16 **)&D_80182550;
         p[0] = in0.a;
-        p[1] = ((Unkstruct_80135480_8 *)param_3)->unk2 - ((Unkstruct_80135480_5 *)param_1)->unk4C;
+        p[1] = (u16)param_3[1] - ((Unkstruct_80135480_5 *)param_1)->unk4C;
         p[2] = in0.c;
     }
     {
