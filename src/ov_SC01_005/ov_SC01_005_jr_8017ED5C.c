@@ -3477,22 +3477,22 @@ void func_8017FF74(s32 a0)
     s16 field_70;
     void *func_ptr;
     
-    field_70 = ((Unkstruct_8017FF74 *)a0)->unk70;
+    field_70 = ((Unkstruct_801202A0 *)a0)->unk70.s;
     
     if (field_70 == 1) goto case_1;
     if (field_70 < 2) goto case_default;
     if (field_70 == 2) goto case_2;
     
 case_default:
-    func_ptr = D_801BBCAC[((Unkstruct_8017FF74 *)a0)->unk2];
+    func_ptr = D_801BBCAC[((Unkstruct_801202A0 *)a0)->unk2.u];
     goto end;
     
 case_1:
-    func_ptr = D_801BBCC0[((Unkstruct_8017FF74 *)a0)->unk2];
+    func_ptr = D_801BBCC0[((Unkstruct_801202A0 *)a0)->unk2.u];
     goto end;
     
 case_2:
-    func_ptr = D_801BBCD4[((Unkstruct_8017FF74 *)a0)->unk2];
+    func_ptr = D_801BBCD4[((Unkstruct_801202A0 *)a0)->unk2.u];
     
 end:
     ((void (*)(void))func_ptr)();
@@ -3974,14 +3974,14 @@ void func_80180A38(s32 a0)
     sp.fE = 0;
     sp.f0 = 0;
     sp.f4 = -0x140;
-    ((Unkstruct_80180A38_2 *)a0)->unkCC = func_8012C51C(&sp, a0);
+    ((Unkstruct_801202A0 *)a0)->unkCC.val = func_8012C51C(&sp, a0);
 
     sp.f6 = 0x1DA;
     sp.f4 = -0x180;
-    ((Unkstruct_80180A38_2 *)a0)->unkD0 = func_8012C51C(&sp, a0);
+    ((Unkstruct_801202A0 *)a0)->unkD0.val = func_8012C51C(&sp, a0);
 
-    ((Unkstruct_80180A38_2 *)a0)->unk6 = 0x88;
-    ((Unkstruct_80180A38_2 *)a0)->unkE = 0x60;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s = 0x88;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s = 0x60;
 }
 
 
@@ -4183,11 +4183,11 @@ extern s32 D_801BC718;
 
 void func_80180E9C(void *arg0)
 {
-    if (((Unkstruct_80180E9C *)arg0)->unk1C) {
-        ((Unkstruct_80180E9C *)arg0)->unk1C -= 1;
+    if (((Unkstruct_801202A0 *)arg0)->unk1C.s) {
+        ((Unkstruct_801202A0 *)arg0)->unk1C.s -= 1;
     } else {
-        ((Unkstruct_80180E9C *)arg0)->unkCC = &D_801BC718;
-        ((Unkstruct_80180E9C *)arg0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)arg0)->unkCC.val = &D_801BC718;
+        ((Unkstruct_801202A0 *)arg0)->unk2.u += 1;
     }
 }
 
@@ -4900,9 +4900,9 @@ void func_80182240(s32 a0) {
     s32 v;
     s32 t;
 
-    v = ((Unkstruct_80182240 *)a0)->unk1C;
+    v = ((Unkstruct_801202A0 *)a0)->unk1C.s;
     t = v + 1;
-    ((Unkstruct_80182240 *)a0)->unk1C = t;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = t;
     if (t < 0x13) {
         s32 p;
 
@@ -4913,7 +4913,7 @@ void func_80182240(s32 a0) {
         }
         func_80016450((u8)p, 0);
     } else {
-        ((Unkstruct_80182240 *)a0)->unk2 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = 1;
     }
 }
 

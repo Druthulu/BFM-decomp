@@ -3762,9 +3762,9 @@ extern s32 rand(void);
 
 void func_8018495C(s32 param_1)
 {
-    ((Unkstruct_8018495C_2 *)param_1)->unk1C = rand();
-    ((Unkstruct_8018495C_2 *)param_1)->unk2 += 1;
-    ((Unkstruct_8018495C_2 *)param_1)->unkFE = ((Unkstruct_8018495C_2 *)param_1)->unkFC + (rand() % 16) + 0x10;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = rand();
+    ((Unkstruct_801202A0 *)param_1)->unk2.u += 1;
+    ((Unkstruct_801202A0 *)param_1)->unkFE.u = ((Unkstruct_801202A0 *)param_1)->unkFC.u + (rand() % 16) + 0x10;
 }
 
 

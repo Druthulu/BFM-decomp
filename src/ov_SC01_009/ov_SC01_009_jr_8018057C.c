@@ -3509,9 +3509,9 @@ extern s32 guess_SpawnActor(s32 arg0, s32 arg1, Unkstruct_801202A0 *arg2);
 
 
 void func_80181AA8(void *param_1) {
-    guess_SpawnSmallObject(6, param_1, ((Unkstruct_80181AA8 *)param_1)->unk6,
-                  (s16)(((Unkstruct_80181AA8 *)param_1)->unkA - 0x10),
-                  (s16)(((Unkstruct_80181AA8 *)param_1)->unkE + 0x30), 0x800FFC00, 0);
+    guess_SpawnSmallObject(6, param_1, ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.s,
+                  (s16)(((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u - 0x10),
+                  (s16)(((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u + 0x30), 0x800FFC00, 0);
 }
 
 
@@ -3550,11 +3550,11 @@ void func_80181BBC(a0)
 s32 a0;
 {
     s32 v0;
-    v0 = ((Unkstruct_80181BBC *)a0)->unk1C - 1;
-    ((Unkstruct_80181BBC *)a0)->unk1C = v0;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = v0;
     if (v0 == -1) {
         ((void (*)(s32, void *))func_80178CBC)(a0, &D_801EDA20);
-        ((Unkstruct_80181BBC *)a0)->unk2 += 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u += 1;
     }
 }
 
@@ -3680,12 +3680,12 @@ void func_80181EB0(void *arg0) {
 void func_80181F0C(s32 *a0) {
     extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
     if (--a0[0x1C / 4] != -1) {
-        *(u16 *)(((Unkstruct_80181F0C *)a0)->unk20 + 0x12) =
-            func_80012ABC(*(s16 *)(((Unkstruct_80181F0C *)a0)->unk20 + 0x12), 0xC00, 4);
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12) =
+            func_80012ABC(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12), 0xC00, 4);
     } else {
-        s32 t = ((Unkstruct_80181F0C *)a0)->unk2;
+        s32 t = ((Unkstruct_801202A0 *)a0)->unk2.u;
         a0[0x1C / 4] = 0x5A;
-        ((Unkstruct_80181F0C *)a0)->unk2 = t + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = t + 1;
     }
 }
 
@@ -3852,12 +3852,12 @@ L1:
 void func_80182368(s32 *a0) {
     extern s32 func_80012ABC(s32 a0, s32 a1, s32 a2);
     if (--a0[0x1C / 4] != -1) {
-        *(u16 *)(((Unkstruct_80182368 *)a0)->unk20 + 0x12) =
-            func_80012ABC(*(s16 *)(((Unkstruct_80182368 *)a0)->unk20 + 0x12), 0, 4);
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12) =
+            func_80012ABC(*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12), 0, 4);
     } else {
-        s32 t = ((Unkstruct_80182368 *)a0)->unk2;
+        s32 t = ((Unkstruct_801202A0 *)a0)->unk2.u;
         a0[0x1C / 4] = 0;
-        ((Unkstruct_80182368 *)a0)->unk2 = t + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = t + 1;
     }
 }
 

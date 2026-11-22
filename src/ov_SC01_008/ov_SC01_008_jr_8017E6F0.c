@@ -3311,10 +3311,10 @@ extern void (*D_8019F2E4[])(void);
 void func_8017F124(s32 a0) {
     void (*fn)(void);
 
-    if (((Unkstruct_8017F124 *)a0)->unk70 == 0) {
-        fn = D_8019F2C4[((Unkstruct_8017F124 *)a0)->unk2];
+    if (((Unkstruct_801202A0 *)a0)->unk70.s == 0) {
+        fn = D_8019F2C4[((Unkstruct_801202A0 *)a0)->unk2.u];
     } else {
-        fn = D_8019F2E4[((Unkstruct_8017F124 *)a0)->unk2];
+        fn = D_8019F2E4[((Unkstruct_801202A0 *)a0)->unk2.u];
     }
     fn();
 }
@@ -3347,9 +3347,9 @@ void func_8017F1FC(s32 param_1) {
     if (func_801789AC(param_1) != 0) {
         ((void (*)(s32))func_80178D18)(param_1);
         func_801746A4();
-        h = ((Unkstruct_8017F1FC *)param_1)->unk2;
-        ((Unkstruct_8017F1FC *)param_1)->unk1C = 0x10;
-        ((Unkstruct_8017F1FC *)param_1)->unk2 = h + 1;
+        h = ((Unkstruct_801202A0 *)param_1)->unk2.s;
+        ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x10;
+        ((Unkstruct_801202A0 *)param_1)->unk2.s = h + 1;
     }
 }
 
@@ -3389,7 +3389,7 @@ s32 func_8017F2DC(s32 param_1) {
     s32 ret;
 
     x = func_8017D430();
-    ((Unkstruct_8017F2DC *)param_1)->unk10A = x;
+    ((Unkstruct_801202A0 *)param_1)->unk10A.s = x;
     if (x != 0) {
         type = x >> 8;
         v = (type - 1) * 5 - 1;
@@ -3593,7 +3593,7 @@ s32 func_8017F6C8(s32 param_1) {
     s32 ret;
 
     x = func_8017D430();
-    ((Unkstruct_8017F2DC *)param_1)->unk10A = x;
+    ((Unkstruct_801202A0 *)param_1)->unk10A.s = x;
     if (x != 0) {
         type = x >> 8;
         v = (type - 1) * 5 - 1;

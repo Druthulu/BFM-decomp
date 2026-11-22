@@ -8278,10 +8278,10 @@ void func_801840E0(void *a0) {
     s16 sp10[3];
     u16 id;
 
-    id = ((Unkstruct_8017EF0C *)a0)->unk5E;
+    id = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (id == 0x23) {
-        ((Unkstruct_8017EF0C *)a0)->unkFE = 1;
-        *(u16 *)(((Unkstruct_8017EF0C *)a0)->unk20 + 0x2C) |= 0x10;
+        ((Unkstruct_801202A0 *)a0)->unkFE.u = 1;
+        *(u16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x2C) |= 0x10;
         guess_RequestSound(0xAA1, 0);
     } else if (id == 0x24) {
         sp10[2] = 0;

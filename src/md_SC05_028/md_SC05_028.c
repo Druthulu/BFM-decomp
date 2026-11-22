@@ -302,17 +302,17 @@ void func_801EE234(void *param_1) {
 
     extern s32 D_801EE4DC;
 
-    switch (((Unkstruct_801EE234 *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
         if (((s32 (*)(void))func_801789AC)() != 0) {
             func_80178CBC((s32)param_1, (s32)&D_801EE4DC);
-            ((Unkstruct_801EE234 *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
         break;
     case 1:
         if (func_801789AC((s32)param_1) != 0) {
             func_80174438((s32)D_80126B10);
-            ((Unkstruct_801EE234 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
         }
         break;
     case 2:

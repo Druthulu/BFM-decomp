@@ -4481,35 +4481,35 @@ void func_80180854(s32 arg0)
     s16 vecA[3];
     s16 vecB[3];
 
-    D_80192724[((Unkstruct_80180854 *)arg0)->unk2]();
-    if (((Unkstruct_80180854 *)arg0)->unk0 != 0) {
+    D_80192724[((Unkstruct_801202A0 *)arg0)->unk2.u]();
+    if (((Unkstruct_801202A0 *)arg0)->unk0 != 0) {
         if (D_80126CC8 == (void *)arg0) {
-            CAST_ALIAS(s16, arg0, 6) = ((Unkstruct_80180854 *)arg0)->unk88;
-            CAST_ALIAS(s16, arg0, 0xE) = ((Unkstruct_80180854 *)arg0)->unk8C;
+            CAST_ALIAS(s16, arg0, 6) = ((Unkstruct_801202A0 *)arg0)->unk88.u;
+            CAST_ALIAS(s16, arg0, 0xE) = ((Unkstruct_801202A0 *)arg0)->unk8C.u;
             guess_g_PlayerPosY = guess_g_PlayerPosY - 0x40;
         }
-        p = &D_801922B0[((Unkstruct_80180854 *)arg0)->unk70 * 8];
-        val = (s32)*(s16 *)(*(s32 *)(((Unkstruct_80180854 *)arg0)->unk64 + 0x20) + 0x1A) * (s32)p[4];
+        p = &D_801922B0[((Unkstruct_801202A0 *)arg0)->unk70.s * 8];
+        val = (s32)*(s16 *)(((Unkstruct_801202A0 *)arg0)->unk64->unk20.val + 0x1A) * (s32)p[4];
         if (val < 0) {
             val += 0xFFF;
         }
-        ((Unkstruct_80180854 *)arg0)->unkA = (s16)(((Unkstruct_80180854 *)arg0)->unk8A + (val >> 12) - p[4]);
+        ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s = (s16)(((Unkstruct_801202A0 *)arg0)->unk8A.u + (val >> 12) - p[4]);
         func_8012DFD4((u8 *)arg0);
-        if (((Unkstruct_80180854_2 *)D_801C7E30)->unk2 < 0xA) {
-            x = ((Unkstruct_80180854 *)arg0)->unk6;
+        if (((Unkstruct_801202A0 *)D_801C7E30)->unk2.u < 0xA) {
+            x = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.s;
             if (x + p[2] <= *b5e && *b5e <= x + p[3]) {
-                y = ((Unkstruct_80180854 *)arg0)->unkA;
+                y = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s;
                 if (y + p[4] < *b62) {
                     guess_g_PlayerPosY = y + p[4];
                     D_80126B6C = 0;
                 }
             }
         }
-        t = ((Unkstruct_80180854 *)arg0)->unk76;
+        t = ((Unkstruct_801202A0 *)arg0)->unk76.s;
         if (t < 0x12C) {
-            ((Unkstruct_80180854 *)arg0)->unk76 = t + 1;
+            ((Unkstruct_801202A0 *)arg0)->unk76.s = t + 1;
         }
-        if (((Unkstruct_80180854 *)arg0)->unk74 != 0 && ((Unkstruct_80180854 *)arg0)->unk76 < 0) {
+        if (((Unkstruct_801202A0 *)arg0)->unk74 != 0 && ((Unkstruct_801202A0 *)arg0)->unk76.s < 0) {
             vecA[0] = vecB[0] = guess_g_PlayerPosX;
             vecA[1] = guess_g_PlayerPosY + 0x10;
             vecB[1] = guess_g_PlayerPosY - 0x10;

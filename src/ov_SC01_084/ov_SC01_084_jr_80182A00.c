@@ -1015,10 +1015,10 @@ extern void (*D_8018ABC8[])();
 extern void (*D_8018ABD8[])();
 
 void func_80183D38(void *a0) {
-    if (((Unkstruct_80183D38_2 *)a0)->unk70 != 1) {
-        D_8018ABC8[((Unkstruct_80183D38_2 *)a0)->unk2](a0);
+    if (((Unkstruct_801202A0 *)a0)->unk70.s != 1) {
+        D_8018ABC8[((Unkstruct_801202A0 *)a0)->unk2.u](a0);
     } else {
-        D_8018ABD8[((Unkstruct_80183D38_2 *)a0)->unk2](a0);
+        D_8018ABD8[((Unkstruct_801202A0 *)a0)->unk2.u](a0);
     }
 }
 
@@ -2235,25 +2235,25 @@ void func_801855EC(s32 param_1)
         return;
     }
     ((void (*)(s32, void *))guess_InitModelObjectKind3)(s1v,
-        &D_8018ABF8[(((Unkstruct_801855EC *)s0v)->unk70 & 1) * 12]);
+        &D_8018ABF8[(((Unkstruct_801202A0 *)s0v)->unk70.u & 1) * 12]);
     do { ((RenderHead *)s1v)->unk18.w.unk1C.u = 0x3000; } while (0);
     ((RenderHead *)s1v)->unk18.w.unk1A.u = 0x3000;
     ((RenderHead *)s1v)->unk18.w.unk18.u = 0x3000;
-    ((Unkstruct_801855EC *)s0v)->unk20 = ((s32 (*)(void))guess_AllocModelObject)();
-    if (((Unkstruct_801855EC *)s0v)->unk20 == 0) {
+    ((Unkstruct_801202A0 *)s0v)->unk20.val = ((s32 (*)(void))guess_AllocModelObject)();
+    if (((Unkstruct_801202A0 *)s0v)->unk20.val == 0) {
         ((void (*)(s32, s32))func_8005C2C8)(s1v, 0x84);
         ((void (*)(s32))guess_FreeActorDuringSpawn)(s0v);
         return;
     }
-    uVar2 = ((Unkstruct_801855EC *)s0v)->unkA;
-    ((Unkstruct_801855EC *)s0v)->unkCC = s1v;
-    ((Unkstruct_801855EC *)s0v)->unkDE = uVar2;
-    ((void (*)(s32, s32))guess_InitModelObject)(((Unkstruct_801855EC *)s0v)->unk20, 0);
-    ((Unkstruct_801855EC *)s0v)->unk58 = (s32)D_8018ABE4;
-    ((Unkstruct_801855EC *)s0v)->unk2 = 1;
-    ((Unkstruct_801855EC *)s0v)->unk5C |= 0x8000;
-    ((Unkstruct_801855EC *)s0v)->unk72 |= 0x1000;
-    ((Unkstruct_801855EC *)s0v)->unkDC = rand() & 0xFFF;
+    uVar2 = ((Unkstruct_801202A0 *)s0v)->unk8.i.hi.u;
+    ((Unkstruct_801202A0 *)s0v)->unkCC.val = s1v;
+    ((Unkstruct_801202A0 *)s0v)->blkDC.f.unkDC.i.hi.u = uVar2;
+    ((void (*)(s32, s32))guess_InitModelObject)(((Unkstruct_801202A0 *)s0v)->unk20.val, 0);
+    ((Unkstruct_801202A0 *)s0v)->unk58.s = (s32)D_8018ABE4;
+    ((Unkstruct_801202A0 *)s0v)->unk2.u = 1;
+    ((Unkstruct_801202A0 *)s0v)->unk5C.u |= 0x8000;
+    ((Unkstruct_801202A0 *)s0v)->unk72 |= 0x1000;
+    ((Unkstruct_801202A0 *)s0v)->blkDC.f.unkDC.i.lo.u = rand() & 0xFFF;
 }
 
 
@@ -2311,18 +2311,18 @@ void func_801857BC(s32 param_1)
     u16 uVar2;
 
     iVar1 = ((s32 (*)(void))guess_AllocModelObject)();
-    ((Unkstruct_801857BC *)param_1)->unk20 = iVar1;
+    ((Unkstruct_801202A0 *)param_1)->unk20.val = iVar1;
     if (iVar1 == 0) {
         ((void (*)(s32))guess_FreeActorDuringSpawn)(param_1);
         return;
     }
     ((void (*)(s32, s32))guess_InitModelObject)(iVar1, 0);
-    uVar2 = ((Unkstruct_801857BC *)param_1)->unk72;
-    ((Unkstruct_801857BC *)param_1)->unk58 = (s32)&D_8018AC1C;
-    ((Unkstruct_801857BC *)param_1)->unk2 = 1;
-    ((Unkstruct_801857BC *)param_1)->unk1C = 0x10;
-    ((Unkstruct_801857BC *)param_1)->unkFC = 0;
-    ((Unkstruct_801857BC *)param_1)->unk72 = uVar2 | 0x1000;
+    uVar2 = ((Unkstruct_801202A0 *)param_1)->unk72;
+    ((Unkstruct_801202A0 *)param_1)->unk58.s = (s32)&D_8018AC1C;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x10;
+    ((Unkstruct_801202A0 *)param_1)->unkFC.u = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk72 = uVar2 | 0x1000;
 }
 
 

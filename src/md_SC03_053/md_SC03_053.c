@@ -26,7 +26,7 @@ extern s32 D_801F0D24;
 void func_801EF49C(void *a0) {
     s32 v1;
 
-    v1 = ((Unkstruct_801EF49C *)a0)->unk34;
+    v1 = ((Unkstruct_801202A0 *)a0)->unk34.u;
 
     if (v1 != 0) {
         if (v1 == 1) {
@@ -41,7 +41,7 @@ void func_801EF49C(void *a0) {
     }
     if (v1 == 1) {
         func_80178CBC((s32)a0, (s32)&D_801F0C34);
-        ((Unkstruct_801EF49C *)a0)->unk34 = 1;
+        ((Unkstruct_801202A0 *)a0)->unk34.u = 1;
     } else {
         func_80178CBC((s32)a0, (s32)&D_801F0D24);
     }
@@ -60,7 +60,7 @@ L801EF51C:
 
 
 void func_801EF560(void *a0) {
-        ((Unkstruct_801EF49C *)a0)->unk2 = 0x10;   /* NEAR-COUSIN constant from the real-TU diff (li v0,0x10) */
+        ((Unkstruct_801202A0 *)a0)->unk2.s = 0x10;   /* NEAR-COUSIN constant from the real-TU diff (li v0,0x10) */
     }
 
 
@@ -110,16 +110,16 @@ extern short D_801F0DD0;
 
 void func_801EF624(void *a0) {
     s32 s0 = (s32)a0;
-    ((Unkstruct_801EF624 *)s0)->unk2 = 0x1A;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 0x1A;
     guess_SetObjectPosAndYaw(s0, (s32)&D_801F0900);
     guess_ShowObjectModel(s0);
     do { func_80187344(s0); } while (0);
     if ((guess_TestGameFlag(0xEF) & 0xFF) != 0) {
         func_80178CBC(s0, (s32)&D_801F0E10);
-        ((Unkstruct_801EF624 *)s0)->unk34 = 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 1;
     } else {
         func_80178CBC(s0, (s32)&D_801F0DD0);
-        ((Unkstruct_801EF624 *)s0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
     }
 }
 
@@ -165,19 +165,19 @@ extern short D_801F0934;
 void func_801EF734(void *a0) {
     s32 s0 = (s32)a0;
 
-    ((Unkstruct_801EF734 *)s0)->unk2 = 0x5;
+    ((Unkstruct_801202A0 *)s0)->unk2.s = 0x5;
     guess_SetObjectPosAndYaw(s0, (s32)&D_801F0900);
     guess_ShowObjectModel(s0);
     do { func_80187344(s0); } while (0);
 
     if ((guess_TestGameFlag(0xDF) & 0xFF) != 0) {
-        ((Unkstruct_801EF734 *)s0)->unk34 = 0;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 0;
         func_80178CBC(s0, (s32)&D_801F0A6C);
     } else if ((guess_TestGameFlag(0xE0) & 0xFF) != 0) {
-        ((Unkstruct_801EF734 *)s0)->unk34 = 1;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 1;
         func_80178CBC(s0, (s32)&D_801F0A9C);
     } else {
-        ((Unkstruct_801EF734 *)s0)->unk34 = 2;
+        ((Unkstruct_801202A0 *)s0)->unk34.s = 2;
         func_80178CBC(s0, (s32)&D_801F0934);
     }
 }
@@ -196,7 +196,7 @@ extern short D_801F0A3C;
 extern short D_801F0A0C;
 
 void func_801EF7E4(u8 *a0) {
-    switch (((Unkstruct_801EF7E4 *)a0)->unk34) {
+    switch (((Unkstruct_801202A0 *)a0)->unk34.u) {
     case 0:
     case 3:
         if (func_80178970((s32 *)a0)) {
@@ -210,20 +210,20 @@ void func_801EF7E4(u8 *a0) {
         if (v0 != 0) {
             if (v0 == 1) {
                 guess_SetGameFlag(0xDF, 1);
-                if (((Unkstruct_801EF7E4 *)a0)->unk34 == 1) {
+                if (((Unkstruct_801202A0 *)a0)->unk34.u == 1) {
                     func_80178CBC((s32)a0, (s32)&D_801F09D4);
                 } else {
                     func_80178CBC((s32)a0, (s32)&D_801F099C);
                 }
             } else {
                 guess_SetGameFlag(0xE0, 1);
-                if (((Unkstruct_801EF7E4 *)a0)->unk34 == 1) {
+                if (((Unkstruct_801202A0 *)a0)->unk34.u == 1) {
                     func_80178CBC((s32)a0, (s32)&D_801F0A3C);
                 } else {
                     func_80178CBC((s32)a0, (s32)&D_801F0A0C);
                 }
             }
-            ((Unkstruct_801EF7E4 *)a0)->unk34 = 3;
+            ((Unkstruct_801202A0 *)a0)->unk34.u = 3;
         }
         break;
     }

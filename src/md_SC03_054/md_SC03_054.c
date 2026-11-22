@@ -23,7 +23,7 @@ void func_801EF558(void *param_1) {
     s32 v0;
 
     step = 6;
-    ((Unkstruct_801EF558 *)param_1)->unk2 = step;
+    ((Unkstruct_801202A0 *)param_1)->unk2.s = step;
     D_801F1480 = 0;
     D_801F1482 = 0;
     v0 = guess_GetStoryProgress();
@@ -32,29 +32,29 @@ void func_801EF558(void *param_1) {
         func_80178CBC((s32)param_1, (s32)&D_801F10C0);
         func_80029514(0x28);
         guess_SetGameFlag(0xE3, 1);
-        ((Unkstruct_801EF558 *)param_1)->unk34 = 0;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     } else if (v0 < 0x32) {
         guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10E0);
-        ((Unkstruct_801EF558 *)param_1)->unk34 = 1;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 1;
     } else if ((u8)guess_TestGameFlag(0xE4) != 0) {
         guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F10F8);
-        ((Unkstruct_801EF558 *)param_1)->unk34 = 5;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 5;
     } else if (v0 < 0x3C) {
         guess_RequestSound(0x12, 0);
         func_80178CBC((s32)param_1, (s32)&D_801F1118);
-        ((Unkstruct_801EF558 *)param_1)->unk34 = 2;
+        ((Unkstruct_801202A0 *)param_1)->unk34.s = 2;
     } else if (v0 < 0x46) {
         if (func_8018766C(0, 5) != 0) {
             guess_RequestSound(0x12, 0);
             func_80178CBC((s32)param_1, (s32)&D_801F1158);
             func_800D0F4C(0x4D);
-            ((Unkstruct_801EF558 *)param_1)->unk34 = step;
+            ((Unkstruct_801202A0 *)param_1)->unk34.s = step;
         } else {
             guess_RequestSound(0x12, 0);
             func_80178CBC((s32)param_1, (s32)&D_801F1138);
-            ((Unkstruct_801EF558 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.s = 2;
         }
     }
 }

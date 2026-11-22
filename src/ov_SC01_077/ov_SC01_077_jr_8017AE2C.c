@@ -5268,7 +5268,7 @@ s32 func_8017F7E8(s32 a0) {
     extern s16 D_8018A9D0;
     extern s16 D_8018A9D2;
     s32 m = D_8018A9D0;
-    s32 i = ((Unkstruct_8017FD14_2 *)a0)->unkFC & (D_8018A9D2 - 1);
+    s32 i = ((Unkstruct_801202A0 *)a0)->unkFC.s & (D_8018A9D2 - 1);
 
     return (((rcos((0x2000 / D_8018A9D2) * i) / 2
               + rcos((0x4000 / D_8018A9D2) * i) * 3 / 8 - 0x800) < 0
@@ -5426,9 +5426,9 @@ void func_8017FD14(void *a0)
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
 
-    vin[0] = ((Unkstruct_8017FD14_2 *)av)->unk6;
-    vin[1] = ((Unkstruct_8017FD14_2 *)av)->unkA;
-    vin[2] = ((Unkstruct_8017FD14_2 *)av)->unkE;
+    vin[0] = ((Unkstruct_801202A0 *)av)->unk4.i.hi.s;
+    vin[1] = ((Unkstruct_801202A0 *)av)->unk8.i.hi.s;
+    vin[2] = ((Unkstruct_801202A0 *)av)->unkC.i.hi.s;
     ret = RotTransPers((s32)vin, (s32)o.sxy, &o.p, &o.flag);
     if ((ret > 0) && (o.flag >= 0)) {
         ot = *(s32 *)((s8 *)&D_800A651C + (u16)guess_g_DoubleBufferIndex * 0x14) + ret * 4;
@@ -5548,9 +5548,9 @@ s32 func_80180258(s16 *a0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_80180294(void *a0) {
-    u16 v0 = ((Unkstruct_80180294 *)a0)->unk2;
-    ((Unkstruct_80180294 *)a0)->unk1C = 0x96;
-    ((Unkstruct_80180294 *)a0)->unk2 = v0 + 1;
+    u16 v0 = ((Unkstruct_801202A0 *)a0)->unk2.u;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x96;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = v0 + 1;
     guess_RequestSound(0x401, 0);
 }
 
@@ -5827,10 +5827,10 @@ void func_80180898(void *arg0) {
     s16 temp_v0;
     s16 temp_v0_2;
 
-    temp_v0 = ((Unkstruct_80180898 *)arg0)->unkFC;
+    temp_v0 = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
     if (temp_v0 != 0) {
         temp_v0_2 = temp_v0 - 1;
-        ((Unkstruct_80180898 *)arg0)->unkFC = temp_v0_2;
+        ((Unkstruct_801202A0 *)arg0)->unkFC.s = temp_v0_2;
         if ((temp_v0_2 << 0x10) == 0) {
             guess_RequestSound(0xD, 0x401);
         }
@@ -5840,8 +5840,8 @@ void func_80180898(void *arg0) {
 extern void guess_RequestSound(s32 a0, s32 a1);
 
 void func_801808DC(void *a0) {
-    ((Unkstruct_801808DC *)a0)->unk2 = 1;
-    ((Unkstruct_801808DC *)a0)->unkFC = 0x96;
+    ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s = 0x96;
     guess_RequestSound(0x401, 0);
 }
 
@@ -5906,27 +5906,27 @@ s32 func_801809BC(s32 param_1, s32 param_2)
     if (((s32 (*)(s32, s32))func_8012BC60)(a0v, p2 + 4) >= 0x1000) {
         return 0;
     }
-    ang = ratan2((s32)((Unkstruct_801809BC *)p1)->unkE - (s32)((Unkstruct_801809BC_2 *)p2)->unkE,
-                 (s32)((Unkstruct_801809BC_2 *)p2)->unk6 - (s32)((Unkstruct_801809BC *)p1)->unk6);
+    ang = ratan2((s32)((Unkstruct_801202A0 *)p1)->unkC.i.hi.s - (s32)((Unkstruct_801202A0 *)p2)->unkC.i.hi.s,
+                 (s32)((Unkstruct_801202A0 *)p2)->unk4.i.hi.s - (s32)((Unkstruct_801202A0 *)p1)->unk4.i.hi.s);
     func_8012B0B4(&buf, (ang - 0x400) & 0xfff, 0x41);
     d = *(s32 *)&buf;
     px = CAST_SIGN(u16, p2, 6);
     out.unk0.v1.unk0 = px;
-    out.unk0.v1.unk2 = ((Unkstruct_801809BC_2 *)p2)->unkA;
+    out.unk0.v1.unk2 = ((Unkstruct_801202A0 *)p2)->unk8.i.hi.u;
     pz = CAST_SIGN(u16, p2, 0xe);
     out.unk0.v1.unk4 = pz;
     out.unk0.v1.unk0 = px + d;
     out.unk0.v1.unk4 = pz + (d >> 16);
-    in.unk0.v1.unk0 = ((Unkstruct_801809BC *)p1)->unk3A;
-    in.unk0.v1.unk2 = ((Unkstruct_801809BC *)p1)->unk3E;
-    in.unk0.v1.unk4 = ((Unkstruct_801809BC *)p1)->unk42;
+    in.unk0.v1.unk0 = ((Unkstruct_801202A0 *)p1)->unk3A.u;
+    in.unk0.v1.unk2 = ((Unkstruct_801202A0 *)p1)->unk3E.u;
+    in.unk0.v1.unk4 = ((Unkstruct_801202A0 *)p1)->unk42.u;
     if ((((s32 (*)(SVEC *, SVEC *, s32))func_8012CEB0)(&in, &out, 0) & 0x2000) == 0) {
         ((void (*)(s32))func_8012ADE4)(p1);
         return 1;
     }
-    ((Unkstruct_801809BC *)p1)->unk6 = out.unk0.v1.unk0;
-    ((Unkstruct_801809BC *)p1)->unkA = out.unk0.v1.unk2;
-    ((Unkstruct_801809BC *)p1)->unkE = out.unk0.v1.unk4;
+    ((Unkstruct_801202A0 *)p1)->unk4.i.hi.s = out.unk0.v1.unk0;
+    ((Unkstruct_801202A0 *)p1)->unk8.i.hi.s = out.unk0.v1.unk2;
+    ((Unkstruct_801202A0 *)p1)->unkC.i.hi.s = out.unk0.v1.unk4;
     return 1;
 }
 

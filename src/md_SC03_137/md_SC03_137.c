@@ -291,17 +291,17 @@ void func_801E2E44(void *param_1) {
     extern void func_80178CBC(s32 a0, s32 a1);
     extern void func_80174438(s32 a0);
 
-    switch (((Unkstruct_801E2E44 *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0:
         if (func_801789AC((s32)param_1) != 0) {
             func_80178CBC((s32)param_1, (s32)&D_801E30EC);
-            ((Unkstruct_801E2E44 *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
         break;
     case 1:
         if (func_801789AC((s32)param_1) != 0) {
             func_80174438((s32)D_80126B10);
-            ((Unkstruct_801E2E44 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
         }
         break;
     case 2:

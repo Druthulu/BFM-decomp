@@ -3735,12 +3735,12 @@ void func_8017EDF4(s32 param_1) {
     s32 ret;
     s32 k;
 
-    ptr = ((Unkstruct_8017EDF4 *)param_1)->unk20;
-    ((Unkstruct_8017EDF4 *)param_1)->unk5C = 0;
-    ((Unkstruct_8017EDF4 *)param_1)->unk1C = 0x37;
+    ptr = ((Unkstruct_801202A0 *)param_1)->unk20.val;
+    ((Unkstruct_801202A0 *)param_1)->unk5C.u = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x37;
     *(u16 *)(ptr + 0x10) = 0;
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, D_801A43A4);
-    ((Unkstruct_8017EDF4 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
     ret = guess_DistSqToPlayer(param_1);
     k = 0x52B;
     if (!(0x8FFF < ret)) {
@@ -3791,11 +3791,11 @@ void func_8017EF0C(s32 a0) {
     a02 = a0;
 
     phi_a1 = a02 + 0;
-    temp_v1 = ((Unkstruct_8017EF0C *)phi_a1)->unk5E;
+    temp_v1 = ((Unkstruct_801202A0 *)phi_a1)->unk5E.u;
     if (temp_v1 == 0x23) {
-        ((Unkstruct_8017EF0C *)phi_a1)->unkFE = 1;
-        var_v1 = *(u16 *)(((Unkstruct_8017EF0C *)phi_a1)->unk20 + 0x2C) | 0x10;
-        *(u16 *)(((Unkstruct_8017EF0C *)phi_a1)->unk20 + 0x2C) = var_v1;
+        ((Unkstruct_801202A0 *)phi_a1)->unkFE.u = 1;
+        var_v1 = *(u16 *)(((Unkstruct_801202A0 *)phi_a1)->unk20.val + 0x2C) | 0x10;
+        *(u16 *)(((Unkstruct_801202A0 *)phi_a1)->unk20.val + 0x2C) = var_v1;
         guess_RequestSound(0xAA1, 0);
     } else {
         if (temp_v1 == 0x24) {
@@ -5594,19 +5594,19 @@ void func_80181C00(s32 arg0) {
     s32 counter;
     s32 divisor;
 
-    counter = ((Unkstruct_80181C00_2 *)arg0)->unk1C;
-    divisor = ((Unkstruct_80181C00_2 *)arg0)->unkFC;
-    ((Unkstruct_80181C00_2 *)arg0)->unk1C = counter + 1;
+    counter = ((Unkstruct_801202A0 *)arg0)->unk1C.s;
+    divisor = ((Unkstruct_801202A0 *)arg0)->unkFC.s;
+    ((Unkstruct_801202A0 *)arg0)->unk1C.s = counter + 1;
     if (counter % divisor == 0) {
         if (func_8012BE54(arg0) < 0x240001) {
-            sp.f0 = ((Unkstruct_80181C00_2 *)arg0)->unk6;
-            sp.f2 = ((Unkstruct_80181C00_2 *)arg0)->unkA;
-            sp.f4 = ((Unkstruct_80181C00_2 *)arg0)->unkE;
+            sp.f0 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+            sp.f2 = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+            sp.f4 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
             sp.f6 = 0x1FB;
-            sp.f8 = ((Unkstruct_80181C00_2 *)arg0)->unk70;
+            sp.f8 = ((Unkstruct_801202A0 *)arg0)->unk70.u;
             sp.fA = 0;
-            sp.fE = *(u16 *)(((Unkstruct_80181C00_2 *)arg0)->unk68 + 0x0C);
-            sp.f10 = ((Unkstruct_80181C00_2 *)arg0)->unkDC;
+            sp.fE = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk68 + 0x0C);
+            sp.f10 = ((Unkstruct_801202A0 *)arg0)->blkDC.w[0];
             sp.fC = 0x7FFF;
             func_8012C51C(&sp, arg0);
         }

@@ -296,12 +296,12 @@ void func_801E2E00(void *param_1) {
     extern void guess_SetGameFlag(s32, s32);
     s32 st;
 
-    st = ((Unkstruct_801E2E00 *)param_1)->unk34;
+    st = ((Unkstruct_801202A0 *)param_1)->unk34.u;
     switch (st) {
     case 0:
         if (func_801789AC((s32)param_1) != 0) {
             func_80174438((s32)D_80126B10);
-            ((Unkstruct_801E2E00 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
         }
         break;
     case 1:
@@ -309,11 +309,11 @@ void func_801E2E00(void *param_1) {
         case 1:
             func_800D1724(D_800D39CC);
             guess_SetGameFlag(0xFF, 1);
-            ((Unkstruct_801E2E00 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
             break;
         case 2:
             func_80174438((s32)D_80126B10);
-            ((Unkstruct_801E2E00 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
             break;
         }
         break;
@@ -394,21 +394,21 @@ void func_801E2FB0(void *param_1) {
     extern s32 D_801E3578;
     extern s32 D_800D39CC;
 
-    switch (((Unkstruct_801E2FB0 *)param_1)->unk34) {
+    switch (((Unkstruct_801202A0 *)param_1)->unk34.u) {
     case 0: {
         s32 v1 = func_801789AC((s32)param_1);
         switch (v1) {
         case 1:
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 2;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 2;
             func_80185B88(5);
             break;
         case 2:
             func_80178CBC((s32)param_1, (s32)&D_801E3560);
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
             break;
         case 3:
             func_80178CBC((s32)param_1, (s32)&D_801E3578);
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 3;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 3;
             break;
         }
         break;
@@ -419,17 +419,17 @@ void func_801E2FB0(void *param_1) {
         s32 v0 = func_80185B78();
         if (v0 != 0) {
             func_800D1724((void *)&D_800D39CC);
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         } else {
             func_80178CBC((s32)param_1, (s32)&D_801E34FC);
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 0;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
         }
         break;
     }
     case 3:
         if (func_801789AC((s32)param_1) != 0) {
             func_80174438((s32)D_80126B10);
-            ((Unkstruct_801E2FB0 *)param_1)->unk34 = 1;
+            ((Unkstruct_801202A0 *)param_1)->unk34.u = 1;
         }
         break;
     }

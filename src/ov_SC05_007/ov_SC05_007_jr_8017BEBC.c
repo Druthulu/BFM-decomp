@@ -2979,9 +2979,9 @@ int func_8017D614(void) {
 
 
 void func_8017D638(void *a0) {
-    ((Unkstruct_8017D638 *)a0)->unkFC = ((Unkstruct_8017D638 *)a0)->unk6;
-    ((Unkstruct_8017D638 *)a0)->unkDC = 0;
-    ((Unkstruct_8017D638 *)a0)->unkFE = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFC.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_801202A0 *)a0)->blkDC.w[0] = 0;
+    ((Unkstruct_801202A0 *)a0)->unkFE.u = 0;
 }
 
 
@@ -3772,20 +3772,20 @@ void func_8017E930(s32 a0) {
     s32 v1;
     s16 sp10[3];
 
-    if (*(s32 *)(((Unkstruct_8017E930 *)s0)->unk20 + 0x24) == (s32)&D_80194564) {
-        func_8001C924(((Unkstruct_8017E930 *)s0)->unk20, &D_80194554);
+    if (*(s32 *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x24) == (s32)&D_80194564) {
+        func_8001C924(((Unkstruct_801202A0 *)s0)->unk20.val, &D_80194554);
         v0 = 0x18;
     } else {
         v0 = 0x18;
     }
 
-    ((Unkstruct_8017E930 *)s0)->unk1C = v0;
+    ((Unkstruct_801202A0 *)s0)->unk1C.s = v0;
 
-    ((Unkstruct_8017E930 *)s0)->unkDC &= ~0x10;
+    ((Unkstruct_801202A0 *)s0)->blkDC.w[0] &= ~0x10;
 
-    v1 = ((Unkstruct_8017E930 *)s0)->unk5E;
+    v1 = ((Unkstruct_801202A0 *)s0)->unk5E.u;
     if (v1 == 0x23) {
-        ((Unkstruct_8017E930 *)s0)->unkFE = 0x1;
+        ((Unkstruct_801202A0 *)s0)->unkFE.s = 0x1;
         guess_RequestSound(0xAA1, 0);
     } else if (v1 == 0x24) {
         sp10[0] = 0;

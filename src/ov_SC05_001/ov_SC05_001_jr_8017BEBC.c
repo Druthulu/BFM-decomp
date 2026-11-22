@@ -6405,14 +6405,14 @@ void func_801820B0(s32 a0) {
     u16 v2;
     u16 arr[3];
 
-    if (*(s32 *)(((Unkstruct_801820B0 *)a0)->unk20 + 0x24) == (s32)&D_801AABE0) {
-        func_8001C924(((Unkstruct_801820B0 *)a0)->unk20, (void *)&D_801AABD0);
+    if (*(s32 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x24) == (s32)&D_801AABE0) {
+        func_8001C924(((Unkstruct_801202A0 *)a0)->unk20.val, (void *)&D_801AABD0);
     }
-    ((Unkstruct_801820B0 *)a0)->unk1C = 0x18;
-    ((Unkstruct_801820B0 *)a0)->unkDC &= ~0x10;
-    v2 = ((Unkstruct_801820B0 *)a0)->unk5E;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x18;
+    ((Unkstruct_801202A0 *)a0)->blkDC.w[0] &= ~0x10;
+    v2 = ((Unkstruct_801202A0 *)a0)->unk5E.u;
     if (v2 == 0x23) {
-        ((Unkstruct_801820B0 *)a0)->unkFE = 1;
+        ((Unkstruct_801202A0 *)a0)->unkFE.s = 1;
         guess_RequestSound(0xAA1, 0);
     } else if (v2 == 0x24) {
         arr[0] = 0;

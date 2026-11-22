@@ -3726,16 +3726,16 @@ s32 func_8017F900(void *a0) {
     s16 pos[3];
     s32 old;
 
-    if (((Unkstruct_8017F900 *)a0)->unk1C < 0x82) {
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s < 0x82) {
         pos[0] = ((Unkstruct_8017F900_2 *)*(s32 *)((char *)a0 + 0xD4))->unk6;
         pos[1] = 0;
         pos[2] = ((Unkstruct_8017F900_2 *)*(s32 *)((char *)a0 + 0xD4))->unkE;
         ((void (*)(void *, void *))func_80171B10)(&guess_g_PlayerActor, pos);
-        old = ((Unkstruct_8017F900 *)a0)->unk1C;
-        ((Unkstruct_8017F900 *)a0)->unk1C = old + 1;
+        old = ((Unkstruct_801202A0 *)a0)->unk1C.s;
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = old + 1;
         if (old >= 0x56) {
-            pos[0] = pos[0] - ((Unkstruct_8017F900 *)a0)->unk6;
-            pos[2] = pos[2] - ((Unkstruct_8017F900 *)a0)->unkE;
+            pos[0] = pos[0] - ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+            pos[2] = pos[2] - ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
             D_801E97C4 = -ratan2(pos[0], pos[2]);
         }
         return 1;
@@ -3843,11 +3843,11 @@ L1:
     goto End;
 L2:
     func_80178CBC(arg0, (s32)D_801E9220);
-    ((Unkstruct_8017FB98 *)arg0)->unk2 = 4;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     goto End;
 L3:
     func_80178CBC(arg0, (s32)D_801E9240);
-    ((Unkstruct_8017FB98 *)arg0)->unk2 = 5;
+    ((Unkstruct_801202A0 *)arg0)->unk2.s = 5;
 End:;
 }
 
@@ -3968,8 +3968,8 @@ void func_8017FE78(s32 a0)
     s32 t;
     s32 v0;
 
-    v0 = ((Unkstruct_8017FE78 *)a0)->unk1C - 1;
-    ((Unkstruct_8017FE78 *)a0)->unk1C = v0;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
+    ((Unkstruct_801202A0 *)a0)->unk1C.s = v0;
     if (v0 == -1) {
         t = guess_GetStoryProgress();
         if (t == 0x294) {

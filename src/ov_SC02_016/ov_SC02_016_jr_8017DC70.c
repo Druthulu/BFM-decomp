@@ -3485,7 +3485,7 @@ void func_8017F4DC(s32 arg0)
 
 extern void func_8017F630(s32 param_1);
     void func_8017F600(s32 *param) {
-        if (((Unkstruct_8017F600 *)param)->unk2 == 0) {
+        if (((Unkstruct_801202A0 *)param)->unk2.u == 0) {
             ((void (*)(void))func_8017F630)();
         }
     }

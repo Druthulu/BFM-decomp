@@ -6930,16 +6930,16 @@ void func_8017E270(s32 param_1) {
     u16 arr[3];
     s32 temp;
 
-    temp = ((Unkstruct_801820B0 *)param_1)->unk20;
+    temp = ((Unkstruct_801202A0 *)param_1)->unk20.val;
     if (*(s32 *)(temp + 0x24) == (s32)&D_80193CF4) {
         func_8001C924(temp, &D_80193CE4);
     }
-    ((Unkstruct_801820B0 *)param_1)->unk1C = 0x18;
-    ((Unkstruct_801820B0 *)param_1)->unkDC &= ~0x10;
-    if (((Unkstruct_801820B0 *)param_1)->unk5E == 0x23) {
-        ((Unkstruct_801820B0 *)param_1)->unkFE = 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x18;
+    ((Unkstruct_801202A0 *)param_1)->blkDC.w[0] &= ~0x10;
+    if (((Unkstruct_801202A0 *)param_1)->unk5E.u == 0x23) {
+        ((Unkstruct_801202A0 *)param_1)->unkFE.s = 1;
         guess_RequestSound(0xAA1, 0);
-    } else if (((Unkstruct_801820B0 *)param_1)->unk5E == 0x24) {
+    } else if (((Unkstruct_801202A0 *)param_1)->unk5E.u == 0x24) {
         arr[0] = 0;
         arr[1] = 0x10;
         arr[2] = 0;

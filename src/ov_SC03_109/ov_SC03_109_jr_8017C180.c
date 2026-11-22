@@ -3051,8 +3051,8 @@ void func_8017D9D8(s32 a0)
     s32 pad[2];
 
     if (guess_TickWaitTimer() != 0) {
-        ((Unkstruct_8017EBA0_2 *)a0)->unkFC = ((Unkstruct_8017EBA0_2 *)a0)->unkFC + 4;
-        if ((s16)((Unkstruct_8017EBA0_2 *)a0)->unkFC >= 0x11) {
+        ((Unkstruct_801202A0 *)a0)->unkFC.u = ((Unkstruct_801202A0 *)a0)->unkFC.u + 4;
+        if ((s16)((Unkstruct_801202A0 *)a0)->unkFC.u >= 0x11) {
             ((void (*)(void *))func_8017D66C)((void *)a0);
         }
     } else {
@@ -3062,17 +3062,17 @@ void func_8017D9D8(s32 a0)
             do { } while (0);  // !FAKE: do-while
             v0 = (s16)v0;
             if (v0 < 3) {
-                v0 = *(s16 *)(((Unkstruct_8017EBA0_2 *)a0)->unk20 + 0x12);
+                v0 = *(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x12);
                 v0 = (v0 + 2) & 0x3FF;
                 if (v0 < 4) {
-                    ((Unkstruct_8017EBA0_2 *)a0)->unkFC = 0;
+                    ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
                 }
             } else {
                 v0 = v1 - 2;
-                ((Unkstruct_8017EBA0_2 *)a0)->unkFC = v0;
+                ((Unkstruct_801202A0 *)a0)->unkFC.u = v0;
             }
         }
-        if (((Unkstruct_8017EBA0_2 *)a0)->unk1C == 1) {
+        if (((Unkstruct_801202A0 *)a0)->unk1C.s == 1) {
             guess_RequestSound(0x720, 0);
         }
     }

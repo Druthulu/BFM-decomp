@@ -3778,12 +3778,12 @@ extern void (*D_8018A768[])(void);
 void func_8017F198(void *a0) {
     void (*fp)(void);
 
-    switch (((Unkstruct_8017F198 *)a0)->unk70 & 0xFF00) {
+    switch (((Unkstruct_801202A0 *)a0)->unk70.s & 0xFF00) {
     case 0:
-        fp = D_8018A758[((Unkstruct_8017F198 *)a0)->unk2];
+        fp = D_8018A758[((Unkstruct_801202A0 *)a0)->unk2.u];
         break;
     case 0x100:
-        fp = D_8018A768[((Unkstruct_8017F198 *)a0)->unk2];
+        fp = D_8018A768[((Unkstruct_801202A0 *)a0)->unk2.u];
         break;
     default:
         return;

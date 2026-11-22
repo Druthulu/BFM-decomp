@@ -4198,7 +4198,7 @@ void func_801868EC(s32 a0) {
     s32 s0 = a0;
     s32 cnt;
 
-    ((Unkstruct_80180854_2 *)D_801C7E30)->unk76 -= 0x80;
+    ((Unkstruct_801202A0 *)D_801C7E30)->unk76.u -= 0x80;
     func_8017C010((s32)((Unkstruct_801202A0 *)s0)->unk64 + 0x76, (s32)D_801924A0, 0xD2);
     func_8016AA50(s0, 0x80);
     func_8016B3F4(s0);

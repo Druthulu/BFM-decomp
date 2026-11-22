@@ -368,19 +368,19 @@ void func_800CB6E4(void *arg0) {
     extern s32 guess_SpawnSmallObject(s32, void *, s32, s32, s32, s32, s32);
     extern s32 guess_FreeSmallObject(u8 *a0);
     u8 *a0 = *(u8 **)((s32)arg0 + 0x34);
-    if (((Unkstruct_8011D030 *)arg0)->unk30.val.s == ((Unkstruct_800CB6E4_2 *)a0)->unk36) {
+    if (((Unkstruct_8011D030 *)arg0)->unk30.val.s == ((Unkstruct_801202A0 *)a0)->unk36.s) {
         s16 var;
-        if (((Unkstruct_800CB6E4_2 *)a0)->unk58 < 0) {
-            u8 *p = (u8 *)(((Unkstruct_800CB6E4_2 *)a0)->unk58 & (s32)0x8FFFFFFF);
+        if (((Unkstruct_801202A0 *)a0)->unk58.s < 0) {
+            u8 *p = (u8 *)(((Unkstruct_801202A0 *)a0)->unk58.s & (s32)0x8FFFFFFF);
             var = ((*(s16 *)(p + 8) + *(s16 *)(p + 0xA)) >> 1) - 0x10;
         } else {
             var = -0x30;
         }
-        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk4C = ((Unkstruct_800CB6E4_2 *)a0)->unk6;
-        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk50 = ((Unkstruct_800CB6E4_2 *)a0)->unkA + (s16)var;
-        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk54 = ((Unkstruct_800CB6E4_2 *)a0)->unkE;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk4C = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.s;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk50 = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.s + (s16)var;
+        ((Unkstruct_8011D030 *)arg0)->unk38.f.unk54 = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.s;
     }
-    if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0x18 && ((Unkstruct_800CB6E4_2 *)a0)->unk0 != 0) {
+    if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0x18 && ((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         if (((Unkstruct_8011D030 *)arg0)->unk1C.s < 0xE) {
             guess_SpawnSmallObject(0x15, arg0, 0, 0, 0, 0x8000, ((Unkstruct_8011D030 *)arg0)->unk1C.s);
         }

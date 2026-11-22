@@ -3317,19 +3317,19 @@ void func_8017F028(s32 param_1) {
     if ((u32)guess_GetStoryProgress() < 5) {
         func_80029514(5);
     }
-    ((Unkstruct_8017F028 *)param_1)->unk1C = 4;
-    ((Unkstruct_8017F028 *)param_1)->unk2 = ((Unkstruct_8017F028 *)param_1)->unk2 + 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = 4;
+    ((Unkstruct_801202A0 *)param_1)->unk2.u = ((Unkstruct_801202A0 *)param_1)->unk2.u + 1;
 }
 
 
 void func_8017F078(void *a0) {
-    if (((Unkstruct_8017F078 *)a0)->unk1C != 0) {
-        ((Unkstruct_8017F078 *)a0)->unk1C = ((Unkstruct_8017F078 *)a0)->unk1C - 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     } else {
         if (guess_GetPlayerControlScript() == 0) {
             func_801746A4();
-            ((Unkstruct_8017F078 *)a0)->unk1C = 0xC;
-            ((Unkstruct_8017F078 *)a0)->unk2 = ((Unkstruct_8017F078 *)a0)->unk2 + 1;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0xC;
+            ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
         }
     }
 }
@@ -3338,11 +3338,11 @@ void func_8017F078(void *a0) {
 extern s32 func_8017D308(s32 a0, s32 a1);
 
 void func_8017F0E0(void *a0) {
-    if (((Unkstruct_8017F0E0 *)a0)->unk1C != 0) {
-        ((Unkstruct_8017F0E0 *)a0)->unk1C = ((Unkstruct_8017F0E0 *)a0)->unk1C - 1;
+    if (((Unkstruct_801202A0 *)a0)->unk1C.s != 0) {
+        ((Unkstruct_801202A0 *)a0)->unk1C.s = ((Unkstruct_801202A0 *)a0)->unk1C.s - 1;
     } else {
         func_8017D308(0, 0);
-        ((Unkstruct_8017F0E0 *)a0)->unk2 = ((Unkstruct_8017F0E0 *)a0)->unk2 + 1;
+        ((Unkstruct_801202A0 *)a0)->unk2.u = ((Unkstruct_801202A0 *)a0)->unk2.u + 1;
     }
 }
 
@@ -3363,18 +3363,18 @@ void func_8017F138(void *a0) {
     if (v0 == 0) {
         if (v1 == 3) {
             func_8017D35C(0);
-            v0 = ((Unkstruct_8017F138 *)a0)->unk2;
-            ((Unkstruct_8017F138 *)a0)->unk1C = 0;
+            v0 = ((Unkstruct_801202A0 *)a0)->unk2.u;
+            ((Unkstruct_801202A0 *)a0)->unk1C.s = 0;
             v0 = v0 - 1;
             goto skip;
         }
         v0 = (s32)func_8017D060();
     }
     func_800D1724(v0);
-    v0 = ((Unkstruct_8017F138 *)a0)->unk2;
+    v0 = ((Unkstruct_801202A0 *)a0)->unk2.u;
     v0 = v0 + 1;
 skip:
-    ((Unkstruct_8017F138 *)a0)->unk2 = v0;
+    ((Unkstruct_801202A0 *)a0)->unk2.u = v0;
 }
 
 

@@ -3559,7 +3559,7 @@ extern void guess_ClearVelocityAndSetGravity(Unkstruct_801202A0 *a0);
 void func_80182E30(short *param_1)
 {
     param_1[1] = 0xe;
-    ((Unkstruct_80180878 *)param_1)->unk34 = 0;
+    ((Unkstruct_801202A0 *)param_1)->unk34.s = 0;
     ((void (*)(void *, void *))guess_StartActorSequence)(param_1, &D_801B06E8);
     ((void (*)(void *))guess_ClearVelocityAndSetGravity)(param_1);
     *(unsigned short *)((char *)param_1 + 0x5c) = 0xaa10;

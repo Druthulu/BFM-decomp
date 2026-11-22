@@ -2741,8 +2741,8 @@ extern s32 D_801270CC;
 void func_8018173C(int param_1) {
     int iVar1;
 
-    iVar1 = ((Unkstruct_8018173C *)param_1)->unk1C + 1;
-    ((Unkstruct_8018173C *)param_1)->unk1C = iVar1;
+    iVar1 = ((Unkstruct_801202A0 *)param_1)->unk1C.s + 1;
+    ((Unkstruct_801202A0 *)param_1)->unk1C.s = iVar1;
     if (iVar1 >= 0x3d) {
         ((void (*)(void))func_80130D48)();
         switch ((int)((unsigned int)*(unsigned short *)(param_1 + 0x70) << 0x10) >> 0x18) {
@@ -2762,8 +2762,8 @@ void func_8018173C(int param_1) {
             ((void (*)(int))guess_FreeActor)(param_1);
         }
     } else if (0x1e < iVar1) {
-        *(unsigned int *)(((Unkstruct_8018173C *)param_1)->unk20 + 4) =
-            *(unsigned int *)(((Unkstruct_8018173C *)param_1)->unk20 + 4) ^ 0x80000000;
+        *(unsigned int *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 4) =
+            *(unsigned int *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 4) ^ 0x80000000;
     }
     return;
 }
