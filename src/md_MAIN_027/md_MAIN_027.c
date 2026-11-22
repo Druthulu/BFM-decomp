@@ -114,12 +114,12 @@ void func_800CB06C(void *arg0) {
     }
     *(s32 *)((u8 *)arg0 + 0x238) += 0x1c000;
     p = *(s32 *)((u8 *)arg0 + 0x20);
-    ((Unkstruct_800CB06C *)p)->unk10 =
-        (((Unkstruct_800CB06C *)p)->unk10 - *(u16 *)((u8 *)arg0 + 0x23a)) & 0xfff;
+    ((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk10.u =
+        (((Unkstruct_8001C9D0 *)p)->head.unk10.w.unk10.u - *(u16 *)((u8 *)arg0 + 0x23a)) & 0xfff;
     q = *(s32 *)((u8 *)arg0 + 0x20);
     if (CAST_SIGN(s16, (u8 *)q, 0x10) < 0xc00) {
         a = arg0;
-        ((Unkstruct_800CB06C *)q)->unk10 = 0xc00;
+        ((Unkstruct_8001C9D0 *)q)->head.unk10.w.unk10.u = 0xc00;
         *(u16 *)((u8 *)a + 0xb8) = 1;
         guess_NextStep(a);
     }
@@ -747,6 +747,6 @@ void func_800CC024(s32 a0p) {
 
     ((Ent_80164930_80164930 *)obj)->unk4.i.hi.u += d[0];
     ((Ent_80164930_80164930 *)obj)->unk8.i.hi.u += d[1];
-    ((Unkstruct_800CC024_3 *)s3)->unk18 = ((Unkstruct_800CC024_4 *)*(s32 *)(s2 + 0x20))->unk18;
+    ((Unkstruct_800B5BD8 *)s3)->head.unk18.val = ((Unkstruct_800CC024_4 *)*(s32 *)(s2 + 0x20))->unk18;
 }
 

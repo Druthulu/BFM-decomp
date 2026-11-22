@@ -194,7 +194,7 @@ void func_800CB2AC(void *a0)
         ((Unkstruct_8011D030 *)s1)->unk2C.val.u += 4;
         if (((Unkstruct_8011D030 *)s1)->unk2C.val.u < 0x1C1) {
             t = (((Unkstruct_8011D030 *)s1)->unk1C.u)++;
-            ((Unkstruct_800CB2AC_2 *)p)->unk18 = ((Unkstruct_800CB2AC_2 *)p)->unk1A = D_800CB4B4[t & 3];
+            ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = D_800CB4B4[t & 3];
             ((Unkstruct_8011D030 *)s1)->unk30.val.u += 0xA00000 / (((Unkstruct_8011D030 *)s1)->unk2C.val.u * 804);
             m = D_800AE620;
             RotMatrixY(((Unkstruct_8011D030 *)s1)->unk30.val.u, &m);

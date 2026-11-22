@@ -263,11 +263,11 @@ void func_800CB328(void *a0) {
             D_80126BCA = D_80126BCA - 0x100;
         } else {
             mask = 0x7FFFFFFF;
-            t18 = ((Unkstruct_800CB328_3 *)pf20)->unk1A;
-            ((Unkstruct_800CB328_3 *)pf20)->unk4 &= mask;
+            t18 = ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk1A.u;
+            ((Unkstruct_800B5BD8 *)pf20)->head.unk4.u &= mask;
             t18 = t18 - 0x2C;
-            ((Unkstruct_800CB328_3 *)pf20)->unk1A = t18;
-            ((Unkstruct_800CB328_3 *)pf20)->unk18 = t18;
+            ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk1A.u = t18;
+            ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk18.u = t18;
 
             ((Unkstruct_8011D030 *)obj)->unk30.val.s +=
                 0xA00000u / (((Unkstruct_8011D030 *)obj)->unk2C.val.s * 804);
@@ -286,12 +286,12 @@ void func_800CB328(void *a0) {
             CAST_ALIAS(u16, (s32)obj, 0xA) = *(u16 *)&rot.y;
             ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u = *(u16 *)&rot.z;
 
-            ((Unkstruct_800CB328_2 *)pf34)->unk4 &= mask;
-            ((Unkstruct_800CB328_2 *)pf34)->unk18 = ((Unkstruct_800CB328_3 *)pf20)->unk18;
-            ((Unkstruct_800CB328_2 *)pf34)->unk1A = ((Unkstruct_800CB328_3 *)pf20)->unk1A;
-            ((Unkstruct_800CB328_2 *)pf34)->unk8 = ((Unkstruct_8011D030 *)obj)->unk4.i.hi.u;
-            ((Unkstruct_800CB328_2 *)pf34)->unkA = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
-            ((Unkstruct_800CB328_2 *)pf34)->unkC = ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk4.u &= mask;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk18.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk1A.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk8.u = ((Unkstruct_8011D030 *)obj)->unk4.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unkA.u = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unkC.u = ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u;
             return;
         }
     }

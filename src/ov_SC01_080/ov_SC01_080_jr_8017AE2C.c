@@ -5047,9 +5047,9 @@ void func_8017F344(void *arg0) {
     s32 temp_v0;
     void *temp_a0;
 
-    temp_v0 = func_80012B04(((Unkstruct_8017F344_2 *)M2C_FIELD(arg0, void **, 0x20))->unk12, ((Unkstruct_80126B58 *)arg0)->unk20C.s, 4);
+    temp_v0 = func_80012B04(((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk12.s, ((Unkstruct_80126B58 *)arg0)->unk20C.s, 4);
     temp_a0 = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-    ((Unkstruct_8017F344_2 *)temp_a0)->unk12 = (s16) (((u16) ((Unkstruct_8017F344_2 *)temp_a0)->unk12 + temp_v0) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s = (s16) (((u16) ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s + temp_v0) & 0xFFF);
     if ((temp_v0 << 0x10) == 0) {
         ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow(&D_8018A6A8);
         ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
@@ -6311,10 +6311,10 @@ void func_80180FA8(void *a0)
     ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = 0;
     ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u = v0 - 0x150;
     func_8001CD50((s32)s1, (s32)D_801C5AC0);
-    ((Unkstruct_80180FA8_2 *)s1)->unk1E = -0x7334;
-    ((Unkstruct_80180FA8_2 *)s1)->unk10 = 0x400;
-    ((Unkstruct_80180FA8_2 *)s1)->unk4 |= 0x50000000;
-    ((Unkstruct_80180FA8_2 *)s1)->unk14 = ((Unkstruct_8011DB30 *)a0)->unk2C.i.hi.u;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = -0x7334;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u = 0x400;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk4.u |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk14.u = ((Unkstruct_8011DB30 *)a0)->unk2C.i.hi.u;
     ((Unkstruct_8011DB30 *)a0)->unk2C.i.hi.u = 0x2E;
     ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
 }

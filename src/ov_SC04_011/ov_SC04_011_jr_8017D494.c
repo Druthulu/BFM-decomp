@@ -9410,9 +9410,9 @@ void func_80186EFC(s32 arg0) {
     s32 base;
 
     base = D_801EFC4C;
-    ((SVECTOR *)arg0)->vx = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk48;
-    ((SVECTOR *)arg0)->vy = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk4C;
-    ((SVECTOR *)arg0)->vz = ((Unkstruct_80136A94 *)*(s32 *)(base + 0x20))->unk50;
+    ((SVECTOR *)arg0)->vx = ((Unkstruct_8001C9D0 *)*(s32 *)(base + 0x20))->unk48;
+    ((SVECTOR *)arg0)->vy = ((Unkstruct_8001C9D0 *)*(s32 *)(base + 0x20))->unk4C;
+    ((SVECTOR *)arg0)->vz = ((Unkstruct_8001C9D0 *)*(s32 *)(base + 0x20))->unk50;
 }
 
 

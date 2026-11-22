@@ -3941,13 +3941,13 @@ void func_801A5A10(s32 param_1)
 
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x5A;
 
-    p = ((Unkstruct_801A5A10 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.spr;
     p->head.unk18.w.unk1A.u = 0x3000;
     p->head.unk18.w.unk18.u = 0x3000;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_801A7374);
 
-    ((Unkstruct_801A5A10 *)param_1)->unk2 = ((Unkstruct_801A5A10 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 

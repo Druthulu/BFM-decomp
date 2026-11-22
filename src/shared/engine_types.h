@@ -2102,13 +2102,6 @@ typedef struct {
     u32 unk4;      /* 0x04 — packed colour (b in bits 16..23)        */
 } Obj_801809C4;
 typedef struct {
-    s32 unk0;   /* 0x0 */
-    u32 unk4;   /* 0x4 */
-    u16 unk8;   /* 0x8 */
-    u16 unkA;   /* 0xA */
-    u16 unkC;   /* 0xC */
-} Obj_80182284;
-typedef struct {
     SVECTOR unk00[52];   /* 0x000 .. 0x19F */
     s16 unk1A0;
     s16 unk1A2;

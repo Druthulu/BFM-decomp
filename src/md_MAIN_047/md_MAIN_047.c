@@ -249,9 +249,9 @@ void func_800CD314(void *arg0) {
     if (cnt < 0x20) {
         if ((cnt & 7) == 0) {
             *(Blk32 *)(s0 + 0x38) = *(Blk32 *)D_8011F75C;
-            CAST_ALIAS(s32, p, 4) = (((Unkstruct_800CD314_2 *)p)->unk4 & 0x7FFFFFFF) | (((Unkstruct_800CD314_2 *)D_8011F758)->unk4 & (s32)0x80000000);
-            CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800CD314_2 *)D_8011F758)->unk18;
-            ((Unkstruct_800CD314_2 *)p)->unk1A = ((Unkstruct_800CD314_2 *)D_8011F758)->unk1A;
+            CAST_ALIAS(s32, p, 4) = (((RenderHead *)p)->unk4.s & 0x7FFFFFFF) | (((Unkstruct_800B5BD8 *)D_8011F758)->head.unk4.s & (s32)0x80000000);
+            CAST_ALIAS(u16, p, 0x18) = ((Unkstruct_800B5BD8 *)D_8011F758)->head.unk18.w.unk18.u;
+            ((RenderHead *)p)->unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)D_8011F758)->head.unk18.w.unk1A.u;
             t = ((Unkstruct_8011D030 *)s0)->unk38.f.unk4C;
             ((Unkstruct_8011D030 *)s0)->unk4.i.hi.s = t;
             tb = ((Unkstruct_8011D030 *)s0)->unk38.f.unk54;
@@ -357,8 +357,8 @@ void func_800CD5F8(void *arg0) {
         s0 = (s32)&D_800CD7A4;
         func_8001CD50(s1, s0);
         ((Unkstruct_8011D030 *)arg0)->unk20 = s1;
-        ((Unkstruct_800CD5F8 *)s1)->unk34 = (s32)arg0 + 0x38;
-        ((Unkstruct_800CD5F8 *)s1)->unk1E = -0x7400;
+        ((Unkstruct_800B5BD8 *)s1)->unk34.s = (s32)arg0 + 0x38;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1E.s = -0x7400;
         CAST_ALIAS(s32, s1, 4) |= 0x50000000;
         D_800CD7A5 = 0;
         *(u8 *)s0 = 0;

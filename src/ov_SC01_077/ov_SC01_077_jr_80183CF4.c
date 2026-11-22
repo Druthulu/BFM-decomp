@@ -3130,7 +3130,7 @@ void func_80183DE0(int param)
 
     iVar7 = ((Unkstruct_80183DE0 *)param)->unkCC;
     if (iVar7 != 0) {
-        ((Unkstruct_80183DE0_2 *)iVar7)->unk18 = 0x1800;
+        ((Unkstruct_8001C9D0 *)iVar7)->head.unk18.w.unk18.s = 0x1800;
         *(unsigned short *)(iVar7 + 0x2c) |= 0x10;
         src = ((Unkstruct_80183DE0 *)param)->unk20;
         *(Blk8 *)(iVar7 + 8) = *(Blk8 *)(src + 8);

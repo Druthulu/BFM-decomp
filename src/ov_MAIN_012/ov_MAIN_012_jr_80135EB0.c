@@ -1079,12 +1079,12 @@ void func_80136A94(s32 a0, s32 a1, s32 a2, s32 a3) {
     }
 
     pb4 = *(u16 **)&D_8017E918;
-    ((Unkstruct_80136A94_2 *)a2)->x     = pb4[0] + ((Unkstruct_80136A94 *)a1)->unk48;
-    ((Unkstruct_80136A94_2 *)a2)->y = pb4[1] + ((Unkstruct_80136A94 *)a1)->unk4C;
-    ((Unkstruct_80136A94_2 *)a2)->z = pb4[2] + ((Unkstruct_80136A94 *)a1)->unk50;
+    ((Unkstruct_80136A94_2 *)a2)->x     = pb4[0] + ((Unkstruct_8001C9D0 *)a1)->unk48;
+    ((Unkstruct_80136A94_2 *)a2)->y = pb4[1] + ((Unkstruct_8001C9D0 *)a1)->unk4C;
+    ((Unkstruct_80136A94_2 *)a2)->z = pb4[2] + ((Unkstruct_8001C9D0 *)a1)->unk50;
 
-    *(u16 *)guess_g_BoxHitCenterX = *(u16 *)guess_g_BoxHitCenterX + ((Unkstruct_80136A94 *)a1)->unk48;
-    guess_g_BoxHitCenterY = guess_g_BoxHitCenterY + ((Unkstruct_80136A94 *)a1)->unk4C;
+    *(u16 *)guess_g_BoxHitCenterX = *(u16 *)guess_g_BoxHitCenterX + ((Unkstruct_8001C9D0 *)a1)->unk48;
+    guess_g_BoxHitCenterY = guess_g_BoxHitCenterY + ((Unkstruct_8001C9D0 *)a1)->unk4C;
     guess_g_BoxHitCenterZ = guess_g_BoxHitCenterZ + CAST_ALIAS(s32, a1, 0x50);
 }
 

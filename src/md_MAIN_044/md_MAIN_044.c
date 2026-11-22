@@ -89,13 +89,13 @@ void func_800CCD2C(s32 param_1) {
     s0 = ((Ent_80164930_80164930 *)p1)->unk20.val;
     if (func_800CCF30((void *)param_12) == 0) {
         v0 = CAST_SIGN(u16, s0, 0x18) + 0x100;
-        ((Unkstruct_800CCD2C *)s0)->unk18 = v0;
+        ((Unkstruct_8001C9D0 *)s0)->head.unk18.w.unk18.s = v0;
         if (v0 >= 0x1001) {
             v0 = 0x1000;
-            ((Unkstruct_800CCD2C *)s0)->unk18 = v0;
+            ((Unkstruct_8001C9D0 *)s0)->head.unk18.w.unk18.s = v0;
             guess_NextStep((void *)p1);
         }
-        func_800CCF58(s0, ((Unkstruct_800CCD2C *)s0)->unk18);
+        func_800CCF58(s0, ((Unkstruct_8001C9D0 *)s0)->head.unk18.w.unk18.s);
         func_800CCE88(p1);
     }
 }
@@ -118,9 +118,9 @@ void func_800CCDB0(s32 param_1) {
     } else {
         a1val = 0x1000;
     }
-    v0 = func_80012F74(((Unkstruct_800CCD2C *)s1)->unk18, a1val, 0xA, 1);
-    ((Unkstruct_800CCD2C *)s1)->unk18 = v0;
-    func_800CCF58(s1, ((Unkstruct_800CCD2C *)s1)->unk18);
+    v0 = func_80012F74(((Unkstruct_8001C9D0 *)s1)->head.unk18.w.unk18.s, a1val, 0xA, 1);
+    ((Unkstruct_8001C9D0 *)s1)->head.unk18.w.unk18.s = v0;
+    func_800CCF58(s1, ((Unkstruct_8001C9D0 *)s1)->head.unk18.w.unk18.s);
     if (func_800CCF30((void *)param_1) != 0) {
         return;
     }
@@ -147,9 +147,9 @@ void func_800CCE88(s32 param_1) {
     s32 a0 = *(s32 *)(s2 + 0x20);
     s32 s1 = ((Ent_80164930_80164930 *)param_1)->unk20.val;
     s32 s0 = s1 + 0x34;
-    ((Ent_80164930_80164930 *)param_1)->unk4.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk48;
-    ((Ent_80164930_80164930 *)param_1)->unk8.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk4C - 0x20;
-    ((Ent_80164930_80164930 *)param_1)->unkC.i.hi.s = ((Unkstruct_80136A94 *)a0)->unk50;
+    ((Ent_80164930_80164930 *)param_1)->unk4.i.hi.s = ((Unkstruct_8001C9D0 *)a0)->unk48;
+    ((Ent_80164930_80164930 *)param_1)->unk8.i.hi.s = ((Unkstruct_8001C9D0 *)a0)->unk4C - 0x20;
+    ((Ent_80164930_80164930 *)param_1)->unkC.i.hi.s = ((Unkstruct_8001C9D0 *)a0)->unk50;
     func_80013F3C((void *)s0);
     RotMatrixY(*(s16 *)(s1 + 0x12), (void *)s0);
     func_80048D9C((void *)s0, (void *)(*(s32 *)(s2 + 0x20) + 0x34));

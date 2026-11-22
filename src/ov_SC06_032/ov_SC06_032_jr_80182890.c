@@ -8349,9 +8349,9 @@ void func_8018BA4C(a0)
     }
 
     if (((Unkstruct_801202A0 *)a0)->unk84.s == 0) {
-        L.v[0] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);

@@ -4583,9 +4583,9 @@ void func_8018454C(s32 a0)
     gte_rtv0();
     gte_stlvnl(res);
 
-    ((Unkstruct_80136A94 *)*(s32 *)(self + 0x20))->unk48 += res[0];
-    ((Unkstruct_80136A94 *)*(s32 *)(self + 0x20))->unk4C += res[1];
-    ((Unkstruct_80136A94 *)*(s32 *)(self + 0x20))->unk50 += res[2];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk48 += res[0];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk4C += res[1];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk50 += res[2];
 }
 
 

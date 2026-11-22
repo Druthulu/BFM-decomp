@@ -83,9 +83,9 @@ void func_800CAF94(s32 arg0) {
 
     node = ((Unkstruct_8011D030 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
-        t = ((Unkstruct_800CAF94_2 *)node)->unk1A + 0xC0;
-        ((Unkstruct_800CAF94_2 *)node)->unk1A = t;
-        ((Unkstruct_800CAF94_2 *)node)->unk18 = t;
+        t = ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u + 0xC0;
+        ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1A.u = t;
+        ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk18.s = t;
         ent = ((Unkstruct_8011D030 *)arg0)->unk34.val;
         sv[2] = 0x1000;
         sv[1] = 0x1000;
@@ -151,8 +151,8 @@ void func_800CB0C8(s32 arg0) {
 
     node = ((Unkstruct_8011D030 *)arg0)->unk20;
     if (D_80078EC1 == 2) {
-        t = ((Unkstruct_800CB0C8_3 *)node)->unk1E + 0x100;
-        ((Unkstruct_800CB0C8_3 *)node)->unk1E = t;
+        t = ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1E.u + 0x100;
+        ((Unkstruct_800B5BD8 *)node)->head.unk18.w.unk1E.u = t;
         if (t < 0x1000) {
             ent = ((Unkstruct_8011D030 *)arg0)->unk34.val;
             sv[2] = 0x1000;

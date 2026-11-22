@@ -2982,8 +2982,8 @@ void func_8017FC10(void *a0)
     obj = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     func_8001CD50(obj, (s32)&D_801C7AC0);
 
-    ((Unkstruct_8017FC10_2 *)obj)->unk34 = D_801C7B80;
-    ((Unkstruct_8017FC10_2 *)obj)->unk4 |= 0x50000100;
+    ((Unkstruct_800B5BD8 *)obj)->unk34.s = D_801C7B80;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk4.s |= 0x50000100;
 
     svec.vx = 0x40;
     svec.vy = (s16)ratan2(((Unkstruct_8011DB30 *)a0)->unk4.i.hi.s, ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.s);

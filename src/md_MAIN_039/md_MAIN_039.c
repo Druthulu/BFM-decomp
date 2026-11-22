@@ -532,9 +532,9 @@ void func_800CBC10(void *arg0) {
 
 void func_800CBC40(void *arg0, s32 arg1) {
     void *v1 = *(void **)((s32)arg0 + 0x20);
-    u16 v0 = ((Unkstruct_800CBC40 *)v1)->unk1A - arg1;
-    ((Unkstruct_800CBC40 *)v1)->unk1A = v0;
-    ((Unkstruct_800CBC40 *)v1)->unk18 = v0;
+    u16 v0 = ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk1A.u - arg1;
+    ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk1A.u = v0;
+    ((Unkstruct_800B5BD8 *)v1)->head.unk18.w.unk18.u = v0;
 }
 
 

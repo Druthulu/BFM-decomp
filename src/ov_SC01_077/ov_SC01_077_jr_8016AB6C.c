@@ -3271,7 +3271,7 @@ void func_8016D1D8(int param_1) {
             *(int *)(param_1 + 0x20) = iVar2;
             ((void (*)(void *, int))guess_BuildCircle12Points)(D_801D9C60, 0x18);
             ((void (*)(void *, void *))guess_InitObjectKind6)((void *)iVar2, D_801D9C60);
-            ((Unkstruct_8016D1D8_7 *)iVar2)->unk4 |= 0x50000000;
+            ((Unkstruct_8016D1D8_7 *)iVar2)->head.unk4.u |= 0x50000000;
             *(u16 *)(param_1 + 6) = *(u16 *)(iVar5 + 6);
             *(u16 *)(param_1 + 0xa) = *(u16 *)(iVar5 + 0xa);
             *(u16 *)(param_1 + 0xe) = *(u16 *)(iVar5 + 0xe);
@@ -3288,8 +3288,8 @@ void func_8016D1D8(int param_1) {
             *(int *)(param_1 + 0x14) = (int)sv.vy << 0xc;
             sVar4 = (uVar3 & 0x3F0) + 0x200;
             *(int *)(param_1 + 0x18) = (int)sv.vz << 0xc;
-            ((Unkstruct_8016D1D8_7 *)iVar2)->unk1A = sVar4;
-            ((Unkstruct_8016D1D8_7 *)iVar2)->unk18 = sVar4;
+            ((Unkstruct_8016D1D8_7 *)iVar2)->head.unk18.w.unk1A.s = sVar4;
+            ((Unkstruct_8016D1D8_7 *)iVar2)->head.unk18.w.unk18.s = sVar4;
             *(int *)(param_1 + 0x1c) = 0x10;
             *(short *)(param_1 + 2) = 2;
         }

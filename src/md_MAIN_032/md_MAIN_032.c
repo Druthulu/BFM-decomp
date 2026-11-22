@@ -150,10 +150,10 @@ void func_800CB188(void *arg0) {
     v0 = *(s32 *)(s0 + 0x20);
     *(Blk16_956C *)(s1 + 0x34) = *(Blk16_956C *)(v0 + 0x34);
     *(Blk16_956C *)(s1 + 0x44) = *(Blk16_956C *)(v0 + 0x44);
-    v1 = ((Unkstruct_800CB188_2 *)s1)->unk4 & 0x7FFFFFFF;
+    v1 = ((Unkstruct_8001C9D0 *)s1)->head.unk4.s & 0x7FFFFFFF;
     CAST_ALIAS(s32, s1, 4) = v1;
     if (guess_g_FrameCounter & 1) {
-        ((Unkstruct_800CB188_2 *)s1)->unk4 = v1 | 0x80000000;
+        ((Unkstruct_8001C9D0 *)s1)->head.unk4.s = v1 | 0x80000000;
     }
 }
 

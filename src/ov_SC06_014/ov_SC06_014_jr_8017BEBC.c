@@ -3866,10 +3866,10 @@ void func_8017EC70(void) {
 }
 
 void func_8017EC78(void *a0) {
-    ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk18 - 0x100;
-    ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk1A - 0x100;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u - 0x100;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk1A.u - 0x100;
     if (*(s16 *)(((Unkstruct_801202A0 *)a0)->unk20.val + 0x1a) < 0x81) {
-        ((Unkstruct_800CB328_3 *)*(s32 *)(a0 + 0x20))->unk4 |= 0x80000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0x20))->head.unk4.u |= 0x80000000;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
     }

@@ -3100,7 +3100,7 @@ void func_80182AC0(void *a0) {
 
     if (CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x0) != 0) {
         q = CAST_NONSTRUCT(void *, (s32)CAST_SIGN(void *, (s32)a0, 0x64), 0x20);
-        s0 = ((Unkstruct_80182AC0_3 *)q)->unk20;
+        s0 = ((RenderHead *)q)->unk20.s;
         s0 = (void *)((s32)s0 + 0x60);
 
         CAST_NONSTRUCT(u16, (s32)CAST_SIGN(void *, (s32)a0, 0x20), 0x12) =

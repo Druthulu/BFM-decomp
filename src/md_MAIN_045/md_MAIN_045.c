@@ -142,10 +142,10 @@ void func_800CCE80(void *arg0) {
     s2 = ((Ent_80164930_80164930 *)arg0)->unk4C;
     p = ((Unkstruct_80126B58 *)s2)->unk20.m;
     s1 = ((Ent_80164930_80164930 *)arg0)->unk20.val;
-    ((Ent_80164930_80164930 *)arg0)->unk4.i.hi.s = ((Unkstruct_80136A94 *)p)->unk48;
-    ((Ent_80164930_80164930 *)arg0)->unk8.i.hi.s = ((Unkstruct_80136A94 *)p)->unk4C - 0x20;
+    ((Ent_80164930_80164930 *)arg0)->unk4.i.hi.s = ((Unkstruct_8001C9D0 *)p)->unk48;
+    ((Ent_80164930_80164930 *)arg0)->unk8.i.hi.s = ((Unkstruct_8001C9D0 *)p)->unk4C - 0x20;
     s0 = (void *)((u8 *)s1 + 0x34);
-    ((Ent_80164930_80164930 *)arg0)->unkC.i.hi.s = ((Unkstruct_80136A94 *)p)->unk50;
+    ((Ent_80164930_80164930 *)arg0)->unkC.i.hi.s = ((Unkstruct_8001C9D0 *)p)->unk50;
     func_80013F3C(s0);
     RotMatrixY(((Unkstruct_8001C9D0 *)s1)->head.unk10.w.unk12.s, s0);
     func_80048D9C(s0, (void *)((u8 *)((Unkstruct_80126B58 *)s2)->unk20.m + 0x34));
@@ -297,10 +297,10 @@ void func_800CD204(s32 arg0) {
     func_80013694(*(s16 *)(x + 0x10), D_800CD6BC, sp10);
     func_800139C8((s16)(ang + 0x400), sp10, sp10);
     w = *(s32 *)(y + 0x20);
-    sp10[0] = sp10[0] + ((Unkstruct_80136A94 *)w)->unk48;
+    sp10[0] = sp10[0] + ((Unkstruct_8001C9D0 *)w)->unk48;
     t = sp10[1] - 0x20;
-    sp10[1] = t + ((Unkstruct_80136A94 *)w)->unk4C;
-    sp10[2] = sp10[2] + ((Unkstruct_80136A94 *)w)->unk50;
+    sp10[1] = t + ((Unkstruct_8001C9D0 *)w)->unk4C;
+    sp10[2] = sp10[2] + ((Unkstruct_8001C9D0 *)w)->unk50;
     v1 = rcos(((Ent_80164930_80164930 *)arg0)->unk60.s);
     if (v1 < 0) {
         v1 += 0x1FF;

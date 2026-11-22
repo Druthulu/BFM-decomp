@@ -921,23 +921,23 @@ void func_800CC4E8(void *a0) {
             *(s16 *)((u8 *)a0 + 0x5a) = 0;
         }
 
-        t3 = ((Unkstruct_800CC424 *)s1)->unk1A;
+        t3 = ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u;
         t3 -= 0x100;
-        ((Unkstruct_800CC424 *)s1)->unk1A = t3;
-        ((Unkstruct_800CC424 *)s1)->unk18 = t3;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u = t3;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u = t3;
         if (CAST_SIGN(s16, (u8 *)s1, 0x1a) < 0) {
             ((Unkstruct_80126B58 *)a0)->unk60.u = 0;
-            ((Unkstruct_800CC424 *)s1)->unk1A = 0;
-            ((Unkstruct_800CC424 *)s1)->unk18 = 0;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u = 0;
+            ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u = 0;
             guess_NextStep(a0);
         }
     }
 
     {
-        s32 x = (((Unkstruct_800CC424 *)s1)->unk10 + 0x2d) & 0xfff;
-        s32 y = (((Unkstruct_800CC424 *)s1)->unk12 + 0x16) & 0xfff;
-        ((Unkstruct_800CC424 *)s1)->unk10 = x;
-        ((Unkstruct_800CC424 *)s1)->unk12 = y;
+        s32 x = (((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u + 0x2d) & 0xfff;
+        s32 y = (((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk12.u + 0x16) & 0xfff;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk10.u = x;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk10.w.unk12.u = y;
         func_800CC6C4(a0, &D_800CCB10, &D_800CCB14, (u8 *)a0 + 0x58);
     }
 }
@@ -994,7 +994,7 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
     void *v4;
 
     v4 = CAST_SIGN(void *, (s32)a0, 0x20);
-    ((SVECTOR *)a3)->pad = ((Unkstruct_800CC424 *)v4)->unk12;
+    ((SVECTOR *)a3)->pad = ((Unkstruct_800B5BD8 *)v4)->head.unk10.w.unk12.u;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
     ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
@@ -1003,7 +1003,7 @@ void func_800CC6C4(void *a0, void *a1, void *a2, void *a3) {
     ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad + 0x555) & 0xFFF;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
-    ((SVECTOR *)a3)->pad = ((Unkstruct_800CC424 *)v4)->unk10;
+    ((SVECTOR *)a3)->pad = ((Unkstruct_800B5BD8 *)v4)->head.unk10.w.unk10.u;
     func_800CC7FC((s32)a0, a1, a2, a3, &D_800CCA9C);
 
     ((SVECTOR *)a3)->pad = (((SVECTOR *)a3)->pad - 0x555) & 0xFFF;

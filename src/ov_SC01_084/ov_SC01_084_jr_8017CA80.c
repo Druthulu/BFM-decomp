@@ -3272,7 +3272,7 @@ void func_8017E608(u8 *a0) {
         ((Unkstruct_80126B58 *)a0)->unk4D += 1;
     }
     t = ((Unkstruct_80126B58 *)a0)->unk20.val;
-    ((Unkstruct_8017E608_4 *)t)->unk12 = (((Unkstruct_8017E608_4 *)t)->unk12 + s1) & 0xFFF;
+    ((Unkstruct_8001C9D0 *)t)->head.unk10.w.unk12.u = (((Unkstruct_8001C9D0 *)t)->head.unk10.w.unk12.u + s1) & 0xFFF;
 }
 
 

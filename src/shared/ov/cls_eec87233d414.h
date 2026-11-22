@@ -38,8 +38,8 @@ void SHARED_FN(s32 a0) {
                     v = 0x7000;
                 }
                 result = v;
-                ((Unkstruct_80183094_3 *)dst)->unk1A = result;
-                ((Unkstruct_80183094_3 *)dst)->unk18 = result;
+                ((Unkstruct_800B5BD8 *)dst)->head.unk18.w.unk1A.s = result;
+                ((Unkstruct_800B5BD8 *)dst)->head.unk18.w.unk18.s = result;
             }
         }
     }

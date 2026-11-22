@@ -4417,9 +4417,9 @@ void func_8017E298(void *arg0) {
     s16 temp_v0;
     void *temp_a0;
 
-    temp_v0 = func_80012B04(((Unkstruct_8017E298_4 *)M2C_FIELD(arg0, void **, 0x20))->unk12, 0x800, 4);
+    temp_v0 = func_80012B04(((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk12.s, 0x800, 4);
     temp_a0 = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-    ((Unkstruct_8017E298_4 *)temp_a0)->unk12 = (s16) (((u16) ((Unkstruct_8017E298_4 *)temp_a0)->unk12 + temp_v0) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s = (s16) (((u16) ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s + temp_v0) & 0xFFF);
     if (temp_v0 == 0) {
         if (D_80078EC1 == 8) {
             ((Unkstruct_80126B58 *)arg0)->unk198 = guess_OpenTextWindow((s32) &D_801B1720);
@@ -4524,9 +4524,9 @@ void func_8017E51C(void *arg0) {
     u16 temp_v1;
     void *temp_a0;
 
-    temp_v0 = func_80012B04(((Unkstruct_8017E51C_4 *)M2C_FIELD(arg0, void **, 0x20))->unk12, 0x400, 4);
+    temp_v0 = func_80012B04(((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk12.s, 0x400, 4);
     temp_a0 = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-    ((Unkstruct_8017E51C_4 *)temp_a0)->unk12 = (s16) (((u16) ((Unkstruct_8017E51C_4 *)temp_a0)->unk12 + temp_v0) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s = (s16) (((u16) ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s + temp_v0) & 0xFFF);
     if (temp_v0 == 0) {
         ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }
@@ -4703,9 +4703,9 @@ void func_8017E9C0(void *arg0) {
     s32 temp_v0;
     void *temp_a0;
 
-    temp_v0 = func_80012B04(((Unkstruct_8017E9C0_2 *)M2C_FIELD(arg0, void **, 0x20))->unk12, 0x800, 4);
+    temp_v0 = func_80012B04(((Unkstruct_8001C9D0 *)M2C_FIELD(arg0, void **, 0x20))->head.unk10.w.unk12.s, 0x800, 4);
     temp_a0 = ((Unkstruct_80126B58 *)arg0)->unk20.m;
-    ((Unkstruct_8017E9C0_2 *)temp_a0)->unk12 = (s16) (((u16) ((Unkstruct_8017E9C0_2 *)temp_a0)->unk12 + temp_v0) & 0xFFF);
+    ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s = (s16) (((u16) ((Unkstruct_8001C9D0 *)temp_a0)->head.unk10.w.unk12.s + temp_v0) & 0xFFF);
     if ((temp_v0 << 0x10) == 0) {
         ((Unkstruct_80126B58 *)arg0)->unk214.u = (u8) (((Unkstruct_80126B58 *)arg0)->unk214.u + 1);
     }

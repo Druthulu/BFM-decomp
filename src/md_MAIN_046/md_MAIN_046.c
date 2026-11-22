@@ -82,7 +82,7 @@ void func_800CCD50(void *a0) {
     s0 = (s32)a0;
     guess_SetAnimScript((s32 *)s0, (s32)&D_800CE010);
     v0 = ((Unkstruct_80126B58 *)s0)->unk20.val;
-    v1 = ((Unkstruct_800CCD50_2 *)v0)->unk12;
+    v1 = ((Unkstruct_8001C9D0 *)v0)->head.unk10.w.unk12.u;
     ((Unkstruct_80126B58 *)s0)->unk246.u = 0x200;
     ((Unkstruct_80126B58 *)s0)->unk244.u = v1;
     guess_ClearMoveVector(s0);

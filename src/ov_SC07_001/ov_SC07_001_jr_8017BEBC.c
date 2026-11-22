@@ -4455,11 +4455,11 @@ void func_80180A2C(void *a0) {
             switch (((Unkstruct_80180A2C *)a0)->unk70) {
             case 0:
                 v1 = ((Unkstruct_80180A2C *)a0)->unk20;
-                ((Unkstruct_80180A2C_2 *)v1)->unk14 = ((Unkstruct_80180A2C_2 *)v1)->unk14 + 0xA0;
+                ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk14.u = ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk14.u + 0xA0;
                 break;
             case 2:
                 v1 = ((Unkstruct_80180A2C *)a0)->unk20;
-                ((Unkstruct_80180A2C_2 *)v1)->unk10 = ((Unkstruct_80180A2C_2 *)v1)->unk10 + 0xA0;
+                ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk10.u = ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk10.u + 0xA0;
                 break;
             }
         }

@@ -3850,7 +3850,7 @@ s32 arg0;
         mask = ~0x80;
         t = ((Unkstruct_801202A0 *)arg0)->unk20.val;
         f = ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val;
-        v = ((Unkstruct_8017EAD8_5 *)t)->unk18;
+        v = ((Unkstruct_8001C9D0 *)t)->head.unk18.w.unk18.u;
         ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.val = f & mask;
         ((Unkstruct_801202A0 *)arg0)->extD.kSC03_107_8017D92C.unk100 = v;
     } else {

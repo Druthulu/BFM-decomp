@@ -5085,18 +5085,18 @@ void func_8017F214(s32 a0) {
     s0 = *(u8 **)(a0 + 0x20);
     KR_AS(void, func_8017F2BC)();
 
-    val16 = ((Unkstruct_8017F214 *)s0)->unk18;
+    val16 = ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u;
     val16 += 0x80;
-    ((Unkstruct_8017F214 *)s0)->unk18 = val16;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = val16;
 
     {
         s16 temp = (s16)val16;
         if (temp >= 0x4001) {
-            ((Unkstruct_8017F214 *)s0)->unk18 = 0x4000;
+            ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = 0x4000;
         }
     }
 
-    ((Unkstruct_8017F214 *)s0)->unk1A = ((Unkstruct_8017F214 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u;
 
     if (CAST_SIGN(s16, s0, 0x18) == 0x4000) {
         func_8017DCB8(0x5);
@@ -5169,13 +5169,13 @@ extern s32 func_8012AD50(void *a0);
 
 void func_8017F3D8(s32 *param_1) {
     s16 *s0 = (s16 *)param_1[8];
-    s16 v = ((Unkstruct_8017F3D8 *)s0)->unk18 + 0x400;
-    ((Unkstruct_8017F3D8 *)s0)->unk18 = v;
+    s16 v = ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u + 0x400;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = v;
     if (v > 0x2000) {
-        ((Unkstruct_8017F3D8 *)s0)->unk18 = 0x2000;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u = 0x2000;
         func_8012AD50((void *)param_1);
     }
-    ((Unkstruct_8017F3D8 *)s0)->unk1A = ((Unkstruct_8017F3D8 *)s0)->unk18;
+    ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)s0)->head.unk18.w.unk18.u;
 }
 
 

@@ -474,8 +474,8 @@ void func_800CB8A4(s32 a0) {
     ((Unkstruct_8011D030 *)a0)->unk1C.s = v;
     if (v != 0) {
         guess_SpawnSmallObject(0x41, (void *)a0, 0, 0, 0, 0x8000, 0);
-        ((Unkstruct_800CB8A4_2 *)s1)->unk18 = ((Unkstruct_800CB8A4_2 *)s1)->unk18 + 0x100;
-        ((Unkstruct_800CB8A4_2 *)s1)->unk1A = ((Unkstruct_800CB8A4_2 *)s1)->unk1A + 0x140;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u + 0x100;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u + 0x140;
         return;
     }
     ((Unkstruct_8011D030 *)a0)->unk1C.s = 0x20;
@@ -502,8 +502,8 @@ void func_800CB9C0(void *a0) {
     s32 *s1 = CAST_SIGN(s32 *, (s32)a0, 0x20);
     func_800CBAA4((s32)a0);
     if (--((Unkstruct_8011D030 *)a0)->unk1C.s != 0) {
-        ((Unkstruct_800CB8A4_2 *)s1)->unk18 -= 0x100;
-        ((Unkstruct_800CB8A4_2 *)s1)->unk1A -= 0x120;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk18.u -= 0x100;
+        ((Unkstruct_800B5BD8 *)s1)->head.unk18.w.unk1A.u -= 0x120;
     } else {
         ((void (*)(s32))guess_FreeSmallObject)((s32)a0);
     }

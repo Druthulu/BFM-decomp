@@ -6,6 +6,6 @@ void SHARED_FN(short *a0, short *a1) {
         dst[4] = a1[0];
         dst[5] = a1[1];
         dst[6] = a1[2];
-        ((Unkstruct_801803BC_2 *)dst)->unk4 = ((Unkstruct_801803BC_2 *)dst)->unk4 & 0x7FFFFFFF;
+        ((Unkstruct_800B5BD8 *)dst)->head.unk4.s = ((Unkstruct_800B5BD8 *)dst)->head.unk4.s & 0x7FFFFFFF;
     }
 }

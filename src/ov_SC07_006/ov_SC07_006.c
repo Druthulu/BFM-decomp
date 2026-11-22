@@ -1565,9 +1565,9 @@ void func_8012E364(s32 arg0_)
         u16 a = param_2;
         register u16 b __asm__("$17") = param_3;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
         if (((Unkstruct_8012E688 *)param_1)->unk20 != 0) {
-            f.v[0] = (short)((Unkstruct_80136A94 *)*(s32 *)(param_1 + 0x20))->unk48;
-            f.v[1] = (short)((Unkstruct_80136A94 *)*(s32 *)(param_1 + 0x20))->unk4C;
-            f.v[2] = (short)((Unkstruct_80136A94 *)*(s32 *)(param_1 + 0x20))->unk50;
+            f.v[0] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk48;
+            f.v[1] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk4C;
+            f.v[2] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk50;
             p = &guess_g_CameraWsMatrix;
             SetRotMatrix(p);
             SetTransMatrix(&guess_g_CameraWsMatrix);

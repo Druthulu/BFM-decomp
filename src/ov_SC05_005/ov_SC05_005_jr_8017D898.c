@@ -4359,14 +4359,14 @@ void func_80181224(void *a0) {
         ((Unkstruct_801202A0 *)a0)->unk44.w.unk48 = 0xC000;
         ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
     } else {
-        u16 m18 = ((Unkstruct_80181224 *)a1)->unk18;
-        u16 t1a = ((Unkstruct_80181224 *)a1)->unk1A;
+        u16 m18 = ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u;
+        u16 t1a = ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u;
 
-        ((Unkstruct_80181224 *)a1)->unk18 = m18 + 0x40;
-        ((Unkstruct_80181224 *)a1)->unk1A = t1a + 0x40;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u = m18 + 0x40;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u = t1a + 0x40;
         if (CAST_SIGN(s16, (u8 *)a1, 0x18) >= 0x1801 || (s16)(t1a + 0x40) >= 0x1801) {
-            ((Unkstruct_80181224 *)a1)->unk1A = 0x1800;
-            ((Unkstruct_80181224 *)a1)->unk18 = 0x1800;
+            ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u = 0x1800;
+            ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u = 0x1800;
         }
 
         a1 = ((Unkstruct_801202A0 *)a0)->unk64;
@@ -4726,14 +4726,14 @@ void func_801819C0(s32 arg0) {
     VECTOR v;
 
     p = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
-    ((Unkstruct_801819C0 *)p)->unk20 = (s32)&D_801A62DC;
-    ((Unkstruct_801819C0 *)p)->unk27 = 0x52;
-    ((Unkstruct_801819C0 *)p)->unk28 = 0x2D0;
-    ((Unkstruct_801819C0 *)p)->unk2A = 0x100;
+    ((Unkstruct_801819C0 *)p)->head.unk20.s = (s32)&D_801A62DC;
+    ((Unkstruct_801819C0 *)p)->head.unk24.b.unk27.u = 0x52;
+    ((Unkstruct_801819C0 *)p)->head.unk28.w.unk28.u = 0x2D0;
+    ((Unkstruct_801819C0 *)p)->head.unk28.w.unk2A.u = 0x100;
 
     tmp = rand() % 0x1000 + 0x800;
-    ((Unkstruct_801819C0 *)p)->unk1A = tmp;
-    ((Unkstruct_801819C0 *)p)->unk18 = tmp;
+    ((Unkstruct_801819C0 *)p)->head.unk18.w.unk1A.u = tmp;
+    ((Unkstruct_801819C0 *)p)->head.unk18.w.unk18.u = tmp;
 
     t2 = rand();
     rem128 = t2 % 128;

@@ -272,7 +272,7 @@ s32 func_800CB3D8(s32 arg0, s32 arg1) {
 
     ptr = CAST_SIGN(u8 *, arg0, 0x20);
     guess_CopyVec3HighHalves(arg0 + 4, out1);
-    st = *(MATRIX *)((Unkstruct_800CB190 *)ptr)->unk34;
+    st = *((Unkstruct_800B5BD8 *)ptr)->unk34.mat;
     st.t[0] = 0;
     st.t[1] = 0;
     st.t[2] = 0;
@@ -393,9 +393,9 @@ extern s32 guess_FreeSmallObject(u8 *a0);
 
 void func_800CB720(void *arg0) {
     u8 *p = *(u8 **)((u8 *)arg0 + 0x20);
-    s16 x = ((Unkstruct_800CB720 *)p)->unk1A - 0x300;
-    ((Unkstruct_800CB720 *)p)->unk1A = x;
-    ((Unkstruct_800CB720 *)p)->unk18 = x;
+    s16 x = ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u - 0x300;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = x;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = x;
     if (x < 0) {
         ((void (*)(void *))guess_FreeSmallObject)(arg0);
     }

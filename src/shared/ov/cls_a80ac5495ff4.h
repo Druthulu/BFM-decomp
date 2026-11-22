@@ -5,6 +5,6 @@
  * rank 4 src/ov_SC03_091/ov_SC03_091_jr_8018326C.c:4487 rejected by type_census --check */
 void SHARED_FN(s32 arg0) {
         if (arg0 != 0) {
-            ((Unkstruct_8018026C *)arg0)->unk4 &= 0x7FFFFFFF;
+            ((Unkstruct_800B5BD8 *)arg0)->head.unk4.s &= 0x7FFFFFFF;
         }
     }

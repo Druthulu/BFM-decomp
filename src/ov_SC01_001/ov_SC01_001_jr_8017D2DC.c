@@ -6276,14 +6276,14 @@ s32 func_80182284(void) {
                 D_801F2A56[off2] = 0;
                 guess_BuildCircle12Points(p, *(u16 *)ct2);
                 n = D_801F3044;
-                ((Obj_80182284 *)*en)->unk8 = *(u16 *)(D_80188B74 + n * 8);
-                ((Obj_80182284 *)*en)->unkA = *(u16 *)(D_80188B76 + n * 8);
-                ((Obj_80182284 *)*en)->unkC = *(u16 *)(D_80188B78 + n * 8);
+                ((Unkstruct_800B5BD8 *)*en)->head.unk8.u = *(u16 *)(D_80188B74 + n * 8);
+                ((Unkstruct_800B5BD8 *)*en)->head.unkA.u = *(u16 *)(D_80188B76 + n * 8);
+                ((Unkstruct_800B5BD8 *)*en)->head.unkC.u = *(u16 *)(D_80188B78 + n * 8);
                 D_801F3044 = n + 1;
                 {
                     /* $3 pin: without it local-alloc hands $v1 to the 0x50000040 constant and
                        $a0 to this pointer — the exact inverse of the target (closeness 6). */
-                    do { ((Obj_80182284 *)*en)->unk4 |= 0x50000040; } while (0);
+                    do { ((Unkstruct_800B5BD8 *)*en)->head.unk4.u |= 0x50000040; } while (0);
                 }
                 break;
             }

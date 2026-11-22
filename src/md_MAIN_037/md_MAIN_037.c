@@ -238,9 +238,9 @@ extern void guess_FreeObjectAndSubObject_4(void);
 
 void func_800CB30C(u8 *a0) {
     u8 *p = *(u8 **)(a0 + 0x20);
-    s16 v = ((Unkstruct_800CB30C *)p)->unk1A - 0x300;
-    ((Unkstruct_800CB30C *)p)->unk1A = v;
-    ((Unkstruct_800CB30C *)p)->unk18 = v;
+    s16 v = ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u - 0x300;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = v;
+    ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = v;
     if (v < 0) {
         ((void (*)(s32))guess_FreeObjectAndSubObject_4)(a0);
     }

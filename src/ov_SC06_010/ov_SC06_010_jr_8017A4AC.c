@@ -5338,9 +5338,9 @@ void func_8017F10C(s32 a0, s32 a1)
      * parameter copy, so the scheduler places `move s2,a1` next to the first call. */
     u16 sid = a1;
 
-    L.v[0] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk48;
-    L.v[1] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk4C;
-    L.v[2] = ((Unkstruct_80136A94 *)*(s32 *)(a0 + 0x20))->unk50;
+    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
+    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
+    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
     SetRotMatrix(&guess_g_CameraWsMatrix);
     SetTransMatrix(&guess_g_CameraWsMatrix);
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);

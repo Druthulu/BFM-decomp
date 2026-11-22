@@ -3526,9 +3526,9 @@ void func_8017FA00(s32 param_1) {
         ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = 0;
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = 0;
         func_80132784(s0, ((Unkstruct_801202A0 *)s0)->unk64, CAST_SIGN(u16, s0, 0x70));
-        ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk48;
-        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk4C;
-        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_80136A94 *)*(s32 *)(s0 + 0x20))->unk50;
+        ((Unkstruct_801202A0 *)s0)->unk4.i.hi.s = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk48;
+        ((Unkstruct_801202A0 *)s0)->unk8.i.hi.s = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk4C;
+        ((Unkstruct_801202A0 *)s0)->unkC.i.hi.s = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk50;
         if (*(s16 *)((s32)((Unkstruct_801202A0 *)s0)->unk64 + 0x108) != 0) {
             ((void (*)(void *))func_8017EF54)(s0);
         }

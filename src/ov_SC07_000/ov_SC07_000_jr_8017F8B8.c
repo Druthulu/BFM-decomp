@@ -2870,10 +2870,10 @@ void func_8017F9B4(void *arg0) {
     *(CVECTOR *)D_801D0620 = *(CVECTOR *)D_801865A8;
     D_801D0624[0] = aD_801CE7A4[0];
 
-    ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)s1 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)s1 + 0x20))->unk18 = 0x800;
-    ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)s1 + 0x20))->unk1A = 0x800;
-    ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)s1 + 0x20))->unk2C = 0xC040;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->head.unk4.u |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->head.unk18.w.unk18.u = 0x800;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->head.unk18.w.unk1A.u = 0x800;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)s1 + 0x20))->head.unk2C.u = 0xC040;
 
     ((Unkstruct_8011DB30 *)s1)->unk1C.s = 4;
     ((Unkstruct_8011DB30 *)s1)->unk2C.i.lo.u = 0;
@@ -2938,10 +2938,10 @@ void func_8017FBE8(void *arg0) {
         guess_BuildCircle12Points(s0, 0x80);
         *(CVECTOR *)s0 = D_801CE7A4[0];
         *(CVECTOR *)(s0 + 4) = D_801CE7A4[0];
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk4 |= 0x60000000;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk18 = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk1A = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C = 0xC040;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk4.u |= 0x60000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk18.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk2C.u = 0xC040;
         ((Unkstruct_8011DB30 *)arg0)->unk2C.i.hi.u = 1;
         ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 2;
         ((Unkstruct_8011DB30 *)arg0)->unk2.u = 1;
@@ -2951,10 +2951,10 @@ void func_8017FBE8(void *arg0) {
         guess_BuildCircle12Points(s0, 0x40);
         *(CVECTOR *)s0 = D_801CE7A4[0];
         *(CVECTOR *)(s0 + 4) = D_801CE7A4[0];
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk4 |= 0x50000000;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk18 = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk1A = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C = 0xC040;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk4.u |= 0x50000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk18.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk2C.u = 0xC040;
         ((Unkstruct_8011DB30 *)arg0)->unk2.u = 3;
         break;
     case 2:
@@ -2962,10 +2962,10 @@ void func_8017FBE8(void *arg0) {
         guess_BuildCircle12Points(s0, 0x80);
         *(CVECTOR *)s0 = D_801CE7A4[0];
         *(CVECTOR *)(s0 + 4) = ((CVECTOR *)&D_801865C0)[0];
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk4 |= 0x50000000;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk18 = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk1A = 0;
-        ((Unkstruct_801AC8B8_2 *)*(s32 *)((u8 *)arg0 + 0x20))->unk2C = 0xC040;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk4.u |= 0x50000000;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk18.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk18.w.unk1A.u = 0;
+        ((Unkstruct_800B5BD8 *)*(s32 *)((u8 *)arg0 + 0x20))->head.unk2C.u = 0xC040;
         ((Unkstruct_8011DB30 *)arg0)->unk2.u = 4;
         break;
     }
