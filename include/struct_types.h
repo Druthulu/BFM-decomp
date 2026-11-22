@@ -797,14 +797,6 @@ typedef struct {
 typedef Unkstruct_8017FA5C E_13C08C;
 typedef E_3B7AC_8013B7AC Ent_8013B6A0;
 typedef struct {
-    /* 0x0000 */ union {
-        struct { s32 a; } v0;
-        struct { u32 *unk0; } v1;
-    } unk0;
-    /* 0x0004 */ s32 b[4];
-} OtBlk_80180894; /* size = 0x14 */
-typedef OtBlk_80180894 Env_800D29F8;
-typedef struct {
         u8  pad0[3];
         u8  code;
         s32 f4;
@@ -879,10 +871,6 @@ typedef CVECTOR Col4_8017F8BC;
 typedef Col4_8017F8BC CVEC;
 typedef Col4_8017F8BC CVecX;
 typedef Unkstruct_801343C4 D24D0_Rect;
-typedef OtBlk_80180894 Env_801E46A0;
-typedef OtBlk_80180894 Env_801E9BE0;
-typedef OtBlk_80180894 Env_801EFA40;
-typedef OtBlk_80180894 Env_801F1520;
 typedef struct { u32 tag; u32 rgb; u32 xy0, xy1, xy2; } F3_27058_t;
 typedef struct {
     u8  addr[3];
@@ -1164,7 +1152,6 @@ typedef struct { s16 m[3][3]; s16 t[3]; s16 pad[4]; } Mtx_A8CE0 __attribute__((a
 typedef struct { s32 next; u8 pad[0xC]; } Node_801F28E0;
 typedef Node_801F28E0 Node_801E5AAC;
 typedef Node_801F28E0 Node_801F0E9C;
-typedef OtBlk_80180894 OtBlk_8018A974_801AADA8;
 typedef PrimTag PTag293C;
 typedef PrimTag PTag_800CF3E8;
 typedef P_TAG PTag_801AEC38;
@@ -1787,8 +1774,6 @@ typedef struct {
     /* 0x0028 */ s32 unk28;
 } Dst; /* size = 0x2c */
 typedef struct { u8 pad[4]; PTag *ot; } Env;
-typedef OtBlk_80180894 Env_800D2650;
-typedef OtBlk_80180894 Env_800D27DC;
 typedef struct F1ccRec {
     u8 pad[0x0E];
     u8 flg[8];
@@ -2133,8 +2118,6 @@ typedef struct Ent30D80 {
     /* 0x0051 */ u8 unk51;
     /* 0x0052 */ u8 pad52[0x2];
 } Ent30D80; /* size = 0x54 */
-typedef OtBlk_80180894 OtBlk_80016450;
-typedef OtBlk_80180894 OtBlk_80016450_80015F04;
 typedef struct {
     u32 tag;
     u8  r0, g0, b0, code;
@@ -3272,7 +3255,9 @@ typedef struct {
     /* 0x0198 */ s32 unk198;
     /* 0x019c */ u16 unk19C;
     /* 0x019e */ u16 unk19E;
-    /* 0x01a0 */ u8 pad1A0[0xa208];
+    /* 0x01a0 */ u8 pad1A0[0x9c08];
+    /* 0x9da8 */ Obj_80015760 rec9DA8[64]; /* T20.c16: tagged 0x10 entries walked by func_80015498 (1 -> func_80015608, 2 -> func_80015760) */
+    /* 0xa1a8 */ u8 padA1A8[0x200];
     /* 0xa3a8 */ u16 unkA3A8;
     /* 0xa3aa */ u16 unkA3AA;
     /* 0xa3ac */ u16 unkA3AC;

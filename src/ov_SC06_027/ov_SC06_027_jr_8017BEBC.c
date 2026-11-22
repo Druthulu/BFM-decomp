@@ -2933,7 +2933,7 @@ extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
  * the raw-word `extern s32 D_800A651C;` + &-arithmetic spelling costs the %lo fold
  * (lui $at/addu/lw %lo -> la + addu + lw) inside a loop. */
 
-extern OtBlk_8017D3A0 D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
 /*
  * func_8017D3A0 -- allocate a 0x30-byte prim pair, tint it from a0->field_0x1C, and
@@ -2983,7 +2983,7 @@ void func_8017D3A0(s32 a0)
     s32 tp;
     register s32 c1 __asm__("$3");  // !FAKE: pin $3 — NEEDED DIFFERS (P36 rung B tus10) wall:lreg-priority
 
-    ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a;
+    ot = ((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org);
 
     p = (u8 *)func_80010A08(0x30);
     if (p != 0) {

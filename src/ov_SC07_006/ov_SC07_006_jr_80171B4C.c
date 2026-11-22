@@ -3924,7 +3924,7 @@ extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 
    /* size 0x14 */
     /* size 0x0C */
-extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 extern VECTOR guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
 
 #include "../shared/ov/func_801759D8.h"

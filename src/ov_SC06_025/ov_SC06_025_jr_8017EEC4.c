@@ -2735,7 +2735,7 @@ extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_8005A600(s32, s32, s32, s32, s32);
 extern s32 func_80010A08(s32);
 extern s32 AddPrim(s32, void *);
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 extern void func_8017E4E0(void *a0);
 extern void guess_FreeActor(void *a0);
 extern void func_8017E648(void *a0);
@@ -3043,7 +3043,7 @@ extern s32 GetClut(s32, s32);
 extern u16 GetTPage(s32, s32, s32, s32);
 extern s32 func_801823D4(s32, s32);
 extern s32 AddPrim(s32, void *);
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_8017F424(s16 *param_1)
@@ -3082,7 +3082,7 @@ void func_8017F424(s16 *param_1)
     LOW(((POLY_FT4 *)p)->x3) = ((Quad_8017EF94 *)s)->v[3].w32;
 
     otz = func_801823D4(((Quad_8017EF94 *)s)->unk1C, -0x1A);
-    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, p);
+    AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, p);
 }
 
 
@@ -3168,7 +3168,7 @@ extern s32 RotTransPers(s32, s32, s32 *, s32 *);
 extern s32 func_801823D4(s32, s32);
 extern s32 AddPrim(s32, void *);
 extern void func_8012E28C(s32, s32);
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
 void func_8017F788(void* param_1, void* param_2, s32 param_3)
@@ -3188,7 +3188,7 @@ void func_8017F788(void* param_1, void* param_2, s32 param_3)
     if (otz > 0 && flag >= 0) {
         if (RotTransPers(param_2, (s32)&obj->xy1, &p, &flag) > 0 && flag >= 0) {
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, obj);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, obj);
             func_8012E28C(otz, 1);
         }
     }
@@ -3330,7 +3330,7 @@ void func_8017F9D8(s32 param_1) {
  * array-of-struct form is load-bearing: the raw-word `extern s32 D_800A651C;` + &-arithmetic
  * spelling costs the %lo fold (lui $at/addu/lw %lo -> la + addu + lw) inside a loop. */
 
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
 extern s32 func_80010A08(s32);
 extern s32 RotTransPers(s32, s32, s32 *, s32 *);
@@ -3384,7 +3384,7 @@ void func_8017FB50(s32 arg0, s32 arg1)
 
     idx = func_801823D4(tmp, -0x1A);
 
-    AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + idx * 4, obj);
+    AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + idx * 4, obj);
 }
 
 
@@ -4702,7 +4702,7 @@ void func_801817A8(void)
  * this same TU) so the merged TU ends with one declaration of the symbol. */
 
 
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern s32 func_80010A08(s32);
 extern void func_8012E32C(void);
@@ -4761,7 +4761,7 @@ void func_801818D8(u16 *pv, s32 arg1, s32 n, s32 col) {
             RotTransPers((s32)&sv[2], (s32)&q->xy2, &p, &flag);
             RotTransPers((s32)&sv[3], (s32)&q->xy3, &p, &flag);
             otz = func_801823D4(otz, -0x1A);
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, q);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, q);
             func_8012E28C(otz, 1);
         }
     }
@@ -4885,7 +4885,7 @@ void func_80181CA4(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a
  * array-of-struct form is load-bearing: the raw-word `extern s32 D_800A651C;` + &-arithmetic
  * spelling costs the %lo fold (lui $at/addu/lw %lo -> la + addu + lw) inside a loop. */
 
-extern OtBlk D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
 
 /* ov_SC06_025 : func_80181E08   (162 ins, byte-exact)
@@ -4966,7 +4966,7 @@ void func_80181E08(s32 arg0) {
         } while (0);  // !FAKE: do-while
         __asm__("" : "=r"(otz) : "0"(otz));  // !FAKE: launder — pass: 3.40 T11 crack G23; instrument: delever_search --try partial (29 tries) wall:combine-copy-merge
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, q);
+        AddPrim(((s32)aOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org) + otz * 4, q);
         func_8012E28C(otz, zpush);
         i++;
         pa++;
@@ -4987,7 +4987,7 @@ void func_80181E08(s32 arg0) {
         RotTransPers((s32)&pa[(i + 1) % 12], (s32)&t->f10, &p, &flag);
         RotTransPers(arg0 + 0xF4, (s32)&t->f18, &p, &flag);
         otz = func_801823D4(otz, -0x1A);
-        AddPrim(D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, t);
+        AddPrim(((s32)aOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org) + otz * 4, t);
         func_8012E28C(otz, zpush);
     }
 }

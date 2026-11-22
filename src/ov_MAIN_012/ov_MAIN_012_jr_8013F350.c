@@ -1653,7 +1653,7 @@ s16 n;
     extern s16 D_8017F710[];
     extern u16 D_8017F220;
     extern u16 D_8017F222;
-  extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+  extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -1750,11 +1750,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (LOWU(aFrontOrderingTables[*pb].org[2]) & m24);
             {
 u32 *op;
 u32 w;
-              op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
+              op = ((u32 *)aFrontOrderingTables[*pb].org);
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -2860,7 +2860,7 @@ extern s32 AddPrim(s32, void *);
 
 void func_80144090(s32 param_1) {
 
-    extern OtBlk aD800A651C_80144090[] __asm__("D_800A651C");
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     void *iVar1;
@@ -2912,7 +2912,7 @@ void func_80144090(s32 param_1) {
             *(s16 *)((u8 *)iVar1 + 0x12) = L.sxy[1] + ((iVar4 + (iVar3 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xc) = L.sxy[0] + ((iVar3 - (iVar4 >> 6)) >> 0xc);
             *(s16 *)((u8 *)iVar1 + 0xe) = L.sxy[1] + ((iVar4 - (iVar3 >> 6)) >> 0xc);
-            AddPrim(aD800A651C_80144090[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (iVar2 * 4), iVar1);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + (iVar2 * 4), iVar1);
             iVar1 = (u8 *)iVar1 + 0x14;
         } while (iVar6 < 0x1000);
     }

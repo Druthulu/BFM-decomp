@@ -3,7 +3,7 @@ s32 func_801759D8(void)
 {
     extern u8 D_8011F7B1;
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern S_AE7BC_801759D8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern S_AF634_801759D8 guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
     extern u8 guess_g_HudState; // Names ledger: config/names.tsv guess_g_HudState
     u8 *p = (u8 *)&guess_g_HudState;
@@ -15,7 +15,7 @@ s32 func_801759D8(void)
         return;
     }
     sq = (S2_800B9A02 *)&guess_g_DoubleBufferIndex;
-    ptr = guess_g_FrontOrderingTablesOrg[sq->h].unk0.v1.unk0;
+    ptr = ((u32 *)aFrontOrderingTables[sq->h].org);
     old = ptr[1];
     ptr[1] = (old & 0xff000000) | (*(u32 *)(p + sq->h * 4 + 0x40) & 0xffffff);
     p2 = *(u32 **)(p + sq->h * 4 + 0x38);

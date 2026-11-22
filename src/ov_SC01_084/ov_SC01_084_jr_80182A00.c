@@ -1116,7 +1116,7 @@ extern void SetPolyFT4(void *a0);
 extern s32  AddPrim(s32 a0, void *a1);
 
 void func_80183DA4(SVec_80183DA4 *arg0) {
-    extern OtBlk_80183DA4 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     SVec_80183DA4 tmp;      /* 0x10 */
     SVec_80183DA4 vec;      /* 0x18 */
@@ -1168,7 +1168,7 @@ void func_80183DA4(SVec_80183DA4 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
+        ot = ((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)((DVECTOR *)&sxy0)->vy < 120) {
             if ((s16)((DVECTOR *)&sxy1)->vy < -119) {
@@ -1270,7 +1270,7 @@ extern s32  AddPrim(s32 a0, void *a1);
 void func_80184138(SVec_80184138 *arg0) {
 
     extern s32 D_801C74DC;
-    extern OtBlk_80184138 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     SVec_80184138 tmp;      /* 0x10 */
     SVec_80184138 vec;      /* 0x18 */
@@ -1322,7 +1322,7 @@ void func_80184138(SVec_80184138 *arg0) {
         if (flag < 0) {
             return;
         }
-        ot = D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4;
+        ot = ((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4;
         w = (d << 3) / (otz * 4);
         if ((s16)(u16)((DVec_80184138 *)&sxy0)->vy < 120) {
             if ((s16)(u16)((DVec_80184138 *)&sxy1)->vy < -119) {

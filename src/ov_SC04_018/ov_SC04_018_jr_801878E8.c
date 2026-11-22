@@ -3690,8 +3690,8 @@ s32 func_80188428(void) {
 
 void func_80188778(void) {
     extern u16   aD800B9A02 __asm__("guess_g_DoubleBufferIndex");  /* §37: the unsigned-access alias */ // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern Env_S40_8018B238_80188778    guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
-    extern Env_S40_8018B238_80188778    guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT    guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern struct { s32 v; }   guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
     extern Panel_S40_8018B238_80188778 *D_80115134;
     extern s16                 D_801E7794;
@@ -3725,7 +3725,7 @@ void func_80188778(void) {
         ot = (s32 *)func_800D27DC(2, ot, D_801B8AA0, 1, 0);
     }
 
-    ot = (s32 *)func_8013AB54((s32)ot, (s32)(guess_g_FrontOrderingTablesOrg[aD800B9A02].unk0.v1.unk0 + 2),
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(((u32 *)aFrontOrderingTables[aD800B9A02].org) + 2),
                               (s32)D_801B9408, 0);
 
     if (D_80115126 == 3) {
@@ -3758,8 +3758,8 @@ void func_80188778(void) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
     ((W_S40_8018B238_80188778 *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238_80188778 *)ot)->b.addr =
-        ((PTag_S40_8018B238_80188778 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr;
-    ((PTag_S40_8018B238_80188778 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr = (u32)ot;
+        ((PTag_S40_8018B238_80188778 *)(((u32 *)aFrontOrderingTables[*pbh].org) + 2))->b.addr;
+    ((PTag_S40_8018B238_80188778 *)(((u32 *)aFrontOrderingTables[*pbh].org) + 2))->b.addr = (u32)ot;
     ot += 10;
     guess_g_MenuPacketPtr.v = (s32)ot;
 }

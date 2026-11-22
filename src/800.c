@@ -1084,7 +1084,7 @@ extern u8 D_800A6524[];
 
 void func_800143AC(void)
 {
-    extern OtBlk_80016450 D_800A651C[];
+    extern u8 D_800A651C[];   /* GsOT org words of guess_g_OrderingTables[2] (+4), written raw beside D_800A6520/D_800A6524 */
     s32 ptr;
     s32 i;
     s32 idx;
@@ -1970,7 +1970,7 @@ extern void func_80015760(Obj_80015760 *obj, s32 *ot);
 
 void func_80015498(void)
 {
-    extern OtBlk_80016450 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     u8 *base;
     u32 *ot;
     u8 *entry;
@@ -1982,7 +1982,7 @@ void func_80015498(void)
     register u32 maskLo __asm__("$5");  // !FAKE: pin $5 — NEEDED DIFFERS (P36 rung B tus9) wall:sched1-hoist-sink
 
     base = guess_g_RenderWork;
-    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
+    ot = (u32 *)aOrderingTables[guess_g_DoubleBufferIndex].org;
 
     if (D_800B9A11 != 1) {
         entry = base + 0x9DA8;
@@ -2506,7 +2506,7 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
-    extern OtBlk_80016450 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
     void *temp_v0;
     s16 vx;
     s16 vy;
@@ -2538,9 +2538,9 @@ void func_80015D4C(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
 
     depth4 = arg7 * 4;
     *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
-        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & 0xFFFFFF);
-    *(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) =
-        (*(u32 *)(depth4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & 0xFF000000) |
+        (*(u32 *)(depth4 + ((s32)aOrderingTables[guess_g_DoubleBufferIndex].org)) & 0xFFFFFF);
+    *(u32 *)(depth4 + ((s32)aOrderingTables[guess_g_DoubleBufferIndex].org)) =
+        (*(u32 *)(depth4 + ((s32)aOrderingTables[guess_g_DoubleBufferIndex].org)) & 0xFF000000) |
         ((u32)temp_v0 & 0xFFFFFF);
     if (arg8 < 4) {
         func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], arg7, arg8);
@@ -2721,7 +2721,7 @@ extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_Or
 
 void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u16 arg7, u16 arg8)
 {
-    extern OtBlk_80016450_80015F04 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
     DVECTOR pts[4];
     LineF2_80015F04 *p;
     u8 *base;
@@ -2793,8 +2793,8 @@ void func_80015F04(s32 a0, s32 a1, s32 a2, s32 a3, u8 arg4, u8 arg5, u8 arg6, u1
         m24 = 0x00FFFFFF;
         mFF = 0xFF000000;
         *(u32 *)p = (*(u32 *)p & mFF) |
-                    (*(u32 *)(i4 + D_800A651C[((Unkstruct_8012956C *)base)->unkA3D2].unk0.v0.a) & m24);
-        ob = D_800A651C[((Unkstruct_8012956C *)base)->unkA3D2].unk0.v0.a;
+                    (*(u32 *)(i4 + ((s32)aOrderingTables[((Unkstruct_8012956C *)base)->unkA3D2].org)) & m24);
+        ob = ((s32)aOrderingTables[((Unkstruct_8012956C *)base)->unkA3D2].org);
         otp = (u32 *)(i4 + ob);
         *otp = (*otp & mFF) | ((u32)p & m24);
         p++;
@@ -2829,7 +2829,7 @@ extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_Or
 
 void func_80016110(void)
 {
-    extern OtBlk_80016450 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar in their own bodies */
     void *p;
     u32 *ot;
     u32 m24;
@@ -2847,8 +2847,8 @@ void func_80016110(void)
     *(s16 *)((u8 *)p + 0x12) = *(s16 *)((u8 *)p + 0x16) = 120;
 
     pv = *(u32 *)p;
-    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a & m24);
-    ot = (u32 *)D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
+    *(u32 *)p = (pv & 0xFF000000) | (*(u32 *)aOrderingTables[guess_g_DoubleBufferIndex].org & m24);
+    ot = (u32 *)aOrderingTables[guess_g_DoubleBufferIndex].org;
     *ot = (*ot & 0xFF000000) | ((u32)p & m24);
     func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], 0, 0);
 }
@@ -3013,12 +3013,12 @@ extern void func_80016638(void *a0, s32 a1, s32 a2);
 
 extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
-extern OtBlk_80016450 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 extern u8 guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
 void func_80016450(s32 a0, s32 a1)
 {
-    extern OtBlk_80016450 D_800A651C[];   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar inside their own bodies */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* block scope: engine_core.h's DEFINE_ macros declare this symbol scalar inside their own bodies */
     F4_80016450 *p;
     u32 *ot;
     s32 idx;
@@ -3040,9 +3040,9 @@ void func_80016450(s32 a0, s32 a1)
         u32 pv;
         pv = *(u32 *)p;
         pv &= mFF;
-        pv |= *(u32 *)(i4 + D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a) & m24;
+        pv |= *(u32 *)(i4 + ((s32)aOrderingTables[guess_g_DoubleBufferIndex].org)) & m24;
         *(u32 *)p = pv;
-        i4 += D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a;
+        i4 += ((s32)aOrderingTables[guess_g_DoubleBufferIndex].org);
         *(u32 *)i4 = (*(u32 *)i4 & mFF) | ((u32)p & m24);
         func_80016638(&guess_g_OrderingTables[guess_g_DoubleBufferIndex * 20], idx, 1);
     } else {
@@ -3050,9 +3050,9 @@ void func_80016450(s32 a0, s32 a1)
         u32 pv;
         pv = *(u32 *)p;
         pv &= 0xFF000000;
-        pv |= *(u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].unk0.v0.a & m24;
+        pv |= *(u32 *)aFrontOrderingTables[guess_g_DoubleBufferIndex].org & m24;
         *(u32 *)p = pv;
-        ot = (u32 *)guess_g_FrontOrderingTablesOrg[guess_g_DoubleBufferIndex].unk0.v0.a;
+        ot = (u32 *)aFrontOrderingTables[guess_g_DoubleBufferIndex].org;
         *ot = (*ot & 0xFF000000) | ((u32)p & m24);
         func_80016638(&guess_g_FrontOrderingTables[guess_g_DoubleBufferIndex * 20], 0, 1);
     }
@@ -4208,7 +4208,7 @@ extern u8 guess_g_RenderWork[]; // Names ledger: config/names.tsv guess_g_Render
 
 void func_80017B98(void *arg0)
 {
-    extern OtBlk_80016450 D_800A651C[];   /* block scope: matches func_80015D4C / func_80016450 in this TU */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* block scope: matches func_80015D4C / func_80016450 in this TU */
     Src_80017B98 *s = (Src_80017B98 *)arg0;
     u8 *prim;
     Sprt_80017B98 *sp;
@@ -4256,8 +4256,8 @@ void func_80017B98(void *arg0)
     d4 = d4 * 4;
     pv = *(u32 *)prim;
     *(u32 *)prim = (pv & mFF) |
-        (*(u32 *)(d4 + D_800A651C[((Unkstruct_8012956C *)pbase)->unkA3D2].unk0.v0.a) & m24);
-    d4 += D_800A651C[((Unkstruct_8012956C *)pbase)->unkA3D2].unk0.v0.a;
+        (*(u32 *)(d4 + ((s32)aOrderingTables[((Unkstruct_8012956C *)pbase)->unkA3D2].org)) & m24);
+    d4 += ((s32)aOrderingTables[((Unkstruct_8012956C *)pbase)->unkA3D2].org);
     *(u32 *)d4 = (*(u32 *)d4 & mFF) | ((u32)prim & m24);
 }
 
@@ -4376,7 +4376,7 @@ extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_
 
 void func_80018094(void *a0, s32 a1, u32 a2_p) {
     s32 a2 = (s32)a2_p;
-    extern OtBlk_80016450 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     void *p2;
     s32 sz;
     s32 tp;
@@ -4386,14 +4386,14 @@ void func_80018094(void *a0, s32 a1, u32 a2_p) {
         sz = 0xFFF;
     }
 
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, a0);
+    AddPrim(((s32)aOrderingTables[guess_g_DoubleBufferIndex].org) + sz * 4, a0);
 
     if (a2 & 0x40000000) {
         *(u8 *)((u8 *)a0 + 7) = *(u8 *)((u8 *)a0 + 7) | 2;
         p2 = func_80010A08(0xC);
         tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
         func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-        AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
+        AddPrim(((s32)aOrderingTables[guess_g_DoubleBufferIndex].org) + sz * 4, p2);
     }
 }
 
@@ -4426,7 +4426,7 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     extern u16 GetTPage(s32, s32, s32, s32);
     extern s32 func_8005A600(s32, s32, s32, s32, s32);
     extern u16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern OtBlk_80016450 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     void *p2;
     s32 sz;
@@ -4443,14 +4443,14 @@ void func_8001820C(void *a0, s32 a1, u32 a2)
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 0, (u16)tp, 0);
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
+    AddPrim(((s32)aOrderingTables[guess_g_DoubleBufferIndex].org) + sz * 4, p2);
 
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, a0);
+    AddPrim(((s32)aOrderingTables[guess_g_DoubleBufferIndex].org) + sz * 4, a0);
 
     p2 = func_80010A08(0xC);
     tp = GetTPage(2, ((u32)a2 >> 28) & 3, 0x280, 0);
     func_8005A600((s32)p2, 0, 1, (u16)tp, 0);
-    AddPrim(D_800A651C[guess_g_DoubleBufferIndex].unk0.v0.a + sz * 4, p2);
+    AddPrim(((s32)aOrderingTables[guess_g_DoubleBufferIndex].org) + sz * 4, p2);
 }
 
 extern u32 D_800AE610;

@@ -6397,7 +6397,7 @@ extern s32 func_80010A08(s32);
 
 void func_80181A60(SVec_80181A60 *v)
 {
-    extern OtBlk_80181A60 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     LineF2_80181A60 *p;
     u8 *mx;
     u32 m24;
@@ -6433,8 +6433,8 @@ void func_80181A60(SVec_80181A60 *v)
             tag0 = *(u32 *)p;
             tag0 = tag0 & mFF;
             sh = otz * 4;
-            *(u32 *)p = tag0 | (*(u32 *)(sh + D_800A651C[ix].unk0.v0.a) & m24);
-            sh = sh + D_800A651C[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v0.a;
+            *(u32 *)p = tag0 | (*(u32 *)(sh + ((s32)aOrderingTables[ix].org)) & m24);
+            sh = sh + ((s32)aOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org);
             *(u32 *)sh = (*(u32 *)sh & mFF) | ((u32)p & m24);
         }
     }

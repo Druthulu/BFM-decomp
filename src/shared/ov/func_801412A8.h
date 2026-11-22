@@ -11,7 +11,7 @@ Blk16_8018A8B8 * guess_DrawGaugeBar(out, a1, a2, a3, a4, a5)
     u16 a4;
     u16 a5;
 {
-    extern Env_1412A8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u16 guess_g_MenuFrameCounter; // Names ledger: config/names.tsv guess_g_MenuFrameCounter
     Blk16_8018A8B8 *p = out;

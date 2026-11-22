@@ -3207,7 +3207,7 @@ extern void func_80176218(s32 a0);
 extern void func_80176D00(s32 a0);
 extern void func_801757E0(s32 a0);
 extern u8 D_8011F7B1;
-extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 extern VECTOR guess_g_PacketBufferUsed[]; // Names ledger: config/names.tsv guess_g_PacketBufferUsed
 extern s32 func_801759D8(void);
 extern s32 func_80178004(s32 a0, s32 a1, s32 a2);

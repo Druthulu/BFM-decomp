@@ -4837,7 +4837,7 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
     extern void SetTransMatrix(void *);
     extern s32 RotTransPers(s32, s32, s32 *, s32 *);
     extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
-    extern OtBlk_80185B4C D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern void func_80016638(void *a0, s32 a1, s32 a2);
@@ -4865,9 +4865,9 @@ void func_80185B4C(s32 arg0, s32 arg1, s32 arg2)
         depth4 = temp_v0_2 * 4;
         tag = *(u32 *)temp_v0;
         tag &= 0xFF000000;
-        tag |= *(u32 *)(depth4 + D_800A651C[*bidx].unk0.v0.a) & 0xFFFFFF;
+        tag |= *(u32 *)(depth4 + ((s32)aOrderingTables[*bidx].org)) & 0xFFFFFF;
         *(u32 *)temp_v0 = tag;
-        ot = D_800A651C[*bidx].unk0.v0.a;
+        ot = ((s32)aOrderingTables[*bidx].org);
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & 0xFFFFFF);
         func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);
@@ -10862,7 +10862,7 @@ void func_8018F3E4(void)
 void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
 {
    /* == engine_types.h OtBlk (0x14); BLOCK scope per §94 type-carry */
-    extern OtBlk_80180894 D_800A651C_v[] __asm__("D_800A651C");   /* §200 alias: TU spells it `extern u8 D_800A651C[]` */
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");   /* §200 alias: TU spells it `extern u8 D_800A651C[]` */
     extern s32 func_80010A08(s32);
     extern void SetRotMatrix(void *);
     extern void SetTransMatrix(void *);
@@ -10900,8 +10900,8 @@ void func_8018FB5C(s32 arg0, s32 arg1, s32 arg2)
         depth4 = temp_v0_2 * 4;
         tag0 = *(u32 *)temp_v0;
         *(u32 *)temp_v0 = (tag0 & 0xFF000000) |
-            (*(u32 *)(depth4 + D_800A651C_v[*bidx].unk0.v0.a) & mask1);
-        ot = D_800A651C_v[*bidx].unk0.v0.a;
+            (*(u32 *)(depth4 + ((s32)aOrderingTables[*bidx].org)) & mask1);
+        ot = ((s32)aOrderingTables[*bidx].org);
         *(u32 *)(depth4 + ot) =
             (*(u32 *)(depth4 + ot) & 0xFF000000) | ((u32)temp_v0 & mask1);
         func_80016638(&guess_g_OrderingTables[*bidx * 20], temp_v0_2, 1);

@@ -15,7 +15,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
          /* 0x14 stride */
-    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
 
     u32 mhi;
@@ -38,8 +38,8 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     *(s16 *)((u8 *)out + 0x12) = 0x10;
     *(s16 *)((u8 *)out + 0x10) = 0x10;
 
-    ((PTag_80140D68 *)out)->b.addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2));
-    ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2))->b.addr = (u32)out;
+    ((PTag_80140D68 *)out)->b.addr = *(u32 *)((PTag_80140D68 *)((((u32 *)aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org)) + 2));
+    ((PTag_80140D68 *)((((u32 *)aFrontOrderingTables[*(volatile u16 *)&guess_g_DoubleBufferIndex].org)) + 2))->b.addr = (u32)out;
 
     return out + 5;
 }

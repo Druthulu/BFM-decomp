@@ -4665,7 +4665,7 @@ extern void func_8012E28C(s32 a0, s32 a1);
 extern Blk4_8017FE90 D_8019E288;
 extern u8 D_8019E28C[];
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-extern OtBlk_80180894 D_800A651C[];
+extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
 void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
@@ -4712,7 +4712,7 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(DVec_80180894 *)(p + 0x20) = xy[3];
         p[7] = 0x3A;
         *(u32 *)p = 0x8000000;
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (z << 2), p);
+        AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + (z << 2), p);
         func_8012E28C(z, 1);
 
         p = (u8 *)func_80010A08(0x24);
@@ -4730,7 +4730,7 @@ void func_80180894(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *(DVec_80180894 *)(p + 0x20) = xy[5];
         p[7] = 0x3A;
         *(u32 *)p = 0x8000000;
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (z << 2), p);
+        AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + (z << 2), p);
         func_8012E28C(z, 1);
     }
 }

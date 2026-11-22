@@ -3750,8 +3750,8 @@ s32 func_8018AEE8(void) {
 void func_8018B238(void) {
     extern short guess_g_DoubleBufferIndex;                        /* fleet-canonical spelling */ // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u16   aD800B9A02 __asm__("guess_g_DoubleBufferIndex");  /* §37: the unsigned-access alias */ // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern Env_S40_8018B238    guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
-    extern Env_S40_8018B238    guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT    guess_g_FrontOrderingTables[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTables
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern s32                 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_MenuPacketPtr
     extern struct { s32 v; }   aD801151D0 __asm__("guess_g_MenuPacketPtr"); // Names ledger: config/names.tsv guess_g_MenuPacketPtr
     extern Panel_S40_8018B238 *D_80115134;
@@ -3786,7 +3786,7 @@ void func_8018B238(void) {
         ot = (s32 *)func_800D27DC(2, ot, D_801C0E80, 1, 0);
     }
 
-    ot = (s32 *)func_8013AB54((s32)ot, (s32)(guess_g_FrontOrderingTablesOrg[aD800B9A02].unk0.v1.unk0 + 2),
+    ot = (s32 *)func_8013AB54((s32)ot, (s32)(((u32 *)aFrontOrderingTables[aD800B9A02].org) + 2),
                               (s32)D_801C17E8, 0);
 
     if (D_80115126 == 3) {
@@ -3819,8 +3819,8 @@ void func_8018B238(void) {
     pbh = (u16 *)&guess_g_DoubleBufferIndex;
     ((PrimTag *)ot)->w = 0x02000000;
     ((PTag_S40_8018B238 *)ot)->b.addr =
-        ((PTag_S40_8018B238 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr;
-    ((PTag_S40_8018B238 *)(guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0 + 2))->b.addr = (u32)ot;
+        ((PTag_S40_8018B238 *)(((u32 *)aFrontOrderingTables[*pbh].org) + 2))->b.addr;
+    ((PTag_S40_8018B238 *)(((u32 *)aFrontOrderingTables[*pbh].org) + 2))->b.addr = (u32)ot;
     ot += 10;
     aD801151D0.v = (s32)ot;
 }

@@ -283,7 +283,7 @@ s16 n;
     extern s16 D_80183350[];
     extern u16 D_80182E60;
     extern u16 D_80182E62;
-  extern OtBlk_80180894 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+  extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
   Prim4 *p;
   s16 t;
   s32 c3;
@@ -380,11 +380,11 @@ u32 mhi;
             size = 8;
             *((s16 *) (q - 2)) = size;
             *((s16 *) (q - 4)) = size;
-            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & m24);
+            *((u32 *) ot) = ((*((u32 *) ot)) & mhi) | (LOWU(aFrontOrderingTables[*pb].org[2]) & m24);
             {
 u32 *op;
 u32 w;
-              op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
+              op = ((u32 *)aFrontOrderingTables[*pb].org);
               w = op[2];
               w &= mhi;
               w |= ((u32) ot) & m24;
@@ -428,7 +428,7 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
        sibling and the family sweeps 0/137. Body-local typedefs DO survive (PTag_80140D68 below
        is the proof), so it lives here. */
          /* 0x14 stride */
-    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
 
     u32 mhi;
@@ -451,8 +451,8 @@ s32 *func_80140D68(out, src, idx, dx, ofs)
     ((Unkstruct_8017DD28 *)out)->unk12 = 0x10;
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
-    ((PTag_80140D68 *)out)->b.addr = *(u32 *)((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2));
-    ((PTag_80140D68 *)((guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0) + 2))->b.addr = (u32)out;
+    ((PTag_80140D68 *)out)->b.addr = *(u32 *)((PTag_80140D68 *)((((u32 *)aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org)) + 2));
+    ((PTag_80140D68 *)((((u32 *)aFrontOrderingTables[*(volatile u16 *)&guess_g_DoubleBufferIndex].org)) + 2))->b.addr = (u32)out;
 
     return out + 5;
 }

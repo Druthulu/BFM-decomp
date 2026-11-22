@@ -7709,7 +7709,7 @@ void func_80185150(s32 a0) {
     extern u8 *D_800A5E60;
     extern s32 D_800AE620;
     extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
-    extern Ot_8018B23C_80185150 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     s32 m[8];       /* sp+0x10 */
     u8 sv[8];       /* sp+0x30 */
@@ -7773,8 +7773,8 @@ void func_80185150(s32 a0) {
 
         /* addPrim(&D_800A651C[bp->h].a[0x10], q) */
         ((PTag_8018B23C_80185150 *)q)->b.addr =
-            ((PTag_8018B23C_80185150 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
-        ((PTag_8018B23C_80185150 *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
+            ((PTag_8018B23C_80185150 *)(((s32)aOrderingTables[bp->h].org) + 0x40))->b.addr;
+        ((PTag_8018B23C_80185150 *)(((s32)aOrderingTables[bp->h].org) + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

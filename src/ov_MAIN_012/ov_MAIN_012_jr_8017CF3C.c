@@ -4181,7 +4181,7 @@ s32 *func_8017DD28(s32 *out) {
    /* 0x14 stride */
                /* 0x20 stride */
 
-    extern Env_8017DD28 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern Panel_8017DD28 *D_80115134;
     extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
@@ -4218,18 +4218,18 @@ s32 *func_8017DD28(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_8017DD28 *)out)->b.addr =
-        ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
-    ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr = (u32)out;
+        ((PTag_8017DD28 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr;
+    ((PTag_8017DD28 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
     ((PTag_8017DD28 *)out)->b.addr =
-        ((PTag_8017DD28 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
+        ((PTag_8017DD28 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
-        op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
+        op = ((u32 *)aFrontOrderingTables[*pb].org);
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);
         op[2] = v;

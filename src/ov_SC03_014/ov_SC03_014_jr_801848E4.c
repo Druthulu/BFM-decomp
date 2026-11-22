@@ -4674,7 +4674,7 @@ void func_80187EE8(s32 a0)
      * file-scope copy in src/shared/engine_types.h:2810, which is byte-identical.
      * `(u8 *)&D_800A651C` is the same address under either element type, so the
      * emitted code is unchanged (re-verified MATCH with match_one). */
-    extern Ot_8018B23C D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern u8 D_800AE610[];
 
     PKT_80187EE8 pkt;   /* sp+0x10 .. sp+0x47 */
@@ -4732,7 +4732,7 @@ void func_80187EE8(s32 a0)
 
     if (otz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 <
-          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14)
+          (u32)(((s32)aOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org)
                 + otz * 4)) &&
         (flag1 & 0xFFFFEFFF) == 0) {
         pkt.v[0].vz = (s16)otz;
@@ -7118,7 +7118,7 @@ void func_8018B23C(s32 a0) {
     extern u8 *D_800A5E60;
     extern s32 D_800AE620;
     extern u8 guess_g_OrderingTables[]; // Names ledger: config/names.tsv guess_g_OrderingTables
-    extern Ot_8018B23C D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     s32 m[8];       /* sp+0x10 */
     u8 sv[8];       /* sp+0x30 */
@@ -7182,8 +7182,8 @@ void func_8018B23C(s32 a0) {
 
         /* addPrim(&D_800A651C[bp->f].a[0x10], q) */
         ((PTag_8018B23C *)q)->b.addr =
-            ((PTag_8018B23C *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr;
-        ((PTag_8018B23C *)(D_800A651C[bp->h].unk0.v0.a + 0x40))->b.addr = (u32)q;
+            ((PTag_8018B23C *)(((s32)aOrderingTables[bp->h].org) + 0x40))->b.addr;
+        ((PTag_8018B23C *)(((s32)aOrderingTables[bp->h].org) + 0x40))->b.addr = (u32)q;
         func_80016638(&guess_g_OrderingTables[bp->h * 20], 0x10, 1);
     }
 }

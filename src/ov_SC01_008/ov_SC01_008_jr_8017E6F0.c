@@ -2977,7 +2977,7 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     extern u16 D_8019EBFA;
     extern u16 D_8019EC0E;
    /* 0x14 stride */
-    extern Env_8017EFA8_8017E93C guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
     u16 *pb;
     u16 *p;
@@ -3010,9 +3010,9 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     pb = (u16 *)&guess_g_DoubleBufferIndex;
     c0 = ot[0];
-    ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & 0xFFFFFF);
-    guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] =
-        (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (c0 & 0xFF000000) | (LOWU(aFrontOrderingTables[*pb].org[2]) & 0xFFFFFF);
+    LOWU(aFrontOrderingTables[*pb].org[2]) =
+        (LOWU(aFrontOrderingTables[*pb].org[2]) & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
 
     ot += 5;
 
@@ -3060,10 +3060,10 @@ s32 *func_8017E93C(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 0xC) = ((Unkstruct_8017E93C *)a3p)->unk8 + ((Unkstruct_8017E93C *)a3p)->unkC - 0xD;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
-                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].unk0.v1.unk0[2] & m24);
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (LOWU(aFrontOrderingTables[*pb2].org[2]) & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B tus9) wall:lreg-priority
-                    op = guess_g_FrontOrderingTablesOrg[*pb2].unk0.v1.unk0;
+                    op = ((u32 *)aFrontOrderingTables[*pb2].org);
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
                 q += 0x14;

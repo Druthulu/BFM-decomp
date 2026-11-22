@@ -3277,7 +3277,7 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
     extern u16 D_801B8DDA;
     extern u16 D_801B8DEE;
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern Env_8018C960_80189EA0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
     u16 *pb;
     u16 *p;
@@ -3310,9 +3310,9 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
 
     pb = (u16 *)&guess_g_DoubleBufferIndex;
     c0 = ot[0];
-    ot[0] = (c0 & 0xFF000000) | (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & 0xFFFFFF);
-    guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] =
-        (guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0[2] & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
+    ot[0] = (c0 & 0xFF000000) | (LOWU(aFrontOrderingTables[*pb].org[2]) & 0xFFFFFF);
+    LOWU(aFrontOrderingTables[*pb].org[2]) =
+        (LOWU(aFrontOrderingTables[*pb].org[2]) & 0xFF000000) | (((u32)ot) & 0xFFFFFF);
 
     ot += 5;
 
@@ -3358,10 +3358,10 @@ s32 *func_80189214(s32 *ot, void *a1p, s32 idx, void *a3p, s32 tag) {
                 *(s16 *)(q - 0xC) = ((s32 *)a3p)[2] + ((s32 *)a3p)[3] - 0xC;
                 *(s16 *)(q - 4) = eight;
                 *(s16 *)(q - 2) = eight;
-                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (guess_g_FrontOrderingTablesOrg[*pb2].unk0.v1.unk0[2] & m24);
+                *((u32 *)ot) = ((*(u32 *)ot) & mhi) | (LOWU(aFrontOrderingTables[*pb2].org[2]) & m24);
                 {
                     register u32 *op __asm__("$4");  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:lreg-priority
-                    op = guess_g_FrontOrderingTablesOrg[*pb2].unk0.v1.unk0;
+                    op = ((u32 *)aFrontOrderingTables[*pb2].org);
                     op[2] = (op[2] & mhi) | (((u32)ot) & m24);
                 }
                 q += 0x14;
@@ -3964,7 +3964,7 @@ void func_80189EA0(void) {
    /* 0x14 stride */
                      /* -> 0x24 */
 
-    extern Env_8018C960_80189EA0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
     extern u8 aD801EF1EC __asm__("D_801E770C");
     extern u8 aD801EF1F0 __asm__("D_801E7710");
 
@@ -3980,8 +3980,8 @@ void func_80189EA0(void) {
     p = *pp;
     ((PTag_8018C960_80189EA0 *)p)->b.len = 1;
     p[1] = 0xE1000015;
-    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
+    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr;
+    ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr = (u32)p;
 
     p += 2;
     ((PG4_8018C960_80189EA0 *)p)->tag  = 0x08000000;
@@ -4009,15 +4009,15 @@ void func_80189EA0(void) {
     ((PG4_8018C960_80189EA0 *)p)->y3 = 120;
     ((PG4_8018C960_80189EA0 *)p)->y2 = 120;
 
-    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)p;
+    ((PTag_8018C960_80189EA0 *)p)->b.addr = ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr;
+    ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr = (u32)p;
 
     r = p + 9;                          /* 0x24 */
     p = r;                              /* COMBINE BARRIER — see header */
     ((PTag_8018C960_80189EA0 *)r)->b.len = 1;
     r[1] = 0xE1000240;
-    ((PTag_8018C960_80189EA0 *)r)->b.addr = ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr;
-    ((PTag_8018C960_80189EA0 *)guess_g_FrontOrderingTablesOrg[*pbh].unk0.v1.unk0)->b.addr = (u32)r;
+    ((PTag_8018C960_80189EA0 *)r)->b.addr = ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr;
+    ((PTag_8018C960_80189EA0 *)((u32 *)aFrontOrderingTables[*pbh].org))->b.addr = (u32)r;
 
     p += 2;
     *pp = p;

@@ -563,7 +563,7 @@ void func_801E3390(void) {
     extern s16 D_8011512C;
     extern s32 D_80115134;
     extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern Env_801E46A0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTablesOrg-4"); /* base by the Org symbol: this binary references no 0x800AE7B8 (splat undefined_syms) */ // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
 
     s32 ot;
     u8 *s2;
@@ -611,9 +611,9 @@ void func_801E3390(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) & 0xFFFFFF) | 0x02000000;
+    LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) =
+        (LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     aMenuPacketPtr[0] = ot;
@@ -1306,7 +1306,7 @@ s32 *func_801E46A0(s32 *out) {
    /* 0x14 stride */
                /* 0x20 stride */
 
-    extern Env_801E46A0 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTablesOrg-4"); /* base by the Org symbol: this binary references no 0x800AE7B8 (splat undefined_syms) */ // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern s32 D_80115134;
     extern u16 guess_g_MenuPanel; // Names ledger: config/names.tsv guess_g_MenuPanel
@@ -1341,18 +1341,18 @@ s32 *func_801E46A0(s32 *out) {
     ((Unkstruct_8017DD28 *)out)->unk10 = 0x10;
 
     ((PTag_801E46A0 *)out)->b.addr =
-        ((PTag_801E46A0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
-    ((PTag_801E46A0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr = (u32)out;
+        ((PTag_801E46A0 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr;
+    ((PTag_801E46A0 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr = (u32)out;
 
     out += 5;                                       /* [L1] */
     func_8005A600((s32)out, 0, 0, 0x15, 0);
 
     ((PTag_801E46A0 *)out)->b.addr =
-        ((PTag_801E46A0 *)(guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0 + 2))->b.addr;
+        ((PTag_801E46A0 *)(((u32 *)aFrontOrderingTables[*pb].org) + 2))->b.addr;
     {
         u32 *op;
         register u32 v __asm__("$2");               /* [L3] */  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B t8_tus2) wall:sched1-hoist-sink
-        op = guess_g_FrontOrderingTablesOrg[*pb].unk0.v1.unk0;
+        op = ((u32 *)aFrontOrderingTables[*pb].org);
         v = op[2];
         v = (v & 0xFF000000) | (((u32)out) & 0xFFFFFF);
         op[2] = v;

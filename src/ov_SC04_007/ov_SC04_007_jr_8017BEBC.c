@@ -5242,7 +5242,7 @@ void func_80180894(s32 param_1, s32 param_2)
     extern s32 AddPrim(s32 a0, void *a1);
     extern void func_8012E28C(s32 arg0, s32 arg1);
     extern s32 D_80198008[];
-    extern Ot_80182A78_80180894 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
 
     s16 quad[4][4];
     u32 buf[2];
@@ -5312,7 +5312,7 @@ void func_80180894(s32 param_1, s32 param_2)
             RotTransPers((s32)&quad[2], (s32)(prim + 0x18), &p, &flag);
             RotTransPers((s32)&quad[3], (s32)(prim + 0x20), &p, &flag);
 
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (otz * 4), prim);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + (otz * 4), prim);
             func_8012E28C(otz, 1);
             fp++;
             ang = ang2;

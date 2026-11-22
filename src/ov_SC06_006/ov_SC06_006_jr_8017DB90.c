@@ -3670,7 +3670,7 @@ extern void func_8012E28C(s32 arg0, s32 arg1);
 
 void func_8017F074(void *arg0)
 {
-    extern OtBlk D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     u8 *p = (u8 *)arg0;
     Fade_8017F074 *e;
     u8 *prim;
@@ -3726,7 +3726,7 @@ void func_8017F074(void *arg0)
         *(s16 *)(prim + 0x16) = 120;            /* y3 */
         *(s16 *)(prim + 0x14) = 160;            /* x3 */
         *(u8 *)(prim + 7) = 0x2A;               /* POLY_F4, semi-transparent */
-        AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + (e->f2 * 4), prim);
+        AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + (e->f2 * 4), prim);
         func_8012E28C(e->f2, e->f0);
     }
 }
@@ -4251,7 +4251,7 @@ void func_801800B8(void *a0) {
 
     guess_UpdateCamera();
 
-    p = ((Ctl801800B8 *)a0)->unk0.v1.unk0;
+    p = ((Ctl801800B8 *)a0)->unk0;
     while (p->a != -1) {
         obj = D_801F80AC[p->a];
         switch (p->b) {

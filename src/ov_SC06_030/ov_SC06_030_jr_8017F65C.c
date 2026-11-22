@@ -3190,7 +3190,7 @@ void func_80180228(s32 a0)
     /* §183 TYPE-shadowed-block-scope: adopt the twin's spelling for D_800A651C.
      * The typedef is declared BLOCK-SCOPE here so it shadows (never redefines)
      * the file-scope copy in src/shared/engine_types.h, which is byte-identical. */
-    extern Ot_8018B23C D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern u8 D_800AE610[];
 
     PKT_80180228 pkt;   /* sp+0x10 .. sp+0x47 */
@@ -3252,7 +3252,7 @@ void func_80180228(s32 a0)
 
     if (otz > 0 && flag1 >= 0 &&
         !((u32)&D_800AE610 <
-          (u32)(*(s32 *)((u8 *)&D_800A651C + (*(u16 *)&guess_g_DoubleBufferIndex) * 0x14)
+          (u32)(((s32)aOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org)
                 + otz * 4)) &&
         (flag1 & 0xFFFFEFFF) == 0) {
         pkt.v[0].vz = (s16)otz;

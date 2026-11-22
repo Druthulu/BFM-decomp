@@ -3561,7 +3561,7 @@ extern s32 AddPrim(s32, void *);
 
 void func_8017D3F8(s32 param_1)
 {
-    extern OtBlk_8017D3F8 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
     extern u8 guess_g_CameraWsMatrix; // Names ledger: config/names.tsv guess_g_CameraWsMatrix
 
@@ -3627,10 +3627,10 @@ void func_8017D3F8(s32 param_1)
             if (L.flag < 0) {
                 return;
             }
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, (void *)line);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, (void *)line);
             p += 2;
             i++;
-            AddPrim(D_800A651C[(u16)guess_g_DoubleBufferIndex].unk0.v0.a + otz * 4, (void *)prim);
+            AddPrim(((s32)aOrderingTables[(u16)guess_g_DoubleBufferIndex].org) + otz * 4, (void *)prim);
         } while (i < 8);
     }
 }

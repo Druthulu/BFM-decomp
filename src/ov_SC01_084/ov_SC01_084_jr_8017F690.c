@@ -3632,7 +3632,7 @@ void func_801809C4(Obj_801809C4 *obj) {
      * table trio is spelled as arrays only here (see note 2 above), so keeping
      * them local avoids a file-scope clash with any sibling function. */
     extern short guess_g_DoubleBufferIndex;                  /* TU spelling, line 2470 */ // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-    extern OtBlk_801809C4 D_800A651C[];
+    extern GsOT aOrderingTables[] __asm__("guess_g_OrderingTables");
     extern s16 D_8018A998[];                  /* [0..2] + [3..5] angle offsets */
     extern s16 D_8018A9A4[];                  /* radius for the [0..2] vertices */
     extern s16 D_8018A9A6[];                  /* radius for the [3..5] vertices */
@@ -3712,8 +3712,8 @@ void func_801809C4(Obj_801809C4 *obj) {
     *(s32 *)(p[1] + 0x20) = sxy[4];
 
     pb = (u16 *)&guess_g_DoubleBufferIndex;
-    AddPrim(D_800A651C[*pb].unk0.v0.a + otz * 4, p[0]);
-    AddPrim(D_800A651C[*pb].unk0.v0.a + otz * 4, p[1]);
+    AddPrim(((s32)aOrderingTables[*pb].org) + otz * 4, p[0]);
+    AddPrim(((s32)aOrderingTables[*pb].org) + otz * 4, p[1]);
     func_8012E28C(otz, 1);
 }
 

@@ -383,7 +383,7 @@ Unkstruct_df0196de	define	Unkstruct_801407F4_2	owner:func_801407F4	no E1/E2 evid
 Unkstruct_8016C74C	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8016C74C pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_8012D714	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_8012D714 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_f3054d05	residual	TYPE-UNION	layout:widths@0x8:2s,4s	layout class TYPE-UNION (struct_map record)
-Unkstruct_800A651C	fold	OtBlk_80180894	E2-anchor:D_800A651C	D_800A651C is declared OtBlk_80180894 in src/ or include/
+Unkstruct_800A651C	fold	GsOT	E2-anchor:D_800A651C	D_800A651C is declared OtBlk_80180894 in src/ or include/
 Unkstruct_ed47e86f	residual	TYPE-NO-MEMBER	prune:T5	T5.c1: def Unkstruct_80181474 pruned; 0 uses fleet-wide after the t5 rung-S sweeps
 Unkstruct_455149aa	define	Unkstruct_801681FC_2	owner:func_801681FC	no E1/E2 evidence; flat layout of the struct map record; 70 TNC sites in 7 bodies
 Unkstruct_5ff9ca42	define	Unkstruct_80174BF4_2	owner:func_80174BF4	no E1/E2 evidence; flat layout of the struct map record; 70 TNC sites in 7 bodies

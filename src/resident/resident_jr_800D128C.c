@@ -1406,7 +1406,7 @@ void func_800D2624(void) {
          /* 0x14 stride */
 
 
-#define OT_800D2650             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
+#define OT_800D2650             ((u32 *)aFrontOrderingTables[*(volatile u16 *)&guess_g_DoubleBufferIndex].org)
 #define getaddr_800D2650(t)     (((PTag_800D2650 *)(t))->b.addr)
 #define setaddr_800D2650(t, v)  (((PTag_800D2650 *)(t))->b.addr = (u32)(v))
 #define addPrim_800D2650(ot, p) (setaddr_800D2650(p, getaddr_800D2650(ot)), \
@@ -1414,7 +1414,7 @@ void func_800D2624(void) {
 
 u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int a5, u32 a6)
 {
-    extern Env_800D2650 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTablesOrg-4"); /* base by the Org symbol: this binary references no 0x800AE7B8 (splat undefined_syms) */ // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     register int cw __asm__("$2");  // !FAKE: pin $2 — NEEDED DIFFERS (P36 rung B tus10) wall:reload-reg-choice
@@ -1554,7 +1554,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
          /* 0x14 stride */
 
-#define OT_800D27DC             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
+#define OT_800D27DC             ((u32 *)aFrontOrderingTables[*(volatile u16 *)&guess_g_DoubleBufferIndex].org)
 #define getaddr_800D27DC(t)     (((PTag_800D27DC *)(t))->b.addr)
 #define setaddr_800D27DC(t, v)  (((PTag_800D27DC *)(t))->b.addr = (u32)(v))
 #define addPrim_800D27DC(ot, p) (setaddr_800D27DC(p, getaddr_800D27DC(ot)), \
@@ -1562,7 +1562,7 @@ u32 *func_800D2650(u32 *param_1, u8 *param_2, short param_3, short param_4, int 
 
 u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 {
-    extern Env_800D27DC guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTablesOrg-4"); /* base by the Org symbol: this binary references no 0x800AE7B8 (splat undefined_syms) */ // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     s16 i;
@@ -1680,7 +1680,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
          /* 0x14 stride */
 
-#define OT_800D29F8             (guess_g_FrontOrderingTablesOrg[*(volatile u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0)
+#define OT_800D29F8             ((u32 *)aFrontOrderingTables[*(volatile u16 *)&guess_g_DoubleBufferIndex].org)
 #define getaddr_800D29F8(t)     (((PTag_800D29F8 *)(t))->b.addr)
 #define setaddr_800D29F8(t, v)  (((PTag_800D29F8 *)(t))->b.addr = (u32)(v))
 #define addPrim_800D29F8(ot, p) (setaddr_800D29F8(p, getaddr_800D29F8(ot)), \
@@ -1688,7 +1688,7 @@ u8 *func_800D27DC(u32 flags, u8 *out, u16 *src, s16 count, u16 add)
 
 u32 *func_800D29F8(s16 hs, u32 *out, u16 *src, s16 n, u16 ofs)
 {
-    extern Env_800D29F8 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+    extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTablesOrg-4"); /* base by the Org symbol: this binary references no 0x800AE7B8 (splat undefined_syms) */ // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
     extern short guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
 
     u32 *q;

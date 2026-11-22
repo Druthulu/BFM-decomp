@@ -3612,7 +3612,7 @@ extern s32 guess_g_MenuPacketPtr; // Names ledger: config/names.tsv guess_g_Menu
 extern s16 D_8011512C;
 extern u8 *D_80115134;
 extern s16 guess_g_DoubleBufferIndex; // Names ledger: config/names.tsv guess_g_DoubleBufferIndex
-extern Env_8017CA18 guess_g_FrontOrderingTablesOrg[]; // Names ledger: config/names.tsv guess_g_FrontOrderingTablesOrg
+extern GsOT aFrontOrderingTables[] __asm__("guess_g_FrontOrderingTables"); // Names ledger: config/names.tsv guess_g_FrontOrderingTables
 
 extern s32 *func_8017DD28(s32 *out);
 extern s32 func_8017CBC8(s32 ot, u8 *s, s16 c);
@@ -3666,9 +3666,9 @@ void func_8017CA18(void) {
     func_8005A600(ot, 0, 0, 0x15, 0);
 
     *(s32 *)ot = 0x02000000;
-    *(s32 *)ot = (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFFFFFF) | 0x02000000;
-    guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] =
-        (guess_g_FrontOrderingTablesOrg[*(u16 *)&guess_g_DoubleBufferIndex].unk0.v1.unk0[2] & 0xFF000000) | ((u32)ot & 0xFFFFFF);
+    *(s32 *)ot = (LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) & 0xFFFFFF) | 0x02000000;
+    LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) =
+        (LOWU(aFrontOrderingTables[*(u16 *)&guess_g_DoubleBufferIndex].org[2]) & 0xFF000000) | ((u32)ot & 0xFFFFFF);
 
     ot += 0x28;
     aMenuPacketPtr[0] = ot;
