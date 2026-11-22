@@ -1399,8 +1399,8 @@ s32 func_801EFFE8(s32 param_1) {
 
     D_801F8324 = 0;
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_801F02E8, 0x1000000);
-    ((Unkstruct_801E4C48 *)param_1)->unk15 = ((Unkstruct_801E4C48 *)param_1)->unk15 + 1;
-    ((Unkstruct_801E4C48 *)param_1)->unk28 = 0x10;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 0x10;
     return 0;
 }
 

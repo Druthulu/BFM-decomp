@@ -6967,9 +6967,9 @@ void func_801821E0(s32 param_1)
             RotTransSV(D_80192EB4, &v, &out);
             CAST_ALIAS(u16, (u8 *)s0, 0x6) = *(u16 *)&v.vx;
             CAST_ALIAS(u16, (u8 *)s0, 0xA) = *(u16 *)&v.vy;
-            ((Unkstruct_801819D0_2 *)s0)->unkE = *(u16 *)&v.vz;
+            ((Unkstruct_8011DB30 *)s0)->unkC.i.hi.u = *(u16 *)&v.vz;
             ApplyRotMatrixLV(D_80192EBC, (void *)(param_1 + 0x10));
-            ((Unkstruct_801819D0_2 *)s0)->unk34 = 0x4000;
+            ((Unkstruct_8011DB30 *)s0)->unk34.val.s = 0x4000;
         }
         s2 = s2 + 0x200;
     } while (s2 < 0x1000);

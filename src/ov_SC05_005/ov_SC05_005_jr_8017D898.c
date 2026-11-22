@@ -4578,7 +4578,7 @@ void func_801816A8(void *arg0) {
     ((Unkstruct_800B5BD8 *)p)->head.unk4.s = val;
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = 0xC00;
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = 0xC00;
-    (((Unkstruct_801816A8_2 *)arg0)->unk2)++;
+    (((Unkstruct_8011DB30 *)arg0)->unk2.u)++;
 }
 
 
@@ -4588,12 +4588,12 @@ void func_80181740(void *a0)
 {
     s32 p;
 
-    p = ((Unkstruct_801818B8_2 *)a0)->unk20;
+    p = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     *(u16 *)(p + 0x18) += 0x20;
     *(u16 *)(p + 0x1A) += 0x20;
-    if (++((Unkstruct_801818B8_2 *)a0)->unk1C >= 0x80) {
-        ((Unkstruct_801818B8_2 *)a0)->unk1C = 0;
-        ((Unkstruct_801818B8_2 *)a0)->unk2 += 1;
+    if (++((Unkstruct_8011DB30 *)a0)->unk1C.s >= 0x80) {
+        ((Unkstruct_8011DB30 *)a0)->unk1C.s = 0;
+        ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
     }
 }
 
@@ -4725,7 +4725,7 @@ void func_801819C0(s32 arg0) {
     MATRIX m;
     VECTOR v;
 
-    p = ((Unkstruct_801819C0_2 *)arg0)->unk20;
+    p = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
     ((Unkstruct_801819C0 *)p)->unk20 = (s32)&D_801A62DC;
     ((Unkstruct_801819C0 *)p)->unk27 = 0x52;
     ((Unkstruct_801819C0 *)p)->unk28 = 0x2D0;
@@ -4759,8 +4759,8 @@ void func_801819C0(s32 arg0) {
     RotMatrixZYX((s32)&sv, (s32)&m);
     ApplyMatrixLV((s32)&m, (s32)&v, arg0 + 0x10);
 
-    ((Unkstruct_801819C0_2 *)arg0)->unk1C = 0x2D;
-    ((Unkstruct_801819C0_2 *)arg0)->unk2 = ((Unkstruct_801819C0_2 *)arg0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 0x2D;
+    ((Unkstruct_8011DB30 *)arg0)->unk2.u = ((Unkstruct_8011DB30 *)arg0)->unk2.u + 1;
 }
 
 

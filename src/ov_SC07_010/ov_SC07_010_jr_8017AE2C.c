@@ -6864,11 +6864,11 @@ void func_80181CDC(void *a0) {
     extern void guess_AddVelocityToPos(void *a0);
     u16 t;
     if ((CAST_ALIAS(s32, (s32)a0, 0x1C))-- == 0) {
-        ((Unkstruct_80181CDC *)a0)->unk10 >>= 1;
-        ((Unkstruct_80181CDC *)a0)->unk14 >>= 1;
-        ((Unkstruct_80181CDC *)a0)->unk18 >>= 1;
-        t = ((Unkstruct_80181CDC *)a0)->unk2 + 1;
-        ((Unkstruct_80181CDC *)a0)->unk2 = t;
+        ((Unkstruct_8011DB30 *)a0)->unk10.val.s >>= 1;
+        ((Unkstruct_8011DB30 *)a0)->unk14.val.s >>= 1;
+        ((Unkstruct_8011DB30 *)a0)->unk18.val.s >>= 1;
+        t = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
+        ((Unkstruct_8011DB30 *)a0)->unk2.u = t;
     } else {
         guess_AddVelocityToPos(a0);
     }

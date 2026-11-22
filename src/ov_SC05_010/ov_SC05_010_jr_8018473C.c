@@ -4749,18 +4749,18 @@ void func_801876EC(s32 arg0) {
     s32 work;
 
     ((Unkstruct_801876EC_2 *)*(s32 *)(arg0 + 0x20))->unk14 += 0x100;
-    if (((Unkstruct_801876EC *)arg0)->unk1C != 0) {
-        ((Unkstruct_801876EC *)arg0)->unk1C -= 1;
+    if (((Unkstruct_8011DB30 *)arg0)->unk1C.s != 0) {
+        ((Unkstruct_8011DB30 *)arg0)->unk1C.s -= 1;
     } else {
         ((Unkstruct_801876EC_2 *)*(s32 *)(arg0 + 0x20))->unk18 += 0x400;
         ((Unkstruct_801876EC_2 *)*(s32 *)(arg0 + 0x20))->unk1A += 0x400;
-        work = ((Unkstruct_801876EC *)arg0)->unk20;
-        val = ((Unkstruct_801876EC *)arg0)->unk34;
+        work = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
+        val = ((Unkstruct_8011DB30 *)arg0)->unk34.i.lo.s;
         if (val < CAST_SIGN(s16, work, 0x18)) {
             ((Unkstruct_801876EC_2 *)work)->unk1A = val;
             ((Unkstruct_801876EC_2 *)work)->unk18 = val;
-            ((Unkstruct_801876EC *)arg0)->unk1C = rand();
-            ((Unkstruct_801876EC *)arg0)->unk2 += 1;
+            ((Unkstruct_8011DB30 *)arg0)->unk1C.s = rand();
+            ((Unkstruct_8011DB30 *)arg0)->unk2.u += 1;
         }
     }
 }
@@ -4778,15 +4778,15 @@ void func_801877A8(s32 arg0)
 
     func_8001CB6C(*(u8 **)(arg0 + 0x20), D_801942C0, 0x234, 0x1C0);
     ((Unkstruct_800B5BD8 *)*(u32 *)(arg0 + 0x20))->head.unk24.b.unk27.u = 0x26;
-    ((Unkstruct_801877A8 *)arg0)->unk30 = rand() & 0x1FF;
-    ((Unkstruct_801877A8 *)arg0)->unk32 = rand() & 0x1F;
-    ((Unkstruct_801877A8 *)arg0)->unk34 = rand() & 0x7F;
+    ((Unkstruct_8011DB30 *)arg0)->unk30.i.lo.u = rand() & 0x1FF;
+    ((Unkstruct_8011DB30 *)arg0)->unk30.i.hi.u = rand() & 0x1F;
+    ((Unkstruct_8011DB30 *)arg0)->unk34.i.lo.u = rand() & 0x7F;
     q = rand();
     work = *(u8 **)(arg0 + 0x20);
     r = q % 0x1000 + 0x800;
     ((Unkstruct_800B5BD8 *)work)->head.unk18.w.unk1A.u = r;
     ((Unkstruct_800B5BD8 *)work)->head.unk18.w.unk18.u = r;
-    ((Unkstruct_801877A8 *)arg0)->unk2 = ((Unkstruct_801877A8 *)arg0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk2.u = ((Unkstruct_8011DB30 *)arg0)->unk2.u + 1;
 }
 
 

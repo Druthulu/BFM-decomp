@@ -757,13 +757,13 @@ void func_800CDCA8(void *arg0) {
         if ((rand() & 0x1F) == 0) {
             guess_SetWaitTimer_2((s32 *)arg0, (rand() & 0x1F) | 0x20);
         }
-        val = ((Unkstruct_800CDCA8 *)ptr)->unk12;
+        val = ((RenderHead *)ptr)->unk10.w.unk12.u;
         val += 0x38;
     } else {
-        val = ((Unkstruct_800CDCA8 *)ptr)->unk12;
+        val = ((RenderHead *)ptr)->unk10.w.unk12.u;
         val += 0x155;
     }
-    ((Unkstruct_800CDCA8 *)ptr)->unk12 = val & 0xFFF;
+    ((RenderHead *)ptr)->unk10.w.unk12.u = val & 0xFFF;
 }
 
 
@@ -848,9 +848,9 @@ void func_800CDEB4(void *arg0) {
         ((void (*)(void *, void *))func_800CDF84)(arg0, sp18);
         func_80163194((s32)arg0, 0, 0, 0, (s32)sp18);
         guess_AddVelocityToPos_2(arg0);
-        var = ((Unkstruct_800CDCA8 *)s1)->unk1A + 0x100;
-        ((Unkstruct_800CDCA8 *)s1)->unk1A = var;
-        ((Unkstruct_800CDCA8 *)s1)->unk18 = var;
+        var = ((RenderHead *)s1)->unk18.w.unk1A.u + 0x100;
+        ((RenderHead *)s1)->unk18.w.unk1A.u = var;
+        ((RenderHead *)s1)->unk18.w.unk18.u = var;
         func_80163408((s32)arg0, 0x23, 0x80, 8);
         func_80163328(arg0);
         func_801632F0(arg0);

@@ -7,7 +7,7 @@ s32 SHARED_FN(void *a0) {
 
     if (*p == -1) {
         func_800D1E28();
-        (((Unkstruct_8017D7A4_2 *)a0)->unk15)++;
+        (((Dst *)a0)->unk15)++;
     }
 
     return 0;

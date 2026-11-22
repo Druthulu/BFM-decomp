@@ -1056,7 +1056,7 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         s32 a1v;
         obj = CAST_SIGN(void *, dst, 0x20);
         if (obj != 0) {
-            s32 t = ((Unkstruct_8012C890_5 *)obj)->unk0;
+            s32 t = ((RenderHead *)obj)->unk0.u;
             if (t != 1) {
                 if (t != 2) {
                     goto done;
@@ -1078,17 +1078,17 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         if (o == 0) {
             return (s32)dst;
         }
-        if (((Unkstruct_8012C890_5 *)o)->unk0 == 1) {
+        if (((RenderHead *)o)->unk0.u == 1) {
             s16 c = ((Unkstruct_8012C890_4 *)src)->unkC;
             if (c != 0x7FFF) {
-                ((Unkstruct_8012C890_5 *)o)->unk12 = c;
+                ((RenderHead *)o)->unk10.w.unk12.s = c;
             }
         }
     }
     if (((Unkstruct_8012C890_3 *)dst)->unk20.val != 0) {
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unk8 = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkA = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
-        ((Unkstruct_8012C890_5 *)*(s32 *)(dst + 0x20))->unkC = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.u = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unkA.u = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unkC.u = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
     }
     return (s32)dst;
 }

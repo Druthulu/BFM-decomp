@@ -8,12 +8,12 @@
 void SHARED_FN(s32 param)
 {
     s32 base = param;
-    s32 x = ((Unkstruct_80180C10 *)base)->unk1C;
+    s32 x = ((Unkstruct_8011DB30 *)base)->unk1C.s;
     s32 r = rsin((x << 7) & 0x780);
-    s32 y = ((Unkstruct_80180C10 *)base)->unk34;
+    s32 y = ((Unkstruct_8011DB30 *)base)->unk34.val.s;
     s32 q = y >> 2;
     s32 prod = q * r;
-    s32 ptr = ((Unkstruct_80180C10 *)base)->unk20;
+    s32 ptr = ((Unkstruct_8011DB30 *)base)->unk20.val;
     s32 hi = prod >> 12;
     y = y - hi;
     *(s16 *)(ptr + 0x1A) = y;

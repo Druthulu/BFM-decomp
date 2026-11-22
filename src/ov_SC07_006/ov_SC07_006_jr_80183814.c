@@ -6086,8 +6086,8 @@ void func_80189FDC(s32 param_1)
 
 void func_8018A124(void *param_1)
 {
-    if ((--((Unkstruct_8018A124 *)param_1)->unk1C) == 0) {
-        ((Unkstruct_8018A124 *)param_1)->unk2 += 1;
+    if ((--((Unkstruct_8011DB30 *)param_1)->unk1C.s) == 0) {
+        ((Unkstruct_8011DB30 *)param_1)->unk2.u += 1;
     }
 }
 

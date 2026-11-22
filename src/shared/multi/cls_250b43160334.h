@@ -2,7 +2,7 @@
  * exemplar src/md_SC03_132/md_SC03_132.c:47 · rank 1/2 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/md_SC03_137/md_SC03_137.c:43 rejected by type_census --check */
 s32 SHARED_FN(s32 param_1) {
-    if ((((Unkstruct_801E26BC *)param_1)->unk28 = ((Unkstruct_801E26BC *)param_1)->unk28 - 1) == -1) {
+    if ((((Dst *)param_1)->unk28 = ((Dst *)param_1)->unk28 - 1) == -1) {
         func_800D1E28();
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
@@ -10,7 +10,7 @@ s32 SHARED_FN(s32 param_1) {
             guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         }
-        ((Unkstruct_801E26BC *)param_1)->unk15 = ((Unkstruct_801E26BC *)param_1)->unk15 + 1;
+        ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     }
     return 0;
 }

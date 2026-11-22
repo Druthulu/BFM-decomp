@@ -4709,14 +4709,14 @@ void func_8017F88C(s32 a0) {
         if (v1 < 0) {
             v1 += 0x3F;
         }
-        ((Unkstruct_8017F88C *)v0)->unkA += v1 >> 6;
+        ((Unkstruct_8011DB30 *)v0)->unk8.i.hi.u += v1 >> 6;
         v1 = *(s16 *)(*(s32 *)(a0 + 0x20) + 0x1C);
         if (v1 < 0) {
             v1 += 0x3F;
         }
-        ((Unkstruct_8017F88C *)v0)->unk34 = 0x5001;
-        ((Unkstruct_8017F88C *)v0)->unk16 = -6;
-        ((Unkstruct_8017F88C *)v0)->unkE -= v1 >> 6;
+        ((Unkstruct_8011DB30 *)v0)->unk34.i.lo.u = 0x5001;
+        ((Unkstruct_8011DB30 *)v0)->unk14.i.hi.s = -6;
+        ((Unkstruct_8011DB30 *)v0)->unkC.i.hi.u -= v1 >> 6;
     }
 }
 
@@ -4852,17 +4852,17 @@ void func_8017FBB0(s32 a0) {
      * `lh` and lose the sll/sra pair.  The SECOND index (`D_80189ACC[...]`)
      * re-reads memory instead of reusing `t`, exactly as the .s does: the
      * cached copy lives in caller-saved $a0 and dies at the first jal. */
-    t = ((Unkstruct_8017FBB0 *)a0)->unk34;
-    s2 = ((Unkstruct_8017FBB0 *)a0)->unk2C;
-    ((Unkstruct_8017FBB0 *)a0)->unk36 = ((Unkstruct_8017FBB0 *)a0)->unkA;
+    t = ((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u;
+    s2 = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
+    ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.s = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.s;
 
     switch ((s16)t >> 1) {
     case 0:
         e = (SC05_FBB0_Rec *)D_801899C0[t & 1];
-        func_8001CB6C((u8 *)((Unkstruct_8017FBB0 *)a0)->unk20, (s32)e, 0x300, 0x100);
-        if ((guess_TestGameFlag((s32)D_80189ACC[((Unkstruct_8017FBB0 *)a0)->unk34 & 1]) & 0xFF) != 0) {
+        func_8001CB6C((u8 *)((Unkstruct_8011DB30 *)a0)->unk20.val, (s32)e, 0x300, 0x100);
+        if ((guess_TestGameFlag((s32)D_80189ACC[((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u & 1]) & 0xFF) != 0) {
             count = 9;
-            ((Unkstruct_8017FBB0 *)a0)->unk2 = ((Unkstruct_8017FBB0 *)a0)->unk2 + 1;
+            ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
         } else {
             count = 3;
         }
@@ -4881,8 +4881,8 @@ void func_8017FBB0(s32 a0) {
 
     case 1:
         e = (SC05_FBB0_Rec *)D_80189A70[t & 1];
-        func_8001CB6C((u8 *)((Unkstruct_8017FBB0 *)a0)->unk20, (s32)e, 0x300, 0x100);
-        if ((guess_TestGameFlag((s32)D_80189ACC[((Unkstruct_8017FBB0 *)a0)->unk34 & 1]) & 0xFF) != 0) {
+        func_8001CB6C((u8 *)((Unkstruct_8011DB30 *)a0)->unk20.val, (s32)e, 0x300, 0x100);
+        if ((guess_TestGameFlag((s32)D_80189ACC[((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u & 1]) & 0xFF) != 0) {
             /* §194-D (the whole match): `r` MUST be a NARROW local receiving the
              * COMPUTED increment, with the store deferred.  Written plainly
              * (`*(u16*)(a0+2) = *(u16*)(a0+2) + 1;`) sched1 re-plans this block
@@ -4892,9 +4892,9 @@ void func_8017FBB0(s32 a0) {
              * worse (+2 ins): the a0+2 store then blocks the s2 load. */
             u16 r;
             count = 0;
-            ((Unkstruct_8017FBB0 *)a0)->unkA = *(u16 *)(s2 + 0xA) - 200;
-            r = ((Unkstruct_8017FBB0 *)a0)->unk2 + 1;
-            ((Unkstruct_8017FBB0 *)a0)->unk2 = r;
+            ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.s = *(u16 *)(s2 + 0xA) - 200;
+            r = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
+            ((Unkstruct_8011DB30 *)a0)->unk2.u = r;
         } else {
             count = 5;
         }
@@ -4912,13 +4912,13 @@ void func_8017FBB0(s32 a0) {
         break;
 
     case 2:
-        func_8001CB6C((u8 *)((Unkstruct_8017FBB0 *)a0)->unk20, (s32)D_80189A78, 0x300, 0x100);
+        func_8001CB6C((u8 *)((Unkstruct_8011DB30 *)a0)->unk20.val, (s32)D_80189A78, 0x300, 0x100);
         ((Unkstruct_8017FBB0_3 *)*(s32 *)(a0 + 0x20))->unk14 = 0x220;
         break;
     }
 
     ((Unkstruct_8017FBB0_3 *)*(s32 *)(a0 + 0x20))->unk27 = 0x65;
-    ((Unkstruct_8017FBB0 *)a0)->unk2 = ((Unkstruct_8017FBB0 *)a0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
 }
 
 
@@ -4956,19 +4956,19 @@ void func_8017FE0C(s32 a0) {
     u8  x0;
     register SC05_FBB0_Rec *e __asm__("$6");  // !FAKE: pin $6 — NEEDED DIFFERS (P36 rung B tus8) wall:cse-value-forward
 
-    p = ((Unkstruct_8017FE0C *)a0)->unk2C;
+    p = ((Unkstruct_8011DB30 *)a0)->unk2C.val.s;
 
     /* THREE case nodes, the third EMPTY (§193-G/§199-G): only at i > 2 does
      * balance_case_nodes split, giving root=1 with a left child 0 — which is what
      * emits `beq ==1`, then the `slti ,2` bound test, then `bnez`, falling through
      * to arm 0.  A two-case switch emits the all-positive `beqz/beq/j default`
      * header instead and is length-drift -2 here. */
-    switch ((s16)((Unkstruct_8017FE0C *)a0)->unk34 >> 1) {
+    switch ((s16)((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u >> 1) {
     case 0:
-        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
-        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0x70;
-        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
-        dw = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - ((Unkstruct_8017FE0C *)a0)->unk36;
+        ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
+        ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0x70;
+        ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+        dw = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.u;
         n0 = dw / 32;
         if (n0 < 5) {
             /* Two-address `s2` (NOT `s2 = (n0 + 4) * 32;`): it makes the `n0 + 4`
@@ -4981,7 +4981,7 @@ void func_8017FE0C(s32 a0) {
              * range then overlaps the load's, and the `n0*32` temp steals $v1 — which
              * is the register the target gives n0 itself.  (Also forced by $a0: the
              * target's shift writes the argument register, so the load MUST precede it.) */
-            do { tt = ((Unkstruct_8017FE0C *)a0)->unk34; } while (0);  // !FAKE: do-while
+            do { tt = ((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u; } while (0);  // !FAKE: do-while
             x0 = dw - n0 * 32;
             /* `e = base; e += n0 + 3;` (NOT &base[n0+3]) is what keeps the
              * `addiu $v0,$v0,0x24` + `addiu $a2,$a2,0xC` pair. */
@@ -5000,10 +5000,10 @@ void func_8017FE0C(s32 a0) {
         break;
 
     case 1:
-        ((Unkstruct_8017FE0C *)a0)->unk6 = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
-        ((Unkstruct_8017FE0C *)a0)->unkA = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0xC8;
-        ((Unkstruct_8017FE0C *)a0)->unkE = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
-        dw = ((Unkstruct_8017FE0C *)a0)->unk36 - ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
+        ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)p)->unk4.i.hi.u;
+        ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.s = ((Unkstruct_801202A0 *)p)->unk8.i.hi.u - 0xC8;
+        ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u = ((Unkstruct_801202A0 *)p)->unkC.i.hi.u;
+        dw = ((Unkstruct_8011DB30 *)a0)->unk34.i.hi.u - ((Unkstruct_801202A0 *)p)->unk8.i.hi.u;
         n = dw / 32;
         j = 5 - n;              /* hoisted above the `!= 0` test: fills its slot */
         if (dw != 0) {
@@ -5015,7 +5015,7 @@ void func_8017FE0C(s32 a0) {
                  * load-delay `nop` after `lhu 0x34($a0)`, and (c) splits x and
                  * (u8)x across two registers so `sb` and `andi` transpose. */
                 w = 0x20;
-                e = (SC05_FBB0_Rec *)D_80189A70[((Unkstruct_8017FE0C *)a0)->unk34 & 1];
+                e = (SC05_FBB0_Rec *)D_80189A70[((Unkstruct_8011DB30 *)a0)->unk34.i.lo.u & 1];
                 e += s2;
                 e->f0 = 0xFF;
                     do { x = (n + 1) * 32 - dw; } while (0);  // !FAKE: do-while

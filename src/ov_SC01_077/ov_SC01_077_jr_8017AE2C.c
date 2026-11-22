@@ -4173,7 +4173,7 @@ s32 func_8017DAEC(s32 param_1)
 extern s32 (*D_8018A588[])(void *);
 
 s32 func_8017DCB0(void *a0) {
-    return D_8018A588[((Unkstruct_8017DCB0 *)a0)->unk15](a0);
+    return D_8018A588[((Dst *)a0)->unk15](a0);
 }
 
 // @class: plumbing
@@ -4200,7 +4200,7 @@ extern s32 func_800167F0(s32 a0);
 extern s32 (*D_8018A590[])(void *);
 
 s32 func_8017DD60(void *a0) {
-    return D_8018A590[((Unkstruct_8017DCB0 *)a0)->unk15](a0);
+    return D_8018A590[((Dst *)a0)->unk15](a0);
 }
 
 // @class: plumbing
@@ -4212,8 +4212,8 @@ extern void func_8017E0EC(void *arg0);
 
 s32 func_8017DD9C(s32 param_1) {
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_8017E0EC, 0x1000000);
-    ((Unkstruct_8017D588 *)param_1)->unk15 = ((Unkstruct_8017D588 *)param_1)->unk15 + 1;
-    ((Unkstruct_8017D588 *)param_1)->unk28 = 10;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 10;
     return 0;
 }
 
@@ -4818,9 +4818,9 @@ s32 func_8017EC7C(s32 param_1)
     Blk20 mat;
     u32 uVar1;
 
-    ((Unkstruct_8017EC7C *)param_1)->unk10 = 0;
-    ((Unkstruct_8017EC7C *)param_1)->unk14 = 0x10000;
-    ((Unkstruct_8017EC7C *)param_1)->unk18 = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk10.val.s = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0x10000;
+    ((Unkstruct_8011DB30 *)param_1)->unk18.val.s = 0;
     uVar1 = rand();
     mat = D_800AE620;
     RotMatrixY(uVar1 & 0xFFF, &mat);
@@ -4828,9 +4828,9 @@ s32 func_8017EC7C(s32 param_1)
     vec[2] = 0;
     vec[1] = 0;
     ApplyMatrixLV((s32)&mat, (s32)vec, (s32)vec);
-    ((Unkstruct_8017EC7C *)param_1)->unk2C = vec[0];
-    ((Unkstruct_8017EC7C *)param_1)->unk30 = vec[2];
-    ((Unkstruct_8017EC7C *)param_1)->unk34 = 0;
+    ((Unkstruct_8011DB30 *)param_1)->unk2C.val.s = vec[0];
+    ((Unkstruct_8011DB30 *)param_1)->unk30.val.s = vec[2];
+    ((Unkstruct_8011DB30 *)param_1)->unk34.i.lo.s = 0;
 }
 
 
@@ -4843,9 +4843,9 @@ s32 func_8017ED4C(s16 *a0) {
 s32 rand();                                         /* extern */
 
 void func_8017ED88(void *arg0) {
-    ((Unkstruct_8017ED88 *)arg0)->unk14 = (s32) (rand() + 0xC000);
-    ((Unkstruct_8017ED88 *)arg0)->unk10 = (s32) (((rand() & 0x3FFF) * 2) - 0x4000);
-    ((Unkstruct_8017ED88 *)arg0)->unk18 = (s32) (((rand() & 0x3FFF) * 2) - 0x4000);
+    ((Unkstruct_8011DB30 *)arg0)->unk14.val.s = (s32) (rand() + 0xC000);
+    ((Unkstruct_8011DB30 *)arg0)->unk10.val.s = (s32) (((rand() & 0x3FFF) * 2) - 0x4000);
+    ((Unkstruct_8011DB30 *)arg0)->unk18.val.s = (s32) (((rand() & 0x3FFF) * 2) - 0x4000);
 }
 
 extern s32 (*D_8018A7F8[])();
@@ -4893,14 +4893,14 @@ extern s32 func_8017EC7C(s32 a0);
 extern u8 D_8018A7C0;
 
 void func_8017EEC0(s32 param_1) {
-    s32 iVar2 = ((Unkstruct_8017EC7C *)param_1)->unk20;
+    s32 iVar2 = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
 
     func_8001CC3C(iVar2, (rand() & 3) * 0xc + (s32)&D_8018A7C0, 0x3F0, 0x100);
     ((Unkstruct_800B5BD8 *)iVar2)->head.unk24.b.unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)iVar2)->head.unk18.w.unk1A.u = 0x1000;
     ((Unkstruct_800B5BD8 *)iVar2)->head.unk18.w.unk18.u = 0x1000;
     func_8017EC7C(param_1);
-    ((Unkstruct_8017EC7C *)param_1)->unk2 = ((Unkstruct_8017EC7C *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 
@@ -4954,13 +4954,13 @@ void func_8017F024(int param_1)
 {
     s32 p;
 
-    p = ((Unkstruct_8017ED88 *)param_1)->unk20;
+    p = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     func_8001CB6C((u8 *)p, (s32)&D_8018A7C0 + (rand() & 3) * 0xc, 0x3F0, 0x100);
     ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 0x9D;
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.s = 0x1000;
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.s = 0x1000;
     func_8017ED88((void *)param_1);
-    ((Unkstruct_8017ED88 *)param_1)->unk2 = ((Unkstruct_8017ED88 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.s = ((Unkstruct_8011DB30 *)param_1)->unk2.s + 1;
 }
 
 

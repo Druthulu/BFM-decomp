@@ -3973,20 +3973,20 @@ const Blk4_md_SC07_003 D_801A01D0 = {0xFF, 0x80, 0x00, 0x00};
 void func_801A5AE0(void *a0) {
     void *s1 = D_801F4444;
 
-    func_8001CD50(((Unkstruct_801A5AE0 *)a0)->unk20, (s32)s1);
+    func_8001CD50(((Unkstruct_8011DB30 *)a0)->unk20.val, (s32)s1);
 
-    ((Unkstruct_801A5AE0 *)a0)->unkA -= 0x100;
+    ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u -= 0x100;
     ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk4.s |= 0x50000000;
     ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk10.u = 0x400;
 
-    ((Unkstruct_801A5AE0 *)a0)->unk2C = 0x10;
+    ((Unkstruct_8011DB30 *)a0)->unk2C.i.lo.u = 0x10;
     guess_BuildCircle12Points(s1, 0x10);
 
     *(Blk4_md_SC07_003 *)s1 = D_801A01CC;
     *(Blk4_md_SC07_003 *)D_801F4448 = D_801A01D0;
 
     ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk18.w.unk1E.s = 0xC00;
-    ((Unkstruct_801A5AE0 *)a0)->unk2 += 1;
+    ((Unkstruct_8011DB30 *)a0)->unk2.u += 1;
 }
 
 

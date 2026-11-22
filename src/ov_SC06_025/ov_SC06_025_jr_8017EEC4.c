@@ -5857,9 +5857,9 @@ void func_80183228(void *a0) {
     u16 *v0;
 
     v0 = *(u16 **)((s32)a0 + 0x20);
-    ((Unkstruct_8017F858_2 *)v0)->unk1C = 0xC00;
-    ((Unkstruct_8017F858_2 *)v0)->unk1A = 0xC00;
-    ((Unkstruct_8017F858_2 *)v0)->unk18 = 0xC00;
+    ((RenderHead *)v0)->unk18.w.unk1C.u = 0xC00;
+    ((RenderHead *)v0)->unk18.w.unk1A.u = 0xC00;
+    ((RenderHead *)v0)->unk18.w.unk18.u = 0xC00;
     if (((s32 (*)(s32))func_8012BE54)(a0) < 0x6401) {
         func_80178B18((s32)a0, (s32)&D_801892CC);
         ((Unkstruct_801202A0 *)a0)->unk2.u = 2;

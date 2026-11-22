@@ -5371,14 +5371,14 @@ void func_80181638(void *arg0) {
     s32 v0;
 
     a1 = (s32)arg0 + 0;
-    p = (u16 *)(((Unkstruct_801818B8_2 *)a1)->unk20);
+    p = (u16 *)(((Unkstruct_8011DB30 *)a1)->unk20.val);
     ((Unkstruct_80181638_2 *)p)->unk18 += 0x20;
     ((Unkstruct_80181638_2 *)p)->unk1A += 0x20;
-    v0 = ((Unkstruct_801818B8_2 *)a1)->unk1C + 1;
-    ((Unkstruct_801818B8_2 *)a1)->unk1C = v0;
+    v0 = ((Unkstruct_8011DB30 *)a1)->unk1C.s + 1;
+    ((Unkstruct_8011DB30 *)a1)->unk1C.s = v0;
     if (v0 >= 0x80) {
-        ((Unkstruct_801818B8_2 *)a1)->unk2 += 1;
-        ((Unkstruct_801818B8_2 *)a1)->unk1C = 0;
+        ((Unkstruct_8011DB30 *)a1)->unk2.u += 1;
+        ((Unkstruct_8011DB30 *)a1)->unk1C.s = 0;
     }
 }
 
@@ -5510,7 +5510,7 @@ void func_801818B8(s32 arg0) {
     MATRIX m;
     VECTOR v;
 
-    p = ((Unkstruct_801818B8_2 *)arg0)->unk20;
+    p = ((Unkstruct_8011DB30 *)arg0)->unk20.val;
     ((Unkstruct_801818B8 *)p)->unk20 = (s32)&D_801A47B8;
     ((Unkstruct_801818B8 *)p)->unk27 = 0x52;
     ((Unkstruct_801818B8 *)p)->unk28 = 0x2D0;
@@ -5544,8 +5544,8 @@ void func_801818B8(s32 arg0) {
     RotMatrixZYX((s32)&sv, (s32)&m);
     ApplyMatrixLV((s32)&m, (s32)&v, arg0 + 0x10);
 
-    ((Unkstruct_801818B8_2 *)arg0)->unk1C = 0x2D;
-    ((Unkstruct_801818B8_2 *)arg0)->unk2 = ((Unkstruct_801818B8_2 *)arg0)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 0x2D;
+    ((Unkstruct_8011DB30 *)arg0)->unk2.u = ((Unkstruct_8011DB30 *)arg0)->unk2.u + 1;
 }
 
 

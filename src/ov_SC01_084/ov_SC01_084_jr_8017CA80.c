@@ -3082,7 +3082,7 @@ s32 func_8017E1AC(s32 param_1)
     func_800D0C48(2);
     guess_RequestSound(7, 0);
     ((void (*)(void *, s32))func_8016EDEC)(func_8017E524, 0x1000000);
-    ((Unkstruct_8017E1AC_3 *)param_1)->unk15 = ((Unkstruct_8017E1AC_3 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 

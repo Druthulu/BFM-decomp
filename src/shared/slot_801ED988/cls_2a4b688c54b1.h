@@ -4,7 +4,7 @@
 s32 SHARED_FN(s32 param_1) {
     u32 s1 = guess_GetStoryProgress();
 
-    if ((((Unkstruct_801EDA64 *)param_1)->unk28 = ((Unkstruct_801EDA64 *)param_1)->unk28 - 1) == -1) {
+    if ((((Dst *)param_1)->unk28 = ((Dst *)param_1)->unk28 - 1) == -1) {
         func_800D1E28();
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
@@ -13,7 +13,7 @@ s32 SHARED_FN(s32 param_1) {
             guess_RequestSound(0x1D, 0);
             func_800D0C48(1);
         }
-        ((Unkstruct_801EDA64 *)param_1)->unk15 = ((Unkstruct_801EDA64 *)param_1)->unk15 + 1;
+        ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     }
     return 0;
 }

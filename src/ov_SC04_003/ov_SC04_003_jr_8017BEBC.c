@@ -4331,9 +4331,9 @@ void func_8017F858(s32 a0)
         if (((Unkstruct_801202A0 *)s0)->unkAA == 0) {
             ((Unkstruct_8017F858_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk2C |= 0x10;
             p = (s32 *)(CAST_SIGN(u32, (u8 *)s0, 0x20));
-            ((Unkstruct_8017F858_2 *)p)->unk1C = 0x1800;
-            ((Unkstruct_8017F858_2 *)p)->unk1A = 0x1800;
-            ((Unkstruct_8017F858_2 *)p)->unk18 = 0x1800;
+            ((RenderHead *)p)->unk18.w.unk1C.u = 0x1800;
+            ((RenderHead *)p)->unk18.w.unk1A.u = 0x1800;
+            ((RenderHead *)p)->unk18.w.unk18.u = 0x1800;
         }
     }
 }

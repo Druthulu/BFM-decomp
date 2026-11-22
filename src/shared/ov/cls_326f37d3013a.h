@@ -8,6 +8,6 @@
             ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.s = 0;
             ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.s = 0;
             ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1C.s = 0;
-            ((Unkstruct_801812B8_2 *)a0)->unk2C = 0x400;
-            ((Unkstruct_801812B8_2 *)a0)->unk2 = ((Unkstruct_801812B8_2 *)a0)->unk2 + 1;
+            ((Unkstruct_8011DB30 *)a0)->unk2C.val.s = 0x400;
+            ((Unkstruct_8011DB30 *)a0)->unk2.u = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
         }

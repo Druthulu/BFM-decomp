@@ -2979,29 +2979,29 @@ void func_8017FC10(void *a0)
     Sv_8017FC10 svec;   /* sp+0x30 */
     s32 obj;
 
-    obj = ((Unkstruct_8017FC10 *)a0)->unk20;
+    obj = ((Unkstruct_8011DB30 *)a0)->unk20.val;
     func_8001CD50(obj, (s32)&D_801C7AC0);
 
     ((Unkstruct_8017FC10_2 *)obj)->unk34 = D_801C7B80;
     ((Unkstruct_8017FC10_2 *)obj)->unk4 |= 0x50000100;
 
     svec.vx = 0x40;
-    svec.vy = (s16)ratan2(((Unkstruct_8017FC10 *)a0)->unk6, ((Unkstruct_8017FC10 *)a0)->unkE);
+    svec.vy = (s16)ratan2(((Unkstruct_8011DB30 *)a0)->unk4.i.hi.s, ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.s);
     svec.vz = 0;
 
     RotMatrixYXZ(&svec, &mtx);
 
-    mtx.t[0] = ((Unkstruct_8017FC10 *)a0)->unk6;
-    mtx.t[1] = ((Unkstruct_8017FC10 *)a0)->unkA;
-    mtx.t[2] = ((Unkstruct_8017FC10 *)a0)->unkE;
+    mtx.t[0] = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.s;
+    mtx.t[1] = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.s;
+    mtx.t[2] = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.s;
 
     *(Mtx_8017FC10 *)D_801C7B80 = mtx;
 
     {
         u16 t;
-        t = ((Unkstruct_8017FC10 *)a0)->unk2 + 1;
+        t = ((Unkstruct_8011DB30 *)a0)->unk2.u + 1;
         D_801C7B80 = D_801C7B80 + 0x20;
-        ((Unkstruct_8017FC10 *)a0)->unk2 = t;
+        ((Unkstruct_8011DB30 *)a0)->unk2.u = t;
     }
 }
 
@@ -3025,9 +3025,9 @@ void *param_1;
 {
     s32 obj;
 
-    obj = ((Unkstruct_8017FD68 *)param_1)->unk20;
+    obj = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     guess_InitObjectKind6(obj, &D_801C7B00);
-    ((Unkstruct_8017FD68 *)param_1)->unk2 = ((Unkstruct_8017FD68 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 
@@ -3056,9 +3056,9 @@ extern u8 D_801C7B40;
 void func_8017FE1C(void *param_1) {
     s32 obj;
 
-    obj = ((Unkstruct_8017FE1C *)param_1)->unk20;
+    obj = ((Unkstruct_8017FE1C *)param_1)->unk20.val;
     guess_InitObjectKind6(obj, &D_801C7B40);
-    ((Unkstruct_8017FE1C *)param_1)->unk2 = ((Unkstruct_8017FE1C *)param_1)->unk2 + 1;
+    ((Unkstruct_8017FE1C *)param_1)->unk2.u = ((Unkstruct_8017FE1C *)param_1)->unk2.u + 1;
 }
 
 

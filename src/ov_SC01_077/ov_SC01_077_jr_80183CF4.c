@@ -4713,9 +4713,9 @@ void func_80186434(s32 arg0) {
         }
         iVar2 = ((Unkstruct_80186434 *)param_1)->unk20;
         ((Unkstruct_80186434 *)param_1)->unk58 = CAST_SIGN(u32, param_1, 0x58) | 0x60000000;
-        ((Unkstruct_80186434_3 *)iVar2)->unk1C = 0x1c00;
-        ((Unkstruct_80186434_3 *)iVar2)->unk1A = 0x1c00;
-        ((Unkstruct_80186434_3 *)iVar2)->unk18 = 0x1c00;
+        ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk1C.u = 0x1c00;
+        ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk1A.u = 0x1c00;
+        ((Unkstruct_80186434_3 *)iVar2)->unk18.w.unk18.u = 0x1c00;
         ((Unkstruct_80186434 *)param_1)->unk5E = 0;
         ((Unkstruct_80186434 *)param_1)->unk5C = ((Unkstruct_80186434 *)param_1)->unk5C | 0x8800;
         ((Unkstruct_80186434 *)param_1)->unk6 = ((Unkstruct_80186434 *)param_1)->unkDC;

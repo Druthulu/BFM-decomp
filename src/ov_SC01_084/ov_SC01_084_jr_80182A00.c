@@ -2236,9 +2236,9 @@ void func_801855EC(s32 param_1)
     }
     ((void (*)(s32, void *))guess_InitModelObjectKind3)(s1v,
         &D_8018ABF8[(((Unkstruct_801855EC *)s0v)->unk70 & 1) * 12]);
-    do { ((Unkstruct_8017F858_2 *)s1v)->unk1C = 0x3000; } while (0);
-    ((Unkstruct_8017F858_2 *)s1v)->unk1A = 0x3000;
-    ((Unkstruct_8017F858_2 *)s1v)->unk18 = 0x3000;
+    do { ((RenderHead *)s1v)->unk18.w.unk1C.u = 0x3000; } while (0);
+    ((RenderHead *)s1v)->unk18.w.unk1A.u = 0x3000;
+    ((RenderHead *)s1v)->unk18.w.unk18.u = 0x3000;
     ((Unkstruct_801855EC *)s0v)->unk20 = ((s32 (*)(void))guess_AllocModelObject)();
     if (((Unkstruct_801855EC *)s0v)->unk20 == 0) {
         ((void (*)(s32, s32))func_8005C2C8)(s1v, 0x84);
@@ -2507,9 +2507,9 @@ void func_80185AF8(void *a0) {
 extern s32 rand(void);
 
 void func_80185B34(s32 param_1) {
-    ((Unkstruct_80185B34 *)param_1)->unk14 = 0x20000;
-    ((Unkstruct_80185B34 *)param_1)->unk1C = rand() & 0x1F;
-    ((Unkstruct_80185B34 *)param_1)->unk2 = ((Unkstruct_80185B34 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0x20000;
+    ((Unkstruct_8011DB30 *)param_1)->unk1C.s = rand() & 0x1F;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 
@@ -2528,21 +2528,21 @@ void func_80185B78(void *a0) {
     a02 = a0;
 
     s0 = (s8 *)a02;
-    cnt = ((Unkstruct_80185B78 *)s0)->unk1C;
+    cnt = ((Unkstruct_8011DB30 *)s0)->unk1C.s;
 
     if (cnt == 0) {
         func_80185C0C((s32)s0);
-        ((Unkstruct_80185B78 *)s0)->unk10 = ((Unkstruct_80185B78 *)s0)->unk10;
-        t = ((Unkstruct_80185B78 *)s0)->unk18;
-        ((Unkstruct_80185B78 *)s0)->unk18 = t;
-        ((Unkstruct_80185B78 *)s0)->unk14 = ((Unkstruct_80185B78 *)s0)->unk14 + 0xC000;
+        ((Unkstruct_8011DB30 *)s0)->unk10.val.s = ((Unkstruct_8011DB30 *)s0)->unk10.val.s;
+        t = ((Unkstruct_8011DB30 *)s0)->unk18.val.s;
+        ((Unkstruct_8011DB30 *)s0)->unk18.val.s = t;
+        ((Unkstruct_8011DB30 *)s0)->unk14.val.s = ((Unkstruct_8011DB30 *)s0)->unk14.val.s + 0xC000;
         KR_AS(void, guess_AddVelocityToPos)(s0, t);
-        if (((Unkstruct_80185B78 *)s0)->unk2E < ((Unkstruct_80185B78 *)s0)->unkA) {
-            ((Unkstruct_80185B78 *)s0)->unkA = ((Unkstruct_80185B78 *)s0)->unk2E;
+        if (((Unkstruct_8011DB30 *)s0)->unk2C.i.hi.s < ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.s) {
+            ((Unkstruct_8011DB30 *)s0)->unk8.i.hi.s = ((Unkstruct_8011DB30 *)s0)->unk2C.i.hi.s;
             ((void (*)(u8 *))func_801292C8)((u8 *)s0);
         }
     } else {
-        ((Unkstruct_80185B78 *)s0)->unk1C = cnt - 1;
+        ((Unkstruct_8011DB30 *)s0)->unk1C.s = cnt - 1;
     }
 }
 

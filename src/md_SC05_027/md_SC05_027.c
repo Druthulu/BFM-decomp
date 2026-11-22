@@ -29,8 +29,8 @@ extern void func_801EDCF4(void *arg0);
 
 s32 func_801EDA2C(s32 param_1) {
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_801EDCF4, 0x1000000);
-    ((Unkstruct_801E2670 *)param_1)->unk15 = ((Unkstruct_801E2670 *)param_1)->unk15 + 1;
-    ((Unkstruct_801E2670 *)param_1)->unk28 = 16;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 16;
     return 0;
 }
 

@@ -7,7 +7,7 @@ s32 SHARED_FN(s32 param_1) {
 
     if (func_8012D624(param_1, (CAST_SIGN(s16, CAST_NONSTRUCT(s32, param_1, 0x20), 0x18) * 3) >> 9, 0x21) == 1) {
         p = CAST_NONSTRUCT(s32, param_1, 0x20);
-        val = ((Unkstruct_801825C8 *)p)->unk12;
+        val = ((RenderHead *)p)->unk10.w.unk12.u;
         D_80126B96 = 0x4002;
         D_80126B9A = val;
         return 1;

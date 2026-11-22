@@ -12,5 +12,5 @@ void SHARED_FN(s32 param_1)
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_800D3888);
 
-    ((Unkstruct_80184DD8 *)param_1)->unk2 = ((Unkstruct_80184DD8 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }

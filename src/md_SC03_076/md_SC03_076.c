@@ -1435,8 +1435,8 @@ extern s32 D_801F9DCC;
 s32 func_801F1AC8(s32 param_1) {
     D_801F9DCC = 0;
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_801F1DA0, 0x1000000);
-    ((Unkstruct_801F1AC8 *)param_1)->unk28 = 16;
-    ((Unkstruct_801F1AC8 *)param_1)->unk15 = ((Unkstruct_801F1AC8 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 16;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -1447,7 +1447,7 @@ s32 func_801F1AC8(s32 param_1) {
     extern s32 guess_GetGameVarByte(s32);
     extern void func_800D0C48(s32);
     s32 func_801F1B1C(s32 param_1) {
-        if ((((Unkstruct_801EF554 *)param_1)->unk28 = ((Unkstruct_801EF554 *)param_1)->unk28 - 1) == -1) {
+        if ((((Dst *)param_1)->unk28 = ((Dst *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
             guess_RequestSound(0x1C, 0);
             func_8001BFD0();
@@ -1455,7 +1455,7 @@ s32 func_801F1AC8(s32 param_1) {
                 guess_RequestSound(0x1D, 0);
                 func_800D0C48(1);
             }
-            ((Unkstruct_801EF554 *)param_1)->unk15 = ((Unkstruct_801EF554 *)param_1)->unk15 + 1;
+            ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
         }
         return 0;
     }

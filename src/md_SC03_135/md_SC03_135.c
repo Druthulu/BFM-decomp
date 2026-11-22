@@ -1463,8 +1463,8 @@ s32 func_801E4C48(s32 param_1) {
 
     D_801EAC68 = 0;
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_801E4F30, 0x1000000);
-    ((Unkstruct_801E4C48 *)param_1)->unk15 = ((Unkstruct_801E4C48 *)param_1)->unk15 + 1;
-    ((Unkstruct_801E4C48 *)param_1)->unk28 = 0x10;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 0x10;
     return 0;
 }
 

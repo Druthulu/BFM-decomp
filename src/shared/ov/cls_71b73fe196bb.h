@@ -5,8 +5,8 @@ void SHARED_FN(s32 param_1) {
 
     tbl = ((Ent_80164930_80164930 *)param_1)->unk4C;
     obj = ((Ent_80164930_80164930 *)param_1)->unk20.val;
-    ((Ent_80164930_80164930 *)param_1)->unk4.val = ((Unkstruct_8017D598_2 *)tbl)->unk4;
-    ((Ent_80164930_80164930 *)param_1)->unk8.val = ((Unkstruct_8017D598_2 *)tbl)->unk8;
-    ((Ent_80164930_80164930 *)param_1)->unkC.val = ((Unkstruct_8017D598_2 *)tbl)->unkC;
-    ((Unkstruct_8017D598_4 *)obj)->unk12 += ((Unkstruct_8017D598_3 *)*(s32 *)(param_1 + 0x58))->unk6;
+    ((Ent_80164930_80164930 *)param_1)->unk4.val = ((Unkstruct_80126B58 *)tbl)->unk4.val;
+    ((Ent_80164930_80164930 *)param_1)->unk8.val = ((Unkstruct_80126B58 *)tbl)->unk8.val;
+    ((Ent_80164930_80164930 *)param_1)->unkC.val = ((Unkstruct_80126B58 *)tbl)->unkC.val;
+    ((RenderHead *)obj)->unk10.w.unk12.u += ((Unkstruct_8017D598_3 *)*(s32 *)(param_1 + 0x58))->unk6;
 }

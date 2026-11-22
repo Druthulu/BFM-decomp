@@ -3,5 +3,5 @@ void SHARED_FN(void *a0) {
         s32 v1 = ((Unkstruct_801202A0 *)a0)->unk20.val;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x1E;
         ((Unkstruct_801202A0 *)a0)->unk5C.s = 0;
-        ((Unkstruct_80180814_2 *)v1)->unk10 = 0;
+        ((RenderHead *)v1)->unk10.w.unk10.s = 0;
     }

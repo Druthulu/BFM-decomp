@@ -8,5 +8,5 @@ void SHARED_FN(s32 arg0) {
         ((Unkstruct_8017E754 *)arg0)->unk5C = 0;
         ((Unkstruct_8017E754 *)arg0)->unk102 = 3;
         var_v1 = ((Unkstruct_8017E754 *)arg0)->unk20;
-        ((Unkstruct_8017E754_2 *)var_v1)->unk2C |= 0x10;
+        ((RenderHead *)var_v1)->unk2C.s |= 0x10;
     }

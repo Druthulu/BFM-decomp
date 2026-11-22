@@ -3123,7 +3123,7 @@ s32 func_8017E770(s32 param_1)
         func_8017F528();
     }
     func_800167B8(0);
-    ((Unkstruct_8017E770 *)param_1)->unk15 = ((Unkstruct_8017E770 *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
     return 0;
 }
 
@@ -3165,8 +3165,8 @@ extern s32 D_80126B9C;
 s32 func_8017E818(void *a0)
 {
     D_80126B9C |= 0x4000000;
-    ((Unkstruct_8017E818 *)a0)->unk28 = 0xA;
-    ((Unkstruct_8017E818 *)a0)->unk15 += 1;
+    ((Dst *)a0)->unk28 = 0xA;
+    ((Dst *)a0)->unk15 += 1;
     return 0;
 }
 
@@ -3181,7 +3181,7 @@ s32 func_8017E84C(s32 param_1) {
     extern s16 D_800B9A0A;
     s16 s0;
 
-    if (--(((Unkstruct_8017E84C_2 *)param_1)->unk28) == -1) {
+    if (--(((Dst *)param_1)->unk28) == -1) {
         func_800D1E28();
         s0 = D_800B9A0A;
         if (s0 != 0x1000 || (s16)func_800D1D94() != s0) {
@@ -3189,7 +3189,7 @@ s32 func_8017E84C(s32 param_1) {
             func_8001BFD0();
             guess_RequestSound(0x1D, 0);
         }
-        ((Unkstruct_8017E84C_2 *)param_1)->unk15 += 1;
+        ((Dst *)param_1)->unk15 += 1;
     }
     return 0;
 }

@@ -6795,7 +6795,7 @@ s16 func_80181614_body(s32 param_1, s32 param_2)
 
     s0 = *(s32 *)(param_1 + 0x20);
     ret = guess_GetAngleStepToward(CAST_SIGN(s16, s0, 0x12), (s16)param_2, 4);
-    ((Unkstruct_80181614 *)s0)->unk12 = (((Unkstruct_80181614 *)s0)->unk12 + ret) & 0xFFF;
+    ((RenderHead *)s0)->unk10.w.unk12.u = (((RenderHead *)s0)->unk10.w.unk12.u + ret) & 0xFFF;
     return (ret << 16) == 0;
 }
 

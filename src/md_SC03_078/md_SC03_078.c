@@ -32,7 +32,7 @@ int func_801EF47C(u8 *arg) {
     extern s32 guess_GetGameVarByte(s32);
     extern void func_800D0C48(s32);
     s32 func_801EF544(s32 param_1) {
-        if ((((Unkstruct_801EF554 *)param_1)->unk28 = ((Unkstruct_801EF554 *)param_1)->unk28 - 1) == -1) {
+        if ((((Dst *)param_1)->unk28 = ((Dst *)param_1)->unk28 - 1) == -1) {
             func_800D1E28();
             ((s32 (*)(s32, s32))guess_RequestSound)(0x1C, 0);
             func_8001BFD0();
@@ -40,7 +40,7 @@ int func_801EF47C(u8 *arg) {
                 ((s32 (*)(s32, s32))guess_RequestSound)(0x1D, 0);
                 func_800D0C48(1);
             }
-            ((Unkstruct_801EF554 *)param_1)->unk15 = ((Unkstruct_801EF554 *)param_1)->unk15 + 1;
+            ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
         }
         return 0;
     }

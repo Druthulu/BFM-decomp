@@ -3332,19 +3332,19 @@ void func_8017E4D8(void *arg, void *b, void *c, void *d, void *e) {
     s16 out[4];
 
     func_8004978C((s16 *)((s32)arg + 0x10), &mat);
-    sv[0][0] = ((Unkstruct_8017E4D8 *)arg)->unk18;
+    sv[0][0] = ((RenderHead *)arg)->unk18.w.unk18.u;
     sv[0][1] = 0;
     sv[0][2] = 0;
     sv[0][3] = 0;
-    sv[1][0] = ((Unkstruct_8017E4D8 *)arg)->unk1A;
+    sv[1][0] = ((RenderHead *)arg)->unk18.w.unk1A.u;
     sv[1][1] = 0;
     sv[1][2] = 0;
     sv[1][3] = 0;
-    sv[2][0] = ((Unkstruct_8017E4D8 *)arg)->unk1C;
+    sv[2][0] = ((RenderHead *)arg)->unk18.w.unk1C.u;
     func_80048D9C(&mat, sv);
-    mat.t[0] = ((Unkstruct_8017E4D8 *)arg)->unk8;
-    mat.t[1] = ((Unkstruct_8017E4D8 *)arg)->unkA;
-    mat.t[2] = ((Unkstruct_8017E4D8 *)arg)->unkC;
+    mat.t[0] = ((RenderHead *)arg)->unk8.s;
+    mat.t[1] = ((RenderHead *)arg)->unkA.s;
+    mat.t[2] = ((RenderHead *)arg)->unkC.s;
     SetRotMatrix(&mat);
     SetTransMatrix(&mat);
     RotTransSV(b, d, out);
@@ -6166,20 +6166,20 @@ void func_80182FE4(s32 param_1) {
     s32 q;
     s32 t;
 
-    func_8001CC3C(((Unkstruct_80182FE4 *)param_1)->unk20, (s32)D_8018A494, 0x240, 0xE0);
+    func_8001CC3C(((Unkstruct_8011DB30 *)param_1)->unk20.val, (s32)D_8018A494, 0x240, 0xE0);
 
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.s = ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.s | 0x58000000;
 
     t = (rand() & 0x3F0) + 0x600;
-    q = ((Unkstruct_80182FE4 *)param_1)->unk20;
+    q = ((Unkstruct_8011DB30 *)param_1)->unk20.val;
     ((Unkstruct_800B5BD8 *)q)->head.unk18.w.unk1A.u = t;
     ((Unkstruct_800B5BD8 *)q)->head.unk18.w.unk18.u = t;
 
     ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x79;
 
-    ((Unkstruct_80182FE4 *)param_1)->unk14 = 0x80000;
-    ((Unkstruct_80182FE4 *)param_1)->unk1C = 0xC;
-    ((Unkstruct_80182FE4 *)param_1)->unk2 = ((Unkstruct_80182FE4 *)param_1)->unk2 + 1;
+    ((Unkstruct_8011DB30 *)param_1)->unk14.val.s = 0x80000;
+    ((Unkstruct_8011DB30 *)param_1)->unk1C.s = 0xC;
+    ((Unkstruct_8011DB30 *)param_1)->unk2.u = ((Unkstruct_8011DB30 *)param_1)->unk2.u + 1;
 }
 
 
@@ -6772,11 +6772,11 @@ void func_8018439C(s32 param_1)
 
     t = ((Unkstruct_801818B8_2 *)param_1)->unk1C - 1;
     ((Unkstruct_801818B8_2 *)param_1)->unk1C = t;
-    ((Unkstruct_8017F858_2 *)*(s32 *)(param_1 + 0x20))->unk1A = D_8018A4CC[7 - t];
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk18.w.unk1A.u = D_8018A4CC[7 - t];
     p = ((Unkstruct_801818B8_2 *)param_1)->unk20;
-    h = ((Unkstruct_8017F858_2 *)p)->unk1C + 0x20;
-    ((Unkstruct_8017F858_2 *)p)->unk1C = h;
-    ((Unkstruct_8017F858_2 *)p)->unk18 = h;
+    h = ((RenderHead *)p)->unk18.w.unk1C.u + 0x20;
+    ((RenderHead *)p)->unk18.w.unk1C.u = h;
+    ((RenderHead *)p)->unk18.w.unk18.u = h;
     if (((Unkstruct_801818B8_2 *)param_1)->unk1C == 0) {
         ((Unkstruct_801818B8_2 *)param_1)->unk2 = ((Unkstruct_801818B8_2 *)param_1)->unk2 + 1;
         ((Unkstruct_801818B8_2 *)param_1)->unk1C = 0x30;

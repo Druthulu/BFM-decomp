@@ -4511,9 +4511,9 @@ s32 func_80018450(void *a0, s32 a1)
             b->rec[i].flag = 1;
             b->rec[i].id = a1;
             b->rec[i].d = 0;
-            b->rec[i].x = ((Unkstruct_80018450 *)a0)->unk28;
-            b->rec[i].y = ((Unkstruct_80018450 *)a0)->unk2A;
-            b->rec[i].c = ((Unkstruct_80018450 *)a0)->unk27;
+            b->rec[i].x = ((RenderHead *)a0)->unk28.w.unk28.u;
+            b->rec[i].y = ((RenderHead *)a0)->unk28.w.unk2A.u;
+            b->rec[i].c = ((RenderHead *)a0)->unk24.b.unk27.u;
             ret = 1;
             break;
         }

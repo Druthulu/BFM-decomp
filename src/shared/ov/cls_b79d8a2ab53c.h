@@ -4,5 +4,5 @@
  * rank 3 src/shared/ov/func_8017E264__b79d8a2a.h rejected by type_census --check
  * rank 4 src/ov_SC05_017/ov_SC05_017_jr_8017AE2C.c:4167 rejected by type_census --check */
 void SHARED_FN(u8 *a0) {
-        ((Unkstruct_8017EA50 *)a0)->unkA0 = 0;
+        ((Unkstruct_80126948 *)a0)->unkA0.sb = 0;
     }

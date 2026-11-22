@@ -4169,9 +4169,9 @@ void func_80180B3C(s32 a0)
     gte_SetRotMatrix(p + 0x18);
     gte_SetTransMatrix(p + 0x18);
 
-    sv.vx = ((Unkstruct_801819D0_2 *)obj)->unk6;
-    sv.vy = ((Unkstruct_801819D0_2 *)obj)->unkA;
-    sv.vz = ((Unkstruct_801819D0_2 *)obj)->unkE;
+    sv.vx = ((Unkstruct_8011DB30 *)obj)->unk4.i.hi.u;
+    sv.vy = ((Unkstruct_8011DB30 *)obj)->unk8.i.hi.u;
+    sv.vz = ((Unkstruct_8011DB30 *)obj)->unkC.i.hi.u;
     sv.vy += 0x20;
     gte_ldv0(&sv);
     gte_rtps();
@@ -4234,7 +4234,7 @@ void func_80180B3C(s32 a0)
     pkt->clut = ((b + 0x100) << 6) | (b < 0xE0 ? 0x16 : 0x10);
     pkt->r0 = pkt->g0 = pkt->b0 = 0x80;
 
-    switch (((Unkstruct_801819D0_2 *)obj)->unk34) {
+    switch (((Unkstruct_8011DB30 *)obj)->unk34.val.s) {
     case 0:
         pkt->x0 = sxy0.vx + sxy1.vx * 4;
         pkt->x1 = sxy0.vx;

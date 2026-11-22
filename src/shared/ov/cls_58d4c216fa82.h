@@ -6,7 +6,7 @@ s32 SHARED_FN(void *a0) {
 
     p1 = ((Unkstruct_8017DF48 *)a0)->unk20;
     p2 = ((Unkstruct_8017DF48 *)a0)->unk6C;
-    val = ((Unkstruct_8017DF48_3 *)p1)->unk12;
+    val = ((RenderHead *)p1)->unk10.w.unk12.u;
     p2 = ((Unkstruct_8017DF48_2 *)p2)->unk20;
     val += 0x800;
     val &= 0xFFF;

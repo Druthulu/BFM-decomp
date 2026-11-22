@@ -13,24 +13,24 @@ void SHARED_FN(void *a0) {
     s0 = *(s32 **)((u8 *)s1 + 0x20);
 
     // Store 0x0B as halfword at offset 0x2
-    ((Unkstruct_8017E270 *)s0)->unk2 = v0_const;
+    ((RenderHead *)s0)->unk2.u = v0_const;
 
     // Load word from offset 0x4, OR with 0x50000000, store back
-    ((Unkstruct_8017E270 *)s0)->unk4 |= 0x50000000;
+    ((RenderHead *)s0)->unk4.s |= 0x50000000;
 
     // If the halfword at offset 0x18 is 0, store 0x600
-    if (((Unkstruct_8017E270 *)s0)->unk18 == 0) {
-        ((Unkstruct_8017E270 *)s0)->unk18 = 0x600;
+    if (((RenderHead *)s0)->unk18.w.unk18.s == 0) {
+        ((RenderHead *)s0)->unk18.w.unk18.s = 0x600;
     }
 
     // Call rand, mask to 0xFF0, store at offset 0x14
     rand_val = rand();
-    ((Unkstruct_8017E270 *)s0)->unk14 = (u16)(rand_val & 0xFF0);
+    ((RenderHead *)s0)->unk10.w.unk14.u = (u16)(rand_val & 0xFF0);
 
     // Load halfword at offset 0x2 of s1, increment, store back
     val_ptr = (u16 *)((u8 *)s1 + 0x2);
     *val_ptr = *val_ptr + 1;
 
     // Store 0x100 as halfword at offset 0x30 of s1
-    ((Unkstruct_8017E270_4 *)s1)->unk30 = 0x100;
+    ((Unkstruct_8011DB30 *)s1)->unk30.i.lo.s = 0x100;
 }

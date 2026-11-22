@@ -3795,8 +3795,8 @@ extern void func_8017D804(void *arg0);
 
 s32 func_8017D588(s32 param_1) {
     ((void (*)(void *, s32))func_8016EDEC)((void *)func_8017D804, 0x1000000);
-    ((Unkstruct_8017D588 *)param_1)->unk15 = ((Unkstruct_8017D588 *)param_1)->unk15 + 1;
-    ((Unkstruct_8017D588 *)param_1)->unk28 = 10;
+    ((Dst *)param_1)->unk15 = ((Dst *)param_1)->unk15 + 1;
+    ((Dst *)param_1)->unk28 = 10;
     return 0;
 }
 
