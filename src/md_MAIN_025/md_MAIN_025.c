@@ -545,7 +545,7 @@ void func_800CBAF4(void *a0)
 void func_800CBB50(void *a0) {
     ((Unkstruct_800B5BD8 *)a0)->head.unk24.b.unk27.u = 0x1A;
     ((Unkstruct_800B5BD8 *)a0)->head.unk2C.u = 1;
-    ((Unkstruct_800B5BD8 *)a0)->head.unk8.u = 0;
+    ((Unkstruct_800B5BD8 *)a0)->head.unk8.w.unk8.u = 0;
     CAST_ALIAS(s16, (s32)a0, 0xA) = -0x40;
 }
 

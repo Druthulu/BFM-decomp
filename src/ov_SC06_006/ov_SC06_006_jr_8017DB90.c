@@ -3041,22 +3041,22 @@ void func_8017E330(Actor_8017E330 *a0) {
              * The split load/shift statements give the non-adjacency (the
              * `lw 0x20($s0)` sits between them); the zero-byte re-tie with a
              * "memory" clobber supplies the write.  Byte-exact, emits nothing. */
-            t = p->f20->rot.vx;
-            a0->f20->rot.vx = (s16)t >> 3;
-            t = p->f20->rot.vy;
-            a0->f20->rot.vy = (s16)t >> 3;
-            t = p->f20->rot.vz;
-            a0->f20->rot.vz = (s16)t >> 3;
+            t = p->f20->unk18.w.unk18.s;
+            a0->f20->unk18.w.unk18.s = (s16)t >> 3;
+            t = p->f20->unk18.w.unk1A.s;
+            a0->f20->unk18.w.unk1A.s = (s16)t >> 3;
+            t = p->f20->unk18.w.unk1C.s;
+            a0->f20->unk18.w.unk1C.s = (s16)t >> 3;
         } else {
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
             a0->f0E = v.x.vz;
-            a0->f20->rot = p->f20->rot;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
+            a0->f20->unk18.m = p->f20->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
-        a0->f20->f10 = D_801F8428[i].a;
-        a0->f20->f12 = D_801F8428[i].b;
-        a0->f20->f14 = D_801F8428[i].c;
+        a0->f20->unk10.w.unk10.u = D_801F8428[i].a;
+        a0->f20->unk10.w.unk12.u = D_801F8428[i].b;
+        a0->f20->unk10.w.unk14.u = D_801F8428[i].c;
     } else {
         guess_HideObjectModel((u8 *)a0);
         a0->f98 = 0;
@@ -3104,22 +3104,22 @@ void func_8017E550(Actor_8017E550 *a0) {
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
             a0->f0E = v.x.vz;
-            t = p->f20->rot.vx;
-            a0->f20->rot.vx = (s16)t >> 3;
-            t = p->f20->rot.vy;
-            a0->f20->rot.vy = (s16)t >> 3;
-            t = p->f20->rot.vz;
-            a0->f20->rot.vz = (s16)t >> 3;
+            t = p->f20->unk18.w.unk18.s;
+            a0->f20->unk18.w.unk18.s = (s16)t >> 3;
+            t = p->f20->unk18.w.unk1A.s;
+            a0->f20->unk18.w.unk1A.s = (s16)t >> 3;
+            t = p->f20->unk18.w.unk1C.s;
+            a0->f20->unk18.w.unk1C.s = (s16)t >> 3;
         } else {
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
             a0->f0E = v.x.vz;
-            a0->f20->rot = p->f20->rot;
+            a0->f20->unk18.m = p->f20->unk18.m;
         }
 
-        a0->f20->f10 = pp->a;
-        a0->f20->f12 = pp->b;
-        a0->f20->f14 = pp->c;
+        a0->f20->unk10.w.unk10.u = pp->a;
+        a0->f20->unk10.w.unk12.u = pp->b;
+        a0->f20->unk10.w.unk14.u = pp->c;
     } else {
         guess_HideObjectModel((u8 *)a0);
         a0->f98 = 0;
@@ -3224,12 +3224,12 @@ void func_8017E878(Actor_8017E550 *a0) {
             a0->f06 = v.x.vx;
             a0->f0A = v.x.vy;
             a0->f0E = v.x.vz;
-            a0->f20->rot = p->f20->rot;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
+            a0->f20->unk18.m = p->f20->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
-        a0->f20->f10 = pp->a;
-        a0->f20->f12 = pp->b;
-        a0->f20->f14 = pp->c;
+        a0->f20->unk10.w.unk10.u = pp->a;
+        a0->f20->unk10.w.unk12.u = pp->b;
+        a0->f20->unk10.w.unk14.u = pp->c;
     } else {
         guess_HideObjectModel((u8 *)a0);
         a0->f98 = 0;
@@ -5124,9 +5124,9 @@ void func_801814DC(void *a0) {
 
     ((Unkstruct_8011DB30 *)a0)->unk14.val.s += CAST_WIDTH(s32, (s32)a0, 0x34);
     *(u16 *)(((Unkstruct_8011DB30 *)a0)->unk20.val + 0x14) += CAST_WIDTH(u16, (s32)a0, 0x30);
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkA.u = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
-    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.w.unk8.u = ((Unkstruct_8011DB30 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.w.unkA.u = ((Unkstruct_8011DB30 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk8.w.unkC.u = ((Unkstruct_8011DB30 *)a0)->unkC.i.hi.u;
     func_80181658((void *)((Unkstruct_8011DB30 *)a0)->unk20.val);
 }
 

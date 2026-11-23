@@ -22,11 +22,11 @@ shared:
             ((Unkstruct_8011D030 *)arg0)->unk1C.s = v;
         }
         ((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s = (s16) (((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s + ((Unkstruct_8011D030 *)arg0)->unk1C.s);
-        ((Unkstruct_8011D030 *)arg0)->unk38.mat = node->unk20->mat;
+        ((Unkstruct_8011D030 *)arg0)->unk38.mat = node->unk20->unk34.coord;
         ((void (*)(Unkstruct_8011D030 *, s32, s32, s32))func_801670E4)(((Unkstruct_8011D030 *)arg0), 0, 0, 0);
         ent = ((Unkstruct_8011D030 *(*)(s32, Unkstruct_8011D030 *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, ((Unkstruct_8011D030 *)arg0), node->unk6, node->unkA, node->unkE, 0, 0);
         if (ent != 0) {
-            ent->unk38.mat = node->unk20->mat;
+            ent->unk38.mat = node->unk20->unk34.coord;
         }
         if (((Unkstruct_8011D030 *)arg0)->unk34.n->unk4C->unk44 & 0x20) {
             ((Unkstruct_8011D030 *)arg0)->unk30.val.s = 0x600;

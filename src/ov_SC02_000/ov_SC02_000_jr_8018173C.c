@@ -5237,11 +5237,11 @@ void func_80186530(s32 self)
     v1 = ((Unkstruct_801202A0 *)self)->unk20.p;
     ((Unkstruct_8001C9D0 *)v1)->head.unk10.w.unk12.u += 0x10;
     a1 = ((Unkstruct_801202A0 *)self)->unkCC.val;
-    ((Unkstruct_8001C9D0 *)a1)->head.unk8.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u;
-    ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
     t = ((Unkstruct_801202A0 *)self)->unkC.i.hi.u;
     ((Unkstruct_8001C9D0 *)a1)->head.unk2C.u |= 0x10;
-    ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = t;
+    ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unkC.u = t;
     v1 = D_8018F318 * ((Unkstruct_801202A0 *)self)->unkFC.s;
     if (v1 < 0) {
         v1 += 15;

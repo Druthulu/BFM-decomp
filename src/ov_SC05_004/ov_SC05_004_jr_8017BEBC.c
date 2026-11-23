@@ -4221,11 +4221,11 @@ s32 func_8017E808(u8 *a0) {
     ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = 0xC010;
     CAST_WIDTH(s32, s1, 4) |= 0x50000000;
     v0 = *(s32 *)(a0 + 0x64);
-    ((Unkstruct_800B5BD8 *)s1)->head.unk8.u = *(u16 *)(v0 + 6);
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unk8.u = *(u16 *)(v0 + 6);
     v0 = *(s32 *)(a0 + 0x64);
-    ((Unkstruct_800B5BD8 *)s1)->head.unkA.u = *(u16 *)(v0 + 0xA) - 0x48;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unkA.u = *(u16 *)(v0 + 0xA) - 0x48;
     v0 = *(s32 *)(a0 + 0x64);
-    ((Unkstruct_800B5BD8 *)s1)->head.unkC.u = *(u16 *)(v0 + 0xE);
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unkC.u = *(u16 *)(v0 + 0xE);
 }
 
 

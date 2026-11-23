@@ -92,7 +92,7 @@ lout:
             var_s3 = ((s32(*)(void *, void *))guess_SjisToGlyphCodes)(D_801855E4, D_8019ACE8) + 9;
             func_8001CE28(obj, D_8019ACE8);
         }
-        obj->head.unkE.s = var_s3;
+        obj->head.unk8.w.unkE.s = var_s3;
         obj->head.unk4.s |= 0x04000000;
         if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 6) {
             obj->head.unk24.b.unk27.u = 0xB5;

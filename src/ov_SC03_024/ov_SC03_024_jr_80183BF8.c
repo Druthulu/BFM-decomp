@@ -3839,8 +3839,8 @@ void func_8018520C(s32 a0) {
     guess_BuildCircle12Points(p, 0x38);
 
     ((Unkstruct_800B5BD8 *)v)->head.unk10.w.unk10.u = 0x400;
-    ((Unkstruct_800B5BD8 *)v)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-    ((Unkstruct_800B5BD8 *)v)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)v)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)v)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
     CAST_ALIAS(u16, v, 0xC) = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     ((Unkstruct_800B5BD8 *)v)->head.unk4.s |= 0x50000000;
     D_801C13D6 = 0xFF;

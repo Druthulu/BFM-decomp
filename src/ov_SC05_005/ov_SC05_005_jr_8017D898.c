@@ -4568,9 +4568,9 @@ void func_801816A8(void *arg0) {
     *(volatile u16 *)(p + 0x2C) = 0;
     ((Unkstruct_800B5BD8 *)p)->head.unk2C.u = 0xC006;
     p[0x27] = 0x51;
-    ((Unkstruct_800B5BD8 *)p)->head.unk8.u = 0;
-    ((Unkstruct_800B5BD8 *)p)->head.unkA.u = 0;
-    ((Unkstruct_800B5BD8 *)p)->head.unkC.u = 0;
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.u = 0;
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.u = 0;
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkC.u = 0;
     ((Unkstruct_800B5BD8 *)p)->head.unk2E.u = 0;
     ((Unkstruct_800B5BD8 *)p)->unk30.u = 0;
     ((Unkstruct_800B5BD8 *)p)->unk32.u = 0;

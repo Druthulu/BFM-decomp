@@ -4315,8 +4315,8 @@ void func_8017E6A4(s32 param_1)
     CAST_ALIAS(s32, (s32)b78, 0x48) = (s32)(s16)guess_g_PlayerPosX;
     CAST_ALIAS(s16, (s32)b78, 0xA) = guess_g_PlayerPosY;
     CAST_ALIAS(s32, (s32)b78, 0x4C) = (s32)(s16)guess_g_PlayerPosY;
-    ((Unkstruct_8001C9D0 *)b78)->head.unkC.s = guess_g_PlayerPosZ;
-    ((Unkstruct_8001C9D0 *)b78)->unk50 = (s32)(s16)guess_g_PlayerPosZ;
+    ((Unkstruct_8001C9D0 *)b78)->head.unk8.w.unkC.s = guess_g_PlayerPosZ;
+    ((Unkstruct_8001C9D0 *)b78)->unk34.f.unk50 = (s32)(s16)guess_g_PlayerPosZ;
 }
 
 

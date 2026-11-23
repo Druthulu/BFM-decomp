@@ -5193,9 +5193,9 @@ void func_8017F750(void *a0, s32 a1) {
     a2 = (s32 *)D_801EE950[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801EE968[v1 * 16] = a1;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((SVECTOR *)a0)->vx;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((SVECTOR *)a0)->vy;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((SVECTOR *)a0)->vz;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unk8.u = ((SVECTOR *)a0)->vx;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unkA.u = ((SVECTOR *)a0)->vy;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unkC.u = ((SVECTOR *)a0)->vz;
     ((Unkstruct_800B5BD8 *)a2)->head.unk10.w.unk12.u = (((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 

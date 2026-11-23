@@ -356,11 +356,11 @@ s32 func_800CB658(s32 arg0) {
         ((Unkstruct_8011D030 *)arg0)->unk1C.s = v;
     }
     ((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s = (s16)(((Unkstruct_8011D030 *)arg0)->unk10.i.hi.s + ((Unkstruct_8011D030 *)arg0)->unk1C.s);
-    ((Unkstruct_8011D030 *)arg0)->unk38.mat = node->unk20.p->mat;
+    ((Unkstruct_8011D030 *)arg0)->unk38.mat = node->unk20.p->unk34.coord;
     func_800CB3BC(arg0, 0, 0, -0x50);
     ent = ((Unkstruct_8011D030 *(*)(s32, void *, s16, s16, s32, s32, s32))guess_SpawnSmallObject)(0xE, (void *)arg0, ((Unkstruct_8011D030 *)arg0)->unk4.i.hi.s, ((Unkstruct_8011D030 *)arg0)->unk8.i.hi.s, ((Unkstruct_8011D030 *)arg0)->unkC.i.hi.s, 0, 0);
     if (ent != 0) {
-        ent->unk38.mat = node->unk20.p->mat;
+        ent->unk38.mat = node->unk20.p->unk34.coord;
     }
 }
 

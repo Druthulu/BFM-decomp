@@ -4494,9 +4494,9 @@ s32 func_8018095C(void *a0)
     if (v1 == NULL) {
         return;
     }
-    ((RenderHead *)v1)->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-    ((RenderHead *)v1)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-    ((RenderHead *)v1)->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+    ((RenderHead *)v1)->unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((RenderHead *)v1)->unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((RenderHead *)v1)->unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     dest = (s16 *)((s32)v1 + 0x8);
     func_801330E0(dest, dest, -0x100);
 }

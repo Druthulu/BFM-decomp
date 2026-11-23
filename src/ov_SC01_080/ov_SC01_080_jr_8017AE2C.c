@@ -3965,8 +3965,8 @@ void func_8017D93C(s32 arg0) {
     s32 idx;
     u16 *dst;
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk48 = CAST_WIDTH(s16, arg0, 0xDC);
-    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk50 = *(s16 *)(arg0 + 0xDE);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk34.f.unk48 = CAST_WIDTH(s16, arg0, 0xDC);
+    ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk34.f.unk50 = *(s16 *)(arg0 + 0xDE);
     in[0] = (((Unkstruct_801202A0 *)arg0)->unk1C.s & 1) << 2;
     in[2] = 0;
     in[1] = 0;
@@ -6789,9 +6789,9 @@ void func_80181A70(void *a0)
     if (s0 != 0) {
         func_8001CB6C((u8 *)s0, (s32)D_8018A220, 0x280, 0x180);
         ((Unkstruct_800B5BD8 *)s0)->head.unk24.b.unk27.u = 0x4D;
-        ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = *(u16 *)((s32)a0 + 6);
-        ((Unkstruct_800B5BD8 *)s0)->head.unkA.u = *(u16 *)((s32)a0 + 0xA);
-        ((Unkstruct_800B5BD8 *)s0)->head.unkC.u = *(u16 *)((s32)a0 + 0xE);
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.w.unk8.u = *(u16 *)((s32)a0 + 6);
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.w.unkA.u = *(u16 *)((s32)a0 + 0xA);
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.w.unkC.u = *(u16 *)((s32)a0 + 0xE);
         ((Unkstruct_800B5BD8 *)s0)->head.unk4.s |= 0x50000000;
         *(s32 *)((s32)a0 + 0x34) = s0;
     }

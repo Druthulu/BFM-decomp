@@ -3596,9 +3596,9 @@ void func_80184444(s32 a0) {
     if ((CAST_SIGN(u16, a0, 0x70) & 1) == 0) {
         *(s16 *)(a0 + 0x52) = (u32)rsin(((Unkstruct_801202A0 *)a0)->unk1C.s << 5) >> 8;
         if (((Unkstruct_801202A0 *)a0)->unk1C.s == (((Unkstruct_801202A0 *)a0)->unk1C.s / 24) * 24) {
-            sp10[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk8.u;
-            sp10[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unkA.u + 0x40;
-            sp10[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unkC.u;
+            sp10[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk8.w.unk8.u;
+            sp10[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk8.w.unkA.u + 0x40;
+            sp10[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk8.w.unkC.u;
             func_80184FB0(sp10, 0x60);
         }
     } else {

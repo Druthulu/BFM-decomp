@@ -2914,9 +2914,9 @@ s32 func_801849DC(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4) {
     ((Unkstruct_800B5BD8 *)obj)->head.unk24.b.unk27.u = a4;
     ((Unkstruct_800B5BD8 *)obj)->head.unk18.w.unk1A.u = 0x2D00;
     ((Unkstruct_800B5BD8 *)obj)->head.unk18.w.unk18.u = 0x2D00;
-    ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-    ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-    ((Unkstruct_800B5BD8 *)obj)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+    ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     return obj;
 }
 
@@ -4477,9 +4477,9 @@ void func_80186F7C(s32 param_1)
 
         ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk12.u - 0x100;
 
-        ((Unkstruct_8001C9D0 *)a1)->head.unk8.u = ((Unkstruct_80184214 *)param_1)->unk4.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk50.u;
-        ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = ((Unkstruct_80184214 *)param_1)->unk8.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk52.u;
-        ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = ((Unkstruct_80184214 *)param_1)->unkC.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk54.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unk8.u = ((Unkstruct_80184214 *)param_1)->unk4.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk50.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unkA.u = ((Unkstruct_80184214 *)param_1)->unk8.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk52.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk8.w.unkC.u = ((Unkstruct_80184214 *)param_1)->unkC.i.hi.u + ((Unkstruct_80184214 *)param_1)->unk50.w.unk54.u;
 
         ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk18.w.unk18.u;
         ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk18.w.unk1A.u;

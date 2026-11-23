@@ -150,9 +150,9 @@ void func_80185214(s32 arg0) {
 
         func_80132784(self, ((Unkstruct_801202A0 *)self)->unk64, CAST_SIGN(u16, self, 0xFC));
 
-        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk48;
-        ((Unkstruct_801202A0 *)self)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk4C;
-        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk50;
+        ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk34.f.unk48;
+        ((Unkstruct_801202A0 *)self)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk34.f.unk4C;
+        ((Unkstruct_801202A0 *)self)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(void **)(self + 0x20))->unk34.f.unk50;
         ((Unkstruct_801202A0 *)self)->extD.kSC02_005_8018550C.unk102 = ((Unkstruct_801202A0 *)self)->unk8.i.hi.u;
 
         func_8012B21C((void *)self);

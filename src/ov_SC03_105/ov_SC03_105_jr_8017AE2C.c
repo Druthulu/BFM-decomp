@@ -3501,12 +3501,12 @@ void func_8017C150(void *a0) {
         bank = D_801B9640;
         guess_SjisToGlyphCodes(*(void **)((s32)a0 + 0xDC), bank);
         func_8001CE28((void *)obj, bank);
-        ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unk8.u = *(u16 *)((s32)a0 + 0x6) + 6;
         {
             s32 y = *(u16 *)((s32)a0 + 0xA);
             ((Unkstruct_800B5BD8 *)obj)->head.unk2C.u = 3;
             ((Unkstruct_800B5BD8 *)obj)->head.unk24.b.unk27.u = 1;
-            ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = y + 9;
+            ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unkA.u = y + 9;
         }
         *(s32 *)((s32)a0 + 0xD0) = obj;
     }

@@ -3840,7 +3840,7 @@ void func_8017F324(s32 arg0) {
         func_8001CE28((void *)h, (void *)&D_801AD328);
         bc = &guess_g_ScreenWidth;
         CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x10;
-        ((Unkstruct_800B5BD8 *)h)->head.unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
+        ((Unkstruct_800B5BD8 *)h)->head.unk8.w.unkA.u = -guess_g_ScreenHeight / 2 + 0x18;
         CAST_ALIAS(s16, h, 0x2C) = 1;
         ((Unkstruct_800B5BD8 *)h)->head.unk24.b.unk27.u = 1;
         h = guess_AllocSpriteObjectHigh();
@@ -3850,7 +3850,7 @@ void func_8017F324(s32 arg0) {
             func_800242D0(q, (void *)&D_801AD350, 2);
             func_8001CE68((void *)h, (void *)&D_801AD350);
             CAST_ALIAS(s16, h, 8) = -*bc / 2 + 0x18;
-            ((Unkstruct_800B5BD8 *)h)->head.unkA.u = -guess_g_ScreenHeight / 2 + 0x20;
+            ((Unkstruct_800B5BD8 *)h)->head.unk8.w.unkA.u = -guess_g_ScreenHeight / 2 + 0x20;
             ((Unkstruct_800B5BD8 *)h)->head.unk2C.u = 1;
             *(u16 *)(arg0 + 2) += 1;
         }
@@ -3955,8 +3955,8 @@ void func_8017F6C8(s32 param_1) {
         func_8001CEC0(s0, D_80184EE0);
         ((Unkstruct_800B5BD8 *)s0)->head.unk2E.u = 0xA0;
         CAST_WIDTH(u16, s0, 0x30) = 0x70;
-        ((Unkstruct_800B5BD8 *)s0)->head.unk8.u = 0;
-        ((Unkstruct_800B5BD8 *)s0)->head.unkA.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.w.unk8.u = 0;
+        ((Unkstruct_800B5BD8 *)s0)->head.unk8.w.unkA.u = 0;
         ((Unkstruct_800B5BD8 *)s0)->head.unk2C.u = 1;
         guess_SetWaitTimer((s32 *)s1, 0x40);
         func_8012AD50((void *)s1);

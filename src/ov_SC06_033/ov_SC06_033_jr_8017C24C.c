@@ -4253,9 +4253,9 @@ void func_8017F53C(s32 a0)
             }
         }
 
-        L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
@@ -4666,9 +4666,9 @@ void func_8017FEF0(s32 a0) {
         idx = ang / 0x100;
         m = (s16)(idx % 0x10);
         if (ang == 0x100) {
-            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
             { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -4692,9 +4692,9 @@ void func_8017FEF0(s32 a0) {
                 }
             }
         } else if (m == 0) {
-            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
             { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -4794,9 +4794,9 @@ void func_801803B4(s32 a0) {
         ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
         ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }
         { void *r4; r4 = &D_800AF648_b; SetTransMatrix(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -4917,9 +4917,9 @@ L_B:
     ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
     ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
-    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
     { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }
     { void *r4; r4 = &D_800AF648_b; SetTransMatrix(r4); }
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -5021,9 +5021,9 @@ void func_80180774(s32 a0)
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unk84.s = 0xE;
 
-                    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-                    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-                    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+                    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+                    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+                    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
                     SetRotMatrix(&guess_g_CameraWsMatrix);
                     SetTransMatrix(&D_800AF648_b);
                     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -5212,9 +5212,9 @@ void func_80180C84(s32 a0) {
             i++;
         } while (i < 8);
 
-        v18[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        v18[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        v18[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        v18[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        v18[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        v18[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)v18, (s32)&sxy, &z, &flag);
@@ -5415,9 +5415,9 @@ void func_801812DC(s32 a0) {
             }
         }
 
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);

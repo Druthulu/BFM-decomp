@@ -3385,8 +3385,8 @@ void func_8017C004(s32 arg0) {
     if (p != 0) {
         ((Unkstruct_8011D030 *)arg0)->unk34.val = p;
         func_8001CEC0(p, D_8018491C);
-        ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x40;
-        ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
+        ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.s = 0x40;
+        ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.s = -0x20;
         ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
         ((Unkstruct_800B5BD8 *)p)->head.unk4.s |= 0x40000000;
 
@@ -3395,8 +3395,8 @@ void func_8017C004(s32 arg0) {
             ((Unkstruct_8011D030 *)arg0)->unk10.val = p;
             guess_SjisToGlyphCodes(D_80184A18, D_801AD2CC);
             func_8001CE28(p, D_801AD2CC);
-            ((Unkstruct_800B5BD8 *)p)->head.unk8.s = 0x30;
-            ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
+            ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.s = 0x30;
+            ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.s = -0x2C;
             ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
             ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 1;
 
@@ -3404,8 +3404,8 @@ void func_8017C004(s32 arg0) {
             if (p != 0) {
                 ((Unkstruct_8011D030 *)arg0)->unk14.val = p;
                 func_8001CEC0(p, D_8018498C);
-                ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x40;
-                ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x20;
+                ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.s = -0x40;
+                ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.s = -0x20;
                 ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
 
                 p = ((s32 (*)(void))guess_AllocSpriteObject)();
@@ -3413,8 +3413,8 @@ void func_8017C004(s32 arg0) {
                     ((Unkstruct_8011D030 *)arg0)->unk18.val = p;
                     guess_SjisToGlyphCodes(D_80184A24, D_801AD2EC);
                     func_8001CE28(p, D_801AD2EC);
-                    ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x58;
-                    ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0x2C;
+                    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.s = -0x58;
+                    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.s = -0x2C;
                     ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
                     ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 1;
 
@@ -3423,8 +3423,8 @@ void func_8017C004(s32 arg0) {
                         ((Unkstruct_8011D030 *)arg0)->unk1C.s = p;
                         guess_SjisToGlyphCodes(D_80184A38, D_801AD31C);
                         func_8001CE28(p, D_801AD31C);
-                        ((Unkstruct_800B5BD8 *)p)->head.unk8.s = -0x68;
-                        ((Unkstruct_800B5BD8 *)p)->head.unkA.s = -0xC;
+                        ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.s = -0x68;
+                        ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.s = -0xC;
                         ((Unkstruct_800B5BD8 *)p)->head.unk2C.s = 1;
                         ((Unkstruct_800B5BD8 *)p)->head.unk24.b.unk27.u = 0xB6;
                         ((Unkstruct_8011D030 *)arg0)->unk2A.s = 0;

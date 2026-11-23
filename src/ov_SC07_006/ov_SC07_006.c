@@ -1103,9 +1103,9 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         }
     }
     if (((Unkstruct_8012C890_3 *)dst)->unk20.val != 0) {
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.u = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unkA.u = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unkC.u = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unk8.u = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unkA.u = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unkC.u = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
     }
     return (s32)dst;
 }
@@ -1565,9 +1565,9 @@ void func_8012E364(s32 arg0_)
         u16 a = param_2;
         register u16 b __asm__("$17") = param_3;  // !FAKE: pin $17 — NEEDED DIFFERS (P36 rung B tus9) wall:cse-const-addr
         if (((Unkstruct_801202A0 *)param_1)->unk20.val != 0) {
-            f.v[0] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk48;
-            f.v[1] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk4C;
-            f.v[2] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk50;
+            f.v[0] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk48;
+            f.v[1] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk4C;
+            f.v[2] = (short)((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk50;
             p = &guess_g_CameraWsMatrix;
             SetRotMatrix(p);
             SetTransMatrix(&guess_g_CameraWsMatrix);

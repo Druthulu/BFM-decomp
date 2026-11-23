@@ -3148,9 +3148,9 @@ void func_80191020(s32 a0) {
         }
         ((Unkstruct_801202A0 *)a0)->unk1C.s = 0x14;
         ((Unkstruct_801202A0 *)a0)->unk34.u = ((Unkstruct_801202A0 *)a0)->unk34.u + 1;
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         /* $a0-pinned scopes: rematerialise &guess_g_CameraWsMatrix (lui/addiu) before EACH call */
         { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung B t8_mac1) wall:cse-const-addr
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
@@ -3402,13 +3402,13 @@ void func_80191320(s32 arg0) {
             if (e != 0) {
                 ((Unkstruct_801202A0 *)arg0)->unkCC.val = e;
                 guess_InitObjectKind6(e, &D_801D59F0);
-                ((Unkstruct_800B5BD8 *)e)->head.unk8.u = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
-                ((Unkstruct_800B5BD8 *)e)->head.unkA.u = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
+                ((Unkstruct_800B5BD8 *)e)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
+                ((Unkstruct_800B5BD8 *)e)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u;
                 tmp = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u;
                 CAST_WIDTH(s32, e, 4) = CAST_WIDTH(s32, e, 4) | 0x50000000;
                 ((Unkstruct_800B5BD8 *)e)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)e)->head.unk18.w.unk1A.u = 0x80;
                 ((Unkstruct_800B5BD8 *)e)->head.unk2C.u = 0xC006;
-                ((Unkstruct_800B5BD8 *)e)->head.unkC.u = tmp;
+                ((Unkstruct_800B5BD8 *)e)->head.unk8.w.unkC.u = tmp;
             }
             t34a = ((Unkstruct_801202A0 *)arg0)->unk34.u;
             ((Unkstruct_801202A0 *)arg0)->unk1C.s = 8;

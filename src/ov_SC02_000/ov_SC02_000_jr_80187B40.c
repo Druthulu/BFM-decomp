@@ -4549,8 +4549,8 @@ void func_8018A2A0(void) {
                 p1 = y * hv;
                 w = ((Unkstruct_8018A2A0 *)h)->head.unk4.u;
                 ((Unkstruct_8018A2A0 *)h)->head.unk4.u = w & 0x7FFFFFFF;
-                ((Unkstruct_8018A2A0 *)h)->head.unk8.s = p0 >> 12;
-                ((Unkstruct_8018A2A0 *)h)->head.unkA.s = p1 >> 12;
+                ((Unkstruct_8018A2A0 *)h)->head.unk8.w.unk8.s = p0 >> 12;
+                ((Unkstruct_8018A2A0 *)h)->head.unk8.w.unkA.s = p1 >> 12;
             } else {
                 w = ((Unkstruct_8018A2A0 *)h)->head.unk4.u;
                 ((Unkstruct_8018A2A0 *)h)->head.unk4.u = w | 0x80000000;

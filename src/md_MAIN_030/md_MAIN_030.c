@@ -224,9 +224,9 @@ void func_800CB1EC(void *a0) {
         ((Unkstruct_800B5BD8 *)s4)->head.unk4.s &= mask;
         ((Unkstruct_800B5BD8 *)s4)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk18.u;
         ((Unkstruct_800B5BD8 *)s4)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)s3)->head.unk18.w.unk1A.u;
-        ((Unkstruct_800B5BD8 *)s4)->head.unk8.u = ((Unkstruct_8011D030 *)a0)->unk4.i.hi.u;
-        ((Unkstruct_800B5BD8 *)s4)->head.unkA.u = ((Unkstruct_8011D030 *)a0)->unk8.i.hi.u;
-        ((Unkstruct_800B5BD8 *)s4)->head.unkC.u = ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_800B5BD8 *)s4)->head.unk8.w.unk8.u = ((Unkstruct_8011D030 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_800B5BD8 *)s4)->head.unk8.w.unkA.u = ((Unkstruct_8011D030 *)a0)->unk8.i.hi.u;
+        ((Unkstruct_800B5BD8 *)s4)->head.unk8.w.unkC.u = ((Unkstruct_8011D030 *)a0)->unkC.i.hi.u;
         ((Unkstruct_8011D030 *)a0)->unk1C.s += 1;
     } else {
         if (s4 != NULL) {

@@ -5312,9 +5312,9 @@ void func_80180600(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = 0;
     func_80132784(a0, ((Unkstruct_801202A0 *)a0)->unk64, CAST_SIGN(u16, a0, 0x70));
 
-    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+    ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
     func_8012AD50((void *)a0);
 
     CAST_WIDTH(s32, a0, 0x24) = CAST_WIDTH(s32, a0, 0x4);

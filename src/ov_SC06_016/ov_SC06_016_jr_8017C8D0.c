@@ -4510,8 +4510,8 @@ extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void guess_RotTransSVWithObjMatrix(s32 a0, s32 a1, s32 a2);
 
 void func_8018048C(void *a0) {
-    Obj_8018048C *a = (Obj_8018048C *)D_8019FB58;
-    Obj_8018048C *b = (Obj_8018048C *)D_8019FB5C;
+    Unkstruct_800B5BD8 *a = (Unkstruct_800B5BD8 *)D_8019FB58;
+    Unkstruct_800B5BD8 *b = (Unkstruct_800B5BD8 *)D_8019FB5C;
     void *ent = a0;
     u8 *p = D_8019FAD8;
     u8 *q = p + 0x40;
@@ -4530,20 +4530,20 @@ void func_8018048C(void *a0) {
 
     switch (D_8019FB60) {
     case 0:
-        a->flags |= 0x80000000;
-        b->flags |= 0x80000000;
+        a->head.unk4.s |= 0x80000000;
+        b->head.unk4.s |= 0x80000000;
         break;
 
     case 1:
-        a->flags &= 0x7FFFFFFF;
-        b->flags &= 0x7FFFFFFF;
+        a->head.unk4.s &= 0x7FFFFFFF;
+        b->head.unk4.s &= 0x7FFFFFFF;
         D_8019FB64 = 0;
         D_8019FB60 = 2;
         /* fallthrough */
 
     case 2:
-        a->unk1E = 0xC00;
-        b->unk1E = 0x1400;
+        a->head.unk18.w.unk1E.s = 0xC00;
+        b->head.unk18.w.unk1E.s = 0x1400;
 
         n = D_8019FB64 + 1;
         D_8019FB64 = n;
@@ -4572,11 +4572,11 @@ void func_8018048C(void *a0) {
         sv[2] = -0x80;
         guess_RotTransSVWithObjMatrix((s32)ent, (s32)sv, (s32)&out);
 
-        a->blk = out;
-        b->blk = a->blk;
+        a->head.unk8.sv = out;
+        b->head.unk8.sv = a->head.unk8.sv;
 
-        a->unk12 = *(u16 *)(*(s32 *)((u8 *)ent + 0x20) + 0x12);
-        b->unk12 = *(u16 *)(*(s32 *)((u8 *)ent + 0x20) + 0x12);
+        a->head.unk10.w.unk12.s = *(u16 *)(*(s32 *)((u8 *)ent + 0x20) + 0x12);
+        b->head.unk10.w.unk12.s = *(u16 *)(*(s32 *)((u8 *)ent + 0x20) + 0x12);
 
         if ((s16)D_8019FB64 >= 9) {
             D_8019FB60 = 0;

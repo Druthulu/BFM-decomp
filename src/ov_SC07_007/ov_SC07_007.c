@@ -1086,9 +1086,9 @@ s32 func_8012C890(s32 a0, s32 a1, s32 a2) {
         }
     }
     if (((Unkstruct_8012C890_3 *)dst)->unk20.val != 0) {
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.u = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unkA.u = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
-        ((RenderHead *)*(s32 *)(dst + 0x20))->unkC.u = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unk8.u = ((Unkstruct_8012C890_3 *)dst)->unk4.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk50.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unkA.u = ((Unkstruct_8012C890_3 *)dst)->unk8.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk52.u;
+        ((RenderHead *)*(s32 *)(dst + 0x20))->unk8.w.unkC.u = ((Unkstruct_8012C890_3 *)dst)->unkC.i.hi.u + ((Unkstruct_8012C890_3 *)dst)->unk50.w.unk54.u;
     }
     return (s32)dst;
 }

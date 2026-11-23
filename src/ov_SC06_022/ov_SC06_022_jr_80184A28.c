@@ -5384,9 +5384,9 @@ void func_80188964(s32 a0)
             }
         }
 
-        L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);
@@ -5797,9 +5797,9 @@ void func_80189318(s32 a0) {
         idx = ang / 0x100;
         m = (s16)(idx % 0x10);
         if (ang == 0x100) {
-            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
             { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -5823,9 +5823,9 @@ void func_80189318(s32 a0) {
                 }
             }
         } else if (m == 0) {
-            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+            L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+            L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+            L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
             { register void *r4 __asm__("$4"); r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }  // !FAKE: pin $4 — NEEDED DIFFERS (P36 rung A t8_mac1) wall:cse-const-addr
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetTransMatrix(r4); }
             RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -5924,9 +5924,9 @@ void func_801897DC(s32 a0) {
         ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
         ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }
         { void *r4; r4 = &D_800AF648_b; SetTransMatrix(r4); }
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -6047,9 +6047,9 @@ L_B:
     ((Unkstruct_801202A0 *)p)->unk1C.s = 0x1E;
     ((Unkstruct_801202A0 *)p)->unk98.s = 0;
 
-    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
     { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }
     { void *r4; r4 = &D_800AF648_b; SetTransMatrix(r4); }
     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -6151,9 +6151,9 @@ void func_80189B9C(s32 a0)
                 } else {
                     ((Unkstruct_801202A0 *)a0)->unk84.s = 0xE;
 
-                    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-                    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-                    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+                    L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+                    L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+                    L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
                     SetRotMatrix(&guess_g_CameraWsMatrix);
                     SetTransMatrix(&D_800AF648_b);
                     RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -6342,9 +6342,9 @@ void func_8018A0AC(s32 a0) {
             i++;
         } while (i < 8);
 
-        v18[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        v18[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        v18[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        v18[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        v18[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        v18[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)v18, (s32)&sxy, &z, &flag);
@@ -6545,9 +6545,9 @@ void func_8018A704(s32 a0) {
             }
         }
 
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -7194,9 +7194,9 @@ void aF8017ED80(void *param_1) {
 
     if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
         iVar2 = ((Unkstruct_801202A0 *)a0)->unkCC.val;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk10.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk12.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.u + ((Unkstruct_801202A0 *)a0)->unkFC.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk14.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u;
@@ -7210,9 +7210,9 @@ void aF8017ED80(void *param_1) {
         }
 
         iVar2 = ((Unkstruct_801202A0 *)a0)->unkD0.val;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
-        ((Unkstruct_8001C9D0 *)iVar2)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u;
+        ((Unkstruct_8001C9D0 *)iVar2)->head.unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk10.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk12.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.u + ((Unkstruct_801202A0 *)a0)->unkFE.u;
         ((Unkstruct_8001C9D0 *)iVar2)->head.unk10.w.unk14.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u;
@@ -7310,9 +7310,9 @@ void aF8017EF54(s32 a0)
     }
 
     if (((Unkstruct_801202A0 *)a0)->unk84.s == 0) {
-        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk48;
-        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk4C;
-        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk50;
+        L.v[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk48;
+        L.v[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk4C;
+        L.v[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk34.f.unk50;
         SetRotMatrix(&guess_g_CameraWsMatrix);
         SetTransMatrix(&D_800AF648_b);
         RotTransPers((s32)L.v, (s32)L.sxy, &L.z, &L.flag);
@@ -7632,9 +7632,9 @@ void func_8018C28C(s32 param_1)
                 guess_SpawnActor(0x261, 1, s0);
             }
 
-            L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk48;
-            L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk4C;
-            L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk50;
+            L.rv[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk48;
+            L.rv[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk4C;
+            L.rv[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk34.f.unk50;
             { void *r4; r4 = &guess_g_CameraWsMatrix; SetRotMatrix(r4); }
             { void *r4; r4 = &D_800AF648_b; SetTransMatrix(r4); }
             RotTransPers((s32)L.rv, (s32)L.sxy, &L.z, &L.flag);

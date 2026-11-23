@@ -3914,9 +3914,9 @@ void func_8017F0F4(s32 a0) {
     s0 = guess_AllocModelObject();
     if (s0 != 0) {
         guess_InitModelObject(s0, (s32)D_801A25EC);
-        ((Unkstruct_8001C9D0 *)s0)->head.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-        ((Unkstruct_8001C9D0 *)s0)->head.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + 0x80;
-        ((Unkstruct_8001C9D0 *)s0)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - 0xC0;
+        ((Unkstruct_8001C9D0 *)s0)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((Unkstruct_8001C9D0 *)s0)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + 0x80;
+        ((Unkstruct_8001C9D0 *)s0)->head.unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u - 0xC0;
     }
     func_8017E9A0(a0);
     func_8012AD50((void *)a0);

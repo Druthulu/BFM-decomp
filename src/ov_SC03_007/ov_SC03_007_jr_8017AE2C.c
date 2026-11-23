@@ -6148,9 +6148,9 @@ s32 func_80180838(void *a0, s32 a1, s32 a2)
     func_80020DA4((s32)p0 + 0x10, (s32)matrix);
     func_80020F34((s32)matrix, (s32)p0 + 0x18);
 
-    matrix[5] = ((RenderHead *)p0)->unk8.s;
-    matrix[6] = ((RenderHead *)p0)->unkA.s;
-    matrix[7] = ((RenderHead *)p0)->unkC.s;
+    matrix[5] = ((RenderHead *)p0)->unk8.w.unk8.s;
+    matrix[6] = ((RenderHead *)p0)->unk8.w.unkA.s;
+    matrix[7] = ((RenderHead *)p0)->unk8.w.unkC.s;
 
     base = D_8018BF68;
     p1 = base + 0x20;

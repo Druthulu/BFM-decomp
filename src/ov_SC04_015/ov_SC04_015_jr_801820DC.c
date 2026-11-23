@@ -3784,9 +3784,9 @@ void func_80183314(void *a0, s32 a1) {
     a2 = (s32 *)D_801C90A0[v1];
     a2[1] &= 0x7FFFFFFF;
     D_801C90B8[v1 * 16] = a1;
-    ((Unkstruct_800B5BD8 *)a2)->head.unk8.u = ((SVECTOR *)a0)->vx;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkA.u = ((SVECTOR *)a0)->vy;
-    ((Unkstruct_800B5BD8 *)a2)->head.unkC.u = ((SVECTOR *)a0)->vz;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unk8.u = ((SVECTOR *)a0)->vx;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unkA.u = ((SVECTOR *)a0)->vy;
+    ((Unkstruct_800B5BD8 *)a2)->head.unk8.w.unkC.u = ((SVECTOR *)a0)->vz;
     ((Unkstruct_800B5BD8 *)a2)->head.unk10.w.unk12.u = (((SVECTOR *)a0)->pad & 0xF) << 10;
 }
 
@@ -4284,9 +4284,9 @@ void func_80183DE8(u8 *arg0)
     }
     {
         s32 obj = ((Unkstruct_801202A0 *)param_1)->unkCC.val;
-        ((Unkstruct_800B5BD8 *)obj)->head.unk8.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
-        ((Unkstruct_800B5BD8 *)obj)->head.unkA.u = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
-        ((Unkstruct_800B5BD8 *)obj)->head.unkC.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unk8.u = ((Unkstruct_801202A0 *)param_1)->unk4.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unkA.u = ((Unkstruct_801202A0 *)param_1)->unk8.i.hi.u;
+        ((Unkstruct_800B5BD8 *)obj)->head.unk8.w.unkC.u = ((Unkstruct_801202A0 *)param_1)->unkC.i.hi.u;
     }
     raw = ((Unkstruct_801202A0 *)param_1)->unk70.s;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x5A;

@@ -3186,7 +3186,7 @@ void func_801825A4(s32 a0) {
     ((Unkstruct_801825A4 *)a0)->unkC.i.hi.u += D_801AC424[((Unkstruct_801825A4 *)a0)->unk70.s * 4];
     ((Unkstruct_801825A4_2 *)*(s32 *)(a0 + 0x20))->head.unk28.val = 0x2000100;
     ((Unkstruct_801825A4_2 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x90;
-    ((Unkstruct_801825A4_2 *)*(s32 *)(a0 + 0x20))->unk80 = (s32)D_801AC4D8;
+    ((Unkstruct_801825A4_2 *)*(s32 *)(a0 + 0x20))->unk80.val = (s32)D_801AC4D8;
     ((Unkstruct_801825A4_2 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u = 0x1040;
 
     switch (((Unkstruct_801825A4 *)a0)->unk70.s) {
@@ -3575,7 +3575,7 @@ void func_801831A8(s32 s0)
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u = ((Unkstruct_8001C9D0 *)v1)->head.unk2C.u | 0x90;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-    ((Unkstruct_8001C9D0 *)v1)->unk80 = (SVECTOR *)D_801AC4D8;
+    ((Unkstruct_8001C9D0 *)v1)->unk80.sv = (SVECTOR *)D_801AC4D8;
     v1 = ((Unkstruct_801202A0 *)s0)->unk20.p;
     ((Unkstruct_8001C9D0 *)v1)->head.unk18.w.unk18.u = 0x1040;
 

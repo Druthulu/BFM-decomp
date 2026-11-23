@@ -5859,8 +5859,8 @@ s32 func_80181DF8(s32 param_1)
         pos[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u + D_801904AC[r->b6.u & 0xF];
         pos[2] = *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.p + 0x14);
         RotMatrixZYX((s32)pos, (s32)mtx);
-        D_801DFDA8 = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk68;
-        D_801DFDAC = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk6C;
+        D_801DFDA8 = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk54.f.unk68;
+        D_801DFDAC = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->unk54.f.unk6C;
         D_801DFDB0 = CAST_WIDTH(s32, *(s32 *)(param_1 + 0x20), 0x70);
         gte_SetRotMatrix(&guess_g_CameraWsMatrix);
         gte_ldclmv(D_801DFD94);
@@ -7625,9 +7625,9 @@ void func_80184C68(u8 *v, s32 idx)
 
 void func_80184E6C(s32 *a0, s32 *a1) {
     if (a0 != NULL) {
-        ((RenderHead *)a0)->unk8.u = *(u16 *)((s32)a1 + 0x0);
-        ((RenderHead *)a0)->unkA.u = *(u16 *)((s32)a1 + 0x2);
-        ((RenderHead *)a0)->unkC.u = *(u16 *)((s32)a1 + 0x4);
+        ((RenderHead *)a0)->unk8.w.unk8.u = *(u16 *)((s32)a1 + 0x0);
+        ((RenderHead *)a0)->unk8.w.unkA.u = *(u16 *)((s32)a1 + 0x2);
+        ((RenderHead *)a0)->unk8.w.unkC.u = *(u16 *)((s32)a1 + 0x4);
     }
 }
 
@@ -8462,9 +8462,9 @@ void func_80185E00(void *a0) {
     D_80190450 = D_80190451 = D_80190452 = tG;
     ((Unkstruct_800B5BD8 *)a1)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)a1)->head.unk18.w.unk1A.u = tB;
 
-    ((Unkstruct_800B5BD8 *)a1)->head.unk8.u = *(u16 *)((s32)a0 + 0x6);
-    ((Unkstruct_800B5BD8 *)a1)->head.unkA.u = *(u16 *)((s32)a0 + 0xA);
-    ((Unkstruct_800B5BD8 *)a1)->head.unkC.u = *(u16 *)((s32)a0 + 0xE);
+    ((Unkstruct_800B5BD8 *)a1)->head.unk8.w.unk8.u = *(u16 *)((s32)a0 + 0x6);
+    ((Unkstruct_800B5BD8 *)a1)->head.unk8.w.unkA.u = *(u16 *)((s32)a0 + 0xA);
+    ((Unkstruct_800B5BD8 *)a1)->head.unk8.w.unkC.u = *(u16 *)((s32)a0 + 0xE);
 
     if (*(u16 *)((s32)a0 + 0x34) == 0) {
         if (((s32 (*)(s32))func_8012BE54)((s32)a0) < 0x7901) {
@@ -8739,9 +8739,9 @@ s32 func_80186470(s32 a0, s32 a1, s16 a2, s16 a3, s32 a4)
 
 
 void func_8018653C(s32 *a0, s32 *a1) {
-        ((RenderHead *)a1)->unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
-        ((RenderHead *)a1)->unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u;
-        ((RenderHead *)a1)->unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
+        ((RenderHead *)a1)->unk8.w.unk8.u = ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u;
+        ((RenderHead *)a1)->unk8.w.unkA.u = ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u + ((Unkstruct_801202A0 *)a0)->unk64->unk8.i.hi.u;
+        ((RenderHead *)a1)->unk8.w.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
     }
 
 

@@ -4761,7 +4761,7 @@ void func_801800CC(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += D_801AD2E0[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk28.val = 0x2000100;
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x90;
-    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk80 = (s32)D_801AD394;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk80.val = (s32)D_801AD394;
     ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u = 0x1040;
 
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {

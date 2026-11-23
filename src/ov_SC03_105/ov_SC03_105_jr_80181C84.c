@@ -5458,9 +5458,9 @@ void func_80185FB4(s32 a0, s32 a1, s32 a2)
         func_80020F34(a2, a0 + 0x18);
     }
 
-    ((MATRIX *)a2)->t[0] = ((RenderHead *)a0)->unk8.s;
-    ((MATRIX *)a2)->t[1] = ((RenderHead *)a0)->unkA.s;
-    ((MATRIX *)a2)->t[2] = ((RenderHead *)a0)->unkC.s;
+    ((MATRIX *)a2)->t[0] = ((RenderHead *)a0)->unk8.w.unk8.s;
+    ((MATRIX *)a2)->t[1] = ((RenderHead *)a0)->unk8.w.unkA.s;
+    ((MATRIX *)a2)->t[2] = ((RenderHead *)a0)->unk8.w.unkC.s;
 }
 
 

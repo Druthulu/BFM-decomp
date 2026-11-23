@@ -3032,10 +3032,10 @@ s32 func_8017D5DC(void* param_1)
     ((Unkstruct_800B5BD8 *)s1)->head.unk2C.u = 0xC008;
     CAST_WIDTH(u32, s1, 4) |= 0x50000000;
 
-    ((Unkstruct_800B5BD8 *)s1)->head.unk8.u = *(u16 *)(param_1 + 6);
-    ((Unkstruct_800B5BD8 *)s1)->head.unkA.u = *(u16 *)(param_1 + 0xA);
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unk8.u = *(u16 *)(param_1 + 6);
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unkA.u = *(u16 *)(param_1 + 0xA);
     ret = *(u16 *)(param_1 + 0xE);
-    ((Unkstruct_800B5BD8 *)s1)->head.unkC.u = ret;
+    ((Unkstruct_800B5BD8 *)s1)->head.unk8.w.unkC.u = ret;
     return ret;
 }
 

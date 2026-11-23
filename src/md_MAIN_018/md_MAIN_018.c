@@ -136,9 +136,9 @@ void func_800CAFE0(s32 param_1) {
     guess_InitObjectKind6(node2, D_800CB860);
     ((Unkstruct_800B5BD8 *)node2)->head.unk2C.u = 0xC001;
     ((Unkstruct_800B5BD8 *)node2)->head.unk4.u |= 0xD0000000;
-    ((Unkstruct_800B5BD8 *)node2)->head.unk8.u = *(u16 *)(param_1 + 6);
-    ((Unkstruct_800B5BD8 *)node2)->head.unkA.u = *(u16 *)(param_1 + 0xA);
-    ((Unkstruct_800B5BD8 *)node2)->head.unkC.u = *(u16 *)(param_1 + 0xE);
+    ((Unkstruct_800B5BD8 *)node2)->head.unk8.w.unk8.u = *(u16 *)(param_1 + 6);
+    ((Unkstruct_800B5BD8 *)node2)->head.unk8.w.unkA.u = *(u16 *)(param_1 + 0xA);
+    ((Unkstruct_800B5BD8 *)node2)->head.unk8.w.unkC.u = *(u16 *)(param_1 + 0xE);
 }
 
 
@@ -289,9 +289,9 @@ void func_800CB328(void *a0) {
             ((Unkstruct_800B5BD8 *)pf34)->head.unk4.u &= mask;
             ((Unkstruct_800B5BD8 *)pf34)->head.unk18.w.unk18.u = ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk18.u;
             ((Unkstruct_800B5BD8 *)pf34)->head.unk18.w.unk1A.u = ((Unkstruct_800B5BD8 *)pf20)->head.unk18.w.unk1A.u;
-            ((Unkstruct_800B5BD8 *)pf34)->head.unk8.u = ((Unkstruct_8011D030 *)obj)->unk4.i.hi.u;
-            ((Unkstruct_800B5BD8 *)pf34)->head.unkA.u = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
-            ((Unkstruct_800B5BD8 *)pf34)->head.unkC.u = ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk8.w.unk8.u = ((Unkstruct_8011D030 *)obj)->unk4.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk8.w.unkA.u = ((Unkstruct_8011D030 *)obj)->unk8.i.hi.u;
+            ((Unkstruct_800B5BD8 *)pf34)->head.unk8.w.unkC.u = ((Unkstruct_8011D030 *)obj)->unkC.i.hi.u;
             return;
         }
     }

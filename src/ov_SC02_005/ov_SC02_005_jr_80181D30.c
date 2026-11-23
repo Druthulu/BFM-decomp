@@ -4583,9 +4583,9 @@ void func_8018454C(s32 a0)
     gte_rtv0();
     gte_stlvnl(res);
 
-    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk48 += res[0];
-    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk4C += res[1];
-    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk50 += res[2];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk34.f.unk48 += res[0];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk34.f.unk4C += res[1];
+    ((Unkstruct_8001C9D0 *)*(s32 *)(self + 0x20))->unk34.f.unk50 += res[2];
 }
 
 
@@ -4835,25 +4835,25 @@ void func_80184A8C(void *a0) {
             timer -= 1;
             ((S34_80184A8C *)(s0 + 0x34))->h = timer;
 
-            tmp[0] = (CAST_WIDTH(s16, s0, 0xDC) - ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk48) >> 2;
+            tmp[0] = (CAST_WIDTH(s16, s0, 0xDC) - ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk34.f.unk48) >> 2;
 
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            tmp[1] = (*(s16 *)(s0 + 0xDE) - ((Unkstruct_8001C9D0 *)ptr)->unk4C) >> 2;
+            tmp[1] = (*(s16 *)(s0 + 0xDE) - ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk4C) >> 2;
 
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            tmp[2] = (CAST_WIDTH(s16, s0, 0xE0) - ((Unkstruct_8001C9D0 *)ptr)->unk50) >> 2;
-
-            timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
-            ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_8001C9D0 *)ptr)->unk48 = ((Unkstruct_8001C9D0 *)ptr)->unk48 + tmp[0] * timer;
+            tmp[2] = (CAST_WIDTH(s16, s0, 0xE0) - ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk50) >> 2;
 
             timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_8001C9D0 *)ptr)->unk4C = ((Unkstruct_8001C9D0 *)ptr)->unk4C + tmp[1] * timer;
+            ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk48 = ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk48 + tmp[0] * timer;
 
             timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
             ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
-            ((Unkstruct_8001C9D0 *)ptr)->unk50 = ((Unkstruct_8001C9D0 *)ptr)->unk50 + tmp[2] * timer;
+            ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk4C = ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk4C + tmp[1] * timer;
+
+            timer = ((Unkstruct_801202A0 *)s0)->unk34.u;
+            ptr = ((Unkstruct_801202A0 *)s0)->unk20.p;
+            ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk50 = ((Unkstruct_8001C9D0 *)ptr)->unk34.f.unk50 + tmp[2] * timer;
         } else {
             s32 cbptr;
 
@@ -4921,9 +4921,9 @@ void func_80184CA4(void *arg0)
 {
     s32 s0 = (s32)arg0;
 
-    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk48;
-    ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk4C;
-    ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk50;
+    ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk34.f.unk48;
+    ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk34.f.unk4C;
+    ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk34.f.unk50;
     guess_ClearVelocityAndSetGravity(s0);
     CAST_WIDTH(s32, s0, 0x10) = 0x00040000;
     ((Unkstruct_801202A0 *)s0)->unk14.val = 0xFFF80000;

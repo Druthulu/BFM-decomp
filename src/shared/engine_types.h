@@ -402,10 +402,6 @@ typedef struct Map_80133AB0 {
     u8  *p18;     /* 0x18 */
     u8  *p1C;     /* 0x1C */
 } Map_80133AB0;
-struct Src_80167540 {
-    u8 pad0[0x34];
-    MATRIX mat;          /* 0x34 */
-};
 struct Node_80167540 {
     /* 0x0 */ u16 unk0;
     u8 pad2[0x4];
@@ -415,7 +411,7 @@ struct Node_80167540 {
     u8 padC[0x2];
     /* 0xE */ s16 unkE;
     u8 pad10[0x10];
-    /* 0x20 */ struct Src_80167540 *unk20;
+    /* 0x20 */ Unkstruct_8001C9D0 *unk20; /* the model record (Src_80167540 absorbed, T21.c10) */
     u8 pad24[0x28];
     /* 0x4C */ struct Sub2_80167540 *unk4C;
 };
@@ -1991,15 +1987,6 @@ typedef MATRIX Mtx_8018E8A0;
 typedef MATRIX Mtx_8018E8A0_80184FF0;
 typedef MATRIX Mtx_8018E8A0_801869CC;
 typedef struct {
-    s32 unk00;              /* 0x00 */
-    s32 flags;              /* 0x04 */
-    Blk8_80133CD4 blk;      /* 0x08 */
-    s16 unk10;              /* 0x10 */
-    s16 unk12;              /* 0x12 */
-    s16 unk14[5];           /* 0x14 */
-    s16 unk1E;              /* 0x1E */
-} Obj_8018048C;
-typedef struct {
     s16 unk0;      /* 0x00 — the shared vy of every generated vertex */
     s16 unk2;      /* 0x02 — base angle                              */
     u32 unk4;      /* 0x04 — packed colour (b in bits 16..23)        */
@@ -2166,15 +2153,6 @@ typedef struct {
 } Rec_80181170;
 typedef SVECTOR Rot_8017E330;
 typedef struct {
-    u8            pad00[0x10];
-    u16           f10;          /* 0x10 */
-    u16           f12;          /* 0x12 */
-    u16           f14;          /* 0x14 */
-    u8            pad16[0x02];
-    Rot_8017E330  rot;          /* 0x18 */
-    s32           align;        /* keeps align 4 so the +0x20 pointer loads with lw */
-} Coord_8017E330;
-typedef struct {
     u8              pad00[0x06];
     s16             f06;        /* 0x06 */
     u8              pad08[0x02];
@@ -2182,7 +2160,7 @@ typedef struct {
     u8              pad0C[0x02];
     s16             f0E;        /* 0x0E */
     u8              pad10[0x10];
-    Coord_8017E330 *f20;        /* 0x20 */
+    RenderHead     *f20;        /* 0x20 (Coord_8017E330 absorbed into RenderHead, T21.c10) */
     u8              pad24[0x4C];
     u8              f70;        /* 0x70 — pose index */
     u8              pad71[0x27];
@@ -2194,13 +2172,12 @@ typedef struct {
     /* 0x0000 */ u8 pad0[0x2];
     /* 0x0002 */ u16 f02;
     /* 0x0004 */ u8 pad4[0x1c];
-    /* 0x0020 */ Coord_8017E330 *f20;
+    /* 0x0020 */ RenderHead *f20;
     /* 0x0024 */ u8 pad24[0x10];
     /* 0x0034 */ u16 f34;
     /* 0x0036 */ u8 pad36[0x2];
 } Drv_8017E330; /* size = 0x38 */
 typedef SVECTOR Rot_8017E550;
-typedef Coord_8017E330 Coord_8017E550;
 typedef struct {
     /* 0x0000 */ u8 pad0[0x6];
     /* 0x0006 */ s16 f06;
@@ -2209,7 +2186,7 @@ typedef struct {
     /* 0x000c */ u8 padC[0x2];
     /* 0x000e */ s16 f0E;
     /* 0x0010 */ u8 pad10[0x10];
-    /* 0x0020 */ Coord_8017E550 *f20;
+    /* 0x0020 */ RenderHead *f20;
     /* 0x0024 */ u8 pad24[0x40];
     /* 0x0064 */ s32 f64;
     /* 0x0068 */ u8 pad68[0x8];
@@ -2219,7 +2196,6 @@ typedef struct {
     /* 0x009a */ u8 pad9A[0x2];
 } Actor_8017E550; /* size = 0x9c */
 typedef SVECTOR Rot_8017E878;
-typedef Coord_8017E330 Coord_8017E878;
 typedef struct {
     s16 v;
     u8 pad[14];
@@ -3552,7 +3528,6 @@ typedef SVECTOR SVECTOR_801EDED4_801E2B1C;
 typedef SVECTOR SVECTOR_801EDED4_801EF98C;
 typedef SVECTOR SVec_800CB3BC;
 typedef Fr_801670E4 Fr_800CB3BC;
-typedef struct Src_80167540 Src_800CB658;
 
 /* --- lift_types.py --census (P38 T5.1.c2, batch headers) --- */
 typedef Blk8_80133CD4 Blk8_80133CD4_de6ea26c;

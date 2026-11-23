@@ -4853,8 +4853,8 @@ void func_8017E520(s32 a0) {
     }
 
     guess_StepPairSequence(((Unkstruct_8017E520 *)a0)->unk4, (s32 *)(a0 + 8));
-    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->head.unk8.u = CAST_SIGN(u16, a0, 0x10) + CAST_SIGN(u16, a0, 0x12);
-    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->head.unkA.u = CAST_SIGN(u16, a0, 0x14) + CAST_SIGN(u16, a0, 0x16);
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->head.unk8.w.unk8.u = CAST_SIGN(u16, a0, 0x10) + CAST_SIGN(u16, a0, 0x12);
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 4))->head.unk8.w.unkA.u = CAST_SIGN(u16, a0, 0x14) + CAST_SIGN(u16, a0, 0x16);
     func_8017E830(a0);
 }
 
@@ -5331,9 +5331,9 @@ void func_8017F0EC(s32 a0) {
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk1A.u = d;
     ((Unkstruct_800B5BD8 *)p)->head.unk18.w.unk18.u = d;
     p = *(s32 *)(a0 + 0xCC);
-    ((Unkstruct_800B5BD8 *)p)->head.unk8.u = *(u16 *)(a0 + 0x6);
-    ((Unkstruct_800B5BD8 *)p)->head.unkA.u = *(u16 *)(a0 + 0xA);
-    ((Unkstruct_800B5BD8 *)p)->head.unkC.u = *(u16 *)(a0 + 0xE);
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unk8.u = *(u16 *)(a0 + 0x6);
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkA.u = *(u16 *)(a0 + 0xA);
+    ((Unkstruct_800B5BD8 *)p)->head.unk8.w.unkC.u = *(u16 *)(a0 + 0xE);
     guess_StepPairSequence(p, (s32 *)(a0 + 0xD0));
 }
 
