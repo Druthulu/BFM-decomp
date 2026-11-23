@@ -2458,7 +2458,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 
 
-extern s32 func_8014E6F8(struct SubE6F8*);
+extern s32 func_8014E6F8(Unkstruct_80126B58*);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_801A6B50
@@ -2509,7 +2509,7 @@ extern s32 func_8014ED80(SubED80*);
 
 
 
-extern s32 func_8014F24C(struct SubF24C*);
+extern s32 func_8014F24C(Unkstruct_80126B58*);
 
 #define SHARED_FN func_8014F1F4
 #define SHARED_SLOT D_801A6B50

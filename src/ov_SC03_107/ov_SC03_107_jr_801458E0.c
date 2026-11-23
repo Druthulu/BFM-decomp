@@ -76,7 +76,7 @@ extern void func_80029444(void);
 extern void func_800D1754(void);
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_801505FC(s32 a0);
 extern s32 func_801508B4(s32);
 extern void func_80165E90(void);
@@ -702,11 +702,11 @@ extern void func_80139DEC(void);
 extern void func_80139DF4(s32 a0);
 extern void func_80139E84(s32 a0);
 extern void func_80139F0C(s32 a0);
-extern void func_80139FBC(struct obj *a0);
+extern void func_80139FBC(struct S8013A0A4 *a0);
 extern s32 func_8001B22C(void);
 extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
-extern void func_8013A164(struct S8013A164 *a0);
+extern void func_8013A164(struct S8013A0A4 *a0);
 extern void func_8013A1E8(s32 a0);
 extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
@@ -3214,7 +3214,7 @@ extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 
 
 
-extern s32 func_8014E6F8(struct SubE6F8*);
+extern s32 func_8014E6F8(Unkstruct_80126B58*);
 
 #define SHARED_FN func_8014E6A0
 #define SHARED_SLOT D_8019A8A0
@@ -3264,7 +3264,7 @@ extern int D_8019A8A0;
 
 
 
-extern s32 func_8014F24C(struct SubF24C*);
+extern s32 func_8014F24C(Unkstruct_80126B58*);
 
 #define SHARED_FN func_8014F1F4
 #define SHARED_SLOT D_8019A8A0

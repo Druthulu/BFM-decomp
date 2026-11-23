@@ -176,7 +176,7 @@ void func_800CCF58(arg0, arg1) void *arg0; s16 arg1; {
 
 void func_800CCF68(s32 param_1)
 {
-    extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+    extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
     extern s32 guess_SpawnSmallObject(s32 a0, void *a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     s32 ptr;
 

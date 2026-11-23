@@ -76,7 +76,7 @@ extern void func_80029444(void);
 extern void func_800D1754(void);
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_801505FC(s32 a0);
 extern s32 func_801508B4(s32);
 extern void func_80165E90(void);
@@ -716,11 +716,11 @@ extern void func_80139DEC(void);
 extern void func_80139DF4(s32 a0);
 extern void func_80139E84(s32 a0);
 extern void func_80139F0C(s32 a0);
-extern void func_80139FBC(struct obj *a0);
+extern void func_80139FBC(struct S8013A0A4 *a0);
 extern s32 func_8001B22C(void);
 extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
-extern void func_8013A164(struct S8013A164 *a0);
+extern void func_8013A164(struct S8013A0A4 *a0);
 extern void func_8013A1E8(s32 a0);
 extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
@@ -1371,13 +1371,13 @@ extern void guess_EnterJumpState(void);
 extern void func_8015ACC4(s32 *arg0);
 extern void guess_EnterJumpStateAndLaunch(void);
 extern u8 D_80078EBF;
-extern s32 guess_IsChargedSquarePressed(struct S_80149744 *a0);
+extern s32 guess_IsChargedSquarePressed(Unkstruct_80126B58 *a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void guess_StartChargedSquareAction(void);
 extern u8 guess_g_PlayerRecord[]; // Names ledger: config/names.tsv guess_g_PlayerRecord
 extern u8 D_80078EC1;
 extern s32 func_8014CB7C(void);
-extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
 extern u8 func_80165658(s32 a0, s32 a1);
 extern s32 func_801497A8(s32 *a0);
 extern void func_801653B8(s32 *a0);
@@ -1638,11 +1638,11 @@ extern s32 func_8014E434(void);
 extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 extern s32 func_8014E514(u8 *a0, s32 a1, s32 a2);
 extern s32 func_8014E48C(s32 a0);
-extern s32 func_8014E6F8(struct SubE6F8*);
+extern s32 func_8014E6F8(Unkstruct_80126B58*);
 extern s32 func_8014E6A0(void);
 extern s32 func_8014E83C(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E790(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014E6F8(struct SubE6F8 *a0);
+extern s32 func_8014E6F8(Unkstruct_80126B58 *a0);
 extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
@@ -1653,10 +1653,10 @@ extern s16 guess_g_BoxHitCenterZ; // Names ledger: config/names.tsv guess_g_BoxH
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
-extern s32 func_8014F24C(struct SubF24C*);
+extern s32 func_8014F24C(Unkstruct_80126B58*);
 extern s32 func_8014F1F4(void);
 extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014F24C(struct SubF24C *a0);
+extern s32 func_8014F24C(Unkstruct_80126B58 *a0);
 extern s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F468(void);
 extern int func_8014F6F4(void);
@@ -1855,7 +1855,7 @@ extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
 extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern void func_801530E4(s32 arg0);
-extern void func_80153150(struct S80153150 *a0);
+extern void func_80153150(Unkstruct_80126B58 *a0);
 extern void guess_EaseToSavedPosThenNextStep_4(s32 a0);
 extern void func_8015327C(s32 a0);
 extern void func_80153204(s32 *a0);
@@ -2311,7 +2311,7 @@ extern void guess_SetState(s32*, s16);
 extern s32 func_80149D10(s32);
 extern void func_80175150(s32*);
 extern void guess_ReturnPlayerToStandingState(s32, s32, s32);
-extern s32 guess_IsChargedSquarePressed(struct S_80149744*);
+extern s32 guess_IsChargedSquarePressed(Unkstruct_80126B58*);
 extern s32 guess_IsSquarePressed(s32*);
 extern void guess_StartSquareAction(s32*);
 extern s32 guess_IsTrianglePressed(s32*);
@@ -4561,18 +4561,18 @@ void func_8016E9EC(u8 *p)
 
 extern void func_8016EC0C(s32 a0, s32 a1);
 
-void func_8016EAC0(Wave *param_1)
+void func_8016EAC0(struct Entry_8016E95C *param_1)
 {
 
     extern u16 D_80185868[];
     unsigned char bVar1;
 
-    param_1->f4 = param_1->f4 + D_80185868[param_1->f2];
+    param_1->unk4.s = param_1->unk4.s + D_80185868[param_1->unk2];
     ((void (*)(void *, int))func_8016EC0C)(param_1, 0x80);
-    bVar1 = param_1->f2 + 1;
-    param_1->f2 = bVar1;
+    bVar1 = param_1->unk2 + 1;
+    param_1->unk2 = bVar1;
     if (5 < bVar1) {
-        param_1->f2 = 0x20;
+        param_1->unk2 = 0x20;
         param_1->f1 = param_1->f1 + 1;
     }
 }

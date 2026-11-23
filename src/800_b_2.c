@@ -5177,7 +5177,7 @@ extern void func_800316F8(s32);
 extern void func_80033324(s32, s32);
 
 void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
-#define REQ ((Req32A74 *)arg0)
+#define REQ ((Ent30D80 *)arg0)
 #define REC ((Rec32A74 *)arg2)
     C24 sp10;
 
@@ -5214,7 +5214,7 @@ void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
     tA = D_8007319E;
     tB = D_800731A0;
     vB = (u8 *)D_800A4C28;
-    v = REQ->unk02;
+    v = REQ->unk00.h.hi;
     i = 7;
     cp = (u8 *)arg0 + 7;
     do {
@@ -5222,7 +5222,7 @@ void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
         i--;
         cp--;
     } while (i >= 0);
-    REQ->unk0C = 0;
+    REQ->unkC.v0.unkC.h.lo = 0;
 
     for (;;) {
         b = REC->unk08;
@@ -5284,7 +5284,7 @@ void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
             ch = (Ent30D80 *)(D_800A4988 + idx * 0x54);
             ch->unk4C = 0;
             ch->unk4A.s = 0x7FFF;
-            if (REQ->unk00 & 0x80) {
+            if (REQ->unk00.u & 0x80) {
                 ch->unk4D = 0;
             } else {
                 ch->unk4D = 1;
@@ -5398,8 +5398,8 @@ void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
             if (REC->unk02 == 0) {
                 func_8002EFF8(1, vo->unk00);
             }
-            REQ->unk0C++;
-            REQ->unk0E[idx] = 1;
+            REQ->unkC.v0.unkC.h.lo++;
+            REQ->unkC.v1.flg[idx] = 1;
         }
     next:
         if (REC->unk0B == 0) {
@@ -5408,10 +5408,10 @@ void func_80032A74(Ent30D80 *arg0, s32 arg1, Rec14 *arg2, s32 flags) {
         arg2++;
         v = REC->unk00;
     }
-    if (REQ->unk0C == 0) {
-        REQ->unk00 = 0;
+    if (REQ->unkC.v0.unkC.h.lo == 0) {
+        REQ->unk00.u = 0;
     } else {
-        REQ->unk0A = 4;
+        REQ->unk0A.b = 4;
     }
 }
 

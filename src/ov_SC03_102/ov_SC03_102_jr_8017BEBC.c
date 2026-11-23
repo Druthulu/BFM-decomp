@@ -331,7 +331,7 @@ extern void guess_EnterJumpState(void);
 extern void func_8015ACC4(s32 *arg0);
 extern void guess_EnterJumpStateAndLaunch(void);
 extern u8 D_80078EBF;
-extern s32 guess_IsChargedSquarePressed(struct S_80149744 *a0);
+extern s32 guess_IsChargedSquarePressed(Unkstruct_80126B58 *a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void guess_StartChargedSquareAction(void);
 extern void func_801653B8(s32 *a0);
@@ -498,7 +498,7 @@ extern u8 func_8014BFD4(void);
 extern void func_8014BFF4(s32 a0, s32 a1);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014C0C8(s32 a0_unused, s32 a1, s32 a2);
 extern s32 func_8014C118(void * a0, s32 a1, s32 a2);
 extern s32 func_8014C168(s32 * param_1, s32 param_2);
@@ -591,7 +591,7 @@ extern s32 func_8014E48C(s32 a0);
 extern s32 func_8014E434(void);
 extern s32 func_8014E5B4(s32 a0, void *a1, void *a2);
 extern s32 func_8014E514(u8 *a0, s32 a1, s32 a2);
-extern s32 func_8014E6F8(struct SubE6F8 *a0);
+extern s32 func_8014E6F8(Unkstruct_80126B58 *a0);
 extern s32 func_8014E6A0(void);
 extern s32 func_8014E83C(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E790(s32 a0, s16 *a1, s16 *a2);
@@ -611,7 +611,7 @@ extern int D_801B87B8;
 extern s32 func_8014ED28(s32 _arg0);
 extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
-extern s32 func_8014F24C(struct SubF24C *a0);
+extern s32 func_8014F24C(Unkstruct_80126B58 *a0);
 extern s32 func_8014F1F4(void);
 extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2);
@@ -632,7 +632,7 @@ extern int func_8014FD54(int param_1);
 extern s32 func_8014FCFC(void);
 extern s32 func_80150170(void *a0);
 extern s32 func_8014FE60(void *a0);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_8014FE60(void *e);
 extern s32 func_80134510(s32 arg);
 extern s32 func_80150150(s32 a, s32 b);
@@ -823,7 +823,7 @@ extern void func_801530E4(s32 a0);
 extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
 extern void func_801530E4(s32 arg0);
-extern void func_80153150(struct S80153150 *a0);
+extern void func_80153150(Unkstruct_80126B58 *a0);
 extern void guess_EaseToSavedPosThenNextStep_4(s32 a0);
 extern void func_8015327C(s32 a0);
 extern void func_80153204(s32 *a0);
@@ -1808,7 +1808,7 @@ extern unsigned short D_801893A8[];
 extern unsigned short D_801893B0[];
 extern unsigned char D_801B8C30[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
+extern void func_8016B964(Unkstruct_8011D030 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801B8C28;
 extern s32 func_8016BA68(s32, s32);
@@ -1889,7 +1889,7 @@ extern void func_8016E918(short param_1, short param_2);
 extern void func_8016E95C(void);
 extern u16 D_80189540[];
 extern void func_8016EC0C(s32 a0, s32 a1);
-extern void func_8016EAC0(Wave *param_1);
+extern void func_8016EAC0(struct Entry_8016E95C *param_1);
 extern u8 D_80189530[];
 extern void func_8016EB3C(s32 p);
 extern void func_8016EBA8(u8 *param_1);
@@ -3325,7 +3325,7 @@ void func_8017CD9C(s32 arg0)
 
     pkt = D_800A5E60;
     part = *(Part **)(arg0 + 0xC);
-    nparts = ((Unkstruct_8017CD9C_6 *)*(s32 *)(arg0 + 8))->unk8;
+    nparts = ((Unkstruct_8017FA5C_2 *)*(s32 *)(arg0 + 8))->unk8;
     vtx = *(u8 **)(((Unkstruct_8017CD9C_5 *)arg0)->unk8 + 0x10);
     ot = (u32)&D_800A6610[(((Unkstruct_8012956C *)base)->unkA3D2) << 14];
 
@@ -3989,13 +3989,13 @@ void func_80180A38(s32 param_1)
     if (((Unkstruct_801202A0 *)param_1)->unk1C.s % ((Unkstruct_801202A0 *)param_1)->unkFC.s == 0) {
         pos = *(ElemK *)(param_1 + 0x88);
 
-        func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
+        func_80181260((s32)&pos, ((struct S8012C658 *)*(s32 *)(param_1 + 0x68))->unkC);
         pos.vx += 0x28;
 
-        func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
+        func_80181260((s32)&pos, ((struct S8012C658 *)*(s32 *)(param_1 + 0x68))->unkC);
         pos.vx += -0x50;
 
-        func_80181260((s32)&pos, ((Unkstruct_80180A38_3 *)*(s32 *)(param_1 + 0x68))->unkC);
+        func_80181260((s32)&pos, ((struct S8012C658 *)*(s32 *)(param_1 + 0x68))->unkC);
 
         ((Unkstruct_801202A0 *)param_1)->unkFE.s += 1;
     }

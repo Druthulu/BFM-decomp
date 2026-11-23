@@ -4,15 +4,15 @@ extern void func_80149020(s32 *a0);
 extern void func_801470B4(s32 a0);
 extern void func_8015369C(s32 a0);
 extern void guess_NextStep(void *a0);
-void func_80153150(struct S80153150 *a0) {
+void func_80153150(Unkstruct_80126B58 *a0) {
     s16 nv;
     func_80149020((s32 *)a0);
-    nv = (s16)(a0->f64 - 0x100);
-    a0->f64 = nv;
-    a0->f62 = nv;
-    a0->f60 = nv;
+    nv = (s16)(a0->unk64.u - 0x100);
+    a0->unk64.u = nv;
+    a0->unk62.s = nv;
+    a0->unk60.s = nv;
     if (nv <= 0) {
-        a0->fDE = 0x10;
+        a0->unkDE.u = 0x10;
         func_801470B4((s32)a0);
         func_8015369C((s32)a0);
         guess_NextStep(a0);

@@ -2,18 +2,18 @@
  * exemplar src/resident/resident_jr_800D128C.c:2011 · rank 1/3 by (raw casts + !FAKE markers, lowest address): casts 0, markers 0
  * rank 2 src/ov_SC03_107/ov_SC03_107_jr_801789AC.c:6018 rejected by type_census --check
  * rank 3 src/shared/ov/func_8017CE80__b4142e5a.h rejected by type_census --check */
-s32 SHARED_FN(Obj800D302C *arg0) {
+s32 SHARED_FN(Dst *arg0) {
     s32 v;
 
-    v = arg0->field_0x28 - 1;
-    arg0->field_0x28 = v;
+    v = arg0->unk28 - 1;
+    arg0->unk28 = v;
     if (v == -1) {
         guess_RequestSound(0x1C, 0);
         func_8001BFD0();
         guess_RequestSound(0x1D, 0);
         func_800D0C48(1);
         func_800D1E28();
-        arg0->field_0x15 = arg0->field_0x15 + 1;
+        arg0->unk15 = arg0->unk15 + 1;
     }
     return 0;
 }

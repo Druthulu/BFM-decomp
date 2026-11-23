@@ -86,7 +86,7 @@ extern s32 D_801ED918;
 extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_801505FC(s32 a0);
 extern s32 func_801508B4(void *a0);
 extern void func_80165E90(void);
@@ -743,7 +743,7 @@ s32 func_80138C60(s32 arg0, s32 arg1)
     }
 
     t = ((struct S8013A0A4 *)arg0)->unk22 & 7;
-    ((struct S8013A0A4 *)arg0)->unk18 = t;
+    ((struct S8013A0A4 *)arg0)->unk18.s = t;
     if (t < 2) {
         ((struct S8013A0A4 *)arg0)->unk20 = 0;
     }
@@ -854,13 +854,13 @@ void func_801397B0(s32 arg0)
     if (((struct S8013A0A4 *)e)->unk22 & 8) {
         ((Unkstruct_801397B0 *)buf)->unk4 =
             ((struct S8013A0A4 *)e)->unk30 + ((struct S8013A0A4 *)e)->unk34.u + 0x28;
-        sc = -((struct S8013A0A4 *)e)->unk28;
+        sc = -((struct S8013A0A4 *)e)->unk28.u;
     } else {
         ((Unkstruct_801397B0 *)buf)->unk4 = ((struct S8013A0A4 *)e)->unk30 - 0x28;
-        sc = ((struct S8013A0A4 *)e)->unk28;
+        sc = ((struct S8013A0A4 *)e)->unk28.u;
     }
     ((Unkstruct_801397B0 *)buf)->unk1C = sc;
-    ((Unkstruct_801397B0 *)buf)->unk1E = ((struct S8013A0A4 *)e)->unk2A;
+    ((Unkstruct_801397B0 *)buf)->unk1E = ((struct S8013A0A4 *)e)->unk2A.u;
     ((Unkstruct_801397B0 *)buf)->unk1A = 0;
     ((Unkstruct_801397B0 *)buf)->unk18 = 0;
     ((Unkstruct_801397B0 *)buf)->unk20 = 0;

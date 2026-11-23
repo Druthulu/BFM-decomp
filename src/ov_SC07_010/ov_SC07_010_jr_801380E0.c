@@ -713,7 +713,7 @@ s32 func_80138C60(s32 arg0)
     }
 
     t = ((struct S8013A0A4 *)arg0)->unk22 & 7;
-    ((struct S8013A0A4 *)arg0)->unk18 = t;
+    ((struct S8013A0A4 *)arg0)->unk18.s = t;
     if (t < 2) {
         ((struct S8013A0A4 *)arg0)->unk20 = 0;
     }
@@ -835,13 +835,13 @@ void func_801397B0(s32 arg0)
     if (((Unkstruct_801397B0_6 *)e)->unk22 & 8) {
         ((Unkstruct_801397B0_5 *)buf)->unk4 =
             ((Unkstruct_801397B0_6 *)e)->unk30 + ((Unkstruct_801397B0_6 *)e)->unk34.u + 0x28;
-        sc = -((Unkstruct_801397B0_6 *)e)->unk28;
+        sc = -((Unkstruct_801397B0_6 *)e)->unk28.u;
     } else {
         ((Unkstruct_801397B0_5 *)buf)->unk4 = ((Unkstruct_801397B0_6 *)e)->unk30 - 0x28;
-        sc = ((Unkstruct_801397B0_6 *)e)->unk28;
+        sc = ((Unkstruct_801397B0_6 *)e)->unk28.u;
     }
     ((Unkstruct_801397B0_5 *)buf)->unk1C = sc;
-    ((Unkstruct_801397B0_5 *)buf)->unk1E = ((Unkstruct_801397B0_6 *)e)->unk2A;
+    ((Unkstruct_801397B0_5 *)buf)->unk1E = ((Unkstruct_801397B0_6 *)e)->unk2A.u;
     ((Unkstruct_801397B0_5 *)buf)->unk1A = 0;
     ((Unkstruct_801397B0_5 *)buf)->unk18 = 0;
     ((Unkstruct_801397B0_5 *)buf)->unk20 = 0;

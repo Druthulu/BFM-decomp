@@ -28,7 +28,7 @@ shared:
         if (ent != 0) {
             ent->unk38.mat = node->unk20->unk34.coord;
         }
-        if (((Unkstruct_8011D030 *)arg0)->unk34.n->unk4C->unk44 & 0x20) {
+        if (((Unkstruct_8011D030 *)arg0)->unk34.n->unk4C->unk44.s & 0x20) {
             ((Unkstruct_8011D030 *)arg0)->unk30.val.s = 0x600;
             ((Unkstruct_8011D030 *)arg0)->unk2.u = (u16) (((Unkstruct_8011D030 *)arg0)->unk2.u + 1);
         }

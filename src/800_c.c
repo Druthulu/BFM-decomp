@@ -3098,7 +3098,7 @@ void func_80038A58(void)
                     e = b + 0x5A;
                     do {
                         if (*e == one) {
-                            if (((Unkstruct_80038A58 *)*(s32 *)(e - 0xA))->unk1F0 == i) {
+                            if (((Unkstruct_80039C70 *)*(s32 *)(e - 0xA))->unk1F0 == i) {
                                 *(s16 *)(e - 0x42) = (u32)(((Unkstruct_80037F3C *)b)->unk0 * *(s16 *)p) >> 14;
                                 *(s16 *)(e - 0x40) = (u32)(*(s16 *)(e - 0x58) * *(s16 *)p) >> 14;
                                 e[3] = one;
@@ -3155,7 +3155,7 @@ void func_80038A58(void)
                 e2 = b2 + 0x5A;
                 do {
                     if (*e2 == one) {
-                        if (((Unkstruct_80038A58 *)*(s32 *)(e2 - 0xA))->unk1F0 == i) {
+                        if (((Unkstruct_80039C70 *)*(s32 *)(e2 - 0xA))->unk1F0 == i) {
                             *(s16 *)(e2 - 0x42) = (u32)(((Unkstruct_80037F3C *)b2)->unk0 * *(s16 *)p) >> 14;
                             *(s16 *)(e2 - 0x40) = (u32)(*(s16 *)(e2 - 0x58) * *(s16 *)p) >> 14;
                             e2[3] = one;

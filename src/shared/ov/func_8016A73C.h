@@ -12,7 +12,7 @@ s32 func_8016A73C(s32 arg0) {
     v[0] = ((unsigned)(r & 0x7F00) >> 5) - 0x300;
     v[2] = 0;
     ((void(*)(short *, void *))RotMatrixYXZ)(v, sp10);
-    ((void(*)(int, void *))func_80048EAC)(((Unkstruct_8011D030 *)arg0)->unk34.a->unk34->unk20 + 0x34, sp10);
+    ((void(*)(int, void *))func_80048EAC)(((Unkstruct_8011D030 *)arg0)->unk34.a->unk34->unk20.val + 0x34, sp10);
     v[0] = 0;
     v[1] = 0;
     v[2] = -0x50;

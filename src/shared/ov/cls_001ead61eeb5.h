@@ -5,7 +5,7 @@ void SHARED_FN(s32 param_1, s16 *param_2) {
     SVECTOR svec_out;
 
     ((Unkstruct_80126948 *)param_1)->unk8.v0.unk8  = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x8),  (s32)((Unkstruct_80126948 *)param_1)->unkC.v0.unkC.i.lo,  4);
-    ((Unkstruct_80126948 *)param_1)->unk10 = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)CAST_WIDTH(s16, param_1, 0x14), 4);
+    ((Unkstruct_80126948 *)param_1)->unk10.val = (s16)guess_EaseToward((s32)CAST_WIDTH(s16, param_1, 0x10), (s32)CAST_WIDTH(s16, param_1, 0x14), 4);
     ((Unkstruct_80126948 *)param_1)->unk18.s = func_80012ABC((s32)((Unkstruct_80126948 *)param_1)->unk18.s, (s32)((Unkstruct_80126948 *)param_1)->unk20.s, 4);
     ((Unkstruct_80126948 *)param_1)->unk1A.s = func_80012ABC((s32)((Unkstruct_80126948 *)param_1)->unk1A.s, (s32)((Unkstruct_80126948 *)param_1)->unk22.s, 4);
     ((Unkstruct_80126948 *)param_1)->unk1C.s = func_80012ABC((s32)((Unkstruct_80126948 *)param_1)->unk1C.s, (s32)((Unkstruct_80126948 *)param_1)->unk24.s, 4);
@@ -23,7 +23,7 @@ void SHARED_FN(s32 param_1, s16 *param_2) {
     m1.t[2] = ((Unkstruct_80126948 *)param_1)->unk2C + param_2[2];
     svec_in.vx = 0;
     svec_in.vy = 0;
-    svec_in.vz = ((Unkstruct_80126948 *)param_1)->unk10;
+    svec_in.vz = ((Unkstruct_80126948 *)param_1)->unk10.val;
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)&m1, (s32)&svec_in, (s32)&svec_out);
 
     ((Unkstruct_80126948 *)param_1)->unk3C = (s32)svec_out.vx;

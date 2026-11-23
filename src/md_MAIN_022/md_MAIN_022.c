@@ -89,7 +89,7 @@ void func_800CAFE8(void) {
 extern void guess_PlaySoundUnlessSkipped(s32 a0);
 extern s32 guess_SpawnSmallObjectAtOrigin(s32 a0, s32 a1, s32 a2, s32 a3);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
 extern void guess_NextStep(s32 a0);
 
 void func_800CB03C(s32 *a0) {

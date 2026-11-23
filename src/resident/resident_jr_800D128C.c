@@ -623,11 +623,11 @@ extern void func_800D1F58(void);
 extern void func_801285D4(void);
 extern s32 func_800D1984(u8 *arg0);
 
-s32 func_800D1938(S800D1938 *arg0) {
+s32 func_800D1938(Dst *arg0) {
     func_800D1F58();
     func_801285D4();
-    arg0->f15 = 0;
-    arg0->f14 = arg0->f14 + 1;
+    arg0->unk15 = 0;
+    arg0->unk14 = arg0->unk14 + 1;
     func_800D1984(arg0);
     return 0;
 }
@@ -1165,20 +1165,20 @@ void func_800D1FC8(void *arg0, int arg1) {
 
 
 
-extern Tgt800D20C0 *guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
+extern Unkstruct_80126948 *guess_g_ActiveCamera; // Names ledger: config/names.tsv guess_g_ActiveCamera
 extern long VectorNormalSS(SVECTOR_800 *a, SVECTOR_800 *b);
 
 void func_800D20C0(Pos800D20C0 *arg0, SVECTOR_800 *arg1, s16 arg2) {
     SVECTOR_800 local;
-    Tgt800D20C0 *p = guess_g_ActiveCamera;
+    Unkstruct_80126948 *p = guess_g_ActiveCamera;
     s32 dx, dy, dz;
     s32 shift;
 
-    { s32 tx = p->t5C; dx = tx - (u16)arg0->x; }
+    { s32 tx = p->unk5C; dx = tx - (u16)arg0->x; }
     local.vx = dx;
-    { s32 ty = p->t60; dy = ty - (u16)arg0->y; }
+    { s32 ty = p->unk60; dy = ty - (u16)arg0->y; }
     local.vy = dy;
-    { s32 tz = p->t64; dz = tz - (u16)arg0->z; }
+    { s32 tz = p->unk64; dz = tz - (u16)arg0->z; }
     local.vz = dz;
 
     if (((u32)((dx + 0x3FFF) & 0xFFFF) < 0x7FFF) &&
@@ -1882,10 +1882,10 @@ extern void func_800D3348(u8 *arg0);
 extern void func_8016EDEC(s32 _arg0, s32 _arg1, s32 _arg2);
 
 
-s32 func_800D2E20(Struct800D2E20 *a0) {
+s32 func_800D2E20(Dst *a0) {
     KR_AS(void, func_8016EDEC)(func_800D3348, 0x1000000);
-    a0->field_0x19 = 0xA;
-    a0->field_0x15 = a0->field_0x15 + 1;
+    a0->b19 = 0xA;
+    a0->unk15 = a0->unk15 + 1;
     return 0;
 }
 
@@ -1974,10 +1974,10 @@ void func_800D2FB0(u8 *arg0) {
 extern void func_800D33E0(void);
 
 
-s32 func_800D2FEC(Struct800D2FEC *a0) {
+s32 func_800D2FEC(Dst *a0) {
     func_800D33E0();
-    a0->field_0x28 = 0xA;
-    a0->field_0x15 = a0->field_0x15 + 1;
+    a0->unk28 = 0xA;
+    a0->unk15 = a0->unk15 + 1;
     return 0;
 }
 
@@ -2033,10 +2033,10 @@ void func_800D30C8(void *arg0) {
  *   return 0
  */
 
-s32 func_800D3104(Struct800D3104 *a0) {
-    u8 v = a0->field_0x15;
-    a0->field_0x19 = 0xA;
-    a0->field_0x15 = v + 1;
+s32 func_800D3104(Dst *a0) {
+    u8 v = a0->unk15;
+    a0->b19 = 0xA;
+    a0->unk15 = v + 1;
     return 0;
 }
 

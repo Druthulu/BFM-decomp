@@ -11,14 +11,14 @@ void func_8012A328(void)
     extern s32 guess_g_PlayerActor; // Names ledger: config/names.tsv guess_g_PlayerActor
     extern s16 D_80127080;
     extern s16 D_80126CAE;
-    Obj_80126B58 *p = (Obj_80126B58 *)&guess_g_PlayerActor;
+    Unkstruct_80126B58 *p = (Unkstruct_80126B58 *)&guess_g_PlayerActor;
     s16 *q;
     s32 a, b;
     if (*(u8 *)&D_801152C0 != 0) {
         a = D_80127080; b = D_80126CAE;
         if (D_801152C2 < ((a - b) < 0 ? (b - a) : (a - b))) {
             q = &D_80126942;
-            *q = func_80012F74(*q, p->f156, 4, 1);
+            *q = func_80012F74(*q, p->unk156, 4, 1);
         } else {
             q = &D_80126942;
             *q = func_80012F74(*q, D_80127080, 4, 1);
@@ -27,6 +27,6 @@ void func_8012A328(void)
         s16 *r = &D_80126942;
         *r = func_80012F74(*r, D_80126CAE, 4, 1);
     }
-    guess_g_CameraFollowPos = p->f154;
-    D_80126944 = p->f158;
+    guess_g_CameraFollowPos = p->unk154;
+    D_80126944 = p->unk158;
 }

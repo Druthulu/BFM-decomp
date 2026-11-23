@@ -642,11 +642,11 @@ extern void func_80139DEC(void);
 extern void func_80139DF4(s32 a0);
 extern void func_80139E84(s32 a0);
 extern void func_80139F0C(s32 a0);
-extern void func_80139FBC(struct obj *a0);
+extern void func_80139FBC(struct S8013A0A4 *a0);
 extern s32 func_8001B22C(void);
 extern void func_80139FE8(void *a0);
 extern void func_8013A0A4(struct S8013A0A4 *a0);
-extern void func_8013A164(struct S8013A164 *a0);
+extern void func_8013A164(struct S8013A0A4 *a0);
 extern void func_8013A1E8(s32 a0);
 extern void func_8013A250(struct S8013A0A4 *a0);
 extern void func_8013A2BC(s32 a0);
@@ -1245,7 +1245,7 @@ extern void guess_EnterJumpState(void);
 extern void func_8015ACC4(s32 *arg0);
 extern void guess_EnterJumpStateAndLaunch(void);
 extern u8 D_80078EBF;
-extern s32 guess_IsChargedSquarePressed(struct S_80149744 *a0);
+extern s32 guess_IsChargedSquarePressed(Unkstruct_80126B58 *a0);
 extern void func_8015F7A0(s32 *arg0);
 extern void guess_StartChargedSquareAction(void);
 extern void func_801653B8(s32 *a0);
@@ -1402,7 +1402,7 @@ extern u8 func_8014BFD4(void);
 extern void func_8014BFF4(s32 a0, s32 a1);
 extern void guess_SpawnSmallObjectType2(s32 a0, s32 a1);
 extern s32 func_8014C050(s32 a0, s32 a1);
-extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
 extern s32 func_8014C0C8(s32 a0_unused, s32 a1, s32 a2);
 extern s32 func_8014C118(void * a0, s32 a1, s32 a2);
 extern s32 func_8014C168(s32 * param_1, s32 param_2);
@@ -1487,7 +1487,7 @@ extern s32 func_8014E514(u8 *a0, s32 a1, s32 a2);
 extern s32 func_8014E48C(s32 a0);
 extern s32 func_8014E83C(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014E790(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014E6F8(struct SubE6F8 *a0);
+extern s32 func_8014E6F8(Unkstruct_80126B58 *a0);
 extern s32 func_8014E790(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014E83C(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014EA4C(void *a0, void *a1, void *a2, s32 a3);
@@ -1500,7 +1500,7 @@ extern s32 func_8014EE14(s32 a0, s16 *a1, s16 *a2);
 extern s32 func_8014ED80(SubED80 *a0);
 extern s32 func_8014EE14(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F2E0(s32 a0, s16 *a1, s16 *a2);
-extern s32 func_8014F24C(struct SubF24C *a0);
+extern s32 func_8014F24C(Unkstruct_80126B58 *a0);
 extern s32 func_8014F2E0(s32 arg0, s16 * arg1, s16 * arg2);
 extern s32 func_8014F4C0(u8 *a0);
 extern s32 func_8014F468(void);
@@ -1512,7 +1512,7 @@ extern s32 func_8014FC18(u8 *self);
 extern int func_8014FD54(int param_1);
 extern s32 func_80150170(void *a0);
 extern s32 func_8014FE60(void *a0);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_80150150(s32 a, s32 b);
 extern s32 func_80150460(s32 a, s32 b);
 extern s32 func_80150528(void *a0, void *a1, void *a2);
@@ -1685,7 +1685,7 @@ extern void func_8015309C(s32 a0);
 extern void func_80155440(s32 *a0);
 extern u8 guess_g_RumblePatternFade[]; // Names ledger: config/names.tsv guess_g_RumblePatternFade
 extern void func_801530E4(s32 arg0);
-extern void func_80153150(struct S80153150 *a0);
+extern void func_80153150(Unkstruct_80126B58 *a0);
 extern void guess_EaseToSavedPosThenNextStep_4(s32 a0);
 extern void func_8015327C(s32 a0);
 extern void func_80153204(s32 *a0);
@@ -2477,7 +2477,7 @@ extern void func_8016B91C(s32);
 extern void func_8016B5C0(s32 param_1);
 extern void guess_InitObjectKind6(int, void *);
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
+extern void func_8016B964(Unkstruct_8011D030 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 func_8016BA68(s32, s32);
 extern void func_8016BADC(void *a0, s32 a1, s32 a2);
@@ -2517,7 +2517,7 @@ extern void func_8016E778(int param_1);
 extern s32 D_80115218;
 extern void func_8016E918(short param_1, short param_2);
 extern void func_8016EC0C(s32 a0, s32 a1);
-extern void func_8016EAC0(Wave *param_1);
+extern void func_8016EAC0(struct Entry_8016E95C *param_1);
 extern void func_8016EB3C(s32 p);
 extern void func_8016EBA8(u8 *param_1);
 extern s32 D_80126D70;
@@ -4037,9 +4037,9 @@ void func_8017E268(s32 a0) {
     p = guess_g_ActiveCamera;
     t = ((Unkstruct_80126948 *)p)->unk14.v0.unk14 - 1;
     ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = t;
-    ((Unkstruct_80126948 *)p)->unk10 = t;
+    ((Unkstruct_80126948 *)p)->unk10.val = t;
     if (t < 400) {
-        ((Unkstruct_80126948 *)p)->unk10 = 400;
+        ((Unkstruct_80126948 *)p)->unk10.val = 400;
         ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 400;
         guess_ZeroMemory((void *)a0, 0x18);
     }
@@ -4164,11 +4164,11 @@ void func_8017E4C4(s32 a0) {
     s32 t;
 
     p = guess_g_ActiveCamera;
-    t = ((Unkstruct_80126948 *)p)->unk10 - 2;
-    ((Unkstruct_80126948 *)p)->unk10 = t;
+    t = ((Unkstruct_80126948 *)p)->unk10.val - 2;
+    ((Unkstruct_80126948 *)p)->unk10.val = t;
     ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = t;
-    if (((Unkstruct_80126948 *)p)->unk10 < 300) {
-        ((Unkstruct_80126948 *)p)->unk10 = 300;
+    if (((Unkstruct_80126948 *)p)->unk10.val < 300) {
+        ((Unkstruct_80126948 *)p)->unk10.val = 300;
         ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 300;
         guess_ZeroMemory((void *)a0, 0x18);
     }
@@ -4202,7 +4202,7 @@ void func_8017E568(void *arg0) {
     s32 p;
 
     p = guess_g_ActiveCamera;
-    ((Unkstruct_80126948 *)p)->unk10 = 0x190;
+    ((Unkstruct_80126948 *)p)->unk10.val = 0x190;
     ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
     ((Unkstruct_80126948 *)p)->unk1A.u = 0x200;
     ((Unkstruct_80126948 *)p)->unk22.u = 0x200;
@@ -4617,7 +4617,7 @@ void func_8017EC68(s32 *a0) {
     func_801813EC((s32)s0);
 
     ((Unkstruct_80126948 *)s1)->unk14.v0.unk14 = 0x190;
-    ((Unkstruct_80126948 *)s1)->unk10 = 0x190;
+    ((Unkstruct_80126948 *)s1)->unk10.val = 0x190;
 
     fnptr = (void *)func_8018263C;
     a4 = 0;
@@ -4706,7 +4706,7 @@ void func_8017EDD4(s32 *a0) {
     func_801813EC((s32)s0);
 
     ((Unkstruct_80126948 *)s1)->unk14.v0.unk14 = 0x190;
-    ((Unkstruct_80126948 *)s1)->unk10 = 0x190;
+    ((Unkstruct_80126948 *)s1)->unk10.val = 0x190;
     ((void (*)(s32, u8 *))func_80181048)((s32)s0, &D_80187C98);
 
     guess_SetWaitTimer(s0, 0x3C);
@@ -5346,7 +5346,7 @@ void func_8017F90C(void *a0) {
         func_8017D350();
         func_8018144C(a0, D_80187C78);
         ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
-        ((Unkstruct_80126948 *)p)->unk10 = 0x190;
+        ((Unkstruct_80126948 *)p)->unk10.val = 0x190;
         func_8012AD50(a0);
     }
 }
@@ -5436,7 +5436,7 @@ void func_8017FAC4(s32 a0) {
         func_8017D1F0();
         func_801813EC(a0);
         ((Unkstruct_80126948 *)p)->unk14.v0.unk14 = 0x190;
-        ((Unkstruct_80126948 *)p)->unk10 = 0x190;
+        ((Unkstruct_80126948 *)p)->unk10.val = 0x190;
         ((s32 (*)(s32))func_8012AD50)(a0);
     }
 }

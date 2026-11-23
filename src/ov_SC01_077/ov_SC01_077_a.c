@@ -158,7 +158,7 @@ extern u8 D_800B9A64;
 
 extern void guess_UpdateCamera(void);
 extern void func_8017849C(void);
-extern void func_8014FDF4(struct S8014FDF4 *a0);
+extern void func_8014FDF4(Unkstruct_80126B58 *a0);
 extern s32 func_801505FC(s32 a0);
 extern s32 func_801508B4(void *a0);
 extern void func_80165E90(void);

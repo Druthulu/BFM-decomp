@@ -28,7 +28,7 @@ extern void func_800CAEE0(u8 *a0);
 #include "../shared/slot_800CAE08/func_800CAE98.h"
 
 
-extern Unkstruct_800CB098 *func_8014C088(s32 a0, s32 a1);
+extern Ent_80164930_80164930 *func_8014C088(s32 a0, s32 a1);
 extern void func_801599A4(void *a0);
 extern void func_80159B3C(void *a0);
 extern void func_801655E4(s32 a0);

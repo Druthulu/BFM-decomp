@@ -5,16 +5,16 @@ extern void func_8017DF10(int);
 void func_8017DCD8(Ent_8017BFE0_8017DCD8 *param_1)
 {
     s32 t;
-    t = param_1->f1c;
-    param_1->f1c = t + 1;
+    t = param_1->unk1C.s;
+    param_1->unk1C.s = t + 1;
     if (t < 0x20) {
-        param_1->f2a = param_1->f2a - 0x10;
+        param_1->unk2A.u = param_1->unk2A.u - 0x10;
     } else {
-        if (param_1->f30 == 0) {
-            guess_PlaySoundUnlessSkipped(param_1->f2c);
+        if (param_1->unk30.val.s == 0) {
+            guess_PlaySoundUnlessSkipped(param_1->unk2C.i.lo.u);
         }
-        param_1->f1c = 0;
-        param_1->f02 = param_1->f02 + 1;
+        param_1->unk1C.s = 0;
+        param_1->unk2.u = param_1->unk2.u + 1;
     }
     ((void (*)(Ent_8017BFE0_8017DCD8 *))func_8017DF10)(param_1);
 }

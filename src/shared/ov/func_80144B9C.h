@@ -113,10 +113,10 @@ extern void func_8012A110(void);
 
 void func_80144B9C(void) {
     P10 *p10 = (P10 *)guess_g_PlayerActor;
-    P14 *p14 = (P14 *)guess_g_PlayerRecord;
+    Unkstruct_80078E78 *p14 = (Unkstruct_80078E78 *)guess_g_PlayerRecord;
     register u8 *p = guess_g_RenderWork;
-    P18 *p18 = (P18 *)D_800AE6A8;
-    P1C *p1C = (P1C *)guess_g_MainCamera;
+    Dst *p18 = (Dst *)D_800AE6A8;
+    Unkstruct_80126948 *p1C = (Unkstruct_80126948 *)guess_g_MainCamera;
     HDR *hdr;
     Blob36 *ent;
     s32 tbl;
@@ -126,37 +126,37 @@ void func_80144B9C(void) {
 
     func_80019018();
     func_80018E78();
-    if (p18->f8 == 0) {
+    if (p18->w8 == 0) {
         hdr = (HDR *)func_801457A4(*(s16 *)(p + 0xA3D8));
-        p18->f16 = 0;
+        p18->b16 = 0;
         flag = 1;
-        D_8011DB14 = p14->f3A;
-        D_8011DB1C = p14->f3E;
+        D_8011DB14 = p14->hp_max;
+        D_8011DB1C = p14->bp_max;
         D_80128150 = 100;
         func_8002AB64();
     } else {
         hdr = (HDR *)func_801457A4(*(s16 *)(p + 0xA3D8));
         flag = 0;
     }
-    p18->f1C = hdr->fC8;
+    p18->unk1C = hdr->fC8;
     tbl = hdr->fC8;
-    if (p18->f16 == 0xFF) {
+    if (p18->b16 == 0xFF) {
         ent = &D_80078E50;
     } else {
-        ent = (Blob36 *)*(s32 *)(p18->f16 * 4 + tbl);
+        ent = (Blob36 *)*(s32 *)(p18->b16 * 4 + tbl);
     }
-    p18->fC = ent->unk0.v1.unk8;
-    p18->f14 = 0;
+    p18->unkC = ent->unk0.v1.unk8;
+    p18->unk14 = 0;
     p10->f4D = 0;
     if (ent->unk0.v1.unkC != (s32)guess_g_PlaceholderText) {
         p10->f198 = ent->unk0.v1.unkC;
     }
     if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x1000) {
-        p10->f6 = p10->f88 = p10->f90 = p18->f20;
-        p10->fA = p10->f8A = p10->f92 = p18->f22;
-        p10->fE = p10->f8C = p10->f94 = p18->f24;
-        p10->f20->unk10.w.unk12.u = p18->f26;
-        p18->f18 = 0;
+        p10->f6 = p10->f88 = p10->f90 = p18->unk20;
+        p10->fA = p10->f8A = p10->f92 = p18->unk22;
+        p10->fE = p10->f8C = p10->f94 = p18->unk24;
+        p10->f20->unk10.w.unk12.u = p18->unk26;
+        p18->unk18 = 0;
     } else {
         p10->f6 = p10->f88 = p10->f90 = ent->unk0.v1.unk10;
         p10->fA = p10->f8A = p10->f92 = ent->unk0.v1.unk12;
@@ -174,14 +174,14 @@ void func_80144B9C(void) {
         func_8012A1BC();
     } else {
         if (*(s16 *)(p + 0xA3DA) == 0x1000 && *(s16 *)(p + 0xA3DC) == 0x3000) {
-            p1C->fA0 = ent->unk0.v1.unk3;
+            p1C->unkA0.b = ent->unk0.v1.unk3;
         } else {
-            p1C->fA0 = 0;
+            p1C->unkA0.b = 0;
         }
         ent->unk0.v1.unk18();
     }
     if (*(s16 *)(p + 0xA3D8) == 0x3069) {
-        p1C->fA0 = ent->unk0.v1.unk3;
+        p1C->unkA0.b = ent->unk0.v1.unk3;
     }
     guess_g_ActiveCamera = (s32)p1C;
     func_8002850C(hdr->f0, hdr->f2, hdr->f4);
@@ -258,11 +258,11 @@ void func_80144B9C(void) {
     calltmp();
     func_8013D3D4(hdr->fA0, hdr->fA4);
     guess_RequestSound(0x1E, 0);
-    if (p18->f8 == 0) {
+    if (p18->w8 == 0) {
         D_80078E50 = *ent;
     }
-    p18->f4 = (s32)&D_80078E50;
-    p18->f8 = p18->f8 & 0x7F000000;
+    p18->unk4 = (s32)&D_80078E50;
+    p18->w8 = p18->w8 & 0x7F000000;
     if (KR_AS(s32, func_800CF854)() != 0) {
         func_8001C14C();
         func_8012A110();

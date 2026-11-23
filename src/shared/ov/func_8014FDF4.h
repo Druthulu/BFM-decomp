@@ -2,8 +2,8 @@
  * member's site in address order; the members are recorded in config/dedup.us.yaml (Phase 35). */
 extern s32 func_80150170(void *a0);
 extern s32 func_8014FE60(void *e);
-void func_8014FDF4(struct S8014FDF4 *a0) {
-    if (a0->f6 != a0->f88 || a0->fA != a0->f8A || a0->fE != a0->f8C) {
+void func_8014FDF4(Unkstruct_80126B58 *a0) {
+    if (a0->unk4.i.hi.s != a0->unk88.s || a0->unk8.i.hi.s != a0->unk8A.s || a0->unkC.i.hi.s != a0->unk8C.s) {
         func_80150170(a0);
     } else {
         func_8014FE60(a0);
