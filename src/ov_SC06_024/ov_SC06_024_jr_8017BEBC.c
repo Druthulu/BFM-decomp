@@ -1802,7 +1802,7 @@ extern unsigned short D_80192A18[];
 extern unsigned short D_80192A20[];
 extern unsigned char D_801E03E8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E03E0;
 extern s32 func_8016BA68(s32, s32);
@@ -4403,11 +4403,11 @@ void func_8017FBF8(void *a0) {
 extern void (*D_801935D4[])(void);
 
 void func_8017FC34(void *a0) {
-    ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk20 = (s32) D_801935D4;
-    ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk27 = 0x3D;
-    ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk28 = 0x2D1;
-    ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2A = 0x160;
-    ((Unkstruct_8017FC34_5 *)*(s32 *)((s32)a0 + 0x20))->unk2C = 0xC020U;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk20.s = (s32) D_801935D4;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk24.b.unk27.u = 0x3D;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk28.w.unk28.s = 0x2D1;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk28.w.unk2A.s = 0x160;
+    ((Unkstruct_800B5BD8 *)*(s32 *)((s32)a0 + 0x20))->head.unk2C.u = 0xC020U;
     ((Unkstruct_8011DB30 *)a0)->unk2.s = CAST_SIGN(u16, (s32)a0, 0x2) + 1;
     ((Unkstruct_8011DB30 *)a0)->unk1C.s = 7;
 }

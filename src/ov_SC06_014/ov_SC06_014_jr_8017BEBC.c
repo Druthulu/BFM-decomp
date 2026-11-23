@@ -1809,7 +1809,7 @@ extern unsigned short D_80183158[];
 extern unsigned short D_80183160[];
 extern unsigned char D_801A0750[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801A0748;
 extern s32 func_8016BA68(s32, s32);
@@ -3877,9 +3877,9 @@ void func_8017EC78(void *a0) {
 
 
 void func_8017ECEC(void *a0) {
-    ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk18 + 0x100;
-    ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A + 0x100;
-    if (((Unkstruct_8017ECEC_2 *)*(s32 *)(a0 + 0x20))->unk1A >= 0x2000) {
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk18.s = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk18.s + 0x100;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s + 0x100;
+    if (((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s >= 0x2000) {
         ((Unkstruct_801202A0 *)a0)->unk2.s = 1;
         ((Unkstruct_801202A0 *)a0)->unk5C.u = 0x8000;
     }
@@ -4119,8 +4119,8 @@ void func_8017F178(s32 param_1)
     s16 sVar1;
     u16 uVar2;
 
-    ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u =
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
 
     obj = (s32)&guess_g_PlayerPosY;
     /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare

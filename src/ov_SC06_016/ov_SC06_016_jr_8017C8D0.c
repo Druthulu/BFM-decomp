@@ -1808,7 +1808,7 @@ extern unsigned short D_801880C0[];
 extern unsigned short D_801880C8[];
 extern unsigned char D_8019E900[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_8019E8F8;
 extern s32 func_8016BA68(s32, s32);
@@ -3814,8 +3814,8 @@ void func_8017F154(s32 arg0) {
     blk = D_8019E290;
     f = ((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.u & 1;
     guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20.val, &D_8019F95C[f << 6]);
-    ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
-    ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk2C = 0xC040;
+    ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk4.u |= 0x50000000;
+    ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk2C.u = 0xC040;
     if (f == 0) {
         guess_BuildCircle12Points(&D_8019F95C[0], 0x80);
         *(CVECTOR *)&D_8019F95C[0] = D_8019E28C;
@@ -3836,8 +3836,8 @@ void func_8017F154(s32 arg0) {
         ((Unkstruct_8011DB30 *)arg0)->unkC.i.hi.u += sv.unk0.v1.unk4;
         ((Unkstruct_8011DB30 *)arg0)->unk10.val.s = -((s32)(s16)sv.unk0.v1.unk0 << 12);
         ((Unkstruct_8011DB30 *)arg0)->unk14.val.s = -((s32)(s16)sv.unk0.v1.unk2 << 12);
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk18 = 0;
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(arg0 + 0x20))->unk1A = 0;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk18.w.unk18.s = 0;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk18.w.unk1A.s = 0;
         ((Unkstruct_8011DB30 *)arg0)->unk1C.s = 0xC;
     }
     ((Unkstruct_8011DB30 *)arg0)->unk2.u += 1;

@@ -1803,7 +1803,7 @@ extern unsigned short D_8018F790[];
 extern unsigned short D_8018F798[];
 extern unsigned char D_801DBEA8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801DBEA0;
 extern s32 func_8016BA68(s32, s32);
@@ -5684,7 +5684,7 @@ void func_80181AC0(s32 param_1)
         if (!(*(s32 *)(param_1 + 0xE0) & 1)) {
             *(u16 *)(param_1 + 0x34) = state + 1;
             *(s32 *)(param_1 + 0x1C) =
-                (0x1000 - (((Unkstruct_80181AC0 *)*(s32 *)(param_1 + 0x20))->unk12 - *(s16 *)(param_1 + 0xFC))) & 0xFFF;
+                (0x1000 - (((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s - *(s16 *)(param_1 + 0xFC))) & 0xFFF;
         }
         break;
     case 2: {
@@ -5693,14 +5693,14 @@ void func_80181AC0(s32 param_1)
         *(s32 *)(param_1 + 0x1C) = v2;
         if (v2 <= 0) {
             *(s32 *)(param_1 + 0xE8) = 0;
-            ((Unkstruct_80181AC0 *)*(s32 *)(param_1 + 0x20))->unk12 = *(u16 *)(param_1 + 0xFC);
+            ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = *(u16 *)(param_1 + 0xFC);
             *(u16 *)(param_1 + 0x2) = 1;
         }
         break;
     }
     }
 
-    ((Unkstruct_80181AC0 *)*(s32 *)(param_1 + 0x20))->unk12 =
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s =
         CAST_SIGN(u16, *(s32 *)(param_1 + 0x20), 0x12) + *(u16 *)(param_1 + 0xEA);
     if (*(s32 *)(param_1 + 0xE0) & 0x1000) {
         *(u16 *)(param_1 + 0x2) = 4;
@@ -5741,14 +5741,14 @@ void func_80181C04(s32 param_1)
         *(s32 *)(param_1 + 0x1C) = iVar4;
         if (iVar4 < 1) {
             *(s32 *)(param_1 + 0xE8) = 0;
-            ((Unkstruct_80181C04 *)*(s32 *)(param_1 + 0x20))->unk12 = *(u16 *)(param_1 + 0xFC);
+            ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.u = *(u16 *)(param_1 + 0xFC);
             *(u16 *)(param_1 + 0x2) = 1;
         }
         break;
     }
 
-    ((Unkstruct_80181C04 *)*(s32 *)(param_1 + 0x20))->unk12 =
-        ((Unkstruct_80181C04 *)*(s32 *)(param_1 + 0x20))->unk12 - *(u16 *)(param_1 + 0xEA);
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.u =
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.u - *(u16 *)(param_1 + 0xEA);
 
     if ((*(s32 *)(param_1 + 0xE0) & 0x1000) != 0) {
         *(u16 *)(param_1 + 0x2) = 4;

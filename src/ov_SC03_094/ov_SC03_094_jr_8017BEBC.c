@@ -1802,7 +1802,7 @@ extern unsigned short D_8018AAFC[];
 extern unsigned short D_8018AB04[];
 extern unsigned char D_801D23F0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D23E8;
 extern s32 func_8016BA68(s32, s32);
@@ -3507,8 +3507,8 @@ void func_8017E0FC(s32 a0) {
     if (matched == 1) {
         ((Unkstruct_801202A0 *)s0)->unk2.s = 4;
         ((Unkstruct_801202A0 *)s0)->unkFC.u = 0;
-        ((Unkstruct_8017E0FC_2 *)*(s32 *)(s0 + 0x20))->unk2C |= 0x80;
-        ((Unkstruct_8017E0FC_2 *)*(s32 *)(s0 + 0x20))->unk80 =
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->head.unk2C.u |= 0x80;
+        ((Unkstruct_8001C9D0 *)*(s32 *)(s0 + 0x20))->unk80 =
             (s32)(D_8018B50C + ((Unkstruct_801202A0 *)s0)->unk70.s * 8);
     } else {
         ((Unkstruct_801202A0 *)s0)->unk2.s = 1;
@@ -6650,8 +6650,8 @@ void func_8018379C(void *arg0) {
     func_80183AC8(((Unkstruct_801202A0 *)arg0)->unkD4.s, 0);
     ((Unkstruct_801202A0 *)arg0)->unk2.s = 4;
     ((Unkstruct_801202A0 *)arg0)->unk5C.s = *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk78 + 2);
-    ((Unkstruct_8018379C_2 *)*(s32 *)((char *)arg0 + 0x20))->unk18 =
-        ((Unkstruct_8018379C_2 *)*(s32 *)((char *)arg0 + 0x20))->unk1A = 0x2000;
+    ((RenderHead *)*(s32 *)((char *)arg0 + 0x20))->unk18.w.unk18.s =
+        ((RenderHead *)*(s32 *)((char *)arg0 + 0x20))->unk18.w.unk1A.s = 0x2000;
     func_80183B60(((Unkstruct_801202A0 *)arg0)->unkD4.val);
 }
 
@@ -6731,7 +6731,7 @@ s32 aF80183910(s32 arg0) {
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)D_801AE940, (s32)buf1);
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)(D_801AE940 + 8), (s32)buf2);
     if (func_80135888(((Unkstruct_801202A0 *)arg0)->unk20.p, ((Unkstruct_801202A0 *)arg0)->unk58.s, (s32)buf1, (s32)buf2) != 0) {
-        guess_SetPlayerHit(1, 1, ((Unkstruct_8018001C_2 *)*(s32 *)(arg0 + 0x20))->unk12, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
+        guess_SetPlayerHit(1, 1, ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.w.unk12.s, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
     return 0;

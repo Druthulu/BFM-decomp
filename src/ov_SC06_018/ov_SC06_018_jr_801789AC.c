@@ -1812,7 +1812,7 @@ extern unsigned short D_801967FC[];
 extern unsigned short D_80196804[];
 extern unsigned char D_801D41E8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D41E0;
 extern s32 func_8016BA68(s32, s32);

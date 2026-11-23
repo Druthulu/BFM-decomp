@@ -1805,7 +1805,7 @@ extern unsigned short D_80183CDC[];
 extern unsigned short D_80183CE4[];
 extern unsigned char D_80199AA0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_80199A98;
 extern s32 func_8016BA68(s32, s32);
@@ -4450,7 +4450,7 @@ s32 aF80183910(s32 arg0) {
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)D_80193A94, (s32)buf1);
     ((void (*)(s32, s32, s32))guess_RotTransSVWithMatrix)((s32)guess_g_PlayerModelPtr + 0x34, (s32)(D_80193A94 + 8), (s32)buf2);
     if (func_80135888(((Unkstruct_801202A0 *)arg0)->unk20.p, ((Unkstruct_801202A0 *)arg0)->unk58.s, (s32)buf1, (s32)buf2) != 0) {
-        guess_SetPlayerHit(1, 1, ((Unkstruct_8018001C_2 *)*(s32 *)(arg0 + 0x20))->unk12, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
+        guess_SetPlayerHit(1, 1, ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.w.unk12.s, 9, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         return 1;
     }
     return 0;

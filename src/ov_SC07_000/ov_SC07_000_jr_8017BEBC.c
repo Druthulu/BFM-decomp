@@ -1812,7 +1812,7 @@ extern unsigned short D_801858A4[];
 extern unsigned short D_801858AC[];
 extern unsigned char D_801CEDC0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801CEDB8;
 extern s32 func_8016BA68(s32, s32);
@@ -3829,8 +3829,8 @@ void func_8017EAD8(s32 arg0) {
         ((Poly12Obj *)var_s0)->c0.b = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 8) + 0x10;
     } else {
         ((Unkstruct_801202A0 *)arg0)->unkFE.s += 0x40;
-        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk18 = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 3) + 0x1000;
-        ((Unkstruct_8017EAD8_3 *)*(s32*)(arg0 + 0x20))->unk1A = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 3) + 0x1600;
+        ((RenderHead *)*(s32*)(arg0 + 0x20))->unk18.w.unk18.s = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s) >> 3) + 0x1000;
+        ((RenderHead *)*(s32*)(arg0 + 0x20))->unk18.w.unk1A.s = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 3) + 0x1600;
         func_800234E4(var_s0, 0x100, (u16)((Unkstruct_801202A0 *)arg0)->unkFE.s);
         ((Poly12Obj *)var_s0)->c0.g = (rsin(((Unkstruct_801202A0 *)arg0)->unkFE.s + 0x400) >> 8) + 0x10;
     }

@@ -1804,7 +1804,7 @@ extern unsigned short D_801858A4[];
 extern unsigned short D_801858AC[];
 extern unsigned char D_801CEDC0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801CEDB8;
 extern s32 func_8016BA68(s32, s32);
@@ -3677,10 +3677,10 @@ void func_8018107C(s32 arg0)
     s32 cnt;
 
     dst = &D_801D0678[((Unkstruct_8011DB30 *)arg0)->unk2C.i.lo.s << 6];
-    t18 = ((Unkstruct_8018107C_2 *)*(s32 *)(arg0 + 0x20))->unk18;
+    t18 = ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk18.w.unk18.s;
     if (t18 < 0xC00) {
-        ((Unkstruct_8018107C_2 *)*(s32 *)(arg0 + 0x20))->unk18 = t18 + 0x180;
-        ((Unkstruct_8018107C_2 *)*(s32 *)(arg0 + 0x20))->unk1A += 0x200;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk18.w.unk18.s = t18 + 0x180;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk18.w.unk1A.u += 0x200;
         dst[0] += D_801865B8 >> 3;
         dst[1] += D_801865B9 >> 3;
         dst[2] += D_801865BA >> 3;

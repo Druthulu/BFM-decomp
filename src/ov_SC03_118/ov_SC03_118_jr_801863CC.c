@@ -1802,7 +1802,7 @@ extern unsigned short D_8018CB90[];
 extern unsigned short D_8018CB98[];
 extern unsigned char D_801D34F8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D34F0;
 extern s32 func_8016BA68(s32, s32);
@@ -3911,8 +3911,8 @@ extern void func_8012E688(s32*, s32, s32);
 void func_80187F2C(s32 a0)
 {
     ((Unkstruct_801202A0 *)a0)->unk8.val -= 0x80000;
-    ((Unkstruct_801202A0 *)a0)->unk4.val += rsin(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
-    ((Unkstruct_801202A0 *)a0)->unkC.val += rcos(((Unkstruct_80180A9C_2 *)*(s32 *)(a0 + 0x20))->unk12) << 7;
+    ((Unkstruct_801202A0 *)a0)->unk4.val += rsin(((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s) << 7;
+    ((Unkstruct_801202A0 *)a0)->unkC.val += rcos(((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s) << 7;
 
     if (--((Unkstruct_801202A0 *)a0)->unkFE.s == 0) {
         if (guess_DistSqToPlayer(a0) < 0x4001) {

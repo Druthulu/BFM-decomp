@@ -155,19 +155,19 @@ void func_80144B9C(void) {
         p10->f6 = p10->f88 = p10->f90 = p18->f20;
         p10->fA = p10->f8A = p10->f92 = p18->f22;
         p10->fE = p10->f8C = p10->f94 = p18->f24;
-        p10->f20->unk12 = p18->f26;
+        p10->f20->unk10.w.unk12.u = p18->f26;
         p18->f18 = 0;
     } else {
         p10->f6 = p10->f88 = p10->f90 = ent->unk0.v1.unk10;
         p10->fA = p10->f8A = p10->f92 = ent->unk0.v1.unk12;
         p10->fE = p10->f8C = p10->f94 = ent->unk0.v1.unk14;
-        p10->f20->unk12 = ent->unk0.v1.unk16;
+        p10->f20->unk10.w.unk12.u = ent->unk0.v1.unk16;
     }
     p10->f154 = p10->f15C = p10->f6;
     p10->f156 = p10->f15E = p10->fA;
     p10->f158 = p10->f160 = p10->fE;
     guess_CopyVec3HighHalves((void *)((s32)p10 + 4), D_80126DB0);
-    D_80126DB6 = p10->f20->unk12;
+    D_80126DB6 = p10->f20->unk10.w.unk12.u;
     if (*(s16 *)(p + 0xA3DA) == 0x1000 &&
         (*(s16 *)(p + 0xA3DC) == 0x1000 || *(s16 *)(p + 0xA3DC) == 0x2000) && flag == 0) {
         ent->unk0.v1.unk18();

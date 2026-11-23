@@ -1811,7 +1811,7 @@ extern unsigned short D_80183224[];
 extern unsigned short D_8018322C[];
 extern unsigned char D_801A5DD0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801A5DC8;
 extern s32 func_8016BA68(s32, s32);
@@ -3385,7 +3385,7 @@ void func_8017DE80(s32 param_1, s16 param_2)
     buf[3] = D_80184C80;
     ret = KR_AS(s32, func_8017FED4)(pos, buf, D_80184C84);
     if (ret != 0) {
-        ((Unkstruct_8017DE80_5 *)*(s32 *)(ret + 0x20))->unk18 = 0x124;
+        ((RenderHead *)*(s32 *)(ret + 0x20))->unk18.w.unk18.s = 0x124;
     }
 }
 

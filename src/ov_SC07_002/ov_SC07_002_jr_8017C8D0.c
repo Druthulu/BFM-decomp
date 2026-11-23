@@ -1811,7 +1811,7 @@ extern unsigned short D_80189A10[];
 extern unsigned short D_80189A18[];
 extern unsigned char D_8019A9C0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_8019A9B8;
 extern s32 func_8016BA68(s32, s32);
@@ -5682,12 +5682,12 @@ void func_8018247C(s32 a0)
         v1 = ((Unkstruct_801202A0 *)a0)->unk50.w.unk52.u;
         ((Unkstruct_8001C9D0 *)a1)->head.unkA.u = v0 + v1;
         ((Unkstruct_8001C9D0 *)a1)->head.unkC.u = ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk10.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk12.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk12;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk14.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk14;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk18;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk1A;
-        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1C.u = ((Unkstruct_8018247C_3 *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk1C;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk10.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10.w.unk10.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk12.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10.w.unk12.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk10.w.unk14.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk10.w.unk14.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk18.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk18.w.unk18.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1A.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk18.w.unk1A.u;
+        ((Unkstruct_8001C9D0 *)a1)->head.unk18.w.unk1C.u = ((RenderHead *)((Unkstruct_801202A0 *)a0)->unk20.p)->unk18.w.unk1C.u;
     }
 }
 

@@ -1811,7 +1811,7 @@ extern unsigned short D_80186780[];
 extern unsigned short D_80186788[];
 extern unsigned char D_801C4D00[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801C4CF8;
 extern s32 func_8016BA68(s32, s32);
@@ -4302,7 +4302,7 @@ void func_8017E1FC(s32 arg0) {
         temp = *(s32 *)(arg0 + 0xE4) + *(s32 *)(arg0 + 0xE0);
         *(s32 *)(arg0 + 0xE8) = *(s32 *)(arg0 + 0xE8) + temp;
         *(s32 *)(arg0 + 0xE4) = temp;
-        ((Unkstruct_8017E1FC *)*(s32 *)(arg0 + 0x20))->unk12 = *(s16 *)(arg0 + 0xEA);
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.w.unk12.s = *(s16 *)(arg0 + 0xEA);
         func_8017D468((void *)arg0);
         if (((s32 (*)(void *))guess_TickWaitTimer)((void *)arg0) != 0) {
             *(s16 *)(arg0 + 0x34) = 1;

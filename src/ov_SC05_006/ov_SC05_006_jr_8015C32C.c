@@ -1795,8 +1795,8 @@ void func_8015D380(s32 a0) {
     s32 s1 = a0;
     s32 *s0 = buf;
     ((void (*)(void *))func_80013F3C)((void *)s0);
-    ((void (*)(void *, s32))func_80012558)((void *)s0, ((Unkstruct_8015D380 *)*(s32 *)(s1 + 0x20))->unk12);
-    ((void (*)(void *, s32))func_800126C4)((void *)s0, ((Unkstruct_8015D380 *)*(s32 *)(s1 + 0x20))->unk10);
+    ((void (*)(void *, s32))func_80012558)((void *)s0, ((Unkstruct_8001C9D0 *)*(s32 *)(s1 + 0x20))->head.unk10.w.unk12.s);
+    ((void (*)(void *, s32))func_800126C4)((void *)s0, ((Unkstruct_8001C9D0 *)*(s32 *)(s1 + 0x20))->head.unk10.w.unk10.s);
     ApplyMatrixSV((void *)s0, (void *)&D_80181D2C, (void *)out);
     memcpy((void *)(s1 + 0x138), (void *)out, 8);
 }

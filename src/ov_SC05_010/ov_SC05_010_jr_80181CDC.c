@@ -1802,7 +1802,7 @@ extern unsigned short D_8018BBC8[];
 extern unsigned short D_8018BBD0[];
 extern unsigned char D_801C61B0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801C61A8;
 extern s32 func_8016BA68(s32, s32);
@@ -4134,7 +4134,7 @@ void func_801844AC(s32 param_1) {
         func_80184934(param_1);
         func_80184988(param_1);
     } else {
-        ((Unkstruct_801844AC_5 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA1;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0xA1;
         func_80184988(param_1);
     }
     if (((Unkstruct_801202A0 *)param_1)->extD.kSC05_010_80184388.unk100 & 1) {
@@ -4142,8 +4142,8 @@ void func_801844AC(s32 param_1) {
         func_8016F0AC();
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
         ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
-        ((Unkstruct_801844AC_5 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA1;
-        ((Unkstruct_801844AC_6 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0xA2;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0xA1;
+        ((Unkstruct_801844AC_6 *)*(s32 *)(param_1 + 0xD0))->head.unk24.b.unk27.u = 0xA2;
         func_80178B18(param_1, (s32)D_80194244);
         ((Unkstruct_801202A0 *)param_1)->extD.kSC05_010_80184388.unk102 = 0xA;
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;

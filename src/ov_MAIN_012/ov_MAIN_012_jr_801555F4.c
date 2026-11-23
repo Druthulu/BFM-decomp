@@ -2766,10 +2766,10 @@ void func_80158F00(int param_1) {
     extern s32 D_80184294;
     extern s32 D_801806F0[];
     int *self = (int *)param_1;
-    struct Actor *act = (struct Actor *)self[0x20 / 4];
+    Unkstruct_8001C9D0 *act = (Unkstruct_8001C9D0 *)self[0x20 / 4];
     int gate = D_80184294;
 
-    act->timer = (u16)((act->timer + 0x16) & 0xfff);
+    act->head.unk10.w.unk12.u = (u16)((act->head.unk10.w.unk12.u + 0x16) & 0xfff);
 
     if (gate == 0) {
         s32 r = rand();

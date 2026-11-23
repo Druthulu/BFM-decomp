@@ -1813,7 +1813,7 @@ extern unsigned short D_80182324[];
 extern unsigned short D_8018232C[];
 extern unsigned char D_8019FF58[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_8019FF50;
 extern s32 func_8016BA68(s32, s32);
@@ -3178,10 +3178,10 @@ void func_8017DC7C(s32 a0)
     }
 
     if (t >= 0x801) {
-        ((Unkstruct_8017DC7C_2 *)*(s32 *)(a0 + 0x20))->unk4 |= 0x80000000;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk4.s |= 0x80000000;
     } else {
-        ((Unkstruct_8017DC7C_2 *)*(s32 *)(a0 + 0x20))->unk4 &= 0x7FFFFFFF;
-        ((Unkstruct_8017DC7C_2 *)*(s32 *)(a0 + 0x20))->unk14 += D_8019B568[CAST_SIGN(s16, a0, 0x70)];
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk4.s &= 0x7FFFFFFF;
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u += D_8019B568[CAST_SIGN(s16, a0, 0x70)];
     }
 
     temp = t - 0x140;
@@ -3492,7 +3492,7 @@ void func_8017E25C(s32 a0)
     }
 
     *(s32 *)(a0 + 0xDC) += *(s32 *)(a0 + 0xE0);
-    ((Unkstruct_8017E25C *)*(s32 *)(a0 + 0x20))->unk14 = *(u16 *)(a0 + 0xDE);
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.s = *(u16 *)(a0 + 0xDE);
 }
 
 
@@ -3605,10 +3605,10 @@ void func_8017E500(s32 a0)
         if (t < 0)
             t = -t;
         if (t >= 0x801) {
-            ((Unkstruct_8017E25C *)*(s32 *)(a0 + 0x20))->unk4 |= 0x80000000;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk4.s |= 0x80000000;
         } else {
             func_8017E25C(a0);
-            ((Unkstruct_8017E25C *)*(s32 *)(a0 + 0x20))->unk4 &= 0x7FFFFFFF;
+            ((RenderHead *)*(s32 *)(a0 + 0x20))->unk4.s &= 0x7FFFFFFF;
             func_8017E024(a0);
         }
     } else if (*(s32 *)(((Unkstruct_8017E024 *)*(s32 *)(a0 + 0x64))->unk20.p + 4) < 0) {

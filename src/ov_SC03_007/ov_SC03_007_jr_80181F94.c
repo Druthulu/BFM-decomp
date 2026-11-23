@@ -1802,7 +1802,7 @@ extern unsigned short D_8018A600[];
 extern unsigned short D_8018A608[];
 extern unsigned char D_801E8FA8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E8FA0;
 extern s32 func_8016BA68(s32, s32);
@@ -3038,9 +3038,9 @@ void func_801821D0(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk98.s = 0;
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0;
     if (((Unkstruct_801202A0 *)param_1)->unkAA == 0) {
-        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_801827CC.unk100.u = ((Unkstruct_801821D0_3 *)*(s32 *)(param_1 + 0x20))->unk18;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_801827CC.unk100.u = ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk18.w.unk18.u;
     } else {
-        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_801827CC.unk102.u = ((Unkstruct_801821D0_3 *)*(s32 *)(param_1 + 0x20))->unk18;
+        ((Unkstruct_801202A0 *)param_1)->extD.kSC03_007_801827CC.unk102.u = ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk18.w.unk18.u;
     }
 }
 

@@ -1801,7 +1801,7 @@ extern unsigned short D_80187AE4[];
 extern unsigned short D_80187AEC[];
 extern unsigned char D_801CD5A8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801CD5A0;
 extern s32 func_8016BA68(s32, s32);
@@ -4143,8 +4143,8 @@ void func_8018094C(s32 a0) {
         if (func_8012BD14(a0) < 0x1FA5) {
             func_801809C8(a0);
         } else {
-            ((Unkstruct_8018094C_4 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x84;
-            ((Unkstruct_8018094C_3 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x85;
+            ((Unkstruct_8018094C_4 *)*(s32 *)(a0 + 0xCC))->head.unk24.b.unk27.u = 0x84;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0xD0))->head.unk24.b.unk27.u = 0x85;
         }
     }
 }
@@ -4160,8 +4160,8 @@ void func_801809C8(s32 a0) {
     u16 t;
 
     t = ((Unkstruct_801202A0 *)a0)->unkFC.u;
-    ((Unkstruct_8018094C_4 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x86;
-    ((Unkstruct_8018094C_3 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x87;
+    ((Unkstruct_8018094C_4 *)*(s32 *)(a0 + 0xCC))->head.unk24.b.unk27.u = 0x86;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0xD0))->head.unk24.b.unk27.u = 0x87;
     guess_AllocRenderWorkRecord((s32)&D_801C4F44 + (((u8 *)D_80188B20)[(s16)t] << 4));
     guess_AllocRenderWorkRecord((s32)&D_801C4F44 + 0x100 + (((u8 *)D_80188B20)[(s16)t] << 4));
     ((Unkstruct_801202A0 *)a0)->unkFC.u = (t + 1) & 0x1F;

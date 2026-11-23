@@ -270,7 +270,7 @@ void func_801E52BC(s32 a0) {
 
 void func_801E5338(Unkstruct_801E5338_2 *a0) {
     s32 v0;
-    Unkstruct_801E5338 *a1;
+    RenderHead *a1;
     u16 w, x;
 
     v0 = a0->unk1C;
@@ -278,21 +278,21 @@ void func_801E5338(Unkstruct_801E5338_2 *a0) {
     v0--;
     a0->unk1C = v0;
     if (v0 != -1) {
-        w = a1->unk1C;
-        x = a1->unk1A;
+        w = a1->unk18.w.unk1C.u;
+        x = a1->unk18.w.unk1A.u;
         w -= 0x200;
-        a1->unk1C = w;
-        a1->unk18 = w;
-        w = a1->unk12;
+        a1->unk18.w.unk1C.u = w;
+        a1->unk18.w.unk18.u = w;
+        w = a1->unk10.w.unk12.u;
         x += 0x200;
-        a1->unk1A = x;
-        x = a1->unk2C;
+        a1->unk18.w.unk1A.u = x;
+        x = a1->unk2C.u;
         w += 0x100;
         x |= 0x10;
-        a1->unk12 = w;
-        a1->unk2C = x;
+        a1->unk10.w.unk12.u = w;
+        a1->unk2C.u = x;
     } else {
-        a1->unk4 = 0x80000000;
+        a1->unk4.s = 0x80000000;
         w = a0->unk2;
         w++;
         a0->unk2 = w;

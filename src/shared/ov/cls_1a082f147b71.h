@@ -2,9 +2,9 @@
  * exemplar src/ov_SC03_093/ov_SC03_093_jr_801825B8.c:4516 · rank 2/2 by (raw casts + !FAKE markers, lowest address): casts 5, markers 0
  * rank 1 src/ov_SC02_037/ov_SC02_037_jr_8017AE2C.c:8106 rejected by type_census --check */
 void SHARED_FN(void *a0) {
-    ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk18 = ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk18 + 0x200;
-    ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A = ((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A + -0x200;
-    if (((Unkstruct_801848CC *)*(s32 *)(a0 + 0x20))->unk1A < 0x401) {
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk18.s = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk18.s + 0x200;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s + -0x200;
+    if (((RenderHead *)*(s32 *)(a0 + 0x20))->unk18.w.unk1A.s < 0x401) {
         ((void (*)(void *))guess_FreeActor)(a0);
     }
 }

@@ -1807,7 +1807,7 @@ extern unsigned short D_8018B4B0[];
 extern unsigned short D_8018B4B8[];
 extern unsigned char D_801AD8F8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801AD8F0;
 extern s32 func_8016BA68(s32, s32);
@@ -7701,7 +7701,7 @@ void func_80183130(void *param_1)
     func_8001C924(((Unkstruct_801202A0 *)cur)->unk20.p,
                   D_8018C628[((Unkstruct_801202A0 *)cur)->unk70.s]);
     mask = 0xFFFF7FFF;
-    ((Unkstruct_80183130_2 *)*(s32 *)((s32)cur + 0x20))->unk4 &= mask;
+    ((RenderHead *)*(s32 *)((s32)cur + 0x20))->unk4.s &= mask;
 
     cur = ((Unkstruct_801202A0 *)cur)->unkCC.val;
     {
@@ -7710,7 +7710,7 @@ void func_80183130(void *param_1)
         if (cur != 0) {
             func_8001C924(((Unkstruct_801202A0 *)cur)->unk20.p,
                           tbl[((Unkstruct_801202A0 *)cur)->unk70.s]);
-            ((Unkstruct_80183130_2 *)*(s32 *)((s32)cur + 0x20))->unk4 &= mask;
+            ((RenderHead *)*(s32 *)((s32)cur + 0x20))->unk4.s &= mask;
         }
     }
 }
@@ -9356,7 +9356,7 @@ void func_80185814(u16 *a0, s16 *a1)
     tmp[3] = (s32)D_8018CC98;
     ret = func_80188160(buf, tmp, (int)D_8018CC9C);
     if (ret != 0) {
-        ((Unkstruct_8017E070_3 *)*(s32 *)(ret + 0x20))->unk18 = 0x400;
+        ((RenderHead *)*(s32 *)(ret + 0x20))->unk18.w.unk18.u = 0x400;
     }
 }
 
@@ -11009,11 +11009,11 @@ void func_801878A8(Ctl_8018A550_801878A8 *ctl, Rec_8018A550_801878A8 *rec)
         m = (Obj_8018A550_801878A8 *)((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (m != 0) {
             ((void (*)(Obj_8018A550_801878A8 *, s32))func_8001CD04)(m, rec->fC);
-            m->f4 |= 0xF0000000;
+            m->head.unk4.u |= 0xF0000000;
             v = rec->f6;
-            m->f1C = v;
-            m->f1A = v;
-            m->f18 = v;
+            m->head.unk18.w.unk1C.s = v;
+            m->head.unk18.w.unk1A.s = v;
+            m->head.unk18.w.unk18.s = v;
             ctl->slots[i] = m;
             ctl->ids[i] = rec->f4;
         }
@@ -11259,7 +11259,7 @@ void func_80187FD4(unsigned short *param_1, short *param_2, short *param_3,
         buf[3] = param_3[3];
         p = func_80188194(buf, 0, param_5);
         if (p != 0) {
-            ((Unkstruct_8017E78C_2 *)*(int *)(p + 0x20))->unk18 = param_2[3];
+            ((RenderHead *)*(int *)(p + 0x20))->unk18.w.unk18.s = param_2[3];
         }
     }
     *param_1 = *param_1 + 1;

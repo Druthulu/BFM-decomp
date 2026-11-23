@@ -7,5 +7,5 @@ void SHARED_FN(s32 arg0)
 {
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern s32 rsin(s32 a0);
-    ((Unkstruct_80180488 *)*(s32 *)(arg0 + 0x20))->unk10 = (u32)rsin(guess_g_FrameCounter * 48) >> 5;
+    ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.w.unk10.s = (u32)rsin(guess_g_FrameCounter * 48) >> 5;
 }

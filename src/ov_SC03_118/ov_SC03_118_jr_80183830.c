@@ -1802,7 +1802,7 @@ extern unsigned short D_8018CB90[];
 extern unsigned short D_8018CB98[];
 extern unsigned char D_801D34F8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D34F0;
 extern s32 func_8016BA68(s32, s32);
@@ -3642,20 +3642,20 @@ void func_80184CE0(s32 param_1)
         sp10[1] = 0;
         sp10[0] = guess_g_PlayerPosX - 0x80;
         sp10[2] = guess_g_PlayerPosZ;
-        ((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12 = guess_YawToPoint(param_1 + 4, sp10);
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = guess_YawToPoint(param_1 + 4, sp10);
         return;
     }
-    ((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12 =
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s =
         *(u16 *)(((Unkstruct_801202A0 *)param_1)->unk20.val + 0x12) + CAST_SIGN(u16, param_1, 0xFE);
     if (((Unkstruct_801202A0 *)param_1)->unkFE.s > 0) {
-        if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s + 0x200 < ((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12) {
-            ((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s + 0x200;
+        if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s + 0x200 < ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s) {
+            ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s + 0x200;
         } else {
             return;
         }
     } else {
-        if (((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12 < ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s - 0x200) {
-            ((Unkstruct_80184CE0_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s - 0x200;
+        if (((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s < ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s - 0x200) {
+            ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = ((Unkstruct_801202A0 *)param_1)->extD.kSC03_118_80184940.unk100.s - 0x200;
         } else {
             return;
         }

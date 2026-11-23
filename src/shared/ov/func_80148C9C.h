@@ -4,7 +4,7 @@
  * Confidence medium, xref chain: model +0x12 = (a1 + 0x400) & 0xFFF; +0x12 is guess_TurnStepToTarget's facing; table entry; twin 0x80148C9C (guess_SetYawToAnglePlus90_2)
  * Names ledger: config/names.tsv guess_SetYawToAnglePlus90_2 */
 s32 guess_SetYawToAnglePlus90_2(s32 a0, s32 a1) {
-    Obj_td *p = *(Obj_td **)((s32)a0 + 0x20);
-    p->field_0x12 = (a1 + 0x400) & 0xFFF;
+    RenderHead *p = *(RenderHead **)((s32)a0 + 0x20);
+    p->unk10.w.unk12.s = (a1 + 0x400) & 0xFFF;
     return 1;
 }

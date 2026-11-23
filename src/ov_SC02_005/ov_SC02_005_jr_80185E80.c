@@ -2448,12 +2448,12 @@ extern s32 *guess_g_PlayerModelPtr; // Names ledger: config/names.tsv guess_g_Pl
 
 void func_80189268(s32 a0)
 {
-    ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk12 = 0;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s = 0;
     if (*(u16 *)((s32)((Unkstruct_801202A0 *)a0)->unk64 + 0x100) & 1) {
-        ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk10 =
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.s =
             ((Unkstruct_801202A0 *)a0)->extD.kSC02_005_80189204.unk104 + CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12);
     } else {
-        ((Unkstruct_80189268_2 *)*(s32 *)(a0 + 0x20))->unk10 =
+        ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk10.s =
             ((Unkstruct_801202A0 *)a0)->extD.kSC02_005_80189204.unk104 - CAST_SIGN(u16, (s32)guess_g_PlayerModelPtr, 0x12);
     }
 }
@@ -4047,9 +4047,9 @@ extern u8 D_801921F8;
 void func_8018B8CC(s32 param_1)
 {
     func_8001CB6C((u8 *)((Unkstruct_8011DB30 *)param_1)->unk20.val, (s32)&D_801921F8, 0x250, 0x1A0);
-    ((Unkstruct_8018B8CC_2 *)*(s32 *)(param_1 + 0x20))->unk4 = 0x60000000;
-    ((Unkstruct_8018B8CC_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x14;
-    ((Unkstruct_8018B8CC_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0x400;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.s = 0x60000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x14;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk10.u = 0x400;
     ((Unkstruct_8011DB30 *)param_1)->unk2.s = ((Unkstruct_8011DB30 *)param_1)->unk2.s + 1;
 }
 
@@ -4249,11 +4249,11 @@ extern void guess_StartPairSequence(s32 a0, s32 a1, s32 a2);
 
 void func_8018BD14(s32 param_1)
 {
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_8019681C;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk20.u = (u32)&D_8019681C;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x65;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x65;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_80196828);
 

@@ -1800,7 +1800,7 @@ extern unsigned short D_8018F808[];
 extern unsigned short D_8018F810[];
 extern unsigned char D_801F6650[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801F6648;
 extern s32 func_8016BA68(s32, s32);
@@ -7015,7 +7015,7 @@ void func_801823B8(s32 param_1) {
     } else {
         if (guess_TestGameFlag(0x8B) & 0xFF) {
 setflag:
-            ((Unkstruct_801823B8_2 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0x88;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0x88;
             func_80182794(param_1);
 join:
             if (((Unkstruct_801202A0 *)param_1)->extD.kSC03_006_80182290.unk100.u & 1) {
@@ -7026,8 +7026,8 @@ join:
                     func_8016F0AC();
                     ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
                     ((Unkstruct_801202A0 *)param_1)->unk34.u = 0;
-                    ((Unkstruct_801823B8_2 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0x88;
-                    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0x89;
+                    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0x88;
+                    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->head.unk24.b.unk27.u = 0x89;
                     func_8002959C();
                     guess_RequestSound(4, 0xB11);
                     ((void (*)(void))func_80175414)();
@@ -7057,7 +7057,7 @@ void func_80182740(s32 param_1) {
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_80190BF4[];
     extern u8 D_801E867C[];
-    ((Unkstruct_801823B8_2 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0x8A;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0x8A;
     guess_AllocRenderWorkRecord((s32)&D_801E867C[D_80190BF4[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
@@ -7070,7 +7070,7 @@ void func_80182794(s32 param_1) {
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_80190BF4[];
     extern u8 D_801E857C[];
-    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0x8B;
+    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->head.unk24.b.unk27.u = 0x8B;
     guess_AllocRenderWorkRecord((s32)&D_801E857C[D_80190BF4[guess_g_FrameCounter & 0x1F] * 16]);
 }
 

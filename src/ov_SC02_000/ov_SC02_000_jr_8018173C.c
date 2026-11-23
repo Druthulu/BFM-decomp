@@ -1809,7 +1809,7 @@ extern unsigned short D_8018DE24[];
 extern unsigned short D_8018DE2C[];
 extern unsigned char D_801E72D8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E72D0;
 extern s32 func_8016BA68(s32, s32);
@@ -5592,10 +5592,10 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void guess_FreeActor(void *a0);
 void func_801872D8(int param_1) {
     short v;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 + 0x100;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 + 0x20;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s + 0x100;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s + 0x20;
     v = *(unsigned short *)(param_1 + 0xFC) - 1;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = v;
     if (v == 0) {
@@ -5799,10 +5799,10 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void guess_FreeActor(void *a0);
 void func_801878D0(int param_1) {
     short v;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 + 0x100;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 + 0x20;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s + 0x100;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s + 0x20;
     v = *(unsigned short *)(param_1 + 0xFC) - 1;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = v;
     if (v == 0) {

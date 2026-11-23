@@ -68,7 +68,7 @@ struct A;
 struct B;
 struct packed_word;
 union word_bytes;
-struct Actor;
+
 
 
 
@@ -230,19 +230,12 @@ union word_bytes {
 };
 
 
-struct Actor {
-    char pad0[0x12];
-    u16 timer;       /* 0x12 */
-};
-
 typedef struct {
     u16 guard;  /* +0 */
     u16 pad;    /* +2 */
     u16 field;  /* +4 */
     u8  rest[14]; /* +6 .. +0x14 */
 } Ent;
-
-typedef struct { char pad[0x12]; s16 field_0x12; } Obj_td;
 
 typedef Unkstruct_800B5CB8 Entry8014A238;
 
@@ -262,13 +255,6 @@ typedef struct {
     u16 h8;
     u16 hA;
 } SrcB964;
-
-typedef struct {
-    u8 pad_0[0x8];
-    u16 h8;
-    u16 hA;
-    u16 hC;
-} DstB964;
 
 typedef RECT Rect;
 
@@ -1025,24 +1011,12 @@ typedef struct {
         s16 f156;
         u16 f158;
     } Obj_80126B58;
-typedef struct Obj_8018A550 {
-    s32 f0;      /* 0x00 */
-    u32 f4;      /* 0x04 */
-    s32 f8;      /* 0x08 */
-    s32 fC;      /* 0x0C */
-    s32 f10;     /* 0x10 */
-    s32 f14;     /* 0x14 */
-    s16 f18;     /* 0x18 */
-    s16 f1A;     /* 0x1A */
-    s16 f1C;     /* 0x1C */
-    s16 f1E;     /* 0x1E */
-} Obj_8018A550;
 typedef struct Ctl_8018A550 {
     union { s32 w; struct { s16 lo; s16 hi; } h; } f0; /* 0x00: two s16 halves zeroed by the init func_8018A3C8 (T19.c13) */
     s16 ids[8];          /* 0x04 */
-    Obj_8018A550 *slots[8]; /* 0x14 */
+    Unkstruct_800B5BD8 *slots[8]; /* 0x14 */
 } Ctl_8018A550;
-typedef Obj_8018A550 Obj_8018A550_801878A8;
+typedef Unkstruct_800B5BD8 Obj_8018A550_801878A8;
 typedef Ctl_8018A550 Ctl_8018A550_801878A8;
 typedef PrimTag PTag_80140D68;
 typedef PrimTag PTag_8018478C;
@@ -1546,7 +1520,7 @@ struct Ent_80181EA0 {
     /* 0x000e */ s16 unkE;
     /* 0x0010 */ u8 pad10[0xc];
     /* 0x001c */ s32 unk1C;
-    /* 0x0020 */ struct Sub_80181BA0 *unk20;
+    /* 0x0020 */ RenderHead *unk20;
     /* 0x0024 */ u8 pad24[0x10];
     /* 0x0034 */ u16 unk34;
     /* 0x0036 */ u8 pad36[0x5e];
@@ -1605,10 +1579,6 @@ typedef struct SV3_8012CC88_tag SV3_801808E8;
 typedef SVECTOR SVec_8017DB0C;
 typedef SVECTOR SVec_8017E024;
 typedef SVECTOR SVec_8017EBE4;
-struct Sub_80181BA0 {
-    /* 0x00 */ u8  pad00[0x12];
-    /* 0x12 */ s16 unk12;
-};
 typedef SVECTOR UShortBlk_F4C4;
 typedef Blk16_956C Vec_8017DB0C;
 typedef Blk16_956C Vec_8017E024;
@@ -2589,17 +2559,6 @@ typedef struct {
     u8 pad20[0xDC];/* 0x20 */
     u16 unkFC;     /* 0xFC */
 } Struct_8018A078;
-typedef struct SubFAAC {
-    char pad0[0x4];
-    s32 f4;         /* 0x04 */
-    u16 f8;         /* 0x08 */
-    u16 fA;         /* 0x0A */
-    u16 fC;         /* 0x0C */
-    char padE[2];
-    u16 f10;        /* 0x10 */
-    u16 f12;        /* 0x12 */
-    u16 f14;        /* 0x14 */
-} SubFAAC;
 typedef struct EntFAAC {
     u16 f0;         /* 0x00 */
     char pad2[0x6 - 0x2];
@@ -2612,10 +2571,10 @@ typedef struct EntFAAC {
     s32 f14;        /* 0x14 */
     s32 f18;        /* 0x18 */
     char pad1C[4];
-    SubFAAC *f20;       /* 0x20 */
+    RenderHead *f20;       /* 0x20 */
     char pad24[0xCC - 0x24];
-    SubFAAC *fCC;       /* 0xCC */
-    SubFAAC *fD0;       /* 0xD0 */
+    RenderHead *fCC;       /* 0xCC */
+    RenderHead *fD0;       /* 0xD0 */
     char padD4[0xFC - 0xD4];
     u16 fFC;        /* 0xFC */
     u16 fFE;        /* 0xFE */
@@ -3240,16 +3199,6 @@ typedef SVECTOR BlkT;
 typedef CVECTOR Block4_SC02_011_80186740;
 typedef E4 Cnt;
 typedef E4 Cnt_80187DE4;
-typedef struct {
-    u8 pad00[4];
-    u32 flags;               /* 0x04 */
-    u8 pad08[0x10];
-    u16 f18, f1A;            /* 0x18 */
-    u8 pad1C[2];
-    u16 f1E;                 /* 0x1E */
-    u8 pad20[0xC];
-    s16 f2C;                 /* 0x2C */
-} Ent_80180AE8;
 typedef struct {
     /* 0x0000 */ u16 x;
     /* 0x0002 */ union {

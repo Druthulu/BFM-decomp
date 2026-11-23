@@ -1807,7 +1807,7 @@ extern unsigned short D_80185788[];
 extern unsigned short D_80185790[];
 extern unsigned char D_801ABC28[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801ABC20;
 extern s32 func_8016BA68(s32, s32);
@@ -5440,7 +5440,7 @@ s32 func_80181720(void *arg0) {
         return 0;
     }
 
-    h = ((Unkstruct_80181720_4 *)*(s32 *)((s32)arg0 + 0x20))->unk18;
+    h = ((RenderHead *)*(s32 *)((s32)arg0 + 0x20))->unk18.w.unk18.s;
     r = (s16)h >> 7;
     raw[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     raw[1] = CAST_SIGN(u16, (s32)arg0, 0xA);

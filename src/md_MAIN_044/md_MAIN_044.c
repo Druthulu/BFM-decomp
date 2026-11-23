@@ -39,8 +39,8 @@ void func_800CCBE4(s32 param_1) {
     s32 iVar1;
     iVar1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
     D_800CE1F4[((Ent_80164930_80164930 *)param_1)->unk2.u](param_1);
-    ((Unkstruct_800CCBE4_2 *)*(s32 *)(param_1 + 0x20))->unk4 &= 0x7FFFFFFF;
-    ((Unkstruct_800CCBE4_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= *(s32 *)(*(s32 *)(iVar1 + 0x20) + 4) & 0x80000000;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk4.s &= 0x7FFFFFFF;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk4.s |= *(s32 *)(*(s32 *)(iVar1 + 0x20) + 4) & 0x80000000;
     if (func_801619D0(iVar1) == 0) {
         ((void (*)(s32))guess_FreeObjectAndSubObject_21)(param_1);
         guess_SpawnSmallObjectAtOrigin(0x3A, iVar1, 0, 0);

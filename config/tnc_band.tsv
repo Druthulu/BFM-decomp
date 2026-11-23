@@ -2106,7 +2106,7 @@ rank	map_type	sites	bodies	cum_pct
 2102	Unkstruct_801202A0	8	2	81.682
 2103	Unkstruct_8014659C	8	2	81.688
 2104	Unkstruct_80154AE0	8	2	81.694
-2105	Unkstruct_8015D380	8	2	81.699
+2105	Unkstruct_8001C9D0	8	2	81.699
 2106	Unkstruct_8015DBD4	8	2	81.705
 2107	Unkstruct_8015DF34	8	2	81.711
 2108	Unkstruct_80126B58	8	2	81.717
@@ -9672,7 +9672,7 @@ rank	map_type	sites	bodies	cum_pct
 9668	Unkstruct_80181B40	1	1	97.797
 9669	Unkstruct_80181B44	1	1	97.797
 9670	Unkstruct_80181B74	1	1	97.798
-9671	Unkstruct_80181C04	1	1	97.799
+9671	RenderHead	1	1	97.799
 9672	Unkstruct_80181C44	1	1	97.800
 9673	Unkstruct_80181C4C	1	1	97.800
 9674	Unkstruct_80181C64	1	1	97.801

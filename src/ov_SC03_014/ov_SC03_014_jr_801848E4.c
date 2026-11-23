@@ -1804,7 +1804,7 @@ extern unsigned short D_8018E794[];
 extern unsigned short D_8018E79C[];
 extern unsigned char D_801E9B10[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E9B08;
 extern s32 func_8016BA68(s32, s32);
@@ -2870,14 +2870,14 @@ void func_80184A08(s32 a0) {
             func_80184DA4(a0);
             func_80184DF8(a0);
         } else {
-            ((Unkstruct_801823B8_2 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0xCC))->head.unk24.b.unk27.u = 0x88;
             func_80184DF8(a0);
         }
     } else {
         if ((guess_TestGameFlag(0x8B) & 0xFF) == 0) {
             return;
         }
-        ((Unkstruct_801823B8_2 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
+        ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0xCC))->head.unk24.b.unk27.u = 0x88;
         func_80184DF8(a0);
     }
     if (((Unkstruct_801202A0 *)a0)->extD.kSC03_006_80182290.unk100.u & 1) {
@@ -2886,8 +2886,8 @@ void func_80184A08(s32 a0) {
             ((Unkstruct_801202A0 *)a0)->unk2.u = 2;
             ((Unkstruct_801202A0 *)a0)->extD.kSC03_006_80182290.unk100.u &= ~1;
             ((Unkstruct_801202A0 *)a0)->unk34.u = 0;
-            ((Unkstruct_801823B8_2 *)*(s32 *)(a0 + 0xCC))->unk27 = 0x88;
-            ((Unkstruct_801823B8_3 *)*(s32 *)(a0 + 0xD0))->unk27 = 0x89;
+            ((Unkstruct_800B5BD8 *)*(s32 *)(a0 + 0xCC))->head.unk24.b.unk27.u = 0x88;
+            ((Unkstruct_801823B8_3 *)*(s32 *)(a0 + 0xD0))->head.unk24.b.unk27.u = 0x89;
             func_8002959C();
             /* the TU carries `extern void func_80175414(s32 _arg0);` at file scope,
                but the .s calls it with an EMPTY delay slot => zero arguments; call
@@ -2935,7 +2935,7 @@ void func_80184DA4(s32 param_1) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_8018FE40[];
-    ((Unkstruct_801823B8_2 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0x8A;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0x8A;
     guess_AllocRenderWorkRecord((s32)&D_801CF780[D_8018FE40[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
@@ -2948,7 +2948,7 @@ void func_80184DF8(s32 param_1) {
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_8018FE40[];
     extern u8 D_801CF680[];
-    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0x8B;
+    ((Unkstruct_801823B8_3 *)*(s32 *)(param_1 + 0xD0))->head.unk24.b.unk27.u = 0x8B;
     guess_AllocRenderWorkRecord((s32)&D_801CF680[D_8018FE40[guess_g_FrameCounter & 0x1F] * 16]);
 }
 

@@ -747,6 +747,6 @@ void func_800CC024(s32 a0p) {
 
     ((Ent_80164930_80164930 *)obj)->unk4.i.hi.u += d[0];
     ((Ent_80164930_80164930 *)obj)->unk8.i.hi.u += d[1];
-    ((Unkstruct_800B5BD8 *)s3)->head.unk18.val = ((Unkstruct_800CC024_4 *)*(s32 *)(s2 + 0x20))->unk18;
+    ((Unkstruct_800B5BD8 *)s3)->head.unk18.val = ((Unkstruct_8001C9D0 *)*(s32 *)(s2 + 0x20))->head.unk18.val;
 }
 

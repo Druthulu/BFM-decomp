@@ -1803,7 +1803,7 @@ extern unsigned short D_8018FB58[];
 extern unsigned short D_8018FB60[];
 extern unsigned char D_801D1578[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D1570;
 extern s32 func_8016BA68(s32, s32);
@@ -6050,7 +6050,7 @@ void func_8018848C(s32 a0)
         *(u16 *)(a0 + 0x100) = 0x1000 - *(u16 *)(a0 + 0x100);
     }
 
-    ((Unkstruct_801875E4 *)*(s32 *)(a0 + 0x20))->unk14 += 0x40;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u += 0x40;
 
     cnt = *(s32 *)(a0 + 0x1C);
     if (cnt == (cnt / 20) * 20) {
@@ -6146,7 +6146,7 @@ void func_80188660(s32 a0) {
 
     func_80188B0C(a0, -0x50000);
     func_8012CC40(a0, (s32)D_801AC044);
-    ((Unkstruct_801875E4 *)*(s32 *)(a0 + 0x20))->unk14 = ((Unkstruct_801875E4 *)*(s32 *)(a0 + 0x20))->unk14 + 0x20;
+    ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk14.u + 0x20;
     if (*(s32 *)(a0 + 0x1C) % 20 == 0) {
         func_80188C18(a0);
     }
@@ -6309,7 +6309,7 @@ s32 func_80188B64(s32 arg0)
     if (func_80135888(*(s32 *)(arg0 + 0x20), *(s32 *)(arg0 + 0x58), (s32)buf1, (s32)buf2) == 0) {
         rv = 0;
     } else {
-        guess_SetPlayerHit(1, 0x201, ((Unkstruct_801875E4 *)*(s32 *)(arg0 + 0x20))->unk12, 0x23, (s32)buf2, (s32)guess_g_BoxHitNormalX);
+        guess_SetPlayerHit(1, 0x201, ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk10.w.unk12.s, 0x23, (s32)buf2, (s32)guess_g_BoxHitNormalX);
         rv = 1;
     }
     return rv;

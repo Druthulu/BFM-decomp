@@ -1809,7 +1809,7 @@ extern unsigned short D_8018DE24[];
 extern unsigned short D_8018DE2C[];
 extern unsigned char D_801E72D8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E72D0;
 extern s32 func_8016BA68(s32, s32);
@@ -3190,10 +3190,10 @@ extern void guess_ApplyAccelAndVelocity(s32 a0);
 extern void guess_FreeActor(void *a0);
 void func_80187EB4(int param_1) {
     short v;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk12 + 0x100;
-    ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_801872D8_2 *)*(int *)(param_1 + 0x20))->unk14 + 0x20;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk12.s + 0x100;
+    ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s =
+        ((RenderHead *)*(int *)(param_1 + 0x20))->unk10.w.unk14.s + 0x20;
     v = *(unsigned short *)(param_1 + 0xFC) - 1;
     ((Unkstruct_801202A0 *)param_1)->unkFC.s = v;
     if (v == 0) {
@@ -4627,7 +4627,7 @@ extern void func_8001CD04(s32 a0, s32 a1);
 void func_8018A550(Ctl_8018A550 *ctl, Rec_8018A550 *rec)
 {
     s32 i;
-    Obj_8018A550 *m;
+    Unkstruct_800B5BD8 *m;
     s16 v;
     u16 t;
 
@@ -4637,14 +4637,14 @@ void func_8018A550(Ctl_8018A550 *ctl, Rec_8018A550 *rec)
                 break;
             }
         }
-        m = (Obj_8018A550 *)((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
+        m = (Unkstruct_800B5BD8 *)((s32 (*)(s32, s32))func_8001D074)(0x7E, 0x100);
         if (m != 0) {
-            ((void (*)(Obj_8018A550 *, s32))func_8001CD04)(m, rec->fC);
-            m->f4 |= 0xF0000000;
+            ((void (*)(Unkstruct_800B5BD8 *, s32))func_8001CD04)(m, rec->fC);
+            m->head.unk4.u |= 0xF0000000;
             v = rec->f6;
-            m->f1C = v;
-            m->f1A = v;
-            m->f18 = v;
+            m->head.unk18.w.unk1C.s = v;
+            m->head.unk18.w.unk1A.s = v;
+            m->head.unk18.w.unk18.s = v;
             ctl->slots[i] = m;
             ctl->ids[i] = rec->f4;
         }

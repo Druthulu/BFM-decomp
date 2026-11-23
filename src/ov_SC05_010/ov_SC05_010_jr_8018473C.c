@@ -1802,7 +1802,7 @@ extern unsigned short D_8018BBC8[];
 extern unsigned short D_8018BBD0[];
 extern unsigned char D_801C61B0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801C61A8;
 extern s32 func_8016BA68(s32, s32);
@@ -2876,7 +2876,7 @@ void func_80184934(s32 param_1) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_801941CC[];
-    ((Unkstruct_801844AC_3 *)*(s32 *)(param_1 + 0xCC))->unk27 = 0xA3;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xCC))->head.unk24.b.unk27.u = 0xA3;
     guess_AllocRenderWorkRecord((s32)&D_801C4148[D_801941CC[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
@@ -2892,7 +2892,7 @@ void func_80184988(s32 param_1) {
        Declaration-only move (cookbook §103); the whole-binary byte-gate is the arbiter. */
     extern u16 guess_g_FrameCounter; // Names ledger: config/names.tsv guess_g_FrameCounter
     extern u8 D_801941CC[];
-    ((Unkstruct_801844AC_4 *)*(s32 *)(param_1 + 0xD0))->unk27 = 0xA4;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0xD0))->head.unk24.b.unk27.u = 0xA4;
     guess_AllocRenderWorkRecord((s32)&D_801C4048[D_801941CC[guess_g_FrameCounter & 0x1F] * 16]);
 }
 
@@ -4732,11 +4732,11 @@ void func_80187644(s32 arg0)
     s32 q;
 
     func_8001CB6C(CAST_SIGN(u8 *, arg0, 0x20), D_80194290, 0x254, 0x1C0);
-    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk27 = 0x25;
-    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk10 = 0xC00;
+    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->head.unk24.b.unk27.u = 0x25;
+    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->head.unk10.w.unk10.u = 0xC00;
     q = rand();
-    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk14 = q % 0x1000;
-    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->head.unk10.w.unk14.u = q % 0x1000;
+    ((Unkstruct_80187644_2 *)*(u32 *)(arg0 + 0x20))->head.unk4.u |= 0x50000000;
     ((Unkstruct_80187644 *)arg0)->unk2.u = ((Unkstruct_80187644 *)arg0)->unk2.u + 1;
     ((Unkstruct_80187644 *)arg0)->unk1C.s = ((Unkstruct_80187644 *)arg0)->unk34.i.hi.s;
 }

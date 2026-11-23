@@ -1807,7 +1807,7 @@ extern unsigned short D_80187FF4[];
 extern unsigned short D_80187FFC[];
 extern unsigned char D_801B82D0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801B82C8;
 extern s32 func_8016BA68(s32, s32);
@@ -8067,11 +8067,11 @@ void func_801845F0(s32 param_1)
 
     extern u8 D_801AD398[];
     extern u8 D_801AD3A4[];
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_801AD398;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk20.u = (u32)&D_801AD398;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5b;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x5b;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_801AD3A4);
 

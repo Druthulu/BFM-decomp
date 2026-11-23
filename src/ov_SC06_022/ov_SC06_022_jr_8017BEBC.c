@@ -1803,7 +1803,7 @@ extern unsigned short D_80190540[];
 extern unsigned short D_80190548[];
 extern unsigned char D_801E1268[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E1260;
 extern s32 func_8016BA68(s32, s32);
@@ -4759,10 +4759,10 @@ void func_801800CC(s32 a0) {
     ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u += D_801AD2DC[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
     ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u += D_801AD2DE[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
     ((Unkstruct_801202A0 *)a0)->unkC.i.hi.u += D_801AD2E0[((Unkstruct_801202A0 *)a0)->unk70.s * 4];
-    ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk28 = 0x2000100;
-    ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk2C |= 0x90;
-    ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk80 = (s32)D_801AD394;
-    ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk18 = 0x1040;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk28.val = 0x2000100;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk2C.u |= 0x90;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->unk80 = (s32)D_801AD394;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk18.w.unk18.u = 0x1040;
 
     switch (((Unkstruct_801202A0 *)a0)->unk70.s) {
     case 1:
@@ -4778,13 +4778,13 @@ void func_801800CC(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkC4 |= 2;
         ((Unkstruct_801202A0 *)a0)->unk58.s = (s32)&D_801AD318[((Unkstruct_801202A0 *)a0)->unk70.s * 0x10];
         if (((Unkstruct_801202A0 *)a0)->unk70.s == 1) {
-            ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk12 = 0x800;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk12.u = 0x800;
         }
         /* fallthrough */
     case 3:
     case 4:
         if (((Unkstruct_801202A0 *)a0)->unk70.s == 4) {
-            ((Unkstruct_801800CC_2 *)*(s32 *)(a0 + 0x20))->unk10 = 0x800;
+            ((Unkstruct_8001C9D0 *)*(s32 *)(a0 + 0x20))->head.unk10.w.unk10.u = 0x800;
         }
         ((Unkstruct_801202A0 *)a0)->unkFE.u = 0;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = D_801AD2E2[((Unkstruct_801202A0 *)a0)->unk70.s * 4];

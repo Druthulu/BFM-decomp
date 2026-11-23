@@ -3169,7 +3169,7 @@ s32 func_8015C128(s32 param_1) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = -0x4000;
-        ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_8015C128_6 *)*(int *)(((int)param_1) + 0x20))->unk12, sp10, sp20);
+        ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_8015C128_6 *)*(int *)(((int)param_1) + 0x20))->head.unk10.w.unk12.s, sp10, sp20);
         ((Unkstruct_8015C128_3 *)param_1)->unk234.val += sp20[0];
         ((Unkstruct_8015C128_3 *)param_1)->unk238.val += sp20[1];
         ((Unkstruct_8015C128_3 *)param_1)->unk23C += sp20[2];
@@ -3848,8 +3848,8 @@ void func_8015D380(s32 a0) {
     s32 s1 = a0;
     s32 *s0 = buf;
     ((void (*)(void *))func_80013F3C)((void *)s0);
-    ((void (*)(void *, s32))func_80012558)((void *)s0, ((Unkstruct_8015D380_4 *)*(s32 *)(s1 + 0x20))->unk12);
-    ((void (*)(void *, s32))func_800126C4)((void *)s0, ((Unkstruct_8015D380_4 *)*(s32 *)(s1 + 0x20))->unk10);
+    ((void (*)(void *, s32))func_80012558)((void *)s0, ((Unkstruct_8015D380_4 *)*(s32 *)(s1 + 0x20))->head.unk10.w.unk12.s);
+    ((void (*)(void *, s32))func_800126C4)((void *)s0, ((Unkstruct_8015D380_4 *)*(s32 *)(s1 + 0x20))->head.unk10.w.unk10.s);
     ((void (*)(void *, void *, void *))ApplyMatrixSV)((void *)s0, (void *)&D_801864D8, (void *)out);
     memcpy((void *)(s1 + 0x138), (void *)out, 8);
 }

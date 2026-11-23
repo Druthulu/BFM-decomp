@@ -1808,7 +1808,7 @@ extern unsigned short D_80185668[];
 extern unsigned short D_80185670[];
 extern unsigned char D_801B0F08[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801B0F00;
 extern s32 func_8016BA68(s32, s32);
@@ -4267,7 +4267,7 @@ void func_80180F60(Unkstruct_801202A0 *arg) {
     s32 v1;
 
     sp10[1] = arg->unk8.i.hi.u;
-    s1 = ((Unkstruct_80180F60_2 *)*(s32 *)((u8 *)arg + 0x20))->unk12;
+    s1 = ((RenderHead *)*(s32 *)((u8 *)arg + 0x20))->unk10.w.unk12.s;
     for (s2 = 0; s2 < 0x20; s2++) {
         func_8012B0B4(&sp20, s1, 0x10);
         v1 = sp20;
@@ -4279,7 +4279,7 @@ void func_80180F60(Unkstruct_801202A0 *arg) {
             arg->unk8.i.hi = sp18[1];
             arg->unkC.i.hi = sp18[2];
             arg->blkDC.f.extC.kSC05_003_80180E58.unkE0 = s1;
-            ((Unkstruct_80180F60_2 *)*(s32 *)((u8 *)arg + 0x20))->unk12 = s1;
+            ((RenderHead *)*(s32 *)((u8 *)arg + 0x20))->unk10.w.unk12.s = s1;
             break;
         }
         s1 += 0x80;
@@ -4663,7 +4663,7 @@ s32 func_80181828(void *arg0) {
         return 0;
     }
 
-    h = ((Unkstruct_80181720_4 *)*(s32 *)((s32)arg0 + 0x20))->unk18;
+    h = ((RenderHead *)*(s32 *)((s32)arg0 + 0x20))->unk18.w.unk18.s;
     r = (s16)h >> 7;
     raw[0] = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u;
     raw[1] = CAST_SIGN(u16, (s32)arg0, 0xA);

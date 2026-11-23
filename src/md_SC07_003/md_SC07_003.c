@@ -2808,12 +2808,12 @@ s32 func_801A3BCC(Unkstruct_801202A0 *a0)
 
     obj = a0->unk64;
     g = &guess_g_PlayerActor;
-    rot.vx = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk10;
-    rot.vy = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk12;
-    rot.vz = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk14;
-    m.t[0] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk48;
-    m.t[1] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk4C;
-    m.t[2] = ((Unkstruct_801A3BCC_2 *)*(s32 *)(obj + 32))->unk50;
+    rot.vx = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->head.unk10.w.unk10.s;
+    rot.vy = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->head.unk10.w.unk12.s;
+    rot.vz = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->head.unk10.w.unk14.s;
+    m.t[0] = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->unk48;
+    m.t[1] = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->unk4C;
+    m.t[2] = ((Unkstruct_8001C9D0 *)*(s32 *)(obj + 32))->unk50;
     func_8012EA90(obj, 10, (s32 *)&src[0]);
     func_8012EA90(obj, 11, (s32 *)&src[1]);
     func_8012EA90(obj, 12, (s32 *)&src[2]);
@@ -2861,7 +2861,7 @@ s32 func_801A3BCC(Unkstruct_801202A0 *a0)
             guess_RotTransSVWithMatrix((s32)r, (s32)(tbl + 8), (s32)out);
             if (func_80135888(g[8], g[14], (s32)buf, (s32)out) != 0) {
                 guess_SetPlayerHit(1, 0x401B,
-                              (((Unkstruct_801A3BCC_4 *)*(s32 *)((u8 *)a0 + 32))->unk12 - (D_801F435C << 10)) & 0xFFF,
+                              (((RenderHead *)*(s32 *)((u8 *)a0 + 32))->unk10.w.unk12.s - (D_801F435C << 10)) & 0xFFF,
                               128, (s32)out, (s32)guess_g_BoxHitNormalX);
                 return 1;
             }

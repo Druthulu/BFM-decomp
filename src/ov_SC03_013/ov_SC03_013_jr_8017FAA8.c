@@ -1805,7 +1805,7 @@ extern unsigned short D_80184158[];
 extern unsigned short D_80184160[];
 extern unsigned char D_801AC590[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801AC588;
 extern s32 func_8016BA68(s32, s32);
@@ -3290,13 +3290,13 @@ extern s32 guess_GetGameVarByte(s32 arg);
 void func_8018063C(s32 arg0) {
     if (((Unkstruct_8011DB30 *)arg0)->unk2.u == 0) {
         guess_InitObjectKind6(((Unkstruct_8011DB30 *)arg0)->unk20.val, D_801AD358);
-        ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk4 |= 0x50000000;
+        ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk4.s |= 0x50000000;
         (((Unkstruct_8011DB30 *)arg0)->unk2.u)++;
     } else {
         if (((Unkstruct_8011DB30 *)arg0)->unk34.i.lo.s <= (guess_GetGameVarByte(0xCE) & 0xFF)) {
-            ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk20 = (s32)D_801AD398;
+            ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk20.s = (s32)D_801AD398;
         } else {
-            ((Unkstruct_8018063C_2 *)*(s32 *)(arg0 + 0x20))->unk20 = (s32)D_801AD358;
+            ((RenderHead *)*(s32 *)(arg0 + 0x20))->unk20.s = (s32)D_801AD358;
         }
     }
 }

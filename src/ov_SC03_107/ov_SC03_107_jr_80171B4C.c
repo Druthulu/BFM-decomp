@@ -2778,7 +2778,7 @@ extern void func_8001739C(void *a0);
 extern void func_8016B6BC(s32 param_1, s32 param_2, s32 param_3, s32 param_4);
 extern void guess_InitObjectKind6(int, void *);
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 func_8016BA68(s32, s32);
 extern s32 func_8016BA68(s32 arg0, s32 arg1);

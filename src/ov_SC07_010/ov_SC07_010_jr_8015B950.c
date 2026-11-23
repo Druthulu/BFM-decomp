@@ -1817,7 +1817,7 @@ s32 func_8015C128(s32 param_1) {
         sp10[0] = 0;
         sp10[1] = 0;
         sp10[2] = -0x4000;
-        ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_8015C128_5 *)*(int *)(((int)param_1) + 0x20))->unk12, sp10, sp20);
+        ((void(*)(int, int *, int *))func_8001382C)(((Unkstruct_8001C9D0 *)*(int *)(((int)param_1) + 0x20))->head.unk10.w.unk12.s, sp10, sp20);
         ((Unkstruct_8015C128_2 *)param_1)->unk234.val += sp20[0];
         ((Unkstruct_8015C128_2 *)param_1)->unk238.val += sp20[1];
         ((Unkstruct_8015C128_2 *)param_1)->unk23C += sp20[2];

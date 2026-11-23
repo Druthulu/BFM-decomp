@@ -1805,7 +1805,7 @@ extern unsigned short D_80193B08[];
 extern unsigned short D_80193B10[];
 extern unsigned char D_801E35A0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801E3598;
 extern s32 func_8016BA68(s32, s32);
@@ -4422,9 +4422,9 @@ void func_8017FC64(u8 *a0) {
             var = ((Unkstruct_80126B58 *)a0)->unk210.u + 0xA;
             ((Unkstruct_80126B58 *)a0)->unk210.u = var;
             ((Unkstruct_80126B58 *)a0)->unk20E.u += var;
-            ((Unkstruct_8017FC64_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_80126B58 *)a0)->unk20C.u + ((Unkstruct_80126B58 *)a0)->unk20E.u;
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u = ((Unkstruct_80126B58 *)a0)->unk20C.u + ((Unkstruct_80126B58 *)a0)->unk20E.u;
         } else {
-            ((Unkstruct_8017FC64_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_80126B58 *)a0)->unk20C.u;
+            ((Unkstruct_8001C9D0 *)*(s32 *)((s32)a0 + 0x20))->head.unk10.w.unk12.u = ((Unkstruct_80126B58 *)a0)->unk20C.u;
             func_80175454();
             ((Unkstruct_80126B58 *)a0)->unk214.u += 1;
         }

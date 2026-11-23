@@ -1809,7 +1809,7 @@ extern unsigned short D_80181DF4[];
 extern unsigned short D_80181DFC[];
 extern unsigned char D_80199D60[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_80199D58;
 extern s32 func_8016BA68(s32, s32);
@@ -3429,8 +3429,8 @@ void func_8017DE14(s32 param_1)
     s16 sVar1;
     u16 uVar2;
 
-    ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u =
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
 
     obj = (s32)&guess_g_PlayerPosY;
     /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare

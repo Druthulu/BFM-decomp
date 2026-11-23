@@ -1802,7 +1802,7 @@ extern unsigned short D_80194A5C[];
 extern unsigned short D_80194A64[];
 extern unsigned char D_801CF878[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801CF870;
 extern s32 func_8016BA68(s32, s32);
@@ -5326,9 +5326,9 @@ void func_801810CC(short *param_1)
             uVar2 = rand();
             CAST_WIDTH(int, iVar3, 0x18) = ((uVar2 & 0x7ff) - 0x400) * 0x100;
             CAST_WIDTH(int, iVar3, 4) +=
-                rcos((int)((Unkstruct_801810CC_2 *)*(int *)(param_1 + 0x10))->unk12) * 0x400;
+                rcos((int)((RenderHead *)*(int *)(param_1 + 0x10))->unk10.w.unk12.s) * 0x400;
             CAST_WIDTH(int, iVar3, 0xc) -=
-                rsin((int)((Unkstruct_801810CC_2 *)*(int *)(param_1 + 0x10))->unk12) * 0x400;
+                rsin((int)((RenderHead *)*(int *)(param_1 + 0x10))->unk10.w.unk12.s) * 0x400;
             uVar2 = rand();
             CAST_SIGN(short, iVar3, 6) -= 0x20;
             CAST_SIGN(short, iVar3, 6) += (uVar2 & 0x3f);

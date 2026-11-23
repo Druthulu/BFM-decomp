@@ -1806,7 +1806,7 @@ extern unsigned short D_8018F790[];
 extern unsigned short D_8018F798[];
 extern unsigned char D_801DBEA8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801DBEA0;
 extern s32 func_8016BA68(s32, s32);
@@ -4566,7 +4566,7 @@ extern void (*D_801922EC[])(void);
 void func_801891D0(void *a0) {
     D_801922EC[((Unkstruct_801202A0 *)a0)->unk2.u]();
     if (((Unkstruct_801202A0 *)a0)->unk0 != 0) {
-        ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 = ((Unkstruct_801891D0_2 *)*(s32 *)((s32)a0 + 0x20))->unk12 + *(u16 *)(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val + 0x6);
+        ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk10.w.unk12.u = ((RenderHead *)*(s32 *)((s32)a0 + 0x20))->unk10.w.unk12.u + *(u16 *)(((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.val + 0x6);
     }
 }
 

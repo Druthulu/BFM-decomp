@@ -1809,7 +1809,7 @@ extern unsigned short D_80186AF0[];
 extern unsigned short D_80186AF8[];
 extern unsigned char D_8019CFB8[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_8019CFB0;
 extern s32 func_8016BA68(s32, s32);
@@ -4531,7 +4531,7 @@ void func_801809B0(s32 a0, s32 a1) {
     vec = D_8019C988;
     m = *(Blk32_8018AA98_80183D30_801809B0 *)&D_800AE620;
 
-    RotMatrixY(((Unkstruct_80180450_5 *)*(s32 *)(a0 + 0x20))->unk12, &m);
+    RotMatrixY(((RenderHead *)*(s32 *)(a0 + 0x20))->unk10.w.unk12.s, &m);
     ApplyMatrixSV(&m, &vec, &vec);
 
     if (a0 != 0 && ((Unkstruct_801202A0 *)a0)->unk0 != 0) {

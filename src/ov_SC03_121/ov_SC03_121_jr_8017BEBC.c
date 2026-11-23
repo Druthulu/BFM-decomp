@@ -1811,7 +1811,7 @@ extern unsigned short D_801853AC[];
 extern unsigned short D_801853B4[];
 extern unsigned char D_801ADFA0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801ADF98;
 extern s32 func_8016BA68(s32, s32);
@@ -3127,11 +3127,11 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
     s32 x;
     s32 y;
 
-    t = rsin(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
+    t = rsin(((RenderHead *)*(u32 *)(arg0 + 0x20))->unk10.w.unk12.u & 0xFFF);
     x = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u - (t * arg1 >> 12);
     vec1[0] = x;
     vec1[1] = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.u - 0x10;
-    t = rcos(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
+    t = rcos(((RenderHead *)*(u32 *)(arg0 + 0x20))->unk10.w.unk12.u & 0xFFF);
     y = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u - (t * arg1 >> 12);
     vec1[2] = y;
     vec2[0] = vec1[0];
@@ -3139,9 +3139,9 @@ u32 func_8017D788(s32 arg0, s16 arg1, s16 arg2) {
     vec2[2] = y;
     ret = func_80133784(1, vec1, vec2);
     if (((ret & 0x6000) == 0) && (arg2 != 0)) {
-        t = rsin(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
+        t = rsin(((RenderHead *)*(u32 *)(arg0 + 0x20))->unk10.w.unk12.u & 0xFFF);
         ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.u = vec2[0] + (t * arg1 >> 12);
-        t = rcos(((Unkstruct_8017D788_2 *)*(u32 *)(arg0 + 0x20))->unk12 & 0xFFF);
+        t = rcos(((RenderHead *)*(u32 *)(arg0 + 0x20))->unk10.w.unk12.u & 0xFFF);
         ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.u = vec2[2] + (t * arg1 >> 12);
     }
     return ret;

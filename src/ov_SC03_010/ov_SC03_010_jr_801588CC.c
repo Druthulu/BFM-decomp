@@ -1202,10 +1202,10 @@ extern void guess_NextStep(void *a0);
 
 void func_80158F00(int param_1) {
     int *self = (int *)param_1;
-    struct Actor *act = (struct Actor *)self[0x20 / 4];
+    Unkstruct_8001C9D0 *act = (Unkstruct_8001C9D0 *)self[0x20 / 4];
     int gate = D_8019EDDC;
 
-    act->timer = (u16)((act->timer + 0x16) & 0xfff);
+    act->head.unk10.w.unk12.u = (u16)((act->head.unk10.w.unk12.u + 0x16) & 0xfff);
 
     if (gate == 0) {
         s32 r = rand();

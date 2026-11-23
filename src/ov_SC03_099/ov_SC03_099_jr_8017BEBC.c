@@ -1807,7 +1807,7 @@ extern unsigned short D_80186648[];
 extern unsigned short D_80186650[];
 extern unsigned char D_801BE468[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801BE460;
 extern s32 func_8016BA68(s32, s32);
@@ -3781,11 +3781,11 @@ void func_8017EE0C(s32 param_1)
     } else {
         guess_InitModelObjectKind3(v0, (s32)D_801989E4);
         ((void (*)(s32, s32))guess_StartActorSequence)(param_1, (s32)D_80198A44);
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(param_1 + 0x20))->unk18 = 0x10;
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(param_1 + 0x20))->unk1A = 0x10;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk18.w.unk18.s = 0x10;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk18.w.unk1A.s = 0x10;
         ((Unkstruct_801202A0 *)param_1)->unk94.s = rand() & 7;
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
-        ((Unkstruct_8017EE0C_2 *)*(s32 *)(param_1 + 0x20))->unk2C |= 0x10;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk4.u |= 0x50000000;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk2C.u |= 0x10;
         if ((u32)(((Unkstruct_801202A0 *)param_1)->unk70.u - 1) >= 0x6fff) {
             ((Unkstruct_801202A0 *)param_1)->unk70.u = rand() & 0x77ff;
             sVar1 = 2;

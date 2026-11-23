@@ -48,8 +48,8 @@ void func_800CCC54(s32 param_1)
     s32 iVar1;
     iVar1 = ((Ent_80164930_80164930 *)param_1)->unk4C;
     D_800CD684[((Ent_80164930_80164930 *)param_1)->unk2.u]();
-    ((Unkstruct_800CCC54_3 *)*(s32 *)(param_1 + 0x20))->unk4 &= 0x7FFFFFFF;
-    ((Unkstruct_800CCC54_3 *)*(s32 *)(param_1 + 0x20))->unk4 |= *(s32 *)(((Unkstruct_80126B58 *)iVar1)->unk20.val + 4) & 0x80000000;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk4.s &= 0x7FFFFFFF;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk4.s |= *(s32 *)(((Unkstruct_80126B58 *)iVar1)->unk20.val + 4) & 0x80000000;
     ((Ent_80164930_80164930 *)param_1)->unk60.u = 0;
     D_800CE050 = func_80012ABC(D_800CE050, *(s16 *)(((Unkstruct_80126B58 *)iVar1)->unk20.val + 0x12), 10);
     func_8014ACC0(iVar1, 1);

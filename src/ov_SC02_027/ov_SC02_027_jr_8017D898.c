@@ -1807,7 +1807,7 @@ extern unsigned short D_8018E468[];
 extern unsigned short D_8018E470[];
 extern unsigned char D_801D9160[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801D9158;
 extern s32 func_8016BA68(s32, s32);
@@ -7747,15 +7747,15 @@ void func_80186594(s32 a0) {
             ((Unkstruct_801202A0 *)s0)->unk2.u = 4;
         }
 
-        ((Unkstruct_80186F78_3 *)*(s32 *)(s0 + 0x20))->unk12 = ((Unkstruct_80186F78_3 *)*(s32 *)(t0 + 0x20))->unk12;
+        ((RenderHead *)*(s32 *)(s0 + 0x20))->unk10.w.unk12.u = ((RenderHead *)*(s32 *)(t0 + 0x20))->unk10.w.unk12.u;
         *(Unkstruct_8013B83C *)(((Unkstruct_801202A0 *)s0)->unk20.val + 0x18) = *(Unkstruct_8013B83C *)(((Unkstruct_801202A0 *)t0)->unk20.val + 0x18);
-        ((Unkstruct_80186F78_3 *)*(s32 *)(s0 + 0x20))->unk2C = ((Unkstruct_80186F78_3 *)*(s32 *)(t0 + 0x20))->unk2C;
+        ((RenderHead *)*(s32 *)(s0 + 0x20))->unk2C = ((RenderHead *)*(s32 *)(t0 + 0x20))->unk2C;
 
         v0 = (((Unkstruct_801202A0 *)t0)->unk5C.u & 0xF7FF) | 0x4000;
         v1 = ((Unkstruct_801202A0 *)s0)->unk70.u & 1;
         ((Unkstruct_801202A0 *)s0)->unk5C.u = v0;
         if (v1 != 0) {
-            ((Unkstruct_80186F78_3 *)*(s32 *)(s0 + 0x20))->unk4 = ((Unkstruct_80186F78_3 *)*(s32 *)(t0 + 0x20))->unk4;
+            ((RenderHead *)*(s32 *)(s0 + 0x20))->unk4 = ((RenderHead *)*(s32 *)(t0 + 0x20))->unk4;
         }
     }
 }
@@ -8318,11 +8318,11 @@ void func_80187288(void *arg0) {
 
     a0v = (((Unkstruct_801202A0 *)s0)->extD.kSC02_027_801877E4.unk102 + ((Unkstruct_801202A0 *)s0)->unkFE.u) & 0xFFF;
     ((Unkstruct_801202A0 *)s0)->extD.kSC02_027_801877E4.unk102 = a0v;
-    ((Unkstruct_80187288_3 *)*(s32 *)(s0 + 0x20))->unk10 = rcos(a0v) >> 5;
+    ((RenderHead *)*(s32 *)(s0 + 0x20))->unk10.w.unk10.s = rcos(a0v) >> 5;
 
     a0v = (((Unkstruct_801202A0 *)s0)->extD.kSC02_027_801877E4.unk104 + ((Unkstruct_801202A0 *)s0)->extD.kSC02_027_801877E4.unk100.u) & 0xFFF;
     ((Unkstruct_801202A0 *)s0)->extD.kSC02_027_801877E4.unk104 = a0v;
-    ((Unkstruct_80187288_3 *)*(s32 *)(s0 + 0x20))->unk14 = rcos(a0v) >> 5;
+    ((RenderHead *)*(s32 *)(s0 + 0x20))->unk10.w.unk14.s = rcos(a0v) >> 5;
 }
 
 

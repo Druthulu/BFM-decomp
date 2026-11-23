@@ -1809,7 +1809,7 @@ extern unsigned short D_8018BBC8[];
 extern unsigned short D_8018BBD0[];
 extern unsigned char D_801C61B0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801C61A8;
 extern s32 func_8016BA68(s32, s32);
@@ -4351,8 +4351,8 @@ void func_80180450(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk1C.s += 0x80;
         t = rsin(((Unkstruct_801202A0 *)arg0)->unk1C.s) >> 5;
         t += 0x1000;
-        ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = (s16)t;
-        ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = (s16)t;
+        ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1A.s = (s16)t;
+        ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1C.s = (s16)t;
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s >= 0x800) {
             ((Unkstruct_801202A0 *)arg0)->unk1C.s &= 0x7FF;
             cnt = ((Unkstruct_801202A0 *)arg0)->unkFC.u - 1;
@@ -4371,11 +4371,11 @@ void func_80180450(s32 arg0) {
         ((Unkstruct_801202A0 *)arg0)->unk1C.s += 0x80;
         t = rsin(((Unkstruct_801202A0 *)arg0)->unk1C.s) >> 2;
         t += 0x1000;
-        ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = (s16)t;
-        ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = (s16)t;
+        ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1A.s = (s16)t;
+        ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1C.s = (s16)t;
         if (((Unkstruct_801202A0 *)arg0)->unk1C.s >= 0x800) {
-            ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1A = 0x1000;
-            ((Unkstruct_80180450_4 *)*(void **)(arg0 + 0x20))->unk1C = 0x1000;
+            ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1A.s = 0x1000;
+            ((RenderHead *)*(void **)(arg0 + 0x20))->unk18.w.unk1C.s = 0x1000;
             ((Unkstruct_801202A0 *)arg0)->unk2.u = 1;
         }
         if (M2C_FIELD(arg0, s16 *, 0xFC) != 0 && ((Unkstruct_801202A0 *)arg0)->unk1C.s < 0x401) {

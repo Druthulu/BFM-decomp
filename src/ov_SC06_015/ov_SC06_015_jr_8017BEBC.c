@@ -1808,7 +1808,7 @@ extern unsigned short D_80181CB0[];
 extern unsigned short D_80181CB8[];
 extern unsigned char D_80193B30[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_80193B28;
 extern s32 func_8016BA68(s32, s32);
@@ -3308,8 +3308,8 @@ void func_8017DCD0(s32 param_1)
     s16 sVar1;
     u16 uVar2;
 
-    ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 =
-        ((Unkstruct_8017DCD0_3 *)*(s32 *)(param_1 + 0x20))->unk14 + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u =
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk14.u + ((Unkstruct_801202A0 *)param_1)->unkFC.u;
 
     obj = (s32)&guess_g_PlayerPosY;
     /* §137 zero-byte barrier: closes the $s2<->$s3 REGALLOC-PERM. global.c:allocno_compare
@@ -3781,7 +3781,7 @@ s32 func_8017E9A8(s32 param_1) {
         guess_RotTransSVWithMatrix(e + 0x34, (s32)param_1 + 0x20C, (s32)sp10);
         func_80015954((s32)sp10, (s32)param_1 + 4);
     }
-    ((Unkstruct_8017E9A8_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_8017E9A8_2 *)*(s32 *)(param_1 + 0x20))->unk12 + 0x80;
+    ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u = ((Unkstruct_8001C9D0 *)*(s32 *)(param_1 + 0x20))->head.unk10.w.unk12.u + 0x80;
     ((Unkstruct_80126B58 *)param_1)->unk208.i.lo = w = ((Unkstruct_80126B58 *)param_1)->unk208.i.lo + 0x80;
     return (s16)w == 0x800;
 }

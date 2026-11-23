@@ -1806,7 +1806,7 @@ extern unsigned short D_8018D570[];
 extern unsigned short D_8018D578[];
 extern unsigned char D_801B8910[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801B8908;
 extern s32 func_8016BA68(s32, s32);
@@ -5298,21 +5298,21 @@ void func_80185810(s32 a0)
     if (((Unkstruct_8018364C *)((s32)a0 - 0x20))->unk40 != 0) {
         if (flags & 0x800000) {
             gte_SetRotMatrix(base + 0x18);
-            gte_ldclmv((u8 *)(((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20 + 0x34));
+            gte_ldclmv((u8 *)(((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s + 0x34));
             gte_rtir();
             gte_stclmv(&m.m[0][0]);
-            gte_ldclmv((u8 *)(((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20 + 0x36));
+            gte_ldclmv((u8 *)(((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s + 0x36));
             gte_rtir();
             gte_stclmv(&m.m[0][1]);
-            gte_ldclmv((u8 *)(((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20 + 0x38));
+            gte_ldclmv((u8 *)(((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s + 0x38));
             gte_rtir();
             gte_stclmv(&m.m[0][2]);
             gte_SetTransMatrix(base + 0x18);
-            gte_ldlv0((u8 *)(((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20 + 0x48));
+            gte_ldlv0((u8 *)(((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s + 0x48));
             gte_rtv0tr();
             gte_stlvnl(&m.t[0]);
         } else {
-            func_80185FB4(((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20, flags, (s32)&m);
+            func_80185FB4(((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s, flags, (s32)&m);
             gte_SetRotMatrix(base + 0x18);
             gte_ldclmv(&m.m[0][0]);
             gte_rtir();
@@ -5330,7 +5330,7 @@ void func_80185810(s32 a0)
         }
         gte_SetRotMatrix(&m);
         gte_SetTransMatrix(&m);
-        t0 = ((Unkstruct_80185810_2 *)*(s32 *)(a0 + 0x20))->unk20 + 0x10;
+        t0 = ((RenderHead *)*(s32 *)(a0 + 0x20))->unk20.s + 0x10;
     } else {
         gte_SetRotMatrix(base + 0x18);
         gte_SetTransMatrix(base + 0x18);

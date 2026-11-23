@@ -1797,7 +1797,7 @@ extern unsigned short D_8018B618[];
 extern unsigned short D_8018B620[];
 extern unsigned char D_801C0048[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_801C0040;
 extern s32 func_8016BA68(s32, s32);
@@ -6520,7 +6520,7 @@ void func_80182328(s32 a0)
 
     if (((Unkstruct_801202A0 *)s0)->unk0 == 0x1FC) {
         if (((Unkstruct_801202A0 *)s0)->unkAA == 0) {
-            ((Unkstruct_8017F858_3 *)*(s32 *)((u8 *)s0 + 0x20))->unk2C |= 0x10;
+            ((RenderHead *)*(s32 *)((u8 *)s0 + 0x20))->unk2C.u |= 0x10;
             p = (s32 *)(CAST_SIGN(u32, (u8 *)s0, 0x20));
             ((RenderHead *)p)->unk18.w.unk1C.u = 0x1800;
             ((RenderHead *)p)->unk18.w.unk1A.u = 0x1800;
@@ -10445,11 +10445,11 @@ void func_80187C14(s32 param_1)
 
     extern u8 D_801B5124[];
     extern u8 D_801B5130[];
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk20 = (u32)&D_801B5124;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk20.u = (u32)&D_801B5124;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk4 |= 0x50000000;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk4.u |= 0x50000000;
 
-    ((Unkstruct_80183650_2 *)*(s32 *)(param_1 + 0x20))->unk27 = 0x5b;
+    ((Unkstruct_800B5BD8 *)*(s32 *)(param_1 + 0x20))->head.unk24.b.unk27.u = 0x5b;
 
     guess_StartPairSequence(CAST_SIGN(u32, param_1, 0x20), param_1 + 0x24, (s32)&D_801B5130);
 

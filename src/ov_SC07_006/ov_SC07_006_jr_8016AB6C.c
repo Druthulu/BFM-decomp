@@ -24,7 +24,7 @@ s32 func_8016AB6C(s32 arg0) {
     s32 temp_v0;
     u32 r;
     u8 var_c2;
-    Obj_8016AB6C *obj;
+    Unkstruct_800B5BD8 *obj;
 
     temp_v0 = guess_IntToBcd(((Unkstruct_8011D030 *)arg0)->unk30.val.s, 0);
     var_s0 = 3;
@@ -73,7 +73,7 @@ lout:
         break;
     case 6:
     case 7:
-        obj = ((Obj_8016AB6C *(*)(s32))guess_AllocSpriteObject)(temp_v0);
+        obj = ((Unkstruct_800B5BD8 *(*)(s32))guess_AllocSpriteObject)(temp_v0);
         if (obj == 0) {
             ((void(*)(Unkstruct_8011D030 *))guess_FreeSmallObject)(((Unkstruct_8011D030 *)arg0));
             return;
@@ -92,22 +92,22 @@ lout:
             var_s3 = ((s32(*)(void *, void *))guess_SjisToGlyphCodes)(D_8018D548, D_801F5338) + 9;
             func_8001CE28(obj, D_801F5338);
         }
-        obj->unkE = var_s3;
-        obj->unk4 |= 0x04000000;
+        obj->head.unkE.s = var_s3;
+        obj->head.unk4.s |= 0x04000000;
         if (((Unkstruct_8011D030 *)arg0)->unk2C.val.s == 6) {
-            obj->unk27 = 0xB5;
+            obj->head.unk24.b.unk27.u = 0xB5;
             var_s0 = 0x70;
         } else {
-            obj->unk27 = 0xAE;
+            obj->head.unk24.b.unk27.u = 0xAE;
             var_s0 = 0xB0;
         }
         var_c2 = var_s0;
         var_s0 = var_s3 >> 2;
-        obj->unk2E = -8;
-        obj->unk30 = 0;
-        obj->unk26 = var_c2;
-        obj->unk25 = var_c2;
-        obj->unk24 = var_c2;
+        obj->head.unk2E.s = -8;
+        obj->unk30.s = 0;
+        obj->head.unk24.b.unk26 = var_c2;
+        obj->head.unk24.b.unk25.u = var_c2;
+        obj->head.unk24.b.unk24.u = var_c2;
         ((Unkstruct_8011D030 *)arg0)->unk20 = obj;
         break;
     }

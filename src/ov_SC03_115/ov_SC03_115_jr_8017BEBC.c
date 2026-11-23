@@ -1806,7 +1806,7 @@ extern unsigned short D_801836D4[];
 extern unsigned short D_801836DC[];
 extern unsigned char D_801942A0[];
 extern int func_8016B834(int param_1, int param_2);
-extern void func_8016B964(SrcB964 *a0, DstB964 *a1);
+extern void func_8016B964(SrcB964 *a0, Unkstruct_800B5BD8 *a1);
 extern void func_8016B91C(s32 arg0);
 extern s32 D_80194298;
 extern s32 func_8016BA68(s32, s32);
@@ -4145,7 +4145,7 @@ void func_8017E71C(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x37;
     func_8001C924(((Unkstruct_801202A0 *)param_1)->unk20.p, &D_8018E188);
     ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018FDEC);
-    ((Unkstruct_8017E71C_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_801202A0 *)param_1)->unk62;
+    ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = ((Unkstruct_801202A0 *)param_1)->unk62;
 }
 
 
@@ -4208,15 +4208,15 @@ void func_8017E800(s32 param_1) {
     if (((Unkstruct_801202A0 *)param_1)->blkDC.f.unkDC.val & 2) {
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x2D;
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018FECC);
-        ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk10 = 0;
-        ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 =
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk10.s = 0;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s =
             (((Unkstruct_801202A0 *)param_1)->unk62 + 0x800) & 0xFFF;
         ((Unkstruct_801202A0 *)param_1)->unk50.w.unk52.s = 0;
     } else {
         ((Unkstruct_801202A0 *)param_1)->unk1C.s = 0x37;
         func_8001C924(((Unkstruct_801202A0 *)param_1)->unk20.val, &D_8018E188);
         ((void (*)(s32, void *))guess_StartActorSequence)(param_1, &D_8018FDEC);
-        ((Unkstruct_8017E800_2 *)*(s32 *)(param_1 + 0x20))->unk12 = ((Unkstruct_801202A0 *)param_1)->unk62;
+        ((RenderHead *)*(s32 *)(param_1 + 0x20))->unk10.w.unk12.s = ((Unkstruct_801202A0 *)param_1)->unk62;
     }
     iVar1 = guess_DistSqToPlayer(param_1);
     uVar2 = 0x520;
