@@ -687,7 +687,7 @@ void func_80186B08(s32 param_1)
 
 
 void func_80186BB8(void) {
-    extern F5C_S *D_801E43CC[];
+    extern Unkstruct_801202A0 *D_801E43CC[];
     extern s8 D_80195ABC[];
     s32 i;
     s32 c;
@@ -703,7 +703,7 @@ void func_80186BB8(void) {
 
 
 void func_80186C0C(void *a0) {
-    extern F5C_S *D_801E43CC[];
+    extern Unkstruct_801202A0 *D_801E43CC[];
     extern s8 D_80195ABC[];
     s32 i;
     s32 ent;
@@ -719,17 +719,17 @@ void func_80186C0C(void *a0) {
 
 
 
-extern F5C_S *D_801E43CC[];
+extern Unkstruct_801202A0 *D_801E43CC[];
 
 void func_80186C70(void *a0) {
     s32 i;
     for (i = 0; i < 0x13; i++) {
-        D_801E43CC[i]->f5C &= ~0x400;
+        D_801E43CC[i]->unk5C.u &= ~0x400;
     }
 }
 
 
-extern F5C_S *D_801E43CC[];
+extern Unkstruct_801202A0 *D_801E43CC[];
 
 void func_80186CA8(void *a0) {
     s32 i;

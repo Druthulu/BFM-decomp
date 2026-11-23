@@ -7430,7 +7430,7 @@ void func_80185D5C(void *a0) {
 }
 
 
-extern void func_8018633C(Str_8018633C *arg0);
+extern void func_8018633C(Unkstruct_801202A0 *arg0);
 
 void func_80185F04(s32 self) {
     s32 m;
@@ -7467,7 +7467,7 @@ void func_80185FB0(s32 a0) {
 
 extern u8 D_801AF758;
 extern s32 guess_TickWaitTimer(s32 a0);
-extern void func_8018633C(Str_8018633C *arg0);
+extern void func_8018633C(Unkstruct_801202A0 *arg0);
 
 void func_80186018(s32 self) {
     s32 p;
@@ -7615,7 +7615,7 @@ s32 func_801862A8(s32 arg0)
 
 
 
-void func_8018633C(Str_8018633C *arg0) {
+void func_8018633C(Unkstruct_801202A0 *arg0) {
     u16 a;
     u16 b;
     u16 c;
@@ -7624,25 +7624,25 @@ void func_8018633C(Str_8018633C *arg0) {
     void *t;
     void *p;
 
-    arg0->f02 = 1;
-    t = arg0->f78;
+    arg0->unk2.u = 1;
+    t = arg0->unk78;
     a = *(u16 *)((u8 *)t + 2);
-    b = arg0->f88;
-    c = arg0->f8A;
-    d = arg0->f8C;
-    e = arg0->f70;
-    arg0->f06 = b;
-    arg0->f0A = c;
-    arg0->f0E = d;
-    arg0->f5C = a;
+    b = arg0->unk88.u;
+    c = arg0->unk8A.u;
+    d = arg0->unk8C.u;
+    e = arg0->unk70.u;
+    arg0->unk4.i.hi.u = b;
+    arg0->unk8.i.hi.u = c;
+    arg0->unkC.i.hi.u = d;
+    arg0->unk5C.u = a;
     if (e & 1) {
-        p = arg0->f20;
+        p = arg0->unk20.p;
         ((Unkstruct_8001C9D0 *)p)->head.unk2C.u |= 0x10;
-        p = arg0->f20;
+        p = arg0->unk20.p;
         ((Unkstruct_8001C9D0 *)p)->head.unk18.w.unk1C.u = 0x1666;
         ((Unkstruct_8001C9D0 *)p)->head.unk18.w.unk1A.u = 0x1666;
         ((Unkstruct_8001C9D0 *)p)->head.unk18.w.unk18.u = 0x1666;
-        arg0->f100 = 0x1666;
+        arg0->extD.kSC02_027_80185760.unk100 = 0x1666;
     }
 }
 

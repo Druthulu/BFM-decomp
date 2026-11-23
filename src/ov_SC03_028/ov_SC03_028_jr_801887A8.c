@@ -4111,12 +4111,12 @@ void func_80189F7C(void *a0)
 extern s32 D_801909A4[];
 extern s32 guess_AllocRenderWorkRecord(s32 a0);
 
-void func_8018A078(Struct_8018A078 *arg0)
+void func_8018A078(Unkstruct_801202A0 *arg0)
 {
-    guess_AllocRenderWorkRecord(D_801909A4[((s16)arg0->unkFC >> 1) % 6]);
-    arg0->unk6 = arg0->unk6 + 8;
-    if (--arg0->unk1C == 0) {
-        arg0->unk2 = 2;
+    guess_AllocRenderWorkRecord(D_801909A4[((s16)arg0->unkFC.u >> 1) % 6]);
+    arg0->unk4.i.hi.s = arg0->unk4.i.hi.s + 8;
+    if (--arg0->unk1C.s == 0) {
+        arg0->unk2.s = 2;
     }
 }
 

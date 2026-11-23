@@ -3389,9 +3389,9 @@ void func_80187630(void *a0, s32 a1, s32 a2)
     extern u8 D_80078EB1;
 
     if (D_80078EB1 >= a1 && D_80078EB1 < a2) {
-        ((Unkstruct_80180EDC *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 1;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = 1;
     } else {
-        ((Unkstruct_80180EDC *)*(s32 *)((s32)a0 + 0xCC))->unkB0 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = 2;
     }
 }
 

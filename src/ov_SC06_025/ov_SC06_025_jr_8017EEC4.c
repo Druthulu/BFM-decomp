@@ -3849,7 +3849,7 @@ void func_801805BC(void *arg0) {
     extern s16 D_801B1724;
     extern s32 D_80188E74[];
 
-    Obj801805BC *p = (Obj801805BC *)arg0;
+    Unkstruct_801202A0 *p = (Unkstruct_801202A0 *)arg0;
     u16 v;
     s32 r;
     s32 r2;
@@ -3873,28 +3873,28 @@ void func_801805BC(void *arg0) {
     case 1:
         if (D_801B1708 == D_801B170C) {
             p->unk34.u += 1;
-            p->unk1C = 0;
-            p->unkDC = 0;
+            p->unk1C.s = 0;
+            p->blkDC.f.unkDC.i.lo.s = 0;
             func_801807F8(D_80188E74[D_801B1710]);
         }
         break;
 
     case 2:
-        p->unk1C += 1;
+        p->unk1C.s += 1;
         r = ((s32 (*)(void))func_80180808)();
         if (r == v) {
             D_801B1724 = 1;
         }
-        r2 = ((s32 (*)(void *, s32, s32))func_8017FD28)(p, D_801B1710 - 1, p->unkDC);
+        r2 = ((s32 (*)(void *, s32, s32))func_8017FD28)(p, D_801B1710 - 1, p->blkDC.f.unkDC.i.lo.s);
         switch (r2) {
         case 0:
             break;
         case 1:
             if (r == 3) {
-                p->unk1C = 0;
+                p->unk1C.s = 0;
                 D_801B1708 = 0;
-                p->unkA = -494;
-                p->unk8 = 0;
+                p->unk8.i.hi.s = -494;
+                p->unk8.i.lo = 0;
                 p->unk34.u += 1;
             }
             break;
@@ -4006,16 +4006,16 @@ void func_80180950(void *arg0) {
     extern s16 D_801B1708;
     extern s16 D_801B1710;
 
-    Obj801805BC *p = (Obj801805BC *)arg0;
+    Unkstruct_801202A0 *p = (Unkstruct_801202A0 *)arg0;
 
-    p->unk2 = 6;
+    p->unk2.s = 6;
     p->unk34.s = 0;
-    p->unkDC = 0;
-    p->unkDE = 0;
+    p->blkDC.f.unkDC.i.lo.s = 0;
+    p->blkDC.f.unkDC.i.hi.s = 0;
     aD_801270C8[0] = 3;
     D_801B1708 = 0;
     D_801B1710 = 0;
-    p->unk1C = 0x16;
+    p->unk1C.s = 0x16;
 }
 
 

@@ -268,15 +268,15 @@ void func_801E52BC(s32 a0) {
 }
 
 
-void func_801E5338(Unkstruct_801E5338_2 *a0) {
+void func_801E5338(Unkstruct_801202A0 *a0) {
     s32 v0;
     RenderHead *a1;
     u16 w, x;
 
-    v0 = a0->unk1C;
-    a1 = a0->unk20;
+    v0 = a0->unk1C.s;
+    a1 = a0->unk20.h;
     v0--;
-    a0->unk1C = v0;
+    a0->unk1C.s = v0;
     if (v0 != -1) {
         w = a1->unk18.w.unk1C.u;
         x = a1->unk18.w.unk1A.u;
@@ -293,9 +293,9 @@ void func_801E5338(Unkstruct_801E5338_2 *a0) {
         a1->unk2C.u = x;
     } else {
         a1->unk4.s = 0x80000000;
-        w = a0->unk2;
+        w = a0->unk2.u;
         w++;
-        a0->unk2 = w;
+        a0->unk2.u = w;
     }
 }
 
@@ -378,7 +378,7 @@ void func_801E5518(s32 a0) {
 
 
 void func_801E5580(s32 *a0) {
-    Unkstruct_801E5580 *s0 = a0;
+    Unkstruct_801202A0 *s0 = a0;
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
@@ -387,11 +387,11 @@ void func_801E5580(s32 *a0) {
     extern s32 D_801E63C4;
 
     func_801E590C(s0);
-    if (guess_GetTextWindowResult(s0->unkB0) != 0) {
-        guess_CloseTextWindow(s0->unkB0);
+    if (guess_GetTextWindowResult(s0->extE.kSC02_009_801E5450.unkB0) != 0) {
+        guess_CloseTextWindow(s0->extE.kSC02_009_801E5450.unkB0);
         D_801270C8 = 5;
         guess_StartActorSequence((s32)s0, &D_801E63C4);
-        (s0->unk2)++;
+        (s0->unk2.u)++;
     }
 }
 
@@ -414,7 +414,7 @@ void func_801E55F4(s32 a0) {
 
 
 void func_801E5664(s32 *a0) {
-    Unkstruct_801E5664 *s0 = a0;
+    Unkstruct_801202A0 *s0 = a0;
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
@@ -423,11 +423,11 @@ void func_801E5664(s32 *a0) {
     extern s32 D_801E63C4;
 
     func_801E590C(s0);
-    if (guess_GetTextWindowResult(s0->unkB0) != 0) {
-        guess_CloseTextWindow(s0->unkB0);
+    if (guess_GetTextWindowResult(s0->extE.kSC02_009_801E5450.unkB0) != 0) {
+        guess_CloseTextWindow(s0->extE.kSC02_009_801E5450.unkB0);
         D_801270C8 = 12;
         guess_StartActorSequence((s32)s0, &D_801E63C4);
-        (s0->unk2)++;
+        (s0->unk2.u)++;
     }
 }
 
@@ -450,7 +450,7 @@ void func_801E56D8(s32 a0) {
 
 
 void func_801E5748(s32 *a0) {
-    Unkstruct_801E5748 *s0 = a0;
+    Unkstruct_801202A0 *s0 = a0;
     extern void func_801E590C(void *a0);
     extern s32 guess_GetTextWindowResult(s32 a0);
     extern void guess_CloseTextWindow(s32 a0);
@@ -459,12 +459,12 @@ void func_801E5748(s32 *a0) {
     extern s32 D_801E63C4;
 
     func_801E590C(s0);
-    if (guess_GetTextWindowResult(s0->unkB0) != 0) {
-        guess_CloseTextWindow(s0->unkB0);
+    if (guess_GetTextWindowResult(s0->extE.kSC02_009_801E5450.unkB0) != 0) {
+        guess_CloseTextWindow(s0->extE.kSC02_009_801E5450.unkB0);
         D_801270C8 = 15;
-        s0->unk1C = 18;
+        s0->unk1C.s = 18;
         guess_StartActorSequence((s32)s0, &D_801E63C4);
-        (s0->unk2)++;
+        (s0->unk2.u)++;
     }
 }
 

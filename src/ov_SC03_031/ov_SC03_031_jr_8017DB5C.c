@@ -4245,7 +4245,7 @@ void *a0;
     s32 v1;
     u16 h;
 
-    v1 = ((Unkstruct_801809D0_2 *)*(u32 *)((u8 *)a0 + 0x64))->unkE4;
+    v1 = ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.extC.kcls_9e05b01e804c.unkE4;
     switch (v1) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801AFC4C);
@@ -4257,7 +4257,7 @@ void *a0;
     case 2:
         ((Unkstruct_801202A0 *)a0)->unk2.u = 3;
         ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
-        ((Unkstruct_801809D0_2 *)*(u32 *)((u8 *)a0 + 0x64))->unkE4 = 0;
+        ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.extC.kcls_9e05b01e804c.unkE4 = 0;
         break;
     }
 }
@@ -4351,7 +4351,7 @@ void func_80180C90(void *a0)
     s32 v1;
     u16 h;
 
-    v1 = ((Unkstruct_80180C90_2 *)*(u32 *)((u8 *)a0 + 0x64))->unkE8;
+    v1 = ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.extC.kcls_9e05b01e804c.unkE8;
     switch (v1) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801B570C);
@@ -4363,7 +4363,7 @@ void func_80180C90(void *a0)
     case 2:
         ((Unkstruct_801202A0 *)a0)->unk2.u = 3;
         ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
-        ((Unkstruct_80180C90_2 *)*(u32 *)((u8 *)a0 + 0x64))->unkE8 = 0;
+        ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.extC.kcls_9e05b01e804c.unkE8 = 0;
         break;
     }
 }

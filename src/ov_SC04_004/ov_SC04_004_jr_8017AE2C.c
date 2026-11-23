@@ -5696,10 +5696,10 @@ extern void guess_StartActorSequence_2(u8 *a0, s32 a1);
 extern void func_8012AD44(s32 *a0, s16 a1);
 extern s32 D_80199644;
 
-void func_8018056C(S_8018056C *s0) {
-    s0->unk100 = 0;
-    s0->unkFE = ((u16 *)s0->unk20)[9] + 0x200;
-    if (s0->unk2 != 1) {
+void func_8018056C(Unkstruct_801202A0 *s0) {
+    s0->extD.kSC04_004_801808B4.unk100 = 0;
+    s0->unkFE.u = ((u16 *)s0->unk20.p)[9] + 0x200;
+    if (s0->unk2.u != 1) {
         guess_StartActorSequence_2((u8 *)s0, (s32)&D_80199644);
     }
     func_8012AD44((s32 *)s0, 0x8);
@@ -6410,7 +6410,7 @@ void func_8018142C(void *arg0) {
 
 extern s32 guess_TickWaitTimer(s32 a0);
 extern s32 func_80180BA4(void *a0, void *a1);
-extern void func_8018056C(S_8018056C *s0);
+extern void func_8018056C(Unkstruct_801202A0 *s0);
 extern void func_80181130(s32 a0, s32 a1);
 
 void func_80181548(s32 a0) {
@@ -6418,7 +6418,7 @@ void func_80181548(s32 a0) {
 
     if (guess_TickWaitTimer(a0) != 0) {
         func_80180BA4((void *)a0, buf);
-        func_8018056C((S_8018056C *)a0);
+        func_8018056C((Unkstruct_801202A0 *)a0);
     }
     func_80181130(a0, 0);
 }

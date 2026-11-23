@@ -3937,9 +3937,9 @@ extern void StoreImage(void *a0, void *a1);
 extern void guess_BuildCircle12Points(void *, unsigned short);
 extern void func_80016450(s32 a0, s32 a1);
 
-void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
-    Obj8017EBC4_SC06_029_8017C954 *ent;
-    Obj8017EBC4_SC06_029_8017C954 *ent2;
+void func_8017EBC4(Unkstruct_801202A0 *a0) {
+    Unkstruct_801202A0 *ent;
+    Unkstruct_801202A0 *ent2;
     u8 *p;
     s32 *q;
     Unkstruct_8001C9D0 *sp;
@@ -3947,24 +3947,24 @@ void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
     s32 i;
 
     sp = (Unkstruct_8001C9D0 *)guess_AllocModelObject();
-    a0->unk_020 = sp;
+    a0->unk20.m = sp;
     if (sp == NULL) {
         guess_FreeActorDuringSpawn(a0);
         return;
     }
 
     guess_InitModelObject((s32)sp, (s32)D_801A0720);
-    func_8001D0E8((s32)a0->unk_020, 0x7FFF, 0x7FFF);
+    func_8001D0E8((s32)a0->unk20.m, 0x7FFF, 0x7FFF);
     func_8001C97C(D_8019EA38);
 
     for (i = 0; i < 5; i++) {
-        ent = (Obj8017EBC4_SC06_029_8017C954 *)guess_SpawnActor(0x294, i, (s32)a0);
+        ent = (Unkstruct_801202A0 *)guess_SpawnActor(0x294, i, (s32)a0);
         t = (s16)((i & 1) << 9);
         D_801DDB2C[i] = (s32)ent;
-        ent->unk_00A -= i << 8;
-        ent2 = (Obj8017EBC4_SC06_029_8017C954 *)D_801DDB2C[i];
-        ent2->unk_020->head.unk10.w.unk12.s = t;
-        ent2->unk_0FC = t;
+        ent->unk8.i.hi.u -= i << 8;
+        ent2 = (Unkstruct_801202A0 *)D_801DDB2C[i];
+        ent2->unk20.m->head.unk10.w.unk12.s = t;
+        ent2->unkFC.s = t;
         D_801DFD38[i] = 0;
     }
 
@@ -3979,21 +3979,21 @@ void func_8017EBC4(Obj8017EBC4_SC06_029_8017C954 *a0) {
         D_80190452 = 0;
     }
 
-    a0->unk_01C = 0x100;
+    a0->unk1C.s = 0x100;
     D_801DDBF0 = NULL;
-    a0->unk_076 = 0x1E0;
+    a0->unk76.s = 0x1E0;
     StoreImage(D_80190490, D_801DDBF8);
     StoreImage(&D_80190490[4], D_801DEBF8);
 
     q = &D_801DFD4C;
     guess_BuildCircle12Points(q, 0xD0);
     *q = 0xFFFFFF;
-    a0->unk_002 = 1;
+    a0->unk2.s = 1;
     D_801DFD50 = 0;
     D_801DDB28 = (s32)a0;
-    a0->unk_10A = 0xFF;
+    a0->unk10A.s = 0xFF;
     func_80016450(0xFF, 0);
-    a0->unk_100 = 2;
+    a0->extD.kSC06_029_8017EBC4.unk100 = 2;
 }
 
 

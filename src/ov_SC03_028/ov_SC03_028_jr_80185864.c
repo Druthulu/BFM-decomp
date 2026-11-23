@@ -2959,7 +2959,7 @@ void func_80185864(s32 arg0) {
     s32 val;
     s32 ptr;
 
-    switch (((Unkstruct_80185864_3 *)*(s32 *)(arg0 + 0x64))->unkE0) {
+    switch (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->blkDC.f.extC.kSC03_028_80184A40.unkE0.s) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801D533C);
         break;
@@ -2995,7 +2995,7 @@ void func_80185864(s32 arg0) {
         break;
     case 7:
     case 8:
-        ((Unkstruct_80185864_3 *)*(s32 *)(arg0 + 0x64))->unkE0 = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->blkDC.f.extC.kSC03_028_80184A40.unkE0.s = 0;
         break;
     }
 }
@@ -3036,7 +3036,7 @@ void func_80185A3C(s32 arg0) {
     s32 v1;
     s32 t;
 
-    switch (((Unkstruct_80185A3C_2 *)*(s32 *)(arg0 + 0x64))->unkE4) {
+    switch (((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->blkDC.f.extC.kSC03_028_80184A40.unkE4.s) {
     case 0:
         guess_AllocRenderWorkRecord((s32)D_801E08BC);
         break;
@@ -3076,7 +3076,7 @@ void func_80185A3C(s32 arg0) {
         break;
     case 7:
     case 8:
-        ((Unkstruct_80185A3C_2 *)*(s32 *)(arg0 + 0x64))->unkE4 = 0;
+        ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->blkDC.f.extC.kSC03_028_80184A40.unkE4.s = 0;
         break;
     }
 }

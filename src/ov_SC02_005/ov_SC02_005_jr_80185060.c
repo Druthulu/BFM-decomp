@@ -368,7 +368,7 @@ void func_80185764(void *a0)
 extern s32 D_801E43C0;
 
 void func_80185858(s32 arg0, void *arg1, void *arg2) {
-    extern F5C_S *D_801E43CC[];
+    extern Unkstruct_801202A0 *D_801E43CC[];
     s32 *p = &D_801E43C0;
 
     if ((*p != 0) && (*(p++ + 1) != 0)) {

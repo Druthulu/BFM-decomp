@@ -5869,7 +5869,7 @@ extern void func_801805EC(void *a0);
     void func_8018069C(void *a0) {
         s32 s0;
         s0 = 1;
-        ((Unkstruct_8018069C *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = s0;
+        ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = s0;
         if (func_80180634() != s0) {
             return;
         }
@@ -5926,7 +5926,7 @@ extern void func_80180770(void *a0);
 
 void func_801807B8(void *a0) {
     s32 v0;
-    ((Unkstruct_8018069C *)*(s32 *)((s32)a0 + 0xcc))->unkB0 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xcc))->extE.kcls_1ffadb9a164c.unkB0 = 1;
     if (D_80078EBA == 3) {
         v0 = 0;
     } else {

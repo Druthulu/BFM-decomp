@@ -4754,7 +4754,7 @@ extern void func_8018B264(void *a0);
     void func_8018B314(void *a0) {
         s32 s0;
         s0 = 1;
-        ((Unkstruct_8018069C *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = s0;
+        ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = s0;
         if (func_8018B2AC() != s0) {
             return;
         }
@@ -4812,7 +4812,7 @@ extern void func_8018B3E8(void *a0);
 
 void func_8018B430(void *a0) {
     s32 v0;
-    ((Unkstruct_8018069C *)*(s32 *)((s32)a0 + 0xcc))->unkB0 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0xcc))->extE.kcls_1ffadb9a164c.unkB0 = 1;
     if (D_80078EBA == 3) {
         v0 = 0;
     } else {
@@ -4889,7 +4889,7 @@ s32 func_8018B5B0(void) {
 
 
 void func_8018B604(void *a0) {
-    ((Unkstruct_8018069C *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = 1;
     if (func_8018B5B0() == 0) {
         func_8018B568(a0);
     }

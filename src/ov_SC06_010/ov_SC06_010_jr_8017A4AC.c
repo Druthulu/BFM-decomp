@@ -5615,42 +5615,42 @@ void func_8017F978(s32 a0)
 
 extern void func_8012ADE4(s32);
 
-void func_8017FAAC(EntFAAC *s0) {
-    s32 q = s0->f6 * s0->f6;
-    s32 r = (s0->fA + 0x482) * (s0->fA + 0x482);
+void func_8017FAAC(Unkstruct_801202A0 *s0) {
+    s32 q = s0->unk4.i.hi.s * s0->unk4.i.hi.s;
+    s32 r = (s0->unk8.i.hi.s + 0x482) * (s0->unk8.i.hi.s + 0x482);
 
-    s0->f10 >>= 1;
-    s0->f18 >>= 1;
+    s0->unk10.val >>= 1;
+    s0->unk18.val >>= 1;
 
     if (0x1323F < q + r) {
         ((void (*)(void *))func_8012ADE4)(s0);
-        s0->f14 = 0;
+        s0->unk14.val = 0;
     }
 
-    if (s0->f0 != 0) {
+    if (s0->unk0 != 0) {
         RenderHead *d;
 
-        d = s0->fCC;
-        d->unk8.w.unk8.u = s0->f6;
-        d->unk8.w.unkA.u = s0->fA;
-        d->unk8.w.unkC.u = s0->fE;
-        d->unk10.w.unk10.u = s0->f20->unk10.w.unk10.u;
-        d->unk10.w.unk12.u = s0->f20->unk10.w.unk12.u + s0->fFC;
-        d->unk10.w.unk14.u = s0->f20->unk10.w.unk14.u;
-        if (s0->f20->unk4.s & 0x80000000) {
+        d = s0->unkCC.p;
+        d->unk8.w.unk8.u = s0->unk4.i.hi.s;
+        d->unk8.w.unkA.u = s0->unk8.i.hi.s;
+        d->unk8.w.unkC.u = s0->unkC.i.hi.s;
+        d->unk10.w.unk10.u = s0->unk20.h->unk10.w.unk10.u;
+        d->unk10.w.unk12.u = s0->unk20.h->unk10.w.unk12.u + s0->unkFC.u;
+        d->unk10.w.unk14.u = s0->unk20.h->unk10.w.unk14.u;
+        if (s0->unk20.h->unk4.s & 0x80000000) {
             d->unk4.s |= 0x80000000;
         } else {
             d->unk4.s &= 0x7FFFFFFF;
         }
 
-        d = s0->fD0;
-        d->unk8.w.unk8.u = s0->f6;
-        d->unk8.w.unkA.u = s0->fA;
-        d->unk8.w.unkC.u = s0->fE;
-        d->unk10.w.unk10.u = s0->f20->unk10.w.unk10.u;
-        d->unk10.w.unk12.u = s0->f20->unk10.w.unk12.u + s0->fFE;
-        d->unk10.w.unk14.u = s0->f20->unk10.w.unk14.u;
-        if (s0->f20->unk4.s & 0x80000000) {
+        d = s0->unkD0.p;
+        d->unk8.w.unk8.u = s0->unk4.i.hi.s;
+        d->unk8.w.unkA.u = s0->unk8.i.hi.s;
+        d->unk8.w.unkC.u = s0->unkC.i.hi.s;
+        d->unk10.w.unk10.u = s0->unk20.h->unk10.w.unk10.u;
+        d->unk10.w.unk12.u = s0->unk20.h->unk10.w.unk12.u + s0->unkFE.u;
+        d->unk10.w.unk14.u = s0->unk20.h->unk10.w.unk14.u;
+        if (s0->unk20.h->unk4.s & 0x80000000) {
             d->unk4.s |= 0x80000000;
         } else {
             d->unk4.s &= 0x7FFFFFFF;

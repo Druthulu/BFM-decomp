@@ -2900,23 +2900,23 @@ extern s32 guess_TestGameFlag(s32 arg0);
 extern void func_8013373C(s32 a0);
 
 
-void func_801832E0(Work_801832E0 *work)
+void func_801832E0(Unkstruct_801202A0 *work)
 {
 
     extern s32 D_801B5D38;
     extern s32 D_801B86B4;
     func_8013C0F8((s32)&D_801B5D38);
     func_8013C0F8((s32)&D_801B86B4);
-    work->f.f0DC = 0;
-    work->f.u.l.f0E0 = 0;
-    work->f.u.l.f0E4 = 0;
-    work->f.f0E8 = 0;
+    work->blkDC.f.unkDC.i.lo.s = 0;
+    work->blkDC.f.extC.kSC03_118_80183280.unkE0.val = 0;
+    work->blkDC.f.extC.kSC03_118_80183280.unkE4.val = 0;
+    work->blkDC.f.extC.kSC03_118_80183280.unkE8 = 0;
     if ((guess_TestGameFlag(0xB8) & 0xFF) == 0) {
-        work->f002++;
+        work->unk2.u++;
     } else {
         func_8013373C(0);
-        work->f.u.h.f0E2 = -0xF7;
-        work->f002 = 4;
+        work->blkDC.f.extC.kSC03_118_80183280.unkE0.i.hi = -0xF7;
+        work->unk2.u = 4;
     }
 }
 
@@ -2930,16 +2930,16 @@ void func_801833C4(s32 arg0)
     extern s32 D_801270C8;
 
 
-#define P ((St_SC03_118_801833C4 *)arg0)
+#define P ((Unkstruct_801202A0 *)arg0)
 
-    func_80180A64(D_801D47E0, D_801B5D38, P->fDC.s, P->fE2);
-    func_80180A64(D_801D47E0, D_801B86B4, P->fDC.s, P->fE6);
-    P->fDC.u = P->fDC.u + 8;
+    func_80180A64(D_801D47E0, D_801B5D38, P->blkDC.f.unkDC.i.lo.s, P->blkDC.f.extC.kSC03_118_80183280.unkE0.i.hi);
+    func_80180A64(D_801D47E0, D_801B86B4, P->blkDC.f.unkDC.i.lo.s, P->blkDC.f.extC.kSC03_118_80183280.unkE4.i.hi);
+    P->blkDC.f.unkDC.i.lo.u = P->blkDC.f.unkDC.i.lo.u + 8;
     if (D_801270C8 != 0) {
         guess_RequestSound(0x77B, 0);
-        P->fEC = 1;
-        P->fEE = 0x3C;
-        P->f02.u++;
+        P->blkDC.f.extC.kSC03_118_80183280.unkEC.u = 1;
+        P->blkDC.f.extC.kSC03_118_80183280.unkEE.u = 0x3C;
+        P->unk2.u++;
     }
 }
 
@@ -2953,16 +2953,16 @@ void func_801834DC(s32 arg0)
     extern u16 D_800B99DC;
 
 
-#define P ((St_SC03_118_801834DC *)arg0)
+#define P ((Unkstruct_801202A0 *)arg0)
 
-    func_80180A64(D_801D47E0, D_801B5D38, P->fDC.s, P->fE2);
-    func_80180A64(D_801D47E0, D_801B86B4, P->fDC.s, P->fE6);
-    if (--P->fEC == 0) {
+    func_80180A64(D_801D47E0, D_801B5D38, P->blkDC.f.unkDC.i.lo.s, P->blkDC.f.extC.kSC03_118_80183280.unkE0.i.hi);
+    func_80180A64(D_801D47E0, D_801B86B4, P->blkDC.f.unkDC.i.lo.s, P->blkDC.f.extC.kSC03_118_80183280.unkE4.i.hi);
+    if (--P->blkDC.f.extC.kSC03_118_80183280.unkEC.s == 0) {
         func_8013C9C4(D_8018A0C4);
-        P->fEC = (D_800B99DC & 7) + 3;
+        P->blkDC.f.extC.kSC03_118_80183280.unkEC.s = (D_800B99DC & 7) + 3;
     }
-    if (--P->fEE == 0) {
-        P->f02.u++;
+    if (--P->blkDC.f.extC.kSC03_118_80183280.unkEE.s == 0) {
+        P->unk2.u++;
     }
 }
 
@@ -2975,18 +2975,18 @@ extern s32 D_801270C8;
 extern void func_8013373C(s32 a0);
 
 
-void func_80183634(Work_801832E0 *work)
+void func_80183634(Unkstruct_801202A0 *work)
 {
-    func_80180A64(&D_801D47E0, &D_801B5D38, work->f.f0DC, work->f.u.h.f0E2);
-    func_80180A64(&D_801D47E0, &D_801B86B4, work->f.f0DC, work->f.u.h.f0E6);
-    work->f.u.l.f0E0 = work->f.u.l.f0E0 + -0x252E5;
-    work->f.u.l.f0E4 = work->f.u.l.f0E4 + 0x168D6;
-    work->f.f0DC = work->f.f0DC + 0xC;
-    if ((s16)(++work->f.f0E8) >= 0x6A) {
+    func_80180A64(&D_801D47E0, &D_801B5D38, work->blkDC.f.unkDC.i.lo.s, work->blkDC.f.extC.kSC03_118_80183280.unkE0.i.hi);
+    func_80180A64(&D_801D47E0, &D_801B86B4, work->blkDC.f.unkDC.i.lo.s, work->blkDC.f.extC.kSC03_118_80183280.unkE4.i.hi);
+    work->blkDC.f.extC.kSC03_118_80183280.unkE0.val = work->blkDC.f.extC.kSC03_118_80183280.unkE0.val + -0x252E5;
+    work->blkDC.f.extC.kSC03_118_80183280.unkE4.val = work->blkDC.f.extC.kSC03_118_80183280.unkE4.val + 0x168D6;
+    work->blkDC.f.unkDC.i.lo.s = work->blkDC.f.unkDC.i.lo.s + 0xC;
+    if ((s16)(++work->blkDC.f.extC.kSC03_118_80183280.unkE8) >= 0x6A) {
         guess_RequestSound(4, 0x77B);
         D_801270C8 = 2;
         func_8013373C(0);
-        ++work->f002;
+        ++work->unk2.u;
     }
 }
 
@@ -3002,7 +3002,7 @@ void func_801837B0(s32 arg0)
 
     func_80180A64(&D_801D47E0, &D_801B5D38,
                   ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.i.lo.s,
-                  ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_118_80183280.unkE2);
+                  ((Unkstruct_801202A0 *)arg0)->blkDC.f.extC.kSC03_118_80183280.unkE0.i.hi);
     ((Unkstruct_801202A0 *)arg0)->blkDC.f.unkDC.i.lo.u += 7;
 }
 

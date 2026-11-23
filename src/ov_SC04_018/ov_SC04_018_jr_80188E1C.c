@@ -4963,7 +4963,7 @@ s32 func_8018B8B0(void) {
 extern s32 func_8018B8B0(void);
 
 void func_8018B904(void *a0) {
-    ((Unkstruct_8018069C *)*(s32 *)((char *)a0 + 0xCC))->unkB0 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xCC))->extE.kcls_1ffadb9a164c.unkB0 = 1;
     if (func_8018B8B0() == 0) {
         func_8018B868(a0);
     }

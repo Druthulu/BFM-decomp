@@ -3020,7 +3020,7 @@ extern s32 D_801961B8;
 extern s32 D_801961E0;
 extern void func_80186ADC(s32 arg0);
 extern void func_80186BB8(void);
-extern F5C_S *D_801E43CC[];
+extern Unkstruct_801202A0 *D_801E43CC[];
 extern void func_80186CA8(void *a0);
 extern void func_80186F60(s32 a0);
 extern void func_80187070(s32 arg0);

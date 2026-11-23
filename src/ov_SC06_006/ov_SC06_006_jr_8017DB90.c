@@ -3002,23 +3002,23 @@ extern void guess_ShowObjectModel(u8 *a0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017F824(s32 a0, s32 a1);
 
-void func_8017E330(Actor_8017E330 *a0) {
+void func_8017E330(Unkstruct_801202A0 *a0) {
     Pair16 v;            /* sp+0x10 */
-    Drv_8017E330 *p;
+    Unkstruct_801202A0 *p;
     s32 i;
     s32 t;
 
-    p = (Drv_8017E330 *)D_801F80E4;
+    p = (Unkstruct_801202A0 *)D_801F80E4;
     if (p == NULL) {
         return;
     }
 
-    a0->fDC = 0x200;
-    i = a0->f70;
+    a0->blkDC.f.unkDC.val = 0x200;
+    i = a0->unk70.b;
 
-    if ((p->f02 == 1) && (p->f34 == 1)) {
+    if ((p->unk2.u == 1) && (p->unk34.u == 1)) {
         guess_ShowObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
 
         v.x.vx = (D_801F8428[i].x * D_801F8090) >> 12;
         v.x.vy = (D_801F8428[i].y * D_801F8090) >> 12;
@@ -3026,9 +3026,9 @@ void func_8017E330(Actor_8017E330 *a0) {
 
         if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 2) {
             func_8017F824(&v, 0x200);
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
             /* The target keeps `lh` + `sra 3` (the UNCOMBINED extendhisi2_internal
              * form).  At -O2 mips.md's extendhisi2 expander does
              *   `if (optimize && MEM) force_not_mem`, so expand always emits
@@ -3041,25 +3041,25 @@ void func_8017E330(Actor_8017E330 *a0) {
              * The split load/shift statements give the non-adjacency (the
              * `lw 0x20($s0)` sits between them); the zero-byte re-tie with a
              * "memory" clobber supplies the write.  Byte-exact, emits nothing. */
-            t = p->f20->unk18.w.unk18.s;
-            a0->f20->unk18.w.unk18.s = (s16)t >> 3;
-            t = p->f20->unk18.w.unk1A.s;
-            a0->f20->unk18.w.unk1A.s = (s16)t >> 3;
-            t = p->f20->unk18.w.unk1C.s;
-            a0->f20->unk18.w.unk1C.s = (s16)t >> 3;
+            t = p->unk20.h->unk18.w.unk18.s;
+            a0->unk20.h->unk18.w.unk18.s = (s16)t >> 3;
+            t = p->unk20.h->unk18.w.unk1A.s;
+            a0->unk20.h->unk18.w.unk1A.s = (s16)t >> 3;
+            t = p->unk20.h->unk18.w.unk1C.s;
+            a0->unk20.h->unk18.w.unk1C.s = (s16)t >> 3;
         } else {
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
-            a0->f20->unk18.m = p->f20->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
+            a0->unk20.h->unk18.m = p->unk20.h->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
-        a0->f20->unk10.w.unk10.u = D_801F8428[i].a;
-        a0->f20->unk10.w.unk12.u = D_801F8428[i].b;
-        a0->f20->unk10.w.unk14.u = D_801F8428[i].c;
+        a0->unk20.h->unk10.w.unk10.u = D_801F8428[i].a;
+        a0->unk20.h->unk10.w.unk12.u = D_801F8428[i].b;
+        a0->unk20.h->unk10.w.unk14.u = D_801F8428[i].c;
     } else {
         guess_HideObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
     }
 }
 
@@ -3078,22 +3078,22 @@ extern void guess_ShowObjectModel(u8 *a0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017F824(s32 a0, s32 a1);
 
-void func_8017E550(Actor_8017E550 *a0) {
+void func_8017E550(Unkstruct_801202A0 *a0) {
     Work_8017E550 v;
-    Drv_8017E330 *p;
+    Unkstruct_801202A0 *p;
     Pose_8017E550 *pp;
     s32 t;
 
-    p = (Drv_8017E330 *)a0->f64;
+    p = a0->unk64;
     if (p == NULL) {
         return;
     }
 
-    pp = (Pose_8017E550 *)D_80185F6C[a0->f70];
+    pp = (Pose_8017E550 *)D_80185F6C[a0->unk70.b];
 
-    if ((p->f02 == 1) && (p->f34 == 1)) {
+    if ((p->unk2.u == 1) && (p->unk34.u == 1)) {
         guess_ShowObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
 
         v.x.vx = (pp->x * D_801F8090) >> 12;
         v.x.vy = (pp->y * D_801F8090) >> 12;
@@ -3101,28 +3101,28 @@ void func_8017E550(Actor_8017E550 *a0) {
 
         if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 2) {
             func_8017F824(&v, 0x200);
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
-            t = p->f20->unk18.w.unk18.s;
-            a0->f20->unk18.w.unk18.s = (s16)t >> 3;
-            t = p->f20->unk18.w.unk1A.s;
-            a0->f20->unk18.w.unk1A.s = (s16)t >> 3;
-            t = p->f20->unk18.w.unk1C.s;
-            a0->f20->unk18.w.unk1C.s = (s16)t >> 3;
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
+            t = p->unk20.h->unk18.w.unk18.s;
+            a0->unk20.h->unk18.w.unk18.s = (s16)t >> 3;
+            t = p->unk20.h->unk18.w.unk1A.s;
+            a0->unk20.h->unk18.w.unk1A.s = (s16)t >> 3;
+            t = p->unk20.h->unk18.w.unk1C.s;
+            a0->unk20.h->unk18.w.unk1C.s = (s16)t >> 3;
         } else {
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
-            a0->f20->unk18.m = p->f20->unk18.m;
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
+            a0->unk20.h->unk18.m = p->unk20.h->unk18.m;
         }
 
-        a0->f20->unk10.w.unk10.u = pp->a;
-        a0->f20->unk10.w.unk12.u = pp->b;
-        a0->f20->unk10.w.unk14.u = pp->c;
+        a0->unk20.h->unk10.w.unk10.u = pp->a;
+        a0->unk20.h->unk10.w.unk12.u = pp->b;
+        a0->unk20.h->unk10.w.unk14.u = pp->c;
     } else {
         guess_HideObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
     }
 }
 
@@ -3195,44 +3195,44 @@ extern void guess_ShowObjectModel(u8 *a0);
 extern void guess_HideObjectModel(u8 *a0);
 extern void func_8017E734(void *a0);
 
-void func_8017E878(Actor_8017E550 *a0) {
+void func_8017E878(Unkstruct_801202A0 *a0) {
     Work_8017E878 v;            /* sp+0x10 */
-    Drv_8017E330 *p;
+    Unkstruct_801202A0 *p;
     Pose_8017E878 *pp;
 
-    p = (Drv_8017E330 *)a0->f64;
+    p = a0->unk64;
     if (p == NULL) {
         return;
     }
 
-    pp = &D_801F82A8[a0->f70];
+    pp = &D_801F82A8[a0->unk70.b];
 
-    if ((p->f02 == 1) && (p->f34 == 1)) {
+    if ((p->unk2.u == 1) && (p->unk34.u == 1)) {
         guess_ShowObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
 
         v.x.vx = (pp->x * D_801F8090) >> 12;
         v.x.vy = (pp->y * D_801F8090) >> 12;
         v.x.vz = (pp->z * D_801F8090) >> 12;
 
         if (((Unkstruct_801202A0 *)D_801F8118)->unk2.u == 0xF) {
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
             func_8017E734(a0);
         } else {
-            a0->f06 = v.x.vx;
-            a0->f0A = v.x.vy;
-            a0->f0E = v.x.vz;
-            a0->f20->unk18.m = p->f20->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
+            a0->unk4.i.hi.s = v.x.vx;
+            a0->unk8.i.hi.s = v.x.vy;
+            a0->unkC.i.hi.s = v.x.vz;
+            a0->unk20.h->unk18.m = p->unk20.h->unk18.m;   /* 8-byte align-2 copy: lwl/lwr + swl/swr */
         }
 
-        a0->f20->unk10.w.unk10.u = pp->a;
-        a0->f20->unk10.w.unk12.u = pp->b;
-        a0->f20->unk10.w.unk14.u = pp->c;
+        a0->unk20.h->unk10.w.unk10.u = pp->a;
+        a0->unk20.h->unk10.w.unk12.u = pp->b;
+        a0->unk20.h->unk10.w.unk14.u = pp->c;
     } else {
         guess_HideObjectModel((u8 *)a0);
-        a0->f98 = 0;
+        a0->unk98.s = 0;
     }
 }
 

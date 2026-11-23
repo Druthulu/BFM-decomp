@@ -5278,7 +5278,7 @@ extern void func_80186300(s32 a0, void *a1, s32 a2);
 extern void func_80184CCC(s32 a0, s32 a1);
 extern void func_80184DB8(s32 a0);
 extern s32 func_80184F4C(void);
-extern void func_80181B30(struct Ent_80181B30 *a0);
+extern void func_80181B30(Unkstruct_801202A0 *a0);
 extern void func_80184840(void);
 
 void func_80181948(s32 a0) {
@@ -5375,7 +5375,7 @@ void func_80181948(s32 a0) {
  * MEMs do not alias and hoist the `lh` above the `sh`; the `*(s16 *)(a0 + off)`
  * spelling keeps them dependent and emits the store first. */
 
-void func_80181B30(struct Ent_80181B30 *a0) {
+void func_80181B30(Unkstruct_801202A0 *a0) {
     extern void func_80183CF4(void *);
     extern void func_80185B04(s32, s32);
     extern void func_80185C04(s32, s32);
@@ -5386,8 +5386,8 @@ void func_80181B30(struct Ent_80181B30 *a0) {
     func_80185B04(1, 0x20);
     func_80185C04(3, 0x30);
     func_80186BD8();
-    a0->unkF2 = 0;
-    a0->unk1C = a0->unkF6 * 6 + 0x10;
+    a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s = 0;
+    a0->unk1C.s = a0->blkDC.f.extC.kSC04_011_801832DC.unkF6.s * 6 + 0x10;
     func_8012AD44((s32 *)a0, 8);
 }
 
@@ -5409,7 +5409,7 @@ extern void guess_RequestSound(s32 a0, s32 a1);
    every `lhu D_801EFD40` above the entity stores (cookbook line 14831). */
 
 
-void func_80181BA0(struct Ent_80181EA0 *a0) {
+void func_80181BA0(Unkstruct_801202A0 *a0) {
     extern u16 D_801EFD20;
     extern u16 D_801EFD40;
     /* §183: the TU spells D_801EFC4C as a file-scope SCALAR; reach the array view through an
@@ -5443,42 +5443,42 @@ void func_80181BA0(struct Ent_80181EA0 *a0) {
     RenderHead *p;
     s32 pad[2];
 
-    switch (a0->unk34) {
+    switch (a0->unk34.u) {
     case 0:
-        func_80183C74(aFC4C[D_801EFD20], (0x18 - a0->unkF6 * 4) & 0xFFFC);
+        func_80183C74(aFC4C[D_801EFD20], (0x18 - a0->blkDC.f.extC.kSC04_011_801832DC.unkF6.s * 4) & 0xFFFC);
         func_80183D00((s32)a0);
         func_80185B5C(1);
         func_80185C5C(3);
         func_80184DB8(D_801EFD20);
         func_80185A30(0);
         if (((s32 (*)(s32))guess_TickWaitTimer)((s32)a0) != 0) {
-            p = a0->unk20;
-            a0->unk6 = 0x508;
-            a0->unkA = -0x76C;
-            a0->unkE = 0x18CD;
+            p = a0->unk20.h;
+            a0->unk4.i.hi.s = 0x508;
+            a0->unk8.i.hi.s = -0x76C;
+            a0->unkC.i.hi.s = 0x18CD;
             func_80186300((s32)a0, D_801DF1D4, p->unk10.w.unk12.s);
             func_80186BF8();
-            a0->unk34 = a0->unk34 + 1;
+            a0->unk34.u = a0->unk34.u + 1;
             D_801EFD40 |= 0x800;
         }
         break;
     case 1:
-        if (a0->unk98 == 0) {
+        if (a0->unk98.s == 0) {
             u16 f;
             u16 t;
-            a0->unk1C = a0->unkF6 * 8;
+            a0->unk1C.s = a0->blkDC.f.extC.kSC04_011_801832DC.unkF6.s * 8;
             f = D_801EFD40;
-            t = a0->unk34 + 1;
-            a0->unk34 = t;
+            t = a0->unk34.u + 1;
+            a0->unk34.u = t;
             D_801EFD40 = f & 0xF7FF;
         } else {
-            if (a0->unk94 == 0x28) {
-                a0->unkF2 = 0x20;
+            if (a0->unk94.s == 0x28) {
+                a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s = 0x20;
             }
-            if (a0->unk94 == 0x24) {
+            if (a0->unk94.s == 0x24) {
                 guess_RequestSound(0x889, 0);
             }
-            if (a0->unk94 >= 0x24 && a0->unk94 <= 0x29) {
+            if (a0->unk94.s >= 0x24 && a0->unk94.s <= 0x29) {
                 func_8018AA70(aFC4C[0]);
             }
         }
@@ -5491,10 +5491,10 @@ void func_80181BA0(struct Ent_80181EA0 *a0) {
             func_80183CF4((void *)a0);
             func_80185B04(1, 0x20);
             func_80185C04(3, 0x30);
-            func_80185214(a0->unk20->unk10.w.unk12.s);
-            t = a0->unk34 + 1;
+            func_80185214(a0->unk20.h->unk10.w.unk12.s);
+            t = a0->unk34.u + 1;
             D_801EFD40 |= 2;
-            a0->unk34 = t;
+            a0->unk34.u = t;
         }
         break;
     case 3:
@@ -5507,11 +5507,11 @@ void func_80181BA0(struct Ent_80181EA0 *a0) {
         break;
     }
 
-    if (a0->unkF2 > 0) {
-        if ((a0->unkF2 & 0xF) == 0) {
+    if (a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s > 0) {
+        if ((a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s & 0xF) == 0) {
             func_8013C9C4(D_80190B88);
         }
-        *(u16 *)&a0->unkF2 = *(u16 *)&a0->unkF2 - 1;
+        *(u16 *)&a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s = *(u16 *)&a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.s - 1;
     }
     if ((s16)func_80184884() == 0) {
         func_801826E4((s32)a0);
@@ -5545,12 +5545,12 @@ void func_80181EA0(s32 a0) {
     extern u16 D_801F161E;
     extern u8 D_80194C3C[];
 
-    struct Ent_80181EA0 *e = (struct Ent_80181EA0 *)a0;
+    Unkstruct_801202A0 *e = (Unkstruct_801202A0 *)a0;
 
     func_80184CCC((s32)a0, (s32)D_80194C3C);
 
-    e->unk1C = 0x18;
-    e->unkF2 = 5;
+    e->unk1C.s = 0x18;
+    e->blkDC.f.extC.kSC04_011_801832DC.unkF2.s = 5;
     D_801F161E = 0;
     D_801EFD40 = (D_801EFD40 & 0xFFFE) | 2;
 
@@ -5830,7 +5830,7 @@ void func_801823C0(void *a0)
  * `struct Ent_80181BA0` (L5265); 0x72 and 0xE2 come from this target's own loads.
  * A fresh tag name is used because Ent_80181BA0 lacks those two members. */
 
-void func_80182420(struct Ent_80182420 *a0)
+void func_80182420(Unkstruct_801202A0 *a0)
 {
     /* Every decl below is the destination TU's own spelling (wave law 2):
      *   L4510 extern void func_8012AD44(s32 *a0, s16 a1);
@@ -5874,7 +5874,7 @@ void func_80182420(struct Ent_80182420 *a0)
     s16 lim;
     s16 cnt;
 
-    switch (a0->unk34) {
+    switch (a0->unk34.u) {
     case 0:
         /* §162: this arm's `func_80182630` tail is 2 insns over the cross-jump
          * floor, so gcc merges it with case 1's copy — write both longhand. */
@@ -5882,37 +5882,37 @@ void func_80182420(struct Ent_80182420 *a0)
             func_80182630((s32)a0);
             break;
         }
-        if (a0->unk98 != 0) {
+        if (a0->unk98.s != 0) {
             break;
         }
-        func_8018637C((s32)a0, D_801944F0[a0->unkE2].f0);
-        a0->unkF2 = 0;
-        a0->unk34 = a0->unk34 + 1;
+        func_8018637C((s32)a0, D_801944F0[a0->blkDC.f.extC.kSC04_011_801832DC.unkE2].f0);
+        a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.u = 0;
+        a0->unk34.u = a0->unk34.u + 1;
         break;
     case 1:
         if ((s16)func_80184884() == 0) {
             func_80182630((s32)a0);
             break;
         }
-        if ((a0->unk72 & 0x400) && a0->unk94 == 0) {
+        if ((a0->unk72 & 0x400) && a0->unk94.s == 0) {
             /* The counter store must be SEQUENCED BEFORE the clamp `if`: it is
              * what fills the `bgtz` delay slot.  With the clamp first the slot
              * goes empty and the delay-slot pass duplicates the join block's
              * `sll $v0,$a0,16` instead — +2 instructions. */
-            lim = a0->unkF6 - 1;
-            cnt = a0->unkF2 + 1;
-            a0->unkF2 = cnt;
+            lim = a0->blkDC.f.extC.kSC04_011_801832DC.unkF6.s - 1;
+            cnt = a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.u + 1;
+            a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.u = cnt;
             if (lim <= 0) {
                 lim = 1;
             }
             if (cnt == lim) {
                 func_80186BD8();
                 func_80184CCC((s32)a0, (s32)D_80194C3C);
-                a0->unk34 = a0->unk34 + 1;
+                a0->unk34.u = a0->unk34.u + 1;
                 break;
             }
         }
-        if (a0->unk94 == 0xC) {
+        if (a0->unk94.s == 0xC) {
             func_8018BD18(D_801EFC4C);
         }
         break;
@@ -5924,8 +5924,8 @@ void func_80182420(struct Ent_80182420 *a0)
             func_80185B04(1, 0x20);
             func_80185C04(3, 0x30);
             func_80186BD8();
-            a0->unkF2 = 0;
-            a0->unk1C = a0->unkF6 * 6 + 0x10;
+            a0->blkDC.f.extC.kSC04_011_801832DC.unkF2.u = 0;
+            a0->unk1C.s = a0->blkDC.f.extC.kSC04_011_801832DC.unkF6.s * 6 + 0x10;
             func_8012AD44((s32 *)a0, 8);
         }
         break;
@@ -6064,8 +6064,8 @@ draw:
         return;
     case 3:
         if (((Unkstruct_801202A0 *)param_1)->unk76.s == 0) {
-            t = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC04_011_801832DC.unkF6 - 1;
-            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC04_011_801832DC.unkF6 = t;
+            t = ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC04_011_801832DC.unkF6.u - 1;
+            ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC04_011_801832DC.unkF6.u = t;
             *(s16 *)&D_801EFD28 = (s16)t * 100;
             func_80183F10();
             obj = ((Unkstruct_801202A0 *)param_1)->unkD0.val;

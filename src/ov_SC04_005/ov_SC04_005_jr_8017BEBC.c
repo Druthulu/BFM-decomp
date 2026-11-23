@@ -9004,12 +9004,12 @@ void func_80185F54(s32 a0) {
     s16 *v;
     s32 d;
 
-    ((Unkstruct_801202A0 *)a0)->unkFC.s  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFC;
-    ((Unkstruct_801202A0 *)a0)->unkFE.s  = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unkFE;
-    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk100 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk100;
-    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk104 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk104;
-    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk106 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk106;
-    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk108 = ((Unkstruct_80182550_2 *)*(s32 *)(a0 + 0x64))->unk108;
+    ((Unkstruct_801202A0 *)a0)->unkFC.s  = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unkFC.s;
+    ((Unkstruct_801202A0 *)a0)->unkFE.s  = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unkFE.s;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk100 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->extD.kSC02_041_801834B4.unk100;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk104 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->extD.kSC02_041_801834B4.unk104;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk106 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->extD.kSC02_041_801834B4.unk106;
+    ((Unkstruct_801202A0 *)a0)->extD.kSC02_041_801834B4.unk108 = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->extD.kSC02_041_801834B4.unk108;
 
     ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEC = (((Unkstruct_801202A0 *)a0)->unkFC.s  + ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.lo.s) >> 1;
     ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC02_041_801834B4.unkEE = (((Unkstruct_801202A0 *)a0)->unkFE.s  + ((Unkstruct_801202A0 *)a0)->blkDC.f.unkDC.i.hi.s) >> 1;

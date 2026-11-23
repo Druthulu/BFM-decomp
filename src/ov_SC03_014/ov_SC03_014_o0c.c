@@ -2762,34 +2762,34 @@ extern void func_80184440(void);
 extern s32 guess_TestGameFlag(s32 arg);
 extern void func_8013373C(s32 a0);
 
-void func_80183D50(Ent_80183D50 *arg) {
+void func_80183D50(Unkstruct_801202A0 *arg) {
     Gs_80078E78 *p = (Gs_80078E78 *)guess_g_PlayerRecord;
 
     func_8013C0F8(D_801B5864);
     func_8013C0F8(D_801B5E30);
     func_8013C0F8(D_801B75CC);
-    arg->unkDC = 0;
-    arg->unkE4 = 0;
-    arg->unkE8 = 1;
-    arg->unkEA = 0x3C;
-    arg->unkE2 = -0x3C0;
+    arg->blkDC.f.unkDC.i.lo.s = 0;
+    arg->blkDC.f.extC.kSC03_014_80183CF0.unkE4 = 0;
+    arg->blkDC.f.extC.kSC03_014_80183CF0.unkE8 = 1;
+    arg->blkDC.f.extC.kSC03_014_80183CF0.unkEA = 0x3C;
+    arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = -0x3C0;
     func_80184440();
-    arg->unk2++;
+    arg->unk2.u++;
     if (guess_TestGameFlag(0xB9) & 0xFF) {
         func_8013373C(1);
-        arg->unkE2 = -0x68;
-        arg->unkE2 = 0;
-        arg->unkE4 = 0;
-        arg->unk2 = 3;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = -0x68;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = 0;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE4 = 0;
+        arg->unk2.u = 3;
     } else if (p->field_0x37 == 0 || p->field_0x37 == 3 || p->field_0x37 == 4) {
-        arg->unkE2 = -0x3C0;
-        arg->unkE2 = 0;
-        arg->unkE4 = 2;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = -0x3C0;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = 0;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE4 = 2;
     } else {
         func_8013373C(0);
-        arg->unkE2 = -0x2C9;
-        arg->unkE2 = 0;
-        arg->unkE4 = 1;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = -0x2C9;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = 0;
+        arg->blkDC.f.extC.kSC03_014_80183CF0.unkE4 = 1;
     }
 }
 
@@ -2804,14 +2804,14 @@ extern void func_8017DF84(void *a0, s32 a1, s32 a2, s32 a3);
 extern s32 guess_TestGameFlag(s32 a0);
 extern void func_80184354(void);
 
-void func_80183F28(Ent80183F28 *arg0) {
-    func_8017DF84(&D_801EAFD0, D_8018F858[arg0->unkE4], arg0->unkDC, arg0->unkE2);
-    arg0->unkDC += 8;
+void func_80183F28(Unkstruct_801202A0 *arg0) {
+    func_8017DF84(&D_801EAFD0, D_8018F858[arg0->blkDC.f.extC.kSC03_014_80183CF0.unkE4], arg0->blkDC.f.unkDC.i.lo.s, arg0->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi);
+    arg0->blkDC.f.unkDC.i.lo.s += 8;
     if ((guess_TestGameFlag(0xB9) & 0xFF) == 0) {
         if (D_801270C8 != 0) {
-            ++arg0->unk02;
+            ++arg0->unk2.s;
         }
-        arg0->unkEA = 0x3C;
+        arg0->blkDC.f.extC.kSC03_014_80183CF0.unkEA = 0x3C;
         func_80184354();
     }
 }
@@ -2841,29 +2841,29 @@ extern void guess_RequestSound(s32 a0, s32 a1);
 extern void func_8013C9C4(void *a0);
 extern void func_8013373C(s32 a0);
 
-void func_80184058(Ent_80184058 *p) {
-    func_8017DF84(&D_801EAFD0, D_8018F858[p->unkE4], p->unkDC, p->unkE2);
+void func_80184058(Unkstruct_801202A0 *p) {
+    func_8017DF84(&D_801EAFD0, D_8018F858[p->blkDC.f.extC.kSC03_014_80183CF0.unkE4], p->blkDC.f.unkDC.i.lo.s, p->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi);
     func_80184354();
-    if (p->unkEA == 0) {
-        ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC03_014_80183CF0.unkE0 += 0x5CCCC;
+    if (p->blkDC.f.extC.kSC03_014_80183CF0.unkEA == 0) {
+        ((Unkstruct_801202A0 *)p)->blkDC.f.extC.kSC03_014_80183CF0.unkE0.val += 0x5CCCC;
     } else {
-        if (--p->unkEA == 0) {
+        if (--p->blkDC.f.extC.kSC03_014_80183CF0.unkEA == 0) {
             guess_RequestSound(0x81E, 0);
         }
     }
-    if (--p->unkE8 == 0) {
+    if (--p->blkDC.f.extC.kSC03_014_80183CF0.unkE8 == 0) {
         func_8013C9C4(&D_8018BCC8);
-        p->unkE8 = (D_800B99DC & 7) + 3;
+        p->blkDC.f.extC.kSC03_014_80183CF0.unkE8 = (D_800B99DC & 7) + 3;
     }
-    if (p->unkE2 >= 0x259) {
-        p->unkE2 = 0;
+    if (p->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi >= 0x259) {
+        p->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi = 0;
         D_801270C8 = 2;
-        p->unkE4 = 0;
+        p->blkDC.f.extC.kSC03_014_80183CF0.unkE4 = 0;
         func_8013373C(1);
         guess_RequestSound(4, 0x81E);
-        ++p->unk02;
+        ++p->unk2.s;
     }
-    p->unkDC += 8;
+    p->blkDC.f.unkDC.i.lo.s += 8;
 }
 
 
@@ -2875,8 +2875,8 @@ extern void func_8017FA5C(s32 arg0, s32 arg1, s32 arg2);
 extern void func_80184474(void);
 
 
-void func_80184264(Ent_80184264 *param_1) {
-    func_8017FA5C((s32)&D_801EAFD0, D_8018F858[param_1->unkE4], param_1->unkE2);
+void func_80184264(Unkstruct_801202A0 *param_1) {
+    func_8017FA5C((s32)&D_801EAFD0, D_8018F858[param_1->blkDC.f.extC.kSC03_014_80183CF0.unkE4], param_1->blkDC.f.extC.kSC03_014_80183CF0.unkE0.i.hi);
     func_80184474();
 }
 
