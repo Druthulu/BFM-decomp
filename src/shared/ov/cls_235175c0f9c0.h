@@ -8,12 +8,12 @@ void SHARED_FN(void *a0)
     s32 c;
 
     if (((Unkstruct_801202A0 *)a0)->unk34.u == 0) {
-        ((Unkstruct_801202A0 *)a0)->unkCC.u.lo = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkCC;
-        ((Unkstruct_801202A0 *)a0)->unkCC.u.hi = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkCE;
-        ((Unkstruct_801202A0 *)a0)->unkD0.u.lo = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkD0;
-        ((Unkstruct_801202A0 *)a0)->unkD4.u.lo = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkD4;
-        ((Unkstruct_801202A0 *)a0)->unkD4.u.hi = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkD6;
-        ((Unkstruct_801202A0 *)a0)->unkD8.u.lo = ((Unkstruct_8018A2D0_2 *)*(s32 *)((u8 *)a0 + 0x64))->unkD8;
+        ((Unkstruct_801202A0 *)a0)->unkCC.u.lo = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkCC.u.lo;
+        ((Unkstruct_801202A0 *)a0)->unkCC.u.hi = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkCC.u.hi;
+        ((Unkstruct_801202A0 *)a0)->unkD0.u.lo = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkD0.u.lo;
+        ((Unkstruct_801202A0 *)a0)->unkD4.u.lo = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkD4.u.lo;
+        ((Unkstruct_801202A0 *)a0)->unkD4.u.hi = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkD4.u.hi;
+        ((Unkstruct_801202A0 *)a0)->unkD8.u.lo = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)a0 + 0x64))->unkD8.u.lo;
         ((Unkstruct_801202A0 *)a0)->unk34.u += 1;
     }
 

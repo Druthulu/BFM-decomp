@@ -5430,7 +5430,7 @@ extern s32 func_8012BD14(s32 a0);
 void func_80186AE4(s32 self)
 {
     s32 iVar1;
-    Ent_80186AE4 *p;
+    Unkstruct_801202A0 *p;
 
     *(Unkstruct_80126B58 *)&D_801E801C = *(Unkstruct_80126B58 *)&guess_g_PlayerActor;
 
@@ -5442,9 +5442,9 @@ void func_80186AE4(s32 self)
     }
 
     D_801270C8 = 0;
-    for (p = (Ent_80186AE4 *)guess_g_ObjectTable; p < (Ent_80186AE4 *)(guess_g_ObjectTable + 0x6480);
-         p = (Ent_80186AE4 *)((u8 *)p + 0x10C)) {
-        if (p->f0 == 0x2F && p->f2 != 6 && p->f2 != 4) {
+    for (p = (Unkstruct_801202A0 *)guess_g_ObjectTable; p < (Unkstruct_801202A0 *)(guess_g_ObjectTable + 0x6480);
+         p = (Unkstruct_801202A0 *)((u8 *)p + 0x10C)) {
+        if (p->unk0 == 0x2F && p->unk2.u != 6 && p->unk2.u != 4) {
             if (func_8012BC60((VECTOR *)(self + 4), (VECTOR *)((u8 *)p + 4)) < 0xC41) {
                 D_801270C8 = 1;
                 return;

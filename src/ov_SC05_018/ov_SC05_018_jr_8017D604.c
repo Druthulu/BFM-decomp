@@ -5469,25 +5469,25 @@ s32 func_80181EEC(void *a0)
 {
     u16 st;
 
-    st = ((Unkstruct_80181EEC_2 *)*(s32 *)((s32)a0 + 0x64))->unk2;
+    st = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u;
     switch (st) {
     case 2:
         if (((s32 (*)(void *))func_801842C0)(a0) == 0) {
             return 0;
         }
-        if (((Unkstruct_80181EEC_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 != 0) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.u != 0) {
             return 0;
         }
-        ((Unkstruct_80181EEC_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 += 1;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.u += 1;
         break;
     case 3:
         if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) >= 0x4001) {
             return 0;
         }
-        if (((Unkstruct_80181EEC_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 != 2) {
+        if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.u != 2) {
             return 0;
         }
-        ((Unkstruct_80181EEC_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 = 5;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.u = 5;
         break;
     case 1:
         if (((s32 (*)(void *))func_801842C0)(a0) == 0) {

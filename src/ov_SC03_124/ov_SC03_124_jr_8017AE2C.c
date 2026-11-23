@@ -4322,11 +4322,11 @@ extern void func_80172710(void);
 
 s32 func_8017E5C4(s32 param_1)
 {
-    if (((Unkstruct_8017E5C4 *)*(s32 *)((char *)param_1 + 0x64))->unk2 != 3) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((char *)param_1 + 0x64))->unk2.u != 3) {
         return 0;
     }
     if (func_8017DEF8() != 0) {
-        ((Unkstruct_8017E5C4 *)*(s32 *)((char *)param_1 + 0x64))->unk2 = 5;
+        ((Unkstruct_801202A0 *)*(s32 *)((char *)param_1 + 0x64))->unk2.u = 5;
         func_80178BF8();
         return (s32)func_80172710;
     }
@@ -6019,7 +6019,7 @@ s32 func_8018095C(void *a0)
     s16 *p;
     s32 r;
 
-    if (((Unkstruct_8018095C_3 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u != 1) {
         return 0;
     }
     p = (s16 *)&guess_g_PlayerActor;
@@ -6039,7 +6039,7 @@ s32 func_8018095C(void *a0)
     r = *(s16 *)&guess_g_PlayerPosZ >= -0x380;
 chain_fail:
     if (r) {
-        ((Unkstruct_8018095C_3 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u = 2;
         func_80178BF8();
         return (s32)func_80172710;
     }
@@ -6835,7 +6835,7 @@ s32 aF8018CB18(void *a0) __asm__("func_80181A1C");
 
 s32 aF8018CB18(void *a0)
 {
-    if (((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u != 1) {
         return 0;
     }
     if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
@@ -6844,7 +6844,7 @@ s32 aF8018CB18(void *a0)
     if (func_801817AC() == 0) {
         return 0;
     }
-    ((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.s = 1;
     func_80178BF8();
     return (s32)func_80172710;
 }

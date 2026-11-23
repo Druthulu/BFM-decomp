@@ -3356,7 +3356,7 @@ void func_80182D18(s32 param_1)
     s32 mp;
 
     if (((Unkstruct_80126B58 *)param_1)->unkCC.s != 0) {
-        p = (s32)(*(u32 *)(((Unkstruct_80182D18_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x20) & 0xfeffffff);
+        p = (s32)(*(u32 *)(((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x20) & 0xfeffffff);
         mp = (s32)&m1;
         buf.vx = *(s16 *)(p + 6);
         w = *(u32 *)p;
@@ -3368,7 +3368,7 @@ void func_80182D18(s32 param_1)
         m1.t[2] = *(s8 *)(p + 5);
 
         /* gte_SetRotMatrix(M) */
-        M = ((Unkstruct_80182D18_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
         gte_SetRotMatrix(M);
 
         /* column 0 */
@@ -3389,7 +3389,7 @@ void func_80182D18(s32 param_1)
         gte_stclmv(c);
 
         /* gte_SetTransMatrix(M) */
-        M = ((Unkstruct_80182D18_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
         gte_SetTransMatrix(M);
 
         /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
@@ -3404,7 +3404,7 @@ void func_80182D18(s32 param_1)
         *(B8_801851A8_80182D18 *)(dst + 8) = *(B8_801851A8_80182D18 *)&out;
 
         mk = 0x80000000;
-        if (*(s32 *)(((Unkstruct_80182D18_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 4) < 0) {
+        if (*(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.val + 4) < 0) {
             *(u32 *)(((Unkstruct_80126B58 *)param_1)->unkCC.s + 4) =
                 *(u32 *)(((Unkstruct_80126B58 *)param_1)->unkCC.s + 4) | mk;
         } else {
@@ -5852,15 +5852,15 @@ void func_801863B0(void *arg0) {
     s32 ang;
 
     p = (Ent_8017FD58_801863B0 *)arg0;
-    D_8019D2B8[p->f2](p);
+    D_8019D2B8[p->unk2.u](p);
     e = (Ent_8017FD58_801863B0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
-        if (e->f0 == 0x12C) {
-            pos.unk0 = e->x;
-            pos.unk2 = e->y;
-            pos.unk4 = e->z;
-            ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
-            if (*(s16 *)(p->f64 + 0xFC) < 0) {
+        if (e->unk0 == 0x12C) {
+            pos.unk0 = e->unk4.i.hi.u;
+            pos.unk2 = e->unk8.i.hi.u;
+            pos.unk4 = e->unkC.i.hi.u;
+            ang = func_8012B6D4((s16 *)&p->unk4.i.lo, (s16 *)&e->unk4.i.lo);
+            if (p->unk64->unkFC.s < 0) {
                 ang -= 0x400;
             } else {
                 ang += 0x400;
@@ -5868,13 +5868,13 @@ void func_801863B0(void *arg0) {
             ang &= 0xFFF;
             pos.unk0 -= rsin(ang) >> 8;
             pos.unk4 -= rcos(ang) >> 8;
-            tmp.unk0 = e->x;
-            tmp.unk2 = e->y;
-            tmp.unk4 = e->z;
+            tmp.unk0 = e->unk4.i.hi.u;
+            tmp.unk2 = e->unk8.i.hi.u;
+            tmp.unk4 = e->unkC.i.hi.u;
             dst = tmp;
-            if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.unk0;
-                e->z = pos.unk4;
+            if (func_80135888(p->unk20.val, p->unk58.s, (s32)&pos, (s32)&dst) != 0) {
+                e->unk4.i.hi.u = pos.unk0;
+                e->unkC.i.hi.u = pos.unk4;
             }
         }
     }

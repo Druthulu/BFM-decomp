@@ -11,7 +11,7 @@ s32 SHARED_FN(void *a0) {
     void *p;
 
     p = ((Unkstruct_801202A0 *)a0)->unk64;
-    if (((Unkstruct_80180C48_2 *)*(s32 *)((char *)p + 0xCC))->unk2 != 0x2) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((char *)p + 0xCC))->unk2.u != 0x2) {
         return 0;
     }
 

@@ -2944,16 +2944,16 @@ void func_80184914(void *a0) {
         v = ((Unkstruct_801202A0 *)a0)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u ^ 1;
         goto st_e8;
     case 5:
-        ((Unkstruct_80184914_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 1;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u = 1;
         break;
     case 6:
-        ((Unkstruct_80184914_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u = 2;
         break;
     case 7:
         v = 6;
         goto multi;
     case 8:
-        ((Unkstruct_80184914_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 0x28;
+        ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u = 0x28;
         break;
     case 9:
         func_800D0C48(1);

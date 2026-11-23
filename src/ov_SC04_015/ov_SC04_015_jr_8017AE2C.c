@@ -5112,7 +5112,7 @@ void func_8017ED28(void) {
             case 1:
                 *(Blk8 *)&buf = *(Blk8 *)((u8 *)(p + 10) - 0x10);
                 func_8017F018((s32)&buf);
-                v0 = ((Unkstruct_8017ED28 *)*(s32 *)((u8 *)(p + 10) - 4))->unk76;
+                v0 = ((Unkstruct_801202A0 *)*(s32 *)((u8 *)(p + 10) - 4))->unk76.s;
                 if (v0 == 0) {
                     *(s16 *)((u8 *)(p + 10) - 0x12) = 0x20;
                     *p = 2;
@@ -6055,7 +6055,7 @@ void *a0;
     if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
-    ((Unkstruct_8017EAFC_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

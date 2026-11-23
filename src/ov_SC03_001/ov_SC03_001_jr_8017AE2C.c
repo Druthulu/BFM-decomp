@@ -8865,8 +8865,8 @@ s32 func_80184350(void *arg0)
 {
     void *s0 = arg0;
 
-    if ((((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2 != 2) &&
-        (((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2 != 8)) {
+    if ((((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2.u != 2) &&
+        (((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2.u != 8)) {
         return 0;
     }
 
@@ -8878,7 +8878,7 @@ s32 func_80184350(void *arg0)
         return 0;
     }
 
-    ((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2 += 1;
+    ((Unkstruct_80184350_2 *)*(s32 *)((char *)s0 + 0x64))->unk2.u += 1;
     func_80178BF8();
 
     return (s32)func_80172710;

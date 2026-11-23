@@ -8,7 +8,7 @@ s32 SHARED_FN(s32 a0) {
     if (guess_GetPlayerControlScript() != 0) {
         return 0;
     }
-    ((Unkstruct_8017F01C_2 *)*(s32 *)(a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

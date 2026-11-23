@@ -11,7 +11,7 @@ void SHARED_FN(s32 p) {
     g10[1] = 0;
     g10[0] = 0;
     g20[0] = 0x10;
-    v = *(u16 *)(((Unkstruct_80188B00_2 *)*(s32 *)(p + 0x64))->unk20 + 0x12) +
+    v = *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(p + 0x64))->unk20.val + 0x12) +
         ((Unkstruct_801202A0 *)p)->unkFC.u;
     g20[1] = v;
     ((Unkstruct_801202A0 *)p)->unkFE.u = v;

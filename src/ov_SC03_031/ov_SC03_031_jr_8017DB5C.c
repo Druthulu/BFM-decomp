@@ -4027,7 +4027,7 @@ void func_8018043C(void *a0)
     s32 v1;
     u16 h;
 
-    v1 = ((Unkstruct_8018043C_3 *)*(u32 *)((u8 *)a0 + 0x64))->unkDC;
+    v1 = ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.unkDC.val;
     switch (v1) {
     case 0:
         guess_AllocRenderWorkRecord((s32)&D_801A46CC);
@@ -4039,7 +4039,7 @@ void func_8018043C(void *a0)
     case 2:
         ((Unkstruct_801202A0 *)a0)->unk2.u = 3;
         ((Unkstruct_801202A0 *)a0)->unkFC.u = 0;
-        ((Unkstruct_8018043C_3 *)*(u32 *)((u8 *)a0 + 0x64))->unkDC = 0;
+        ((Unkstruct_801202A0 *)*(u32 *)((u8 *)a0 + 0x64))->blkDC.f.unkDC.val = 0;
         break;
     }
 }
@@ -5270,7 +5270,7 @@ void func_801820F4(void *a0) {
     extern u8 D_801C0154[];
     s16 mode;
 
-    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_8017E62C_2 *)*(s32 *)((s32)a0 + 0x64))->unk36) {
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk36.s) {
         ((void (*)(void))guess_FreeActor)();
         return;
     }

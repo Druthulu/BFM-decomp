@@ -3571,7 +3571,7 @@ void func_80182D04(int param_1)
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
         guess_InitModelObject(iVar2, D_8018C36C[((Unkstruct_801202A0 *)param_1)->unk70.s]);
-        uVar1 = ((Unkstruct_80182D04_2 *)*(int *)(param_1 + 100))->unk36;
+        uVar1 = ((Unkstruct_801202A0 *)*(int *)(param_1 + 100))->unk36.s;
         ((Unkstruct_801202A0 *)param_1)->unk2.s = 1;
         ((Unkstruct_801202A0 *)param_1)->unkFE.s = 0x7fff;
         ((Unkstruct_801202A0 *)param_1)->unkFC.s = uVar1;

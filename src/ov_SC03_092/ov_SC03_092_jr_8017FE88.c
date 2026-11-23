@@ -3006,7 +3006,7 @@ extern void func_80178BF8();
 extern void func_80172710(void);
 
 s32 func_80180150(void *a0) {
-    if (((Unkstruct_80180150_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u != 1) {
         return 0;
     }
     if (func_8017F87C() == 3) {
@@ -3018,7 +3018,7 @@ s32 func_80180150(void *a0) {
     if (func_8012BD14(((Unkstruct_801202A0 *)a0)->unk64) > 0x4000) {
         return 0;
     }
-    ((Unkstruct_80180150_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }
@@ -3868,15 +3868,15 @@ void func_8018150C(void *arg0) {
     s32 ang;
 
     p = (Ent_8017FD58_8018150C *)arg0;
-    D_801AD3F4[p->f2](p);
+    D_801AD3F4[p->unk2.u](p);
     e = (Ent_8017FD58_8018150C *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
-        if (e->f0 == 0x12C) {
-            pos.unk0 = e->x;
-            pos.unk2 = e->y;
-            pos.unk4 = e->z;
-            ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
-            if (*(s16 *)(p->f64 + 0xFC) < 0) {
+        if (e->unk0 == 0x12C) {
+            pos.unk0 = e->unk4.i.hi.u;
+            pos.unk2 = e->unk8.i.hi.u;
+            pos.unk4 = e->unkC.i.hi.u;
+            ang = func_8012B6D4((s16 *)&p->unk4.i.lo, (s16 *)&e->unk4.i.lo);
+            if (p->unk64->unkFC.s < 0) {
                 ang -= 0x400;
             } else {
                 ang += 0x400;
@@ -3884,13 +3884,13 @@ void func_8018150C(void *arg0) {
             ang &= 0xFFF;
             pos.unk0 -= rsin(ang) >> 8;
             pos.unk4 -= rcos(ang) >> 8;
-            tmp.unk0 = e->x;
-            tmp.unk2 = e->y;
-            tmp.unk4 = e->z;
+            tmp.unk0 = e->unk4.i.hi.u;
+            tmp.unk2 = e->unk8.i.hi.u;
+            tmp.unk4 = e->unkC.i.hi.u;
             dst = tmp;
-            if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.unk0;
-                e->z = pos.unk4;
+            if (func_80135888(p->unk20.val, p->unk58.s, (s32)&pos, (s32)&dst) != 0) {
+                e->unk4.i.hi.u = pos.unk0;
+                e->unkC.i.hi.u = pos.unk4;
             }
         }
     }

@@ -5809,9 +5809,9 @@ void func_80182818(void *a0)
 
     RotMatrixZYX((s32)&sv, (s32)buf);
 
-    ((MATRIX *)buf)->t[0] = ((Unkstruct_80182818 *)*(s32 *)((s32)a0 + 0x64))->unk6;
-    ((MATRIX *)buf)->t[1] = ((Unkstruct_80182818 *)*(s32 *)((s32)a0 + 0x64))->unkA + ((Unkstruct_80182818 *)*(s32 *)((s32)a0 + 0x64))->unk52;
-    ((MATRIX *)buf)->t[2] = ((Unkstruct_80182818 *)*(s32 *)((s32)a0 + 0x64))->unkE;
+    ((MATRIX *)buf)->t[0] = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk4.i.hi.s;
+    ((MATRIX *)buf)->t[1] = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk8.i.hi.s + ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk50.w.unk52.s;
+    ((MATRIX *)buf)->t[2] = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unkC.i.hi.s;
 
     SetRotMatrix(buf);
     SetTransMatrix(buf);

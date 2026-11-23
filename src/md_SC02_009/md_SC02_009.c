@@ -493,9 +493,9 @@ void func_801E57C4(s32 a0) {
 }
 
 
-void func_801E584C(Unkstruct_801E584C *a0) {
-    if (a0->unk98 == 0) {
-        a0->unk2 += 1;
+void func_801E584C(Unkstruct_801202A0 *a0) {
+    if (a0->unk98.s == 0) {
+        a0->unk2.u += 1;
     }
 }
 
@@ -508,11 +508,11 @@ void func_801E5874(void *a0) {
 }
 
 
-void func_801E5894(Unkstruct_801E5894 *a0) {
+void func_801E5894(Unkstruct_801202A0 *a0) {
 
     extern s32 D_801270C8;
     if (D_801270C8 == 17) {
-        a0->f += 1;
+        a0->unk2.u += 1;
         *(s32 *)((s32)a0 + 0x1C) = 8;
     }
 }
@@ -669,16 +669,16 @@ void func_801E5CA8(int param_1) {
     if (iVar3 == 0) {
         ((void (*)(int))guess_FreeActorDuringSpawn)(param_1);
     } else {
-        uVar2 = ((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk36;
+        uVar2 = ((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk36.u;
         ((Unkstruct_801202A0 *)param_1)->unkCC.val = iVar3;
         ((Unkstruct_801202A0 *)param_1)->unkFC.u = uVar2;
         func_8001CB6C((u8 *)iVar3, (s32)&D_801921F8, 0x250, 0x1A0);
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk4.s = 0x60000000;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk24.b.unk27.u = 0x14;
         ((Unkstruct_800B5BD8 *)iVar3)->head.unk10.w.unk10.u = 0x400;
-        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unk8.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x68);
-        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unkA.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x6C);
-        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unkC.u = *(u32 *)(((Unkstruct_801E5CA8_3 *)*(int *)(param_1 + 0x64))->unk20 + 0x70);
+        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unk8.u = *(u32 *)(((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk20.val + 0x68);
+        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unkA.u = *(u32 *)(((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk20.val + 0x6C);
+        ((Unkstruct_800B5BD8 *)iVar3)->head.unk8.w.unkC.u = *(u32 *)(((Unkstruct_801202A0 *)*(int *)(param_1 + 0x64))->unk20.val + 0x70);
         sVar1 = ((Unkstruct_801202A0 *)param_1)->unk70.s;
         if (sVar1 != 0) {
             ((Unkstruct_800B5BD8 *)iVar3)->head.unk18.w.unk1A.s = sVar1;

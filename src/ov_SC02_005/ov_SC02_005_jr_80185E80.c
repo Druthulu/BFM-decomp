@@ -4624,16 +4624,16 @@ void func_8018C454(void *a0)
 
     angle[2] = 0;
     angle[0] = 0;
-    angle[1] = ((Unkstruct_8018C454_2 *)*(s32 *)(s0 + 0x64))->unkFE
+    angle[1] = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkFE.u
              + ((((Unkstruct_801202A0 *)s0)->unk70.u & 7) << 9);
 
     vec0[1] = 0;
     vec0[0] = 0;
-    vec0[2] = ((Unkstruct_8018C454_2 *)*(s32 *)(s0 + 0x64))->unkFC;
+    vec0[2] = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkFC.u;
 
-    mtx.t[0] = ((Unkstruct_8018C454_2 *)*(s32 *)(s0 + 0x64))->unk6;
-    mtx.t[1] = ((Unkstruct_8018C454_2 *)*(s32 *)(s0 + 0x64))->unkA;
-    mtx.t[2] = ((Unkstruct_8018C454_2 *)*(s32 *)(s0 + 0x64))->unkE;
+    mtx.t[0] = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk4.i.hi.s;
+    mtx.t[1] = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk8.i.hi.s;
+    mtx.t[2] = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkC.i.hi.s;
 
     func_8004978C(angle, &mtx);
 

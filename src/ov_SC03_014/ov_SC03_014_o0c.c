@@ -2745,7 +2745,7 @@ extern void func_80183B58(s32 param_1, s16 *param_2);
 extern void (*D_8018FB30[])(Ent_80183CF0 *);
 
 void func_80183CF0(Ent_80183CF0 *arg) {
-    D_8018FB30[arg->unk2](arg);
+    D_8018FB30[arg->unk2.u](arg);
 }
 
 

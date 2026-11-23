@@ -5320,14 +5320,14 @@ void func_80181F7C(s32 a0) {
         ((void (*)(void *))func_8018282C)((void *)((Unkstruct_801202A0 *)self)->unkD0.val);
     }
     if (((Unkstruct_801202A0 *)self)->unk84.u & 1) {
-        ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 = ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 - 3;
-        *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) =
-            *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) - 3;
+        ((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk4.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk4.i.hi.u - 3;
+        *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk20.val + 8) =
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk20.val + 8) - 3;
         ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u - 3;
     } else {
-        ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 = ((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk6 + 3;
-        *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) =
-            *(u16 *)(((Unkstruct_80181F7C_2 *)*(s32 *)(self + 0x64))->unk20 + 8) + 3;
+        ((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk4.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk4.i.hi.u + 3;
+        *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk20.val + 8) =
+            *(u16 *)(((Unkstruct_801202A0 *)*(s32 *)(self + 0x64))->unk20.val + 8) + 3;
         ((Unkstruct_801202A0 *)self)->unk4.i.hi.u = ((Unkstruct_801202A0 *)self)->unk4.i.hi.u + 3;
     }
     {

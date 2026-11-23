@@ -3727,9 +3727,9 @@ s32 func_8017F900(void *a0) {
     s32 old;
 
     if (((Unkstruct_801202A0 *)a0)->unk1C.s < 0x82) {
-        pos[0] = ((Unkstruct_8017F900_2 *)*(s32 *)((char *)a0 + 0xD4))->unk6;
+        pos[0] = ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xD4))->unk4.i.hi.u;
         pos[1] = 0;
-        pos[2] = ((Unkstruct_8017F900_2 *)*(s32 *)((char *)a0 + 0xD4))->unkE;
+        pos[2] = ((Unkstruct_801202A0 *)*(s32 *)((char *)a0 + 0xD4))->unkC.i.hi.u;
         ((void (*)(void *, void *))func_80171B10)(&guess_g_PlayerActor, pos);
         old = ((Unkstruct_801202A0 *)a0)->unk1C.s;
         ((Unkstruct_801202A0 *)a0)->unk1C.s = old + 1;

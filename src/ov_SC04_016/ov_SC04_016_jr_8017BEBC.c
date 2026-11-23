@@ -3036,9 +3036,9 @@ void func_8017D588(void *a0) {
             ((void (*)(s32, s32))guess_StartActorSequence)(((Unkstruct_801202A0 *)a0)->unkCC.val, &D_80183EAC);
         }
         if (guess_TestGameFlag(0x127) & 0xFF) {
-            ((Unkstruct_8017D588_6 *)*(int *)((char *)a0 + 0xd4))->unk10A = -0x7300;
+            ((Unkstruct_801202A0 *)*(int *)((char *)a0 + 0xd4))->unk10A.s = -0x7300;
         } else {
-            ((Unkstruct_8017D588_6 *)*(int *)((char *)a0 + 0xd4))->unk10A = -0x7100;
+            ((Unkstruct_801202A0 *)*(int *)((char *)a0 + 0xd4))->unk10A.s = -0x7100;
         }
         if (guess_TestGameFlag(0x133) & 0xFF) {
             guess_SetGameFlag(0x133, 0);

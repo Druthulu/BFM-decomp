@@ -3632,7 +3632,7 @@ s32 aF8018CB18(void *a0) __asm__("func_80186F88");
 
 s32 aF8018CB18(void *a0)
 {
-    if (((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 != 1) {
+    if (((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.u != 1) {
         return 0;
     }
     if (((Unkstruct_801202A0 *)a0)->unk34.u != 0) {
@@ -3641,7 +3641,7 @@ s32 aF8018CB18(void *a0)
     if (func_80186D18() == 0) {
         return 0;
     }
-    ((Unkstruct_80181A1C_2 *)*(s32 *)((s32)a0 + 0x64))->unk34 = 1;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk34.s = 1;
     func_80178BF8();
     return (s32)func_80172710;
 }

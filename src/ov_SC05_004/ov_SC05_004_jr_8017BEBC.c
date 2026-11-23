@@ -4362,7 +4362,7 @@ void *a0;
     if (((s32 (*)(s32))func_8012BD14)(((Unkstruct_801202A0 *)a0)->unk64) > 0x1000) {
         return 0;
     }
-    ((Unkstruct_8017EAFC_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

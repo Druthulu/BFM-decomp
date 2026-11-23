@@ -4350,7 +4350,7 @@ void func_80185D2C(s32 param_1)
     s32 mp;
 
     if (((Unkstruct_80185D2C *)param_1)->unkCC.s != 0) {
-        p = (s32)(*(u32 *)(((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x20) & 0xfeffffff);
+        p = (s32)(*(u32 *)(((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x20) & 0xfeffffff);
         mp = (s32)&m1;
         buf.vx = *(s16 *)(p + 6);
         w = *(u32 *)p;
@@ -4362,7 +4362,7 @@ void func_80185D2C(s32 param_1)
         m1.t[2] = *(s8 *)(p + 5);
 
         /* gte_SetRotMatrix(M) */
-        M = ((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
         gte_SetRotMatrix(M);
 
         /* column 0 */
@@ -4383,7 +4383,7 @@ void func_80185D2C(s32 param_1)
         gte_stclmv(c);
 
         /* gte_SetTransMatrix(M) */
-        M = ((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+        M = ((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
         gte_SetTransMatrix(M);
 
         /* gte_ldlv0(m1.t) ; gte_rt() ; gte_stlvnl(m2.t) */
@@ -4398,7 +4398,7 @@ void func_80185D2C(s32 param_1)
         *(B8_801851A8_80185D2C *)(dst + 8) = *(B8_801851A8_80185D2C *)&out;
 
         mk = 0x80000000;
-        if (*(s32 *)(((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20 + 4) < 0) {
+        if (*(s32 *)(((Unkstruct_80185D2C_2 *)*(s32 *)(param_1 + 0x64))->unk20.val + 4) < 0) {
             *(u32 *)(((Unkstruct_80185D2C *)param_1)->unkCC.s + 4) =
                 *(u32 *)(((Unkstruct_80185D2C *)param_1)->unkCC.s + 4) | mk;
         } else {
@@ -5447,7 +5447,7 @@ extern void func_8012ADE4(u8 *a0);
 void func_801877EC(s32 a0) {
 
     extern u8 guess_g_ObjectTable[]; // Names ledger: config/names.tsv guess_g_ObjectTable
-    Ent_8017FD58 *e;
+    Unkstruct_801202A0 *e;
     s32 i;
     s16 *mover;
     s32 off;
@@ -5457,18 +5457,18 @@ void func_801877EC(s32 a0) {
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
 
-    e = (Ent_8017FD58 *)guess_g_ObjectTable;
+    e = (Unkstruct_801202A0 *)guess_g_ObjectTable;
     i = 0;
     mover = (s16 *)(a0 + 4);
     offp = (unsigned int *)&off;
     for (; i < 0x60; i++, e++) {
-        if (e->f0 == 0x17F && a0 != (s32)e &&
-            func_8012BC60((VECTOR *)mover, (VECTOR *)&e->f4) < 0x1000) {
-            ang = func_8012B6D4(mover, (s16 *)&e->f4);
+        if (e->unk0 == 0x17F && a0 != (s32)e &&
+            func_8012BC60((VECTOR *)mover, (VECTOR *)&e->unk4.i.lo) < 0x1000) {
+            ang = func_8012B6D4(mover, (s16 *)&e->unk4.i.lo);
             func_8012B0B4(offp, ang, 0x41);
-            sp18.vx = e->x;
-            sp18.vy = e->y;
-            sp18.vz = e->z;
+            sp18.vx = e->unk4.i.hi.u;
+            sp18.vy = e->unk8.i.hi.u;
+            sp18.vz = e->unkC.i.hi.u;
             sp18.vx += off;
             sp18.vz += (off >> 16);
             sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;

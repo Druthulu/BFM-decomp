@@ -5130,8 +5130,8 @@ void func_8018111C(s32 param_1)
     s32 w;
 
     vec = ((Unkstruct_801202A0 *)param_1)->unk20.p;
-    if (((Unkstruct_801202A0 *)param_1)->unkFE.s != ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk36 ||
-        ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk90 == (s32)&D_801A9850) {
+    if (((Unkstruct_801202A0 *)param_1)->unkFE.s != ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk36.s ||
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk90 == (s32)&D_801A9850) {
         ((Unkstruct_801202A0 *)param_1)->unk44.w.unk48 = 0xC000;
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 3;
         return;
@@ -5143,8 +5143,8 @@ void func_8018111C(s32 param_1)
         ((Unkstruct_8001C9D0 *)vec)->head.unk18.w.unk1A.u = 0x1800;
         ((Unkstruct_8001C9D0 *)vec)->head.unk18.w.unk18.u = 0x1800;
     }
-    if (((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk90 == (s32)&D_801A97C8 &&
-        ((Unkstruct_8018111C_3 *)*(s32 *)(param_1 + 0x64))->unk94 == 9) {
+    if (((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk90 == (s32)&D_801A97C8 &&
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk94.s == 9) {
         ((Unkstruct_801202A0 *)param_1)->unk2.u = 2;
     }
     func_801814D8(param_1, 2);

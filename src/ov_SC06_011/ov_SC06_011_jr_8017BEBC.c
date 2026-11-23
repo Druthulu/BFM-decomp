@@ -3253,9 +3253,9 @@ void func_8017DB30(s32 param_1)
         }
         break;
     case 1:
-        ((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 = *(u16 *)(((Unkstruct_801202A0 *)s0)->unk6C + 6) + 0x10;
-        if (((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 >= -0x300) {
-            ((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 = -0x300;
+        ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s = *(u16 *)(((Unkstruct_801202A0 *)s0)->unk6C + 6) + 0x10;
+        if (((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s >= -0x300) {
+            ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s = -0x300;
             if (((Unkstruct_801202A0 *)s0)->unk84.s != 0) {
                 if (func_8012E778(((Unkstruct_801202A0 *)s0)->unk6C, 0xAA0300) == 1) {
                     guess_RequestSound(0x977, 0);
@@ -3283,11 +3283,11 @@ void func_8017DB30(s32 param_1)
         break;
     }
     if (((Unkstruct_801202A0 *)s0)->unk34.u == 0) {
-        v = ((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6;
+        v = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s;
         if (v >= -0x47F) {
-            ((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 = v - 0x10;
-            if (((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 < -0x47F) {
-                ((Unkstruct_8017DB30_2 *)*(s32 *)(s0 + 0x6C))->unk6 = -0x480;
+            ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s = v - 0x10;
+            if (((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s < -0x47F) {
+                ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x6C))->unk4.i.hi.s = -0x480;
                 if (((Unkstruct_801202A0 *)s0)->unk84.s != 0) {
                     if (func_8012E778(((Unkstruct_801202A0 *)s0)->unk6C, 0xAA0300) == 1) {
                         guess_RequestSound(0x977, 0);
@@ -3577,7 +3577,7 @@ void func_8017E3F8(s32 a0) {
         ((Unkstruct_801202A0 *)a0)->unkFC.u = val;
         val16 = (s16)val;
         if (val16 == 0) {
-            ((Unkstruct_8017E3F8_3 *)*(s32 *)(a0 + 0x6C))->unk2 = ((Unkstruct_8017E3F8_3 *)*(s32 *)(a0 + 0x6C))->unk2 + 1;
+            ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x6C))->unk2.u = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x6C))->unk2.u + 1;
             guess_RequestSound(0xA66, 0);
             ((Unkstruct_801202A0 *)a0)->unk2.s = 3;
         } else {

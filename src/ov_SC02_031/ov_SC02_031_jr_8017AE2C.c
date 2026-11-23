@@ -6969,7 +6969,7 @@ void func_801829F8(void *a0) {
 extern void guess_FreeActor(void *a0);
     void func_80182A7C(s32 arg0) {
         s32 v0;
-        if (((Unkstruct_801202A0 *)arg0)->unkFC.s != ((Unkstruct_80181B48_2 *)*(s32 *)(arg0 + 0x64))->unk36) {
+        if (((Unkstruct_801202A0 *)arg0)->unkFC.s != ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk36.s) {
             ((void (*)(void))guess_FreeActor)();
         }
     }

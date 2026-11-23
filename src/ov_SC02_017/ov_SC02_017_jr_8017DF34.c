@@ -4972,7 +4972,7 @@ void func_80181B0C(s32 a0)
 extern s32 func_8012C098(void *param_1);
     void func_80181B48(s32 arg0) {
         s32 v0;
-        if (((Unkstruct_801202A0 *)arg0)->unkFC.s != ((Unkstruct_80181B48_2 *)*(s32 *)(arg0 + 0x64))->unk36) {
+        if (((Unkstruct_801202A0 *)arg0)->unkFC.s != ((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk36.s) {
             ((void (*)(void))func_8012C098)();
         }
     }

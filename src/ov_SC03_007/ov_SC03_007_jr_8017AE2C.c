@@ -7029,7 +7029,7 @@ s32 func_80181E30(void *a0)
     if (func_8012BD14(((Unkstruct_80181E30 *)a0)->unk64) > 0x1000) {
         return 0;
     }
-    ((Unkstruct_80181E30_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_80181E30_2 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

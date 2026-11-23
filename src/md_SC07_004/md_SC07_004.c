@@ -3433,15 +3433,15 @@ extern void func_80133060(u8 *a0, s32 *a1, s32 a2);
 void func_801A5194(s32 arg0) {
     s32 sp10[3];
 
-    sp10[0] = *(s32 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x48) << 16;
-    sp10[1] = *(s32 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x4C) << 16;
-    sp10[2] = *(s32 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x50) << 16;
+    sp10[0] = *(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x48) << 16;
+    sp10[1] = *(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x4C) << 16;
+    sp10[2] = *(s32 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x50) << 16;
     func_80133060((u8 *)sp10, (s32 *)(arg0 + 4), -0x60);
 
     *(MATRIX *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x34) =
-        *(MATRIX *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x34);
+        *(MATRIX *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x34);
     *(MATRIX *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x54) =
-        *(MATRIX *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x54);
+        *(MATRIX *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x54);
 
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk34.f.unk48 = ((Unkstruct_801202A0 *)arg0)->unk4.i.hi.s;
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk34.f.unk4C = ((Unkstruct_801202A0 *)arg0)->unk8.i.hi.s;
@@ -3451,11 +3451,11 @@ void func_801A5194(s32 arg0) {
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->unk54.f.unk70 = ((Unkstruct_801202A0 *)arg0)->unkC.i.hi.s;
 
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk18.s =
-        (*(s16 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x18) * 7) >> 3;
+        (*(s16 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x18) * 7) >> 3;
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk1A.s =
-        (*(s16 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x1A) * 7) >> 3;
+        (*(s16 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x1A) * 7) >> 3;
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk18.w.unk1C.s =
-        (*(s16 *)(((Unkstruct_801A5194_3 *)*(s32 *)(arg0 + 0x64))->unk20 + 0x1C) * 7) >> 3;
+        (*(s16 *)(((Unkstruct_801202A0 *)*(s32 *)(arg0 + 0x64))->unk20.val + 0x1C) * 7) >> 3;
 
     ((Unkstruct_8001C9D0 *)*(s32 *)(arg0 + 0x20))->head.unk2C.s =
         *(u16 *)(((Unkstruct_801202A0 *)arg0)->unk20.val + 0x2C) | 1;

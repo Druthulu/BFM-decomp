@@ -4387,7 +4387,7 @@ s32 func_8017F3F4(void *a0)
     if (func_8012BE54(((Unkstruct_801202A0 *)a0)->unk64) >= 0x2401) {
         return 0;
     }
-    ((Unkstruct_8017F3F4_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }
@@ -5521,7 +5521,7 @@ void func_80180D94(void *a0) {
     extern u8 D_8019D908[];
     s16 mode;
 
-    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_8017E62C_2 *)*(s32 *)((s32)a0 + 0x64))->unk36) {
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk36.s) {
         ((void (*)(void))guess_FreeActor)();
         return;
     }

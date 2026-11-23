@@ -2888,10 +2888,10 @@ s32 func_80183228(void) {
 
 
 
-extern void (*D_8018E14C[])(Ent_80183280 *);
+extern void (*D_8018E14C[])(Unkstruct_801202A0 *);
 
-void func_80183280(Ent_80183280 *arg) {
-    D_8018E14C[arg->unk2](arg);
+void func_80183280(Unkstruct_801202A0 *arg) {
+    D_8018E14C[arg->unk2.u](arg);
 }
 
 

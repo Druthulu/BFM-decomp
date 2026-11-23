@@ -5063,7 +5063,7 @@ s32 func_8018BFF8(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
     ((Unkstruct_80188C28_2 *)iVar5)->head.unk4.s |= 0x50000040;
     ((Unkstruct_80188C28_2 *)iVar5)->head.unk2C.u |= 1;
-    iVar8 = ((Unkstruct_80188C28_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+    iVar8 = ((Unkstruct_80188C28_3 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801E2018, &s60);
     s50 = s60;
     sStack_58.vz = 0x1800;

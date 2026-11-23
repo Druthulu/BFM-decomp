@@ -4984,7 +4984,7 @@ s32 func_80180258(void *a0)
     if (func_8012BE54(((Unkstruct_801202A0 *)a0)->unk64) >= 0x2401) {
         return 0;
     }
-    ((Unkstruct_8017F3F4_2 *)*(s32 *)((s32)a0 + 0x64))->unk2 = 2;
+    ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk2.s = 2;
     func_80178BF8();
     return (s32)func_80172710;
 }

@@ -3105,16 +3105,16 @@ void func_801887A8(s32 param_1)
         ((Unkstruct_801202A0 *)param_1)->blkDC.f.extC.kSC03_028_80184A40.unkE8.u ^= 1;
         break;
     case 5:
-        ((Unkstruct_801887A8_2 *)*(s32 *)(param_1 + 0x64))->unk2 = 1;
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk2.s = 1;
         break;
     case 6:
-        ((Unkstruct_801887A8_2 *)*(s32 *)(param_1 + 0x64))->unk2 = 2;
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk2.s = 2;
         break;
     case 7:
         v0 = 6;
         goto block4;
     case 8:
-        ((Unkstruct_801887A8_2 *)*(s32 *)(param_1 + 0x64))->unk2 = 0x28;
+        ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk2.s = 0x28;
         break;
     case 9:
         func_800D0C48(1);

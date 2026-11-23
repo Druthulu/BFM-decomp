@@ -3401,7 +3401,7 @@ void func_8016C998(s32 param_1)
         ((Unkstruct_8016C998_2 *)param_1)->unk2.s = 6;
     }
     func_8016CBC0();
-    if (((Unkstruct_8016C998_2 *)param_1)->unk28.s != ((Unkstruct_8016C998_4 *)*(s32 *)(param_1 + 0x30))->unk36) {
+    if (((Unkstruct_8016C998_2 *)param_1)->unk28.s != ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x30))->unk36.s) {
         return;
     }
     if ((D_80126B9C & 0x20) == 0) {

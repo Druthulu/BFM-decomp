@@ -3590,7 +3590,7 @@ void func_801831A8(s32 s0)
             CAST_ALIAS(s16, s0, 14) = -0x20;
         }
         a0 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        a1 = ((Unkstruct_801831A8_3 *)*(s32 *)(s0 + 0x64))->unk20;
+        a1 = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk20.val;
         func_8001C1E4((void *)a0, (void *)a1);
         a0 = s0;
         a1 = 1;
@@ -3612,9 +3612,9 @@ void func_801831A8(s32 s0)
         break;
     case 4:
     case 5:
-        ((Unkstruct_801202A0 *)s0)->unkCC.val = ((Unkstruct_801831A8_3 *)*(s32 *)(s0 + 0x64))->unkCC;
+        ((Unkstruct_801202A0 *)s0)->unkCC.val = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkCC.val;
         a0 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        a1 = ((Unkstruct_801831A8_3 *)*(s32 *)(s0 + 0x64))->unk20;
+        a1 = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk20.val;
         func_8001C1E4((void *)a0, (void *)a1);
         ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = 0;
         ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = 0;
@@ -3627,12 +3627,12 @@ void func_801831A8(s32 s0)
         a1 = 4;
         break;
     case 6:
-        ((Unkstruct_801202A0 *)s0)->unkCC.val = ((Unkstruct_801831A8_3 *)*(s32 *)(s0 + 0x64))->unkCC;
+        ((Unkstruct_801202A0 *)s0)->unkCC.val = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unkCC.val;
         ((Unkstruct_801202A0 *)s0)->unkC.i.hi.u = 0;
         ((Unkstruct_801202A0 *)s0)->unk8.i.hi.u = 0;
         ((Unkstruct_801202A0 *)s0)->unk4.i.hi.u = 0;
         a0 = ((Unkstruct_801202A0 *)s0)->unk20.p;
-        a1 = ((Unkstruct_801831A8_3 *)*(s32 *)(s0 + 0x64))->unk20;
+        a1 = ((Unkstruct_801202A0 *)*(s32 *)(s0 + 0x64))->unk20.val;
         func_8001C1E4((void *)a0, (void *)a1);
         a0 = s0;
         a1 = 3;

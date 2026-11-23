@@ -365,7 +365,7 @@ s32 func_8017F6CC(s32 a0) {
     s16 out[4];
     u16 w;
 
-    t = ((Unkstruct_8017EAEC_3 *)*(s32 *)(a0 + 0x204))->unk20;
+    t = ((Unkstruct_801202A0 *)*(s32 *)(a0 + 0x204))->unk20.val;
     if (((Unkstruct_80126B58 *)a0)->unk204.s != 0) {
         ((Unkstruct_8001C9D0 *)t)->head.unk10.w.unk12.u += 0x80;
         guess_RotTransSVWithMatrix(t + 0x34, a0 + 0x20C, (s32)out);

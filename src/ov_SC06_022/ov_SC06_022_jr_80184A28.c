@@ -3509,7 +3509,7 @@ void func_801859F4(void *a0) {
 
     guess_InitModelObject(v0, D_801BD324[((Unkstruct_801859F4 *)a0)->unk70.u & 0xF]);
 
-    ((Unkstruct_801859F4 *)a0)->unk10A.u = ((Unkstruct_801859F4_3 *)*(s32 *)((s32)a0 + 0x64))->unk36;
+    ((Unkstruct_801859F4 *)a0)->unk10A.u = ((Unkstruct_801859F4_3 *)*(s32 *)((s32)a0 + 0x64))->unk36.u;
 
     if ((((Unkstruct_801859F4 *)a0)->unk70.u & 0xF) == 4) {
         *(s32 *)(((Unkstruct_801859F4 *)a0)->unk20.val + 0x20) = (s32)D_811BD33C;
@@ -3530,7 +3530,7 @@ void func_801859F4(void *a0) {
         rv[0] = -0x380 - m;
     }
 
-    rv[1] = *(u16 *)(((Unkstruct_801859F4_3 *)*(s32 *)((s32)a0 + 0x64))->unk20 + 0x12) + 0x800;
+    rv[1] = *(u16 *)(((Unkstruct_801859F4_3 *)*(s32 *)((s32)a0 + 0x64))->unk20.val + 0x12) + 0x800;
     rv[2] = 0;
     RotMatrixZYX((s32)rv, (s32)buf);
 
@@ -5070,7 +5070,7 @@ s32 func_80188234(s32 param_1) {
     ((Unkstruct_801202A0 *)param_1)->unk70.s = 0x80;
     ((Unkstruct_8001C9D0 *)iVar5)->head.unk4.s |= 0x50000040;
     ((Unkstruct_8001C9D0 *)iVar5)->head.unk2C.u |= 1;
-    iVar8 = ((Unkstruct_80180384_3 *)*(s32 *)(param_1 + 0x64))->unk20 + 0x34;
+    iVar8 = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 0x64))->unk20.val + 0x34;
     ((void (*)(s32, s32, void *))guess_RotTransSVWithMatrix)(iVar8, D_801E20F8, &s60);
     s50 = s60;
     sStack_58.vz = 0x1800;

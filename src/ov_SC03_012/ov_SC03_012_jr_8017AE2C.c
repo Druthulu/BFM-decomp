@@ -4176,8 +4176,8 @@ void func_8017DE18(void *a0) {
 
 
 void func_8017DE90(s32 *a0) {
-    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_8017DE90_2 *)*(s32 *)((s32)a0 + 100))->unkDE;
-    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_8017DE90_2 *)*(s32 *)((s32)a0 + 100))->unkA;
+    ((Unkstruct_801202A0 *)a0)->unk4.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 100))->blkDC.f.unkDC.i.hi.u;
+    ((Unkstruct_801202A0 *)a0)->unk8.i.hi.u = ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 100))->unk8.i.hi.u;
 }
 
 

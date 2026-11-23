@@ -1502,7 +1502,7 @@ void func_80142608(s32 param_1)
             goto ad50;
         }
         if (((Unkstruct_801202A0 *)param_1)->unk64 != 0) {
-            ((Unkstruct_801202A0 *)param_1)->unkFE.s = ((Unkstruct_80142608_3 *)*(s32 *)(param_1 + 100))->unk36;
+            ((Unkstruct_801202A0 *)param_1)->unkFE.s = ((Unkstruct_801202A0 *)*(s32 *)(param_1 + 100))->unk36.s;
             goto ad50;
         }
     }

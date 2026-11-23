@@ -4307,7 +4307,7 @@ extern s32 guess_TurnStepToTarget(s32 a0, s32 a1);
 extern void guess_RequestSound(s32 a0, s32 a1);
 extern s32 func_8012C51C(s32 a0, s32 a1);
 
-void func_801810A0(W_801810A0 *w) {
+void func_801810A0(Unkstruct_801202A0 *w) {
     extern u64 D_8018F298[];
     struct {
         s16 f0, f1, f2, f3, f4, f5, f6;
@@ -4324,17 +4324,17 @@ void func_801810A0(W_801810A0 *w) {
         if (!func_8018152C((s32)w, 0x380)) {
             goto el;
         }
-        *(s16 *)(w->f20 + 0x12) += guess_TurnStepToTarget((s32)w, 0x14);
-        if (w->f34 == 0) {
-            if (w->fFE == 0) {
+        *(s16 *)(w->unk20.val + 0x12) += guess_TurnStepToTarget((s32)w, 0x14);
+        if (w->unk34.u == 0) {
+            if (w->unkFE.s == 0) {
                 guess_RequestSound(0x68B, 0);
-                w->fFE = 1;
+                w->unkFE.s = 1;
             }
-            if (w->fFC >= 0xA) {
-                w->fFC = 0xA;
-                w->f34 += 1;
+            if (w->unkFC.s >= 0xA) {
+                w->unkFC.s = 0xA;
+                w->unk34.u += 1;
             }
-            L.tbl = (s32)&D_8018F298[*(s16 *)&w->fFC];
+            L.tbl = (s32)&D_8018F298[*(s16 *)&w->unkFC.s];
             L.f3 = 0x175;
             L.f6 = 0x7FFF;
             L.f2 = 0;
@@ -4342,20 +4342,20 @@ void func_801810A0(W_801810A0 *w) {
             L.f0 = 0;
             L.f5 = 0;
             L.f4 = 0;
-            L.timer = w->fFC;
+            L.timer = w->unkFC.s;
             if (func_8012C51C((s32)&L, (s32)w)) {
-                w->fFC += 1;
+                w->unkFC.s += 1;
             }
         }
     } else {
 el:
-        cnt = w->fFC;
+        cnt = w->unkFC.s;
         if (cnt != 0) {
-            f = w->fFE;
-            w->fFC = cnt - 1;
-            w->f34 = 0;
+            f = w->unkFE.s;
+            w->unkFC.s = cnt - 1;
+            w->unk34.u = 0;
             if (f != 0) {
-                w->fFE = 0;
+                w->unkFE.s = 0;
                 guess_RequestSound(4, 0x68B);
             }
         }
@@ -6428,15 +6428,15 @@ void func_8018406C(void *arg0) {
     s32 ang;
 
     p = (Ent_8017FD58_8018406C *)arg0;
-    D_801AD3D8[p->f2](p);
+    D_801AD3D8[p->unk2.u](p);
     e = (Ent_8017FD58_8018406C *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
-        if (e->f0 == 0x12C) {
-            pos.unk0 = e->x;
-            pos.unk2 = e->y;
-            pos.unk4 = e->z;
-            ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
-            if (*(s16 *)(p->f64 + 0xFC) < 0) {
+        if (e->unk0 == 0x12C) {
+            pos.unk0 = e->unk4.i.hi.u;
+            pos.unk2 = e->unk8.i.hi.u;
+            pos.unk4 = e->unkC.i.hi.u;
+            ang = func_8012B6D4((s16 *)&p->unk4.i.lo, (s16 *)&e->unk4.i.lo);
+            if (p->unk64->unkFC.s < 0) {
                 ang -= 0x400;
             } else {
                 ang += 0x400;
@@ -6444,13 +6444,13 @@ void func_8018406C(void *arg0) {
             ang &= 0xFFF;
             pos.unk0 -= rsin(ang) >> 8;
             pos.unk4 -= rcos(ang) >> 8;
-            tmp.unk0 = e->x;
-            tmp.unk2 = e->y;
-            tmp.unk4 = e->z;
+            tmp.unk0 = e->unk4.i.hi.u;
+            tmp.unk2 = e->unk8.i.hi.u;
+            tmp.unk4 = e->unkC.i.hi.u;
             dst = tmp;
-            if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.unk0;
-                e->z = pos.unk4;
+            if (func_80135888(p->unk20.val, p->unk58.s, (s32)&pos, (s32)&dst) != 0) {
+                e->unk4.i.hi.u = pos.unk0;
+                e->unkC.i.hi.u = pos.unk4;
             }
         }
     }

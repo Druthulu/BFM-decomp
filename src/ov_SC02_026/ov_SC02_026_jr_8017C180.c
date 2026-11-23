@@ -4567,21 +4567,21 @@ void func_8017FD58(void *arg0) {
     V4_8017FD58 pos;
     V4_8017FD58 tmp;
     V4_8017FD58 dst;
-    Ent_8017FD58 *p;
-    Ent_8017FD58 *e;
+    Unkstruct_801202A0 *p;
+    Unkstruct_801202A0 *e;
     s32 i;
     s32 ang;
 
-    p = (Ent_8017FD58 *)arg0;
-    D_801A9EB8[p->f2](p);
-    e = (Ent_8017FD58 *)guess_g_ObjectTable;
+    p = (Unkstruct_801202A0 *)arg0;
+    D_801A9EB8[p->unk2.u](p);
+    e = (Unkstruct_801202A0 *)guess_g_ObjectTable;
     for (i = 0; i < 0x60; i++, e++) {
-        if (e->f0 == 0x12C) {
-            pos.unk0 = e->x;
-            pos.unk2 = e->y;
-            pos.unk4 = e->z;
-            ang = func_8012B6D4((s16 *)&p->f4, (s16 *)&e->f4);
-            if (*(s16 *)(p->f64 + 0xFC) < 0) {
+        if (e->unk0 == 0x12C) {
+            pos.unk0 = e->unk4.i.hi.u;
+            pos.unk2 = e->unk8.i.hi.u;
+            pos.unk4 = e->unkC.i.hi.u;
+            ang = func_8012B6D4((s16 *)&p->unk4.i.lo, (s16 *)&e->unk4.i.lo);
+            if (p->unk64->unkFC.s < 0) {
                 ang -= 0x400;
             } else {
                 ang += 0x400;
@@ -4589,13 +4589,13 @@ void func_8017FD58(void *arg0) {
             ang &= 0xFFF;
             pos.unk0 -= rsin(ang) >> 8;
             pos.unk4 -= rcos(ang) >> 8;
-            tmp.unk0 = e->x;
-            tmp.unk2 = e->y;
-            tmp.unk4 = e->z;
+            tmp.unk0 = e->unk4.i.hi.u;
+            tmp.unk2 = e->unk8.i.hi.u;
+            tmp.unk4 = e->unkC.i.hi.u;
             dst = tmp;
-            if (func_80135888(p->f20, p->f58, (s32)&pos, (s32)&dst) != 0) {
-                e->x = pos.unk0;
-                e->z = pos.unk4;
+            if (func_80135888(p->unk20.val, p->unk58.s, (s32)&pos, (s32)&dst) != 0) {
+                e->unk4.i.hi.u = pos.unk0;
+                e->unkC.i.hi.u = pos.unk4;
             }
         }
     }
@@ -5968,7 +5968,7 @@ extern s32 func_8012CEB0(s32 a0, s32 a1, s32 a2);
 extern void func_8012ADE4(u8 *a0);
 
 void func_801823E8(s32 a0) {
-    Ent_8017FD58 *e;
+    Unkstruct_801202A0 *e;
     s32 i;
     s16 *mover;
     s32 off;
@@ -5978,18 +5978,18 @@ void func_801823E8(s32 a0) {
     SV3_8012CC88 sp10;
     SV3_8012CC88 sp18;
 
-    e = (Ent_8017FD58 *)guess_g_ObjectTable;
+    e = (Unkstruct_801202A0 *)guess_g_ObjectTable;
     i = 0;
     mover = (s16 *)(a0 + 4);
     offp = (unsigned int *)&off;
     for (; i < 0x60; i++, e++) {
-        if (e->f0 == 0x17F && a0 != (s32)e &&
-            func_8012BC60((VECTOR *)mover, (VECTOR *)&e->f4) < 0x1000) {
-            ang = func_8012B6D4(mover, (s16 *)&e->f4);
+        if (e->unk0 == 0x17F && a0 != (s32)e &&
+            func_8012BC60((VECTOR *)mover, (VECTOR *)&e->unk4.i.lo) < 0x1000) {
+            ang = func_8012B6D4(mover, (s16 *)&e->unk4.i.lo);
             func_8012B0B4(offp, ang, 0x41);
-            sp18.vx = e->x;
-            sp18.vy = e->y;
-            sp18.vz = e->z;
+            sp18.vx = e->unk4.i.hi.u;
+            sp18.vy = e->unk8.i.hi.u;
+            sp18.vz = e->unkC.i.hi.u;
             sp18.vx += off;
             sp18.vz += (off >> 16);
             sp10.vx = ((Unkstruct_801202A0 *)a0)->unk3A.u;

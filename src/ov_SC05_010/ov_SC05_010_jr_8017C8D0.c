@@ -4416,40 +4416,40 @@ extern u8 D_801925C4[];
 extern s16 D_80192614[];
 extern s16 D_801926D4[];
 
-void func_801806A0(Work *work, s32 arg1)
+void func_801806A0(Unkstruct_801202A0 *work, s32 arg1)
 {
     s32 i;
 
-    if (work->unk76 > 0) {
+    if (work->unk76.s > 0) {
         for (i = 0; i < 5; i++) {
-            if (work->unk76 >= D_801926D4[i]) {
-                if (work->unkFC == i) {
+            if (work->unk76.s >= D_801926D4[i]) {
+                if (work->unkFC.s == i) {
                     return;
                 }
-                MoveImage(D_801925C4 + i * 0x10, work->unk70 * 0x10 + 0x2B0, 0x100);
-                MoveImage(D_801925C4 + i * 0x10 + 8, 0x160, work->unk70 + 0x147);
-                work->unkFC = i;
+                MoveImage(D_801925C4 + i * 0x10, work->unk70.s * 0x10 + 0x2B0, 0x100);
+                MoveImage(D_801925C4 + i * 0x10 + 8, 0x160, work->unk70.s + 0x147);
+                work->unkFC.s = i;
                 return;
             }
         }
         return;
     }
     if (arg1 != 0) {
-        if (work->unk76 == 0) {
-            work->unk76 = 300;
-            MoveImage(D_801925C4, work->unk70 * 0x10 + 0x2B0, 0x100);
-            MoveImage(D_801925C4 + 8, 0x160, work->unk70 + 0x147);
-            work->unkFC = 0;
+        if (work->unk76.s == 0) {
+            work->unk76.s = 300;
+            MoveImage(D_801925C4, work->unk70.s * 0x10 + 0x2B0, 0x100);
+            MoveImage(D_801925C4 + 8, 0x160, work->unk70.s + 0x147);
+            work->unkFC.s = 0;
             return;
         }
-        if (work->unk76 >= -4) {
-            MoveImage(&D_801926D4[work->unk76 * 8], work->unk70 * 0x10 + 0x2B0, 0x100);
-            MoveImage(&D_801926D4[work->unk76 * 8 + 4], 0x160, work->unk70 + 0x147);
+        if (work->unk76.s >= -4) {
+            MoveImage(&D_801926D4[work->unk76.s * 8], work->unk70.s * 0x10 + 0x2B0, 0x100);
+            MoveImage(&D_801926D4[work->unk76.s * 8 + 4], 0x160, work->unk70.s + 0x147);
             return;
         }
     }
-    MoveImage(&D_80192614[(work->unk76 & 7) * 8], work->unk70 * 0x10 + 0x2B0, 0x100);
-    MoveImage(&D_80192614[(work->unk76 & 7) * 8 + 4], 0x160, work->unk70 + 0x147);
+    MoveImage(&D_80192614[(work->unk76.s & 7) * 8], work->unk70.s * 0x10 + 0x2B0, 0x100);
+    MoveImage(&D_80192614[(work->unk76.s & 7) * 8 + 4], 0x160, work->unk70.s + 0x147);
 }
 
 
@@ -4467,7 +4467,7 @@ extern s32 D_801C7E30;
 extern s32 func_8012DFD4(u8 *a0);
 extern s32 func_80135888(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void guess_SetPlayerHit(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-extern void func_801806A0(Work *work, s32 arg1);
+extern void func_801806A0(Unkstruct_801202A0 *work, s32 arg1);
 
 void func_80180854(s32 arg0)
 {

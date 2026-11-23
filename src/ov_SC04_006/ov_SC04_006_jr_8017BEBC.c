@@ -3718,7 +3718,7 @@ void func_8017E62C(void *a0) {
     extern u8 D_80195600[];
     s16 mode;
 
-    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_8017E62C_2 *)*(s32 *)((s32)a0 + 0x64))->unk36) {
+    if (((Unkstruct_801202A0 *)a0)->unkFC.s != ((Unkstruct_801202A0 *)*(s32 *)((s32)a0 + 0x64))->unk36.s) {
         ((void (*)(void))guess_FreeActor)();
         return;
     }
